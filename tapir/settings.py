@@ -79,8 +79,15 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    'ldap': {
+        'ENGINE': 'ldapdb.backends.ldap',
+        'NAME': 'ldap://openldap/',
+        'USER': 'cn=admin,dc=supercoop,dc=de',
+        'PASSWORD': 'admin',
+    },
 }
+DATABASE_ROUTERS = ['ldapdb.router.Router']
 
 
 # Password validation

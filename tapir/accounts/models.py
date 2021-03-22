@@ -14,6 +14,10 @@ log = logging.getLogger(__name__)
 
 
 class LdapUser(AbstractUser):
+    
+    class Meta:
+        abstract = True
+
     def get_ldap(self):
         return LdapPerson.objects.get(uid=self.get_username())
 
@@ -22,9 +26,8 @@ class LdapUser(AbstractUser):
         return len(result) == 1
 
     def create_ldap(self):
-        username = self.get_username()
-        mail = self.get_identity()
-        LdapPerson.objects.create(uid=username, cn=username, sn=username, mail=mail)
+        username = self.username
+        LdapPerson.objects.create(uid=username, sn=username, cn=username)
 
     def set_ldap_password(self, raw_password):
         ldap_person = self.get_ldap()
@@ -33,15 +36,18 @@ class LdapUser(AbstractUser):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
-        # save django user
-        super(User, self).save(force_insert, force_update, using, update_fields)
-
         # create LDAP user (if required)
         if not self.has_ldap():
             self.create_ldap()
 
+        super(LdapUser, self).save(force_insert, force_update, using, update_fields)
+
         # force null Django password (will use LDAP password instead)
         self.set_unusable_password()
+
+    def delete(self):
+        self.get_ldap().delete()
+        super(LdapUser, self).delete()
 
     def set_password(self, raw_password):
 
