@@ -1,0 +1,22 @@
+{% load bootstrap4 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% bootstrap_messages %}
+
+<nav class="navbar navbar-dark bg-dark sticky-top">
+    <div class="container">
+    <a class="navbar-brand" href="#">SuperCoop Berlin</a>
+
+
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Users</a>
+        </li>
+    </ul>
+
+    </div>
+</nav>
+{% block content %}
+{% endblock %}
