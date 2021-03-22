@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+        openldap:
+                image: "osixia/openldap"
+                environment:
+                        LDAP_ORGANISATION: "SuperCoop Berlin"
+                        LDAP_DOMAIN: "supercoop.de"
+                        LDAP_ADMIN_PASSWORD: "admin"
+                        LDAP_READONLY_USER: "true"
+                ports:
+                        - "389:389"
+        web:
+                build: .
+                command: bash -c "poetry install && poetry run python manage.py runserver 0.0.0.0:8000"
+                volumes:
+                        - .:/app
+                ports:
+                        - "8000:8000"
+                depends_on:
+                        - openldap
+
+
