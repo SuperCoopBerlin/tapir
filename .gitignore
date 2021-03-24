@@ -3,3 +3,4 @@ poetry.lock
 __pycache__
 db.sqlite3
 .idea
+test.py

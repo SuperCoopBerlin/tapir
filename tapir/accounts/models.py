@@ -14,7 +14,6 @@ log = logging.getLogger(__name__)
 
 
 class LdapUser(AbstractUser):
-    
     class Meta:
         abstract = True
 

@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'bootstrap4',
+    "bootstrap4",
     "tapir.accounts",
+    "tapir.shifts",
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,7 @@ ROOT_URLCONF = "tapir.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ['tapir/templates/'],
+        "DIRS": ["tapir/templates/"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -80,14 +81,14 @@ DATABASES = {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
     },
-    'ldap': {
-        'ENGINE': 'ldapdb.backends.ldap',
-        'NAME': 'ldap://openldap/',
-        'USER': 'cn=admin,dc=supercoop,dc=de',
-        'PASSWORD': 'admin',
+    "ldap": {
+        "ENGINE": "ldapdb.backends.ldap",
+        "NAME": "ldap://openldap/",
+        "USER": "cn=admin,dc=supercoop,dc=de",
+        "PASSWORD": "admin",
     },
 }
-DATABASE_ROUTERS = ['ldapdb.router.Router']
+DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
 
 # Password validation

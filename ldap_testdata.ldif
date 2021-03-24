@@ -1,0 +1,5 @@
+dn: ou=people,dc=supercoop,dc=de
+ou: people
+objectClass: organizationalUnit
+objectClass: top
+

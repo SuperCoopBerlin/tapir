@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+<div class="container">
+    {% for day, shifts in shifts_by_days.items %}
+        <div class="card m-2">
+            <h5 class="card-title">{{ day|date }}</h5>
+            <div class="card-body">
+                <!-- TODO(Leon Handreke): Nicer rendering of the shifts! -->
+                <table>
+                    {%  for shift in shifts %}
+                        <tr>
+                            <td><a href="{{ shift.get_absolute_url }}">{{ shift }}</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
