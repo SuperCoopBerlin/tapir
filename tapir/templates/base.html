@@ -1,22 +1,60 @@
 {% load bootstrap4 %}
+{% load static %}
 
-{% bootstrap_css %}
-{% bootstrap_javascript jquery='full' %}
+<!doctype html>
+<html>
 
+<head>
+    <meta charset="utf-8">
+
+    <title>{% block title %}{% endblock %}</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+
+</head>
+
+<body>
 {% bootstrap_messages %}
 
 <nav class="navbar navbar-dark bg-dark sticky-top">
     <div class="container">
-    <a class="navbar-brand" href="#">SuperCoop Berlin</a>
+        <a class="navbar-brand" href="#">SuperCoop Berlin</a>
 
 
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-            <a class="nav-link" href="#">Users</a>
-        </li>
-    </ul>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Users</a>
+            </li>
+        </ul>
 
     </div>
 </nav>
-{% block content %}
-{% endblock %}
+
+<div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+               <!--
+              <li class="nav-item">
+                <a class="nav-link active" href="#">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                  Dashboard <span class="sr-only">(current)</span>
+                </a>
+              </li>
+              -->
+                {% block sidebar %}{% endblock %}
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+            {% block content %}{% endblock %}
+        </main>
+      </div>
+    </div>
+
+</body>
+</html>

@@ -7,7 +7,7 @@ urlpatterns = [
     path(
         "upcoming/",
         views.UpcomingDaysView.as_view()
-    ),
+    , name="shift_upcoming"),
     # TODO(Leon Handreke): Can we somehow introduce a sub-namespace here?
     path("shift/<int:pk>/", views.ShiftDetailView.as_view(), name='shift_detail')
 ]
