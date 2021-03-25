@@ -10,6 +10,9 @@ from tapir.accounts.models import TapirUser
 
 
 class ShiftTemplateGroup(models.Model):
+    """ShiftTemplateGroup represents a collection of ShiftTemplates that are usually instantiated together.
+
+    Normally, this will be a week of shifts in the ABCD system, so one ShiftTemplateGroup might be "Week A"."""
     name = models.CharField(blank=False, max_length=255)
 
     def __str__(self):
@@ -38,6 +41,19 @@ WEEKDAY_CHOICES = [
 
 
 class ShiftTemplate(models.Model):
+    """ShiftTemplate represents a (usually recurring) shift that may be instantiated as a concrete Shift.
+
+    Usually, a ShiftTemplate will be part of a ShiftTemplateGroup, such as "Week A". ShiftTemlates has an associated
+    weekday. So "Week A" may have a ShiftTemplate for Tuesday 9:00 - 12:00. When instantiating the ShiftTemplateGroup,
+    a Shift will be created on Tuesday of the selected week.
+
+    ShiftTemplates also have ShiftAttendanceTemplates associated with them that represent regularly-occurring shift
+    placements of workers. For example, John might work every shift in Week A on Tue 9:00 - 12:00. Every time a Shift
+    is instantiated from the ShiftTemplate, a ShiftAttendance is automatically created to track John's attendance.
+
+    When ShiftAttendanceTemplates change, ShiftAttendances of already-generated future shifts are automatically updated
+    with the members that have joined or left the ShiftTemplate. This is because Shifts are usually generated for a year
+    in advance but memberships in the work squads change throughout the year."""
     name = models.CharField(blank=False, max_length=255)
     group = models.ForeignKey(
         ShiftTemplateGroup,
@@ -53,6 +69,7 @@ class ShiftTemplate(models.Model):
     start_time = models.TimeField(blank=False)
     end_time = models.TimeField(blank=False)
 
+    # TODO(Leon Handreke): Update slots for all future shifts as well when updating?
     num_slots = models.IntegerField(blank=False, default=3)
 
     def __str__(self):
@@ -185,6 +202,26 @@ class Shift(models.Model):
                 ShiftAttendance.objects.create(shift=self, user=TapirUser(pk=user_pk))
 
 
+class ShiftAccountEntry(models.Model):
+    """ShiftAccountEntry represents and entry to the shift "bank account" of a user.
+
+    Usually, a user will be debited one credit every four weeks and will be credited one for completing their shift.
+
+    Based on the the account balance and the dates of the entries, the penalties are calculated. For example, if the
+    balance has been -2 for four weeks (TBD, this is just an example), the cooperater's right to shop will be revoked.
+    """
+
+    user = models.ForeignKey(
+        TapirUser, related_name="shift_account_entries", on_delete=models.PROTECT
+    )
+
+    # Value of the transaction, may be negative (for example for missed shifts)
+    value = models.IntegerField(blank=False)
+    # Date the transaction is debited, credited
+    date = models.DateTimeField(blank=False)
+    description = models.CharField(blank=True, max_length=255)
+
+
 class ShiftAttendance(models.Model):
     user = models.ForeignKey(
         TapirUser, related_name="shift_attendances", on_delete=models.PROTECT
@@ -205,28 +242,14 @@ class ShiftAttendance(models.Model):
     # Only filled if state is MISSED_EXCUSED
     excused_reason = models.TextField(blank=True)
 
-
-# Represents an entry to the shift "bank account" of the user
-class ShiftAccountEntry(models.Model):
-    """ShiftAccountEntry represents and entry to the shift "bank account" of a user."""
-
-    user = models.ForeignKey(
-        TapirUser, related_name="shift_account_entries", on_delete=models.PROTECT
-    )
-
-    # Optional, only if associated with a shift attendance
-    shift_attendance = models.OneToOneField(
-        ShiftAttendance,
+    account_entry = models.OneToOneField(
+        ShiftAccountEntry,
         null=True,
-        on_delete=models.SET_NULL,
-        related_name="account_entry",
+        on_delete=models.PROTECT,
+        related_name="shift_attendance",
     )
 
-    # Value of the transaction, may be negative (for example for missed shifts)
-    value = models.IntegerField(blank=False)
-    # Date the transaction is debited, credited
-    date = models.DateTimeField(blank=False)
-    description = models.CharField(blank=True, max_length=255)
+
 
 
 class ShiftUser(object):

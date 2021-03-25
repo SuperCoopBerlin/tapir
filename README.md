@@ -7,12 +7,24 @@ Tapir has a trunk, but not quite such a beautiful one as
 [but not quite as badass as the other
 animals](https://www.youtube.com/watch?v=zJm6nDnR2SE). Let's teach Tapir some tricks!
 
-## Running with Docker
+## Getting started
 
     docker-compose up
 
-Yeah, that's it.
+This starts a container with an LDAP server and automatically loads the test data into the LDAP.
+
+Next, set up the test database and load test data
+
+    # Create tables
+    docker-compose exec web poetry run python manage.py migrate
+    # Load example data
+    docker-compose exec web poetry run python manage.py loaddata accounts shifts
+
 
 ## Developing
 
-We use Poetry for dependency management.
+Leon uses [PyCharm](https://www.jetbrains.com/pycharm/) for development. 
+It has a Poetry plugin that easily allows setting up a local (not in the container) Python env and run the tests in
+there. Make sure to enable Django support in the project settings so that things like the template language and the
+test runner are automagically selected.
+
