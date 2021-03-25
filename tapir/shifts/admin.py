@@ -10,6 +10,8 @@ from tapir.shifts.models import (
 
 class ShiftTemplateInline(admin.TabularInline):
     model = ShiftTemplate
+    show_change_link = True
+    extra = 3
 
 
 @admin.register(ShiftTemplateGroup)
@@ -19,11 +21,15 @@ class ShiftTemplateGroupAdmin(admin.ModelAdmin):
 
 class ShiftAttendanceTemplateInline(admin.TabularInline):
     model = ShiftAttendanceTemplate
+    extra = 1
 
+class ShiftInline(admin.TabularInline):
+    model = Shift
+    extra = 0
 
 @admin.register(ShiftTemplate)
 class ShiftTemplateAdmin(admin.ModelAdmin):
-    inlines = [ShiftAttendanceTemplateInline]
+    inlines = [ShiftAttendanceTemplateInline, ShiftInline]
 
 
 @admin.register(Shift)

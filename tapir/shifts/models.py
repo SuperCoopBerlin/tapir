@@ -97,8 +97,7 @@ class ShiftTemplate(models.Model):
         shift = self._generate_shift(start_date=start_date)
         shift.save()
 
-        for attendance_template in self.attendance_templates.all():
-            ShiftAttendance.objects.create(user=attendance_template.user, shift=shift)
+        self.update_future_shift_attendances()
 
         return shift
 
