@@ -62,7 +62,6 @@ class LdapUser(AbstractUser):
             self.set_ldap_password(raw_password)
 
     def check_password(self, raw_password):
-        ldap_person = self.get_ldap()
         return True
 
 

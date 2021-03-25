@@ -13,6 +13,7 @@ class ShiftTemplateGroup(models.Model):
     """ShiftTemplateGroup represents a collection of ShiftTemplates that are usually instantiated together.
 
     Normally, this will be a week of shifts in the ABCD system, so one ShiftTemplateGroup might be "Week A"."""
+
     name = models.CharField(blank=False, max_length=255)
 
     def __str__(self):
@@ -54,6 +55,7 @@ class ShiftTemplate(models.Model):
     When ShiftAttendanceTemplates change, ShiftAttendances of already-generated future shifts are automatically updated
     with the members that have joined or left the ShiftTemplate. This is because Shifts are usually generated for a year
     in advance but memberships in the work squads change throughout the year."""
+
     name = models.CharField(blank=False, max_length=255)
     group = models.ForeignKey(
         ShiftTemplateGroup,
@@ -120,6 +122,7 @@ class ShiftTemplate(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
+        self.update_future_shift_attendances()
 
     def update_future_shift_attendances(self):
         for shift in self.generated_shifts.filter(
@@ -189,8 +192,8 @@ class Shift(models.Model):
         if not self.shift_template:
             return
 
-        shift_attendance_template_user_pks = (
-            self.shift_template.attendance_templates.values_list("user", flat=True)
+        shift_attendance_template_user_pks = self.shift_template.attendance_templates.values_list(
+            "user", flat=True
         )
 
         # Remove the attendances that are no longer in the template
@@ -249,7 +252,21 @@ class ShiftAttendance(models.Model):
         related_name="shift_attendance",
     )
 
+    def mark_done(self):
+        self.state = __class__.State.DONE
+        # TODO(Leon Handreke): The exact scores here should either be a constant or calculated elsewhere?
+        self.account_entry = ShiftAccountEntry.object.create(
+            user=self.user, value=1, date=self.shift.start_time.date()
+        )
+        self.save()
 
+    def mark_missed(self):
+        self.state = __class__.State.MISSED
+        # TODO(Leon Handreke): The exact scores here should either be a constant or calculated elsewhere?
+        self.account_entry = ShiftAccountEntry.object.create(
+            user=self.user, value=-1, date=self.shift.start_time.date()
+        )
+        self.save()
 
 
 class ShiftUser(object):

@@ -28,3 +28,11 @@ It has a Poetry plugin that easily allows setting up a local (not in the contain
 there. Make sure to enable Django support in the project settings so that things like the template language and the
 test runner are automagically selected.
 
+### Pre-commit hooks
+
+First thing after checkout, run the following to install auto-formatting using [black](https://github.com/psf/black/)
+before every commit:
+
+    poetry install && pre-commit install
+
+    

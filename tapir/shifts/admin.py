@@ -23,9 +23,11 @@ class ShiftAttendanceTemplateInline(admin.TabularInline):
     model = ShiftAttendanceTemplate
     extra = 1
 
+
 class ShiftInline(admin.TabularInline):
     model = Shift
     extra = 0
+
 
 @admin.register(ShiftTemplate)
 class ShiftTemplateAdmin(admin.ModelAdmin):

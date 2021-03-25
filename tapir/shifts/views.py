@@ -1,9 +1,14 @@
 import datetime
 from collections import defaultdict
 
-from django.views.generic import TemplateView, DetailView
+from django.contrib.auth.decorators import login_required
+from django.forms import Form, modelform_factory
+from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_POST
+from django.views.generic import TemplateView, DetailView, UpdateView
 
-from tapir.shifts.models import Shift
+from tapir.shifts.models import Shift, ShiftAttendance
 
 
 class UpcomingDaysView(TemplateView):
@@ -26,3 +31,23 @@ class ShiftDetailView(DetailView):
     model = Shift
     template_name = "shifts/shift_detail.html"
     context_object_name = "shift"
+
+
+@require_POST
+@csrf_protect
+@login_required
+def mark_shift_attendance_done(request, pk):
+    shift_attendance = ShiftAttendance.objects.get(pk=pk)
+    shift_attendance.mark_done()
+
+    return redirect(shift_attendance.shift)
+
+
+@require_POST
+@csrf_protect
+@login_required
+def mark_shift_attendance_missed(request, pk):
+    shift_attendance = ShiftAttendance.objects.get(pk=pk)
+    shift_attendance.mark_missed()
+
+    return redirect(shift_attendance.shift)

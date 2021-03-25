@@ -6,11 +6,30 @@
     <div class="card m-2">
         <h5 class="card-title">{{ shift }}</h5>
         <div class="card-body">
-            <table>
-                {%  for attendance in shift.attendances %}
+            <table style="width: 500px">
+                {%  for attendance in shift.attendances.all %}
                     <tr>
                         <td><a href="{{ user.get_absolute_url }}">{{ attendance.user }}</a></td>
-                        <td>{{ attendance.state }}</td>
+                        <td>{{ attendance.get_state_display }}</td>
+                        <td>
+                            {%  if attendance.state == attendance.State.PENDING %}
+                                <form style="display: inline;"
+                                      method="post"
+                                      action="{% url "shifts:mark_shiftattendance_done" attendance.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success">Attended</button>
+                                </form>
+                                <form style="display: inline;"
+                                      method="post"
+                                      action="{% url "shifts:mark_shiftattendance_missed" attendance.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Missed</button>
+                                </form>
+                                <button type="button" class="btn btn-warning">Excuse</button>
+                            {% elif attendance.stat == attendance.State.EXCUSE %}
+                                {{ attendance.excuse }}
+                            {% endif %}
+                        <td>
                     </tr>
                 {% endfor %}
             </table>
