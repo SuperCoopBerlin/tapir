@@ -3,3 +3,18 @@ ou: people
 objectClass: organizationalUnit
 objectClass: top
 
+dn: uid=karin.ritter,ou=people,dc=supercoop,dc=de
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: karin.ritter
+sn: karin.ritter
+uid: karin.ritter
+
+dn: uid=norman.ritter,ou=people,dc=supercoop,dc=de
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: norman.ritter
+sn: norman.ritter
+uid: norman.ritter

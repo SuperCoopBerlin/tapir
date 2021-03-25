@@ -42,13 +42,13 @@ class ShiftTemplate(models.Model):
     group = models.ForeignKey(
         ShiftTemplateGroup,
         related_name="shift_templates",
-        null=False,
+        null=True,
         on_delete=models.PROTECT,
     )
 
     # NOTE(Leon Handreke): This could be expanded in the future to allow more placement strategies
     # TODO(Leon Handreke): Extra validation to ensure that it is not blank if part of a group
-    weekday = models.IntegerField(blank=True, choices=WEEKDAY_CHOICES)
+    weekday = models.IntegerField(blank=True, null=True, choices=WEEKDAY_CHOICES)
 
     start_time = models.TimeField(blank=False)
     end_time = models.TimeField(blank=False)
@@ -69,11 +69,12 @@ class ShiftTemplate(models.Model):
 
     def _generate_shift(self, start_date: datetime.date):
         shift_date = start_date
-        while True:
-            if shift_date.weekday() == self.weekday:
-                break
-
-            shift_date += datetime.timedelta(days=1)
+        # If this is a shift that is not part of a group and just gets placed manually, just use the day selected
+        if self.weekday:
+            while True:
+                if shift_date.weekday() == self.weekday:
+                    break
+                shift_date += datetime.timedelta(days=1)
 
         # TODO(Leon Handreke): Is this timezone user-configurable? Would make sense to use a globally-configurable
         # timezone here, but store aware dates for sure.
@@ -101,6 +102,15 @@ class ShiftTemplate(models.Model):
 
         return shift
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+    def update_future_shift_attendances(self):
+        for shift in self.generated_shifts.filter(
+            start_time__gt=datetime.datetime.now()
+        ):
+            shift.update_attendances_from_shift_template()
+
 
 class ShiftAttendanceTemplate(models.Model):
     user = models.ForeignKey(
@@ -114,7 +124,12 @@ class ShiftAttendanceTemplate(models.Model):
 class Shift(models.Model):
 
     # ShiftTemplate that this shift was generated from, may be null for manually-created shifts
-    shift_template = models.ForeignKey(ShiftTemplate, null=True, on_delete=models.PROTECT)
+    shift_template = models.ForeignKey(
+        ShiftTemplate,
+        null=True,
+        related_name="generated_shifts",
+        on_delete=models.PROTECT,
+    )
 
     # TODO(Leon Handreke): For generated shifts, leave this blank instead and use a getter?
     name = models.CharField(blank=False, max_length=255)
@@ -134,19 +149,44 @@ class Shift(models.Model):
         if self.shift_template and self.shift_template.group:
             display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
 
-        display_name = "%s [%d/%d]" % (display_name, self.get_valid_attendances().count(), self.num_slots)
+        display_name = "%s [%d/%d]" % (
+            display_name,
+            self.get_valid_attendances().count(),
+            self.num_slots,
+        )
 
         return display_name
 
     def get_absolute_url(self):
-        return reverse('shifts:shift_detail', args=[self.pk])
+        return reverse("shifts:shift_detail", args=[self.pk])
 
     def get_valid_attendances(self) -> models.QuerySet:
-        return self.attendances.filter(state__in=[ShiftAttendance.State.PENDING, ShiftAttendance.State.DONE])
+        return self.attendances.filter(
+            state__in=[ShiftAttendance.State.PENDING, ShiftAttendance.State.DONE]
+        )
+
+    def update_attendances_from_shift_template(self):
+        """Updates the attendances from the template that this shift was generated from.
+
+        This is used so that when people join or leave a regularly-occurring ShiftTemplate, future shifts already
+        generated can be updated to reflect this change."""
+        if not self.shift_template:
+            return
+
+        shift_attendance_template_user_pks = (
+            self.shift_template.attendance_templates.values_list("user", flat=True)
+        )
+
+        # Remove the attendances that are no longer in the template
+        for attendance in self.attendances.all():
+            if attendance.user.pk not in shift_attendance_template_user_pks:
+                attendance.delete()
+        for user_pk in shift_attendance_template_user_pks:
+            if user_pk not in self.attendances.values_list("user", flat=True):
+                ShiftAttendance.objects.create(shift=self, user=TapirUser(pk=user_pk))
 
 
 class ShiftAttendance(models.Model):
-
     user = models.ForeignKey(
         TapirUser, related_name="shift_attendances", on_delete=models.PROTECT
     )
@@ -161,7 +201,7 @@ class ShiftAttendance(models.Model):
         MISSED = 4
         MISSED_EXCUSED = 5
 
-    state = models.IntegerField(choices=State.choices)
+    state = models.IntegerField(choices=State.choices, default=State.PENDING)
 
     # Only filled if state is MISSED_EXCUSED
     excused_reason = models.TextField(blank=True)
@@ -170,12 +210,18 @@ class ShiftAttendance(models.Model):
 # Represents an entry to the shift "bank account" of the user
 class ShiftAccountEntry(models.Model):
     """ShiftAccountEntry represents and entry to the shift "bank account" of a user."""
+
     user = models.ForeignKey(
         TapirUser, related_name="shift_account_entries", on_delete=models.PROTECT
     )
 
     # Optional, only if associated with a shift attendance
-    shift_attendance = models.OneToOneField(ShiftAttendance, null=True, on_delete=models.SET_NULL, related_name='account_entry')
+    shift_attendance = models.OneToOneField(
+        ShiftAttendance,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="account_entry",
+    )
 
     # Value of the transaction, may be negative (for example for missed shifts)
     value = models.IntegerField(blank=False)

@@ -3,5 +3,18 @@
 {% load bootstrap4 %}
 
 {% block content %}
-    {{ object }} Bronte
+    <div class="card m-2">
+        <h5 class="card-title">{{ shift }}</h5>
+        <div class="card-body">
+            <table>
+                {%  for attendance in shift.attendances %}
+                    <tr>
+                        <td><a href="{{ user.get_absolute_url }}">{{ attendance.user }}</a></td>
+                        <td>{{ attendance.state }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {{ object }}
 {% endblock %}

@@ -3,7 +3,6 @@
 {% load bootstrap4 %}
 
 {% block content %}
-<div class="container">
     {% for day, shifts in shifts_by_days.items %}
         <div class="card m-2">
             <h5 class="card-title">{{ day|date }}</h5>

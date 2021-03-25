@@ -18,10 +18,11 @@ class UpcomingDaysView(TemplateView):
             shifts_by_days[shift.start_time.date()].append(shift)
 
         # Django template language can't loop defaultdict
-        context_data['shifts_by_days'] = dict(shifts_by_days)
+        context_data["shifts_by_days"] = dict(shifts_by_days)
         return context_data
 
 
 class ShiftDetailView(DetailView):
     model = Shift
     template_name = "shifts/shift_detail.html"
+    context_object_name = "shift"
