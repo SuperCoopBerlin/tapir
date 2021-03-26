@@ -49,7 +49,6 @@ class LdapUser(AbstractUser):
         super(LdapUser, self).delete()
 
     def set_password(self, raw_password):
-
         # force null Django password (will use LDAP password)
         self.set_unusable_password()
 
@@ -62,7 +61,7 @@ class LdapUser(AbstractUser):
             self.set_ldap_password(raw_password)
 
     def check_password(self, raw_password):
-        return True
+        return self.get_ldap().check_password(raw_password)
 
 
 class TapirUser(LdapUser):
@@ -104,6 +103,36 @@ class LdapPerson(ldapdb.models.Model):
 
         # call pyldap_orm password modification
         cursor.connection.extop_s(PasswordModify(self.dn, raw_password))
+
+    def check_password(self, raw_password, using=None):
+        using = using or router.db_for_write(self.__class__, instance=self)
+        conn_params = connections[using].get_connection_params()
+
+        # This is copy-pasta from django-ldapdb/ldapdb/backends/ldap/base.py
+        connection = ldap.ldapobject.ReconnectLDAPObject(
+            uri=conn_params["uri"],
+            retry_max=conn_params["retry_max"],
+            retry_delay=conn_params["retry_delay"],
+            bytes_mode=False,
+        )
+        options = conn_params["options"]
+        for opt, value in options.items():
+            if opt == "query_timeout":
+                connection.timeout = int(value)
+            elif opt == "page_size":
+                self.page_size = int(value)
+            else:
+                connection.set_option(opt, value)
+        if conn_params["tls"]:
+            connection.start_tls_s()
+
+        # After setting up the connection, we try to authenticate
+        try:
+            connection.simple_bind_s(self.dn, raw_password)
+        except ldap.INVALID_CREDENTIALS:
+            return False
+
+        return True
 
 
 # The following code taken from https://github.com/asyd/pyldap_orm/blob/master/pyldap_orm/controls.py
