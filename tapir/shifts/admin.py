@@ -5,6 +5,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
     Shift,
     ShiftAttendanceTemplate,
+    ShiftAttendance,
 )
 
 
@@ -34,6 +35,11 @@ class ShiftTemplateAdmin(admin.ModelAdmin):
     inlines = [ShiftAttendanceTemplateInline, ShiftInline]
 
 
+class ShiftAttendanceInline(admin.TabularInline):
+    model = ShiftAttendance
+    extra = 1
+
+
 @admin.register(Shift)
 class ShiftAdmin(admin.ModelAdmin):
-    pass
+    inlines = [ShiftAttendanceInline]

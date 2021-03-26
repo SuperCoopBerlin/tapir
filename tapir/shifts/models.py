@@ -146,6 +146,7 @@ class Shift(models.Model):
     shift_template = models.ForeignKey(
         ShiftTemplate,
         null=True,
+        blank=True,
         related_name="generated_shifts",
         on_delete=models.PROTECT,
     )
@@ -248,6 +249,7 @@ class ShiftAttendance(models.Model):
     account_entry = models.OneToOneField(
         ShiftAccountEntry,
         null=True,
+        blank=True,
         on_delete=models.PROTECT,
         related_name="shift_attendance",
     )

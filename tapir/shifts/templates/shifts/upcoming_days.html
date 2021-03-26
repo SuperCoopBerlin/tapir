@@ -1,28 +1,25 @@
 {% extends "shifts/base.html" %}
 
 {% load bootstrap4 %}
+{% load static %}
+
+{% block head %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
+{% endblock %}
 
 {% block content %}
     <div class="card m-2">
         <div class="card-body">
-            <h5 class="card-title">Today</h5>
-            <p class="card-text">Here we should render the shifts for today and be able to immediately mark attendance.
-                Below should be all other shifts (starting tomorrow).</p>
+            <h5 class="card-title">Today, {{ today|date }}</h5>
+            {% include "shifts/day_snippet.html" with shifts=shifts_today only %}
         </div>
     </div>
     {% for day, shifts in shifts_by_days.items %}
         <div class="card m-2">
             <div class="card-body">
                 <h5 class="card-title">{{ day|date }}</h5>
-                <p class="card-text">TODO: Needs nice presentation for a day like L'élefan!</p>
-                <!-- TODO(Leon Handreke): Nicer rendering of the shifts! -->
-                <table>
-                    {%  for shift in shifts %}
-                        <tr>
-                            <td><a href="{{ shift.get_absolute_url }}">{{ shift }}</a></td>
-                        </tr>
-                    {% endfor %}
-                </table>
+                {% include "shifts/day_snippet.html" with shifts=shifts only %}
             </div>
         </div>
     {% endfor %}
