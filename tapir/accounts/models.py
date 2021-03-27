@@ -17,12 +17,11 @@ class LdapUser(AbstractUser):
     class Meta:
         abstract = True
 
+    def get_or_create_ldap(self):
+        return LdapPerson.objects.get_or_create(uid=self.get_username())
+
     def get_ldap(self):
         return LdapPerson.objects.get(uid=self.get_username())
-
-    def has_ldap(self):
-        result = LdapPerson.objects.filter(uid=self.get_username())
-        return len(result) == 1
 
     def create_ldap(self):
         username = self.username
@@ -35,9 +34,12 @@ class LdapUser(AbstractUser):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
-        # create LDAP user (if required)
-        if not self.has_ldap():
-            self.create_ldap()
+
+        ldap_user, _ = self.get_or_create_ldap()
+        ldap_user.sn = self.last_name
+        ldap_user.cn = self.get_full_name()
+        ldap_user.mail = self.email
+        ldap_user.save()
 
         super(LdapUser, self).save(force_insert, force_update, using, update_fields)
 
@@ -54,10 +56,7 @@ class LdapUser(AbstractUser):
 
         # create LDAP user (if required)
         if self.get_username():
-            if not self.has_ldap():
-                self.create_ldap()
-
-            # set LDAP password
+            self.get_or_create_ldap()
             self.set_ldap_password(raw_password)
 
     def check_password(self, raw_password):
@@ -107,7 +106,6 @@ class LdapPerson(ldapdb.models.Model):
     # Minimal attributes
     uid = CharField(db_column="uid", max_length=200, primary_key=True)
     cn = CharField(db_column="cn", max_length=200)
-    description = CharField(db_column="description", max_length=200)
     sn = CharField(db_column="sn", max_length=200)
     mail = CharField(db_column="mail", max_length=200)
 
