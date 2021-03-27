@@ -7,10 +7,11 @@
 <head>
     <meta charset="utf-8">
 
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}Tapir{% endblock %}</title>
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
 
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <link rel="stylesheet" href="{% static "css/base.css" %}">
     <!-- fancy icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -19,7 +20,6 @@
     <!-- To make the datepicker from admin work --->
     <script type="text/javascript" src="/admin/jsi18n/"></script>
 <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
-<script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
 
 <link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}"/>
 
