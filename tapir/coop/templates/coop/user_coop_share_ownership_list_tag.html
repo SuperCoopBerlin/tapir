@@ -1,0 +1,32 @@
+{% load i18n %}
+<div class="card m-2">
+    <div class="card-body">
+        <h5 class="card-title">{% trans "Cooperative Shares" %}</h5>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Purchased</th>
+                <th scope="col">Sold</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            {%  for o in coop_share_ownerships %}
+                <tr>
+                    <td>{{ o.start_date }}</td>
+                    <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
+                    <td>
+                        {% if o.is_active %}
+                            <span style="color: green;">{% trans "Owner" %}</span>
+                        {% else %}
+                            <span style="color: red;">{% trans "Sold" %}</span>
+                        {% endif %}
+                    </td>
+                    {% if perms.coop.manage %}
+                        <td><a href="#">{% trans "Edit" %}</a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>

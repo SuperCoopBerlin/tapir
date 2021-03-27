@@ -141,7 +141,6 @@ class ShiftAttendanceTemplate(models.Model):
 
 
 class Shift(models.Model):
-
     # ShiftTemplate that this shift was generated from, may be null for manually-created shifts
     shift_template = models.ForeignKey(
         ShiftTemplate,
@@ -277,3 +276,6 @@ class ShiftUser(object):
 
     def get_account_entries(self):
         return ShiftAccountEntry.object.filter(user=self.user)
+
+
+TapirUser.shifts = property(lambda u: ShiftUser(u))

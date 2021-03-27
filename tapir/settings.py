@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "bootstrap4",
     "tapir.accounts",
     "tapir.shifts",
+    "tapir.utils",
+    "tapir.coop",
 ]
 
 MIDDLEWARE = [
@@ -134,7 +136,11 @@ REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
 # Groups are stored in the LDAP tree
 GROUP_VORSTAND = "vorstand"
-PERMISSIONS = {"shifts.manage": [GROUP_VORSTAND]}
+# This is our own little stupid permission system. See explanation in accounts/models.py.
+PERMISSIONS = {
+    "shifts.manage": [GROUP_VORSTAND],
+    "coop.manage": [GROUP_VORSTAND],
+}
 
 
 AUTH_USER_MODEL = "accounts.TapirUser"

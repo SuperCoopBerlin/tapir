@@ -18,3 +18,14 @@ objectClass: person
 cn: norman.ritter
 sn: norman.ritter
 uid: norman.ritter
+
+dn: ou=groups,dc=supercoop,dc=de
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=vorstand,ou=groups,dc=supercoop,dc=de
+objectClass: groupOfNames
+objectClass: top
+cn: vorstand
+member: uid=admin,ou=people,dc=supercoop,dc=de

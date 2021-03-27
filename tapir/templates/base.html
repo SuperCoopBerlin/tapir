@@ -23,17 +23,18 @@
 <body>
 {% bootstrap_messages %}
 
-<nav class="navbar navbar-dark bg-dark sticky-top">
-    <div class="container">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
         <a class="navbar-brand" href="#">SuperCoop Berlin</a>
 
-
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+            <li class="nav-item">
                 <a class="nav-link" href="#">Users</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url "shifts:index" %}">Shifts</a>
+            </li>
         </ul>
-
     </div>
 </nav>
 

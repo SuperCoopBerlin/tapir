@@ -8,5 +8,8 @@
                 <h5 class="card-title">{{ user.get_full_name }}</h5>
         </div>
     </div>
-    {{ object }}
+
+    {% load coop %}
+    {% user_coop_share_ownership_list user %}
 {% endblock %}
+

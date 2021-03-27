@@ -6,7 +6,9 @@ from tapir.shifts import views
 app_name = "shifts"
 urlpatterns = [
     path(
-        "/", generic.RedirectView.as_view(pattern_name="shift_upcoming"), name="index"
+        "/",
+        generic.RedirectView.as_view(pattern_name="shifts:shift_upcoming"),
+        name="index",
     ),
     path("upcoming/", views.UpcomingDaysView.as_view(), name="shift_upcoming"),
     # TODO(Leon Handreke): Can we somehow introduce a sub-namespace here?
