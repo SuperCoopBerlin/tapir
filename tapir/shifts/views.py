@@ -101,14 +101,3 @@ def mark_shift_attendance_missed(request, pk):
     shift_attendance.mark_missed()
 
     return redirect(shift_attendance.shift)
-
-
-class UserMeView(generic.RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        return reverse("accounts:user_detail", args=[self.request.user.pk])
-
-
-class UserDetailView(generic.DetailView):
-    model = TapirUser
-    context_object_name = "user"
-    template_name = "accounts/user_detail.html"

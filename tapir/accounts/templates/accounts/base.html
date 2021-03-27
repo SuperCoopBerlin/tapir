@@ -1,4 +1,18 @@
 {% extends "base.html" %}
 
+{% block sidebar %}
+    <li class="nav-item">
+        <a class="nav-link" href="#" %}">
+            All Users
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{% url "accounts:draftuser_list" %}">
+            Applicants
+        </a>
+    </li>
+{% endblock %}
+
 {% block content %}
 {% endblock %}

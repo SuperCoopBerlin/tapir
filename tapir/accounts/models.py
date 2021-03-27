@@ -8,6 +8,7 @@ import pyasn1.type.univ
 from django.conf import settings
 from django.db import connections, router, models
 from django.db.models import fields
+from django.urls import reverse
 from ldapdb.models.fields import CharField, ListField
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
@@ -40,8 +41,8 @@ class LdapUser(AbstractUser):
     ):
 
         ldap_user, _ = self.get_or_create_ldap()
-        ldap_user.sn = self.last_name
-        ldap_user.cn = self.get_full_name()
+        ldap_user.sn = self.last_name or self.username
+        ldap_user.cn = self.get_full_name() or self.username
         ldap_user.mail = self.email
         ldap_user.save()
 
@@ -252,7 +253,7 @@ class LdapGroup(ldapdb.models.Model):
         return self.cn
 
 
-class DraftUser(AbstractUser):
+class DraftUser(models.Model):
     username_validator = validators.UsernameValidator
 
     username = models.CharField(
@@ -262,9 +263,12 @@ class DraftUser(AbstractUser):
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
     email = models.EmailField(_("email address"), blank=True)
 
-    num_shares = fields.IntegerField(blank=False)
+    num_shares = fields.IntegerField(_("Number of Shares"), blank=False, default=1)
     attended_welcome_session = fields.BooleanField(
         _("Attended Welcome Session"), default=False
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse("accounts:draftuser_update", args=[self.pk,])

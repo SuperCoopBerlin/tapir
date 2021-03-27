@@ -144,3 +144,4 @@ PERMISSIONS = {
 
 
 AUTH_USER_MODEL = "accounts.TapirUser"
+LOGIN_REDIRECT_URL = "accounts:user_me"
