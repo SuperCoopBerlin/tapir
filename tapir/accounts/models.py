@@ -6,9 +6,13 @@ import pyasn1.codec.ber.encoder
 import pyasn1.type.namedtype
 import pyasn1.type.univ
 from django.conf import settings
-from django.db import connections, router
+from django.db import connections, router, models
+from django.db.models import fields
 from ldapdb.models.fields import CharField, ListField
 from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
+from tapir.accounts import validators
 
 log = logging.getLogger(__name__)
 
@@ -86,7 +90,7 @@ class LdapUser(AbstractUser):
 
 
 class TapirUser(LdapUser):
-    pass
+    username_validator = validators.UsernameValidator
 
 
 # The following LDAP-related models were taken from https://source.puri.sm/liberty/host/middleware/-/blob/master/ldapregister/models.py
@@ -246,3 +250,21 @@ class LdapGroup(ldapdb.models.Model):
 
     def __unicode__(self):
         return self.cn
+
+
+class DraftUser(AbstractUser):
+    username_validator = validators.UsernameValidator
+
+    username = models.CharField(
+        _("username"), max_length=150, validators=[username_validator],
+    )
+    first_name = models.CharField(_("first name"), max_length=150, blank=True)
+    last_name = models.CharField(_("last name"), max_length=150, blank=True)
+    email = models.EmailField(_("email address"), blank=True)
+
+    num_shares = fields.IntegerField(blank=False)
+    attended_welcome_session = fields.BooleanField(
+        _("Attended Welcome Session"), default=False
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
