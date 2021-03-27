@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Users</a></li>
+            <li class="breadcrumb-item">
+                <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Coop Share</li>
+        </ol>
+    </nav>
+
+    <div class="container">
+        <div class="card m-2">
+            <div class="card-body">
+                <form role="form" method="post">
+                    {% csrf_token %}
+                {{ form.media }}
+
+                {{ form.as_p }}
+                    <span class="text-right">
+                        {% buttons submit='Save' %}{% endbuttons %}
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,9 +1,8 @@
 from datetime import date
 
-from django import db
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 from django.utils.translation import ugettext as _
 
 
@@ -13,7 +12,7 @@ class DurationModelMixinManager(models.Manager):
     #
     # @param obj the object that the filtered objects should overlap with
     # @return all objects that overlap with the given object but not the given object itself
-    def overlapping_with(self, obj) -> db.QuerySet:
+    def overlapping_with(self, obj) -> QuerySet:
         return (
             self.get_queryset()
             .filter(
@@ -41,7 +40,7 @@ class DurationModelMixinManager(models.Manager):
 
     ## Filter all objects that are active on a given date.
     # @param effective_date The date that the objects returned should all be active on.
-    def active_temporal(self, effective_date=None) -> db.QuerySet:
+    def active_temporal(self, effective_date=None) -> QuerySet:
         if not effective_date:
             # if no effective date was given, use today as the default
             effective_date = date.today()

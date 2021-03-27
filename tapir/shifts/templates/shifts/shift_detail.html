@@ -11,7 +11,7 @@
                     <a href="{% url "admin:shifts_shift_change" shift.pk %}">
                     <button type="button" class="btn btn-outline-info">Edit</button>
                     </a>
-            </span>
+                </span>
             </div>
             <table style="width: 500px">
                 {%  for attendance in shift.attendances.all %}
