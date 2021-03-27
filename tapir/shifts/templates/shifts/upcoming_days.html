@@ -11,14 +11,14 @@
 {% block content %}
     <div class="card m-2">
         <div class="card-body">
-            <h5 class="card-title">Today, {{ today|date }}</h5>
+            <h6 class="card-title">Today, {{ today|date }}</h6>
             {% include "shifts/day_snippet.html" with shifts=shifts_today only %}
         </div>
     </div>
     {% for day, shifts in shifts_by_days.items %}
         <div class="card m-2">
             <div class="card-body">
-                <h5 class="card-title">{{ day|date }}</h5>
+                <h6 class="card-title">{{ day|date }}</h6>
                 {% include "shifts/day_snippet.html" with shifts=shifts only %}
             </div>
         </div>

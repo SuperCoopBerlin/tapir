@@ -2,12 +2,16 @@ import datetime
 from collections import defaultdict
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.forms import Form, modelform_factory
 from django.shortcuts import redirect
+from django.urls import reverse
+from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, DetailView, UpdateView
 
+from tapir.accounts.models import TapirUser
 from tapir.shifts.models import Shift, ShiftAttendance
 
 
@@ -22,7 +26,8 @@ DAY_END_SECONDS = time_to_seconds(datetime.time(22, 0))
 DAY_DURATION_SECONDS = DAY_END_SECONDS - DAY_START_SECONDS
 
 
-class UpcomingDaysView(TemplateView):
+class UpcomingDaysView(PermissionRequiredMixin, TemplateView):
+    permission_required = "shifts.manage"
     template_name = "shifts/upcoming_days.html"
 
     def get_context_data(self, *args, **kwargs):
@@ -96,3 +101,14 @@ def mark_shift_attendance_missed(request, pk):
     shift_attendance.mark_missed()
 
     return redirect(shift_attendance.shift)
+
+
+class UserMeView(generic.RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("accounts:user_detail", args=[self.request.user.pk])
+
+
+class UserDetailView(generic.DetailView):
+    model = TapirUser
+    context_object_name = "user"
+    template_name = "accounts/user_detail.html"

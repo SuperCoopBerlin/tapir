@@ -1,0 +1,12 @@
+{% extends "accounts/base.html" %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+    <div class="card m-2">
+        <div class="card-body">
+                <h5 class="card-title">{{ user.get_full_name }}</h5>
+        </div>
+    </div>
+    {{ object }}
+{% endblock %}

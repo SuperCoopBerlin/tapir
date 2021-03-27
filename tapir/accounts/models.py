@@ -63,6 +63,28 @@ class LdapUser(AbstractUser):
     def check_password(self, raw_password):
         return self.get_ldap().check_password(raw_password)
 
+    def has_perm(self, perm, obj=None):
+        user_dn = self.get_ldap().build_dn()
+        # TODO(Leon Handreke): This is a case of very agressive programming, we require both the perm to
+        # be defined in settings and the group to exist. Probably a fair expectation, but explode more
+        # gracefully.
+        # We use a custom permission system based on statically-defined permissions in settings for
+        # these reasons:
+        # 1. Easier to keep an overview of what group is allowed to do what
+        # 2. Permissions must not be tied to models and can therefore be more broad and simple
+        #
+        # TODO(Leon Handreke): Taking the group from LDAP is probably not the smartest move because
+        # I'm about the only person comfortable to use Apache Directory Studio. Move this into
+        # out app and build a nice group management interface?
+        print(user_dn)
+        for group_cn in settings.PERMISSIONS.get(perm, []):
+            group = LdapGroup.objects.get(cn=group_cn)
+            print(group.members)
+            if user_dn in group.members:
+                return True
+
+        return super().has_perm(perm=perm, obj=obj)
+
 
 class TapirUser(LdapUser):
     pass
@@ -201,3 +223,28 @@ class PasswordModify(ldap.extop.ExtendedRequest):
                 ),
             ),
         )
+
+
+class LdapGroup(ldapdb.models.Model):
+    """
+    Class for representing an LDAP group entry.
+    """
+
+    class Meta:
+        verbose_name = "LDAP group"
+        verbose_name_plural = "LDAP groups"
+
+    # LDAP meta-data
+    base_dn = settings.REG_GROUP_BASE_DN
+    object_classes = settings.REG_GROUP_OBJECT_CLASSES
+
+    # LDAP group attributes
+    cn = CharField(db_column="cn", max_length=200, primary_key=True)
+    description = CharField(db_column="description", max_length=200)
+    members = ListField(db_column="member")
+
+    def __str__(self):
+        return self.cn
+
+    def __unicode__(self):
+        return self.cn

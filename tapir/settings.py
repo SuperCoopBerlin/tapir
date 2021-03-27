@@ -129,5 +129,12 @@ STATICFILES_DIRS = [
 
 REG_PERSON_BASE_DN = "ou=people,dc=supercoop,dc=de"
 REG_PERSON_OBJECT_CLASSES = ["inetOrgPerson", "organizationalPerson", "person"]
+REG_GROUP_BASE_DN = "ou=groups,dc=supercoop,dc=de"
+REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
+
+# Groups are stored in the LDAP tree
+GROUP_VORSTAND = "vorstand"
+PERMISSIONS = {"shifts.manage": [GROUP_VORSTAND]}
+
 
 AUTH_USER_MODEL = "accounts.TapirUser"
