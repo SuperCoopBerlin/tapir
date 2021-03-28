@@ -35,4 +35,14 @@ urlpatterns = [
         views.DraftUserDeleteView.as_view(),
         name="draftuser_delete",
     ),
+    path(
+        "user/draft/<int:pk>/signed_membership_agreement",
+        views.mark_signed_membership_agreement,
+        name="mark_draftuser_signed_membership_agreement",
+    ),
+    path(
+        "user/draft/<int:pk>/attended_welcome_session",
+        views.mark_attended_welcome_session,
+        name="mark_draftuser_attended_welcome_session",
+    ),
 ]

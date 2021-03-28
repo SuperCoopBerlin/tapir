@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.views import generic
 
@@ -10,6 +11,6 @@ class UserDetailView(generic.DetailView):
     template_name = "accounts/user_detail.html"
 
 
-class UserMeView(generic.RedirectView):
+class UserMeView(LoginRequiredMixin, generic.RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         return reverse("accounts:user_detail", args=[self.request.user.pk])

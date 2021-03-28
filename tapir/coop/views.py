@@ -1,9 +1,12 @@
 from datetime import date
 
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_POST
 from django.views.generic import UpdateView, CreateView
 
 from tapir.accounts.models import TapirUser
@@ -37,7 +40,6 @@ class CoopShareOwnershipCreateView(CoopShareOwnershipViewMixin, CreateView):
 
 
 class DraftUserViewMixin(PermissionRequiredMixin):
-    success_url = reverse_lazy("accounts:draftuser_list")
     permission_required = "coop.manage"
     model = DraftUser
     fields = [
@@ -62,9 +64,31 @@ class DraftUserUpdateView(DraftUserViewMixin, generic.UpdateView):
     pass
 
 
-class DraftUserDetailView(DraftUserViewMixin, generic.UpdateView):
+class DraftUserDetailView(DraftUserViewMixin, generic.DetailView):
     pass
 
 
 class DraftUserDeleteView(DraftUserViewMixin, generic.DeleteView):
     pass
+
+
+@require_POST
+@csrf_protect
+@permission_required("coop.manage")
+def mark_signed_membership_agreement(request, pk):
+    u = DraftUser.objects.get(pk=pk)
+    u.signed_membership_agreement = True
+    u.save()
+
+    return redirect(u)
+
+
+@require_POST
+@csrf_protect
+@permission_required("coop.manage")
+def mark_attended_welcome_session(request, pk):
+    u = DraftUser.objects.get(pk=pk)
+    u.attended_welcome_session = True
+    u.save()
+
+    return redirect(u)

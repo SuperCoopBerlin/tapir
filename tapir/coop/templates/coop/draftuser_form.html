@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url "accounts:draftuser_list" %}">{% trans "Applicants" %}</a>
+                <a href="{% url "coop:draftuser_list" %}">{% trans "Applicants" %}</a>
             </li>
             {% if form.instance.pk %}
                 <li class="breadcrumb-item">
@@ -28,7 +28,6 @@
                     {% bootstrap_form form %}
                     <span class="text-right">
                         {% buttons submit='Save' %}{% endbuttons %}
-                        <button type="submit" name="create_user" value="1">Save & Create User</button>
                     </span>
                 </form>
             </div>

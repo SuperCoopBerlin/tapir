@@ -1,7 +1,7 @@
 import datetime
 from collections import defaultdict
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.forms import Form, modelform_factory
 from django.shortcuts import redirect
@@ -85,7 +85,7 @@ class ShiftDetailView(DetailView):
 
 @require_POST
 @csrf_protect
-@login_required
+@permission_required("shifts.manage")
 def mark_shift_attendance_done(request, pk):
     shift_attendance = ShiftAttendance.objects.get(pk=pk)
     shift_attendance.mark_done()
@@ -95,7 +95,7 @@ def mark_shift_attendance_done(request, pk):
 
 @require_POST
 @csrf_protect
-@login_required
+@permission_required("shifts.manage")
 def mark_shift_attendance_missed(request, pk):
     shift_attendance = ShiftAttendance.objects.get(pk=pk)
     shift_attendance.mark_missed()

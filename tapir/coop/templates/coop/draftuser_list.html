@@ -14,22 +14,24 @@
                 </span>
             </div>
             <table class="table">
+                <thead>
+                <th>{% trans "First Name" %}</th>
+                <th>{% trans "Last Name" %}</th>
+                <th>{% trans "Email" %}</th>
+                <th></th>
+                </thead>
                 {% for u in object_list %}
-                    <thead>
-                    <th>{% trans "First Name" %}</th>
-                    <th>{% trans "Last Name" %}</th>
-                    <th>{% trans "Email" %}</th>
-                    <th></th>
-                    </thead>
                     <tr>
                         <td class="align-middle">{{ u.first_name }}</td>
                         <td class="align-middle">{{ u.last_name }}</td>
                         <td class="align-middle">{{ u.email }}</td>
                         <td class="align-middle">
-                            <a href="{% url "coop:draftuser_update" u.pk %}">
-                                <button type="button" class="btn btn-outline-primary">Edit</button>
+                            <a href="{% url "coop:draftuser_detail" u.pk %}">
+                                <button type="button" class="btn btn-outline-primary">
+                                    <span class="material-icons" style="font-size: 14px;">chevron_right</span>
+                                </button>
                             </a>
-                            <form style="display: inline;" class="form-inline" method="POST" action="{% url "accounts:coop_delete" u.pk %}">
+                            <form style="display: inline;" class="form-inline" method="POST" action="{% url "coop:draftuser_delete" u.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
