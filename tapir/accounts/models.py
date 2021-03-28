@@ -6,9 +6,11 @@ import pyasn1.codec.ber.encoder
 import pyasn1.type.namedtype
 import pyasn1.type.univ
 from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.db import connections, router
 from ldapdb.models.fields import CharField, ListField
-from django.contrib.auth.models import AbstractUser
+
+from tapir.accounts import validators
 
 log = logging.getLogger(__name__)
 
@@ -35,9 +37,16 @@ class LdapUser(AbstractUser):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
-        # create LDAP user (if required)
-        if not self.has_ldap():
-            self.create_ldap()
+
+        if self.has_ldap():
+            ldap_user = self.get_ldap()
+        else:
+            ldap_user = LdapPerson(uid=self.username)
+
+        ldap_user.sn = self.last_name or self.username
+        ldap_user.cn = self.get_full_name() or self.username
+        ldap_user.mail = self.email
+        ldap_user.save()
 
         super(LdapUser, self).save(force_insert, force_update, using, update_fields)
 
@@ -52,13 +61,7 @@ class LdapUser(AbstractUser):
         # force null Django password (will use LDAP password)
         self.set_unusable_password()
 
-        # create LDAP user (if required)
-        if self.get_username():
-            if not self.has_ldap():
-                self.create_ldap()
-
-            # set LDAP password
-            self.set_ldap_password(raw_password)
+        self.set_ldap_password(raw_password)
 
     def check_password(self, raw_password):
         return self.get_ldap().check_password(raw_password)
@@ -76,10 +79,8 @@ class LdapUser(AbstractUser):
         # TODO(Leon Handreke): Taking the group from LDAP is probably not the smartest move because
         # I'm about the only person comfortable to use Apache Directory Studio. Move this into
         # out app and build a nice group management interface?
-        print(user_dn)
         for group_cn in settings.PERMISSIONS.get(perm, []):
             group = LdapGroup.objects.get(cn=group_cn)
-            print(group.members)
             if user_dn in group.members:
                 return True
 
@@ -87,7 +88,7 @@ class LdapUser(AbstractUser):
 
 
 class TapirUser(LdapUser):
-    pass
+    username_validator = validators.UsernameValidator
 
 
 # The following LDAP-related models were taken from https://source.puri.sm/liberty/host/middleware/-/blob/master/ldapregister/models.py
@@ -107,7 +108,6 @@ class LdapPerson(ldapdb.models.Model):
     # Minimal attributes
     uid = CharField(db_column="uid", max_length=200, primary_key=True)
     cn = CharField(db_column="cn", max_length=200)
-    description = CharField(db_column="description", max_length=200)
     sn = CharField(db_column="sn", max_length=200)
     mail = CharField(db_column="mail", max_length=200)
 

@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views import generic
 
 urlpatterns = [
+    path("", generic.RedirectView.as_view(pattern_name="accounts:index")),
     path("admin/", admin.site.urls),
     path("accounts/", include("tapir.accounts.urls")),
     path("shifts/", include("tapir.shifts.urls")),

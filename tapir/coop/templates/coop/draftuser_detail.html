@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url "coop:draftuser_list" %}">{% trans "Applicants" %}</a>
+            </li>
+            {% if form.instance.pk %}
+                <li class="breadcrumb-item">
+                    <a href="{{ object.get_absolute_url }}">{{ object.get_display_name }}</a>
+                </li>
+            {% else %}
+                <li class="breadcrumb-item">Create</li>
+            {% endif %}
+        </ol>
+    </nav>
+
+    <div class="container">
+        <div class="card m-2">
+            <div class="card-body">
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
+                    <div class="col-4">{{ object.get_display_name }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Username" %}:</div>
+                    <div class="col-4">{{ object.username }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
+                    <div class="col-4">{{ object.email }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Shares requested" %}</div>
+                    <div class="col-4">{{ object.num_shares }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Welcome Session" %}:</div>
+                    <div class="col-4">
+                        {% if object.attended_welcome_session %}
+                            <span class="text-success">Attended</span>
+                        {% else %}
+                            <span class="text-warning">Pending</span>
+                            <form style="display: inline;"
+                                  method="post"
+                                  action="{% url "coop:mark_draftuser_attended_welcome_session" object.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success ml-3">
+                                    <span class="material-icons" style="font-size: 14px;">check</span> Attended
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Beteiligungserklärung" %}:</div>
+                    <div class="col-4">
+                        {% if object.signed_membership_agreement %}
+                            <span class="text-success">Signed</span>
+                        {% else %}
+                            <span class="text-warning">Pending</span>
+                        <form style="display: inline;"
+                              method="post"
+                              action="{% url "coop:mark_draftuser_signed_membership_agreement" object.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success ml-3">
+                                <span class="material-icons" style="font-size: 14px;">check</span> Signed
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row m-1 flex-row-reverse">
+
+                    {% if object.can_create_user %}
+                        <form
+                                method="post"
+                                action="{% url "coop:draftuser_create_user" object.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="align-self-right btn btn-success ml-3">
+                                <span class="material-icons" style="font-size: 14px;">chevron_right</span> Create User
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -2,11 +2,13 @@ from django.urls import path
 import django.contrib.auth.views as auth_views
 from django.views import generic
 
-from tapir.shifts import views
+from tapir.accounts import views
 
 app_name = "accounts"
 urlpatterns = [
-    path("/", generic.RedirectView.as_view(pattern_name="user_profile"), name="index"),
+    path(
+        "", generic.RedirectView.as_view(pattern_name="accounts:user_me"), name="index"
+    ),
     path(
         "login/",
         auth_views.LoginView.as_view(template_name="accounts/login.html"),

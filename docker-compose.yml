@@ -10,7 +10,7 @@ services:
                 ports:
                         - "389:389"
                 volumes:
-                        - ./ldap_testdata.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-testdata.ldif
+                        - ./ldap_testdata.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-testdata.ldif
                 # Required so that the container doesn't modify the testdata ldif
                 command: --copy-service
         web:

@@ -35,4 +35,12 @@ before every commit:
 
     poetry install && pre-commit install
 
+### Django Shell
+
+    docker-compose exec web poetry run python manage.py shell
+
+
+### LDAP
+
+For reading or modifying the LDAP, Apache Directory Studio is pretty handy.
     

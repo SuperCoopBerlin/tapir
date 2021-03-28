@@ -1,9 +1,25 @@
 dn: ou=people,dc=supercoop,dc=de
+changetype: add
 ou: people
 objectClass: organizationalUnit
 objectClass: top
 
+dn: uid=admin,ou=people,dc=supercoop,dc=de
+changetype: add
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: admin
+sn: admin
+uid: admin
+
+dn: uid=admin,ou=people,dc=supercoop,dc=de
+changetype: modify
+replace: userPassword
+userPassword: admin
+
 dn: uid=karin.ritter,ou=people,dc=supercoop,dc=de
+changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -11,7 +27,13 @@ cn: karin.ritter
 sn: karin.ritter
 uid: karin.ritter
 
+dn: uid=karin.ritter,ou=people,dc=supercoop,dc=de
+changetype: modify
+replace: userPassword
+userPassword: karin.ritter
+
 dn: uid=norman.ritter,ou=people,dc=supercoop,dc=de
+changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -19,13 +41,21 @@ cn: norman.ritter
 sn: norman.ritter
 uid: norman.ritter
 
+dn: uid=norman.ritter,ou=people,dc=supercoop,dc=de
+changetype: modify
+replace: userPassword
+userPassword: norman.ritter
+
 dn: ou=groups,dc=supercoop,dc=de
+changetype: add
 objectClass: organizationalUnit
 objectClass: top
 ou: groups
 
 dn: cn=vorstand,ou=groups,dc=supercoop,dc=de
+changetype: add
 objectClass: groupOfNames
 objectClass: top
 cn: vorstand
 member: uid=admin,ou=people,dc=supercoop,dc=de
+member: uid=karin.ritter,ou=people,dc=supercoop,dc=de
