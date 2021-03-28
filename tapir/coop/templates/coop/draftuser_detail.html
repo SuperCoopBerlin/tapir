@@ -36,6 +36,10 @@
                     <div class="col-4">{{ object.email }}</div>
                 </div>
                 <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Shares requested" %}</div>
+                    <div class="col-4">{{ object.num_shares }}</div>
+                </div>
+                <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Welcome Session" %}:</div>
                     <div class="col-4">
                         {% if object.attended_welcome_session %}
@@ -70,6 +74,19 @@
                         </form>
                         {% endif %}
                     </div>
+                </div>
+                <div class="row m-1 flex-row-reverse">
+
+                    {% if object.can_create_user %}
+                        <form
+                                method="post"
+                                action="{% url "coop:draftuser_create_user" object.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="align-self-right btn btn-success ml-3">
+                                <span class="material-icons" style="font-size: 14px;">chevron_right</span> Create User
+                            </button>
+                        </form>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@ from datetime import date
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import generic
@@ -92,3 +93,29 @@ def mark_attended_welcome_session(request, pk):
     u.save()
 
     return redirect(u)
+
+
+@require_POST
+@csrf_protect
+@permission_required("coop.manage")
+def create_user_from_draftuser(request, pk):
+    draft = DraftUser.objects.get(pk=pk)
+    if not draft.signed_membership_agreement:
+        # TODO(Leon Handreke): Error message
+        return redirect(draft)
+
+    with transaction.atomic():
+        u = TapirUser.objects.create(
+            username=draft.username,
+            first_name=draft.first_name,
+            last_name=draft.last_name,
+            email=draft.email,
+        )
+        for _ in range(0, draft.num_shares):
+            CoopShareOwnership.objects.create(
+                user=u, start_date=date.today(),
+            )
+        draft.delete()
+
+    # TODO(Leon Handreke): Why does just passing u here not work?
+    return redirect(u.get_absolute_url())

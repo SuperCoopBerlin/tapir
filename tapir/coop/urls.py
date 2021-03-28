@@ -45,4 +45,9 @@ urlpatterns = [
         views.mark_attended_welcome_session,
         name="mark_draftuser_attended_welcome_session",
     ),
+    path(
+        "user/draft/<int:pk>/create_user",
+        views.create_user_from_draftuser,
+        name="draftuser_create_user",
+    ),
 ]

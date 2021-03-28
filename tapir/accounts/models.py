@@ -19,11 +19,12 @@ class LdapUser(AbstractUser):
     class Meta:
         abstract = True
 
-    def get_or_create_ldap(self):
-        return LdapPerson.objects.get_or_create(uid=self.get_username())
-
     def get_ldap(self):
         return LdapPerson.objects.get(uid=self.get_username())
+
+    def has_ldap(self):
+        result = LdapPerson.objects.filter(uid=self.get_username())
+        return len(result) == 1
 
     def create_ldap(self):
         username = self.username
@@ -37,7 +38,11 @@ class LdapUser(AbstractUser):
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
 
-        ldap_user, _ = self.get_or_create_ldap()
+        if self.has_ldap():
+            ldap_user = self.get_ldap()
+        else:
+            ldap_user = LdapPerson(uid=self.username)
+
         ldap_user.sn = self.last_name or self.username
         ldap_user.cn = self.get_full_name() or self.username
         ldap_user.mail = self.email
@@ -56,10 +61,7 @@ class LdapUser(AbstractUser):
         # force null Django password (will use LDAP password)
         self.set_unusable_password()
 
-        # create LDAP user (if required)
-        if self.get_username():
-            self.get_or_create_ldap()
-            self.set_ldap_password(raw_password)
+        self.set_ldap_password(raw_password)
 
     def check_password(self, raw_password):
         return self.get_ldap().check_password(raw_password)

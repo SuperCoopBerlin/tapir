@@ -60,3 +60,12 @@ class DraftUser(models.Model):
             return self.email
 
         return self.username
+
+    def can_create_user(self):
+        return (
+            self.email
+            and self.username
+            and self.first_name
+            and self.last_name
+            and self.signed_membership_agreement
+        )
