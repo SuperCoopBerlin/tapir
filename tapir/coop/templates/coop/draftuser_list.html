@@ -1,13 +1,14 @@
-{% extends "accounts/base.html" %}
+{% extends "base.html" %}
 
 {% load i18n %}
+
 {% block content %}
     <div class="card m-2">
         <div class="card-body">
             <div class="d-flex justify-content-between mb-2">
                 <h4 class="card-title align-middle">{% trans "Applicants" %}</h4>
                 <span class="align-self-right">
-                    <a href="{% url "accounts:draftuser_create" %}">
+                    <a href="{% url "coop:draftuser_create" %}">
                     <button type="button" class="btn btn-primary">Create</button>
                     </a>
                 </span>
@@ -25,13 +26,12 @@
                         <td class="align-middle">{{ u.last_name }}</td>
                         <td class="align-middle">{{ u.email }}</td>
                         <td class="align-middle">
-                            <a href="{% url "accounts:draftuser_update" u.pk %}">
+                            <a href="{% url "coop:draftuser_update" u.pk %}">
                                 <button type="button" class="btn btn-outline-primary">Edit</button>
                             </a>
-                            <form style="display: inline;" class="form-inline" method="POST" action="{% url "accounts:draftuser_delete" u.pk %}">
+                            <form style="display: inline;" class="form-inline" method="POST" action="{% url "accounts:coop_delete" u.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" value="DELETE" class="btn btn-danger">Delete</button>
-                            </form>
+                                <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </td>
                     </tr>

@@ -1,15 +1,1 @@
 {% extends "base.html" %}
-
-{% block sidebar %}
-    <li class="nav-item">
-        <a class="nav-link" href="{% url "shifts:shift_upcoming" %}">
-            Dashboard
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{% url "admin:shifts_shifttemplate_changelist" %}">
-            Shift Templates
-        </a>
-    </li>
-{% endblock %}
