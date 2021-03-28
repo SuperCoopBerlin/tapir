@@ -1,15 +1,36 @@
 {% extends "accounts/base.html" %}
 
 {% load bootstrap4 %}
+{% load static %}
+
+{% block head %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
+{% endblock %}
 
 {% block content %}
     <div class="card m-2">
         <div class="card-body">
-                <h5 class="card-title">{{ user.get_full_name }}</h5>
+            <h5 class="card-title">{{ user.get_full_name }}</h5>
         </div>
     </div>
 
     {% load coop %}
     {% user_coop_share_ownership_list user %}
+
+    {% load shifts %}
+    {% load i18n %}
+    <div class="card m-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <h5 class="card-title">{% trans "Upcoming shifts" %}</h5>
+            </div>
+            <div class="shift_list" style="display: flex; flex-direction: column; gap: 10px;">
+                {% for attendance in shift_attendances %}
+                    {% shift_block attendance.shift %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 

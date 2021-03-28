@@ -1,0 +1,22 @@
+<a style="width: 300px; height: 70px;" href="{{ shift.get_absolute_url }}">
+    {%  if shift.get_valid_attendances.count == shift_attendance_states|length %}
+        <div class="shift-block" style="width: 300px; height: 70px; background-color: var(--success);">
+    {%  else %}
+        <div class="shift-block" style="width: 300px; height: 70px; background-color: var(--warning);">
+    {%  endif %}
+        <div>{{ shift.name }}</div>
+        <div>{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
+        <div class="shift-date">{{ shift.start_time|date }}</div>
+        <div style="display: flex">
+            {% for state in shift_attendance_states %}
+                {% if state == "user" %}
+                    <div class="material-icons" style="font-size: 12px;">account_circle</div>
+                {% elif state == "filled" %}
+                    <div class="material-icons" style="font-size: 12px;">radio_button_checked</div>
+                {% else %}
+                    <div class="material-icons" style="font-size: 12px;">radio_button_unchecked</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</a>

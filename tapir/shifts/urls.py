@@ -23,4 +23,10 @@ urlpatterns = [
         views.mark_shift_attendance_missed,
         name="mark_shiftattendance_missed",
     ),
+    path("populate_shifts", views.populate_shifts, name="populate_shifts",),
+    path(
+        "populate_user_shifts/<int:user_id>",
+        views.populate_user_shifts,
+        name="populate_user_shifts",
+    ),
 ]

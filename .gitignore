@@ -1,4 +1,5 @@
 venv
+env
 poetry.lock
 __pycache__
 db.sqlite3

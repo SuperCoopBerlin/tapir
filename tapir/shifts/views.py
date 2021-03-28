@@ -4,6 +4,7 @@ from collections import defaultdict
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.forms import Form, modelform_factory
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.views import generic
@@ -12,7 +13,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, DetailView, UpdateView
 
 from tapir.accounts.models import TapirUser
-from tapir.shifts.models import Shift, ShiftAttendance
+from tapir.shifts.models import Shift, ShiftAttendance, ShiftTemplate
 
 
 def time_to_seconds(time):
@@ -112,3 +113,79 @@ class UserDetailView(generic.DetailView):
     model = TapirUser
     context_object_name = "user"
     template_name = "accounts/user_detail.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        context_data["shift_attendances"] = ShiftAttendance.objects.filter(
+            user=context_data["user"], state=ShiftAttendance.State.PENDING
+        )
+        return context_data
+
+
+def populate_shifts(request):
+    for delta in range(-7, 7):
+        date = datetime.date.today() - datetime.timedelta(days=delta)
+        morning = datetime.datetime.combine(date, datetime.time(hour=8))
+        noon = datetime.datetime.combine(date, datetime.time(hour=12))
+        evening = datetime.datetime.combine(date, datetime.time(hour=16))
+
+        Shift.objects.get_or_create(
+            name="Cashier morning", start_time=morning, end_time=noon, num_slots=4,
+        )
+
+        Shift.objects.get_or_create(
+            name="Cashier afternoon", start_time=noon, end_time=evening, num_slots=4,
+        )
+
+        Shift.objects.get_or_create(
+            name="Storage morning", start_time=morning, end_time=noon, num_slots=3,
+        )
+
+        Shift.objects.get_or_create(
+            name="Storage afternoon", start_time=noon, end_time=evening, num_slots=3,
+        )
+
+    return HttpResponse("Populated shift templates for today")
+
+
+def populate_user_shifts(request, user_id):
+    user = TapirUser.objects.get(pk=user_id)
+
+    date = datetime.date.today() - datetime.timedelta(days=4)
+    start_time = datetime.datetime.combine(date, datetime.time(hour=8))
+    shift = Shift.objects.get(name="Cashier morning", start_time=start_time)
+    ShiftAttendance.objects.get_or_create(
+        shift=shift, user=user, state=ShiftAttendance.State.DONE
+    )
+
+    date = datetime.date.today() - datetime.timedelta(days=2)
+    start_time = datetime.datetime.combine(date, datetime.time(hour=8))
+    shift = Shift.objects.get(name="Storage morning", start_time=start_time)
+    ShiftAttendance.objects.get_or_create(
+        shift=shift,
+        user=user,
+        state=ShiftAttendance.State.MISSED_EXCUSED,
+        excused_reason="Was sick",
+    )
+
+    date = datetime.date.today() + datetime.timedelta(days=1)
+    start_time = datetime.datetime.combine(date, datetime.time(hour=8))
+    shift = Shift.objects.get(name="Cashier morning", start_time=start_time)
+    ShiftAttendance.objects.get_or_create(
+        shift=shift, user=user, state=ShiftAttendance.State.CANCELLED
+    )
+
+    start_time = datetime.datetime.combine(date, datetime.time(hour=12))
+    shift = Shift.objects.get(name="Cashier afternoon", start_time=start_time)
+    ShiftAttendance.objects.get_or_create(
+        shift=shift, user=user, state=ShiftAttendance.State.PENDING
+    )
+
+    date = datetime.date.today() + datetime.timedelta(days=4)
+    start_time = datetime.datetime.combine(date, datetime.time(hour=12))
+    shift = Shift.objects.get(name="Storage afternoon", start_time=start_time)
+    ShiftAttendance.objects.get_or_create(
+        shift=shift, user=user, state=ShiftAttendance.State.PENDING
+    )
+
+    return HttpResponse("Populated user " + str(user_id) + " shifts")
