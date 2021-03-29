@@ -1,8 +1,8 @@
-<a style="width: 300px; height: 70px;" href="{{ shift.get_absolute_url }}">
+<a class="shift-block-container" href="{{ shift.get_absolute_url }}">
     {%  if shift.get_valid_attendances.count == shift_attendance_states|length %}
-        <div class="shift-block" style="width: 300px; height: 70px; background-color: var(--success);">
+        <div class="shift-block bg-success">
     {%  else %}
-        <div class="shift-block" style="width: 300px; height: 70px; background-color: var(--warning);">
+        <div class="shift-block bg-warning">
     {%  endif %}
         <div>{{ shift.name }}</div>
         <div>{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>

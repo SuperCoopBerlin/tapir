@@ -20,9 +20,9 @@
 
     <!-- To make the datepicker from admin work --->
     <script type="text/javascript" src="/admin/jsi18n/"></script>
-<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+    <script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
 
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}"/>
 
 
     {% block head %}{% endblock %}
@@ -33,7 +33,7 @@
 {% bootstrap_messages %}
 
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
-        <a class="navbar-brand" href="#">SuperCoop Berlin</a>
+    <a class="navbar-brand" href="#">SuperCoop Berlin</a>
 
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav">
@@ -48,44 +48,44 @@
 </nav>
 
 <div class="container-fluid">
-      <div class="row">
-          <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-              <div class="sidebar-sticky">
-                  {% block sidebar %}
-                      <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">Cooperators</h6>
-                      <ul class="nav flex-column">
-                          <li class="nav-item">
-                              <a class="nav-link" href="{% url "coop:draftuser_list" %}">
-                                  {% trans "Applicants" %}
-                              </a>
-                          </li>
-                      </ul>
-                      <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">Shifts</h6>
-                      <ul class="nav flex-column">
-                          <li class="nav-item">
-                              <a class="nav-link" href="{% url "shifts:shift_upcoming" %}">
-                                  Dashboard
-                              </a>
-                          </li>
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                {% block sidebar %}
+                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">Cooperators</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "coop:draftuser_list" %}">
+                                {% trans "Applicants" %}
+                            </a>
+                        </li>
+                    </ul>
+                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">Shifts</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "shifts:shift_upcoming" %}">
+                                Dashboard
+                            </a>
+                        </li>
 
-                          <li class="nav-item">
-                              <a class="nav-link" href="{% url "admin:shifts_shifttemplate_changelist" %}">
-                                  Shift Templates
-                              </a>
-                          </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "admin:shifts_shifttemplate_changelist" %}">
+                                Shift Templates
+                            </a>
+                        </li>
 
-                      </ul>
-                  {% endblock %}
-              </div>
-          </nav>
+                    </ul>
+                {% endblock %}
+            </div>
+        </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="container">
-            {% block content %}{% endblock %}
+                {% block content %}{% endblock %}
             </div>
         </main>
-      </div>
     </div>
+</div>
 
 </body>
 </html>

@@ -2,35 +2,61 @@
 
 {% load bootstrap4 %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
-{{ block.super }}
+    {{ block.super }}
     <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
+    <link rel="stylesheet" href="{% static "accounts/css/user_detail.css" %}">
 {% endblock %}
 
 {% block content %}
-    <div class="card m-2">
-        <div class="card-body">
-            <h5 class="card-title">{{ user.get_full_name }}</h5>
-        </div>
-    </div>
-
-    {% load coop %}
-    {% user_coop_share_ownership_list user %}
-
-    {% load shifts %}
-    {% load i18n %}
-    <div class="card m-2">
-        <div class="card-body">
-            <div class="d-flex justify-content-between">
-                <h5 class="card-title">{% trans "Upcoming shifts" %}</h5>
-            </div>
-            <div class="shift_list" style="display: flex; flex-direction: column; gap: 10px;">
-                {% for attendance in shift_attendances %}
-                    {% shift_block attendance.shift %}
-                {% endfor %}
+    <div class="d-flex flex-wrap">
+        <div class="card m-2">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                User Details
+                <button type="button" class="btn btn-outline-info" onclick="alert('Not implemented yet')">Edit infos</button>
+            </h5>
+            <div class="card-body">
+                {{ user.get_full_name }}
             </div>
         </div>
+
+        <div class="card m-2">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                {% trans "TODO messages" %}
+            </h5>
+            <div class="card-body">
+                Alerts about missed shifts or other situations to be regularized
+            </div>
+        </div>
+
+        {% load shifts %}
+        <div class="card m-2">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                {% trans "My upcoming shifts" %}
+                <button type="button" class="btn btn-outline-info" onclick="alert('Not implemented yet')">Add single shift</button>
+            </h5>
+            <div class="card-body">
+                <div class="shift-list d-flex flex-wrap">
+                    {% for attendance in shift_attendances %}
+                        {% shift_block attendance.shift %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card m-2">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                {% trans "TODO template shifts" %}
+                <button type="button" class="btn btn-outline-info" onclick="alert('Not implemented yet')">Add regular shift</button>
+            </h5>
+            <div class="card-body">
+            </div>
+        </div>
+
+        {% load coop %}
+        {% user_coop_share_ownership_list user %}
     </div>
 {% endblock %}
 

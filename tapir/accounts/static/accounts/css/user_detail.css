@@ -1,0 +1,11 @@
+.card {
+    width: 535px;
+}
+
+.shift-block, .shift-block-container {
+    min-width: 240px;
+}
+
+.shift-list {
+    gap: 10px;
+}

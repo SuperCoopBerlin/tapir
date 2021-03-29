@@ -1,14 +1,12 @@
 {% load i18n %}
 <div class="card m-2">
+    <h5 class="card-header d-flex justify-content-between align-items-center">
+        {% trans "My cooperative shares" %}
+        <a href="{% url "coop:share_create" user.pk %}">
+            <button type="button" class="btn btn-outline-info" >Add Share</button>
+        </a>
+    </h5>
     <div class="card-body">
-        <div class="d-flex justify-content-between">
-            <h5 class="card-title">{% trans "Cooperative Shares" %}</h5>
-            <span class="align-self-right mb-2">
-                    <a href="{% url "coop:share_create" user.pk %}">
-                    <button type="button" class="btn btn-outline-info">Add Share</button>
-                    </a>
-                </span>
-        </div>
         <table class="table">
             <thead>
             <tr>
@@ -18,7 +16,7 @@
                 <th scope="col"></th>
             </tr>
             </thead>
-            {%  for o in coop_share_ownerships %}
+            {% for o in coop_share_ownerships %}
                 <tr>
                     <td>{{ o.start_date }}</td>
                     <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
