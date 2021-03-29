@@ -12,16 +12,16 @@ from django.views.generic import UpdateView, CreateView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import CoopShareOwnershipForm
-from tapir.coop.models import CoopShareOwnership, DraftUser
+from tapir.coop.models import ShareOwnership, DraftUser
 
 
 class CoopShareOwnershipViewMixin(PermissionRequiredMixin):
     permission_required = "coop.manage"
-    model = CoopShareOwnership
+    model = ShareOwnership
     form_class = CoopShareOwnershipForm
 
     def get_success_url(self):
-        # After successful creation or update of a CoopShareOwnership, return to the user overview page.
+        # After successful creation or update of a ShareOwnership, return to the user overview page.
         return reverse("accounts:user_detail", args=[self.object.user.pk])
 
 
@@ -36,7 +36,7 @@ class CoopShareOwnershipCreateView(CoopShareOwnershipViewMixin, CreateView):
     def get_form_kwargs(self):
         user = get_object_or_404(TapirUser, pk=self.kwargs["user_pk"])
         kwargs = super().get_form_kwargs()
-        kwargs["instance"] = CoopShareOwnership(user=user)
+        kwargs["instance"] = ShareOwnership(user=user)
         return kwargs
 
 
@@ -112,7 +112,7 @@ def create_user_from_draftuser(request, pk):
             email=draft.email,
         )
         for _ in range(0, draft.num_shares):
-            CoopShareOwnership.objects.create(
+            ShareOwnership.objects.create(
                 user=u, start_date=date.today(),
             )
         draft.delete()

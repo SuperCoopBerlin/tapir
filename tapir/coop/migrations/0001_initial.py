@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="CoopShareOwnership",
+            name="ShareOwnership",
             fields=[
                 (
                     "id",

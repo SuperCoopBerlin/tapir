@@ -7,8 +7,8 @@ from tapir.accounts.models import TapirUser
 from tapir.utils.models import DurationModelMixin
 
 
-class CoopShareOwnership(DurationModelMixin, models.Model):
-    """CoopShareOwnership represents ownership of a single share."""
+class ShareOwnership(DurationModelMixin, models.Model):
+    """ShareOwnership represents ownership of a single share."""
 
     user = models.ForeignKey(
         TapirUser,
@@ -24,7 +24,7 @@ class CoopUser(object):
         self.user = user
 
     def is_coop_member(self):
-        return CoopShareOwnership.objects.active_temporal().exists()
+        return ShareOwnership.objects.active_temporal().exists()
 
 
 TapirUser.coop = property(lambda u: CoopUser(u))

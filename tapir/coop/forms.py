@@ -1,12 +1,12 @@
 from django.contrib.admin.widgets import AdminDateWidget
 from django import forms
 
-from tapir.coop.models import CoopShareOwnership
+from tapir.coop.models import ShareOwnership
 
 
 class CoopShareOwnershipForm(forms.ModelForm):
     class Meta:
-        model = CoopShareOwnership
+        model = ShareOwnership
         fields = (
             "start_date",
             "end_date",
