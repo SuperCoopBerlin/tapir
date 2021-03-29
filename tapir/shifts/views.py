@@ -40,16 +40,12 @@ class UpcomingDaysView(PermissionRequiredMixin, TemplateView):
             start_time_seconds = time_to_seconds(shift.start_time)
             end_time_seconds = time_to_seconds(shift.end_time)
 
-            position_left = (
-                start_time_seconds - DAY_START_SECONDS
-            ) / DAY_DURATION_SECONDS
+            position_left = (start_time_seconds - DAY_START_SECONDS) / DAY_DURATION_SECONDS
             width = (end_time_seconds - start_time_seconds) / DAY_DURATION_SECONDS
             width -= 0.01  # To make shifts not align completely
 
             # TODO(Leon Handreke): The name for this var sucks but can't find a better one
-            perc_slots_occupied = shift.get_valid_attendances().count() / float(
-                shift.num_slots
-            )
+            perc_slots_occupied = shift.get_valid_attendances().count() / float(shift.num_slots)
             shifts_by_days[shift.start_time.date()].append(
                 {
                     "title": shift.name,
@@ -57,12 +53,9 @@ class UpcomingDaysView(PermissionRequiredMixin, TemplateView):
                     "position_left": position_left * 100,
                     "width": width * 100,
                     # TODO(Leon Handreke): This style decision, should happen in the template!
-                    "block_color": "#ef9a9a"
-                    if perc_slots_occupied <= 0.4
-                    else ("#a5d6a7" if perc_slots_occupied >= 1 else "#ffe082"),
+                    "block_color": "#ef9a9a" if perc_slots_occupied <= 0.4 else ("#a5d6a7" if perc_slots_occupied >= 1 else "#ffe082"),
                     # Have a list of none cause it's easier to loop over in Django templates
-                    "free_slots": [None]
-                    * (shift.num_slots - shift.get_valid_attendances().count()),
+                    "free_slots": [None] * (shift.num_slots - shift.get_valid_attendances().count()),
                     "attendances": shift.get_valid_attendances().all(),
                 }
             )
@@ -104,24 +97,6 @@ def mark_shift_attendance_missed(request, pk):
     return redirect(shift_attendance.shift)
 
 
-class UserMeView(generic.RedirectView):
-    def get_redirect_url(self, *args, **kwargs):
-        return reverse("accounts:user_detail", args=[self.request.user.pk])
-
-
-class UserDetailView(generic.DetailView):
-    model = TapirUser
-    context_object_name = "user"
-    template_name = "accounts/user_detail.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(*args, **kwargs)
-        context_data["shift_attendances"] = ShiftAttendance.objects.filter(
-            user=context_data["user"], state=ShiftAttendance.State.PENDING
-        )
-        return context_data
-
-
 def populate_shifts(request):
     for delta in range(-7, 7):
         date = datetime.date.today() - datetime.timedelta(days=delta)
@@ -130,19 +105,31 @@ def populate_shifts(request):
         evening = datetime.datetime.combine(date, datetime.time(hour=16))
 
         Shift.objects.get_or_create(
-            name="Cashier morning", start_time=morning, end_time=noon, num_slots=4,
+            name="Cashier morning",
+            start_time=morning,
+            end_time=noon,
+            num_slots=4,
         )
 
         Shift.objects.get_or_create(
-            name="Cashier afternoon", start_time=noon, end_time=evening, num_slots=4,
+            name="Cashier afternoon",
+            start_time=noon,
+            end_time=evening,
+            num_slots=4,
         )
 
         Shift.objects.get_or_create(
-            name="Storage morning", start_time=morning, end_time=noon, num_slots=3,
+            name="Storage morning",
+            start_time=morning,
+            end_time=noon,
+            num_slots=3,
         )
 
         Shift.objects.get_or_create(
-            name="Storage afternoon", start_time=noon, end_time=evening, num_slots=3,
+            name="Storage afternoon",
+            start_time=noon,
+            end_time=evening,
+            num_slots=3,
         )
 
     return HttpResponse("Populated shift templates for today")
@@ -154,9 +141,7 @@ def populate_user_shifts(request, user_id):
     date = datetime.date.today() - datetime.timedelta(days=4)
     start_time = datetime.datetime.combine(date, datetime.time(hour=8))
     shift = Shift.objects.get(name="Cashier morning", start_time=start_time)
-    ShiftAttendance.objects.get_or_create(
-        shift=shift, user=user, state=ShiftAttendance.State.DONE
-    )
+    ShiftAttendance.objects.get_or_create(shift=shift, user=user, state=ShiftAttendance.State.DONE)
 
     date = datetime.date.today() - datetime.timedelta(days=2)
     start_time = datetime.datetime.combine(date, datetime.time(hour=8))
@@ -171,21 +156,15 @@ def populate_user_shifts(request, user_id):
     date = datetime.date.today() + datetime.timedelta(days=1)
     start_time = datetime.datetime.combine(date, datetime.time(hour=8))
     shift = Shift.objects.get(name="Cashier morning", start_time=start_time)
-    ShiftAttendance.objects.get_or_create(
-        shift=shift, user=user, state=ShiftAttendance.State.CANCELLED
-    )
+    ShiftAttendance.objects.get_or_create(shift=shift, user=user, state=ShiftAttendance.State.CANCELLED)
 
     start_time = datetime.datetime.combine(date, datetime.time(hour=12))
     shift = Shift.objects.get(name="Cashier afternoon", start_time=start_time)
-    ShiftAttendance.objects.get_or_create(
-        shift=shift, user=user, state=ShiftAttendance.State.PENDING
-    )
+    ShiftAttendance.objects.get_or_create(shift=shift, user=user, state=ShiftAttendance.State.PENDING)
 
     date = datetime.date.today() + datetime.timedelta(days=4)
     start_time = datetime.datetime.combine(date, datetime.time(hour=12))
     shift = Shift.objects.get(name="Storage afternoon", start_time=start_time)
-    ShiftAttendance.objects.get_or_create(
-        shift=shift, user=user, state=ShiftAttendance.State.PENDING
-    )
+    ShiftAttendance.objects.get_or_create(shift=shift, user=user, state=ShiftAttendance.State.PENDING)
 
     return HttpResponse("Populated user " + str(user_id) + " shifts")
