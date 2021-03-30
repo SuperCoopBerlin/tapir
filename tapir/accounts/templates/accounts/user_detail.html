@@ -48,10 +48,15 @@
 
         <div class="card m-2">
             <h5 class="card-header d-flex justify-content-between align-items-center">
-                {% trans "TODO template shifts" %}
+                {% trans "My regular shifts" %}
                 <button type="button" class="btn btn-outline-info" onclick="alert('Not implemented yet')">Add regular shift</button>
             </h5>
             <div class="card-body">
+                 <div class="shift-list d-flex flex-wrap">
+                    {% for attendance in shift_template_attendances %}
+                        {% shift_template_block attendance.shift_template %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
 

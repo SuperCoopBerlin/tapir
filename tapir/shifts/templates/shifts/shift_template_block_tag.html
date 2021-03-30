@@ -1,0 +1,26 @@
+<a class="shift-template-block-container" href="TODO ABSOLUTE URL TO TEMPLATE">
+    {%  if shift_template.num_slots == attendance_count %}
+        <div class="shift-block bg-success shift-template-block">
+    {%  else %}
+        <div class="shift-block bg-warning shift-template-block">
+    {%  endif %}
+        <div>{{ shift_template.name }}</div>
+        <div>{{ shift_template.start_time|time:"H:i" }} - {{ shift_template.end_time|time:"H:i" }}</div>
+        <div class="shift-date">
+            {% if shift_template.group != Null %}
+                {{ shift_template.group.name }}
+            {% endif %}
+        </div>
+        <div style="display: flex">
+            {% for state in attendance_states %}
+                {% if state == "user" %}
+                    <div class="material-icons" style="font-size: 12px;">account_circle</div>
+                {% elif state == "filled" %}
+                    <div class="material-icons" style="font-size: 12px;">radio_button_checked</div>
+                {% else %}
+                    <div class="material-icons" style="font-size: 12px;">radio_button_unchecked</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</a>

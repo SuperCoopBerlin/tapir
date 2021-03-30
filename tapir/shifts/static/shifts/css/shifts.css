@@ -26,3 +26,7 @@
 .shift_list {
     gap: 10px;
 }
+
+.shift-template-block {
+    outline: solid 2px var(--gray);
+}
