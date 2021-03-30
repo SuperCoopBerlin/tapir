@@ -56,6 +56,11 @@ class DraftUserViewMixin(PermissionRequiredMixin):
         "last_name",
         "username",
         "email",
+        "birthdate",
+        "street",
+        "street_2",
+        "postcode",
+        "city",
         "num_shares",
         "attended_welcome_session",
     ]

@@ -11,13 +11,19 @@
           rel="stylesheet">
 </head>
 <body>
+
 <!-- A DIN 5008 Letter has 2,7cm of top margin -->
-<div style="margin-top: 17.7mm; margin-bottom: 30mm;">
-    SuperCoop Berlin eG<br />
-    Glogauer Straße 21<br />
-    10999 Berlin
+<div style="display: flex">
+    <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
+        SuperCoop Berlin eG<br />
+        Glogauer Straße 21<br />
+        10999 Berlin
+    </div>
+    <div style="flex-grow: 1"></div>
+    <div style="margin-top: 13mm;">
+        <img src="{% static "coop/img/supercoop_logo.png" %}" style="width: 80mm;" />
+    </div>
 </div>
-<!-- Needs the logo on the right -->
 
 <div style="text-align: center; font-size: 14pt; font-weight: bold;">
     Beteiligungserklärung SuperCoop Berlin eG
@@ -33,14 +39,26 @@
 
             <div style="margin-right: 3mm; margin-left: 3mm;">geboren am:</div>
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
-                <span style="margin-left: 5mm;">{{ object.birthdate }}</span>
+                <span style="margin-left: 5mm;">
+                    {% if object.birthdate %}
+                    {{ object.birthdate }}
+                    {% endif %}
+                </span>
             </div>
         </div>
 
         <div style="display: flex; flex-direction: row;">
             <div style="margin-right: 3mm;">Adresse:</div>
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
-                <span style="margin-left: 5mm;">{{ object.get_address }}</span>
+                <span style="margin-left: 5mm;">
+                    {% if object.street and object.city %}
+                    {{ object.street }}
+                        {% if object.street_2 %}
+                            {{ object.street_2 }}
+                        {% endif %},
+                        {{ object.postcode }} {{ object.city }}
+                    {% endif %}
+                    {{ object.get_address }}</span>
             </div>
         </div>
 
@@ -63,7 +81,11 @@
             Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen
             in Höhe von 100 € je Geschäftsanteil plus einem Eintrittsgeld in Höhe von 10 € zu leisten, das der Deckung von
             Verwaltungskosten dient. Insgesamt verpflichte ich mich daher,
-            {{ object.get_initial_amount|floatformat:2 }}€ zu leisten. Die Satzung der
+            <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">
+            {{ object.get_initial_amount|floatformat:0 }}€
+            </span>
+            zu leisten. Die Satzung der
+            Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen
             SuperCoop Berlin eG ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
             <a href="https://supercoop.de/unsere-genossenschaft/">https://supercoop.de/unsere-genossenschaft/</a>
         </div>
@@ -135,9 +157,9 @@
 
 
     <div style="display: flex; margin-top: 20mm;">
-        <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum)</div>
+        <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum, Unterschrift)</div>
         <div style="flex-grow: 1"></div>
-        <div style="border-top: 1px solid black; width: 80mm;">(Unterschrift Mitglied)</div>
+        <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum, Unterschrift)</div>
     </div>
 
 </div>

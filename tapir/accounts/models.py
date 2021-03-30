@@ -60,8 +60,8 @@ class LdapUser(AbstractUser):
     def set_password(self, raw_password):
         # force null Django password (will use LDAP password)
         self.set_unusable_password()
-
-        self.set_ldap_password(raw_password)
+        if self.has_ldap():
+            self.set_ldap_password(raw_password)
 
     def check_password(self, raw_password):
         return self.get_ldap().check_password(raw_password)

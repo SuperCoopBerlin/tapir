@@ -7,8 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts import validators
 from tapir.accounts.models import TapirUser
-from tapir.utils.models import DurationModelMixin
-
+from tapir.utils.models import DurationModelMixin, CountryField
 
 COOP_SHARE_PRICE = Decimal(100)
 COOP_ENTRY_COST = Decimal(10)
@@ -95,6 +94,12 @@ class DraftUser(models.Model):
     first_name = models.CharField(_("first name"), max_length=150, blank=True)
     last_name = models.CharField(_("last name"), max_length=150, blank=True)
     email = models.EmailField(_("email address"), blank=True)
+    birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
+    street = models.CharField(_("Street and house number"), max_length=150, blank=True)
+    street_2 = models.CharField(_("Extra address line"), max_length=150, blank=True)
+    postcode = models.CharField(_("Postcode"), max_length=32, blank=True)
+    city = models.CharField(_("City"), max_length=50, blank=True)
+    country = CountryField(_("Country"), blank=True, default="DE")
 
     num_shares = models.IntegerField(_("Number of Shares"), blank=False, default=1)
     attended_welcome_session = models.BooleanField(
