@@ -52,10 +52,7 @@
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
                 <span style="margin-left: 5mm;">
                     {% if object.street and object.city %}
-                    {{ object.street }}
-                        {% if object.street_2 %}
-                            {{ object.street_2 }}
-                        {% endif %},
+                    {{ object.street }}{% if object.street_2 %} {{ object.street_2 }}{% endif %},
                         {{ object.postcode }} {{ object.city }}
                     {% endif %}
                 </span>
