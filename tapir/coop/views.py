@@ -13,7 +13,7 @@ from django.views.generic import UpdateView, CreateView
 from django_weasyprint import WeasyTemplateResponseMixin
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.forms import CoopShareOwnershipForm
+from tapir.coop.forms import CoopShareOwnershipForm, DraftUserForm
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 
 
@@ -51,19 +51,7 @@ class ShareOwnershipCreateForUserView(ShareOwnershipViewMixin, CreateView):
 class DraftUserViewMixin(PermissionRequiredMixin):
     permission_required = "coop.manage"
     model = DraftUser
-    fields = [
-        "first_name",
-        "last_name",
-        "username",
-        "email",
-        "birthdate",
-        "street",
-        "street_2",
-        "postcode",
-        "city",
-        "num_shares",
-        "attended_welcome_session",
-    ]
+    form_class = DraftUserForm
 
 
 class DraftUserListView(DraftUserViewMixin, generic.ListView):

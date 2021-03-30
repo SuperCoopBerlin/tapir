@@ -28,13 +28,10 @@
                         <td class="align-middle">
                             <a href="{% url "coop:draftuser_detail" u.pk %}">
                                 <button type="button" class="btn btn-outline-primary">
-                                    <span class="material-icons" style="font-size: 14px;">chevron_right</span>
+                                    Show
+                                    <!--<span class="material-icons" style="font-size: 14px;">chevron_right</span>-->
                                 </button>
                             </a>
-                            <form style="display: inline;" class="form-inline" method="POST" action="{% url "coop:draftuser_delete" u.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
                         </td>
                     </tr>
                 {% endfor %}
