@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -6,6 +8,10 @@ from django.utils.translation import gettext_lazy as _
 from tapir.accounts import validators
 from tapir.accounts.models import TapirUser
 from tapir.utils.models import DurationModelMixin
+
+
+COOP_SHARE_PRICE = Decimal(100)
+COOP_ENTRY_COST = Decimal(10)
 
 
 class ShareOwner(models.Model):
@@ -102,6 +108,9 @@ class DraftUser(models.Model):
 
     def get_absolute_url(self):
         return reverse("coop:draftuser_detail", args=[self.pk,],)
+
+    def get_initial_amount(self):
+        return self.num_shares * COOP_SHARE_PRICE + COOP_ENTRY_COST
 
     def get_display_name(self):
         if self.first_name or self.last_name:

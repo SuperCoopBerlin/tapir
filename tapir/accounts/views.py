@@ -13,7 +13,9 @@ class UserDetailView(generic.DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
-        context_data["shift_attendances"] = ShiftAttendance.objects.filter(user=context_data["user"], state=ShiftAttendance.State.PENDING)
+        context_data["shift_attendances"] = ShiftAttendance.objects.filter(
+            user=context_data["user"], state=ShiftAttendance.State.PENDING
+        )
         return context_data
 
 

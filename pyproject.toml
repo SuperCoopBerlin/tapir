@@ -9,6 +9,7 @@ python = "^3.7"
 Django = "^3.1.7"
 django-bootstrap4 = "^2.3.1"
 django-ldapdb = "^1.5.1"
+django-weasyprint = "^1.1.0"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"

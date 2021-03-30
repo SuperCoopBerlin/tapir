@@ -1,0 +1,12 @@
+@page {
+    size: A4;
+    margin-top: 27mm;
+    margin-left: 20mm;
+    margin-right: 20mm;
+}
+
+html {
+    font-family: sans-serif;
+    font-size: 9pt;
+    line-height: 1.4;
+}

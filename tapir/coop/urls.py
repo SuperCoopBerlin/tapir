@@ -46,6 +46,11 @@ urlpatterns = [
         name="mark_draftuser_attended_welcome_session",
     ),
     path(
+        "user/draft/<int:pk>/membership_agreement",
+        views.DraftUserMembershipAgreementView.as_view(),
+        name="draftuser_membership_agreement",
+    ),
+    path(
         "user/draft/<int:pk>/create_user",
         views.create_user_from_draftuser,
         name="draftuser_create_user",

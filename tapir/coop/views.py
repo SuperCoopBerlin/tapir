@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import UpdateView, CreateView
 
+from django_weasyprint import WeasyTemplateResponseMixin
+
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import CoopShareOwnershipForm
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
@@ -77,6 +79,18 @@ class DraftUserDetailView(DraftUserViewMixin, generic.DetailView):
 
 class DraftUserDeleteView(DraftUserViewMixin, generic.DeleteView):
     pass
+
+
+class DraftUserMembershipAgreementView(WeasyTemplateResponseMixin, DraftUserDetailView):
+    template_name = "coop/membership_agreement_pdf.html"
+    # Show inline, not download view
+    pdf_attachment = False
+
+    def get_pdf_filename(self):
+        return "Beteiligungserklärung %s %s.pdf" % (
+            self.object.first_name,
+            self.object.last_name,
+        )
 
 
 @require_POST
