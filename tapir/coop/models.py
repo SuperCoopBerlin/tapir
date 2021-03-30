@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -7,24 +8,73 @@ from tapir.accounts.models import TapirUser
 from tapir.utils.models import DurationModelMixin
 
 
+class ShareOwner(models.Model):
+    """ShareOwner represents an owner of a ShareOwnership.
+
+    Usually, this is just a proxy for the associated user. However, it may also be used to
+    represent a person or company that does not have their own account.
+    """
+
+    user = models.OneToOneField(
+        TapirUser,
+        related_name="coop_share_owner",
+        blank=True,
+        null=True,
+        on_delete=models.PROTECT,
+    )
+
+    is_company = models.BooleanField(verbose_name=_("Is company"))
+    company_name = models.CharField(max_length=150, blank=True)
+
+    # In the case that this is a company, this is the contact data for the company representative
+    first_name = models.CharField(_("First name"), max_length=150, blank=True)
+    last_name = models.CharField(_("Last name"), max_length=150, blank=True)
+    email = models.EmailField(_("Email address"), blank=True)
+
+    def clean(self):
+        r = super().clean()
+        if self.is_company and self.user:
+            raise ValidationError(
+                _("Cannot be a company share owner and have an associated user")
+            )
+        return r
+
+    def get_display_name(self):
+        if self.user:
+            return self.user.get_full_name()
+        if self.is_company:
+            return "%s: %s (%s %s)" % (
+                _("Company"),
+                self.company_name,
+                self.first_name,
+                self.last_name,
+            )
+        return "%s %s" % (self.first_name, self.last_name)
+
+    def get_absolute_url(self):
+        if self.user:
+            return self.user.get_absolute_url()
+        return super().get_absolute_url()
+
+
 class ShareOwnership(DurationModelMixin, models.Model):
     """ShareOwnership represents ownership of a single share."""
 
     user = models.ForeignKey(
-        TapirUser,
-        related_name="coop_share_ownerships",
+        ShareOwner,
+        related_name="share_ownerships",
         blank=False,
         null=False,
         on_delete=models.PROTECT,
+    )
+    is_investing = models.BooleanField(
+        verbose_name=_("Is investing member"), default=False
     )
 
 
 class CoopUser(object):
     def __init__(self, user):
         self.user = user
-
-    def is_coop_member(self):
-        return ShareOwnership.objects.active_temporal().exists()
 
 
 TapirUser.coop = property(lambda u: CoopUser(u))

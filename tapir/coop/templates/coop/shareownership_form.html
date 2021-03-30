@@ -8,7 +8,9 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Users</a></li>
             <li class="breadcrumb-item">
-                <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
+                {% if user %}
+                {{ user.get_full_name }}
+                {% endif %}
             </li>
             <li class="breadcrumb-item active" aria-current="page">Coop Share</li>
         </ol>

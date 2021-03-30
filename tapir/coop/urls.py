@@ -6,12 +6,12 @@ app_name = "coop"
 urlpatterns = [
     path(
         "share/create/user/<int:user_pk>/",
-        views.CoopShareOwnershipCreateView.as_view(),
-        name="share_create",
+        views.ShareOwnershipCreateForUserView.as_view(),
+        name="share_create_for_user",
     ),
     path(
         "share/update/<int:pk>/",
-        views.CoopShareOwnershipUpdateView.as_view(),
+        views.ShareOwnershipUpdateView.as_view(),
         name="share_update",
     ),
     path("user/draft/", views.DraftUserListView.as_view(), name="draftuser_list"),

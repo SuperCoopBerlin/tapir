@@ -12,32 +12,38 @@ from django.views.generic import UpdateView, CreateView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import CoopShareOwnershipForm
-from tapir.coop.models import ShareOwnership, DraftUser
+from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 
 
-class CoopShareOwnershipViewMixin(PermissionRequiredMixin):
+class ShareOwnershipViewMixin(PermissionRequiredMixin):
     permission_required = "coop.manage"
     model = ShareOwnership
     form_class = CoopShareOwnershipForm
 
     def get_success_url(self):
         # After successful creation or update of a ShareOwnership, return to the user overview page.
-        return reverse("accounts:user_detail", args=[self.object.user.pk])
+        return reverse(self.object.owner)
 
 
-class CoopShareOwnershipUpdateView(CoopShareOwnershipViewMixin, UpdateView):
+class ShareOwnershipUpdateView(ShareOwnershipViewMixin, UpdateView):
     pass
 
 
-class CoopShareOwnershipCreateView(CoopShareOwnershipViewMixin, CreateView):
+class ShareOwnershipCreateForUserView(ShareOwnershipViewMixin, CreateView):
     def get_initial(self):
         return {"start_date": date.today()}
 
-    def get_form_kwargs(self):
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["user"] = get_object_or_404(TapirUser, pk=self.kwargs["user_pk"])
+        return ctx
+
+    def form_valid(self, form):
         user = get_object_or_404(TapirUser, pk=self.kwargs["user_pk"])
-        kwargs = super().get_form_kwargs()
-        kwargs["instance"] = ShareOwnership(user=user)
-        return kwargs
+        if not hasattr(user, "coop_share_owner"):
+            user.coop_share_owner = ShareOwner.objects.create(user=user)
+        form.instance.owner = user.coop_share_owner
+        return super().form_valid(form)
 
 
 class DraftUserViewMixin(PermissionRequiredMixin):
