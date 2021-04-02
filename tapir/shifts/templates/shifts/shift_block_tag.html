@@ -1,7 +1,9 @@
 <a class="shift-block-container" href="{{ shift.get_absolute_url }}">
     {%  if shift.get_valid_attendances.count == shift_attendance_states|length %}
         <div class="shift-block bg-success">
-    {%  else %}
+    {%  elif shift.get_valid_attendances.count == 0 %}
+        <div class="shift-block bg-danger">
+    {% else %}
         <div class="shift-block bg-warning">
     {%  endif %}
         <div>{{ shift.name }}</div>

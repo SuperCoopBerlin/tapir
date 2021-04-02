@@ -35,4 +35,5 @@ def shift_template_block(context, shift_template: ShiftTemplate):
             attendance_states[0] = "user"
 
     context["attendance_states"] = attendance_states
+    context["attendance_count"] = attendances.count()
     return context

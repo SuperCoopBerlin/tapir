@@ -1,0 +1,50 @@
+{% extends "shifts/base.html" %}
+
+{% load bootstrap4 %}
+{% load static %}
+{% load shifts %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
+{% endblock %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            {% for group in shift_template_groups %}
+                <th class="text-center">{{ group }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for day, day_group in day_groups.items %}
+            <tr>
+                <td></td>
+                <td class="text-center" colspan="{{ shift_template_groups|length }}">{{ day }}</td>
+            </tr>
+            {% for time, time_group in day_group.items %}
+                <tr>
+                    <td>{{ time }}</td>
+                    {% for template_group_group in time_group.values %}
+                        <td>
+                            <div class="d-flex flex-column" style="gap: 10px;">
+                                {% for template in template_group_group.values %}
+                                    {% if template != None %}
+                                        {% shift_template_block template %}
+                                    {% else %}
+                                        <div  class="shift-template-block-container"></div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

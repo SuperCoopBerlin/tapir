@@ -1,5 +1,9 @@
-.shift-block-container, .shift-block {
+.shift-template-block-container, .shift-block-container, .shift-block {
     height: 50px;
+}
+
+.shift-template-block-container, .shift-block, .shift-block-container {
+    min-width: 240px;
 }
 
 .shift-block {

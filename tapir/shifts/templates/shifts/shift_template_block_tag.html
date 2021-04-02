@@ -1,7 +1,9 @@
 <a class="shift-template-block-container" href="TODO ABSOLUTE URL TO TEMPLATE">
     {%  if shift_template.num_slots == attendance_count %}
         <div class="shift-block bg-success shift-template-block">
-    {%  else %}
+    {%  elif attendance_count == 0 %}
+        <div class="shift-block bg-danger shift-template-block">
+    {% else %}
         <div class="shift-block bg-warning shift-template-block">
     {%  endif %}
         <div>{{ shift_template.name }}</div>

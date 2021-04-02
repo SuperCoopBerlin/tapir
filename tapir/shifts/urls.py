@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from django.views import generic
 
 from tapir.shifts import views
@@ -24,18 +24,8 @@ urlpatterns = [
         name="mark_shiftattendance_missed",
     ),
     path(
-        "populate_shifts",
-        views.populate_shifts,
-        name="populate_shifts",
-    ),
-    path(
-        "populate_user_shifts/<int:user_id>",
-        views.populate_user_shifts,
-        name="populate_user_shifts",
-    ),
-    path(
-        "populate_shift_templates",
-        views.populate_shift_templates,
-        name="populate_shift_templates",
+        "shift_template_overview",
+        views.ShiftTemplateOverview.as_view(),
+        name="shift_template_overview",
     ),
 ]

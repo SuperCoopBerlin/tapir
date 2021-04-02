@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.views import generic
 
 from tapir.accounts.models import TapirUser
-from tapir.shifts.models import ShiftAttendance
+from tapir.shifts.models import ShiftAttendance, ShiftAttendanceTemplate
 
 
 class UserDetailView(generic.DetailView):
@@ -16,7 +16,9 @@ class UserDetailView(generic.DetailView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         max_date = datetime.datetime.now() + datetime.timedelta(days=90)
-        context_data["shift_attendances"] = ShiftAttendance.objects.filter(user=context_data["user"], state=ShiftAttendance.State.PENDING, shift__start_time__lt=max_date).order_by("shift__start_time")
+        user: TapirUser = context_data["user"]
+        context_data["shift_attendances"] = ShiftAttendance.objects.filter(user=user, state=ShiftAttendance.State.PENDING, shift__start_time__lt=max_date).order_by("shift__start_time")
+        context_data["shift_template_attendances"] = ShiftAttendanceTemplate.objects.filter(user=user)
         return context_data
 
 

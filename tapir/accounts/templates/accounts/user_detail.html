@@ -3,6 +3,8 @@
 {% load bootstrap4 %}
 {% load static %}
 {% load i18n %}
+{% load shifts %}
+{% load coop %}
 
 {% block head %}
     {{ block.super }}
@@ -31,7 +33,6 @@
             </div>
         </div>
 
-        {% load shifts %}
         <div class="card m-2">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 {% trans "My upcoming shifts" %}
@@ -60,7 +61,6 @@
             </div>
         </div>
 
-        {% load coop %}
         {% user_coop_share_ownership_list user %}
     </div>
 {% endblock %}
