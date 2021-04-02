@@ -2,38 +2,99 @@ from builtins import enumerate
 
 from django import template
 
-from tapir.accounts.models import TapirUser
-from tapir.shifts.models import Shift, ShiftTemplate, ShiftAttendanceTemplate
+from tapir.shifts.models import (
+    Shift,
+    ShiftTemplate,
+    ShiftAttendanceTemplate,
+)
 
 register = template.Library()
 
 
 @register.inclusion_tag("shifts/shift_block_tag.html", takes_context=True)
 def shift_block(context, shift: Shift):
-    context["shift"] = shift
-
-    shift_attendance_states = ["empty" for _ in range(shift.num_slots)]
-    shift_attendances = shift.get_valid_attendances()
-
-    for index, attendance in enumerate(shift_attendances):
-        shift_attendance_states[index] = "filled"
-        if isinstance(context["user"], TapirUser) and attendance.user.id == context["user"].id:
-            shift_attendance_states[0] = "user"
-    context["shift_attendance_states"] = shift_attendance_states
+    context["shift"] = shift_to_block_object(shift)
     return context
 
 
-@register.inclusion_tag("shifts/shift_template_block_tag.html", takes_context=True)
+@register.inclusion_tag("shifts/shift_block_tag.html", takes_context=True)
 def shift_template_block(context, shift_template: ShiftTemplate):
-    context["shift_template"] = shift_template
-
-    attendance_states = ["empty" for _ in range(shift_template.num_slots)]
-    attendances = ShiftAttendanceTemplate.objects.filter(shift_template=shift_template)
-    for index, attendance in enumerate(attendances):
-        attendance_states[index] = "filled"
-        if isinstance(context["user"], TapirUser) and attendance.user.id == context["user"].id:
-            attendance_states[0] = "user"
-
-    context["attendance_states"] = attendance_states
-    context["attendance_count"] = attendances.count()
+    context["shift"] = shift_template_to_block_object(shift_template)
     return context
+
+
+def shift_to_block_object(shift: Shift):
+    attendances = ["empty" for _ in range(shift.num_slots)]
+    for index, attendance in enumerate(shift.get_valid_attendances()):
+        attendances[index] = "single"
+        if (
+            shift.shift_template is not None
+            and ShiftAttendanceTemplate.objects.filter(
+                shift_template=shift.shift_template, user=attendance.user
+            ).count()
+            > 0
+        ):
+            attendances[index] = "template"
+
+    template_group = None
+    if shift.shift_template is not None:
+        template_group = template_group_name_to_character(
+            shift.shift_template.group.name
+        )
+
+    background = "success"
+    if shift.get_valid_attendances() == 0:
+        background = "danger"
+    elif shift.get_valid_attendances().count() < shift.num_slots:
+        background = "warning"
+
+    return {
+        "url": shift.get_absolute_url(),
+        "attendances": attendances,
+        "name": shift.name,
+        "num_slots": shift.num_slots,
+        "start_time": shift.start_time,
+        "end_time": shift.end_time,
+        "start_date": shift.start_time,
+        "template_group": template_group,
+        "background": background,
+    }
+
+
+def shift_template_to_block_object(shift_template: ShiftTemplate):
+    attendances = ["empty" for _ in range(shift_template.num_slots)]
+    attendance_templates = ShiftAttendanceTemplate.objects.filter(
+        shift_template=shift_template
+    )
+    for index in range(attendance_templates.count()):
+        attendances[index] = "template"
+
+    background = "success"
+    if attendance_templates.count() == 0:
+        background = "danger"
+    elif attendance_templates.count() < shift_template.num_slots:
+        background = "warning"
+
+    return {
+        "url": "TODO SHIFT TEMPLATE URL",  # TODO
+        "attendances": attendances,
+        "name": shift_template.name,
+        "num_slots": shift_template.num_slots,
+        "start_time": shift_template.start_time,
+        "end_time": shift_template.end_time,
+        "start_date": None,
+        "template_group": template_group_name_to_character(shift_template.group.name),
+        "background": background,
+    }
+
+
+def template_group_name_to_character(name: str):
+    if name[-1] == "A":
+        return "Ⓐ"
+    if name[-1] == "B":
+        return "Ⓑ"
+    if name[-1] == "C":
+        return "Ⓒ"
+    if name[-1] == "D":
+        return "Ⓓ"
+    return None

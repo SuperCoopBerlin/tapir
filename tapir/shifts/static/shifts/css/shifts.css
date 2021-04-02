@@ -34,3 +34,11 @@
 .shift-template-block {
     outline: solid 2px var(--gray);
 }
+
+.shift_group {
+    position: absolute;
+    bottom: 0px;
+    right: 6px;
+    font-size: 24px;
+    font-weight: bold;
+}

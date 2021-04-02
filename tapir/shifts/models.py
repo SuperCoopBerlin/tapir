@@ -97,12 +97,8 @@ class ShiftTemplate(models.Model):
 
         # TODO(Leon Handreke): Is this timezone user-configurable? Would make sense to use a globally-configurable
         # timezone here, but store aware dates for sure.
-        start_time = timezone.make_aware(
-            datetime.datetime.combine(shift_date, self.start_time)
-        )
-        end_time = timezone.make_aware(
-            datetime.datetime.combine(shift_date, self.end_time)
-        )
+        start_time = datetime.datetime.combine(shift_date, self.start_time)
+        end_time = datetime.datetime.combine(shift_date, self.end_time)
 
         return Shift(
             shift_template=self,
@@ -114,7 +110,13 @@ class ShiftTemplate(models.Model):
 
     def create_shift(self, start_date: datetime.date):
         shift = self._generate_shift(start_date=start_date)
-        shift.save()
+
+        if Shift.objects.filter(
+            shift_template=self, start_time=shift.start_time
+        ).count():
+            shift = Shift.objects.get(shift_template=self, start_time=shift.start_time)
+        else:
+            shift.save()
 
         self.update_future_shift_attendances()
 
@@ -192,8 +194,8 @@ class Shift(models.Model):
         if not self.shift_template:
             return
 
-        shift_attendance_template_user_pks = self.shift_template.attendance_templates.values_list(
-            "user", flat=True
+        shift_attendance_template_user_pks = (
+            self.shift_template.attendance_templates.values_list("user", flat=True)
         )
 
         # Remove the attendances that are no longer in the template

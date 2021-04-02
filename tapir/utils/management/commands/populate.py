@@ -39,10 +39,14 @@ class Command(BaseCommand):
         parser.add_argument(
             "--user_shifts",
             help="Register the given users to the shifts created with the 'populate shifts' command",
-            action="store_true",
         )
         parser.add_argument(
             "--delete_templates", help="Delete all ShiftTemplates", action="store_true"
+        )
+        parser.add_argument(
+            "--generate_shifts",
+            help="Generate shift instances from shift templates",
+            action="store_true",
         )
 
     def handle(self, *args, **options):
@@ -55,6 +59,8 @@ class Command(BaseCommand):
         if options["shifts"]:
             populate_shifts()
         if options["user_shifts"]:
-            populate_user_shifts()
+            populate_user_shifts(options["user_shifts"])
         if options["delete_templates"]:
             delete_templates()
+        if options["generate_shifts"]:
+            generate_shifts()

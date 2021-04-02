@@ -143,6 +143,7 @@ def populate_users():
             ShiftAttendanceTemplate.objects.create(
                 user=tapir_user, shift_template=template
             )
+            template.generated_shifts
             break
     print("Created fake uses")
 
@@ -209,3 +210,18 @@ def populate_shift_templates():
         )
 
     print("Populated shift templates")
+
+
+def generate_shifts():
+    print("Generating shifts")
+    start_day = datetime.datetime.now() - datetime.timedelta(days=20)
+    while start_day.weekday() != 0:
+        start_day = start_day + datetime.timedelta(days=1)
+
+    for week in range(8):
+        monday = start_day + datetime.timedelta(days=7 * week)
+        print("Doing week from " + str(monday) + " " + str(week + 1) + "/8")
+        for group in ShiftTemplateGroup.objects.all():
+            print("\t" + group.name)
+            group.create_shifts(monday)
+    print("Generated shifts")

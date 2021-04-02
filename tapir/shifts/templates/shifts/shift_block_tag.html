@@ -1,24 +1,21 @@
-<a class="shift-block-container" href="{{ shift.get_absolute_url }}">
-    {%  if shift.get_valid_attendances.count == shift_attendance_states|length %}
-        <div class="shift-block bg-success">
-    {%  elif shift.get_valid_attendances.count == 0 %}
-        <div class="shift-block bg-danger">
-    {% else %}
-        <div class="shift-block bg-warning">
-    {%  endif %}
+<a class="shift-block-container" href="{{ shift.url }}">
+    <div class="shift-block bg-{{ shift.background }}">
         <div>{{ shift.name }}</div>
         <div>{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
         <div class="shift-date">{{ shift.start_time|date }}</div>
         <div style="display: flex">
-            {% for state in shift_attendance_states %}
-                {% if state == "user" %}
-                    <div class="material-icons" style="font-size: 12px;">account_circle</div>
-                {% elif state == "filled" %}
-                    <div class="material-icons" style="font-size: 12px;">radio_button_checked</div>
+            {% for state in shift.attendances %}
+                {% if state == "template" %}
+                    <div class="material-icons" style="font-size: 12px;">offline_pin</div>
+                {% elif state == "single" %}
+                    <div class="material-icons" style="font-size: 12px;">check_circle</div>
                 {% else %}
                     <div class="material-icons" style="font-size: 12px;">radio_button_unchecked</div>
                 {% endif %}
             {% endfor %}
         </div>
+    {% if shift.template_group != None %}
+        <div class="shift_group">{{ shift.template_group }}</div>
+    {% endif %}
     </div>
 </a>
