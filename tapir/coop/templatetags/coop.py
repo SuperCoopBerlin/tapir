@@ -9,6 +9,7 @@ register = template.Library()
 def user_coop_share_ownership_list(context, user):
     context["user"] = user
     if hasattr(user, "coop_share_owner"):
+        context["coop_share_owner"] = user.coop_share_owner
         context["coop_share_ownerships"] = user.coop_share_owner.share_ownerships.all()
     else:
         context["coop_share_ownerships"] = []
