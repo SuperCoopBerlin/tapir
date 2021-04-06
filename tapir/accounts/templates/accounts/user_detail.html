@@ -17,10 +17,34 @@
         <div class="card m-2">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 User Details
-                <button type="button" class="btn btn-outline-info" onclick="alert('Not implemented yet')">Edit infos</button>
+                <a href="{% url "accounts:user_update" user.pk %}">
+                    <button type="button" class="btn btn-outline-info">Edit infos</button>
+                </a>
             </h5>
             <div class="card-body">
-                {{ user.get_full_name }}
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
+                    <div class="col-9">{{ user.first_name }} {{ user.last_name }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Username" %}:</div>
+                    <div class="col-9">{{ user.username }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
+                    <div class="col-9">{{ user.email }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
+                    <div class="col-9">{{ user.birthdate }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
+                    <div class="col-9">
+                        {{ object.street }}{% if object.street_2 %} {{ object.street_2 }}{% endif %},
+                        {{ object.postcode }} {{ object.city }}
+                    </div>
+                </div>
             </div>
         </div>
 

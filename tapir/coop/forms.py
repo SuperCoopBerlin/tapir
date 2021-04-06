@@ -2,6 +2,7 @@ from django.contrib.admin.widgets import AdminDateWidget
 from django import forms
 
 from tapir.coop.models import ShareOwnership, DraftUser
+from tapir.utils.forms import DateInput
 
 
 class CoopShareOwnershipForm(forms.ModelForm):
@@ -14,10 +15,6 @@ class CoopShareOwnershipForm(forms.ModelForm):
 
     start_date = forms.DateField(widget=AdminDateWidget())
     end_date = forms.DateField(widget=AdminDateWidget(), required=False)
-
-
-class DateInput(forms.DateInput):
-    input_type = "date"
 
 
 class DraftUserForm(forms.ModelForm):

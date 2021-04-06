@@ -143,6 +143,7 @@ GROUP_VORSTAND = "vorstand"
 PERMISSIONS = {
     "shifts.manage": [GROUP_VORSTAND],
     "coop.manage": [GROUP_VORSTAND],
+    "accounts.manage": [GROUP_VORSTAND],
 }
 
 

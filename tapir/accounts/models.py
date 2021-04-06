@@ -2,16 +2,18 @@ import logging
 
 import ldap
 import ldapdb.models
+import ldapdb.models.fields as ldapdb_fields
 import pyasn1.codec.ber.encoder
 import pyasn1.type.namedtype
 import pyasn1.type.univ
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.db import connections, router
+from django.db import connections, router, models
 from django.urls import reverse
-from ldapdb.models.fields import CharField, ListField
+from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts import validators
+from tapir.utils.models import CountryField
 
 log = logging.getLogger(__name__)
 
@@ -69,7 +71,7 @@ class LdapUser(AbstractUser):
 
     def has_perm(self, perm, obj=None):
         user_dn = self.get_ldap().build_dn()
-        # TODO(Leon Handreke): This is a case of very agressive programming, we require both the perm to
+        # TODO(Leon Handreke): This is a case of very aggressive programming, we require both the perm to
         # be defined in settings and the group to exist. Probably a fair expectation, but explode more
         # gracefully.
         # We use a custom permission system based on statically-defined permissions in settings for
@@ -91,11 +93,19 @@ class LdapUser(AbstractUser):
 class TapirUser(LdapUser):
     username_validator = validators.UsernameValidator
 
+    birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
+    street = models.CharField(_("Street and house number"), max_length=150, blank=True)
+    street_2 = models.CharField(_("Extra address line"), max_length=150, blank=True)
+    postcode = models.CharField(_("Postcode"), max_length=32, blank=True)
+    city = models.CharField(_("City"), max_length=50, blank=True)
+    country = CountryField(_("Country"), blank=True, default="DE")
+
     def get_absolute_url(self):
         return reverse("accounts:user_detail", args=[self.pk])
 
 
-# The following LDAP-related models were taken from https://source.puri.sm/liberty/host/middleware/-/blob/master/ldapregister/models.py
+# The following LDAP-related models were taken from
+# https://source.puri.sm/liberty/host/middleware/-/blob/master/ldapregister/models.py
 class LdapPerson(ldapdb.models.Model):
     """
     Class for representing an LDAP person entry.
@@ -110,10 +120,10 @@ class LdapPerson(ldapdb.models.Model):
     object_classes = settings.REG_PERSON_OBJECT_CLASSES
 
     # Minimal attributes
-    uid = CharField(db_column="uid", max_length=200, primary_key=True)
-    cn = CharField(db_column="cn", max_length=200)
-    sn = CharField(db_column="sn", max_length=200)
-    mail = CharField(db_column="mail", max_length=200)
+    uid = ldapdb_fields.CharField(db_column="uid", max_length=200, primary_key=True)
+    cn = ldapdb_fields.CharField(db_column="cn", max_length=200)
+    sn = ldapdb_fields.CharField(db_column="sn", max_length=200)
+    mail = ldapdb_fields.CharField(db_column="mail", max_length=200)
 
     def __str__(self):
         return self.uid
@@ -243,9 +253,9 @@ class LdapGroup(ldapdb.models.Model):
     object_classes = settings.REG_GROUP_OBJECT_CLASSES
 
     # LDAP group attributes
-    cn = CharField(db_column="cn", max_length=200, primary_key=True)
-    description = CharField(db_column="description", max_length=200)
-    members = ListField(db_column="member")
+    cn = ldapdb_fields.CharField(db_column="cn", max_length=200, primary_key=True)
+    description = ldapdb_fields.CharField(db_column="description", max_length=200)
+    members = ldapdb_fields.ListField(db_column="member")
 
     def __str__(self):
         return self.cn
