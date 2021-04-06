@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <div class="card m-2">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-2">
+                <h4 class="card-title align-middle">{% trans "Cooperative Members" %}</h4>
+            </div>
+            <table class="table">
+                <thead>
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Member Since" %}</th>
+                <th>{% trans "State" %}</th>
+                </thead>
+                {% for owner in object_list %}
+                    <tr>
+                        <td class="align-middle">
+                            <a href="{{ owner.get_absolute_url }}">{{ owner.get_display_name }}</a></td>
+                        <td class="align-middle">{{ owner.get_oldest_active_share_ownership.start_date }}</td>
+                        <td class="align-middle">
+                            {% if owner.get_oldest_active_share_ownership.is_active and not owner.is_investing %}
+                                <span style="color: green;">{% trans "Active" %}</span>
+                            {% elif owner.get_oldest_active_share_ownership.is_active and owner.is_investing %}
+                                <span style="color: blue;">{% trans "Investing" %}</span>
+                            {% else %}
+                                <span style="color: orange;">{% trans "Sold" %}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

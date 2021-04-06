@@ -52,8 +52,13 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
                 {% block sidebar %}
-                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">Cooperators</h6>
+                    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% translate "Cooperative" %}</h6>
                     <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "coop:active_shareowner_list" %}">
+                                {% trans "Members" %}
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "coop:draftuser_list" %}">
                                 {% trans "Applicants" %}
@@ -64,13 +69,13 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "shifts:shift_upcoming" %}">
-                                Dashboard
+                                {% trans "Dashboard" %}
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "admin:shifts_shifttemplate_changelist" %}">
-                                Shift Templates
+                                {% trans "Shift Templates" %}
                             </a>
                         </li>
 

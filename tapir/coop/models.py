@@ -28,13 +28,17 @@ class ShareOwner(models.Model):
         on_delete=models.PROTECT,
     )
 
-    is_company = models.BooleanField(verbose_name=_("Is company"))
+    is_company = models.BooleanField(verbose_name=_("Is company"), blank=False)
     company_name = models.CharField(max_length=150, blank=True)
 
     # In the case that this is a company, this is the contact data for the company representative
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
+
+    is_investing = models.BooleanField(
+        verbose_name=_("Is investing member"), default=False
+    )
 
     def clean(self):
         r = super().clean()
@@ -61,19 +65,19 @@ class ShareOwner(models.Model):
             return self.user.get_absolute_url()
         return super().get_absolute_url()
 
+    def get_oldest_active_share_ownership(self):
+        return self.share_ownerships.active_temporal().order_by("start_date").first()
+
 
 class ShareOwnership(DurationModelMixin, models.Model):
     """ShareOwnership represents ownership of a single share."""
 
-    user = models.ForeignKey(
+    owner = models.ForeignKey(
         ShareOwner,
         related_name="share_ownerships",
         blank=False,
         null=False,
         on_delete=models.PROTECT,
-    )
-    is_investing = models.BooleanField(
-        verbose_name=_("Is investing member"), default=False
     )
 
 

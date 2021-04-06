@@ -22,9 +22,9 @@
                     <td>{{ o.start_date }}</td>
                     <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
                     <td>
-                        {% if o.is_active %}
+                        {% if o.is_active and not o.owner.is_investing %}
                             <span style="color: green;">{% trans "Active" %}</span>
-                        {% elif o.is_active %}
+                        {% elif o.owner.is_active and o.owner.is_investing %}
                             <span style="color: blue;">{% trans "Investing" %}</span>
                         {% else %}
                             <span style="color: red;">{% trans "Sold" %}</span>

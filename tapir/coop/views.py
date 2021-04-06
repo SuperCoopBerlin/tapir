@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
@@ -24,7 +23,7 @@ class ShareOwnershipViewMixin(PermissionRequiredMixin):
 
     def get_success_url(self):
         # After successful creation or update of a ShareOwnership, return to the user overview page.
-        return reverse(self.object.owner)
+        return self.object.owner.get_absolute_url()
 
 
 class ShareOwnershipUpdateView(ShareOwnershipViewMixin, UpdateView):
@@ -33,18 +32,23 @@ class ShareOwnershipUpdateView(ShareOwnershipViewMixin, UpdateView):
 
 class ShareOwnershipCreateForUserView(ShareOwnershipViewMixin, CreateView):
     def get_initial(self):
-        return {"start_date": date.today()}
+        return {"start_date": date.today(), "user": self._get_user()}
+
+    def _get_user(self):
+        return get_object_or_404(TapirUser, pk=self.kwargs["user_pk"])
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx["user"] = get_object_or_404(TapirUser, pk=self.kwargs["user_pk"])
+        ctx["user"] = self._get_user()
         return ctx
 
     def form_valid(self, form):
-        user = get_object_or_404(TapirUser, pk=self.kwargs["user_pk"])
-        if not hasattr(user, "coop_share_owner"):
-            user.coop_share_owner = ShareOwner.objects.create(user=user)
-        form.instance.owner = user.coop_share_owner
+        user = self._get_user()
+        if hasattr(user, "coop_share_owner"):
+            share_owner = user.coop_share_owner
+        else:
+            share_owner = ShareOwner.objects.create(user=user, is_company=False)
+        form.instance.owner = share_owner
         return super().form_valid(form)
 
 
@@ -132,3 +136,14 @@ def create_user_from_draftuser(request, pk):
 
     # TODO(Leon Handreke): Why does just passing u here not work?
     return redirect(u.get_absolute_url())
+
+
+class ActiveShareOwnerListView(generic.ListView):
+    model = ShareOwner
+    template_name = "coop/shareowner_list.html"
+
+    def get_queryset(self):
+        # TODO(Leon Handreke): Allow passing a date
+        return ShareOwner.objects.filter(
+            share_ownerships__in=ShareOwnership.objects.active_temporal()
+        ).distinct()

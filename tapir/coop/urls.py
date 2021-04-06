@@ -55,4 +55,9 @@ urlpatterns = [
         views.create_user_from_draftuser,
         name="draftuser_create_user",
     ),
+    path(
+        "members/",
+        views.ActiveShareOwnerListView.as_view(),
+        name="active_shareowner_list",
+    ),
 ]

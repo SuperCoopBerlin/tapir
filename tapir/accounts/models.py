@@ -8,6 +8,7 @@ import pyasn1.type.univ
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import connections, router
+from django.urls import reverse
 from ldapdb.models.fields import CharField, ListField
 
 from tapir.accounts import validators
@@ -89,6 +90,9 @@ class LdapUser(AbstractUser):
 
 class TapirUser(LdapUser):
     username_validator = validators.UsernameValidator
+
+    def get_absolute_url(self):
+        return reverse("accounts:user_detail", args=[self.pk])
 
 
 # The following LDAP-related models were taken from https://source.puri.sm/liberty/host/middleware/-/blob/master/ldapregister/models.py
