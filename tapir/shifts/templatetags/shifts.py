@@ -1,6 +1,7 @@
 from builtins import enumerate
 
 from django import template
+from django.urls import reverse
 
 from tapir.shifts.models import (
     Shift,
@@ -76,7 +77,7 @@ def shift_template_to_block_object(shift_template: ShiftTemplate):
         background = "warning"
 
     return {
-        "url": "TODO SHIFT TEMPLATE URL",  # TODO
+        "url": reverse("admin:shifts_shifttemplate_change", args=[shift_template.pk]),
         "attendances": attendances,
         "name": shift_template.name,
         "num_slots": shift_template.num_slots,
