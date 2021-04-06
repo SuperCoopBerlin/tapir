@@ -20,6 +20,7 @@ class ShareOwner(models.Model):
     represent a person or company that does not have their own account.
     """
 
+    # Only for owners that have a user account
     user = models.OneToOneField(
         TapirUser,
         related_name="coop_share_owner",
@@ -32,9 +33,17 @@ class ShareOwner(models.Model):
     company_name = models.CharField(max_length=150, blank=True)
 
     # In the case that this is a company, this is the contact data for the company representative
+    # There can also be investing members that do not have a user account
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
+
+    birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
+    street = models.CharField(_("Street and house number"), max_length=150, blank=True)
+    street_2 = models.CharField(_("Extra address line"), max_length=150, blank=True)
+    postcode = models.CharField(_("Postcode"), max_length=32, blank=True)
+    city = models.CharField(_("City"), max_length=50, blank=True)
+    country = CountryField(_("Country"), blank=True, default="DE")
 
     is_investing = models.BooleanField(
         verbose_name=_("Is investing member"), default=False
@@ -66,7 +75,10 @@ class ShareOwner(models.Model):
         return super().get_absolute_url()
 
     def get_oldest_active_share_ownership(self):
-        return self.share_ownerships.active_temporal().order_by("start_date").first()
+        return self.get_active_share_ownerships().order_by("start_date").first()
+
+    def get_active_share_ownerships(self):
+        return self.share_ownerships.active_temporal()
 
 
 class ShareOwnership(DurationModelMixin, models.Model):

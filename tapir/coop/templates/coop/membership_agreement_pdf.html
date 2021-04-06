@@ -15,13 +15,23 @@
 <!-- A DIN 5008 Letter has 2,7cm of top margin -->
 <div style="display: flex">
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
-        SuperCoop Berlin eG<br />
-        Glogauer Straße 21<br />
-        10999 Berlin
+        <span style="font-size: 6pt;">
+            {{ object.first_name }} {{ object.last_name }},
+            {% if object.street and object.city %}
+                {% if object.street_2 %} {{ object.street_2 }}{% endif %},
+                {{ object.street }}
+                {{ object.postcode }} {{ object.city }}
+            {% endif %}
+        </span>
+        <div style="margin-top: 2mm;">
+            SuperCoop Berlin eG<br />
+            Glogauer Straße 21<br />
+            10999 Berlin
+        </div>
     </div>
     <div style="flex-grow: 1"></div>
     <div style="margin-top: 13mm;">
-        <img src="{% static "coop/img/supercoop_logo.png" %}" style="width: 80mm;" />
+        <img src="{% static "coop/img/supercoop_logo.png" %}" style="width: 60mm;" />
     </div>
 </div>
 

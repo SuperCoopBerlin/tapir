@@ -147,3 +147,36 @@ class ActiveShareOwnerListView(generic.ListView):
         return ShareOwner.objects.filter(
             share_ownerships__in=ShareOwnership.objects.active_temporal()
         ).distinct()
+
+
+class ShareOwnerMembershipConfirmationView(
+    PermissionRequiredMixin, WeasyTemplateResponseMixin, generic.DetailView
+):
+    model = ShareOwner
+    context_object_name = "owner"
+    permission_required = "coop.manage"
+    template_name = "coop/membership_confirmation_pdf.html"
+    # Show inline, not download view
+    pdf_attachment = False
+
+    def _get_owner_display_name(self):
+        if self.object.user:
+            return self.object.user.get_full_name()
+        elif self.object.is_company:
+            return self.object.company_name
+        else:
+            return "%s %s" % (self.object.first_name, self.object.last_name)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["owner_display_name"] = self._get_owner_display_name()
+        ctx["owner_data"] = (
+            self.object.user if hasattr(self.object, "user") else self.object
+        )
+        return ctx
+
+    def get_pdf_filename(self):
+        return "Mitgliedschaftsbestätigung %s %s.pdf" % (
+            self.object.first_name,
+            self.object.last_name,
+        )

@@ -56,8 +56,13 @@ urlpatterns = [
         name="draftuser_create_user",
     ),
     path(
-        "members/",
+        "member/",
         views.ActiveShareOwnerListView.as_view(),
         name="active_shareowner_list",
+    ),
+    path(
+        "member/<int:pk>/membership_confirmation",
+        views.ShareOwnerMembershipConfirmationView.as_view(),
+        name="shareowner_membership_confirmation",
     ),
 ]
