@@ -27,7 +27,7 @@
     right: 3px;
 }
 
-.shift_list {
+.shift-list {
     gap: 10px;
 }
 
@@ -35,10 +35,9 @@
     outline: solid 2px var(--gray);
 }
 
-.shift_group {
+.shift-group {
     position: absolute;
     bottom: 0px;
     right: 6px;
     font-size: 24px;
-    font-weight: bold;
 }
