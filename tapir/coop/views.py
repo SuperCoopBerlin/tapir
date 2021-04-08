@@ -127,11 +127,20 @@ def create_user_from_draftuser(request, pk):
             first_name=draft.first_name,
             last_name=draft.last_name,
             email=draft.email,
+            birthdate=draft.birthdate,
+            street=draft.street,
+            street_2=draft.street_2,
+            postcode=draft.postcode,
+            city=draft.city,
+            country=draft.country,
         )
-        for _ in range(0, draft.num_shares):
-            ShareOwnership.objects.create(
-                user=u, start_date=date.today(),
-            )
+        if draft.num_shares > 0:
+            share_owner = ShareOwner.objects.create(user=u, is_company=False)
+            for _ in range(0, draft.num_shares):
+                ShareOwnership.objects.create(
+                    owner=share_owner, start_date=date.today(),
+                )
+
         draft.delete()
 
     # TODO(Leon Handreke): Why does just passing u here not work?

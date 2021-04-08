@@ -22,8 +22,8 @@
         <span style="font-size: 6pt;">
             {{ object.first_name }} {{ object.last_name }},
             {% if object.street and object.city %}
-                {% if object.street_2 %} {{ object.street_2 }}{% endif %},
-                {{ object.street }}
+                {% if object.street_2 %} {{ object.street_2 }},{% endif %}
+                {{ object.street }},
                 {{ object.postcode }} {{ object.city }}
             {% endif %}
         </span>
