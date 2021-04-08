@@ -1,8 +1,9 @@
-import json
 import datetime
+import json
 import random
 
 from tapir.accounts.models import TapirUser
+from tapir.coop.models import ShareOwner, ShareOwnership
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -10,6 +11,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftTemplate,
     WEEKDAY_CHOICES,
+    ShiftAccountEntry,
 )
 
 
@@ -121,6 +123,13 @@ def populate_users():
         username = username.lower()
         date_joined = user["registered"]["date"].replace("Z", "")
         date_joined = datetime.datetime.fromisoformat(date_joined)
+        birthdate = user["dob"]["date"].replace("Z", "")
+        birthdate = datetime.datetime.fromisoformat(birthdate)
+        street = (
+            user["location"]["street"]["name"]
+            + " "
+            + str(user["location"]["street"]["number"])
+        )
         (tapir_user, _) = TapirUser.objects.get_or_create(
             username=username,
             first_name=user["name"]["first"],
@@ -129,6 +138,10 @@ def populate_users():
             is_staff=False,
             is_active=True,
             date_joined=date_joined,
+            postcode=user["location"]["postcode"],
+            street=street,
+            country=user["location"]["country"],
+            birthdate=birthdate,
         )
 
         if ShiftAttendanceTemplate.objects.filter(user=tapir_user).count() > 0:
@@ -143,7 +156,6 @@ def populate_users():
             ShiftAttendanceTemplate.objects.create(
                 user=tapir_user, shift_template=template
             )
-            template.generated_shifts
             break
     print("Created fake uses")
 
@@ -225,3 +237,23 @@ def generate_shifts():
             print("\t" + group.name)
             group.create_shifts(monday)
     print("Generated shifts")
+
+
+def clear_data():
+    print("Clearing data...")
+    ShiftAccountEntry.objects.all().delete()
+    ShiftAttendance.objects.all().delete()
+    Shift.objects.all().delete()
+    ShiftAttendanceTemplate.objects.all().delete()
+    ShiftTemplate.objects.all().delete()
+    ShiftTemplateGroup.objects.all().delete()
+    TapirUser.objects.filter(is_staff=False).delete()
+    print("Done")
+
+
+def reset_all_test_data():
+    clear_data()
+    populate_template_groups()
+    populate_shift_templates()
+    generate_shifts()
+    populate_users()

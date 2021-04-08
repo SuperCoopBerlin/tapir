@@ -8,15 +8,6 @@ class Command(BaseCommand):
 
     help = "A list of helper function to fill the database with test data"
 
-    valid_actions = [
-        "users",
-        "shift_template_groups",
-        "shift_templates",
-        "shifts",
-        "user_shifts",
-        "delete_templates",
-    ]
-
     def add_arguments(self, parser):
         parser.add_argument(
             "--users", help="Create 500 randomised users", action="store_true"
@@ -48,6 +39,16 @@ class Command(BaseCommand):
             help="Generate shift instances from shift templates",
             action="store_true",
         )
+        parser.add_argument(
+            "--clear",
+            help="Clears most objects (except admins)",
+            action="store_true",
+        )
+        parser.add_argument(
+            "--reset_all",
+            help="Runs --clear then populate most models",
+            action="store_true",
+        )
 
     def handle(self, *args, **options):
         if options["users"]:
@@ -64,3 +65,7 @@ class Command(BaseCommand):
             delete_templates()
         if options["generate_shifts"]:
             generate_shifts()
+        if options["clear"]:
+            clear_data()
+        if options["reset_all"]:
+            reset_all_test_data()
