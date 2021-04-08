@@ -156,6 +156,7 @@ def populate_users():
             ShiftAttendanceTemplate.objects.create(
                 user=tapir_user, shift_template=template
             )
+            template.update_future_shift_attendances()
             break
     print("Created fake uses")
 
