@@ -7,6 +7,7 @@ from tapir.shifts.models import (
     Shift,
     ShiftTemplate,
     ShiftAttendanceTemplate,
+    WEEKDAY_CHOICES,
 )
 
 register = template.Library()
@@ -57,6 +58,7 @@ def shift_to_block_object(shift: Shift):
         "start_time": shift.start_time,
         "end_time": shift.end_time,
         "start_date": shift.start_time,
+        "weekday": None,
         "template_group": template_group,
         "background": background,
     }
@@ -84,6 +86,7 @@ def shift_template_to_block_object(shift_template: ShiftTemplate):
         "start_time": shift_template.start_time,
         "end_time": shift_template.end_time,
         "start_date": None,
+        "weekday": WEEKDAY_CHOICES[shift_template.weekday][1],
         "template_group": template_group_name_to_character(shift_template.group.name),
         "background": background,
     }
