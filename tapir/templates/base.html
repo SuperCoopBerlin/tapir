@@ -45,7 +45,7 @@
             </li>
         </ul>
     </div>
-    {% if request.user is not None %}
+    {% if request.user.is_authenticated %}
         <a class="text-light nav-link" href="{% url "accounts:user_me" %}">{{ request.user.first_name }} {{ request.user.last_name }}</a>
         <a class="text-light nav-link" href="{% url "accounts:logout" %}">Logout</a>
     {% else %}
