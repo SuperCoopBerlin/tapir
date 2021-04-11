@@ -1,5 +1,6 @@
 from datetime import date
 
+from django.conf import settings
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
@@ -140,11 +141,37 @@ def create_user_from_draftuser(request, pk):
                 ShareOwnership.objects.create(
                     owner=share_owner, start_date=date.today(),
                 )
+        if draft.odoo_partner:
+            draft.odoo_partner.user = u
+            draft.odoo_partner.save()
+
+        if draft.coop_share_invoice:
+            draft.coop_share_invoice.user = u
+            draft.coop_share_invoice.save()
 
         draft.delete()
 
-    # TODO(Leon Handreke): Why does just passing u here not work?
     return redirect(u.get_absolute_url())
+
+
+def register_draftuser_payment_cash(request, pk):
+    return register_draftuser_payment(request, pk, settings.ODOO_JOURNAL_ID_CASH)
+
+
+def register_draftuser_payment_bank(request, pk):
+    return register_draftuser_payment(request, pk, settings.ODOO_JOURNAL_ID_BANK)
+
+
+@require_POST
+@csrf_protect
+@permission_required("coop.manage")
+def register_draftuser_payment(request, pk, odoo_journal_id):
+    draft = DraftUser.objects.get(pk=pk)
+    draft.create_coop_share_invoice()
+    draft.coop_share_invoice.register_payment(
+        draft.get_initial_amount(), odoo_journal_id
+    )
+    return redirect(draft.get_absolute_url())
 
 
 class ActiveShareOwnerListView(generic.ListView):

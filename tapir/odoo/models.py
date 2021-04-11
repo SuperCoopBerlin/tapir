@@ -94,6 +94,13 @@ class OdooAPI:
 
 
 class OdooModel(models.Model):
+    """Reference to a model in a connected odoo instance.
+
+    Ideally, we would have a database backend that adapts the odoo API to the Django ORM. I decided this was too much
+    work. Instead, we create these "liaison objects" in the database and implement getters and interesting actions on
+    them manually.
+    """
+
     class Meta:
         abstract = True
 

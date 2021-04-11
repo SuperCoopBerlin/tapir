@@ -100,6 +100,47 @@
                         {% endif %}
                     </div>
                 </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Payment" %}:</div>
+                    <div class="col-9">
+                        {{ object.get_initial_amount }}€
+                        {% if object.coop_share_invoice %}
+                            <span class="ml-1">
+                            {% if object.coop_share_invoice.get_state == object.coop_share_invoice.STATE_PAID %}
+                                <span class="text-success">{% trans "Paid" %}</span>
+                            {% else %}
+                                <span class="text-warning">{% trans "Open" %}</span>
+                            {% endif %}
+
+                            <a href="{{ object.coop_share_invoice.get_absolute_url }}" class="btn btn-outline-secondary">
+                                <span class="material-icons" style="font-size: 14px;">receipt</span>
+                                {%  trans "View Invoice" %}
+                            </a>
+                        </span>
+                        {% endif %}
+
+                        {% if not object.coop_share_invoice or object.coop_share_invoice.get_state != object.coop_share_invoice.STATE_PAID %}
+                            <form style="display: inline;"
+                                  method="post"
+                                  action="{% url "coop:register_draftuser_payment_bank" object.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success ml-3">
+                                    <span class="material-icons" style="font-size: 14px;">payment</span>
+                                    {% trans "Register Bank Payment" %}
+                                </button>
+                            </form>
+                            <form style="display: inline;"
+                                  method="post"
+                                  action="{% url "coop:register_draftuser_payment_cash" object.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success ml-3">
+                                    <span class="material-icons" style="font-size: 14px;">euro</span>
+                                    {% trans "Register Cash Payment" %}
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
                 <div class="row m-1 mt-5 flex-row">
                     <div style="flex-grow: 1;"></div>
                     <a href="{% url "coop:draftuser_update" object.pk %}">

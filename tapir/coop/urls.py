@@ -65,4 +65,14 @@ urlpatterns = [
         views.ShareOwnerMembershipConfirmationView.as_view(),
         name="shareowner_membership_confirmation",
     ),
+    path(
+        "user/draft/<int:pk>/register_payment_cash",
+        views.register_draftuser_payment_cash,
+        name="register_draftuser_payment_cash",
+    ),
+    path(
+        "user/draft/<int:pk>/register_payment_bank",
+        views.register_draftuser_payment_bank,
+        name="register_draftuser_payment_bank",
+    ),
 ]

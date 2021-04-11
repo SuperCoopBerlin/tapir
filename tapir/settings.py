@@ -102,7 +102,7 @@ ODOO = {
     "BASE_URL": "http://135.181.148.23:8069/",
     "DATABASE": "odoo",
     "USERNAME": "admin",
-    "PASSWORD": "password",
+    "PASSWORD": "admin",
 }
 
 ODOO_TAX_ID_NOT_TAXABLE = 21

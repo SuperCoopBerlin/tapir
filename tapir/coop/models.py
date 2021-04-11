@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -7,10 +8,12 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts import validators
 from tapir.accounts.models import TapirUser
+from tapir.finance.models import Invoice
+from tapir.odoo.models import OdooPartner
 from tapir.utils.models import DurationModelMixin, CountryField
 
 COOP_SHARE_PRICE = Decimal(100)
-COOP_ENTRY_COST = Decimal(10)
+COOP_ENTRY_AMOUNT = Decimal(10)
 
 
 class ShareOwner(models.Model):
@@ -117,12 +120,24 @@ class DraftUser(models.Model):
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
 
-    num_shares = models.IntegerField(_("Number of Shares"), blank=False, default=1)
+    # For now, make this not editable, as one is the 99%-case. In case somebody wants to buy more shares,
+    # we should build a flow for existing users. This also solves the issue of keeping the invoice in sync.
+    num_shares = models.IntegerField(
+        _("Number of Shares"), blank=False, editable=False, default=1
+    )
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
     )
     signed_membership_agreement = models.BooleanField(
         _("Signed Beteiligungserklärung"), default=False
+    )
+
+    # OdooPartner and Invoice that was already created to process the payment
+    odoo_partner = models.ForeignKey(
+        OdooPartner, blank=True, null=True, on_delete=models.PROTECT
+    )
+    coop_share_invoice = models.ForeignKey(
+        Invoice, blank=True, null=True, on_delete=models.PROTECT
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -131,7 +146,7 @@ class DraftUser(models.Model):
         return reverse("coop:draftuser_detail", args=[self.pk,],)
 
     def get_initial_amount(self):
-        return self.num_shares * COOP_SHARE_PRICE + COOP_ENTRY_COST
+        return self.num_shares * COOP_SHARE_PRICE + COOP_ENTRY_AMOUNT
 
     def get_display_name(self):
         if self.first_name or self.last_name:
@@ -149,3 +164,27 @@ class DraftUser(models.Model):
             and self.last_name
             and self.signed_membership_agreement
         )
+
+    def create_coop_share_invoice(self):
+        # This is a bit hacky, as it's a second codepath that creates an invoice and registers a payment before we even
+        # have the User and ShareOwner objects. However, in practice we (mostly) only want to admit people after we've
+        # registered their payment, as otherwise we would be running after payments from users that are already
+        # admitted.
+        if not self.odoo_partner:
+            self.odoo_partner = OdooPartner.objects.create_from_draft_user(self)
+
+        if not self.coop_share_invoice:
+            self.coop_share_invoice = Invoice.objects.create_with_odoo_partner(
+                self.odoo_partner
+            )
+            self.coop_share_invoice.add_invoice_line(
+                "Eintrittsgeld", COOP_ENTRY_AMOUNT, settings.ODOO_TAX_ID_NOT_TAXABLE
+            )
+            self.coop_share_invoice.add_invoice_line(
+                "Genossenschaftsanteil",
+                COOP_SHARE_PRICE,
+                settings.ODOO_TAX_ID_NOT_TAXABLE,
+            )
+            self.coop_share_invoice.mark_open()
+
+        self.save()

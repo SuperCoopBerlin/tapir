@@ -35,19 +35,16 @@ class Invoice(OdooModel):
         on_delete=models.PROTECT,
     )
 
-    class State(enum.IntEnum):
-        DRAFT = 1
-        OPEN = 2
-        PAID = 3
+    # No enum here as Django template language can't access them
+    STATE_DRAFT = "draft"
+    STATE_OPEN = "open"
+    STATE_PAID = "paid"
 
     def get_state(self):
-        raw = self._odoo_get_field("state")
-        if raw == "draft":
-            return Invoice.State.DRAFT
-        elif raw == "open":
-            return Invoice.State.OPEN
-        elif raw == "paid":
-            return Invoice.State.PAID
+        return self._odoo_get_field("state")
+
+    def get_total_amount(self) -> Decimal:
+        return Decimal(self._odoo_get_field("amount_total_signed"))
 
     def add_invoice_line(self, name, amount: Decimal, tax_id):
         OdooAPI.get_connection().create(
@@ -64,8 +61,9 @@ class Invoice(OdooModel):
             },
         )
 
-    def get_total_amount(self) -> Decimal:
-        return Decimal(self._odoo_get_field("amount_total_signed"))
+    def mark_open(self):
+        """Transition from draft to open state."""
+        return self._odoo_execute("action_invoice_open", {})
 
     def register_payment(self, amount: Decimal, journal_id):
         assert amount > 0
