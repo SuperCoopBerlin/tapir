@@ -99,15 +99,18 @@ DATABASES = {
 DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
 ODOO = {
-    "BASE_URL": "http://135.181.148.23:8069/",
+    "BASE_URL": "http://odoo:8069/",
     "DATABASE": "odoo",
     "USERNAME": "admin",
     "PASSWORD": "admin",
 }
 
-ODOO_TAX_ID_NOT_TAXABLE = 21
-ODOO_JOURNAL_ID_CASH = 7
-ODOO_JOURNAL_ID_BANK = 8
+ODOO_TAX_ID_NOT_TAXABLE = 20
+ODOO_JOURNAL_ID_CASH = 6
+ODOO_JOURNAL_ID_BANK = 7
+
+# SKR03 8200 "Erlöse"
+ODOO_ACCOUNT_ID_8200 = 1151
 
 
 # Password validation

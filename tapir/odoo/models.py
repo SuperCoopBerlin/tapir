@@ -160,8 +160,7 @@ class OdooPartner(OdooModel):
     @staticmethod
     def _field_dict_from_user(user):
         return {
-            "firstname": user.first_name,
-            "lastname": user.last_name,
+            "name": "{} {}".format(user.first_name, user.last_name),
             "street": user.street,
             "street2": user.street_2,
             "city": user.city,
