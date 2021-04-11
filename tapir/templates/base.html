@@ -33,7 +33,7 @@
 {% bootstrap_messages %}
 
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
-    <a class="navbar-brand" href="#">SuperCoop Berlin</a>
+    <a class="navbar-brand" href="#"><img height=30" src="{% static 'images/Logo_white.png' %}"></a>
 
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav">
@@ -45,6 +45,12 @@
             </li>
         </ul>
     </div>
+    {% if request.user is not None %}
+        <a class="text-light nav-link" href="{% url "accounts:user_me" %}">{{ request.user.first_name }} {{ request.user.last_name }}</a>
+        <a class="text-light nav-link" href="{% url "accounts:logout" %}">Logout</a>
+    {% else %}
+        <a class="text-light nav-link" href="{% url "accounts:login" %}">Login</a>
+    {% endif %}
 </nav>
 
 <div class="container-fluid">
