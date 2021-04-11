@@ -2,27 +2,44 @@
 
 {% load bootstrap4 %}
 {% load i18n %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <script src="{% static "coop/js/draftuser_form.js" %}"></script>
+{% endblock %}
 
 {% block content %}
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{% url "coop:draftuser_list" %}">{% trans "Applicants" %}</a>
-            </li>
-            {% if form.instance.pk %}
+    {% if request.user.is_authenticated %}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
+                    <a href="{% url "coop:draftuser_list" %}">{% trans "Applicants" %}</a>
                 </li>
-            {% else %}
-                <li class="breadcrumb-item">Create</li>
-            {% endif %}
-        </ol>
-    </nav>
+                {% if form.instance.pk %}
+                    <li class="breadcrumb-item">
+                        <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
+                    </li>
+                {% else %}
+                    <li class="breadcrumb-item">Create</li>
+                {% endif %}
+            </ol>
+        </nav>
+    {% endif %}
 
     <div class="container">
         <div class="card m-2">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                {% if request.user.is_authenticated %}
+                    Create Applicant
+                {% else %}
+                    Register
+                {% endif %}
+            </h5>
             <div class="card-body">
+                <p>Welcome to SuperCoop Berlin!</p>
+                <p>By filling this form, you will register as Applicant. We'll then help you fill and send your Beteiligungserklärung that will make you an official SuperCoop member!</p>
                 <form role="form" method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}

@@ -1,5 +1,6 @@
 from django.contrib.admin.widgets import AdminDateWidget
 from django import forms
+from django.forms import TextInput
 
 from tapir.coop.models import ShareOwnership, DraftUser
 from tapir.utils.forms import DateInput
@@ -34,4 +35,5 @@ class DraftUserForm(forms.ModelForm):
         ]
         widgets = {
             "birthdate": DateInput(),
+            "username": TextInput(attrs={"readonly": True}),
         }
