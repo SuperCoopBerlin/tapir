@@ -115,7 +115,9 @@ class OdooModel(models.Model):
 
     def _odoo_get(self, fields):
         return OdooAPI.get_connection().search_read(
-            self.odoo_model_name, cond=[["id", "=", str(self.odoo_id)]], fields=fields,
+            self.odoo_model_name,
+            cond=[["id", "=", str(self.odoo_id)]],
+            fields=fields,
         )[0]
 
     def _odoo_get_field(self, field):

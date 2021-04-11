@@ -139,7 +139,8 @@ def create_user_from_draftuser(request, pk):
             share_owner = ShareOwner.objects.create(user=u, is_company=False)
             for _ in range(0, draft.num_shares):
                 ShareOwnership.objects.create(
-                    owner=share_owner, start_date=date.today(),
+                    owner=share_owner,
+                    start_date=date.today(),
                 )
         if draft.odoo_partner:
             draft.odoo_partner.user = u

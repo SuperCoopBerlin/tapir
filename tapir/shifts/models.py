@@ -192,8 +192,8 @@ class Shift(models.Model):
         if not self.shift_template:
             return
 
-        shift_attendance_template_user_pks = self.shift_template.attendance_templates.values_list(
-            "user", flat=True
+        shift_attendance_template_user_pks = (
+            self.shift_template.attendance_templates.values_list("user", flat=True)
         )
 
         # Remove the attendances that are no longer in the template

@@ -28,19 +28,31 @@ def populate_shifts():
         evening = datetime.datetime.combine(date, datetime.time(hour=16))
 
         Shift.objects.get_or_create(
-            name="Cashier morning", start_time=morning, end_time=noon, num_slots=4,
+            name="Cashier morning",
+            start_time=morning,
+            end_time=noon,
+            num_slots=4,
         )
 
         Shift.objects.get_or_create(
-            name="Cashier afternoon", start_time=noon, end_time=evening, num_slots=4,
+            name="Cashier afternoon",
+            start_time=noon,
+            end_time=evening,
+            num_slots=4,
         )
 
         Shift.objects.get_or_create(
-            name="Storage morning", start_time=morning, end_time=noon, num_slots=3,
+            name="Storage morning",
+            start_time=morning,
+            end_time=noon,
+            num_slots=3,
         )
 
         Shift.objects.get_or_create(
-            name="Storage afternoon", start_time=noon, end_time=evening, num_slots=3,
+            name="Storage afternoon",
+            start_time=noon,
+            end_time=evening,
+            num_slots=3,
         )
 
     print("Populated shift templates for today")

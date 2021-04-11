@@ -424,6 +424,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={"ordering": ["-start_date"], "abstract": False,},
+            options={
+                "ordering": ["-start_date"],
+                "abstract": False,
+            },
         ),
     ]
