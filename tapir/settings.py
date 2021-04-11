@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "tapir.shifts",
     "tapir.utils",
     "tapir.coop",
+    "tapir.finance",
+    "tapir.odoo",
 ]
 
 if DEBUG:
@@ -96,6 +98,17 @@ DATABASES = {
 }
 DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
+ODOO = {
+    "BASE_URL": "http://135.181.148.23:8069/",
+    "DATABASE": "odoo",
+    "USERNAME": "admin",
+    "PASSWORD": "password",
+}
+
+ODOO_TAX_ID_NOT_TAXABLE = 21
+ODOO_JOURNAL_ID_CASH = 7
+ODOO_JOURNAL_ID_BANK = 8
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -139,7 +152,7 @@ REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
 # Groups are stored in the LDAP tree
 GROUP_VORSTAND = "vorstand"
-# This is our own little stupid permission system. See explanation in accounts/models.py.
+# This is our own little stupid permission system. See explanation in accounts/api.py.
 PERMISSIONS = {
     "shifts.manage": [GROUP_VORSTAND],
     "coop.manage": [GROUP_VORSTAND],

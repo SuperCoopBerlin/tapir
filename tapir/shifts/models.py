@@ -1,9 +1,7 @@
 import datetime
-import enum
 
 from django.db import models
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from tapir.accounts.models import TapirUser
@@ -194,8 +192,8 @@ class Shift(models.Model):
         if not self.shift_template:
             return
 
-        shift_attendance_template_user_pks = (
-            self.shift_template.attendance_templates.values_list("user", flat=True)
+        shift_attendance_template_user_pks = self.shift_template.attendance_templates.values_list(
+            "user", flat=True
         )
 
         # Remove the attendances that are no longer in the template
