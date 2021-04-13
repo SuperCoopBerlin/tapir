@@ -111,6 +111,8 @@ ODOO_JOURNAL_ID_BANK = 7
 
 # SKR03 8200 "Erlöse"
 ODOO_ACCOUNT_ID_8200 = 1151
+# SKR03 0810 "Geschäftsguthaben der verbleibenden Mitglieder"
+ODOO_ACCOUNT_ID_0810 = 161
 
 
 # Password validation

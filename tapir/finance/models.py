@@ -46,7 +46,7 @@ class Invoice(OdooModel):
     def get_total_amount(self) -> Decimal:
         return Decimal(self._odoo_get_field("amount_total_signed"))
 
-    def add_invoice_line(self, name, amount: Decimal, tax_id):
+    def add_invoice_line(self, name, amount: Decimal, account_id, tax_id):
         OdooAPI.get_connection().create(
             "account.invoice.line",
             {
@@ -54,7 +54,7 @@ class Invoice(OdooModel):
                 "name": name,
                 "price_unit": str(amount),
                 "quantity": 1,
-                "account_id": 1151,
+                "account_id": account_id,
                 # Uses the Many2Many command format documented in the odoo API docs.
                 # The command (6, 0, x) replaces all existing entries
                 "invoice_line_tax_ids": [(6, 0, [tax_id])],

@@ -185,11 +185,15 @@ class DraftUser(models.Model):
                 self.odoo_partner
             )
             self.coop_share_invoice.add_invoice_line(
-                "Eintrittsgeld", COOP_ENTRY_AMOUNT, settings.ODOO_TAX_ID_NOT_TAXABLE
+                "Eintrittsgeld",
+                COOP_ENTRY_AMOUNT,
+                settings.ODOO_ACCOUNT_ID_8200,
+                settings.ODOO_TAX_ID_NOT_TAXABLE,
             )
             self.coop_share_invoice.add_invoice_line(
                 "Genossenschaftsanteil",
                 COOP_SHARE_PRICE,
+                settings.ODOO_ACCOUNT_ID_0810,
                 settings.ODOO_TAX_ID_NOT_TAXABLE,
             )
             self.coop_share_invoice.mark_open()
