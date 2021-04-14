@@ -79,7 +79,8 @@ class UpcomingDaysView(PermissionRequiredMixin, TemplateView):
         return context_data
 
 
-class ShiftDetailView(DetailView):
+class ShiftDetailView(PermissionRequiredMixin, DetailView):
+    permission_required = "shifts.manage"
     model = Shift
     template_name = "shifts/shift_detail.html"
     context_object_name = "shift"
@@ -105,7 +106,8 @@ def mark_shift_attendance_missed(request, pk):
     return redirect(shift_attendance.shift)
 
 
-class ShiftTemplateOverview(TemplateView):
+class ShiftTemplateOverview(PermissionRequiredMixin, TemplateView):
+    permission_required = "shifts.manage"
     template_name = "shifts/shift_template_overview.html"
 
     def get_context_data(self, **kwargs):

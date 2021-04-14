@@ -162,7 +162,7 @@ REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
 # Groups are stored in the LDAP tree
 GROUP_VORSTAND = "vorstand"
-# This is our own little stupid permission system. See explanation in accounts/api.py.
+# This is our own little stupid permission system. See explanation in accounts/models.py.
 PERMISSIONS = {
     "shifts.manage": [GROUP_VORSTAND],
     "coop.manage": [GROUP_VORSTAND],

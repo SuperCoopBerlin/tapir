@@ -23,8 +23,7 @@ from tapir.coop.forms import CoopShareOwnershipForm, DraftUserForm
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 
 
-class ShareOwnershipViewMixin(PermissionRequiredMixin):
-    permission_required = "coop.manage"
+class ShareOwnershipViewMixin:
     model = ShareOwnership
     form_class = CoopShareOwnershipForm
 
@@ -33,11 +32,17 @@ class ShareOwnershipViewMixin(PermissionRequiredMixin):
         return self.object.owner.get_absolute_url()
 
 
-class ShareOwnershipUpdateView(ShareOwnershipViewMixin, UpdateView):
-    pass
+class ShareOwnershipUpdateView(
+    PermissionRequiredMixin, ShareOwnershipViewMixin, UpdateView
+):
+    permission_required = "coop.manage"
 
 
-class ShareOwnershipCreateForUserView(ShareOwnershipViewMixin, CreateView):
+class ShareOwnershipCreateForUserView(
+    PermissionRequiredMixin, ShareOwnershipViewMixin, CreateView
+):
+    permission_required = "coop.manage"
+
     def get_initial(self):
         return {"start_date": date.today(), "user": self._get_user()}
 
@@ -60,32 +65,43 @@ class ShareOwnershipCreateForUserView(ShareOwnershipViewMixin, CreateView):
 
 
 class DraftUserViewMixin(PermissionRequiredMixin):
-    permission_required = "coop.manage"
     model = DraftUser
     form_class = DraftUserForm
 
 
-class DraftUserListView(DraftUserViewMixin, generic.ListView):
+class DraftUserListView(PermissionRequiredMixin, DraftUserViewMixin, generic.ListView):
+    permission_required = "coop.manage"
+
+
+class DraftUserCreateView(
+    PermissionRequiredMixin, DraftUserViewMixin, generic.CreateView
+):
+    permission_required = "coop.manage"
+
+
+class DraftUserUpdateView(
+    PermissionRequiredMixin, DraftUserViewMixin, generic.UpdateView
+):
+    permission_required = "coop.manage"
+
+
+class DraftUserDetailView(
+    PermissionRequiredMixin, DraftUserViewMixin, generic.DetailView
+):
+    permission_required = "coop.manage"
+
+
+class DraftUserDeleteView(
+    PermissionRequiredMixin, DraftUserViewMixin, generic.DeleteView
+):
     pass
 
 
-class DraftUserCreateView(DraftUserViewMixin, generic.CreateView):
-    pass
+class DraftUserMembershipAgreementView(
+    PermissionRequiredMixin, WeasyTemplateResponseMixin, DraftUserDetailView
+):
+    permission_required = "coop.manage"
 
-
-class DraftUserUpdateView(DraftUserViewMixin, generic.UpdateView):
-    pass
-
-
-class DraftUserDetailView(DraftUserViewMixin, generic.DetailView):
-    pass
-
-
-class DraftUserDeleteView(DraftUserViewMixin, generic.DeleteView):
-    pass
-
-
-class DraftUserMembershipAgreementView(WeasyTemplateResponseMixin, DraftUserDetailView):
     template_name = "coop/membership_agreement_pdf.html"
     # Show inline, not download view
     pdf_attachment = False
@@ -228,7 +244,8 @@ def shareowner_membership_confirmation(request, pk):
     return response
 
 
-class ActiveShareOwnerListView(generic.ListView):
+class ActiveShareOwnerListView(PermissionRequiredMixin, generic.ListView):
+    permission_required = "coop.manage"
     model = ShareOwner
     template_name = "coop/shareowner_list.html"
 
