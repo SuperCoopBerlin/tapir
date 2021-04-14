@@ -64,7 +64,7 @@ class ShareOwnershipCreateForUserView(
         return super().form_valid(form)
 
 
-class DraftUserViewMixin(PermissionRequiredMixin):
+class DraftUserViewMixin:
     model = DraftUser
     form_class = DraftUserForm
 
@@ -98,7 +98,10 @@ class DraftUserDeleteView(
 
 
 class DraftUserMembershipAgreementView(
-    PermissionRequiredMixin, WeasyTemplateResponseMixin, DraftUserDetailView
+    PermissionRequiredMixin,
+    WeasyTemplateResponseMixin,
+    DraftUserViewMixin,
+    generic.DetailView,
 ):
     permission_required = "coop.manage"
 
