@@ -1,18 +1,24 @@
 from datetime import date
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.mail import EmailMessage
 from django.db import transaction
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, CreateView
 
 from django_weasyprint import WeasyTemplateResponseMixin
 
 from tapir.accounts.models import TapirUser
+from tapir.coop import pdfs
 from tapir.coop.forms import CoopShareOwnershipForm, DraftUserForm
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 
@@ -155,10 +161,18 @@ def create_user_from_draftuser(request, pk):
     return redirect(u.get_absolute_url())
 
 
+# We're calling an already-protected view internally, but let's be sure nobody ever forgets.
+@require_POST
+@csrf_protect
+@permission_required("coop.manage")
 def register_draftuser_payment_cash(request, pk):
     return register_draftuser_payment(request, pk, settings.ODOO_JOURNAL_ID_CASH)
 
 
+# We're calling an already-protected view internally, but let's be sure nobody ever forgets.
+@require_POST
+@csrf_protect
+@permission_required("coop.manage")
 def register_draftuser_payment_bank(request, pk):
     return register_draftuser_payment(request, pk, settings.ODOO_JOURNAL_ID_BANK)
 
@@ -167,12 +181,49 @@ def register_draftuser_payment_bank(request, pk):
 @csrf_protect
 @permission_required("coop.manage")
 def register_draftuser_payment(request, pk, odoo_journal_id):
-    draft = DraftUser.objects.get(pk=pk)
+    draft = get_object_or_404(DraftUser, pk=pk)
     draft.create_coop_share_invoice()
     draft.coop_share_invoice.register_payment(
         draft.get_initial_amount(), odoo_journal_id
     )
     return redirect(draft.get_absolute_url())
+
+
+@require_POST
+@csrf_protect
+@permission_required("coop.manage")
+def send_shareowner_membership_confirmation_welcome_email(request, pk):
+    owner = get_object_or_404(ShareOwner, pk=pk)
+    mail = EmailMessage(
+        subject=_("Willkommen bei SuperCoop eG!"),
+        body=render_to_string(
+            "coop/email/membership_confirmation_welcome.txt", {"owner": owner}
+        ),
+        from_email="mitglied@supercoop.de",
+        to=[owner.get_email()],
+        attachments=[
+            (
+                "Mitgliedschaftsbestätigung %s.pdf" % owner.get_display_name(),
+                pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf(),
+                "application/pdf",
+            )
+        ],
+    )
+    mail.send()
+    messages.success(request, "Welcome email with Mitgliedschaftsbestätigung sent.")
+    return redirect(owner.get_absolute_url())
+
+
+@require_GET
+@permission_required("coop.manage")
+def shareowner_membership_confirmation(request, pk):
+    owner = get_object_or_404(ShareOwner, pk=pk)
+    filename = "Mitgliedschaftsbestätigung %s.pdf" % owner.get_display_name()
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+    response.write(pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf())
+    return response
 
 
 class ActiveShareOwnerListView(generic.ListView):
@@ -184,36 +235,3 @@ class ActiveShareOwnerListView(generic.ListView):
         return ShareOwner.objects.filter(
             share_ownerships__in=ShareOwnership.objects.active_temporal()
         ).distinct()
-
-
-class ShareOwnerMembershipConfirmationView(
-    PermissionRequiredMixin, WeasyTemplateResponseMixin, generic.DetailView
-):
-    model = ShareOwner
-    context_object_name = "owner"
-    permission_required = "coop.manage"
-    template_name = "coop/membership_confirmation_pdf.html"
-    # Show inline, not download view
-    pdf_attachment = False
-
-    def _get_owner_display_name(self):
-        if self.object.user:
-            return self.object.user.get_full_name()
-        elif self.object.is_company:
-            return self.object.company_name
-        else:
-            return "%s %s" % (self.object.first_name, self.object.last_name)
-
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx["owner_display_name"] = self._get_owner_display_name()
-        ctx["owner_data"] = (
-            self.object.user if hasattr(self.object, "user") else self.object
-        )
-        return ctx
-
-    def get_pdf_filename(self):
-        return "Mitgliedschaftsbestätigung %s %s.pdf" % (
-            self.object.first_name,
-            self.object.last_name,
-        )

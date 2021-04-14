@@ -7,13 +7,19 @@
             {% if coop_share_owner %}
                 <div class="btn-group" role="group">
                     <button class="btn btn-outline-secondary">
-                        {% blocktranslate with coop_share_owner_id=coop_share_owner.id%}
+                        {% blocktranslate with coop_share_owner_id=coop_share_owner.id %}
                             Cooperator #{{ coop_share_owner_id }}
                         {% endblocktranslate %}
                     </button>
                     <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_membership_confirmation" coop_share_owner.pk %}">
                         <span class="material-icons" style="font-size: 20px; vertical-align: top;">file_present</span>
                     </a>
+                    <form class="form-inline btn btn-outline-primary" method="POST" action="{% url "coop:send_shareowner_membership_confirmation_welcome_email" coop_share_owner.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-link">
+                            <span class="material-icons" style="font-size: 20px; vertical-align: top;">send</span>
+                        </button>
+                    </form>
                 </div>
             {% endif %}
         </h5>

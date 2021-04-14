@@ -1,0 +1,10 @@
+Liebe*r {{ owner.get_display_name }},
+
+herzlich Willkommen als offizielles Mitglied der SuperCoop eG!
+
+Mit dem Zeichnen von {% if owner.get_active_share_ownerships.count == 1 %}einem Genossenschaftsanteil{% else %}{{ owner.get_active_share_ownerships.count }} Anteilen{% endif %}hast du dich dafür entschieden, gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!
+
+Wir freuen uns sehr, dich als Mitglied der SuperCoop eG begrüßen zu dürfen und bestätigen die Aufnahme in die Genossenschaft mit der Mitgliedsnummer {{ owner.id }}. Deine Mitgliedschaftsbestätigung findest du als PDF im Anhang.
+
+Kooperative Grüße,
+Eugénie, Jessica, Johanna und Marie für das SuperCoop Team

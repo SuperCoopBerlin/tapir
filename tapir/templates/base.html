@@ -30,7 +30,6 @@
 </head>
 
 <body>
-{% bootstrap_messages %}
 
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
     <a class="navbar-brand" href="#"><img height=30" src="{% static 'images/Logo_white.png' %}"></a>
@@ -98,6 +97,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="container">
+                {% bootstrap_messages %}
                 {% block content %}{% endblock %}
             </div>
         </main>

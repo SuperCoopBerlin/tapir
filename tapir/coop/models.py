@@ -64,13 +64,11 @@ class ShareOwner(models.Model):
         if self.user:
             return self.user.get_full_name()
         if self.is_company:
-            return "%s: %s (%s %s)" % (
-                _("Company"),
-                self.company_name,
-                self.first_name,
-                self.last_name,
-            )
+            return self.company_name
         return "%s %s" % (self.first_name, self.last_name)
+
+    def get_email(self):
+        return self.user.email if self.user else self.email
 
     def get_absolute_url(self):
         if self.user:
