@@ -47,8 +47,13 @@ urlpatterns = [
     ),
     path(
         "user/draft/<int:pk>/membership_agreement",
-        views.DraftUserMembershipAgreementView.as_view(),
+        views.draftuser_membership_agreement,
         name="draftuser_membership_agreement",
+    ),
+    path(
+        "membership_agreement",
+        views.empty_membership_agreement,
+        name="empty_membership_agreement",
     ),
     path(
         "user/draft/<int:pk>/create_user",

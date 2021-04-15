@@ -97,23 +97,29 @@ class DraftUserDeleteView(
     pass
 
 
-class DraftUserMembershipAgreementView(
-    PermissionRequiredMixin,
-    WeasyTemplateResponseMixin,
-    DraftUserViewMixin,
-    generic.DetailView,
-):
-    permission_required = "coop.manage"
+@require_GET
+@permission_required("coop.manage")
+def draftuser_membership_agreement(request, pk):
+    draft_user = get_object_or_404(DraftUser, pk=pk)
+    filename = "Beteiligungserklärung %s %s.pdf" % (
+        draft_user.first_name,
+        draft_user.last_name,
+    )
 
-    template_name = "coop/membership_agreement_pdf.html"
-    # Show inline, not download view
-    pdf_attachment = False
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+    response.write(pdfs.get_membership_agreement_pdf(draft_user).write_pdf())
+    return response
 
-    def get_pdf_filename(self):
-        return "Beteiligungserklärung %s %s.pdf" % (
-            self.object.first_name,
-            self.object.last_name,
-        )
+
+@require_GET
+@permission_required("coop.manage")
+def empty_membership_agreement(request):
+    filename = "Beteiligungserklärung SuperCoop eG.pdf"
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
+    response.write(pdfs.get_membership_agreement_pdf().write_pdf())
+    return response
 
 
 @require_POST
