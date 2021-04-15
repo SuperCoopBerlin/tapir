@@ -100,6 +100,8 @@ DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
 ODOO = {
     "BASE_URL": "http://odoo:8069/",
+    # Used because in development, the web interface is accessed from the Docker host
+    "WEB_BASE_URL": "http://127.0.0.1:8069/",
     "DATABASE": "odoo",
     "USERNAME": "admin",
     "PASSWORD": "admin",

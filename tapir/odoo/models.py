@@ -108,9 +108,9 @@ class OdooModel(models.Model):
 
     def get_absolute_url(self):
         # TODO(Leon Handreke): Is there a better way to build this?
-        # TODO(Leon Handreke): This doesn't actually work yet, get site base URL using Sites framework
-        return "{}web#model={}&id={}".format(
-            settings.ODOO["BASE_URL"], self.odoo_model_name, self.odoo_id
+        # menu_id parameter saves a redirect and makes the back button work
+        return "{}web#model={}&id={}&menu_id=".format(
+            settings.ODOO["WEB_BASE_URL"], self.odoo_model_name, self.odoo_id
         )
 
     def _odoo_get(self, fields):
