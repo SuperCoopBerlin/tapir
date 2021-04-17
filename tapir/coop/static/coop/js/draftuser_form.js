@@ -9,10 +9,12 @@ document.addEventListener("DOMContentLoaded", function () {
     lastnameField.addEventListener("input", updateUsername);
 
     function updateUsername() {
-        usernameField.value = firstnameField.value + "_" + lastnameField.value;
+        let username = firstnameField.value + "_" + lastnameField.value;
         for (const key in character_replace_map) {
-            usernameField.value = usernameField.value.replace(character_replace_map[key], key)
+            username = username.replace(character_replace_map[key], key)
         }
+
+        usernameField.value = username.toLowerCase();
     }
 
     const character_replace_map = {
