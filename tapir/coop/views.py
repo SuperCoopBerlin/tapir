@@ -15,11 +15,13 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, CreateView
 
-from django_weasyprint import WeasyTemplateResponseMixin
-
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
-from tapir.coop.forms import CoopShareOwnershipForm, DraftUserForm
+from tapir.coop.forms import (
+    CoopShareOwnershipForm,
+    DraftUserForm,
+    DraftUserRegisterForm,
+)
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 
 
@@ -77,6 +79,17 @@ class DraftUserCreateView(
     PermissionRequiredMixin, DraftUserViewMixin, generic.CreateView
 ):
     permission_required = "coop.manage"
+    template_name = "coop/draftuser_create_form.html"
+
+
+class DraftUserRegisterView(DraftUserViewMixin, generic.CreateView):
+    template_name = "coop/draftuser_register_form.html"
+    form_class = DraftUserRegisterForm
+    success_url = "/coop/user/draft/register/confirm"
+
+
+class DraftUserConfirmRegistrationView(DraftUserViewMixin, generic.TemplateView):
+    template_name = "coop/draftuser_confirm_registration.html"
 
 
 class DraftUserUpdateView(

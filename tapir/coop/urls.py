@@ -21,6 +21,16 @@ urlpatterns = [
         name="draftuser_create",
     ),
     path(
+        "user/draft/register",
+        views.DraftUserRegisterView.as_view(),
+        name="draftuser_register",
+    ),
+    path(
+        "user/draft/register/confirm",
+        views.DraftUserConfirmRegistrationView.as_view(),
+        name="draftuser_confirm_registration",
+    ),
+    path(
         "user/draft/<int:pk>/edit",
         views.DraftUserUpdateView.as_view(),
         name="draftuser_update",

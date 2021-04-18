@@ -1,0 +1,8 @@
+Dear {{ owner.get_display_name }},
+
+Thanks for your interest in Supercoop!
+
+Joined to this email is your pre-filled Beteiligungserklärung.
+
+Kooperative Grüße,
+Eugénie, Jessica, Johanna und Marie für das SuperCoop Team
