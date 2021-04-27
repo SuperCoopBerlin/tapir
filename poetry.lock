@@ -220,7 +220,7 @@ docs = ["sphinx (>=2.4,<3.0)", "sphinx_rtd_theme (>=0.4.3,<0.5.0)", "m2r2 (>=0.2
 name = "django-extensions"
 version = "3.1.3"
 description = "Extensions for Django"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -699,7 +699,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "16f7ded8d7c4b05a6ad61f3c28cc226736d4116662215433ecd68bc07f1a8504"
+content-hash = "dde90118f299be0498a04c3ce8aa719d05fcac30949c038b792eccaadb786c9a"
 
 [metadata.files]
 appdirs = [

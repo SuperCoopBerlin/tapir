@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     "tapir.coop",
     "tapir.finance",
     "tapir.odoo",
+    # TODO(Leon Handreke): Don't install in prod
+    "django_extensions",
 ]
 
-if DEBUG:
-    INSTALLED_APPS.append("django_extensions")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
