@@ -65,7 +65,7 @@ ROOT_URLCONF = "tapir.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["tapir/templates/"],
+        "DIRS": [BASE_DIR / "tapir" / "static"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
