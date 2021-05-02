@@ -1,0 +1,66 @@
+{
+  "results": [
+    {
+      "gender": "female",
+      "name": {
+        "title": "Mrs",
+        "first": "Helena",
+        "last": "Basler"
+      },
+      "location": {
+        "street": {
+          "number": 8133,
+          "name": "Schlossstraße"
+        },
+        "city": "Jarmen",
+        "state": "Sachsen-Anhalt",
+        "country": "Germany",
+        "postcode": 70470,
+        "coordinates": {
+          "latitude": "32.4320",
+          "longitude": "29.0159"
+        },
+        "timezone": {
+          "offset": "+6:00",
+          "description": "Almaty, Dhaka, Colombo"
+        }
+      },
+      "email": "helena.basler@example.com",
+      "login": {
+        "uuid": "608cdd6d-a4f1-44ff-b72c-db2a288890fa",
+        "username": "silversnake737",
+        "password": "boobie",
+        "salt": "s0gq78DD",
+        "md5": "008da84081737aa7f7e6ec2935f7f990",
+        "sha1": "23120a126bc67ba984ad2bb3530072b08d6ce35d",
+        "sha256": "8d1550e26f35b48e939f4592b692235914ecf2fe3dd79b9f827bc07765af16fe"
+      },
+      "dob": {
+        "date": "1953-12-03T14:47:20.798Z",
+        "age": 68
+      },
+      "registered": {
+        "date": "2013-12-16T13:44:03.891Z",
+        "age": 8
+      },
+      "phone": "0555-6096220",
+      "cell": "0171-3389089",
+      "id": {
+        "name": "",
+        "value": null
+      },
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/women/16.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/women/16.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/women/16.jpg"
+      },
+      "nat": "DE"
+    }
+  ],
+  "info": {
+    "seed": "156f4f019aaf4b85",
+    "results": 1,
+    "page": 1,
+    "version": "1.3"
+  }
+}

@@ -2,6 +2,8 @@ import datetime
 import json
 import random
 
+from django.utils import timezone
+
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, ShareOwnership
 from tapir.shifts.models import (
@@ -13,6 +15,7 @@ from tapir.shifts.models import (
     WEEKDAY_CHOICES,
     ShiftAccountEntry,
 )
+from tapir.utils.json_user import JsonUser
 
 
 def delete_templates():
@@ -115,33 +118,25 @@ def populate_users():
     file = open("test_users.json")
     json_string = file.read()
     file.close()
-    users = json.loads(json_string)["results"]
-    for index, user in enumerate(users[:500]):
+    parsed_users = json.loads(json_string)["results"]
+    for index, parsed_user in enumerate(parsed_users[:500]):
         if index % 50 == 0:
             print(str(index) + "/500")
-        username: str = user["name"]["first"] + "_" + user["name"]["last"]
-        username = username.lower()
-        date_joined = user["registered"]["date"].replace("Z", "")
-        date_joined = datetime.datetime.fromisoformat(date_joined)
-        birthdate = user["dob"]["date"].replace("Z", "")
-        birthdate = datetime.datetime.fromisoformat(birthdate)
-        street = (
-            user["location"]["street"]["name"]
-            + " "
-            + str(user["location"]["street"]["number"])
-        )
+        json_user = JsonUser(parsed_user)
+
         (tapir_user, _) = TapirUser.objects.get_or_create(
-            username=username,
-            first_name=user["name"]["first"],
-            last_name=user["name"]["last"],
-            email=user["email"],
+            username=json_user.get_username(),
+            first_name=json_user.first_name,
+            last_name=json_user.last_name,
+            email=json_user.email,
             is_staff=False,
             is_active=True,
-            date_joined=date_joined,
-            postcode=user["location"]["postcode"],
-            street=street,
-            country=user["location"]["country"],
-            birthdate=birthdate,
+            date_joined=json_user.date_joined,
+            postcode=json_user.postcode,
+            street=json_user.street,
+            street_2=json_user.street_2,
+            country=json_user.country,
+            birthdate=json_user.date_of_birth,
         )
 
         if ShiftAttendanceTemplate.objects.filter(user=tapir_user).count() > 0:
@@ -162,7 +157,9 @@ def populate_users():
 
 
 def populate_shift_templates():
-    populate_template_groups()
+    if ShiftTemplateGroup.objects.count() < 4:
+        populate_template_groups()
+
     names = ["Supermarket"]
     start_hours = [9, 12, 15]
     for weekday in WEEKDAY_CHOICES[:-1]:

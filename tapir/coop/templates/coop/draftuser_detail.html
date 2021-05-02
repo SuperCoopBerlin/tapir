@@ -18,31 +18,31 @@
 
     <div class="container">
         <div class="card m-2">
-            <div class="card-body">
+            <div class="card-body" id="draft_user_detail_card">
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
-                    <div class="col-9">{{ object.get_display_name }}</div>
+                    <div class="col-9" id="draft_user_display_name">{{ object.get_display_name }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Username" %}:</div>
-                    <div class="col-9">{{ object.username }}</div>
+                    <div class="col-9" id="draft_user_username">{{ object.username }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
-                    <div class="col-9">{{ object.email }}</div>
+                    <div class="col-9" id="draft_user_email">{{ object.email }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
-                    <div class="col-9">
+                    <div class="col-9" id="draft_user_birthdate">
                         {% if object.birthdate %}
-                            {{ object.birthdate }}
+                            {{ object.birthdate|date:"d.m.Y" }}
                         {% else %}
                             <span class="text-danger">Missing</span>
                         {% endif %}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
-                    <div class="col-9">
+                    <div class="col-9" id="draft_user_address">
                         {% if object.street and object.city %}
                             {{ object.street }}{% if object.street_2 %} {{ object.street_2 }}{% endif %},
                             {{ object.postcode }} {{ object.city }}
@@ -53,11 +53,11 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Shares requested" %}</div>
-                    <div class="col-4">{{ object.num_shares }}</div>
+                    <div class="col-4" id="draft_user_num_shares">{{ object.num_shares }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Welcome Session" %}:</div>
-                    <div class="col-4">
+                    <div class="col-4" id="draft_user_welcome_session">
                         {% if object.attended_welcome_session %}
                             <span class="text-success">Attended</span>
                         {% else %}
@@ -75,7 +75,7 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Beteiligungserklärung" %}:</div>
-                    <div class="col-9">
+                    <div class="col-9" id="draft_user_membership_agreement">
 
                         {% if object.signed_membership_agreement %}
                             <span class="text-success">Signed</span>
@@ -102,7 +102,7 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Payment" %}:</div>
-                    <div class="col-9">
+                    <div class="col-9" id="draft_user_payment">
                         {{ object.get_initial_amount }}€
                         {% if object.coop_share_invoice %}
                             <span class="ml-1">
