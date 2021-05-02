@@ -5,7 +5,9 @@ import random
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner, ShareOwnership
+from tapir.coop.models import ShareOwner, ShareOwnership, DraftUser
+from tapir.finance.models import Invoice
+from tapir.odoo.models import OdooPartner
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -245,6 +247,11 @@ def clear_data():
     ShiftAttendanceTemplate.objects.all().delete()
     ShiftTemplate.objects.all().delete()
     ShiftTemplateGroup.objects.all().delete()
+    ShareOwnership.objects.all().delete()
+    ShareOwner.objects.all().delete()
+    DraftUser.objects.all().delete()
+    Invoice.objects.all().delete()
+    OdooPartner.objects.all().delete()
     TapirUser.objects.filter(is_staff=False).delete()
     print("Done")
 
