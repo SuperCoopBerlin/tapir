@@ -4,15 +4,16 @@
 
 {% block content %}
     <div class="card m-2">
+        <h5 class="card-header d-flex justify-content-between align-items-center">
+            {% trans "Applicants" %}
+            <span class="align-self-right">
+                <a href="{% url "coop:draftuser_create" %}">
+                <button type="button" class="btn btn-primary">Create</button>
+                </a>
+            </span>
+        </h5>
         <div class="card-body">
-            <div class="d-flex justify-content-between mb-2">
-                <h4 class="card-title align-middle">{% trans "Applicants" %}</h4>
-                <span class="align-self-right">
-                    <a href="{% url "coop:draftuser_create" %}">
-                    <button type="button" class="btn btn-primary">Create</button>
-                    </a>
-                </span>
-            </div>
+
             <table class="table">
                 <thead>
                 <th>{% trans "First Name" %}</th>
