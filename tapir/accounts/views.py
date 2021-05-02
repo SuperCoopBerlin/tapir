@@ -1,10 +1,11 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.urls import reverse
+import django.contrib.auth.views as auth_views
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 
-from tapir.accounts.forms import UserForm
+from tapir.accounts.forms import UserForm, PasswordResetForm
 from tapir.accounts.models import TapirUser
 from tapir.shifts.models import ShiftAttendance, ShiftAttendanceTemplate
 
@@ -40,3 +41,8 @@ class UserUpdateView(PermissionRequiredMixin, generic.UpdateView):
     model = TapirUser
     form_class = UserForm
     template_name = "accounts/user_form.html"
+
+
+class PasswordResetView(auth_views.PasswordResetView):
+    # Form class to allow password reset despite unusable password in the db
+    form_class = PasswordResetForm
