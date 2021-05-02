@@ -6,11 +6,11 @@
             {% trans "Cooperative Shares" %}
             {% if coop_share_owner %}
                 <div class="btn-group" role="group">
-                    <button class="btn btn-outline-secondary">
+                    <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_detail" coop_share_owner.pk %}">
                         {% blocktranslate with coop_share_owner_id=coop_share_owner.id %}
                             Cooperator #{{ coop_share_owner_id }}
                         {% endblocktranslate %}
-                    </button>
+                    </a>
                     <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_membership_confirmation" coop_share_owner.pk %}">
                         <span class="material-icons" style="font-size: 20px; vertical-align: top;">file_present</span>
                     </a>
@@ -41,7 +41,7 @@
                     <td>
                         {% if o.is_active and not o.owner.is_investing %}
                             <span style="color: green;">{% trans "Active" %}</span>
-                        {% elif o.owner.is_active and o.owner.is_investing %}
+                        {% elif o.is_active and o.owner.is_investing %}
                             <span style="color: blue;">{% trans "Investing" %}</span>
                         {% else %}
                             <span style="color: red;">{% trans "Sold" %}</span>
