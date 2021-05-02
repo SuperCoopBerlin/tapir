@@ -71,6 +71,11 @@ urlpatterns = [
         name="draftuser_create_user",
     ),
     path(
+        "user/draft/<int:pk>/draftuser_create_share_owner",
+        views.create_share_owner_from_draftuser,
+        name="draftuser_create_share_owner",
+    ),
+    path(
         "member/",
         views.ActiveShareOwnerListView.as_view(),
         name="active_shareowner_list",
@@ -94,5 +99,10 @@ urlpatterns = [
         "user/draft/<int:pk>/register_payment_bank",
         views.register_draftuser_payment_bank,
         name="register_draftuser_payment_bank",
+    ),
+    path(
+        "member/<int:pk>/",
+        views.ShareOwnerDetailView.as_view(),
+        name="shareowner_detail",
     ),
 ]

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+
+    <div class="container"></div>
+    <div class="card m-2" id="share_owner_detail_card">
+        <h5 class="card-header">Share Owner</h5>
+        <div class="card-body">
+            <div class="row m-1">
+                <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
+                <div class="col-9" id="share_owner_display_name">{{ object.get_display_name }}</div>
+            </div>
+            <div class="row m-1">
+                <div class="col-3 font-weight-bold text-right">{% trans "Status" %}:</div>
+                <div class="col-9" id="share_owner_status">
+                    {% if object.user is not None %}
+                        {% trans "Active Member" %}
+                    {% elif object.is_company %}
+                        {% trans "Company" %}
+                    {% else %}
+                        {% trans "Investing Member" %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row m-1">
+                <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
+                <div class="col-9" id="share_owner_email">{{ object.email }}</div>
+            </div>
+            <div class="row m-1">
+                <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
+                <div class="col-9" id="share_owner_birthdate">
+                    {% if object.birthdate %}
+                        {{ object.birthdate|date:"d.m.Y" }}
+                    {% else %}
+                        <span>Missing</span>
+                    {% endif %}</div>
+            </div>
+            <div class="row m-1">
+                <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
+                <div class="col-9" id="share_owner_address">
+                    {% if object.street and object.city %}
+                        {{ object.street }}{% if object.street_2 %} {{ object.street_2 }}{% endif %},
+                        {{ object.postcode }} {{ object.city }}
+                    {% else %}
+                        <span class="text-danger">Missing</span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row m-1">
+                <div class="col-3 font-weight-bold text-right">{% trans "Owned shares" %}</div>
+                <div class="col-4" id="share_owner_num_shares">{{ object.num_shares }}</div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

@@ -110,6 +110,16 @@ class DraftUserDeleteView(
     pass
 
 
+class ShareOwnerViewMixin:
+    model = ShareOwner
+
+
+class ShareOwnerDetailView(
+    PermissionRequiredMixin, ShareOwnerViewMixin, generic.DetailView
+):
+    permission_required = "coop.manage"
+
+
 @require_GET
 @permission_required("coop.manage")
 def draftuser_membership_agreement(request, pk):
@@ -197,6 +207,56 @@ def create_user_from_draftuser(request, pk):
         draft.delete()
 
     return redirect(u.get_absolute_url())
+
+
+@require_POST
+@csrf_protect
+@permission_required("coop.manage")
+def create_share_owner_from_draftuser(request, pk):
+    # This is intended for "Investing Members" : members that own a share but don't intend to participate actively
+    # Therefore, compared to "create_user_from_draftuser", we create a ShareOwner object but no TapirUser
+
+    draft = DraftUser.objects.get(pk=pk)
+    if not draft.signed_membership_agreement:
+        # TODO(Leon Handreke): Error message
+        return redirect(draft)
+
+    if draft.num_shares < 0:
+        raise Exception(
+            "Trying to create a share owner from a draft user without shares"
+        )
+
+    with transaction.atomic():
+        share_owner = ShareOwner.objects.create(is_company=False)
+        share_owner.user = None
+        share_owner.company_name = ""
+        share_owner.first_name = draft.first_name
+        share_owner.last_name = draft.last_name
+        share_owner.email = draft.email
+        share_owner.birthdate = draft.birthdate
+        share_owner.street = draft.street
+        share_owner.street_2 = draft.street_2
+        share_owner.postcode = draft.postcode
+        share_owner.city = draft.city
+        share_owner.country = draft.country
+        share_owner.is_investing = True
+        share_owner.save()
+
+        for _ in range(0, draft.num_shares):
+            ShareOwnership.objects.create(
+                owner=share_owner,
+                start_date=date.today(),
+            )
+
+        if draft.odoo_partner:
+            draft.odoo_partner.save()
+
+        if draft.coop_share_invoice:
+            draft.coop_share_invoice.save()
+
+        draft.delete()
+
+    return redirect(share_owner.get_absolute_url())
 
 
 # We're calling an already-protected view internally, but let's be sure nobody ever forgets.

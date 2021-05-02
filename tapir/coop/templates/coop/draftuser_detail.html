@@ -156,10 +156,18 @@
                     {% if object.can_create_user %}
                         <form
                                 method="post"
+                                action="{% url "coop:draftuser_create_share_owner" object.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="align-self-right btn btn-primary ml-3">
+                                Create Investing Member
+                            </button>
+                        </form>
+                        <form
+                                method="post"
                                 action="{% url "coop:draftuser_create_user" object.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="align-self-right btn btn-success ml-3">
-                                <span class="material-icons" style="font-size: 14px;">chevron_right</span> Create User
+                            <button type="submit" class="align-self-right btn btn-primary ml-3">
+                                Create Active Member
                             </button>
                         </form>
                     {% endif %}

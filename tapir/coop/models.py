@@ -73,13 +73,16 @@ class ShareOwner(models.Model):
     def get_absolute_url(self):
         if self.user:
             return self.user.get_absolute_url()
-        return super().get_absolute_url()
+        return reverse("coop:shareowner_detail", args=[self.pk])
 
     def get_oldest_active_share_ownership(self):
         return self.get_active_share_ownerships().order_by("start_date").first()
 
     def get_active_share_ownerships(self):
         return self.share_ownerships.active_temporal()
+
+    def num_shares(self) -> int:
+        return ShareOwnership.objects.filter(owner=self).count()
 
 
 class ShareOwnership(DurationModelMixin, models.Model):
