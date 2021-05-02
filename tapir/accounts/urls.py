@@ -16,7 +16,7 @@ urlpatterns = [
     ),
     path(
         "logout/",
-        auth_views.LogoutView.as_view(),
+        auth_views.logout_then_login,
         name="logout",
     ),
     path("user/me/", views.UserMeView.as_view(), name="user_me"),
