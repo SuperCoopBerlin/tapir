@@ -175,3 +175,5 @@ PERMISSIONS = {
 
 AUTH_USER_MODEL = "accounts.TapirUser"
 LOGIN_REDIRECT_URL = "accounts:user_me"
+
+SITE_URL = "http://127.0.0.1:8000"

@@ -11,6 +11,11 @@ accounts_urlpatterns = [
     path("user/me/", views.UserMeView.as_view(), name="user_me"),
     path("user/<int:pk>/", views.UserDetailView.as_view(), name="user_detail"),
     path("user/<int:pk>/edit", views.UserUpdateView.as_view(), name="user_update"),
+    path(
+        "user/<int:pk>/send_welcome_email",
+        views.send_user_welcome_email,
+        name="send_user_welcome_email",
+    ),
 ]
 
 urlpatterns = [

@@ -46,6 +46,17 @@
                             {{ object.postcode }} {{ object.city }}
                         </div>
                     </div>
+
+                    <form
+                            method="post"
+                            action="{% url "accounts:send_user_welcome_email" object.pk %}">
+                        {% csrf_token %}
+                        <span class="text-right">
+                        <button type="submit" class="align-self-right btn btn-outline-info ml-3">
+                            Resend Welcome Email
+                        </button>
+                        </span>
+                    </form>
                 </div>
             </div>
         </div>
