@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Must come before contrib.auth to let the custom templates be discovered for auth views
+    "tapir.accounts",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -38,7 +40,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "bootstrap4",
-    "tapir.accounts",
     "tapir.shifts",
     "tapir.utils",
     "tapir.coop",
@@ -174,3 +175,5 @@ PERMISSIONS = {
 
 AUTH_USER_MODEL = "accounts.TapirUser"
 LOGIN_REDIRECT_URL = "accounts:user_me"
+
+SITE_URL = "http://127.0.0.1:8000"

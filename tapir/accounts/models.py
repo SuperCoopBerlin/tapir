@@ -8,8 +8,13 @@ import pyasn1.type.namedtype
 import pyasn1.type.univ
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import EmailMultiAlternatives
 from django.db import connections, router, models
+from django.template import loader
 from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts import validators
@@ -102,6 +107,26 @@ class TapirUser(LdapUser):
 
     def get_absolute_url(self):
         return reverse("accounts:user_detail", args=[self.pk])
+
+    def send_welcome_email(self):
+        return self.send_password_reset_email(
+            subject_template_name="accounts/welcome_email_subject.txt",
+            email_template_name="accounts/welcome_email.txt",
+        )
+
+    def send_password_reset_email(self, subject_template_name, email_template_name):
+        context = {
+            "site_url": settings.SITE_URL,
+            "uid": urlsafe_base64_encode(force_bytes(self.pk)),
+            "user": self,
+            "token": default_token_generator.make_token(self),
+        }
+        subject = loader.render_to_string(subject_template_name, context)
+        # Email subject *must not* contain newlines
+        subject = "".join(subject.splitlines())
+        body = loader.render_to_string(email_template_name, context)
+        email_message = EmailMultiAlternatives(subject, body, to=[self.email])
+        email_message.send()
 
 
 # The following LDAP-related models were taken from
