@@ -58,7 +58,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "tapir.accounts.middleware.StaffCheckMiddleware",
 ]
 
 ROOT_URLCONF = "tapir.urls"
