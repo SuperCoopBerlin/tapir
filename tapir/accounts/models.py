@@ -19,6 +19,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts import validators
 from tapir.utils.models import CountryField
+from tapir.utils.user_utils import UserUtils
 
 log = logging.getLogger(__name__)
 
@@ -104,6 +105,14 @@ class TapirUser(LdapUser):
     postcode = models.CharField(_("Postcode"), max_length=32, blank=True)
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
+
+    def get_display_name(self):
+        return UserUtils.build_display_name(self.first_name, self.last_name)
+
+    def get_display_address(self):
+        return UserUtils.build_display_address(
+            self.street, self.street_2, self.postcode, self.city
+        )
 
     def get_absolute_url(self):
         return reverse("accounts:user_detail", args=[self.pk])

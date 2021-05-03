@@ -23,6 +23,7 @@ from tapir.coop.forms import (
     DraftUserRegisterForm,
 )
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
+from tapir.utils.user_utils import UserUtils
 
 
 class ShareOwnershipViewMixin:
@@ -207,6 +208,37 @@ def create_user_from_draftuser(request, pk):
         draft.delete()
 
     return redirect(u.get_absolute_url())
+
+
+@csrf_protect
+@permission_required("coop.manage")
+def create_user_from_shareowner(request, pk):
+    shareowner = ShareOwner.objects.get(pk=pk)
+
+    if shareowner.user is not None:
+        raise Exception("This ShareOwner already has a User")
+
+    with transaction.atomic():
+        user = TapirUser.objects.create(
+            username=UserUtils.build_username(
+                shareowner.first_name, shareowner.last_name
+            ),
+            first_name=shareowner.first_name,
+            last_name=shareowner.last_name,
+            email=shareowner.email,
+            birthdate=shareowner.birthdate,
+            street=shareowner.street,
+            street_2=shareowner.street_2,
+            postcode=shareowner.postcode,
+            city=shareowner.city,
+            country=shareowner.country,
+        )
+        shareowner.user = user
+        shareowner.is_investing = False
+        shareowner.save()
+        user.save()
+
+    return redirect(user.get_absolute_url())
 
 
 @require_POST

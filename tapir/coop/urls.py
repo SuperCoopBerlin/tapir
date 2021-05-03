@@ -71,6 +71,11 @@ urlpatterns = [
         name="draftuser_create_user",
     ),
     path(
+        "member/<int:pk>/create_user",
+        views.create_user_from_shareowner,
+        name="create_user_from_shareowner",
+    ),
+    path(
         "user/draft/<int:pk>/draftuser_create_share_owner",
         views.create_share_owner_from_draftuser,
         name="draftuser_create_share_owner",

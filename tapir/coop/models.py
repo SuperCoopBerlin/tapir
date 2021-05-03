@@ -11,6 +11,7 @@ from tapir.accounts.models import TapirUser
 from tapir.finance.models import Invoice
 from tapir.odoo.models import OdooPartner
 from tapir.utils.models import DurationModelMixin, CountryField
+from tapir.utils.user_utils import UserUtils
 
 COOP_SHARE_PRICE = Decimal(100)
 COOP_ENTRY_AMOUNT = Decimal(10)
@@ -62,10 +63,15 @@ class ShareOwner(models.Model):
 
     def get_display_name(self):
         if self.user:
-            return self.user.get_full_name()
+            return self.user.get_display_name()
         if self.is_company:
             return self.company_name
-        return "%s %s" % (self.first_name, self.last_name)
+        return UserUtils.build_display_name(self.first_name, self.last_name)
+
+    def get_display_address(self):
+        return UserUtils.build_display_address(
+            self.street, self.street_2, self.postcode, self.city
+        )
 
     def get_email(self):
         return self.user.email if self.user else self.email
@@ -158,12 +164,12 @@ class DraftUser(models.Model):
         return self.num_shares * COOP_SHARE_PRICE + COOP_ENTRY_AMOUNT
 
     def get_display_name(self):
-        if self.first_name or self.last_name:
-            return "%s %s" % (self.first_name, self.last_name)
-        if self.email:
-            return self.email
+        return UserUtils.build_display_name(self.first_name, self.last_name)
 
-        return self.username
+    def get_display_address(self):
+        return UserUtils.build_display_address(
+            self.street, self.street_2, self.postcode, self.city
+        )
 
     def can_create_user(self):
         return (

@@ -1,6 +1,7 @@
 import datetime
 
 # Helper class to deal with users generated from https://randomuser.me/
+from tapir.utils.user_utils import UserUtils
 
 
 class JsonUser:
@@ -40,19 +41,15 @@ class JsonUser:
         self.date_joined = datetime.datetime.fromisoformat(date_joined)
 
     def get_username(self) -> str:
-        # TODO Théo 02.05.21
-        # Replace special characters like in updateUsername() in tapir/coop/static/coop/js/draftuser_form.js
-        return self.first_name.lower() + "_" + self.last_name.lower()
+        return UserUtils.build_username(self.first_name, self.last_name)
 
     def get_display_name(self) -> str:
-        return self.first_name + " " + self.last_name
+        return UserUtils.build_display_name(self.first_name, self.last_name)
 
     def get_date_of_birth_str_for_input_field(self) -> str:
         return self.date_of_birth.strftime("%Y-%m-%d")
 
-    def get_complete_address(self) -> str:
-        result = self.street
-        if self.street_2 is not None and len(self.street_2) > 0:
-            result += " " + self.street_2
-        result += ", " + self.postcode + " " + self.city
-        return result
+    def get_display_address(self) -> str:
+        return UserUtils.build_display_address(
+            self.street, self.street_2, self.postcode, self.city
+        )

@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
-                        <div class="col-9">{{ user.first_name }} {{ user.last_name }}</div>
+                        <div class="col-9">{{ user.get_display_name }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Username" %}:</div>
@@ -42,8 +42,7 @@
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
                         <div class="col-9">
-                            {{ object.street }}{% if object.street_2 %} {{ object.street_2 }}{% endif %},
-                            {{ object.postcode }} {{ object.city }}
+                            {{ object.get_display_address }}
                         </div>
                     </div>
 
