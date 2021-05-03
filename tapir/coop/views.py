@@ -218,6 +218,9 @@ def create_user_from_shareowner(request, pk):
     if shareowner.user is not None:
         raise Exception("This ShareOwner already has a User")
 
+    if shareowner.is_company:
+        raise Exception("This ShareOwner is a company")
+
     with transaction.atomic():
         user = TapirUser.objects.create(
             username=UserUtils.build_username(
