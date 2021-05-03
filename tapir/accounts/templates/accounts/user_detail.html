@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="row m-1 justify-content-end">
-                        {% if perms.accounts.manager %}
+                        {% if perms.accounts.manage %}
                             <form
                                     method="post"
                                     action="{% url "accounts:send_user_welcome_email" object.pk %}">
