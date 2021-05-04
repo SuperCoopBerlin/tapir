@@ -247,6 +247,15 @@ def create_user_from_shareowner(request, pk):
             country=shareowner.country,
         )
         shareowner.user = user
+        shareowner.first_name = "See linked user"
+        shareowner.last_name = "See linked user"
+        shareowner.email = "see.linked.user@tapir.com"
+        shareowner.birthdate = None
+        shareowner.street = "See linked user"
+        shareowner.street_2 = None
+        shareowner.postcode = "00000"
+        shareowner.city = "See linked user"
+        shareowner.country = "See linked user"
         shareowner.is_investing = False
         shareowner.save()
         user.save()
