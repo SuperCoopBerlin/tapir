@@ -15,12 +15,14 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, CreateView
 
+from tapir.accounts.forms import TapirUserForm
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.forms import (
     CoopShareOwnershipForm,
     DraftUserForm,
     DraftUserRegisterForm,
+    ShareOwnerForm,
 )
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 from tapir.utils.user_utils import UserUtils
@@ -119,6 +121,14 @@ class ShareOwnerDetailView(
     PermissionRequiredMixin, ShareOwnerViewMixin, generic.DetailView
 ):
     permission_required = "coop.manage"
+
+
+class ShareOwnerUpdateView(
+    PermissionRequiredMixin, ShareOwnerViewMixin, generic.UpdateView
+):
+    permission_required = "accounts.manage"
+    model = ShareOwner
+    form_class = ShareOwnerForm
 
 
 @require_GET

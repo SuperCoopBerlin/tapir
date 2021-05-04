@@ -5,7 +5,7 @@ from tapir.accounts.models import TapirUser
 from tapir.utils.forms import DateInput
 
 
-class UserForm(forms.ModelForm):
+class TapirUserForm(forms.ModelForm):
     class Meta:
         model = TapirUser
         fields = [

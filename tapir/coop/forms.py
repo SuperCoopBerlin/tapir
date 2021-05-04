@@ -4,7 +4,7 @@ from django.core.mail import EmailMessage
 from django.forms import TextInput
 from django.template.loader import render_to_string
 
-from tapir.coop.models import ShareOwnership, DraftUser
+from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 from tapir.coop.pdfs import get_membership_agreement_pdf
 from tapir.utils.forms import DateInput
 
@@ -98,4 +98,22 @@ class DraftUserRegisterForm(forms.ModelForm):
             "birthdate": DateInput(),
             "username": TextInput(attrs={"readonly": True}),
             "phone_number": TextInput(attrs={"pattern": "^\\+?\\d{0,13}"}),
+        }
+
+
+class ShareOwnerForm(forms.ModelForm):
+    class Meta:
+        model = ShareOwner
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "birthdate",
+            "street",
+            "street_2",
+            "postcode",
+            "city",
+        ]
+        widgets = {
+            "birthdate": DateInput(),
         }

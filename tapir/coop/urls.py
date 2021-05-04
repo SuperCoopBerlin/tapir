@@ -110,4 +110,9 @@ urlpatterns = [
         views.ShareOwnerDetailView.as_view(),
         name="shareowner_detail",
     ),
+    path(
+        "member/<int:pk>/edit",
+        views.ShareOwnerUpdateView.as_view(),
+        name="shareowner_update",
+    ),
 ]

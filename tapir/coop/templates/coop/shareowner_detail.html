@@ -10,8 +10,13 @@
         <div class="card m-2" id="share_owner_detail_card">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 <span>Share Owner</span>
-                {% if object.user is not None %}<a class="btn btn-outline-primary" href="{% url "accounts:user_detail" object.user.pk %}">{% trans "Go to user page" %}</a>
-                {% elif not object.is_company %}<a class="btn btn-primary" href="{% url "coop:create_user_from_shareowner" object.pk %}">{% trans "Create user" %}</a>
+                {% if object.user is not None %}
+                    <a class="btn btn-outline-primary" href="{% url "accounts:user_detail" object.user.pk %}">{% trans "Go to user page" %}</a>
+                {% elif not object.is_company %}
+                    <span>
+                        <a class="btn btn-outline-primary" href="{% url "coop:shareowner_update" object.pk %}">{% trans "Edit share owner" %}</a>
+                        <a class="btn btn-primary" href="{% url "coop:create_user_from_shareowner" object.pk %}">{% trans "Create user" %}</a>
+                    </span>
                 {% endif %}
             </h5>
             <div class="card-body">
