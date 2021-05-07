@@ -16,4 +16,4 @@ class UserUtils:
     @staticmethod
     def build_username(first_name: str, last_name: str):
         # TODO Théo 03.05.21 Replace special characters like in updateUsername() in tapir/coop/static/coop/js/draftuser_form.js
-        return first_name.lower() + " " + last_name.lower()
+        return first_name.lower() + "_" + last_name.lower()
