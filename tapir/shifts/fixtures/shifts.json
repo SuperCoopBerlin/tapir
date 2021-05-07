@@ -1,1 +1,45 @@
-[{"model": "shifts.shifttemplategroup", "pk": 1, "fields": {"name": "Week A"}}, {"model": "shifts.shifttemplate", "pk": 1, "fields": {"name": "Frühschicht", "group": 1, "weekday": 0, "start_time": "09:00:00", "end_time": "12:00:00", "num_slots": 3}}, {"model": "shifts.shifttemplate", "pk": 2, "fields": {"name": "Mittagsschicht", "group": 1, "weekday": 0, "start_time": "12:00:00", "end_time": "15:00:00", "num_slots": 3}}, {"model": "shifts.shifttemplate", "pk": 3, "fields": {"name": "Spätschicht", "group": 1, "weekday": 0, "start_time": "15:00:00", "end_time": "18:00:00", "num_slots": 3}}]
+[
+  {
+    "model": "shifts.shifttemplategroup",
+    "pk": 1,
+    "fields": {
+      "name": "Week A"
+    }
+  },
+  {
+    "model": "shifts.shifttemplate",
+    "pk": 1,
+    "fields": {
+      "name": "Frühschicht",
+      "group": 1,
+      "weekday": 0,
+      "start_time": "09:00:00",
+      "end_time": "12:00:00",
+      "num_slots": 3
+    }
+  },
+  {
+    "model": "shifts.shifttemplate",
+    "pk": 2,
+    "fields": {
+      "name": "Mittagsschicht",
+      "group": 1,
+      "weekday": 0,
+      "start_time": "12:00:00",
+      "end_time": "15:00:00",
+      "num_slots": 3
+    }
+  },
+  {
+    "model": "shifts.shifttemplate",
+    "pk": 3,
+    "fields": {
+      "name": "Spätschicht",
+      "group": 1,
+      "weekday": 0,
+      "start_time": "15:00:00",
+      "end_time": "18:00:00",
+      "num_slots": 3
+    }
+  }
+]
