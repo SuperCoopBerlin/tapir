@@ -29,6 +29,7 @@ class DraftUserForm(forms.ModelForm):
             "last_name",
             "username",
             "email",
+            "phone_number",
             "birthdate",
             "street",
             "street_2",
