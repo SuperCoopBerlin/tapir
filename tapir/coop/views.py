@@ -9,6 +9,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
@@ -110,6 +111,8 @@ class DraftUserDetailView(
 class DraftUserDeleteView(
     PermissionRequiredMixin, DraftUserViewMixin, generic.DeleteView
 ):
+    permission_required = "coop.manage"
+    success_url = "/coop/user/draft/"
     pass
 
 
