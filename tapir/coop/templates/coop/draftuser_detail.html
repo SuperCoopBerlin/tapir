@@ -93,7 +93,7 @@
                               action="{% url "coop:mark_draftuser_signed_membership_agreement" object.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-success ml-3">
-                                <span class="material-icons" style="font-size: 14px;">check</span> Mark Signed
+                                <span id="button_marker_membership_agreement_signed"  class="material-icons" style="font-size: 14px;">check</span> Mark Signed
                             </button>
                         </form>
                         {% endif %}
@@ -157,7 +157,7 @@
                                 method="post"
                                 action="{% url "coop:draftuser_create_share_owner" object.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="align-self-right btn btn-primary ml-3">
+                            <button id="button_create_investing_member" type="submit" class="align-self-right btn btn-primary ml-3">
                                 Create Investing Member
                             </button>
                         </form>
