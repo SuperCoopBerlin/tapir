@@ -1,11 +1,12 @@
 import datetime
 import json
+import os
+import pathlib
 import random
-
-from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, ShareOwnership, DraftUser
+from tapir.coop.views import create_user_from_shareowner
 from tapir.finance.models import Invoice
 from tapir.odoo.models import OdooPartner
 from tapir.shifts.models import (
@@ -116,30 +117,43 @@ def populate_template_groups():
 
 def populate_users():
     # Users generated with https://randomuser.me
-    print("Creating 500 users, this may take a while")
-    file = open("test_users.json")
+    print("Creating 200 users, this may take a while")
+
+    path_to_json_file = os.path.join(
+        pathlib.Path(__file__).parent.absolute(), "test_users.json"
+    )
+    file = open(path_to_json_file, encoding="UTF-8")
     json_string = file.read()
     file.close()
+
     parsed_users = json.loads(json_string)["results"]
-    for index, parsed_user in enumerate(parsed_users[:500]):
+    for index, parsed_user in enumerate(parsed_users[:200]):
         if index % 50 == 0:
-            print(str(index) + "/500")
+            print(str(index) + "/200")
         json_user = JsonUser(parsed_user)
 
-        (tapir_user, _) = TapirUser.objects.get_or_create(
-            username=json_user.get_username(),
+        (share_owner, _) = ShareOwner.objects.get_or_create(
             first_name=json_user.first_name,
             last_name=json_user.last_name,
             email=json_user.email,
-            is_staff=False,
-            is_active=True,
-            date_joined=json_user.date_joined,
             postcode=json_user.postcode,
             street=json_user.street,
             street_2=json_user.street_2,
             country=json_user.country,
             birthdate=json_user.date_of_birth,
+            is_company=False,
         )
+
+        ShareOwnership.objects.create(
+            owner=share_owner,
+            start_date=datetime.date.today(),
+        )
+
+        create_user_from_shareowner(share_owner)
+        tapir_user = share_owner.user
+        tapir_user.is_staff = False
+        tapir_user.is_active = True
+        tapir_user.save()
 
         if ShiftAttendanceTemplate.objects.filter(user=tapir_user).count() > 0:
             continue

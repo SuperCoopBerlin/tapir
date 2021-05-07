@@ -222,9 +222,15 @@ def create_user_from_draftuser(request, pk):
 
 @csrf_protect
 @permission_required("coop.manage")
-def create_user_from_shareowner(request, pk):
+def create_user_from_shareowner_view(request, pk):
     shareowner = ShareOwner.objects.get(pk=pk)
 
+    user = create_user_from_shareowner(shareowner)
+
+    return redirect(user.get_absolute_url())
+
+
+def create_user_from_shareowner(shareowner: ShareOwner) -> TapirUser:
     if shareowner.user is not None:
         raise Exception("This ShareOwner already has a User")
 
@@ -252,7 +258,7 @@ def create_user_from_shareowner(request, pk):
         shareowner.email = "see.linked.user@tapir.com"
         shareowner.birthdate = None
         shareowner.street = "See linked user"
-        shareowner.street_2 = None
+        shareowner.street_2 = "See linked user"
         shareowner.postcode = "00000"
         shareowner.city = "See linked user"
         shareowner.country = "See linked user"
@@ -260,7 +266,7 @@ def create_user_from_shareowner(request, pk):
         shareowner.save()
         user.save()
 
-    return redirect(user.get_absolute_url())
+    return user
 
 
 @require_POST

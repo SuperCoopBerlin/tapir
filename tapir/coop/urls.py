@@ -72,7 +72,7 @@ urlpatterns = [
     ),
     path(
         "member/<int:pk>/create_user",
-        views.create_user_from_shareowner,
+        views.create_user_from_shareowner_view,
         name="create_user_from_shareowner",
     ),
     path(
