@@ -96,14 +96,9 @@ urlpatterns = [
         name="send_shareowner_membership_confirmation_welcome_email",
     ),
     path(
-        "user/draft/<int:pk>/register_payment_cash",
-        views.register_draftuser_payment_cash,
-        name="register_draftuser_payment_cash",
-    ),
-    path(
-        "user/draft/<int:pk>/register_payment_bank",
-        views.register_draftuser_payment_bank,
-        name="register_draftuser_payment_bank",
+        "user/draft/<int:pk>/register_payment",
+        views.register_draftuser_payment,
+        name="register_draftuser_payment",
     ),
     path(
         "member/<int:pk>/",

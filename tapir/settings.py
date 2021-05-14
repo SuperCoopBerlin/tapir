@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     "tapir.shifts",
     "tapir.utils",
     "tapir.coop",
-    "tapir.finance",
-    "tapir.odoo",
     # TODO(Leon Handreke): Don't install in prod
     "django_extensions",
 ]

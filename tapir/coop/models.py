@@ -1,6 +1,5 @@
 from decimal import Decimal
 
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -8,8 +7,6 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts import validators
 from tapir.accounts.models import TapirUser
-from tapir.finance.models import Invoice
-from tapir.odoo.models import OdooPartner
 from tapir.utils.models import DurationModelMixin, CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -142,14 +139,6 @@ class DraftUser(models.Model):
         _("Signed Beteiligungserklärung"), default=False
     )
 
-    # OdooPartner and Invoice that was already created to process the payment
-    odoo_partner = models.ForeignKey(
-        OdooPartner, blank=True, null=True, on_delete=models.PROTECT
-    )
-    coop_share_invoice = models.ForeignKey(
-        Invoice, blank=True, null=True, on_delete=models.PROTECT
-    )
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
@@ -179,31 +168,3 @@ class DraftUser(models.Model):
             and self.last_name
             and self.signed_membership_agreement
         )
-
-    def create_coop_share_invoice(self):
-        # This is a bit hacky, as it's a second codepath that creates an invoice and registers a payment before we even
-        # have the User and ShareOwner objects. However, in practice we (mostly) only want to admit people after we've
-        # registered their payment, as otherwise we would be running after payments from users that are already
-        # admitted.
-        if not self.odoo_partner:
-            self.odoo_partner = OdooPartner.objects.create_from_draft_user(self)
-
-        if not self.coop_share_invoice:
-            self.coop_share_invoice = Invoice.objects.create_with_odoo_partner(
-                self.odoo_partner
-            )
-            self.coop_share_invoice.add_invoice_line(
-                "Eintrittsgeld",
-                COOP_ENTRY_AMOUNT,
-                settings.ODOO_ACCOUNT_ID_8200,
-                settings.ODOO_TAX_ID_NOT_TAXABLE,
-            )
-            self.coop_share_invoice.add_invoice_line(
-                "Genossenschaftsanteil",
-                COOP_SHARE_PRICE,
-                settings.ODOO_ACCOUNT_ID_0810,
-                settings.ODOO_TAX_ID_NOT_TAXABLE,
-            )
-            self.coop_share_invoice.mark_open()
-
-        self.save()

@@ -9,14 +9,12 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, CreateView
 
-from tapir.accounts.forms import TapirUserForm
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.forms import (
@@ -210,14 +208,6 @@ def create_user_from_draftuser(request, pk):
                     owner=share_owner,
                     start_date=date.today(),
                 )
-        if draft.odoo_partner:
-            draft.odoo_partner.user = u
-            draft.odoo_partner.save()
-
-        if draft.coop_share_invoice:
-            draft.coop_share_invoice.user = u
-            draft.coop_share_invoice.save()
-
         draft.delete()
 
     return redirect(u.get_absolute_url())
@@ -311,42 +301,17 @@ def create_share_owner_from_draftuser(request, pk):
                 start_date=date.today(),
             )
 
-        if draft.odoo_partner:
-            draft.odoo_partner.save()
-
-        if draft.coop_share_invoice:
-            draft.coop_share_invoice.save()
-
         draft.delete()
 
     return redirect(share_owner.get_absolute_url())
 
 
-# We're calling an already-protected view internally, but let's be sure nobody ever forgets.
 @require_POST
 @csrf_protect
 @permission_required("coop.manage")
-def register_draftuser_payment_cash(request, pk):
-    return register_draftuser_payment(request, pk, settings.ODOO_JOURNAL_ID_CASH)
-
-
-# We're calling an already-protected view internally, but let's be sure nobody ever forgets.
-@require_POST
-@csrf_protect
-@permission_required("coop.manage")
-def register_draftuser_payment_bank(request, pk):
-    return register_draftuser_payment(request, pk, settings.ODOO_JOURNAL_ID_BANK)
-
-
-@require_POST
-@csrf_protect
-@permission_required("coop.manage")
-def register_draftuser_payment(request, pk, odoo_journal_id):
+def register_draftuser_payment(request, pk):
     draft = get_object_or_404(DraftUser, pk=pk)
-    draft.create_coop_share_invoice()
-    draft.coop_share_invoice.register_payment(
-        draft.get_initial_amount(), odoo_journal_id
-    )
+    # TODO(Leon Handreke) Register the payment
     return redirect(draft.get_absolute_url())
 
 

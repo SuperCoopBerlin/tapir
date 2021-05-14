@@ -121,20 +121,11 @@
                         {% if not object.coop_share_invoice or object.coop_share_invoice.get_state != object.coop_share_invoice.STATE_PAID %}
                             <form style="display: inline;"
                                   method="post"
-                                  action="{% url "coop:register_draftuser_payment_bank" object.pk %}">
+                                  action="{% url "coop:register_draftuser_payment" object.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-success ml-3">
                                     <span class="material-icons" style="font-size: 14px;">payment</span>
-                                    {% trans "Register Bank Payment" %}
-                                </button>
-                            </form>
-                            <form style="display: inline;"
-                                  method="post"
-                                  action="{% url "coop:register_draftuser_payment_cash" object.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-success ml-3">
-                                    <span class="material-icons" style="font-size: 14px;">euro</span>
-                                    {% trans "Register Cash Payment" %}
+                                    {% trans "Register Payment" %}
                                 </button>
                             </form>
                         {% endif %}
