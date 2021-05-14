@@ -138,6 +138,7 @@ class DraftUser(models.Model):
     signed_membership_agreement = models.BooleanField(
         _("Signed Beteiligungserklärung"), default=False
     )
+    paid_membership_fee = models.BooleanField(_("Paid Membership Fee"), default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

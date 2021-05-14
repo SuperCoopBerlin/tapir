@@ -311,7 +311,8 @@ def create_share_owner_from_draftuser(request, pk):
 @permission_required("coop.manage")
 def register_draftuser_payment(request, pk):
     draft = get_object_or_404(DraftUser, pk=pk)
-    # TODO(Leon Handreke) Register the payment
+    draft.paid_membership_fee = True
+    draft.save()
     return redirect(draft.get_absolute_url())
 
 

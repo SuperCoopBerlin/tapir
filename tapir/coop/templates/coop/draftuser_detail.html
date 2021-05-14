@@ -103,22 +103,12 @@
                     <div class="col-3 font-weight-bold text-right">{% trans "Payment" %}:</div>
                     <div class="col-9" id="draft_user_payment">
                         {{ object.get_initial_amount }}€
-                        {% if object.coop_share_invoice %}
-                            <span class="ml-1">
-                            {% if object.coop_share_invoice.get_state == object.coop_share_invoice.STATE_PAID %}
-                                <span class="text-success">{% trans "Paid" %}</span>
-                            {% else %}
-                                <span class="text-warning">{% trans "Open" %}</span>
-                            {% endif %}
+                        <span class="ml-1">
+                        {% if object.paid_membership_fee %}
+                            <span class="text-success">{% trans "Paid" %}</span>
+                        {% else %}
+                            <span class="text-warning">{% trans "Open" %}</span>
 
-                            <a href="{{ object.coop_share_invoice.get_absolute_url }}" class="btn btn-outline-secondary">
-                                <span class="material-icons" style="font-size: 14px;">receipt</span>
-                                {%  trans "View Invoice" %}
-                            </a>
-                        </span>
-                        {% endif %}
-
-                        {% if not object.coop_share_invoice or object.coop_share_invoice.get_state != object.coop_share_invoice.STATE_PAID %}
                             <form style="display: inline;"
                                   method="post"
                                   action="{% url "coop:register_draftuser_payment" object.pk %}">
@@ -129,6 +119,7 @@
                                 </button>
                             </form>
                         {% endif %}
+                        </span>
                     </div>
                 </div>
                 <div class="row m-1 mt-5 flex-row">
