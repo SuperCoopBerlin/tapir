@@ -33,4 +33,9 @@ urlpatterns = [
         views.CreateShiftView.as_view(),
         name="shift_create",
     ),
+    path(
+        "shift/<int:pk>/register",
+        views.register_user_to_shift,
+        name="shift_register_user",
+    ),
 ]

@@ -97,12 +97,7 @@ class ShiftDetailView(PermissionRequiredMixin, DetailView):
             attendances.append(None)
         context["attendances"] = attendances
 
-        user: TapirUser = self.request.user
-        can_join = len(shift.attendances.filter(user=user)) == 0
-        share_owner = ShareOwner.objects.filter(user=user)
-        if len(share_owner) > 0:
-            can_join = can_join and not ShareOwner.objects.get(user=user).is_investing
-        context["can_join"] = can_join
+        context["can_join"] = user_can_join_shift(self.request.user, shift)
 
         return context
 
@@ -165,3 +160,22 @@ class CreateShiftView(PermissionRequiredMixin, CreateView):
     permission_required = "shifts.manage"
     model = Shift
     form_class = ShiftCreateForm
+
+
+@permission_required("shifts.manage")
+def register_user_to_shift(request, pk):
+    shift = Shift.objects.get(pk=pk)
+    user: TapirUser = request.user
+    if not user_can_join_shift(user, shift):
+        raise Exception("User ({0}) can't join shift ({1})".format(user.id, shift.id))
+    ShiftAttendance.objects.create(shift=shift, user=user)
+
+    return redirect(shift)
+
+
+def user_can_join_shift(user: TapirUser, shift: Shift) -> bool:
+    can_join = len(shift.attendances.filter(user=user)) == 0
+    share_owner = ShareOwner.objects.filter(user=user)
+    if len(share_owner) > 0:
+        can_join = can_join and not ShareOwner.objects.get(user=user).is_investing
+    return can_join
