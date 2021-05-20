@@ -9,6 +9,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, DetailView, CreateView
 
 from tapir.accounts.models import TapirUser
+from tapir.coop.models import ShareOwner
 from tapir.shifts.forms import ShiftCreateForm
 from tapir.shifts.models import (
     Shift,
@@ -98,7 +99,9 @@ class ShiftDetailView(PermissionRequiredMixin, DetailView):
 
         user: TapirUser = self.request.user
         can_join = len(shift.attendances.filter(user=user)) == 0
-        can_join = can_join and not user.coop_share_owner.is_investing
+        share_owner = ShareOwner.objects.filter(user=user)
+        if len(share_owner) > 0:
+            can_join = can_join and not ShareOwner.objects.get(user=user).is_investing
         context["can_join"] = can_join
 
         return context
