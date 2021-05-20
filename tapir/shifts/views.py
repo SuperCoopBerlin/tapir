@@ -161,11 +161,21 @@ class CreateShiftView(PermissionRequiredMixin, CreateView):
     model = Shift
     form_class = ShiftCreateForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = "Creating a shift"
+        return context
+
 
 class EditShiftView(PermissionRequiredMixin, UpdateView):
     permission_required = "shifts.manage"
     model = Shift
     form_class = ShiftCreateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = "Editing a shift"
+        return context
 
 
 @permission_required("shifts.manage")
