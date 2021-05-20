@@ -248,6 +248,11 @@ COUNTRIES = (
     ("ZZ", _("Unknown or unspecified country")),
 )
 
+PREFERRED_LANGUAGES = [
+    ("de", _("Deutsch")),
+    ("en", _("English")),
+]
+
 
 class CountryField(models.CharField):
     def __init__(self, *args, **kwargs):

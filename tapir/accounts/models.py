@@ -17,6 +17,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 
+from tapir import utils
 from tapir.accounts import validators
 from tapir.utils.models import CountryField
 from tapir.utils.user_utils import UserUtils
@@ -105,6 +106,13 @@ class TapirUser(LdapUser):
     postcode = models.CharField(_("Postcode"), max_length=32, blank=True)
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
+
+    preferred_language = models.CharField(
+        _("Preferred Language"),
+        choices=utils.models.PREFERRED_LANGUAGES,
+        default="de",
+        max_length=16,
+    )
 
     def get_display_name(self):
         return UserUtils.build_display_name(self.first_name, self.last_name)

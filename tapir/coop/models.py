@@ -5,6 +5,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from tapir import utils
 from tapir.accounts import validators
 from tapir.accounts.models import TapirUser
 from tapir.utils.models import DurationModelMixin, CountryField
@@ -45,6 +46,13 @@ class ShareOwner(models.Model):
     postcode = models.CharField(_("Postcode"), max_length=32, blank=True)
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
+
+    preferred_language = models.CharField(
+        _("Preferred Language"),
+        choices=utils.models.PREFERRED_LANGUAGES,
+        default="de",
+        max_length=16,
+    )
 
     is_investing = models.BooleanField(
         verbose_name=_("Is investing member"), default=False
@@ -116,6 +124,13 @@ class DraftUser(models.Model):
     postcode = models.CharField(_("Postcode"), max_length=32, blank=True)
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
+
+    preferred_language = models.CharField(
+        _("Preferred Language"),
+        choices=utils.models.PREFERRED_LANGUAGES,
+        default="de",
+        max_length=16,
+    )
 
     # For now, make this not editable, as one is the 99%-case. In case somebody wants to buy more shares,
     # we should build a flow for existing users. This also solves the issue of keeping the invoice in sync.
