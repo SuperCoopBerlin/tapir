@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        Mitgliedschaftsbestätigung {{ owner_display_name }}
+        Mitgliedschaftsbestätigung {{ owner.get_info.get_display_name }}
     </title>
     <link rel="stylesheet" href="{% static "coop/css/membership_agreement_pdf.css" %}">
 
@@ -23,10 +23,10 @@
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
         <span style="font-size: 6pt;">SuperCoop Berlin eG, Glogauer Straße 21, 10999 Berlin</span>
         <div style="margin-top: 2mm;">
-            {{ owner_display_name }}<br />
-            {% if owner_data.street_2 %} {{ owner_data.street_2 }}<br />{% endif %}
-            {{ owner_data.street }}<br />
-            {{ owner_data.postcode }} {{ owner_data.city }}
+            {{ owner.get_info.get_display_name }}<br />
+            {% if owner.get_info.street_2 %} {{ owner.get_info.street_2 }}<br />{% endif %}
+            {{ owner.get_info.street }}<br />
+            {{ owner.get_info.postcode }} {{ owner.get_info.city }}
         </div>
     </div>
     <div style="flex-grow: 1"></div>
@@ -39,7 +39,7 @@
     <div style="display: flex; justify-content: flex-end">Berlin, {% now "j. F Y" %}</div>
     <div style="margin-top: 8mm; font-weight: bold">Bestätigung der Mitgliedschaft bei SuperCoop Berlin eG</div>
 
-    <p>Liebe*r {{ owner.get_display_name }},</p>
+    <p>Liebe*r {{ owner.get_info.get_display_name }},</p>
 
     <p>herzlich Willkommen als offizielles Mitglied der SuperCoop eG!</p>
 

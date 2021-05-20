@@ -15,7 +15,7 @@
                 {% for owner in object_list %}
                     <tr>
                         <td class="align-middle">
-                            <a href="{{ owner.get_absolute_url }}">{{ owner.get_display_name }}</a></td>
+                            <a href="{{ owner.get_absolute_url }}">{{ owner.get_info.get_display_name }}</a></td>
                         <td class="align-middle">{{ owner.get_oldest_active_share_ownership.start_date }}</td>
                         <td class="align-middle">
                             {% if owner.get_oldest_active_share_ownership.is_active and not owner.is_investing %}

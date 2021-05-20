@@ -327,10 +327,11 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
             "coop/email/membership_confirmation_welcome.txt", {"owner": owner}
         ),
         from_email="mitglied@supercoop.de",
-        to=[owner.get_email()],
+        to=[owner.get_info().email],
         attachments=[
             (
-                "Mitgliedschaftsbestätigung %s.pdf" % owner.get_display_name(),
+                "Mitgliedschaftsbestätigung %s.pdf"
+                % owner.get_info().get_display_name(),
                 pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf(),
                 "application/pdf",
             )

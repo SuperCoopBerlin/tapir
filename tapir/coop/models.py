@@ -59,8 +59,6 @@ class ShareOwner(models.Model):
         return r
 
     def get_display_name(self):
-        if self.user:
-            return self.user.get_display_name()
         if self.is_company:
             return self.company_name
         return UserUtils.build_display_name(self.first_name, self.last_name)
@@ -70,8 +68,8 @@ class ShareOwner(models.Model):
             self.street, self.street_2, self.postcode, self.city
         )
 
-    def get_email(self):
-        return self.user.email if self.user else self.email
+    def get_info(self):
+        return self.user if self.user else self
 
     def get_absolute_url(self):
         if self.user:
@@ -98,14 +96,6 @@ class ShareOwnership(DurationModelMixin, models.Model):
         null=False,
         on_delete=models.PROTECT,
     )
-
-
-class CoopUser(object):
-    def __init__(self, user):
-        self.user = user
-
-
-TapirUser.coop = property(lambda u: CoopUser(u))
 
 
 class DraftUser(models.Model):

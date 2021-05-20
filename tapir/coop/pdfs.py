@@ -12,7 +12,6 @@ def get_shareowner_membership_confirmation_pdf(owner):
             "coop/membership_confirmation_pdf.html",
             {
                 "owner": owner,
-                "owner_data": owner.user if hasattr(owner, "user") else owner,
             },
         ),
         base_url=settings.WEASYPRINT_BASEURL,
