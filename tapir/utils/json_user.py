@@ -49,6 +49,9 @@ class JsonUser:
     def get_date_of_birth_str_for_input_field(self) -> str:
         return self.date_of_birth.strftime("%Y-%m-%d")
 
+    def get_date_of_birth_display(self) -> str:
+        return self.date_of_birth.strftime("%d.%m.%Y")
+
     def get_display_address(self) -> str:
         return UserUtils.build_display_address(
             self.street, self.street_2, self.postcode, self.city

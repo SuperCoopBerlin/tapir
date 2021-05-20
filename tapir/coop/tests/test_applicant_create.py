@@ -44,4 +44,23 @@ class TestApplicantToInvestingMember(ApplicantTestBase, ApplicantToTapirUserMixi
             self.selenium.find_element_by_id("share_owner_display_name").text,
             user.get_display_name(),
         )
-        # TODO Théo 07.05.21 test the rest of the page.
+        self.assertEqual(
+            self.selenium.find_element_by_id("share_owner_status").text,
+            "Investing Member",
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("share_owner_email").text,
+            user.email,
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("share_owner_birthdate").text,
+            user.get_date_of_birth_display(),
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("share_owner_address").text,
+            user.get_display_address(),
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("share_owner_num_shares").text,
+            "1",
+        )

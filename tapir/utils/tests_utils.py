@@ -32,7 +32,7 @@ class TapirSeleniumTestBase(LiveServerTestCase):
         self.selenium.get("http://localhost:8000/accounts/login/")
         login_card = self.selenium.find_element_by_id("login-card")
         login_card.find_element_by_id("id_username").send_keys("admin")
-        login_card.find_element_by_id("id_password").send_keys("the_admin_password")
+        login_card.find_element_by_id("id_password").send_keys("admin")
         login_card.find_element_by_tag_name("button").click()
         self.wait_until_element_present_by_id("logout")
 
