@@ -27,12 +27,12 @@
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Status" %}:</div>
                     <div class="col-9" id="share_owner_status">
-                        {% if object.user is not None %}
-                            {% trans "Active Member" %}
+                        {% if object.is_investing %}
+                            {% trans "Investing Member" %}
                         {% elif object.is_company %}
                             {% trans "Company" %}
                         {% else %}
-                            {% trans "Investing Member" %}
+                            {% trans "Active Member" %}
                         {% endif %}
                     </div>
                 </div>
