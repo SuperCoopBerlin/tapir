@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, DetailView, CreateView
 
+from tapir.accounts.models import TapirUser
 from tapir.shifts.forms import ShiftCreateForm
 from tapir.shifts.models import (
     Shift,
@@ -85,6 +86,22 @@ class ShiftDetailView(PermissionRequiredMixin, DetailView):
     model = Shift
     template_name = "shifts/shift_detail.html"
     context_object_name = "shift"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        shift: Shift = context["shift"]
+        attendances = list(shift.attendances.all())
+        while len(attendances) < shift.num_slots:
+            attendances.append(None)
+        context["attendances"] = attendances
+
+        user: TapirUser = self.request.user
+        can_join = len(shift.attendances.filter(user=user)) == 0
+        can_join = can_join and not user.coop_share_owner.is_investing
+        context["can_join"] = can_join
+
+        return context
 
 
 @require_POST
