@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
-from django.views.generic import TemplateView, DetailView, CreateView
+from django.views.generic import TemplateView, DetailView, CreateView, UpdateView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -157,6 +157,12 @@ class ShiftTemplateOverview(PermissionRequiredMixin, TemplateView):
 
 
 class CreateShiftView(PermissionRequiredMixin, CreateView):
+    permission_required = "shifts.manage"
+    model = Shift
+    form_class = ShiftCreateForm
+
+
+class EditShiftView(PermissionRequiredMixin, UpdateView):
     permission_required = "shifts.manage"
     model = Shift
     form_class = ShiftCreateForm

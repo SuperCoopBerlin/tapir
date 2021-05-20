@@ -14,21 +14,6 @@ urlpatterns = [
     # TODO(Leon Handreke): Can we somehow introduce a sub-namespace here?
     path("shift/<int:pk>/", views.ShiftDetailView.as_view(), name="shift_detail"),
     path(
-        "shift/<int:pk>/done",
-        views.mark_shift_attendance_done,
-        name="mark_shiftattendance_done",
-    ),
-    path(
-        "shift/<int:pk>/missed",
-        views.mark_shift_attendance_missed,
-        name="mark_shiftattendance_missed",
-    ),
-    path(
-        "shifttemplate/overview",
-        views.ShiftTemplateOverview.as_view(),
-        name="shift_template_overview",
-    ),
-    path(
         "shift/create",
         views.CreateShiftView.as_view(),
         name="shift_create",
@@ -37,5 +22,25 @@ urlpatterns = [
         "shift/<int:pk>/register",
         views.register_user_to_shift,
         name="shift_register_user",
+    ),
+    path(
+        "shift/<int:pk>/edit",
+        views.EditShiftView.as_view(),
+        name="shift_edit",
+    ),
+    path(
+        "shiftattendance/<int:pk>/done",
+        views.mark_shift_attendance_done,
+        name="mark_shiftattendance_done",
+    ),
+    path(
+        "shiftattendance/<int:pk>/missed",
+        views.mark_shift_attendance_missed,
+        name="mark_shiftattendance_missed",
+    ),
+    path(
+        "shifttemplate/overview",
+        views.ShiftTemplateOverview.as_view(),
+        name="shift_template_overview",
     ),
 ]
