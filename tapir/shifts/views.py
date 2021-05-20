@@ -6,8 +6,9 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, CreateView
 
+from tapir.shifts.forms import ShiftCreateForm
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -138,3 +139,9 @@ class ShiftTemplateOverview(PermissionRequiredMixin, TemplateView):
             group.name for group in ShiftTemplateGroup.objects.all().order_by("name")
         ]
         return context
+
+
+class CreateShiftView(PermissionRequiredMixin, CreateView):
+    permission_required = "shifts.manage"
+    model = Shift
+    form_class = ShiftCreateForm

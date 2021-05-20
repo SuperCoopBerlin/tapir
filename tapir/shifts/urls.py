@@ -28,4 +28,9 @@ urlpatterns = [
         views.ShiftTemplateOverview.as_view(),
         name="shift_template_overview",
     ),
+    path(
+        "shift/create",
+        views.CreateShiftView.as_view(),
+        name="shift_create",
+    ),
 ]

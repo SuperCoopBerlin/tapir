@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "tapir.coop",
     "tapir.finance",
     "tapir.odoo",
+    "bootstrap_datepicker_plus",
     # TODO(Leon Handreke): Don't install in prod
     "django_extensions",
 ]
