@@ -112,34 +112,6 @@
         <div class="col-6 p-0">
             {% user_coop_share_ownership_list user %}
         </div>
-
-        <div class="col-6 p-0">
-            <div class="card m-2">
-                <h5 class="card-header d-flex justify-content-between align-items-center">
-                    {% trans "Invoices" %}
-                </h5>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">{% trans "Invoice Number" %}</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                        </thead>
-                        {% for invoice in user.invoices.all %}
-                            <tr>
-                                <td><a href="{{ invoice.get_absolute_url }}">Invoice {{ invoice.pk }}</td>
-                                <td>TODO</td>
-                                <td>
-                                    TODO
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 {% endblock %}
 

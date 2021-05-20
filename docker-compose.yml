@@ -22,23 +22,23 @@ services:
                         - "8000:8000"
                 depends_on:
                         - openldap
-        odoo:
-                image: "odoo:12"
-                depends_on:
-                        - odoo_db
-                ports:
-                        - "8069:8069"
-                volumes:
-                        - ./testdata/odoo/filestore:/var/lib/odoo/filestore
-                environment:
-                        - HOST=odoo_db
-                command: "--database=odoo"
-        odoo_db:
-                image: postgres:10
-                volumes:
-                        - ./testdata/odoo/odoo.sql:/docker-entrypoint-initdb.d/odoo.sql
-                environment:
-                        - POSTGRES_DB=odoo
-                        - POSTGRES_PASSWORD=odoo
-                        - POSTGRES_USER=odoo
+        #odoo:
+        #        image: "odoo:12"
+        #        depends_on:
+        #                - odoo_db
+        #        ports:
+        #                - "8069:8069"
+        #        volumes:
+        #                - ./testdata/odoo/filestore:/var/lib/odoo/filestore
+        #        environment:
+        #                - HOST=odoo_db
+        #        command: "--database=odoo"
+        #odoo_db:
+        #        image: postgres:10
+        #        volumes:
+        #                - ./testdata/odoo/odoo.sql:/docker-entrypoint-initdb.d/odoo.sql
+        #        environment:
+        #                - POSTGRES_DB=odoo
+        #                - POSTGRES_PASSWORD=odoo
+        #                - POSTGRES_USER=odoo
 
