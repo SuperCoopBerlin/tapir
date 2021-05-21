@@ -8,15 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
     lastnameField.addEventListener("change", updateUsername);
     lastnameField.addEventListener("input", updateUsername);
 
-    function updateUsername() {
-        let username = firstnameField.value + "_" + lastnameField.value;
-        for (const key in character_replace_map) {
-            username = username.replace(character_replace_map[key], key)
-        }
-
-        usernameField.value = username.toLowerCase();
-    }
-
     const character_replace_map = {
         'a': /[àáâãåăą]/g,
         'A': /[ÀÁÂÃÅĂĄ]/g,
@@ -60,6 +51,29 @@ document.addEventListener("DOMContentLoaded", function () {
         'ae': /[æä]/g,
         'AE': /[ÆÄ]/g
     };
+
+    function updateUsername() {
+        let firstName = firstnameField.value
+        let lastName = lastnameField.value
+
+        // str.strip()
+        firstName = firstName.replace(/^\s+|\s+$/g, '');
+        lastName = lastName.replace(/^\s+|\s+$/g, '');
+
+        firstName = firstName.split(" ")[0]
+        lastName = lastName.replace(" ", "-")
+        let username = firstName + "." + lastName
+        for (const key in character_replace_map) {
+            username = username.replace(character_replace_map[key], key)
+        }
+
+        usernameField.value = username.toLowerCase();
+    }
+
+    if (usernameField.value === "") {
+        updateUsername();
+    }
+
 });
 
 

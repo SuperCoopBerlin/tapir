@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+{% load coop %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <script src="{% static "coop/js/draftuser_form.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card m-2">
+            <h5 class="card-header">
+                <span>{% trans "Create User from Share Owner" %}</span>
+            </h5>
+            <div class="card-body">
+                <form role="form" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <span class="text-right">
+                        {% buttons submit='Create' %}{% endbuttons %}
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

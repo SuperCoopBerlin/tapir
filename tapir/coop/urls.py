@@ -71,8 +71,8 @@ urlpatterns = [
         name="draftuser_create_user",
     ),
     path(
-        "member/<int:pk>/create_user",
-        views.create_user_from_shareowner_view,
+        "member/<int:shareowner_pk>/create_user",
+        views.CreateUserFromShareOwnerView.as_view(),
         name="create_user_from_shareowner",
     ),
     path(

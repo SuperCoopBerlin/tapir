@@ -41,7 +41,7 @@ class JsonUser:
         self.date_joined = datetime.datetime.fromisoformat(date_joined)
 
     def get_username(self) -> str:
-        return UserUtils.build_username(self.first_name, self.last_name)
+        return self.first_name.lower() + "." + self.last_name.lower()
 
     def get_display_name(self) -> str:
         return UserUtils.build_display_name(self.first_name, self.last_name)
