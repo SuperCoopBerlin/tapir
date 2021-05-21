@@ -43,3 +43,5 @@ class ShiftAttendanceInline(admin.TabularInline):
 @admin.register(Shift)
 class ShiftAdmin(admin.ModelAdmin):
     inlines = [ShiftAttendanceInline]
+    list_display = ["name", "start_time", "end_time", "num_slots"]
+    search_fields = ["name", "start_time", "end_time"]

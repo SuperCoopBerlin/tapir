@@ -1,6 +1,5 @@
-import sys
-
 from django.core.management.base import BaseCommand
+
 from tapir.utils.management.commands.populate_functions import *
 
 

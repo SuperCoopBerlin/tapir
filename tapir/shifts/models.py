@@ -1,4 +1,5 @@
 import datetime
+import math
 
 from django.db import models
 from django.urls import reverse
@@ -13,6 +14,9 @@ class ShiftTemplateGroup(models.Model):
     Normally, this will be a week of shifts in the ABCD system, so one ShiftTemplateGroup might be "Week A"."""
 
     name = models.CharField(blank=False, max_length=255)
+    week_index = models.IntegerField(null=False)
+
+    START_OF_ABCD_SYSTEM = datetime.date(day=4, month=1, year=2021)
 
     def __str__(self):
         return "%s: %s" % (self.__class__.__name__, self.name)
@@ -21,10 +25,24 @@ class ShiftTemplateGroup(models.Model):
         if start_date.weekday() != 0:
             raise ValueError("Start date for shift generation must be a Monday")
 
+        date_week_index = ShiftTemplateGroup.get_week_index(start_date)
+        if date_week_index != self.week_index:
+            raise ValueError(
+                "Trying to create group template shifts on a day that doesn't belong to the group\n"
+                "Given day : {0} is week index {1}, group {2} has week index {3}".format(
+                    start_date, date_week_index, self.name, self.week_index
+                )
+            )
+
         return [
             shift_template.create_shift(start_date=start_date)
             for shift_template in self.shift_templates.all()
         ]
+
+    @staticmethod
+    def get_week_index(date: datetime.date) -> int:
+        days_diff = (date - ShiftTemplateGroup.START_OF_ABCD_SYSTEM).days
+        return (int(math.floor(days_diff / 7)) % 4) + 1
 
 
 # TODO(Leon Handreke): There must be a library to supply this

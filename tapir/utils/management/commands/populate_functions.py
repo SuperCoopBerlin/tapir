@@ -109,8 +109,10 @@ def populate_user_shifts(request, user_id):
 
 def populate_template_groups():
     ShiftTemplateGroup.objects.all().delete()
-    for week in ["C", "B", "A", "D"]:
-        ShiftTemplateGroup.objects.get_or_create(name="Week " + week)
+    for index, week in enumerate(["A", "B", "C", "D"]):
+        ShiftTemplateGroup.objects.get_or_create(
+            name="Week " + week, week_index=index + 1
+        )
 
     print("Populated template groups")
 
@@ -240,16 +242,16 @@ def populate_shift_templates():
 
 def generate_shifts():
     print("Generating shifts")
-    start_day = datetime.datetime.now() - datetime.timedelta(days=20)
+    start_day = datetime.date.today() - datetime.timedelta(days=20)
     while start_day.weekday() != 0:
         start_day = start_day + datetime.timedelta(days=1)
 
+    groups = ShiftTemplateGroup.objects.order_by("week_index")
     for week in range(8):
         monday = start_day + datetime.timedelta(days=7 * week)
         print("Doing week from " + str(monday) + " " + str(week + 1) + "/8")
-        for group in ShiftTemplateGroup.objects.all():
-            print("\t" + group.name)
-            group.create_shifts(monday)
+        week_index = ShiftTemplateGroup.get_week_index(monday)
+        groups[week_index - 1].create_shifts(monday)
     print("Generated shifts")
 
 
