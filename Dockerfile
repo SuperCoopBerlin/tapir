@@ -8,5 +8,3 @@ RUN apt install libldap2-dev libsasl2-dev
 
 RUN pip install poetry
 RUN poetry install
-
-

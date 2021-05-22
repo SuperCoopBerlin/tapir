@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.mail import EmailMessage
 from django.db import transaction
-from django.http import HttpResponse, HttpResponseForbidden
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
@@ -353,13 +354,49 @@ def shareowner_membership_confirmation(request, pk):
     return response
 
 
-class ActiveShareOwnerListView(PermissionRequiredMixin, generic.ListView):
+class ShareOwnerSearchMixin:
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if queryset.count() == 1:
+            return HttpResponseRedirect(queryset.first().get_absolute_url())
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        searches = self.request.GET.get("search", "").split(" ")
+        searches = [s for s in searches if s != ""]
+
+        if len(searches) == 1 and searches[0].isdigit():
+            queryset = queryset.filter(pk=int(searches[0]))
+        elif searches:
+            filter_ = Q(last_name__icontains="")
+            for search in searches:
+                search_filter = (
+                    Q(last_name__icontains=search)
+                    | Q(first_name__icontains=search)
+                    | Q(user__first_name__icontains=search)
+                    | Q(user__last_name__icontains=search)
+                )
+                filter_ = filter_ & search_filter
+
+            queryset = queryset.filter(filter_)
+
+        return queryset
+
+
+class ActiveShareOwnerListView(
+    PermissionRequiredMixin, ShareOwnerSearchMixin, generic.ListView
+):
     permission_required = "coop.manage"
     model = ShareOwner
     template_name = "coop/shareowner_list.html"
 
     def get_queryset(self):
         # TODO(Leon Handreke): Allow passing a date
-        return ShareOwner.objects.filter(
-            share_ownerships__in=ShareOwnership.objects.active_temporal()
-        ).distinct()
+        return (
+            super()
+            .get_queryset()
+            .filter(share_ownerships__in=ShareOwnership.objects.active_temporal())
+            .distinct()
+        )
