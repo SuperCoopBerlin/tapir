@@ -1,14 +1,19 @@
 import datetime
-import time
 
+from django.test import tag
+from django.test.testcases import SerializeMixin
 from django.urls import reverse
 
 from tapir.utils.tests_utils import TapirSeleniumTestBase
-from django.test import tag
 
 
-class TestCreateShift(TapirSeleniumTestBase):
+class ShiftTestBase(SerializeMixin, TapirSeleniumTestBase):
+    lockfile = __file__
+    shift_id = -1
     shift_name = "THE_TEST_SHIFT"
+
+
+class TestCreateShift(ShiftTestBase):
     shift_start_time = datetime.datetime.now()
     shift_end_time = datetime.datetime.now() + datetime.timedelta(hours=3)
     shift_num_slots = 5
@@ -20,13 +25,13 @@ class TestCreateShift(TapirSeleniumTestBase):
         self.wait_until_element_present_by_id("shift_form_card")
         self.fill_shift_create_form()
         self.wait_until_element_present_by_id("shift_detail_card")
-        shift_id = self.check_shift_detail_page()
+        self.check_shift_detail_page()
         self.selenium.get(self.URL_BASE + reverse("shifts:upcoming_timetable"))
         self.wait_until_element_present_by_id("upcoming-shifts-timetable")
-        self.check_shift_in_timetable(shift_id)
+        self.check_shift_in_timetable()
 
     def fill_shift_create_form(self):
-        self.selenium.find_element_by_id("id_name").send_keys(self.shift_name)
+        self.selenium.find_element_by_id("id_name").send_keys(ShiftTestBase.shift_name)
 
         field_start_date = self.selenium.find_element_by_id("id_start_time")
         field_start_date.clear()
@@ -40,12 +45,12 @@ class TestCreateShift(TapirSeleniumTestBase):
         field_num_slots.clear()
         field_num_slots.send_keys(self.shift_num_slots)
 
-        self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
+        self.selenium.find_element_by_xpath('//button[text() = "Save"]').click()
 
     def check_shift_detail_page(self) -> int:
         self.assertEqual(
             self.selenium.find_element_by_id("shift_name").text,
-            self.shift_name,
+            ShiftTestBase.shift_name,
         )
         formatted_time = self.shift_start_time.strftime("%d.%m.%Y, %H:%M")
         formatted_time += " - " + self.shift_end_time.strftime("%H:%M")
@@ -62,13 +67,15 @@ class TestCreateShift(TapirSeleniumTestBase):
             "#" + str(self.shift_num_slots),
         )
 
-        shift_id = self.selenium.current_url.split("/")[-2]
-        return shift_id
+        ShiftTestBase.shift_id = self.selenium.current_url.split("/")[-2]
 
-    def check_shift_in_timetable(self, shift_id: int):
-        shift_block = self.selenium.find_element_by_id("shift_{0}".format(shift_id))
+    def check_shift_in_timetable(self):
+        shift_block = self.selenium.find_element_by_id(
+            "shift_{0}".format(ShiftTestBase.shift_id)
+        )
         self.assertEqual(
-            shift_block.find_element_by_class_name("shift-name").text, self.shift_name
+            shift_block.find_element_by_class_name("shift-name").text,
+            ShiftTestBase.shift_name,
         )
         shift_time = (
             self.shift_start_time.time().strftime("%H:%M")
@@ -82,3 +89,23 @@ class TestCreateShift(TapirSeleniumTestBase):
         self.assertEqual(
             shift_block.find_element_by_class_name("shift-date").text, shift_date
         )
+
+
+class TestEditShift(ShiftTestBase):
+    @tag("selenium")
+    def test_edit_shift(self):
+        self.login_as_admin()
+        self.selenium.get(self.URL_BASE + reverse("shifts:upcoming_timetable"))
+        self.wait_until_element_present_by_id("upcoming-shifts-timetable")
+        self.selenium.find_element_by_id(
+            "shift_{0}".format(ShiftTestBase.shift_id)
+        ).click()
+        self.wait_until_element_present_by_id("shift_detail_card")
+        self.selenium.find_element_by_xpath('//button[text()="Edit"]').click()
+        self.wait_until_element_present_by_id("shift_form_card")
+        new_name = ShiftTestBase.shift_name + " EDITED"
+        self.selenium.find_element_by_id("id_name").clear()
+        self.selenium.find_element_by_id("id_name").send_keys(new_name)
+        self.selenium.find_element_by_xpath('//button[text() = "Save"]').click()
+        self.wait_until_element_present_by_id("shift_detail_card")
+        self.assertEqual(self.selenium.find_element_by_id("shift_name").text, new_name)
