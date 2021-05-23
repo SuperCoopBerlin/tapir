@@ -79,8 +79,14 @@
                         </li>
 
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url "shifts:upcoming_timetable" %}">
+                                {% trans "Upcoming shift timetable" %}
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url "shifts:shift_template_overview" %}">
-                                {% trans "Regular Shifts" %}
+                                {% trans "Shift Templates" %}
                             </a>
                         </li>
 

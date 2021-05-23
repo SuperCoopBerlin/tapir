@@ -1,5 +1,6 @@
-<a class="shift-block-container" href="{{ shift.url }}">
-    <div class="shift-block bg-{{ shift.background }}">
+<a class="shift-block-container" href="{{ shift.url }}" style="{{ shift.style }}">
+
+    <div class="shift-block bg-{{ shift.background }}" style="height:{{ shift.height }}px;">
         <div>{{ shift.name }}</div>
         <div>{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
         <div class="shift-date">{% if shift.start_date is not None %}{{ shift.start_date|date }}{%  else %}{{ shift.weekday }}{% endif %}</div>

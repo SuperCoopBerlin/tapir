@@ -43,4 +43,9 @@ urlpatterns = [
         views.ShiftTemplateOverview.as_view(),
         name="shift_template_overview",
     ),
+    path(
+        "timetable",
+        views.UpcomingShiftsAsTimetable.as_view(),
+        name="upcoming_timetable",
+    ),
 ]

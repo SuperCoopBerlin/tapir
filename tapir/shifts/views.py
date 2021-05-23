@@ -195,3 +195,42 @@ def user_can_join_shift(user: TapirUser, shift: Shift) -> bool:
     if len(share_owner) > 0:
         can_join = can_join and not ShareOwner.objects.get(user=user).is_investing
     return can_join
+
+
+class UpcomingShiftsAsTimetable(PermissionRequiredMixin, TemplateView):
+    permission_required = "shifts.manage"
+    template_name = "shifts/timetable.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+
+        upcoming_shifts = Shift.objects.filter(
+            start_time__gte=datetime.date.today()
+        ).order_by("start_time")[:100]
+        shifts_by_days = dict()
+        day_start_time = None
+        for test in upcoming_shifts:
+            shift: Shift = test
+            shift_day = shift.start_time.date()
+            if shift_day not in shifts_by_days:
+                shifts_by_days[shift_day] = dict()
+                day_start_time = shift.start_time
+
+            shifts_by_name = shifts_by_days[shift_day]
+            if shift.name not in shifts_by_name:
+                shifts_by_name[shift.name] = []
+
+            shift_display_infos = dict()
+            shift_display_infos["shift"] = shift
+            duration = (shift.end_time - shift.start_time).total_seconds() / 3600
+            shift_display_infos["height"] = duration * 50
+            previous_time = day_start_time
+            if len(shifts_by_name[shift.name]) > 0:
+                previous_time = shifts_by_name[shift.name][-1]["shift"].end_time
+            shift_display_infos["margin_top"] = (
+                (shift.start_time - previous_time).total_seconds() / 3600
+            ) * 50
+            shifts_by_name[shift.name].append(shift_display_infos)
+
+        context_data["shifts_by_days"] = shifts_by_days
+        return context_data

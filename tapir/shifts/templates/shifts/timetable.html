@@ -1,0 +1,31 @@
+{% extends "shifts/base.html" %}
+
+{% load bootstrap4 %}
+{% load static %}
+{% load shifts %}
+
+{% block head %}
+{{ block.super }}
+    <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
+{% endblock %}
+
+{% block content %}
+    {% for day, shifts_by_name in shifts_by_days.items %}
+        <div class="card m-2">
+            <h5 class="card-header">{{ day }}</h5>
+            <div class="card-body d-flex flex-row">
+                {% for shift_name, shifts in shifts_by_name.items %}
+                    <div class="d-flex flex-column">
+                        {% for shift in shifts %}
+                            <div class="shift_timetable_block" style="margin-top: {{ shift.margin_top }}px; height: {{ shift.height }}px;">
+                            {% shift_block shift.shift True %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
