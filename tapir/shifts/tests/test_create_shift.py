@@ -20,8 +20,10 @@ class TestCreateShift(TapirSeleniumTestBase):
         self.wait_until_element_present_by_id("shift_form_card")
         self.fill_shift_create_form()
         self.wait_until_element_present_by_id("shift_detail_card")
-        self.check_shift_detail_page()
-        # TODO Théo 20.05.21 Check that the shift appears in the dashboard
+        shift_id = self.check_shift_detail_page()
+        self.selenium.get(self.URL_BASE + reverse("shifts:upcoming_timetable"))
+        self.wait_until_element_present_by_id("upcoming-shifts-timetable")
+        self.check_shift_in_timetable(shift_id)
 
     def fill_shift_create_form(self):
         self.selenium.find_element_by_id("id_name").send_keys(self.shift_name)
@@ -40,7 +42,7 @@ class TestCreateShift(TapirSeleniumTestBase):
 
         self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
 
-    def check_shift_detail_page(self):
+    def check_shift_detail_page(self) -> int:
         self.assertEqual(
             self.selenium.find_element_by_id("shift_name").text,
             self.shift_name,
@@ -58,4 +60,25 @@ class TestCreateShift(TapirSeleniumTestBase):
                 )
             ).text,
             "#" + str(self.shift_num_slots),
+        )
+
+        shift_id = self.selenium.current_url.split("/")[-2]
+        return shift_id
+
+    def check_shift_in_timetable(self, shift_id: int):
+        shift_block = self.selenium.find_element_by_id("shift_{0}".format(shift_id))
+        self.assertEqual(
+            shift_block.find_element_by_class_name("shift-name").text, self.shift_name
+        )
+        shift_time = (
+            self.shift_start_time.time().strftime("%H:%M")
+            + " - "
+            + self.shift_end_time.time().strftime("%H:%M")
+        )
+        self.assertEqual(
+            shift_block.find_element_by_class_name("shift-time").text, shift_time
+        )
+        shift_date = self.shift_start_time.date().strftime("%a %d/%m/%y")
+        self.assertEqual(
+            shift_block.find_element_by_class_name("shift-date").text, shift_date
         )

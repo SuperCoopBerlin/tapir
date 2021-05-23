@@ -67,6 +67,8 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         "template_group": template_group,
         "background": background,
         "style": style,
+        "id": shift.id,
+        "is_template": False,
     }
 
 
@@ -100,6 +102,8 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
         "template_group": template_group_name_to_character(shift_template.group.name),
         "background": background,
         "style": style,
+        "id": shift_template.id,
+        "is_template": True,
     }
 
 

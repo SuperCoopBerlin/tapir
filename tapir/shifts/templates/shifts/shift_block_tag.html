@@ -1,9 +1,9 @@
 <a class="shift-block-container" href="{{ shift.url }}" style="{{ shift.style }}">
 
-    <div class="shift-block bg-{{ shift.background }}" style="height:{{ shift.height }}px;">
-        <div>{{ shift.name }}</div>
-        <div>{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
-        <div class="shift-date">{% if shift.start_date is not None %}{{ shift.start_date|date }}{%  else %}{{ shift.weekday }}{% endif %}</div>
+    <div id="{% if shift.is_template %}template{% else %}shift{% endif %}_{{ shift.id }}" class="shift-block bg-{{ shift.background }}" style="height:{{ shift.height }}px;">
+        <div class="shift-name">{{ shift.name }}</div>
+        <div class="shift-time">{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
+        <div class="shift-date">{% if shift.start_date is not None %}{{ shift.start_date|date:"D d/m/y" }}{%  else %}{{ shift.weekday }}{% endif %}</div>
         <div style="display: flex">
             {% for state in shift.attendances %}
                 {% if state == "template" %}

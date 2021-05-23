@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block content %}
+    <div id="upcoming-shifts-timetable">
     {% for day, shifts_by_name in shifts_by_days.items %}
         <div class="card m-2">
             <h5 class="card-header">{{ day }}</h5>
@@ -26,6 +27,7 @@
             </div>
         </div>
     {% endfor %}
+    </div>
 </div>
 
 {% endblock %}
