@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.mail import EmailMessage
 from django.db import transaction
-from django.http import HttpResponse
+from django.db.models import Q
+from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
@@ -213,53 +214,50 @@ def create_user_from_draftuser(request, pk):
     return redirect(u.get_absolute_url())
 
 
-@csrf_protect
-@permission_required("coop.manage")
-def create_user_from_shareowner_view(request, pk):
-    shareowner = ShareOwner.objects.get(pk=pk)
+class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
+    model = TapirUser
+    template_name = "coop/create_user_from_shareowner_form.html"
+    permission_required = "coop.manage"
+    fields = ["first_name", "last_name", "username"]
 
-    user = create_user_from_shareowner(shareowner)
+    def get_shareowner(self):
+        return get_object_or_404(ShareOwner, pk=self.kwargs["shareowner_pk"])
 
-    return redirect(user.get_absolute_url())
+    def dispatch(self, request, *args, **kwargs):
+        owner = self.get_shareowner()
+        # Not sure if 403 is the right error code here...
+        if owner.user is not None:
+            return HttpResponseForbidden("This ShareOwner already has a User")
+        if owner.is_company:
+            return HttpResponseForbidden("This ShareOwner is a company")
 
+        return super().dispatch(request, *args, **kwargs)
 
-def create_user_from_shareowner(shareowner: ShareOwner) -> TapirUser:
-    if shareowner.user is not None:
-        raise Exception("This ShareOwner already has a User")
-
-    if shareowner.is_company:
-        raise Exception("This ShareOwner is a company")
-
-    with transaction.atomic():
-        user = TapirUser.objects.create(
-            username=UserUtils.build_username(
-                shareowner.first_name, shareowner.last_name
-            ),
-            first_name=shareowner.first_name,
-            last_name=shareowner.last_name,
-            email=shareowner.email,
-            birthdate=shareowner.birthdate,
-            street=shareowner.street,
-            street_2=shareowner.street_2,
-            postcode=shareowner.postcode,
-            city=shareowner.city,
-            country=shareowner.country,
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        owner = self.get_shareowner()
+        user = TapirUser(
+            first_name=owner.first_name,
+            last_name=owner.last_name,
+            email=owner.email,
+            birthdate=owner.birthdate,
+            street=owner.street,
+            street_2=owner.street_2,
+            postcode=owner.postcode,
+            city=owner.city,
+            country=owner.country,
         )
-        shareowner.user = user
-        shareowner.first_name = "See linked user"
-        shareowner.last_name = "See linked user"
-        shareowner.email = "see.linked.user@tapir.com"
-        shareowner.birthdate = None
-        shareowner.street = "See linked user"
-        shareowner.street_2 = "See linked user"
-        shareowner.postcode = "00000"
-        shareowner.city = "See linked user"
-        shareowner.country = "See linked user"
-        shareowner.is_investing = False
-        shareowner.save()
-        user.save()
+        kwargs.update({"instance": user})
+        return kwargs
 
-    return user
+    def form_valid(self, form):
+        with transaction.atomic():
+            response = super().form_valid(form)
+            owner = self.get_shareowner()
+            owner.user = form.instance
+            owner.blank_info_fields()
+            owner.save()
+            return response
 
 
 @require_POST
@@ -356,13 +354,49 @@ def shareowner_membership_confirmation(request, pk):
     return response
 
 
-class ActiveShareOwnerListView(PermissionRequiredMixin, generic.ListView):
+class ShareOwnerSearchMixin:
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if queryset.count() == 1:
+            return HttpResponseRedirect(queryset.first().get_absolute_url())
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        searches = self.request.GET.get("search", "").split(" ")
+        searches = [s for s in searches if s != ""]
+
+        if len(searches) == 1 and searches[0].isdigit():
+            queryset = queryset.filter(pk=int(searches[0]))
+        elif searches:
+            filter_ = Q(last_name__icontains="")
+            for search in searches:
+                search_filter = (
+                    Q(last_name__icontains=search)
+                    | Q(first_name__icontains=search)
+                    | Q(user__first_name__icontains=search)
+                    | Q(user__last_name__icontains=search)
+                )
+                filter_ = filter_ & search_filter
+
+            queryset = queryset.filter(filter_)
+
+        return queryset
+
+
+class ActiveShareOwnerListView(
+    PermissionRequiredMixin, ShareOwnerSearchMixin, generic.ListView
+):
     permission_required = "coop.manage"
     model = ShareOwner
     template_name = "coop/shareowner_list.html"
 
     def get_queryset(self):
         # TODO(Leon Handreke): Allow passing a date
-        return ShareOwner.objects.filter(
-            share_ownerships__in=ShareOwnership.objects.active_temporal()
-        ).distinct()
+        return (
+            super()
+            .get_queryset()
+            .filter(share_ownerships__in=ShareOwnership.objects.active_temporal())
+            .distinct()
+        )

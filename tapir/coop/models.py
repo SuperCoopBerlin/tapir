@@ -52,11 +52,25 @@ class ShareOwner(models.Model):
         choices=utils.models.PREFERRED_LANGUAGES,
         default="de",
         max_length=16,
+        blank=True,
     )
 
     is_investing = models.BooleanField(
         verbose_name=_("Is investing member"), default=False
     )
+
+    def blank_info_fields(self):
+        """Used after a ShareOwner is linked to a user, which is used as the source for user info instead."""
+        self.first_name = ""
+        self.last_name = ""
+        self.email = ""
+        self.birthdate = None
+        self.street = ""
+        self.street_2 = ""
+        self.postcode = ""
+        self.city = ""
+        self.country = ""
+        self.preferred_language = ""
 
     def clean(self):
         r = super().clean()
