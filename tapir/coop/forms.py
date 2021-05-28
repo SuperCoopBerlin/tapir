@@ -106,6 +106,8 @@ class ShareOwnerForm(forms.ModelForm):
     class Meta:
         model = ShareOwner
         fields = [
+            "is_company",
+            "company_name",
             "first_name",
             "last_name",
             "email",
@@ -114,6 +116,7 @@ class ShareOwnerForm(forms.ModelForm):
             "street_2",
             "postcode",
             "city",
+            "is_investing",
         ]
         widgets = {
             "birthdate": DateInput(),
