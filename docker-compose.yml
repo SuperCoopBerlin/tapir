@@ -22,6 +22,13 @@ services:
                         - "8000:8000"
                 depends_on:
                         - openldap
+                        - db
+        db:
+                image: postgres:13
+                environment:
+                        - POSTGRES_DB=tapir
+                        - POSTGRES_PASSWORD=tapir
+                        - POSTGRES_USER=tapir
         #odoo:
         #        image: "odoo:12"
         #        depends_on:
