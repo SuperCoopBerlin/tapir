@@ -1,0 +1,55 @@
+[English below]
+Hallo {{ owner.get_display_name }},
+
+ein riesengroßes Dankeschön für deine Unterstützung auf Startnext! Durch dich und unglaubliche 622 weitere Unterstützer:innen haben wir unser Ziel sogar übertroffen und sind immer noch begeistert von euch. Wir freuen uns sehr, dich als Mitglied in unserer SuperCoop Berlin Genossenschaft begrüßen zu dürfen. 
+
+Um deine Mitgliedschaft ganz offiziell abzuschließen, bitten wir dich noch um Folgendes: 
+1. Unsere Satzung findest du zum Durchlesen hier [https://drive.google.com/file/d/13AiGaWK8iTmAXwcR3Os6QicrqKD8R4Kz/view]. 
+2. Bitte überprüfe in der beigefügten Beitrittserklärung, dass deine vorausgefüllten persönlichen Daten korrekt sind. 
+3. Trage noch dein Geburtsdatum ein und lass uns idealerweise in den nächsten zwei Wochen zukommen, damit wir loslegen können. Dafür gibt es drei Optionen: 
+    1. Komm während unserer Öffnungszeiten an unserem Lager im Wedding vorbei! Du findest uns jeden Mittwoch von 14:00 bis 20:00 Uhr und jeden Samstag von 10:00 bis 14:00 Uhr in der Oudenarder Straße 16 in den Osram-Höfen (siehe Karte [https://drive.google.com/file/d/1pBncUk3UXjL0PsQAvSwu86c-pRD0yC0X/view]).
+    2. Sende uns die Beteiligungserklärung per Post an:
+SuperCoop Berlin eG
+Glogauer Straße 21
+10999 Berlin
+    3. Schicke uns einen Scan der Beteiligungserklärung mit deiner Originalunterschrift an mitglied@supercoop.de. Bitte beachte, dass digitale Unterschriften leider nicht möglich sind. 
+
+Sobald das unterschriebene Dokument bei uns eingegangen ist, erhältst du deine Mitgliedschaftsbestätigung. 
+WENN nicht fördermitglied:  Damit erhältst du auch alle Informationen, wie du dich für eine Schicht anmelden, bei SuperCoop einkaufen und mitbestimmen kannst.
+
+Bei Fragen kannst du dich gerne per E-Mail bei uns melden: mitglied@supercoop.de! 
+
+Kooperative Grüße & bis ganz bald! 
+Dein SuperCoop Team
+
+---
+Hello {{ owner.get_display_name }},
+
+Thank you sincerely for your support on Startnext. We are thrilled to welcome you as a member of our cooperative, SuperCoop Berlin eG.
+
+To complete your membership, please…
+1. Review our bylaws [https://drive.google.com/file/d/13AiGaWK8iTmAXwcR3Os6QicrqKD8R4Kz/view] and let us know if you have any questions. 
+2. Review the attached registration form to make sure your personal information is correct. 
+3. Print, add your date of birth, and sign the form. If you don't have access to a printer, come see us at Osram Höfe (see below).
+4. You have 3 options for returning your signed registration form:
+        1. Visit us at our current storage location in Osram Höfe (Oudenarder Str. 16 - see map[https://drive.google.com/file/d/1pBncUk3UXjL0PsQAvSwu86c-pRD0yC0X/view]). We are there every Wednesday from 14:00 to 20:00 and every Saturday from 10:00 to 14:00.
+        2. Mail it by post to:
+SuperCoop Berlin eG
+Glogauer Straße 21
+10999 Berlin
+        3. Email a scanned copy with your original signature to mitglied@supercoop.de (digital signatures are not possible at this point).
+ 
+As soon as we have received your completed and signed document, we will send you an official confirmation of membership via email. :)
+
+if non investing member: With confirmation of your membership, you will receive all information on how to sign up for a shift, shop and vote at SuperCoop. 
+
+Don’t hesitate to reach out if you have any questions: mitglied@supercoop.de
+
+See you very soon,
+
+Johanna, Eugénie, Marie & Jessica
+Executive Board
+SuperCoop Berlin eG
+
+
+
