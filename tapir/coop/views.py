@@ -374,10 +374,10 @@ class ShareOwnerSearchMixin:
             filter_ = Q(last_name__icontains="")
             for search in searches:
                 search_filter = (
-                    Q(last_name__icontains=search)
-                    | Q(first_name__icontains=search)
-                    | Q(user__first_name__icontains=search)
-                    | Q(user__last_name__icontains=search)
+                    Q(last_name__unaccent__icontains=search)
+                    | Q(first_name__unaccent__icontains=search)
+                    | Q(user__first_name__unaccent__icontains=search)
+                    | Q(user__last_name__unaccent__icontains=search)
                 )
                 filter_ = filter_ & search_filter
 
@@ -397,7 +397,10 @@ class CurrentShareOwnerMixin:
 
 
 class CurrentShareOwnerListView(
-    PermissionRequiredMixin, CurrentShareOwnerMixin, generic.ListView
+    PermissionRequiredMixin,
+    ShareOwnerSearchMixin,
+    CurrentShareOwnerMixin,
+    generic.ListView,
 ):
     permission_required = "coop.manage"
     model = ShareOwner
