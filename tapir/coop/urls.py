@@ -82,13 +82,13 @@ urlpatterns = [
     ),
     path(
         "member/",
-        views.ActiveShareOwnerListView.as_view(),
+        views.CurrentShareOwnerListView.as_view(),
         name="active_shareowner_list",
     ),
     path(
         "member/export/mailchimp",
-        views.ActiveShareOwnerExportMailchimpView.as_view(),
-        name="active_shareowner_export_mailchimp",
+        views.ShareOwnerExportMailchimpView.as_view(),
+        name="shareowner_export_mailchimp",
     ),
     path(
         "member/<int:pk>/membership_confirmation",

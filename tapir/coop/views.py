@@ -386,37 +386,33 @@ class ShareOwnerSearchMixin:
         return queryset
 
 
-class ActiveShareOwnerListView(
-    PermissionRequiredMixin, ShareOwnerSearchMixin, generic.ListView
+class CurrentShareOwnerMixin:
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .filter(share_ownerships__in=ShareOwnership.objects.active_temporal())
+            .distinct()
+        )
+
+
+class CurrentShareOwnerListView(
+    PermissionRequiredMixin, CurrentShareOwnerMixin, generic.ListView
 ):
     permission_required = "coop.manage"
     model = ShareOwner
     template_name = "coop/shareowner_list.html"
 
-    def get_queryset(self):
-        # TODO(Leon Handreke): Allow passing a date
-        return (
-            super()
-            .get_queryset()
-            .filter(share_ownerships__in=ShareOwnership.objects.active_temporal())
-            .distinct()
-        )
 
-
-class ActiveShareOwnerExportMailchimpView(
-    PermissionRequiredMixin, generic.list.BaseListView
+class ShareOwnerExportMailchimpView(
+    PermissionRequiredMixin, CurrentShareOwnerMixin, generic.list.BaseListView
 ):
     permission_required = "coop.manage"
     model = ShareOwner
 
     def get_queryset(self):
-        # TODO(Leon Handreke): Allow passing a date
-        return (
-            super()
-            .get_queryset()
-            .filter(share_ownerships__in=ShareOwnership.objects.active_temporal())
-            .distinct()
-        )
+        # Only active members should be on our mailing lists
+        return super().get_queryset().filter(is_investing=False)
 
     def render_to_response(self, context, **response_kwargs):
         response = HttpResponse(content_type="text/csv")
