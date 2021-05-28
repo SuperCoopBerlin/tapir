@@ -9,16 +9,17 @@ from tapir.coop.pdfs import get_membership_agreement_pdf
 from tapir.utils.forms import DateInput
 
 
-class CoopShareOwnershipForm(forms.ModelForm):
+class ShareOwnershipForm(forms.ModelForm):
     class Meta:
         model = ShareOwnership
-        fields = (
+        fields = [
             "start_date",
             "end_date",
-        )
-
-    start_date = forms.DateField(widget=AdminDateWidget())
-    end_date = forms.DateField(widget=AdminDateWidget(), required=False)
+        ]
+        widgets = {
+            "start_date": DateInput(),
+            "end_date": DateInput(),
+        }
 
 
 class DraftUserForm(forms.ModelForm):

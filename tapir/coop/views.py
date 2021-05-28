@@ -21,7 +21,7 @@ from django.views.generic import UpdateView, CreateView
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.forms import (
-    CoopShareOwnershipForm,
+    ShareOwnershipForm,
     DraftUserForm,
     DraftUserRegisterForm,
     ShareOwnerForm,
@@ -32,7 +32,7 @@ from tapir.utils.user_utils import UserUtils
 
 class ShareOwnershipViewMixin:
     model = ShareOwnership
-    form_class = CoopShareOwnershipForm
+    form_class = ShareOwnershipForm
 
     def get_success_url(self):
         # After successful creation or update of a ShareOwnership, return to the user overview page.
