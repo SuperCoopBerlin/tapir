@@ -83,7 +83,6 @@ class DraftUserCreateView(
     PermissionRequiredMixin, DraftUserViewMixin, generic.CreateView
 ):
     permission_required = "coop.manage"
-    template_name = "coop/draftuser_create_form.html"
 
 
 class DraftUserRegisterView(DraftUserViewMixin, generic.CreateView):

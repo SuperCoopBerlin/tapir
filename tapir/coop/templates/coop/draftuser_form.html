@@ -30,13 +30,6 @@
 
     <div class="container">
         <div class="card m-2">
-            <h5 class="card-header d-flex justify-content-between align-items-center">
-                {% if request.user.is_authenticated %}
-                    Create Applicant
-                {% else %}
-                    Register
-                {% endif %}
-            </h5>
             <div class="card-body">
                 <form role="form" method="post">
                     {% csrf_token %}
