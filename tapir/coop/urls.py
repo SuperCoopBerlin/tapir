@@ -86,6 +86,11 @@ urlpatterns = [
         name="active_shareowner_list",
     ),
     path(
+        "member/export/mailchimp",
+        views.ActiveShareOwnerExportMailchimpView.as_view(),
+        name="active_shareowner_export_mailchimp",
+    ),
+    path(
         "member/<int:pk>/membership_confirmation",
         views.shareowner_membership_confirmation,
         name="shareowner_membership_confirmation",

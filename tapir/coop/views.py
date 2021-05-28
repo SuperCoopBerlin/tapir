@@ -1,3 +1,4 @@
+import csv
 from datetime import date
 
 from django.conf import settings
@@ -400,3 +401,41 @@ class ActiveShareOwnerListView(
             .filter(share_ownerships__in=ShareOwnership.objects.active_temporal())
             .distinct()
         )
+
+
+class ActiveShareOwnerExportMailchimpView(
+    PermissionRequiredMixin, generic.list.BaseListView
+):
+    permission_required = "coop.manage"
+    model = ShareOwner
+
+    def get_queryset(self):
+        # TODO(Leon Handreke): Allow passing a date
+        return (
+            super()
+            .get_queryset()
+            .filter(share_ownerships__in=ShareOwnership.objects.active_temporal())
+            .distinct()
+        )
+
+    def render_to_response(self, context, **response_kwargs):
+        response = HttpResponse(content_type="text/csv")
+        response[
+            "Content-Disposition"
+        ] = 'attachment; filename="supercoop_members_mailchimp.csv"'
+        writer = csv.writer(response)
+
+        writer.writerow(["Email Address", "First Name", "Last Name", "Address", "TAGS"])
+        for owner in context["object_list"]:
+            if not owner.get_info().email:
+                continue
+
+            # For some weird reason the tags are in quotes
+            lang_tag = ""
+            if owner.preferred_language == "de":
+                lang_tag = '"Deutsch"'
+            if owner.preferred_language == "en":
+                lang_tag = '"English"'
+            writer.writerow([owner.get_info().email, "", "", "", lang_tag])
+
+        return response
