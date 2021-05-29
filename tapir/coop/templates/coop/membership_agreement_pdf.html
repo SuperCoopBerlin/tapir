@@ -19,6 +19,7 @@
 <!-- A DIN 5008 Letter has 2,7cm of top margin -->
 <div style="display: flex">
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
+        {% if owner %}
         <span style="font-size: 6pt;">
             {{ owner.first_name }} {{ owner.last_name }},
             {% if owner.street and owner.city %}
@@ -27,6 +28,7 @@
                 {{ owner.postcode }} {{ owner.city }}
             {% endif %}
         </span>
+        {% endif %}
         <div style="margin-top: 2mm;">
             SuperCoop Berlin eG<br />
             Glogauer Straße 21<br />
@@ -176,7 +178,9 @@
     <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
+            {% if owner %}
             <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
+            {% endif %}
         </div>
         <div style="flex: 1">
             {% if owner.from_startnext or payment_from_startnext %}
