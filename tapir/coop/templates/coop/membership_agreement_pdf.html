@@ -96,7 +96,7 @@
     <div style="display: flex; flex-direction: row; margin-top: 10mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span style="position: absolute; left: 2mm;" class="material-icons">check_box_outline_blank</span>
-            {% if owner %}
+            {% if owner and not owner.share_ownerships%}
             <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
@@ -107,8 +107,8 @@
             in Höhe von 100 € je Geschäftsanteil plus einem Eintrittsgeld in Höhe von 10 € zu leisten{% if owner.from_startnext %} (oder habe diese bereits via Startnext geleistet){% endif %}, das der Deckung von
             Verwaltungskosten dient. Insgesamt verpflichte ich mich daher,
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">
-            {{ owner.get_initial_amount|floatformat:0 }}€
-            </span>
+            {{ owner.get_initial_amount|floatformat:0 }}
+            </span>€
             zu leisten{% if owner.from_startnext %} (oder habe diese bereits geleistet){% endif %}. Die Satzung der
             Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen
             SuperCoop Berlin eG ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
@@ -117,7 +117,7 @@
     </div>
 
     {% if not owner.from_startnext %}
-    <div style="display: flex; flex-direction: row; margin-top: 10mm;">
+    <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
             {% if owner.share_ownerships %}
@@ -136,7 +136,7 @@
     </div>
     {% endif %}
 
-    <div style="display: flex; flex-direction: row; margin-top: 10mm;">
+    <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
             {% if owner.is_investing %}
@@ -150,7 +150,7 @@
         </div>
     </div>
 
-    <div style="display: flex; flex-direction: row; margin-top: 10mm;">
+    <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span style="position: absolute; left: 2mm;" class="material-icons">check_box_outline_blank</span>
             {% if owner %}
@@ -164,7 +164,7 @@
             ist auch vorher bereits möglich und in der Satzung geregelt.
         </div>
     </div>
-    <div style="display: flex; flex-direction: row; margin-top: 10mm;">
+    <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
         </div>
@@ -173,7 +173,7 @@
             (Weiteres, z.Bsp. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle)
         </div>
     </div>
-    <div style="display: flex; flex-direction: row; margin-top: 10mm;">
+    <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
             <span style="position: absolute; left: 2mm;" class="material-icons">close</span>

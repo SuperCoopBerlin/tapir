@@ -355,6 +355,18 @@ def shareowner_membership_confirmation(request, pk):
     return response
 
 
+@require_GET
+@permission_required("coop.manage")
+def shareowner_membership_agreement(request, pk):
+    owner = get_object_or_404(ShareOwner, pk=pk)
+    filename = "Beteiligungserklärung %s.pdf" % owner.get_display_name()
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+    response.write(pdfs.get_membership_agreement_pdf(owner).write_pdf())
+    return response
+
+
 class ShareOwnerSearchMixin:
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()

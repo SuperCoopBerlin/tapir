@@ -20,14 +20,13 @@ def get_shareowner_membership_confirmation_pdf(owner):
     return doc.render(font_config=_WEASYPRINT_FONT_CONFIG)
 
 
-def get_membership_agreement_pdf(draft_user=None):
+def get_membership_agreement_pdf(owner=None, **kwargs):
+    context = {
+        "owner": owner,
+    }
+    context.update(kwargs)
     doc = weasyprint.HTML(
-        string=render_to_string(
-            "coop/membership_agreement_pdf.html",
-            {
-                "owner": draft_user,
-            },
-        ),
+        string=render_to_string("coop/membership_agreement_pdf.html", context),
         base_url=settings.WEASYPRINT_BASEURL,
         url_fetcher=django_url_fetcher,
     )
