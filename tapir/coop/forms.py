@@ -40,7 +40,6 @@ class DraftUserForm(forms.ModelForm):
         ]
         widgets = {
             "birthdate": DateInput(),
-            "username": TextInput(attrs={"readonly": True}),
         }
 
 
