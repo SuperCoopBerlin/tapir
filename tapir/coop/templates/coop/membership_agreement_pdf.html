@@ -116,6 +116,7 @@
         </div>
     </div>
 
+    {% if not owner.from_startnext %}
     <div style="display: flex; flex-direction: row; margin-top: 10mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
@@ -130,10 +131,14 @@
             €  zu leisten.
         </div>
     </div>
+    {% endif %}
 
     <div style="display: flex; flex-direction: row; margin-top: 10mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
+            {% if owner.is_investing %}
+                <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
+            {% endif %}
         </div>
         <div style="flex: 1">
             Ich möchte als investierendes Mitglied in die Mitgliederliste eingetragen werden.<br />
@@ -166,6 +171,7 @@
             (Weiteres, z.Bsp. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle)
         </div>
     </div>
+    {% if not owner.from_startnext %}
     <div style="display: flex; flex-direction: row; margin-top: 10mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
@@ -180,6 +186,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
     <div style="border: 1px solid black; margin-top: 10mm; padding: 2mm; font-size: 7pt; line-height: 1.0rem;">
         <b>Datenschutzerklärung</b>

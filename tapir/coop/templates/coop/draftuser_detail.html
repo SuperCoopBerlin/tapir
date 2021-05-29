@@ -29,11 +29,11 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
-                    <div class="col-9" id="draft_user_email">{{ object.email }}</div>
+                    <div class="col-9">{{ object.email }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
-                    <div class="col-9" id="draft_user_birthdate">
+                    <div class="col-9">
                         {% if object.birthdate %}
                             {{ object.birthdate|date:"d.m.Y" }}
                         {% else %}
@@ -42,21 +42,34 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
-                    <div class="col-9" id="draft_user_address">
+                    <div class="col-9">
                         {% if object.street and object.city %}
                             {{ object.get_display_address }}
                         {% else %}
-                            <span class="text-danger">Missing</span>
+                            <span class="text-danger">{% trans "Missing" %}</span>
                         {% endif %}
                     </div>
                 </div>
+
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Member Type" %}:</div>
+                    <div class="col-9">
+                        {% if object.is_investing %}
+                            <span style="color: blue;">{% trans "Investing" %}</span>
+                        {% else %}
+                            <span style="color: green;">{% trans "Active" %}</span>
+                        {% endif %}
+                        {% if object.from_startnext %}(from Startnext){% endif %}
+                    </div>
+                </div>
+
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Shares requested" %}</div>
-                    <div class="col-4" id="draft_user_num_shares">{{ object.num_shares }}</div>
+                    <div class="col-4">{{ object.num_shares }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Welcome Session" %}:</div>
-                    <div class="col-4" id="draft_user_welcome_session">
+                    <div class="col-4">
                         {% if object.attended_welcome_session %}
                             <span class="text-success">Attended</span>
                         {% else %}
@@ -74,7 +87,7 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Beteiligungserklärung" %}:</div>
-                    <div class="col-9" id="draft_user_membership_agreement">
+                    <div class="col-9">
 
                         {% if object.signed_membership_agreement %}
                             <span class="text-success">Signed</span>
@@ -126,7 +139,7 @@
                     <div style="flex-grow: 1;"></div>
                     <a href="{% url "coop:draftuser_update" object.pk %}">
                         <button class="btn btn-outline-secondary ml-3">
-                            Edit
+                            {% trans "Edit" %}
                         </button>
                     </a>
                     <form class="form-inline ml-3" method="POST" action="{% url "coop:draftuser_delete" object.pk %}">
@@ -139,18 +152,20 @@
                                 method="post"
                                 action="{% url "coop:draftuser_create_share_owner" object.pk %}">
                             {% csrf_token %}
-                            <button id="button_create_investing_member" type="submit" class="align-self-right btn btn-primary ml-3">
-                                Create Investing Member
+                            <button type="submit" class="align-self-right btn btn-primary ml-3">
+                                {%  trans "Create Member" %}
                             </button>
                         </form>
+                        {% comment %}
                         <form
                                 method="post"
                                 action="{% url "coop:draftuser_create_user" object.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="align-self-right btn btn-primary ml-3">
-                                Create Active Member
+                                Create User
                             </button>
                         </form>
+                        {% endcomment %}
                     {% endif %}
                 </div>
             </div>

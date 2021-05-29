@@ -265,8 +265,8 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
 @csrf_protect
 @permission_required("coop.manage")
 def create_share_owner_from_draftuser(request, pk):
-    # This is intended for "Investing Members" : members that own a share but don't intend to participate actively
-    # Therefore, compared to "create_user_from_draftuser", we create a ShareOwner object but no TapirUser
+    # For now, we don't create users for our new members yet but only ShareOwners. Later, this will be used for
+    # investing members
 
     draft = DraftUser.objects.get(pk=pk)
     if not draft.signed_membership_agreement:
@@ -279,20 +279,20 @@ def create_share_owner_from_draftuser(request, pk):
         )
 
     with transaction.atomic():
-        share_owner = ShareOwner.objects.create(is_company=False)
-        share_owner.user = None
-        share_owner.company_name = ""
-        share_owner.first_name = draft.first_name
-        share_owner.last_name = draft.last_name
-        share_owner.email = draft.email
-        share_owner.birthdate = draft.birthdate
-        share_owner.street = draft.street
-        share_owner.street_2 = draft.street_2
-        share_owner.postcode = draft.postcode
-        share_owner.city = draft.city
-        share_owner.country = draft.country
-        share_owner.is_investing = True
-        share_owner.save()
+        share_owner = ShareOwner.objects.create(
+            is_company=False,
+            first_name=draft.first_name,
+            last_name=draft.last_name,
+            email=draft.email,
+            birthdate=draft.birthdate,
+            street=draft.street,
+            street_2=draft.street_2,
+            postcode=draft.postcode,
+            city=draft.city,
+            country=draft.country,
+            is_investing=draft.is_investing,
+            from_startnext=draft.from_startnext,
+        )
 
         for _ in range(0, draft.num_shares):
             ShareOwnership.objects.create(

@@ -36,6 +36,7 @@ class DraftUserForm(forms.ModelForm):
             "street_2",
             "postcode",
             "city",
+            "is_investing",
             "attended_welcome_session",
         ]
         widgets = {

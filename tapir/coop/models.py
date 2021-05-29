@@ -59,6 +59,10 @@ class ShareOwner(models.Model):
         verbose_name=_("Is investing member"), default=False
     )
 
+    # TODO(Leon Handreke): Remove this temporary field again after the Startnext member integration is done
+    # It's only used to send special emails to these members
+    from_startnext = models.BooleanField(default=False)
+
     def blank_info_fields(self):
         """Used after a ShareOwner is linked to a user, which is used as the source for user info instead."""
         self.first_name = ""
@@ -151,6 +155,14 @@ class DraftUser(models.Model):
     num_shares = models.IntegerField(
         _("Number of Shares"), blank=False, editable=False, default=1
     )
+
+    is_investing = models.BooleanField(
+        verbose_name=_("Investing member"), default=False
+    )
+    # TODO(Leon Handreke): Remove this temporary field again after the Startnext member integration is done
+    # It's only used to send special emails to these members
+    from_startnext = models.BooleanField(default=False)
+
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
     )
