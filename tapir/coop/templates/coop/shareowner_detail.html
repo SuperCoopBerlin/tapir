@@ -36,6 +36,12 @@
                         {% endif %}
                     </div>
                 </div>
+                {% if object.ratenzahlung %}
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Ratenzahlung" %}:</div>
+                        <div class="col-9" id="share_owner_email">Yes</div>
+                    </div>
+                {% endif %}
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
                     <div class="col-9" id="share_owner_email">{{ object.email }}</div>
