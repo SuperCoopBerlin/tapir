@@ -130,10 +130,10 @@
             Ich bin Mitglied der SuperCoop Berlin eG und möchte mich mit
             <span style="display: inline-block; width: 10mm; border-bottom: 2px solid black; text-align: center;"></span>
             weiteren Anteilen an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz
-            vorgesehenen Zahlungen in Höhe von 100 € je Geschäftsanteil zu leisten (oder habe diese bereits via Startnext geleistet). Zusammen mit dem Pflichtanteil
+            vorgesehenen Zahlungen in Höhe von 100 € je Geschäftsanteil zu leisten{%  if payment_from_startnext %} (oder habe diese bereits via Startnext geleistet){% endif %}. Zusammen mit dem Pflichtanteil
             verpflichte ich mich daher, insgesamt
             <span style="display: inline-block; width: 10mm; border-bottom: 2px solid black; text-align: center;"></span>
-            €  zu leisten (oder habe diese bereits geleistet).
+            €  zu leisten{% if payment_from_startnext %} (oder habe diese bereits geleistet){% endif %}.
         </div>
     </div>
     {% endif %}
