@@ -59,6 +59,8 @@ class ShareOwner(models.Model):
         verbose_name=_("Is investing member"), default=False
     )
 
+    ratenzahlung = models.BooleanField(verbose_name=_("Ratenzahlung"), default=False)
+
     # TODO(Leon Handreke): Remove this temporary field again after the Startnext member integration is done
     # It's only used to send special emails to these members
     from_startnext = models.BooleanField(default=False)
@@ -170,6 +172,8 @@ class DraftUser(models.Model):
         _("Signed Beteiligungserklärung"), default=False
     )
     paid_membership_fee = models.BooleanField(_("Paid Membership Fee"), default=False)
+
+    ratenzahlung = models.BooleanField(verbose_name=_("Ratenzahlung"), default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -204,7 +204,12 @@ def create_user_from_draftuser(request, pk):
             country=draft.country,
         )
         if draft.num_shares > 0:
-            share_owner = ShareOwner.objects.create(user=u, is_company=False)
+            share_owner = ShareOwner.objects.create(
+                user=u,
+                is_company=False,
+                from_startnext=draft.from_startnext,
+                ratenzahlung=draft.ratenzahlung,
+            )
             for _ in range(0, draft.num_shares):
                 ShareOwnership.objects.create(
                     owner=share_owner,
@@ -292,6 +297,7 @@ def create_share_owner_from_draftuser(request, pk):
             country=draft.country,
             is_investing=draft.is_investing,
             from_startnext=draft.from_startnext,
+            ratenzahlung=draft.ratenzahlung,
         )
 
         for _ in range(0, draft.num_shares):

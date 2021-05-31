@@ -169,9 +169,16 @@
     <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
+            {% if owner.ratenzahlung %}
+                <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
+            {% endif %}
         </div>
         <div style="flex: 1">
-            <span style="display: inline-block; width: 100mm; border-bottom: 2px solid black; text-align: center;"></span><br />
+            <span style="display: inline-block; width: 100mm; border-bottom: 2px solid black; text-align: center;">
+            {% if owner.ratenzahlung %}
+                Ratenzahlung
+            {% endif %}
+            </span><br />
             (Weiteres, z.Bsp. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle)
         </div>
     </div>
@@ -183,7 +190,9 @@
             {% endif %}
         </div>
         <div style="flex: 1">
-            {% if owner.from_startnext or payment_from_startnext %}
+            {% if owner.from_startnext and not owner.ratenzahlung %}
+                Ich habe meine Zahlungen bereits vollständig via Startnext geleistet.
+            {% elif payment_from_startnext %}
                 Ich habe meine Zahlungen bereits vollständig via Startnext geleistet.
             {% else %}
                 Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen: <br />

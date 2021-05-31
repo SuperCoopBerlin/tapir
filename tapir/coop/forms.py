@@ -38,6 +38,7 @@ class DraftUserForm(forms.ModelForm):
             "city",
             "is_investing",
             "attended_welcome_session",
+            "ratenzahlung",
         ]
         widgets = {
             "birthdate": DateInput(),
@@ -118,6 +119,7 @@ class ShareOwnerForm(forms.ModelForm):
             "postcode",
             "city",
             "is_investing",
+            "ratenzahlung",
         ]
         widgets = {
             "birthdate": DateInput(),
