@@ -1,13 +1,16 @@
 from decimal import Decimal
 
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMessage
 from django.db import models
+from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from tapir import utils
 from tapir.accounts import validators
 from tapir.accounts.models import TapirUser
+from tapir.coop import pdfs
 from tapir.utils.models import DurationModelMixin, CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -204,3 +207,26 @@ class DraftUser(models.Model):
             and self.last_name
             and self.signed_membership_agreement
         )
+
+    def send_startnext_email(self):
+        if not self.from_startnext:
+            raise Exception("Not from startnext")
+
+        mail = EmailMessage(
+            subject=_("Willkommen bei SuperCoop eG!"),
+            body=render_to_string(
+                "coop/email/membership_agreement_startnext.html", {"u": self}
+            ),
+            from_email="SuperCoop Berlin eG <mitglied@supercoop.de>",
+            to=[self.email],
+            bcc=["mitglied@supercoop.de"],
+            attachments=[
+                (
+                    "Beteiligungserklärung %s.pdf" % self.get_display_name(),
+                    pdfs.get_membership_agreement_pdf(self).write_pdf(),
+                    "application/pdf",
+                )
+            ],
+        )
+        mail.content_subtype = "html"
+        mail.send()
