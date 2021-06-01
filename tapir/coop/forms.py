@@ -39,6 +39,8 @@ class DraftUserForm(forms.ModelForm):
             "is_investing",
             "attended_welcome_session",
             "ratenzahlung",
+            "paid_membership_fee",
+            "signed_membership_agreement",
         ]
         widgets = {
             "birthdate": DateInput(),
