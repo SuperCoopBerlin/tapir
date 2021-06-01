@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+  </head>
+  <body>
+  [English below]
+
+  <p>Hallo {{ u.get_display_name }},</p>
+
+  <p>ein riesengroßes Dankeschön für deine Unterstützung auf Startnext! Durch dich und unglaubliche 622 weitere Unterstützer:innen haben wir unser Ziel sogar übertroffen und sind immer noch begeistert von euch. Wir freuen uns sehr, dich als Mitglied in unserer SuperCoop Berlin Genossenschaft begrüßen zu dürfen.</p>
+
+  <p>Um deine Mitgliedschaft ganz offiziell abzuschließen, bitten wir dich noch um Folgendes:</p>
+  <ol>
+      <li>Unsere Satzung findest du zum Durchlesen <a href="https://drive.google.com/file/d/13AiGaWK8iTmAXwcR3Os6QicrqKD8R4Kz/view">hier</a>.</li>
+      <li>Bitte überprüfe in der beigefügten Beitrittserklärung, dass deine vorausgefüllten persönlichen Daten korrekt sind.</li>
+      <li>Trage noch dein Geburtsdatum ein und lass uns idealerweise in den nächsten zwei Wochen zukommen, damit wir loslegen können. Dafür gibt es drei Optionen:
+          <ol>
+              <li>Komm während unserer Öffnungszeiten an unserem Lager im Wedding vorbei! Du findest uns jeden Mittwoch von 14:00 bis 20:00 Uhr und jeden Samstag von 10:00 bis 14:00 Uhr in der Oudenarder Straße 16 in den Osram-Höfen (<a href="https://drive.google.com/file/d/1pBncUk3UXjL0PsQAvSwu86c-pRD0yC0X/view">siehe Karte</a>).</li>
+              <li>Sende uns die Beteiligungserklärung per Post an: SuperCoop Berlin eG, Glogauer Straße 21, 10999 Berlin<li></li>
+              <li>Schicke uns einen Scan der Beteiligungserklärung mit deiner Originalunterschrift an mitglied@supercoop.de. Bitte beachte, dass digitale Unterschriften leider nicht möglich sind.</li>
+          </ol>
+      </li>
+  </ol>
+
+  <p>Sobald das unterschriebene Dokument bei uns eingegangen ist, erhältst du deine Mitgliedschaftsbestätigung.{% if not u.is_investing %} Damit erhältst du auch alle Informationen, wie du dich für eine Schicht anmelden, bei SuperCoop einkaufen und mitbestimmen kannst.{% endif %}</p>
+
+  <p>Bei Fragen kannst du dich gerne per E-Mail bei uns melden: mitglied@supercoop.de!</p>
+
+  <p>Kooperative Grüße & bis ganz bald!<br />
+      Dein SuperCoop Team</p>
+
+  <hr />
+
+  <p>Hello {{ owner.get_display_name }},</p>
+
+  <p>Thank you sincerely for your support on Startnext. We are thrilled to welcome you as a member of our cooperative, SuperCoop Berlin eG.</p>
+
+  <p>To complete your membership, please…</p>
+  <ol>
+      <li><a href="https://drive.google.com/file/d/13AiGaWK8iTmAXwcR3Os6QicrqKD8R4Kz/view">Review our bylaws</a> and let us know if you have any questions.</li>
+      <li>Review the attached registration form to make sure your personal information is correct.</li>
+      <li>Print, add your date of birth, and sign the form. If you don't have access to a printer, come see us at Osram Höfe (see below).</li>
+      <li>You have 3 options for returning your signed registration form:
+          <ol>
+              <li>Visit us at our current storage location in Osram Höfe (Oudenarder Str. 16 - <a href="https://drive.google.com/file/d/1pBncUk3UXjL0PsQAvSwu86c-pRD0yC0X/view">see map</a>). We are there every Wednesday from 14:00 to 20:00 and every Saturday from 10:00 to 14:00.</li>
+              <li>Mail it by post to: SuperCoop Berlin eG, Glogauer Straße 21, 10999 Berlin</li>
+              <li>Email a scanned copy with your original signature to mitglied@supercoop.de (digital signatures are not possible at this point).</li>
+          </ol>
+      </li>
+  </ol>
+
+  <p>As soon as we have received your completed and signed document, we will send you an official confirmation of membership via email. :){% if not u.is_investing %}With confirmation of your membership, you will receive all information on how to sign up for a shift, shop and vote at SuperCoop.{% endif %}
+
+  <p>Don’t hesitate to reach out if you have any questions: mitglied@supercoop.de</p>
+
+  <p>See you very soon,<br/>
+      Johanna, Eugénie, Marie & Jessica<br />
+      Executive Board<br />
+      SuperCoop Berlin eG<br />
+  </p>
+  </body>
+</html>
