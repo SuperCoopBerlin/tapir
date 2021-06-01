@@ -167,6 +167,7 @@ class DraftUser(models.Model):
     # TODO(Leon Handreke): Remove this temporary field again after the Startnext member integration is done
     # It's only used to send special emails to these members
     from_startnext = models.BooleanField(default=False)
+    startnext_welcome_email_sent = models.BooleanField(default=False)
 
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
@@ -211,6 +212,12 @@ class DraftUser(models.Model):
     def send_startnext_email(self):
         if not self.from_startnext:
             raise Exception("Not from startnext")
+        if self.startnext_welcome_email_sent:
+            print(
+                "Welcome email for %d %s already sent"
+                % (self.pk, self.get_display_name())
+            )
+            return
 
         mail = EmailMessage(
             subject=_("Willkommen bei SuperCoop eG!"),
@@ -230,3 +237,6 @@ class DraftUser(models.Model):
         )
         mail.content_subtype = "html"
         mail.send()
+
+        self.startnext_welcome_email_sent = True
+        self.save()
