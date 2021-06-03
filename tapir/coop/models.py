@@ -68,6 +68,10 @@ class ShareOwner(models.Model):
     # It's only used to send special emails to these members
     from_startnext = models.BooleanField(default=False)
 
+    attended_welcome_session = models.BooleanField(
+        _("Attended Welcome Session"), default=False
+    )
+
     def blank_info_fields(self):
         """Used after a ShareOwner is linked to a user, which is used as the source for user info instead."""
         self.first_name = ""

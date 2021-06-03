@@ -68,12 +68,31 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Owned shares" %}</div>
-                    <div class="col-4" id="share_owner_num_shares">{{ object.num_shares }}</div>
+                    <div class="col-4">{{ object.num_shares }}</div>
                 </div>
 
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">From Startnext</div>
-                    <div class="col-4" id="share_owner_num_shares">{{ object.from_startnext|yesno:"Yes,No" }}</div>
+                    <div class="col-4">{{ object.from_startnext|yesno:"Yes,No" }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Welcome Session" %}</div>
+                    <div class="col-4">
+                        {% if object.attended_welcome_session %}
+                            <span class="text-success">{% trans "Attended" %}</span>
+                        {% else %}
+                            <span class="text-warning">{% trans "Pending" %}</span>
+
+                            <form style="display: inline;"
+                                  method="post"
+                                  action="{% url "coop:mark_shareowner_attended_welcome_session" object.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success ml-3">
+                                    <span class="material-icons" style="font-size: 14px;">check</span> Mark Attended
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

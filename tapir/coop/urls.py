@@ -56,6 +56,11 @@ urlpatterns = [
         name="mark_draftuser_attended_welcome_session",
     ),
     path(
+        "member/<int:pk>/attended_welcome_session",
+        views.mark_shareowner_attended_welcome_session,
+        name="mark_shareowner_attended_welcome_session",
+    ),
+    path(
         "user/draft/<int:pk>/membership_agreement",
         views.draftuser_membership_agreement,
         name="draftuser_membership_agreement",

@@ -184,6 +184,17 @@ def mark_attended_welcome_session(request, pk):
 @require_POST
 @csrf_protect
 @permission_required("coop.manage")
+def mark_shareowner_attended_welcome_session(request, pk):
+    u = ShareOwner.objects.get(pk=pk)
+    u.attended_welcome_session = True
+    u.save()
+
+    return redirect(u)
+
+
+@require_POST
+@csrf_protect
+@permission_required("coop.manage")
 def create_user_from_draftuser(request, pk):
     draft = DraftUser.objects.get(pk=pk)
     if not draft.signed_membership_agreement:
@@ -209,6 +220,7 @@ def create_user_from_draftuser(request, pk):
                 is_company=False,
                 from_startnext=draft.from_startnext,
                 ratenzahlung=draft.ratenzahlung,
+                attended_welcome_session=draft.attended_welcome_session,
             )
             for _ in range(0, draft.num_shares):
                 ShareOwnership.objects.create(
@@ -298,6 +310,7 @@ def create_share_owner_from_draftuser(request, pk):
             is_investing=draft.is_investing,
             from_startnext=draft.from_startnext,
             ratenzahlung=draft.ratenzahlung,
+            attended_welcome_session=draft.attended_welcome_session,
         )
 
         for _ in range(0, draft.num_shares):
