@@ -1,5 +1,5 @@
 import django.contrib.auth.views as auth_views
-from django.urls import path, include
+from django.urls import path, include, reverse_lazy
 from django.views import generic
 
 from tapir.accounts import views
@@ -34,7 +34,9 @@ urlpatterns = [
     ),
     path(
         "password_change/",
-        auth_views.PasswordChangeView.as_view(success_url="accounts:user_me"),
+        auth_views.PasswordChangeView.as_view(
+            success_url=reverse_lazy("accounts:user_me")
+        ),
         name="password_change",
     ),
     path("password_reset/", views.PasswordResetView.as_view(), name="password_reset"),
