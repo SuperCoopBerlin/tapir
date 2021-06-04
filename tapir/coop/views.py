@@ -346,6 +346,7 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
         ),
         from_email="SuperCoop Mitgliederbüro <mitglied@supercoop.de>",
         to=[owner.get_info().email],
+        bcc=["mitglied@supercoop.de"],
         attachments=[
             (
                 "Mitgliedschaftsbestätigung %s.pdf"
