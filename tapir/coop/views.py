@@ -339,11 +339,15 @@ def register_draftuser_payment(request, pk):
 @permission_required("coop.manage")
 def send_shareowner_membership_confirmation_welcome_email(request, pk):
     owner = get_object_or_404(ShareOwner, pk=pk)
+
+    if owner.is_investing:
+        template_name = "coop/email/membership_confirmation_welcome_investing.html"
+    else:
+        template_name = "coop/email/membership_confirmation_welcome.html"
+
     mail = EmailMessage(
         subject=_("Willkommen bei SuperCoop eG!"),
-        body=render_to_string(
-            "coop/email/membership_confirmation_welcome.html", {"owner": owner}
-        ),
+        body=render_to_string(template_name, {"owner": owner}),
         from_email="SuperCoop Mitgliederbüro <mitglied@supercoop.de>",
         to=[owner.get_info().email],
         bcc=["mitglied@supercoop.de"],
