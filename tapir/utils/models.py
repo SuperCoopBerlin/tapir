@@ -249,8 +249,8 @@ COUNTRIES = (
 )
 
 PREFERRED_LANGUAGES = [
-    ("de", _("Deutsch")),
-    ("en", _("English")),
+    ("de", _("🇩🇪 Deutsch")),
+    ("en", _("🇬🇧 English")),
 ]
 
 
