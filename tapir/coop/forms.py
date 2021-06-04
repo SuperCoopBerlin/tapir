@@ -59,7 +59,7 @@ class DraftUserRegisterForm(forms.ModelForm):
         mail = EmailMessage(
             subject="Willkommen bei SuperCoop eG!",
             body=render_to_string(
-                "coop/email/membership_confirmation_welcome.txt", {"owner": draft_user}
+                "coop/email/membership_confirmation_welcome.html", {"owner": draft_user}
             ),
             from_email="mitglied@supercoop.de",
             to=[draft_user.email],

@@ -342,9 +342,9 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
     mail = EmailMessage(
         subject=_("Willkommen bei SuperCoop eG!"),
         body=render_to_string(
-            "coop/email/membership_confirmation_welcome.txt", {"owner": owner}
+            "coop/email/membership_confirmation_welcome.html", {"owner": owner}
         ),
-        from_email="mitglied@supercoop.de",
+        from_email="SuperCoop Mitgliederbüro <mitglied@supercoop.de>",
         to=[owner.get_info().email],
         attachments=[
             (
@@ -355,6 +355,7 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
             )
         ],
     )
+    mail.content_subtype = "html"
     mail.send()
 
     # TODO(Leon Handreke): Add a message to the user log here.
