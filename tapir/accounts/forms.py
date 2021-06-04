@@ -18,6 +18,7 @@ class TapirUserForm(forms.ModelForm):
             "street_2",
             "postcode",
             "city",
+            "preferred_language",
         ]
         widgets = {
             "birthdate": DateInput(),

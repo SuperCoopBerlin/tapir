@@ -45,6 +45,10 @@
                             {{ object.get_display_address }}
                         </div>
                     </div>
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
+                        <div class="col-9" id="share_owner_email">{{ object.get_preferred_language_display }}</div>
+                    </div>
 
                     <div class="row m-1 justify-content-end">
                         {% if perms.accounts.manage %}

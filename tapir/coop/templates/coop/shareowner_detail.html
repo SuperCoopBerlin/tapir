@@ -67,6 +67,10 @@
                     </div>
                 </div>
                 <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
+                    <div class="col-9" id="share_owner_email">{{ object.get_preferred_language_display }}</div>
+                </div>
+                <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Owned shares" %}</div>
                     <div class="col-4">{{ object.num_shares }}</div>
                 </div>
