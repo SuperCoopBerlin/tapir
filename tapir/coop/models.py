@@ -92,6 +92,20 @@ class ShareOwner(models.Model):
             raise ValidationError(
                 _("Cannot be a company share owner and have an associated user")
             )
+
+        if self.user and (
+            self.first_name
+            or self.last_name
+            or self.email
+            or self.birthdate
+            or self.street
+            or self.street_2
+            or self.postcode
+            or self.city
+            or self.country
+            or self.preferred_language
+        ):
+            raise ValidationError(_("User info should be stored in associated user"))
         return r
 
     def get_display_name(self):
