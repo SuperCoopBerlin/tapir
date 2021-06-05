@@ -5,6 +5,7 @@
 {% load i18n %}
 {% load shifts %}
 {% load coop %}
+{% load log %}
 
 {% block head %}
     {{ block.super }}
@@ -115,6 +116,9 @@
 
         <div class="col-6 p-0">
             {% user_coop_share_ownership_list user %}
+        </div>
+        <div class="col-12 p-0">
+            {% user_log_entry_list user %}
         </div>
     </div>
 {% endblock %}

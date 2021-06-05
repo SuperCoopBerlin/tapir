@@ -23,4 +23,5 @@ urlpatterns = [
     path("accounts/", include("tapir.accounts.urls")),
     path("shifts/", include("tapir.shifts.urls")),
     path("coop/", include("tapir.coop.urls")),
+    path("log/", include("tapir.log.urls")),
 ]

@@ -3,6 +3,7 @@
 {% load bootstrap4 %}
 {% load i18n %}
 {% load coop %}
+{% load log %}
 
 {% block content %}
 
@@ -102,6 +103,9 @@
         </div>
         <div class="col-6 p-0">
             {% share_owner_ownership_list object %}
+        </div>
+        <div class="col-12 p-0">
+            {% share_owner_log_entry_list object %}
         </div>
     </div>
 {% endblock %}

@@ -1,7 +1,6 @@
 import csv
 from datetime import date
 
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -27,7 +26,7 @@ from tapir.coop.forms import (
     ShareOwnerForm,
 )
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
-from tapir.utils.user_utils import UserUtils
+from tapir.log.models import EmailLogEntry, LogEntry
 
 
 class ShareOwnershipViewMixin:
@@ -275,6 +274,10 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
             owner.user = form.instance
             owner.blank_info_fields()
             owner.save()
+
+            LogEntry.objects.filter(share_owner=owner).update(
+                user=form.instance, share_owner=None
+            )
             return response
 
 
@@ -362,6 +365,14 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
     )
     mail.content_subtype = "html"
     mail.send()
+
+    log_entry = EmailLogEntry().populate(
+        email_message=mail,
+        actor=request.user,
+        user=owner.user,
+        share_owner=(owner if not owner.user else None),
+    )
+    log_entry.save()
 
     # TODO(Leon Handreke): Add a message to the user log here.
     messages.success(request, "Welcome email with Mitgliedschaftsbestätigung sent.")

@@ -1,0 +1,26 @@
+{% load i18n %}
+
+<div class="card m-2">
+    <div class="card-header">
+        <h5>{% trans "Log" %}</h5>
+        </h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Actor</th>
+                <th scope="col">Message</th>
+            </tr>
+            </thead>
+            {% for o in log_entries %}
+                <tr>
+                    <td>{{ o.created_date|date:"SHORT_DATETIME_FORMAT" }}</td>
+                    <td>{{ o.actor.get_display_name|default_if_none:o.actor}}</td>
+                    <td>{{ o.render }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
