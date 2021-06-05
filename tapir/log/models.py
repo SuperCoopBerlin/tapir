@@ -1,12 +1,14 @@
+from itertools import chain
+
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.postgres.fields import HStoreField
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
 from django.db import models
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
-from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner
+from tapir.log.util import freeze_for_log
 
 
 class LogEntry(models.Model):
@@ -15,15 +17,21 @@ class LogEntry(models.Model):
     )
 
     actor = models.ForeignKey(
-        TapirUser, null=True, on_delete=models.CASCADE, related_name="+"
+        "accounts.TapirUser", null=True, on_delete=models.CASCADE, related_name="+"
     )
 
     # User or ShareOwner that this log entry is associated with. Exactly one should be filled
     user = models.ForeignKey(
-        TapirUser, related_name="log_entries", null=True, on_delete=models.PROTECT
+        "accounts.TapirUser",
+        related_name="log_entries",
+        null=True,
+        on_delete=models.PROTECT,
     )
     share_owner = models.ForeignKey(
-        ShareOwner, related_name="log_entries", null=True, on_delete=models.PROTECT
+        "coop.ShareOwner",
+        related_name="log_entries",
+        null=True,
+        on_delete=models.PROTECT,
     )
 
     log_class_type = models.ForeignKey(
@@ -44,6 +52,7 @@ class LogEntry(models.Model):
             self.log_class_type = ContentType.objects.get_for_model(
                 self.__class__, for_concrete_model=False
             )
+
         super(LogEntry, self).save(*args, **kwargs)
 
     def as_leaf_class(self):
@@ -68,10 +77,21 @@ class LogEntry(models.Model):
         self.user = user
         self.share_owner = share_owner
 
+        if self.share_owner and hasattr(self.share_owner, "user"):
+            self.user = self.share_owner.user
+
+        # Prefer share_owner
+        if self.share_owner and self.user:
+            self.share_owner = None
+
         return self
 
-    def render(self):
-        return render_to_string(self.template_name, {"entry": self})
+    # This really belongs in some sort of view class, it's only here for convenience
+    def get_context_data(self):
+        return {"entry": self}
+
+    def render(self, context=None):
+        return render_to_string(self.template_name, self.get_context_data())
 
 
 class EmailLogEntry(LogEntry):
@@ -84,3 +104,47 @@ class EmailLogEntry(LogEntry):
         self.subject = email_message.subject
         self.email_content = email_message.message().as_bytes()
         return super().populate(*args, **kwargs)
+
+
+class UpdateModelLogEntry(LogEntry):
+
+    old_values = HStoreField()
+    new_values = HStoreField()
+
+    class Meta:
+        abstract = True
+
+    def populate(
+        self, old_frozen=None, new_frozen=None, old_model=None, new_model=None, **kwargs
+    ):
+        if old_model:
+            old_frozen = freeze_for_log(old_model)
+        if new_model:
+            new_frozen = freeze_for_log(new_model)
+
+        # List must not change during iteration
+        keys = list(old_frozen.keys())
+        # Only record changed
+        for k in keys:
+            if old_frozen.get(k, None) != new_frozen.get(k, None):
+                # HStoreField stores strings only
+                old_frozen[k] = str(old_frozen[k])
+                new_frozen[k] = str(new_frozen[k])
+            else:
+                del old_frozen[k]
+                del new_frozen[k]
+
+        self.old_values = old_frozen
+        self.new_values = new_frozen
+
+        return super().populate(**kwargs)
+
+    def get_context_data(self):
+        context = super().get_context_data()
+
+        changes = []
+        for k in self.old_values.keys():
+            changes.append((k, self.old_values[k], self.new_values[k]))
+        context["changes"] = changes
+
+        return context

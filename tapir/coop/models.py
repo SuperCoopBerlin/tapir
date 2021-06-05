@@ -11,6 +11,7 @@ from tapir import utils
 from tapir.accounts import validators
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
+from tapir.log.models import UpdateModelLogEntry
 from tapir.utils.models import DurationModelMixin, CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -119,6 +120,10 @@ class ShareOwner(models.Model):
 
     def num_shares(self) -> int:
         return ShareOwnership.objects.filter(owner=self).count()
+
+
+class UpdateShareOwnerLogEntry(UpdateModelLogEntry):
+    template_name = "coop/log/update_share_owner_log_entry.html"
 
 
 class ShareOwnership(DurationModelMixin, models.Model):

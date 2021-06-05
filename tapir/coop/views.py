@@ -25,8 +25,15 @@ from tapir.coop.forms import (
     DraftUserRegisterForm,
     ShareOwnerForm,
 )
-from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
+from tapir.coop.models import (
+    ShareOwnership,
+    DraftUser,
+    ShareOwner,
+    UpdateShareOwnerLogEntry,
+)
 from tapir.log.models import EmailLogEntry, LogEntry
+from tapir.log.util import freeze_for_log
+from tapir.log.views import UpdateViewLogMixin
 
 
 class ShareOwnershipViewMixin:
@@ -126,11 +133,25 @@ class ShareOwnerDetailView(
 
 
 class ShareOwnerUpdateView(
-    PermissionRequiredMixin, ShareOwnerViewMixin, generic.UpdateView
+    PermissionRequiredMixin, ShareOwnerViewMixin, UpdateViewLogMixin, generic.UpdateView
 ):
     permission_required = "accounts.manage"
     model = ShareOwner
     form_class = ShareOwnerForm
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            response = super().form_valid(form)
+
+            log_entry = UpdateShareOwnerLogEntry().populate(
+                old_frozen=self.old_object_frozen,
+                new_model=form.instance,
+                share_owner=form.instance,
+                actor=self.request.user,
+            )
+            log_entry.save()
+
+            return response
 
 
 @require_GET
@@ -184,11 +205,22 @@ def mark_attended_welcome_session(request, pk):
 @csrf_protect
 @permission_required("coop.manage")
 def mark_shareowner_attended_welcome_session(request, pk):
-    u = ShareOwner.objects.get(pk=pk)
-    u.attended_welcome_session = True
-    u.save()
+    share_owner = get_object_or_404(ShareOwner, pk=pk)
+    old_share_owner_dict = freeze_for_log(share_owner)
 
-    return redirect(u)
+    with transaction.atomic():
+        share_owner.attended_welcome_session = True
+        share_owner.save()
+
+        log_entry = UpdateShareOwnerLogEntry().populate(
+            old_frozen=old_share_owner_dict,
+            new_model=share_owner,
+            share_owner=share_owner,
+            actor=request.user,
+        )
+        log_entry.save()
+
+    return redirect(share_owner.get_absolute_url())
 
 
 @require_POST
