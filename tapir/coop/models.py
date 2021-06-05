@@ -29,13 +29,15 @@ class ShareOwner(models.Model):
     # Only for owners that have a user account
     user = models.OneToOneField(
         TapirUser,
-        related_name="coop_share_owner",
+        related_name="share_owner",
         blank=True,
         null=True,
         on_delete=models.PROTECT,
     )
 
-    is_company = models.BooleanField(verbose_name=_("Is company"), blank=False)
+    is_company = models.BooleanField(
+        verbose_name=_("Is company"), default=False, blank=False
+    )
     company_name = models.CharField(max_length=150, blank=True)
 
     # In the case that this is a company, this is the contact data for the company representative
@@ -133,7 +135,7 @@ class ShareOwner(models.Model):
         return self.share_ownerships.active_temporal()
 
     def num_shares(self) -> int:
-        return ShareOwnership.objects.filter(owner=self).count()
+        return ShareOwnership.objects.active_temporal().filter(owner=self).count()
 
 
 class UpdateShareOwnerLogEntry(UpdateModelLogEntry):

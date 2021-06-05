@@ -5,11 +5,6 @@ from tapir.coop import views
 app_name = "coop"
 urlpatterns = [
     path(
-        "share/create/user/<int:user_pk>/",
-        views.ShareOwnershipCreateForUserView.as_view(),
-        name="share_create_for_user",
-    ),
-    path(
         "share/update/<int:pk>/",
         views.ShareOwnershipUpdateView.as_view(),
         name="share_update",
@@ -74,6 +69,11 @@ urlpatterns = [
         "user/draft/<int:pk>/create_user",
         views.create_user_from_draftuser,
         name="draftuser_create_user",
+    ),
+    path(
+        "member/<int:shareowner_pk>/create_shareownership",
+        views.ShareOwnershipCreateView.as_view(),
+        name="share_create",
     ),
     path(
         "member/<int:shareowner_pk>/create_user",

@@ -130,3 +130,22 @@ class ShareOwnerForm(forms.ModelForm):
         widgets = {
             "birthdate": DateInput(),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if self.instance.user:
+            for f in [
+                "is_company",
+                "company_name",
+                "first_name",
+                "last_name",
+                "email",
+                "birthdate",
+                "street",
+                "street_2",
+                "postcode",
+                "city",
+                "preferred_language",
+            ]:
+                del self.fields[f]

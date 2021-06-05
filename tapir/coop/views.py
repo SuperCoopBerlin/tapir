@@ -51,29 +51,19 @@ class ShareOwnershipUpdateView(
     permission_required = "coop.manage"
 
 
-class ShareOwnershipCreateForUserView(
+class ShareOwnershipCreateView(
     PermissionRequiredMixin, ShareOwnershipViewMixin, CreateView
 ):
     permission_required = "coop.manage"
 
     def get_initial(self):
-        return {"start_date": date.today(), "user": self._get_user()}
+        return {"start_date": date.today()}
 
-    def _get_user(self):
-        return get_object_or_404(TapirUser, pk=self.kwargs["user_pk"])
-
-    def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx["user"] = self._get_user()
-        return ctx
+    def _get_share_owner(self):
+        return get_object_or_404(ShareOwner, pk=self.kwargs["shareowner_pk"])
 
     def form_valid(self, form):
-        user = self._get_user()
-        if hasattr(user, "coop_share_owner"):
-            share_owner = user.coop_share_owner
-        else:
-            share_owner = ShareOwner.objects.create(user=user, is_company=False)
-        form.instance.owner = share_owner
+        form.instance.owner = self._get_share_owner()
         return super().form_valid(form)
 
 
