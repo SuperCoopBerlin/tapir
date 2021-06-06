@@ -1,6 +1,7 @@
 import datetime
 import math
 
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -102,6 +103,16 @@ class ShiftTemplate(models.Model):
             display_name = "%s (%s)" % (display_name, self.group.name)
         return display_name
 
+    def get_display_name(self):
+        display_name = "%s %s %s" % (
+            self.name,
+            self.get_weekday_display(),
+            self.start_time.strftime("%H:%M"),
+        )
+        if self.group:
+            display_name = "%s (%s)" % (display_name, self.group.name)
+        return display_name
+
     def _generate_shift(self, start_date: datetime.date):
         shift_date = start_date
         # If this is a shift that is not part of a group and just gets placed manually, just use the day selected
@@ -194,6 +205,22 @@ class Shift(models.Model):
 
         return display_name
 
+    def get_display_name(self):
+        display_name = "%s %s" % (
+            self.name,
+            self.start_time.strftime("%a %Y-%m-%d %H:%M"),
+        )
+        if self.shift_template and self.shift_template.group:
+            display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
+
+        display_name = "%s [%d/%d]" % (
+            display_name,
+            self.get_valid_attendances().count(),
+            self.num_slots,
+        )
+
+        return display_name
+
     def get_absolute_url(self):
         return reverse("shifts:shift_detail", args=[self.pk])
 
@@ -229,7 +256,7 @@ class ShiftAccountEntry(models.Model):
     Usually, a user will be debited one credit every four weeks and will be credited one for completing their shift.
 
     Based on the the account balance and the dates of the entries, the penalties are calculated. For example, if the
-    balance has been -2 for four weeks (TBD, this is just an example), the cooperater's right to shop will be revoked.
+    balance has been -2 for four weeks (TBD, this is just an example), the cooperator's right to shop will be revoked.
     """
 
     user = models.ForeignKey(
@@ -244,6 +271,9 @@ class ShiftAccountEntry(models.Model):
 
 
 class ShiftAttendance(models.Model):
+    class Meta:
+        ordering = ["shift__start_time"]
+
     user = models.ForeignKey(
         TapirUser, related_name="shift_attendances", on_delete=models.PROTECT
     )
@@ -288,12 +318,24 @@ class ShiftAttendance(models.Model):
         self.save()
 
 
-class ShiftUser(object):
-    def __init__(self, user):
-        self.user = user
+class ShiftUserData(models.Model):
+    user = models.OneToOneField(
+        TapirUser, null=False, on_delete=models.PROTECT, related_name="shift_user_data"
+    )
 
-    def get_account_entries(self):
-        return ShiftAccountEntry.object.filter(user=self.user)
+    SHIFT_ATTENDANCE_MODES = [
+        ("regular", _("Regular")),
+        ("flying", _("Flying")),
+    ]
+
+    attendance_mode = models.CharField(
+        max_length=32, choices=SHIFT_ATTENDANCE_MODES, default="regular", blank=False
+    )
 
 
-TapirUser.shifts = property(lambda u: ShiftUser(u))
+def create_shift_user_data(instance, **kwargs):
+    if not hasattr(instance, "shift_user_data"):
+        ShiftUserData.objects.create(user=instance)
+
+
+models.signals.post_save.connect(create_shift_user_data, sender=TapirUser)

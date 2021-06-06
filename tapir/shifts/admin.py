@@ -6,7 +6,10 @@ from tapir.shifts.models import (
     Shift,
     ShiftAttendanceTemplate,
     ShiftAttendance,
+    ShiftUserData,
 )
+
+admin.site.register(ShiftUserData)
 
 
 class ShiftTemplateInline(admin.TabularInline):

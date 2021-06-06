@@ -1,0 +1,49 @@
+{% load i18n %}
+{% load shifts %}
+
+<div class="card m-2">
+    <h5 class="card-header d-flex justify-content-between align-items-center">
+        {% trans "Shifts" %}
+        <button type="button" class="btn btn-outline-info" onclick="alert('Not implemented yet')">Add single shift</button>
+    </h5>
+    <div class="card-body">
+        <div class="row m-1">
+            {% if user.shift_user_data.attendance_mode == 'flying' %}
+                <div class="col-4 font-weight-bold text-right">{% trans "Status" %}:</div>
+                <div class="col-8">{{ user.shift_user_data.get_attendance_mode_display }}</div>
+            {% else %}
+                <div class="col-4 font-weight-bold text-right">{% trans "Regular Shift" %}:</div>
+                <div class="col-8">
+                    {% if user.shift_attendance_templates.count > 0 %}
+                        {% comment %}Usually there will only be one {% endcomment %}
+                        {% for shift_attendance_template in user.shift_attendance_templates.all %}
+                            {{ shift_attendance_template.shift_template.get_display_name }}
+
+                            {% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <span class="text-danger">{% trans "Missing" %}</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="row m-1">
+            <div class="col-4 font-weight-bold text-right">{% trans "Upcoming Shift" %}:</div>
+            <div class="col-8">
+                {% with next_shift=user.shift_attendances.first.shift %}
+                    <a href="{{ next_shift.get_absolute_url }}">
+                        {{ next_shift.start_time|date:"l F d" }} {{ next_shift.start_time|time:"H:i" }}
+                    </a>
+                    (in {{ next_shift.start_time|timeuntil }})<br />
+                {% endwith %}
+                <a data-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
+                <div class="collapse" id="upcoming-shifts">
+                    {% for shift_attendance in user.shift_attendances.all %}
+                        {% shift_block shift_attendance.shift %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

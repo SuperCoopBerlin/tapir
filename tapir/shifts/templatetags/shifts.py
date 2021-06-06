@@ -1,4 +1,3 @@
-import datetime
 from builtins import enumerate
 
 from django import template
@@ -12,6 +11,12 @@ from tapir.shifts.models import (
 )
 
 register = template.Library()
+
+
+@register.inclusion_tag("shifts/user_shifts_overview_tag.html", takes_context=True)
+def user_shifts_overview(context, user):
+    context["user"] = user
+    return context
 
 
 @register.inclusion_tag("shifts/shift_block_tag.html", takes_context=True)

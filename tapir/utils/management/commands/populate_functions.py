@@ -4,7 +4,6 @@ import os
 import pathlib
 import random
 
-from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, ShareOwnership, DraftUser
 from tapir.log.models import LogEntry
@@ -18,7 +17,6 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
 )
 from tapir.utils.json_user import JsonUser
-from tapir.utils.models import copy_user_info
 
 
 def delete_templates():
@@ -150,30 +148,24 @@ def populate_users():
             print(str(index) + "/200")
         json_user = JsonUser(parsed_user)
 
-        share_owner = ShareOwner.objects.create(
-            is_company=False,
+        user, _ = TapirUser.objects.get_or_create(
+            first_name=json_user.first_name,
+            last_name=json_user.last_name,
+            email=json_user.email,
+            postcode=json_user.postcode,
+            street=json_user.street,
+            street_2=json_user.street_2,
+            country=json_user.country,
+            birthdate=json_user.date_of_birth,
         )
-
-        copy_user_info(json_user, share_owner)
+        share_owner, _ = ShareOwner.objects.get_or_create(user=user)
 
         ShareOwnership.objects.create(
             owner=share_owner,
             start_date=datetime.date.today(),
         )
 
-        tapir_user = TapirUser.objects.create(
-            username=json_user.get_username(),
-        )
-        copy_user_info(share_owner, tapir_user)
-        share_owner.blank_info_fields()
-        tapir_user.is_staff = False
-        tapir_user.is_active = True
-        tapir_user.save()
-
-        share_owner.user = tapir_user
-        share_owner.save()
-
-        if ShiftAttendanceTemplate.objects.filter(user=tapir_user).count() > 0:
+        if ShiftAttendanceTemplate.objects.filter(user=user).count() > 0:
             continue
         for _ in range(10):
             template: ShiftTemplate = random.choice(ShiftTemplate.objects.all())
@@ -182,9 +174,7 @@ def populate_users():
             )
             if attendances.count() == template.num_slots:
                 continue
-            ShiftAttendanceTemplate.objects.create(
-                user=tapir_user, shift_template=template
-            )
+            ShiftAttendanceTemplate.objects.create(user=user, shift_template=template)
             template.update_future_shift_attendances()
             break
     print("Created fake uses")
