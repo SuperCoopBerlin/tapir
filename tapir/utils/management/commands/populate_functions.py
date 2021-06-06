@@ -6,6 +6,7 @@ import random
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, ShareOwnership, DraftUser
+from tapir.log.models import LogEntry
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -255,6 +256,7 @@ def generate_shifts():
 
 def clear_data():
     print("Clearing data...")
+    LogEntry.objects.all().delete()
     ShiftAccountEntry.objects.all().delete()
     ShiftAttendance.objects.all().delete()
     Shift.objects.all().delete()

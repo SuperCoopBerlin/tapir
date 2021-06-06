@@ -16,7 +16,7 @@
 {% block content %}
     <div class="d-flex flex-wrap">
         <div class="col-6 p-0">
-            <div class="card m-2">
+            <div class="card m-2" id="tapir_user_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     User Details
                     <a href="{% url "accounts:user_update" user.pk %}">
@@ -26,15 +26,25 @@
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
-                        <div class="col-9">{{ user.get_display_name }}</div>
+                        <div class="col-9" id="tapir_user_display_name">{{ user.get_display_name }}</div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Status" %}:</div>
+                        <div class="col-9" id="tapir_user_status">
+                            {% if user.coop_share_owner.is_investing %}
+                                {% trans "Investing Member" %}
+                            {% else %}
+                                {% trans "Active Member" %}
+                            {% endif %}
+                        </div>
                     </div>
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Username" %}:</div>
-                        <div class="col-9">{{ user.username }}</div>
+                        <div class="col-9" id="tapir_user_username">{{ user.username }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
-                        <div class="col-9">{{ user.email }}</div>
+                        <div class="col-9" id="tapir_user_email">{{ user.email }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Phone number" %}:</div>
@@ -42,17 +52,17 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
-                        <div class="col-9">{{ user.birthdate }}</div>
+                        <div class="col-9" id="tapir_user_birthdate">{{ user.birthdate|date:"d.m.Y" }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
-                        <div class="col-9">
+                        <div class="col-9" id="tapir_user_address">
                             {{ object.get_display_address }}
                         </div>
                     </div>
                     <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
-                        <div class="col-9" id="share_owner_email">{{ object.get_preferred_language_display }}</div>
+                        <div class="col-9" id="tapir_user_preferred_language">{{ object.get_preferred_language_display }}</div>
                     </div>
 
                     <div class="row m-1 justify-content-end">

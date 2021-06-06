@@ -16,7 +16,7 @@
                 {% elif not object.is_company %}
                     <span>
                         <a class="btn btn-outline-primary" href="{% url "coop:shareowner_update" object.pk %}" id="edit_share_owner_button">{% trans "Edit share owner" %}</a>
-                        <a class="btn btn-primary" href="{% url "coop:create_user_from_shareowner" object.pk %}">{% trans "Create user" %}</a>
+                        <a class="btn btn-primary" href="{% url "coop:create_user_from_shareowner" object.pk %}" id="create_tapir_user_button">{% trans "Create user" %}</a>
                     </span>
                 {% endif %}
             </h5>

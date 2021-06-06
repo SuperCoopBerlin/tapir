@@ -165,16 +165,6 @@
                                 {%  trans "Create Member" %}
                             </button>
                         </form>
-                        {% comment %}
-                        <form
-                                method="post"
-                                action="{% url "coop:draftuser_create_user" object.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="align-self-right btn btn-primary ml-3">
-                                Create User
-                            </button>
-                        </form>
-                        {% endcomment %}
                     {% endif %}
                 </div>
             </div>
