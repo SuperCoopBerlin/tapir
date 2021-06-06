@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -100,6 +100,21 @@ DATABASES = {
         "PASSWORD": "admin",
     },
 }
+
+if "test" in sys.argv:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        },
+        "ldap": {
+            "ENGINE": "ldapdb.backends.ldap",
+            "NAME": "ldap://openldap/",
+            "USER": "cn=admin,dc=supercoop,dc=de",
+            "PASSWORD": "admin",
+        },
+    }
+
 DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
 ODOO = {

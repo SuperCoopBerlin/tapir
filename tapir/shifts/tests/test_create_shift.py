@@ -14,8 +14,11 @@ class ShiftTestBase(SerializeMixin, TapirSeleniumTestBase):
 
 
 class TestCreateShift(ShiftTestBase):
-    shift_start_time = datetime.datetime.now()
-    shift_end_time = datetime.datetime.now() + datetime.timedelta(hours=3)
+    shift_start_time = datetime.datetime.combine(
+        datetime.date.today(), datetime.time(hour=9)
+    )
+    shift_end_time = shift_start_time + datetime.timedelta(hours=3, minutes=23)
+
     shift_num_slots = 5
 
     @tag("selenium")
@@ -33,17 +36,17 @@ class TestCreateShift(ShiftTestBase):
     def fill_shift_create_form(self):
         self.selenium.find_element_by_id("id_name").send_keys(ShiftTestBase.shift_name)
 
-        field_start_date = self.selenium.find_element_by_id("id_start_time")
-        field_start_date.clear()
-        field_start_date.send_keys(self.shift_start_time.strftime("%m/%d/%Y %H:%M"))
+        field_num_slots = self.selenium.find_element_by_id("id_num_slots")
+        field_num_slots.clear()
+        field_num_slots.send_keys(self.shift_num_slots)
 
         field_end_date = self.selenium.find_element_by_id("id_end_time")
         field_end_date.clear()
         field_end_date.send_keys(self.shift_end_time.strftime("%m/%d/%Y %H:%M"))
 
-        field_num_slots = self.selenium.find_element_by_id("id_num_slots")
-        field_num_slots.clear()
-        field_num_slots.send_keys(self.shift_num_slots)
+        field_start_date = self.selenium.find_element_by_id("id_start_time")
+        field_start_date.clear()
+        field_start_date.send_keys(self.shift_start_time.strftime("%m/%d/%Y %H:%M"))
 
         self.selenium.find_element_by_xpath('//button[text() = "Save"]').click()
 
@@ -65,6 +68,15 @@ class TestCreateShift(ShiftTestBase):
                 )
             ).text,
             "#" + str(self.shift_num_slots),
+        )
+
+        self.assertEqual(
+            len(
+                self.selenium.find_elements_by_xpath(
+                    "//*[@id='attendance_table']/tbody/tr/td[1]/h5"
+                )
+            ),
+            self.shift_num_slots,
         )
 
         ShiftTestBase.shift_id = self.selenium.current_url.split("/")[-2]

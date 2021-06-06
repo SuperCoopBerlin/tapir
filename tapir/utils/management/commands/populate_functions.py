@@ -6,9 +6,6 @@ import random
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, ShareOwnership, DraftUser
-from tapir.coop.views import create_user_from_shareowner
-from tapir.finance.models import Invoice
-from tapir.odoo.models import OdooPartner
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -151,7 +148,8 @@ def populate_users():
             start_date=datetime.date.today(),
         )
 
-        create_user_from_shareowner(share_owner)
+        # TODO Théo 06.06.21 Update this to use new view
+        # create_user_from_shareowner(share_owner)
         tapir_user = share_owner.user
         tapir_user.is_staff = False
         tapir_user.is_active = True
@@ -266,8 +264,6 @@ def clear_data():
     ShareOwnership.objects.all().delete()
     ShareOwner.objects.all().delete()
     DraftUser.objects.all().delete()
-    Invoice.objects.all().delete()
-    OdooPartner.objects.all().delete()
     TapirUser.objects.filter(is_staff=False).delete()
     print("Done")
 

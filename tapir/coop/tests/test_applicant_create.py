@@ -24,7 +24,7 @@ class TestApplicantCreate(ApplicantTestBase, ApplicantToTapirUserMixin):
         self.check_draftuser_details(user)
 
 
-class TestApplicantToInvestingMember(ApplicantTestBase, ApplicantToTapirUserMixin):
+class TestApplicantToShareOwner(ApplicantTestBase, ApplicantToTapirUserMixin):
     @tag("selenium")
     def test_applicant_to_investing_member(self):
         # A coop member transforms a draft user into an investing member
@@ -36,8 +36,8 @@ class TestApplicantToInvestingMember(ApplicantTestBase, ApplicantToTapirUserMixi
         self.selenium.find_element_by_id(
             "button_marker_membership_agreement_signed"
         ).click()
-        self.wait_until_element_present_by_id("button_create_investing_member")
-        self.selenium.find_element_by_id("button_create_investing_member").click()
+        self.wait_until_element_present_by_id("button_create_share_owner")
+        self.selenium.find_element_by_id("button_create_share_owner").click()
         self.wait_until_element_present_by_id("share_owner_detail_card")
 
         self.assertEqual(
@@ -46,7 +46,7 @@ class TestApplicantToInvestingMember(ApplicantTestBase, ApplicantToTapirUserMixi
         )
         self.assertEqual(
             self.selenium.find_element_by_id("share_owner_status").text,
-            "Investing Member",
+            "Active Member",
         )
         self.assertEqual(
             self.selenium.find_element_by_id("share_owner_email").text,
