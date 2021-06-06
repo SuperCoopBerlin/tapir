@@ -46,7 +46,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         )
 
     background = "success"
-    if shift.get_valid_attendances() == 0:
+    if shift.get_valid_attendances().count() == 0:
         background = "danger"
     elif shift.get_valid_attendances().count() < shift.num_slots:
         background = "warning"

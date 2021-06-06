@@ -90,6 +90,8 @@ class LdapUser(AbstractUser):
         # I'm about the only person comfortable to use Apache Directory Studio. Move this into
         # out app and build a nice group management interface?
         for group_cn in settings.PERMISSIONS.get(perm, []):
+            if LdapGroup.objects.filter(cn=group_cn).count() == 0:
+                continue
             group = LdapGroup.objects.get(cn=group_cn)
             if user_dn in group.members:
                 return True
