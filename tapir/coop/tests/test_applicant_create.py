@@ -41,6 +41,14 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         self.selenium.find_element_by_id("button_create_share_owner").click()
         self.check_share_owner_details(user)
 
+        # Make sure that the DraftUser is deleted after the ShareOwner has been created
+        self.selenium.get(self.URL_BASE + reverse("coop:draftuser_list"))
+        self.wait_until_element_present_by_id("applicants_table")
+        user_rows = self.selenium.find_element_by_id(
+            "applicants_table"
+        ).find_elements_by_xpath("//tbody//tr[./td[. = '" + user.email + "']]")
+        self.assertEqual(len(user_rows), 0)
+
     def subtest_edit_share_owner(self):
         # A coop member edits the name of a share owner
         self.selenium.get(self.URL_BASE)
