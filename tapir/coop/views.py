@@ -438,7 +438,11 @@ def shareowner_membership_agreement(request, pk):
 class ShareOwnerSearchMixin:
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
-        if queryset.count() == 1:
+
+        search_string = self.request.GET.get("search", "")
+        is_a_search = search_string is not ""
+
+        if is_a_search and queryset.count() == 1:
             return HttpResponseRedirect(queryset.first().get_absolute_url())
         return super().get(request, *args, **kwargs)
 

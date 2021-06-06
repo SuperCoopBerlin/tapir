@@ -26,7 +26,7 @@ class TestApplicantCreate(ApplicantTestBase, ApplicantToTapirUserMixin):
 
 class TestApplicantToShareOwner(ApplicantTestBase, ApplicantToTapirUserMixin):
     @tag("selenium")
-    def test_applicant_to_investing_member(self):
+    def test_applicant_to_share_owner(self):
         # A coop member transforms a draft user into an investing member
         self.selenium.get(self.URL_BASE)
         self.login_as_admin()
@@ -54,7 +54,7 @@ class TestApplicantToShareOwner(ApplicantTestBase, ApplicantToTapirUserMixin):
         )
         self.assertEqual(
             self.selenium.find_element_by_id("share_owner_birthdate").text,
-            user.get_date_of_birth_display(),
+            user.get_birthdate_display(),
         )
         self.assertEqual(
             self.selenium.find_element_by_id("share_owner_address").text,

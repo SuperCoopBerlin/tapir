@@ -53,7 +53,7 @@
 
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Member Type" %}:</div>
-                    <div class="col-9">
+                    <div class="col-9" id="draft_user_member_type">
                         {% if object.is_investing %}
                             <span style="color: blue;">{% trans "Investing" %}</span>
                         {% else %}
@@ -63,12 +63,10 @@
                     </div>
                 </div>
 
-                {% if object.ratenzahlung %}
-                    <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Ratenzahlung" %}:</div>
-                        <div class="col-9" id="share_owner_email">Yes</div>
-                    </div>
-                {% endif %}
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Ratenzahlung" %}:</div>
+                    <div class="col-9" id="draft_user_ratenzahlung">{% if object.ratenzahlung %}Yes{% else %}No{% endif %}</div>
+                </div>
 
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Shares requested" %}</div>

@@ -62,6 +62,14 @@ class ApplicantTestBase(TapirSeleniumTestBase):
             user.get_display_address(),
         )
         self.assertEqual(
+            self.selenium.find_element_by_id("draft_user_member_type").text,
+            "Active",
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("draft_user_ratenzahlung").text,
+            "No",
+        )
+        self.assertEqual(
             self.selenium.find_element_by_id("draft_user_num_shares").text, "1"
         )
 
