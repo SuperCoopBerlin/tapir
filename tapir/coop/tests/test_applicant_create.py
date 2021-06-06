@@ -53,6 +53,10 @@ class TestApplicantToShareOwner(ApplicantTestBase, ApplicantToTapirUserMixin):
             user.email,
         )
         self.assertEqual(
+            self.selenium.find_element_by_id("share_owner_phone_number").text,
+            user.phone_number,
+        )
+        self.assertEqual(
             self.selenium.find_element_by_id("share_owner_birthdate").text,
             user.get_birthdate_display(),
         )

@@ -23,7 +23,7 @@
             <div class="card-body">
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
-                    <div class="col-9" id="share_owner_display_name">{{ object.get_display_name }}</div>
+                    <div class="col-9" id="share_owner_display_name">{{ object.get_info.get_display_name }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Status" %}:</div>
@@ -37,21 +37,23 @@
                         {% endif %}
                     </div>
                 </div>
-                {% if object.ratenzahlung %}
-                    <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Ratenzahlung" %}:</div>
-                        <div class="col-9" id="share_owner_email">Yes</div>
-                    </div>
-                {% endif %}
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Ratenzahlung" %}:</div>
+                    <div class="col-9" id="share_owner_ratenzahlung">{% if object.ratenzahlung %}Yes{% else %}No{% endif %}</div>
+                </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
-                    <div class="col-9" id="share_owner_email">{{ object.email }}</div>
+                    <div class="col-9" id="share_owner_email">{{ object.get_info.email }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Phone number" %}:</div>
+                    <div class="col-9" id="share_owner_phone_number">{{ object.get_info.phone_number }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
                     <div class="col-9" id="share_owner_birthdate">
-                        {% if object.birthdate %}
-                            {{ object.birthdate|date:"d.m.Y" }}
+                        {% if object.get_info.birthdate %}
+                            {{ object.get_info.birthdate|date:"d.m.Y" }}
                         {% else %}
                             <span>Missing</span>
                         {% endif %}
@@ -60,8 +62,8 @@
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
                     <div class="col-9" id="share_owner_address">
-                        {% if object.street and object.city %}
-                            {{ object.get_display_address }}
+                        {% if object.get_info.street and object.get_info.city %}
+                            {{ object.get_info.get_display_address }}
                         {% else %}
                             <span class="text-danger">Missing</span>
                         {% endif %}
@@ -69,7 +71,7 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
-                    <div class="col-9" id="share_owner_email">{{ object.get_preferred_language_display }}</div>
+                    <div class="col-9" id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Owned shares" %}</div>

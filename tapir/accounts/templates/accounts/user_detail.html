@@ -37,6 +37,10 @@
                         <div class="col-9">{{ user.email }}</div>
                     </div>
                     <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Phone number" %}:</div>
+                        <div class="col-9" id="tapir_user_phone_number">{{ user.phone_number }}</div>
+                    </div>
+                    <div class="row m-1">
                         <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
                         <div class="col-9">{{ user.birthdate }}</div>
                     </div>

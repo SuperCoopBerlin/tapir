@@ -100,6 +100,7 @@ class LdapUser(AbstractUser):
 class TapirUser(LdapUser):
     username_validator = validators.UsernameValidator
 
+    phone_number = models.CharField(_("Phone number"), blank=True, max_length=20)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
     street = models.CharField(_("Street and house number"), max_length=150, blank=True)
     street_2 = models.CharField(_("Extra address line"), max_length=150, blank=True)

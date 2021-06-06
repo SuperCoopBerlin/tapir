@@ -54,6 +54,10 @@ class ApplicantTestBase(TapirSeleniumTestBase):
             self.selenium.find_element_by_id("draft_user_email").text, user.email
         )
         self.assertEqual(
+            self.selenium.find_element_by_id("draft_user_phone_number").text,
+            user.phone_number,
+        )
+        self.assertEqual(
             self.selenium.find_element_by_id("draft_user_birthdate").text,
             user.date_of_birth.strftime("%d.%m.%Y"),
         )
