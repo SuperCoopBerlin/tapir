@@ -4,6 +4,7 @@ import os
 import pathlib
 import random
 
+from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, ShareOwnership, DraftUser
 from tapir.log.models import LogEntry
@@ -17,6 +18,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
 )
 from tapir.utils.json_user import JsonUser
+from tapir.utils.models import copy_user_info
 
 
 def delete_templates():
@@ -27,9 +29,15 @@ def delete_templates():
 def populate_shifts():
     for delta in range(-7, 7):
         date = datetime.date.today() - datetime.timedelta(days=delta)
-        morning = datetime.datetime.combine(date, datetime.time(hour=8))
-        noon = datetime.datetime.combine(date, datetime.time(hour=12))
-        evening = datetime.datetime.combine(date, datetime.time(hour=16))
+        morning = datetime.datetime.combine(
+            date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
+        )
+        noon = datetime.datetime.combine(
+            date, datetime.time(hour=12, tzinfo=datetime.timezone.utc)
+        )
+        evening = datetime.datetime.combine(
+            date, datetime.time(hour=16, tzinfo=datetime.timezone.utc)
+        )
 
         Shift.objects.get_or_create(
             name="Cashier morning",
@@ -66,14 +74,18 @@ def populate_user_shifts(request, user_id):
     user = TapirUser.objects.get(pk=user_id)
 
     date = datetime.date.today() - datetime.timedelta(days=4)
-    start_time = datetime.datetime.combine(date, datetime.time(hour=8))
+    start_time = datetime.datetime.combine(
+        date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
+    )
     shift = Shift.objects.get(name="Cashier morning", start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift, user=user, state=ShiftAttendance.State.DONE
     )
 
     date = datetime.date.today() - datetime.timedelta(days=2)
-    start_time = datetime.datetime.combine(date, datetime.time(hour=8))
+    start_time = datetime.datetime.combine(
+        date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
+    )
     shift = Shift.objects.get(name="Storage morning", start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift,
@@ -83,20 +95,26 @@ def populate_user_shifts(request, user_id):
     )
 
     date = datetime.date.today() + datetime.timedelta(days=1)
-    start_time = datetime.datetime.combine(date, datetime.time(hour=8))
+    start_time = datetime.datetime.combine(
+        date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
+    )
     shift = Shift.objects.get(name="Cashier morning", start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift, user=user, state=ShiftAttendance.State.CANCELLED
     )
 
-    start_time = datetime.datetime.combine(date, datetime.time(hour=12))
+    start_time = datetime.datetime.combine(
+        date, datetime.time(hour=12, tzinfo=datetime.timezone.utc)
+    )
     shift = Shift.objects.get(name="Cashier afternoon", start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift, user=user, state=ShiftAttendance.State.PENDING
     )
 
     date = datetime.date.today() + datetime.timedelta(days=4)
-    start_time = datetime.datetime.combine(date, datetime.time(hour=12))
+    start_time = datetime.datetime.combine(
+        date, datetime.time(hour=12, tzinfo=datetime.timezone.utc)
+    )
     shift = Shift.objects.get(name="Storage afternoon", start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift, user=user, state=ShiftAttendance.State.PENDING
@@ -132,29 +150,28 @@ def populate_users():
             print(str(index) + "/200")
         json_user = JsonUser(parsed_user)
 
-        (share_owner, _) = ShareOwner.objects.get_or_create(
-            first_name=json_user.first_name,
-            last_name=json_user.last_name,
-            email=json_user.email,
-            postcode=json_user.postcode,
-            street=json_user.street,
-            street_2=json_user.street_2,
-            country=json_user.country,
-            birthdate=json_user.date_of_birth,
+        share_owner = ShareOwner.objects.create(
             is_company=False,
         )
+
+        copy_user_info(json_user, share_owner)
 
         ShareOwnership.objects.create(
             owner=share_owner,
             start_date=datetime.date.today(),
         )
 
-        # TODO Théo 06.06.21 Update this to use new view
-        # create_user_from_shareowner(share_owner)
-        tapir_user = share_owner.user
+        tapir_user = TapirUser.objects.create(
+            username=json_user.get_username(),
+        )
+        copy_user_info(share_owner, tapir_user)
+        share_owner.blank_info_fields()
         tapir_user.is_staff = False
         tapir_user.is_active = True
         tapir_user.save()
+
+        share_owner.user = tapir_user
+        share_owner.save()
 
         if ShiftAttendanceTemplate.objects.filter(user=tapir_user).count() > 0:
             continue
@@ -183,8 +200,12 @@ def populate_shift_templates():
         for template_group in ShiftTemplateGroup.objects.all():
             for name in names:
                 for start_hour in start_hours:
-                    start_time = datetime.time(hour=start_hour)
-                    end_time = datetime.time(hour=start_hour + 3)
+                    start_time = datetime.time(
+                        hour=start_hour, tzinfo=datetime.timezone.utc
+                    )
+                    end_time = datetime.time(
+                        hour=start_hour + 3, tzinfo=datetime.timezone.utc
+                    )
                     ShiftTemplate.objects.get_or_create(
                         name=name,
                         group=template_group,
@@ -196,8 +217,8 @@ def populate_shift_templates():
 
     for weekday in [WEEKDAY_CHOICES[2], WEEKDAY_CHOICES[5]]:
         for template_group in ShiftTemplateGroup.objects.all():
-            start_time = datetime.time(hour=18)
-            end_time = datetime.time(hour=18 + 3)
+            start_time = datetime.time(hour=18, tzinfo=datetime.timezone.utc)
+            end_time = datetime.time(hour=18 + 3, tzinfo=datetime.timezone.utc)
             name = "Store cleaning"
             ShiftTemplate.objects.get_or_create(
                 name=name,
@@ -209,8 +230,8 @@ def populate_shift_templates():
             )
 
     for group_name in ["A", "C"]:
-        start_time = datetime.time(hour=9)
-        end_time = datetime.time(hour=9 + 3)
+        start_time = datetime.time(hour=9, tzinfo=datetime.timezone.utc)
+        end_time = datetime.time(hour=9 + 3, tzinfo=datetime.timezone.utc)
         name = "Inventory"
         template_group = ShiftTemplateGroup.objects.get(name="Week " + group_name)
         ShiftTemplate.objects.get_or_create(
@@ -223,8 +244,8 @@ def populate_shift_templates():
         )
 
     for group_name in ["B", "D"]:
-        start_time = datetime.time(hour=9)
-        end_time = datetime.time(hour=9 + 3)
+        start_time = datetime.time(hour=9, tzinfo=datetime.timezone.utc)
+        end_time = datetime.time(hour=9 + 3, tzinfo=datetime.timezone.utc)
         name = "Storage cleaning"
         template_group = ShiftTemplateGroup.objects.get(name="Week " + group_name)
         ShiftTemplate.objects.get_or_create(

@@ -1,3 +1,4 @@
+import datetime
 from datetime import date
 
 from django.core.exceptions import ValidationError
@@ -366,3 +367,24 @@ class DurationModelMixin(models.Model):
         # Ensure that the start date precedes the end date
         if self.end_date and self.start_date > self.end_date:
             raise ValidationError(_("Start date must be prior to end date"))
+
+
+def copy_user_info(source, target):
+    target.first_name = source.first_name
+    target.last_name = source.last_name
+    target.email = source.email
+    target.phone_number = source.phone_number
+    target.birthdate = source.birthdate
+    target.street = source.street
+    target.street_2 = source.street_2
+    target.postcode = source.postcode
+    target.city = source.city
+    target.country = source.country
+
+
+def get_country_code(full_country_name: str) -> str:
+    for pair in COUNTRIES:
+        if full_country_name in pair[1]:
+            return pair[0]
+
+    raise Exception("Country code not found for " + full_country_name)

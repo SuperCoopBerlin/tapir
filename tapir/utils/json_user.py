@@ -1,6 +1,7 @@
 import datetime
 
 # Helper class to deal with users generated from https://randomuser.me/
+from tapir.utils.models import get_country_code
 from tapir.utils.user_utils import UserUtils
 
 
@@ -9,7 +10,7 @@ class JsonUser:
     last_name: str
     email: str
     phone_number: str
-    date_of_birth: datetime.date
+    birthdate: datetime.date
     street: str
     street_2: str
     postcode: str
@@ -24,7 +25,7 @@ class JsonUser:
         self.phone_number = parsed_json["phone"].replace("-", "")
 
         date_of_birth = parsed_json["dob"]["date"].replace("Z", "")
-        self.date_of_birth = datetime.datetime.fromisoformat(date_of_birth).date()
+        self.birthdate = datetime.datetime.fromisoformat(date_of_birth).date()
 
         self.street = (
             parsed_json["location"]["street"]["name"]
@@ -35,7 +36,7 @@ class JsonUser:
         self.street_2 = ""
         self.postcode = str(parsed_json["location"]["postcode"])
         self.city = parsed_json["location"]["city"]
-        self.country = parsed_json["location"]["country"]
+        self.country = get_country_code(parsed_json["location"]["country"])
 
         date_joined = parsed_json["registered"]["date"].replace("Z", "")
         self.date_joined = datetime.datetime.fromisoformat(date_joined)
@@ -47,12 +48,15 @@ class JsonUser:
         return UserUtils.build_display_name(self.first_name, self.last_name)
 
     def get_date_of_birth_str_for_input_field(self) -> str:
-        return self.date_of_birth.strftime("%Y-%m-%d")
+        return self.birthdate.strftime("%Y-%m-%d")
 
     def get_birthdate_display(self) -> str:
-        return self.date_of_birth.strftime("%d.%m.%Y")
+        return self.birthdate.strftime("%d.%m.%Y")
 
     def get_display_address(self) -> str:
         return UserUtils.build_display_address(
             self.street, self.street_2, self.postcode, self.city
         )
+
+    def save(self):
+        pass
