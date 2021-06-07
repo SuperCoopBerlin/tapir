@@ -153,13 +153,15 @@ class ShareOwnerUpdateView(
         with transaction.atomic():
             response = super().form_valid(form)
 
-            log_entry = UpdateShareOwnerLogEntry().populate(
-                old_frozen=self.old_object_frozen,
-                new_model=form.instance,
-                share_owner=form.instance,
-                actor=self.request.user,
-            )
-            log_entry.save()
+            new_frozen = freeze_for_log(form.instance)
+            if self.old_object_frozen != new_frozen:
+                log_entry = UpdateShareOwnerLogEntry().populate(
+                    old_frozen=self.old_object_frozen,
+                    new_frozen=new_frozen,
+                    share_owner=form.instance,
+                    actor=self.request.user,
+                )
+                log_entry.save()
 
             return response
 
