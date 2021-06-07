@@ -1,5 +1,5 @@
 import datetime
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
@@ -155,9 +155,9 @@ class ShiftTemplateOverview(PermissionRequiredMixin, TemplateView):
 
         grouped_per_day = {}
         for weekday in WEEKDAY_CHOICES:
-            grouped_per_day[weekday[1]] = {}
+            grouped_per_day[weekday[1]] = OrderedDict()
 
-        for t in ShiftTemplate.objects.all().order_by("name"):
+        for t in ShiftTemplate.objects.all().order_by("start_time"):
             template: ShiftTemplate = t
             weekday_group = grouped_per_day[WEEKDAY_CHOICES[template.weekday][1]]
             start_time_as_string = str(template.start_time)
