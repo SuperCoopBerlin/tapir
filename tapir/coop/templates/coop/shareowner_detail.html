@@ -6,106 +6,77 @@
 {% load log %}
 
 {% block content %}
-
-    <div class="container">
-        <div class="card m-2" id="share_owner_detail_card">
-            <h5 class="card-header d-flex justify-content-between align-items-center">
-                <span>Share Owner</span>
-                {% if object.user is not None %}
-                    <a class="btn btn-outline-primary" href="{% url "accounts:user_detail" object.user.pk %}">{% trans "Go to user page" %}</a>
-                {% elif not object.is_company %}
-                    <span>
-                        <a class="btn btn-outline-primary" href="{% url "coop:shareowner_update" object.pk %}" id="edit_share_owner_button">{% trans "Edit share owner" %}</a>
+    <div class="d-flex flex-wrap">
+        <div class="col-6 p-0">
+            <div class="card m-2">
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                    {% trans "Personal Data" %}
+                    {% if object.user is not None %}
+                        <a class="btn btn-outline-primary" href="{% url "accounts:user_detail" object.user.pk %}">{% trans "Go to user page" %}</a>
+                    {% elif not object.is_company %}
+                        <span>
+                        <a class="btn btn-outline-primary" href="{% url "coop:shareowner_update" object.pk %}" id="edit_share_owner_button">{% trans "Edit" %}</a>
                         <a class="btn btn-primary" href="{% url "coop:create_user_from_shareowner" object.pk %}" id="create_tapir_user_button">{% trans "Create user" %}</a>
                     </span>
-                {% endif %}
-            </h5>
-            <div class="card-body">
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
-                    <div class="col-9" id="share_owner_display_name">{{ object.get_info.get_display_name }}</div>
-                </div>
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Status" %}:</div>
-                    <div class="col-9" id="share_owner_status">
-                        {% if object.is_investing %}
-                            {% trans "Investing Member" %}
-                        {% elif object.is_company %}
-                            {% trans "Company" %}
-                        {% else %}
-                            {% trans "Active Member" %}
-                        {% endif %}
+                    {% endif %}
+                </h5>
+                <div class="card-body">
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
+                        <div class="col-9" id="share_owner_display_name">{{ object.get_info.get_display_name }}</div>
                     </div>
-                </div>
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Ratenzahlung" %}:</div>
-                    <div class="col-9" id="share_owner_ratenzahlung">{% if object.ratenzahlung %}Yes{% else %}No{% endif %}</div>
-                </div>
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
-                    <div class="col-9" id="share_owner_email">{{ object.get_info.email }}</div>
-                </div>
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Phone number" %}:</div>
-                    <div class="col-9" id="share_owner_phone_number">{{ object.get_info.phone_number }}</div>
-                </div>
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
-                    <div class="col-9" id="share_owner_birthdate">
-                        {% if object.get_info.birthdate %}
-                            {{ object.get_info.birthdate|date:"d.m.Y" }}
-                        {% else %}
-                            <span>Missing</span>
-                        {% endif %}
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Status" %}:</div>
+                        <div class="col-9" id="share_owner_status">
+                            {% if object.is_investing %}
+                                {% trans "Investing Member" %}
+                            {% elif object.is_company %}
+                                {% trans "Company" %}
+                            {% else %}
+                                {% trans "Active Member" %}
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
-                    <div class="col-9" id="share_owner_address">
-                        {% if object.get_info.street and object.get_info.city %}
-                            {{ object.get_info.get_display_address }}
-                        {% else %}
-                            <span class="text-danger">Missing</span>
-                        {% endif %}
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
+                        <div class="col-9" id="share_owner_email">{{ object.get_info.email }}</div>
                     </div>
-                </div>
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
-                    <div class="col-9" id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
-                </div>
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Owned shares" %}</div>
-                    <div class="col-4" id="share_owner_num_shares">{{ object.num_shares }}</div>
-                </div>
-
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">From Startnext</div>
-                    <div class="col-4">{{ object.from_startnext|yesno:"Yes,No" }}</div>
-                </div>
-                <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Welcome Session" %}</div>
-                    <div class="col-4">
-                        {% if object.attended_welcome_session %}
-                            <span class="text-success">{% trans "Attended" %}</span>
-                        {% else %}
-                            <span class="text-warning">{% trans "Pending" %}</span>
-
-                            <form style="display: inline;"
-                                  method="post"
-                                  action="{% url "coop:mark_shareowner_attended_welcome_session" object.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-success ml-3">
-                                    <span class="material-icons" style="font-size: 14px;">check</span> Mark Attended
-                                </button>
-                            </form>
-                        {% endif %}
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Phone number" %}:</div>
+                        <div class="col-9" id="share_owner_phone_number">{{ object.get_info.phone_number }}</div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
+                        <div class="col-9" id="share_owner_birthdate">
+                            {% if object.get_info.birthdate %}
+                                {{ object.get_info.birthdate|date:"d.m.Y" }}
+                            {% else %}
+                                <span>Missing</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
+                        <div class="col-9" id="share_owner_address">
+                            {% if object.get_info.street and object.get_info.city %}
+                                {{ object.get_info.get_display_address }}
+                            {% else %}
+                                <span class="text-danger">Missing</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-3 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
+                        <div class="col-9" id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-6 p-0">
             {% share_owner_ownership_list object %}
         </div>
+
         <div class="col-12 p-0">
             {% share_owner_log_entry_list object %}
         </div>
