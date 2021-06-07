@@ -18,51 +18,57 @@
         <div class="col-6 p-0">
             <div class="card m-2" id="tapir_user_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
-                    User Details
+                    {% trans "Personal Details" %}
                     <a href="{% url "accounts:user_update" user.pk %}">
                         <button type="button" class="btn btn-outline-info">Edit infos</button>
                     </a>
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
-                        <div class="col-9" id="tapir_user_display_name">{{ user.get_display_name }}</div>
+                        <div class="col-4 font-weight-bold text-right">{% trans "Name" %}:</div>
+                        <div class="col-8">{{ user.get_display_name }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Status" %}:</div>
-                        <div class="col-9" id="tapir_user_status">
-                            {% if user.coop_share_owner.is_investing %}
-                                {% trans "Investing Member" %}
+                        <div class="col-4 font-weight-bold text-right">{% trans "Username" %}:</div>
+                        <div class="col-8">{{ user.username }}</div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-4 font-weight-bold text-right">{% trans "Email" %}:</div>
+                        <div class="col-8">{{ user.email }}</div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-4 font-weight-bold text-right">{% trans "Phone number" %}:</div>
+                        <div class="col-8">
+                            {% if user.phone_number %}
+                                {{ user.phone_number }}
                             {% else %}
-                                {% trans "Active Member" %}
+                                <span class="text-danger">{% trans "Missing" %}</span>
                             {% endif %}
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Username" %}:</div>
-                        <div class="col-9" id="tapir_user_username">{{ user.username }}</div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
-                        <div class="col-9" id="tapir_user_email">{{ user.email }}</div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Phone number" %}:</div>
-                        <div class="col-9" id="tapir_user_phone_number">{{ user.phone_number }}</div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
-                        <div class="col-9" id="tapir_user_birthdate">{{ user.birthdate|date:"d.m.Y" }}</div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
-                        <div class="col-9" id="tapir_user_address">
-                            {{ object.get_display_address }}
+                        <div class="col-4 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
+                        <div class="col-8">
+                            {% if object.get_info.birthdate %}
+                                {{ user.birthdate|date:"d.m.Y" }}
+                            {% else %}
+                                <span class="text-danger">{% trans "Missing" %}</span>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
-                        <div class="col-9" id="tapir_user_preferred_language">{{ object.get_preferred_language_display }}</div>
+                        <div class="col-4 font-weight-bold text-right">{% trans "Address" %}:</div>
+                        <div class="col-8">
+                            {% if user.street and user.city %}
+                                {{ object.get_info.get_display_address }}
+                            {% else %}
+                                <span class="text-danger">{% trans "Missing" %}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-4 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
+                        <div class="col-8" id="tapir_user_preferred_language">{{ object.get_preferred_language_display }}</div>
                     </div>
 
                     <div class="row m-1 justify-content-end">

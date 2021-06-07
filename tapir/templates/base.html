@@ -110,7 +110,8 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-            <div class="container">
+            <!-- make it a bit wider than the default -->
+            <div class="container" style="max-width: 1200px;">
                 {% bootstrap_messages %}
                 {% block content %}{% endblock %}
             </div>

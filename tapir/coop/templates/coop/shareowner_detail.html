@@ -22,52 +22,40 @@
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
-                        <div class="col-9" id="share_owner_display_name">{{ object.get_info.get_display_name }}</div>
+                        <div class="col-4 font-weight-bold text-right">{% trans "Name" %}:</div>
+                        <div class="col-8" id="share_owner_display_name">{{ object.get_info.get_display_name }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Status" %}:</div>
-                        <div class="col-9" id="share_owner_status">
-                            {% if object.is_investing %}
-                                {% trans "Investing Member" %}
-                            {% elif object.is_company %}
-                                {% trans "Company" %}
-                            {% else %}
-                                {% trans "Active Member" %}
-                            {% endif %}
-                        </div>
+                        <div class="col-4 font-weight-bold text-right">{% trans "Email" %}:</div>
+                        <div class="col-8" id="share_owner_email">{{ object.get_info.email }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
-                        <div class="col-9" id="share_owner_email">{{ object.get_info.email }}</div>
+                        <div class="col-4 font-weight-bold text-right">{% trans "Phone number" %}:</div>
+                        <div class="col-8" id="share_owner_phone_number">{{ object.get_info.phone_number }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Phone number" %}:</div>
-                        <div class="col-9" id="share_owner_phone_number">{{ object.get_info.phone_number }}</div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
-                        <div class="col-9" id="share_owner_birthdate">
+                        <div class="col-4 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
+                        <div class="col-8">
                             {% if object.get_info.birthdate %}
                                 {{ object.get_info.birthdate|date:"d.m.Y" }}
                             {% else %}
-                                <span>Missing</span>
+                                <span class="text-danger">{% trans "Missing" %}</span>
                             {% endif %}
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
-                        <div class="col-9" id="share_owner_address">
-                            {% if object.get_info.street and object.get_info.city %}
-                                {{ object.get_info.get_display_address }}
+                        <div class="col-4 font-weight-bold text-right">{% trans "Address" %}:</div>
+                        <div class="col-8">
+                            {% if user.street and user.city %}
+                                {{ user.get_display_address }}
                             {% else %}
-                                <span class="text-danger">Missing</span>
+                                <span class="text-danger">{% trans "Missing" %}</span>
                             {% endif %}
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-3 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
-                        <div class="col-9" id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
+                        <div class="col-4 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
+                        <div class="col-8" id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
                     </div>
                 </div>
             </div>
