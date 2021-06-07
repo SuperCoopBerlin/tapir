@@ -16,31 +16,31 @@
 {% block content %}
     <div class="d-flex flex-wrap">
         <div class="col-6 p-0">
-            <div class="card m-2" id="tapir_user_detail_card">
+            <div class="card m-2">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     {% trans "Personal Details" %}
-                    <a href="{% url "accounts:user_update" user.pk %}">
+                    <a href="{% url "accounts:user_update" object.pk %}">
                         <button type="button" class="btn btn-outline-info">Edit infos</button>
                     </a>
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Name" %}:</div>
-                        <div class="col-8">{{ user.get_display_name }}</div>
+                        <div class="col-8">{{ object.get_display_name }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Username" %}:</div>
-                        <div class="col-8">{{ user.username }}</div>
+                        <div class="col-8">{{ object.username }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Email" %}:</div>
-                        <div class="col-8">{{ user.email }}</div>
+                        <div class="col-8">{{ object.email }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Phone number" %}:</div>
                         <div class="col-8">
-                            {% if user.phone_number %}
-                                {{ user.phone_number }}
+                            {% if object.phone_number %}
+                                {{ object.phone_number }}
                             {% else %}
                                 <span class="text-danger">{% trans "Missing" %}</span>
                             {% endif %}
@@ -49,8 +49,8 @@
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
                         <div class="col-8">
-                            {% if object.get_info.birthdate %}
-                                {{ user.birthdate|date:"d.m.Y" }}
+                            {% if object.birthdate %}
+                                {{ object.birthdate|date:"d.m.Y" }}
                             {% else %}
                                 <span class="text-danger">{% trans "Missing" %}</span>
                             {% endif %}
@@ -59,8 +59,8 @@
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Address" %}:</div>
                         <div class="col-8">
-                            {% if user.street and user.city %}
-                                {{ user.get_display_address }}
+                            {% if object.street and object.city %}
+                                {{ object.get_display_address }}
                             {% else %}
                                 <span class="text-danger">{% trans "Missing" %}</span>
                             {% endif %}
@@ -68,7 +68,7 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
-                        <div class="col-8" id="tapir_user_preferred_language">{{ object.get_preferred_language_display }}</div>
+                        <div class="col-8">{{ object.get_preferred_language_display }}</div>
                     </div>
 
                     <div class="row m-1 justify-content-end">
@@ -78,12 +78,12 @@
                                     action="{% url "accounts:send_user_welcome_email" object.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="align-self-right btn btn-outline-info ml-3">
-                                    Resend Account Activation Email
+                                    {% trans "Resend Account Activation Email" %}
                                 </button>
                             </form>
                         {% endif %}
                         {% if object.pk == request.user.pk %}
-                            <a class="btn btn-outline-info ml-1" href="{% url "password_change" %}">Change Password</a>
+                            <a class="btn btn-outline-info ml-1" href="{% url "password_change" %}">{% trans "Change Password" %}</a>
 
                         {% endif %}
                     </div>
@@ -92,15 +92,15 @@
         </div>
 
         <div class="col-6 p-0">
-            {% share_owner_ownership_list user.share_owner %}
+            {% share_owner_ownership_list object.share_owner %}
         </div>
 
         <div class="col-6 p-0">
-            {% user_shifts_overview user %}
+            {% user_shifts_overview object %}
         </div>
 
         <div class="col-12 p-0">
-            {% user_log_entry_list user %}
+            {% user_log_entry_list object %}
         </div>
     </div>
 {% endblock %}

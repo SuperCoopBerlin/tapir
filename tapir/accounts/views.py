@@ -18,7 +18,6 @@ from tapir.shifts.models import ShiftAttendance, ShiftAttendanceTemplate
 
 class UserDetailView(PermissionRequiredMixin, generic.DetailView):
     model = TapirUser
-    context_object_name = "user"
     template_name = "accounts/user_detail.html"
     permission_required = "accounts.manage"
 
