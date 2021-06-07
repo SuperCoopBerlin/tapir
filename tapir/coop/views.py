@@ -130,18 +130,19 @@ class DraftUserDeleteView(
     pass
 
 
-class ShareOwnerViewMixin:
+class ShareOwnerDetailView(PermissionRequiredMixin, generic.DetailView):
     model = ShareOwner
-
-
-class ShareOwnerDetailView(
-    PermissionRequiredMixin, ShareOwnerViewMixin, generic.DetailView
-):
     permission_required = "coop.manage"
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object.user:
+            return redirect(self.object.user)
+        return super().get(request, *args, **kwargs)
 
 
 class ShareOwnerUpdateView(
-    PermissionRequiredMixin, ShareOwnerViewMixin, UpdateViewLogMixin, generic.UpdateView
+    PermissionRequiredMixin, UpdateViewLogMixin, generic.UpdateView
 ):
     permission_required = "accounts.manage"
     model = ShareOwner
