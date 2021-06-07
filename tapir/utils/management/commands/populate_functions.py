@@ -68,7 +68,7 @@ def populate_shifts():
     print("Populated shift templates for today")
 
 
-def populate_user_shifts(request, user_id):
+def populate_user_shifts(user_id):
     user = TapirUser.objects.get(pk=user_id)
 
     date = datetime.date.today() - datetime.timedelta(days=4)
@@ -118,7 +118,7 @@ def populate_user_shifts(request, user_id):
         shift=shift, user=user, state=ShiftAttendance.State.PENDING
     )
 
-    print("Populated user " + user.name + "(id=" + str(user_id) + ") shifts")
+    print("Populated user " + user.username + "(id=" + str(user_id) + ") shifts")
 
 
 def populate_template_groups():
