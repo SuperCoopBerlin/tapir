@@ -32,7 +32,7 @@
         {% if owner %}
             <div class="row m-1">
                 <div class="col-5 font-weight-bold text-right">{% trans "Status" %}:</div>
-                <div class="col-7">
+                <div class="col-7" id="share_owner_status">
                     {% if owner.is_investing %}
                         <span style="color: blue;">{% trans "Investing" %}</span>
                     {% else %}
@@ -80,7 +80,7 @@
             <div class="row m-1">
                 <div class="col-5 font-weight-bold text-right">{% trans "Owned shares" %}</div>
                 <div class="col-7">
-                    {{ owner.num_shares }}
+                    <span id="share_owner_num_shares">{{ owner.num_shares }}</span>
                     (<a class="" data-toggle="collapse" href="#shares-table">Details</a>)
                 </div>
             </div>

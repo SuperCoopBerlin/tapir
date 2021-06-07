@@ -8,7 +8,7 @@
 {% block content %}
     <div class="d-flex flex-wrap">
         <div class="col-6 p-0">
-            <div class="card m-2">
+            <div class="card m-2" id="share_owner_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     {% trans "Personal Data" %}
                     {% if object.user is not None %}
@@ -35,7 +35,7 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
-                        <div class="col-8">
+                        <div class="col-8" id="share_owner_birthdate">
                             {% if object.get_info.birthdate %}
                                 {{ object.get_info.birthdate|date:"d.m.Y" }}
                             {% else %}
@@ -45,7 +45,7 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Address" %}:</div>
-                        <div class="col-8">
+                        <div class="col-8" id="share_owner_address">
                             {% if object.street and object.city %}
                                 {{ object.get_display_address }}
                             {% else %}

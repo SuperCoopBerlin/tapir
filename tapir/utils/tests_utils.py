@@ -1,6 +1,6 @@
 from django.contrib.staticfiles.testing import LiveServerTestCase
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
@@ -59,6 +59,9 @@ class TapirSeleniumTestBase(LiveServerTestCase):
         return True
 
     def wait_until_element_present_by_id(self, html_id: str):
-        WebDriverWait(self.selenium, self.DEFAULT_TIMEOUT).until(
-            EC.presence_of_element_located((By.ID, html_id))
-        )
+        try:
+            WebDriverWait(self.selenium, self.DEFAULT_TIMEOUT).until(
+                EC.presence_of_element_located((By.ID, html_id))
+            )
+        except TimeoutException:
+            self.fail("Missing element with ID " + html_id)

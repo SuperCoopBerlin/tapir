@@ -375,3 +375,16 @@ def get_country_code(full_country_name: str) -> str:
             return pair[0]
 
     raise Exception("Country code not found for " + full_country_name)
+
+
+def copy_user_info(source, target):
+    target.first_name = source.first_name
+    target.last_name = source.last_name
+    target.email = source.email
+    target.phone_number = source.phone_number
+    target.birthdate = source.birthdate
+    target.street = source.street
+    target.street_2 = source.street_2
+    target.postcode = source.postcode
+    target.city = source.city
+    target.country = source.country

@@ -35,6 +35,7 @@ from tapir.coop.models import (
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
+from tapir.utils.models import copy_user_info
 
 
 class ShareOwnershipViewMixin:
@@ -294,18 +295,8 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         owner = self.get_shareowner()
-        user = TapirUser(
-            first_name=owner.first_name,
-            last_name=owner.last_name,
-            email=owner.email,
-            phone_number=owner.phone_number,
-            birthdate=owner.birthdate,
-            street=owner.street,
-            street_2=owner.street_2,
-            postcode=owner.postcode,
-            city=owner.city,
-            country=owner.country,
-        )
+        user = TapirUser()
+        copy_user_info(owner, user)
         kwargs.update({"instance": user})
         return kwargs
 
@@ -343,21 +334,14 @@ def create_share_owner_from_draftuser(request, pk):
     with transaction.atomic():
         share_owner = ShareOwner.objects.create(
             is_company=False,
-            first_name=draft.first_name,
-            last_name=draft.last_name,
-            email=draft.email,
-            phone_number=draft.phone_number,
-            birthdate=draft.birthdate,
-            street=draft.street,
-            street_2=draft.street_2,
-            postcode=draft.postcode,
-            city=draft.city,
-            country=draft.country,
             is_investing=draft.is_investing,
             from_startnext=draft.from_startnext,
             ratenzahlung=draft.ratenzahlung,
             attended_welcome_session=draft.attended_welcome_session,
         )
+
+        copy_user_info(draft, share_owner)
+        share_owner.save()
 
         for _ in range(0, draft.num_shares):
             ShareOwnership.objects.create(

@@ -39,6 +39,7 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         ).click()
         self.wait_until_element_present_by_id("button_create_share_owner")
         self.selenium.find_element_by_id("button_create_share_owner").click()
+        self.wait_until_element_present_by_id("share_owner_detail_card")
         self.check_share_owner_details(user)
 
         # Make sure that the DraftUser is deleted after the ShareOwner has been created
@@ -108,8 +109,10 @@ class TestApplicantToTapirUser(ApplicantTestBase):
             user.get_display_name(),
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("share_owner_status").text,
-            "Active Member",
+            self.selenium.find_element_by_xpath(
+                "//*[@id='share_owner_status']/span"
+            ).text,
+            "Active",
         )
         self.assertEqual(
             self.selenium.find_element_by_id("share_owner_email").text,
@@ -140,8 +143,8 @@ class TestApplicantToTapirUser(ApplicantTestBase):
             user.get_display_name(),
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_status").text,
-            "Active Member",
+            self.selenium.find_element_by_id("share_owner_status").text,
+            "Active",
         )
         self.assertEqual(
             self.selenium.find_element_by_id("tapir_user_username").text,

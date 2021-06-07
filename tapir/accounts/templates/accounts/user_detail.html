@@ -16,7 +16,7 @@
 {% block content %}
     <div class="d-flex flex-wrap">
         <div class="col-6 p-0">
-            <div class="card m-2">
+            <div class="card m-2" id="tapir_user_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     {% trans "Personal Details" %}
                     <a href="{% url "accounts:user_update" object.pk %}">
@@ -26,19 +26,19 @@
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Name" %}:</div>
-                        <div class="col-8">{{ object.get_display_name }}</div>
+                        <div class="col-8" id="tapir_user_display_name">{{ object.get_display_name }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Username" %}:</div>
-                        <div class="col-8">{{ object.username }}</div>
+                        <div class="col-8" id="tapir_user_username">{{ object.username }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Email" %}:</div>
-                        <div class="col-8">{{ object.email }}</div>
+                        <div class="col-8" id="tapir_user_email">{{ object.email }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Phone number" %}:</div>
-                        <div class="col-8">
+                        <div class="col-8" id="tapir_user_phone_number">
                             {% if object.phone_number %}
                                 {{ object.phone_number }}
                             {% else %}
@@ -48,7 +48,7 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
-                        <div class="col-8">
+                        <div class="col-8" id="tapir_user_birthdate">
                             {% if object.birthdate %}
                                 {{ object.birthdate|date:"d.m.Y" }}
                             {% else %}
@@ -58,7 +58,7 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Address" %}:</div>
-                        <div class="col-8">
+                        <div class="col-8" id="tapir_user_address">
                             {% if object.street and object.city %}
                                 {{ object.get_display_address }}
                             {% else %}
