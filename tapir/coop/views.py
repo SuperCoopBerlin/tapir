@@ -500,6 +500,8 @@ class CurrentShareOwnerListView(
     permission_required = "coop.manage"
     model = ShareOwner
     template_name = "coop/shareowner_list.html"
+    # TODO(Leon Handreke): This probably doesn't always choose the oldest one?
+    ordering = ["-share_ownerships__start_date"]
 
 
 class ShareOwnerExportMailchimpView(
