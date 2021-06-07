@@ -60,7 +60,7 @@
                         <div class="col-4 font-weight-bold text-right">{% trans "Address" %}:</div>
                         <div class="col-8">
                             {% if user.street and user.city %}
-                                {{ object.get_info.get_display_address }}
+                                {{ user.get_display_address }}
                             {% else %}
                                 <span class="text-danger">{% trans "Missing" %}</span>
                             {% endif %}
