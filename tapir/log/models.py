@@ -148,3 +148,25 @@ class UpdateModelLogEntry(LogEntry):
         context["changes"] = changes
 
         return context
+
+
+class ModelLogEntry(LogEntry):
+    values = HStoreField()
+
+    class Meta:
+        abstract = True
+
+    def populate(self, frozen=None, model=None, **kwargs):
+        frozen = freeze_for_log(model) if model else frozen
+
+        if hasattr(self, "exclude_fields"):
+            for k in self.exclude_fields:
+                del frozen[k]
+
+        self.values = frozen
+        return super().populate(**kwargs)
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context["values"] = self.values.items()
+        return context

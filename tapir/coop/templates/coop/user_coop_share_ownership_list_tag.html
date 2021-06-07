@@ -36,7 +36,11 @@
                     {% if owner.is_investing %}
                         <span style="color: blue;">{% trans "Investing" %}</span>
                     {% else %}
-                        <span style="color: green;">{% trans "Active" %}</span>
+                        {% if owner.share_ownerships.temporally_active.count > 0 %}
+                            <span style="color: green;">{% trans "Active" %}</span>
+                        {% else %}
+                            <span style="color: red;">{% trans "Inactive" %}</span>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -105,7 +109,33 @@
                                 {% endif %}
                             </td>
                             {% if perms.coop.manage %}
-                                <td><a href="{% url "coop:share_update" o.pk %}">{% trans "Edit" %}</a></td>
+                                <td>
+                                    <a class="btn btn-outline-secondary btn-sm" href="{% url "coop:share_update" o.pk %}">{% trans "Edit" %}</a>
+                                    <span class="dropdown show">
+                                        <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" data-toggle="dropdown">
+                                            <span class="material-icons" style="font-size: 20px; vertical-align: top;">more_horiz</span>
+                                        </a>
+
+                                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 20rem;">
+                                        <!-- white-space: normal; to make the long text wrap -->
+                                        <form class="form-inline" method="post" action="{% url "coop:shareownership_delete" o.pk %}">
+                                        {% csrf_token %}
+                                            <button type="submit" class="dropdown-item" style="white-space: normal;" href="#">
+                                                {% trans "Delete" %}<br />
+                                                <small class="text-muted">
+                                                    {% blocktrans %}
+                                                        Only use this to correct mistakes, i.e. if the share was erroneously
+                                                        entered into the system and the person never actually
+                                                        bought it. If the person simply sold their share back to the
+                                                        coop, please mark the share as sold instead.
+                                                    {% endblocktrans %}
+                                                </small>
+                                            </button>
+                                        </form>
+                                        </div>
+                                    </span>
+
+                                </td>
                             {% endif %}
                         </tr>
                     {% endfor %}

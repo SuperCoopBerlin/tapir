@@ -188,6 +188,8 @@ GROUP_MEMBER_OFFICE = "member-office"
 PERMISSIONS = {
     "shifts.manage": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
     "coop.manage": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
+    # TODO(Leon Handreke): Reserve this to a list of knowledgeable superusers
+    "coop.admin": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
     "accounts.manage": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
 }
 

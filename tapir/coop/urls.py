@@ -5,9 +5,14 @@ from tapir.coop import views
 app_name = "coop"
 urlpatterns = [
     path(
-        "share/update/<int:pk>/",
+        "share/<int:pk>/edit",
         views.ShareOwnershipUpdateView.as_view(),
         name="share_update",
+    ),
+    path(
+        "share/<int:pk>/delete",
+        views.share_ownership_delete,
+        name="shareownership_delete",
     ),
     path("user/draft/", views.DraftUserListView.as_view(), name="draftuser_list"),
     path(

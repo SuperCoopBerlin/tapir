@@ -11,7 +11,7 @@ from tapir import utils
 from tapir.accounts import validators
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
-from tapir.log.models import UpdateModelLogEntry
+from tapir.log.models import UpdateModelLogEntry, ModelLogEntry
 from tapir.utils.models import DurationModelMixin, CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -152,6 +152,11 @@ class ShareOwnership(DurationModelMixin, models.Model):
         null=False,
         on_delete=models.PROTECT,
     )
+
+
+class DeleteShareOwnershipLogEntry(ModelLogEntry):
+    template_name = "coop/log/delete_share_ownership_log_entry.html"
+    exclude_fields = ["id", "owner"]
 
 
 class DraftUser(models.Model):

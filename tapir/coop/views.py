@@ -30,6 +30,7 @@ from tapir.coop.models import (
     DraftUser,
     ShareOwner,
     UpdateShareOwnerLogEntry,
+    DeleteShareOwnershipLogEntry,
 )
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
@@ -65,6 +66,23 @@ class ShareOwnershipCreateView(
     def form_valid(self, form):
         form.instance.owner = self._get_share_owner()
         return super().form_valid(form)
+
+
+@require_POST
+@csrf_protect
+# Higher permission requirement since this is a destructive operation only to correct mistakes
+@permission_required("coop.admin")
+def share_ownership_delete(request, pk):
+    share_ownership = get_object_or_404(ShareOwnership, pk=pk)
+    owner = share_ownership.owner
+
+    with transaction.atomic():
+        DeleteShareOwnershipLogEntry().populate(
+            share_owner=share_ownership.owner, actor=request.user, model=share_ownership
+        ).save()
+        share_ownership.delete()
+
+    return redirect(owner)
 
 
 class DraftUserViewMixin:
