@@ -3,6 +3,7 @@ import math
 
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
+from django.db.models import Sum
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
@@ -304,7 +305,7 @@ class ShiftAttendance(models.Model):
     def mark_done(self):
         self.state = __class__.State.DONE
         # TODO(Leon Handreke): The exact scores here should either be a constant or calculated elsewhere?
-        self.account_entry = ShiftAccountEntry.object.create(
+        self.account_entry = ShiftAccountEntry.objects.create(
             user=self.user, value=1, date=self.shift.start_time.date()
         )
         self.save()
@@ -312,7 +313,7 @@ class ShiftAttendance(models.Model):
     def mark_missed(self):
         self.state = __class__.State.MISSED
         # TODO(Leon Handreke): The exact scores here should either be a constant or calculated elsewhere?
-        self.account_entry = ShiftAccountEntry.object.create(
+        self.account_entry = ShiftAccountEntry.objects.create(
             user=self.user, value=-1, date=self.shift.start_time.date()
         )
         self.save()
@@ -331,6 +332,22 @@ class ShiftUserData(models.Model):
     attendance_mode = models.CharField(
         max_length=32, choices=SHIFT_ATTENDANCE_MODES, default="regular", blank=False
     )
+
+    def get_account_balance(self):
+        return self.user.shift_account_entries.aggregate(balance=Sum("value"))[
+            "balance"
+        ]
+
+    def is_balance_ok(self):
+        balance = self.get_account_balance()
+        # Depending on when the monthly deduction happens, the balance may flucuate over the month
+        return -1 <= balance <= 1
+
+    def is_balance_negative(self):
+        return self.get_account_balance() < -1
+
+    def is_balance_positive(self):
+        return self.get_account_balance() > 1
 
 
 def create_shift_user_data(instance, **kwargs):

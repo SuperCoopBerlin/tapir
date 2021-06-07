@@ -5,6 +5,14 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def create_shift_user_data(apps, schema_editor):
+    TapirUser = apps.get_model("accounts", "TapirUser")
+    ShiftUserData = apps.get_model("shifts", "ShiftUserData")
+
+    for u in TapirUser.objects.all():
+        ShiftUserData.objects.create(user=u)
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -47,4 +55,5 @@ class Migration(migrations.Migration):
                 ),
             ],
         ),
+        migrations.RunPython(create_shift_user_data),
     ]

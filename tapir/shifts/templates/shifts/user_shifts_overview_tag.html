@@ -45,5 +45,20 @@
                 </div>
             </div>
         </div>
+
+        <div class="row m-1">
+            <div class="col-4 font-weight-bold text-right">{% trans "Account Balance" %}:</div>
+            <div class="col-8">
+                {% if user.shift_user_data.is_balance_ok %}
+                    <span class="text-success">{% trans "OK" %}</span>
+                {% elif user.shift_user_data.is_balance_positive %}
+                    <span style="color: darkgreen;">{% trans "Positive Buffer" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
+                {% else %}
+                    <span class="text-danger">{% trans "Negative" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
+                {% endif %}
+            </div>
+        </div>
+
+
     </div>
 </div>
