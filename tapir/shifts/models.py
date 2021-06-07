@@ -333,6 +333,11 @@ class ShiftUserData(models.Model):
         max_length=32, choices=SHIFT_ATTENDANCE_MODES, default="regular", blank=False
     )
 
+    def get_upcoming_shift_attendances(self):
+        return self.user.shift_attendances.filter(
+            shift__start_time__gt=datetime.datetime.now()
+        )
+
     def get_account_balance(self):
         # Might return None if no objects, so "or 0"
         return (

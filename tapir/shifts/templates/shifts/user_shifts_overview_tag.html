@@ -31,7 +31,7 @@
         <div class="row m-1">
             <div class="col-4 font-weight-bold text-right">{% trans "Upcoming Shift" %}:</div>
             <div class="col-8">
-                {% with next_shift=user.shift_attendances.first.shift %}
+                {% with next_shift=user.shift_user_data.get_upcoming_shift_attendances.first.shift %}
                     {% if next_shift %}
                         <a href="{{ next_shift.get_absolute_url }}">
                             {{ next_shift.start_time|date:"l F d" }} {{ next_shift.start_time|time:"H:i" }}
@@ -39,7 +39,7 @@
                         (in {{ next_shift.start_time|timeuntil }})<br />
                         <a data-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
                         <div class="collapse" id="upcoming-shifts">
-                            {% for shift_attendance in user.shift_attendances.all %}
+                            {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
                                 {% shift_block shift_attendance.shift %}
                             {% endfor %}
                         </div>
