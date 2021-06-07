@@ -36,7 +36,7 @@
                     {% if owner.is_investing %}
                         <span style="color: blue;">{% trans "Investing" %}</span>
                     {% else %}
-                        {% if owner.share_ownerships.temporally_active.count > 0 %}
+                        {% if owner.get_active_share_ownerships.count > 0 %}
                             <span style="color: green;">{% trans "Active" %}</span>
                         {% else %}
                             <span style="color: red;">{% trans "Inactive" %}</span>
