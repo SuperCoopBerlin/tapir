@@ -46,8 +46,8 @@
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Address" %}:</div>
                         <div class="col-8">
-                            {% if user.street and user.city %}
-                                {{ user.get_display_address }}
+                            {% if object.street and object.city %}
+                                {{ object.get_display_address }}
                             {% else %}
                                 <span class="text-danger">{% trans "Missing" %}</span>
                             {% endif %}
