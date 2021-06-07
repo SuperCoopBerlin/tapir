@@ -86,14 +86,7 @@
         </div>
 
         <div class="col-6 p-0">
-            <div class="card m-2">
-                <h5 class="card-header d-flex justify-content-between align-items-center">
-                    {% trans "TODO messages" %}
-                </h5>
-                <div class="card-body">
-                    Alerts about missed shifts or other situations to be regularized
-                </div>
-            </div>
+            {% share_owner_ownership_list user.share_owner %}
         </div>
 
         <div class="col-6 p-0">

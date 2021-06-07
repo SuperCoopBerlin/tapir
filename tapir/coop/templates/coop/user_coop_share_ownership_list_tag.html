@@ -4,114 +4,120 @@
     <div class="card-header">
         <h5 class="d-flex justify-content-between align-items-center">
             {% trans "Cooperative" %}
-            <div class="btn-group" role="group">
+            {% if owner %}
+                <div class="btn-group" role="group">
                 <span class="btn btn-outline-secondary">
                     {% blocktranslate with coop_share_owner_id=owner.id %}
                         Cooperator #{{ coop_share_owner_id }}
                     {% endblocktranslate %}
                 </span>
-                <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_update" owner.pk %}">
-                    <span class="material-icons" style="font-size: 20px; vertical-align: top;">edit</span>
-                </a>
-                <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_membership_confirmation" owner.pk %}">
-                    <span class="material-icons" style="font-size: 20px; vertical-align: top;">file_present</span>
-                </a>
-                <form class="form-inline btn btn-outline-secondary" method="POST" action="{% url "coop:send_shareowner_membership_confirmation_welcome_email" owner.pk %}">
-                    {% csrf_token %}
-                    <button type="submit" style="background: none; margin: 0; padding: 0; border: none;">
-                        <span class="material-icons" style="font-size: 20px; vertical-align: top;">send</span>
-                    </button>
-                </form>
-            </div>
-        </h5>
-    </div>
-    <div class="card-body">
-        <div class="row m-1">
-            <div class="col-5 font-weight-bold text-right">{% trans "Status" %}:</div>
-            <div class="col-7">
-                {% if owner.is_investing %}
-                    <span style="color: blue;">{% trans "Investing" %}</span>
-                {% else %}
-                    <span style="color: green;">{% trans "Active" %}</span>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="row m-1">
-            <div class="col-5 font-weight-bold text-right">From Startnext</div>
-            <div class="col-7">{{ owner.from_startnext|yesno:"Yes,No" }}</div>
-        </div>
-
-        {% if object.ratenzahlung %}
-            <div class="row m-1">
-                <div class="col-3 font-weight-bold text-right">{% trans "Ratenzahlung" %}:</div>
-                <div class="col-9" id="share_owner_email">Yes</div>
-            </div>
-        {% endif %}
-
-        <div class="row m-1">
-            <div class="col-5 font-weight-bold text-right">{% trans "Welcome Session" %}</div>
-            <div class="col-7">
-                {% if owner.attended_welcome_session %}
-                    <span class="text-success">{% trans "Attended" %}</span>
-                {% else %}
-                    <span class="text-warning">{% trans "Pending" %}</span>
-
-                    <form style="display: inline;"
-                          method="post"
-                          action="{% url "coop:mark_shareowner_attended_welcome_session" owner.pk %}">
+                    <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_update" owner.pk %}">
+                        <span class="material-icons" style="font-size: 20px; vertical-align: top;">edit</span>
+                    </a>
+                    <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_membership_confirmation" owner.pk %}">
+                        <span class="material-icons" style="font-size: 20px; vertical-align: top;">file_present</span>
+                    </a>
+                    <form class="form-inline btn btn-outline-secondary" method="POST" action="{% url "coop:send_shareowner_membership_confirmation_welcome_email" owner.pk %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-success ml-3">
-                            <span class="material-icons" style="font-size: 14px;">check</span>{%  trans "Mark Attended" %}
+                        <button type="submit" style="background: none; margin: 0; padding: 0; border: none;">
+                            <span class="material-icons" style="font-size: 20px; vertical-align: top;">send</span>
                         </button>
                     </form>
-                {% endif %}
-            </div>
-        </div>
+                </div>
+            {% endif %}
+        </h5>
+    </div>
 
-        <div class="row m-1">
-            <div class="col-5 font-weight-bold text-right">{% trans "Owned shares" %}</div>
-            <div class="col-7">
-                {{ owner.num_shares }}
-                (<a class="" data-toggle="collapse" href="#shares-table">Details</a>)
+    <div class="card-body">
+        {% if owner %}
+            <div class="row m-1">
+                <div class="col-5 font-weight-bold text-right">{% trans "Status" %}:</div>
+                <div class="col-7">
+                    {% if owner.is_investing %}
+                        <span style="color: blue;">{% trans "Investing" %}</span>
+                    {% else %}
+                        <span style="color: green;">{% trans "Active" %}</span>
+                    {% endif %}
+                </div>
             </div>
-        </div>
 
-        <div class="collapse" id="shares-table">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Purchased</th>
-                    <th scope="col">Sold</th>
-                    <th scope="col">Status</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                {% for o in owner.share_ownerships.all %}
+            <div class="row m-1">
+                <div class="col-5 font-weight-bold text-right">From Startnext</div>
+                <div class="col-7">{{ owner.from_startnext|yesno:"Yes,No" }}</div>
+            </div>
+
+            {% if object.ratenzahlung %}
+                <div class="row m-1">
+                    <div class="col-3 font-weight-bold text-right">{% trans "Ratenzahlung" %}:</div>
+                    <div class="col-9" id="share_owner_email">Yes</div>
+                </div>
+            {% endif %}
+
+            <div class="row m-1">
+                <div class="col-5 font-weight-bold text-right">{% trans "Welcome Session" %}</div>
+                <div class="col-7">
+                    {% if owner.attended_welcome_session %}
+                        <span class="text-success">{% trans "Attended" %}</span>
+                    {% else %}
+                        <span class="text-warning">{% trans "Pending" %}</span>
+
+                        <form style="display: inline;"
+                              method="post"
+                              action="{% url "coop:mark_shareowner_attended_welcome_session" owner.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-success ml-3">
+                                <span class="material-icons" style="font-size: 14px;">check</span>{%  trans "Mark Attended" %}
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row m-1">
+                <div class="col-5 font-weight-bold text-right">{% trans "Owned shares" %}</div>
+                <div class="col-7">
+                    {{ owner.num_shares }}
+                    (<a class="" data-toggle="collapse" href="#shares-table">Details</a>)
+                </div>
+            </div>
+
+            <div class="collapse" id="shares-table">
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>{{ o.start_date }}</td>
-                        <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
-                        <td>
-                            {% if o.is_active and not o.owner.is_investing %}
-                                <span style="color: green;">{% trans "Active" %}</span>
-                            {% elif o.is_active and o.owner.is_investing %}
-                                <span style="color: blue;">{% trans "Investing" %}</span>
-                            {% else %}
-                                <span style="color: red;">{% trans "Sold" %}</span>
-                            {% endif %}
-                        </td>
-                        {% if perms.coop.manage %}
-                            <td><a href="{% url "coop:share_update" o.pk %}">{% trans "Edit" %}</a></td>
-                        {% endif %}
+                        <th scope="col">Purchased</th>
+                        <th scope="col">Sold</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
                     </tr>
-                {% endfor %}
-            </table>
-            <div class="d-flex justify-content-end">
-                <a class="ml-auto" href="{% url "coop:share_create" owner.pk %}">
-                    <button type="button" class="btn btn-outline-info" >{% trans "Add Share" %}</button>
-                </a>
+                    </thead>
+                    {% for o in owner.share_ownerships.all %}
+                        <tr>
+                            <td>{{ o.start_date }}</td>
+                            <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
+                            <td>
+                                {% if o.is_active and not o.owner.is_investing %}
+                                    <span style="color: green;">{% trans "Active" %}</span>
+                                {% elif o.is_active and o.owner.is_investing %}
+                                    <span style="color: blue;">{% trans "Investing" %}</span>
+                                {% else %}
+                                    <span style="color: red;">{% trans "Sold" %}</span>
+                                {% endif %}
+                            </td>
+                            {% if perms.coop.manage %}
+                                <td><a href="{% url "coop:share_update" o.pk %}">{% trans "Edit" %}</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+                <div class="d-flex justify-content-end">
+                    <a class="ml-auto" href="{% url "coop:share_create" owner.pk %}">
+                        <button type="button" class="btn btn-outline-info" >{% trans "Add Share" %}</button>
+                    </a>
+                </div>
             </div>
-        </div>
-
+        {% else %}
+            {% trans "User is not a cooperative member." %}
+        {% endif %}
     </div>
 </div>
