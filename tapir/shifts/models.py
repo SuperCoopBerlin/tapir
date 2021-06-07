@@ -334,9 +334,11 @@ class ShiftUserData(models.Model):
     )
 
     def get_account_balance(self):
-        return self.user.shift_account_entries.aggregate(balance=Sum("value"))[
-            "balance"
-        ]
+        # Might return None if no objects, so "or 0"
+        return (
+            self.user.shift_account_entries.aggregate(balance=Sum("value"))["balance"]
+            or 0
+        )
 
     def is_balance_ok(self):
         balance = self.get_account_balance()

@@ -32,17 +32,21 @@
             <div class="col-4 font-weight-bold text-right">{% trans "Upcoming Shift" %}:</div>
             <div class="col-8">
                 {% with next_shift=user.shift_attendances.first.shift %}
-                    <a href="{{ next_shift.get_absolute_url }}">
-                        {{ next_shift.start_time|date:"l F d" }} {{ next_shift.start_time|time:"H:i" }}
-                    </a>
-                    (in {{ next_shift.start_time|timeuntil }})<br />
+                    {% if next_shift %}
+                        <a href="{{ next_shift.get_absolute_url }}">
+                            {{ next_shift.start_time|date:"l F d" }} {{ next_shift.start_time|time:"H:i" }}
+                        </a>
+                        (in {{ next_shift.start_time|timeuntil }})<br />
+                        <a data-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
+                        <div class="collapse" id="upcoming-shifts">
+                            {% for shift_attendance in user.shift_attendances.all %}
+                                {% shift_block shift_attendance.shift %}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <span class="text-danger">{% trans "None" %}</span>
+                    {% endif %}
                 {% endwith %}
-                <a data-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
-                <div class="collapse" id="upcoming-shifts">
-                    {% for shift_attendance in user.shift_attendances.all %}
-                        {% shift_block shift_attendance.shift %}
-                    {% endfor %}
-                </div>
             </div>
         </div>
 
