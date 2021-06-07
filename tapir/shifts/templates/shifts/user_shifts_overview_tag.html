@@ -19,10 +19,23 @@
                         {% for shift_attendance_template in user.shift_attendance_templates.all %}
                             {{ shift_attendance_template.shift_template.get_display_name }}
 
+                            <form class="form-inline" method="POST"
+                                  action="{% url "shifts:shifttemplate_unregister_user" shift_attendance_template.shift_template.pk user.pk %}?next={% url "accounts:user_detail" user.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary btn-sm">
+                                    {% trans "Unregister" %}
+                                </button>
+                            </form>
+
                             {% if not forloop.last %},{% endif %}
                         {% endfor %}
+
                     {% else %}
                         <span class="text-danger">{% trans "Missing" %}</span>
+
+                        <a class="btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview_register" user.pk %}">
+                            {% trans "Find a shift" %}
+                        </a>
                     {% endif %}
                 </div>
             {% endif %}
@@ -40,7 +53,9 @@
                         <a data-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
                         <div class="collapse" id="upcoming-shifts">
                             {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
-                                {% shift_block shift_attendance.shift %}
+                                <a href="{% url "shifts:shift_detail" shift_attendance.shift.pk %}">
+                                    {% shift_block shift_attendance.shift %}
+                                </a>
                             {% endfor %}
                         </div>
                     {% else %}

@@ -61,7 +61,6 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         style = "height:100%; width: 100%;"
 
     return {
-        "url": shift.get_absolute_url(),
         "attendances": attendances,
         "name": shift.name,
         "num_slots": shift.num_slots,
@@ -96,7 +95,6 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
         style = "height:100%; width: 100%;"
 
     return {
-        "url": reverse("admin:shifts_shifttemplate_change", args=[shift_template.pk]),
         "attendances": attendances,
         "name": shift_template.name,
         "num_slots": shift_template.num_slots,

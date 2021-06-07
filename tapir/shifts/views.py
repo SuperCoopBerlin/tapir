@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView
@@ -17,6 +17,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
     WEEKDAY_CHOICES,
     ShiftTemplateGroup,
+    ShiftAttendanceTemplate,
 )
 
 
@@ -122,6 +123,29 @@ def mark_shift_attendance_missed(request, pk):
     return redirect(shift_attendance.shift)
 
 
+@require_POST
+@csrf_protect
+@permission_required("shifts.manage")
+def shifttemplate_register_user(request, pk, user_pk):
+    shift_template = get_object_or_404(ShiftTemplate, pk=pk)
+    user = get_object_or_404(TapirUser, pk=user_pk)
+
+    ShiftAttendanceTemplate.objects.create(user=user, shift_template=shift_template)
+    return redirect(request.GET.get("next", user))
+
+
+@require_POST
+@csrf_protect
+@permission_required("shifts.manage")
+def shifttemplate_unregister_user(request, pk, user_pk):
+    user = get_object_or_404(TapirUser, pk=user_pk)
+    shift_attendance_template = get_object_or_404(
+        ShiftAttendanceTemplate, user__pk=user_pk, shift_template__pk=pk
+    )
+    shift_attendance_template.delete()
+    return redirect(request.GET.get("next", user))
+
+
 class ShiftTemplateOverview(PermissionRequiredMixin, TemplateView):
     permission_required = "shifts.manage"
     template_name = "shifts/shift_template_overview.html"
@@ -153,6 +177,18 @@ class ShiftTemplateOverview(PermissionRequiredMixin, TemplateView):
         context["shift_template_groups"] = [
             group.name for group in ShiftTemplateGroup.objects.all().order_by("name")
         ]
+        return context
+
+
+class ShiftTemplateOverviewRegister(ShiftTemplateOverview):
+    """Overview to register a given user to a ShiftTemplate"""
+
+    permission_required = "shifts.manage"
+    template_name = "shifts/shift_template_overview_register.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["user"] = get_object_or_404(TapirUser, pk=self.kwargs["user_pk"])
         return context
 
 

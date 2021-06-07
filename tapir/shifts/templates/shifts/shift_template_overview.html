@@ -31,9 +31,13 @@
                     {% for template_group_group in time_group.values %}
                         <td>
                             <div class="d-flex flex-column" style="gap: 10px;">
-                                {% for template in template_group_group.values %}
-                                    {% if template != None %}
-                                        {% shift_template_block template %}
+                                {% for shift_template in template_group_group.values %}
+                                    {% if shift_template != None %}
+                                        {% block shift_template %}
+                                            <a href="{% url "admin:shifts_shifttemplate_change" shift_template.pk %}">
+                                                {% shift_template_block shift_template %}
+                                            </a>
+                                        {% endblock %}
                                     {% else %}
                                         <div class="shift-template-block-container"></div>
                                     {% endif %}
