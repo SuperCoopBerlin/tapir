@@ -514,9 +514,9 @@ class ShareOwnerExportMailchimpView(
 
             # For some weird reason the tags are in quotes
             lang_tag = ""
-            if owner.preferred_language == "de":
+            if owner.get_info().preferred_language == "de":
                 lang_tag = '"Deutsch"'
-            if owner.preferred_language == "en":
+            if owner.get_info().preferred_language == "en":
                 lang_tag = '"English"'
             writer.writerow([owner.get_info().email, "", "", "", lang_tag])
 
