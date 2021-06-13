@@ -41,8 +41,19 @@ before every commit:
 
     docker-compose exec web poetry run python manage.py shell
 
-
 ### LDAP
 
 For reading or modifying the LDAP, Apache Directory Studio is pretty handy.
-    
+
+### Running tests
+
+You'll need to add browser-drivers to your path. Currently only Firefox is tested. See https://selenium-python.readthedocs.io/installation.html#drivers
+
+The tests are run against your local docker instance. Before running them ensure a clean state with : 
+
+    docker-compose exec web poetry run python manage.py populate --reset_all
+
+Then, run the tests with the PyCharm run configuration (.run/Tapir Tests.run.xml), or manually with  
+
+    python manage.py test
+ 
