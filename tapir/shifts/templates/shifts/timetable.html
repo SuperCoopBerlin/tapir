@@ -18,9 +18,11 @@
                 {% for shift_name, shifts in shifts_by_name.items %}
                     <div class="d-flex flex-column">
                         {% for shift in shifts %}
-                            <div class="shift_timetable_block" style="margin-top: {{ shift.margin_top }}px; height: {{ shift.height }}px;">
-                            {% shift_block shift.shift True %}
-                            </div>
+                            <a href="{% url "shifts:shift_detail" shift.shift.pk %}">
+                                <div class="shift_timetable_block" style="margin-top: {{ shift.margin_top }}px; height: {{ shift.height }}px;">
+                                {% shift_block shift.shift True %}
+                                </div>
+                            </a>
                         {% endfor %}
                     </div>
                 {% endfor %}
