@@ -9,18 +9,18 @@ animals](https://www.youtube.com/watch?v=zJm6nDnR2SE). Let's teach Tapir some tr
 
 ## Getting started
 
-    docker compose up
+    docker-compose up
 
 This starts a container with an LDAP server and automatically loads the test data into the LDAP.
 
 Next, set up the test database and load test data
 
     # Create tables
-    docker compose exec web poetry run python manage.py migrate
+    docker-compose exec web poetry run python manage.py migrate
     # Load admin (password: admin) account
-    docker compose exec web poetry run python manage.py loaddata accounts
+    docker-compose exec web poetry run python manage.py loaddata accounts
     # Load lots of test users & shifts
-    docker compose exec web poetry run python manage.py populate --reset_all
+    docker-compose exec web poetry run python manage.py populate --reset_all
 
 
 ## Developing
