@@ -73,6 +73,13 @@ class LogEntry(models.Model):
             return self
 
     def populate(self, actor=None, user=None, share_owner=None):
+        """Populate the log entry model fields.
+
+        This should be used instead of the normal model creation mechanism to do event-specific info extraction logic
+        to be done in the log entry class instead of the call sites. For example, for a LogEntry subclass recording an
+        email that was sent, callers should only have to pass in the email, how that email should be saved is decided
+        by the log entry class instead."""
+
         self.actor = actor
         self.user = user
         self.share_owner = share_owner
@@ -80,21 +87,25 @@ class LogEntry(models.Model):
         if self.share_owner and hasattr(self.share_owner, "user"):
             self.user = self.share_owner.user
 
-        # Prefer share_owner
+        # Prefer user over share_owner
         if self.share_owner and self.user:
             self.share_owner = None
 
         return self
 
-    # This really belongs in some sort of view class, it's only here for convenience
     def get_context_data(self):
+        """Return the context data for the template rendering this LogEntry."""
         return {"entry": self}
 
-    def render(self, context=None):
+    def render(self):
+        """Render this LogEntry"""
+        # TODO: This really belongs in some sort of view class, it's only here for convenience
         return render_to_string(self.template_name, self.get_context_data())
 
 
 class EmailLogEntry(LogEntry):
+    """EmailLogEntry logs a sent email message."""
+
     template_name = "log/email_log_entry.html"
 
     subject = models.CharField(max_length=128)
@@ -103,6 +114,22 @@ class EmailLogEntry(LogEntry):
     def populate(self, email_message: EmailMessage, *args, **kwargs):
         self.subject = email_message.subject
         self.email_content = email_message.message().as_bytes()
+        return super().populate(*args, **kwargs)
+
+
+class TextLogEntry(LogEntry):
+    """TextLogEntry logs a manual textual notes.
+
+    This entry type should only be used for manual, user-entered text. For log entries created as a side-effect of
+    another action, please create an event-specific LogEntry.
+    """
+
+    template_name = "log/text_log_entry.html"
+
+    text = models.TextField(blank=False)
+
+    def populate(self, text=None, *args, **kwargs):
+        self.text = text
         return super().populate(*args, **kwargs)
 
 
