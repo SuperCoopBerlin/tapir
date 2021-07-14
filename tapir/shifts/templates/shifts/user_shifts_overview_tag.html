@@ -79,6 +79,17 @@
             </div>
         </div>
 
+        <div class="row m-1">
+            <div class="col-4 font-weight-bold text-right">{% trans "Special Capabilties" %}:</div>
+            <div class="col-8">
+                {% if user.shift_user_data.capabilities %}
+                    {{ user.shift_user_data.get_capabilities_display }}
+                {% else %}
+                    {% trans "None" %}
+                {% endif %}
+            </div>
+        </div>
+
 
     </div>
 </div>
