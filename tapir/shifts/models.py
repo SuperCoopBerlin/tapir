@@ -1,6 +1,7 @@
 import datetime
 import math
 
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import Sum
 from django.urls import reverse
@@ -304,9 +305,23 @@ class ShiftAttendance(models.Model):
         self.save()
 
 
+class ShiftUserCapability:
+    SHIFT_COORDINATOR = "shift_coordinator"
+
+
 class ShiftUserData(models.Model):
     user = models.OneToOneField(
         TapirUser, null=False, on_delete=models.PROTECT, related_name="shift_user_data"
+    )
+
+    SHIFT_USER_CAPABILITY_CHOICES = [
+        (ShiftUserCapability.SHIFT_COORDINATOR, _("Shift Coordinator")),
+    ]
+    capabilities = ArrayField(
+        models.CharField(
+            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES, blank=False
+        ),
+        default=list,
     )
 
     SHIFT_ATTENDANCE_MODES = [
@@ -317,6 +332,14 @@ class ShiftUserData(models.Model):
     attendance_mode = models.CharField(
         max_length=32, choices=SHIFT_ATTENDANCE_MODES, default="regular", blank=False
     )
+
+    def get_capabilities_display(self):
+        return ", ".join(
+            [
+                dict(ShiftUserData.SHIFT_USER_CAPABILITY_CHOICES)[c]
+                for c in self.capabilities
+            ]
+        )
 
     def get_upcoming_shift_attendances(self):
         return self.user.shift_attendances.filter(

@@ -7,6 +7,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendance,
     ShiftUserData,
+    ShiftUserCapability,
 )
 
 admin.site.register(ShiftUserData)
