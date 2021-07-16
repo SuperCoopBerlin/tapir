@@ -24,12 +24,12 @@ class TestCreateShift(ShiftTestBase):
     @tag("selenium")
     def test_create_shift(self):
         self.login_as_admin()
-        self.selenium.get(self.URL_BASE + reverse("shifts:shift_create"))
+        self.selenium.get(self.live_server_url + reverse("shifts:shift_create"))
         self.wait_until_element_present_by_id("shift_form_card")
         self.fill_shift_create_form()
         self.wait_until_element_present_by_id("shift_detail_card")
         self.check_shift_detail_page()
-        self.selenium.get(self.URL_BASE + reverse("shifts:upcoming_timetable"))
+        self.selenium.get(self.live_server_url + reverse("shifts:upcoming_timetable"))
         self.wait_until_element_present_by_id("upcoming-shifts-timetable")
         self.check_shift_in_timetable()
 
@@ -50,7 +50,7 @@ class TestCreateShift(ShiftTestBase):
 
         self.selenium.find_element_by_xpath('//button[text() = "Save"]').click()
 
-    def check_shift_detail_page(self) -> int:
+    def check_shift_detail_page(self) -> None:
         self.assertEqual(
             self.selenium.find_element_by_id("shift_name").text,
             ShiftTestBase.shift_name,
@@ -107,7 +107,7 @@ class TestEditShift(ShiftTestBase):
     @tag("selenium")
     def test_edit_shift(self):
         self.login_as_admin()
-        self.selenium.get(self.URL_BASE + reverse("shifts:upcoming_timetable"))
+        self.selenium.get(self.live_server_url + reverse("shifts:upcoming_timetable"))
         self.wait_until_element_present_by_id("upcoming-shifts-timetable")
         self.selenium.find_element_by_id(
             "shift_{0}".format(ShiftTestBase.shift_id)

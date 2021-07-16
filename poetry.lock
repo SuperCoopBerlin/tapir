@@ -751,7 +751,7 @@ python-versions = "*"
 name = "selenium"
 version = "3.141.0"
 description = "Python bindings for Selenium"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "*"
 
@@ -847,7 +847,7 @@ python-versions = "*"
 name = "urllib3"
 version = "1.26.6"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
 
@@ -941,7 +941,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "5a16507c37230d818507d7a55116e48b71e582db34f866ded0f9d7f639619f16"
+content-hash = "78a9f8f799c83bcaa2ecee582b43c2657e66af54afebe3aa27625328827ed7a8"
 
 [metadata.files]
 appdirs = [

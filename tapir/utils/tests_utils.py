@@ -1,24 +1,33 @@
-from django.contrib.staticfiles.testing import LiveServerTestCase
+import socket
+
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.db import DEFAULT_DB_ALIAS
+from django.urls import reverse
+from django.test import TestCase, override_settings
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.webdriver import WebDriver
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-class TapirSeleniumTestBase(LiveServerTestCase):
-    URL_BASE = "http://localhost:8000/"
+@override_settings(ALLOWED_HOSTS=["*"])
+class TapirSeleniumTestBase(StaticLiveServerTestCase):
     DEFAULT_TIMEOUT = 5
     selenium: WebDriver
+    fixtures = ["accounts.json"]
+    host = "0.0.0.0"  # Bind to 0.0.0.0 to allow external access
 
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-
-        firefox_options = webdriver.FirefoxOptions()
-        # firefox_options.headless = True
-        cls.selenium = webdriver.Firefox(firefox_options=firefox_options)
+        cls.host = socket.gethostbyname(socket.gethostname())
+        cls.selenium = webdriver.Remote(
+            command_executor=f"http://selenium:4444/wd/hub",
+            desired_capabilities=DesiredCapabilities.FIREFOX,
+        )
         cls.selenium.set_window_position(-1920, 0)
         cls.selenium.maximize_window()
         cls.selenium.implicitly_wait(cls.DEFAULT_TIMEOUT)
@@ -29,7 +38,7 @@ class TapirSeleniumTestBase(LiveServerTestCase):
         super().tearDownClass()
 
     def login(self, username: str, password: str):
-        self.selenium.get("http://localhost:8000/accounts/login/")
+        self.selenium.get(self.live_server_url + reverse("login"))
         login_card = self.selenium.find_element_by_id("login-card")
         login_card.find_element_by_id("id_username").send_keys(username)
         login_card.find_element_by_id("id_password").send_keys(password)
@@ -73,7 +82,11 @@ class TapirSeleniumTestBase(LiveServerTestCase):
     def wait_until_element_present_by_id(self, html_id: str):
         try:
             WebDriverWait(self.selenium, self.DEFAULT_TIMEOUT).until(
-                EC.presence_of_element_located((By.ID, html_id))
+                ec.presence_of_element_located((By.ID, html_id))
             )
         except TimeoutException:
             self.fail("Missing element with ID " + html_id)
+
+
+class LdapEnabledTestCase(TestCase):
+    databases = {"ldap", DEFAULT_DB_ALIAS}
