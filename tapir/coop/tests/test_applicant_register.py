@@ -6,10 +6,10 @@ from django.test import tag
 from django.urls import reverse
 
 from tapir.utils.json_user import JsonUser
-from tapir.utils.tests_utils import TapirSeleniumTestBase
+from tapir.utils.tests_utils import TapirUserTestBase
 
 
-class ApplicantTestBase(TapirSeleniumTestBase):
+class ApplicantTestBase(TapirUserTestBase):
     @staticmethod
     def get_test_user(file_name: str) -> JsonUser:
         path_to_json_file = os.path.join(

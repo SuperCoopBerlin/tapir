@@ -1,4 +1,9 @@
+import json
+import os
+import pathlib
+
 from django.contrib.staticfiles.testing import LiveServerTestCase
+from django.urls import reverse
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -6,11 +11,14 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from tapir.utils.json_user import JsonUser
+
 
 class TapirSeleniumTestBase(LiveServerTestCase):
     URL_BASE = "http://localhost:8000/"
     DEFAULT_TIMEOUT = 5
     selenium: WebDriver
+    test_users: [] = None
 
     @classmethod
     def setUpClass(cls):
@@ -39,14 +47,34 @@ class TapirSeleniumTestBase(LiveServerTestCase):
     def login_as_admin(self):
         self.login("admin", "admin")
 
-    def login_as_vorstand(self):
-        self.login("ariana.perrin", "ariana.perrin")
+    def get_test_user(self, searched_username: str) -> JsonUser:
+        if self.test_users is None:
+            path_to_json_file = os.path.join(
+                pathlib.Path(__file__).parent.absolute(),
+                "management",
+                "commands",
+                "test_users.json",
+            )
+            file = open(path_to_json_file, encoding="UTF-8")
+            json_string = file.read()
+            file.close()
+            self.test_users = json.loads(json_string)["results"]
 
-    def login_as_member_office(self):
-        self.login("roberto.cortes", "roberto.cortes")
+        for parsed_user in self.test_users:
+            json_user = JsonUser(parsed_user)
+            if json_user.get_username() == searched_username:
+                return json_user
 
-    def login_as_standard_user(self):
-        self.login("nicolas.vicente", "nicolas.vicente")
+        return None
+
+    def get_vorstand_user(self) -> JsonUser:
+        return self.get_test_user("ariana.perrin")
+
+    def get_member_office_user(self) -> JsonUser:
+        return self.get_test_user("roberto.cortes")
+
+    def get_standard_user(self) -> JsonUser:
+        return self.get_test_user("nicolas.vicente")
 
     def logout_if_necessary(self):
         url_before = self.selenium.current_url
@@ -77,3 +105,35 @@ class TapirSeleniumTestBase(LiveServerTestCase):
             )
         except TimeoutException:
             self.fail("Missing element with ID " + html_id)
+
+
+class TapirUserTestBase(TapirSeleniumTestBase):
+    def check_tapir_user_details(self, user: JsonUser):
+        self.assertEqual(
+            self.selenium.find_element_by_id("tapir_user_display_name").text,
+            user.get_display_name(),
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("share_owner_status").text,
+            "Active",
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("tapir_user_username").text,
+            user.get_username(),
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("tapir_user_email").text,
+            user.email,
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("tapir_user_phone_number").text,
+            user.phone_number,
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("tapir_user_birthdate").text,
+            user.get_birthdate_display(),
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("tapir_user_address").text,
+            user.get_display_address(),
+        )

@@ -82,7 +82,16 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         self.wait_until_element_present_by_id("share_owner_to_tapir_user_card")
         self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
         self.wait_until_element_present_by_id("tapir_user_detail_card")
+        self.go_to_tapir_user_detail_page(user)
         self.check_tapir_user_details(user)
+
+    def go_to_share_owner_detail_page(self, user: JsonUser):
+        self.go_to_detail_page(user)
+        self.wait_until_element_present_by_id("share_owner_detail_card")
+
+    def go_to_tapir_user_detail_page(self, user: JsonUser):
+        self.go_to_detail_page(user)
+        self.wait_until_element_present_by_id("tapir_user_detail_card")
 
     def go_to_detail_page(self, user: JsonUser):
         self.selenium.get(self.URL_BASE + reverse("coop:active_shareowner_list"))
@@ -92,14 +101,6 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         ).find_elements_by_xpath("//a[text() = '" + user.get_display_name() + "']")
         self.assertEqual(len(user_links), 1)
         user_links[0].click()
-
-    def go_to_share_owner_detail_page(self, user: JsonUser):
-        self.go_to_detail_page(user)
-        self.wait_until_element_present_by_id("share_owner_detail_card")
-
-    def go_to_tapir_user_detail_page(self, user: JsonUser):
-        self.go_to_detail_page(user)
-        self.wait_until_element_present_by_id("tapir_user_detail_card")
 
     def check_share_owner_details(self, user: JsonUser):
         self.go_to_share_owner_detail_page(user)
@@ -133,36 +134,4 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         self.assertEqual(
             self.selenium.find_element_by_id("share_owner_num_shares").text,
             "1",
-        )
-
-    def check_tapir_user_details(self, user: JsonUser):
-        self.go_to_tapir_user_detail_page(user)
-
-        self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_display_name").text,
-            user.get_display_name(),
-        )
-        self.assertEqual(
-            self.selenium.find_element_by_id("share_owner_status").text,
-            "Active",
-        )
-        self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_username").text,
-            user.get_username(),
-        )
-        self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_email").text,
-            user.email,
-        )
-        self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_phone_number").text,
-            user.phone_number,
-        )
-        self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_birthdate").text,
-            user.get_birthdate_display(),
-        )
-        self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_address").text,
-            user.get_display_address(),
         )
