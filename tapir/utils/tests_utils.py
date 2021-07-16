@@ -28,13 +28,25 @@ class TapirSeleniumTestBase(LiveServerTestCase):
         cls.selenium.quit()
         super().tearDownClass()
 
-    def login_as_admin(self):
+    def login(self, username: str, password: str):
         self.selenium.get("http://localhost:8000/accounts/login/")
         login_card = self.selenium.find_element_by_id("login-card")
-        login_card.find_element_by_id("id_username").send_keys("admin")
-        login_card.find_element_by_id("id_password").send_keys("admin")
+        login_card.find_element_by_id("id_username").send_keys(username)
+        login_card.find_element_by_id("id_password").send_keys(password)
         login_card.find_element_by_tag_name("button").click()
         self.wait_until_element_present_by_id("logout")
+
+    def login_as_admin(self):
+        self.login("admin", "admin")
+
+    def login_as_vorstand(self):
+        self.login("ariana.perrin", "ariana.perrin")
+
+    def login_as_member_office(self):
+        self.login("roberto.cortes", "roberto.cortes")
+
+    def login_as_standard_user(self):
+        self.login("nicolas.vicente", "nicolas.vicente")
 
     def logout_if_necessary(self):
         url_before = self.selenium.current_url

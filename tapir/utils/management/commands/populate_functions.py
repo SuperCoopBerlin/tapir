@@ -275,8 +275,8 @@ def generate_shifts():
 def clear_data():
     print("Clearing data...")
     LogEntry.objects.all().delete()
-    ShiftAccountEntry.objects.all().delete()
     ShiftAttendance.objects.all().delete()
+    ShiftAccountEntry.objects.all().delete()
     Shift.objects.all().delete()
     ShiftAttendanceTemplate.objects.all().delete()
     ShiftTemplate.objects.all().delete()
