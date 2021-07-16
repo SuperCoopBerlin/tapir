@@ -78,7 +78,7 @@ class ApplicantTestBase(TapirSeleniumTestBase):
         )
 
     def go_to_applicant_detail_page(self, user: JsonUser):
-        self.selenium.get(self.URL_BASE + reverse("coop:draftuser_list"))
+        self.selenium.get(self.live_server_url + reverse("coop:draftuser_list"))
         self.wait_until_element_present_by_id("applicants_table")
         user_rows = self.selenium.find_element_by_id(
             "applicants_table"
@@ -92,7 +92,7 @@ class TestApplicantRegister(ApplicantTestBase):
     @tag("selenium")
     def test_applicant_register(self):
         # An external user registers themselves as an Applicant
-        self.selenium.get(self.URL_BASE + reverse("coop:draftuser_register"))
+        self.selenium.get(self.live_server_url + reverse("coop:draftuser_register"))
         self.logout_if_necessary()
 
         user = self.get_test_user("test_applicant_register.json")
