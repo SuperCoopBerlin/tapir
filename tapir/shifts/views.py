@@ -2,7 +2,7 @@ import datetime
 from collections import defaultdict, OrderedDict
 
 from django.contrib.auth.decorators import permission_required
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
@@ -146,8 +146,7 @@ def shifttemplate_unregister_user(request, pk, user_pk):
     return redirect(request.GET.get("next", user))
 
 
-class ShiftTemplateOverview(PermissionRequiredMixin, TemplateView):
-    permission_required = "shifts.manage"
+class ShiftTemplateOverview(LoginRequiredMixin, TemplateView):
     template_name = "shifts/shift_template_overview.html"
 
     def get_context_data(self, **kwargs):

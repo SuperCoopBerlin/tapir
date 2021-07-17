@@ -1,5 +1,4 @@
 import datetime
-import time
 
 from django.test import tag
 from django.test.testcases import SerializeMixin

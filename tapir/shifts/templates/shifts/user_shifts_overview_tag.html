@@ -17,16 +17,17 @@
                     {% if user.shift_attendance_templates.count > 0 %}
                         {% comment %}Usually there will only be one {% endcomment %}
                         {% for shift_attendance_template in user.shift_attendance_templates.all %}
-                            {{ shift_attendance_template.shift_template.get_display_name }}
+                            <span class="repeated-shift">{{ shift_attendance_template.shift_template.get_display_name }}</span>
 
+                            {% if perms.shifts.manage %}
                             <form class="form-inline" method="POST"
                                   action="{% url "shifts:shifttemplate_unregister_user" shift_attendance_template.shift_template.pk user.pk %}?next={% url "accounts:user_detail" user.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-secondary btn-sm">
+                                <button type="submit" class="btn btn-secondary btn-sm unregister-repeated-shift-button">
                                     {% trans "Unregister" %}
                                 </button>
                             </form>
-
+                            {% endif %}
                             {% if not forloop.last %},{% endif %}
                         {% endfor %}
 

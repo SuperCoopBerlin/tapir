@@ -23,7 +23,14 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
     DEFAULT_TIMEOUT = 5
     selenium: WebDriver
     test_users: [] = None
-    fixtures = ["accounts.json", "share_owners.json", "share_ownerships.json"]
+    fixtures = [
+        "accounts.json",
+        "share_owners.json",
+        "share_ownerships.json",
+        "shift_template_groups.json",
+        "shift_templates.json",
+        "shift_attendance_template.json",
+    ]
     host = "0.0.0.0"  # Bind to 0.0.0.0 to allow external access
 
     @classmethod
@@ -104,6 +111,9 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
 
         return True
 
+    def does_element_exist_by_class_name(self, class_name: str) -> bool:
+        return len(self.selenium.find_elements_by_class_name(class_name)) > 0
+
     def wait_until_element_present_by_id(self, html_id: str):
         try:
             WebDriverWait(self.selenium, self.DEFAULT_TIMEOUT).until(
@@ -118,10 +128,6 @@ class TapirUserTestBase(TapirSeleniumTestBase):
         self.assertEqual(
             self.selenium.find_element_by_id("tapir_user_display_name").text,
             user.get_display_name(),
-        )
-        self.assertEqual(
-            self.selenium.find_element_by_id("share_owner_status").text,
-            "Active",
         )
         self.assertEqual(
             self.selenium.find_element_by_id("tapir_user_username").text,
@@ -142,6 +148,14 @@ class TapirUserTestBase(TapirSeleniumTestBase):
         self.assertEqual(
             self.selenium.find_element_by_id("tapir_user_address").text,
             user.get_display_address(),
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("share_owner_status").text,
+            "Active",
+        )
+        self.assertEqual(
+            self.selenium.find_element_by_id("share_owner_num_shares").text,
+            "1",
         )
 
 

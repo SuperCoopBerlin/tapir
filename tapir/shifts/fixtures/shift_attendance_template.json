@@ -1,0 +1,26 @@
+[
+  {
+    "model": "shifts.shiftattendancetemplate",
+    "pk": 1,
+    "fields": {
+      "user": 34,
+      "shift_template": 70
+    }
+  },
+  {
+    "model": "shifts.shiftattendancetemplate",
+    "pk": 2,
+    "fields": {
+      "user": 4,
+      "shift_template": 59
+    }
+  },
+  {
+    "model": "shifts.shiftattendancetemplate",
+    "pk": 3,
+    "fields": {
+      "user": 2,
+      "shift_template": 82
+    }
+  }
+]

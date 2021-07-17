@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <table class="table">
+    <table class="table" id="repeated-shift-overview-table">
         <thead>
         <tr>
             <th></th>
@@ -34,9 +34,15 @@
                                 {% for shift_template in template_group_group.values %}
                                     {% if shift_template != None %}
                                         {% block shift_template %}
-                                            <a href="{% url "admin:shifts_shifttemplate_change" shift_template.pk %}">
-                                                {% shift_template_block shift_template %}
-                                            </a>
+                                            {% if perms.shifts.manage %}
+                                                <a href="{% url "admin:shifts_shifttemplate_change" shift_template.pk %}">
+                                                    {% shift_template_block shift_template %}
+                                                </a>
+                                            {% else %}
+                                                <span>
+                                                    {% shift_template_block shift_template %}
+                                                </span>
+                                            {% endif %}
                                         {% endblock %}
                                     {% else %}
                                         <div class="shift-template-block-container"></div>
