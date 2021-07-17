@@ -23,14 +23,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
     DEFAULT_TIMEOUT = 5
     selenium: WebDriver
     test_users: [] = None
-    fixtures = [
-        "accounts.json",
-        "share_owners.json",
-        "share_ownerships.json",
-        "shift_template_groups.json",
-        "shift_templates.json",
-        "shift_attendance_template.json",
-    ]
+    fixtures = ["admin_account.json", "test_data.json"]
     host = "0.0.0.0"  # Bind to 0.0.0.0 to allow external access
 
     @classmethod
