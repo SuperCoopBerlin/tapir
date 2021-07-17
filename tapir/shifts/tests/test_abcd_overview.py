@@ -1,8 +1,5 @@
-import datetime
-
 from django.test import tag
 from django.urls import reverse
-from selenium.webdriver.common.keys import Keys
 
 from tapir.utils.tests_utils import TapirSeleniumTestBase
 
