@@ -1,8 +1,10 @@
 import datetime
+import time
 
 from django.test import tag
 from django.test.testcases import SerializeMixin
 from django.urls import reverse
+from selenium.webdriver.common.keys import Keys
 
 from tapir.utils.tests_utils import TapirSeleniumTestBase
 
@@ -22,7 +24,11 @@ class TestCreateShift(ShiftTestBase):
     shift_num_slots = 5
 
     @tag("selenium")
-    def test_create_shift(self):
+    def test_create_and_edit_shift(self):
+        self.subtest_create_shift()
+        self.subtest_edit_shift()
+
+    def subtest_create_shift(self):
         self.login_as_admin()
         self.selenium.get(self.live_server_url + reverse("shifts:shift_create"))
         self.wait_until_element_present_by_id("shift_form_card")
@@ -40,13 +46,16 @@ class TestCreateShift(ShiftTestBase):
         field_num_slots.clear()
         field_num_slots.send_keys(self.shift_num_slots)
 
+        field_start_date = self.selenium.find_element_by_id("id_start_time")
+        field_start_date.clear()
+        # For some reason the field gets now as value after selenium clears it. Hacky fix is to send a bunch of backspace.
+        for _ in range(50):
+            field_start_date.send_keys(Keys.BACKSPACE)
+        field_start_date.send_keys(self.shift_start_time.strftime("%m/%d/%Y %H:%M"))
+
         field_end_date = self.selenium.find_element_by_id("id_end_time")
         field_end_date.clear()
         field_end_date.send_keys(self.shift_end_time.strftime("%m/%d/%Y %H:%M"))
-
-        field_start_date = self.selenium.find_element_by_id("id_start_time")
-        field_start_date.clear()
-        field_start_date.send_keys(self.shift_start_time.strftime("%m/%d/%Y %H:%M"))
 
         self.selenium.find_element_by_xpath('//button[text() = "Save"]').click()
 
@@ -102,10 +111,7 @@ class TestCreateShift(ShiftTestBase):
             shift_block.find_element_by_class_name("shift-date").text, shift_date
         )
 
-
-class TestEditShift(ShiftTestBase):
-    @tag("selenium")
-    def test_edit_shift(self):
+    def subtest_edit_shift(self):
         self.login_as_admin()
         self.selenium.get(self.live_server_url + reverse("shifts:upcoming_timetable"))
         self.wait_until_element_present_by_id("upcoming-shifts-timetable")
