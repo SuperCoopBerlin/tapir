@@ -1,4 +1,7 @@
 {% load i18n %}
+{% load bootstrap4 %}
+
+{% load log %}
 
 <div class="card m-2">
     <div class="card-header">
@@ -17,10 +20,30 @@
             {% for o in log_entries %}
                 <tr>
                     <td>{{ o.created_date|date:"SHORT_DATETIME_FORMAT" }}</td>
-                    <td>{{ o.actor.get_display_name|default_if_none:o.actor}}</td>
+                    <td>{{ o.actor.get_display_name|default_if_none:o.actor }}</td>
                     <td>{{ o.render }}</td>
                 </tr>
             {% endfor %}
+            {% if perms.accounts.manage %}
+                <tr>
+
+                    <td colspan="3">
+
+                        <form method="POST" action="{{ create_text_log_entry_action_url }}">
+                            {% csrf_token %}
+                            {% comment %}
+                        Ideally we would let the form field render itself here, but it's easier to style as an inline field
+                        this way.
+                        {% endcomment %}
+                            <div class="d-flex">
+                                <input class="form-control flex-grow-1" name="text" placeholder="{% trans "Note about this user" %}">
+                                <button class="btn btn-sm btn-outline-info ml-2" type="submit" style="min-width: 90px;">{% trans "Add Note" %}</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% endif %}
         </table>
+
     </div>
 </div>

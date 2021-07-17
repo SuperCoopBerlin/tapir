@@ -18,33 +18,47 @@ changetype: modify
 replace: userPassword
 userPassword: admin
 
-dn: uid=karin.ritter,ou=people,dc=supercoop,dc=de
+dn: uid=ariana.perrin,ou=people,dc=supercoop,dc=de
 changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
-cn: karin.ritter
-sn: karin.ritter
-uid: karin.ritter
+cn: ariana.perrin
+sn: ariana.perrin
+uid: ariana.perrin
 
-dn: uid=karin.ritter,ou=people,dc=supercoop,dc=de
+dn: uid=ariana.perrin,ou=people,dc=supercoop,dc=de
 changetype: modify
 replace: userPassword
-userPassword: karin.ritter
+userPassword: ariana.perrin
 
-dn: uid=norman.ritter,ou=people,dc=supercoop,dc=de
+dn: uid=roberto.cortes,ou=people,dc=supercoop,dc=de
 changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
-cn: norman.ritter
-sn: norman.ritter
-uid: norman.ritter
+cn: roberto.cortes
+sn: roberto.cortes
+uid: roberto.cortes
 
-dn: uid=norman.ritter,ou=people,dc=supercoop,dc=de
+dn: uid=roberto.cortes,ou=people,dc=supercoop,dc=de
 changetype: modify
 replace: userPassword
-userPassword: norman.ritter
+userPassword: roberto.cortes
+
+dn: uid=nicolas.vicente,ou=people,dc=supercoop,dc=de
+changetype: add
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: nicolas.vicente
+sn: nicolas.vicente
+uid: nicolas.vicente
+
+dn: uid=nicolas.vicente,ou=people,dc=supercoop,dc=de
+changetype: modify
+replace: userPassword
+userPassword: nicolas.vicente
 
 dn: ou=groups,dc=supercoop,dc=de
 changetype: add
@@ -58,4 +72,12 @@ objectClass: groupOfNames
 objectClass: top
 cn: vorstand
 member: uid=admin,ou=people,dc=supercoop,dc=de
-member: uid=karin.ritter,ou=people,dc=supercoop,dc=de
+member: uid=ariana.perrin,ou=people,dc=supercoop,dc=de
+
+dn: cn=member-office,ou=groups,dc=supercoop,dc=de
+changetype: add
+objectClass: groupOfNames
+objectClass: top
+cn: member-office
+member: uid=admin,ou=people,dc=supercoop,dc=de
+member: uid=roberto.cortes,ou=people,dc=supercoop,dc=de

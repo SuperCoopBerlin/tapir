@@ -19,7 +19,11 @@ from tapir.shifts.models import ShiftAttendance, ShiftAttendanceTemplate
 class UserDetailView(PermissionRequiredMixin, generic.DetailView):
     model = TapirUser
     template_name = "accounts/user_detail.html"
-    permission_required = "accounts.manage"
+
+    def get_permission_required(self):
+        if self.request.user.pk == self.kwargs["pk"]:
+            return []
+        return ["accounts.manage"]
 
 
 class UserMeView(LoginRequiredMixin, generic.RedirectView):
