@@ -23,7 +23,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
     DEFAULT_TIMEOUT = 5
     selenium: WebDriver
     test_users: [] = None
-    fixtures = ["accounts.json"]
+    fixtures = ["accounts.json", "share_owners.json", "share_ownerships.json"]
     host = "0.0.0.0"  # Bind to 0.0.0.0 to allow external access
 
     @classmethod
@@ -34,7 +34,6 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
             command_executor=f"http://selenium:4444/wd/hub",
             desired_capabilities=DesiredCapabilities.FIREFOX,
         )
-        cls.selenium.set_window_position(-1920, 0)
         cls.selenium.maximize_window()
         cls.selenium.implicitly_wait(cls.DEFAULT_TIMEOUT)
 
