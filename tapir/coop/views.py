@@ -437,7 +437,7 @@ class ShareOwnerSearchMixin:
         queryset = self.get_queryset()
 
         search_string = self.request.GET.get("search", "")
-        is_a_search = search_string is not ""
+        is_a_search = search_string != ""
 
         if is_a_search and queryset.count() == 1:
             return HttpResponseRedirect(queryset.first().get_absolute_url())
