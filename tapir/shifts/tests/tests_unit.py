@@ -1,21 +1,24 @@
+from django.db import DEFAULT_DB_ALIAS
 from django.test import TestCase
 from datetime import time, date
 
 from tapir.accounts.models import TapirUser
 from tapir.shifts.models import (
     ShiftTemplate,
-    Shift,
     ShiftAttendanceTemplate,
     ShiftAttendance,
 )
+from tapir.utils.tests_utils import LdapEnabledTestCase
 
 
-class ShiftsTestCase(TestCase):
-    fixtures = ["accounts.json"]
-
+class ShiftsTestCase(LdapEnabledTestCase):
     def test_shift_template_update_shift_attendances(self):
-        user1 = TapirUser.objects.get(username="karin.ritter")
-        user2 = TapirUser.objects.get(username="norman.ritter")
+        user1 = TapirUser.objects.create(
+            username="ariana.perrin", email="ariana.perrin@supercoop.de"
+        )
+        user2 = TapirUser.objects.create(
+            username="nicolas.vicente", email="nicolas.vicente@supercoop.de"
+        )
 
         st = ShiftTemplate.objects.create(
             start_time=time(15, 00), end_time=time(18, 00)

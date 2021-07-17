@@ -9,20 +9,8 @@
 {% endblock %}
 
 {% block content %}
-    <div class="d-flex flex-wrap">
-        <div class="card m-2">
-            <h5 class="card-header d-flex justify-content-between align-items-center">
-                New User
-            </h5>
-            <div class="card-body">
-                <p>If you don't have an account yet, create one!</p>
-                <p>Whether you already attended a welcome session or not, already sent your Beteiligungserklärung or not, it all starts here!</p>
-                <p><a href="{% url "coop:draftuser_register" %}">
-                    <button type="button" class="btn btn-primary">Let's go!</button>
-                </a></p>
-            </div>
-        </div>
-        <div class="card m-2" id="login-card">
+    <div class="supercoop-authentification">
+        <div class="card m-2 supercoop-login" id="login-card">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 Existing User
             </h5>
@@ -30,10 +18,24 @@
                 <form role="form" method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
-                    <span class="text-right">
-                        {% buttons submit='Login' %}{% endbuttons %}
-                    </span>
+                    <p>
+                        <a href="/accounts/password_reset">Problems with logging in?</a>
+                    </p>
+                    <button type="submit" class="btn btn-primary btn-block">Access Shiftmanagement</button>
                 </form>
+            </div>
+        </div>
+
+        <div class="card m-2 supercoop-register">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                New User
+            </h5>
+            <div class="card-body">
+                <p>If you don't have an account yet, create one!</p>
+                <p>Whether you already attended a welcome session or not, already sent your Beteiligungserklärung or not, it all starts here!</p>
+                <p><a href="{% url "coop:draftuser_register" %}">
+                    <button type="button" class="btn btn-primary btn-block">Create Account</button>
+                </a></p>
             </div>
         </div>
     </div>

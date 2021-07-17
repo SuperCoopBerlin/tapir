@@ -47,15 +47,16 @@ For reading or modifying the LDAP, Apache Directory Studio is pretty handy.
 
 ### Running tests
 
-You'll need to add browser-drivers to your path. Currently only Firefox is tested. See https://selenium-python.readthedocs.io/installation.html#drivers
+For running the test should have a clean openldap container with the test data.
 
-The tests are run against your local docker instance. Before running them ensure a clean state with : 
+    docker-compose up -d openldap
 
-    docker-compose exec web poetry run python manage.py populate --reset_all
+Then, run the tests.
 
-Then, run the tests with the PyCharm run configuration (.run/Tapir Tests.run.xml), or manually with  
+    docker-compose run web poetry run pytest
 
-    python manage.py test
+#### Selenium Tests
+You can connect to the selenium container via VNC for debugging purpose.
  
 ### Vocabulary
 A few definitions to help newcomers understand the model classes. 

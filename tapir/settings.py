@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import os
 import sys
 from pathlib import Path
 
@@ -25,7 +26,7 @@ SECRET_KEY = "fl%20e9dbkh4mosi5$i$!5&+f^ic5=7^92hrchl89x+)k0ctsn"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -66,7 +67,7 @@ ROOT_URLCONF = "tapir.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "tapir" / "templates"],
+        "DIRS": [os.path.join(BASE_DIR, "tapir/templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -88,10 +89,11 @@ WSGI_APPLICATION = "tapir.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": "db",
-        "USER": "tapir",
-        "PASSWORD": "tapir",
-        "NAME": "tapir",
+        "NAME": os.environ.get("DATABASE_NAME", "tapir"),
+        "USER": os.environ.get("DATABASE_USER", "tapir"),
+        "PASSWORD": os.environ.get("DATABASE_PASSWORD", "tapir"),
+        "HOST": os.environ.get("DATABASE_HOST", "db"),
+        "PORT": os.environ.get("DATABASE_PORT", 5432),
     },
     "ldap": {
         "ENGINE": "ldapdb.backends.ldap",
@@ -100,20 +102,6 @@ DATABASES = {
         "PASSWORD": "admin",
     },
 }
-
-if "test" in sys.argv:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        },
-        "ldap": {
-            "ENGINE": "ldapdb.backends.ldap",
-            "NAME": "ldap://openldap/",
-            "USER": "cn=admin,dc=supercoop,dc=de",
-            "PASSWORD": "admin",
-        },
-    }
 
 DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
@@ -170,9 +158,8 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [
-    BASE_DIR / "tapir" / "static",
-]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "tapir/static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 WEASYPRINT_BASEURL = "/"
 

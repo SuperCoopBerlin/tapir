@@ -11,7 +11,6 @@ django-bootstrap4 = "^2.3.1"
 django-ldapdb = "^1.5.1"
 django-weasyprint = "^1.1.0"
 django-extensions = "^3.1.3"
-selenium = "^3.141.0"
 django-bootstrap-datepicker-plus = "^3.0.5"
 psycopg2 = "^2.8.6"
 
@@ -20,6 +19,11 @@ black = "~20.8b1"
 ipython = "^7.21.0"
 pre-commit = "^2.11.1"
 Werkzeug = "^1.0.1"
+pytest = "^6.2.4"
+pytest-cov = "^2.12.1"
+pytest-django = "^4.4.0"
+pytest-sugar = "^0.9.4"
+selenium = "^3.141.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

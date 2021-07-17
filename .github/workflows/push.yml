@@ -1,0 +1,11 @@
+name: Testing
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Test
+        run: docker-compose run web make test

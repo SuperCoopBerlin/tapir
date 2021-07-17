@@ -18,9 +18,9 @@ class TestApplicantToTapirUser(ApplicantTestBase):
 
     def subtest_create_applicant(self):
         # A coop member creates an Applicant (for example at the Welcome desk)
-        self.selenium.get(self.URL_BASE)
+        self.selenium.get(self.live_server_url)
         self.login_as_admin()
-        self.selenium.get(self.URL_BASE + reverse("coop:draftuser_create"))
+        self.selenium.get(self.live_server_url + reverse("coop:draftuser_create"))
 
         user = self.get_test_user(self.json_file)
         self.fill_draftuser_form(user)
@@ -29,7 +29,7 @@ class TestApplicantToTapirUser(ApplicantTestBase):
 
     def subtest_applicant_to_share_owner(self):
         # A coop member transforms a draft user into an investing member
-        self.selenium.get(self.URL_BASE)
+        self.selenium.get(self.live_server_url)
         self.login_as_admin()
 
         user = self.get_test_user(self.json_file)
@@ -43,7 +43,7 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         self.check_share_owner_details(user)
 
         # Make sure that the DraftUser is deleted after the ShareOwner has been created
-        self.selenium.get(self.URL_BASE + reverse("coop:draftuser_list"))
+        self.selenium.get(self.live_server_url + reverse("coop:draftuser_list"))
         self.wait_until_element_present_by_id("applicants_table")
         user_rows = self.selenium.find_element_by_id(
             "applicants_table"
@@ -52,7 +52,7 @@ class TestApplicantToTapirUser(ApplicantTestBase):
 
     def subtest_edit_share_owner(self):
         # A coop member edits the name of a share owner
-        self.selenium.get(self.URL_BASE)
+        self.selenium.get(self.live_server_url)
         self.login_as_admin()
 
         user = self.get_test_user(self.json_file)
@@ -94,7 +94,7 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         self.wait_until_element_present_by_id("tapir_user_detail_card")
 
     def go_to_detail_page(self, user: JsonUser):
-        self.selenium.get(self.URL_BASE + reverse("coop:active_shareowner_list"))
+        self.selenium.get(self.live_server_url + reverse("coop:active_shareowner_list"))
         self.wait_until_element_present_by_id("share_owner_table")
         user_links = self.selenium.find_element_by_id(
             "share_owner_table"

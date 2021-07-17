@@ -3,8 +3,6 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 COPY . /app
 
-RUN apt update
-RUN apt install libldap2-dev libsasl2-dev
+RUN apt update -y && apt install -y libldap2-dev libsasl2-dev
 
-RUN pip install poetry
-RUN poetry install
+RUN pip install poetry && poetry install
