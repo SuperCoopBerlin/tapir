@@ -11,7 +11,7 @@ from tapir.utils.tests_utils import TapirUserTestBase
 
 class ApplicantTestBase(TapirUserTestBase):
     @staticmethod
-    def get_test_user(file_name: str) -> JsonUser:
+    def get_created_user(file_name: str) -> JsonUser:
         path_to_json_file = os.path.join(
             pathlib.Path(__file__).parent.absolute(), file_name
         )
@@ -95,7 +95,7 @@ class TestApplicantRegister(ApplicantTestBase):
         self.selenium.get(self.live_server_url + reverse("coop:draftuser_register"))
         self.logout_if_necessary()
 
-        user = self.get_test_user("test_applicant_register.json")
+        user = self.get_created_user("test_applicant_register.json")
         self.fill_draftuser_form(user)
         self.wait_until_element_present_by_id("draft_user_registration_confirmed")
         self.login_as_admin()

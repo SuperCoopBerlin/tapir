@@ -2,7 +2,6 @@ from django.test import tag
 from django.urls import reverse
 
 from tapir.coop.tests.test_applicant_register import ApplicantTestBase
-
 from tapir.utils.json_user import JsonUser
 
 
@@ -19,10 +18,11 @@ class TestApplicantToTapirUser(ApplicantTestBase):
     def subtest_create_applicant(self):
         # A coop member creates an Applicant (for example at the Welcome desk)
         self.selenium.get(self.live_server_url)
-        self.login_as_admin()
+        user = self.get_member_office_user()
+        self.login(user.get_username(), user.get_username())
         self.selenium.get(self.live_server_url + reverse("coop:draftuser_create"))
 
-        user = self.get_test_user(self.json_file)
+        user = self.get_created_user(self.json_file)
         self.fill_draftuser_form(user)
         self.wait_until_element_present_by_id("draft_user_detail_card")
         self.check_draftuser_details(user)
@@ -30,9 +30,10 @@ class TestApplicantToTapirUser(ApplicantTestBase):
     def subtest_applicant_to_share_owner(self):
         # A coop member transforms a draft user into an investing member
         self.selenium.get(self.live_server_url)
-        self.login_as_admin()
+        user = self.get_member_office_user()
+        self.login(user.get_username(), user.get_username())
 
-        user = self.get_test_user(self.json_file)
+        user = self.get_created_user(self.json_file)
         self.go_to_applicant_detail_page(user)
         self.selenium.find_element_by_id(
             "button_marker_membership_agreement_signed"
@@ -53,9 +54,10 @@ class TestApplicantToTapirUser(ApplicantTestBase):
     def subtest_edit_share_owner(self):
         # A coop member edits the name of a share owner
         self.selenium.get(self.live_server_url)
-        self.login_as_admin()
+        user = self.get_member_office_user()
+        self.login(user.get_username(), user.get_username())
 
-        user = self.get_test_user(self.json_file)
+        user = self.get_created_user(self.json_file)
         self.go_to_share_owner_detail_page(user)
         name_before = user.first_name
         user.first_name = "an edited first name"
@@ -75,8 +77,10 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         self.wait_until_element_present_by_id("share_owner_detail_card")
 
     def subtest_create_tapir_user_from_share_owner(self):
-        self.login_as_admin()
-        user = self.get_test_user(self.json_file)
+        user = self.get_member_office_user()
+        self.login(user.get_username(), user.get_username())
+
+        user = self.get_created_user(self.json_file)
         self.go_to_share_owner_detail_page(user)
         self.selenium.find_element_by_id("create_tapir_user_button").click()
         self.wait_until_element_present_by_id("share_owner_to_tapir_user_card")
