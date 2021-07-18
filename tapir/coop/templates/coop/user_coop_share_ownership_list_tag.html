@@ -5,7 +5,7 @@
         {% trans "Cooperative" %}
         {% if owner %}
             {% if perms.accounts.manage %}
-            <div class="btn-group" role="group">
+            <div class="btn-group" role="group" id="share_owner_edit_buttons">
             <span class="btn btn-outline-secondary">
                 {% blocktranslate with coop_share_owner_id=owner.id %}
                     Cooperator #{{ coop_share_owner_id }}

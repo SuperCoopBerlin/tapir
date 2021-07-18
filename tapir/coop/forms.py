@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.admin.widgets import AdminDateWidget
 from django.core.mail import EmailMessage
 from django.forms import TextInput
 from django.template.loader import render_to_string
