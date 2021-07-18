@@ -3,6 +3,7 @@ import datetime
 from django.test import tag
 from django.test.testcases import SerializeMixin
 from django.urls import reverse
+from django.utils import timezone
 from selenium.webdriver.common.keys import Keys
 
 from tapir.utils.tests_utils import TapirSeleniumTestBase
@@ -16,7 +17,7 @@ class ShiftTestBase(SerializeMixin, TapirSeleniumTestBase):
 
 class TestCreateShift(ShiftTestBase):
     shift_start_time = datetime.datetime.combine(
-        datetime.date.today(), datetime.time(hour=9)
+        datetime.date.today(), datetime.time(hour=9), timezone.localtime().tzinfo
     )
     shift_end_time = shift_start_time + datetime.timedelta(hours=3, minutes=23)
 

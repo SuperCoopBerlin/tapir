@@ -4,6 +4,8 @@ import os
 import pathlib
 import random
 
+from django.utils import timezone
+
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, ShareOwnership, DraftUser
 from tapir.log.models import LogEntry
@@ -198,10 +200,10 @@ def populate_shift_templates():
             for name in names:
                 for start_hour in start_hours:
                     start_time = datetime.time(
-                        hour=start_hour, tzinfo=datetime.timezone.utc
+                        hour=start_hour, tzinfo=timezone.localtime().tzinfo
                     )
                     end_time = datetime.time(
-                        hour=start_hour + 3, tzinfo=datetime.timezone.utc
+                        hour=start_hour + 3, tzinfo=timezone.localtime().tzinfo
                     )
                     ShiftTemplate.objects.get_or_create(
                         name=name,
@@ -214,8 +216,8 @@ def populate_shift_templates():
 
     for weekday in [WEEKDAY_CHOICES[2], WEEKDAY_CHOICES[5]]:
         for template_group in ShiftTemplateGroup.objects.all():
-            start_time = datetime.time(hour=18, tzinfo=datetime.timezone.utc)
-            end_time = datetime.time(hour=18 + 3, tzinfo=datetime.timezone.utc)
+            start_time = datetime.time(hour=18, tzinfo=timezone.localtime().tzinfo)
+            end_time = datetime.time(hour=18 + 3, tzinfo=timezone.localtime().tzinfo)
             name = "Store cleaning"
             ShiftTemplate.objects.get_or_create(
                 name=name,
@@ -227,8 +229,8 @@ def populate_shift_templates():
             )
 
     for group_name in ["A", "C"]:
-        start_time = datetime.time(hour=9, tzinfo=datetime.timezone.utc)
-        end_time = datetime.time(hour=9 + 3, tzinfo=datetime.timezone.utc)
+        start_time = datetime.time(hour=9, tzinfo=timezone.localtime().tzinfo)
+        end_time = datetime.time(hour=9 + 3, tzinfo=timezone.localtime().tzinfo)
         name = "Inventory"
         template_group = ShiftTemplateGroup.objects.get(name="Week " + group_name)
         ShiftTemplate.objects.get_or_create(
@@ -241,8 +243,8 @@ def populate_shift_templates():
         )
 
     for group_name in ["B", "D"]:
-        start_time = datetime.time(hour=9, tzinfo=datetime.timezone.utc)
-        end_time = datetime.time(hour=9 + 3, tzinfo=datetime.timezone.utc)
+        start_time = datetime.time(hour=9, tzinfo=timezone.localtime().tzinfo)
+        end_time = datetime.time(hour=9 + 3, tzinfo=timezone.localtime().tzinfo)
         name = "Storage cleaning"
         template_group = ShiftTemplateGroup.objects.get(name="Week " + group_name)
         ShiftTemplate.objects.get_or_create(
@@ -257,8 +259,9 @@ def populate_shift_templates():
     print("Populated shift templates")
 
 
-def generate_shifts():
-    print("Generating shifts")
+def generate_shifts(print_progress=False):
+    if print_progress:
+        print("Generating shifts")
     start_day = datetime.date.today() - datetime.timedelta(days=20)
     while start_day.weekday() != 0:
         start_day = start_day + datetime.timedelta(days=1)
@@ -266,10 +269,12 @@ def generate_shifts():
     groups = ShiftTemplateGroup.objects.order_by("week_index")
     for week in range(8):
         monday = start_day + datetime.timedelta(days=7 * week)
-        print("Doing week from " + str(monday) + " " + str(week + 1) + "/8")
+        if print_progress:
+            print("Doing week from " + str(monday) + " " + str(week + 1) + "/8")
         week_index = ShiftTemplateGroup.get_week_index(monday)
         groups[week_index - 1].create_shifts(monday)
-    print("Generated shifts")
+    if print_progress:
+        print("Generated shifts")
 
 
 def clear_data():
@@ -293,5 +298,5 @@ def reset_all_test_data():
     clear_data()
     populate_template_groups()
     populate_shift_templates()
-    generate_shifts()
+    generate_shifts(True)
     populate_users()

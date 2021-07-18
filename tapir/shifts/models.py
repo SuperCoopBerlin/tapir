@@ -1,10 +1,10 @@
 import datetime
 import math
 
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import Sum
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from tapir.accounts.models import TapirUser
@@ -125,8 +125,12 @@ class ShiftTemplate(models.Model):
 
         # TODO(Leon Handreke): Is this timezone user-configurable? Would make sense to use a globally-configurable
         # timezone here, but store aware dates for sure.
-        start_time = datetime.datetime.combine(shift_date, self.start_time)
-        end_time = datetime.datetime.combine(shift_date, self.end_time)
+        start_time = datetime.datetime.combine(
+            shift_date, self.start_time, timezone.localtime().tzinfo
+        )
+        end_time = datetime.datetime.combine(
+            shift_date, self.end_time, timezone.localtime().tzinfo
+        )
 
         return Shift(
             shift_template=self,
@@ -155,9 +159,7 @@ class ShiftTemplate(models.Model):
         self.update_future_shift_attendances()
 
     def update_future_shift_attendances(self):
-        for shift in self.generated_shifts.filter(
-            start_time__gt=datetime.datetime.now()
-        ):
+        for shift in self.generated_shifts.filter(start_time__gt=timezone.now()):
             shift.update_attendances_from_shift_template()
 
 
@@ -335,7 +337,7 @@ class ShiftUserData(models.Model):
 
     def get_upcoming_shift_attendances(self):
         return self.user.shift_attendances.filter(
-            shift__start_time__gt=datetime.datetime.now()
+            shift__start_time__gt=timezone.localtime()
         )
 
     def get_account_balance(self):

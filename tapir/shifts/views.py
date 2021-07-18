@@ -32,8 +32,7 @@ DAY_END_SECONDS = time_to_seconds(datetime.time(22, 0))
 DAY_DURATION_SECONDS = DAY_END_SECONDS - DAY_START_SECONDS
 
 
-class UpcomingDaysView(PermissionRequiredMixin, TemplateView):
-    permission_required = "shifts.manage"
+class UpcomingDaysView(LoginRequiredMixin, TemplateView):
     template_name = "shifts/upcoming_days.html"
 
     def get_context_data(self, *args, **kwargs):
@@ -232,8 +231,7 @@ def user_can_join_shift(user: TapirUser, shift: Shift) -> bool:
     return can_join
 
 
-class UpcomingShiftsAsTimetable(PermissionRequiredMixin, TemplateView):
-    permission_required = "shifts.manage"
+class UpcomingShiftsAsTimetable(LoginRequiredMixin, TemplateView):
     template_name = "shifts/timetable.html"
 
     def get_context_data(self, *args, **kwargs):

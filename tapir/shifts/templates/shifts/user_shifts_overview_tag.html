@@ -47,7 +47,7 @@
             <div class="col-8">
                 {% with next_shift=user.shift_user_data.get_upcoming_shift_attendances.first.shift %}
                     {% if next_shift %}
-                        <a href="{{ next_shift.get_absolute_url }}">
+                        <a href="{{ next_shift.get_absolute_url }}" id="upcoming_shift">
                             {{ next_shift.start_time|date:"l F d" }} {{ next_shift.start_time|time:"H:i" }}
                         </a>
                         (in {{ next_shift.start_time|timeuntil }})<br />

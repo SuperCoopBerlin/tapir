@@ -1,12 +1,15 @@
 from django.test import tag
 from django.urls import reverse
 
-from tapir.utils.tests_utils import TapirSeleniumTestBase, TapirUserTestBase
+from tapir.utils.management.commands.populate_functions import generate_shifts
+from tapir.utils.tests_utils import TapirUserTestBase
 
 
 class AccountsStandardUserDetailPage(TapirUserTestBase):
     @tag("selenium")
     def test_standard_user_detail_page(self):
+        generate_shifts()
+
         user = self.get_standard_user()
         self.login(user.get_username(), user.get_username())
         self.selenium.get(self.live_server_url + reverse("accounts:user_me"))
@@ -23,3 +26,6 @@ class AccountsStandardUserDetailPage(TapirUserTestBase):
         self.assertFalse(
             self.does_element_exist_by_class_name("unregister-repeated-shift-button")
         )
+
+        upcoming_shift = self.selenium.find_element_by_id("upcoming_shift")
+        self.assertRegex(upcoming_shift.text, "Tuesday.*09:00")
