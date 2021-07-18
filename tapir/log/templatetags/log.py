@@ -1,8 +1,6 @@
 from django import template
 from django.urls import reverse
 
-from tapir.coop.models import ShareOwner
-from tapir.log.forms import CreateTextLogEntryForm
 from tapir.log.models import LogEntry
 
 register = template.Library()

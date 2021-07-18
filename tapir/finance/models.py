@@ -1,7 +1,5 @@
-import enum
 from decimal import Decimal
 
-from django.conf import settings
 from django.db import models
 
 from tapir.accounts.models import TapirUser

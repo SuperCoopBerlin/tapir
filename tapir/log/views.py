@@ -1,9 +1,7 @@
 from django.contrib.auth.decorators import permission_required
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect
 from django.views.decorators.http import require_GET, require_POST
-from django.views.generic import FormView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner

@@ -1,5 +1,3 @@
-from itertools import chain
-
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import HStoreField
 from django.core.exceptions import ValidationError

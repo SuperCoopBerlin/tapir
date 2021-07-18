@@ -1,6 +1,5 @@
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
-from django.forms import DateTimeInput, SplitDateTimeWidget
 
 from tapir.shifts.models import Shift
 

@@ -1,7 +1,6 @@
 from builtins import enumerate
 
 from django import template
-from django.urls import reverse
 
 from tapir.shifts.models import (
     Shift,

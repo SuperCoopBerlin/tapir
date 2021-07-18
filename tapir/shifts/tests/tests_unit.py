@@ -1,5 +1,3 @@
-from django.db import DEFAULT_DB_ALIAS
-from django.test import TestCase
 from datetime import time, date
 
 from tapir.accounts.models import TapirUser

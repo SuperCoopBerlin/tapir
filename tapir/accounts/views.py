@@ -1,5 +1,3 @@
-import datetime
-
 import django.contrib.auth.views as auth_views
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
@@ -13,7 +11,6 @@ from django.views.decorators.http import require_POST
 
 from tapir.accounts.forms import TapirUserForm, PasswordResetForm
 from tapir.accounts.models import TapirUser
-from tapir.shifts.models import ShiftAttendance, ShiftAttendanceTemplate
 
 
 class UserDetailView(PermissionRequiredMixin, generic.DetailView):
