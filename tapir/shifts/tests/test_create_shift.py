@@ -42,10 +42,6 @@ class TestCreateShift(ShiftTestBase):
     def fill_shift_create_form(self):
         self.selenium.find_element_by_id("id_name").send_keys(ShiftTestBase.shift_name)
 
-        field_num_slots = self.selenium.find_element_by_id("id_num_slots")
-        field_num_slots.clear()
-        field_num_slots.send_keys(self.shift_num_slots)
-
         field_start_date = self.selenium.find_element_by_id("id_start_time")
         field_start_date.clear()
         # For some reason the field gets now as value after selenium clears it. Hacky fix is to send a bunch of backspace.
@@ -70,23 +66,25 @@ class TestCreateShift(ShiftTestBase):
             self.selenium.find_element_by_id("shift_time").text,
             formatted_time,
         )
-        self.assertEqual(
-            self.selenium.find_element_by_xpath(
-                "//*[@id='attendance_table']/tbody/tr[{0}]/td[1]/h5".format(
-                    self.shift_num_slots
-                )
-            ).text,
-            "#" + str(self.shift_num_slots),
-        )
 
-        self.assertEqual(
-            len(
-                self.selenium.find_elements_by_xpath(
-                    "//*[@id='attendance_table']/tbody/tr/td[1]/h5"
-                )
-            ),
-            self.shift_num_slots,
-        )
+        # TODO(Leon Handreke): Make the create shift form have a number of slots argument again.
+        # self.assertEqual(
+        #    self.selenium.find_element_by_xpath(
+        #        "//*[@id='attendance_table']/tbody/tr[{0}]/td[1]/h5".format(
+        #            self.shift_num_slots
+        #        )
+        #    ).text,
+        #    "#" + str(self.shift_num_slots),
+        # )
+
+        # self.assertEqual(
+        #    len(
+        #        self.selenium.find_elements_by_xpath(
+        #            "//*[@id='attendance_table']/tbody/tr/td[1]/h5"
+        #        )
+        #    ),
+        #    self.shift_num_slots,
+        # )
 
         ShiftTestBase.shift_id = self.selenium.current_url.split("/")[-2]
 

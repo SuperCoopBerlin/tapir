@@ -17,11 +17,11 @@
                     {% if user.shift_attendance_templates.count > 0 %}
                         {% comment %}Usually there will only be one {% endcomment %}
                         {% for shift_attendance_template in user.shift_attendance_templates.all %}
-                            <span class="repeated-shift">{{ shift_attendance_template.shift_template.get_display_name }}</span>
+                            <span class="repeated-shift">{{ shift_attendance_template.slot_template.get_display_name }}</span>
 
                             {% if perms.shifts.manage %}
                             <form class="form-inline" method="POST"
-                                  action="{% url "shifts:shifttemplate_unregister_user" shift_attendance_template.shift_template.pk user.pk %}?next={% url "accounts:user_detail" user.pk %}">
+                                  action="{% url "shifts:slottemplate_unregister_user" shift_attendance_template.slot_template.pk user.pk %}?next={% url "accounts:user_detail" user.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-secondary btn-sm unregister-repeated-shift-button">
                                     {% trans "Unregister" %}
@@ -45,17 +45,17 @@
         <div class="row m-1">
             <div class="col-4 font-weight-bold text-right">{% trans "Upcoming Shift" %}:</div>
             <div class="col-8">
-                {% with next_shift=user.shift_user_data.get_upcoming_shift_attendances.first.shift %}
-                    {% if next_shift %}
-                        <a href="{{ next_shift.get_absolute_url }}" id="upcoming_shift">
-                            {{ next_shift.start_time|date:"l F d" }} {{ next_shift.start_time|time:"H:i" }}
+                {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
+                    {% if next_slot %}
+                        <a href="{{ next_slot.get_absolute_url }}" id="upcoming_shift">
+                            {{ next_slot.shift.start_time|date:"l F d" }} {{ next_slot.shift.start_time|time:"H:i" }}
                         </a>
-                        (in {{ next_shift.start_time|timeuntil }})<br />
+                        (in {{ next_slot.shift.start_time|timeuntil }})<br />
                         <a data-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
                         <div class="collapse" id="upcoming-shifts">
                             {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
-                                <a href="{% url "shifts:shift_detail" shift_attendance.shift.pk %}">
-                                    {% shift_block shift_attendance.shift %}
+                                <a href="{% url "shifts:shift_detail" shift_attendance.slot.shift.pk %}">
+                                    {% shift_block shift_attendance.slot.shift %}
                                 </a>
                             {% endfor %}
                         </div>

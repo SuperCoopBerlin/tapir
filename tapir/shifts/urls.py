@@ -19,9 +19,9 @@ urlpatterns = [
         name="shift_create",
     ),
     path(
-        "shift/<int:pk>/register",
-        views.register_user_to_shift,
-        name="shift_register_user",
+        "shiftslot/<int:pk>/register/<int:user_pk>",
+        views.shiftslot_register_user,
+        name="shiftslot_register_user",
     ),
     path(
         "shift/<int:pk>/edit",
@@ -54,9 +54,9 @@ urlpatterns = [
         name="shifttemplate_register_user",
     ),
     path(
-        "shifttemplate/<int:pk>/unregister/<int:user_pk>",
-        views.shifttemplate_unregister_user,
-        name="shifttemplate_unregister_user",
+        "shiftslottemplate/<int:pk>/unregister/<int:user_pk>",
+        views.slottemplate_unregister_user,
+        name="slottemplate_unregister_user",
     ),
     path(
         "timetable",

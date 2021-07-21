@@ -7,9 +7,9 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import TemplateView, DetailView, CreateView, UpdateView
+from werkzeug.exceptions import BadRequest
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner
 from tapir.shifts.forms import ShiftCreateForm
 from tapir.shifts.models import (
     Shift,
@@ -18,6 +18,7 @@ from tapir.shifts.models import (
     WEEKDAY_CHOICES,
     ShiftTemplateGroup,
     ShiftAttendanceTemplate,
+    ShiftSlot,
 )
 
 
@@ -51,9 +52,11 @@ class UpcomingDaysView(LoginRequiredMixin, TemplateView):
             width -= 0.01  # To make shifts not align completely
 
             # TODO(Leon Handreke): The name for this var sucks but can't find a better one
+            num_required_slots = shift.slots.filter(optional=False).count()
             perc_slots_occupied = shift.get_valid_attendances().count() / float(
-                shift.num_slots
+                num_required_slots
             )
+
             shifts_by_days[shift.start_time.date()].append(
                 {
                     "title": shift.name,
@@ -66,8 +69,8 @@ class UpcomingDaysView(LoginRequiredMixin, TemplateView):
                     else ("#a5d6a7" if perc_slots_occupied >= 1 else "#ffe082"),
                     # Have a list of none cause it's easier to loop over in Django templates
                     "free_slots": [None]
-                    * (shift.num_slots - shift.get_valid_attendances().count()),
-                    "attendances": shift.get_valid_attendances().all(),
+                    * (num_required_slots - shift.get_valid_attendances().count()),
+                    "attendances": shift.get_attendances().with_valid_state(),
                 }
             )
 
@@ -88,40 +91,28 @@ class ShiftDetailView(PermissionRequiredMixin, DetailView):
     template_name = "shifts/shift_detail.html"
     context_object_name = "shift"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        shift: Shift = context["shift"]
-        attendances = list(shift.attendances.all())
-        while len(attendances) < shift.num_slots:
-            attendances.append(None)
-        context["attendances"] = attendances
-
-        context["can_join"] = user_can_join_shift(self.request.user, shift)
-
-        return context
-
 
 @require_POST
 @csrf_protect
 @permission_required("shifts.manage")
 def mark_shift_attendance_done(request, pk):
-    shift_attendance = ShiftAttendance.objects.get(pk=pk)
+    shift_attendance = get_object_or_404(ShiftAttendance, pk=pk)
     shift_attendance.mark_done()
 
-    return redirect(shift_attendance.shift)
+    return redirect(shift_attendance.slot.shift)
 
 
 @require_POST
 @csrf_protect
 @permission_required("shifts.manage")
 def mark_shift_attendance_missed(request, pk):
-    shift_attendance = ShiftAttendance.objects.get(pk=pk)
+    shift_attendance = get_object_or_404(ShiftAttendance, pk=pk)
     shift_attendance.mark_missed()
 
-    return redirect(shift_attendance.shift)
+    return redirect(shift_attendance.slot.shift)
 
 
+# TODO(Leon Handreke): Kill this function and make it a page instead that allows to register for different slots
 @require_POST
 @csrf_protect
 @permission_required("shifts.manage")
@@ -129,20 +120,41 @@ def shifttemplate_register_user(request, pk, user_pk):
     shift_template = get_object_or_404(ShiftTemplate, pk=pk)
     user = get_object_or_404(TapirUser, pk=user_pk)
 
-    ShiftAttendanceTemplate.objects.create(user=user, shift_template=shift_template)
+    slot_template = shift_template.slot_templates.filter(
+        required_capabilities=[], attendance_template__isnull=True
+    ).first()
+    if not slot_template:
+        return BadRequest("No free slots in this shift template")
+
+    ShiftAttendanceTemplate.objects.create(user=user, slot_template=slot_template)
     return redirect(request.GET.get("next", user))
 
 
 @require_POST
 @csrf_protect
 @permission_required("shifts.manage")
-def shifttemplate_unregister_user(request, pk, user_pk):
+def slottemplate_unregister_user(request, pk, user_pk):
     user = get_object_or_404(TapirUser, pk=user_pk)
     shift_attendance_template = get_object_or_404(
-        ShiftAttendanceTemplate, user__pk=user_pk, shift_template__pk=pk
+        ShiftAttendanceTemplate, user__pk=user_pk, slot_template__pk=pk
     )
     shift_attendance_template.delete()
     return redirect(request.GET.get("next", user))
+
+
+@require_POST
+@csrf_protect
+@permission_required("shifts.manage")
+def shiftslot_register_user(request, pk, user_pk):
+    slot = get_object_or_404(ShiftSlot, pk=pk)
+    selected_user = get_object_or_404(TapirUser, pk=user_pk)
+    if not slot.user_can_attend(selected_user):
+        raise BadRequest(
+            "User ({0}) can't join shift ({1})".format(selected_user.pk, slot.pk)
+        )
+
+    ShiftAttendance.objects.create(slot=slot, user=selected_user)
+    return redirect(request.GET.get("next", slot.shift))
 
 
 class ShiftTemplateOverview(LoginRequiredMixin, TemplateView):
@@ -210,25 +222,6 @@ class EditShiftView(PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["card_title"] = "Editing a shift"
         return context
-
-
-@permission_required("shifts.manage")
-def register_user_to_shift(request, pk):
-    shift = Shift.objects.get(pk=pk)
-    user: TapirUser = request.user
-    if not user_can_join_shift(user, shift):
-        raise Exception("User ({0}) can't join shift ({1})".format(user.id, shift.id))
-    ShiftAttendance.objects.create(shift=shift, user=user)
-
-    return redirect(shift)
-
-
-def user_can_join_shift(user: TapirUser, shift: Shift) -> bool:
-    can_join = len(shift.attendances.filter(user=user)) == 0
-    share_owner = ShareOwner.objects.filter(user=user)
-    if len(share_owner) > 0:
-        can_join = can_join and not ShareOwner.objects.get(user=user).is_investing
-    return can_join
 
 
 class UpcomingShiftsAsTimetable(LoginRequiredMixin, TemplateView):
