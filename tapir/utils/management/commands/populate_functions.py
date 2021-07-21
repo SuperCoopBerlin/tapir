@@ -18,6 +18,9 @@ from tapir.shifts.models import (
     WEEKDAY_CHOICES,
     ShiftAccountEntry,
     ShiftUserData,
+    ShiftSlotTemplate,
+    ShiftSlot,
+    ShiftUserCapability,
 )
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
@@ -41,33 +44,37 @@ def populate_shifts():
             date, datetime.time(hour=16, tzinfo=datetime.timezone.utc)
         )
 
-        Shift.objects.get_or_create(
+        shift = Shift.objects.get_or_create(
             name="Cashier morning",
             start_time=morning,
             end_time=noon,
-            num_slots=4,
         )
+        for _ in range(3):
+            ShiftSlot.objects.create(shift=shift, optional=False)
 
-        Shift.objects.get_or_create(
+        shift = Shift.objects.get_or_create(
             name="Cashier afternoon",
             start_time=noon,
             end_time=evening,
-            num_slots=4,
         )
+        for _ in range(3):
+            ShiftSlot.objects.create(shift=shift, optional=False)
 
-        Shift.objects.get_or_create(
+        shift = Shift.objects.get_or_create(
             name="Storage morning",
             start_time=morning,
             end_time=noon,
-            num_slots=3,
         )
+        for _ in range(3):
+            ShiftSlot.objects.create(shift=shift, optional=False)
 
-        Shift.objects.get_or_create(
+        shift = Shift.objects.get_or_create(
             name="Storage afternoon",
             start_time=noon,
             end_time=evening,
-            num_slots=3,
         )
+        for _ in range(3):
+            ShiftSlot.objects.create(shift=shift, optional=False)
 
     print("Populated shift templates for today")
 
@@ -170,20 +177,22 @@ def populate_users():
             start_date=datetime.date.today(),
         )
 
-        if ShiftAttendanceTemplate.objects.filter(user=tapir_user).count() > 0:
-            continue
-        for _ in range(10):
-            template: ShiftTemplate = random.choice(ShiftTemplate.objects.all())
-            attendances = ShiftAttendanceTemplate.objects.filter(
-                shift_template=template
-            )
-            if attendances.count() == template.num_slots:
-                continue
-            ShiftAttendanceTemplate.objects.create(
-                user=tapir_user, shift_template=template
-            )
-            template.update_future_shift_attendances()
-            break
+        if not ShiftAttendanceTemplate.objects.filter(user=tapir_user).exists():
+            for _ in range(10):
+                template: ShiftTemplate = random.choice(ShiftTemplate.objects.all())
+                free_slots = template.slot_templates.filter(
+                    attendance_template__isnull=True
+                )
+                if free_slots.exists():
+                    for free_slot in free_slots:
+                        # Attend the first one fit for this user.
+                        if free_slot.user_can_attend(tapir_user):
+                            ShiftAttendanceTemplate.objects.create(
+                                user=tapir_user, slot_template=free_slot
+                            )
+                            break
+                template.update_future_shift_attendances()
+                break
     print("Created fake uses")
 
 
@@ -203,13 +212,26 @@ def populate_shift_templates():
                     end_time = datetime.time(
                         hour=start_hour + 3, tzinfo=timezone.localtime().tzinfo
                     )
-                    ShiftTemplate.objects.get_or_create(
+                    shift_template = ShiftTemplate.objects.create(
                         name=name,
                         group=template_group,
                         weekday=weekday[0],
                         start_time=start_time,
                         end_time=end_time,
-                        num_slots=4,
+                    )
+
+                    ShiftSlotTemplate.objects.create(
+                        name="Shift Coordinator",
+                        shift_template=shift_template,
+                        required_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
+                        optional=False,
+                    )
+                    for _ in range(3):
+                        ShiftSlotTemplate.objects.create(
+                            shift_template=shift_template, optional=False
+                        )
+                    ShiftSlotTemplate.objects.create(
+                        shift_template=shift_template, optional=True
                     )
 
     for weekday in [WEEKDAY_CHOICES[2], WEEKDAY_CHOICES[5]]:
@@ -217,42 +239,51 @@ def populate_shift_templates():
             start_time = datetime.time(hour=18, tzinfo=timezone.localtime().tzinfo)
             end_time = datetime.time(hour=18 + 3, tzinfo=timezone.localtime().tzinfo)
             name = "Store cleaning"
-            ShiftTemplate.objects.get_or_create(
+            shift_template = ShiftTemplate.objects.create(
                 name=name,
                 group=template_group,
                 weekday=weekday[0],
                 start_time=start_time,
                 end_time=end_time,
-                num_slots=3,
             )
+            for _ in range(3):
+                ShiftSlotTemplate.objects.create(
+                    shift_template=shift_template, optional=False
+                )
 
     for group_name in ["A", "C"]:
         start_time = datetime.time(hour=9, tzinfo=timezone.localtime().tzinfo)
         end_time = datetime.time(hour=9 + 3, tzinfo=timezone.localtime().tzinfo)
         name = "Inventory"
         template_group = ShiftTemplateGroup.objects.get(name="Week " + group_name)
-        ShiftTemplate.objects.get_or_create(
+        shift_template = ShiftTemplate.objects.create(
             name=name,
             group=template_group,
             weekday=WEEKDAY_CHOICES[6][0],
             start_time=start_time,
             end_time=end_time,
-            num_slots=3,
         )
+        for _ in range(3):
+            ShiftSlotTemplate.objects.create(
+                shift_template=shift_template, optional=False
+            )
 
     for group_name in ["B", "D"]:
         start_time = datetime.time(hour=9, tzinfo=timezone.localtime().tzinfo)
         end_time = datetime.time(hour=9 + 3, tzinfo=timezone.localtime().tzinfo)
         name = "Storage cleaning"
         template_group = ShiftTemplateGroup.objects.get(name="Week " + group_name)
-        ShiftTemplate.objects.get_or_create(
+        shift_template = ShiftTemplate.objects.create(
             name=name,
             group=template_group,
             weekday=WEEKDAY_CHOICES[6][0],
             start_time=start_time,
             end_time=end_time,
-            num_slots=3,
         )
+        for _ in range(3):
+            ShiftSlotTemplate.objects.create(
+                shift_template=shift_template, optional=False
+            )
 
     print("Populated shift templates")
 

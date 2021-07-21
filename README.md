@@ -55,6 +55,13 @@ Then, run the tests.
 
     docker-compose run web poetry run pytest
 
+To regenerate the test data fixtures:
+
+    docker-compose up --force-recreate
+    docker compose exec web poetry run python manage.py migrate
+    docker compose exec web poetry run python manage.py populate --reset_all
+    docker-compose exec web poetry run python manage.py dumpdata accounts.TapirUser shifts.ShiftTemplateGroup shifts.ShiftTemplate shifts.ShiftSlotTemplate shifts.ShiftAttendanceTemplate coop.ShareOwner coop.ShareOwnership > tapir/utils/fixtures/test_data.json
+
 #### Selenium Tests
 You can connect to the selenium container via VNC for debugging purpose.
  

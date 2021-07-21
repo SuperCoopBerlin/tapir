@@ -5,7 +5,7 @@
         <div class="shift-date">{% if shift.start_date is not None %}{{ shift.start_date|date:"D d/m/y" }}{%  else %}{{ shift.weekday }}{% endif %}</div>
         <div style="display: flex">
             {% for state in shift.attendances %}
-                {% if state == "template" %}
+                {% if state == "regular" %}
                     <div class="material-icons" style="font-size: 12px;">offline_pin</div>
                 {% elif state == "single" %}
                     <div class="material-icons" style="font-size: 12px;">check_circle</div>
@@ -14,7 +14,7 @@
                 {% endif %}
             {% endfor %}
         </div>
-    {% if shift.template_group != None %}
+    {% if shift.template_group %}
         <div class="shift-group">{{ shift.template_group }}</div>
     {% endif %}
     </div>

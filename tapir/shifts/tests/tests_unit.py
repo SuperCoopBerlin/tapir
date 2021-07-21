@@ -1,10 +1,11 @@
-from datetime import time, date
+from datetime import time, date, datetime
 
 from tapir.accounts.models import TapirUser
 from tapir.shifts.models import (
     ShiftTemplate,
     ShiftAttendanceTemplate,
     ShiftAttendance,
+    ShiftSlotTemplate,
 )
 from tapir.utils.tests_utils import LdapEnabledTestCase
 
@@ -18,15 +19,20 @@ class ShiftsTestCase(LdapEnabledTestCase):
             username="nicolas.vicente", email="nicolas.vicente@supercoop.de"
         )
 
-        st = ShiftTemplate.objects.create(
+        shift_template = ShiftTemplate.objects.create(
             start_time=time(15, 00), end_time=time(18, 00)
         )
-        s = st.create_shift(start_date=date(2021, 3, 24))
-        self.assertQuerysetEqual(s.attendances.all(), [])
+        slot_template = ShiftSlotTemplate.objects.create(shift_template=shift_template)
 
-        ShiftAttendance.objects.create(shift=s, user=user2)
-        ShiftAttendanceTemplate.objects.create(shift_template=st, user=user1)
+        # Create a shift instance
+        shift = shift_template.create_shift(start_date=date(2021, 3, 24))
+        self.assertQuerysetEqual(shift.get_attendances().all(), [])
 
-        # We expect user2 to be removed and user1 to be added
-        s.update_attendances_from_shift_template()
-        self.assertEqual(s.attendances.all()[0].user, user1)
+        # Create an attendance for the shift template
+        ShiftAttendanceTemplate.objects.create(slot_template=slot_template, user=user1)
+        shift_template.update_future_shift_attendances(
+            now=datetime(2021, 3, 24, 0, 0, 0)
+        )
+
+        # Verify that the already-created shift instance was updated
+        self.assertEqual(shift.get_attendances().all()[0].user, user1)

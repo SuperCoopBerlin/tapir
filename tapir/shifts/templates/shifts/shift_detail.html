@@ -1,6 +1,7 @@
 {% extends "shifts/base.html" %}
 
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% block content %}
     <div class="card m-2" id="shift_detail_card">
@@ -22,42 +23,47 @@
             </h5>
             <table class="table" id="attendance_table">
                 <tbody>
-                    {% for attendance in attendances %}
+                    {% for slot in shift.slots.all %}
                         <tr>
                             <td><h5>#{{ forloop.counter }}</h5></td>
-                            {% if attendance is not None %}
-                                <td><a href="{{ user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a></td>
-                                <td>{{ attendance.get_state_display }}</td>
-                                {% if perms.shifts.manage %}
+                            {% with slot.get_valid_attendance as attendance %}
+                                {% if attendance %}
+                                    <td><a href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a></td>
+                                    <td>{{ slot.get_valid_attendance.get_state_display }}</td>
+                                    {% if perms.shifts.manage %}
+                                        <td>
+                                            {% if attendance.state == attendance.State.PENDING %}
+                                                <form style="display: inline;"
+                                                      method="post"
+                                                      action="{% url "shifts:mark_shiftattendance_done" attendance.pk %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-success">{% trans "Attended" %}</button>
+                                                </form>
+                                                <form style="display: inline;"
+                                                      method="post"
+                                                      action="{% url "shifts:mark_shiftattendance_missed" attendance.pk %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger">{% trans "Missed" %}</button>
+                                                </form>
+                                                <button type="button" class="btn btn-warning">{% trans "Excuse" %}</button>
+                                            {% elif attendance.state == attendance.State.EXCUSE %}
+                                                {{ attendance.excuse }}
+                                            {% endif %}
+                                        <td>
+                                    {% endif %}
+                                {% else %}
+                                    <td>{% trans "Vacant" %}</td>
                                     <td>
-                                        {% if attendance.state == attendance.State.PENDING %}
-                                            <form style="display: inline;"
-                                                  method="post"
-                                                  action="{% url "shifts:mark_shiftattendance_done" attendance.pk %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-success">Attended</button>
-                                            </form>
-                                            <form style="display: inline;"
-                                                  method="post"
-                                                  action="{% url "shifts:mark_shiftattendance_missed" attendance.pk %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-danger">Missed</button>
-                                            </form>
-                                            <button type="button" class="btn btn-warning">Excuse</button>
-                                        {% elif attendance.stat == attendance.State.EXCUSE %}
-                                            {{ attendance.excuse }}
-                                        {% endif %}
-                                    <td>
+                                        <form style="display: inline;"
+                                              method="post"
+                                              action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-success">{% trans "Register to shift" %}</button>
+                                        </form>
+                                    </td>
+                                    <td></td><td></td><td></td>
                                 {% endif %}
-                            {% else %}
-                                <td>Empty</td>
-                                <td>
-                                    {% if can_join %}
-                                        <a href="{% url "shifts:shift_register_user" shift.pk%}"><button type="button" class="btn btn-primary">Register to the shift</button></a>
-                                    {%  endif %}
-                                </td>
-                                <td></td><td></td><td></td>
-                            {% endif %}
+                            {% endwith %}
                         </tr>
                     {% endfor %}
                 </tbody>

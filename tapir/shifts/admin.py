@@ -8,6 +8,8 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftUserData,
     ShiftUserCapability,
+    ShiftSlot,
+    ShiftSlotTemplate,
 )
 
 admin.site.register(ShiftUserData)
@@ -24,8 +26,8 @@ class ShiftTemplateGroupAdmin(admin.ModelAdmin):
     inlines = [ShiftTemplateInline]
 
 
-class ShiftAttendanceTemplateInline(admin.TabularInline):
-    model = ShiftAttendanceTemplate
+class ShiftSlotTemplateInline(admin.TabularInline):
+    model = ShiftSlotTemplate
     extra = 1
 
 
@@ -36,7 +38,29 @@ class ShiftInline(admin.TabularInline):
 
 @admin.register(ShiftTemplate)
 class ShiftTemplateAdmin(admin.ModelAdmin):
-    inlines = [ShiftAttendanceTemplateInline, ShiftInline]
+    inlines = [ShiftSlotTemplateInline, ShiftInline]
+
+
+class ShiftAttendanceTemplateInline(admin.TabularInline):
+    model = ShiftAttendanceTemplate
+    extra = 1
+
+
+@admin.register(ShiftSlotTemplate)
+class ShiftSlotTemplateAdmin(admin.ModelAdmin):
+    inlines = [ShiftAttendanceTemplateInline]
+
+
+class ShiftSlotInline(admin.TabularInline):
+    model = ShiftSlot
+    extra = 1
+
+
+@admin.register(Shift)
+class ShiftAdmin(admin.ModelAdmin):
+    inlines = [ShiftSlotInline]
+    list_display = ["name", "start_time", "end_time"]
+    search_fields = ["name", "start_time", "end_time"]
 
 
 class ShiftAttendanceInline(admin.TabularInline):
@@ -44,8 +68,8 @@ class ShiftAttendanceInline(admin.TabularInline):
     extra = 1
 
 
-@admin.register(Shift)
-class ShiftAdmin(admin.ModelAdmin):
+@admin.register(ShiftSlot)
+class ShiftSlotAdmin(admin.ModelAdmin):
     inlines = [ShiftAttendanceInline]
-    list_display = ["name", "start_time", "end_time", "num_slots"]
-    search_fields = ["name", "start_time", "end_time"]
+    list_display = ["name", "optional"]
+    search_fields = ["name"]
