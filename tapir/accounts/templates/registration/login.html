@@ -2,6 +2,7 @@
 
 {% load bootstrap4 %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
     {{ block.super }}
@@ -9,23 +10,24 @@
 {% endblock %}
 
 {% block content %}
-    <div class="supercoop-authentification">
-        <div class="card m-2 supercoop-login" id="login-card">
+    <div class="d-flex justify-content-center supercoop-authentification">
+        <div class="card supercoop-login" style="margin-top: 8rem;" id="login-card">
             <h5 class="card-header d-flex justify-content-between align-items-center">
-                Existing User
+                {% trans "Sign in" %}
             </h5>
             <div class="card-body">
                 <form role="form" method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <p>
-                        <a href="/accounts/password_reset">Problems with logging in?</a>
+                        <a href="{% url "password_reset" %}">{% trans "Forgot your password?" %}</a>
                     </p>
-                    <button type="submit" class="btn btn-primary btn-block">Access Shiftmanagement</button>
+                    <button type="submit" class="btn btn-primary btn-block">{% trans "Sign in" %}</button>
                 </form>
             </div>
         </div>
 
+        {% comment %}
         <div class="card m-2 supercoop-register">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 New User
@@ -38,5 +40,6 @@
                 </a></p>
             </div>
         </div>
+        {% endcomment %}
     </div>
 {% endblock %}
