@@ -1,7 +1,7 @@
 [
   {
     "model": "accounts.tapiruser",
-    "pk": 1,
+    "pk": 1000,
     "fields": {
       "password": "!MaAS6mbBl1AtqVYmB0J0835NTpZLyb23JUGV2dAR",
       "last_login": "2021-03-23T12:40:54.480Z",
