@@ -265,11 +265,11 @@ def generate_shifts(print_progress=False):
         start_day = start_day + datetime.timedelta(days=1)
 
     groups = ShiftTemplateGroup.objects.all()
-    for week in range(4):
+    for week in range(8):
         monday = start_day + datetime.timedelta(days=7 * week)
         if print_progress:
             print("Doing week from " + str(monday) + " " + str(week + 1) + "/8")
-        groups[week].create_shifts(monday)
+        groups[week % 4].create_shifts(monday)
     if print_progress:
         print("Generated shifts")
 
