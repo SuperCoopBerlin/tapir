@@ -30,4 +30,4 @@ class AccountsStandardUserDetailPage(TapirUserTestBase):
         )
 
         upcoming_shift = self.selenium.find_element_by_id("upcoming_shift")
-        self.assertRegex(upcoming_shift.text, "Tuesday.*09:00")
+        self.assertRegex(upcoming_shift.text, "Wednesday.*15:00")
