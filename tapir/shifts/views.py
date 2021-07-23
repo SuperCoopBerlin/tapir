@@ -19,6 +19,7 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftAttendanceTemplate,
     ShiftSlot,
+    ShiftAttendanceMode,
 )
 
 
@@ -260,3 +261,25 @@ class UpcomingShiftsAsTimetable(LoginRequiredMixin, TemplateView):
 
         context_data["shifts_by_days"] = shifts_by_days
         return context_data
+
+
+@require_POST
+@csrf_protect
+@permission_required("shifts.manage")
+def set_user_attendance_mode_flying(self, user_pk):
+    u = get_object_or_404(TapirUser, pk=user_pk)
+    u.shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
+    u.shift_user_data.save()
+
+    return redirect(u)
+
+
+@require_POST
+@csrf_protect
+@permission_required("shifts.manage")
+def set_user_attendance_mode_regular(self, user_pk):
+    u = get_object_or_404(TapirUser, pk=user_pk)
+    u.shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
+    u.shift_user_data.save()
+
+    return redirect(u)

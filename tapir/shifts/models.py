@@ -433,6 +433,11 @@ class ShiftAttendance(models.Model):
         self.save()
 
 
+class ShiftAttendanceMode:
+    REGULAR = "regular"
+    FLYING = "flying"
+
+
 class ShiftUserData(models.Model):
     user = models.OneToOneField(
         TapirUser, null=False, on_delete=models.PROTECT, related_name="shift_user_data"
@@ -445,13 +450,15 @@ class ShiftUserData(models.Model):
         default=list,
     )
 
-    SHIFT_ATTENDANCE_MODES = [
-        ("regular", _("Regular")),
-        ("flying", _("Flying")),
+    SHIFT_ATTENDANCE_MODE_CHOICES = [
+        (ShiftAttendanceMode.REGULAR, _("🏠 Regular")),
+        (ShiftAttendanceMode.FLYING, _("✈️ Flying")),
     ]
-
     attendance_mode = models.CharField(
-        max_length=32, choices=SHIFT_ATTENDANCE_MODES, default="regular", blank=False
+        max_length=32,
+        choices=SHIFT_ATTENDANCE_MODE_CHOICES,
+        default="regular",
+        blank=False,
     )
 
     def get_capabilities_display(self):
