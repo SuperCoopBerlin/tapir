@@ -10,7 +10,19 @@
         <div class="row m-1">
             {% if user.shift_user_data.attendance_mode == 'flying' %}
                 <div class="col-4 font-weight-bold text-right">{% trans "Status" %}:</div>
-                <div class="col-8">{{ user.shift_user_data.get_attendance_mode_display }}</div>
+                <div class="col-8">
+                    {{ user.shift_user_data.get_attendance_mode_display }}
+
+                    <form style="display: inline;" method="POST"
+                          action="{% url "shifts:set_user_attendance_mode_regular" user.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-secondary btn-sm">
+                            {% trans "Set Regular 🏠️" %}
+                        </button>
+                    </form>
+                </div>
+
+
             {% else %}
                 <div class="col-4 font-weight-bold text-right">{% trans "Regular Shift" %}:</div>
                 <div class="col-8">
@@ -37,6 +49,14 @@
                         <a class="btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview_register" user.pk %}">
                             {% trans "Find a shift" %}
                         </a>
+
+                        <form style="display: inline;" method="POST"
+                              action="{% url "shifts:set_user_attendance_mode_flying" user.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary btn-sm">
+                                {% trans "Set Flying ✈️" %}
+                            </button>
+                        </form>
                     {% endif %}
                 </div>
             {% endif %}

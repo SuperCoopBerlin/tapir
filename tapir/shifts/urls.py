@@ -10,6 +10,16 @@ urlpatterns = [
         generic.RedirectView.as_view(pattern_name="shifts:shift_upcoming"),
         name="index",
     ),
+    path(
+        "user/<int:user_pk>/set_user_attendance_mode_flying",
+        views.set_user_attendance_mode_flying,
+        name="set_user_attendance_mode_flying",
+    ),
+    path(
+        "user/<int:user_pk>/set_user_attendance_mode_regular",
+        views.set_user_attendance_mode_regular,
+        name="set_user_attendance_mode_regular",
+    ),
     path("upcoming/", views.UpcomingDaysView.as_view(), name="shift_upcoming"),
     # TODO(Leon Handreke): Can we somehow introduce a sub-namespace here?
     path("shift/<int:pk>/", views.ShiftDetailView.as_view(), name="shift_detail"),
