@@ -45,13 +45,15 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
             shift.shift_template.group.name
         )
 
+    num_required_slots = shift.get_required_slots().count()
+    perc_slots_occupied = shift.get_valid_attendances().count() / float(
+        num_required_slots
+    )
+
     background = "success"
-    if shift.get_attendances().with_valid_state().count() == 0:
+    if perc_slots_occupied < 0.5:
         background = "danger"
-    elif (
-        shift.get_attendances().with_valid_state().count()
-        < shift.get_required_slots().count()
-    ):
+    elif perc_slots_occupied < 1.0:
         background = "warning"
 
     style = ""
@@ -80,13 +82,15 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
     for index in range(attendance_templates.count()):
         attendances[index] = "regular"
 
+    num_required_slots = shift_template.slot_templates.filter(optional=False).count()
+    perc_slots_occupied = shift_template.get_attendance_templates().count() / float(
+        num_required_slots
+    )
+
     background = "success"
-    if attendance_templates.count() == 0:
+    if perc_slots_occupied < 0.5:
         background = "danger"
-    elif (
-        attendance_templates.count()
-        < shift_template.slot_templates.filter(optional=False).count()
-    ):
+    elif perc_slots_occupied < 1.0:
         background = "warning"
 
     style = ""
