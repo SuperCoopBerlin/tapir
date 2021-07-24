@@ -63,7 +63,7 @@ To regenerate the test data fixtures:
     docker-compose exec web poetry run python manage.py dumpdata accounts.TapirUser shifts.ShiftTemplateGroup shifts.ShiftTemplate shifts.ShiftSlotTemplate shifts.ShiftAttendanceTemplate coop.ShareOwner coop.ShareOwnership > tapir/utils/fixtures/test_data.json
 
 #### Selenium Tests
-You can connect to the selenium container via VNC for debugging purpose.
+You can connect to the selenium container via VNC for debugging purpose. The address is localhost:5900, password : secret
  
 ### Vocabulary
 A few definitions to help newcomers understand the model classes. 
