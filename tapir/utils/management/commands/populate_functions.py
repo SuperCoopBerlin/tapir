@@ -323,6 +323,7 @@ def clear_data():
 
 
 def reset_all_test_data():
+    random.seed("supercoop")
     clear_data()
     populate_template_groups()
     populate_shift_templates()
