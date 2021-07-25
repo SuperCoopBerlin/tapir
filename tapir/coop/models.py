@@ -142,8 +142,6 @@ class ShareOwner(models.Model):
         return ShareOwnership.objects.active_temporal().filter(owner=self).count()
 
     def get_member_status(self):
-        status = "Sold"
-
         oldest_active = self.get_oldest_active_share_ownership()
         if oldest_active is None or not oldest_active.is_active:
             return self.MEMBER_STATUS_SOLD
