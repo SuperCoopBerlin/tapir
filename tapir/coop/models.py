@@ -26,6 +26,10 @@ class ShareOwner(models.Model):
     represent a person or company that does not have their own account.
     """
 
+    MEMBER_STATUS_SOLD = "Sold"
+    MEMBER_STATUS_ACTIVE = "Active"
+    MEMBER_STATUS_INVESTING = "Investing"
+
     # Only for owners that have a user account
     user = models.OneToOneField(
         TapirUser,
@@ -136,6 +140,18 @@ class ShareOwner(models.Model):
 
     def num_shares(self) -> int:
         return ShareOwnership.objects.active_temporal().filter(owner=self).count()
+
+    def get_member_status(self):
+        status = "Sold"
+
+        oldest_active = self.get_oldest_active_share_ownership()
+        if oldest_active is None or not oldest_active.is_active:
+            return self.MEMBER_STATUS_SOLD
+
+        if self.is_investing:
+            return self.MEMBER_STATUS_INVESTING
+
+        return self.MEMBER_STATUS_ACTIVE
 
 
 class UpdateShareOwnerLogEntry(UpdateModelLogEntry):
