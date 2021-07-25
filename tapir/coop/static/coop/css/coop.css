@@ -1,0 +1,14 @@
+.member-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 10px;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+.member-filter-form-buttons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
