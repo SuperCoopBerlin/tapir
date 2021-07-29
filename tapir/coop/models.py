@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
 from django.db import models
+from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -25,10 +26,6 @@ class ShareOwner(models.Model):
     Usually, this is just a proxy for the associated user. However, it may also be used to
     represent a person or company that does not have their own account.
     """
-
-    MEMBER_STATUS_SOLD = "Sold"
-    MEMBER_STATUS_ACTIVE = "Active"
-    MEMBER_STATUS_INVESTING = "Investing"
 
     # Only for owners that have a user account
     user = models.OneToOneField(
@@ -78,6 +75,35 @@ class ShareOwner(models.Model):
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
     )
+
+    class ShareOwnerQuerySet(models.QuerySet):
+        def name_search(self, search_string: str):
+            searches = [s for s in search_string.split(" ") if s != ""]
+
+            combined_filters = Q(last_name__icontains="")
+            for search in searches:
+                word_filter = (
+                    Q(last_name__unaccent__icontains=search)
+                    | Q(first_name__unaccent__icontains=search)
+                    | Q(user__first_name__unaccent__icontains=search)
+                    | Q(user__last_name__unaccent__icontains=search)
+                )
+                combined_filters = combined_filters & word_filter
+
+            return self.filter(combined_filters)
+
+        def status_filter(self, status: str):
+            active_ownerships = ShareOwnership.objects.active_temporal()
+
+            if status == MemberStatus.SOLD:
+                return self.exclude(share_ownerships__in=active_ownerships)
+            else:
+                return self.filter(
+                    share_ownerships__in=active_ownerships,
+                    is_investing=(status == MemberStatus.INVESTING),
+                )
+
+    objects = ShareOwnerQuerySet.as_manager()
 
     def blank_info_fields(self):
         """Used after a ShareOwner is linked to a user, which is used as the source for user info instead."""
@@ -144,12 +170,25 @@ class ShareOwner(models.Model):
     def get_member_status(self):
         oldest_active = self.get_oldest_active_share_ownership()
         if oldest_active is None or not oldest_active.is_active:
-            return self.MEMBER_STATUS_SOLD
+            return MemberStatus.SOLD
 
         if self.is_investing:
-            return self.MEMBER_STATUS_INVESTING
+            return MemberStatus.INVESTING
 
-        return self.MEMBER_STATUS_ACTIVE
+        return MemberStatus.ACTIVE
+
+
+class MemberStatus:
+    SOLD = "sold"
+    INVESTING = "investing"
+    ACTIVE = "active"
+
+
+MEMBER_STATUS_CHOICES = (
+    (MemberStatus.SOLD, _("Sold")),
+    (MemberStatus.INVESTING, _("Investing")),
+    (MemberStatus.ACTIVE, _("Active")),
+)
 
 
 class UpdateShareOwnerLogEntry(UpdateModelLogEntry):

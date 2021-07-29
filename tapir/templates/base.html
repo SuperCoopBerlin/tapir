@@ -37,7 +37,7 @@
         </ul>
     </div>
 
-    <form class="form-inline" method="get" action="{% url "coop:active_shareowner_list" %}">
+    <form class="form-inline" method="get" action="{% url "coop:shareowner_list" %}">
         <span class="mr-5">
         <input name="search" type="text" placeholder="{% trans "Search Members" %}" class="form-control">
         </span>
@@ -60,13 +60,8 @@
                         <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% translate "Cooperative" %}</h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url "coop:active_shareowner_list" %}">
+                                <a class="nav-link" href="{% url "coop:shareowner_list" %}">
                                     {% trans "Members" %}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url "coop:new_shareowner_list" %}">
-                                    {% trans "Member list with filters" %}
                                 </a>
                             </li>
                             <li class="nav-item">

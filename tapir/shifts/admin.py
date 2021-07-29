@@ -7,7 +7,6 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendance,
     ShiftUserData,
-    ShiftUserCapability,
     ShiftSlot,
     ShiftSlotTemplate,
 )
