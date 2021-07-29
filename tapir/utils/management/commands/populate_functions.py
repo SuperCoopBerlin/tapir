@@ -170,6 +170,9 @@ def populate_users():
             user=tapir_user,
         )
         share_owner.blank_info_fields()
+        share_owner.is_investing = tapir_user.pk % 7 == 0
+        share_owner.from_startnext = tapir_user.pk % 5 == 0
+        share_owner.ratenzahlung = tapir_user.pk % 10 == 0
         share_owner.save()
 
         ShareOwnership.objects.create(
