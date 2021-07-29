@@ -98,12 +98,22 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         self.wait_until_element_present_by_id("tapir_user_detail_card")
 
     def go_to_detail_page(self, user: JsonUser):
-        self.selenium.get(self.live_server_url + reverse("coop:active_shareowner_list"))
+        self.selenium.get(self.live_server_url + reverse("coop:shareowner_list"))
         self.wait_until_element_present_by_id("share_owner_table")
+
+        name_search_field = self.selenium.find_element_by_id("id_display_name")
+        name_search_field.send_keys(user.get_display_name())
+        self.selenium.find_element_by_class_name("filter-button").click()
+        self.wait_until_element_present_by_id("share_owner_table")
+
         user_links = self.selenium.find_element_by_id(
             "share_owner_table"
         ).find_elements_by_xpath("//a[text() = '" + user.get_display_name() + "']")
-        self.assertEqual(len(user_links), 1)
+        self.assertEqual(
+            len(user_links),
+            1,
+            "User " + user.get_display_name() + " not found in share owner table.",
+        )
         user_links[0].click()
 
     def check_share_owner_details(self, user: JsonUser):

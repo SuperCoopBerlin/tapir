@@ -1,46 +1,51 @@
 {% extends "base.html" %}
 
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
 {% load i18n %}
+{% load static %}
+{% load querystring from django_tables2 %}
+{% load export_url from django_tables2 %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+{% endblock %}
 
 {% block content %}
+
     <div class="card m-2">
         <div class="card-header d-flex justify-content-between">
             <h5>{% trans "Cooperative Members" %}</h5>
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
-                    Export
+                    Export current table
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="{% url "coop:shareowner_export_mailchimp" %}">
-                        for MailChimp (only Active)
-                    </a>
+                    {% for format in view.export_formats %}
+                        <a class="dropdown-item" href="{% export_url format %}">
+                            download  <code>.{{ format }}</code>
+                        </a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        <div class="card-body">
-            <table class="table table-striped" id="share_owner_table">
-                <thead>
-                <th>{% trans "Name" %}</th>
-                <th>{% trans "Member Since" %}</th>
-                <th>{% trans "State" %}</th>
-                </thead>
-                {% for owner in object_list %}
-                    <tr>
-                        <td class="align-middle">
-                            <a href="{{ owner.get_absolute_url }}">{{ owner.get_info.get_display_name }}</a></td>
-                        <td class="align-middle">{{ owner.get_oldest_active_share_ownership.start_date }}</td>
-                        <td class="align-middle">
-                            {% if owner.get_oldest_active_share_ownership.is_active and not owner.is_investing %}
-                                <span style="color: green;">{% trans "Active" %}</span>
-                            {% elif owner.get_oldest_active_share_ownership.is_active and owner.is_investing %}
-                                <span style="color: blue;">{% trans "Investing" %}</span>
-                            {% else %}
-                                <span style="color: orange;">{% trans "Sold" %}</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
+        <div class="card-body" id="share_owner_table">
+            {% if filter %}
+                <form action="" method="get" class="form member-filter-form">
+                    {% bootstrap_form filter.form bound_css_class='' %}
+                    <div class="member-filter-form-buttons">
+                        {% bootstrap_button 'Filter' button_class="filter-button"%}
+                        <a href="{% url "coop:shareowner_list" %}">
+                            <button type="button" class="btn btn-outline-secondary">
+                                Clear all filters
+                            </button>
+                        </a>
+                        <div>{% trans "Number of filtered members : " %}{{ current_member_count }}/{{ total_member_count }}</div>
+                    </div>
+                </form>
+            {% endif %}
+            {% render_table table %}
         </div>
     </div>
 {% endblock %}

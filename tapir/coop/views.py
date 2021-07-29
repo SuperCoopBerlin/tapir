@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.mail import EmailMessage
 from django.db import transaction
-from django.db.models import Q, F
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -19,7 +18,7 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, CreateView
-from django_filters import CharFilter, ChoiceFilter
+from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
@@ -38,6 +37,8 @@ from tapir.coop.models import (
     ShareOwner,
     UpdateShareOwnerLogEntry,
     DeleteShareOwnershipLogEntry,
+    MEMBER_STATUS_CHOICES,
+    MemberStatus,
 )
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
@@ -453,33 +454,15 @@ class ShareOwnerSearchMixin:
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        searches = self.request.GET.get("search", "").split(" ")
-        searches = [s for s in searches if s != ""]
+        search = self.request.GET.get("search", "")
+        searches = [s for s in search.split(" ") if s != ""]
 
         if len(searches) == 1 and searches[0].isdigit():
             queryset = queryset.filter(pk=int(searches[0]))
         elif searches:
-            queryset = queryset.filter(
-                get_share_owner_name_filter(self.request.GET.get("search", ""))
-            )
+            queryset = queryset.name_search(search)
 
         return queryset
-
-
-def get_share_owner_name_filter(search_string: str):
-    searches = [s for s in search_string.split(" ") if s != ""]
-
-    combined_filters = Q(last_name__icontains="")
-    for search in searches:
-        word_filter = (
-            Q(last_name__unaccent__icontains=search)
-            | Q(first_name__unaccent__icontains=search)
-            | Q(user__first_name__unaccent__icontains=search)
-            | Q(user__last_name__unaccent__icontains=search)
-        )
-        combined_filters = combined_filters & word_filter
-
-    return combined_filters
 
 
 class CurrentShareOwnerMixin:
@@ -492,20 +475,13 @@ class CurrentShareOwnerMixin:
         )
 
 
-class CurrentShareOwnerListView(
-    PermissionRequiredMixin,
-    ShareOwnerSearchMixin,
-    CurrentShareOwnerMixin,
-    generic.ListView,
-):
-    permission_required = "coop.manage"
-    model = ShareOwner
-    template_name = "coop/shareowner_list.html"
-    # TODO(Leon Handreke): This probably doesn't always choose the oldest one?
-    ordering = ["-share_ownerships__start_date"]
-
-
 class ShareOwnerTable(django_tables2.Table):
+    class Meta:
+        model = ShareOwner
+        template_name = "django_tables2/bootstrap4.html"
+        fields = ["id", "from_startnext"]
+        sequence = ("id", "display_name", "status", "from_startnext")
+
     display_name = django_tables2.Column(
         empty_values=(), verbose_name="Name", orderable=False
     )
@@ -530,9 +506,9 @@ class ShareOwnerTable(django_tables2.Table):
 
     def render_status(self, value, record: ShareOwner):
         status = record.get_member_status()
-        if status == ShareOwner.MEMBER_STATUS_SOLD:
+        if status == MemberStatus.SOLD:
             color = "orange"
-        elif status == ShareOwner.MEMBER_STATUS_ACTIVE:
+        elif status == MemberStatus.ACTIVE:
             color = "green"
         else:
             color = "blue"
@@ -548,43 +524,8 @@ class ShareOwnerTable(django_tables2.Table):
     def value_phone_number(self, value, record: ShareOwner):
         return record.get_info().phone_number
 
-    class Meta:
-        model = ShareOwner
-        template_name = "django_tables2/bootstrap4.html"
-        fields = ["id", "from_startnext"]
-        sequence = ("id", "display_name", "status", "from_startnext")
-
 
 class ShareOwnerFilter(django_filters.FilterSet):
-    display_name = CharFilter(method="display_name_filter", label="Name")
-    status = ChoiceFilter(
-        choices=(
-            (ShareOwner.MEMBER_STATUS_ACTIVE, ShareOwner.MEMBER_STATUS_ACTIVE),
-            (ShareOwner.MEMBER_STATUS_INVESTING, ShareOwner.MEMBER_STATUS_INVESTING),
-            (ShareOwner.MEMBER_STATUS_SOLD, ShareOwner.MEMBER_STATUS_SOLD),
-        ),
-        method="status_filter",
-        label="Status",
-    )
-
-    def display_name_filter(self, queryset, name, value: str):
-        return queryset.filter(get_share_owner_name_filter(value))
-
-    def status_filter(self, queryset, name, value: str):
-        active_ownerships_filter = Q(start_date__lte=date.today()) & (
-            Q(end_date__isnull=True) | Q(end_date__gte=date.today())
-        )
-
-        active_ownerships = ShareOwnership.objects.filter(active_ownerships_filter)
-
-        if value == ShareOwner.MEMBER_STATUS_SOLD:
-            return queryset.exclude(share_ownerships__in=active_ownerships)
-        else:
-            return queryset.filter(
-                share_ownerships__in=active_ownerships,
-                is_investing=(value == ShareOwner.MEMBER_STATUS_INVESTING),
-            )
-
     class Meta:
         model = ShareOwner
         fields = ["from_startnext", "attended_welcome_session"]
@@ -595,11 +536,30 @@ class ShareOwnerFilter(django_filters.FilterSet):
             "attended_welcome_session",
         ]
 
+    display_name = CharFilter(method="display_name_filter", label="Name")
+    status = ChoiceFilter(
+        choices=MEMBER_STATUS_CHOICES,
+        method="status_filter",
+        label="Status",
+        empty_label=_("Any"),
+    )
 
-class ShareOwnerListView(FilterView, ExportMixin, SingleTableView):
+    def display_name_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+    ):
+        return queryset.name_search(value)
+
+    def status_filter(self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
+        return queryset.status_filter(value)
+
+
+class ShareOwnerListView(
+    PermissionRequiredMixin, FilterView, ExportMixin, SingleTableView
+):
     table_class = ShareOwnerTable
     model = ShareOwner
-    template_name = "coop/shareowner_list_new.html"
+    template_name = "coop/shareowner_list.html"
+    permission_required = "coop.manage"
 
     filterset_class = ShareOwnerFilter
 
