@@ -87,6 +87,7 @@ class ShareOwner(models.Model):
                     | Q(first_name__unaccent__icontains=search)
                     | Q(user__first_name__unaccent__icontains=search)
                     | Q(user__last_name__unaccent__icontains=search)
+                    | Q(company_name__unaccent__icontains=search)
                 )
                 combined_filters = combined_filters & word_filter
 
@@ -189,6 +190,12 @@ MEMBER_STATUS_CHOICES = (
     (MemberStatus.INVESTING, _("Investing")),
     (MemberStatus.ACTIVE, _("Active")),
 )
+
+
+def get_member_status_translation(searched_status: str) -> str:
+    for status in MEMBER_STATUS_CHOICES:
+        if searched_status == status[0]:
+            return status[1]
 
 
 class UpdateShareOwnerLogEntry(UpdateModelLogEntry):

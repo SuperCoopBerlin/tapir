@@ -18,7 +18,7 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, CreateView
-from django_filters import CharFilter, ChoiceFilter, BooleanFilter
+from django_filters import CharFilter, ChoiceFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
@@ -39,6 +39,7 @@ from tapir.coop.models import (
     DeleteShareOwnershipLogEntry,
     MEMBER_STATUS_CHOICES,
     MemberStatus,
+    get_member_status_translation,
 )
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
@@ -479,18 +480,32 @@ class ShareOwnerTable(django_tables2.Table):
     class Meta:
         model = ShareOwner
         template_name = "django_tables2/bootstrap4.html"
-        fields = ["id", "from_startnext"]
-        sequence = ("id", "display_name", "status", "from_startnext")
+        fields = [
+            "id",
+            "attended_welcome_session",
+            "from_startnext",
+            "ratenzahlung",
+            "is_company",
+        ]
+        sequence = (
+            "id",
+            "display_name",
+            "status",
+            "from_startnext",
+            "attended_welcome_session",
+            "ratenzahlung",
+            "is_company",
+        )
 
     display_name = django_tables2.Column(
         empty_values=(), verbose_name="Name", orderable=False
     )
     status = django_tables2.Column(empty_values=(), orderable=False)
     email = django_tables2.Column(empty_values=(), orderable=False, visible=False)
-    ratenzahlung = django_tables2.Column(
+    phone_number = django_tables2.Column(
         empty_values=(), orderable=False, visible=False
     )
-    phone_number = django_tables2.Column(
+    company_name = django_tables2.Column(
         empty_values=(), orderable=False, visible=False
     )
 
@@ -513,7 +528,11 @@ class ShareOwnerTable(django_tables2.Table):
         else:
             color = "blue"
 
-        return format_html('<span style="color: {1};">{0}</span>', status, color)
+        return format_html(
+            '<span style="color: {1};">{0}</span>',
+            get_member_status_translation(status),
+            color,
+        )
 
     def value_status(self, value, record: ShareOwner):
         return record.get_member_status()
@@ -528,12 +547,11 @@ class ShareOwnerTable(django_tables2.Table):
 class ShareOwnerFilter(django_filters.FilterSet):
     class Meta:
         model = ShareOwner
-        fields = ["from_startnext", "attended_welcome_session"]
-        sequence = [
-            "status",
-            "display_name",
+        fields = [
             "from_startnext",
             "attended_welcome_session",
+            "ratenzahlung",
+            "is_company",
         ]
 
     display_name = CharFilter(method="display_name_filter", label="Name")
