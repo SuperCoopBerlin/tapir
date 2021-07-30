@@ -156,31 +156,56 @@ def populate_users():
         if index % 50 == 0:
             print(str(index) + "/200")
         json_user = JsonUser(parsed_user)
+        randomizer = index + 1
 
-        tapir_user = TapirUser.objects.create(
-            username=json_user.get_username(),
-        )
-        copy_user_info(json_user, tapir_user)
-        tapir_user.is_staff = False
-        tapir_user.is_active = True
-        tapir_user.save()
+        is_company = randomizer % 70 == 0
+
+        tapir_user = None
+        if not is_company:
+            tapir_user = TapirUser.objects.create(
+                username=json_user.get_username(),
+            )
+            copy_user_info(json_user, tapir_user)
+            tapir_user.is_staff = False
+            tapir_user.is_active = True
+            tapir_user.save()
 
         share_owner = ShareOwner.objects.create(
-            is_company=False,
+            is_company=is_company,
             user=tapir_user,
         )
-        share_owner.blank_info_fields()
-        share_owner.is_investing = tapir_user.pk % 7 == 0
-        share_owner.from_startnext = tapir_user.pk % 5 == 0
-        share_owner.ratenzahlung = tapir_user.pk % 10 == 0
+        if tapir_user is None:
+            copy_user_info(json_user, share_owner)
+        else:
+            share_owner.blank_info_fields()
+
+        share_owner.is_investing = randomizer % 7 == 0 or is_company
+        share_owner.from_startnext = randomizer % 5 == 0
+        share_owner.ratenzahlung = randomizer % 8 == 0
+        share_owner.attended_welcome_session = randomizer % 9 != 0
+        if share_owner.is_company:
+            share_owner.company_name = share_owner.last_name + "'s fancy startup GmbH"
         share_owner.save()
+
+        start_date = datetime.date.today() - datetime.timedelta(days=14)
+        end_date = None
+        if randomizer % 40 == 0:
+            start_date = datetime.date.today() + datetime.timedelta(days=14)
+        elif randomizer % 50 == 0:
+            end_date = start_date + datetime.timedelta(days=7)
+        elif randomizer % 60 == 0:
+            end_date = datetime.date.today() + datetime.timedelta(days=7)
 
         ShareOwnership.objects.create(
             owner=share_owner,
-            start_date=datetime.date.today(),
+            start_date=start_date,
+            end_date=end_date,
         )
 
-        if not ShiftAttendanceTemplate.objects.filter(user=tapir_user).exists():
+        if (
+            not is_company
+            and not ShiftAttendanceTemplate.objects.filter(user=tapir_user).exists()
+        ):
             for _ in range(10):
                 template: ShiftTemplate = random.choice(ShiftTemplate.objects.all())
                 free_slots = template.slot_templates.filter(
