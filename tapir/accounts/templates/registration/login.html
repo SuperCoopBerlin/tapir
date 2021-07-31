@@ -11,7 +11,7 @@
 
 {% block content %}
     <div class="d-flex justify-content-center supercoop-authentification">
-        <div class="card supercoop-login" style="margin-top: 8rem;" id="login-card">
+        <div class="card supercoop-login mt-4" id="login-card">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 {% trans "Sign in" %}
             </h5>
@@ -26,20 +26,5 @@
                 </form>
             </div>
         </div>
-
-        {% comment %}
-        <div class="card m-2 supercoop-register">
-            <h5 class="card-header d-flex justify-content-between align-items-center">
-                New User
-            </h5>
-            <div class="card-body">
-                <p>If you don't have an account yet, create one!</p>
-                <p>Whether you already attended a welcome session or not, already sent your Beteiligungserklärung or not, it all starts here!</p>
-                <p><a href="{% url "coop:draftuser_register" %}">
-                    <button type="button" class="btn btn-primary btn-block">Create Account</button>
-                </a></p>
-            </div>
-        </div>
-        {% endcomment %}
     </div>
 {% endblock %}
