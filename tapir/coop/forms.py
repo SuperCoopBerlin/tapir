@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 from tapir.coop.pdfs import get_membership_agreement_pdf
-from tapir.utils.forms import DateInput
+from tapir.utils.forms import DateInput, TapirPhoneNumberField
 
 
 class ShareOwnershipForm(forms.ModelForm):
@@ -22,6 +22,8 @@ class ShareOwnershipForm(forms.ModelForm):
 
 
 class DraftUserForm(forms.ModelForm):
+    phone_number = TapirPhoneNumberField(required=False)
+
     class Meta:
         model = DraftUser
         fields = [
@@ -47,6 +49,8 @@ class DraftUserForm(forms.ModelForm):
 
 
 class DraftUserRegisterForm(forms.ModelForm):
+    phone_number = TapirPhoneNumberField()
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -103,7 +107,6 @@ class DraftUserRegisterForm(forms.ModelForm):
         widgets = {
             "birthdate": DateInput(),
             "username": TextInput(attrs={"readonly": True}),
-            "phone_number": TextInput(attrs={"pattern": "^\\+?\\d{0,13}"}),
         }
 
 

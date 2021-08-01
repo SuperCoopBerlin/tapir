@@ -137,7 +137,6 @@ class DraftUserDeleteView(
 ):
     permission_required = "coop.manage"
     success_url = reverse_lazy("coop:draftuser_list")
-    pass
 
 
 class ShareOwnerDetailView(PermissionRequiredMixin, generic.DetailView):
