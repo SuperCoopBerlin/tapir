@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils
 from tapir.accounts import validators
@@ -46,7 +47,7 @@ class ShareOwner(models.Model):
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
-    phone_number = models.CharField(_("Phone number"), blank=True, max_length=20)
+    phone_number = PhoneNumberField(_("Phone Number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
     street = models.CharField(_("Street and house number"), max_length=150, blank=True)
     street_2 = models.CharField(_("Extra address line"), max_length=150, blank=True)
@@ -230,7 +231,7 @@ class DraftUser(models.Model):
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
-    phone_number = models.CharField(_("Phone number"), blank=True, max_length=20)
+    phone_number = PhoneNumberField(_("Phone Number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
     street = models.CharField(_("Street and house number"), max_length=150, blank=True)
     street_2 = models.CharField(_("Extra address line"), max_length=150, blank=True)

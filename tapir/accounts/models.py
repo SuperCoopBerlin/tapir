@@ -16,6 +16,7 @@ from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
+from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils
 from tapir.accounts import validators
@@ -102,7 +103,7 @@ class LdapUser(AbstractUser):
 class TapirUser(LdapUser):
     username_validator = validators.UsernameValidator
 
-    phone_number = models.CharField(_("Phone number"), blank=True, max_length=20)
+    phone_number = PhoneNumberField(_("Phone Number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
     street = models.CharField(_("Street and house number"), max_length=150, blank=True)
     street_2 = models.CharField(_("Extra address line"), max_length=150, blank=True)
