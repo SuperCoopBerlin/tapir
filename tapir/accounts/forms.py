@@ -2,16 +2,19 @@ from django import forms
 from django.contrib.auth import forms as auth_forms
 
 from tapir.accounts.models import TapirUser
-from tapir.utils.forms import DateInput
+from tapir.utils.forms import DateInput, TapirPhoneNumberField
 
 
 class TapirUserForm(forms.ModelForm):
+    phone_number = TapirPhoneNumberField(required=False)
+
     class Meta:
         model = TapirUser
         fields = [
             "first_name",
             "last_name",
             "username",
+            "phone_number",
             "email",
             "birthdate",
             "street",
