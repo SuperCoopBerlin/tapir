@@ -6,6 +6,7 @@
 {% load shifts %}
 {% load coop %}
 {% load log %}
+{% load accounts %}
 
 {% block head %}
     {{ block.super }}
@@ -42,7 +43,7 @@
                         <div class="col-4 font-weight-bold text-right">{% trans "Phone number" %}:</div>
                         <div class="col-8" id="tapir_user_phone_number">
                             {% if object.phone_number %}
-                                {{ object.phone_number }}
+                                {{ object.phone_number|format_phone_number }}
                             {% else %}
                                 <span class="text-danger">{% trans "Missing" %}</span>
                             {% endif %}

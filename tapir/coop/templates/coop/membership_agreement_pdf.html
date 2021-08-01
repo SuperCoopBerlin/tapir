@@ -1,5 +1,7 @@
 {% load static %}
 {% load bootstrap4 %}
+{% load accounts %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,6 +93,13 @@
             <div style="margin-right: 3mm;">E-Mail:</div>
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
                 <span style="margin-left: 5mm;">{{ owner.email }}</span>
+            </div>
+
+            <div style="margin-right: 3mm; margin-left: 3mm;">Telefon:</div>
+            <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
+                <span style="margin-left: 5mm;">
+                    {{ owner.phone_number|format_phone_number }}
+                </span>
             </div>
         </div>
     </div>

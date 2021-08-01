@@ -2,6 +2,7 @@
 
 {% load bootstrap4 %}
 {% load i18n %}
+{% load accounts %}
 
 {% block content %}
 
@@ -33,7 +34,7 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Phone number" %}:</div>
-                    <div class="col-9" id="draft_user_phone_number">{{ object.phone_number }}</div>
+                    <div class="col-9" id="draft_user_phone_number">{{ object.phone_number|format_phone_number }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
