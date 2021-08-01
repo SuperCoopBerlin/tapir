@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load coop %}
 {% load log %}
+{% load accounts %}
 
 {% block content %}
     <div class="d-flex flex-wrap">
@@ -31,7 +32,7 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Phone number" %}:</div>
-                        <div class="col-8" id="share_owner_phone_number">{{ object.get_info.phone_number }}</div>
+                        <div class="col-8" id="share_owner_phone_number">{{ object.get_info.phone_number|format_phone_number }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 font-weight-bold text-right">{% trans "Birthdate" %}:</div>

@@ -5,6 +5,7 @@ import pathlib
 from django.test import tag
 from django.urls import reverse
 
+from tapir.accounts.templatetags.accounts import format_phone_number
 from tapir.utils.json_user import JsonUser
 from tapir.utils.tests_utils import TapirUserTestBase
 
@@ -55,7 +56,7 @@ class ApplicantTestBase(TapirUserTestBase):
         )
         self.assertEqual(
             self.selenium.find_element_by_id("draft_user_phone_number").text,
-            user.phone_number,
+            format_phone_number(user.phone_number),
         )
         self.assertEqual(
             self.selenium.find_element_by_id("draft_user_birthdate").text,
