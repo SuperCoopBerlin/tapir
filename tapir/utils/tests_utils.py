@@ -15,6 +15,7 @@ from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
+from tapir.accounts.templatetags.accounts import format_phone_number
 from tapir.utils.json_user import JsonUser
 
 
@@ -71,7 +72,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
             if json_user.get_username() == searched_username:
                 return json_user
 
-        return None
+        raise Exception("No test user found")
 
     def get_vorstand_user(self) -> JsonUser:
         return self.get_test_user("ariana.perrin")
@@ -132,7 +133,7 @@ class TapirUserTestBase(TapirSeleniumTestBase):
         )
         self.assertEqual(
             self.selenium.find_element_by_id("tapir_user_phone_number").text,
-            user.phone_number,
+            format_phone_number(user.phone_number),
         )
         self.assertEqual(
             self.selenium.find_element_by_id("tapir_user_birthdate").text,
