@@ -78,7 +78,7 @@ class ShareOwner(models.Model):
     )
 
     class ShareOwnerQuerySet(models.QuerySet):
-        def name_search(self, search_string: str):
+        def with_name(self, search_string: str):
             searches = [s for s in search_string.split(" ") if s != ""]
 
             combined_filters = Q(last_name__icontains="")
@@ -94,7 +94,7 @@ class ShareOwner(models.Model):
 
             return self.filter(combined_filters)
 
-        def status_filter(self, status: str):
+        def with_status(self, status: str):
             active_ownerships = ShareOwnership.objects.active_temporal()
 
             if status == MemberStatus.SOLD:

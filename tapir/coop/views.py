@@ -460,7 +460,7 @@ class ShareOwnerSearchMixin:
         if len(searches) == 1 and searches[0].isdigit():
             queryset = queryset.filter(pk=int(searches[0]))
         elif searches:
-            queryset = queryset.name_search(search)
+            queryset = queryset.with_name(search)
 
         return queryset
 
@@ -564,10 +564,10 @@ class ShareOwnerFilter(django_filters.FilterSet):
     def display_name_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
-        return queryset.name_search(value)
+        return queryset.with_name(value)
 
     def status_filter(self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
-        return queryset.status_filter(value)
+        return queryset.with_status(value)
 
 
 class ShareOwnerListView(
