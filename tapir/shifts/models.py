@@ -189,7 +189,9 @@ class ShiftSlotTemplate(models.Model):
     optional = models.BooleanField(default=False)
 
     def get_required_capabilities_display(self):
-        return ", ".join([SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.capabilities])
+        return ", ".join(
+            [SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.required_capabilities]
+        )
 
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
@@ -321,7 +323,9 @@ class ShiftSlot(models.Model):
     optional = models.BooleanField(default=False)
 
     def get_required_capabilities_display(self):
-        return ", ".join([SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.capabilities])
+        return ", ".join(
+            [SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.required_capabilities]
+        )
 
     def update_attendances_from_template(self):
         """Updates the attendances from the template that this slot was generated from.

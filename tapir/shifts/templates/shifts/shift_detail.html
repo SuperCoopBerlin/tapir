@@ -24,10 +24,20 @@
                 </span>
             </h5>
             <table class="table" id="attendance_table">
+                <thead>
+                    <tr>
+                        <th>{% trans 'Slot number' %}</th>
+                        <th>{% trans 'Details' %}</th>
+                        <th>{% trans 'Registered user' %}</th>
+                        <th>{% trans 'Attendance' %}</th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody>
                     {% for slot in shift.slots.all %}
                         <tr>
                             <td><h5>#{{ forloop.counter }}</h5></td>
+                            <td>{{ slot.get_required_capabilities_display }}{% if slot.optional %} {% trans 'optional' %}{% endif %}</td>
                             {% with slot.get_valid_attendance as attendance %}
                                 {% if attendance %}
                                     <td><a href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a></td>

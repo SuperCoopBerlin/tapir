@@ -7,6 +7,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftAttendanceTemplate,
     WEEKDAY_CHOICES,
+    SHIFT_USER_CAPABILITY_CHOICES,
 )
 
 register = template.Library()
@@ -31,13 +32,28 @@ def shift_template_block(context, shift_template: ShiftTemplate, fill_parent=Fal
 
 
 def shift_to_block_object(shift: Shift, fill_parent: bool):
-    attendances = ["empty" for _ in range(shift.slots.count())]
-    for index, attendance in enumerate(shift.get_attendances().with_valid_state()):
-        attendances[index] = "single"
-        if ShiftAttendanceTemplate.objects.filter(
-            slot_template=attendance.slot.slot_template, user=attendance.user
-        ).exists():
-            attendances[index] = "regular"
+    attendances = {}
+    for slot in shift.slots.all():
+        capabilities = slot.get_required_capabilities_display()
+        if capabilities == "":
+            capabilities = "No requirements"
+        if capabilities not in attendances:
+            attendances[capabilities] = []
+
+        if slot.attendances.count() < 1:
+            if slot.optional:
+                state = "optional"
+            else:
+                state = "empty"
+        else:
+            attendance = slot.attendances.all()[0]
+            if ShiftAttendanceTemplate.objects.filter(
+                slot_template=attendance.slot.slot_template, user=attendance.user
+            ).exists():
+                state = "regular"
+            else:
+                state = "single"
+        attendances[capabilities].append(state)
 
     template_group = None
     if shift.shift_template:
@@ -78,11 +94,26 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
 
 def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: bool):
-    attendances = ["empty" for _ in range(shift_template.slot_templates.count())]
-    attendance_templates = shift_template.get_attendance_templates()
+    attendances = {}
+    for slot_template in shift_template.slot_templates.all():
+        capabilities = slot_template.get_required_capabilities_display()
+        if capabilities == "":
+            capabilities = "No requirements"
+        if capabilities not in attendances:
+            attendances[capabilities] = []
 
-    for index in range(attendance_templates.count()):
-        attendances[index] = "regular"
+        if (
+            ShiftAttendanceTemplate.objects.filter(slot_template=slot_template).count()
+            > 0
+        ):
+            state = "regular"
+        else:
+            if slot_template.optional:
+                state = "optional"
+            else:
+                state = "empty"
+
+        attendances[capabilities].append(state)
 
     num_required_slots = (
         shift_template.slot_templates.filter(optional=False).count() or 1

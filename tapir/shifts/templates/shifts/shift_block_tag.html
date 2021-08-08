@@ -1,17 +1,25 @@
+{% load i18n %}
+
 <div class="shift-block-container" style="{{ shift.style }}">
     <div id="{% if shift.is_template %}template{% else %}shift{% endif %}_{{ shift.id }}" class="shift-block bg-{{ shift.background }}" style="height:{{ shift.height }}px;">
         <div class="shift-name">{{ shift.name }}</div>
         <div class="shift-time">{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
         <div class="shift-date">{% if shift.start_date is not None %}{{ shift.start_date|date:"D d/m/y" }}{%  else %}{{ shift.weekday }}{% endif %}</div>
-        <div style="display: flex">
-            {% for state in shift.attendances %}
-                {% if state == "regular" %}
-                    <div class="material-icons" style="font-size: 12px;">offline_pin</div>
-                {% elif state == "single" %}
-                    <div class="material-icons" style="font-size: 12px;">check_circle</div>
-                {% else %}
-                    <div class="material-icons" style="font-size: 12px;">radio_button_unchecked</div>
-                {% endif %}
+        <div style="display: flex; flex-direction: column">
+            {% for capability, attendances in shift.attendances.items %}
+                <div>{% trans capability %}:
+                    {% for state in attendances %}
+                        {% if state == "regular" %}
+                            <div class="material-icons">offline_pin</div>
+                        {% elif state == "single" %}
+                            <div class="material-icons">check_circle</div>
+                        {% elif state == "optional" %}
+                            <div class="material-icons">donut_large</div>
+                        {% else %}
+                            <div class="material-icons">radio_button_unchecked</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endfor %}
         </div>
     {% if shift.template_group %}
