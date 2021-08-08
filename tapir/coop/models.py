@@ -221,13 +221,6 @@ class DeleteShareOwnershipLogEntry(ModelLogEntry):
 
 
 class DraftUser(models.Model):
-    username_validator = validators.UsernameValidator
-
-    username = models.CharField(
-        _("username"),
-        max_length=150,
-        validators=[username_validator],
-    )
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
@@ -294,7 +287,6 @@ class DraftUser(models.Model):
     def can_create_user(self):
         return (
             self.email
-            and self.username
             and self.first_name
             and self.last_name
             and self.signed_membership_agreement

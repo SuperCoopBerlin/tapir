@@ -243,46 +243,6 @@ def mark_shareowner_attended_welcome_session(request, pk):
     return redirect(share_owner.get_absolute_url())
 
 
-@require_POST
-@csrf_protect
-@permission_required("coop.manage")
-def create_user_from_draftuser(request, pk):
-    draft = DraftUser.objects.get(pk=pk)
-    if not draft.signed_membership_agreement:
-        # TODO(Leon Handreke): Error message
-        return redirect(draft)
-
-    with transaction.atomic():
-        u = TapirUser.objects.create(
-            username=draft.username,
-            first_name=draft.first_name,
-            last_name=draft.last_name,
-            email=draft.email,
-            birthdate=draft.birthdate,
-            street=draft.street,
-            street_2=draft.street_2,
-            postcode=draft.postcode,
-            city=draft.city,
-            country=draft.country,
-        )
-        if draft.num_shares > 0:
-            share_owner = ShareOwner.objects.create(
-                user=u,
-                is_company=False,
-                from_startnext=draft.from_startnext,
-                ratenzahlung=draft.ratenzahlung,
-                attended_welcome_session=draft.attended_welcome_session,
-            )
-            for _ in range(0, draft.num_shares):
-                ShareOwnership.objects.create(
-                    owner=share_owner,
-                    start_date=date.today(),
-                )
-        draft.delete()
-
-    return redirect(u.get_absolute_url())
-
-
 class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
     model = TapirUser
     template_name = "coop/create_user_from_shareowner_form.html"

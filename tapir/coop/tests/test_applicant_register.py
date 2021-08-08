@@ -48,10 +48,6 @@ class ApplicantTestBase(TapirUserTestBase):
             user.get_display_name(),
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("draft_user_username").text,
-            user.get_username(),
-        )
-        self.assertEqual(
             self.selenium.find_element_by_id("draft_user_email").text, user.email
         )
         self.assertEqual(

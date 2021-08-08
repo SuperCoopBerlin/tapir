@@ -29,7 +29,6 @@ class DraftUserForm(forms.ModelForm):
         fields = [
             "first_name",
             "last_name",
-            "username",
             "email",
             "phone_number",
             "birthdate",
@@ -82,7 +81,6 @@ class DraftUserRegisterForm(forms.ModelForm):
         fields = [
             "first_name",
             "last_name",
-            "username",
             "email",
             "phone_number",
             "birthdate",
@@ -95,7 +93,6 @@ class DraftUserRegisterForm(forms.ModelForm):
         required = [
             "first_name",
             "last_name",
-            "username",
             "email",
             "phone_number",
             "birthdate",
@@ -104,10 +101,7 @@ class DraftUserRegisterForm(forms.ModelForm):
             "city",
             "preferred_language",
         ]
-        widgets = {
-            "birthdate": DateInput(),
-            "username": TextInput(attrs={"readonly": True}),
-        }
+        widgets = {"birthdate": DateInput()}
 
 
 class ShareOwnerForm(forms.ModelForm):
