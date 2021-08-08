@@ -169,6 +169,8 @@ def populate_users():
             copy_user_info(json_user, tapir_user)
             tapir_user.is_staff = False
             tapir_user.is_active = True
+            tapir_user.date_joined = json_user.date_joined
+            tapir_user.password = tapir_user.username
             tapir_user.save()
 
         share_owner = ShareOwner.objects.create(

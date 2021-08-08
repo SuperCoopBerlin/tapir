@@ -1,8 +1,10 @@
 import datetime
 
-# Helper class to deal with users generated from https://randomuser.me/
 from tapir.utils.models import get_country_code
 from tapir.utils.user_utils import UserUtils
+
+
+# Helper class to deal with users generated from https://randomuser.me/
 
 
 class JsonUser:
@@ -38,7 +40,7 @@ class JsonUser:
         self.city = parsed_json["location"]["city"]
         self.country = get_country_code(parsed_json["location"]["country"])
 
-        date_joined = parsed_json["registered"]["date"].replace("Z", "")
+        date_joined = parsed_json["registered"]["date"].replace("Z", "+00:00")
         self.date_joined = datetime.datetime.fromisoformat(date_joined)
 
     def get_username(self) -> str:
