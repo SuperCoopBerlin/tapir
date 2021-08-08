@@ -92,6 +92,14 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
     template_name = "shifts/shift_detail.html"
     context_object_name = "shift"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        slots = context["shift"].slots.all()
+        for slot in slots:
+            slot.can_register = slot.user_can_attend(self.request.user)
+        context["slots"] = slots
+        return context
+
 
 @require_POST
 @csrf_protect

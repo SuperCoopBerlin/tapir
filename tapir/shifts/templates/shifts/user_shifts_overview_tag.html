@@ -4,7 +4,9 @@
 <div class="card m-2">
     <h5 class="card-header d-flex justify-content-between align-items-center">
         {% trans "Shifts" %}
-        <button type="button" class="btn btn-outline-info" onclick="alert('Not implemented yet')">Add single shift</button>
+        <a href="{% url "shifts:upcoming_timetable" %}">
+            <button type="button" class="btn btn-outline-info" >{% trans 'Register to a shift' %}</button>
+        </a>
     </h5>
     <div class="card-body">
         <div class="row m-1">
@@ -13,13 +15,15 @@
                 <div class="col-8">
                     {{ user.shift_user_data.get_attendance_mode_display }}
 
-                    <form style="display: inline;" method="POST"
-                          action="{% url "shifts:set_user_attendance_mode_regular" user.pk %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-secondary btn-sm">
-                            {% trans "Set Regular 🏠️" %}
-                        </button>
-                    </form>
+                    {% if perms.accounts.manage %}
+                        <form style="display: inline;" method="POST"
+                              action="{% url "shifts:set_user_attendance_mode_regular" user.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary btn-sm">
+                                {% trans "Set Regular 🏠️" %}
+                            </button>
+                        </form>
+                    {% endif %}
                 </div>
 
 
@@ -50,13 +54,15 @@
                             {% trans "Find a shift" %}
                         </a>
 
-                        <form style="display: inline;" method="POST"
-                              action="{% url "shifts:set_user_attendance_mode_flying" user.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-secondary btn-sm">
-                                {% trans "Set Flying ✈️" %}
-                            </button>
-                        </form>
+                        {% if perms.accounts.manage %}
+                            <form style="display: inline;" method="POST"
+                                  action="{% url "shifts:set_user_attendance_mode_flying" user.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary btn-sm">
+                                    {% trans "Set Flying ✈️" %}
+                                </button>
+                            </form>
+                        {% endif %}
                     {% endif %}
                 </div>
             {% endif %}

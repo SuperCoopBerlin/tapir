@@ -34,7 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for slot in shift.slots.all %}
+                    {% for slot in slots %}
                         <tr>
                             <td><h5>#{{ forloop.counter }}</h5></td>
                             <td>{{ slot.get_required_capabilities_display }}{% if slot.optional %} {% trans 'optional' %}{% endif %}</td>
@@ -66,12 +66,14 @@
                                 {% else %}
                                     <td>{% trans "Vacant" %}</td>
                                     <td>
-                                        <form style="display: inline;"
-                                              method="post"
-                                              action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-success">{% trans "Register to shift" %}</button>
-                                        </form>
+                                        {% if slot.can_register %}
+                                            <form style="display: inline;"
+                                                  method="post"
+                                                  action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-success">{% trans "Register to shift" %}</button>
+                                            </form>
+                                        {% endif %}
                                     </td>
                                     <td></td><td></td><td></td>
                                 {% endif %}
