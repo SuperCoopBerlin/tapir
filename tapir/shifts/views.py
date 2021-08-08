@@ -3,6 +3,7 @@ from collections import defaultdict, OrderedDict
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
@@ -86,8 +87,7 @@ class UpcomingDaysView(LoginRequiredMixin, TemplateView):
         return context_data
 
 
-class ShiftDetailView(PermissionRequiredMixin, DetailView):
-    permission_required = "shifts.manage"
+class ShiftDetailView(LoginRequiredMixin, DetailView):
     model = Shift
     template_name = "shifts/shift_detail.html"
     context_object_name = "shift"
@@ -145,13 +145,16 @@ def slottemplate_unregister_user(request, pk, user_pk):
 
 @require_POST
 @csrf_protect
-@permission_required("shifts.manage")
 def shiftslot_register_user(request, pk, user_pk):
     slot = get_object_or_404(ShiftSlot, pk=pk)
     selected_user = get_object_or_404(TapirUser, pk=user_pk)
+    if request.user.pk != user_pk and not selected_user.has_perm("shifts.manage"):
+        return HttpResponseForbidden(
+            "You don't have the rights to register other users to shifts."
+        )
     if not slot.user_can_attend(selected_user):
         raise BadRequest(
-            "User ({0}) can't join shift ({1})".format(selected_user.pk, slot.pk)
+            "User ({0}) can't join shift slot ({1})".format(selected_user.pk, slot.pk)
         )
 
     ShiftAttendance.objects.create(slot=slot, user=selected_user)
