@@ -159,9 +159,10 @@ def populate_users():
         randomizer = index + 1
 
         is_company = randomizer % 70 == 0
+        is_investing = randomizer % 7 == 0 or is_company
 
         tapir_user = None
-        if not is_company:
+        if not is_company and not is_investing:
             tapir_user = TapirUser.objects.create(
                 username=json_user.get_username(),
             )
@@ -204,6 +205,7 @@ def populate_users():
 
         if (
             not is_company
+            and not is_investing
             and not ShiftAttendanceTemplate.objects.filter(user=tapir_user).exists()
         ):
             for _ in range(10):
