@@ -467,6 +467,9 @@ class ShareOwnerTable(django_tables2.Table):
     company_name = django_tables2.Column(
         empty_values=(), orderable=False, visible=False
     )
+    preferred_language = django_tables2.Column(
+        empty_values=(), orderable=False, visible=False
+    )
 
     def render_display_name(self, value, record: ShareOwner):
         return format_html(
@@ -501,6 +504,9 @@ class ShareOwnerTable(django_tables2.Table):
 
     def value_phone_number(self, value, record: ShareOwner):
         return record.get_info().phone_number
+
+    def value_preferred_language(self, value, record: ShareOwner):
+        return record.get_info().preferred_language
 
 
 class ShareOwnerFilter(django_filters.FilterSet):

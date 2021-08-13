@@ -19,6 +19,7 @@ class JsonUser:
     city: str
     country: str
     date_joined: datetime.date
+    preferred_language: str
 
     def __init__(self, parsed_json):
         self.first_name = parsed_json["name"]["first"]
@@ -42,6 +43,11 @@ class JsonUser:
 
         date_joined = parsed_json["registered"]["date"].replace("Z", "+00:00")
         self.date_joined = datetime.datetime.fromisoformat(date_joined)
+
+        if parsed_json["nat"] == "DE":
+            self.preferred_language = "de"
+        else:
+            self.preferred_language = "en"
 
     def get_username(self) -> str:
         return self.first_name.lower() + "." + self.last_name.lower()

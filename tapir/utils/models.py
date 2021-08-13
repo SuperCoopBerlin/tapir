@@ -387,3 +387,4 @@ def copy_user_info(source, target):
     target.postcode = source.postcode
     target.city = source.city
     target.country = source.country
+    target.preferred_language = source.preferred_language
