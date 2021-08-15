@@ -35,7 +35,7 @@
                                     {% if shift_template != None %}
                                         {% block shift_template %}
                                             {% if perms.shifts.manage %}
-                                                <a href="{% url "admin:shifts_shifttemplate_change" shift_template.pk %}">
+                                                <a href="{{  shift_template.get_absolute_url }}">
                                                     {% shift_template_block shift_template %}
                                                 </a>
                                             {% else %}

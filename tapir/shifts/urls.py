@@ -49,6 +49,11 @@ urlpatterns = [
         name="mark_shiftattendance_missed",
     ),
     path(
+        "shifttemplate/<int:pk>",
+        views.ShiftTemplateDetail.as_view(),
+        name="shift_template_detail",
+    ),
+    path(
         "shifttemplate/overview",
         views.ShiftTemplateOverview.as_view(),
         name="shift_template_overview",

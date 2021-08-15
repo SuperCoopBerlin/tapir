@@ -1,0 +1,50 @@
+{% extends "shifts/base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+    <div class="card m-2" id="shift_detail_card">
+        <h5 class="card-header d-flex justify-content-between align-items-center">
+            <span>Shift Template: {{ object.get_weekday_display }} {{ object.start_time|time:"H:i" }} - {{ object.end_time|time:"H:i"}} ({{ object.group.name}})</span>
+            <a class="btn btn-outline-info" href="{% url "admin:shifts_shifttemplate_change" object.pk %}">
+                <span class="material-icons button-icon">edit</span>
+                {% trans "Edit" %}
+            </a>
+        </h5>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{% trans 'Details' %}</th>
+                        <th>{% trans 'Registered user' %}</th>
+                        <th>{% trans 'Shifts' %}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for slot in object.slot_templates.all %}
+                        <tr>
+                            <td><h5>#{{ forloop.counter }}</h5></td>
+                            <td>{{ slot.get_required_capabilities_display }}{% if slot.optional %}({% trans 'optional' %}){% endif %}</td>
+                            {% with slot.attendance_template as attendance %}
+                                {% if attendance %}
+                                    <td><a href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a></td>
+                                    <td>
+                                    {% if perms.shifts.manage %}
+                                        <!-- TODO: Past and future shift attendances -->
+                                    {% endif %}
+                                    </td>
+                                {% else %}
+                                    <td>{% trans "Vacant" %}</td>
+                                    <td></td>
+                                {% endif %}
+                            {% endwith %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

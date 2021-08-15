@@ -95,6 +95,9 @@ class ShiftTemplate(models.Model):
             display_name = "%s (%s)" % (display_name, self.group.name)
         return display_name
 
+    def get_absolute_url(self):
+        return reverse("shifts:shift_template_detail", args=[self.pk])
+
     def get_attendance_templates(self):
         return ShiftAttendanceTemplate.objects.filter(
             slot_template__in=self.slot_templates.all()
@@ -160,6 +163,7 @@ class ShiftTemplate(models.Model):
         return shift
 
     def save(self, *args, **kwargs):
+        # TODO(Leon Handreke): This should be a hook
         super().save(*args, **kwargs)
         self.update_future_shift_attendances()
 
