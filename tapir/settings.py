@@ -144,6 +144,9 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+PASSWORD_RESET_TIMEOUT = (
+    7776000  # 90 days, so that the welcome emails stay valid for long enough
+)
 
 
 # Internationalization
