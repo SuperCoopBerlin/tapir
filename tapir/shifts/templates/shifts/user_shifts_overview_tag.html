@@ -33,7 +33,11 @@
                     {% if user.shift_attendance_templates.count > 0 %}
                         {% comment %}Usually there will only be one {% endcomment %}
                         {% for shift_attendance_template in user.shift_attendance_templates.all %}
-                            <span class="repeated-shift">{{ shift_attendance_template.slot_template.get_display_name }}</span>
+                            <span class="repeated-shift">
+                                <a href="{{ shift_attendance_template.slot_template.shift_template.get_absolute_url }}">
+                                {{ shift_attendance_template.slot_template.get_display_name }}
+                                </a>
+                            </span>
 
                             {% if perms.shifts.manage %}
                             <form class="form-inline" method="POST"
