@@ -11,6 +11,7 @@ from django.views.decorators.http import require_POST
 
 from tapir.accounts.forms import TapirUserForm, PasswordResetForm
 from tapir.accounts.models import TapirUser
+from tapir.log.models import EmailLogEntry
 
 
 class UserDetailView(PermissionRequiredMixin, generic.DetailView):
@@ -45,7 +46,20 @@ class PasswordResetView(auth_views.PasswordResetView):
 @permission_required("accounts.manage")
 def send_user_welcome_email(request, pk):
     u = get_object_or_404(TapirUser, pk=pk)
-    u.send_welcome_email()
-    messages.info(request, _("Welcome email sent."))
+
+    email = u.get_password_reset_email(
+        subject_template_name="accounts/welcome_email_subject.txt",
+        email_template_name="accounts/welcome_email.txt",
+    )
+    email.send()
+
+    log_entry = EmailLogEntry().populate(
+        email_message=email,
+        actor=request.user,
+        user=u,
+    )
+    log_entry.save()
+
+    messages.info(request, _("Account welcome email sent."))
 
     return redirect(u.get_absolute_url())

@@ -129,13 +129,8 @@ class TapirUser(LdapUser):
     def get_absolute_url(self):
         return reverse("accounts:user_detail", args=[self.pk])
 
-    def send_welcome_email(self):
-        return self.send_password_reset_email(
-            subject_template_name="accounts/welcome_email_subject.txt",
-            email_template_name="accounts/welcome_email.txt",
-        )
-
-    def send_password_reset_email(self, subject_template_name, email_template_name):
+    def get_password_reset_email(self, subject_template_name, email_template_name):
+        # TODO(Leon Handreke): Should this be in views? Check in the django source how they do it.
         context = {
             "site_url": settings.SITE_URL,
             "uid": urlsafe_base64_encode(force_bytes(self.pk)),
@@ -146,8 +141,7 @@ class TapirUser(LdapUser):
         # Email subject *must not* contain newlines
         subject = "".join(subject.splitlines())
         body = loader.render_to_string(email_template_name, context)
-        email_message = EmailMultiAlternatives(subject, body, to=[self.email])
-        email_message.send()
+        return EmailMultiAlternatives(subject, body, to=[self.email])
 
 
 # The following LDAP-related models were taken from
