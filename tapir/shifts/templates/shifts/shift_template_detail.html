@@ -6,7 +6,7 @@
 {% block content %}
     <div class="card m-2" id="shift_detail_card">
         <h5 class="card-header d-flex justify-content-between align-items-center">
-            <span>Shift Template: {{ object.get_weekday_display }} {{ object.start_time|time:"H:i" }} - {{ object.end_time|time:"H:i"}} ({{ object.group.name}})</span>
+            <span>Shift Template: {{ object.name }} {{ object.get_weekday_display }} {{ object.start_time|time:"H:i" }} - {{ object.end_time|time:"H:i"}} ({{ object.group.name}})</span>
             <a class="btn btn-outline-info" href="{% url "admin:shifts_shifttemplate_change" object.pk %}">
                 <span class="material-icons button-icon">edit</span>
                 {% trans "Edit" %}
