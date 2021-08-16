@@ -72,6 +72,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Poetry config that makes the venv local for development
+poetry.toml
+
 # mkdocs documentation
 /site
 
