@@ -37,7 +37,12 @@
                                     {% endif %}
                                     </td>
                                 {% else %}
-                                    <td>{% trans "Vacant" %}</td>
+                                    <td>
+                                        <a class="btn btn-secondary"
+                                           href="{% url "shifts:slottemplate_register" slot.pk %}">
+                                            {% trans "Register" %}
+                                        </a>
+                                    </td>
                                     <td></td>
                                 {% endif %}
                             {% endwith %}

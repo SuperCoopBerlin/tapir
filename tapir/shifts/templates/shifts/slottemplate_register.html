@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+{% load static %}
+
+{% block head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    {% trans "ABCD Shift" %}
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{{ slot_template.shift_template.get_absolute_url }}">
+                        {{ slot_template.shift_template.get_display_name }}
+                    </a>
+                </li>
+                <li class="breadcrumb-item">{% trans "Register" %}</li>
+            </ol>
+        </nav>
+
+        <div class="card m-2" id="shift_form_card">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                {% trans "Register for ABCD Shift" %}:
+                {{ slot_template.shift_template.get_display_name }}
+            </h5>
+            <div class="card-body">
+                <form role="form" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <span class="text-right">
+                        {% buttons submit='Save' %}{% endbuttons %}
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
