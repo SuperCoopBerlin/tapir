@@ -1,5 +1,3 @@
-from builtins import enumerate
-
 from django import template
 
 from tapir.shifts.models import (
@@ -7,7 +5,6 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftAttendanceTemplate,
     WEEKDAY_CHOICES,
-    SHIFT_USER_CAPABILITY_CHOICES,
 )
 
 register = template.Library()
