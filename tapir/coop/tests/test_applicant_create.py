@@ -105,17 +105,21 @@ class TestApplicantToTapirUser(ApplicantTestBase):
         name_search_field = self.selenium.find_element_by_id("id_display_name")
         name_search_field.send_keys(user.get_display_name())
         self.selenium.find_element_by_class_name("filter-button").click()
-        self.wait_until_element_present_by_id("share_owner_table")
+        # NOTE(Leon Handreke): If only one result we now navigate there directly,
+        # but the code below may still be useful in the future to test search in the
+        # table.
 
-        user_links = self.selenium.find_element_by_id(
-            "share_owner_table"
-        ).find_elements_by_xpath("//a[text() = '" + user.get_display_name() + "']")
-        self.assertEqual(
-            len(user_links),
-            1,
-            "User " + user.get_display_name() + " not found in share owner table.",
-        )
-        user_links[0].click()
+        # self.wait_until_element_present_by_id("share_owner_table")
+        #
+        # user_links = self.selenium.find_element_by_id(
+        #     "share_owner_table"
+        # ).find_elements_by_xpath("//a[text() = '" + user.get_display_name() + "']")
+        # self.assertEqual(
+        #     len(user_links),
+        #     1,
+        #     "User " + user.get_display_name() + " not found in share owner table.",
+        # )
+        # user_links[0].click()
 
     def check_share_owner_details(self, user: JsonUser):
         self.go_to_share_owner_detail_page(user)

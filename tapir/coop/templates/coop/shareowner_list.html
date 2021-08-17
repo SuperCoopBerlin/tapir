@@ -19,7 +19,7 @@
             <h5>{% trans "Cooperative Members" %}</h5>
             <div class="btn-group">
                 <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
-                    Export current table
+                    {% trans "Export" %}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
@@ -38,10 +38,14 @@
                         {% bootstrap_button 'Filter' button_class="filter-button btn btn-primary"%}
                         <a href="{% url "coop:shareowner_list" %}">
                             <button type="button" class="btn btn-outline-secondary">
-                                Clear all filters
+                                {% trans "Clear all filters" %}
                             </button>
                         </a>
-                        <div>{% trans "Number of filtered members : " %}{{ current_member_count }}/{{ total_member_count }}</div>
+                        <div class="ml-2">
+                            {% blocktrans %}
+                            Filtered {{ filtered_member_count }} of {{ total_member_count }}
+                            {% endblocktrans %}
+                        </div>
                     </div>
                 </form>
             {% endif %}

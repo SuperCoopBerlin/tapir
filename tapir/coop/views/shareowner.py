@@ -265,31 +265,6 @@ def shareowner_membership_agreement(request, pk):
     return response
 
 
-class ShareOwnerSearchMixin:
-    def get(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-
-        search_string = self.request.GET.get("search", "")
-        is_a_search = search_string != ""
-
-        if is_a_search and queryset.count() == 1:
-            return HttpResponseRedirect(queryset.first().get_absolute_url())
-        return super().get(request, *args, **kwargs)
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        search = self.request.GET.get("search", "")
-        searches = [s for s in search.split(" ") if s != ""]
-
-        if len(searches) == 1 and searches[0].isdigit():
-            queryset = queryset.filter(pk=int(searches[0]))
-        elif searches:
-            queryset = queryset.with_name(search)
-
-        return queryset
-
-
 class CurrentShareOwnerMixin:
     def get_queryset(self):
         return (
@@ -413,9 +388,18 @@ class ShareOwnerListView(
 
     export_formats = ["csv", "json"]
 
+    def get(self, request, *args, **kwargs):
+        # TODO(Leon Handreke): Make FilterView properly subclasseable
+        response = super().get(request, *args, **kwargs)
+        if self.object_list.count() == 1:
+            return HttpResponseRedirect(
+                self.get_table_data().first().get_absolute_url()
+            )
+        return response
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["current_member_count"] = len(self.get_table_data())
+        context["filtered_member_count"] = self.object_list.count()
         context["total_member_count"] = ShareOwner.objects.count()
         return context
 
