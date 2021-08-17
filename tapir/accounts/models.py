@@ -13,6 +13,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.db import connections, router, models
 from django.template import loader
 from django.urls import reverse
+from django.utils import translation
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
@@ -302,3 +303,15 @@ class LdapGroup(ldapdb.models.Model):
 
     def __unicode__(self):
         return self.cn
+
+
+def language_middleware(get_response):
+    def middleware(request):
+        user = getattr(request, "user", None)
+        if user is not None and user.is_authenticated:
+            translation.activate(user.preferred_language)
+        response = get_response(request)
+        translation.deactivate()
+        return response
+
+    return middleware

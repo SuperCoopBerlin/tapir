@@ -62,6 +62,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "tapir.accounts.models.language_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -198,3 +199,5 @@ LOGIN_REDIRECT_URL = "accounts:user_me"
 SITE_URL = "http://127.0.0.1:8000"
 
 PHONENUMBER_DEFAULT_REGION = "DE"
+
+LOCALE_PATHS = ["/app/tapir/translations/locale"]
