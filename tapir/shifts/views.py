@@ -7,12 +7,17 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
-from django.views.generic import TemplateView, DetailView, CreateView, UpdateView, \
-    FormView
+from django.views.generic import (
+    TemplateView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    FormView,
+)
 from werkzeug.exceptions import BadRequest
 
 from tapir.accounts.models import TapirUser
-from tapir.shifts.forms import ShiftCreateForm
+from tapir.shifts.forms import ShiftCreateForm, ShiftAttendanceTemplateForm
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -21,7 +26,8 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftAttendanceTemplate,
     ShiftSlot,
-    ShiftAttendanceMode, ShiftSlotTemplate,
+    ShiftAttendanceMode,
+    ShiftSlotTemplate,
 )
 
 
@@ -105,14 +111,14 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
 class SlotTemplateRegisterView(PermissionRequiredMixin, CreateView):
     permission_required = "shifts.manage"
     model = ShiftAttendanceTemplate
-    template_name = "shifts/slottemplate_register.html"
-    fields = ['user']
+    template_name = "shifts/slot_template_register.html"
+    form_class = ShiftAttendanceTemplateForm
 
     def get_slot_template(self):
-        return get_object_or_404(ShiftSlotTemplate, pk=self.kwargs['slot_template_pk'])
+        return get_object_or_404(ShiftSlotTemplate, pk=self.kwargs["slot_template_pk"])
 
     def get_context_data(self, **kwargs):
-        kwargs['slot_template'] = self.get_slot_template()
+        kwargs["slot_template"] = self.get_slot_template()
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "bootstrap_datepicker_plus",
     "django_tables2",
     "django_filters",
+    "django_select2",  # For autocompletion in form fields
     "phonenumber_field",
     # TODO(Leon Handreke): Don't install in prod
     "django_extensions",

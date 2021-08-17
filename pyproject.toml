@@ -19,6 +19,7 @@ tablib = "^3.0.0"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "^5.2.0"}
 phonenumbers = "^8.12.28"
 weasyprint = "^52.5"
+django-select2 = "^7.7.1"
 
 [tool.poetry.dev-dependencies]
 black = "~20.8b1"
