@@ -11,7 +11,6 @@ from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
-from django.urls import reverse_lazy
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
@@ -27,13 +26,10 @@ from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.forms import (
     ShareOwnershipForm,
-    DraftUserForm,
-    DraftUserRegisterForm,
     ShareOwnerForm,
 )
 from tapir.coop.models import (
     ShareOwnership,
-    DraftUser,
     ShareOwner,
     UpdateShareOwnerLogEntry,
     DeleteShareOwnershipLogEntry,

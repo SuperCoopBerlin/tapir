@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.datetime_safe import date
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
@@ -14,7 +16,10 @@ from tapir.coop.forms import (
 )
 from tapir.coop.models import (
     DraftUser,
+    ShareOwner,
+    ShareOwnership,
 )
+from tapir.utils.models import copy_user_info
 
 
 class DraftUserViewMixin:
