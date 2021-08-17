@@ -30,7 +30,17 @@
                             <td>{{ slot.get_required_capabilities_display }}{% if slot.optional %}({% trans 'optional' %}){% endif %}</td>
                             {% with slot.attendance_template as attendance %}
                                 {% if attendance %}
-                                    <td><a href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a></td>
+                                    <td>
+                                        <a href="{{ attendance.user.get_absolute_url }}">
+                                            {{ attendance.user.get_display_name }}
+                                        </a>
+                                        <form style="display: inline;"
+                                              method="post"
+                                              action="{% url "shifts:shift_attendance_template_delete" attendance.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-secondary ml-2">❌ {% trans "Unregister" %}</button>
+                                        </form>
+                                    </td>
                                     <td>
                                     {% if perms.shifts.manage %}
                                         <!-- TODO: Past and future shift attendances -->

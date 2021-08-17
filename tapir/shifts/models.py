@@ -459,8 +459,8 @@ class ShiftUserData(models.Model):
     )
 
     SHIFT_ATTENDANCE_MODE_CHOICES = [
-        (ShiftAttendanceMode.REGULAR, _("🏠 Regular")),
-        (ShiftAttendanceMode.FLYING, _("✈️ Flying")),
+        (ShiftAttendanceMode.REGULAR, "🏠 " + _("Regular")),
+        (ShiftAttendanceMode.FLYING, "✈ " + _("Flying")),
     ]
     attendance_mode = models.CharField(
         max_length=32,

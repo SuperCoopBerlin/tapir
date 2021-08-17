@@ -41,10 +41,10 @@
 
                             {% if perms.shifts.manage %}
                             <form class="form-inline" method="POST"
-                                  action="{% url "shifts:slottemplate_unregister_user" shift_attendance_template.slot_template.pk user.pk %}?next={% url "accounts:user_detail" user.pk %}">
+                                  action="{% url "shifts:shift_attendance_template_delete" shift_attendance_template.pk %}?next={% url "accounts:user_detail" user.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-secondary btn-sm unregister-repeated-shift-button">
-                                    {% trans "Unregister" %}
+                                    ❌ {% trans "Unregister" %}
                                 </button>
                             </form>
                             {% endif %}
@@ -63,7 +63,7 @@
                                   action="{% url "shifts:set_user_attendance_mode_flying" user.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-secondary btn-sm">
-                                    {% trans "Set Flying ✈️" %}
+                                    {% trans "Set Flying️" %} ✈
                                 </button>
                             </form>
                         {% endif %}
