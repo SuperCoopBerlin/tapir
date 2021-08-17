@@ -75,3 +75,15 @@ A few definitions to help newcomers understand the model classes.
 | TapirUser | Represents a person with a user account. Accounts are linked between Tapir and the Wiki for example. Gets created when the member becomes active (part of the shift system etc.), but can become inactive. |  
 | Shift | Represents a shift with a specific date and time (for example, 18/06/21 10:00 to 13:00). Can be a one-time activity or an instance of a ShiftTemplate |
 | ShiftTemplate | Represents the recurring aspect of a shift in the ABCD system. For example helping at the shop on Tuesday, 10:00 to 13:00, on Week C. It has a weekday (Tuesday) and a time, but no date (18/06/21) | 
+
+###  Translations
+To generate the translation files, first use "makemessages" and specify the language you want to generate: 
+
+    docker-compose exec -w /app/tapir web poetry run python ../manage.py makemessages -l de
+
+Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
+Run "compilemessages":
+
+    docker-compose exec -w /app/tapir web poetry run python ../manage.py compilemessages
+
+Changes are only visible after restarting the server.
