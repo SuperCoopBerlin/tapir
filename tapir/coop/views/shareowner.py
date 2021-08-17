@@ -17,7 +17,7 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, CreateView
-from django_filters import CharFilter, ChoiceFilter
+from django_filters import CharFilter, ChoiceFilter, NumberFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
@@ -359,17 +359,22 @@ class ShareOwnerFilter(django_filters.FilterSet):
             "is_company",
         ]
 
-    display_name = CharFilter(method="display_name_filter", label="Name")
+    display_name = CharFilter(method="display_name_filter", label=_("Name"))
     status = ChoiceFilter(
         choices=MEMBER_STATUS_CHOICES,
         method="status_filter",
-        label="Status",
+        label=_("Status"),
         empty_label=_("Any"),
     )
 
     def display_name_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
+        # This is an ugly hack to enable searching by Mitgliedsnummer from the
+        # one-stop search box in the top right
+        if value.isdigit():
+            return queryset.filter(id=int(value))
+
         return queryset.with_name(value)
 
     def status_filter(self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
