@@ -19,3 +19,26 @@ class TapirPhoneNumberField(PhoneNumberField):
         super(TapirPhoneNumberField, self).__init__(
             *args, help_text=help_text, **kwargs
         )
+
+
+class UserInfoFormMixin:
+    def clean_field(self: forms.ModelForm, field_name: str):
+        return self.cleaned_data.get(field_name, "").strip()
+
+    def clean_first_name(self):
+        return self.clean_field("first_name")
+
+    def clean_last_name(self):
+        return self.clean_field("last_name")
+
+    def clean_street(self):
+        return self.clean_field("street")
+
+    def clean_street_2(self):
+        return self.clean_field("street_2")
+
+    def clean_postcode(self):
+        return self.clean_field("postcode")
+
+    def clean_city(self):
+        return self.clean_field("city")

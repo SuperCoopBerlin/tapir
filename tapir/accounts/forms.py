@@ -3,10 +3,10 @@ from django.contrib.auth import forms as auth_forms
 from django.forms import TextInput
 
 from tapir.accounts.models import TapirUser
-from tapir.utils.forms import DateInput, TapirPhoneNumberField
+from tapir.utils.forms import DateInput, TapirPhoneNumberField, UserInfoFormMixin
 
 
-class TapirUserForm(forms.ModelForm):
+class TapirUserForm(forms.ModelForm, UserInfoFormMixin):
     phone_number = TapirPhoneNumberField(required=False)
 
     class Meta:
