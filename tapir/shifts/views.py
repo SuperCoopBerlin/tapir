@@ -3,6 +3,7 @@ from collections import defaultdict, OrderedDict
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.db import transaction
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
@@ -28,6 +29,7 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendanceMode,
     ShiftSlotTemplate,
+    CreateShiftAttendanceTemplateLogEntry,
 )
 
 
@@ -123,7 +125,20 @@ class SlotTemplateRegisterView(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.slot_template = self.get_slot_template()
-        return super().form_valid(form)
+        with transaction.atomic():
+            response = super().form_valid(form)
+
+            shift_attendance_template = self.object
+            log_entry = CreateShiftAttendanceTemplateLogEntry().populate(
+                actor=self.request.user,
+                user=self.object.user,
+                model=shift_attendance_template,
+            )
+            log_entry.slot_template_name = self.object.slot_template.name
+            log_entry.shift_template = self.object.slot_template.shift_template
+            log_entry.save()
+
+        return response
 
     def get_success_url(self):
         return self.object.slot_template.shift_template.get_absolute_url()
@@ -163,7 +178,17 @@ def shifttemplate_register_user(request, pk, user_pk):
     if not slot_template:
         return BadRequest("No free slots in this shift template")
 
-    ShiftAttendanceTemplate.objects.create(user=user, slot_template=slot_template)
+    with transaction.atomic():
+        shift_attendance_template = ShiftAttendanceTemplate.objects.create(
+            user=user, slot_template=slot_template
+        )
+        log_entry = CreateShiftAttendanceTemplateLogEntry().populate(
+            actor=request.user, user=user, model=shift_attendance_template
+        )
+        log_entry.slot_template_name = slot_template.name
+        log_entry.shift_template = slot_template.shift_template
+        log_entry.save()
+
     return redirect(request.GET.get("next", user))
 
 

@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from tapir.accounts.models import TapirUser
+from tapir.log.models import ModelLogEntry
 
 
 class ShiftUserCapability:
@@ -225,6 +226,16 @@ class ShiftAttendanceTemplate(models.Model):
     slot_template = models.OneToOneField(
         ShiftSlotTemplate, related_name="attendance_template", on_delete=models.PROTECT
     )
+
+
+class CreateShiftAttendanceTemplateLogEntry(ModelLogEntry):
+    template_name = "shifts/log/create_shift_attendance_template_log_entry.html"
+    exclude_fields = ["slot_template"]
+
+    # Don't link directly to the slot because it may be less stable than the shift
+    slot_template_name = models.CharField(blank=True, max_length=255)
+    # TODO(Leon Handreke): Implement a system to decomission shifts
+    shift_template = models.ForeignKey(ShiftTemplate, on_delete=models.PROTECT)
 
 
 class Shift(models.Model):
