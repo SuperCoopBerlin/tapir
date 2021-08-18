@@ -30,6 +30,7 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftSlotTemplate,
     CreateShiftAttendanceTemplateLogEntry,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 
 
@@ -197,9 +198,21 @@ def shifttemplate_register_user(request, pk, user_pk):
 @permission_required("shifts.manage")
 def shift_attendance_template_delete(request, pk):
     shift_attendance_template = get_object_or_404(ShiftAttendanceTemplate, pk=pk)
-    shift_template = shift_attendance_template.slot_template.shift_template
-    shift_attendance_template.delete()
-    return redirect(request.GET.get("next", shift_template))
+    slot_template = shift_attendance_template.slot_template
+
+    with transaction.atomic():
+        log_entry = DeleteShiftAttendanceTemplateLogEntry().populate(
+            actor=request.user,
+            user=shift_attendance_template.user,
+            model=shift_attendance_template,
+        )
+        log_entry.slot_template_name = slot_template.name
+        log_entry.shift_template = slot_template.shift_template
+        log_entry.save()
+
+        shift_attendance_template.delete()
+
+    return redirect(request.GET.get("next", slot_template.shift_template))
 
 
 @require_POST

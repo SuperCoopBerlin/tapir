@@ -228,14 +228,24 @@ class ShiftAttendanceTemplate(models.Model):
     )
 
 
-class CreateShiftAttendanceTemplateLogEntry(ModelLogEntry):
-    template_name = "shifts/log/create_shift_attendance_template_log_entry.html"
+class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
+    class Meta:
+        abstract = True
+
     exclude_fields = ["slot_template"]
 
     # Don't link directly to the slot because it may be less stable than the shift
     slot_template_name = models.CharField(blank=True, max_length=255)
     # TODO(Leon Handreke): Implement a system to decomission shifts
     shift_template = models.ForeignKey(ShiftTemplate, on_delete=models.PROTECT)
+
+
+class CreateShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
+    template_name = "shifts/log/create_shift_attendance_template_log_entry.html"
+
+
+class DeleteShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
+    template_name = "shifts/log/delete_shift_attendance_template_log_entry.html"
 
 
 class Shift(models.Model):
