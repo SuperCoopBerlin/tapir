@@ -15507,7 +15507,7 @@
     "model": "coop.shareownership",
     "pk": 1,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-09-28",
       "end_date": null,
       "owner": 1
     }
@@ -15516,7 +15516,7 @@
     "model": "coop.shareownership",
     "pk": 2,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2019-05-22",
       "end_date": null,
       "owner": 2
     }
@@ -15525,7 +15525,7 @@
     "model": "coop.shareownership",
     "pk": 3,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2012-08-24",
       "end_date": null,
       "owner": 3
     }
@@ -15534,1771 +15534,8404 @@
     "model": "coop.shareownership",
     "pk": 4,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2012-08-24",
       "end_date": null,
-      "owner": 4
+      "owner": 3
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 5,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2012-08-24",
       "end_date": null,
-      "owner": 5
+      "owner": 3
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 6,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-11-06",
       "end_date": null,
-      "owner": 6
+      "owner": 4
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 7,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-11-06",
       "end_date": null,
-      "owner": 7
+      "owner": 4
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 8,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-11-06",
       "end_date": null,
-      "owner": 8
+      "owner": 4
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 9,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-11-06",
       "end_date": null,
-      "owner": 9
+      "owner": 4
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 10,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-11-06",
       "end_date": null,
-      "owner": 10
+      "owner": 4
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 11,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-22",
       "end_date": null,
-      "owner": 11
+      "owner": 5
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 12,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-22",
       "end_date": null,
-      "owner": 12
+      "owner": 5
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 13,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-22",
       "end_date": null,
-      "owner": 13
+      "owner": 5
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 14,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-22",
       "end_date": null,
-      "owner": 14
+      "owner": 5
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 15,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-22",
       "end_date": null,
-      "owner": 15
+      "owner": 5
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 16,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-22",
       "end_date": null,
-      "owner": 16
+      "owner": 5
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 17,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-22",
       "end_date": null,
-      "owner": 17
+      "owner": 5
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 18,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-09-22",
       "end_date": null,
-      "owner": 18
+      "owner": 6
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 19,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-09-22",
       "end_date": null,
-      "owner": 19
+      "owner": 6
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 20,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-09-22",
       "end_date": null,
-      "owner": 20
+      "owner": 6
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 21,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-09-22",
       "end_date": null,
-      "owner": 21
+      "owner": 6
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 22,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-09-22",
       "end_date": null,
-      "owner": 22
+      "owner": 6
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 23,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-09-22",
       "end_date": null,
-      "owner": 23
+      "owner": 6
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 24,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-09-22",
       "end_date": null,
-      "owner": 24
+      "owner": 6
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 25,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-03-03",
       "end_date": null,
-      "owner": 25
+      "owner": 7
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 26,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-03-03",
       "end_date": null,
-      "owner": 26
+      "owner": 7
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 27,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2019-08-04",
       "end_date": null,
-      "owner": 27
+      "owner": 8
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 28,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2019-08-04",
       "end_date": null,
-      "owner": 28
+      "owner": 8
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 29,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2019-08-04",
       "end_date": null,
-      "owner": 29
+      "owner": 8
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 30,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2019-08-04",
       "end_date": null,
-      "owner": 30
+      "owner": 8
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 31,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2019-08-04",
       "end_date": null,
-      "owner": 31
+      "owner": 8
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 32,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2019-08-04",
       "end_date": null,
-      "owner": 32
+      "owner": 8
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 33,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2019-08-04",
       "end_date": null,
-      "owner": 33
+      "owner": 8
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 34,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-11-25",
       "end_date": null,
-      "owner": 34
+      "owner": 9
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 35,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-11-25",
       "end_date": null,
-      "owner": 35
+      "owner": 9
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 36,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-11-25",
       "end_date": null,
-      "owner": 36
+      "owner": 9
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 37,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-11-25",
       "end_date": null,
-      "owner": 37
+      "owner": 9
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 38,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-11-25",
       "end_date": null,
-      "owner": 38
+      "owner": 9
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 39,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-11-25",
       "end_date": null,
-      "owner": 39
+      "owner": 9
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 40,
     "fields": {
-      "start_date": "2021-08-27",
+      "start_date": "2013-11-06",
       "end_date": null,
-      "owner": 40
+      "owner": 10
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 41,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-11-06",
       "end_date": null,
-      "owner": 41
+      "owner": 10
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 42,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-11-06",
       "end_date": null,
-      "owner": 42
+      "owner": 10
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 43,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-11-06",
       "end_date": null,
-      "owner": 43
+      "owner": 10
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 44,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-11-06",
       "end_date": null,
-      "owner": 44
+      "owner": 10
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 45,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-11-06",
       "end_date": null,
-      "owner": 45
+      "owner": 10
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 46,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-11-06",
       "end_date": null,
-      "owner": 46
+      "owner": 10
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 47,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-11-06",
       "end_date": null,
-      "owner": 47
+      "owner": 10
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 48,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-04-30",
       "end_date": null,
-      "owner": 48
+      "owner": 11
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 49,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-05-11",
       "end_date": null,
-      "owner": 49
+      "owner": 12
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 50,
     "fields": {
-      "start_date": "2021-07-30",
-      "end_date": "2021-08-06",
-      "owner": 50
+      "start_date": "2010-04-06",
+      "end_date": null,
+      "owner": 13
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 51,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2010-04-06",
       "end_date": null,
-      "owner": 51
+      "owner": 13
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 52,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2010-04-06",
       "end_date": null,
-      "owner": 52
+      "owner": 13
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 53,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2010-04-06",
       "end_date": null,
-      "owner": 53
+      "owner": 13
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 54,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2010-04-06",
       "end_date": null,
-      "owner": 54
+      "owner": 13
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 55,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-06-22",
       "end_date": null,
-      "owner": 55
+      "owner": 14
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 56,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-06-22",
       "end_date": null,
-      "owner": 56
+      "owner": 14
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 57,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-06-22",
       "end_date": null,
-      "owner": 57
+      "owner": 14
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 58,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-06-22",
       "end_date": null,
-      "owner": 58
+      "owner": 14
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 59,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-06-22",
       "end_date": null,
-      "owner": 59
+      "owner": 14
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 60,
     "fields": {
-      "start_date": "2021-07-30",
-      "end_date": "2021-08-20",
-      "owner": 60
+      "start_date": "2015-06-22",
+      "end_date": null,
+      "owner": 14
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 61,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-06-22",
       "end_date": null,
-      "owner": 61
+      "owner": 14
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 62,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-06-22",
       "end_date": null,
-      "owner": 62
+      "owner": 14
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 63,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-11-13",
       "end_date": null,
-      "owner": 63
+      "owner": 15
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 64,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-11-13",
       "end_date": null,
-      "owner": 64
+      "owner": 15
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 65,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-11-13",
       "end_date": null,
-      "owner": 65
+      "owner": 15
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 66,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-11-13",
       "end_date": null,
-      "owner": 66
+      "owner": 15
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 67,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-11-13",
       "end_date": null,
-      "owner": 67
+      "owner": 15
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 68,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-11-13",
       "end_date": null,
-      "owner": 68
+      "owner": 15
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 69,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-11-13",
       "end_date": null,
-      "owner": 69
+      "owner": 15
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 70,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-11-13",
       "end_date": null,
-      "owner": 70
+      "owner": 15
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 71,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-11-13",
       "end_date": null,
-      "owner": 71
+      "owner": 15
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 72,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2003-12-27",
       "end_date": null,
-      "owner": 72
+      "owner": 16
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 73,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2003-12-27",
       "end_date": null,
-      "owner": 73
+      "owner": 16
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 74,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2003-12-27",
       "end_date": null,
-      "owner": 74
+      "owner": 16
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 75,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2003-12-27",
       "end_date": null,
-      "owner": 75
+      "owner": 16
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 76,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2003-12-27",
       "end_date": null,
-      "owner": 76
+      "owner": 16
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 77,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2003-12-27",
       "end_date": null,
-      "owner": 77
+      "owner": 16
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 78,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-07-02",
       "end_date": null,
-      "owner": 78
+      "owner": 17
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 79,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-07-02",
       "end_date": null,
-      "owner": 79
+      "owner": 17
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 80,
     "fields": {
-      "start_date": "2021-08-27",
+      "start_date": "2015-07-02",
       "end_date": null,
-      "owner": 80
+      "owner": 17
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 81,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-07-02",
       "end_date": null,
-      "owner": 81
+      "owner": 17
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 82,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-07-02",
       "end_date": null,
-      "owner": 82
+      "owner": 17
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 83,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-07-31",
       "end_date": null,
-      "owner": 83
+      "owner": 18
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 84,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-09-08",
       "end_date": null,
-      "owner": 84
+      "owner": 19
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 85,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-09-08",
       "end_date": null,
-      "owner": 85
+      "owner": 19
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 86,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-09-08",
       "end_date": null,
-      "owner": 86
+      "owner": 19
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 87,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-09-08",
       "end_date": null,
-      "owner": 87
+      "owner": 19
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 88,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-09-08",
       "end_date": null,
-      "owner": 88
+      "owner": 19
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 89,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-03-10",
       "end_date": null,
-      "owner": 89
+      "owner": 20
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 90,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-03-10",
       "end_date": null,
-      "owner": 90
+      "owner": 20
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 91,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-03-10",
       "end_date": null,
-      "owner": 91
+      "owner": 20
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 92,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-03-10",
       "end_date": null,
-      "owner": 92
+      "owner": 20
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 93,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-03-10",
       "end_date": null,
-      "owner": 93
+      "owner": 20
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 94,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-11-07",
       "end_date": null,
-      "owner": 94
+      "owner": 21
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 95,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-11-07",
       "end_date": null,
-      "owner": 95
+      "owner": 21
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 96,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-11-07",
       "end_date": null,
-      "owner": 96
+      "owner": 21
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 97,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-11-07",
       "end_date": null,
-      "owner": 97
+      "owner": 21
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 98,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-01-15",
       "end_date": null,
-      "owner": 98
+      "owner": 22
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 99,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-01-15",
       "end_date": null,
-      "owner": 99
+      "owner": 22
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 100,
     "fields": {
-      "start_date": "2021-07-30",
-      "end_date": "2021-08-06",
-      "owner": 100
+      "start_date": "2004-01-15",
+      "end_date": null,
+      "owner": 22
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 101,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-01-15",
       "end_date": null,
-      "owner": 101
+      "owner": 22
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 102,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-01-15",
       "end_date": null,
-      "owner": 102
+      "owner": 22
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 103,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-10-11",
       "end_date": null,
-      "owner": 103
+      "owner": 23
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 104,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-10-11",
       "end_date": null,
-      "owner": 104
+      "owner": 23
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 105,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-10-11",
       "end_date": null,
-      "owner": 105
+      "owner": 23
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 106,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-10-11",
       "end_date": null,
-      "owner": 106
+      "owner": 23
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 107,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-10-11",
       "end_date": null,
-      "owner": 107
+      "owner": 23
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 108,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-10-11",
       "end_date": null,
-      "owner": 108
+      "owner": 23
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 109,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-09-18",
       "end_date": null,
-      "owner": 109
+      "owner": 24
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 110,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-09-18",
       "end_date": null,
-      "owner": 110
+      "owner": 24
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 111,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-09-18",
       "end_date": null,
-      "owner": 111
+      "owner": 24
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 112,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2004-09-18",
       "end_date": null,
-      "owner": 112
+      "owner": 24
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 113,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2011-07-27",
       "end_date": null,
-      "owner": 113
+      "owner": 25
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 114,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2011-07-27",
       "end_date": null,
-      "owner": 114
+      "owner": 25
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 115,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2011-07-27",
       "end_date": null,
-      "owner": 115
+      "owner": 25
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 116,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-05-12",
       "end_date": null,
-      "owner": 116
+      "owner": 26
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 117,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-05-12",
       "end_date": null,
-      "owner": 117
+      "owner": 26
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 118,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-05-12",
       "end_date": null,
-      "owner": 118
+      "owner": 26
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 119,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-05-12",
       "end_date": null,
-      "owner": 119
+      "owner": 26
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 120,
     "fields": {
-      "start_date": "2021-08-27",
+      "start_date": "2002-05-12",
       "end_date": null,
-      "owner": 120
+      "owner": 26
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 121,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-23",
       "end_date": null,
-      "owner": 121
+      "owner": 27
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 122,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-23",
       "end_date": null,
-      "owner": 122
+      "owner": 27
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 123,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2013-03-04",
       "end_date": null,
-      "owner": 123
+      "owner": 28
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 124,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-10-16",
       "end_date": null,
-      "owner": 124
+      "owner": 29
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 125,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-10-16",
       "end_date": null,
-      "owner": 125
+      "owner": 29
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 126,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-10-16",
       "end_date": null,
-      "owner": 126
+      "owner": 29
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 127,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-10-16",
       "end_date": null,
-      "owner": 127
+      "owner": 29
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 128,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-10-16",
       "end_date": null,
-      "owner": 128
+      "owner": 29
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 129,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-10-16",
       "end_date": null,
-      "owner": 129
+      "owner": 29
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 130,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-10-16",
       "end_date": null,
-      "owner": 130
+      "owner": 29
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 131,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-10-16",
       "end_date": null,
-      "owner": 131
+      "owner": 29
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 132,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-05-17",
       "end_date": null,
-      "owner": 132
+      "owner": 30
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 133,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-05-17",
       "end_date": null,
-      "owner": 133
+      "owner": 30
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 134,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-05-17",
       "end_date": null,
-      "owner": 134
+      "owner": 30
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 135,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-05-17",
       "end_date": null,
-      "owner": 135
+      "owner": 30
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 136,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-05-17",
       "end_date": null,
-      "owner": 136
+      "owner": 30
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 137,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-05-22",
       "end_date": null,
-      "owner": 137
+      "owner": 31
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 138,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-05-22",
       "end_date": null,
-      "owner": 138
+      "owner": 31
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 139,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-05-22",
       "end_date": null,
-      "owner": 139
+      "owner": 31
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 140,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-05-22",
       "end_date": null,
-      "owner": 140
+      "owner": 31
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 141,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-01-27",
       "end_date": null,
-      "owner": 141
+      "owner": 32
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 142,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-01-27",
       "end_date": null,
-      "owner": 142
+      "owner": 32
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 143,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-01-27",
       "end_date": null,
-      "owner": 143
+      "owner": 32
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 144,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2014-01-27",
       "end_date": null,
-      "owner": 144
+      "owner": 32
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 145,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-10-22",
       "end_date": null,
-      "owner": 145
+      "owner": 33
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 146,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-10-22",
       "end_date": null,
-      "owner": 146
+      "owner": 33
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 147,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-10-22",
       "end_date": null,
-      "owner": 147
+      "owner": 33
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 148,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-10-22",
       "end_date": null,
-      "owner": 148
+      "owner": 33
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 149,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2006-10-22",
       "end_date": null,
-      "owner": 149
+      "owner": 33
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 150,
     "fields": {
-      "start_date": "2021-07-30",
-      "end_date": "2021-08-06",
-      "owner": 150
+      "start_date": "2006-10-22",
+      "end_date": null,
+      "owner": 33
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 151,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-25",
       "end_date": null,
-      "owner": 151
+      "owner": 34
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 152,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-25",
       "end_date": null,
-      "owner": 152
+      "owner": 34
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 153,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-25",
       "end_date": null,
-      "owner": 153
+      "owner": 34
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 154,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-25",
       "end_date": null,
-      "owner": 154
+      "owner": 34
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 155,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-25",
       "end_date": null,
-      "owner": 155
+      "owner": 34
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 156,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-25",
       "end_date": null,
-      "owner": 156
+      "owner": 34
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 157,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-25",
       "end_date": null,
-      "owner": 157
+      "owner": 34
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 158,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2008-09-25",
       "end_date": null,
-      "owner": 158
+      "owner": 34
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 159,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2005-04-30",
       "end_date": null,
-      "owner": 159
+      "owner": 35
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 160,
     "fields": {
-      "start_date": "2021-08-27",
+      "start_date": "2005-04-30",
       "end_date": null,
-      "owner": 160
+      "owner": 35
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 161,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2005-04-30",
       "end_date": null,
-      "owner": 161
+      "owner": 35
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 162,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-06-06",
       "end_date": null,
-      "owner": 162
+      "owner": 36
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 163,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-06-06",
       "end_date": null,
-      "owner": 163
+      "owner": 36
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 164,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-06-06",
       "end_date": null,
-      "owner": 164
+      "owner": 36
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 165,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-04-08",
       "end_date": null,
-      "owner": 165
+      "owner": 37
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 166,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-04-08",
       "end_date": null,
-      "owner": 166
+      "owner": 37
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 167,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-04-08",
       "end_date": null,
-      "owner": 167
+      "owner": 37
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 168,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-04-08",
       "end_date": null,
-      "owner": 168
+      "owner": 37
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 169,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-04-08",
       "end_date": null,
-      "owner": 169
+      "owner": 37
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 170,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-04-08",
       "end_date": null,
-      "owner": 170
+      "owner": 37
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 171,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-04-08",
       "end_date": null,
-      "owner": 171
+      "owner": 37
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 172,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-04-08",
       "end_date": null,
-      "owner": 172
+      "owner": 37
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 173,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2007-07-07",
       "end_date": null,
-      "owner": 173
+      "owner": 38
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 174,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2007-07-07",
       "end_date": null,
-      "owner": 174
+      "owner": 38
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 175,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2007-07-07",
       "end_date": null,
-      "owner": 175
+      "owner": 38
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 176,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2007-07-07",
       "end_date": null,
-      "owner": 176
+      "owner": 38
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 177,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2007-07-07",
       "end_date": null,
-      "owner": 177
+      "owner": 38
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 178,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2007-07-07",
       "end_date": null,
-      "owner": 178
+      "owner": 38
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 179,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2007-07-07",
       "end_date": null,
-      "owner": 179
+      "owner": 38
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 180,
     "fields": {
-      "start_date": "2021-07-30",
-      "end_date": "2021-08-20",
-      "owner": 180
+      "start_date": "2007-07-07",
+      "end_date": null,
+      "owner": 38
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 181,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2007-07-07",
       "end_date": null,
-      "owner": 181
+      "owner": 38
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 182,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-01",
       "end_date": null,
-      "owner": 182
+      "owner": 39
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 183,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-01",
       "end_date": null,
-      "owner": 183
+      "owner": 39
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 184,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-01",
       "end_date": null,
-      "owner": 184
+      "owner": 39
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 185,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-01",
       "end_date": null,
-      "owner": 185
+      "owner": 39
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 186,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-01",
       "end_date": null,
-      "owner": 186
+      "owner": 39
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 187,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-01",
       "end_date": null,
-      "owner": 187
+      "owner": 39
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 188,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-01",
       "end_date": null,
-      "owner": 188
+      "owner": 39
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 189,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-01",
       "end_date": null,
-      "owner": 189
+      "owner": 39
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 190,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2015-12-01",
       "end_date": null,
-      "owner": 190
+      "owner": 39
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 191,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2110-02-12",
       "end_date": null,
-      "owner": 191
+      "owner": 40
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 192,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2110-02-12",
       "end_date": null,
-      "owner": 192
+      "owner": 40
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 193,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2110-02-12",
       "end_date": null,
-      "owner": 193
+      "owner": 40
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 194,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2016-11-03",
       "end_date": null,
-      "owner": 194
+      "owner": 41
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 195,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-07-24",
       "end_date": null,
-      "owner": 195
+      "owner": 42
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 196,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-07-24",
       "end_date": null,
-      "owner": 196
+      "owner": 42
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 197,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-07-24",
       "end_date": null,
-      "owner": 197
+      "owner": 42
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 198,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-07-24",
       "end_date": null,
-      "owner": 198
+      "owner": 42
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 199,
     "fields": {
-      "start_date": "2021-07-30",
+      "start_date": "2002-07-24",
       "end_date": null,
-      "owner": 199
+      "owner": 42
     }
   },
   {
     "model": "coop.shareownership",
     "pk": 200,
     "fields": {
-      "start_date": "2021-08-27",
+      "start_date": "2002-07-24",
+      "end_date": null,
+      "owner": 42
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 201,
+    "fields": {
+      "start_date": "2002-07-24",
+      "end_date": null,
+      "owner": 42
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 202,
+    "fields": {
+      "start_date": "2002-07-24",
+      "end_date": null,
+      "owner": 42
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 203,
+    "fields": {
+      "start_date": "2016-09-11",
+      "end_date": null,
+      "owner": 43
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 204,
+    "fields": {
+      "start_date": "2016-09-11",
+      "end_date": null,
+      "owner": 43
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 205,
+    "fields": {
+      "start_date": "2016-09-11",
+      "end_date": null,
+      "owner": 43
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 206,
+    "fields": {
+      "start_date": "2016-09-11",
+      "end_date": null,
+      "owner": 43
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 207,
+    "fields": {
+      "start_date": "2016-05-23",
+      "end_date": null,
+      "owner": 44
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 208,
+    "fields": {
+      "start_date": "2016-05-23",
+      "end_date": null,
+      "owner": 44
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 209,
+    "fields": {
+      "start_date": "2015-01-18",
+      "end_date": null,
+      "owner": 45
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 210,
+    "fields": {
+      "start_date": "2015-01-18",
+      "end_date": null,
+      "owner": 45
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 211,
+    "fields": {
+      "start_date": "2015-01-18",
+      "end_date": null,
+      "owner": 45
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 212,
+    "fields": {
+      "start_date": "2015-01-18",
+      "end_date": null,
+      "owner": 45
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 213,
+    "fields": {
+      "start_date": "2015-01-18",
+      "end_date": null,
+      "owner": 45
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 214,
+    "fields": {
+      "start_date": "2015-01-18",
+      "end_date": null,
+      "owner": 45
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 215,
+    "fields": {
+      "start_date": "2007-08-29",
+      "end_date": null,
+      "owner": 46
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 216,
+    "fields": {
+      "start_date": "2007-08-29",
+      "end_date": null,
+      "owner": 46
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 217,
+    "fields": {
+      "start_date": "2007-08-29",
+      "end_date": null,
+      "owner": 46
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 218,
+    "fields": {
+      "start_date": "2007-08-29",
+      "end_date": null,
+      "owner": 46
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 219,
+    "fields": {
+      "start_date": "2007-08-29",
+      "end_date": null,
+      "owner": 46
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 220,
+    "fields": {
+      "start_date": "2016-04-01",
+      "end_date": null,
+      "owner": 47
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 221,
+    "fields": {
+      "start_date": "2016-04-01",
+      "end_date": null,
+      "owner": 47
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 222,
+    "fields": {
+      "start_date": "2016-04-01",
+      "end_date": null,
+      "owner": 47
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 223,
+    "fields": {
+      "start_date": "2016-04-01",
+      "end_date": null,
+      "owner": 47
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 224,
+    "fields": {
+      "start_date": "2016-04-01",
+      "end_date": null,
+      "owner": 47
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 225,
+    "fields": {
+      "start_date": "2016-04-01",
+      "end_date": null,
+      "owner": 47
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 226,
+    "fields": {
+      "start_date": "2016-04-01",
+      "end_date": null,
+      "owner": 47
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 227,
+    "fields": {
+      "start_date": "2016-04-01",
+      "end_date": null,
+      "owner": 47
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 228,
+    "fields": {
+      "start_date": "2016-04-01",
+      "end_date": null,
+      "owner": 47
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 229,
+    "fields": {
+      "start_date": "2005-11-27",
+      "end_date": null,
+      "owner": 48
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 230,
+    "fields": {
+      "start_date": "2005-11-27",
+      "end_date": null,
+      "owner": 48
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 231,
+    "fields": {
+      "start_date": "2005-11-27",
+      "end_date": null,
+      "owner": 48
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 232,
+    "fields": {
+      "start_date": "2005-11-27",
+      "end_date": null,
+      "owner": 48
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 233,
+    "fields": {
+      "start_date": "2005-11-27",
+      "end_date": null,
+      "owner": 48
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 234,
+    "fields": {
+      "start_date": "2005-11-27",
+      "end_date": null,
+      "owner": 48
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 235,
+    "fields": {
+      "start_date": "2013-01-24",
+      "end_date": null,
+      "owner": 49
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 236,
+    "fields": {
+      "start_date": "2006-02-10",
+      "end_date": "2105-10-09",
+      "owner": 50
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 237,
+    "fields": {
+      "start_date": "2006-02-10",
+      "end_date": "2105-10-09",
+      "owner": 50
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 238,
+    "fields": {
+      "start_date": "2006-02-10",
+      "end_date": "2105-10-09",
+      "owner": 50
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 239,
+    "fields": {
+      "start_date": "2006-02-10",
+      "end_date": "2105-10-09",
+      "owner": 50
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 240,
+    "fields": {
+      "start_date": "2006-02-10",
+      "end_date": "2105-10-09",
+      "owner": 50
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 241,
+    "fields": {
+      "start_date": "2006-02-10",
+      "end_date": "2105-10-09",
+      "owner": 50
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 242,
+    "fields": {
+      "start_date": "2006-02-10",
+      "end_date": "2105-10-09",
+      "owner": 50
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 243,
+    "fields": {
+      "start_date": "2006-02-10",
+      "end_date": "2105-10-09",
+      "owner": 50
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 244,
+    "fields": {
+      "start_date": "2019-04-20",
+      "end_date": null,
+      "owner": 51
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 245,
+    "fields": {
+      "start_date": "2011-06-26",
+      "end_date": null,
+      "owner": 52
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 246,
+    "fields": {
+      "start_date": "2009-09-10",
+      "end_date": null,
+      "owner": 53
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 247,
+    "fields": {
+      "start_date": "2015-07-16",
+      "end_date": null,
+      "owner": 54
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 248,
+    "fields": {
+      "start_date": "2014-01-22",
+      "end_date": null,
+      "owner": 55
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 249,
+    "fields": {
+      "start_date": "2014-01-22",
+      "end_date": null,
+      "owner": 55
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 250,
+    "fields": {
+      "start_date": "2014-01-22",
+      "end_date": null,
+      "owner": 55
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 251,
+    "fields": {
+      "start_date": "2014-01-22",
+      "end_date": null,
+      "owner": 55
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 252,
+    "fields": {
+      "start_date": "2014-01-22",
+      "end_date": null,
+      "owner": 55
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 253,
+    "fields": {
+      "start_date": "2014-01-22",
+      "end_date": null,
+      "owner": 55
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 254,
+    "fields": {
+      "start_date": "2008-10-13",
+      "end_date": null,
+      "owner": 56
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 255,
+    "fields": {
+      "start_date": "2008-10-13",
+      "end_date": null,
+      "owner": 56
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 256,
+    "fields": {
+      "start_date": "2008-10-13",
+      "end_date": null,
+      "owner": 56
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 257,
+    "fields": {
+      "start_date": "2008-10-13",
+      "end_date": null,
+      "owner": 56
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 258,
+    "fields": {
+      "start_date": "2008-10-13",
+      "end_date": null,
+      "owner": 56
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 259,
+    "fields": {
+      "start_date": "2008-10-13",
+      "end_date": null,
+      "owner": 56
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 260,
+    "fields": {
+      "start_date": "2008-10-13",
+      "end_date": null,
+      "owner": 56
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 261,
+    "fields": {
+      "start_date": "2008-10-13",
+      "end_date": null,
+      "owner": 56
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 262,
+    "fields": {
+      "start_date": "2008-10-13",
+      "end_date": null,
+      "owner": 56
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 263,
+    "fields": {
+      "start_date": "2006-12-14",
+      "end_date": null,
+      "owner": 57
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 264,
+    "fields": {
+      "start_date": "2006-12-14",
+      "end_date": null,
+      "owner": 57
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 265,
+    "fields": {
+      "start_date": "2018-03-22",
+      "end_date": null,
+      "owner": 58
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 266,
+    "fields": {
+      "start_date": "2004-10-19",
+      "end_date": null,
+      "owner": 59
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 267,
+    "fields": {
+      "start_date": "2004-10-19",
+      "end_date": null,
+      "owner": 59
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 268,
+    "fields": {
+      "start_date": "2004-10-19",
+      "end_date": null,
+      "owner": 59
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 269,
+    "fields": {
+      "start_date": "2004-10-19",
+      "end_date": null,
+      "owner": 59
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 270,
+    "fields": {
+      "start_date": "2004-10-19",
+      "end_date": null,
+      "owner": 59
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 271,
+    "fields": {
+      "start_date": "2004-10-19",
+      "end_date": null,
+      "owner": 59
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 272,
+    "fields": {
+      "start_date": "2004-10-19",
+      "end_date": null,
+      "owner": 59
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 273,
+    "fields": {
+      "start_date": "2007-04-03",
+      "end_date": "2020-08-18",
+      "owner": 60
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 274,
+    "fields": {
+      "start_date": "2015-09-26",
+      "end_date": null,
+      "owner": 61
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 275,
+    "fields": {
+      "start_date": "2015-09-26",
+      "end_date": null,
+      "owner": 61
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 276,
+    "fields": {
+      "start_date": "2015-09-26",
+      "end_date": null,
+      "owner": 61
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 277,
+    "fields": {
+      "start_date": "2015-09-26",
+      "end_date": null,
+      "owner": 61
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 278,
+    "fields": {
+      "start_date": "2015-09-26",
+      "end_date": null,
+      "owner": 61
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 279,
+    "fields": {
+      "start_date": "2011-10-21",
+      "end_date": null,
+      "owner": 62
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 280,
+    "fields": {
+      "start_date": "2014-08-18",
+      "end_date": null,
+      "owner": 63
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 281,
+    "fields": {
+      "start_date": "2014-08-18",
+      "end_date": null,
+      "owner": 63
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 282,
+    "fields": {
+      "start_date": "2014-08-18",
+      "end_date": null,
+      "owner": 63
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 283,
+    "fields": {
+      "start_date": "2014-08-18",
+      "end_date": null,
+      "owner": 63
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 284,
+    "fields": {
+      "start_date": "2014-08-18",
+      "end_date": null,
+      "owner": 63
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 285,
+    "fields": {
+      "start_date": "2014-08-18",
+      "end_date": null,
+      "owner": 63
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 286,
+    "fields": {
+      "start_date": "2014-08-18",
+      "end_date": null,
+      "owner": 63
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 287,
+    "fields": {
+      "start_date": "2014-08-18",
+      "end_date": null,
+      "owner": 63
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 288,
+    "fields": {
+      "start_date": "2014-08-18",
+      "end_date": null,
+      "owner": 63
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 289,
+    "fields": {
+      "start_date": "2008-02-07",
+      "end_date": null,
+      "owner": 64
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 290,
+    "fields": {
+      "start_date": "2014-08-15",
+      "end_date": null,
+      "owner": 65
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 291,
+    "fields": {
+      "start_date": "2014-08-15",
+      "end_date": null,
+      "owner": 65
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 292,
+    "fields": {
+      "start_date": "2014-08-15",
+      "end_date": null,
+      "owner": 65
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 293,
+    "fields": {
+      "start_date": "2014-08-15",
+      "end_date": null,
+      "owner": 65
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 294,
+    "fields": {
+      "start_date": "2014-08-15",
+      "end_date": null,
+      "owner": 65
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 295,
+    "fields": {
+      "start_date": "2004-06-18",
+      "end_date": null,
+      "owner": 66
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 296,
+    "fields": {
+      "start_date": "2004-06-18",
+      "end_date": null,
+      "owner": 66
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 297,
+    "fields": {
+      "start_date": "2004-06-18",
+      "end_date": null,
+      "owner": 66
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 298,
+    "fields": {
+      "start_date": "2004-06-18",
+      "end_date": null,
+      "owner": 66
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 299,
+    "fields": {
+      "start_date": "2004-06-18",
+      "end_date": null,
+      "owner": 66
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 300,
+    "fields": {
+      "start_date": "2004-06-18",
+      "end_date": null,
+      "owner": 66
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 301,
+    "fields": {
+      "start_date": "2004-06-18",
+      "end_date": null,
+      "owner": 66
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 302,
+    "fields": {
+      "start_date": "2019-07-23",
+      "end_date": null,
+      "owner": 67
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 303,
+    "fields": {
+      "start_date": "2014-09-25",
+      "end_date": null,
+      "owner": 68
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 304,
+    "fields": {
+      "start_date": "2014-09-25",
+      "end_date": null,
+      "owner": 68
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 305,
+    "fields": {
+      "start_date": "2014-09-25",
+      "end_date": null,
+      "owner": 68
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 306,
+    "fields": {
+      "start_date": "2014-09-25",
+      "end_date": null,
+      "owner": 68
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 307,
+    "fields": {
+      "start_date": "2014-09-25",
+      "end_date": null,
+      "owner": 68
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 308,
+    "fields": {
+      "start_date": "2014-09-25",
+      "end_date": null,
+      "owner": 68
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 309,
+    "fields": {
+      "start_date": "2014-09-25",
+      "end_date": null,
+      "owner": 68
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 310,
+    "fields": {
+      "start_date": "2014-09-25",
+      "end_date": null,
+      "owner": 68
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 311,
+    "fields": {
+      "start_date": "2014-09-25",
+      "end_date": null,
+      "owner": 68
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 312,
+    "fields": {
+      "start_date": "2013-07-28",
+      "end_date": null,
+      "owner": 69
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 313,
+    "fields": {
+      "start_date": "2002-08-30",
+      "end_date": null,
+      "owner": 70
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 314,
+    "fields": {
+      "start_date": "2002-08-30",
+      "end_date": null,
+      "owner": 70
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 315,
+    "fields": {
+      "start_date": "2002-08-30",
+      "end_date": null,
+      "owner": 70
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 316,
+    "fields": {
+      "start_date": "2002-08-30",
+      "end_date": null,
+      "owner": 70
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 317,
+    "fields": {
+      "start_date": "2002-08-30",
+      "end_date": null,
+      "owner": 70
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 318,
+    "fields": {
+      "start_date": "2009-01-05",
+      "end_date": null,
+      "owner": 71
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 319,
+    "fields": {
+      "start_date": "2009-01-05",
+      "end_date": null,
+      "owner": 71
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 320,
+    "fields": {
+      "start_date": "2009-01-05",
+      "end_date": null,
+      "owner": 71
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 321,
+    "fields": {
+      "start_date": "2009-01-05",
+      "end_date": null,
+      "owner": 71
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 322,
+    "fields": {
+      "start_date": "2009-07-01",
+      "end_date": null,
+      "owner": 72
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 323,
+    "fields": {
+      "start_date": "2009-07-01",
+      "end_date": null,
+      "owner": 72
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 324,
+    "fields": {
+      "start_date": "2003-02-24",
+      "end_date": null,
+      "owner": 73
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 325,
+    "fields": {
+      "start_date": "2003-02-24",
+      "end_date": null,
+      "owner": 73
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 326,
+    "fields": {
+      "start_date": "2008-06-17",
+      "end_date": null,
+      "owner": 74
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 327,
+    "fields": {
+      "start_date": "2008-06-17",
+      "end_date": null,
+      "owner": 74
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 328,
+    "fields": {
+      "start_date": "2008-06-17",
+      "end_date": null,
+      "owner": 74
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 329,
+    "fields": {
+      "start_date": "2008-06-17",
+      "end_date": null,
+      "owner": 74
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 330,
+    "fields": {
+      "start_date": "2008-06-17",
+      "end_date": null,
+      "owner": 74
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 331,
+    "fields": {
+      "start_date": "2008-06-17",
+      "end_date": null,
+      "owner": 74
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 332,
+    "fields": {
+      "start_date": "2008-06-17",
+      "end_date": null,
+      "owner": 74
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 333,
+    "fields": {
+      "start_date": "2008-06-17",
+      "end_date": null,
+      "owner": 74
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 334,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 75
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 335,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 75
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 336,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 75
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 337,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 75
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 338,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 75
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 339,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 75
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 340,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 75
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 341,
+    "fields": {
+      "start_date": "2013-12-17",
+      "end_date": null,
+      "owner": 76
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 342,
+    "fields": {
+      "start_date": "2013-12-17",
+      "end_date": null,
+      "owner": 76
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 343,
+    "fields": {
+      "start_date": "2013-12-17",
+      "end_date": null,
+      "owner": 76
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 344,
+    "fields": {
+      "start_date": "2013-12-17",
+      "end_date": null,
+      "owner": 76
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 345,
+    "fields": {
+      "start_date": "2013-12-17",
+      "end_date": null,
+      "owner": 76
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 346,
+    "fields": {
+      "start_date": "2013-12-17",
+      "end_date": null,
+      "owner": 76
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 347,
+    "fields": {
+      "start_date": "2013-12-17",
+      "end_date": null,
+      "owner": 76
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 348,
+    "fields": {
+      "start_date": "2013-05-22",
+      "end_date": null,
+      "owner": 77
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 349,
+    "fields": {
+      "start_date": "2013-05-22",
+      "end_date": null,
+      "owner": 77
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 350,
+    "fields": {
+      "start_date": "2013-05-22",
+      "end_date": null,
+      "owner": 77
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 351,
+    "fields": {
+      "start_date": "2013-05-22",
+      "end_date": null,
+      "owner": 77
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 352,
+    "fields": {
+      "start_date": "2013-05-22",
+      "end_date": null,
+      "owner": 77
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 353,
+    "fields": {
+      "start_date": "2013-05-22",
+      "end_date": null,
+      "owner": 77
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 354,
+    "fields": {
+      "start_date": "2013-05-22",
+      "end_date": null,
+      "owner": 77
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 355,
+    "fields": {
+      "start_date": "2013-05-22",
+      "end_date": null,
+      "owner": 77
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 356,
+    "fields": {
+      "start_date": "2009-12-08",
+      "end_date": null,
+      "owner": 78
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 357,
+    "fields": {
+      "start_date": "2009-12-08",
+      "end_date": null,
+      "owner": 78
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 358,
+    "fields": {
+      "start_date": "2009-12-08",
+      "end_date": null,
+      "owner": 78
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 359,
+    "fields": {
+      "start_date": "2009-12-08",
+      "end_date": null,
+      "owner": 78
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 360,
+    "fields": {
+      "start_date": "2009-12-08",
+      "end_date": null,
+      "owner": 78
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 361,
+    "fields": {
+      "start_date": "2009-12-08",
+      "end_date": null,
+      "owner": 78
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 362,
+    "fields": {
+      "start_date": "2009-12-08",
+      "end_date": null,
+      "owner": 78
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 363,
+    "fields": {
+      "start_date": "2009-12-08",
+      "end_date": null,
+      "owner": 78
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 364,
+    "fields": {
+      "start_date": "2009-12-08",
+      "end_date": null,
+      "owner": 78
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 365,
+    "fields": {
+      "start_date": "2019-09-24",
+      "end_date": null,
+      "owner": 79
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 366,
+    "fields": {
+      "start_date": "2105-12-02",
+      "end_date": null,
+      "owner": 80
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 367,
+    "fields": {
+      "start_date": "2019-07-22",
+      "end_date": null,
+      "owner": 81
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 368,
+    "fields": {
+      "start_date": "2003-08-01",
+      "end_date": null,
+      "owner": 82
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 369,
+    "fields": {
+      "start_date": "2003-08-01",
+      "end_date": null,
+      "owner": 82
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 370,
+    "fields": {
+      "start_date": "2003-08-01",
+      "end_date": null,
+      "owner": 82
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 371,
+    "fields": {
+      "start_date": "2003-08-01",
+      "end_date": null,
+      "owner": 82
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 372,
+    "fields": {
+      "start_date": "2003-08-01",
+      "end_date": null,
+      "owner": 82
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 373,
+    "fields": {
+      "start_date": "2003-08-01",
+      "end_date": null,
+      "owner": 82
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 374,
+    "fields": {
+      "start_date": "2003-08-01",
+      "end_date": null,
+      "owner": 82
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 375,
+    "fields": {
+      "start_date": "2003-08-01",
+      "end_date": null,
+      "owner": 82
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 376,
+    "fields": {
+      "start_date": "2003-08-01",
+      "end_date": null,
+      "owner": 82
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 377,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 83
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 378,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 83
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 379,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 83
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 380,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 83
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 381,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 83
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 382,
+    "fields": {
+      "start_date": "2010-04-27",
+      "end_date": null,
+      "owner": 83
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 383,
+    "fields": {
+      "start_date": "2006-07-07",
+      "end_date": null,
+      "owner": 84
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 384,
+    "fields": {
+      "start_date": "2006-07-07",
+      "end_date": null,
+      "owner": 84
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 385,
+    "fields": {
+      "start_date": "2006-07-07",
+      "end_date": null,
+      "owner": 84
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 386,
+    "fields": {
+      "start_date": "2013-06-07",
+      "end_date": null,
+      "owner": 85
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 387,
+    "fields": {
+      "start_date": "2018-01-12",
+      "end_date": null,
+      "owner": 86
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 388,
+    "fields": {
+      "start_date": "2018-01-12",
+      "end_date": null,
+      "owner": 86
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 389,
+    "fields": {
+      "start_date": "2018-01-12",
+      "end_date": null,
+      "owner": 86
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 390,
+    "fields": {
+      "start_date": "2018-01-12",
+      "end_date": null,
+      "owner": 86
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 391,
+    "fields": {
+      "start_date": "2018-01-12",
+      "end_date": null,
+      "owner": 86
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 392,
+    "fields": {
+      "start_date": "2018-01-12",
+      "end_date": null,
+      "owner": 86
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 393,
+    "fields": {
+      "start_date": "2010-04-03",
+      "end_date": null,
+      "owner": 87
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 394,
+    "fields": {
+      "start_date": "2010-04-03",
+      "end_date": null,
+      "owner": 87
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 395,
+    "fields": {
+      "start_date": "2010-04-03",
+      "end_date": null,
+      "owner": 87
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 396,
+    "fields": {
+      "start_date": "2010-04-03",
+      "end_date": null,
+      "owner": 87
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 397,
+    "fields": {
+      "start_date": "2010-04-03",
+      "end_date": null,
+      "owner": 87
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 398,
+    "fields": {
+      "start_date": "2010-04-03",
+      "end_date": null,
+      "owner": 87
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 399,
+    "fields": {
+      "start_date": "2010-04-03",
+      "end_date": null,
+      "owner": 87
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 400,
+    "fields": {
+      "start_date": "2010-04-03",
+      "end_date": null,
+      "owner": 87
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 401,
+    "fields": {
+      "start_date": "2018-05-22",
+      "end_date": null,
+      "owner": 88
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 402,
+    "fields": {
+      "start_date": "2018-05-22",
+      "end_date": null,
+      "owner": 88
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 403,
+    "fields": {
+      "start_date": "2018-05-22",
+      "end_date": null,
+      "owner": 88
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 404,
+    "fields": {
+      "start_date": "2010-01-12",
+      "end_date": null,
+      "owner": 89
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 405,
+    "fields": {
+      "start_date": "2010-01-12",
+      "end_date": null,
+      "owner": 89
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 406,
+    "fields": {
+      "start_date": "2010-01-12",
+      "end_date": null,
+      "owner": 89
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 407,
+    "fields": {
+      "start_date": "2015-05-22",
+      "end_date": null,
+      "owner": 90
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 408,
+    "fields": {
+      "start_date": "2015-05-22",
+      "end_date": null,
+      "owner": 90
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 409,
+    "fields": {
+      "start_date": "2015-05-22",
+      "end_date": null,
+      "owner": 90
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 410,
+    "fields": {
+      "start_date": "2015-05-22",
+      "end_date": null,
+      "owner": 90
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 411,
+    "fields": {
+      "start_date": "2015-05-22",
+      "end_date": null,
+      "owner": 90
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 412,
+    "fields": {
+      "start_date": "2015-05-22",
+      "end_date": null,
+      "owner": 90
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 413,
+    "fields": {
+      "start_date": "2015-05-22",
+      "end_date": null,
+      "owner": 90
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 414,
+    "fields": {
+      "start_date": "2016-08-25",
+      "end_date": null,
+      "owner": 91
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 415,
+    "fields": {
+      "start_date": "2016-08-25",
+      "end_date": null,
+      "owner": 91
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 416,
+    "fields": {
+      "start_date": "2016-08-25",
+      "end_date": null,
+      "owner": 91
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 417,
+    "fields": {
+      "start_date": "2016-08-25",
+      "end_date": null,
+      "owner": 91
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 418,
+    "fields": {
+      "start_date": "2016-08-25",
+      "end_date": null,
+      "owner": 91
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 419,
+    "fields": {
+      "start_date": "2016-08-25",
+      "end_date": null,
+      "owner": 91
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 420,
+    "fields": {
+      "start_date": "2016-08-25",
+      "end_date": null,
+      "owner": 91
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 421,
+    "fields": {
+      "start_date": "2009-11-13",
+      "end_date": null,
+      "owner": 92
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 422,
+    "fields": {
+      "start_date": "2009-11-13",
+      "end_date": null,
+      "owner": 92
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 423,
+    "fields": {
+      "start_date": "2009-11-13",
+      "end_date": null,
+      "owner": 92
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 424,
+    "fields": {
+      "start_date": "2009-11-13",
+      "end_date": null,
+      "owner": 92
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 425,
+    "fields": {
+      "start_date": "2009-11-13",
+      "end_date": null,
+      "owner": 92
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 426,
+    "fields": {
+      "start_date": "2009-11-13",
+      "end_date": null,
+      "owner": 92
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 427,
+    "fields": {
+      "start_date": "2009-11-13",
+      "end_date": null,
+      "owner": 92
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 428,
+    "fields": {
+      "start_date": "2009-11-13",
+      "end_date": null,
+      "owner": 92
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 429,
+    "fields": {
+      "start_date": "2009-11-13",
+      "end_date": null,
+      "owner": 92
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 430,
+    "fields": {
+      "start_date": "2009-09-29",
+      "end_date": null,
+      "owner": 93
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 431,
+    "fields": {
+      "start_date": "2009-09-29",
+      "end_date": null,
+      "owner": 93
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 432,
+    "fields": {
+      "start_date": "2009-09-29",
+      "end_date": null,
+      "owner": 93
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 433,
+    "fields": {
+      "start_date": "2009-09-29",
+      "end_date": null,
+      "owner": 93
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 434,
+    "fields": {
+      "start_date": "2009-09-29",
+      "end_date": null,
+      "owner": 93
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 435,
+    "fields": {
+      "start_date": "2009-09-29",
+      "end_date": null,
+      "owner": 93
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 436,
+    "fields": {
+      "start_date": "2009-09-29",
+      "end_date": null,
+      "owner": 93
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 437,
+    "fields": {
+      "start_date": "2009-09-29",
+      "end_date": null,
+      "owner": 93
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 438,
+    "fields": {
+      "start_date": "2009-09-29",
+      "end_date": null,
+      "owner": 93
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 439,
+    "fields": {
+      "start_date": "2019-01-10",
+      "end_date": null,
+      "owner": 94
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 440,
+    "fields": {
+      "start_date": "2019-01-10",
+      "end_date": null,
+      "owner": 94
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 441,
+    "fields": {
+      "start_date": "2019-01-10",
+      "end_date": null,
+      "owner": 94
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 442,
+    "fields": {
+      "start_date": "2019-01-10",
+      "end_date": null,
+      "owner": 94
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 443,
+    "fields": {
+      "start_date": "2019-01-10",
+      "end_date": null,
+      "owner": 94
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 444,
+    "fields": {
+      "start_date": "2019-01-10",
+      "end_date": null,
+      "owner": 94
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 445,
+    "fields": {
+      "start_date": "2019-01-10",
+      "end_date": null,
+      "owner": 94
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 446,
+    "fields": {
+      "start_date": "2016-07-13",
+      "end_date": null,
+      "owner": 95
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 447,
+    "fields": {
+      "start_date": "2016-07-13",
+      "end_date": null,
+      "owner": 95
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 448,
+    "fields": {
+      "start_date": "2016-07-13",
+      "end_date": null,
+      "owner": 95
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 449,
+    "fields": {
+      "start_date": "2016-07-13",
+      "end_date": null,
+      "owner": 95
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 450,
+    "fields": {
+      "start_date": "2016-07-13",
+      "end_date": null,
+      "owner": 95
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 451,
+    "fields": {
+      "start_date": "2016-07-13",
+      "end_date": null,
+      "owner": 95
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 452,
+    "fields": {
+      "start_date": "2007-10-13",
+      "end_date": null,
+      "owner": 96
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 453,
+    "fields": {
+      "start_date": "2007-10-13",
+      "end_date": null,
+      "owner": 96
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 454,
+    "fields": {
+      "start_date": "2007-10-13",
+      "end_date": null,
+      "owner": 96
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 455,
+    "fields": {
+      "start_date": "2007-10-13",
+      "end_date": null,
+      "owner": 96
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 456,
+    "fields": {
+      "start_date": "2007-10-13",
+      "end_date": null,
+      "owner": 96
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 457,
+    "fields": {
+      "start_date": "2007-10-13",
+      "end_date": null,
+      "owner": 96
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 458,
+    "fields": {
+      "start_date": "2009-09-18",
+      "end_date": null,
+      "owner": 97
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 459,
+    "fields": {
+      "start_date": "2009-09-18",
+      "end_date": null,
+      "owner": 97
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 460,
+    "fields": {
+      "start_date": "2009-09-18",
+      "end_date": null,
+      "owner": 97
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 461,
+    "fields": {
+      "start_date": "2009-09-18",
+      "end_date": null,
+      "owner": 97
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 462,
+    "fields": {
+      "start_date": "2006-03-27",
+      "end_date": null,
+      "owner": 98
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 463,
+    "fields": {
+      "start_date": "2006-03-27",
+      "end_date": null,
+      "owner": 98
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 464,
+    "fields": {
+      "start_date": "2006-03-27",
+      "end_date": null,
+      "owner": 98
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 465,
+    "fields": {
+      "start_date": "2006-03-27",
+      "end_date": null,
+      "owner": 98
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 466,
+    "fields": {
+      "start_date": "2006-03-27",
+      "end_date": null,
+      "owner": 98
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 467,
+    "fields": {
+      "start_date": "2006-03-27",
+      "end_date": null,
+      "owner": 98
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 468,
+    "fields": {
+      "start_date": "2006-03-27",
+      "end_date": null,
+      "owner": 98
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 469,
+    "fields": {
+      "start_date": "2006-03-27",
+      "end_date": null,
+      "owner": 98
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 470,
+    "fields": {
+      "start_date": "2016-09-20",
+      "end_date": null,
+      "owner": 99
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 471,
+    "fields": {
+      "start_date": "2016-09-20",
+      "end_date": null,
+      "owner": 99
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 472,
+    "fields": {
+      "start_date": "2016-09-20",
+      "end_date": null,
+      "owner": 99
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 473,
+    "fields": {
+      "start_date": "2017-07-28",
+      "end_date": "2117-03-26",
+      "owner": 100
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 474,
+    "fields": {
+      "start_date": "2017-07-28",
+      "end_date": "2117-03-26",
+      "owner": 100
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 475,
+    "fields": {
+      "start_date": "2018-04-08",
+      "end_date": null,
+      "owner": 101
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 476,
+    "fields": {
+      "start_date": "2018-04-08",
+      "end_date": null,
+      "owner": 101
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 477,
+    "fields": {
+      "start_date": "2010-08-11",
+      "end_date": null,
+      "owner": 102
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 478,
+    "fields": {
+      "start_date": "2010-08-11",
+      "end_date": null,
+      "owner": 102
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 479,
+    "fields": {
+      "start_date": "2010-08-11",
+      "end_date": null,
+      "owner": 102
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 480,
+    "fields": {
+      "start_date": "2002-03-26",
+      "end_date": null,
+      "owner": 103
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 481,
+    "fields": {
+      "start_date": "2002-03-26",
+      "end_date": null,
+      "owner": 103
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 482,
+    "fields": {
+      "start_date": "2002-03-26",
+      "end_date": null,
+      "owner": 103
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 483,
+    "fields": {
+      "start_date": "2002-03-26",
+      "end_date": null,
+      "owner": 103
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 484,
+    "fields": {
+      "start_date": "2002-03-26",
+      "end_date": null,
+      "owner": 103
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 485,
+    "fields": {
+      "start_date": "2011-01-10",
+      "end_date": null,
+      "owner": 104
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 486,
+    "fields": {
+      "start_date": "2011-01-10",
+      "end_date": null,
+      "owner": 104
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 487,
+    "fields": {
+      "start_date": "2011-01-10",
+      "end_date": null,
+      "owner": 104
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 488,
+    "fields": {
+      "start_date": "2011-01-10",
+      "end_date": null,
+      "owner": 104
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 489,
+    "fields": {
+      "start_date": "2011-01-10",
+      "end_date": null,
+      "owner": 104
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 490,
+    "fields": {
+      "start_date": "2011-01-10",
+      "end_date": null,
+      "owner": 104
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 491,
+    "fields": {
+      "start_date": "2011-01-10",
+      "end_date": null,
+      "owner": 104
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 492,
+    "fields": {
+      "start_date": "2011-01-10",
+      "end_date": null,
+      "owner": 104
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 493,
+    "fields": {
+      "start_date": "2008-02-23",
+      "end_date": null,
+      "owner": 105
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 494,
+    "fields": {
+      "start_date": "2008-02-23",
+      "end_date": null,
+      "owner": 105
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 495,
+    "fields": {
+      "start_date": "2008-02-23",
+      "end_date": null,
+      "owner": 105
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 496,
+    "fields": {
+      "start_date": "2008-02-23",
+      "end_date": null,
+      "owner": 105
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 497,
+    "fields": {
+      "start_date": "2008-02-23",
+      "end_date": null,
+      "owner": 105
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 498,
+    "fields": {
+      "start_date": "2009-11-28",
+      "end_date": null,
+      "owner": 106
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 499,
+    "fields": {
+      "start_date": "2009-11-28",
+      "end_date": null,
+      "owner": 106
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 500,
+    "fields": {
+      "start_date": "2009-11-28",
+      "end_date": null,
+      "owner": 106
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 501,
+    "fields": {
+      "start_date": "2009-11-28",
+      "end_date": null,
+      "owner": 106
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 502,
+    "fields": {
+      "start_date": "2009-11-28",
+      "end_date": null,
+      "owner": 106
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 503,
+    "fields": {
+      "start_date": "2009-11-28",
+      "end_date": null,
+      "owner": 106
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 504,
+    "fields": {
+      "start_date": "2009-11-28",
+      "end_date": null,
+      "owner": 106
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 505,
+    "fields": {
+      "start_date": "2016-05-13",
+      "end_date": null,
+      "owner": 107
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 506,
+    "fields": {
+      "start_date": "2016-05-13",
+      "end_date": null,
+      "owner": 107
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 507,
+    "fields": {
+      "start_date": "2016-05-13",
+      "end_date": null,
+      "owner": 107
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 508,
+    "fields": {
+      "start_date": "2016-05-13",
+      "end_date": null,
+      "owner": 107
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 509,
+    "fields": {
+      "start_date": "2016-05-13",
+      "end_date": null,
+      "owner": 107
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 510,
+    "fields": {
+      "start_date": "2016-05-13",
+      "end_date": null,
+      "owner": 107
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 511,
+    "fields": {
+      "start_date": "2016-05-13",
+      "end_date": null,
+      "owner": 107
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 512,
+    "fields": {
+      "start_date": "2016-05-13",
+      "end_date": null,
+      "owner": 107
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 513,
+    "fields": {
+      "start_date": "2015-02-27",
+      "end_date": null,
+      "owner": 108
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 514,
+    "fields": {
+      "start_date": "2015-02-27",
+      "end_date": null,
+      "owner": 108
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 515,
+    "fields": {
+      "start_date": "2015-02-27",
+      "end_date": null,
+      "owner": 108
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 516,
+    "fields": {
+      "start_date": "2015-02-27",
+      "end_date": null,
+      "owner": 108
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 517,
+    "fields": {
+      "start_date": "2015-02-27",
+      "end_date": null,
+      "owner": 108
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 518,
+    "fields": {
+      "start_date": "2015-02-27",
+      "end_date": null,
+      "owner": 108
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 519,
+    "fields": {
+      "start_date": "2015-01-07",
+      "end_date": null,
+      "owner": 109
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 520,
+    "fields": {
+      "start_date": "2015-01-07",
+      "end_date": null,
+      "owner": 109
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 521,
+    "fields": {
+      "start_date": "2015-01-07",
+      "end_date": null,
+      "owner": 109
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 522,
+    "fields": {
+      "start_date": "2015-01-07",
+      "end_date": null,
+      "owner": 109
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 523,
+    "fields": {
+      "start_date": "2015-01-07",
+      "end_date": null,
+      "owner": 109
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 524,
+    "fields": {
+      "start_date": "2015-01-07",
+      "end_date": null,
+      "owner": 109
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 525,
+    "fields": {
+      "start_date": "2005-09-28",
+      "end_date": null,
+      "owner": 110
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 526,
+    "fields": {
+      "start_date": "2005-09-28",
+      "end_date": null,
+      "owner": 110
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 527,
+    "fields": {
+      "start_date": "2005-09-28",
+      "end_date": null,
+      "owner": 110
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 528,
+    "fields": {
+      "start_date": "2005-09-28",
+      "end_date": null,
+      "owner": 110
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 529,
+    "fields": {
+      "start_date": "2005-09-28",
+      "end_date": null,
+      "owner": 110
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 530,
+    "fields": {
+      "start_date": "2005-09-28",
+      "end_date": null,
+      "owner": 110
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 531,
+    "fields": {
+      "start_date": "2005-09-28",
+      "end_date": null,
+      "owner": 110
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 532,
+    "fields": {
+      "start_date": "2005-09-28",
+      "end_date": null,
+      "owner": 110
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 533,
+    "fields": {
+      "start_date": "2003-09-29",
+      "end_date": null,
+      "owner": 111
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 534,
+    "fields": {
+      "start_date": "2003-09-29",
+      "end_date": null,
+      "owner": 111
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 535,
+    "fields": {
+      "start_date": "2003-09-29",
+      "end_date": null,
+      "owner": 111
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 536,
+    "fields": {
+      "start_date": "2003-09-29",
+      "end_date": null,
+      "owner": 111
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 537,
+    "fields": {
+      "start_date": "2003-09-29",
+      "end_date": null,
+      "owner": 111
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 538,
+    "fields": {
+      "start_date": "2003-09-29",
+      "end_date": null,
+      "owner": 111
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 539,
+    "fields": {
+      "start_date": "2003-09-29",
+      "end_date": null,
+      "owner": 111
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 540,
+    "fields": {
+      "start_date": "2003-09-29",
+      "end_date": null,
+      "owner": 111
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 541,
+    "fields": {
+      "start_date": "2003-09-29",
+      "end_date": null,
+      "owner": 111
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 542,
+    "fields": {
+      "start_date": "2012-07-03",
+      "end_date": null,
+      "owner": 112
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 543,
+    "fields": {
+      "start_date": "2007-10-22",
+      "end_date": null,
+      "owner": 113
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 544,
+    "fields": {
+      "start_date": "2013-07-23",
+      "end_date": null,
+      "owner": 114
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 545,
+    "fields": {
+      "start_date": "2013-07-23",
+      "end_date": null,
+      "owner": 114
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 546,
+    "fields": {
+      "start_date": "2013-07-23",
+      "end_date": null,
+      "owner": 114
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 547,
+    "fields": {
+      "start_date": "2013-07-23",
+      "end_date": null,
+      "owner": 114
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 548,
+    "fields": {
+      "start_date": "2013-07-23",
+      "end_date": null,
+      "owner": 114
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 549,
+    "fields": {
+      "start_date": "2013-07-23",
+      "end_date": null,
+      "owner": 114
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 550,
+    "fields": {
+      "start_date": "2012-08-10",
+      "end_date": null,
+      "owner": 115
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 551,
+    "fields": {
+      "start_date": "2003-04-16",
+      "end_date": null,
+      "owner": 116
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 552,
+    "fields": {
+      "start_date": "2003-04-16",
+      "end_date": null,
+      "owner": 116
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 553,
+    "fields": {
+      "start_date": "2003-04-16",
+      "end_date": null,
+      "owner": 116
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 554,
+    "fields": {
+      "start_date": "2003-04-16",
+      "end_date": null,
+      "owner": 116
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 555,
+    "fields": {
+      "start_date": "2003-04-16",
+      "end_date": null,
+      "owner": 116
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 556,
+    "fields": {
+      "start_date": "2003-04-16",
+      "end_date": null,
+      "owner": 116
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 557,
+    "fields": {
+      "start_date": "2003-04-16",
+      "end_date": null,
+      "owner": 116
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 558,
+    "fields": {
+      "start_date": "2014-12-06",
+      "end_date": null,
+      "owner": 117
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 559,
+    "fields": {
+      "start_date": "2014-12-06",
+      "end_date": null,
+      "owner": 117
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 560,
+    "fields": {
+      "start_date": "2014-12-06",
+      "end_date": null,
+      "owner": 117
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 561,
+    "fields": {
+      "start_date": "2014-12-06",
+      "end_date": null,
+      "owner": 117
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 562,
+    "fields": {
+      "start_date": "2014-12-06",
+      "end_date": null,
+      "owner": 117
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 563,
+    "fields": {
+      "start_date": "2007-08-17",
+      "end_date": null,
+      "owner": 118
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 564,
+    "fields": {
+      "start_date": "2007-08-17",
+      "end_date": null,
+      "owner": 118
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 565,
+    "fields": {
+      "start_date": "2007-08-17",
+      "end_date": null,
+      "owner": 118
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 566,
+    "fields": {
+      "start_date": "2007-08-17",
+      "end_date": null,
+      "owner": 118
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 567,
+    "fields": {
+      "start_date": "2007-08-17",
+      "end_date": null,
+      "owner": 118
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 568,
+    "fields": {
+      "start_date": "2007-08-17",
+      "end_date": null,
+      "owner": 118
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 569,
+    "fields": {
+      "start_date": "2007-08-17",
+      "end_date": null,
+      "owner": 118
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 570,
+    "fields": {
+      "start_date": "2013-08-19",
+      "end_date": null,
+      "owner": 119
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 571,
+    "fields": {
+      "start_date": "2013-08-19",
+      "end_date": null,
+      "owner": 119
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 572,
+    "fields": {
+      "start_date": "2013-08-19",
+      "end_date": null,
+      "owner": 119
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 573,
+    "fields": {
+      "start_date": "2013-08-19",
+      "end_date": null,
+      "owner": 119
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 574,
+    "fields": {
+      "start_date": "2013-08-19",
+      "end_date": null,
+      "owner": 119
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 575,
+    "fields": {
+      "start_date": "2013-08-19",
+      "end_date": null,
+      "owner": 119
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 576,
+    "fields": {
+      "start_date": "2106-01-10",
+      "end_date": null,
+      "owner": 120
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 577,
+    "fields": {
+      "start_date": "2106-01-10",
+      "end_date": null,
+      "owner": 120
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 578,
+    "fields": {
+      "start_date": "2106-01-10",
+      "end_date": null,
+      "owner": 120
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 579,
+    "fields": {
+      "start_date": "2017-02-06",
+      "end_date": null,
+      "owner": 121
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 580,
+    "fields": {
+      "start_date": "2017-02-06",
+      "end_date": null,
+      "owner": 121
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 581,
+    "fields": {
+      "start_date": "2017-11-09",
+      "end_date": null,
+      "owner": 122
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 582,
+    "fields": {
+      "start_date": "2003-04-04",
+      "end_date": null,
+      "owner": 123
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 583,
+    "fields": {
+      "start_date": "2011-09-06",
+      "end_date": null,
+      "owner": 124
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 584,
+    "fields": {
+      "start_date": "2011-09-06",
+      "end_date": null,
+      "owner": 124
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 585,
+    "fields": {
+      "start_date": "2009-06-18",
+      "end_date": null,
+      "owner": 125
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 586,
+    "fields": {
+      "start_date": "2009-06-18",
+      "end_date": null,
+      "owner": 125
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 587,
+    "fields": {
+      "start_date": "2011-12-19",
+      "end_date": null,
+      "owner": 126
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 588,
+    "fields": {
+      "start_date": "2011-12-19",
+      "end_date": null,
+      "owner": 126
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 589,
+    "fields": {
+      "start_date": "2017-12-24",
+      "end_date": null,
+      "owner": 127
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 590,
+    "fields": {
+      "start_date": "2012-05-17",
+      "end_date": null,
+      "owner": 128
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 591,
+    "fields": {
+      "start_date": "2012-05-17",
+      "end_date": null,
+      "owner": 128
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 592,
+    "fields": {
+      "start_date": "2012-05-17",
+      "end_date": null,
+      "owner": 128
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 593,
+    "fields": {
+      "start_date": "2012-05-17",
+      "end_date": null,
+      "owner": 128
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 594,
+    "fields": {
+      "start_date": "2012-05-17",
+      "end_date": null,
+      "owner": 128
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 595,
+    "fields": {
+      "start_date": "2012-05-17",
+      "end_date": null,
+      "owner": 128
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 596,
+    "fields": {
+      "start_date": "2012-05-17",
+      "end_date": null,
+      "owner": 128
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 597,
+    "fields": {
+      "start_date": "2012-05-17",
+      "end_date": null,
+      "owner": 128
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 598,
+    "fields": {
+      "start_date": "2011-11-10",
+      "end_date": null,
+      "owner": 129
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 599,
+    "fields": {
+      "start_date": "2011-11-10",
+      "end_date": null,
+      "owner": 129
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 600,
+    "fields": {
+      "start_date": "2011-11-10",
+      "end_date": null,
+      "owner": 129
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 601,
+    "fields": {
+      "start_date": "2011-11-10",
+      "end_date": null,
+      "owner": 129
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 602,
+    "fields": {
+      "start_date": "2011-11-10",
+      "end_date": null,
+      "owner": 129
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 603,
+    "fields": {
+      "start_date": "2011-07-06",
+      "end_date": null,
+      "owner": 130
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 604,
+    "fields": {
+      "start_date": "2011-07-06",
+      "end_date": null,
+      "owner": 130
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 605,
+    "fields": {
+      "start_date": "2011-07-06",
+      "end_date": null,
+      "owner": 130
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 606,
+    "fields": {
+      "start_date": "2011-07-06",
+      "end_date": null,
+      "owner": 130
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 607,
+    "fields": {
+      "start_date": "2011-07-06",
+      "end_date": null,
+      "owner": 130
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 608,
+    "fields": {
+      "start_date": "2011-07-06",
+      "end_date": null,
+      "owner": 130
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 609,
+    "fields": {
+      "start_date": "2004-09-10",
+      "end_date": null,
+      "owner": 131
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 610,
+    "fields": {
+      "start_date": "2011-12-11",
+      "end_date": null,
+      "owner": 132
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 611,
+    "fields": {
+      "start_date": "2011-12-11",
+      "end_date": null,
+      "owner": 132
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 612,
+    "fields": {
+      "start_date": "2011-12-11",
+      "end_date": null,
+      "owner": 132
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 613,
+    "fields": {
+      "start_date": "2011-12-11",
+      "end_date": null,
+      "owner": 132
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 614,
+    "fields": {
+      "start_date": "2011-12-11",
+      "end_date": null,
+      "owner": 132
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 615,
+    "fields": {
+      "start_date": "2011-12-11",
+      "end_date": null,
+      "owner": 132
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 616,
+    "fields": {
+      "start_date": "2011-12-11",
+      "end_date": null,
+      "owner": 132
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 617,
+    "fields": {
+      "start_date": "2018-08-21",
+      "end_date": null,
+      "owner": 133
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 618,
+    "fields": {
+      "start_date": "2005-11-11",
+      "end_date": null,
+      "owner": 134
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 619,
+    "fields": {
+      "start_date": "2005-11-11",
+      "end_date": null,
+      "owner": 134
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 620,
+    "fields": {
+      "start_date": "2005-11-11",
+      "end_date": null,
+      "owner": 134
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 621,
+    "fields": {
+      "start_date": "2005-11-11",
+      "end_date": null,
+      "owner": 134
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 622,
+    "fields": {
+      "start_date": "2005-11-11",
+      "end_date": null,
+      "owner": 134
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 623,
+    "fields": {
+      "start_date": "2010-05-09",
+      "end_date": null,
+      "owner": 135
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 624,
+    "fields": {
+      "start_date": "2010-05-09",
+      "end_date": null,
+      "owner": 135
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 625,
+    "fields": {
+      "start_date": "2010-05-09",
+      "end_date": null,
+      "owner": 135
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 626,
+    "fields": {
+      "start_date": "2015-11-11",
+      "end_date": null,
+      "owner": 136
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 627,
+    "fields": {
+      "start_date": "2006-01-16",
+      "end_date": null,
+      "owner": 137
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 628,
+    "fields": {
+      "start_date": "2006-01-16",
+      "end_date": null,
+      "owner": 137
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 629,
+    "fields": {
+      "start_date": "2006-01-16",
+      "end_date": null,
+      "owner": 137
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 630,
+    "fields": {
+      "start_date": "2016-07-21",
+      "end_date": null,
+      "owner": 138
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 631,
+    "fields": {
+      "start_date": "2016-07-21",
+      "end_date": null,
+      "owner": 138
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 632,
+    "fields": {
+      "start_date": "2016-07-21",
+      "end_date": null,
+      "owner": 138
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 633,
+    "fields": {
+      "start_date": "2016-07-21",
+      "end_date": null,
+      "owner": 138
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 634,
+    "fields": {
+      "start_date": "2016-07-21",
+      "end_date": null,
+      "owner": 138
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 635,
+    "fields": {
+      "start_date": "2016-07-21",
+      "end_date": null,
+      "owner": 138
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 636,
+    "fields": {
+      "start_date": "2016-07-21",
+      "end_date": null,
+      "owner": 138
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 637,
+    "fields": {
+      "start_date": "2005-11-16",
+      "end_date": null,
+      "owner": 139
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 638,
+    "fields": {
+      "start_date": "2005-11-16",
+      "end_date": null,
+      "owner": 139
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 639,
+    "fields": {
+      "start_date": "2005-11-16",
+      "end_date": null,
+      "owner": 139
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 640,
+    "fields": {
+      "start_date": "2002-03-23",
+      "end_date": null,
+      "owner": 140
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 641,
+    "fields": {
+      "start_date": "2002-03-23",
+      "end_date": null,
+      "owner": 140
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 642,
+    "fields": {
+      "start_date": "2002-03-23",
+      "end_date": null,
+      "owner": 140
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 643,
+    "fields": {
+      "start_date": "2002-03-23",
+      "end_date": null,
+      "owner": 140
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 644,
+    "fields": {
+      "start_date": "2014-02-09",
+      "end_date": null,
+      "owner": 141
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 645,
+    "fields": {
+      "start_date": "2014-02-09",
+      "end_date": null,
+      "owner": 141
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 646,
+    "fields": {
+      "start_date": "2005-08-05",
+      "end_date": null,
+      "owner": 142
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 647,
+    "fields": {
+      "start_date": "2005-08-05",
+      "end_date": null,
+      "owner": 142
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 648,
+    "fields": {
+      "start_date": "2005-08-05",
+      "end_date": null,
+      "owner": 142
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 649,
+    "fields": {
+      "start_date": "2005-08-05",
+      "end_date": null,
+      "owner": 142
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 650,
+    "fields": {
+      "start_date": "2013-02-17",
+      "end_date": null,
+      "owner": 143
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 651,
+    "fields": {
+      "start_date": "2013-02-17",
+      "end_date": null,
+      "owner": 143
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 652,
+    "fields": {
+      "start_date": "2013-02-17",
+      "end_date": null,
+      "owner": 143
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 653,
+    "fields": {
+      "start_date": "2013-02-17",
+      "end_date": null,
+      "owner": 143
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 654,
+    "fields": {
+      "start_date": "2013-02-17",
+      "end_date": null,
+      "owner": 143
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 655,
+    "fields": {
+      "start_date": "2011-10-28",
+      "end_date": null,
+      "owner": 144
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 656,
+    "fields": {
+      "start_date": "2011-10-28",
+      "end_date": null,
+      "owner": 144
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 657,
+    "fields": {
+      "start_date": "2011-10-28",
+      "end_date": null,
+      "owner": 144
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 658,
+    "fields": {
+      "start_date": "2011-10-28",
+      "end_date": null,
+      "owner": 144
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 659,
+    "fields": {
+      "start_date": "2011-10-28",
+      "end_date": null,
+      "owner": 144
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 660,
+    "fields": {
+      "start_date": "2002-08-20",
+      "end_date": null,
+      "owner": 145
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 661,
+    "fields": {
+      "start_date": "2002-08-20",
+      "end_date": null,
+      "owner": 145
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 662,
+    "fields": {
+      "start_date": "2002-08-20",
+      "end_date": null,
+      "owner": 145
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 663,
+    "fields": {
+      "start_date": "2002-08-20",
+      "end_date": null,
+      "owner": 145
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 664,
+    "fields": {
+      "start_date": "2002-08-20",
+      "end_date": null,
+      "owner": 145
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 665,
+    "fields": {
+      "start_date": "2002-08-20",
+      "end_date": null,
+      "owner": 145
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 666,
+    "fields": {
+      "start_date": "2002-08-20",
+      "end_date": null,
+      "owner": 145
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 667,
+    "fields": {
+      "start_date": "2002-08-20",
+      "end_date": null,
+      "owner": 145
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 668,
+    "fields": {
+      "start_date": "2002-08-20",
+      "end_date": null,
+      "owner": 145
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 669,
+    "fields": {
+      "start_date": "2011-04-05",
+      "end_date": null,
+      "owner": 146
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 670,
+    "fields": {
+      "start_date": "2008-05-05",
+      "end_date": null,
+      "owner": 147
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 671,
+    "fields": {
+      "start_date": "2008-05-05",
+      "end_date": null,
+      "owner": 147
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 672,
+    "fields": {
+      "start_date": "2008-05-05",
+      "end_date": null,
+      "owner": 147
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 673,
+    "fields": {
+      "start_date": "2008-05-05",
+      "end_date": null,
+      "owner": 147
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 674,
+    "fields": {
+      "start_date": "2008-05-05",
+      "end_date": null,
+      "owner": 147
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 675,
+    "fields": {
+      "start_date": "2008-05-05",
+      "end_date": null,
+      "owner": 147
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 676,
+    "fields": {
+      "start_date": "2008-05-05",
+      "end_date": null,
+      "owner": 147
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 677,
+    "fields": {
+      "start_date": "2007-12-16",
+      "end_date": null,
+      "owner": 148
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 678,
+    "fields": {
+      "start_date": "2007-12-16",
+      "end_date": null,
+      "owner": 148
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 679,
+    "fields": {
+      "start_date": "2007-12-16",
+      "end_date": null,
+      "owner": 148
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 680,
+    "fields": {
+      "start_date": "2007-12-16",
+      "end_date": null,
+      "owner": 148
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 681,
+    "fields": {
+      "start_date": "2018-06-14",
+      "end_date": null,
+      "owner": 149
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 682,
+    "fields": {
+      "start_date": "2007-03-18",
+      "end_date": "2106-11-14",
+      "owner": 150
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 683,
+    "fields": {
+      "start_date": "2007-03-18",
+      "end_date": "2106-11-14",
+      "owner": 150
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 684,
+    "fields": {
+      "start_date": "2007-03-18",
+      "end_date": "2106-11-14",
+      "owner": 150
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 685,
+    "fields": {
+      "start_date": "2007-03-18",
+      "end_date": "2106-11-14",
+      "owner": 150
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 686,
+    "fields": {
+      "start_date": "2007-03-18",
+      "end_date": "2106-11-14",
+      "owner": 150
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 687,
+    "fields": {
+      "start_date": "2007-03-18",
+      "end_date": "2106-11-14",
+      "owner": 150
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 688,
+    "fields": {
+      "start_date": "2007-03-18",
+      "end_date": "2106-11-14",
+      "owner": 150
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 689,
+    "fields": {
+      "start_date": "2013-01-03",
+      "end_date": null,
+      "owner": 151
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 690,
+    "fields": {
+      "start_date": "2013-01-03",
+      "end_date": null,
+      "owner": 151
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 691,
+    "fields": {
+      "start_date": "2013-01-03",
+      "end_date": null,
+      "owner": 151
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 692,
+    "fields": {
+      "start_date": "2019-07-24",
+      "end_date": null,
+      "owner": 152
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 693,
+    "fields": {
+      "start_date": "2019-07-24",
+      "end_date": null,
+      "owner": 152
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 694,
+    "fields": {
+      "start_date": "2019-07-24",
+      "end_date": null,
+      "owner": 152
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 695,
+    "fields": {
+      "start_date": "2019-07-24",
+      "end_date": null,
+      "owner": 152
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 696,
+    "fields": {
+      "start_date": "2007-03-28",
+      "end_date": null,
+      "owner": 153
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 697,
+    "fields": {
+      "start_date": "2007-03-28",
+      "end_date": null,
+      "owner": 153
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 698,
+    "fields": {
+      "start_date": "2007-03-28",
+      "end_date": null,
+      "owner": 153
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 699,
+    "fields": {
+      "start_date": "2007-03-28",
+      "end_date": null,
+      "owner": 153
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 700,
+    "fields": {
+      "start_date": "2007-03-28",
+      "end_date": null,
+      "owner": 153
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 701,
+    "fields": {
+      "start_date": "2014-05-25",
+      "end_date": null,
+      "owner": 154
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 702,
+    "fields": {
+      "start_date": "2014-05-25",
+      "end_date": null,
+      "owner": 154
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 703,
+    "fields": {
+      "start_date": "2014-05-25",
+      "end_date": null,
+      "owner": 154
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 704,
+    "fields": {
+      "start_date": "2014-05-25",
+      "end_date": null,
+      "owner": 154
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 705,
+    "fields": {
+      "start_date": "2014-05-25",
+      "end_date": null,
+      "owner": 154
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 706,
+    "fields": {
+      "start_date": "2014-05-25",
+      "end_date": null,
+      "owner": 154
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 707,
+    "fields": {
+      "start_date": "2014-05-25",
+      "end_date": null,
+      "owner": 154
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 708,
+    "fields": {
+      "start_date": "2005-02-01",
+      "end_date": null,
+      "owner": 155
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 709,
+    "fields": {
+      "start_date": "2008-09-06",
+      "end_date": null,
+      "owner": 156
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 710,
+    "fields": {
+      "start_date": "2008-09-06",
+      "end_date": null,
+      "owner": 156
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 711,
+    "fields": {
+      "start_date": "2008-09-06",
+      "end_date": null,
+      "owner": 156
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 712,
+    "fields": {
+      "start_date": "2008-09-06",
+      "end_date": null,
+      "owner": 156
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 713,
+    "fields": {
+      "start_date": "2017-08-03",
+      "end_date": null,
+      "owner": 157
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 714,
+    "fields": {
+      "start_date": "2017-08-03",
+      "end_date": null,
+      "owner": 157
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 715,
+    "fields": {
+      "start_date": "2017-08-03",
+      "end_date": null,
+      "owner": 157
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 716,
+    "fields": {
+      "start_date": "2017-08-03",
+      "end_date": null,
+      "owner": 157
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 717,
+    "fields": {
+      "start_date": "2017-08-03",
+      "end_date": null,
+      "owner": 157
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 718,
+    "fields": {
+      "start_date": "2017-08-03",
+      "end_date": null,
+      "owner": 157
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 719,
+    "fields": {
+      "start_date": "2017-08-03",
+      "end_date": null,
+      "owner": 157
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 720,
+    "fields": {
+      "start_date": "2004-08-31",
+      "end_date": null,
+      "owner": 158
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 721,
+    "fields": {
+      "start_date": "2004-08-31",
+      "end_date": null,
+      "owner": 158
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 722,
+    "fields": {
+      "start_date": "2004-08-31",
+      "end_date": null,
+      "owner": 158
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 723,
+    "fields": {
+      "start_date": "2004-08-31",
+      "end_date": null,
+      "owner": 158
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 724,
+    "fields": {
+      "start_date": "2004-08-31",
+      "end_date": null,
+      "owner": 158
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 725,
+    "fields": {
+      "start_date": "2004-10-31",
+      "end_date": null,
+      "owner": 159
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 726,
+    "fields": {
+      "start_date": "2107-11-07",
+      "end_date": null,
+      "owner": 160
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 727,
+    "fields": {
+      "start_date": "2107-11-07",
+      "end_date": null,
+      "owner": 160
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 728,
+    "fields": {
+      "start_date": "2107-11-07",
+      "end_date": null,
+      "owner": 160
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 729,
+    "fields": {
+      "start_date": "2107-11-07",
+      "end_date": null,
+      "owner": 160
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 730,
+    "fields": {
+      "start_date": "2107-11-07",
+      "end_date": null,
+      "owner": 160
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 731,
+    "fields": {
+      "start_date": "2107-11-07",
+      "end_date": null,
+      "owner": 160
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 732,
+    "fields": {
+      "start_date": "2107-11-07",
+      "end_date": null,
+      "owner": 160
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 733,
+    "fields": {
+      "start_date": "2009-04-17",
+      "end_date": null,
+      "owner": 161
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 734,
+    "fields": {
+      "start_date": "2009-04-17",
+      "end_date": null,
+      "owner": 161
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 735,
+    "fields": {
+      "start_date": "2009-04-17",
+      "end_date": null,
+      "owner": 161
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 736,
+    "fields": {
+      "start_date": "2009-04-17",
+      "end_date": null,
+      "owner": 161
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 737,
+    "fields": {
+      "start_date": "2009-04-17",
+      "end_date": null,
+      "owner": 161
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 738,
+    "fields": {
+      "start_date": "2009-04-17",
+      "end_date": null,
+      "owner": 161
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 739,
+    "fields": {
+      "start_date": "2006-03-14",
+      "end_date": null,
+      "owner": 162
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 740,
+    "fields": {
+      "start_date": "2006-03-14",
+      "end_date": null,
+      "owner": 162
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 741,
+    "fields": {
+      "start_date": "2006-03-14",
+      "end_date": null,
+      "owner": 162
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 742,
+    "fields": {
+      "start_date": "2006-03-14",
+      "end_date": null,
+      "owner": 162
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 743,
+    "fields": {
+      "start_date": "2013-05-03",
+      "end_date": null,
+      "owner": 163
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 744,
+    "fields": {
+      "start_date": "2013-05-03",
+      "end_date": null,
+      "owner": 163
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 745,
+    "fields": {
+      "start_date": "2002-03-24",
+      "end_date": null,
+      "owner": 164
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 746,
+    "fields": {
+      "start_date": "2009-12-30",
+      "end_date": null,
+      "owner": 165
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 747,
+    "fields": {
+      "start_date": "2009-12-30",
+      "end_date": null,
+      "owner": 165
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 748,
+    "fields": {
+      "start_date": "2009-12-30",
+      "end_date": null,
+      "owner": 165
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 749,
+    "fields": {
+      "start_date": "2009-12-30",
+      "end_date": null,
+      "owner": 165
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 750,
+    "fields": {
+      "start_date": "2009-12-30",
+      "end_date": null,
+      "owner": 165
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 751,
+    "fields": {
+      "start_date": "2009-12-30",
+      "end_date": null,
+      "owner": 165
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 752,
+    "fields": {
+      "start_date": "2009-12-30",
+      "end_date": null,
+      "owner": 165
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 753,
+    "fields": {
+      "start_date": "2009-12-30",
+      "end_date": null,
+      "owner": 165
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 754,
+    "fields": {
+      "start_date": "2019-04-18",
+      "end_date": null,
+      "owner": 166
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 755,
+    "fields": {
+      "start_date": "2019-04-18",
+      "end_date": null,
+      "owner": 166
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 756,
+    "fields": {
+      "start_date": "2019-04-18",
+      "end_date": null,
+      "owner": 166
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 757,
+    "fields": {
+      "start_date": "2019-04-18",
+      "end_date": null,
+      "owner": 166
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 758,
+    "fields": {
+      "start_date": "2019-04-18",
+      "end_date": null,
+      "owner": 166
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 759,
+    "fields": {
+      "start_date": "2019-04-18",
+      "end_date": null,
+      "owner": 166
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 760,
+    "fields": {
+      "start_date": "2019-08-04",
+      "end_date": null,
+      "owner": 167
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 761,
+    "fields": {
+      "start_date": "2019-08-04",
+      "end_date": null,
+      "owner": 167
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 762,
+    "fields": {
+      "start_date": "2019-08-04",
+      "end_date": null,
+      "owner": 167
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 763,
+    "fields": {
+      "start_date": "2019-08-04",
+      "end_date": null,
+      "owner": 167
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 764,
+    "fields": {
+      "start_date": "2019-08-04",
+      "end_date": null,
+      "owner": 167
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 765,
+    "fields": {
+      "start_date": "2019-08-04",
+      "end_date": null,
+      "owner": 167
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 766,
+    "fields": {
+      "start_date": "2019-08-04",
+      "end_date": null,
+      "owner": 167
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 767,
+    "fields": {
+      "start_date": "2019-08-04",
+      "end_date": null,
+      "owner": 167
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 768,
+    "fields": {
+      "start_date": "2004-01-03",
+      "end_date": null,
+      "owner": 168
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 769,
+    "fields": {
+      "start_date": "2004-01-03",
+      "end_date": null,
+      "owner": 168
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 770,
+    "fields": {
+      "start_date": "2004-01-03",
+      "end_date": null,
+      "owner": 168
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 771,
+    "fields": {
+      "start_date": "2009-11-26",
+      "end_date": null,
+      "owner": 169
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 772,
+    "fields": {
+      "start_date": "2009-11-26",
+      "end_date": null,
+      "owner": 169
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 773,
+    "fields": {
+      "start_date": "2009-11-26",
+      "end_date": null,
+      "owner": 169
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 774,
+    "fields": {
+      "start_date": "2002-07-15",
+      "end_date": null,
+      "owner": 170
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 775,
+    "fields": {
+      "start_date": "2002-07-15",
+      "end_date": null,
+      "owner": 170
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 776,
+    "fields": {
+      "start_date": "2002-07-15",
+      "end_date": null,
+      "owner": 170
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 777,
+    "fields": {
+      "start_date": "2002-07-15",
+      "end_date": null,
+      "owner": 170
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 778,
+    "fields": {
+      "start_date": "2002-07-15",
+      "end_date": null,
+      "owner": 170
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 779,
+    "fields": {
+      "start_date": "2002-07-15",
+      "end_date": null,
+      "owner": 170
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 780,
+    "fields": {
+      "start_date": "2002-07-15",
+      "end_date": null,
+      "owner": 170
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 781,
+    "fields": {
+      "start_date": "2007-01-20",
+      "end_date": null,
+      "owner": 171
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 782,
+    "fields": {
+      "start_date": "2012-05-30",
+      "end_date": null,
+      "owner": 172
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 783,
+    "fields": {
+      "start_date": "2012-05-30",
+      "end_date": null,
+      "owner": 172
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 784,
+    "fields": {
+      "start_date": "2012-05-30",
+      "end_date": null,
+      "owner": 172
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 785,
+    "fields": {
+      "start_date": "2012-05-30",
+      "end_date": null,
+      "owner": 172
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 786,
+    "fields": {
+      "start_date": "2007-01-14",
+      "end_date": null,
+      "owner": 173
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 787,
+    "fields": {
+      "start_date": "2007-01-14",
+      "end_date": null,
+      "owner": 173
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 788,
+    "fields": {
+      "start_date": "2007-01-14",
+      "end_date": null,
+      "owner": 173
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 789,
+    "fields": {
+      "start_date": "2007-01-14",
+      "end_date": null,
+      "owner": 173
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 790,
+    "fields": {
+      "start_date": "2007-01-14",
+      "end_date": null,
+      "owner": 173
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 791,
+    "fields": {
+      "start_date": "2005-04-16",
+      "end_date": null,
+      "owner": 174
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 792,
+    "fields": {
+      "start_date": "2005-04-16",
+      "end_date": null,
+      "owner": 174
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 793,
+    "fields": {
+      "start_date": "2005-04-16",
+      "end_date": null,
+      "owner": 174
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 794,
+    "fields": {
+      "start_date": "2005-04-16",
+      "end_date": null,
+      "owner": 174
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 795,
+    "fields": {
+      "start_date": "2009-06-20",
+      "end_date": null,
+      "owner": 175
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 796,
+    "fields": {
+      "start_date": "2009-06-20",
+      "end_date": null,
+      "owner": 175
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 797,
+    "fields": {
+      "start_date": "2009-06-20",
+      "end_date": null,
+      "owner": 175
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 798,
+    "fields": {
+      "start_date": "2009-06-20",
+      "end_date": null,
+      "owner": 175
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 799,
+    "fields": {
+      "start_date": "2009-06-20",
+      "end_date": null,
+      "owner": 175
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 800,
+    "fields": {
+      "start_date": "2009-06-20",
+      "end_date": null,
+      "owner": 175
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 801,
+    "fields": {
+      "start_date": "2006-08-28",
+      "end_date": null,
+      "owner": 176
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 802,
+    "fields": {
+      "start_date": "2014-07-12",
+      "end_date": null,
+      "owner": 177
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 803,
+    "fields": {
+      "start_date": "2014-07-12",
+      "end_date": null,
+      "owner": 177
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 804,
+    "fields": {
+      "start_date": "2014-07-12",
+      "end_date": null,
+      "owner": 177
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 805,
+    "fields": {
+      "start_date": "2012-05-31",
+      "end_date": null,
+      "owner": 178
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 806,
+    "fields": {
+      "start_date": "2012-05-31",
+      "end_date": null,
+      "owner": 178
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 807,
+    "fields": {
+      "start_date": "2012-05-31",
+      "end_date": null,
+      "owner": 178
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 808,
+    "fields": {
+      "start_date": "2012-05-31",
+      "end_date": null,
+      "owner": 178
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 809,
+    "fields": {
+      "start_date": "2012-05-31",
+      "end_date": null,
+      "owner": 178
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 810,
+    "fields": {
+      "start_date": "2012-05-31",
+      "end_date": null,
+      "owner": 178
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 811,
+    "fields": {
+      "start_date": "2012-05-31",
+      "end_date": null,
+      "owner": 178
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 812,
+    "fields": {
+      "start_date": "2012-05-31",
+      "end_date": null,
+      "owner": 178
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 813,
+    "fields": {
+      "start_date": "2017-07-01",
+      "end_date": null,
+      "owner": 179
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 814,
+    "fields": {
+      "start_date": "2017-07-01",
+      "end_date": null,
+      "owner": 179
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 815,
+    "fields": {
+      "start_date": "2017-07-01",
+      "end_date": null,
+      "owner": 179
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 816,
+    "fields": {
+      "start_date": "2004-03-01",
+      "end_date": "2020-08-18",
+      "owner": 180
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 817,
+    "fields": {
+      "start_date": "2005-09-06",
+      "end_date": null,
+      "owner": 181
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 818,
+    "fields": {
+      "start_date": "2005-09-06",
+      "end_date": null,
+      "owner": 181
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 819,
+    "fields": {
+      "start_date": "2005-09-06",
+      "end_date": null,
+      "owner": 181
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 820,
+    "fields": {
+      "start_date": "2005-09-06",
+      "end_date": null,
+      "owner": 181
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 821,
+    "fields": {
+      "start_date": "2005-09-06",
+      "end_date": null,
+      "owner": 181
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 822,
+    "fields": {
+      "start_date": "2012-02-17",
+      "end_date": null,
+      "owner": 182
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 823,
+    "fields": {
+      "start_date": "2012-02-17",
+      "end_date": null,
+      "owner": 182
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 824,
+    "fields": {
+      "start_date": "2012-02-17",
+      "end_date": null,
+      "owner": 182
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 825,
+    "fields": {
+      "start_date": "2012-02-17",
+      "end_date": null,
+      "owner": 182
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 826,
+    "fields": {
+      "start_date": "2018-03-13",
+      "end_date": null,
+      "owner": 183
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 827,
+    "fields": {
+      "start_date": "2018-03-13",
+      "end_date": null,
+      "owner": 183
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 828,
+    "fields": {
+      "start_date": "2018-03-13",
+      "end_date": null,
+      "owner": 183
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 829,
+    "fields": {
+      "start_date": "2018-03-13",
+      "end_date": null,
+      "owner": 183
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 830,
+    "fields": {
+      "start_date": "2019-03-25",
+      "end_date": null,
+      "owner": 184
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 831,
+    "fields": {
+      "start_date": "2019-03-25",
+      "end_date": null,
+      "owner": 184
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 832,
+    "fields": {
+      "start_date": "2019-03-25",
+      "end_date": null,
+      "owner": 184
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 833,
+    "fields": {
+      "start_date": "2019-03-25",
+      "end_date": null,
+      "owner": 184
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 834,
+    "fields": {
+      "start_date": "2019-03-25",
+      "end_date": null,
+      "owner": 184
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 835,
+    "fields": {
+      "start_date": "2019-03-25",
+      "end_date": null,
+      "owner": 184
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 836,
+    "fields": {
+      "start_date": "2012-10-06",
+      "end_date": null,
+      "owner": 185
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 837,
+    "fields": {
+      "start_date": "2012-10-06",
+      "end_date": null,
+      "owner": 185
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 838,
+    "fields": {
+      "start_date": "2019-07-16",
+      "end_date": null,
+      "owner": 186
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 839,
+    "fields": {
+      "start_date": "2019-07-16",
+      "end_date": null,
+      "owner": 186
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 840,
+    "fields": {
+      "start_date": "2019-07-16",
+      "end_date": null,
+      "owner": 186
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 841,
+    "fields": {
+      "start_date": "2019-07-16",
+      "end_date": null,
+      "owner": 186
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 842,
+    "fields": {
+      "start_date": "2019-07-16",
+      "end_date": null,
+      "owner": 186
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 843,
+    "fields": {
+      "start_date": "2019-07-16",
+      "end_date": null,
+      "owner": 186
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 844,
+    "fields": {
+      "start_date": "2019-07-16",
+      "end_date": null,
+      "owner": 186
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 845,
+    "fields": {
+      "start_date": "2019-07-16",
+      "end_date": null,
+      "owner": 186
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 846,
+    "fields": {
+      "start_date": "2019-07-16",
+      "end_date": null,
+      "owner": 186
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 847,
+    "fields": {
+      "start_date": "2004-01-24",
+      "end_date": null,
+      "owner": 187
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 848,
+    "fields": {
+      "start_date": "2004-01-24",
+      "end_date": null,
+      "owner": 187
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 849,
+    "fields": {
+      "start_date": "2004-01-24",
+      "end_date": null,
+      "owner": 187
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 850,
+    "fields": {
+      "start_date": "2004-01-24",
+      "end_date": null,
+      "owner": 187
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 851,
+    "fields": {
+      "start_date": "2004-01-24",
+      "end_date": null,
+      "owner": 187
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 852,
+    "fields": {
+      "start_date": "2004-01-24",
+      "end_date": null,
+      "owner": 187
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 853,
+    "fields": {
+      "start_date": "2004-01-24",
+      "end_date": null,
+      "owner": 187
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 854,
+    "fields": {
+      "start_date": "2004-01-24",
+      "end_date": null,
+      "owner": 187
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 855,
+    "fields": {
+      "start_date": "2010-08-02",
+      "end_date": null,
+      "owner": 188
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 856,
+    "fields": {
+      "start_date": "2010-08-02",
+      "end_date": null,
+      "owner": 188
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 857,
+    "fields": {
+      "start_date": "2010-08-02",
+      "end_date": null,
+      "owner": 188
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 858,
+    "fields": {
+      "start_date": "2010-08-02",
+      "end_date": null,
+      "owner": 188
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 859,
+    "fields": {
+      "start_date": "2005-06-26",
+      "end_date": null,
+      "owner": 189
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 860,
+    "fields": {
+      "start_date": "2005-06-26",
+      "end_date": null,
+      "owner": 189
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 861,
+    "fields": {
+      "start_date": "2005-06-26",
+      "end_date": null,
+      "owner": 189
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 862,
+    "fields": {
+      "start_date": "2005-06-26",
+      "end_date": null,
+      "owner": 189
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 863,
+    "fields": {
+      "start_date": "2005-06-26",
+      "end_date": null,
+      "owner": 189
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 864,
+    "fields": {
+      "start_date": "2005-06-26",
+      "end_date": null,
+      "owner": 189
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 865,
+    "fields": {
+      "start_date": "2016-08-19",
+      "end_date": null,
+      "owner": 190
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 866,
+    "fields": {
+      "start_date": "2016-08-19",
+      "end_date": null,
+      "owner": 190
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 867,
+    "fields": {
+      "start_date": "2016-08-19",
+      "end_date": null,
+      "owner": 190
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 868,
+    "fields": {
+      "start_date": "2016-08-19",
+      "end_date": null,
+      "owner": 190
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 869,
+    "fields": {
+      "start_date": "2016-08-19",
+      "end_date": null,
+      "owner": 190
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 870,
+    "fields": {
+      "start_date": "2016-08-19",
+      "end_date": null,
+      "owner": 190
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 871,
+    "fields": {
+      "start_date": "2016-08-19",
+      "end_date": null,
+      "owner": 190
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 872,
+    "fields": {
+      "start_date": "2003-06-10",
+      "end_date": null,
+      "owner": 191
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 873,
+    "fields": {
+      "start_date": "2003-06-10",
+      "end_date": null,
+      "owner": 191
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 874,
+    "fields": {
+      "start_date": "2003-06-10",
+      "end_date": null,
+      "owner": 191
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 875,
+    "fields": {
+      "start_date": "2003-06-10",
+      "end_date": null,
+      "owner": 191
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 876,
+    "fields": {
+      "start_date": "2003-06-10",
+      "end_date": null,
+      "owner": 191
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 877,
+    "fields": {
+      "start_date": "2003-06-10",
+      "end_date": null,
+      "owner": 191
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 878,
+    "fields": {
+      "start_date": "2003-06-10",
+      "end_date": null,
+      "owner": 191
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 879,
+    "fields": {
+      "start_date": "2003-06-10",
+      "end_date": null,
+      "owner": 191
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 880,
+    "fields": {
+      "start_date": "2003-06-10",
+      "end_date": null,
+      "owner": 191
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 881,
+    "fields": {
+      "start_date": "2005-12-24",
+      "end_date": null,
+      "owner": 192
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 882,
+    "fields": {
+      "start_date": "2005-12-24",
+      "end_date": null,
+      "owner": 192
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 883,
+    "fields": {
+      "start_date": "2005-12-24",
+      "end_date": null,
+      "owner": 192
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 884,
+    "fields": {
+      "start_date": "2018-07-19",
+      "end_date": null,
+      "owner": 193
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 885,
+    "fields": {
+      "start_date": "2018-07-19",
+      "end_date": null,
+      "owner": 193
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 886,
+    "fields": {
+      "start_date": "2018-07-19",
+      "end_date": null,
+      "owner": 193
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 887,
+    "fields": {
+      "start_date": "2018-07-19",
+      "end_date": null,
+      "owner": 193
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 888,
+    "fields": {
+      "start_date": "2018-07-19",
+      "end_date": null,
+      "owner": 193
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 889,
+    "fields": {
+      "start_date": "2018-07-19",
+      "end_date": null,
+      "owner": 193
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 890,
+    "fields": {
+      "start_date": "2018-07-19",
+      "end_date": null,
+      "owner": 193
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 891,
+    "fields": {
+      "start_date": "2018-07-19",
+      "end_date": null,
+      "owner": 193
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 892,
+    "fields": {
+      "start_date": "2008-01-29",
+      "end_date": null,
+      "owner": 194
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 893,
+    "fields": {
+      "start_date": "2008-01-29",
+      "end_date": null,
+      "owner": 194
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 894,
+    "fields": {
+      "start_date": "2008-01-29",
+      "end_date": null,
+      "owner": 194
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 895,
+    "fields": {
+      "start_date": "2008-01-29",
+      "end_date": null,
+      "owner": 194
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 896,
+    "fields": {
+      "start_date": "2008-01-29",
+      "end_date": null,
+      "owner": 194
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 897,
+    "fields": {
+      "start_date": "2008-01-29",
+      "end_date": null,
+      "owner": 194
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 898,
+    "fields": {
+      "start_date": "2008-01-29",
+      "end_date": null,
+      "owner": 194
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 899,
+    "fields": {
+      "start_date": "2004-09-14",
+      "end_date": null,
+      "owner": 195
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 900,
+    "fields": {
+      "start_date": "2004-09-14",
+      "end_date": null,
+      "owner": 195
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 901,
+    "fields": {
+      "start_date": "2004-09-14",
+      "end_date": null,
+      "owner": 195
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 902,
+    "fields": {
+      "start_date": "2004-09-14",
+      "end_date": null,
+      "owner": 195
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 903,
+    "fields": {
+      "start_date": "2004-09-14",
+      "end_date": null,
+      "owner": 195
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 904,
+    "fields": {
+      "start_date": "2004-09-14",
+      "end_date": null,
+      "owner": 195
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 905,
+    "fields": {
+      "start_date": "2004-09-14",
+      "end_date": null,
+      "owner": 195
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 906,
+    "fields": {
+      "start_date": "2003-06-08",
+      "end_date": null,
+      "owner": 196
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 907,
+    "fields": {
+      "start_date": "2003-06-08",
+      "end_date": null,
+      "owner": 196
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 908,
+    "fields": {
+      "start_date": "2003-06-08",
+      "end_date": null,
+      "owner": 196
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 909,
+    "fields": {
+      "start_date": "2003-06-08",
+      "end_date": null,
+      "owner": 196
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 910,
+    "fields": {
+      "start_date": "2003-06-08",
+      "end_date": null,
+      "owner": 196
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 911,
+    "fields": {
+      "start_date": "2003-06-08",
+      "end_date": null,
+      "owner": 196
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 912,
+    "fields": {
+      "start_date": "2013-06-05",
+      "end_date": null,
+      "owner": 197
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 913,
+    "fields": {
+      "start_date": "2013-06-05",
+      "end_date": null,
+      "owner": 197
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 914,
+    "fields": {
+      "start_date": "2013-06-05",
+      "end_date": null,
+      "owner": 197
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 915,
+    "fields": {
+      "start_date": "2013-06-05",
+      "end_date": null,
+      "owner": 197
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 916,
+    "fields": {
+      "start_date": "2013-06-05",
+      "end_date": null,
+      "owner": 197
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 917,
+    "fields": {
+      "start_date": "2013-06-05",
+      "end_date": null,
+      "owner": 197
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 918,
+    "fields": {
+      "start_date": "2013-06-05",
+      "end_date": null,
+      "owner": 197
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 919,
+    "fields": {
+      "start_date": "2010-11-02",
+      "end_date": null,
+      "owner": 198
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 920,
+    "fields": {
+      "start_date": "2010-11-02",
+      "end_date": null,
+      "owner": 198
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 921,
+    "fields": {
+      "start_date": "2010-11-02",
+      "end_date": null,
+      "owner": 198
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 922,
+    "fields": {
+      "start_date": "2010-11-02",
+      "end_date": null,
+      "owner": 198
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 923,
+    "fields": {
+      "start_date": "2010-11-02",
+      "end_date": null,
+      "owner": 198
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 924,
+    "fields": {
+      "start_date": "2010-11-02",
+      "end_date": null,
+      "owner": 198
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 925,
+    "fields": {
+      "start_date": "2017-06-17",
+      "end_date": null,
+      "owner": 199
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 926,
+    "fields": {
+      "start_date": "2017-06-17",
+      "end_date": null,
+      "owner": 199
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 927,
+    "fields": {
+      "start_date": "2017-06-17",
+      "end_date": null,
+      "owner": 199
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 928,
+    "fields": {
+      "start_date": "2017-06-17",
+      "end_date": null,
+      "owner": 199
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 929,
+    "fields": {
+      "start_date": "2017-06-17",
+      "end_date": null,
+      "owner": 199
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 930,
+    "fields": {
+      "start_date": "2017-06-17",
+      "end_date": null,
+      "owner": 199
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 931,
+    "fields": {
+      "start_date": "2017-06-17",
+      "end_date": null,
+      "owner": 199
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 932,
+    "fields": {
+      "start_date": "2017-06-17",
+      "end_date": null,
+      "owner": 199
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 933,
+    "fields": {
+      "start_date": "2103-07-15",
+      "end_date": null,
+      "owner": 200
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 934,
+    "fields": {
+      "start_date": "2103-07-15",
+      "end_date": null,
+      "owner": 200
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 935,
+    "fields": {
+      "start_date": "2103-07-15",
+      "end_date": null,
+      "owner": 200
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 936,
+    "fields": {
+      "start_date": "2103-07-15",
+      "end_date": null,
+      "owner": 200
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 937,
+    "fields": {
+      "start_date": "2103-07-15",
       "end_date": null,
       "owner": 200
     }

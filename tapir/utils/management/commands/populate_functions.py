@@ -190,20 +190,21 @@ def populate_users():
             share_owner.company_name = share_owner.last_name + "'s fancy startup GmbH"
         share_owner.save()
 
-        start_date = datetime.date.today() - datetime.timedelta(days=14)
+        start_date = json_user.date_joined
         end_date = None
         if randomizer % 40 == 0:
-            start_date = datetime.date.today() + datetime.timedelta(days=14)
+            start_date = json_user.date_joined + datetime.timedelta(weeks=100 * 52)
         elif randomizer % 50 == 0:
-            end_date = start_date + datetime.timedelta(days=7)
+            end_date = json_user.date_joined + datetime.timedelta(weeks=100 * 52)
         elif randomizer % 60 == 0:
-            end_date = datetime.date.today() + datetime.timedelta(days=7)
+            end_date = datetime.date(day=18, month=8, year=2020)
 
-        ShareOwnership.objects.create(
-            owner=share_owner,
-            start_date=start_date,
-            end_date=end_date,
-        )
+        for i in range(json_user.num_shares):
+            ShareOwnership.objects.create(
+                owner=share_owner,
+                start_date=start_date,
+                end_date=end_date,
+            )
 
         if (
             not is_company

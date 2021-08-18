@@ -295,6 +295,7 @@ class ShareOwnerTable(django_tables2.Table):
             "ratenzahlung",
             "is_company",
         )
+        order_by = "id"
 
     display_name = django_tables2.Column(
         empty_values=(), verbose_name="Name", orderable=False

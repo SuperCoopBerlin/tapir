@@ -20,6 +20,7 @@ class JsonUser:
     country: str
     date_joined: datetime.date
     preferred_language: str
+    num_shares: int
 
     def __init__(self, parsed_json):
         self.first_name = parsed_json["name"]["first"]
@@ -48,6 +49,8 @@ class JsonUser:
             self.preferred_language = "de"
         else:
             self.preferred_language = "en"
+
+        self.num_shares = max(parsed_json["location"]["street"]["number"] % 10, 1)
 
     def get_username(self) -> str:
         return self.first_name.lower() + "." + self.last_name.lower()

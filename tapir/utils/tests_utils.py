@@ -149,7 +149,7 @@ class TapirUserTestBase(TapirSeleniumTestBase):
         )
         self.assertEqual(
             self.selenium.find_element_by_id("share_owner_num_shares").text,
-            "1",
+            str(user.num_shares),
         )
 
 

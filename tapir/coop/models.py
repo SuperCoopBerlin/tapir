@@ -103,7 +103,7 @@ class ShareOwner(models.Model):
                 return self.filter(
                     share_ownerships__in=active_ownerships,
                     is_investing=(status == MemberStatus.INVESTING),
-                )
+                ).distinct()
 
     objects = ShareOwnerQuerySet.as_manager()
 
