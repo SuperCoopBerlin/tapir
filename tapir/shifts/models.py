@@ -10,7 +10,7 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 
 from tapir.accounts.models import TapirUser
-from tapir.log.models import ModelLogEntry
+from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
 
 
 class ShiftUserCapability:
@@ -460,6 +460,10 @@ class ShiftAttendance(models.Model):
             user=self.user, value=-1, date=self.slot.shift.start_time.date()
         )
         self.save()
+
+
+class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
+    template_name = "shifts/log/update_shift_user_data_log_entry.html"
 
 
 class ShiftAttendanceMode:

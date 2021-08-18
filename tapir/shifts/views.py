@@ -18,6 +18,7 @@ from django.views.generic import (
 from werkzeug.exceptions import BadRequest
 
 from tapir.accounts.models import TapirUser
+from tapir.log.util import freeze_for_log
 from tapir.shifts.forms import ShiftCreateForm, ShiftAttendanceTemplateForm
 from tapir.shifts.models import (
     Shift,
@@ -31,6 +32,7 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     CreateShiftAttendanceTemplateLogEntry,
     DeleteShiftAttendanceTemplateLogEntry,
+    UpdateShiftUserDataLogEntry,
 )
 
 
@@ -347,10 +349,22 @@ class UpcomingShiftsAsTimetable(LoginRequiredMixin, TemplateView):
 @require_POST
 @csrf_protect
 @permission_required("shifts.manage")
-def set_user_attendance_mode_flying(self, user_pk):
+def set_user_attendance_mode_flying(request, user_pk):
     u = get_object_or_404(TapirUser, pk=user_pk)
-    u.shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
-    u.shift_user_data.save()
+
+    old_shift_user_data = freeze_for_log(u.shift_user_data)
+
+    with transaction.atomic():
+        u.shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
+        u.shift_user_data.save()
+
+        log_entry = UpdateShiftUserDataLogEntry().populate(
+            actor=request.user,
+            user=u,
+            old_frozen=old_shift_user_data,
+            new_model=u.shift_user_data,
+        )
+        log_entry.save()
 
     return redirect(u)
 
@@ -358,9 +372,19 @@ def set_user_attendance_mode_flying(self, user_pk):
 @require_POST
 @csrf_protect
 @permission_required("shifts.manage")
-def set_user_attendance_mode_regular(self, user_pk):
+def set_user_attendance_mode_regular(request, user_pk):
     u = get_object_or_404(TapirUser, pk=user_pk)
-    u.shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
-    u.shift_user_data.save()
+    old_shift_user_data = freeze_for_log(u.shift_user_data)
+
+    with transaction.atomic():
+        u.shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
+        u.shift_user_data.save()
+        log_entry = UpdateShiftUserDataLogEntry().populate(
+            actor=request.user,
+            user=u,
+            old_frozen=old_shift_user_data,
+            new_model=u.shift_user_data,
+        )
+        log_entry.save()
 
     return redirect(u)
