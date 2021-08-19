@@ -7,9 +7,7 @@
             {% if perms.accounts.manage %}
             <div class="btn-group" role="group" id="share_owner_edit_buttons">
             <span class="btn btn-outline-secondary">
-                {% blocktranslate with coop_share_owner_id=owner.id %}
-                    Cooperator #{{ coop_share_owner_id }}
-                {% endblocktranslate %}
+                {% blocktranslate with coop_share_owner_id=owner.id %}Cooperator #{{ coop_share_owner_id }}{% endblocktranslate %}
             </span>
 
                 <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_update" owner.pk %}">
