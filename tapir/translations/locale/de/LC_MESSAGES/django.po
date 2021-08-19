@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-17 21:01+0200\n"
+"POT-Creation-Date: 2021-08-19 09:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,7 +56,8 @@ msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
 #: accounts/templates/accounts/user_detail.html:22
-msgid "Personal Details"
+#: coop/templates/coop/shareowner_detail.html:14
+msgid "Personal Data"
 msgstr "Persönliche Daten"
 
 #: accounts/templates/accounts/user_detail.html:31
@@ -143,7 +144,7 @@ msgstr ""
 
 #: accounts/templates/registration/password_reset_confirm.html:16
 msgid "Change password"
-msgstr ""
+msgstr "Passwort ändern"
 
 #: accounts/templates/registration/password_reset_done.html:11
 msgid ""
@@ -165,7 +166,7 @@ msgstr ""
 
 #: accounts/templates/registration/password_reset_form.html:19
 msgid "Back to login form"
-msgstr ""
+msgstr "Zurück zum Login"
 
 #: accounts/templates/registration/password_reset_form.html:21
 msgid "Send me instructions!"
@@ -186,10 +187,12 @@ msgid "Is company"
 msgstr "Ist eine Firma"
 
 #: coop/models.py:47 coop/models.py:224
+#: coop/templates/coop/draftuser_list.html:19
 msgid "First name"
 msgstr "Vorname"
 
 #: coop/models.py:48 coop/models.py:225
+#: coop/templates/coop/draftuser_list.html:20
 msgid "Last name"
 msgstr "Nachname"
 
@@ -203,13 +206,13 @@ msgstr ""
 
 #: coop/models.py:70 coop/models.py:264
 #: coop/templates/coop/draftuser_detail.html:72
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:57
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:55
 msgid "Ratenzahlung"
-msgstr ""
+msgstr "Ratenzahlung"
 
 #: coop/models.py:77 coop/models.py:257
 msgid "Attended Welcome Session"
-msgstr ""
+msgstr "An einem Wilkomenstreffen teilgenohmen"
 
 #: coop/models.py:127
 msgid "Cannot be a company share owner and have an associated user"
@@ -220,19 +223,19 @@ msgid "User info should be stored in associated user"
 msgstr ""
 
 #: coop/models.py:190
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:111
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:109
 msgid "Sold"
 msgstr "Verkauft"
 
 #: coop/models.py:191 coop/templates/coop/draftuser_detail.html:63
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:39
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:109
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:37
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:107
 msgid "Investing"
-msgstr ""
+msgstr "Investierende"
 
 #: coop/models.py:192 coop/templates/coop/draftuser_detail.html:65
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:42
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:107
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:40
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:105
 msgid "Active"
 msgstr "Aktiv"
 
@@ -246,7 +249,7 @@ msgstr "Investierende Mitglieder"
 
 #: coop/models.py:260
 msgid "Signed Beteiligungserklärung"
-msgstr ""
+msgstr "Beteiligungserklärung unterschrieben"
 
 #: coop/models.py:262
 msgid "Paid Membership Fee"
@@ -254,7 +257,7 @@ msgstr ""
 
 #: coop/models.py:306 coop/views/shareowner.py:214
 msgid "Willkommen bei SuperCoop eG!"
-msgstr ""
+msgstr "Willkommen bei SuperCoop eG!"
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:17
 msgid "Create User from Share Owner"
@@ -269,57 +272,49 @@ msgstr ""
 
 #: coop/templates/coop/draftuser_detail.html:60
 msgid "Member Type"
-msgstr ""
+msgstr "Mitglieder-Art"
 
 #: coop/templates/coop/draftuser_detail.html:77
 msgid "Shares requested"
-msgstr ""
+msgstr "Anzahl anangefordete Anteile"
 
 #: coop/templates/coop/draftuser_detail.html:81
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:63
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:61
 msgid "Welcome Session"
-msgstr ""
+msgstr "Wilkomenstreffen"
 
 #: coop/templates/coop/draftuser_detail.html:99
 msgid "Beteiligungserklärung"
-msgstr ""
+msgstr "Beteiligungserklärung"
 
 #: coop/templates/coop/draftuser_detail.html:126
 #: coop/templates/coop/draftuser_list.html:23
 msgid "Payment"
-msgstr ""
+msgstr "Bezahlung"
 
 #: coop/templates/coop/draftuser_detail.html:131
 #: coop/templates/coop/draftuser_list.html:38
 msgid "Paid"
-msgstr ""
+msgstr "Bezahlt"
 
 #: coop/templates/coop/draftuser_detail.html:133
 msgid "Open"
-msgstr ""
+msgstr "Offen"
 
 #: coop/templates/coop/draftuser_detail.html:141
 msgid "Register Payment"
-msgstr ""
+msgstr "Bezahlung melden"
 
 #: coop/templates/coop/draftuser_detail.html:152
 #: coop/templates/coop/shareowner_detail.html:19
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:116
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:114
 #: shifts/templates/shifts/shift_template_detail.html:12
 msgid "Edit"
-msgstr ""
+msgstr "Editieren"
 
 #: coop/templates/coop/draftuser_detail.html:166
 msgid "Create Member"
-msgstr ""
-
-#: coop/templates/coop/draftuser_list.html:19
-msgid "First Name"
-msgstr ""
-
-#: coop/templates/coop/draftuser_list.html:20
-msgid "Last Name"
-msgstr ""
+msgstr "Mitglieder erzeugen"
 
 #: coop/templates/coop/draftuser_list.html:22
 msgid "Beteiligungserkärung"
@@ -327,11 +322,7 @@ msgstr ""
 
 #: coop/templates/coop/draftuser_list.html:33
 msgid "Signed"
-msgstr ""
-
-#: coop/templates/coop/shareowner_detail.html:14
-msgid "Personal Data"
-msgstr ""
+msgstr "Unterschieben"
 
 #: coop/templates/coop/shareowner_detail.html:16
 msgid "Go to user page"
@@ -339,7 +330,7 @@ msgstr ""
 
 #: coop/templates/coop/shareowner_detail.html:20
 msgid "Create user"
-msgstr ""
+msgstr "Benutzer erzeugen"
 
 #: coop/templates/coop/shareowner_form.html:12
 msgid "Edit share owner"
@@ -347,56 +338,53 @@ msgstr ""
 
 #: coop/templates/coop/shareowner_list.html:19
 msgid "Cooperative Members"
-msgstr ""
+msgstr "Mitglieder"
 
 #: coop/templates/coop/shareowner_list.html:44
 msgid "Number of filtered members : "
-msgstr ""
+msgstr "Anzahl an gefilterte Mitglieder : "
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:5
 #: templates/base.html:60
 msgid "Cooperative"
-msgstr ""
+msgstr "Genossenschaft"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:10
 #, python-format
-msgid ""
-"\n"
-"                    Cooperator #%(coop_share_owner_id)s\n"
-"                "
-msgstr ""
+msgid "Cooperator #%(coop_share_owner_id)s"
+msgstr "Mitglied #%(coop_share_owner_id)s"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:36
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:34
 #: shifts/templates/shifts/user_shifts_overview_tag.html:14
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:44
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:42
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktiv"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:66
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:64
 #: shifts/templates/shifts/shift_detail.html:52
 msgid "Attended"
-msgstr ""
+msgstr "Nahm teil"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:68
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:66
 msgid "Pending"
 msgstr ""
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:75
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:73
 msgid "Mark Attended"
-msgstr ""
+msgstr "Als teilgenommen markieren"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:84
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:82
 msgid "Owned shares"
 msgstr ""
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:127
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:125
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:129
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:127
 msgid ""
 "\n"
 "                                                        Only use this to "
@@ -410,11 +398,11 @@ msgid ""
 "                                                    "
 msgstr ""
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:149
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:147
 msgid "Add Share"
 msgstr ""
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:155
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:153
 msgid "User is not a cooperative member."
 msgstr ""
 
@@ -444,31 +432,31 @@ msgstr ""
 
 #: shifts/models.py:46
 msgid "Monday"
-msgstr ""
+msgstr "Montag"
 
 #: shifts/models.py:47
 msgid "Tuesday"
-msgstr ""
+msgstr "Dienstag"
 
 #: shifts/models.py:48
 msgid "Wednesday"
-msgstr ""
+msgstr "Mittwoch"
 
 #: shifts/models.py:49
 msgid "Thursday"
-msgstr ""
+msgstr "Donnerstag"
 
 #: shifts/models.py:50
 msgid "Friday"
-msgstr ""
+msgstr "Freitag"
 
 #: shifts/models.py:51
 msgid "Saturday"
-msgstr ""
+msgstr "Samstag"
 
 #: shifts/models.py:52
 msgid "Sunday"
-msgstr ""
+msgstr "Sontag"
 
 #: shifts/models.py:462
 msgid "🏠 Regular"
@@ -485,7 +473,7 @@ msgstr ""
 #: shifts/templates/shifts/shift_detail.html:30
 #: shifts/templates/shifts/shift_template_detail.html:20
 msgid "Details"
-msgstr ""
+msgstr "Details"
 
 #: shifts/templates/shifts/shift_detail.html:31
 #: shifts/templates/shifts/shift_template_detail.html:21
@@ -521,7 +509,7 @@ msgstr ""
 #: shifts/templates/shifts/shift_template_detail.html:22
 #: shifts/templates/shifts/user_shifts_overview_tag.html:6
 msgid "Shifts"
-msgstr ""
+msgstr "Schichten"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:8
 msgid "Register to a shift"
@@ -541,7 +529,7 @@ msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:59
 msgid "Find a shift"
-msgstr ""
+msgstr "Eine Schicht finden"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:67
 msgid "Set Flying ✈️"
@@ -553,7 +541,7 @@ msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:85
 msgid "Show more"
-msgstr ""
+msgstr "Mehr anzeigen"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:94
 #: shifts/templates/shifts/user_shifts_overview_tag.html:119
@@ -566,7 +554,7 @@ msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:104
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:106
 msgid "Positive Buffer"
@@ -582,11 +570,11 @@ msgstr ""
 
 #: templates/base.html:42
 msgid "Search Members"
-msgstr ""
+msgstr "Mitglieder suchen"
 
 #: templates/base.html:64
 msgid "Members"
-msgstr ""
+msgstr "Mitglieder"
 
 #: templates/base.html:78
 msgid "Shift Dashboard"
@@ -597,12 +585,14 @@ msgid "Upcoming shift timetable"
 msgstr ""
 
 #: templates/base.html:90
-msgid "ABCD Schedule Overview"
-msgstr ""
+#, fuzzy
+#| msgid "ABCD Schedule Overview"
+msgid "ABCD shifts overview"
+msgstr "ABCD-Schichten Übersicht"
 
 #: templates/base.html:96
 msgid "Create a shift"
-msgstr ""
+msgstr "Schicht erzeugen"
 
 #: templates/base.html:102
 msgid "Edit Shift Templates"
@@ -1585,3 +1575,6 @@ msgstr ""
 #: utils/models.py:368
 msgid "Start date must be prior to end date"
 msgstr ""
+
+#~ msgid "Personal Details"
+#~ msgstr "Persönliche Daten"

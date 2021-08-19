@@ -19,7 +19,7 @@
         <div class="col-6 p-0">
             <div class="card m-2" id="tapir_user_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
-                    {% trans "Personal Details" %}
+                    {% trans "Personal Data" %}
                     {% if perms.accounts.manage %}
                         <a href="{% url "accounts:user_update" object.pk %}" id="tapir_user_edit_button">
                             <button type="button" class="btn btn-outline-info"><span class="material-icons button-icon">edit</span> Edit</button>
