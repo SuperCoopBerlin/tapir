@@ -9,23 +9,13 @@
     <meta charset="utf-8">
 
     <title>{% block title %}Tapir{% endblock %}</title>
-    <link rel="stylesheet" href="{% static "bootstrap/4.5.3/css/bootstrap.min.css" %}">
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
 
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <!-- fancy icons -->
-    <style>
-        @font-face {
-          font-family: 'Material Icons';
-          font-style: normal;
-          font-weight: 400;
-          src: url({% static "/material-icons/MaterialIcons-Regular.eot" %}); /* For IE6-8 */
-          src: local('Material Icons'),
-            local('MaterialIcons-Regular'),
-            url({% static "/material-icons/MaterialIcons-Regular.woff2" %}) format('woff2'),
-            url({% static "/material-icons/MaterialIcons-Regular.woff" %}) format('woff'),
-            url({% static "/material-icons/MaterialIcons-Regular.ttf" %}) format('truetype');
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
     <link rel="stylesheet" href="{% static "css/base.css" %}">
     {% block head %}{% endblock %}
 
