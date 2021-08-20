@@ -140,10 +140,7 @@ def populate_template_groups():
     print("Populated template groups")
 
 
-def populate_users():
-    # Users generated with https://randomuser.me
-    print("Creating 200 users, this may take a while")
-
+def get_test_users():
     path_to_json_file = os.path.join(
         pathlib.Path(__file__).parent.absolute(), "test_users.json"
     )
@@ -151,10 +148,20 @@ def populate_users():
     json_string = file.read()
     file.close()
 
-    parsed_users = json.loads(json_string)["results"]
-    for index, parsed_user in enumerate(parsed_users[:200]):
+    return json.loads(json_string)["results"]
+
+
+USER_COUNT = 200
+
+
+def populate_users():
+    # Users generated with https://randomuser.me
+    print(f"Creating {USER_COUNT} users, this may take a while")
+
+    parsed_users = get_test_users()
+    for index, parsed_user in enumerate(parsed_users[:USER_COUNT]):
         if index % 50 == 0:
-            print(str(index) + "/200")
+            print(str(index) + f"/{USER_COUNT}")
         json_user = JsonUser(parsed_user)
         randomizer = index + 1
 
@@ -226,7 +233,7 @@ def populate_users():
                             break
                 template.update_future_shift_attendances()
                 break
-    print("Created fake uses")
+    print("Created fake users")
 
 
 def populate_shift_templates():
@@ -338,6 +345,24 @@ def generate_shifts(print_progress=False):
         print("Generated shifts")
 
 
+def populate_applicants():
+    parsed_users = get_test_users()
+    for index, parsed_user in enumerate(parsed_users[USER_COUNT : USER_COUNT + 50]):
+        json_user = JsonUser(parsed_user)
+        randomizer = index + 1
+        draft_user = DraftUser.objects.create()
+        copy_user_info(json_user, draft_user)
+
+        if randomizer % 3 == 0:
+            draft_user.attended_welcome_session = True
+        if randomizer % 4 == 0:
+            draft_user.signed_membership_agreement = True
+        if randomizer % 5 == 0:
+            draft_user.paid_membership_fee = True
+
+        draft_user.save()
+
+
 def clear_data():
     print("Clearing data...")
     LogEntry.objects.all().delete()
@@ -362,3 +387,4 @@ def reset_all_test_data():
     populate_shift_templates()
     generate_shifts(True)
     populate_users()
+    populate_applicants()
