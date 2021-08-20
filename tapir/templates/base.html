@@ -9,13 +9,8 @@
     <meta charset="utf-8">
 
     <title>{% block title %}Tapir{% endblock %}</title>
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
-
+    <link rel="stylesheet" href="{% static "bootstrap/4.5.3/css/bootstrap.min.css" %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
-    <!-- fancy icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-          rel="stylesheet">
     <link rel="stylesheet" href="{% static "css/base.css" %}">
     {% block head %}{% endblock %}
 
