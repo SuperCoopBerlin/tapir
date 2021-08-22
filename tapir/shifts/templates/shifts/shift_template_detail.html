@@ -64,6 +64,34 @@
                     {% endfor %}
                 </tbody>
             </table>
+
+            <div>
+                <h5>{% trans "Future generated Shifts" %}</h5>
+                <ul class="list-group">
+                    {% for shift in object.get_future_generated_shifts %}
+                        <li class="list-group-item">
+                            <a href="{{ shift.get_absolute_url }}">
+                                {{ shift.get_display_name }}
+
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div>
+                <h5>{% trans "Past generated Shifts" %}</h5>
+                <ul class="list-group">
+                    {% for shift in object.get_past_generated_shifts %}
+                        <li class="list-group-item">
+                            <a href="{{ shift.get_absolute_url }}">
+                                {{ shift.get_display_name }}
+
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 {% endblock %}

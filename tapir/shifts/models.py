@@ -104,6 +104,12 @@ class ShiftTemplate(models.Model):
             slot_template__in=self.slot_templates.all()
         )
 
+    def get_future_generated_shifts(self, now=None):
+        return self.generated_shifts.filter(start_time__gt=now or timezone.now())
+
+    def get_past_generated_shifts(self, now=None):
+        return self.generated_shifts.filter(start_time__lte=now or timezone.now())
+
     def get_display_name(self):
         display_name = "%s %s %s" % (
             self.name,
@@ -295,7 +301,7 @@ class Shift(models.Model):
     def get_display_name(self):
         display_name = "%s %s" % (
             self.name,
-            self.start_time.strftime("%a %Y-%m-%d %H:%M"),
+            self.start_time.strftime("%A, %d %B %Y %H:%M"),
         )
         if self.shift_template and self.shift_template.group:
             display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
