@@ -54,7 +54,7 @@
                     {% else %}
                         <span class="text-danger">{% trans "Missing" %}</span>
 
-                        <a class="btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview_register" user.pk %}">
+                        <a class="btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}">
                             {% trans "Find a shift" %}
                         </a>
 

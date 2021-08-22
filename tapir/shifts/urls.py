@@ -59,16 +59,6 @@ urlpatterns = [
         name="shift_template_overview",
     ),
     path(
-        "shifttemplate/overview/register/<int:user_pk>",
-        views.ShiftTemplateOverviewRegister.as_view(),
-        name="shift_template_overview_register",
-    ),
-    path(
-        "shifttemplate/<int:pk>/register/<int:user_pk>",
-        views.shifttemplate_register_user,
-        name="shifttemplate_register_user",
-    ),
-    path(
         "slottemplate/<int:slot_template_pk>/register",
         views.SlotTemplateRegisterView.as_view(),
         name="slottemplate_register",

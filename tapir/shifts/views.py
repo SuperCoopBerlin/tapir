@@ -47,6 +47,23 @@ DAY_END_SECONDS = time_to_seconds(datetime.time(22, 0))
 DAY_DURATION_SECONDS = DAY_END_SECONDS - DAY_START_SECONDS
 
 
+class SelectedUserViewMixin:
+    """Mixin to allow passing a selected_user GET param to a view.
+
+    This is useful to use a view in a for-somebody-else context, e.g. when going there
+    from a user page. Often, this user will be passed on to a following view or modify
+    the behavior of the view."""
+
+    def get_selected_user(self):
+        if "selected_user" in self.request.GET:
+            return get_object_or_404(TapirUser, pk=self.request.GET["selected_user"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["selected_user"] = self.get_selected_user()
+        return context
+
+
 class UpcomingDaysView(LoginRequiredMixin, TemplateView):
     template_name = "shifts/upcoming_days.html"
 
@@ -113,11 +130,16 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class SlotTemplateRegisterView(PermissionRequiredMixin, CreateView):
+class SlotTemplateRegisterView(
+    PermissionRequiredMixin, SelectedUserViewMixin, CreateView
+):
     permission_required = "shifts.manage"
     model = ShiftAttendanceTemplate
     template_name = "shifts/slot_template_register.html"
     form_class = ShiftAttendanceTemplateForm
+
+    def get_initial(self):
+        return {"user": self.get_selected_user()}
 
     def get_slot_template(self):
         return get_object_or_404(ShiftSlotTemplate, pk=self.kwargs["slot_template_pk"])
@@ -144,6 +166,8 @@ class SlotTemplateRegisterView(PermissionRequiredMixin, CreateView):
         return response
 
     def get_success_url(self):
+        if self.get_selected_user():
+            return self.get_selected_user().get_absolute_url()
         return self.object.slot_template.shift_template.get_absolute_url()
 
 
@@ -165,34 +189,6 @@ def mark_shift_attendance_missed(request, pk):
     shift_attendance.mark_missed()
 
     return redirect(shift_attendance.slot.shift)
-
-
-# TODO(Leon Handreke): Kill this function and make it a page instead that allows to register for different slots
-@require_POST
-@csrf_protect
-@permission_required("shifts.manage")
-def shifttemplate_register_user(request, pk, user_pk):
-    shift_template = get_object_or_404(ShiftTemplate, pk=pk)
-    user = get_object_or_404(TapirUser, pk=user_pk)
-
-    slot_template = shift_template.slot_templates.filter(
-        required_capabilities=[], attendance_template__isnull=True
-    ).first()
-    if not slot_template:
-        return BadRequest("No free slots in this shift template")
-
-    with transaction.atomic():
-        shift_attendance_template = ShiftAttendanceTemplate.objects.create(
-            user=user, slot_template=slot_template
-        )
-        log_entry = CreateShiftAttendanceTemplateLogEntry().populate(
-            actor=request.user, user=user, model=shift_attendance_template
-        )
-        log_entry.slot_template_name = slot_template.name
-        log_entry.shift_template = slot_template.shift_template
-        log_entry.save()
-
-    return redirect(request.GET.get("next", user))
 
 
 @require_POST
@@ -235,13 +231,13 @@ def shiftslot_register_user(request, pk, user_pk):
     return redirect(request.GET.get("next", slot.shift))
 
 
-class ShiftTemplateDetail(PermissionRequiredMixin, DetailView):
+class ShiftTemplateDetail(PermissionRequiredMixin, SelectedUserViewMixin, DetailView):
     permission_required = "shifts.manage"
     template_name = "shifts/shift_template_detail.html"
     model = ShiftTemplate
 
 
-class ShiftTemplateOverview(LoginRequiredMixin, TemplateView):
+class ShiftTemplateOverview(LoginRequiredMixin, SelectedUserViewMixin, TemplateView):
     template_name = "shifts/shift_template_overview.html"
 
     def get_context_data(self, **kwargs):
@@ -271,18 +267,6 @@ class ShiftTemplateOverview(LoginRequiredMixin, TemplateView):
         context["shift_template_groups"] = [
             group.name for group in ShiftTemplateGroup.objects.all().order_by("name")
         ]
-        return context
-
-
-class ShiftTemplateOverviewRegister(ShiftTemplateOverview):
-    """Overview to register a given user to a ShiftTemplate"""
-
-    permission_required = "shifts.manage"
-    template_name = "shifts/shift_template_overview_register.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["user"] = get_object_or_404(TapirUser, pk=self.kwargs["user_pk"])
         return context
 
 

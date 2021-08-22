@@ -3,6 +3,10 @@
 {% load bootstrap4 %}
 {% load i18n %}
 
+{% block head %}
+    {{ form.media }}
+{% endblock %}
+
 {% block content %}
     <div class="card m-2" id="shift_detail_card">
         <h5 class="card-header d-flex justify-content-between align-items-center">
@@ -49,7 +53,7 @@
                                 {% else %}
                                     <td>
                                         <a class="btn btn-secondary"
-                                           href="{% url "shifts:slottemplate_register" slot.pk %}">
+                                           href="{% url "shifts:slottemplate_register" slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
                                             {% trans "Register" %}
                                         </a>
                                     </td>
