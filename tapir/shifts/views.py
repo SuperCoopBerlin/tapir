@@ -350,34 +350,22 @@ class UpcomingShiftsAsTimetable(LoginRequiredMixin, TemplateView):
 @csrf_protect
 @permission_required("shifts.manage")
 def set_user_attendance_mode_flying(request, user_pk):
-    u = get_object_or_404(TapirUser, pk=user_pk)
-
-    old_shift_user_data = freeze_for_log(u.shift_user_data)
-
-    with transaction.atomic():
-        u.shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
-        u.shift_user_data.save()
-
-        log_entry = UpdateShiftUserDataLogEntry().populate(
-            actor=request.user,
-            user=u,
-            old_frozen=old_shift_user_data,
-            new_model=u.shift_user_data,
-        )
-        log_entry.save()
-
-    return redirect(u)
+    return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.FLYING)
 
 
 @require_POST
 @csrf_protect
 @permission_required("shifts.manage")
 def set_user_attendance_mode_regular(request, user_pk):
+    return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.REGULAR)
+
+
+def _set_user_attendance_mode(request, user_pk, attendance_mode):
     u = get_object_or_404(TapirUser, pk=user_pk)
     old_shift_user_data = freeze_for_log(u.shift_user_data)
 
     with transaction.atomic():
-        u.shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
+        u.shift_user_data.attendance_mode = attendance_mode
         u.shift_user_data.save()
         log_entry = UpdateShiftUserDataLogEntry().populate(
             actor=request.user,
