@@ -141,36 +141,30 @@ class ShiftTemplate(models.Model):
 
     @transaction.atomic
     def create_shift(self, start_date: datetime.date):
-        shift = self._generate_shift(start_date=start_date)
+        generated_shift = self._generate_shift(start_date=start_date)
 
-        if Shift.objects.filter(
-            shift_template=self, start_time=shift.start_time
-        ).exists():
-            shift = Shift.objects.get(shift_template=self, start_time=shift.start_time)
-        else:
-            shift.save()
+        shift = self.generated_shifts.filter(
+            start_time=generated_shift.start_time
+        ).first()
+        if not shift:
+            generated_shift.save()
+            shift = generated_shift
 
         for slot_template in self.slot_templates.all():
-            ShiftSlot.objects.create(
+            slot = ShiftSlot.objects.create(
                 slot_template=slot_template,
                 name=slot_template.name,
                 shift=shift,
                 required_capabilities=slot_template.required_capabilities,
                 optional=slot_template.optional,
             )
-
-        self.update_future_shift_attendances()
+            slot.update_attendance_from_template()
 
         return shift
 
-    def save(self, *args, **kwargs):
-        # TODO(Leon Handreke): This should be a hook
-        super().save(*args, **kwargs)
-        self.update_future_shift_attendances()
-
     def update_future_shift_attendances(self, now=None):
-        for shift in self.generated_shifts.filter(start_time__gt=now or timezone.now()):
-            shift.update_attendances_from_template()
+        for slot_template in self.slot_templates.all():
+            slot_template.update_future_slot_attendances(now)
 
 
 class ShiftSlotTemplate(models.Model):
@@ -218,6 +212,17 @@ class ShiftSlotTemplate(models.Model):
             set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
         )
 
+    def get_attendance_template(self):
+        return (
+            self.attendance_template if hasattr(self, "attendance_template") else None
+        )
+
+    def update_future_slot_attendances(self, now=None):
+        for slot in self.generated_slots.filter(
+            shift__start_time__gt=now or timezone.now()
+        ):
+            slot.update_attendance_from_template()
+
 
 class ShiftAttendanceTemplate(models.Model):
     user = models.ForeignKey(
@@ -226,6 +231,11 @@ class ShiftAttendanceTemplate(models.Model):
     slot_template = models.OneToOneField(
         ShiftSlotTemplate, related_name="attendance_template", on_delete=models.PROTECT
     )
+
+    def save(self):
+        res = super().save()
+        self.slot_template.update_future_slot_attendances()
+        return res
 
 
 class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
@@ -313,15 +323,6 @@ class Shift(models.Model):
     def get_valid_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return self.get_attendances().with_valid_state()
 
-    def update_attendances_from_template(self):
-        """Updates the attendances from the template that this shift was generated from.
-
-        This is used so that when people join or leave a regularly-occurring ShiftTemplate, future shifts already
-        generated can be updated to reflect this change."""
-
-        for slot in self.slots.all():
-            slot.update_attendances_from_template()
-
 
 class ShiftSlot(models.Model):
     slot_template = models.ForeignKey(
@@ -352,24 +353,6 @@ class ShiftSlot(models.Model):
             [SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.required_capabilities]
         )
 
-    def update_attendances_from_template(self):
-        """Updates the attendances from the template that this slot was generated from.
-
-        This is used so that when people join a regularly-occurring ShiftSlot, future shifts already
-        generated can be updated to reflect this change. For users leaving, the update has to be done in the view,
-        as we can't know whether the user currently attending the slot just unregistered from the regular slot or
-        wants to attend this slot one-time only."""
-
-        if not self.slot_template:
-            return
-
-        if not self.get_valid_attendance() and hasattr(
-            self.slot_template, "attendance_template"
-        ):
-            ShiftAttendance.objects.create(
-                user=self.slot_template.attendance_template.user, slot=self
-            )
-
     def get_valid_attendance(self):
         return self.attendances.with_valid_state().first()
 
@@ -384,6 +367,29 @@ class ShiftSlot(models.Model):
             # User must have all required capabilities
             set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
         )
+
+    def update_attendance_from_template(self):
+        """Updates the attendance of this slot.
+
+        This is used so that when people join a regularly-occurring ShiftSlot, future shifts already
+        generated can be updated to reflect this change.
+
+        For users leaving, the update has to be done in the view, as we can't know whether the user currently attending
+        the slot just unregistered from the regular slot or wants to attend this slot one-time only."""
+
+        if not self.slot_template:
+            return
+
+        attendance_template = self.slot_template.get_attendance_template()
+        if not attendance_template:
+            return
+
+        # Create ShiftAttendance if slot not taken yet and user has not already cancelled
+        if (
+            not self.get_valid_attendance()
+            and not self.attendances.filter(user=attendance_template.user).exists()
+        ):
+            ShiftAttendance.objects.create(user=attendance_template.user, slot=self)
 
 
 class ShiftAccountEntry(models.Model):
