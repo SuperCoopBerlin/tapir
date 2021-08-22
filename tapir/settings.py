@@ -168,6 +168,10 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "tapir/static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
+SELECT2_JS = "select2/4.0.13/js/select2.min.js"
+SELECT2_CSS = "select2/4.0.13/css/select2.min.css"
+SELECT2_I18N_PATH = "select2/4.0.13/js/i18n"
+
 WEASYPRINT_BASEURL = "/"
 
 REG_PERSON_BASE_DN = "ou=people,dc=supercoop,dc=de"
