@@ -16,7 +16,9 @@ services:
 
   web:
     build: .
-    command: bash -c "poetry install && poetry run python manage.py runserver_plus 0.0.0.0:8000"
+    command: bash -c "poetry install &&
+                      cd tapir && poetry run python ../manage.py compilemessages && cd .. &&
+                      poetry run python manage.py runserver_plus 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
