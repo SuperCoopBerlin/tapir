@@ -9,7 +9,6 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 
-from tapir import settings
 from tapir.accounts.forms import TapirUserForm, PasswordResetForm
 from tapir.accounts.models import TapirUser
 from tapir.log.models import EmailLogEntry

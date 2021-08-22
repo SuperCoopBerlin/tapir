@@ -200,4 +200,4 @@ SITE_URL = "http://127.0.0.1:8000"
 
 PHONENUMBER_DEFAULT_REGION = "DE"
 
-LOCALE_PATHS = ["/app/tapir/translations/locale"]
+LOCALE_PATHS = [os.path.join(BASE_DIR, "tapir/translations/locale")]
