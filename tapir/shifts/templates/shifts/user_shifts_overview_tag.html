@@ -90,21 +90,25 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        <span class="text-danger">{% trans "None" %}</span>
+                        <span class="text-danger">{% trans "None" context "No upcoming shift" %}</span>
                     {% endif %}
                 {% endwith %}
             </div>
         </div>
 
         <div class="row m-1">
-            <div class="col-4 font-weight-bold text-right">{% trans "Account Balance" %}:</div>
+            <div class="col-4 font-weight-bold text-right">{% trans "Shift Status" %}:</div>
             <div class="col-8">
                 {% if user.shift_user_data.is_balance_ok %}
-                    <span class="text-success">{% trans "OK" %}</span>
-                {% elif user.shift_user_data.is_balance_positive %}
-                    <span style="color: darkgreen;">{% trans "Positive Buffer" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
+                    <span class="text-success">{% trans "Up to date" %}</span>
+
+                    {% if user.shift_user_data.get_balance < 0 %}
+                        ({% trans "Shift for ongoing cycle pending" %})
+                    {% elif user.shift_user_data.get_balance > 0 %}
+                        ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_balance %}{{ num_banked }} banked shifts{% endblocktranslate %})
+                    {% endif %}
                 {% else %}
-                    <span class="text-danger">{% trans "Negative" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
+                    <span class="text-danger">{% trans "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
                 {% endif %}
             </div>
         </div>
@@ -115,7 +119,7 @@
                 {% if user.shift_user_data.capabilities %}
                     {{ user.shift_user_data.get_capabilities_display }}
                 {% else %}
-                    {% trans "None" %}
+                    {% trans "None" context "No special shift capabilities" %}
                 {% endif %}
             </div>
         </div>
