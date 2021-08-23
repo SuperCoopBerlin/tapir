@@ -188,6 +188,8 @@ class ShiftSlotTemplate(models.Model):
             max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
         ),
         default=list,
+        blank=True,
+        null=False,
     )
 
     # Whether this ShiftSlot is required to be filled
@@ -349,6 +351,8 @@ class ShiftSlot(models.Model):
             max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
         ),
         default=list,
+        blank=True,
+        null=False,
     )
 
     # Whether this ShiftSlot is required to be filled
