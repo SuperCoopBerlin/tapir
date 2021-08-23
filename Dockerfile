@@ -7,4 +7,3 @@ RUN apt update -y && apt install -y libldap2-dev libsasl2-dev gettext
 
 RUN pip install poetry && poetry install
 
-RUN cd tapir && poetry run python ../manage.py compilemessages
