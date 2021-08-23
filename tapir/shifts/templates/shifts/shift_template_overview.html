@@ -23,7 +23,7 @@
         {% for day, day_group in day_groups.items %}
             <tr>
                 <td></td>
-                <td class="text-center" colspan="{{ shift_template_groups|length }}">{{ day }}</td>
+                <td class="text-center" colspan="{{ shift_template_groups|length }}"><h4 class="font-weight-bold">{{ day }}</h4></td>
             </tr>
             {% for time, time_group in day_group.items %}
                 <tr>
