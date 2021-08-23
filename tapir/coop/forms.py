@@ -113,6 +113,7 @@ class ShareOwnerForm(forms.ModelForm):
             "first_name",
             "last_name",
             "email",
+            "phone_number",
             "birthdate",
             "street",
             "street_2",
