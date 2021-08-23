@@ -70,7 +70,7 @@
                                                   method="post"
                                                   action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-success">{% trans "Register to shift" %}</button>
+                                                <button type="submit" class="btn btn-success">{% trans "Register myself" %}</button>
                                             </form>
                                         {% endif %}
                                     </td>

@@ -286,8 +286,8 @@ class Shift(models.Model):
         display_name = "%s: %s %s-%s" % (
             self.__class__.__name__,
             self.name,
-            self.start_time.strftime("%a %Y-%m-%d %H:%M"),
-            self.end_time.strftime("%H:%M"),
+            timezone.localtime(self.start_time).strftime("%a %Y-%m-%d %H:%M"),
+            timezone.localtime(self.end_time).strftime("%H:%M"),
         )
         if self.shift_template and self.shift_template.group:
             display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
@@ -303,8 +303,8 @@ class Shift(models.Model):
     def get_display_name(self):
         display_name = "%s %s - %s" % (
             self.name,
-            self.start_time.strftime("%a, %d %b %Y %H:%M"),
-            self.end_time.strftime("%H:%M"),
+            timezone.localtime(self.start_time).strftime("%a, %d %b %Y %H:%M"),
+            timezone.localtime(self.end_time).strftime("%H:%M"),
         )
         if self.shift_template and self.shift_template.group:
             display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
