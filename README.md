@@ -82,8 +82,5 @@ To generate the translation files, first use "makemessages" and specify the lang
     docker-compose exec -w /app/tapir web poetry run python ../manage.py makemessages -l de
 
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
-Run "compilemessages":
 
-    docker-compose exec -w /app/tapir web poetry run python ../manage.py compilemessages
-
-Changes are only visible after restarting the server.
+For the changes to take effect, restart the Docker container. This will run `manage.py compilemessages` automatically.
