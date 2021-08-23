@@ -10,19 +10,22 @@
 {% endblock %}
 
 {% block content %}
-    <div id="upcoming-shifts-timetable">
-    {% for day, shifts_by_name in shifts_by_days.items %}
+    <div id="upcoming-shifts-timetable" class="d-flex flex-wrap">
+    {% for week, shifts_by_day in shifts_by_weeks_and_days.items %}
         <div class="card m-2">
-            <h5 class="card-header">{{ day }}</h5>
+            <h5 class="card-header">KW {{ week|date:"W" }} starting {{ week }}</h5>
             <div class="card-body d-flex flex-row">
-                {% for shift_name, shifts in shifts_by_name.items %}
+                {% for day, shift_infos in shifts_by_day.items %}
                     <div class="d-flex flex-column">
-                        {% for shift in shifts %}
-                            <a href="{% url "shifts:shift_detail" shift.shift.pk %}">
-                                <div class="shift_timetable_block" style="margin-top: {{ shift.margin_top }}px; height: {{ shift.height }}px;">
-                                {% shift_block shift.shift True %}
-                                </div>
-                            </a>
+                    <h5 style="text-align: center;">{{ day|date:"l" }}</h5>
+                        <h6 style="text-align: center;">{{ day|date:"M d" }}</h6>
+                        {% for shift in shift_infos %}
+                            <!-- a little bit of margin so the boxes don't overlap -->
+                            <div style="margin: 3px">
+                                <a href="{% url "shifts:shift_detail" shift.pk %}">
+                                    {% shift_block shift True %}
+                                </a>
+                            </div>
                         {% endfor %}
                     </div>
                 {% endfor %}

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, date, time, timedelta
 from collections import defaultdict, OrderedDict
 
 from django.contrib.auth.decorators import permission_required
@@ -42,8 +42,8 @@ def time_to_seconds(time):
 
 # NOTE(Leon Handreke): This is obviously not true for when DST starts and ends, but we don't care, this is just for
 # layout and we don't work during the night anyway.
-DAY_START_SECONDS = time_to_seconds(datetime.time(6, 0))
-DAY_END_SECONDS = time_to_seconds(datetime.time(22, 0))
+DAY_START_SECONDS = time_to_seconds(time(6, 0))
+DAY_END_SECONDS = time_to_seconds(time(22, 0))
 DAY_DURATION_SECONDS = DAY_END_SECONDS - DAY_START_SECONDS
 
 
@@ -72,7 +72,7 @@ class UpcomingDaysView(LoginRequiredMixin, TemplateView):
 
         shifts_by_days = defaultdict(list)
 
-        for shift in Shift.objects.filter(start_time__gte=datetime.date.today()):
+        for shift in Shift.objects.filter(start_time__gte=date.today()):
             start_time_seconds = time_to_seconds(shift.start_time)
             end_time_seconds = time_to_seconds(shift.end_time)
 
@@ -106,7 +106,7 @@ class UpcomingDaysView(LoginRequiredMixin, TemplateView):
             )
 
         # Django template language can't loop defaultdict
-        today = datetime.date.today()
+        today = date.today()
         context_data["today"] = today
         context_data["shifts_today"] = shifts_by_days[today]
         del shifts_by_days[today]
@@ -298,35 +298,49 @@ class UpcomingShiftsAsTimetable(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
 
+        today = date.today()
+        monday_this_week = today - timedelta(days=today.weekday())
+        # Only filter the eight weeks to make things faster
         upcoming_shifts = Shift.objects.filter(
-            start_time__gte=datetime.date.today()
-        ).order_by("start_time")[:100]
-        shifts_by_days = dict()
-        day_start_time = None
-        for test in upcoming_shifts:
-            shift: Shift = test
+            start_time__gte=monday_this_week,
+            end_time__lt=monday_this_week + timedelta(days=8 * 7),
+        ).order_by("start_time")
+
+        # A nested dict containing weeks (indexed by the Monday of the week), then days, then a list of shifts
+        # OrderedDict[OrderedDict[list]]
+        shifts_by_weeks_and_days = OrderedDict()
+
+        for shift in upcoming_shifts:
             shift_day = shift.start_time.date()
-            if shift_day not in shifts_by_days:
-                shifts_by_days[shift_day] = dict()
-                day_start_time = shift.start_time
+            shift_week_monday = shift_day - timedelta(days=shift_day.weekday())
 
-            shifts_by_name = shifts_by_days[shift_day]
-            if shift.name not in shifts_by_name:
-                shifts_by_name[shift.name] = []
+            # Ensure the nested OrderedDict[OrderedDict[list]] dictionary has the right data structures for the new item
+            shifts_by_weeks_and_days.setdefault(shift_week_monday, OrderedDict())
+            shifts_by_weeks_and_days[shift_week_monday].setdefault(shift_day, [])
 
-            shift_display_infos = dict()
-            shift_display_infos["shift"] = shift
-            duration = (shift.end_time - shift.start_time).total_seconds() / 3600
-            shift_display_infos["height"] = duration * 50
-            previous_time = day_start_time
-            if len(shifts_by_name[shift.name]) > 0:
-                previous_time = shifts_by_name[shift.name][-1]["shift"].end_time
-            shift_display_infos["margin_top"] = (
-                (shift.start_time - previous_time).total_seconds() / 3600
-            ) * 50
-            shifts_by_name[shift.name].append(shift_display_infos)
+            # NOTE(Leon Handreke): Right now, we just stack the shift blocks. If at some point we want an overlapping
+            # Google Calendar-style view, we should reactivate this code.
+            # start_time_seconds = time_to_seconds(shift.start_time)
+            # end_time_seconds = time_to_seconds(shift.end_time)
+            # # Position in the box, as a fraction relative to its parent (0.0 = at the beginning, 0.5 = in the middle,
+            # # 1.0 = at the end)
+            # position = (
+            #                    start_time_seconds - DAY_START_SECONDS
+            #            ) / DAY_DURATION_SECONDS
+            # # Size, again as a fraction of the box
+            # size = (end_time_seconds - start_time_seconds) / DAY_DURATION_SECONDS
+            # size -= 0.01  # To make shifts not align completely
+            #
+            # shift_display_infos = {
+            #     "shift": shift,
+            #     # As a percentage because that's what CSS wants
+            #     "position": position * 100,
+            #     "size": size * 100
+            # }
 
-        context_data["shifts_by_days"] = shifts_by_days
+            shifts_by_weeks_and_days[shift_week_monday][shift_day].append(shift)
+
+        context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
         return context_data
 
 
