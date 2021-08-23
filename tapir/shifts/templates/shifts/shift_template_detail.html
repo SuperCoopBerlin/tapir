@@ -31,7 +31,10 @@
                     {% for slot in object.slot_templates.all %}
                         <tr>
                             <td><h5>#{{ forloop.counter }}</h5></td>
-                            <td>{{ slot.get_required_capabilities_display }}{% if slot.optional %}({% trans 'optional' %}){% endif %}</td>
+                            <td>
+                                {{ slot.name }}
+                                {% if slot.optional %}({% trans 'optional' %}){% endif %}
+                            </td>
                             {% with slot.attendance_template as attendance %}
                                 {% if attendance %}
                                     <td>
