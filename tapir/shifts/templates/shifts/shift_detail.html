@@ -5,24 +5,23 @@
 
 {% block content %}
     <div class="card m-2" id="shift_detail_card">
-        <h5 class="card-header d-flex justify-content-between align-items-center">
-            <span>Shift : <span id="shift_name">{{ shift.name }}</span></span>
-            {% if perms.shifts.manage %}
-                <a href="{% url "shifts:shift_edit" shift.pk %}">
-                    <button type="button" class="btn btn-outline-info">Edit</button>
-                </a>
-            {% endif %}
-        </h5>
-        <div class="card-body">
-            <h5 class="card-title">
-                <span id="shift_time">
-                    {% if shift.start_time|date == shift.end_time|date %}
-                        {{ shift.start_time|date:"d.m.Y" }}, {{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}
-                    {% else %}
-                        From {{ shift.start_time }} to {{ shift.end_time }}
-                    {% endif %}
-                </span>
+        <div class="card-header">
+            <h5 class="d-flex justify-content-between align-items-center">
+                <span>Shift: {{ shift.get_display_name }}</span>
+                {% if perms.shifts.manage %}
+                    <a href="{% url "shifts:shift_edit" shift.pk %}">
+                        <button type="button" class="btn btn-outline-info">Edit</button>
+                    </a>
+                {% endif %}
             </h5>
+            {% if shift.shift_template %}
+                <span>{% trans "Generated from" %}:
+                    <a href="{{ shift.shift_template.get_absolute_url }}">
+                        {{ shift.shift_template.get_display_name }}</a>
+                </span>
+            {% endif %}
+        </div>
+        <div class="card-body">
             <table class="table" id="attendance_table">
                 <thead>
                     <tr>

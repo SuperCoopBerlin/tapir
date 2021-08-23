@@ -4,9 +4,6 @@
 <div class="card m-2">
     <h5 class="card-header d-flex justify-content-between align-items-center">
         {% trans "Shifts" %}
-        <a href="{% url "shifts:upcoming_timetable" %}">
-            <button type="button" class="btn btn-outline-info" >{% trans 'Register to a shift' %}</button>
-        </a>
     </h5>
     <div class="card-body">
         <div class="row m-1">
@@ -55,7 +52,7 @@
                         <span class="text-danger">{% trans "Missing" %}</span>
 
                         <a class="btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}">
-                            {% trans "Find a shift" %}
+                            {% trans "Find an ABCD shift" %}
                         </a>
 
                         {% if perms.accounts.manage %}

@@ -56,16 +56,7 @@ class TestCreateShift(ShiftTestBase):
         self.selenium.find_element_by_xpath('//button[text() = "Save"]').click()
 
     def check_shift_detail_page(self) -> None:
-        self.assertEqual(
-            self.selenium.find_element_by_id("shift_name").text,
-            ShiftTestBase.shift_name,
-        )
-        formatted_time = self.shift_start_time.strftime("%d.%m.%Y, %H:%M")
-        formatted_time += " - " + self.shift_end_time.strftime("%H:%M")
-        self.assertEqual(
-            self.selenium.find_element_by_id("shift_time").text,
-            formatted_time,
-        )
+        self.assertIn(ShiftTestBase.shift_name, self.selenium.page_source)
 
         # TODO(Leon Handreke): Make the create shift form have a number of slots argument again.
         # self.assertEqual(
@@ -124,4 +115,4 @@ class TestCreateShift(ShiftTestBase):
         self.selenium.find_element_by_id("id_name").send_keys(new_name)
         self.selenium.find_element_by_xpath('//button[text() = "Save"]').click()
         self.wait_until_element_present_by_id("shift_detail_card")
-        self.assertEqual(self.selenium.find_element_by_id("shift_name").text, new_name)
+        self.assertIn(new_name, self.selenium.page_source)

@@ -240,8 +240,8 @@ class ShiftAttendanceTemplate(models.Model):
         ShiftSlotTemplate, related_name="attendance_template", on_delete=models.PROTECT
     )
 
-    def save(self):
-        res = super().save()
+    def save(self, *args, **kwargs):
+        res = super().save(*args, **kwargs)
         self.slot_template.update_future_slot_attendances()
         return res
 
@@ -301,9 +301,10 @@ class Shift(models.Model):
         return display_name
 
     def get_display_name(self):
-        display_name = "%s %s" % (
+        display_name = "%s %s - %s" % (
             self.name,
             self.start_time.strftime("%a, %d %b %Y %H:%M"),
+            self.end_time.strftime("%H:%M"),
         )
         if self.shift_template and self.shift_template.group:
             display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
