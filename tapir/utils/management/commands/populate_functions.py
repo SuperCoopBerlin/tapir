@@ -266,7 +266,12 @@ def populate_shift_templates():
                         required_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
                         optional=False,
                     )
-                    for _ in range(3):
+                    ShiftSlotTemplate.objects.create(
+                        name="Kasse",
+                        shift_template=shift_template,
+                        optional=False,
+                    )
+                    for _ in range(2):
                         ShiftSlotTemplate.objects.create(
                             shift_template=shift_template, optional=False
                         )
