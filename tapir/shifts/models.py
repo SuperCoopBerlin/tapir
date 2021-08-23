@@ -203,7 +203,7 @@ class ShiftSlotTemplate(models.Model):
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
         if self.name:
-            display_name += " (%s)" % self.name
+            display_name = "{} {}".format(self.name, display_name)
         return display_name
 
     def user_can_attend(self, user):
@@ -303,17 +303,10 @@ class Shift(models.Model):
     def get_display_name(self):
         display_name = "%s %s" % (
             self.name,
-            self.start_time.strftime("%A, %d %B %Y %H:%M"),
+            self.start_time.strftime("%a, %d %b %Y %H:%M"),
         )
         if self.shift_template and self.shift_template.group:
             display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
-
-        display_name = "%s [%d/%d]" % (
-            display_name,
-            self.get_valid_attendances().count(),
-            self.get_required_slots().count(),
-        )
-
         return display_name
 
     def get_absolute_url(self):
@@ -362,6 +355,12 @@ class ShiftSlot(models.Model):
         return ", ".join(
             [SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.required_capabilities]
         )
+
+    def get_display_name(self):
+        display_name = self.shift.get_display_name()
+        if self.name:
+            display_name = "{} {}".format(self.name, display_name)
+        return display_name
 
     def get_valid_attendance(self):
         return self.attendances.with_valid_state().first()

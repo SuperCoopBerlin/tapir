@@ -78,7 +78,7 @@
                 {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
                     {% if next_slot %}
                         <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">
-                            {{ next_slot.shift.start_time|date:"l F d" }} {{ next_slot.shift.start_time|time:"H:i" }}
+                            {{ next_slot.get_display_name }}
                         </a>
                         (in {{ next_slot.shift.start_time|timeuntil }})<br />
                         <a data-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
