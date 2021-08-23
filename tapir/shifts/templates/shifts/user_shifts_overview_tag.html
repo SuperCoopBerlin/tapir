@@ -51,11 +51,11 @@
                     {% else %}
                         <span class="text-danger">{% trans "Missing" %}</span>
 
-                        <a class="btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}">
-                            {% trans "Find an ABCD shift" %}
-                        </a>
+                        {% if perms.shifts.manage %}
+                            <a class="btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}">
+                                {% trans "Find an ABCD shift" %}
+                            </a>
 
-                        {% if perms.accounts.manage %}
                             <form style="display: inline;" method="POST"
                                   action="{% url "shifts:set_user_attendance_mode_flying" user.pk %}">
                                 {% csrf_token %}
