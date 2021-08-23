@@ -64,58 +64,6 @@ class SelectedUserViewMixin:
         return context
 
 
-class UpcomingDaysView(LoginRequiredMixin, TemplateView):
-    template_name = "shifts/upcoming_days.html"
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(*args, **kwargs)
-
-        shifts_by_days = defaultdict(list)
-
-        for shift in Shift.objects.filter(start_time__gte=date.today()):
-            start_time_seconds = time_to_seconds(shift.start_time)
-            end_time_seconds = time_to_seconds(shift.end_time)
-
-            position_left = (
-                start_time_seconds - DAY_START_SECONDS
-            ) / DAY_DURATION_SECONDS
-            width = (end_time_seconds - start_time_seconds) / DAY_DURATION_SECONDS
-            width -= 0.01  # To make shifts not align completely
-
-            # TODO(Leon Handreke): The name for this var sucks but can't find a better one
-            num_required_slots = shift.slots.filter(optional=False).count()
-            perc_slots_occupied = shift.get_valid_attendances().count() / float(
-                num_required_slots
-            )
-
-            shifts_by_days[shift.start_time.date()].append(
-                {
-                    "title": shift.name,
-                    "obj": shift,
-                    "position_left": position_left * 100,
-                    "width": width * 100,
-                    # TODO(Leon Handreke): This style decision, should happen in the template!
-                    "block_color": "#ef9a9a"
-                    if perc_slots_occupied <= 0.4
-                    else ("#a5d6a7" if perc_slots_occupied >= 1 else "#ffe082"),
-                    # Have a list of none cause it's easier to loop over in Django templates
-                    "free_slots": [None]
-                    * (num_required_slots - shift.get_valid_attendances().count()),
-                    "attendances": shift.get_attendances().with_valid_state(),
-                }
-            )
-
-        # Django template language can't loop defaultdict
-        today = date.today()
-        context_data["today"] = today
-        context_data["shifts_today"] = shifts_by_days[today]
-        del shifts_by_days[today]
-
-        context_data["shifts_by_days"] = dict(shifts_by_days)
-
-        return context_data
-
-
 class ShiftDetailView(LoginRequiredMixin, DetailView):
     model = Shift
     template_name = "shifts/shift_detail.html"
@@ -292,8 +240,8 @@ class EditShiftView(PermissionRequiredMixin, UpdateView):
         return context
 
 
-class UpcomingShiftsAsTimetable(LoginRequiredMixin, TemplateView):
-    template_name = "shifts/timetable.html"
+class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
+    template_name = "shifts/upcoming_shifts.html"
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)

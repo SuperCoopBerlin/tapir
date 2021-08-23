@@ -75,35 +75,16 @@
                     <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">Shifts</h6>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "shifts:shift_upcoming" %}">
-                                {% trans "Shift Dashboard" %}
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
                             <a class="nav-link" href="{% url "shifts:upcoming_timetable" %}">
-                                {% trans "Upcoming shift timetable" %}
+                                {% trans "Upcoming shifts" %}
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "shifts:shift_template_overview" %}">
-                                {% trans "ABCD Schedule Overview" %}
+                                {% trans "ABCD schedule" %}
                             </a>
                         </li>
-                        {% if perms.coop.manage %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url "shifts:shift_create" %}">
-                                    {% trans "Create a shift" %}
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url "admin:shifts_shifttemplate_changelist" %}">
-                                    {% trans "Edit Shift Templates" %}
-                                </a>
-                            </li>
-                        {% endif %}
                     </ul>
                 {% endblock %}
             </div>

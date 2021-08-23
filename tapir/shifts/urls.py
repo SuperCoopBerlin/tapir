@@ -6,11 +6,6 @@ from tapir.shifts import views
 app_name = "shifts"
 urlpatterns = [
     path(
-        "",
-        generic.RedirectView.as_view(pattern_name="shifts:shift_upcoming"),
-        name="index",
-    ),
-    path(
         "user/<int:user_pk>/set_user_attendance_mode_flying",
         views.set_user_attendance_mode_flying,
         name="set_user_attendance_mode_flying",
@@ -20,7 +15,6 @@ urlpatterns = [
         views.set_user_attendance_mode_regular,
         name="set_user_attendance_mode_regular",
     ),
-    path("upcoming/", views.UpcomingDaysView.as_view(), name="shift_upcoming"),
     # TODO(Leon Handreke): Can we somehow introduce a sub-namespace here?
     path("shift/<int:pk>/", views.ShiftDetailView.as_view(), name="shift_detail"),
     path(
@@ -70,7 +64,7 @@ urlpatterns = [
     ),
     path(
         "timetable",
-        views.UpcomingShiftsAsTimetable.as_view(),
+        views.UpcomingShiftsView.as_view(),
         name="upcoming_timetable",
     ),
 ]
