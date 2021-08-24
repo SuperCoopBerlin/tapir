@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-24 14:24+0200\n"
-"PO-Revision-Date: 2021-08-24 14:19+0200\n"
+"PO-Revision-Date: 2021-08-24 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 
 #: accounts/models.py:107 coop/models.py:50 coop/models.py:227
 msgid "Phone Number"
@@ -69,14 +69,14 @@ msgstr "Name"
 #: accounts/templates/accounts/user_detail.html:35
 #: coop/templates/coop/draftuser_detail.html:28
 msgid "Username"
-msgstr "Benutzername"
+msgstr "Nutzer:innenname"
 
 #: accounts/templates/accounts/user_detail.html:39
 #: coop/templates/coop/draftuser_detail.html:32
 #: coop/templates/coop/draftuser_list.html:21
 #: coop/templates/coop/shareowner_detail.html:30
 msgid "Email"
-msgstr "Email"
+msgstr "E-Mail"
 
 #: accounts/templates/accounts/user_detail.html:43
 #: coop/templates/coop/draftuser_detail.html:36
@@ -439,11 +439,11 @@ msgstr ""
 
 #: log/templates/log/log_entry_list_tag.html:41
 msgid "Add Note"
-msgstr ""
+msgstr "Notiz hinzufügen"
 
 #: shifts/models.py:21
 msgid "Shift Coordinator"
-msgstr ""
+msgstr "Teamleitung"
 
 #: shifts/models.py:47
 msgid "Monday"
@@ -474,24 +474,20 @@ msgid "Sunday"
 msgstr "Sontag"
 
 #: shifts/models.py:503
-#, fuzzy
-#| msgid "🏠 Regular"
 msgid "Regular"
-msgstr "🏠 Regelmäßig"
+msgstr "Regelmäßig"
 
 #: shifts/models.py:504
-#, fuzzy
-#| msgid "✈️ Flying"
 msgid "Flying"
-msgstr "✈️ Fliegend"
+msgstr "Fliegend"
 
 #: shifts/templates/shifts/log/create_shift_attendance_template_log_entry.html:3
 msgid "Registered for ABCD Shift"
-msgstr ""
+msgstr "Angemeldet zu ABCD-Schicht"
 
 #: shifts/templates/shifts/log/delete_shift_attendance_template_log_entry.html:3
 msgid "Unregistered from ABCD Shift"
-msgstr ""
+msgstr "Angemeldet von ABCD-Schicht"
 
 #: shifts/templates/shifts/log/update_shift_user_data_log_entry.html:3
 msgid "Update Shift User Data"
@@ -499,7 +495,7 @@ msgstr ""
 
 #: shifts/templates/shifts/shift_detail.html:18
 msgid "Generated from"
-msgstr ""
+msgstr "Erzeugt von"
 
 #: shifts/templates/shifts/shift_detail.html:28
 msgid "Slot number"
@@ -553,27 +549,24 @@ msgstr ""
 
 #: shifts/templates/shifts/shift_template_detail.html:60
 #: shifts/templates/shifts/slot_template_register.html:23
-#, fuzzy
 msgid "Register"
-msgstr "Als bezahlt markieren"
+msgstr ""
 
 #: shifts/templates/shifts/shift_template_detail.html:72
 msgid "Future generated Shifts"
-msgstr ""
+msgstr "Zukünftige erzeugte Schichten"
 
 #: shifts/templates/shifts/shift_template_detail.html:86
 msgid "Past generated Shifts"
-msgstr ""
+msgstr "Vergangene erzeugte Schichten"
 
 #: shifts/templates/shifts/slot_template_register.html:16
-#, fuzzy
-#| msgid "Shifts"
 msgid "ABCD Shift"
-msgstr "Schichten"
+msgstr "ABCD-Schicht"
 
 #: shifts/templates/shifts/slot_template_register.html:29
 msgid "Register for ABCD Shift"
-msgstr ""
+msgstr "Für eine ABCD-Schicht registrieren"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:20
 msgid "Set Regular 🏠️"
@@ -581,36 +574,30 @@ msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:28
 msgid "Regular Shift"
-msgstr ""
+msgstr "Regelmäßige Schicht"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:57
-#, fuzzy
-#| msgid "Find a shift"
 msgid "Find an ABCD shift"
-msgstr "Eine Schicht finden"
+msgstr "Schicht auswählen"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:64
 msgid "Set Flying️"
-msgstr ""
+msgstr "Als fliegend markieren"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:74
 msgid "Upcoming Shift"
-msgstr ""
+msgstr "Nächste Schicht"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:82
 msgid "Show more"
 msgstr "Mehr anzeigen"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:91
-#, fuzzy
-#| msgid "None"
 msgctxt "No upcoming shift"
 msgid "None"
 msgstr "Keine"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:98
-#, fuzzy
-#| msgid "Status"
 msgid "Shift Status"
 msgstr "Status"
 
@@ -620,7 +607,7 @@ msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:104
 msgid "Shift for ongoing cycle pending"
-msgstr ""
+msgstr "Shift für aktuellen Zyklus ausstehend"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:106
 #, python-format
@@ -633,7 +620,7 @@ msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:115
 msgid "Special Capabilties"
-msgstr ""
+msgstr "Spezielle Fähigkeiten"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:120
 #, fuzzy
@@ -652,13 +639,11 @@ msgstr "Mitglieder"
 
 #: templates/base.html:79
 msgid "Upcoming shifts"
-msgstr ""
+msgstr "Schichtübersicht"
 
 #: templates/base.html:85
-#, fuzzy
-#| msgid "ABCD shifts overview"
 msgid "ABCD schedule overview"
-msgstr "ABCD Schichtübersicht"
+msgstr "ABCD Schichtkalender"
 
 #: utils/forms.py:17
 msgid ""
