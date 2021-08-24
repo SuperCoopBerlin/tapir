@@ -39,7 +39,7 @@
                             <td>{{ slot.get_required_capabilities_display }}{% if slot.optional %} {% trans 'optional' %}{% endif %}</td>
                             {% with slot.get_valid_attendance as attendance %}
                                 {% if attendance %}
-                                    <td><a href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a></td>
+                                    <td><a class="shift-user" href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a></td>
                                     <td>{{ slot.get_valid_attendance.get_state_display }}</td>
                                     {% if perms.shifts.manage %}
                                         <td>
@@ -48,7 +48,7 @@
                                                       method="post"
                                                       action="{% url "shifts:mark_shiftattendance_done" attendance.pk %}">
                                                     {% csrf_token %}
-                                                    <button type="submit" class="btn btn-success">{% trans "Attended" %}</button>
+                                                    <button type="submit" class="btn btn-success button-mark-attended">{% trans "Attended" %}</button>
                                                 </form>
                                                 <form style="display: inline;"
                                                       method="post"
@@ -70,7 +70,7 @@
                                                   method="post"
                                                   action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-success">{% trans "Register myself" %}</button>
+                                                <button type="submit" class="btn btn-success register-self-button">{% trans "Register myself" %}</button>
                                             </form>
                                         {% endif %}
                                     </td>

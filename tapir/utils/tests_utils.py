@@ -11,6 +11,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
@@ -18,13 +19,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from tapir.accounts.templatetags.accounts import format_phone_number
 from tapir.utils.json_user import JsonUser
 
+TAPIR_SELENIUM_BASE_FIXTURES = ["admin_account.json", "test_data.json"]
+
 
 @override_settings(ALLOWED_HOSTS=["*"])
 class TapirSeleniumTestBase(StaticLiveServerTestCase):
     DEFAULT_TIMEOUT = 5
     selenium: WebDriver
     test_users: [] = None
-    fixtures = ["admin_account.json", "test_data.json"]
+    fixtures = TAPIR_SELENIUM_BASE_FIXTURES
     host = "0.0.0.0"  # Bind to 0.0.0.0 to allow external access
 
     @classmethod
@@ -115,6 +118,23 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
             )
         except TimeoutException:
             self.fail("Missing element with ID " + html_id)
+
+    def wait_until_element_present_by_class_name(self, html_class: str):
+        try:
+            WebDriverWait(self.selenium, self.DEFAULT_TIMEOUT).until(
+                ec.presence_of_element_located((By.CLASS_NAME, html_class))
+            )
+        except TimeoutException:
+            self.fail("Missing element with class " + html_class)
+
+    def go_to_user_page(self, user_display_name: str):
+        self.selenium.get(self.live_server_url + reverse("coop:shareowner_list"))
+
+        member_search = self.selenium.find_element_by_id("member_search")
+        member_search.send_keys(user_display_name)
+        member_search.send_keys(Keys.ENTER)
+
+        self.wait_until_element_present_by_id("user_coop_info_card")
 
 
 class TapirUserTestBase(TapirSeleniumTestBase):

@@ -55,7 +55,7 @@
                                     </td>
                                 {% else %}
                                     <td>
-                                        <a class="btn btn-secondary"
+                                        <a class="btn btn-secondary abcd_shift_register_button"
                                            href="{% url "shifts:slottemplate_register" slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
                                             {% trans "Register" %}
                                         </a>

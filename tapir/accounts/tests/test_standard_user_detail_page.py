@@ -18,7 +18,7 @@ class AccountsStandardUserDetailPage(TapirUserTestBase):
 
         repeated_shifts = self.selenium.find_elements_by_class_name("repeated-shift")
         self.assertEqual(len(repeated_shifts), 1)
-        self.assertEqual(repeated_shifts[0].text, "Supermarket Thursday 12:00 (Week C)")
+        self.assertIn("Supermarket Thursday 12:00 (Week C)", repeated_shifts[0].text)
 
         self.assertFalse(self.does_element_exist_by_id("tapir_user_edit_button"))
         self.assertFalse(self.does_element_exist_by_id("share_owner_edit_buttons"))
