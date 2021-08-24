@@ -47,9 +47,12 @@ class PasswordResetView(auth_views.PasswordResetView):
 def send_user_welcome_email(request, pk):
     u = get_object_or_404(TapirUser, pk=pk)
 
+    suffix = u.preferred_language
+    print(f"welcome_email_subject_{suffix}.txt")
+
     email = u.get_password_reset_email(
-        subject_template_name="accounts/welcome_email_subject.txt",
-        email_template_name="accounts/welcome_email.txt",
+        subject_template_name=f"accounts/welcome_email_subject_{suffix}.txt",
+        email_template_name=f"accounts/welcome_email_{suffix}.txt",
     )
     email.send()
 
