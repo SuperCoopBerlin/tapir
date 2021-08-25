@@ -10,8 +10,7 @@ Flying members: Please keep in mind that you must have at least one shift “ban
 {% endif %}
 In the future you will also be able to log in to the SuperCoop wiki with that account.
 
-Your username is {{ user.username }}.
-In order to login to your account, you first have to set a password :
+Your username is *{{ user.username }}*. In order to login to your account, you first have to set a password :
 
 {{ site_url }}{% url "password_reset_confirm" uidb64=uid token=token %}
 
