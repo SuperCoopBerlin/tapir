@@ -2,12 +2,12 @@
 
 <div class="shift-block-container" style="{{ shift.style }}">
     <div id="{% if shift.is_template %}template{% else %}shift{% endif %}_{{ shift.id }}" class="shift-block bg-{{ shift.background }}" style="height:{{ shift.height }}px;">
-        <div class="shift-name">{{ shift.name }}</div>
-        <div class="shift-time">{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
-        <div class="shift-date">{% if shift.start_date is not None %}{{ shift.start_date|date:"D d/m/y" }}{%  else %}{{ shift.weekday }}{% endif %}</div>
+        <!--<div class="shift-time shift-block-title">{{ shift.name }}</div>-->
+        <div class="shift-time shift-block-title">{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
+        <div class="shift-date">{% if shift.start_date is not None %}{{ shift.start_date|date:"D d/m/y" }}{%  else %}{{ shift.weekday|slice:":3" }}{% endif %}</div>
         <div style="display: flex; flex-direction: column">
-            {% for capability, attendances in shift.attendances.items %}
-                <div>{% trans capability %}:
+            {% for slot_name, attendances in shift.attendances.items %}
+                <div>{{ slot_name }}:
                     {% for state in attendances %}
                         {% if state == "regular" %}
                             <div class="material-icons">offline_pin</div>

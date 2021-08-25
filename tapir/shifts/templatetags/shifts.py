@@ -1,4 +1,5 @@
 from django import template
+from django.utils.translation import gettext as _
 
 from tapir.shifts.models import (
     Shift,
@@ -31,26 +32,27 @@ def shift_template_block(context, shift_template: ShiftTemplate, fill_parent=Fal
 def shift_to_block_object(shift: Shift, fill_parent: bool):
     attendances = {}
     for slot in shift.slots.all():
-        capabilities = slot.get_required_capabilities_display()
-        if capabilities == "":
-            capabilities = "No requirements"
-        if capabilities not in attendances:
-            attendances[capabilities] = []
+        slot_name = slot.name
+        if slot_name == "":
+            slot_name = _("General")
+        if slot_name not in attendances:
+            attendances[slot_name] = []
 
-        if slot.attendances.count() < 1:
-            if slot.optional:
-                state = "optional"
-            else:
-                state = "empty"
-        else:
-            attendance = slot.attendances.all()[0]
+        attendance = slot.get_valid_attendance()
+        if attendance:
             if ShiftAttendanceTemplate.objects.filter(
                 slot_template=attendance.slot.slot_template, user=attendance.user
             ).exists():
                 state = "regular"
             else:
                 state = "single"
-        attendances[capabilities].append(state)
+        else:
+            if slot.optional:
+                state = "optional"
+            else:
+                state = "empty"
+
+        attendances[slot_name].append(state)
 
     template_group = None
     if shift.shift_template:
@@ -93,16 +95,13 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: bool):
     attendances = {}
     for slot_template in shift_template.slot_templates.all():
-        capabilities = slot_template.get_required_capabilities_display()
-        if capabilities == "":
-            capabilities = "No requirements"
-        if capabilities not in attendances:
-            attendances[capabilities] = []
+        slot_name = slot_template.name
+        if slot_template.name == "":
+            slot_name = _("General")
+        if slot_name not in attendances:
+            attendances[slot_name] = []
 
-        if (
-            ShiftAttendanceTemplate.objects.filter(slot_template=slot_template).count()
-            > 0
-        ):
+        if slot_template.get_attendance_template():
             state = "regular"
         else:
             if slot_template.optional:
@@ -110,7 +109,7 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
             else:
                 state = "empty"
 
-        attendances[capabilities].append(state)
+        attendances[slot_name].append(state)
 
     num_required_slots = (
         shift_template.slot_templates.filter(optional=False).count() or 1
