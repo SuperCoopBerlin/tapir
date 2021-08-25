@@ -81,7 +81,7 @@
                                     action="{% url "accounts:send_user_welcome_email" object.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="align-self-right btn btn-outline-info ml-3">
-                                    {% trans "Resend Account Activation Email" %}
+                                    {% trans "Send account activation email" %}
                                 </button>
                             </form>
                         {% endif %}
