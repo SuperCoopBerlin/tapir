@@ -1,3 +1,5 @@
+from datetime import date
+
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.formfields import PhoneNumberField
@@ -6,6 +8,9 @@ from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 
 class DateInput(forms.DateInput):
     input_type = "date"
+
+    def format_value(self, value: date):
+        return value.strftime("%Y-%m-%d")
 
 
 class TapirPhoneNumberField(PhoneNumberField):
