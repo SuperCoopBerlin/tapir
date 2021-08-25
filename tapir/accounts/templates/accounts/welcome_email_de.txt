@@ -1,10 +1,17 @@
 Liebe*r {{ user.get_full_name }},
 
-soeben haben wir für dich ein Konto in unserem SuperCoop Schichtsystem angelegt. Hier kannst du deine kommenden Schichten einsehen, dir nach Lust und Laune eine zusätzliche Schicht buchen oder eine deiner eigenen Schichten zur Neubesetzung freigeben, beispielsweise wenn du in den Urlaub fähst. Bitte wendet dich an dem Mitgliederhandbuch (Seiten 12-14) um mehr zu lernen über das Vertretungssystem.
-Fliegende Mitglieder : Bitte errinert euch daran das ihr mindestens ein Schichtguthaben auf ihre Schichtkonto haben musst vor jeden Zyklus-Ende. Mehr infos dazu könnt ihr im Mitgliederhandbuch (Seite 11) finden.
+soeben haben wir für dich ein Konto in unserem SuperCoop Mitgliedersystem angelegt. Hier kannst du deine kommenden Schichten einsehen, dir nach Lust und Laune eine zusätzliche Schicht buchen oder eine deiner eigenen Schichten zur Neubesetzung freigeben, beispielsweise wenn du in den Urlaub fährst. Mehr über Informationen über das Vertretungssystem findest du im Mitgliederhandbuch (Seiten 12-14).
+{% if user.shift_user_data.attendance_mode == "regular" %}
+{% if user.shift_attendance_templates.first %}
+Deine regelmäßige ABCD-Schicht ist: {{ user.shift_attendance_templates.first.slot_template.get_display_name }}. Vor deiner ersten Schicht wirst du nochmal eine Erinnerungsmail erhalten.
+{% endif %}
+{% else %}
+Fliegende Mitglieder: Bitte achtet darauf, zu jedem Zyklus-Ende mindestens ein Schichtguthaben auf eurem Schichtkonto zu haben. Mehr Infos findet ihr im Mitgliederhandbuch (Seite 11).
+{% endif %}
+
 In Zukunft wirst du dich mit diesem Konto auch in unser Wiki einloggen können.
 
-Dein Nutzer*innenname ist {{ user.username }}. Um dein Konto nutzen zu können, musst du zuerst ein Password festlegen:
+Dein Nutzer*innenname ist *{{ user.username }}*. Um dein Konto nutzen zu können, musst du zuerst ein Password festlegen:
 
 {{ site_url }}{% url "password_reset_confirm" uidb64=uid token=token %}
 
