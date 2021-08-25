@@ -1,12 +1,12 @@
 Liebe*r {{ user.get_full_name }},
 
-soeben haben wir für dich ein Konto in unserem SuperCoop Mitgliedersystem angelegt. Hier kannst du deine kommenden Schichten einsehen, dir nach Lust und Laune eine zusätzliche Schicht buchen oder eine deiner eigenen Schichten zur Neubesetzung freigeben, beispielsweise wenn du in den Urlaub fährst. Mehr über Informationen über das Vertretungssystem findest du im Mitgliederhandbuch (Seiten 12-14).
+soeben haben wir für dich ein Konto in unserem SuperCoop Mitgliedersystem angelegt. Hier kannst du deine kommenden Schichten einsehen, dir nach Lust und Laune eine zusätzliche Schicht buchen oder eine deiner eigenen Schichten zur Neubesetzung freigeben, beispielsweise wenn du in den Urlaub fährst. Mehr über Informationen über das Vertretungssystem findest du im Mitgliederhandbuch (Seiten 12-14) [0].
 {% if user.shift_user_data.attendance_mode == "regular" %}
 {% if user.shift_attendance_templates.first %}
 Deine regelmäßige ABCD-Schicht ist: {{ user.shift_attendance_templates.first.slot_template.get_display_name }}. Vor deiner ersten Schicht wirst du nochmal eine Erinnerungsmail erhalten.
 {% endif %}
 {% else %}
-Fliegende Mitglieder: Bitte achtet darauf, zu jedem Zyklus-Ende mindestens ein Schichtguthaben auf eurem Schichtkonto zu haben. Mehr Infos findet ihr im Mitgliederhandbuch (Seite 11).
+Fliegende Mitglieder: Bitte achtet darauf, zu jedem Zyklus-Ende mindestens ein Schichtguthaben auf eurem Schichtkonto zu haben. Mehr Infos findet ihr im Mitgliederhandbuch (Seite 11) [0].
 {% endif %}
 
 In Zukunft wirst du dich mit diesem Konto auch in unser Wiki einloggen können.
@@ -19,3 +19,5 @@ Dieser Link ist nur einige Wochen gültig. Sollte er abgelaufen sein, kannst du 
 
 Kooperative Grüße,
 dein Team vom Mitgliederbüro SuperCoop Berlin
+
+[0] https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg
