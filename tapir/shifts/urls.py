@@ -58,6 +58,11 @@ urlpatterns = [
         name="slottemplate_register",
     ),
     path(
+        "shiftslot/<int:slot_pk>/register/",
+        views.SlotRegisterView.as_view(),
+        name="slot_register",
+    ),
+    path(
         "shift_attendance_template/<int:pk>/delete",
         views.shift_attendance_template_delete,
         name="shift_attendance_template_delete",

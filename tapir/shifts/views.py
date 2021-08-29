@@ -19,7 +19,11 @@ from werkzeug.exceptions import BadRequest
 
 from tapir.accounts.models import TapirUser
 from tapir.log.util import freeze_for_log
-from tapir.shifts.forms import ShiftCreateForm, ShiftAttendanceTemplateForm
+from tapir.shifts.forms import (
+    ShiftCreateForm,
+    ShiftAttendanceTemplateForm,
+    ShiftAttendanceForm,
+)
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -33,6 +37,7 @@ from tapir.shifts.models import (
     CreateShiftAttendanceTemplateLogEntry,
     DeleteShiftAttendanceTemplateLogEntry,
     UpdateShiftUserDataLogEntry,
+    CreateShiftAttendanceLogEntry,
 )
 
 
@@ -76,6 +81,45 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             slot.can_register = slot.user_can_attend(self.request.user)
         context["slots"] = slots
         return context
+
+
+class SlotRegisterView(PermissionRequiredMixin, SelectedUserViewMixin, CreateView):
+    permission_required = "shifts.manage"
+    model = ShiftAttendance
+    template_name = "shifts/slot_register.html"
+    form_class = ShiftAttendanceForm
+
+    def get_initial(self):
+        return {"user": self.get_selected_user()}
+
+    def get_slot(self):
+        return get_object_or_404(ShiftSlot, pk=self.kwargs["slot_pk"])
+
+    def get_context_data(self, **kwargs):
+        kwargs["slot"] = self.get_slot()
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        form.instance.slot = self.get_slot()
+        with transaction.atomic():
+            response = super().form_valid(form)
+
+            shift_attendance: ShiftAttendance = self.object
+            log_entry = CreateShiftAttendanceLogEntry().populate(
+                actor=self.request.user,
+                user=self.object.user,
+                model=shift_attendance,
+            )
+            log_entry.slot_name = shift_attendance.slot.name
+            log_entry.shift = shift_attendance.slot.shift
+            log_entry.save()
+
+        return response
+
+    def get_success_url(self):
+        if self.get_selected_user():
+            return self.get_selected_user().get_absolute_url()
+        return self.object.slot.shift.get_absolute_url()
 
 
 class SlotTemplateRegisterView(
@@ -175,7 +219,18 @@ def shiftslot_register_user(request, pk, user_pk):
             "User ({0}) can't join shift slot ({1})".format(selected_user.pk, slot.pk)
         )
 
-    ShiftAttendance.objects.create(slot=slot, user=selected_user)
+    with transaction.atomic():
+        shift_attendance = ShiftAttendance.objects.create(slot=slot, user=selected_user)
+
+        log_entry = CreateShiftAttendanceLogEntry().populate(
+            actor=request.user,
+            user=selected_user,
+            model=shift_attendance,
+        )
+        log_entry.slot_name = shift_attendance.slot.name
+        log_entry.shift = shift_attendance.slot.shift
+        log_entry.save()
+
     return redirect(request.GET.get("next", slot.shift))
 
 

@@ -9,7 +9,7 @@ from tapir.shifts.models import ShiftTemplate
 from tapir.utils.tests_utils import TapirSeleniumTestBase, TAPIR_SELENIUM_BASE_FIXTURES
 
 
-class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
+class TestMemberSelfRegisterToShift(TapirSeleniumTestBase):
     fixtures = TAPIR_SELENIUM_BASE_FIXTURES + [
         "test_register_abcd_member_to_abcd_shift.json",
     ]

@@ -326,6 +326,20 @@ class Shift(models.Model):
         return self.get_attendances().with_valid_state()
 
 
+class ShiftAttendanceLogEntry(ModelLogEntry):
+    class Meta:
+        abstract = True
+
+    exclude_fields = ["slot"]
+
+    slot_name = models.CharField(blank=True, max_length=255)
+    shift = models.ForeignKey(Shift, on_delete=models.PROTECT)
+
+
+class CreateShiftAttendanceLogEntry(ShiftAttendanceLogEntry):
+    template_name = "shifts/log/create_shift_attendance_log_entry.html"
+
+
 class ShiftSlot(models.Model):
     slot_template = models.ForeignKey(
         ShiftSlotTemplate,

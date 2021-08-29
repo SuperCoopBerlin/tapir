@@ -4,7 +4,7 @@ from django.forms import ModelChoiceField
 from django_select2.forms import Select2Widget
 
 from tapir.accounts.models import TapirUser
-from tapir.shifts.models import Shift, ShiftAttendanceTemplate
+from tapir.shifts.models import Shift, ShiftAttendanceTemplate, ShiftAttendance
 
 
 class ShiftCreateForm(forms.ModelForm):
@@ -35,4 +35,12 @@ class ShiftAttendanceTemplateForm(forms.ModelForm):
 
     class Meta:
         model = ShiftAttendanceTemplate
+        fields = ["user"]
+
+
+class ShiftAttendanceForm(forms.ModelForm):
+    user = TapirUserChoiceField()
+
+    class Meta:
+        model = ShiftAttendance
         fields = ["user"]
