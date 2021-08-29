@@ -256,10 +256,11 @@ class ShiftAttendanceTemplate(models.Model):
 def on_shift_attendance_template_delete(
     sender, instance: ShiftAttendanceTemplate, using, **kwargs
 ):
-    slots = instance.slot_template.generated_slots()
-    for slot in slots:
+    for slot in instance.slot_template.generated_slots.all():
         attendances = ShiftAttendance.objects.filter(slot=slot)
-        for attendance in slot.attendances.filter(start_date__gte=timezone.now(), user=instance.user):
+        for attendance in slot.attendances.filter(
+            slot__shift__start_time__gte=timezone.now(), user=instance.user
+        ):
             if attendance.user == instance.user:
                 attendance.delete()
 
