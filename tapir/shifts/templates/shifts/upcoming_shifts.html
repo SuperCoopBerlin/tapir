@@ -3,6 +3,7 @@
 {% load bootstrap4 %}
 {% load static %}
 {% load shifts %}
+{% load i18n %}
 
 {% block head %}
 {{ block.super }}
@@ -10,6 +11,19 @@
 {% endblock %}
 
 {% block content %}
+    <div class="card m-2">
+        <h5 class="card-header">
+            {% trans "Shift schedule overview" %}
+        </h5>
+        <div class="card-body">
+            {# TODO Théo 29.08.21 get the good value for X below #}
+            {% blocktranslate %}
+                <p>Those are the upcoming shifts. They show who registered to each shift on that specific date. Users can register themselves to any shift that has a free slot.</p>
+                <p>They can also unregister themselves if done at least X days before the shift. (X TDB).</p>
+                <p>When registering to one of those shift, the user only commits to the shift one that specific day. They don't register to the corresponding ABCD shift.</p>
+            {% endblocktranslate %}
+        </div>
+    </div>
     <div id="upcoming-shifts-timetable" class="d-flex flex-wrap">
     {% for week, shifts_by_day in shifts_by_weeks_and_days.items %}
         <div class="card m-2">

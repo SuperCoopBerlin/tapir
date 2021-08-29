@@ -3,6 +3,7 @@
 {% load bootstrap4 %}
 {% load static %}
 {% load shifts %}
+{% load i18n %}
 
 {% block head %}
     {{ block.super }}
@@ -10,45 +11,61 @@
 {% endblock %}
 
 {% block content %}
-    <table class="table" id="repeated-shift-overview-table">
-        <thead>
-        <tr>
-            <th></th>
-            {% for group in shift_template_groups %}
-                <th class="text-center">{{ group }}</th>
-            {% endfor %}
-        </tr>
-        </thead>
-        <tbody>
-        {% for day, day_group in day_groups.items %}
-            <tr>
-                <td></td>
-                <td class="text-center" colspan="{{ shift_template_groups|length }}"><h4 class="font-weight-bold">{{ day }}</h4></td>
-            </tr>
-            {% for time, time_group in day_group.items %}
-                <tr>
-                    <td>{{ time }}</td>
-                    {% for template_group_group in time_group.values %}
-                        <td>
-                            <div class="d-flex flex-column" style="gap: 10px;">
-                                {% for shift_template in template_group_group.values %}
-                                    {% if shift_template != None %}
-                                        {% block shift_template %}
-                                            <a href="{{  shift_template.get_absolute_url }}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
-                                                {% shift_template_block shift_template %}
-                                            </a>
-                                        {% endblock %}
-                                    {% else %}
-                                        <div class="shift-template-block-container"></div>
-                                    {% endif %}
+    <div class="card m-2">
+        <h5 class="card-header">
+            {% trans "ABCD schedule overview" %}
+        </h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                {% blocktranslate %}
+                    <p>Those are the ABCD shifts. They are repeated every shift cycle. Therefore, they have a weekday (Monday, Tuesday...) and a week (A,B,C,D) but they don't have a date (23/08/21).</p>
+                    <p>In order to update their ABCD shift registration, members have to contact the Member Office.</p>
+                {% endblocktranslate %}
+            </li>
+            <li class="list-group-item">
+                <table class="table" id="repeated-shift-overview-table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        {% for group in shift_template_groups %}
+                            <th class="text-center">{{ group }}</th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for day, day_group in day_groups.items %}
+                        <tr>
+                            <td></td>
+                            <td class="text-center" colspan="{{ shift_template_groups|length }}"><h4 class="font-weight-bold">{{ day }}</h4></td>
+                        </tr>
+                        {% for time, time_group in day_group.items %}
+                            <tr>
+                                <td>{{ time }}</td>
+                                {% for template_group_group in time_group.values %}
+                                    <td>
+                                        <div class="d-flex flex-column" style="gap: 10px;">
+                                            {% for shift_template in template_group_group.values %}
+                                                {% if shift_template != None %}
+                                                    {% block shift_template %}
+                                                        <a href="{{ shift_template.get_absolute_url }}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
+                                                            {% shift_template_block shift_template %}
+                                                        </a>
+                                                    {% endblock %}
+                                                {% else %}
+                                                    <div class="shift-template-block-container"></div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </td>
                                 {% endfor %}
-                            </div>
-                        </td>
+                            </tr>
+                        {% endfor %}
                     {% endfor %}
-                </tr>
-            {% endfor %}
-        {% endfor %}
-        </tbody>
-    </table>
+                    </tbody>
+                </table>
+            </li>
+        </ul>
+    </div>
+
 
 {% endblock %}
