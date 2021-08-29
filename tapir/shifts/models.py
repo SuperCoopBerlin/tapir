@@ -259,7 +259,7 @@ def on_shift_attendance_template_delete(
     slots = ShiftSlot.objects.filter(slot_template=instance.slot_template)
     for slot in slots:
         attendances = ShiftAttendance.objects.filter(slot=slot)
-        for attendance in attendances:
+        for attendance in slot.attendances.filter(start_date__gte=timezone.now(), user=instance.user):
             if attendance.user == instance.user:
                 attendance.delete()
 
