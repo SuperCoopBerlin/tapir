@@ -71,7 +71,7 @@
   },
   {
     "model": "shifts.shiftslottemplate",
-    "pk": 1,
+    "pk": 1001,
     "fields": {
       "name": "",
       "shift_template": 1000,
@@ -81,7 +81,7 @@
   },
   {
     "model": "shifts.shiftslottemplate",
-    "pk": 2,
+    "pk": 1002,
     "fields": {
       "name": "",
       "shift_template": 1000,
@@ -91,7 +91,7 @@
   },
   {
     "model": "shifts.shiftslottemplate",
-    "pk": 3,
+    "pk": 1003,
     "fields": {
       "name": "",
       "shift_template": 1000,
@@ -101,7 +101,7 @@
   },
   {
     "model": "shifts.shiftslottemplate",
-    "pk": 4,
+    "pk": 1004,
     "fields": {
       "name": "",
       "shift_template": 1000,
@@ -111,10 +111,10 @@
   },
   {
     "model": "shifts.shiftslottemplate",
-    "pk": 5,
+    "pk": 1005,
     "fields": {
       "name": "",
-      "shift_template": 1,
+      "shift_template": 1000,
       "required_capabilities": "[]",
       "optional": true
     }

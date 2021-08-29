@@ -13,6 +13,7 @@ class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
         "test_register_abcd_member_to_abcd_shift.json",
     ]
     TEMPLATE_SHIFT_ID = 1000
+    SHIFT_NAME = "SeleniumTestAbcdShift"
 
     # register a member to an ABCD shift and check that they get registered to the corresponding shift instance
     @tag("selenium")
@@ -39,10 +40,10 @@ class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
 
         self.go_to_user_page(abcd_user.get_display_name())
         self.assertIn(
-            "SeleniumTestAbcdShift",
+            self.SHIFT_NAME,
             self.selenium.find_element_by_class_name("repeated-shift").text,
         )
         self.assertIn(
-            "SeleniumTestAbcdShift",
+            self.SHIFT_NAME,
             self.selenium.find_element_by_id("upcoming_shift").text,
         )
