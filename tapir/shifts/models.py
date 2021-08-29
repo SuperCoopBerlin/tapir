@@ -5,6 +5,8 @@ import datetime
 from django.contrib.postgres.fields import ArrayField
 from django.db import models, transaction
 from django.db.models import Sum
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -146,7 +148,7 @@ class ShiftTemplate(models.Model):
         )
 
     @transaction.atomic
-    def create_shift(self, start_date: datetime.date):
+    def create_shift(self, start_date: datetime.date) -> Shift:
         generated_shift = self._generate_shift(start_date=start_date)
 
         shift = self.generated_shifts.filter(
@@ -244,6 +246,22 @@ class ShiftAttendanceTemplate(models.Model):
         res = super().save(*args, **kwargs)
         self.slot_template.update_future_slot_attendances()
         return res
+
+
+@receiver(
+    pre_delete,
+    sender=ShiftAttendanceTemplate,
+    dispatch_uid="shift_attendance_template_delete_signal",
+)
+def on_shift_attendance_template_delete(
+    sender, instance: ShiftAttendanceTemplate, using, **kwargs
+):
+    slots = ShiftSlot.objects.filter(slot_template=instance.slot_template)
+    for slot in slots:
+        attendances = ShiftAttendance.objects.filter(slot=slot)
+        for attendance in attendances:
+            if attendance.user == instance.user:
+                attendance.delete()
 
 
 class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
