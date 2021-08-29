@@ -179,8 +179,7 @@ def shiftslot_register_user(request, pk, user_pk):
     return redirect(request.GET.get("next", slot.shift))
 
 
-class ShiftTemplateDetail(PermissionRequiredMixin, SelectedUserViewMixin, DetailView):
-    permission_required = "shifts.manage"
+class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView):
     template_name = "shifts/shift_template_detail.html"
     model = ShiftTemplate
 

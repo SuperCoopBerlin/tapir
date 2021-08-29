@@ -11,10 +11,12 @@
     <div class="card m-2" id="shift_detail_card">
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>Shift Template: {{ object.name }} {{ object.get_weekday_display }} {{ object.start_time|time:"H:i" }} - {{ object.end_time|time:"H:i"}} ({{ object.group.name}})</span>
-            <a class="btn btn-outline-info" href="{% url "admin:shifts_shifttemplate_change" object.pk %}">
-                <span class="material-icons button-icon">edit</span>
-                {% trans "Edit" %}
-            </a>
+            {% if perms.shifts.manage %}
+                <a class="btn btn-outline-info" href="{% url "admin:shifts_shifttemplate_change" object.pk %}">
+                    <span class="material-icons button-icon">edit</span>
+                    {% trans "Edit" %}
+                </a>
+            {% endif %}
         </h5>
         <div class="card-body">
             <table class="table">
@@ -38,15 +40,22 @@
                             {% with slot.attendance_template as attendance %}
                                 {% if attendance %}
                                     <td>
-                                        <a href="{{ attendance.user.get_absolute_url }}">
-                                            {{ attendance.user.get_display_name }}
-                                        </a>
-                                        <form style="display: inline;"
-                                              method="post"
-                                              action="{% url "shifts:shift_attendance_template_delete" attendance.pk %}">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-sm btn-secondary ml-2">❌ {% trans "Unregister" %}</button>
-                                        </form>
+                                        {% if perms.shifts.manage %}
+                                            <a href="{{ attendance.user.get_absolute_url }}">
+                                                {{ attendance.user.get_display_name }}
+                                            </a>
+                                        {% else %}
+                                            <span>{{ attendance.user.first_name }}</span>
+                                        {% endif %}
+
+                                        {% if perms.shifts.manage %}
+                                            <form style="display: inline;"
+                                                  method="post"
+                                                  action="{% url "shifts:shift_attendance_template_delete" attendance.pk %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-sm btn-secondary ml-2">❌ {% trans "Unregister" %}</button>
+                                            </form>
+                                        {% endif %}
                                     </td>
                                     <td>
                                     {% if perms.shifts.manage %}
@@ -55,10 +64,12 @@
                                     </td>
                                 {% else %}
                                     <td>
-                                        <a class="btn btn-secondary abcd_shift_register_button"
-                                           href="{% url "shifts:slottemplate_register" slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
-                                            {% trans "Register" %}
-                                        </a>
+                                        {% if perms.shifts.manage %}
+                                            <a class="btn btn-secondary abcd_shift_register_button"
+                                               href="{% url "shifts:slottemplate_register" slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
+                                                {% trans "Register" %}
+                                            </a>
+                                        {% endif %}
                                     </td>
                                     <td></td>
                                 {% endif %}
@@ -89,7 +100,6 @@
                         <li class="list-group-item">
                             <a href="{{ shift.get_absolute_url }}">
                                 {{ shift.get_display_name }}
-
                             </a>
                         </li>
                     {% endfor %}

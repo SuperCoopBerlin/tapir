@@ -39,7 +39,11 @@
                             <td>{{ slot.name }}{% if slot.optional %} ({% trans 'optional' %}){% endif %}</td>
                             {% with slot.get_valid_attendance as attendance %}
                                 {% if attendance %}
-                                    <td><a class="shift-user" href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a></td>
+                                    {% if perms.shifts.manage %}
+                                        <td><a class="shift-user" href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a></td>
+                                    {% else %}
+                                        <td><span class="shift-user">{{ attendance.user.first_name }}</span></td>
+                                    {% endif %}
                                     <td>{{ slot.get_valid_attendance.get_state_display }}</td>
                                     {% if perms.shifts.manage %}
                                         <td>

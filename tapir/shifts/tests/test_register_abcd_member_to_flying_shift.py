@@ -31,7 +31,7 @@ class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
         self.wait_until_element_present_by_id("shift_detail_card")
         self.selenium.find_elements_by_class_name("register-self-button")[0].click()
         self.assertEqual(
-            standard_user.get_display_name(),
+            standard_user.first_name,
             self.selenium.find_element_by_class_name("shift-user").text,
         )
         self.selenium.get(self.live_server_url + reverse("accounts:user_me"))
