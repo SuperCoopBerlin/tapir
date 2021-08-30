@@ -102,7 +102,21 @@ class LdapUser(AbstractUser):
 
 
 class TapirUser(LdapUser):
-    username_validator = validators.UsernameValidator
+    username_validator = validators.UsernameValidator()
+
+    # Copy-pasted from django/contrib/auth/models.py to override validators
+    username = models.CharField(
+        _("username"),
+        max_length=150,
+        unique=True,
+        help_text=_(
+            "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
+        ),
+        validators=[username_validator],
+        error_messages={
+            "unique": _("A user with that username already exists."),
+        },
+    )
 
     phone_number = PhoneNumberField(_("Phone Number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
