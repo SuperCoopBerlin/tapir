@@ -33,12 +33,17 @@ urlpatterns = [
         name="shift_edit",
     ),
     path(
-        "shiftattendance/<int:pk>/done",
+        "shift_attendance/<int:pk>/delete",
+        views.ShiftAttendanceDeleteView.as_view(),
+        name="shift_attendance_delete",
+    ),
+    path(
+        "shift_attendance/<int:pk>/done",
         views.mark_shift_attendance_done,
         name="mark_shiftattendance_done",
     ),
     path(
-        "shiftattendance/<int:pk>/missed",
+        "shift_attendance/<int:pk>/missed",
         views.mark_shift_attendance_missed,
         name="mark_shiftattendance_missed",
     ),

@@ -14,6 +14,7 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     FormView,
+    DeleteView,
 )
 from werkzeug.exceptions import BadRequest
 
@@ -161,6 +162,29 @@ class SlotTemplateRegisterView(
         if self.get_selected_user():
             return self.get_selected_user().get_absolute_url()
         return self.object.slot_template.shift_template.get_absolute_url()
+
+
+class ShiftAttendanceDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "shifts.manage"
+    model = ShiftAttendance
+
+    def get_success_url(self):
+        return self.shift.get_absolute_url()
+
+    def delete(self, *args, **kwargs):
+        self.shift = self.get_object().slot.shift
+        return super().delete(*args, **kwargs)
+
+
+@require_POST
+@csrf_protect
+@permission_required("shifts.manage")
+def shift_attendance_delete(request, pk):
+    shift_attendance = get_object_or_404(ShiftAttendance, pk=pk)
+    shift = shift_attendance.slot.shift
+    shift_attendance.delete()
+
+    return redirect(shift)
 
 
 @require_POST

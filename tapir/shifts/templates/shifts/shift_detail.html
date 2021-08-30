@@ -61,6 +61,7 @@
                                                     <button type="submit" class="btn btn-danger">{% trans "Missed" %}</button>
                                                 </form>
                                                 <button type="button" class="btn btn-warning">{% trans "Excuse" %}</button>
+                                                <a href="{% url "shifts:shift_attendance_delete" attendance.pk %}" class="btn btn-secondary">{% trans "Remove" %}</a>
                                             {% elif attendance.state == attendance.State.EXCUSE %}
                                                 {{ attendance.excuse }}
                                             {% endif %}
