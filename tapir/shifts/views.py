@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.db import transaction
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import (
@@ -81,6 +82,11 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         for slot in slots:
             slot.can_register = slot.user_can_attend(self.request.user)
         context["slots"] = slots
+        # This was done to give priority to ABCD-members, as flying members would block the first shift of ABCD-members.
+        # Don't forget to re-enable the test test_register_abcd_member_to_flying_shift after re-enabling this!
+        context["flying_shifts_open"] = timezone.now().date() > date(
+            day=11, month=9, year=2021
+        )
         return context
 
 

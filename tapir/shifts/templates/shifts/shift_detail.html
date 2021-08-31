@@ -79,12 +79,16 @@
                                             </form>
                                         {% endif %}
                                         {% if slot.can_register %}
-                                            <form style="display: inline;"
-                                                  method="post"
-                                                  action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="btn btn-success register-self-button">{% trans "Register myself" %}</button>
-                                            </form>
+                                            {% if flying_shifts_open %}
+                                                <form style="display: inline;"
+                                                      method="post"
+                                                      action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-success register-self-button">{% trans "Register myself" %}</button>
+                                                </form>
+                                            {% else %}
+                                                Registration for flying shifts will open on 12.09.21
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     <td></td><td></td><td></td>
