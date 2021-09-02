@@ -4,7 +4,8 @@ import time
 import django.utils.timezone
 from django.test import tag
 
-from tapir.shifts.models import ShiftTemplate
+from tapir.accounts.models import TapirUser
+from tapir.shifts.models import ShiftTemplate, ShiftAttendance
 from tapir.utils.tests_utils import TapirSeleniumTestBase, TAPIR_SELENIUM_BASE_FIXTURES
 
 
@@ -21,6 +22,13 @@ class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
         ShiftTemplate.objects.get(id=self.TEMPLATE_SHIFT_ID).create_shift(
             django.utils.timezone.now().date() + datetime.timedelta(days=1)
         )
+        blocked_shift = ShiftTemplate.objects.get(
+            id=self.TEMPLATE_SHIFT_ID
+        ).create_shift(django.utils.timezone.now().date() + datetime.timedelta(days=2))
+        ShiftAttendance.objects.create(
+            slot=blocked_shift.slots.all()[0],
+            user=TapirUser.objects.get(username="blocking.user"),
+        )
 
         member_office_user = self.get_member_office_user()
         self.login(member_office_user.get_username(), member_office_user.get_username())
@@ -36,6 +44,10 @@ class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
             0
         ].click()
         self.wait_until_element_present_by_id("shift_form_card")
+        self.assertIn(
+            blocked_shift.get_display_name(),
+            self.selenium.find_element_by_id("occupied_shifts_list").text,
+        )
         self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
 
         self.go_to_user_page(abcd_user.get_display_name())

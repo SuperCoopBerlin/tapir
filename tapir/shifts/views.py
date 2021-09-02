@@ -144,7 +144,16 @@ class SlotTemplateRegisterView(
         return get_object_or_404(ShiftSlotTemplate, pk=self.kwargs["slot_template_pk"])
 
     def get_context_data(self, **kwargs):
-        kwargs["slot_template"] = self.get_slot_template()
+        slot_template = self.get_slot_template()
+        kwargs["slot_template"] = slot_template
+
+        blocked_slots = []
+        for slot in slot_template.generated_slots.all():
+            attendance = slot.get_valid_attendance()
+            if attendance is not None and attendance.user != self.get_selected_user():
+                blocked_slots.append(slot)
+        kwargs["blocked_slots"] = blocked_slots
+
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):

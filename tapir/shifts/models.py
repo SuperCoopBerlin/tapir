@@ -396,7 +396,7 @@ class ShiftSlot(models.Model):
             display_name = "{} {}".format(self.name, display_name)
         return display_name
 
-    def get_valid_attendance(self):
+    def get_valid_attendance(self) -> ShiftAttendance:
         return self.attendances.with_valid_state().first()
 
     def user_can_attend(self, user):

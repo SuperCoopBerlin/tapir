@@ -39,5 +39,24 @@
                 </form>
             </div>
         </div>
+        {% if blocked_slots|length > 0 %}
+            <div class="card m-2 border-warning">
+                <h5 class="card-header bg-warning">{% trans 'Some shifts are already occupied' %}</h5>
+                <div class="card-body">
+                    {% blocktranslate %}
+                        <p>A flying member has already registered to the shifts linked below.</p>
+                        <p>It is still possible to register someone for this ABCD shift, they will get booked to all currently free instances of that ABCD shift and to all future instances.</p>
+                        <p>For the cycles where a flying member is already booked, the ABCD member will have to find another shift to register to.</p>
+                    {% endblocktranslate %}
+                    <p>{% trans 'Already occupied shifts :' %}
+                        <ul id="occupied_shifts_list">
+                            {% for slot in blocked_slots %}
+                                <li><a href="{{ slot.shift.get_absolute_url }}">{{ slot.shift.get_display_name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
