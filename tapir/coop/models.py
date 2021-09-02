@@ -10,7 +10,6 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils
-from tapir.accounts import validators
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry

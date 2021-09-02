@@ -125,4 +125,9 @@ urlpatterns = [
         views.ShareOwnerUpdateView.as_view(),
         name="shareowner_update",
     ),
+    path(
+        "statistics",
+        views.StatisticsView.as_view(),
+        name="statistics",
+    ),
 ]
