@@ -32,6 +32,13 @@
                     <li>Out of <a href="#" onclick="show_card('active_users_card')">{{ active_users|length }} members</a> with a Tapir account, <a href="#" onclick="show_card('members_in_abcd_system_card')">{{ members_in_abcd_system|length }} members </a> are in the ABCD system and <a href="#" onclick="show_card('members_in_flying_system_card')">{{ members_in_flying_system|length }} members</a> are in the flying system.</li>
                     <li>Out of <a href="#" onclick="show_card('members_in_abcd_system_card')">{{ members_in_abcd_system|length }} members </a> in the ABCD system, <a href="#" onclick="show_card('members_in_abcd_system_without_shift_attendance_card')">{{ members_in_abcd_system_without_shift_attendance|length }} members </a> are not registered to an ABCD shift.</li>
                     <li><a href="#" onclick="show_card('applicants_card')">{{ applicants|length }} applicants</a> are waiting to become members.</li>
+                    <li>Number of users by shift type
+                        <ul>
+                            {% for slot_type, users in users_by_slot_type.items %}
+                                <li>{{ slot_type }} : <a href="#" onclick="show_card('{{ slot_type }}_card')">{{ users|length }} members</a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -126,5 +133,20 @@
                 </ul>
             </div>
         </div>
+
+        {% for slot_type, users in users_by_slot_type.items %}
+            <div class="card m-2 statistics-toggle-card" id="{{ slot_type }}_card">
+                <h5 class="card-header">
+                    <span>Users registered to a {{ slot_type }} shift</span>
+                </h5>
+                <div class="card-body">
+                    <ul>
+                        {% for user in users %}
+                            <li><a href="{{ user.get_absolute_url }}">{{ user.get_display_name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        {% endfor%}
     </div>
 {% endblock %}

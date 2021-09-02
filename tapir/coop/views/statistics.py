@@ -4,7 +4,12 @@ from django.views import generic
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, MemberStatus, DraftUser
-from tapir.shifts.models import ShiftAttendanceMode
+from tapir.shifts.models import (
+    ShiftAttendanceMode,
+    Shift,
+    ShiftTemplate,
+    ShiftSlotTemplate,
+)
 
 
 class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
@@ -40,5 +45,16 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
             .filter(num_template_attendances=0)
             .order_by("id")
         )
+
+        slot_types = ShiftSlotTemplate.objects.values("name").distinct()
+        users_by_slot_type = dict()
+        for slot_type in slot_types:
+            displayed_name = slot_type["name"]
+            if displayed_name == "":
+                displayed_name = "General"
+            users_by_slot_type[displayed_name] = TapirUser.objects.filter(
+                shift_attendance_templates__slot_template__name=slot_type["name"]
+            ).distinct()
+        context["users_by_slot_type"] = users_by_slot_type
 
         return context
