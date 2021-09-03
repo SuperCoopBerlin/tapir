@@ -101,6 +101,20 @@ class LdapUser(AbstractUser):
         return super().has_perm(perm=perm, obj=obj)
 
 
+class TapirUserQuerySet(models.QuerySet):
+    def with_shift_attendance_mode(self, attendance_mode: str):
+        return self.filter(shift_user_data__attendance_mode=attendance_mode)
+
+    def registered_to_shift_slot_name(self, slot_name: str):
+        return self.filter(
+            shift_attendance_templates__slot_template__name=slot_name
+        ).distinct()
+
+
+class TapirUserManager(UserManager.from_queryset(TapirUserQuerySet)):
+    use_in_migrations = True
+
+
 class TapirUser(LdapUser):
     username_validator = validators.UsernameValidator()
 
@@ -133,16 +147,7 @@ class TapirUser(LdapUser):
         max_length=16,
     )
 
-    class TapirUserQuerySet(models.QuerySet):
-        def with_shift_attendance_mode(self, attendance_mode: str):
-            return self.filter(shift_user_data__attendance_mode=attendance_mode)
-
-        def registered_to_shift_slot_name(self, slot_name: str):
-            return self.filter(
-                shift_attendance_templates__slot_template__name=slot_name
-            ).distinct()
-
-    objects = UserManager.from_queryset(TapirUserQuerySet)()
+    objects = TapirUserManager()
 
     def get_display_name(self):
         return UserUtils.build_display_name(self.first_name, self.last_name)
