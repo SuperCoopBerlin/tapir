@@ -6,8 +6,6 @@ from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, MemberStatus, DraftUser
 from tapir.shifts.models import (
     ShiftAttendanceMode,
-    Shift,
-    ShiftTemplate,
     ShiftSlotTemplate,
 )
 
@@ -29,13 +27,13 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
         )
         context["applicants"] = DraftUser.objects.order_by("id")
 
-        members_in_abcd_system = active_users.filter(
-            shift_user_data__attendance_mode=ShiftAttendanceMode.REGULAR
+        members_in_abcd_system = active_users.with_shift_attendance_mode(
+            ShiftAttendanceMode.REGULAR
         ).order_by("id")
         context["members_in_abcd_system"] = members_in_abcd_system
 
-        context["members_in_flying_system"] = active_users.filter(
-            shift_user_data__attendance_mode=ShiftAttendanceMode.FLYING
+        context["members_in_flying_system"] = active_users.with_shift_attendance_mode(
+            ShiftAttendanceMode.FLYING
         ).order_by("id")
 
         context["members_in_abcd_system_without_shift_attendance"] = (
@@ -52,9 +50,9 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
             displayed_name = slot_type["name"]
             if displayed_name == "":
                 displayed_name = "General"
-            users_by_slot_type[displayed_name] = TapirUser.objects.filter(
-                shift_attendance_templates__slot_template__name=slot_type["name"]
-            ).distinct()
+            users_by_slot_type[
+                displayed_name
+            ] = TapirUser.objects.registered_to_shift_slot_name(slot_type["name"])
         context["users_by_slot_type"] = users_by_slot_type
 
         return context

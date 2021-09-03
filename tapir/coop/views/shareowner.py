@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.mail import EmailMessage
 from django.db import transaction
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -17,7 +18,7 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, CreateView
-from django_filters import CharFilter, ChoiceFilter, NumberFilter
+from django_filters import CharFilter, ChoiceFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
@@ -40,6 +41,7 @@ from tapir.coop.models import (
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
+from tapir.shifts.models import ShiftUserData, ShiftSlotTemplate
 from tapir.utils.models import copy_user_info
 
 
@@ -367,6 +369,21 @@ class ShareOwnerFilter(django_filters.FilterSet):
         label=_("Status"),
         empty_label=_("Any"),
     )
+    shift_attendance_mode = ChoiceFilter(
+        choices=ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES,
+        method="shift_attendance_mode_filter",
+        label=_("Shift Status"),
+    )
+    slot_type = ChoiceFilter(
+        choices=tuple(
+            (value["name"], _(value["name"]))
+            for value in ShiftSlotTemplate.objects.values("name")
+            .filter(~Q(name=""))
+            .distinct()
+        ),
+        method="slot_type_filter",
+        label=_("Shift slot type"),
+    )
 
     def display_name_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
@@ -380,6 +397,20 @@ class ShareOwnerFilter(django_filters.FilterSet):
 
     def status_filter(self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         return queryset.with_status(value)
+
+    def shift_attendance_mode_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+    ):
+        return queryset.filter(
+            user__in=TapirUser.objects.with_shift_attendance_mode(value)
+        )
+
+    def slot_type_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+    ):
+        return queryset.filter(
+            user__in=TapirUser.objects.registered_to_shift_slot_name(value)
+        )
 
 
 class ShareOwnerListView(
