@@ -168,7 +168,7 @@ def populate_users():
         is_company = randomizer % 70 == 0
         is_investing = randomizer % 7 == 0 or is_company
 
-        tapir_user = None
+        tapir_user: TapirUser = None
         if not is_company and not is_investing:
             tapir_user = TapirUser.objects.create(
                 username=json_user.get_username(),
@@ -218,6 +218,16 @@ def populate_users():
             and not is_investing
             and not ShiftAttendanceTemplate.objects.filter(user=tapir_user).exists()
         ):
+            if random.randint(1, 7) == 1:
+                tapir_user.shift_user_data.capabilities.append(
+                    ShiftUserCapability.SHIFT_COORDINATOR
+                )
+                tapir_user.shift_user_data.save()
+            if random.randint(1, 4) == 1:
+                tapir_user.shift_user_data.capabilities.append(
+                    ShiftUserCapability.TRAINED_CASHIER
+                )
+                tapir_user.shift_user_data.save()
             for _ in range(10):
                 template: ShiftTemplate = random.choice(ShiftTemplate.objects.all())
                 free_slots = template.slot_templates.filter(
@@ -269,6 +279,7 @@ def populate_shift_templates():
                     ShiftSlotTemplate.objects.create(
                         name="Kasse",
                         shift_template=shift_template,
+                        required_capabilities=[ShiftUserCapability.TRAINED_CASHIER],
                         optional=False,
                     )
                     for _ in range(2):

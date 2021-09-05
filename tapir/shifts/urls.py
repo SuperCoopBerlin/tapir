@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views import generic
 
 from tapir.shifts import views
 
@@ -76,5 +75,10 @@ urlpatterns = [
         "timetable",
         views.UpcomingShiftsView.as_view(),
         name="upcoming_timetable",
+    ),
+    path(
+        "shift_user_data/<int:pk>",
+        views.EditShiftUserDataView.as_view(),
+        name="edit_shift_user_data",
     ),
 ]

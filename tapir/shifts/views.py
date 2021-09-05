@@ -1,5 +1,5 @@
-from datetime import datetime, date, time, timedelta
-from collections import defaultdict, OrderedDict
+from collections import OrderedDict
+from datetime import date, time, timedelta
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
@@ -14,7 +14,6 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    FormView,
     DeleteView,
 )
 from werkzeug.exceptions import BadRequest
@@ -25,6 +24,7 @@ from tapir.shifts.forms import (
     ShiftCreateForm,
     ShiftAttendanceTemplateForm,
     ShiftAttendanceForm,
+    ShiftUserDataForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -40,6 +40,7 @@ from tapir.shifts.models import (
     DeleteShiftAttendanceTemplateLogEntry,
     UpdateShiftUserDataLogEntry,
     CreateShiftAttendanceLogEntry,
+    ShiftUserData,
 )
 
 
@@ -82,6 +83,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         for slot in slots:
             slot.can_register = slot.user_can_attend(self.request.user)
         context["slots"] = slots
+        context["shift_is_in_the_future"] = context["shift"].start_time > timezone.now()
         # This was done to give priority to ABCD-members, as flying members would block the first shift of ABCD-members.
         # Don't forget to re-enable the test test_register_abcd_member_to_flying_shift after re-enabling this!
         context["flying_shifts_open"] = timezone.now().date() > date(
@@ -331,6 +333,15 @@ class EditShiftView(PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["card_title"] = "Editing a shift"
         return context
+
+
+class EditShiftUserDataView(PermissionRequiredMixin, UpdateView):
+    permission_required = "shifts.manage"
+    model = ShiftUserData
+    form_class = ShiftUserDataForm
+
+    def get_success_url(self):
+        return self.object.user.get_absolute_url()
 
 
 class UpcomingShiftsView(LoginRequiredMixin, TemplateView):

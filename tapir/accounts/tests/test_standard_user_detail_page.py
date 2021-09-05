@@ -18,7 +18,7 @@ class AccountsStandardUserDetailPage(TapirUserTestBase):
 
         repeated_shifts = self.selenium.find_elements_by_class_name("repeated-shift")
         self.assertEqual(len(repeated_shifts), 1)
-        self.assertIn("Supermarket Thursday 12:00 (Week C)", repeated_shifts[0].text)
+        self.assertIn("Supermarket Friday 09:00 (Week A)", repeated_shifts[0].text)
 
         self.assertFalse(self.does_element_exist_by_id("tapir_user_edit_button"))
         self.assertFalse(self.does_element_exist_by_id("share_owner_edit_buttons"))
@@ -28,4 +28,4 @@ class AccountsStandardUserDetailPage(TapirUserTestBase):
         )
 
         upcoming_shift = self.selenium.find_element_by_id("upcoming_shift")
-        self.assertRegex(upcoming_shift.text, "Thu.*12:00")
+        self.assertRegex(upcoming_shift.text, "Fri.*09:00")
