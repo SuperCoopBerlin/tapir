@@ -17,10 +17,12 @@ from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
 
 class ShiftUserCapability:
     SHIFT_COORDINATOR = "shift_coordinator"
+    TRAINED_CASHIER = "trained_cashier"
 
 
 SHIFT_USER_CAPABILITY_CHOICES = {
     ShiftUserCapability.SHIFT_COORDINATOR: _("Shift Coordinator"),
+    ShiftUserCapability.TRAINED_CASHIER: _("Trained Cashier"),
 }
 
 
@@ -570,7 +572,7 @@ class ShiftUserData(models.Model):
         return self.get_account_balance() > 1
 
 
-def create_shift_user_data(instance, **kwargs):
+def create_shift_user_data(instance: TapirUser, **kwargs):
     if not hasattr(instance, "shift_user_data"):
         ShiftUserData.objects.create(user=instance)
 

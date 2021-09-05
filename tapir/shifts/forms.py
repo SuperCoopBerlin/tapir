@@ -1,10 +1,16 @@
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
-from django.forms import ModelChoiceField
+from django.forms import ModelChoiceField, CheckboxSelectMultiple
 from django_select2.forms import Select2Widget
 
 from tapir.accounts.models import TapirUser
-from tapir.shifts.models import Shift, ShiftAttendanceTemplate, ShiftAttendance
+from tapir.shifts.models import (
+    Shift,
+    ShiftAttendanceTemplate,
+    ShiftAttendance,
+    ShiftUserData,
+    SHIFT_USER_CAPABILITY_CHOICES,
+)
 
 
 class ShiftCreateForm(forms.ModelForm):
@@ -44,3 +50,14 @@ class ShiftAttendanceForm(forms.ModelForm):
     class Meta:
         model = ShiftAttendance
         fields = ["user"]
+
+
+class ShiftUserDataForm(forms.ModelForm):
+    class Meta:
+        model = ShiftUserData
+        fields = ["capabilities", "attendance_mode"]
+        widgets = {
+            "capabilities": CheckboxSelectMultiple(
+                choices=SHIFT_USER_CAPABILITY_CHOICES.items()
+            )
+        }
