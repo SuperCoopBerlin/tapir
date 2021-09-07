@@ -129,6 +129,11 @@ class SlotRegisterView(PermissionRequiredMixin, SelectedUserViewMixin, CreateVie
             return self.get_selected_user().get_absolute_url()
         return self.object.slot.shift.get_absolute_url()
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"slot_pk": self.kwargs["slot_pk"]})
+        return kwargs
+
 
 class SlotTemplateRegisterView(
     PermissionRequiredMixin, SelectedUserViewMixin, CreateView

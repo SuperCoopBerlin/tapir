@@ -13,6 +13,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
     ShiftSlotTemplate,
+    ShiftSlot,
 )
 
 
@@ -72,6 +73,19 @@ class ShiftAttendanceForm(forms.ModelForm):
     class Meta:
         model = ShiftAttendance
         fields = ["user"]
+
+    def __init__(self, *args, **kwargs):
+        self.slot = ShiftSlot.objects.get(pk=kwargs.pop("slot_pk", None))
+        super().__init__(*args, **kwargs)
+
+    def clean_user(self):
+        user = self.cleaned_data["user"]
+        if self.slot.shift.slots.filter(attendances__user=user).exists():
+            raise ValidationError(
+                _("This user is already registered to another slot in this shift."),
+                code="invalid",
+            )
+        return user
 
 
 class ShiftUserDataForm(forms.ModelForm):
