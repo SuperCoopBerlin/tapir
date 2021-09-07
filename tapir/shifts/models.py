@@ -17,12 +17,12 @@ from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
 
 class ShiftUserCapability:
     SHIFT_COORDINATOR = "shift_coordinator"
-    TRAINED_CASHIER = "trained_cashier"
+    CASHIER = "cashier"
 
 
 SHIFT_USER_CAPABILITY_CHOICES = {
     ShiftUserCapability.SHIFT_COORDINATOR: _("Shift Coordinator"),
-    ShiftUserCapability.TRAINED_CASHIER: _("Trained Cashier"),
+    ShiftUserCapability.CASHIER: _("Cashier"),
 }
 
 
@@ -345,6 +345,9 @@ class Shift(models.Model):
 
     def get_valid_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return self.get_attendances().with_valid_state()
+
+    def is_in_the_future(self) -> bool:
+        return self.start_time > timezone.now()
 
 
 class ShiftAttendanceLogEntry(ModelLogEntry):

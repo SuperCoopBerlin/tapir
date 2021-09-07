@@ -79,7 +79,7 @@
                                             </form>
                                         {% endif %}
                                         {% if slot.can_register %}
-                                            {% if shift_is_in_the_future %}
+                                            {% if slot.shift.is_in_the_future %}
                                                 {% if flying_shifts_open %}
                                                         <form style="display: inline;"
                                                               method="post"

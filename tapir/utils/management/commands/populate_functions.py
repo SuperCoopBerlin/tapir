@@ -225,7 +225,7 @@ def populate_users():
                 tapir_user.shift_user_data.save()
             if random.randint(1, 4) == 1:
                 tapir_user.shift_user_data.capabilities.append(
-                    ShiftUserCapability.TRAINED_CASHIER
+                    ShiftUserCapability.CASHIER
                 )
                 tapir_user.shift_user_data.save()
             for _ in range(10):
@@ -279,7 +279,7 @@ def populate_shift_templates():
                     ShiftSlotTemplate.objects.create(
                         name="Kasse",
                         shift_template=shift_template,
-                        required_capabilities=[ShiftUserCapability.TRAINED_CASHIER],
+                        required_capabilities=[ShiftUserCapability.CASHIER],
                         optional=False,
                     )
                     for _ in range(2):
