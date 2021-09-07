@@ -83,7 +83,6 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         for slot in slots:
             slot.can_register = slot.user_can_attend(self.request.user)
         context["slots"] = slots
-        context["shift_is_in_the_future"] = context["shift"].start_time > timezone.now()
         # This was done to give priority to ABCD-members, as flying members would block the first shift of ABCD-members.
         # Don't forget to re-enable the test test_register_abcd_member_to_flying_shift after re-enabling this!
         context["flying_shifts_open"] = timezone.now().date() > date(
