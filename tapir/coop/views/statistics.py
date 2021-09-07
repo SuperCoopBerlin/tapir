@@ -53,6 +53,6 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
             users_by_slot_type[
                 displayed_name
             ] = TapirUser.objects.registered_to_shift_slot_name(slot_type["name"])
-        context["users_by_slot_type"] = users_by_slot_type
+        context["users_by_slot_name"] = users_by_slot_type
 
         return context

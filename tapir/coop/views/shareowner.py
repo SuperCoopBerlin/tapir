@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.mail import EmailMessage
 from django.db import transaction
-from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
@@ -41,7 +40,10 @@ from tapir.coop.models import (
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.shifts.models import ShiftUserData, ShiftSlotTemplate
+from tapir.shifts.models import (
+    ShiftUserData,
+    SHIFT_USER_CAPABILITY_CHOICES,
+)
 from tapir.utils.models import copy_user_info
 
 
@@ -374,15 +376,29 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="shift_attendance_mode_filter",
         label=_("Shift Status"),
     )
-    slot_type = ChoiceFilter(
-        choices=tuple(
-            (value["name"], _(value["name"]))
-            for value in ShiftSlotTemplate.objects.values("name")
-            .filter(~Q(name=""))
-            .distinct()
-        ),
-        method="slot_type_filter",
-        label=_("Shift slot type"),
+    registered_to_slot_with_capability = ChoiceFilter(
+        choices=[
+            (capability, capability_name)
+            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
+        ],
+        method="registered_to_slot_with_capability_filter",
+        label=_("Is registered to a slot that requires a capability"),
+    )
+    has_capability = ChoiceFilter(
+        choices=[
+            (capability, capability_name)
+            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
+        ],
+        method="has_capability_filter",
+        label=_("Has capability"),
+    )
+    not_has_capability = ChoiceFilter(
+        choices=[
+            (capability, capability_name)
+            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
+        ],
+        method="not_has_capability_filter",
+        label=_("Does not have capability"),
     )
 
     def display_name_filter(
@@ -405,12 +421,28 @@ class ShareOwnerFilter(django_filters.FilterSet):
             user__in=TapirUser.objects.with_shift_attendance_mode(value)
         )
 
-    def slot_type_filter(
+    def registered_to_slot_with_capability_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
         return queryset.filter(
-            user__in=TapirUser.objects.registered_to_shift_slot_name(value)
+            user__in=TapirUser.objects.registered_to_shift_slot_with_capability(value)
         )
+
+    def has_capability_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+    ):
+        if value:
+            return queryset.filter(user__in=TapirUser.objects.has_capability(value))
+        else:
+            return queryset
+
+    def not_has_capability_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+    ):
+        if value:
+            return queryset.exclude(user__in=TapirUser.objects.has_capability(value))
+        else:
+            return queryset
 
 
 class ShareOwnerListView(
