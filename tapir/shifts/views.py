@@ -179,6 +179,11 @@ class SlotTemplateRegisterView(
             return self.get_selected_user().get_absolute_url()
         return self.object.slot_template.shift_template.get_absolute_url()
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"slot_template_pk": self.kwargs["slot_template_pk"]})
+        return kwargs
+
 
 class ShiftAttendanceDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "shifts.manage"
