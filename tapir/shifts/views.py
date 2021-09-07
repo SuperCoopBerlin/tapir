@@ -156,7 +156,7 @@ class SlotTemplateRegisterView(
         blocked_slots = []
         for slot in slot_template.generated_slots.all():
             attendance = slot.get_valid_attendance()
-            if attendance is not None and attendance.user != self.get_selected_user():
+            if attendance is not None:
                 blocked_slots.append(slot)
         kwargs["blocked_slots"] = blocked_slots
 

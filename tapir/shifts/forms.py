@@ -1,7 +1,8 @@
 from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import ModelChoiceField, CheckboxSelectMultiple
+from django.forms import ModelChoiceField, CheckboxSelectMultiple, BooleanField
+from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext as _
 from django_select2.forms import Select2Widget
 
@@ -40,7 +41,43 @@ class TapirUserChoiceField(ModelChoiceField):
         return "{} {} ({})".format(obj.first_name, obj.last_name, obj.share_owner.id)
 
 
-class ShiftAttendanceTemplateForm(forms.ModelForm):
+class MissingCapabilitiesWarningMixin(forms.Form):
+    confirm_missing_capabilities = BooleanField(
+        label=_(
+            "I have read the warning about the missing training and confirm that the user should get registered to the shift"
+        ),
+        required=False,
+        widget=HiddenInput,
+    )
+
+    def validate_unique(self):
+        super().validate_unique()
+        if "user" in self._errors:
+            return
+
+        user: TapirUser = self.cleaned_data["user"]
+
+        if (
+            "confirm_missing_capabilities" in self.cleaned_data
+            and not self.cleaned_data["confirm_missing_capabilities"]
+        ):
+            missing_capabilities = [
+                _(SHIFT_USER_CAPABILITY_CHOICES[capability])
+                for capability in self.get_required_capabilities()
+                if capability not in user.shift_user_data.capabilities
+            ]
+            if len(missing_capabilities) > 0:
+                error_msg = _(
+                    f"The selected user is missing the required training for this shift : {missing_capabilities}"
+                )
+                self.add_error("user", error_msg)
+                self.fields[
+                    "confirm_missing_capabilities"
+                ].widget = forms.CheckboxInput()
+                self.fields["confirm_missing_capabilities"].required = True
+
+
+class ShiftAttendanceTemplateForm(MissingCapabilitiesWarningMixin, forms.ModelForm):
     user = TapirUserChoiceField()
 
     class Meta:
@@ -54,7 +91,7 @@ class ShiftAttendanceTemplateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
     def clean_user(self):
-        user = self.cleaned_data["user"]
+        user: TapirUser = self.cleaned_data["user"]
         if self.slot_template.shift_template.slot_templates.filter(
             attendance_template__user=user
         ).exists():
@@ -64,10 +101,14 @@ class ShiftAttendanceTemplateForm(forms.ModelForm):
                 ),
                 code="invalid",
             )
+
         return user
 
+    def get_required_capabilities(self):
+        return self.slot_template.required_capabilities
 
-class ShiftAttendanceForm(forms.ModelForm):
+
+class ShiftAttendanceForm(MissingCapabilitiesWarningMixin, forms.ModelForm):
     user = TapirUserChoiceField()
 
     class Meta:
@@ -86,6 +127,9 @@ class ShiftAttendanceForm(forms.ModelForm):
                 code="invalid",
             )
         return user
+
+    def get_required_capabilities(self):
+        return self.slot.required_capabilities
 
 
 class ShiftUserDataForm(forms.ModelForm):
