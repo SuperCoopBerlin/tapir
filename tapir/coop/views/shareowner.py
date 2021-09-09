@@ -17,7 +17,7 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, CreateView
-from django_filters import CharFilter, ChoiceFilter
+from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
@@ -400,6 +400,9 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="not_has_capability_filter",
         label=_("Does not have capability"),
     )
+    has_tapir_account = BooleanFilter(
+        method="has_tapir_account_filter", label="Has a Tapir account"
+    )
 
     def display_name_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
@@ -431,18 +434,17 @@ class ShareOwnerFilter(django_filters.FilterSet):
     def has_capability_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
-        if value:
-            return queryset.filter(user__in=TapirUser.objects.has_capability(value))
-        else:
-            return queryset
+        return queryset.filter(user__in=TapirUser.objects.has_capability(value))
 
     def not_has_capability_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
-        if value:
-            return queryset.exclude(user__in=TapirUser.objects.has_capability(value))
-        else:
-            return queryset
+        return queryset.exclude(user__in=TapirUser.objects.has_capability(value))
+
+    def has_tapir_account_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+    ):
+        return queryset.exclude(user__isnull=value)
 
 
 class ShareOwnerListView(
