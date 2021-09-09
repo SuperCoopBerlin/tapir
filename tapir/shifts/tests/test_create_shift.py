@@ -107,7 +107,7 @@ class TestCreateShift(ShiftTestBase):
             "shift_{0}".format(ShiftTestBase.shift_id)
         ).click()
         self.wait_until_element_present_by_id("shift_detail_card")
-        self.selenium.find_element_by_xpath('//button[text()="Edit"]').click()
+        self.selenium.find_element_by_id("shift_edit_button").click()
         self.wait_until_element_present_by_id("shift_form_card")
         new_name = ShiftTestBase.shift_name + " EDITED"
         self.selenium.find_element_by_id("id_name").clear()

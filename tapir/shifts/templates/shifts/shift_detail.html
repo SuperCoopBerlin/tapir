@@ -14,7 +14,7 @@
                         <button type="button" class="btn btn-outline-secondary"><span class="material-icons">print</span> {% trans 'Get printable version' %}</button>
                     </a>
                     <a href="{% url "shifts:shift_edit" shift.pk %}">
-                        <button type="button" class="btn btn-outline-info"><span class="material-icons">edit</span> Edit</button>
+                        <button type="button" class="btn btn-outline-info" id="shift_edit_button"><span class="material-icons">edit</span> Edit</button>
                     </a>
                     </span>
                 {% endif %}
