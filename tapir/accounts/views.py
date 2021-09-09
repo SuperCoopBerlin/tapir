@@ -2,6 +2,7 @@ import django.contrib.auth.views as auth_views
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -10,8 +11,10 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 
 from tapir.accounts.forms import TapirUserForm, PasswordResetForm
-from tapir.accounts.models import TapirUser
+from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.log.models import EmailLogEntry
+from tapir.log.util import freeze_for_log
+from tapir.log.views import UpdateViewLogMixin
 
 
 class UserDetailView(PermissionRequiredMixin, generic.DetailView):
@@ -29,11 +32,27 @@ class UserMeView(LoginRequiredMixin, generic.RedirectView):
         return reverse("accounts:user_detail", args=[self.request.user.pk])
 
 
-class UserUpdateView(PermissionRequiredMixin, generic.UpdateView):
+class UserUpdateView(PermissionRequiredMixin, UpdateViewLogMixin, generic.UpdateView):
     permission_required = "accounts.manage"
     model = TapirUser
     form_class = TapirUserForm
     template_name = "accounts/user_form.html"
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            response = super().form_valid(form)
+
+            new_frozen = freeze_for_log(form.instance)
+            if self.old_object_frozen != new_frozen:
+                log_entry = UpdateTapirUserLogEntry().populate(
+                    old_frozen=self.old_object_frozen,
+                    new_frozen=new_frozen,
+                    user=form.instance,
+                    actor=self.request.user,
+                )
+                log_entry.save()
+
+            return response
 
 
 class PasswordResetView(auth_views.PasswordResetView):

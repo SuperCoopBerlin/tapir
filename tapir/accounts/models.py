@@ -21,6 +21,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils
 from tapir.accounts import validators
+from tapir.log.models import UpdateModelLogEntry
 from tapir.utils.models import CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -185,6 +186,10 @@ class TapirUser(LdapUser):
         subject = "".join(subject.splitlines())
         body = loader.render_to_string(email_template_name, context)
         return EmailMultiAlternatives(subject, body, to=[self.email])
+
+
+class UpdateTapirUserLogEntry(UpdateModelLogEntry):
+    template_name = "accounts/log/update_tapir_user_log_entry.html"
 
 
 # The following LDAP-related models were taken from
