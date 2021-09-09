@@ -53,7 +53,7 @@ class TestCreateShift(ShiftTestBase):
         field_end_date.clear()
         field_end_date.send_keys(self.shift_end_time.strftime("%m/%d/%Y %H:%M"))
 
-        self.selenium.find_element_by_xpath('//button[text() = "Save"]').click()
+        self.selenium.find_element_by_id("shift_save_button").click()
 
     def check_shift_detail_page(self) -> None:
         self.assertIn(
@@ -112,6 +112,6 @@ class TestCreateShift(ShiftTestBase):
         new_name = ShiftTestBase.shift_name + " EDITED"
         self.selenium.find_element_by_id("id_name").clear()
         self.selenium.find_element_by_id("id_name").send_keys(new_name)
-        self.selenium.find_element_by_xpath('//button[text() = "Save"]').click()
+        self.selenium.find_element_by_id("shift_save_button").click()
         self.wait_until_element_present_by_id("shift_detail_card")
         self.assertIn(new_name, self.selenium.page_source)

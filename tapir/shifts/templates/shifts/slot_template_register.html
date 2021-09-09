@@ -34,7 +34,12 @@
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <span class="text-right">
-                        {% buttons submit='Register' %}{% endbuttons %}
+                        {% buttons %}
+                            <button type="submit" class="btn tapir-btn btn-primary">
+                                <span class="material-icons">person_add</span>
+                                {% trans 'Register' %}
+                            </button>
+                        {% endbuttons %}
                     </span>
                 </form>
             </div>

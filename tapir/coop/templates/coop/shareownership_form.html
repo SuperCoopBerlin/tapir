@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load bootstrap4 %}
+{% load i18n %}
 
 {% block content %}
 
@@ -23,7 +24,12 @@
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <span class="text-right">
-                        {% buttons submit='Save' %}{% endbuttons %}
+                        {% buttons %}
+                            <button type="submit" class="btn tapir-btn btn-primary">
+                                <span class="material-icons">save</span>
+                                {% trans 'Save' %}
+                            </button>
+                        {% endbuttons %}
                     </span>
                 </form>
             </div>
