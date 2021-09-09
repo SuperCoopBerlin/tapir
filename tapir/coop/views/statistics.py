@@ -7,6 +7,7 @@ from tapir.coop.models import ShareOwner, MemberStatus, DraftUser
 from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftSlotTemplate,
+    ShiftTemplate,
 )
 
 
@@ -54,5 +55,17 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
                 displayed_name
             ] = TapirUser.objects.registered_to_shift_slot_name(slot_type["name"])
         context["users_by_slot_name"] = users_by_slot_type
+
+        abcd_shifts = ShiftTemplate.objects.all()
+        abcd_shifts_not_full = abcd_shifts.filter(
+            slot_templates__attendance_template__isnull=True
+        ).distinct()
+        context["abcd_shifts"] = abcd_shifts
+        context["abcd_shifts_not_full"] = abcd_shifts_not_full
+
+        slot_templates = ShiftSlotTemplate.objects.all()
+        slot_templates_free = slot_templates.filter(attendance_template__isnull=True)
+        context["slot_templates"] = slot_templates
+        context["slot_templates_free"] = slot_templates_free
 
         return context

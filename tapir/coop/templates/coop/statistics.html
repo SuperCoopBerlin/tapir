@@ -39,6 +39,8 @@
                             {% endfor %}
                         </ul>
                     </li>
+                    <li>Out of {{ abcd_shifts|length }} ABCD shifts, <a href="#" onclick="show_card('abcd_shifts_not_full_card')">{{ abcd_shifts_not_full|length }}</a> are missing at least one member.</li>
+                    <li>Out of {{ slot_templates|length }} ABCD shift slots, {{ slot_templates_free|length }} are free.</li>
                 </ul>
             </div>
         </div>
@@ -148,5 +150,18 @@
                 </div>
             </div>
         {% endfor%}
+
+        <div class="card m-2 statistics-toggle-card" id="abcd_shifts_not_full_card">
+            <h5 class="card-header">
+                <span>{% trans "ABCD shift missing at least one member" %}</span>
+            </h5>
+            <div class="card-body">
+                <ul>
+                    {% for shift in abcd_shifts_not_full %}
+                        <li><a href="{{ shift.get_absolute_url }}">{{ shift.get_display_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
 {% endblock %}
