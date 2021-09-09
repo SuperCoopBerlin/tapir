@@ -88,7 +88,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         # This was done to give priority to ABCD-members, as flying members would block the first shift of ABCD-members.
         # Don't forget to re-enable the test test_register_abcd_member_to_flying_shift after re-enabling this!
         context["flying_shifts_open"] = timezone.now().date() > date(
-            day=11, month=9, year=2021
+            day=15, month=9, year=2021
         )
         return context
 
