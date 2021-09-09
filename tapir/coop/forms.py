@@ -144,5 +144,6 @@ class ShareOwnerForm(forms.ModelForm):
                 "postcode",
                 "city",
                 "preferred_language",
+                "phone_number",
             ]:
                 del self.fields[f]
