@@ -17,6 +17,13 @@ urlpatterns = [
     # TODO(Leon Handreke): Can we somehow introduce a sub-namespace here?
     path("shift/<int:pk>/", views.ShiftDetailView.as_view(), name="shift_detail"),
     path(
+        "shift/<int:pk>/printable",
+        views.ShiftDetailView.as_view(
+            template_name="shifts/shift_detail_printable.html"
+        ),
+        name="shift_detail_printable",
+    ),
+    path(
         "shift/create",
         views.CreateShiftView.as_view(),
         name="shift_create",
