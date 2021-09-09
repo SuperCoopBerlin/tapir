@@ -10,11 +10,11 @@
                 <span id="shift_card_title">Shift: {{ shift.get_display_name }}</span>
                 {% if perms.shifts.manage %}
                     <span>
-                    <a href="{% url "shifts:shift_detail_printable" shift.pk %}">
-                        <button type="button" class="btn btn-outline-secondary"><span class="material-icons">print</span> {% trans 'Get printable version' %}</button>
+                    <a class="btn tapir-btn btn-outline-secondary" href="{% url "shifts:shift_detail_printable" shift.pk %}">
+                        <span class="material-icons">print</span>{% trans 'Get printable version' %}
                     </a>
-                    <a href="{% url "shifts:shift_edit" shift.pk %}">
-                        <button type="button" class="btn btn-outline-info" id="shift_edit_button"><span class="material-icons">edit</span> Edit</button>
+                    <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:shift_edit" shift.pk %}" id="shift_edit_button">
+                        <span class="material-icons">edit</span> Edit
                     </a>
                     </span>
                 {% endif %}
@@ -57,16 +57,28 @@
                                                       method="post"
                                                       action="{% url "shifts:mark_shiftattendance_done" attendance.pk %}">
                                                     {% csrf_token %}
-                                                    <button type="submit" class="btn btn-success button-mark-attended">{% trans "Attended" %}</button>
+                                                    <button type="submit" class="btn tapir-btn btn-success button-mark-attended">
+                                                        <span class="material-icons">thumb_up</span>
+                                                        {% trans "Attended" %}
+                                                    </button>
                                                 </form>
                                                 <form style="display: inline;"
                                                       method="post"
                                                       action="{% url "shifts:mark_shiftattendance_missed" attendance.pk %}">
                                                     {% csrf_token %}
-                                                    <button type="submit" class="btn btn-danger">{% trans "Missed" %}</button>
+                                                    <button type="submit" class="btn tapir-btn btn-danger">
+                                                        <span class="material-icons">thumb_down</span>
+                                                        {% trans "Missed" %}
+                                                    </button>
                                                 </form>
-                                                <button type="button" class="btn btn-warning">{% trans "Excuse" %}</button>
-                                                <a href="{% url "shifts:shift_attendance_delete" attendance.pk %}" class="btn btn-secondary">{% trans "Remove" %}</a>
+                                                <button type="button" class="btn tapir-btn btn-warning">
+                                                    <span class="material-icons">sentiment_neutral</span>
+                                                    {% trans "Excuse" %}
+                                                </button>
+                                                <a href="{% url "shifts:shift_attendance_delete" attendance.pk %}" class="btn tapir-btn btn-secondary">
+                                                    <span class="material-icons">person_remove</span>
+                                                    {% trans "Remove" %}
+                                                </a>
                                             {% elif attendance.state == attendance.State.EXCUSE %}
                                                 {{ attendance.excuse }}
                                             {% endif %}
@@ -80,7 +92,10 @@
                                                   method="post"
                                                   action="{% url "shifts:slot_register" slot.pk  %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-success register-button">{% trans "Register a member" %}</button>
+                                                <button type="submit" class="btn tapir-btn btn-outline-info register-button">
+                                                    <span class="material-icons">person_add</span>
+                                                    {% trans "Register a member" %}
+                                                </button>
                                             </form>
                                         {% endif %}
                                         {% if slot.can_register %}
@@ -90,7 +105,10 @@
                                                               method="post"
                                                               action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
                                                             {% csrf_token %}
-                                                            <button type="submit" class="btn btn-success register-self-button">{% trans "Register myself" %}</button>
+                                                            <button type="submit" class="btn tapir-btn btn-info register-self-button">
+                                                                <span class="material-icons">person_add</span>
+                                                                {% trans "Register myself" %}
+                                                            </button>
                                                         </form>
                                                     {% else %}
                                                         Registration for flying shifts will open on 12.09.21

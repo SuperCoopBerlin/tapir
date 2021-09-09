@@ -95,13 +95,13 @@ The css is from https://google.github.io/material-design-icons/#icon-font-for-th
   font-feature-settings: 'liga';
 }
 
-.btn > .material-icons {
-  font-size: 16px;
-}
-
-.btn {
+.tapir-btn {
   display: inline-flex;
   gap: 5px;
   flex-direction: row;
   align-items: center;
+}
+
+.tapir-btn > .material-icons {
+  font-size: 16px;
 }

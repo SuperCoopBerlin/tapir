@@ -88,8 +88,8 @@
                                   method="post"
                                   action="{% url "coop:mark_draftuser_attended_welcome_session" object.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-success ml-3">
-                                    <span class="material-icons" style="font-size: 14px;">check</span> Mark Attended
+                                <button type="submit" class="btn tapir-btn btn-success ml-3">
+                                    <span class="material-icons">check</span>Mark Attended
                                 </button>
                             </form>
                         {% endif %}
@@ -104,19 +104,18 @@
                         {% else %}
                             <span class="text-warning">Pending</span>
                         {% endif %}
-                        <a href="{% url "coop:draftuser_membership_agreement" object.pk %}">
-                            <button class="btn btn-outline-secondary ml-3">
-                                <span class="material-icons" style="font-size: 20px; vertical-align: top;">file_present</span>
-                                Beteiligungserklärung
-                            </button>
+                        <a class="btn tapir-btn btn-outline-secondary ml-3" href="{% url "coop:draftuser_membership_agreement" object.pk %}">
+                            <span class="material-icons">file_present</span>
+                            Beteiligungserklärung
                         </a>
                         {% if not object.signed_membership_agreement %}
                         <form style="display: inline;"
                               method="post"
                               action="{% url "coop:mark_draftuser_signed_membership_agreement" object.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-success ml-3">
-                                <span id="button_marker_membership_agreement_signed"  class="material-icons" style="font-size: 14px;">check</span> Mark Signed
+                            <button type="submit" class="btn tapir-btn btn-success ml-3">
+                                <span id="button_marker_membership_agreement_signed" class="material-icons">check</span>
+                                Mark Signed
                             </button>
                         </form>
                         {% endif %}
@@ -136,8 +135,8 @@
                                   method="post"
                                   action="{% url "coop:register_draftuser_payment" object.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-success ml-3">
-                                    <span class="material-icons" style="font-size: 14px;">payment</span>
+                                <button type="submit" class="btn tapir-btn btn-success ml-3">
+                                    <span class="material-icons">payment</span>
                                     {% trans "Register Payment" %}
                                 </button>
                             </form>
@@ -147,14 +146,13 @@
                 </div>
                 <div class="row m-1 mt-5 flex-row">
                     <div style="flex-grow: 1;"></div>
-                    <a href="{% url "coop:draftuser_update" object.pk %}">
-                        <button class="btn btn-outline-secondary ml-3">
-                            {% trans "Edit" %}
-                        </button>
+                    <a class="btn tapir-btn btn-outline-secondary ml-3" href="{% url "coop:draftuser_update" object.pk %}">
+                        <span class="material-icons">edit</span>
+                        {% trans "Edit" %}
                     </a>
                     <form class="form-inline ml-3" method="POST" action="{% url "coop:draftuser_delete" object.pk %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn tapir-btn btn-danger"><span class="material-icons">delete</span>Delete</button>
                     </form>
 
                     {% if object.can_create_user %}
@@ -162,7 +160,8 @@
                                 method="post"
                                 action="{% url "coop:draftuser_create_share_owner" object.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="align-self-right btn btn-primary ml-3" id="button_create_share_owner">
+                            <button type="submit" class="align-self-right btn tapir-btn btn-primary ml-3" id="button_create_share_owner">
+                                <span class="material-icons">person_add</span>
                                 {%  trans "Create Member" %}
                             </button>
                         </form>

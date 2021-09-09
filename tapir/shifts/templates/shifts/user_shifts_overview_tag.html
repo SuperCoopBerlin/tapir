@@ -5,8 +5,8 @@
     <h5 class="card-header d-flex justify-content-between align-items-center">
         {% trans "Shifts" %}
         {% if perms.shifts.manage %}
-            <a href="{% url "shifts:edit_shift_user_data" user.shift_user_data.pk %}" >
-                <button type="button" class="btn btn-outline-info"><span class="material-icons button-icon">edit</span> Edit</button>
+            <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:edit_shift_user_data" user.shift_user_data.pk %}" >
+                <span class="material-icons button-icon">edit</span>Edit
             </a>
         {% endif %}
     </h5>
@@ -21,7 +21,7 @@
                         <form style="display: inline;" method="POST"
                               action="{% url "shifts:set_user_attendance_mode_regular" user.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-secondary btn-sm">
+                            <button type="submit" class="btn tapir-btn btn-secondary btn-sm">
                                 {% trans "Set Regular 🏠️" %}
                             </button>
                         </form>
@@ -45,8 +45,8 @@
                             <form class="form-inline" method="POST"
                                   action="{% url "shifts:shift_attendance_template_delete" shift_attendance_template.pk %}?next={% url "accounts:user_detail" user.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-secondary btn-sm unregister-repeated-shift-button">
-                                    ❌ {% trans "Unregister" %}
+                                <button type="submit" class="btn tapir-btn btn-secondary btn-sm unregister-repeated-shift-button">
+                                    <span class="material-icons">person_remove</span>{% trans "Unregister" %}
                                 </button>
                             </form>
                             {% endif %}
@@ -57,14 +57,14 @@
                         <span class="text-danger">{% trans "Missing" %}</span>
 
                         {% if perms.shifts.manage %}
-                            <a class="btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}" id="find_abcd_shift_button">
-                                {% trans "Find an ABCD shift" %}
+                            <a class="btn tapir-btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}" id="find_abcd_shift_button">
+                                <span class="material-icons">search</span>{% trans "Find an ABCD shift" %}
                             </a>
 
                             <form style="display: inline;" method="POST"
                                   action="{% url "shifts:set_user_attendance_mode_flying" user.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-secondary btn-sm">
+                                <button type="submit" class="btn tapir-btn btn-secondary btn-sm">
                                     {% trans "Set Flying️" %} ✈
                                 </button>
                             </form>

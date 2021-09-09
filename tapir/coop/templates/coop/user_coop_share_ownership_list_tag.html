@@ -2,28 +2,17 @@
 
 <div class="card m-2" id="user_coop_info_card">
     <h5 class="card-header d-flex justify-content-between align-items-center">
-        {% trans "Cooperative" %}
         {% if owner %}
+            <span>{% blocktranslate with coop_share_owner_id=owner.id %}Cooperator #{{ coop_share_owner_id }}{% endblocktranslate %}</span>
             {% if perms.accounts.manage %}
-            <div class="btn-group" role="group" id="share_owner_edit_buttons">
-            <span class="btn btn-outline-secondary">
-                {% blocktranslate with coop_share_owner_id=owner.id %}Cooperator #{{ coop_share_owner_id }}{% endblocktranslate %}
-            </span>
-
-                <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_update" owner.pk %}">
-                    <span class="material-icons" style="font-size: 20px; vertical-align: top;">edit</span>
-                </a>
-                <a class="btn btn-outline-secondary" href="{% url "coop:shareowner_membership_confirmation" owner.pk %}">
-                    <span class="material-icons" style="font-size: 20px; vertical-align: top;">file_present</span>
-                </a>
-                <form class="form-inline btn btn-outline-secondary" method="POST" action="{% url "coop:send_shareowner_membership_confirmation_welcome_email" owner.pk %}">
-                    {% csrf_token %}
-                    <button type="submit" style="background: none; margin: 0; padding: 0; border: none;">
-                        <span class="material-icons" style="font-size: 20px; vertical-align: top;">send</span>
-                    </button>
-                </form>
-
-            </div>
+                <span>
+                    <a class="btn tapir-btn btn-outline-secondary" href="{% url "coop:shareowner_membership_confirmation" owner.pk %}">
+                        <span class="material-icons">file_present</span>{% trans 'Membership confirmation' %}
+                    </a>
+                    <a class="btn tapir-btn btn-outline-info" href="{% url "coop:shareowner_update" owner.pk %}">
+                        <span class="material-icons">edit</span>{% trans 'Edit' %}
+                    </a>
+                </span>
             {% endif %}
         {% endif %}
     </h5>
@@ -69,8 +58,8 @@
                                   method="post"
                                   action="{% url "coop:mark_shareowner_attended_welcome_session" owner.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-success ml-3">
-                                    <span class="material-icons" style="font-size: 14px;">check</span>{%  trans "Mark Attended" %}
+                                <button type="submit" class="btn tapir-btn btn-sm btn-success ml-3">
+                                    <span class="material-icons">check</span>{%  trans "Mark Attended" %}
                                 </button>
                             </form>
                         {% endif %}
@@ -111,10 +100,13 @@
                             </td>
                             {% if perms.coop.manage %}
                                 <td>
-                                    <a class="btn btn-outline-secondary btn-sm" href="{% url "coop:share_update" o.pk %}">{% trans "Edit" %}</a>
-                                    <span class="dropdown show">
-                                        <a class="btn btn-outline-secondary btn-sm dropdown-toggle" href="#" data-toggle="dropdown">
-                                            <span class="material-icons" style="font-size: 20px; vertical-align: top;">more_horiz</span>
+                                    <a class="btn tapir-btn btn-outline-secondary btn-sm" href="{% url "coop:share_update" o.pk %}">
+                                        <span class="material-icons">edit</span>
+                                        {% trans "Edit" %}
+                                    </a>
+                                    <span class="dropdown">
+                                        <a class="btn tapir-btn btn-outline-secondary btn-sm dropdown-toggle" href="#" data-toggle="dropdown">
+                                            <span class="material-icons" >more_horiz</span>&nbsp;
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-right" style="min-width: 20rem;">
@@ -143,12 +135,23 @@
                 </table>
                 {% if perms.accounts.manage %}
                     <div class="d-flex justify-content-end">
-                        <a class="ml-auto" href="{% url "coop:share_create" owner.pk %}">
-                            <button type="button" class="btn btn-outline-info" >{% trans "Add Share" %}</button>
+                        <a class="ml-auto btn tapir-btn btn-outline-info" href="{% url "coop:share_create" owner.pk %}">
+                            <span class="material-icons" >add</span>
+                            {% trans "Add Share" %}
                         </a>
                     </div>
                 {% endif %}
             </div>
+            {% if perms.accounts.manage %}
+                <div class="row m-1 justify-content-end">
+                    <form class="align-self-right" method="POST" action="{% url "coop:send_shareowner_membership_confirmation_welcome_email" owner.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn tapir-btn btn-info align-self-right">
+                            <span class="material-icons">send</span>{% trans 'Send membership confirmation email' %}
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
         {% else %}
             {% trans "User is not a cooperative member." %}
         {% endif %}

@@ -12,7 +12,7 @@
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>Shift Template: {{ object.name }} {{ object.get_weekday_display }} {{ object.start_time|time:"H:i" }} - {{ object.end_time|time:"H:i"}} ({{ object.group.name}})</span>
             {% if perms.shifts.manage %}
-                <a class="btn btn-outline-info" href="{% url "admin:shifts_shifttemplate_change" object.pk %}">
+                <a class="btn tapir-btn btn-outline-info" href="{% url "admin:shifts_shifttemplate_change" object.pk %}">
                     <span class="material-icons button-icon">edit</span>
                     {% trans "Edit" %}
                 </a>
@@ -53,7 +53,10 @@
                                                   method="post"
                                                   action="{% url "shifts:shift_attendance_template_delete" attendance.pk %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm btn-secondary ml-2">❌ {% trans "Unregister" %}</button>
+                                                <button type="submit" class="btn tapir-btn btn-sm btn-secondary ml-2">
+                                                    <span class="material-icons">person_remove</span>
+                                                    {% trans "Unregister" %}
+                                                </button>
                                             </form>
                                         {% endif %}
                                     </td>
@@ -65,8 +68,9 @@
                                 {% else %}
                                     <td>
                                         {% if perms.shifts.manage %}
-                                            <a class="btn btn-secondary abcd_shift_register_button"
+                                            <a class="btn tapir-btn btn-secondary abcd_shift_register_button"
                                                href="{% url "shifts:slottemplate_register" slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
+                                                <span class="material-icons">person_add</span>
                                                 {% trans "Register" %}
                                             </a>
                                         {% endif %}

@@ -16,7 +16,7 @@
         {% endblocktranslate %}
         <form method="post">
             {% csrf_token %}
-            <button class="float-right m-3 btn btn-danger" type="submit">{% blocktranslate with user_display_name=object.user.get_display_name %}Remove {{ user_display_name }} from Shift{% endblocktranslate %}</button>
+            <button class="float-right m-3 btn tapir-btn btn-danger" type="submit"><span class="material-icons">person_remove</span>{% blocktranslate with user_display_name=object.user.get_display_name %}Remove {{ user_display_name }} from Shift{% endblocktranslate %}</button>
         </form>
     </div>
 </div>
