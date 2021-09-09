@@ -17,7 +17,11 @@
     <script src="{% static "jQuery/jquery-3.5.1.min.js" %}"></script>
 
     {% block head %}{% endblock %}
-
+    <script>
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
 </head>
 
 <body>
@@ -34,6 +38,19 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://wiki.supercoop.de">Wiki</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://wiki.supercoop.de/wiki/Member_Manual">{% trans 'Member manual' %}</a>
+            </li>
+            <li class="nav-item">
+                {% get_current_week_group as group %}
+                <a class="nav-link" href="#">{% trans 'Current week: ' %}{{ group.name }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://wiki.supercoop.de/wiki/%C3%96ffnungszeiten">{% trans 'Shop opening hours' %}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="mailto:mitglied@supercoop.de" data-toggle="tooltip" data-placement="bottom" title="Currently you can only contact the member office per email at : mitglied@supercoop.de. More contact options will be available later.">{% trans 'Contact the member office' %}</a>
             </li>
         </ul>
     </div>

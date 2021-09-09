@@ -135,7 +135,7 @@ def populate_user_shifts(user_id):
 def populate_template_groups():
     ShiftTemplateGroup.objects.all().delete()
     for week in ["A", "B", "C", "D"]:
-        ShiftTemplateGroup.objects.get_or_create(name="Week " + week)
+        ShiftTemplateGroup.objects.get_or_create(name=week)
 
     print("Populated template groups")
 
@@ -311,7 +311,7 @@ def populate_shift_templates():
         start_time = datetime.time(hour=9, tzinfo=timezone.localtime().tzinfo)
         end_time = datetime.time(hour=9 + 3, tzinfo=timezone.localtime().tzinfo)
         name = "Inventory"
-        template_group = ShiftTemplateGroup.objects.get(name="Week " + group_name)
+        template_group = ShiftTemplateGroup.objects.get(name=group_name)
         shift_template = ShiftTemplate.objects.create(
             name=name,
             group=template_group,
@@ -328,7 +328,7 @@ def populate_shift_templates():
         start_time = datetime.time(hour=9, tzinfo=timezone.localtime().tzinfo)
         end_time = datetime.time(hour=9 + 3, tzinfo=timezone.localtime().tzinfo)
         name = "Storage cleaning"
-        template_group = ShiftTemplateGroup.objects.get(name="Week " + group_name)
+        template_group = ShiftTemplateGroup.objects.get(name=group_name)
         shift_template = ShiftTemplate.objects.create(
             name=name,
             group=template_group,

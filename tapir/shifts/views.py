@@ -1,11 +1,13 @@
 from collections import OrderedDict
-from datetime import date, time, timedelta
+from datetime import date, time, timedelta, datetime
 
+from django import template
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db import transaction
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
+from django.template.defaulttags import register
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
@@ -353,10 +355,28 @@ class EditShiftUserDataView(PermissionRequiredMixin, UpdateView):
         return self.object.user.get_absolute_url()
 
 
+@register.simple_tag
+def get_week_group(target_time: date) -> ShiftTemplateGroup:
+    monday = target_time - timedelta(days=target_time.weekday())
+    sunday = monday + timedelta(days=7)
+    shifts = Shift.objects.filter(
+        start_time__gte=monday, end_time__lte=sunday, shift_template__isnull=False
+    )
+    if shifts.exists():
+        return shifts[0].shift_template.group
+    return None
+
+
+@register.simple_tag
+def get_current_week_group() -> ShiftTemplateGroup:
+    return get_week_group(timezone.now())
+
+
 class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
     template_name = "shifts/upcoming_shifts.html"
 
     def get_context_data(self, *args, **kwargs):
+        get_current_week_group()
         context_data = super().get_context_data(*args, **kwargs)
 
         today = date.today()
@@ -400,8 +420,8 @@ class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
             # }
 
             shifts_by_weeks_and_days[shift_week_monday][shift_day].append(shift)
-
         context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
+
         return context_data
 
 
