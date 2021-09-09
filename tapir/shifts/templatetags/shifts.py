@@ -62,7 +62,10 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
     num_required_slots = shift.get_required_slots().count() or 1
     perc_slots_occupied = (
-        shift.get_valid_attendances().count() / float(num_required_slots)
+        shift.get_valid_attendances()
+        .filter(slot__in=shift.get_required_slots())
+        .count()
+        / float(num_required_slots)
         if num_required_slots
         else 1
     )
@@ -111,11 +114,13 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
 
         attendances[slot_name].append(state)
 
-    num_required_slots = (
-        shift_template.slot_templates.filter(optional=False).count() or 1
-    )
+    required_slot_templates = shift_template.slot_templates.filter(optional=False)
+    num_required_slots = required_slot_templates.count() or 1
     perc_slots_occupied = (
-        shift_template.get_attendance_templates().count() / float(num_required_slots)
+        shift_template.get_attendance_templates()
+        .filter(slot_template__in=required_slot_templates)
+        .count()
+        / float(num_required_slots)
         if num_required_slots
         else 1
     )
