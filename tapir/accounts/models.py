@@ -187,6 +187,13 @@ class TapirUser(LdapUser):
         body = loader.render_to_string(email_template_name, context)
         return EmailMultiAlternatives(subject, body, to=[self.email])
 
+    def get_tapir_permissions(self):
+        return [
+            permission
+            for permission in settings.PERMISSIONS
+            if self.has_perm(permission)
+        ]
+
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
     template_name = "accounts/log/update_tapir_user_log_entry.html"
