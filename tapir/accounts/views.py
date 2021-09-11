@@ -21,11 +21,6 @@ class UserDetailView(PermissionRequiredMixin, generic.DetailView):
     model = TapirUser
     template_name = "accounts/user_detail.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context["permissions"] = ", ".join(self.object.get_tapir_permissions())
-        return context
-
     def get_permission_required(self):
         if self.request.user.pk == self.kwargs["pk"]:
             return []
