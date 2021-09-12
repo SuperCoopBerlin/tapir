@@ -55,7 +55,7 @@
                                             {% if attendance.state == attendance.State.PENDING %}
                                                 <form style="display: inline;"
                                                       method="post"
-                                                      action="{% url "shifts:mark_shiftattendance_done" attendance.pk %}">
+                                                      action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.DONE %}">
                                                     {% csrf_token %}
                                                     <button type="submit" class="btn tapir-btn btn-success button-mark-attended">
                                                         <span class="material-icons">thumb_up</span>
@@ -64,25 +64,37 @@
                                                 </form>
                                                 <form style="display: inline;"
                                                       method="post"
-                                                      action="{% url "shifts:mark_shiftattendance_missed" attendance.pk %}">
+                                                      action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.MISSED %}">
                                                     {% csrf_token %}
                                                     <button type="submit" class="btn tapir-btn btn-danger">
                                                         <span class="material-icons">thumb_down</span>
                                                         {% trans "Missed" %}
                                                     </button>
                                                 </form>
-                                                <button type="button" class="btn tapir-btn btn-warning">
-                                                    <span class="material-icons">sentiment_neutral</span>
-                                                    {% trans "Excuse" %}
-                                                </button>
-                                                <a href="{% url "shifts:shift_attendance_delete" attendance.pk %}" class="btn tapir-btn btn-secondary">
-                                                    <span class="material-icons">person_remove</span>
-                                                    {% trans "Remove" %}
-                                                </a>
+                                                <form style="display: inline;"
+                                                      method="post"
+                                                      action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.CANCELLED %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn tapir-btn btn-secondary">
+                                                        <span class="material-icons">person_remove</span>
+                                                        {% trans "Cancelled" %}
+                                                    </button>
+                                                </form>
                                             {% elif attendance.state == attendance.State.EXCUSE %}
                                                 {{ attendance.excuse }}
                                             {% endif %}
                                         <td>
+                                    {% else %}
+                                        <td>
+                                            {% if slot.can_self_unregister %}
+                                                <form style="display: inline;"
+                                                      method="post"
+                                                      action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.CANCELLED %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger" id="unregister_self_button">{% trans "Unregister myself" %}</button>
+                                                </form>
+                                            {% endif %}
+                                        </td>
                                     {% endif %}
                                 {% else %}
                                     <td>{% trans "Vacant" %}</td>

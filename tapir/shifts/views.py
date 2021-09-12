@@ -16,7 +16,6 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView,
 )
 from werkzeug.exceptions import BadRequest
 
@@ -43,6 +42,8 @@ from tapir.shifts.models import (
     UpdateShiftUserDataLogEntry,
     CreateShiftAttendanceLogEntry,
     ShiftUserData,
+    UpdateShiftAttendanceStateLogEntry,
+    ShiftAccountEntry,
 )
 
 
@@ -81,9 +82,11 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        slots = context["shift"].slots.all()
+        shift: Shift = context["shift"]
+        slots = shift.slots.all()
         for slot in slots:
             slot.can_register = slot.user_can_attend(self.request.user)
+            slot.can_self_unregister = slot.user_can_self_unregister(self.request.user)
         context["slots"] = slots
         # This was done to give priority to ABCD-members, as flying members would block the first shift of ABCD-members.
         # Don't forget to re-enable the test test_register_abcd_member_to_flying_shift after re-enabling this!
@@ -192,47 +195,56 @@ class SlotTemplateRegisterView(
         return kwargs
 
 
-class ShiftAttendanceDeleteView(PermissionRequiredMixin, DeleteView):
-    permission_required = "shifts.manage"
+class UpdateShiftAttendanceStateView(PermissionRequiredMixin, UpdateView):
     model = ShiftAttendance
+    fields = []
+
+    def get_attendance(self):
+        return ShiftAttendance.objects.get(pk=self.kwargs["pk"])
+
+    def get_permission_required(self):
+        if self.kwargs[
+            "state"
+        ] == ShiftAttendance.State.CANCELLED and self.get_attendance().slot.user_can_self_unregister(
+            self.request.user
+        ):
+            return []
+        return ["shifts.manage"]
 
     def get_success_url(self):
-        return self.shift.get_absolute_url()
+        return self.get_object().slot.shift.get_absolute_url()
 
-    def delete(self, *args, **kwargs):
-        self.shift = self.get_object().slot.shift
-        return super().delete(*args, **kwargs)
+    def form_valid(self, form):
+        with transaction.atomic():
+            response = super().form_valid(form)
 
+            attendance = self.object
+            attendance.state = self.kwargs["state"]
+            attendance.save()
+            log_entry = UpdateShiftAttendanceStateLogEntry().populate(
+                actor=self.request.user,
+                user=attendance.user,
+                model=attendance,
+            )
+            log_entry.slot_name = attendance.slot.name
+            log_entry.shift = attendance.slot.shift
+            log_entry.state = attendance.state
+            log_entry.save()
 
-@require_POST
-@csrf_protect
-@permission_required("shifts.manage")
-def shift_attendance_delete(request, pk):
-    shift_attendance = get_object_or_404(ShiftAttendance, pk=pk)
-    shift = shift_attendance.slot.shift
-    shift_attendance.delete()
+            if attendance.state == ShiftAttendance.State.MISSED:
+                ShiftAccountEntry.objects.create(
+                    user=attendance.user,
+                    value=-1,
+                    date=attendance.slot.shift.start_time.date(),
+                )
+            elif attendance.state == ShiftAttendance.State.DONE:
+                ShiftAccountEntry.objects.create(
+                    user=attendance.user,
+                    value=1,
+                    date=attendance.slot.shift.start_time.date(),
+                )
 
-    return redirect(shift)
-
-
-@require_POST
-@csrf_protect
-@permission_required("shifts.manage")
-def mark_shift_attendance_done(request, pk):
-    shift_attendance = get_object_or_404(ShiftAttendance, pk=pk)
-    shift_attendance.mark_done()
-
-    return redirect(shift_attendance.slot.shift)
-
-
-@require_POST
-@csrf_protect
-@permission_required("shifts.manage")
-def mark_shift_attendance_missed(request, pk):
-    shift_attendance = get_object_or_404(ShiftAttendance, pk=pk)
-    shift_attendance.mark_missed()
-
-    return redirect(shift_attendance.slot.shift)
+            return response
 
 
 @require_POST
@@ -379,6 +391,7 @@ class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
         get_current_week_group()
         context_data = super().get_context_data(*args, **kwargs)
 
+        context_data["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
         today = date.today()
         monday_this_week = today - timedelta(days=today.weekday())
         # Only filter the eight weeks to make things faster
@@ -398,26 +411,6 @@ class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
             # Ensure the nested OrderedDict[OrderedDict[list]] dictionary has the right data structures for the new item
             shifts_by_weeks_and_days.setdefault(shift_week_monday, OrderedDict())
             shifts_by_weeks_and_days[shift_week_monday].setdefault(shift_day, [])
-
-            # NOTE(Leon Handreke): Right now, we just stack the shift blocks. If at some point we want an overlapping
-            # Google Calendar-style view, we should reactivate this code.
-            # start_time_seconds = time_to_seconds(shift.start_time)
-            # end_time_seconds = time_to_seconds(shift.end_time)
-            # # Position in the box, as a fraction relative to its parent (0.0 = at the beginning, 0.5 = in the middle,
-            # # 1.0 = at the end)
-            # position = (
-            #                    start_time_seconds - DAY_START_SECONDS
-            #            ) / DAY_DURATION_SECONDS
-            # # Size, again as a fraction of the box
-            # size = (end_time_seconds - start_time_seconds) / DAY_DURATION_SECONDS
-            # size -= 0.01  # To make shifts not align completely
-            #
-            # shift_display_infos = {
-            #     "shift": shift,
-            #     # As a percentage because that's what CSS wants
-            #     "position": position * 100,
-            #     "size": size * 100
-            # }
 
             shifts_by_weeks_and_days[shift_week_monday][shift_day].append(shift)
         context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
