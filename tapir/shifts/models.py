@@ -303,6 +303,8 @@ class Shift(models.Model):
     start_time = models.DateTimeField(blank=False)
     end_time = models.DateTimeField(blank=False)
 
+    NB_DAYS_FOR_SELF_UNREGISTER = 7
+
     def __str__(self):
         display_name = "%s: %s %s-%s" % (
             self.__class__.__name__,
@@ -358,6 +360,13 @@ class ShiftAttendanceLogEntry(ModelLogEntry):
 
     slot_name = models.CharField(blank=True, max_length=255)
     shift = models.ForeignKey(Shift, on_delete=models.PROTECT)
+    state = models.IntegerField(null=True)
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        if self.state is not None:
+            context["state_name"] = SHIFT_ATTENDANCE_STATES[self.state]
+        return context
 
 
 class CreateShiftAttendanceLogEntry(ShiftAttendanceLogEntry):
@@ -410,10 +419,33 @@ class ShiftSlot(models.Model):
             not self.get_valid_attendance()
             and
             # User isn't already registered for this shift
-            not self.shift.get_attendances().filter(user=user).exists()
+            not self.shift.get_attendances()
+            .filter(user=user)
+            .with_valid_state()
+            .exists()
             and
             # User must have all required capabilities
             set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
+        )
+
+    def user_can_self_unregister(self, user: TapirUser) -> bool:
+        user_is_registered_to_slot = (
+            self.get_valid_attendance() is not None
+            and self.get_valid_attendance().user == user
+        )
+        user_is_not_registered_to_slot_template = (
+            self.slot_template is None
+            or not ShiftAttendanceTemplate.objects.filter(
+                slot_template=self.slot_template, user=user
+            ).exists()
+        )
+        early_enough = (
+            self.shift.start_time - timezone.now()
+        ).days > Shift.NB_DAYS_FOR_SELF_UNREGISTER
+        return (
+            user_is_registered_to_slot
+            and user_is_not_registered_to_slot_template
+            and early_enough
         )
 
     def update_attendance_from_template(self):
@@ -499,21 +531,18 @@ class ShiftAttendance(models.Model):
         related_name="shift_attendance",
     )
 
-    def mark_done(self):
-        self.state = __class__.State.DONE
-        # TODO(Leon Handreke): The exact scores here should either be a constant or calculated elsewhere?
-        self.account_entry = ShiftAccountEntry.objects.create(
-            user=self.user, value=1, date=self.slot.shift.start_time.date()
-        )
-        self.save()
 
-    def mark_missed(self):
-        self.state = __class__.State.MISSED
-        # TODO(Leon Handreke): The exact scores here should either be a constant or calculated elsewhere?
-        self.account_entry = ShiftAccountEntry.objects.create(
-            user=self.user, value=-1, date=self.slot.shift.start_time.date()
-        )
-        self.save()
+SHIFT_ATTENDANCE_STATES = {
+    ShiftAttendance.State.PENDING: _("Pending"),
+    ShiftAttendance.State.DONE: _("Attended"),
+    ShiftAttendance.State.MISSED: _("Missed"),
+    ShiftAttendance.State.MISSED_EXCUSED: _("Excused"),
+    ShiftAttendance.State.CANCELLED: _("Cancelled"),
+}
+
+
+class UpdateShiftAttendanceStateLogEntry(ShiftAttendanceLogEntry):
+    template_name = "shifts/log/update_shift_attendance_state_log_entry.html"
 
 
 class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
@@ -554,7 +583,7 @@ class ShiftUserData(models.Model):
     def get_upcoming_shift_attendances(self):
         return self.user.shift_attendances.filter(
             slot__shift__start_time__gt=timezone.localtime()
-        )
+        ).with_valid_state()
 
     def get_account_balance(self):
         # Might return None if no objects, so "or 0"

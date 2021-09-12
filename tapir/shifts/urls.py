@@ -39,19 +39,9 @@ urlpatterns = [
         name="shift_edit",
     ),
     path(
-        "shift_attendance/<int:pk>/delete",
-        views.ShiftAttendanceDeleteView.as_view(),
-        name="shift_attendance_delete",
-    ),
-    path(
-        "shift_attendance/<int:pk>/done",
-        views.mark_shift_attendance_done,
-        name="mark_shiftattendance_done",
-    ),
-    path(
-        "shift_attendance/<int:pk>/missed",
-        views.mark_shift_attendance_missed,
-        name="mark_shiftattendance_missed",
+        "shift_attendance/<int:pk>/<int:state>",
+        views.UpdateShiftAttendanceStateView.as_view(),
+        name="update_shift_attendance_state",
     ),
     path(
         "shifttemplate/<int:pk>",
