@@ -123,7 +123,7 @@
                                                             </button>
                                                         </form>
                                                     {% else %}
-                                                        Registration for flying shifts will open on 12.09.21
+                                                        Registration for flying shifts will open on {{ flying_shifts_open_date|date:"d.m.y" }}
                                                     {% endif %}
                                             {% endif %}
                                         {% endif %}
