@@ -1,7 +1,6 @@
 from collections import OrderedDict
-from datetime import date, time, timedelta, datetime
+from datetime import date, time, timedelta
 
-from django import template
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db import transaction
