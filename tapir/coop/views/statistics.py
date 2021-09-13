@@ -1,6 +1,7 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db.models import Count
 from django.views import generic
+from django.views.generic import TemplateView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, MemberStatus, DraftUser
@@ -69,3 +70,7 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
         context["slot_templates_free"] = slot_templates_free
 
         return context
+
+
+class AboutView(LoginRequiredMixin, TemplateView):
+    template_name = "coop/about.html"
