@@ -78,4 +78,9 @@ urlpatterns = [
         views.EditShiftUserDataView.as_view(),
         name="edit_shift_user_data",
     ),
+    path(
+        "group_calendar",
+        views.ShiftTemplateGroupCalendar.as_view(),
+        name="shift_template_group_calendar",
+    ),
 ]

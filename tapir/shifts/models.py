@@ -32,6 +32,12 @@ class ShiftTemplateGroup(models.Model):
     Normally, this will be a week of shifts in the ABCD system, so one ShiftTemplateGroup might be "Week A"."""
 
     name = models.CharField(blank=False, max_length=255)
+    NAME_INT_PAIRS = [
+        {"name": "A", "index": 0},
+        {"name": "B", "index": 1},
+        {"name": "C", "index": 2},
+        {"name": "D", "index": 3},
+    ]
 
     def __str__(self):
         return "%s: %s" % (self.__class__.__name__, self.name)
@@ -44,6 +50,19 @@ class ShiftTemplateGroup(models.Model):
             shift_template.create_shift(start_date=start_date)
             for shift_template in self.shift_templates.all()
         ]
+
+    def get_group_index(self) -> int:
+        for pair in ShiftTemplateGroup.NAME_INT_PAIRS:
+            if pair["name"] == self.name:
+                return pair["index"]
+        return None
+
+    @staticmethod
+    def get_group_from_index(index: int) -> ShiftTemplateGroup:
+        for pair in ShiftTemplateGroup.NAME_INT_PAIRS:
+            if pair["index"] == index:
+                return ShiftTemplateGroup.objects.get(name=pair["name"])
+        return None
 
 
 # TODO(Leon Handreke): There must be a library to supply this

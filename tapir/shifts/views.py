@@ -368,13 +368,34 @@ class EditShiftUserDataView(PermissionRequiredMixin, UpdateView):
 
 @register.simple_tag
 def get_week_group(target_time: date) -> ShiftTemplateGroup:
-    monday = target_time - timedelta(days=target_time.weekday())
-    sunday = monday + timedelta(days=7)
-    shifts = Shift.objects.filter(
-        start_time__gte=monday, end_time__lte=sunday, shift_template__isnull=False
-    )
-    if shifts.exists():
-        return shifts[0].shift_template.group
+    for delta in range(52):
+        monday = (
+            target_time - timedelta(days=target_time.weekday()) + timedelta(weeks=delta)
+        )
+        sunday = monday + timedelta(days=7)
+        shifts = Shift.objects.filter(
+            start_time__gte=monday, end_time__lte=sunday, shift_template__isnull=False
+        )
+        if not shifts.exists():
+            continue
+
+        corrected_week = (shifts[0].shift_template.group.get_group_index() - delta) % 4
+        return ShiftTemplateGroup.get_group_from_index(corrected_week)
+
+    for delta in range(-52, 0):
+        monday = (
+            target_time - timedelta(days=target_time.weekday()) + timedelta(weeks=delta)
+        )
+        sunday = monday + timedelta(days=7)
+        shifts = Shift.objects.filter(
+            start_time__gte=monday, end_time__lte=sunday, shift_template__isnull=False
+        )
+        if not shifts.exists():
+            continue
+
+        corrected_week = (shifts[0].shift_template.group.get_group_index() - delta) % 4
+        return ShiftTemplateGroup.get_group_from_index(corrected_week)
+
     return None
 
 
@@ -447,3 +468,17 @@ def _set_user_attendance_mode(request, user_pk, attendance_mode):
         log_entry.save()
 
     return redirect(u)
+
+
+class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
+    template_name = "shifts/shift_template_group_calendar.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        date_to_group = dict()
+        today = timezone.now().date()
+        for week in range(52):
+            monday = today - timedelta(days=today.weekday()) + timedelta(weeks=week)
+            date_to_group[monday] = get_week_group(monday).name
+        context["date_to_group"] = date_to_group
+        return context

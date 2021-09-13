@@ -44,7 +44,7 @@
             </li>
             <li class="nav-item">
                 {% get_current_week_group as group %}
-                <a class="nav-link" href="#">{% trans 'Current week: ' %}{{ group.name }}</a>
+                <a class="nav-link" href="{% url "shifts:shift_template_group_calendar" %}" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Click for a calendar of ABCD weeks' %}">{% trans 'Current week: ' %}{{ group.name }}</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://wiki.supercoop.de/wiki/%C3%96ffnungszeiten">{% trans 'Shop opening hours' %}</a>

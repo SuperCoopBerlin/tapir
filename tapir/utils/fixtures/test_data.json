@@ -4475,28 +4475,28 @@
     "model": "shifts.shifttemplategroup",
     "pk": 1,
     "fields": {
-      "name": "Week A"
+      "name": "A"
     }
   },
   {
     "model": "shifts.shifttemplategroup",
     "pk": 2,
     "fields": {
-      "name": "Week B"
+      "name": "B"
     }
   },
   {
     "model": "shifts.shifttemplategroup",
     "pk": 3,
     "fields": {
-      "name": "Week C"
+      "name": "C"
     }
   },
   {
     "model": "shifts.shifttemplategroup",
     "pk": 4,
     "fields": {
-      "name": "Week D"
+      "name": "D"
     }
   },
   {
