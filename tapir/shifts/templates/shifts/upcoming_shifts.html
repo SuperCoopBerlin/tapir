@@ -16,7 +16,6 @@
             {% trans "Shift schedule overview" %}
         </h5>
         <div class="card-body">
-            {# TODO Théo 29.08.21 get the good value for X below #}
             {% blocktranslate %}
                 <p>Below you can find all the upcoming shifts, and who is registered for each shift.</p>
                 <p>You can sign yourself up for any shift that has a free slot here on TAPIR. You may also cancel it yourself if done at least {{ nb_days_for_self_unregister }} days before the shift.<br/>
@@ -34,8 +33,15 @@
             <div class="card-body d-flex flex-row">
                 {% for day, shift_infos in shifts_by_day.items %}
                     <div class="d-flex flex-column">
-                    <h5 style="text-align: center;">{{ day|date:"l" }}</h5>
-                        <h6 style="text-align: center;">{{ day|date:"M d" }}</h6>
+                    <h5 style="text-align: center;">{{ day|date:"l" }} </h5>
+                        <h6 style="text-align: center;">
+                            {{ day|date:"M d" }}
+                            {% if perms.shifts.manage %}
+                            <a href="{% url 'shifts:shift_day_printable' day|date:'d-m-y' %}" class="btn tapir-btn btn-outline-secondary">
+                                <span class="material-icons">print</span>
+                            </a>
+                            {% endif %}
+                        </h6>
                         {% for shift in shift_infos %}
                             <!-- a little bit of margin so the boxes don't overlap -->
                             <div style="margin: 3px">

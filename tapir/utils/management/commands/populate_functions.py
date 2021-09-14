@@ -251,16 +251,20 @@ def populate_shift_templates():
         populate_template_groups()
 
     names = ["Supermarket"]
-    start_hours = [9, 12, 15]
+    start_hours = [(8, 15), (11, 0), (13, 45), (16, 30), (19, 15)]
     for weekday in WEEKDAY_CHOICES[:-1]:
         for template_group in ShiftTemplateGroup.objects.all():
             for name in names:
                 for start_hour in start_hours:
                     start_time = datetime.time(
-                        hour=start_hour, tzinfo=timezone.localtime().tzinfo
+                        hour=start_hour[0],
+                        minute=start_hour[1],
+                        tzinfo=timezone.localtime().tzinfo,
                     )
                     end_time = datetime.time(
-                        hour=start_hour + 3, tzinfo=timezone.localtime().tzinfo
+                        hour=start_hour[0] + 3,
+                        minute=start_hour[1],
+                        tzinfo=timezone.localtime().tzinfo,
                     )
                     shift_template = ShiftTemplate.objects.create(
                         name=name,

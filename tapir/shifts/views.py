@@ -1,3 +1,4 @@
+import datetime
 from collections import OrderedDict
 from datetime import date, time, timedelta
 
@@ -92,6 +93,17 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         flying_shifts_open_date = date(day=16, month=9, year=2021)
         context["flying_shifts_open"] = timezone.now().date() >= flying_shifts_open_date
         context["flying_shifts_open_date"] = flying_shifts_open_date
+        return context
+
+
+class ShiftDayPrintableView(PermissionRequiredMixin, TemplateView):
+    template_name = "shifts/shift_day_printable.html"
+    permission_required = "shifts.manage"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        day = datetime.datetime.strptime(kwargs["day"], "%d-%m-%y").date()
+        context["shifts"] = Shift.objects.filter(start_time__date=day)
         return context
 
 
