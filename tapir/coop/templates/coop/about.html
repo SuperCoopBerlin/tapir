@@ -4,16 +4,35 @@
 {% load i18n %}
 
 {% block content %}
-    <div class="container">
-        <div class="card m-2">
-            <h5 class="card-header">
-                <span>{% trans "About Tapir" %}</span>
-            </h5>
-            <div class="card-body">
-              <p>Tapir has been made with love by Supercoop Berlin members.</p>
-              <p>The source code and list of contributors is available on GitHub : <a href="https://github.com/SuperCoopBerlin/tapir">https://github.com/SuperCoopBerlin/tapir</a> </p>
-                <p>We're always very happy to hear your feedback, suggestions, ideas... You can write us in the <a href="https://supercoopberlin.slack.com/archives/C01SYB5QSTB">#tapir</a> channel of the Supercoop Slack.</p>
-            </div>
+<div class="container">
+    <div class="card m-2">
+        <h5 class="card-header">
+            <span>{% trans "About Tapir" %}</span>
+        </h5>
+        <div class="card-body">
+            <p>Tapir has been made with love by Supercoop Berlin members.</p>
+            <p>The source code and list of contributors is available on GitHub : <a
+                    href="https://github.com/SuperCoopBerlin/tapir">https://github.com/SuperCoopBerlin/tapir</a></p>
+            <p>We're always very happy to hear your feedback, suggestions, ideas... You can write us in the <a
+                    href="https://supercoopberlin.slack.com/archives/C01SYB5QSTB">#tapir</a> channel of the Supercoop
+                Slack.</p>
         </div>
     </div>
+    <div class="card m-2">
+        <h5 class="card-header">
+            <span>{% trans "Latest changes" %}</span>
+        </h5>
+        <div class="card-body">
+            <ul>
+                <li>14.09.21
+                    <ul>
+                        <li>Added a button for each day in the "upcoming shifts" page that gives a printable version of
+                            all shifts in that day.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}
