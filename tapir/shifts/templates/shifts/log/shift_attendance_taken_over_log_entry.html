@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% trans "Someone took over your shift" %}:
+<a href="{{ entry.shift.get_absolute_url }}">{{ entry.shift.get_display_name }}</a>
+{% if entry.slot_name %}({{ entry.slot_name }}){% endif %}

@@ -6,6 +6,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftAttendanceTemplate,
     WEEKDAY_CHOICES,
+    ShiftAttendance,
 )
 
 register = template.Library()
@@ -40,7 +41,9 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
         attendance = slot.get_valid_attendance()
         if attendance:
-            if ShiftAttendanceTemplate.objects.filter(
+            if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
+                state = "standin"
+            elif ShiftAttendanceTemplate.objects.filter(
                 slot_template=attendance.slot.slot_template, user=attendance.user
             ).exists():
                 state = "regular"
@@ -70,10 +73,15 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         else 1
     )
 
+    has_looking_for_stand_in = (
+        shift.get_valid_attendances()
+        .filter(slot__attendances__state=ShiftAttendance.State.LOOKING_FOR_STAND_IN)
+        .exists()
+    )
     background = "success"
     if perc_slots_occupied < 0.5:
         background = "danger"
-    elif perc_slots_occupied < 1.0:
+    elif perc_slots_occupied < 1.0 or has_looking_for_stand_in:
         background = "warning"
 
     style = ""

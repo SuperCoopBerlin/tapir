@@ -392,6 +392,10 @@ class CreateShiftAttendanceLogEntry(ShiftAttendanceLogEntry):
     template_name = "shifts/log/create_shift_attendance_log_entry.html"
 
 
+class ShiftAttendanceTakenOverLogEntry(ShiftAttendanceLogEntry):
+    template_name = "shifts/log/shift_attendance_taken_over_log_entry.html"
+
+
 class ShiftSlot(models.Model):
     slot_template = models.ForeignKey(
         ShiftSlotTemplate,
@@ -435,7 +439,11 @@ class ShiftSlot(models.Model):
     def user_can_attend(self, user):
         return (
             # Slot must not be attended yet
-            not self.get_valid_attendance()
+            (
+                not self.get_valid_attendance()
+                or self.get_valid_attendance().state
+                == ShiftAttendance.State.LOOKING_FOR_STAND_IN
+            )
             and
             # User isn't already registered for this shift
             not self.shift.get_attendances()
@@ -445,6 +453,7 @@ class ShiftSlot(models.Model):
             and
             # User must have all required capabilities
             set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
+            and self.shift.is_in_the_future()
         )
 
     def user_can_self_unregister(self, user: TapirUser) -> bool:
@@ -466,6 +475,16 @@ class ShiftSlot(models.Model):
             and user_is_not_registered_to_slot_template
             and early_enough
         )
+
+    def user_can_look_for_standin(self, user: TapirUser) -> bool:
+        user_is_registered_to_slot = (
+            self.get_valid_attendance() is not None
+            and self.get_valid_attendance().user == user
+        )
+        early_enough = (
+            self.shift.start_time - timezone.now()
+        ).days > Shift.NB_DAYS_FOR_SELF_UNREGISTER
+        return user_is_registered_to_slot and early_enough
 
     def update_attendance_from_template(self):
         """Updates the attendance of this slot.
@@ -489,6 +508,26 @@ class ShiftSlot(models.Model):
             and not self.attendances.filter(user=attendance_template.user).exists()
         ):
             ShiftAttendance.objects.create(user=attendance_template.user, slot=self)
+
+    def mark_stand_in_found_if_relevant(self, actor: TapirUser):
+        attendances = ShiftAttendance.objects.filter(
+            slot=self, state=ShiftAttendance.State.LOOKING_FOR_STAND_IN
+        )
+        if not attendances.exists():
+            return
+
+        attendance = attendances.first()
+        attendance.state = ShiftAttendance.State.CANCELLED
+        attendance.save()
+
+        log_entry = ShiftAttendanceTakenOverLogEntry().populate(
+            actor=actor,
+            user=attendance.user,
+            model=attendance,
+        )
+        log_entry.slot_name = attendance.slot.name
+        log_entry.shift = attendance.slot.shift
+        log_entry.save()
 
 
 class ShiftAccountEntry(models.Model):
@@ -518,7 +557,11 @@ class ShiftAttendance(models.Model):
     class ShiftAttendanceQuerySet(models.QuerySet):
         def with_valid_state(self):
             return self.filter(
-                state__in=[ShiftAttendance.State.PENDING, ShiftAttendance.State.DONE]
+                state__in=[
+                    ShiftAttendance.State.PENDING,
+                    ShiftAttendance.State.DONE,
+                    ShiftAttendance.State.LOOKING_FOR_STAND_IN,
+                ]
             )
 
     objects = ShiftAttendanceQuerySet.as_manager()
@@ -536,6 +579,7 @@ class ShiftAttendance(models.Model):
         CANCELLED = 3
         MISSED = 4
         MISSED_EXCUSED = 5
+        LOOKING_FOR_STAND_IN = 6
 
     state = models.IntegerField(choices=State.choices, default=State.PENDING)
 
@@ -557,6 +601,7 @@ SHIFT_ATTENDANCE_STATES = {
     ShiftAttendance.State.MISSED: _("Missed"),
     ShiftAttendance.State.MISSED_EXCUSED: _("Excused"),
     ShiftAttendance.State.CANCELLED: _("Cancelled"),
+    ShiftAttendance.State.LOOKING_FOR_STAND_IN: _("Looking for a stand-in"),
 }
 
 

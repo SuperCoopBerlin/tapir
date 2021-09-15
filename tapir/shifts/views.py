@@ -84,15 +84,27 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         shift: Shift = context["shift"]
         slots = shift.slots.all()
+        context["show_register_self"] = (
+            not ShiftAttendance.objects.with_valid_state()
+            .filter(slot__shift=shift, user=self.request.user)
+            .exists()
+        )
         for slot in slots:
             slot.can_register = slot.user_can_attend(self.request.user)
             slot.can_self_unregister = slot.user_can_self_unregister(self.request.user)
+            slot.can_look_for_standin = slot.user_can_look_for_standin(
+                self.request.user
+            )
         context["slots"] = slots
         # This was done to give priority to ABCD-members, as flying members would block the first shift of ABCD-members.
         # Don't forget to re-enable the test test_register_abcd_member_to_flying_shift after re-enabling this!
         flying_shifts_open_date = date(day=16, month=9, year=2021)
-        context["flying_shifts_open"] = timezone.now().date() >= flying_shifts_open_date
+        context["flying_shifts_open"] = (
+            timezone.now().date() >= flying_shifts_open_date or True
+        )
         context["flying_shifts_open_date"] = flying_shifts_open_date
+        context["attendance_states"] = ShiftAttendance.State
+        context["NB_DAYS_FOR_SELF_UNREGISTER"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
         return context
 
 
@@ -127,7 +139,7 @@ class SlotRegisterView(PermissionRequiredMixin, SelectedUserViewMixin, CreateVie
         form.instance.slot = self.get_slot()
         with transaction.atomic():
             response = super().form_valid(form)
-
+            self.get_slot().mark_stand_in_found_if_relevant(self.request.user)
             shift_attendance: ShiftAttendance = self.object
             log_entry = CreateShiftAttendanceLogEntry().populate(
                 actor=self.request.user,
@@ -214,11 +226,21 @@ class UpdateShiftAttendanceStateView(PermissionRequiredMixin, UpdateView):
         return ShiftAttendance.objects.get(pk=self.kwargs["pk"])
 
     def get_permission_required(self):
-        if self.kwargs[
-            "state"
-        ] == ShiftAttendance.State.CANCELLED and self.get_attendance().slot.user_can_self_unregister(
-            self.request.user
-        ):
+        state = self.kwargs["state"]
+        self_unregister = (
+            state == ShiftAttendance.State.CANCELLED
+            and self.get_attendance().slot.user_can_self_unregister(self.request.user)
+        )
+        look_for_standing = (
+            state == ShiftAttendance.State.LOOKING_FOR_STAND_IN
+            and self.get_attendance().slot.user_can_look_for_standin
+        )
+        cancel_look_for_standing = (
+            state == ShiftAttendance.State.PENDING
+            and self.get_attendance().state
+            == ShiftAttendance.State.LOOKING_FOR_STAND_IN
+        )
+        if self_unregister or look_for_standing or cancel_look_for_standing:
             return []
         return ["shifts.manage"]
 
@@ -296,7 +318,7 @@ def shiftslot_register_user(request, pk, user_pk):
 
     with transaction.atomic():
         shift_attendance = ShiftAttendance.objects.create(slot=slot, user=selected_user)
-
+        slot.mark_stand_in_found_if_relevant(request.user)
         log_entry = CreateShiftAttendanceLogEntry().populate(
             actor=request.user,
             user=selected_user,

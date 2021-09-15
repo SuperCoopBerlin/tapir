@@ -64,8 +64,14 @@ class TestMemberSelfUnregisterToShift(TapirSeleniumTestBase):
     def check_can_unregister(self, shift: Shift, must_be_able_to_unregister: bool):
         self.selenium.get(self.live_server_url + shift.get_absolute_url())
         self.wait_until_element_present_by_id("shift_card_title")
-
-        self.assertEqual(
-            len(self.selenium.find_elements_by_id("unregister_self_button")),
-            1 if must_be_able_to_unregister else 0,
-        )
+        button = self.selenium.find_element_by_id("unregister_self_button")
+        if must_be_able_to_unregister:
+            self.assertTrue(
+                button.get_attribute("disabled") is None,
+                "The self unregister button should be enabled",
+            )
+        else:
+            self.assertTrue(
+                button.get_attribute("disabled") is not None,
+                "The self unregister button should be disabled",
+            )
