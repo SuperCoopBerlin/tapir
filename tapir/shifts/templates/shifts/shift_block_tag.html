@@ -15,6 +15,8 @@
                             <div class="material-icons">check_circle</div>
                         {% elif state == "optional" %}
                             <div class="material-icons">donut_large</div>
+                        {% elif state == "standin" %}
+                            <div class="material-icons rotate">sync</div>
                         {% else %}
                             <div class="material-icons">radio_button_unchecked</div>
                         {% endif %}
