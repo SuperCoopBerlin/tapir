@@ -5,7 +5,7 @@ import django.utils.timezone
 from django.test import tag
 
 from tapir.accounts.models import TapirUser
-from tapir.shifts.models import ShiftTemplate, ShiftAttendance
+from tapir.shifts.models import ShiftTemplate, ShiftAttendance, ShiftUserCapability
 from tapir.utils.tests_utils import TapirSeleniumTestBase, TAPIR_SELENIUM_BASE_FIXTURES
 
 
@@ -33,6 +33,9 @@ class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
         member_office_user = self.get_member_office_user()
         self.login(member_office_user.get_username(), member_office_user.get_username())
         abcd_user = self.get_test_user("hilla.waisanen")
+        shift_user_data = abcd_user.get_tapir_user().shift_user_data
+        shift_user_data.capabilities.append(ShiftUserCapability.SHIFT_COORDINATOR)
+        shift_user_data.save()
         self.go_to_user_page(abcd_user.get_display_name())
 
         self.wait_until_element_present_by_id("tapir_user_detail_card")

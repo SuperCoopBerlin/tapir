@@ -12,7 +12,7 @@ from tapir.utils.tests_utils import TapirSeleniumTestBase, TAPIR_SELENIUM_BASE_F
 
 class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
     fixtures = TAPIR_SELENIUM_BASE_FIXTURES + [
-        "test_register_abcd_member_to_abcd_shift.json",
+        "test_member_self_registers_to_shift.json",
     ]
     TEMPLATE_SHIFT_ID = 1000
     SHIFT_NAME = "SeleniumTestAbcdShift"
