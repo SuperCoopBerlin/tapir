@@ -134,7 +134,7 @@
     "fields": {
       "name": "",
       "shift_template": 1000,
-      "required_capabilities": "[\"shift_coordinator\"]",
+      "required_capabilities": "[]",
       "optional": false
     }
   },

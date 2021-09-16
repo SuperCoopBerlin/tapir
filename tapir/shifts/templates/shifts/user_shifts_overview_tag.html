@@ -57,7 +57,7 @@
                         <span class="text-danger">{% trans "Missing" %}</span>
 
                         {% if perms.shifts.manage %}
-                            <a class="btn tapir-btn btn-secondary btn-sm" href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}" id="find_abcd_shift_button">
+                            <a class="btn tapir-btn btn-outline-secondary btn-sm" href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}" id="find_abcd_shift_button">
                                 <span class="material-icons">search</span>{% trans "Find an ABCD shift" %}
                             </a>
 
