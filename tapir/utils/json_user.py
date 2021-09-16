@@ -1,5 +1,6 @@
 import datetime
 
+from tapir.accounts.models import TapirUser
 from tapir.utils.models import get_country_code
 from tapir.utils.user_utils import UserUtils
 
@@ -71,3 +72,6 @@ class JsonUser:
 
     def save(self):
         pass
+
+    def get_tapir_user(self) -> TapirUser:
+        return TapirUser.objects.get(username=self.get_username())

@@ -57,7 +57,7 @@ class TestMemberSelfUnregisterToShift(TapirSeleniumTestBase):
         ShiftAttendance.objects.create(user=standard_user_tapir, slot=slot_next_week)
         self.assertTrue(
             slot_next_week.user_can_self_unregister(standard_user_tapir),
-            "The user should be able to unregister themselves because the shift is later than Shift.NB_DAYS_FOR_SELF_UNREGISTER",
+            f"The user should be able to unregister themselves because the shift is later than {Shift.NB_DAYS_FOR_SELF_UNREGISTER}",
         )
         self.check_can_unregister(shift_next_week, True)
 

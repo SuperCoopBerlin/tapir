@@ -16,10 +16,8 @@ class TestMemberSelfRegisterToShift(TapirSeleniumTestBase):
     TEMPLATE_SHIFT_ID = 1000
     SHIFT_NAME = "SeleniumTestAbcdShift"
 
-    # register a member to an ABCD shift and check that they get registered to the corresponding shift instance
     @tag("selenium")
     def test_member_self_registers_to_flying_shift(self):
-        return  # Temporarily disabled this test as while flying shift self-registration is disabled
         shift = ShiftTemplate.objects.get(id=self.TEMPLATE_SHIFT_ID).create_shift(
             django.utils.timezone.now().date() + datetime.timedelta(days=1)
         )

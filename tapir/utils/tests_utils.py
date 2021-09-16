@@ -13,6 +13,7 @@ from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -135,6 +136,10 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
         member_search.send_keys(Keys.ENTER)
 
         self.wait_until_element_present_by_id("user_coop_info_card")
+
+    @staticmethod
+    def is_button_disabled(button: WebElement):
+        return button.get_attribute("disabled") is not None
 
 
 class TapirUserTestBase(TapirSeleniumTestBase):

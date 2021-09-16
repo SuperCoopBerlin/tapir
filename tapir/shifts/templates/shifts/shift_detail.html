@@ -112,7 +112,7 @@
                                     </form>
                                 {% elif show_register_self %}
                                     <form style="display: inline;"
-                                          method="post"
+                                          method="post" id="self-register-form"
                                           action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
                                         {% csrf_token %}
                                         {% blocktranslate asvar self_register_tooltip %}You can only register yourself
@@ -124,7 +124,7 @@
                                             </ul>
                                         {% endblocktranslate %}
                                         <button type="submit" class="btn btn-sm tapir-btn btn-info register-self-button"
-                                                {% if not slot.can_register or not flying_shifts_open %}disabled
+                                                {% if not slot.can_register %}disabled
                                                 data-toggle="tooltip" data-html="true"
                                                 title="{{ self_register_tooltip }}"{% endif %}>
                                             <span class="material-icons">person_add</span>

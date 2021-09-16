@@ -96,13 +96,6 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
                 self.request.user
             )
         context["slots"] = slots
-        # This was done to give priority to ABCD-members, as flying members would block the first shift of ABCD-members.
-        # Don't forget to re-enable the test test_register_abcd_member_to_flying_shift after re-enabling this!
-        flying_shifts_open_date = date(day=16, month=9, year=2021)
-        context["flying_shifts_open"] = (
-            timezone.now().date() >= flying_shifts_open_date or True
-        )
-        context["flying_shifts_open_date"] = flying_shifts_open_date
         context["attendance_states"] = ShiftAttendance.State
         context["NB_DAYS_FOR_SELF_UNREGISTER"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
         return context
