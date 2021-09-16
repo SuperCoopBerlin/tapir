@@ -92,7 +92,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         for slot in slots:
             slot.can_register = slot.user_can_attend(self.request.user)
             slot.can_self_unregister = slot.user_can_self_unregister(self.request.user)
-            slot.can_look_for_standin = slot.user_can_look_for_standin(
+            slot.can_look_for_stand_in = slot.user_can_look_for_standin(
                 self.request.user
             )
         context["slots"] = slots

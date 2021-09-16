@@ -1,5 +1,4 @@
 import datetime
-import time
 
 import django.utils.timezone
 from django.test import tag
