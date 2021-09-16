@@ -1,21 +1,16 @@
 import datetime
-import time
 
-import django.utils.timezone
 from django.test import tag
-from django.urls import reverse
 from django.utils import timezone
-from selenium.common.exceptions import NoSuchElementException
 
 from tapir.accounts.models import TapirUser
 from tapir.shifts.models import (
-    ShiftTemplate,
     ShiftAttendanceTemplate,
     ShiftAttendance,
     Shift,
     ShiftSlot,
 )
-from tapir.utils.tests_utils import TapirSeleniumTestBase, TAPIR_SELENIUM_BASE_FIXTURES
+from tapir.utils.tests_utils import TapirSeleniumTestBase
 
 
 class TestMemberSelfUnregisterToShift(TapirSeleniumTestBase):

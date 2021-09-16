@@ -1,7 +1,5 @@
 import datetime
-import time
 
-import django.utils.timezone
 from django.test import tag
 from django.urls import reverse
 from django.utils import timezone
