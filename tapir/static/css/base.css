@@ -95,7 +95,7 @@ The css is from https://google.github.io/material-design-icons/#icon-font-for-th
   font-feature-settings: 'liga';
 }
 
-.tapir-btn {
+.tapir-btn, .tapir-tooltip-item {
   display: inline-flex;
   gap: 5px;
   flex-direction: row;
@@ -104,4 +104,12 @@ The css is from https://google.github.io/material-design-icons/#icon-font-for-th
 
 .tapir-btn > .material-icons {
   font-size: 16px;
+}
+
+.tapir-tooltip-icon {
+  font-size: 16px;
+}
+
+.tooltip-inner {
+  max-width: 350px;
 }

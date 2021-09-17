@@ -67,7 +67,7 @@
                                               method="post"
                                               action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance_states.PENDING %}">
                                             {% csrf_token %}
-                                            <button type="submit" class="btn btn-sm tapir-btn btn-danger"
+                                            <button type="submit" class="btn btn-sm tapir-btn btn-warning"
                                                     id="cancel_look_for_stand_in" data-toggle="tooltip" title="{% trans 'Cancels the search for a stand-in. Use this if you want to attend the shift.' %}">
                                                 <span class="material-icons">cancel</span>
                                                 {% trans "Cancel look for a stand-in" %}
@@ -116,12 +116,10 @@
                                           action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
                                         {% csrf_token %}
                                         {% blocktranslate asvar self_register_tooltip %}You can only register yourself
-                                            for a shift if :
-                                            <ul>
-                                                <li>You are not registered to another slot in that shift</li>
-                                                <li>You have the done the required training</li>
-                                                <li>The shift is in the future</li>
-                                            </ul>
+                                            for a shift if :<br />
+                                            -You are not registered to another slot in that shift<br />
+                                            -You have the done the required training<br />
+                                            -The shift is in the future<br />
                                         {% endblocktranslate %}
                                         <button type="submit" class="btn btn-sm tapir-btn btn-info register-self-button"
                                                 {% if not slot.can_register %}disabled
