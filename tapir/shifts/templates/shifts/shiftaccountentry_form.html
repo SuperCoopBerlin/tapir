@@ -1,0 +1,30 @@
+{% extends "accounts/base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card m-2">
+            <h5 class="card-header">{% trans "Create manual shift account entry for: " %}<a href="{{ user.get_absolute_url }}">{{ user.get_display_name }}</a></h5>
+            <div class="card-body">
+                <form role="form" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <span class="text-right">
+                        {% buttons %}
+                            <button type="submit" class="btn tapir-btn btn-primary">
+                                <span class="material-icons">save</span>
+                                {% trans 'Save' %}
+                            </button>
+                        {% endbuttons %}
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

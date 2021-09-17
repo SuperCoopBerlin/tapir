@@ -26,6 +26,7 @@ from tapir.shifts.forms import (
     ShiftAttendanceTemplateForm,
     ShiftAttendanceForm,
     ShiftUserDataForm,
+    CreateShiftAccountEntryForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -84,17 +85,24 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         shift: Shift = context["shift"]
         slots = shift.slots.all()
-        context["show_register_self"] = (
-            not ShiftAttendance.objects.with_valid_state()
+        user_is_registered_to_this_shift = (
+            ShiftAttendance.objects.with_valid_state()
             .filter(slot__shift=shift, user=self.request.user)
             .exists()
         )
+
         for slot in slots:
             slot.can_register = slot.user_can_attend(self.request.user)
             slot.can_self_unregister = slot.user_can_self_unregister(self.request.user)
             slot.can_look_for_stand_in = slot.user_can_look_for_standin(
                 self.request.user
             )
+            slot.show_register_self = not user_is_registered_to_this_shift and (
+                slot.get_valid_attendance() is None
+                or slot.get_valid_attendance().state
+                == ShiftAttendance.State.LOOKING_FOR_STAND_IN
+            )
+
         context["slots"] = slots
         context["attendance_states"] = ShiftAttendance.State
         context["NB_DAYS_FOR_SELF_UNREGISTER"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
@@ -244,7 +252,7 @@ class UpdateShiftAttendanceStateView(PermissionRequiredMixin, UpdateView):
         with transaction.atomic():
             response = super().form_valid(form)
 
-            attendance = self.object
+            attendance = self.get_attendance()
             attendance.state = self.kwargs["state"]
             attendance.save()
             log_entry = UpdateShiftAttendanceStateLogEntry().populate(
@@ -257,18 +265,23 @@ class UpdateShiftAttendanceStateView(PermissionRequiredMixin, UpdateView):
             log_entry.state = attendance.state
             log_entry.save()
 
+            entry_value = None
             if attendance.state == ShiftAttendance.State.MISSED:
-                ShiftAccountEntry.objects.create(
-                    user=attendance.user,
-                    value=-1,
-                    date=attendance.slot.shift.start_time.date(),
-                )
+                entry_value = -1
+                description = "Shift missed"
             elif attendance.state == ShiftAttendance.State.DONE:
-                ShiftAccountEntry.objects.create(
+                entry_value = 1
+                description = "Shift attended"
+
+            if entry_value is not None:
+                entry = ShiftAccountEntry.objects.create(
                     user=attendance.user,
-                    value=1,
-                    date=attendance.slot.shift.start_time.date(),
+                    value=entry_value,
+                    date=attendance.slot.shift.start_time,
+                    description=description,
                 )
+                attendance.account_entry = entry
+                attendance.save()
 
             return response
 
@@ -509,3 +522,44 @@ class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
             date_to_group[monday] = get_week_group(monday).name
         context["date_to_group"] = date_to_group
         return context
+
+
+class UserShiftAccountLog(PermissionRequiredMixin, TemplateView):
+    template_name = "shifts/user_shift_account_log.html"
+
+    def get_target_user(self):
+        return TapirUser.objects.get(pk=self.kwargs["user_pk"])
+
+    def get_permission_required(self):
+        if self.request.user == self.get_target_user():
+            return []
+        return ["shifts.manage"]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["user"] = self.get_target_user()
+        context["entries"] = ShiftAccountEntry.objects.filter(
+            user=self.get_target_user()
+        ).order_by("-date")
+        return context
+
+
+class CreateShiftAccountEntryView(PermissionRequiredMixin, CreateView):
+    model = ShiftAccountEntry
+    form_class = CreateShiftAccountEntryForm
+    permission_required = "shifts.manage"
+
+    def get_target_user(self) -> TapirUser:
+        return TapirUser.objects.get(pk=self.kwargs["user_pk"])
+
+    def form_valid(self, form):
+        form.instance.user = self.get_target_user()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["user"] = self.get_target_user()
+        return context
+
+    def get_success_url(self):
+        return self.get_target_user().get_absolute_url()

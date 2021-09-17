@@ -659,7 +659,7 @@ class ShiftUserData(models.Model):
     def is_balance_ok(self):
         balance = self.get_account_balance()
         # Depending on when the monthly deduction happens, the balance may flucuate over the month
-        return -1 <= balance <= 1
+        return -1 <= balance
 
     def is_balance_negative(self):
         return self.get_account_balance() < -1

@@ -5,7 +5,8 @@
     <h5 class="card-header d-flex justify-content-between align-items-center">
         {% trans "Shifts" %}
         {% if perms.shifts.manage and user.shift_user_data %}
-            <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:edit_shift_user_data" user.shift_user_data.pk %}" >
+            <a class="btn tapir-btn btn-outline-info"
+               href="{% url "shifts:edit_shift_user_data" user.shift_user_data.pk %}">
                 <span class="material-icons button-icon">edit</span>Edit
             </a>
         {% endif %}
@@ -42,13 +43,14 @@
                             </span>
 
                             {% if perms.shifts.manage %}
-                            <form class="form-inline" method="POST"
-                                  action="{% url "shifts:shift_attendance_template_delete" shift_attendance_template.pk %}?next={% url "accounts:user_detail" user.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn tapir-btn btn-secondary btn-sm unregister-repeated-shift-button">
-                                    <span class="material-icons">person_remove</span>{% trans "Unregister" %}
-                                </button>
-                            </form>
+                                <form class="form-inline" method="POST"
+                                      action="{% url "shifts:shift_attendance_template_delete" shift_attendance_template.pk %}?next={% url "accounts:user_detail" user.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit"
+                                            class="btn tapir-btn btn-secondary btn-sm unregister-repeated-shift-button">
+                                        <span class="material-icons">person_remove</span>{% trans "Unregister" %}
+                                    </button>
+                                </form>
                             {% endif %}
                             {% if not forloop.last %},{% endif %}
                         {% endfor %}
@@ -57,7 +59,9 @@
                         <span class="text-danger">{% trans "Missing" %}</span>
 
                         {% if perms.shifts.manage %}
-                            <a class="btn tapir-btn btn-outline-secondary btn-sm" href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}" id="find_abcd_shift_button">
+                            <a class="btn tapir-btn btn-outline-secondary btn-sm"
+                               href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}"
+                               id="find_abcd_shift_button">
                                 <span class="material-icons">search</span>{% trans "Find an ABCD shift" %}
                             </a>
 
@@ -82,7 +86,7 @@
                         <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">
                             {{ next_slot.get_display_name }}
                         </a>
-                        (in {{ next_slot.shift.start_time|timeuntil }})<br />
+                        (in {{ next_slot.shift.start_time|timeuntil }})<br/>
                         <a data-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
                         <div class="collapse" id="upcoming-shifts">
                             {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
@@ -100,18 +104,21 @@
 
         <div class="row m-1">
             <div class="col-4 font-weight-bold text-right">{% trans "Shift Status" %}:</div>
-            <div class="col-8">
+            <div class="col-8" id="user-shift-status">
                 {% if user.shift_user_data.is_balance_ok %}
                     <span class="text-success">{% trans "Up to date" %}</span>
 
-                    {% if user.shift_user_data.get_balance < 0 %}
+                    {% if user.shift_user_data.get_account_balance < 0 %}
                         ({% trans "Shift for ongoing cycle pending" %})
-                    {% elif user.shift_user_data.get_balance > 0 %}
-                        ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_balance %}{{ num_banked }} banked shifts{% endblocktranslate %})
+                    {% elif user.shift_user_data.get_account_balance > 0 %}
+                        ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_account_balance %}
+                        {{ num_banked_shifts }} banked shifts{% endblocktranslate %})
                     {% endif %}
                 {% else %}
                     <span class="text-danger">{% trans "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
                 {% endif %}
+                <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
+                   class="btn tapir-btn btn-sm btn-outline-secondary"><span class="material-icons">visibility</span>log</a>
             </div>
         </div>
 

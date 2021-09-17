@@ -1,0 +1,42 @@
+{% extends "shifts/base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block content %}
+    <div class="card m-2">
+        <h5 class="card-header d-flex justify-content-between align-items-center">
+            <span>
+                {% trans 'Shift account log for: ' %}
+                <a href="{{ user.get_absolute_url }}">{{ user.get_display_name }}</a>
+            </span>
+            {% if perms.shifts.manage %}
+                <a class="btn tapir-btn btn-outline-primary"
+                   href="{% url 'shifts:create_shift_account_entry' user.pk %}">
+                    <span class="material-icons">add</span>{% trans 'Add a manual entry' %}
+                </a>
+            {% endif %}
+        </h5>
+        <div class="card-body">
+
+            <table class="table" id="attendance_table">
+                <thead>
+                <tr>
+                    <th>{% trans 'Date' %}</th>
+                    <th>{% trans 'Value' %}</th>
+                    <th>{% trans 'Description' %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for entry in entries %}
+                    <tr>
+                        <td>{{ entry.date }}</td>
+                        <td>{{ entry.value }}</td>
+                        <td>{{ entry.description }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

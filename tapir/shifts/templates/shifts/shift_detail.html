@@ -110,7 +110,7 @@
                                             {% trans "Unregister myself" %}
                                         </button>
                                     </form>
-                                {% elif show_register_self %}
+                                {% elif slot.show_register_self %}
                                     <form style="display: inline;"
                                           method="post" id="self-register-form"
                                           action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
@@ -163,7 +163,7 @@
                                                   method="post"
                                                   action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.MISSED %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm tapir-btn btn-danger">
+                                                <button type="submit" class="btn btn-sm tapir-btn btn-danger button-mark-missed">
                                                     <span class="material-icons">thumb_down</span>
                                                     {% trans "Missed" %}
                                                 </button>
