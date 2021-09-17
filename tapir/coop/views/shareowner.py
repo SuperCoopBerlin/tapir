@@ -403,6 +403,13 @@ class ShareOwnerFilter(django_filters.FilterSet):
     has_tapir_account = BooleanFilter(
         method="has_tapir_account_filter", label="Has a Tapir account"
     )
+    # Théo 17.09.21 : It would be nicer to get the values from the DB, but that raises exceptions
+    # when creating a brand new docker instance, because the corresponding table doesn't exist yet.
+    abcd_week = ChoiceFilter(
+        choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")],
+        method="abcd_week_filter",
+        label=_("ABCD Week"),
+    )
 
     def display_name_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
@@ -445,6 +452,13 @@ class ShareOwnerFilter(django_filters.FilterSet):
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
     ):
         return queryset.exclude(user__isnull=value)
+
+    def abcd_week_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+    ):
+        return queryset.filter(
+            user__shift_attendance_templates__slot_template__shift_template__group__name=value
+        )
 
 
 class ShareOwnerListView(
