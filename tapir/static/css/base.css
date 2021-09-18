@@ -113,3 +113,10 @@ The css is from https://google.github.io/material-design-icons/#icon-font-for-th
 .tooltip-inner {
   max-width: 350px;
 }
+
+#about-link {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
