@@ -382,6 +382,7 @@ class ShiftTemplateOverview(LoginRequiredMixin, SelectedUserViewMixin, TemplateV
         context["shift_template_groups"] = [
             group.name for group in ShiftTemplateGroup.objects.all().order_by("name")
         ]
+        context["shift_slot_names"] = get_shift_slot_names()
         return context
 
 
@@ -445,6 +446,15 @@ def get_current_week_group() -> ShiftTemplateGroup:
     return get_week_group(timezone.now())
 
 
+def get_shift_slot_names():
+    shift_slot_names = ShiftSlot.objects.values_list("name", flat=True).distinct()
+    shift_slot_names = [
+        (shift_name_as_class(name), _(name)) for name in shift_slot_names if name != ""
+    ]
+    shift_slot_names.append(("", _("General")))
+    return shift_slot_names
+
+
 class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
     template_name = "shifts/upcoming_shifts.html"
 
@@ -490,13 +500,7 @@ class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
             shifts_by_weeks_and_days[shift_week_monday][shift_day].append(shift)
         context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
 
-        shift_slot_names = ShiftSlot.objects.values_list("name", flat=True).distinct()
-        context_data["shift_slot_names"] = [
-            (shift_name_as_class(name), _(name))
-            for name in shift_slot_names
-            if name != ""
-        ]
-        context_data["shift_slot_names"].append(("", _("General")))
+        context_data["shift_slot_names"] = get_shift_slot_names()
 
         return context_data
 

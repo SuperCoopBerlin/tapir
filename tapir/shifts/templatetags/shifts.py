@@ -35,7 +35,6 @@ def shift_name_as_class(shift_name: str) -> str:
 
 def shift_to_block_object(shift: Shift, fill_parent: bool):
     attendances = {}
-    has_looking_for_stand_in = False
 
     filter_classes = set()
 
@@ -58,7 +57,6 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
         if attendance:
             if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
-                has_looking_for_stand_in = True
                 filter_classes.add("standin_any")
                 filter_classes.add("standin_" + shift_name_as_class(slot.name))
                 filter_classes.add("freeslot_any")
@@ -89,22 +87,6 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
             shift.shift_template.group.name
         )
 
-    num_required_slots = (
-        len([_ for slot in shift.slots.all() if not slot.optional]) or 1
-    )
-
-    perc_slots_occupied = (
-        num_valid_attendance_on_required_slots / float(num_required_slots)
-        if num_required_slots
-        else 1
-    )
-
-    background = "success"
-    if perc_slots_occupied < 0.5:
-        background = "danger"
-    elif perc_slots_occupied < 1.0 or has_looking_for_stand_in:
-        background = "warning"
-
     style = ""
     if fill_parent:
         style = "height:100%; width: 100%;"
@@ -117,7 +99,6 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         "start_date": shift.start_time,
         "weekday": None,
         "template_group": template_group,
-        "background": background,
         "style": style,
         "id": shift.id,
         "is_template": False,
@@ -127,7 +108,9 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
 def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: bool):
     attendances = {}
-    nb_attendances_in_required_slots = 0
+
+    filter_classes = set()
+
     for slot_template in shift_template.slot_templates.all():
         slot_name = slot_template.name
         if slot_template.name == "":
@@ -135,8 +118,9 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
         if slot_name not in attendances:
             attendances[slot_name] = []
 
-        if slot_template.get_attendance_template() is not None:
-            nb_attendances_in_required_slots += 1
+        if slot_template.get_attendance_template() is None:
+            filter_classes.add("freeslot_any")
+            filter_classes.add("freeslot_" + shift_name_as_class(slot_template.name))
 
         if slot_template.get_attendance_template():
             state = "regular"
@@ -147,21 +131,6 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
                 state = "empty"
 
         attendances[slot_name].append(state)
-
-    num_required_slots = len(
-        [_ for slot in shift_template.slot_templates.all() if not slot.optional]
-    )
-    perc_slots_occupied = (
-        nb_attendances_in_required_slots / float(num_required_slots)
-        if num_required_slots
-        else 1
-    )
-
-    background = "success"
-    if perc_slots_occupied < 0.5:
-        background = "danger"
-    elif perc_slots_occupied < 1.0:
-        background = "warning"
 
     style = ""
     if fill_parent:
@@ -175,10 +144,10 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
         "start_date": None,
         "weekday": WEEKDAY_CHOICES[shift_template.weekday][1],
         "template_group": template_group_name_to_character(shift_template.group.name),
-        "background": background,
         "style": style,
         "id": shift_template.id,
         "is_template": True,
+        "filter_classes": filter_classes,
     }
 
 

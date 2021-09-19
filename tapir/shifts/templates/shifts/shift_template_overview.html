@@ -8,6 +8,7 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
+    <script src="{% static "shifts/shift_template_overview.js" %}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -22,6 +23,21 @@
                     <p>This is the ABCD shiftplan. It repeats every four weeks. That's why you see only weekdays (Monday, Tuesday...) and the week (A,B,C or D), instead of specific dates (e.g. 23.8.2021). To see the date of your next shift, please go to your profile.</p>
                     <p>If you would like to change your regular ABCD shift, please contact the Member Office.</p>
                 {% endblocktranslate %}
+            </li>
+            <li class="list-group-item"> {% trans 'Filter by free slot: ' %}
+                <span class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-primary active">
+                        <input type="radio" name="slot_name_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="slot_name_options" autocomplete="off" value="any"> {% trans 'Any' %}
+                    </label>
+                    {% for name in shift_slot_names %}
+                        <label class="btn btn-outline-primary">
+                            <input type="radio" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"> {{ name.1 }}
+                        </label>
+                    {% endfor %}
+                </span>
             </li>
             <li class="list-group-item">
                 <table class="table" id="repeated-shift-overview-table">
