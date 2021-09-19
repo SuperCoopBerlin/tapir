@@ -9,6 +9,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import (
@@ -46,6 +47,7 @@ from tapir.shifts.models import (
     UpdateShiftAttendanceStateLogEntry,
     ShiftAccountEntry,
 )
+from tapir.shifts.templatetags.shifts import shift_name_as_class
 
 
 def time_to_seconds(time):
@@ -487,6 +489,14 @@ class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
 
             shifts_by_weeks_and_days[shift_week_monday][shift_day].append(shift)
         context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
+
+        shift_slot_names = ShiftSlot.objects.values_list("name", flat=True).distinct()
+        context_data["shift_slot_names"] = [
+            (shift_name_as_class(name), _(name))
+            for name in shift_slot_names
+            if name != ""
+        ]
+        context_data["shift_slot_names"].append(("", _("General")))
 
         return context_data
 

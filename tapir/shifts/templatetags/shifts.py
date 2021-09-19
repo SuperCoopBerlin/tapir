@@ -4,7 +4,6 @@ from django.utils.translation import gettext as _
 from tapir.shifts.models import (
     Shift,
     ShiftTemplate,
-    ShiftAttendanceTemplate,
     WEEKDAY_CHOICES,
     ShiftAttendance,
 )
@@ -30,9 +29,15 @@ def shift_template_block(context, shift_template: ShiftTemplate, fill_parent=Fal
     return context
 
 
+def shift_name_as_class(shift_name: str) -> str:
+    return shift_name.replace(" ", "_").lower()
+
+
 def shift_to_block_object(shift: Shift, fill_parent: bool):
     attendances = {}
     has_looking_for_stand_in = False
+
+    filter_classes = set()
 
     num_valid_attendance_on_required_slots = 0
     for slot in shift.slots.all():
@@ -54,6 +59,11 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         if attendance:
             if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
                 has_looking_for_stand_in = True
+                filter_classes.add("standin_any")
+                filter_classes.add("standin_" + shift_name_as_class(slot.name))
+                filter_classes.add("freeslot_any")
+                filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
+
                 state = "standin"
             elif (
                 slot.slot_template is not None
@@ -64,6 +74,8 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
             else:
                 state = "single"
         else:
+            filter_classes.add("freeslot_any")
+            filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
             if slot.optional:
                 state = "optional"
             else:
@@ -109,6 +121,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         "style": style,
         "id": shift.id,
         "is_template": False,
+        "filter_classes": filter_classes,
     }
 
 
