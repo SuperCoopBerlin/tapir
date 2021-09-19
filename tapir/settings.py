@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+ENABLE_SILK_PROFILING = False
 
 # Application definition
 
@@ -55,6 +56,9 @@ INSTALLED_APPS = [
     "django_extensions",
 ]
 
+if ENABLE_SILK_PROFILING:
+    INSTALLED_APPS.append("silk")
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -66,6 +70,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if ENABLE_SILK_PROFILING:
+    MIDDLEWARE = ["silk.middleware.SilkyMiddleware"] + MIDDLEWARE
 
 ROOT_URLCONF = "tapir.urls"
 
@@ -201,3 +208,8 @@ SITE_URL = "http://127.0.0.1:8000"
 PHONENUMBER_DEFAULT_REGION = "DE"
 
 LOCALE_PATHS = [os.path.join(BASE_DIR, "tapir/translations/locale")]
+
+if ENABLE_SILK_PROFILING:
+    SILKY_PYTHON_PROFILER = True
+    SILKY_PYTHON_PROFILER_BINARY = True
+    SILKY_META = True
