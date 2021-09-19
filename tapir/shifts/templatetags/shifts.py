@@ -32,6 +32,9 @@ def shift_template_block(context, shift_template: ShiftTemplate, fill_parent=Fal
 
 def shift_to_block_object(shift: Shift, fill_parent: bool):
     attendances = {}
+    has_looking_for_stand_in = False
+
+    num_valid_attendance_on_required_slots = 0
     for slot in shift.slots.all():
         slot_name = slot.name
         if slot_name == "":
@@ -40,11 +43,14 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
             attendances[slot_name] = []
 
         attendance = slot.get_valid_attendance()
+        if attendance and not slot.optional:
+            num_valid_attendance_on_required_slots += 1
         if attendance:
             if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
+                has_looking_for_stand_in = True
                 state = "standin"
             elif ShiftAttendanceTemplate.objects.filter(
-                slot_template=attendance.slot.slot_template, user=attendance.user
+                slot_template=slot.slot_template, user=attendance.user
             ).exists():
                 state = "regular"
             else:
@@ -63,21 +69,16 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
             shift.shift_template.group.name
         )
 
-    num_required_slots = shift.get_required_slots().count() or 1
+    num_required_slots = (
+        len([_ for slot in shift.slots.all() if not slot.optional]) or 1
+    )
+
     perc_slots_occupied = (
-        shift.get_valid_attendances()
-        .filter(slot__in=shift.get_required_slots())
-        .count()
-        / float(num_required_slots)
+        num_valid_attendance_on_required_slots / float(num_required_slots)
         if num_required_slots
         else 1
     )
 
-    has_looking_for_stand_in = (
-        shift.get_valid_attendances()
-        .filter(slot__attendances__state=ShiftAttendance.State.LOOKING_FOR_STAND_IN)
-        .exists()
-    )
     background = "success"
     if perc_slots_occupied < 0.5:
         background = "danger"

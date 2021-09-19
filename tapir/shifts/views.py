@@ -408,23 +408,12 @@ class EditShiftUserDataView(PermissionRequiredMixin, UpdateView):
 
 @register.simple_tag
 def get_week_group(target_time: date) -> ShiftTemplateGroup:
-    for delta in range(52):
+    for delta in list(range(52)) + list(range(-52, 0)):
         monday = (
             target_time - timedelta(days=target_time.weekday()) + timedelta(weeks=delta)
         )
-        sunday = monday + timedelta(days=7)
-        shifts = Shift.objects.filter(
-            start_time__gte=monday, end_time__lte=sunday, shift_template__isnull=False
-        )
-        if not shifts.exists():
-            continue
-
-        corrected_week = (shifts[0].shift_template.group.get_group_index() - delta) % 4
-        return ShiftTemplateGroup.get_group_from_index(corrected_week)
-
-    for delta in range(-52, 0):
-        monday = (
-            target_time - timedelta(days=target_time.weekday()) + timedelta(weeks=delta)
+        monday = datetime.datetime.combine(
+            monday, datetime.time(), timezone.now().tzinfo
         )
         sunday = monday + timedelta(days=7)
         shifts = Shift.objects.filter(
@@ -448,17 +437,27 @@ class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
     template_name = "shifts/upcoming_shifts.html"
 
     def get_context_data(self, *args, **kwargs):
-        get_current_week_group()
         context_data = super().get_context_data(*args, **kwargs)
 
         context_data["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
         today = date.today()
-        monday_this_week = today - timedelta(days=today.weekday())
+        monday_this_week = datetime.datetime.combine(
+            today - timedelta(days=today.weekday()),
+            datetime.time(),
+            timezone.now().tzinfo,
+        )
         # Only filter the eight weeks to make things faster
-        upcoming_shifts = Shift.objects.filter(
-            start_time__gte=monday_this_week,
-            end_time__lt=monday_this_week + timedelta(days=8 * 7),
-        ).order_by("start_time")
+        upcoming_shifts = (
+            Shift.objects.filter(
+                start_time__gte=monday_this_week,
+                end_time__lt=monday_this_week + timedelta(days=8 * 7),
+            )
+            .order_by("start_time")
+            .prefetch_related("slots")
+            .prefetch_related("slots__slot_template")
+            .prefetch_related("shift_template")
+            .prefetch_related("shift_template__group")
+        )
 
         # A nested dict containing weeks (indexed by the Monday of the week), then days, then a list of shifts
         # OrderedDict[OrderedDict[list]]
