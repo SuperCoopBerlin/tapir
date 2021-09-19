@@ -18,15 +18,29 @@ services:
     build: .
     command: bash -c "poetry install &&
                       poetry run python manage.py compilemessages --ignore \".venv\" &&
-                      poetry run python manage.py runserver_plus 0.0.0.0:8000"
+                      poetry run python manage.py runserver_plus 0.0.0.0:80"
     volumes:
       - .:/app
-    ports:
-      - "8000:8000"
+    environment:
+      - VIRTUAL_HOST=localhost
     depends_on:
       - openldap
       - db
       - selenium
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./docker/nginx/certs:/etc/nginx/certs:ro
+      - ./docker/vhost.d:/etc/nginx/vhost.d:ro
+      - ./docker/client_auth_certs:/etc/nginx/client_auth_certs:ro
+    ports:
+      - "8000:80"
+      - "8001:443"
+    environment:
+      HTTPS_METHOD: noredirect
+      DEFAULT_HOST: localhost
 
   db:
     image: postgres:13
@@ -63,3 +77,5 @@ services:
   #                - POSTGRES_PASSWORD=odoo
   #                - POSTGRES_USER=odoo
 
+volumes:
+  nginx-certs-volume:

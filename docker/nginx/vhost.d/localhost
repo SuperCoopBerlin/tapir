@@ -1,0 +1,2 @@
+ssl_client_certificate /etc/nginx/client_auth_certs/localhost.cert.pem
+ssl_verify_client optional
