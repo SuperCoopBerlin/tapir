@@ -14,10 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.views import generic
+
+from tapir.settings import ENABLE_SILK_PROFILING
 
 urlpatterns = [
     path("", generic.RedirectView.as_view(pattern_name="accounts:index")),
@@ -27,3 +30,6 @@ urlpatterns = [
     path("coop/", include("tapir.coop.urls")),
     path("log/", include("tapir.log.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if ENABLE_SILK_PROFILING:
+    urlpatterns += [url(r"^silk/", include("silk.urls", namespace="silk"))]
