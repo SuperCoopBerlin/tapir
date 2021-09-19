@@ -42,16 +42,23 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         if slot_name not in attendances:
             attendances[slot_name] = []
 
-        attendance = slot.get_valid_attendance()
+        attendance = None
+        for a in slot.attendances.all():
+            if a.is_valid():
+                attendance = a
+                break
+
         if attendance and not slot.optional:
             num_valid_attendance_on_required_slots += 1
         if attendance:
             if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
                 has_looking_for_stand_in = True
                 state = "standin"
-            elif ShiftAttendanceTemplate.objects.filter(
-                slot_template=slot.slot_template, user=attendance.user
-            ).exists():
+            elif (
+                slot.slot_template is not None
+                and slot.slot_template.attendance_template is not None
+                and slot.slot_template.attendance_template.user == attendance.user
+            ):
                 state = "regular"
             else:
                 state = "single"

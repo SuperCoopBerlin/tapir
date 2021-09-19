@@ -557,13 +557,7 @@ class ShiftAttendance(models.Model):
 
     class ShiftAttendanceQuerySet(models.QuerySet):
         def with_valid_state(self):
-            return self.filter(
-                state__in=[
-                    ShiftAttendance.State.PENDING,
-                    ShiftAttendance.State.DONE,
-                    ShiftAttendance.State.LOOKING_FOR_STAND_IN,
-                ]
-            )
+            return self.filter(state__in=ShiftAttendance.VALID_STATES)
 
     objects = ShiftAttendanceQuerySet.as_manager()
 
@@ -582,6 +576,12 @@ class ShiftAttendance(models.Model):
         MISSED_EXCUSED = 5
         LOOKING_FOR_STAND_IN = 6
 
+    VALID_STATES = [
+        State.PENDING,
+        State.DONE,
+        State.LOOKING_FOR_STAND_IN,
+    ]
+
     state = models.IntegerField(choices=State.choices, default=State.PENDING)
 
     # Only filled if state is MISSED_EXCUSED
@@ -594,6 +594,9 @@ class ShiftAttendance(models.Model):
         on_delete=models.PROTECT,
         related_name="shift_attendance",
     )
+
+    def is_valid(self):
+        return self.state in ShiftAttendance.VALID_STATES
 
 
 SHIFT_ATTENDANCE_STATES = {
