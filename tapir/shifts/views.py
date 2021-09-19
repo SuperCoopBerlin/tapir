@@ -430,7 +430,9 @@ def get_week_group(target_time: date) -> ShiftTemplateGroup:
         if not shifts.exists():
             continue
 
-        corrected_week = (shifts[0].shift_template.group.get_group_index() - delta) % 4
+        corrected_week = (
+            shifts.first().shift_template.group.get_group_index() - delta
+        ) % 4
         return ShiftTemplateGroup.get_group_from_index(corrected_week)
 
     return None

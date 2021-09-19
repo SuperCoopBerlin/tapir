@@ -50,13 +50,14 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
         if attendance and not slot.optional:
             num_valid_attendance_on_required_slots += 1
+
         if attendance:
             if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
                 has_looking_for_stand_in = True
                 state = "standin"
             elif (
                 slot.slot_template is not None
-                and slot.slot_template.attendance_template is not None
+                and hasattr(slot.slot_template, "attendance_template")
                 and slot.slot_template.attendance_template.user == attendance.user
             ):
                 state = "regular"
