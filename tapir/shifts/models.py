@@ -362,7 +362,7 @@ class Shift(models.Model):
         return self.slots.filter(optional=True)
 
     def get_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
-        return ShiftAttendance.objects.filter(slot__in=list(self.slots.all()))
+        return ShiftAttendance.objects.filter(slot__shift=self)
 
     def get_valid_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return self.get_attendances().with_valid_state()
@@ -553,6 +553,7 @@ class ShiftAccountEntry(models.Model):
 class ShiftAttendance(models.Model):
     class Meta:
         ordering = ["slot__shift__start_time"]
+        indexes = [models.Index(fields=["slot"]), models.Index(fields=["state"])]
 
     class ShiftAttendanceQuerySet(models.QuerySet):
         def with_valid_state(self):
