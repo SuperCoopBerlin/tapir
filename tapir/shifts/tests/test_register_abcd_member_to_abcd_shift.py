@@ -31,8 +31,8 @@ class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
 
         member_office_user = self.get_member_office_user()
         self.login(member_office_user.get_username(), member_office_user.get_username())
-        abcd_user = self.get_test_user("hilla.waisanen")
-        shift_user_data = abcd_user.get_tapir_user().shift_user_data
+        abcd_user = TapirUser.objects.get(username="hilla.waisanen")
+        shift_user_data = abcd_user.shift_user_data
         shift_user_data.capabilities.append(ShiftUserCapability.SHIFT_COORDINATOR)
         shift_user_data.save()
         self.go_to_user_page(abcd_user.get_display_name())

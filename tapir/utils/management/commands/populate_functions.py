@@ -250,100 +250,65 @@ def populate_shift_templates():
     if ShiftTemplateGroup.objects.count() < 4:
         populate_template_groups()
 
-    names = ["Supermarket"]
     start_hours = [(8, 15), (11, 0), (13, 45), (16, 30), (19, 15)]
-    for weekday in WEEKDAY_CHOICES[:-1]:
+    first_shift_slots = {
+        "Teamleitung": 1,
+        "Warenannahme & Lagerhaltung": 4,
+        "": 2,
+    }
+    last_shift_slots = {
+        "Teamleitung": 1,
+        "Warenannahme & Lagerhaltung": 1,
+        "Reinigung & Aufräumen": 2,
+        "Kasse": 2,
+        "": 2,
+    }
+    middle_shift_slots = {
+        "Teamleitung": 1,
+        "Warenannahme & Lagerhaltung": 1,
+        "Kasse": 2,
+        "": 2,
+    }
+    for weekday in [2, 3, 4, 5]:
         for template_group in ShiftTemplateGroup.objects.all():
-            for name in names:
-                for start_hour in start_hours:
-                    start_time = datetime.time(
-                        hour=start_hour[0],
-                        minute=start_hour[1],
-                        tzinfo=timezone.localtime().tzinfo,
-                    )
-                    end_time = datetime.time(
-                        hour=start_hour[0] + 3,
-                        minute=start_hour[1],
-                        tzinfo=timezone.localtime().tzinfo,
-                    )
-                    shift_template = ShiftTemplate.objects.create(
-                        name=name,
-                        group=template_group,
-                        weekday=weekday[0],
-                        start_time=start_time,
-                        end_time=end_time,
-                    )
-
-                    ShiftSlotTemplate.objects.create(
-                        name="Shift Coordinator",
-                        shift_template=shift_template,
-                        required_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
-                        optional=False,
-                    )
-                    ShiftSlotTemplate.objects.create(
-                        name="Kasse",
-                        shift_template=shift_template,
-                        required_capabilities=[ShiftUserCapability.CASHIER],
-                        optional=False,
-                    )
-                    for _ in range(2):
-                        ShiftSlotTemplate.objects.create(
-                            shift_template=shift_template, optional=False
-                        )
-                    ShiftSlotTemplate.objects.create(
-                        shift_template=shift_template, optional=True
-                    )
-
-    for weekday in [WEEKDAY_CHOICES[2], WEEKDAY_CHOICES[5]]:
-        for template_group in ShiftTemplateGroup.objects.all():
-            start_time = datetime.time(hour=18, tzinfo=timezone.localtime().tzinfo)
-            end_time = datetime.time(hour=18 + 3, tzinfo=timezone.localtime().tzinfo)
-            name = "Store cleaning"
-            shift_template = ShiftTemplate.objects.create(
-                name=name,
-                group=template_group,
-                weekday=weekday[0],
-                start_time=start_time,
-                end_time=end_time,
-            )
-            for _ in range(3):
-                ShiftSlotTemplate.objects.create(
-                    shift_template=shift_template, optional=False
+            for index, start_hour in enumerate(start_hours):
+                start_time = datetime.time(
+                    hour=start_hour[0],
+                    minute=start_hour[1],
+                    tzinfo=timezone.localtime().tzinfo,
+                )
+                end_time = datetime.time(
+                    hour=start_hour[0] + 3,
+                    minute=start_hour[1],
+                    tzinfo=timezone.localtime().tzinfo,
+                )
+                shift_template = ShiftTemplate.objects.create(
+                    name="Supermarket",
+                    group=template_group,
+                    weekday=weekday,
+                    start_time=start_time,
+                    end_time=end_time,
                 )
 
-    for group_name in ["A", "C"]:
-        start_time = datetime.time(hour=9, tzinfo=timezone.localtime().tzinfo)
-        end_time = datetime.time(hour=9 + 3, tzinfo=timezone.localtime().tzinfo)
-        name = "Inventory"
-        template_group = ShiftTemplateGroup.objects.get(name=group_name)
-        shift_template = ShiftTemplate.objects.create(
-            name=name,
-            group=template_group,
-            weekday=WEEKDAY_CHOICES[6][0],
-            start_time=start_time,
-            end_time=end_time,
-        )
-        for _ in range(3):
-            ShiftSlotTemplate.objects.create(
-                shift_template=shift_template, optional=False
-            )
+                slots = middle_shift_slots
+                if index == 0:
+                    slots = first_shift_slots
+                if index == len(start_hours) - 1:
+                    slots = last_shift_slots
 
-    for group_name in ["B", "D"]:
-        start_time = datetime.time(hour=9, tzinfo=timezone.localtime().tzinfo)
-        end_time = datetime.time(hour=9 + 3, tzinfo=timezone.localtime().tzinfo)
-        name = "Storage cleaning"
-        template_group = ShiftTemplateGroup.objects.get(name=group_name)
-        shift_template = ShiftTemplate.objects.create(
-            name=name,
-            group=template_group,
-            weekday=WEEKDAY_CHOICES[6][0],
-            start_time=start_time,
-            end_time=end_time,
-        )
-        for _ in range(3):
-            ShiftSlotTemplate.objects.create(
-                shift_template=shift_template, optional=False
-            )
+                for slot_name, slot_quantity in slots.items():
+                    capabilities = []
+                    if slot_name == "Teamleitung":
+                        capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+                    if slot_name == "Kasse":
+                        capabilities = [ShiftUserCapability.CASHIER]
+                    for _ in range(slot_quantity):
+                        ShiftSlotTemplate.objects.create(
+                            name=slot_name,
+                            shift_template=shift_template,
+                            required_capabilities=capabilities,
+                            optional=False,
+                        )
 
     print("Populated shift templates")
 

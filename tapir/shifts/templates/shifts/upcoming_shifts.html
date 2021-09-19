@@ -45,57 +45,48 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card m-2">
-                <h5 class="card-header">
-                    {% trans "Shift schedule overview" %}
-                </h5>
-                <div class="card-body">
-                    {% blocktranslate %}
-                        <p>Below you can find all the upcoming shifts, and who is registered for each shift.</p>
-                        <p>You can sign yourself up for any shift that has a free slot here on TAPIR. You may also cancel it yourself if done at least {{ nb_days_for_self_unregister }} days before the shift.<br/>
-                            When you sign up for one of these shifts, you only commit to the shift on that specific day.</p>
-                        <p>To register for a regular ABCD shift you must contact the Member Office.</p>
-                    {% endblocktranslate %}
-                </div>
-            </div>
+    <div class="card m-2">
+        <h5 class="card-header">
+            {% trans "Shift schedule overview" %}
+        </h5>
+        <div class="card-body">
+            {% blocktranslate %}
+                <p>Below you can find all the upcoming shifts, and who is registered for each shift.</p>
+                <p>You can sign yourself up for any shift that has a free slot here on TAPIR. You may also cancel it yourself if done at least {{ nb_days_for_self_unregister }} days before the shift.<br/>
+                    When you sign up for one of these shifts, you only commit to the shift on that specific day.</p>
+                <p>To register for a regular ABCD shift you must contact the Member Office.</p>
+            {% endblocktranslate %}
         </div>
-        <div class="col-sm-6">
-            <div class="card m-2">
-                <h5 class="card-header">
-                    {% trans "Filters" %}
-                </h5>
-                <div class="card-body">
-                    <p>
-
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-outline-primary active">
-                            <input type="radio" name="slot_status_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
-                        </label>
-                        <label class="btn btn-outline-primary">
-                            <input type="radio" name="slot_status_options" autocomplete="off" value="standin"> {% trans 'Looking for a stand-in' %}
-                        </label>
-                        <label class="btn btn-outline-primary">
-                            <input type="radio" name="slot_status_options" autocomplete="off" value="freeslot"> {% trans 'Has a free slot' %}
-                        </label>
-                    </div>
-                    </p>
-                    <p>
-                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-outline-primary active">
-                            <input type="radio" name="slot_name_options" autocomplete="off" value="any" checked> {% trans 'Any' %}
-                        </label>
-                        {% for name in shift_slot_names %}
-                            <label class="btn btn-outline-primary">
-                                <input type="radio" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"> {{ name.1 }}
-                            </label>
-                        {% endfor %}
-                    </div>
-                    </p>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <h5>{% trans "Filters" %}</h5>
+                <p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-primary active">
+                        <input type="radio" name="slot_status_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="slot_status_options" autocomplete="off" value="standin"> {% trans 'Looking for a stand-in' %}
+                    </label>
+                    <label class="btn btn-outline-primary">
+                        <input type="radio" name="slot_status_options" autocomplete="off" value="freeslot"> {% trans 'Has a free slot' %}
+                    </label>
                 </div>
-            </div>
-        </div>
+                </p>
+                <p>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-outline-primary active">
+                        <input type="radio" name="slot_name_options" autocomplete="off" value="any" checked> {% trans 'Any' %}
+                    </label>
+                    {% for name in shift_slot_names %}
+                        <label class="btn btn-outline-primary">
+                            <input type="radio" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"> {{ name.1 }}
+                        </label>
+                    {% endfor %}
+                </div>
+                </p>
+            </li>
+        </ul>
     </div>
     <div id="upcoming-shifts-timetable" class="d-flex flex-wrap">
         {% for week, shifts_by_day in shifts_by_weeks_and_days.items %}

@@ -5,6 +5,7 @@ from django.test import tag
 from django.urls import reverse
 from selenium.webdriver.common.keys import Keys
 
+from tapir.accounts.models import TapirUser
 from tapir.shifts.models import ShiftTemplate
 from tapir.utils.tests_utils import TapirSeleniumTestBase, TAPIR_SELENIUM_BASE_FIXTURES
 
@@ -23,7 +24,7 @@ class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
             django.utils.timezone.now().date() + datetime.timedelta(days=1)
         )
 
-        other_user = self.get_test_user("hilla.waisanen")
+        other_user = TapirUser.objects.get(username="hilla.waisanen")
         member_office_user = self.get_member_office_user()
         self.login(member_office_user.get_username(), member_office_user.get_username())
 
