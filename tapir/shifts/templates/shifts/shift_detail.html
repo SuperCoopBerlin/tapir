@@ -82,13 +82,15 @@
                                                 {{ NB_DAYS_FOR_SELF_UNREGISTER }} days before the shift. If you can't
                                                 attend, contact your shift leader as soon as
                                                 possible.{% endblocktranslate %}
+                                            <span {% if not slot.can_look_for_stand_in %} data-toggle="tooltip"
+                                                                                          title="{{ stand_in_tooltip }}"{% endif %}>
                                             <button type="submit" class="btn btn-sm tapir-btn btn-warning"
                                                     id="self_look_for_stand_in_button"
-                                                    {% if not slot.can_look_for_stand_in %}disabled data-toggle="tooltip"
-                                                    title="{{ stand_in_tooltip }}"{% endif %}>
+                                                    {% if not slot.can_look_for_stand_in %}disabled style="pointer-events: none;"{% endif %}>
                                                 <span class="material-icons">sync</span>
                                                 {% trans "Look for a stand-in" %}
                                             </button>
+                                            </span>
                                         </form>
                                     {% endif %}
 
@@ -102,13 +104,15 @@
                                             can't be unregistered from. If you can't
                                             attend, look for a stand-in or contact your shift leader as soon as
                                             possible.{% endblocktranslate %}
+                                        <span {% if not slot.can_self_unregister %} data-toggle="tooltip"
+                                                                                    title="{{ self_unregister_tooltip }}"{% endif %}>
                                         <button type="submit" class="btn btn-sm tapir-btn btn-danger"
                                                 id="unregister_self_button"
-                                                {% if not slot.can_self_unregister %}disabled data-toggle="tooltip"
-                                                title="{{ self_unregister_tooltip }}"{% endif %}>
+                                                {% if not slot.can_self_unregister %}disabled style="pointer-events: none;"{% endif %}>
                                             <span class="material-icons">person_remove</span>
                                             {% trans "Unregister myself" %}
                                         </button>
+                                        </span>
                                     </form>
                                 {% elif slot.show_register_self %}
                                     <form style="display: inline;"
@@ -116,18 +120,19 @@
                                           action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
                                         {% csrf_token %}
                                         {% blocktranslate asvar self_register_tooltip %}You can only register yourself
-                                            for a shift if :<br />
-                                            -You are not registered to another slot in that shift<br />
-                                            -You have the done the required training<br />
-                                            -The shift is in the future<br />
+                                            for a shift if :<br/>
+                                            -You are not registered to another slot in that shift<br/>
+                                            -You have the done the required training<br/>
+                                            -The shift is in the future<br/>
                                         {% endblocktranslate %}
+                                        <span {% if not slot.can_register %} data-toggle="tooltip" data-html="true"
+                                                                             title="{{ self_register_tooltip }}"{% endif %}>
                                         <button type="submit" class="btn btn-sm tapir-btn btn-info register-self-button"
-                                                {% if not slot.can_register %}disabled
-                                                data-toggle="tooltip" data-html="true"
-                                                title="{{ self_register_tooltip }}"{% endif %}>
+                                                {% if not slot.can_register %}disabled style="pointer-events: none;"{% endif %}>
                                             <span class="material-icons">person_add</span>
                                             {% trans "Register myself" %}
                                         </button>
+                                        </span>
                                     </form>
                                 {% endif %}
                             </td>
@@ -148,7 +153,7 @@
                                 {% endif %}
                                 {% if slot.get_valid_attendance is not None %}
                                     {% with slot.get_valid_attendance as attendance %}
-                                        {% if attendance.state == attendance.State.PENDING  or attendance.state == attendance.State.LOOKING_FOR_STAND_IN%}
+                                        {% if attendance.state == attendance.State.PENDING  or attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
                                             <form style="display: inline;"
                                                   method="post"
                                                   action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.DONE %}">
