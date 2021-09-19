@@ -187,6 +187,15 @@ class TapirUser(LdapUser):
         body = loader.render_to_string(email_template_name, context)
         return EmailMultiAlternatives(subject, body, to=[self.email])
 
+    def has_perm(self, perm, obj=None):
+        # This is a hack to allow permissions based on client certificates. ClientPermsMiddleware checks the
+        # certificate in the request and adds the extra permissions the the user object, which is accessible here.
+        if hasattr(self, "client_perms"):
+            if perm in self.client_perms:
+                return True
+
+        return super().has_perm(perm=perm, obj=obj)
+
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
     template_name = "accounts/log/update_tapir_user_log_entry.html"

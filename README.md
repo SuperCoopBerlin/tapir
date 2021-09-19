@@ -84,3 +84,28 @@ To generate the translation files, first use "makemessages" and specify the lang
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
 
 For the changes to take effect, restart the Docker container. This will run `manage.py compilemessages` automatically.
+
+### Welcome Desk Authentication
+
+All users logging in at the welcome desk are granted more permissions. This magic uses SSL client certificates. The web server requests and checks the client certificate and subsequently sets a header that is then checked by `tapir.accounts.middleware.ClientPermsMiddleware`.
+
+Here are some quick one-liners for key management:
+
+```
+# Create a new CA - only the first time. The public key in the cer file is distributed to the webserver, the private key is to be kept secret!
+openssl req -newkey rsa:4096 -keyform PEM -keyout members.supercoop.de.key -x509 -days 3650 -outform PEM -nodes -out members.supercoop.de.cer -subj="/C=DE/O=SuperCoop Berlin eG/CN=members.supercoop.de"
+
+
+# Create a new key
+export CERT_HOSTNAME=welcome-desk-1
+openssl genrsa -out $CERT_HOSTNAME.members.supercoop.de.key 4096
+openssl req -new -key $CERT_HOSTNAME.members.supercoop.de.key -out $CERT_HOSTNAME.members.supercoop.de.req -sha256 -subj "/C=DE/O=SuperCoop Berlin eG/CN=welcome-desk.members.supercoop.de"
+openssl x509 -req -in $CERT_HOSTNAME.members.supercoop.de.req -CA members.supercoop.de.cer -CAkey members.supercoop.de.key -CAcreateserial -extensions client -days 3650 -outform PEM -out $CERT_HOSTNAME.members.supercoop.de.cer -sha256
+
+# Create a PKCS12 bundle consumable by the browser
+openssl pkcs12 -export -inkey $CERT_HOSTNAME.members.supercoop.de.key -in $CERT_HOSTNAME.members.supercoop.de.cer -out $CERT_HOSTNAME.members.supercoop.de.p12
+
+# Remove CSR and bundled private/public key files
+rm $CERT_HOSTNAME.members.supercoop.de.key $CERT_HOSTNAME.members.supercoop.de.cer $CERT_HOSTNAME.members.supercoop.de.req
+```
+
