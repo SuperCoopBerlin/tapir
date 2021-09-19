@@ -458,11 +458,15 @@ class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
         upcoming_shifts = (
             Shift.objects.filter(
                 start_time__gte=monday_this_week,
-                end_time__lt=monday_this_week + timedelta(days=8 * 7),
+                end_time__lt=monday_this_week + timedelta(days=2 * 7),
             )
             .order_by("start_time")
             .prefetch_related("slots")
+            .prefetch_related("slots__attendances")
+            .prefetch_related("slots__attendances__user")
             .prefetch_related("slots__slot_template")
+            .prefetch_related("slots__slot_template__attendance_template")
+            .prefetch_related("slots__slot_template__attendance_template__user")
             .prefetch_related("shift_template")
             .prefetch_related("shift_template__group")
         )
