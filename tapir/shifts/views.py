@@ -352,7 +352,15 @@ class ShiftTemplateOverview(LoginRequiredMixin, SelectedUserViewMixin, TemplateV
         for weekday in WEEKDAY_CHOICES:
             grouped_per_day[weekday[1]] = OrderedDict()
 
-        for t in ShiftTemplate.objects.all().order_by("start_time"):
+        groups_ordered_by_name = ShiftTemplateGroup.objects.all().order_by("name")
+
+        for t in (
+            ShiftTemplate.objects.all()
+            .order_by("start_time")
+            .prefetch_related("group")
+            .prefetch_related("slot_templates")
+            .prefetch_related("slot_templates__attendance_template")
+        ):
             template: ShiftTemplate = t
             weekday_group = grouped_per_day[WEEKDAY_CHOICES[template.weekday][1]]
             start_time_as_string = str(template.start_time)
@@ -360,9 +368,9 @@ class ShiftTemplateOverview(LoginRequiredMixin, SelectedUserViewMixin, TemplateV
                 weekday_group[start_time_as_string] = {}
             time_group = weekday_group[start_time_as_string]
             if template.group.name not in time_group:
-                for template_group in ShiftTemplateGroup.objects.all().order_by("name"):
+                for template_group in groups_ordered_by_name:
                     time_group[template_group.name] = {}
-            for template_group in ShiftTemplateGroup.objects.all().order_by("name"):
+            for template_group in groups_ordered_by_name:
                 if template.name not in time_group[template_group.name]:
                     time_group[template_group.name][template.name] = None
             template_group_group = time_group[template.group.name]
