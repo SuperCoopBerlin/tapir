@@ -106,12 +106,16 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
 def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: bool):
     attendances = {}
+    nb_attendances_in_required_slots = 0
     for slot_template in shift_template.slot_templates.all():
         slot_name = slot_template.name
         if slot_template.name == "":
             slot_name = _("General")
         if slot_name not in attendances:
             attendances[slot_name] = []
+
+        if slot_template.get_attendance_template() is not None:
+            nb_attendances_in_required_slots += 1
 
         if slot_template.get_attendance_template():
             state = "regular"
@@ -123,13 +127,11 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
 
         attendances[slot_name].append(state)
 
-    required_slot_templates = shift_template.slot_templates.filter(optional=False)
-    num_required_slots = required_slot_templates.count() or 1
+    num_required_slots = len(
+        [_ for slot in shift_template.slot_templates.all() if not slot.optional]
+    )
     perc_slots_occupied = (
-        shift_template.get_attendance_templates()
-        .filter(slot_template__in=required_slot_templates)
-        .count()
-        / float(num_required_slots)
+        nb_attendances_in_required_slots / float(num_required_slots)
         if num_required_slots
         else 1
     )
