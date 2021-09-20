@@ -18,11 +18,13 @@ from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
 class ShiftUserCapability:
     SHIFT_COORDINATOR = "shift_coordinator"
     CASHIER = "cashier"
+    MEMBER_OFFICE = "member_office"
 
 
 SHIFT_USER_CAPABILITY_CHOICES = {
     ShiftUserCapability.SHIFT_COORDINATOR: _("Shift Coordinator"),
     ShiftUserCapability.CASHIER: _("Cashier"),
+    ShiftUserCapability.MEMBER_OFFICE: _("Member Office"),
 }
 
 
