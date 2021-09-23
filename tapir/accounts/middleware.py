@@ -6,7 +6,6 @@ class ClientPermsMiddleware(MiddlewareMixin):
     def process_request(self, request):
         if request.user.is_anonymous:
             return
-        print(request.META)
         if request.META.get("HTTP_X_SSL_CLIENT_VERIFY") != "SUCCESS":
             return
 
