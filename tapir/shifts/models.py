@@ -19,12 +19,14 @@ class ShiftUserCapability:
     SHIFT_COORDINATOR = "shift_coordinator"
     CASHIER = "cashier"
     MEMBER_OFFICE = "member_office"
+    BREAD_DELIVERY = "bread_delivery"
 
 
 SHIFT_USER_CAPABILITY_CHOICES = {
     ShiftUserCapability.SHIFT_COORDINATOR: _("Shift Coordinator"),
     ShiftUserCapability.CASHIER: _("Cashier"),
     ShiftUserCapability.MEMBER_OFFICE: _("Member Office"),
+    ShiftUserCapability.BREAD_DELIVERY: _("Bread Delivery"),
 }
 
 
@@ -95,6 +97,7 @@ class ShiftTemplate(models.Model):
     in advance but memberships in the work squads change throughout the year."""
 
     name = models.CharField(blank=False, max_length=255)
+    description = models.TextField(blank=True, null=False, default="")
     group = models.ForeignKey(
         ShiftTemplateGroup,
         related_name="shift_templates",
@@ -168,12 +171,12 @@ class ShiftTemplate(models.Model):
             name=self.name,
             start_time=start_time,
             end_time=end_time,
+            description=self.description,
         )
 
     @transaction.atomic
     def create_shift(self, start_date: datetime.date) -> Shift:
         generated_shift = self._generate_shift(start_date=start_date)
-
         shift = self.generated_shifts.filter(
             start_time=generated_shift.start_time
         ).first()
@@ -320,6 +323,8 @@ class Shift(models.Model):
 
     # TODO(Leon Handreke): For generated shifts, leave this blank instead and use a getter?
     name = models.CharField(blank=False, max_length=255)
+
+    description = models.TextField(blank=True, null=False, default="")
 
     start_time = models.DateTimeField(blank=False)
     end_time = models.DateTimeField(blank=False)

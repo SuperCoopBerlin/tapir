@@ -10,7 +10,7 @@
 {% block content %}
     <div class="card m-2" id="shift_detail_card">
         <h5 class="card-header d-flex justify-content-between align-items-center">
-            <span>Shift Template: {{ object.name }} {{ object.get_weekday_display }} {{ object.start_time|time:"H:i" }} - {{ object.end_time|time:"H:i"}} ({{ object.group.name}})</span>
+            <span>Shift Template: {{ object.name }} {{ object.get_weekday_display }} {{ object.start_time|time:"H:i" }} - {{ object.end_time|time:"H:i" }} ({{ object.group.name }})</span>
             {% if perms.shifts.manage %}
                 <a class="btn tapir-btn btn-outline-info" href="{% url "admin:shifts_shifttemplate_change" object.pk %}">
                     <span class="material-icons button-icon">edit</span>
@@ -18,9 +18,15 @@
                 </a>
             {% endif %}
         </h5>
-        <div class="card-body">
-            <table class="table">
-                <thead>
+        <ul class="list-group list-group-flush">
+            {% if object.description %}
+                <li class="list-group-item">
+                    {{ object.description }}
+                </li>
+            {% endif %}
+            <li class="list-group-item">
+                <table class="table">
+                    <thead>
                     <tr>
                         <th></th>
                         <th>{% trans 'Details' %}</th>
@@ -28,8 +34,8 @@
                         <th>{% trans 'Shifts' %}</th>
                         <th></th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {% for slot in object.slot_templates.all %}
                         <tr>
                             <td><h5>#{{ forloop.counter }}</h5></td>
@@ -61,9 +67,9 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                    {% if perms.shifts.manage %}
-                                        <!-- TODO: Past and future shift attendances -->
-                                    {% endif %}
+                                        {% if perms.shifts.manage %}
+                                            <!-- TODO: Past and future shift attendances -->
+                                        {% endif %}
                                     </td>
                                 {% else %}
                                     <td>
@@ -80,35 +86,36 @@
                             {% endwith %}
                         </tr>
                     {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
 
-            <div>
-                <h5>{% trans "Future generated Shifts" %}</h5>
-                <ul class="list-group">
-                    {% for shift in object.get_future_generated_shifts %}
-                        <li class="list-group-item">
-                            <a href="{{ shift.get_absolute_url }}">
-                                {{ shift.get_display_name }}
+                <div>
+                    <h5>{% trans "Future generated Shifts" %}</h5>
+                    <ul class="list-group">
+                        {% for shift in object.get_future_generated_shifts %}
+                            <li class="list-group-item">
+                                <a href="{{ shift.get_absolute_url }}">
+                                    {{ shift.get_display_name }}
 
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
 
-            <div>
-                <h5>{% trans "Past generated Shifts" %}</h5>
-                <ul class="list-group">
-                    {% for shift in object.get_past_generated_shifts %}
-                        <li class="list-group-item">
-                            <a href="{{ shift.get_absolute_url }}">
-                                {{ shift.get_display_name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+                <div>
+                    <h5>{% trans "Past generated Shifts" %}</h5>
+                    <ul class="list-group">
+                        {% for shift in object.get_past_generated_shifts %}
+                            <li class="list-group-item">
+                                <a href="{{ shift.get_absolute_url }}">
+                                    {{ shift.get_display_name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        </ul>
     </div>
 {% endblock %}
