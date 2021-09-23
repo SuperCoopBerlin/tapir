@@ -134,14 +134,30 @@ class ShiftAttendanceForm(MissingCapabilitiesWarningMixin, forms.ModelForm):
 
 
 class ShiftUserDataForm(forms.ModelForm):
+    custom_capabilities = forms.MultipleChoiceField(
+        required=False,
+        choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
+        widget=CheckboxSelectMultiple,
+        label=_("Capabilities"),
+    )
+
     class Meta:
         model = ShiftUserData
-        fields = ["capabilities", "attendance_mode"]
-        widgets = {
-            "capabilities": CheckboxSelectMultiple(
-                choices=SHIFT_USER_CAPABILITY_CHOICES.items()
-            )
-        }
+        fields = ["attendance_mode"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["custom_capabilities"].initial = self.instance.capabilities
+
+    def clean_custom_capabilities(self):
+        if "custom_capabilities" not in self.cleaned_data.keys():
+            return []
+        else:
+            return self.cleaned_data["custom_capabilities"]
+
+    def save(self, commit=True):
+        self.instance.capabilities = self.cleaned_data["custom_capabilities"]
+        return super().save(commit=commit)
 
 
 class CreateShiftAccountEntryForm(forms.ModelForm):
