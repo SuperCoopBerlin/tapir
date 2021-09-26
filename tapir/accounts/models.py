@@ -133,7 +133,7 @@ class TapirUser(LdapUser):
 
     # Copy-pasted from django/contrib/auth/models.py to override validators
     username = models.CharField(
-        _("username"),
+        _("Username"),
         max_length=150,
         unique=True,
         help_text=_(
@@ -145,7 +145,7 @@ class TapirUser(LdapUser):
         },
     )
 
-    phone_number = PhoneNumberField(_("Phone Number"), blank=True)
+    phone_number = PhoneNumberField(_("Phone number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
     street = models.CharField(_("Street and house number"), max_length=150, blank=True)
     street_2 = models.CharField(_("Extra address line"), max_length=150, blank=True)

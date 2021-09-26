@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-26 16:03+0200\n"
+"POT-Creation-Date: 2021-09-26 17:09+0200\n"
 "PO-Revision-Date: 2021-08-24 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,10 +18,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0\n"
 
-#: accounts/models.py:136
-#, fuzzy
-#| msgid "Username"
-msgid "username"
+#: accounts/models.py:136 accounts/templates/accounts/user_detail.html:35
+#: coop/templates/coop/draftuser_detail.html:28
+msgid "Username"
 msgstr "Nutzer:innenname"
 
 #: accounts/models.py:140
@@ -32,8 +31,11 @@ msgstr ""
 msgid "A user with that username already exists."
 msgstr ""
 
-#: accounts/models.py:148 coop/models.py:49 coop/models.py:226
-msgid "Phone Number"
+#: accounts/models.py:148 accounts/templates/accounts/user_detail.html:43
+#: coop/models.py:49 coop/models.py:226
+#: coop/templates/coop/draftuser_detail.html:36
+#: coop/templates/coop/shareowner_detail.html:43
+msgid "Phone number"
 msgstr "Telefonnummer"
 
 #: accounts/models.py:149 accounts/templates/accounts/user_detail.html:53
@@ -80,23 +82,12 @@ msgstr "Persönliche Daten"
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:35
-#: coop/templates/coop/draftuser_detail.html:28
-msgid "Username"
-msgstr "Nutzer:innenname"
-
 #: accounts/templates/accounts/user_detail.html:39
 #: coop/templates/coop/draftuser_detail.html:32
 #: coop/templates/coop/draftuser_list.html:22
 #: coop/templates/coop/shareowner_detail.html:39
 msgid "Email"
 msgstr "E-Mail"
-
-#: accounts/templates/accounts/user_detail.html:43
-#: coop/templates/coop/draftuser_detail.html:36
-#: coop/templates/coop/shareowner_detail.html:43
-msgid "Phone number"
-msgstr "Telefonnummer"
 
 #: accounts/templates/accounts/user_detail.html:48
 #: accounts/templates/accounts/user_detail.html:58
@@ -156,7 +147,7 @@ msgid "Password reset instructions are sent"
 msgstr "Passwort reset Anleitung geschickt"
 
 #: accounts/templates/registration/password_reset_complete.html:11
-msgid "Your password has ben set. You may go ahead and sign in now."
+msgid "Your password has been set. You may go ahead and sign in now."
 msgstr ""
 
 #: accounts/templates/registration/password_reset_complete.html:12
@@ -304,14 +295,13 @@ msgid "Latest changes"
 msgstr ""
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:17
-msgid "Create User from Share Owner"
+msgid "Create Tapir User from Share Owner"
 msgstr ""
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:27
-#: coop/templates/coop/draftuser_form.html:41
 #, fuzzy
 #| msgid "Create user"
-msgid "Create"
+msgid "Create Tapir User"
 msgstr "Benutzer anlegen"
 
 #: coop/templates/coop/draftuser_detail.html:12
@@ -336,6 +326,7 @@ msgid "Welcome Session"
 msgstr "Wilkomenstreffen"
 
 #: coop/templates/coop/draftuser_detail.html:99
+#: coop/templates/coop/draftuser_list.html:23
 msgid "Beteiligungserklärung"
 msgstr "Beteiligungserklärung"
 
@@ -370,9 +361,9 @@ msgstr "Bearbeiten"
 msgid "Create Member"
 msgstr "Mitglied anlegen"
 
-#: coop/templates/coop/draftuser_list.html:23
-msgid "Beteiligungserkärung"
-msgstr "Beteiligungserkärung"
+#: coop/templates/coop/draftuser_form.html:41
+msgid "Create Share Owner"
+msgstr ""
 
 #: coop/templates/coop/draftuser_list.html:34
 msgid "Signed"
@@ -412,16 +403,12 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/statistics.html:27 templates/base.html:97
-#, fuzzy
-#| msgid "Status"
 msgid "Statistics"
-msgstr "Status"
+msgstr ""
 
 #: coop/templates/coop/statistics.html:50
-#, fuzzy
-#| msgid "Cooperative Members"
 msgid "Active members"
-msgstr "Mitglieder"
+msgstr ""
 
 #: coop/templates/coop/statistics.html:63
 msgid "Active members with a Tapir account"
@@ -440,10 +427,8 @@ msgid "Members in the flying system"
 msgstr ""
 
 #: coop/templates/coop/statistics.html:115
-#, fuzzy
-#| msgid "Unregistered from ABCD Shift"
 msgid "ABCD members not registered to an ABCD shift"
-msgstr "Angemeldet von ABCD-Schicht"
+msgstr ""
 
 #: coop/templates/coop/statistics.html:156
 msgid "ABCD shift missing at least one member"
@@ -597,10 +582,8 @@ msgid "Cashier"
 msgstr ""
 
 #: shifts/models.py:30
-#, fuzzy
-#| msgid "Member Type"
 msgid "Member Office"
-msgstr "Art der Mitgliedschaft"
+msgstr ""
 
 #: shifts/models.py:31
 msgid "Bread Delivery"
@@ -611,10 +594,8 @@ msgid "Red Card"
 msgstr ""
 
 #: shifts/models.py:33
-#, fuzzy
-#| msgid "First name"
 msgid "First Aid"
-msgstr "Vorname"
+msgstr ""
 
 #: shifts/models.py:78
 msgid "Monday"
@@ -676,10 +657,8 @@ msgid "Flying"
 msgstr "Fliegend"
 
 #: shifts/templates/shifts/log/create_shift_attendance_log_entry.html:3
-#, fuzzy
-#| msgid "Registered for ABCD Shift"
 msgid "Registered for Shift"
-msgstr "Angemeldet zu ABCD-Schicht"
+msgstr ""
 
 #: shifts/templates/shifts/log/create_shift_attendance_template_log_entry.html:3
 msgid "Registered for ABCD Shift"
@@ -687,7 +666,7 @@ msgstr "Angemeldet zu ABCD-Schicht"
 
 #: shifts/templates/shifts/log/delete_shift_attendance_template_log_entry.html:3
 msgid "Unregistered from ABCD Shift"
-msgstr "Angemeldet von ABCD-Schicht"
+msgstr "Abgemeldet von ABCD-Schicht"
 
 #: shifts/templates/shifts/log/shift_attendance_taken_over_log_entry.html:3
 msgid "Someone took over your shift"
@@ -722,10 +701,8 @@ msgstr "optional"
 
 #: shifts/templates/shifts/shift_day_printable.html:69
 #: shifts/templates/shifts/shift_detail_printable.html:61
-#, fuzzy
-#| msgid "Special Capabilties"
 msgid "Required capabilities: "
-msgstr "Spezielle Fähigkeiten"
+msgstr ""
 
 #: shifts/templates/shifts/shift_day_printable.html:79
 #: shifts/templates/shifts/shift_detail_printable.html:71
@@ -757,10 +734,8 @@ msgid "Attendance"
 msgstr "Anwesenheit"
 
 #: shifts/templates/shifts/shift_detail.html:45
-#, fuzzy
-#| msgid "Active"
 msgid "Actions"
-msgstr "Aktiv"
+msgstr ""
 
 #: shifts/templates/shifts/shift_detail.html:47
 msgid "Member-Office actions"
@@ -809,9 +784,8 @@ msgid ""
 msgstr ""
 
 #: shifts/templates/shifts/shift_detail.html:119
-#, fuzzy
 msgid "Unregister myself"
-msgstr "Als bezahlt markieren"
+msgstr ""
 
 #: shifts/templates/shifts/shift_detail.html:128
 msgid ""
@@ -828,14 +802,12 @@ msgid ""
 msgstr ""
 
 #: shifts/templates/shifts/shift_detail.html:139
-#, fuzzy
 msgid "Register myself"
-msgstr "Als bezahlt markieren"
+msgstr ""
 
 #: shifts/templates/shifts/shift_detail.html:156
-#, fuzzy
 msgid "Register a member"
-msgstr "Als bezahlt markieren"
+msgstr ""
 
 #: shifts/templates/shifts/shift_template_detail.html:34
 #: shifts/templates/shifts/user_shifts_overview_tag.html:6
@@ -883,10 +855,8 @@ msgid "Week "
 msgstr ""
 
 #: shifts/templates/shifts/shift_template_overview.html:18
-#, fuzzy
-#| msgid "ABCD schedule overview"
 msgid "ABCD schedule overview, current week: "
-msgstr "ABCD Schichtkalender"
+msgstr ""
 
 #: shifts/templates/shifts/shift_template_overview.html:22
 msgid ""
@@ -1027,6 +997,8 @@ msgid "Find an ABCD shift"
 msgstr "Schicht auswählen"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:73
+#, fuzzy
+#| msgid "Set Flying️g"
 msgid "Set Flying️"
 msgstr "Als fliegend markieren"
 
@@ -1079,10 +1051,8 @@ msgid "General"
 msgstr ""
 
 #: templates/base.html:48
-#, fuzzy
-#| msgid "Members"
 msgid "Member manual"
-msgstr "Mitglieder"
+msgstr ""
 
 #: templates/base.html:52
 msgid "Current week: "
@@ -2093,6 +2063,22 @@ msgstr ""
 #: utils/models.py:368
 msgid "Start date must be prior to end date"
 msgstr ""
+
+#~ msgid "Beteiligungserkärung"
+#~ msgstr "Beteiligungserkärung"
+
+#, fuzzy
+#~| msgid "Create user"
+#~ msgid "Create"
+#~ msgstr "Benutzer anlegen"
+
+#~ msgid "Phone Number"
+#~ msgstr "Telefonnummer"
+
+#, fuzzy
+#~| msgid "Username"
+#~ msgid "username"
+#~ msgstr "Nutzer:innenname"
 
 #~ msgid "Upcoming shifts"
 #~ msgstr "Schichtübersicht"
