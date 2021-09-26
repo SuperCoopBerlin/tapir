@@ -165,3 +165,16 @@ class CreateShiftAccountEntryForm(forms.ModelForm):
         model = ShiftAccountEntry
         fields = ["date", "value", "description"]
         widgets = {"date": DateTimePickerInput()}
+
+
+class UpdateShiftAttendanceForm(forms.ModelForm):
+    class Meta:
+        model = ShiftAttendance
+        fields = ["state"]
+
+    description = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        state = kwargs.pop("state")
+        super(UpdateShiftAttendanceForm, self).__init__(*args, **kwargs)
+        self.initial["state"] = state

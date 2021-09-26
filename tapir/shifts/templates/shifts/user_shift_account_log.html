@@ -4,7 +4,7 @@
 {% load i18n %}
 
 {% block content %}
-    <div class="card m-2">
+    <div class="card m-2" id="user_shift_account_log">
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>
                 {% trans 'Shift account log for: ' %}
@@ -32,7 +32,7 @@
                     <tr>
                         <td>{{ entry.date }}</td>
                         <td>{{ entry.value }}</td>
-                        <td>{{ entry.description }}</td>
+                        <td class="description">{{ entry.description }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

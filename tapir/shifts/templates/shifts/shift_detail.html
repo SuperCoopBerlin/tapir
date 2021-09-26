@@ -188,6 +188,10 @@
                                                         {% trans "Looking for a stand-in" %}
                                                     </button>
                                                 </form>
+                                                <a href="{% url "shifts:update_shift_attendance_state_with_form" attendance.pk attendance.State.MISSED_EXCUSED %}" type="submit" class="btn btn-sm tapir-btn btn-warning member-office-excused-button">
+                                                    <span class="material-icons">sick</span>
+                                                    {% trans "Excused" %}
+                                                </a>
                                                 <form style="display: inline;"
                                                       method="post"
                                                       action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.CANCELLED %}">

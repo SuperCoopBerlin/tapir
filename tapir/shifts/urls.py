@@ -49,6 +49,11 @@ urlpatterns = [
         name="update_shift_attendance_state",
     ),
     path(
+        "shift_attendance_form/<int:pk>/<int:state>",
+        views.UpdateShiftAttendanceStateWithFormView.as_view(),
+        name="update_shift_attendance_state_with_form",
+    ),
+    path(
         "shifttemplate/<int:pk>",
         views.ShiftTemplateDetail.as_view(),
         name="shift_template_detail",

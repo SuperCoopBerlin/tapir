@@ -41,7 +41,7 @@ class TestUpdateShiftAttendance(TapirSeleniumTestBase):
         self.assertEqual(
             2,
             hilla.shift_user_data.get_account_balance(),
-            "We just marked 2 shifts as attended  so we should have a shift score of 2",
+            "We just marked 2 shifts as attended so we should have a shift score of 2",
         )
 
         self.selenium.get(self.live_server_url + hilla.get_absolute_url())

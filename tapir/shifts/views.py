@@ -28,6 +28,7 @@ from tapir.shifts.forms import (
     ShiftAttendanceForm,
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
+    UpdateShiftAttendanceForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -221,9 +222,8 @@ class SlotTemplateRegisterView(
         return kwargs
 
 
-class UpdateShiftAttendanceStateView(PermissionRequiredMixin, UpdateView):
+class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
     model = ShiftAttendance
-    fields = []
 
     def get_attendance(self):
         return ShiftAttendance.objects.get(pk=self.kwargs["pk"])
@@ -270,22 +270,47 @@ class UpdateShiftAttendanceStateView(PermissionRequiredMixin, UpdateView):
             entry_value = None
             if attendance.state == ShiftAttendance.State.MISSED:
                 entry_value = -1
-                description = "Shift missed"
-            elif attendance.state == ShiftAttendance.State.DONE:
+            elif attendance.state in [
+                ShiftAttendance.State.DONE,
+                ShiftAttendance.State.MISSED_EXCUSED,
+            ]:
                 entry_value = 1
-                description = "Shift attended"
 
             if entry_value is not None:
                 entry = ShiftAccountEntry.objects.create(
                     user=attendance.user,
                     value=entry_value,
                     date=attendance.slot.shift.start_time,
-                    description=description,
+                    description=self.get_description(form),
                 )
                 attendance.account_entry = entry
                 attendance.save()
 
             return response
+
+
+class UpdateShiftAttendanceStateView(UpdateShiftAttendanceStateBase):
+    fields = []
+
+    def get_description(self, form: UpdateShiftAttendanceForm) -> str:
+        attendance = self.get_attendance()
+        if attendance.state == ShiftAttendance.State.MISSED:
+            description = "Shift missed: "
+        elif attendance.state == ShiftAttendance.State.DONE:
+            description = "Shift attended: "
+        return description + attendance.slot.get_display_name()
+
+
+class UpdateShiftAttendanceStateWithFormView(UpdateShiftAttendanceStateBase):
+    form_class = UpdateShiftAttendanceForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"state": self.kwargs["state"]})
+        return kwargs
+
+    def get_description(self, form: UpdateShiftAttendanceForm):
+        return "Excused from shift: " + form.data["description"]
 
 
 @require_POST

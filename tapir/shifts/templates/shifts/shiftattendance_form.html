@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card m-2" id="shift_attendance_form">
+            <h5 class="card-header d-flex justify-content-between align-items-center">
+                {% trans 'Updating shift attendance: ' %} {{ object.user.get_display_name }} {{ object.slot.get_display_name }}
+            </h5>
+            <div class="card-body">
+                <form role="form" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <span class="text-right">
+                        {% buttons %}
+                            <button type="submit" class="btn tapir-btn btn-primary" id="save_button">
+                                <span class="material-icons">save</span>
+                                {% trans 'Save' %}
+                            </button>
+                        {% endbuttons %}
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
