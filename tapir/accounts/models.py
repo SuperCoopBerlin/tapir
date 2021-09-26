@@ -199,6 +199,7 @@ class TapirUser(LdapUser):
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
     template_name = "accounts/log/update_tapir_user_log_entry.html"
+    excluded_fields = ["password"]
 
 
 # The following LDAP-related models were taken from

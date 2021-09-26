@@ -169,6 +169,8 @@ class UpdateModelLogEntry(LogEntry):
 
         changes = []
         for k in self.old_values.keys():
+            if hasattr(self, "excluded_fields") and k in self.excluded_fields:
+                continue
             changes.append((k, self.old_values[k], self.new_values[k]))
         context["changes"] = changes
 
