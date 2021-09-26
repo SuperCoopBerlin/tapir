@@ -8,15 +8,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url "coop:draftuser_list" %}">{% trans "User" %}</a>
+                <a href="{% url "coop:shareowner_list" %}">{% trans "Users" %}</a>
             </li>
-            {% if form.instance.pk %}
-                <li class="breadcrumb-item">
-                    <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
-                </li>
-            {% else %}
-                <li class="breadcrumb-item">Create</li>
-            {% endif %}
+            <li class="breadcrumb-item">
+                <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.get_display_name }}</a>
+            </li>
         </ol>
     </nav>
 
