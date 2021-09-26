@@ -11,7 +11,7 @@
                 <a href="{% url "coop:shareowner_list" %}">{% trans "Users" %}</a>
             </li>
             <li class="breadcrumb-item">
-                <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.get_display_name }}</a>
+                <a href="{{ form.instance.get_absolute_url }}">{{ form.instance.get_display_name }}</a>
             </li>
         </ol>
     </nav>

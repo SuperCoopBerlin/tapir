@@ -123,12 +123,12 @@
         </div>
 
         <div class="row m-1">
-            <div class="col-4 font-weight-bold text-right">{% trans "Special Capabilties" %}:</div>
+            <div class="col-4 font-weight-bold text-right">{% trans "Qualifications" %}:</div>
             <div class="col-8">
                 {% if user.shift_user_data.capabilities %}
                     {{ user.shift_user_data.get_capabilities_display }}
                 {% else %}
-                    {% trans "None" context "No special shift capabilities" %}
+                    {% trans "None" context "No qualifications" %}
                 {% endif %}
             </div>
         </div>

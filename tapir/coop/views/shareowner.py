@@ -215,7 +215,7 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
         template_name = "coop/email/membership_confirmation_welcome.html"
 
     mail = EmailMessage(
-        subject=_("Willkommen bei SuperCoop eG!"),
+        subject=_("Welcome at Supercoop eG!"),
         body=render_to_string(template_name, {"owner": owner}),
         from_email="SuperCoop Mitgliederbüro <mitglied@supercoop.de>",
         to=[owner.get_info().email],
@@ -382,7 +382,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
             for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
         ],
         method="registered_to_slot_with_capability_filter",
-        label=_("Is registered to a slot that requires a capability"),
+        label=_("Is registered to a slot that requires a qualification"),
     )
     has_capability = ChoiceFilter(
         choices=[
@@ -390,7 +390,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
             for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
         ],
         method="has_capability_filter",
-        label=_("Has capability"),
+        label=_("Has qualification"),
     )
     not_has_capability = ChoiceFilter(
         choices=[
@@ -398,7 +398,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
             for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
         ],
         method="not_has_capability_filter",
-        label=_("Does not have capability"),
+        label=_("Does not have qualification"),
     )
     has_tapir_account = BooleanFilter(
         method="has_tapir_account_filter", label="Has a Tapir account"

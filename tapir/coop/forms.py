@@ -1,7 +1,8 @@
 from django import forms
 from django.core.mail import EmailMessage
-from django.forms import TextInput
 from django.template.loader import render_to_string
+from django.utils import translation
+from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 from tapir.coop.pdfs import get_membership_agreement_pdf
@@ -58,22 +59,24 @@ class DraftUserRegisterForm(forms.ModelForm):
 
     def save(self, commit=True):
         draft_user: DraftUser = super().save(commit)
-        mail = EmailMessage(
-            subject="Willkommen bei SuperCoop eG!",
-            body=render_to_string(
-                "coop/email/membership_confirmation_welcome.html", {"owner": draft_user}
-            ),
-            from_email="mitglied@supercoop.de",
-            to=[draft_user.email],
-            attachments=[
-                (
-                    "Beteiligungserklärung %s.pdf" % draft_user.get_display_name(),
-                    get_membership_agreement_pdf(draft_user).write_pdf(),
-                    "application/pdf",
-                )
-            ],
-        )
-        mail.send()
+        with translation.override(draft_user.preferred_language):
+            mail = EmailMessage(
+                subject=_("Welcome at Supercoop eG!"),
+                body=render_to_string(
+                    "coop/email/membership_confirmation_welcome.html",
+                    {"owner": draft_user},
+                ),
+                from_email="mitglied@supercoop.de",
+                to=[draft_user.email],
+                attachments=[
+                    (
+                        "Beteiligungserklärung %s.pdf" % draft_user.get_display_name(),
+                        get_membership_agreement_pdf(draft_user).write_pdf(),
+                        "application/pdf",
+                    )
+                ],
+            )
+            mail.send()
         return draft_user
 
     class Meta:

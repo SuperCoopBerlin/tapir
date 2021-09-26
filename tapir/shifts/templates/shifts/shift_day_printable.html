@@ -66,7 +66,7 @@
             {{ slot.name }}{% if slot.optional %} ({% trans 'optional' %}){% endif %}<br/>
             <span class="small-text">
                 {% if slot.required_capabilities|length > 0 %}
-                    {% trans 'Required capabilities: ' %}{{ slot.get_required_capabilities_display }}
+                    {% trans 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
                 {% endif %}
             </span>
         </td>
@@ -76,7 +76,7 @@
             {{ attendance.user.get_display_name }} <br/>
             {% if attendance.user.shift_user_data.capabilities|length > 0 %}
             <span class="small-text">
-                {% trans 'Has capabilities: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
+                {% trans 'Has qualifications: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
             </span>
             {% endif %}
             {% endif %}

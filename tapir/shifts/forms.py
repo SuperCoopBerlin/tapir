@@ -45,7 +45,7 @@ class TapirUserChoiceField(ModelChoiceField):
 class MissingCapabilitiesWarningMixin(forms.Form):
     confirm_missing_capabilities = BooleanField(
         label=_(
-            "I have read the warning about the missing training and confirm that the user should get registered to the shift"
+            "I have read the warning about the missing qualification and confirm that the user should get registered to the shift"
         ),
         required=False,
         widget=HiddenInput,
@@ -69,7 +69,7 @@ class MissingCapabilitiesWarningMixin(forms.Form):
             ]
             if len(missing_capabilities) > 0:
                 error_msg = _(
-                    f"The selected user is missing the required training for this shift : {missing_capabilities}"
+                    f"The selected user is missing the required qualification for this shift : {missing_capabilities}"
                 )
                 self.add_error("user", error_msg)
                 self.fields[
@@ -138,7 +138,7 @@ class ShiftUserDataForm(forms.ModelForm):
         required=False,
         choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
         widget=CheckboxSelectMultiple,
-        label=_("Capabilities"),
+        label=_("Qualifications"),
     )
 
     class Meta:

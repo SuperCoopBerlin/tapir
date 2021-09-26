@@ -6,6 +6,7 @@ from django.db import models
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -300,23 +301,23 @@ class DraftUser(models.Model):
                 % (self.pk, self.get_display_name())
             )
             return
-
-        mail = EmailMessage(
-            subject=_("Willkommen bei SuperCoop eG!"),
-            body=render_to_string(
-                "coop/email/membership_agreement_startnext.html", {"u": self}
-            ),
-            from_email="SuperCoop Berlin eG <mitglied@supercoop.de>",
-            to=[self.email],
-            bcc=["mitglied@supercoop.de"],
-            attachments=[
-                (
-                    "Beteiligungserklärung %s.pdf" % self.get_display_name(),
-                    pdfs.get_membership_agreement_pdf(self).write_pdf(),
-                    "application/pdf",
-                )
-            ],
-        )
+        with translation.override(self.preferred_language):
+            mail = EmailMessage(
+                subject=_("Welcome at Supercoop eG!"),
+                body=render_to_string(
+                    "coop/email/membership_agreement_startnext.html", {"u": self}
+                ),
+                from_email="SuperCoop Berlin eG <mitglied@supercoop.de>",
+                to=[self.email],
+                bcc=["mitglied@supercoop.de"],
+                attachments=[
+                    (
+                        "Beteiligungserklärung %s.pdf" % self.get_display_name(),
+                        pdfs.get_membership_agreement_pdf(self).write_pdf(),
+                        "application/pdf",
+                    )
+                ],
+            )
         mail.content_subtype = "html"
         mail.send()
 
