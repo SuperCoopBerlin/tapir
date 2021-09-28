@@ -22,7 +22,7 @@
                     {% trans "Personal Data" %}
                     {% if perms.accounts.manage %}
                         <a class="btn tapir-btn btn-outline-info" href="{% url "accounts:user_update" object.pk %}" id="tapir_user_edit_button">
-                            <span class="material-icons">edit</span>Edit
+                            <span class="material-icons">edit</span>{% trans 'Edit' %}
                         </a>
                     {% endif %}
                 </h5>

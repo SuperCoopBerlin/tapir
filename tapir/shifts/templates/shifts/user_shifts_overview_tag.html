@@ -7,7 +7,7 @@
         {% if perms.shifts.manage and user.shift_user_data %}
             <a class="btn tapir-btn btn-outline-info"
                href="{% url "shifts:edit_shift_user_data" user.shift_user_data.pk %}">
-                <span class="material-icons button-icon">edit</span>Edit
+                <span class="material-icons button-icon">edit</span>{% trans 'Edit' %}
             </a>
         {% endif %}
     </h5>

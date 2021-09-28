@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-26 18:28+0200\n"
+"POT-Creation-Date: 2021-09-28 18:27+0200\n"
 "PO-Revision-Date: 2021-08-24 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -252,7 +252,7 @@ msgstr "Email-Adresse"
 
 #: coop/models.py:67
 msgid "Is investing member"
-msgstr ""
+msgstr "Ist investierendes Mitglied"
 
 #: coop/models.py:70 coop/models.py:264
 #: coop/templates/coop/draftuser_detail.html:72
@@ -329,7 +329,7 @@ msgstr "Benutzer anlegen"
 #: coop/templates/coop/draftuser_register_form.html:18
 #: coop/templates/coop/statistics.html:128 templates/base.html:92
 msgid "Applicants"
-msgstr ""
+msgstr "Bewerber*innen"
 
 #: coop/templates/coop/draftuser_detail.html:60
 msgid "Member Type"
@@ -562,11 +562,11 @@ msgstr "Erstellungsdatum"
 
 #: log/templates/log/log_entry_list_tag.html:8
 msgid "Log"
-msgstr ""
+msgstr "Protokoll"
 
 #: log/templates/log/log_entry_list_tag.html:40
-msgid "Note about this user"
-msgstr ""
+msgid "Notes about this user"
+msgstr "Notizen über diese*n Benutzer*in"
 
 #: log/templates/log/log_entry_list_tag.html:43
 msgid "Add Note"
@@ -714,16 +714,16 @@ msgstr "Jemand hat deine Schicht übernommen"
 
 #: shifts/templates/shifts/log/update_shift_attendance_state_log_entry.html:3
 msgid "Set shift attendance to"
-msgstr ""
+msgstr "Ändere den Schichtstatus zu"
 
 #: shifts/templates/shifts/log/update_shift_user_data_log_entry.html:3
 msgid "Update Shift User Data"
-msgstr ""
+msgstr "Nutzer*innendaten der Schicht aktualisieren"
 
 #: shifts/templates/shifts/shift_day_printable.html:54
 #: shifts/templates/shifts/shift_detail_printable.html:46
 msgid "Slot"
-msgstr ""
+msgstr "Platz"
 
 #: shifts/templates/shifts/shift_day_printable.html:55
 #: shifts/templates/shifts/shift_detail_printable.html:47
@@ -742,7 +742,7 @@ msgstr "optional"
 #: shifts/templates/shifts/shift_day_printable.html:69
 #: shifts/templates/shifts/shift_detail_printable.html:61
 msgid "Required qualifications: "
-msgstr ""
+msgstr "Erforderliche Befähigung: "
 
 #: shifts/templates/shifts/shift_day_printable.html:79
 #: shifts/templates/shifts/shift_detail_printable.html:71
@@ -753,7 +753,7 @@ msgstr "Hat Befähigungen: "
 
 #: shifts/templates/shifts/shift_detail.html:15
 msgid "Get printable version"
-msgstr ""
+msgstr "Druckversion erhalten"
 
 #: shifts/templates/shifts/shift_detail.html:25
 msgid "Generated from"
@@ -767,7 +767,7 @@ msgstr "Details"
 #: shifts/templates/shifts/shift_detail.html:43
 #: shifts/templates/shifts/shift_template_detail.html:33
 msgid "Registered user"
-msgstr ""
+msgstr "Angemeldete*r Nutzer*in"
 
 #: shifts/templates/shifts/shift_detail.html:44
 msgid "Attendance"
@@ -783,16 +783,18 @@ msgstr ""
 
 #: shifts/templates/shifts/shift_detail.html:66
 msgid "Vacant"
-msgstr ""
+msgstr "Frei"
 
 #: shifts/templates/shifts/shift_detail.html:77
 msgid ""
 "Cancels the search for a stand-in. Use this if you want to attend the shift."
 msgstr ""
+"Beendet die Suche nach Vertretung. Benutze dies, wenn du die Schicht "
+"wahrnehmen möchtest."
 
 #: shifts/templates/shifts/shift_detail.html:79
 msgid "Cancel look for a stand-in"
-msgstr ""
+msgstr "Beende die Suche nach Vertretung"
 
 #: shifts/templates/shifts/shift_detail.html:87
 #, python-format
@@ -804,10 +806,13 @@ msgid ""
 "shift leader as soon as\n"
 "                                                    possible."
 msgstr ""
+"Du kannst nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor der Schicht nach "
+"einer Vertretung suchen. Wenn du die Schicht nicht wahrnehmen kannst, wende "
+"dich bitte schnellstmöglich an die Teamleitung!"
 
 #: shifts/templates/shifts/shift_detail.html:97
 msgid "Look for a stand-in"
-msgstr ""
+msgstr "Suche nach Vertretung"
 
 #: shifts/templates/shifts/shift_detail.html:107
 #, python-format
@@ -822,10 +827,14 @@ msgid ""
 "or contact your shift leader as soon as\n"
 "                                                possible."
 msgstr ""
+"Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor der Schicht "
+"abmelden. Von ABCD-Schichten kannst du dich nicht abmelden. Wenn du die "
+"Schicht nicht wahrnehmen kannst, suche eine Vertretung oder wende dich bitte "
+"schnellstmöglich an die Teamleitung!"
 
 #: shifts/templates/shifts/shift_detail.html:119
 msgid "Unregister myself"
-msgstr ""
+msgstr "Melde mich ab"
 
 #: shifts/templates/shifts/shift_detail.html:128
 #, fuzzy
@@ -859,7 +868,7 @@ msgstr ""
 
 #: shifts/templates/shifts/shift_detail.html:139
 msgid "Register myself"
-msgstr ""
+msgstr "Melde mich an"
 
 #: shifts/templates/shifts/shift_detail.html:156
 msgid "Register a member"
@@ -1105,19 +1114,19 @@ msgstr ""
 
 #: templates/base.html:48
 msgid "Member manual"
-msgstr ""
+msgstr "Mitgliederhandbuch"
 
 #: templates/base.html:52
 msgid "Current week: "
-msgstr ""
+msgstr "Aktuelle Woche: "
 
 #: templates/base.html:55
 msgid "Shop opening hours"
-msgstr ""
+msgstr "Öffnungszeiten"
 
 #: templates/base.html:58
 msgid "Contact the member office"
-msgstr ""
+msgstr "Mitgliedsbüro kontaktieren"
 
 #: templates/base.html:65
 msgid "Search Members"
@@ -1133,11 +1142,11 @@ msgstr "Mitglieder"
 
 #: templates/base.html:106
 msgid "Shift calendar"
-msgstr ""
+msgstr "Schicht-Kalender"
 
 #: templates/base.html:112
 msgid "ABCD-shifts week-plan"
-msgstr ""
+msgstr "ABCD-Schicht-Wochenplan"
 
 #: utils/forms.py:23
 msgid ""
