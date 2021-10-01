@@ -480,26 +480,14 @@ def get_shift_slot_names():
     return shift_slot_names
 
 
-class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
-    template_name = "shifts/upcoming_shifts.html"
-
+class ShiftOverviewBaseView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
 
         context_data["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
-        today = date.today()
-        monday_this_week = datetime.datetime.combine(
-            today - timedelta(days=today.weekday()),
-            datetime.time(),
-            timezone.now().tzinfo,
-        )
         # Only filter the eight weeks to make things faster
         upcoming_shifts = (
-            Shift.objects.filter(
-                start_time__gte=monday_this_week,
-                end_time__lt=monday_this_week + timedelta(days=8 * 7),
-            )
-            .order_by("start_time")
+            self.get_queryset()
             .prefetch_related("slots")
             .prefetch_related("slots__attendances")
             .prefetch_related("slots__attendances__user")
@@ -523,11 +511,46 @@ class UpcomingShiftsView(LoginRequiredMixin, TemplateView):
             shifts_by_weeks_and_days[shift_week_monday].setdefault(shift_day, [])
 
             shifts_by_weeks_and_days[shift_week_monday][shift_day].append(shift)
+
         context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
 
         context_data["shift_slot_names"] = get_shift_slot_names()
 
         return context_data
+
+
+class UpcomingShiftOverview(LoginRequiredMixin, ShiftOverviewBaseView):
+    template_name = "shifts/shift_overview_upcoming.html"
+
+    def get_queryset(self):
+        monday_this_week = datetime.datetime.combine(
+            date.today() - timedelta(days=date.today().weekday()),
+            datetime.time(),
+            timezone.now().tzinfo,
+        )
+        return Shift.objects.filter(
+            start_time__gte=monday_this_week,
+            end_time__lt=monday_this_week + timedelta(days=8 * 7),
+        ).order_by("start_time")
+
+
+class PastShiftOverview(PermissionRequiredMixin, ShiftOverviewBaseView):
+    permission_required = "shifts.manage"
+    template_name = "shifts/shift_overview_past.html"
+
+    def get_queryset(self):
+        return Shift.objects.filter(
+            start_time__gte=date.today() - timedelta(days=8 * 7),
+            end_time__lt=date.today(),
+        ).order_by("start_time")
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        # We order by start time to get proper day and time ordering, but want to display weeks in reverse
+        ctx["shifts_by_weeks_and_days"] = OrderedDict(
+            reversed(ctx["shifts_by_weeks_and_days"].items())
+        )
+        return ctx
 
 
 @require_POST

@@ -80,8 +80,13 @@ urlpatterns = [
     ),
     path(
         "timetable",
-        views.UpcomingShiftsView.as_view(),
+        views.UpcomingShiftOverview.as_view(),
         name="upcoming_timetable",
+    ),
+    path(
+        "past",
+        views.PastShiftOverview.as_view(),
+        name="past_shift_overview",
     ),
     path(
         "shift_user_data/<int:pk>",

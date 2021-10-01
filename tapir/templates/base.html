@@ -112,6 +112,14 @@
                                 {% trans "ABCD-shifts week-plan" %}
                             </a>
                         </li>
+
+                        {% if perms.shifts.manage %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url "shifts:past_shift_overview" %}">
+                                    {% trans "Past shifts" %}
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
 
                     <a class="nav-link text-muted" id="about-link" href="{% url "coop:about" %}">
