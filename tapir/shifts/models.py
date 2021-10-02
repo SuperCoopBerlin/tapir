@@ -9,7 +9,7 @@ from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
@@ -25,7 +25,7 @@ class ShiftUserCapability:
 
 
 SHIFT_USER_CAPABILITY_CHOICES = {
-    ShiftUserCapability.SHIFT_COORDINATOR: _("Shift Coordinator"),
+    ShiftUserCapability.SHIFT_COORDINATOR: _("Teamleader"),
     ShiftUserCapability.CASHIER: _("Cashier"),
     ShiftUserCapability.MEMBER_OFFICE: _("Member Office"),
     ShiftUserCapability.BREAD_DELIVERY: _("Bread Delivery"),
@@ -646,18 +646,21 @@ class ShiftUserData(models.Model):
     )
 
     SHIFT_ATTENDANCE_MODE_CHOICES = [
-        (ShiftAttendanceMode.REGULAR, "🏠 " + _("Regular")),
-        (ShiftAttendanceMode.FLYING, "✈ " + _("Flying")),
+        (ShiftAttendanceMode.REGULAR, _("🏠 ABCD")),
+        (ShiftAttendanceMode.FLYING, _("✈ Flying")),
     ]
     attendance_mode = models.CharField(
+        _("Shift system"),
         max_length=32,
         choices=SHIFT_ATTENDANCE_MODE_CHOICES,
-        default="regular",
+        default=ShiftAttendanceMode.REGULAR,
         blank=False,
     )
 
     def get_capabilities_display(self):
-        return ", ".join([SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.capabilities])
+        return ", ".join(
+            [str(SHIFT_USER_CAPABILITY_CHOICES[c]) for c in self.capabilities]
+        )
 
     def get_upcoming_shift_attendances(self):
         return self.user.shift_attendances.filter(

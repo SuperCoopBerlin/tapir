@@ -3,7 +3,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelChoiceField, CheckboxSelectMultiple, BooleanField
 from django.forms.widgets import HiddenInput
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django_select2.forms import Select2Widget
 
 from tapir.accounts.models import TapirUser

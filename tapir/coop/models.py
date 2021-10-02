@@ -124,7 +124,9 @@ class ShareOwner(models.Model):
         r = super().clean()
         if self.is_company and self.user:
             raise ValidationError(
-                _("Cannot be a company share owner and have an associated user")
+                _(
+                    "Cannot be a company share owner and have an associated Tapir account"
+                )
             )
 
         if self.user and (
@@ -139,7 +141,9 @@ class ShareOwner(models.Model):
             or self.country
             or self.preferred_language
         ):
-            raise ValidationError(_("User info should be stored in associated user"))
+            raise ValidationError(
+                _("User info should be stored in associated Tapir account")
+            )
         return r
 
     def get_display_name(self):

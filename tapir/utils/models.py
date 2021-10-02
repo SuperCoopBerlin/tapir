@@ -3,7 +3,7 @@ from datetime import date
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q, QuerySet
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 # http://xml.coverpages.org/country3166.html
 COUNTRIES = (

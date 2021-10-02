@@ -9,7 +9,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import (

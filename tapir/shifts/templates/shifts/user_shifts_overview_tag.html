@@ -23,7 +23,7 @@
                               action="{% url "shifts:set_user_attendance_mode_regular" user.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="btn tapir-btn btn-secondary btn-sm">
-                                {% trans "Set Regular 🏠️" %}
+                                {% trans "Set ABCD 🏠️" %}
                             </button>
                         </form>
                     {% endif %}
@@ -31,7 +31,7 @@
 
 
             {% else %}
-                <div class="col-4 font-weight-bold text-right">{% trans "Regular Shift" %}:</div>
+                <div class="col-4 font-weight-bold text-right">{% trans "ABCD Shift" %}:</div>
                 <div class="col-8">
                     {% if user.shift_attendance_templates.count > 0 %}
                         {% comment %}Usually there will only be one {% endcomment %}
