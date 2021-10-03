@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-02 10:00+0200\n"
+"POT-Creation-Date: 2021-10-03 11:25+0200\n"
 "PO-Revision-Date: 2021-08-24 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -140,6 +140,7 @@ msgstr "Nutzer*innen"
 #: shifts/templates/shifts/shift_form.html:26
 #: shifts/templates/shifts/shiftaccountentry_form.html:22
 #: shifts/templates/shifts/shiftattendance_form.html:25
+#: shifts/templates/shifts/shiftexemption_form.html:23
 #: shifts/templates/shifts/shiftuserdata_form.html:30
 msgid "Save"
 msgstr "Speichern"
@@ -316,7 +317,7 @@ msgstr "Beteiligungserklärung unterschrieben"
 msgid "Paid Membership Fee"
 msgstr "Mitgliedsgebühr bezahlt"
 
-#: coop/templates/coop/about.html:10 templates/base.html:126
+#: coop/templates/coop/about.html:10 templates/base.html:131
 msgid "About Tapir"
 msgstr "Über Tapir"
 
@@ -572,7 +573,7 @@ msgstr "Notizen über diese*n Benutzer*in"
 msgid "Add Note"
 msgstr "Notiz hinzufügen"
 
-#: shifts/forms.py:48
+#: shifts/forms.py:50
 #, fuzzy
 #| msgid ""
 #| "I have read the warning about the missing training and confirm that the "
@@ -584,7 +585,7 @@ msgstr ""
 "Ich habe die Warnung über die fehlende Befähigung gelesen und bestätige, "
 "dass Benutzer*in für die Schicht registriert werden sollte"
 
-#: shifts/forms.py:72
+#: shifts/forms.py:74
 #, fuzzy, python-brace-format
 #| msgid ""
 #| "The selected user is missing the required training for this shift : "
@@ -596,19 +597,19 @@ msgstr ""
 "Ausgewählte Nutzer*in hat nicht die erforderliche Befähigung für diese "
 "Schicht: {missing_capabilities}"
 
-#: shifts/forms.py:101
+#: shifts/forms.py:103
 msgid "This user is already registered to another slot in this ABCD shift."
 msgstr ""
 "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser ABCD-Schicht "
 "registriert"
 
-#: shifts/forms.py:127
+#: shifts/forms.py:129
 msgid "This user is already registered to another slot in this shift."
 msgstr ""
 "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht "
 "registriert"
 
-#: shifts/forms.py:141
+#: shifts/forms.py:143
 #: shifts/templates/shifts/user_shifts_overview_tag.html:127
 msgid "Qualifications"
 msgstr "Befähigungen"
@@ -703,6 +704,21 @@ msgstr "✈ Fliegend"
 #| msgid "Shifts"
 msgid "Shift system"
 msgstr "Schichten"
+
+#: shifts/models.py:710 shifts/templates/shifts/shiftexemption_list.html:20
+#, fuzzy
+#| msgid "Birthdate"
+msgid "Start date"
+msgstr "Anfangsdatum"
+
+#: shifts/models.py:711 shifts/templates/shifts/shiftexemption_list.html:21
+msgid "End date"
+msgstr "Endsdatum"
+
+#: shifts/models.py:712 shifts/templates/shifts/shiftexemption_list.html:22
+#: shifts/templates/shifts/user_shift_account_log.html:27
+msgid "Description"
+msgstr "Beschreibung"
 
 #: shifts/templates/shifts/log/create_shift_attendance_log_entry.html:3
 msgid "Registered for Shift"
@@ -1012,6 +1028,28 @@ msgstr "Erzeuge Schicht-Kontoeintrag für: "
 msgid "Updating shift attendance: "
 msgstr "Schichtanwesenheit aktualisieren: "
 
+#: shifts/templates/shifts/shiftexemption_form.html:11
+msgid "Edit shift exemption for: "
+msgstr "Schicht-Befreiung bearbeiten für: "
+
+#: shifts/templates/shifts/shiftexemption_form.html:13
+#, fuzzy
+#| msgid "Create manual shift account entry for: "
+msgid "Create shift exemption for: "
+msgstr "Erzeuge Schicht-Befreiung für: "
+
+#: shifts/templates/shifts/shiftexemption_list.html:8 templates/base.html:124
+msgid "Shift exemptions"
+msgstr "Schicht-Befreiungen"
+
+#: shifts/templates/shifts/shiftexemption_list.html:19
+msgid "User"
+msgstr "Benutzer*in"
+
+#: shifts/templates/shifts/shiftexemption_list.html:23
+msgid "Is valid"
+msgstr "Ist gültig"
+
 #: shifts/templates/shifts/shiftuserdata_form.html:16
 msgid "Edit user shift data"
 msgstr "Bearbeite Nutzer*in-Schichtdaten"
@@ -1096,10 +1134,6 @@ msgstr "Datum"
 msgid "Value"
 msgstr "Wert"
 
-#: shifts/templates/shifts/user_shift_account_log.html:27
-msgid "Description"
-msgstr "Beschreibung"
-
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
 #, fuzzy
 #| msgid "Set Regular 🏠️"
@@ -1148,6 +1182,12 @@ msgstr ""
 msgid "On alert"
 msgstr ""
 
+#: shifts/templates/shifts/user_shifts_overview_tag.html:122
+#, fuzzy
+#| msgid "Log"
+msgid "log"
+msgstr "Protokoll"
+
 #: shifts/templates/shifts/user_shifts_overview_tag.html:132
 #, fuzzy
 #| msgctxt "No upcoming shift"
@@ -1156,8 +1196,30 @@ msgctxt "No qualifications"
 msgid "None"
 msgstr "Keine"
 
+#: shifts/templates/shifts/user_shifts_overview_tag.html:137
+#, fuzzy
+#| msgid "Description"
+msgid "Exemption"
+msgstr "Befreiung"
+
+#: shifts/templates/shifts/user_shifts_overview_tag.html:140
+msgid "until"
+msgstr ""
+
+#: shifts/templates/shifts/user_shifts_overview_tag.html:142
+#, fuzzy
+#| msgctxt "No upcoming shift"
+#| msgid "None"
+msgctxt "No shift exemption"
+msgid "None"
+msgstr "Keine"
+
+#: shifts/templates/shifts/user_shifts_overview_tag.html:146
+msgid "View all"
+msgstr ""
+
 #: shifts/templatetags/shifts.py:45 shifts/templatetags/shifts.py:117
-#: shifts/views.py:479
+#: shifts/views.py:483
 msgid "General"
 msgstr "Allgemein"
 
@@ -2221,9 +2283,6 @@ msgstr "Anfangsdatum muss vor Endsdatum sein"
 
 #~ msgid "Create user"
 #~ msgstr "Benutzer anlegen"
-
-#~ msgid "User"
-#~ msgstr "Benutzer*in"
 
 #~ msgid "Password reset instructions are sent"
 #~ msgstr "Anleitung zum Passwort zurücksetzen wurde gesendet."

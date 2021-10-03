@@ -118,7 +118,7 @@
                     <span class="text-danger">{% trans "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
                 {% endif %}
                 <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
-                   class="btn tapir-btn btn-sm btn-outline-secondary"><span class="material-icons">visibility</span>log</a>
+                   class="btn tapir-btn btn-sm btn-outline-secondary"><span class="material-icons">visibility</span>{% trans 'log' %}</a>
             </div>
         </div>
 
@@ -132,7 +132,21 @@
                 {% endif %}
             </div>
         </div>
-
-
+        <div class="row m-1">
+            <div class="col-4 font-weight-bold text-right">{% trans "Exemption" %}:</div>
+            <div class="col-8">
+                <span id="shift_exemption_value">
+                    {% if user.shift_user_data.get_current_shift_exemption %}
+                        {{ user.shift_user_data.get_current_shift_exemption.description }} {% trans 'until' %} {{ user.shift_user_data.get_current_shift_exemption.end_date|date:"d.m.y" }}
+                    {% else %}
+                        {% trans "None" context "No shift exemption" %}
+                    {% endif %}
+                </span>
+                <a href="{% url 'shifts:shift_exemption_list' %}?shift_user_data_id={{ user.shift_user_data.id }}" class="btn tapir-btn btn-sm btn-outline-secondary" id="shift_exemption_list_button">
+                    <span class="material-icons">visibility</span>
+                    {% trans 'View all' %}
+                </a>
+            </div>
+        </div>
     </div>
 </div>

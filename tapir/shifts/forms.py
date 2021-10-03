@@ -16,7 +16,9 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftSlot,
     ShiftAccountEntry,
+    ShiftExemption,
 )
+from tapir.utils.forms import DateInput
 
 
 class ShiftCreateForm(forms.ModelForm):
@@ -178,3 +180,13 @@ class UpdateShiftAttendanceForm(forms.ModelForm):
         state = kwargs.pop("state")
         super(UpdateShiftAttendanceForm, self).__init__(*args, **kwargs)
         self.initial["state"] = state
+
+
+class ShiftExemptionForm(forms.ModelForm):
+    class Meta:
+        model = ShiftExemption
+        fields = ["start_date", "end_date", "description"]
+        widgets = {
+            "start_date": DateInput(),
+            "end_date": DateInput(),
+        }

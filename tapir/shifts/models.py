@@ -676,7 +676,7 @@ class ShiftUserData(models.Model):
 
     def is_balance_ok(self):
         balance = self.get_account_balance()
-        # Depending on when the monthly deduction happens, the balance may flucuate over the month
+        # Depending on when the monthly deduction happens, the balance may fluctuate over the month
         return -1 <= balance
 
     def is_balance_negative(self):
@@ -685,6 +685,15 @@ class ShiftUserData(models.Model):
     def is_balance_positive(self):
         return self.get_account_balance() > 1
 
+    def get_current_shift_exemption(self):
+        exemptions = ShiftExemption.objects.filter(shift_user_data=self).is_valid()
+        if exemptions.exists():
+            return exemptions.first()
+        return None
+
+    def is_currently_exempted_from_shifts(self):
+        return ShiftExemption.objects.filter(shift_user_data=self).is_valid().exists()
+
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
     if not hasattr(instance, "shift_user_data"):
@@ -692,3 +701,24 @@ def create_shift_user_data(instance: TapirUser, **kwargs):
 
 
 models.signals.post_save.connect(create_shift_user_data, sender=TapirUser)
+
+
+class ShiftExemption(models.Model):
+    shift_user_data = models.ForeignKey(
+        ShiftUserData, related_name="shift_exemptions", on_delete=models.CASCADE
+    )
+    start_date = models.DateField(_("Start date"), null=False, blank=False)
+    end_date = models.DateField(_("End date"), null=False, blank=False)
+    description = models.TextField(_("Description"), null=False, blank=False)
+
+    class ShiftExemptionQuerySet(models.QuerySet):
+        def is_valid(self, date=timezone.now().date()):
+            return self.filter(
+                start_date__lte=date,
+                end_date__gte=date,
+            )
+
+    objects = ShiftExemptionQuerySet.as_manager()
+
+    def is_valid(self):
+        return self.start_date <= timezone.now().date() <= self.end_date
