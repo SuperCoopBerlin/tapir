@@ -119,6 +119,7 @@ class ShareOwner(models.Model):
         self.city = ""
         self.country = ""
         self.preferred_language = ""
+        self.phone_number = ""
 
     def clean(self):
         r = super().clean()
@@ -140,6 +141,7 @@ class ShareOwner(models.Model):
             or self.city
             or self.country
             or self.preferred_language
+            or self.phone_number
         ):
             raise ValidationError(
                 _("User info should be stored in associated Tapir account")
