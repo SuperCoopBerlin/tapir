@@ -186,7 +186,9 @@ class SlotTemplateRegisterView(
         kwargs["slot_template"] = slot_template
 
         blocked_slots = []
-        for slot in slot_template.generated_slots.all():
+        for slot in slot_template.generated_slots.filter(
+            shift__start_time__gte=timezone.now()
+        ):
             attendance = slot.get_valid_attendance()
             if attendance is not None:
                 blocked_slots.append(slot)
