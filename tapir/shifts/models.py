@@ -435,7 +435,7 @@ class ShiftSlot(models.Model):
 
     def get_required_capabilities_display(self):
         return ", ".join(
-            [SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.required_capabilities]
+            [str(SHIFT_USER_CAPABILITY_CHOICES[c]) for c in self.required_capabilities]
         )
 
     def get_display_name(self):
@@ -676,7 +676,7 @@ class ShiftUserData(models.Model):
 
     def is_balance_ok(self):
         balance = self.get_account_balance()
-        # Depending on when the monthly deduction happens, the balance may flucuate over the month
+        # Depending on when the monthly deduction happens, the balance may fluctuate over the month
         return -1 <= balance
 
     def is_balance_negative(self):
