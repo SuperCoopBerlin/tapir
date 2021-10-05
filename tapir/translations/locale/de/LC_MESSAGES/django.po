@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-02 10:00+0200\n"
+"POT-Creation-Date: 2021-10-05 17:26+0200\n"
 "PO-Revision-Date: 2021-08-24 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -528,7 +528,7 @@ msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
 #: coop/views/shareowner.py:372
-#: shifts/templates/shifts/shift_overview_template.html:76
+#: shifts/templates/shifts/shift_overview_template.html:80
 #: shifts/templates/shifts/shift_template_overview.html:33
 msgid "Any"
 msgstr "Alle"
@@ -684,7 +684,7 @@ msgid "Cancelled"
 msgstr "Abgesagt"
 
 #: shifts/models.py:619 shifts/templates/shifts/shift_detail.html:188
-#: shifts/templates/shifts/shift_overview_template.html:66
+#: shifts/templates/shifts/shift_overview_template.html:70
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
@@ -889,25 +889,41 @@ msgstr "Melde ein Mitglied an"
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/templates/shifts/shift_overview_template.html:59
+#: shifts/templates/shifts/shift_overview_template.html:63
 msgid "Filters"
 msgstr "Filter"
 
-#: shifts/templates/shifts/shift_overview_template.html:63
+#: shifts/templates/shifts/shift_overview_template.html:67
 #: shifts/templates/shifts/shift_template_overview.html:30
 msgid "No filter"
 msgstr "Kein Filter"
 
-#: shifts/templates/shifts/shift_overview_template.html:69
+#: shifts/templates/shifts/shift_overview_template.html:73
 msgid "Has a free slot"
 msgstr "Hat einen freien Platz"
 
-#: shifts/templates/shifts/shift_overview_template.html:92
+#: shifts/templates/shifts/shift_overview_template.html:91
+msgid "Legend"
+msgstr ""
+
+#: shifts/templates/shifts/shift_overview_template.html:93
+msgid "Help urgently needed"
+msgstr "Hilfe dringend gebraucht"
+
+#: shifts/templates/shifts/shift_overview_template.html:94
+msgid "Help wanted"
+msgstr "Hilfe gewünscht"
+
+#: shifts/templates/shifts/shift_overview_template.html:95
+msgid "No help needed"
+msgstr "Kein Hilfe gebraucht"
+
+#: shifts/templates/shifts/shift_overview_template.html:104
 #: shifts/templates/shifts/shift_template_group_calendar.html:16
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_overview_template.html:92
+#: shifts/templates/shifts/shift_overview_template.html:104
 #: shifts/templates/shifts/shift_template_group_calendar.html:16
 #: shifts/templates/shifts/shift_template_overview.html:48
 msgid "Week "
@@ -1156,8 +1172,8 @@ msgctxt "No qualifications"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templatetags/shifts.py:45 shifts/templatetags/shifts.py:117
-#: shifts/views.py:479
+#: shifts/templatetags/shifts.py:45 shifts/templatetags/shifts.py:128
+#: shifts/views.py:481
 msgid "General"
 msgstr "Allgemein"
 

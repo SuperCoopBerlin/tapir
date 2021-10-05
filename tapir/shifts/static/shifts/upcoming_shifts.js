@@ -19,20 +19,25 @@ window.addEventListener('load', function () {
         });
     }
 
+    document.getElementById("legend-primary").classList.add(highlight_class);
+    document.getElementById("legend-secondary").classList.add(highlight_class);
+    document.getElementById("legend-secondary").classList.add(secondary_highlight_class);
+    document.getElementById("legend-off").classList.add(hidden_class);
+
     update_filters()
 });
 
-const hidden_class = "btn-outline-light";
+const hidden_class = "btn-light";
 const nofilter_class = "btn-outline-dark";
-const selected_class = "btn-outline-dark";
-const highlight_class = "btn-warning";
+const highlight_class = "btn-info";
+const secondary_highlight_class = "fade-out";
 const animate_class = "animated-shift-block";
 
 function update_filters() {
     for (let shift_block of document.querySelectorAll(".shift-block")) {
         shift_block.classList.remove(hidden_class);
         shift_block.classList.remove(nofilter_class);
-        shift_block.classList.remove(selected_class);
+        shift_block.classList.remove(secondary_highlight_class);
         shift_block.classList.remove(highlight_class);
         shift_block.classList.remove(animate_class);
 
@@ -43,10 +48,11 @@ function update_filters() {
 
         const filtered_class = slot_status_filter + "_" + slot_name_filter;
         const highlighted_class = slot_status_filter + "_required_" + slot_name_filter;
-        if (shift_block.classList.contains(highlighted_class)) {
+        if (shift_block.classList.contains(filtered_class)) {
             shift_block.classList.add(highlight_class);
-        } else if (shift_block.classList.contains(filtered_class)) {
-            shift_block.classList.add(selected_class);
+            if (!shift_block.classList.contains(highlighted_class)) {
+                shift_block.classList.add(secondary_highlight_class);
+            }
         } else {
             shift_block.classList.add(hidden_class);
         }
