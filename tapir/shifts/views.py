@@ -649,21 +649,20 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
     form_class = ShiftExemptionForm
     permission_required = "shifts.manage"
 
-    def get_target_user(self) -> TapirUser:
-        return ShiftUserData.objects.get(pk=self.kwargs["shift_user_data_pk"]).user
+    def get_target_user_data(self) -> ShiftUserData:
+        return ShiftUserData.objects.get(pk=self.kwargs["shift_user_data_pk"])
 
     def form_valid(self, form):
-        form.instance.user = self.get_target_user()
-        form.instance.shift_user_data = form.instance.user.shift_user_data
+        form.instance.shift_user_data = self.get_target_user_data()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context["user"] = self.get_target_user()
+        context["selected_user"] = self.get_target_user_data().user
         return context
 
     def get_success_url(self):
-        return self.get_target_user().get_absolute_url()
+        return self.get_target_user_data().user.get_absolute_url()
 
 
 class EditShiftExemptionView(PermissionRequiredMixin, UpdateView):

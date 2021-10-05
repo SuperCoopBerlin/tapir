@@ -1,7 +1,7 @@
 import datetime
 
 from tapir.accounts.models import TapirUser
-from tapir.shifts.models import ShiftExemption, ShiftCycleLog
+from tapir.shifts.models import ShiftExemption, ShiftCycleEntry
 from tapir.utils.tests_utils import TAPIR_SELENIUM_BASE_FIXTURES, TapirSeleniumTestBase
 
 
@@ -36,10 +36,10 @@ class TestShiftCycleStart(TapirSeleniumTestBase):
         second_cycle_start_date = datetime.date(day=15, month=2, year=2021)
 
         # Apply both starts twice to test that the function is repeatable
-        ShiftCycleLog.apply_cycle_start(first_cycle_start_date)
-        ShiftCycleLog.apply_cycle_start(first_cycle_start_date)
-        ShiftCycleLog.apply_cycle_start(second_cycle_start_date)
-        ShiftCycleLog.apply_cycle_start(second_cycle_start_date)
+        ShiftCycleEntry.apply_cycle_start(first_cycle_start_date)
+        ShiftCycleEntry.apply_cycle_start(first_cycle_start_date)
+        ShiftCycleEntry.apply_cycle_start(second_cycle_start_date)
+        ShiftCycleEntry.apply_cycle_start(second_cycle_start_date)
 
         self.assertEqual(
             user_one.shift_user_data.get_account_balance(),

@@ -13,6 +13,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
+from tapir.utils.models import DurationModelMixin
 
 
 class ShiftUserCapability:
@@ -685,16 +686,15 @@ class ShiftUserData(models.Model):
     def is_balance_positive(self):
         return self.get_account_balance() > 1
 
-    def get_current_shift_exemption(self, date=timezone.now().date()):
-        exemptions = ShiftExemption.objects.filter(shift_user_data=self).is_valid(date)
-        if exemptions.exists():
-            return exemptions.first()
-        return None
-
-    def is_currently_exempted_from_shifts(self, date=timezone.now().date()):
+    def get_current_shift_exemption(self, date=None):
         return (
-            ShiftExemption.objects.filter(shift_user_data=self).is_valid(date).exists()
+            ShiftExemption.objects.filter(shift_user_data=self)
+            .active_temporal(date)
+            .first()
         )
+
+    def is_currently_exempted_from_shifts(self, date=None):
+        return self.get_current_shift_exemption(date) is not None
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
@@ -705,28 +705,14 @@ def create_shift_user_data(instance: TapirUser, **kwargs):
 models.signals.post_save.connect(create_shift_user_data, sender=TapirUser)
 
 
-class ShiftExemption(models.Model):
+class ShiftExemption(DurationModelMixin, models.Model):
     shift_user_data = models.ForeignKey(
         ShiftUserData, related_name="shift_exemptions", on_delete=models.CASCADE
     )
-    start_date = models.DateField(_("Start date"), null=False, blank=False)
-    end_date = models.DateField(_("End date"), null=False, blank=False)
     description = models.TextField(_("Description"), null=False, blank=False)
 
-    class ShiftExemptionQuerySet(models.QuerySet):
-        def is_valid(self, date=timezone.now().date()):
-            return self.filter(
-                start_date__lte=date,
-                end_date__gte=date,
-            )
 
-    objects = ShiftExemptionQuerySet.as_manager()
-
-    def is_valid(self, date=timezone.now().date()):
-        return self.start_date <= date <= self.end_date
-
-
-class ShiftCycleLog(models.Model):
+class ShiftCycleEntry(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -751,13 +737,13 @@ class ShiftCycleLog(models.Model):
         if shift_user_datas is None:
             shift_user_datas = ShiftUserData.objects.all()
         for shift_user_data in shift_user_datas:
-            if ShiftCycleLog.objects.filter(
+            if ShiftCycleEntry.objects.filter(
                 shift_user_data=shift_user_data, cycle_start_date=cycle_start_date
             ).exists():
                 continue
 
             with transaction.atomic():
-                shift_cycle_log = ShiftCycleLog.objects.create(
+                shift_cycle_log = ShiftCycleEntry.objects.create(
                     shift_user_data=shift_user_data, cycle_start_date=cycle_start_date
                 )
 
