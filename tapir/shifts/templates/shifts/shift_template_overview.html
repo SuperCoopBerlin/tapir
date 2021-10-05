@@ -33,11 +33,11 @@
             <li class="list-group-item">
                 <h5>{% trans 'Filter by free slot: ' %}</h5>
                 <span class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-dark active">
+                    <label class="btn btn-outline-dark">
                         <input type="radio" name="slot_name_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
                     </label>
-                    <label class="btn btn-outline-dark">
-                        <input type="radio" name="slot_name_options" autocomplete="off" value="any"> {% trans 'Any' %}
+                    <label class="btn btn-outline-dark active">
+                        <input type="radio" name="slot_name_options" autocomplete="off" value="any" class="active-on-load"> {% trans 'Any' %}
                     </label>
                     {% for name in shift_slot_names %}
                         <label class="btn btn-outline-dark">
