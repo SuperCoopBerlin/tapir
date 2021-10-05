@@ -61,6 +61,15 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
                 filter_classes.add("standin_" + shift_name_as_class(slot.name))
                 filter_classes.add("freeslot_any")
                 filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
+                if not slot.optional:
+                    filter_classes.add("standin_required_any")
+                    filter_classes.add(
+                        "standin_required_" + shift_name_as_class(slot.name)
+                    )
+                    filter_classes.add("freeslot_required_any")
+                    filter_classes.add(
+                        "freeslot_required_" + shift_name_as_class(slot.name)
+                    )
 
                 state = "standin"
             elif (
@@ -74,6 +83,11 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         else:
             filter_classes.add("freeslot_any")
             filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
+            if not slot.optional:
+                filter_classes.add("freeslot_required_any")
+                filter_classes.add(
+                    "freeslot_required_" + shift_name_as_class(slot.name)
+                )
             state = "empty"
 
         attendances[slot_name].append(state)

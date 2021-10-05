@@ -59,14 +59,14 @@
                 <h5>{% trans "Filters" %}</h5>
                 <p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-primary active">
+                    <label class="btn btn-outline-primary">
                         <input type="radio" name="slot_status_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
                     </label>
                     <label class="btn btn-outline-primary">
                         <input type="radio" name="slot_status_options" autocomplete="off" value="standin"> {% trans 'Looking for a stand-in' %}
                     </label>
-                    <label class="btn btn-outline-primary">
-                        <input type="radio" name="slot_status_options" autocomplete="off" value="freeslot"> {% trans 'Has a free slot' %}
+                    <label class="btn btn-outline-primary active">
+                        <input type="radio" name="slot_status_options" autocomplete="off" value="freeslot" class="active-on-load"> {% trans 'Has a free slot' %}
                     </label>
                 </div>
                 </p>
@@ -81,6 +81,14 @@
                         </label>
                     {% endfor %}
                 </div>
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h5>{% trans "Legend" %}</h5>
+                <p>
+                    <span class="btn btn-warning">{% trans 'Most help needed' %}</span>
+                    <span class="btn btn-outline-dark">{% trans 'Help wished' %}</span>
+                    <span class="btn btn-outline-light">{% trans 'No help needed' %}</span>
                 </p>
             </li>
         </ul>

@@ -302,12 +302,12 @@ def populate_shift_templates():
                         capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
                     if slot_name == "Kasse":
                         capabilities = [ShiftUserCapability.CASHIER]
-                    for _ in range(slot_quantity):
+                    for index in range(slot_quantity):
                         ShiftSlotTemplate.objects.create(
                             name=slot_name,
                             shift_template=shift_template,
                             required_capabilities=capabilities,
-                            optional=False,
+                            optional=index > 0,
                         )
 
     print("Populated shift templates")
