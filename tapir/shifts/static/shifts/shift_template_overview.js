@@ -6,6 +6,9 @@ window.addEventListener('load', function () {
             slot_name_filter = slot_name_button.value;
             update_filters();
         });
+        if (slot_name_button.classList.contains("active-on-load")) {
+            slot_name_button.click()
+        }
     }
 
     document.getElementById("legend-primary").classList.add(highlight_class);
