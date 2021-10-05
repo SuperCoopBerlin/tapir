@@ -74,10 +74,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         else:
             filter_classes.add("freeslot_any")
             filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
-            if slot.optional:
-                state = "optional"
-            else:
-                state = "empty"
+            state = "empty"
 
         attendances[slot_name].append(state)
 
