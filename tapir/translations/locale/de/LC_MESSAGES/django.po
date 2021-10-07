@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-05 17:54+0200\n"
+"POT-Creation-Date: 2021-10-07 10:14+0200\n"
 "PO-Revision-Date: 2021-08-24 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,48 +26,49 @@ msgstr "Nutzer*innenname"
 #: accounts/models.py:140
 msgid "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
 msgstr ""
-"Erforderlich. 150 Zeichen oder weniger. Buchstaben, Zahlen, sonst nur ./-/_"
+"Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen "
+"oder ./-/_ verwenden."
 
 #: accounts/models.py:144
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
 #: accounts/models.py:148 accounts/templates/accounts/user_detail.html:43
-#: coop/models.py:50 coop/models.py:231
+#: coop/models.py:50 coop/models.py:227
 #: coop/templates/coop/draftuser_detail.html:36
 #: coop/templates/coop/shareowner_detail.html:43
 msgid "Phone number"
 msgstr "Telefonnummer"
 
 #: accounts/models.py:149 accounts/templates/accounts/user_detail.html:53
-#: coop/models.py:51 coop/models.py:232
+#: coop/models.py:51 coop/models.py:228
 #: coop/templates/coop/draftuser_detail.html:40
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:150 coop/models.py:52 coop/models.py:233
+#: accounts/models.py:150 coop/models.py:52 coop/models.py:229
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:151 coop/models.py:53 coop/models.py:234
+#: accounts/models.py:151 coop/models.py:53 coop/models.py:230
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:152 coop/models.py:54 coop/models.py:235
+#: accounts/models.py:152 coop/models.py:54 coop/models.py:231
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:153 coop/models.py:55 coop/models.py:236
+#: accounts/models.py:153 coop/models.py:55 coop/models.py:232
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:154 coop/models.py:56 coop/models.py:237
+#: accounts/models.py:154 coop/models.py:56 coop/models.py:233
 msgid "Country"
 msgstr "Land"
 
 #: accounts/models.py:157 accounts/templates/accounts/user_detail.html:73
-#: coop/models.py:59 coop/models.py:240
+#: coop/models.py:59 coop/models.py:236
 #: coop/templates/coop/shareowner_detail.html:67
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
@@ -99,7 +100,7 @@ msgstr "Name"
 #: coop/templates/coop/draftuser_list.html:22
 #: coop/templates/coop/shareowner_detail.html:39
 msgid "Email"
-msgstr "E-Mail"
+msgstr "E-Mail-Adresse"
 
 #: accounts/templates/accounts/user_detail.html:48
 #: accounts/templates/accounts/user_detail.html:58
@@ -134,6 +135,7 @@ msgstr "Nutzer*innen"
 
 #: accounts/templates/accounts/user_form.html:29
 #: accounts/templates/registration/password_update.html:18
+#: coop/templates/coop/draftuser_form.html:41
 #: coop/templates/coop/draftuser_register_form.html:52
 #: coop/templates/coop/shareowner_form.html:22
 #: coop/templates/coop/shareownership_form.html:30
@@ -163,16 +165,16 @@ msgstr "Dein Passwort wurde gesetzt. Du kannst dich jetzt einloggen."
 
 #: accounts/templates/registration/password_reset_complete.html:12
 msgid "Go to login page"
-msgstr "Geh zur Anmeldeseite"
+msgstr "Zur Anmeldeseite wechseln"
 
 #: accounts/templates/registration/password_reset_confirm.html:10
 #: accounts/templates/registration/password_update.html:9
 msgid "Set a new password"
-msgstr "Neues Passwort setzen"
+msgstr "Neues Passwort festlegen"
 
 #: accounts/templates/registration/password_reset_confirm.html:12
 msgid "Please enter a new password"
-msgstr "Bitte gib ein neues Passwort ein"
+msgstr "Bitte gib ein neues Passwort ein."
 
 #: accounts/templates/registration/password_reset_confirm.html:16
 msgid "Change password"
@@ -183,8 +185,8 @@ msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used. Please request a new password reset."
 msgstr ""
-"Der Link zum Passwort zurücksetzen ist ungültig, vermutlich wurde er schon "
-"benutzt. Bitte fordere ihn erneut über Passwort zurücksetzen an."
+"Der Link zum Zurücksetzen des Passworts ist ungültig. Eventuell wurde er "
+"bereits genutzt. Bitte fordere einen neuen Link an."
 
 #: accounts/templates/registration/password_reset_done.html:9
 #, fuzzy
@@ -199,11 +201,10 @@ msgid ""
 "don't receive an email, please make sure you've entered the address you "
 "registered with, and check your spam folder."
 msgstr ""
-"Wir haben dir eine Anleitung zum Einrichten deines Passworts gemailt, "
-"vorausgesetzt, ein Benutzer*innenkonto mit der angegebenen Mailadresse "
-"existiert bereits. Du solltest sie in Kürze empfangen. Solltest du keine "
-"Mail erhalten, prüfe bitte, ob du die Mailadresse angegeben hast, mit der du "
-"dich angemeldet hast und schau bitte auch in deinen Spamordner.  "
+"Wir haben dir eine Anleitung geschickt, wie du ein neues Passwort für dein "
+"Konto festlegen kannst. Du solltest sie in Kürze erhalten. Wenn nicht, dann "
+"prüfe bitte, ob du auch die E-Mail-Adresse angegeben hast, mit der du dich "
+"registriert hast, und schau auch in deinem Spam-Ordner nach."
 
 #: accounts/templates/registration/password_reset_form.html:11
 msgid "Problems with logging in?"
@@ -214,8 +215,8 @@ msgid ""
 "Please enter your email adress, we will send you instructions to reset your "
 "password."
 msgstr ""
-"Bitte gib deine Mailadresse ein, wir schicken dir eine Anleitung, wie du "
-"dein Passwort zurücksetzen kannst."
+"Bitte gib dein E-Mail-Adresse ein. Wir schicken dir dann eine Anleitung, wie "
+"du dein Passwort zurücksetzen kannst."
 
 #: accounts/templates/registration/password_reset_form.html:19
 msgid "Back to login form"
@@ -230,14 +231,14 @@ msgid ""
 "Enter a valid username. This value may contain only letters, numbers, "
 "and ./-/_ characters."
 msgstr ""
-"Trage einen korrekten Nutzer*innennamen ein. Diese Feld darf nur Buchstaben, "
-"Ziffern und ./-/_ als Sonderzeichen enthalten."
+"Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die "
+"Symbole ./-/_ enthalten."
 
 #: accounts/views.py:85
 msgid "Account welcome email sent."
-msgstr ""
+msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: coop/forms.py:64 coop/models.py:310 coop/views/shareowner.py:218
+#: coop/forms.py:64 coop/models.py:306 coop/views/shareowner.py:218
 #, fuzzy
 #| msgid "Willkommen bei SuperCoop eG!"
 msgid "Welcome at Supercoop eG!"
@@ -247,72 +248,72 @@ msgstr "Willkommen in der SuperCoop eG!"
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:47 coop/models.py:228
+#: coop/models.py:47 coop/models.py:224
 #: coop/templates/coop/draftuser_list.html:20
 msgid "First name"
 msgstr "Vorname"
 
-#: coop/models.py:48 coop/models.py:229
+#: coop/models.py:48 coop/models.py:225
 #: coop/templates/coop/draftuser_list.html:21
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:49 coop/models.py:230
+#: coop/models.py:49 coop/models.py:226
 msgid "Email address"
-msgstr "Email-Adresse"
+msgstr "E-Mail-Adresse"
 
 #: coop/models.py:67
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:70 coop/models.py:268
+#: coop/models.py:70 coop/models.py:264
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:44
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:77 coop/models.py:261
+#: coop/models.py:77 coop/models.py:257
 msgid "Attended Welcome Session"
-msgstr "Willkommenstreffen besucht"
+msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:128
-msgid "Cannot be a company share owner and have an associated Tapir account"
+#: coop/models.py:126
+msgid "Cannot be a company and have a Tapir account"
 msgstr ""
 
-#: coop/models.py:145
+#: coop/models.py:141
 msgid "User info should be stored in associated Tapir account"
 msgstr ""
 
-#: coop/models.py:194
+#: coop/models.py:190
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:98
 msgid "Sold"
 msgstr "Verkauft"
 
-#: coop/models.py:195 coop/templates/coop/draftuser_detail.html:63
+#: coop/models.py:191 coop/templates/coop/draftuser_detail.html:63
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:26
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:96
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:196 coop/templates/coop/draftuser_detail.html:65
+#: coop/models.py:192 coop/templates/coop/draftuser_detail.html:65
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:29
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:94
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:249
+#: coop/models.py:245
 msgid "Number of Shares"
-msgstr "Anzahl an Anteilen"
+msgstr "Anzahl Anteilen"
 
-#: coop/models.py:253
+#: coop/models.py:249
 msgid "Investing member"
 msgstr "Investierende Mitglieder"
 
-#: coop/models.py:264
+#: coop/models.py:260
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:266
+#: coop/models.py:262
 msgid "Paid Membership Fee"
 msgstr "Mitgliedsgebühr bezahlt"
 
@@ -322,18 +323,18 @@ msgstr "Über Tapir"
 
 #: coop/templates/coop/about.html:23
 msgid "Latest changes"
-msgstr "Aktuelle Änderungen"
+msgstr "Letzte Änderungen"
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:17
 #: coop/templates/coop/shareowner_detail.html:28
 msgid "Create Tapir account"
-msgstr "Erzeuge Tapir-Konto"
+msgstr "Tapir-Konto erstellen"
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:27
 #, fuzzy
 #| msgid "Create Tapir account"
 msgid "Create account"
-msgstr "Erzeuge Konto"
+msgstr "Konto erstellen"
 
 #: coop/templates/coop/draftuser_detail.html:12
 #: coop/templates/coop/draftuser_form.html:18
@@ -384,10 +385,6 @@ msgstr "Als bezahlt markieren"
 msgid "Create Member"
 msgstr "Mitglied anlegen"
 
-#: coop/templates/coop/draftuser_form.html:41
-msgid "Create Share Owner"
-msgstr "Anteilseigner*in anlegen"
-
 #: coop/templates/coop/draftuser_list.html:34
 msgid "Signed"
 msgstr "Unterschrieben"
@@ -410,7 +407,7 @@ msgstr "Exportieren"
 
 #: coop/templates/coop/shareowner_list.html:41
 msgid "Clear all filters"
-msgstr "Alle Filter beenden"
+msgstr "Alle Filter entfernen"
 
 #: coop/templates/coop/shareowner_list.html:44
 #, python-format
@@ -454,8 +451,9 @@ msgid "ABCD shift missing at least one member"
 msgstr "ABCD-Schicht, wo min. ein Mitglied fehlt"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:6
-#, python-format
-msgid "Cooperator #%(coop_share_owner_id)s"
+#, fuzzy, python-format
+#| msgid "Cooperator #%(coop_share_owner_id)s"
+msgid "Member #%(coop_share_owner_id)s"
 msgstr "Mitglied #%(coop_share_owner_id)s"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:10
@@ -510,7 +508,7 @@ msgid ""
 "                                                    "
 msgstr ""
 "\n"
-"Benutze dies bitte nur, wenn ein echter Fehler vorliegt, z.B. ein Anteil "
+"Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil "
 "eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil "
 "einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als "
 "'verkauft'."
@@ -835,7 +833,7 @@ msgid ""
 "or contact your shift leader as soon as\n"
 "                                                possible."
 msgstr ""
-"Du kannst Dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner "
+"Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner "
 "Schicht abmelden. Von ABCD-Schichten kannst du dich überhaupt nicht "
 "abmelden. Wenn du die Schicht nicht wahrnehmen kannst, suche bitte eine "
 "Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung!"
@@ -870,8 +868,8 @@ msgid ""
 "                                            "
 msgstr ""
 "Du kannst dich nur für eine Schicht anmelden, wenn\n"
-"- Du keinen anderen Platz in derselben Schicht gebucht hast\n"
-"- Du das erforderliche Training gemacht hast (wenn du ein Training möchtest, "
+"- du keinen anderen Platz in derselben Schicht gebucht hast\n"
+"- du das erforderliche Training gemacht hast (wenn du ein Training möchtest, "
 "wende dich bitte ans Mitgliederbüro\n"
 "- die Schicht in der Zukunft liegt"
 
@@ -934,10 +932,9 @@ msgid "Week "
 msgstr "Woche "
 
 #: shifts/templates/shifts/shift_overview_upcoming.html:6
-#, fuzzy
-#| msgid "ABCD schedule overview"
-msgid "Shift schedule overview"
-msgstr "ABCD Schichtkalender"
+#: templates/base.html:106
+msgid "Shift calendar"
+msgstr "Schicht-Kalender"
 
 #: shifts/templates/shifts/shift_overview_upcoming.html:10
 #, python-format
@@ -984,11 +981,11 @@ msgstr "Anmelden"
 
 #: shifts/templates/shifts/shift_template_detail.html:93
 msgid "Future generated Shifts"
-msgstr "Zukünftige erzeugte Schichten"
+msgstr "Zukünftige erstellte Schichten"
 
 #: shifts/templates/shifts/shift_template_detail.html:107
 msgid "Past generated Shifts"
-msgstr "Vergangene erzeugte Schichten"
+msgstr "Vergangene Schichten"
 
 #: shifts/templates/shifts/shift_template_group_calendar.html:10
 msgid "ABCD weeks calendar"
@@ -1040,7 +1037,7 @@ msgstr "Bearbeite Nutzer*in-Schichtdaten"
 #, fuzzy
 #| msgid "Shifts"
 msgid "Shift"
-msgstr "Schichten"
+msgstr "Schicht"
 
 #: shifts/templates/shifts/slot_register.html:29
 #, fuzzy
@@ -1208,10 +1205,6 @@ msgstr "Genossenschaft"
 #: templates/base.html:87
 msgid "Members"
 msgstr "Mitglieder"
-
-#: templates/base.html:106
-msgid "Shift calendar"
-msgstr "Schicht-Kalender"
 
 #: templates/base.html:112
 msgid "ABCD-shifts week-plan"
@@ -2198,6 +2191,14 @@ msgstr "Anfangsdatum muss gestzt sein"
 #: utils/models.py:368
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Endsdatum sein"
+
+#, fuzzy
+#~| msgid "ABCD schedule overview"
+#~ msgid "Shift schedule overview"
+#~ msgstr "ABCD Schichtkalender"
+
+#~ msgid "Create Share Owner"
+#~ msgstr "Anteilseigner*in anlegen"
 
 #~ msgid "Help wanted"
 #~ msgstr "Hilfe gewünscht"

@@ -123,11 +123,7 @@ class ShareOwner(models.Model):
     def clean(self):
         r = super().clean()
         if self.is_company and self.user:
-            raise ValidationError(
-                _(
-                    "Cannot be a company share owner and have an associated Tapir account"
-                )
-            )
+            raise ValidationError(_("Cannot be a company and have a Tapir account"))
 
         if self.user and (
             self.first_name
