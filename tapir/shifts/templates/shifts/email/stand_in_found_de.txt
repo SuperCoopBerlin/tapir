@@ -1,0 +1,10 @@
+Hallo {{ tapir_user.first_name }},
+
+Dies ist eine automatische E-Mail von der Supercoop.
+
+Du hattest nach Vertretung gesucht für die folgende Schicht: {{ shift.get_display_name }}.
+Ein anderes Mitglied hat es jetzt übernommen.
+
+Falls du es noch nicht gemacht hast, vergiss nicht an eine andere Schicht teilzunehmen!
+
+Kooperative Grüße,
