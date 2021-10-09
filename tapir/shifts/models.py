@@ -548,9 +548,7 @@ class ShiftSlot(models.Model):
 
         with translation.override(attendance.user.preferred_language):
             mail = EmailMessage(
-                subject=_(
-                    "Someone took over the shift your were looking for a stand-in for"
-                ),
+                subject=_("You found a stand-in!"),
                 body=render_to_string(
                     template_name,
                     {"tapir_user": attendance.user, "shift": attendance.slot.shift},

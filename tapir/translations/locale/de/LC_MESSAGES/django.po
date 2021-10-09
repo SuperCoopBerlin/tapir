@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-09 09:42+0200\n"
+"POT-Creation-Date: 2021-10-09 10:49+0200\n"
 "PO-Revision-Date: 2021-08-24 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -663,9 +663,11 @@ msgstr "Samstag"
 msgid "Sunday"
 msgstr "Sontag"
 
-#: shifts/models.py:550
-msgid "Someone took over the shift your were looking for a stand-in for"
-msgstr "Jemandem hat deine Schicht übernommen"
+#: shifts/models.py:551
+#, fuzzy
+#| msgid "Look for a stand-in"
+msgid "You found a stand-in!"
+msgstr ""
 
 #: shifts/models.py:634 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:179
@@ -1178,11 +1180,11 @@ msgid "None"
 msgstr "Keine"
 
 #: shifts/templatetags/shifts.py:45 shifts/templatetags/shifts.py:128
-#: shifts/views.py:503
+#: shifts/views.py:504
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views.py:305
+#: shifts/views.py:306
 msgid "You missed your shift!"
 msgstr "Du hast deine Schicht versäumt!"
 
@@ -2199,6 +2201,9 @@ msgstr "Anfangsdatum muss gestzt sein"
 #: utils/models.py:368
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Endsdatum sein"
+
+#~ msgid "Someone took over the shift your were looking for a stand-in for"
+#~ msgstr "Jemandem hat deine Schicht übernommen"
 
 #, fuzzy
 #~| msgid "ABCD schedule overview"
