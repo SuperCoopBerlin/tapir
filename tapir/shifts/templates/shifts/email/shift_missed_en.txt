@@ -1,0 +1,10 @@
+Hi {{ tapir_user.first_name }},
+
+This is an automated email from Supercoop.
+
+It has been registered in the Tapir system that you didn't attend the following shift, even though you were registered to it :
+{{ shift.get_display_name }}
+If it's a mistake, or you think that you should be excused from that shift, contact the member office : mitglied@supercoop.de .
+As is written in the Member Manuel, a missed shift must be compensated for by 2 make-up shifts.
+
+Cooperatively yours,
