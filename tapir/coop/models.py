@@ -14,6 +14,7 @@ from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry
+from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.utils.models import DurationModelMixin, CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -307,7 +308,7 @@ class DraftUser(models.Model):
                 body=render_to_string(
                     "coop/email/membership_agreement_startnext.html", {"u": self}
                 ),
-                from_email="SuperCoop Berlin eG <mitglied@supercoop.de>",
+                from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[self.email],
                 bcc=["mitglied@supercoop.de"],
                 attachments=[

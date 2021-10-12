@@ -24,6 +24,7 @@ from werkzeug.exceptions import BadRequest
 
 from tapir.accounts.models import TapirUser
 from tapir.log.util import freeze_for_log
+from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.forms import (
     ShiftCreateForm,
     ShiftAttendanceTemplateForm,
@@ -308,7 +309,7 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
                     template_name,
                     {"tapir_user": attendance.user, "shift": attendance.slot.shift},
                 ),
-                from_email="SuperCoop Mitgliederbüro <mitglied@supercoop.de>",
+                from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[attendance.user.email],
             )
             mail.send()
