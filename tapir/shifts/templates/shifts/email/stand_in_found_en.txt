@@ -1,6 +1,6 @@
 Dear {{ tapir_user.first_name }},
 
-This is an automated email from Supercoop.
+This is an automated email from SuperCoop.
 
 You were looking for a stand-in for the following shift: {{ shift.get_display_name }}.
 Another member has taken over your slot for that shift.

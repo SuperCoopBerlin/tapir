@@ -216,7 +216,7 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
         template_name = "coop/email/membership_confirmation_welcome.html"
 
     mail = EmailMessage(
-        subject=_("Welcome at Supercoop eG!"),
+        subject=_("Welcome at SuperCoop eG!"),
         body=render_to_string(template_name, {"owner": owner}),
         from_email=FROM_EMAIL_MEMBER_OFFICE,
         to=[owner.get_info().email],

@@ -304,7 +304,7 @@ class DraftUser(models.Model):
             return
         with translation.override(self.preferred_language):
             mail = EmailMessage(
-                subject=_("Welcome at Supercoop eG!"),
+                subject=_("Welcome at SuperCoop eG!"),
                 body=render_to_string(
                     "coop/email/membership_agreement_startnext.html", {"u": self}
                 ),

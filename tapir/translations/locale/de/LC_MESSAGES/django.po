@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-09 10:49+0200\n"
+"POT-Creation-Date: 2021-10-12 16:30+0200\n"
 "PO-Revision-Date: 2021-08-24 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -34,41 +34,41 @@ msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
 #: accounts/models.py:148 accounts/templates/accounts/user_detail.html:43
-#: coop/models.py:50 coop/models.py:227
+#: coop/models.py:51 coop/models.py:228
 #: coop/templates/coop/draftuser_detail.html:36
 #: coop/templates/coop/shareowner_detail.html:43
 msgid "Phone number"
 msgstr "Telefonnummer"
 
 #: accounts/models.py:149 accounts/templates/accounts/user_detail.html:53
-#: coop/models.py:51 coop/models.py:228
+#: coop/models.py:52 coop/models.py:229
 #: coop/templates/coop/draftuser_detail.html:40
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:150 coop/models.py:52 coop/models.py:229
+#: accounts/models.py:150 coop/models.py:53 coop/models.py:230
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:151 coop/models.py:53 coop/models.py:230
+#: accounts/models.py:151 coop/models.py:54 coop/models.py:231
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:152 coop/models.py:54 coop/models.py:231
+#: accounts/models.py:152 coop/models.py:55 coop/models.py:232
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:153 coop/models.py:55 coop/models.py:232
+#: accounts/models.py:153 coop/models.py:56 coop/models.py:233
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:154 coop/models.py:56 coop/models.py:233
+#: accounts/models.py:154 coop/models.py:57 coop/models.py:234
 msgid "Country"
 msgstr "Land"
 
 #: accounts/models.py:157 accounts/templates/accounts/user_detail.html:73
-#: coop/models.py:59 coop/models.py:236
+#: coop/models.py:60 coop/models.py:237
 #: coop/templates/coop/shareowner_detail.html:67
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
@@ -91,7 +91,7 @@ msgstr "Bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:31
 #: coop/templates/coop/draftuser_detail.html:24
-#: coop/templates/coop/shareowner_detail.html:35 coop/views/shareowner.py:367
+#: coop/templates/coop/shareowner_detail.html:35 coop/views/shareowner.py:368
 msgid "Name"
 msgstr "Name"
 
@@ -238,82 +238,82 @@ msgstr ""
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: coop/forms.py:64 coop/models.py:306 coop/views/shareowner.py:218
+#: coop/forms.py:65 coop/models.py:307 coop/views/shareowner.py:219
 #, fuzzy
 #| msgid "Willkommen bei SuperCoop eG!"
-msgid "Welcome at Supercoop eG!"
+msgid "Welcome at SuperCoop eG!"
 msgstr "Willkommen in der SuperCoop eG!"
 
-#: coop/models.py:41
+#: coop/models.py:42
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:47 coop/models.py:224
+#: coop/models.py:48 coop/models.py:225
 #: coop/templates/coop/draftuser_list.html:20
 msgid "First name"
 msgstr "Vorname"
 
-#: coop/models.py:48 coop/models.py:225
+#: coop/models.py:49 coop/models.py:226
 #: coop/templates/coop/draftuser_list.html:21
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:49 coop/models.py:226
+#: coop/models.py:50 coop/models.py:227
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: coop/models.py:67
+#: coop/models.py:68
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:70 coop/models.py:264
+#: coop/models.py:71 coop/models.py:265
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:44
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:77 coop/models.py:257
+#: coop/models.py:78 coop/models.py:258
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:126
+#: coop/models.py:127
 msgid "Cannot be a company and have a Tapir account"
 msgstr ""
 
-#: coop/models.py:141
+#: coop/models.py:142
 msgid "User info should be stored in associated Tapir account"
 msgstr ""
 
-#: coop/models.py:190
+#: coop/models.py:191
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:98
 msgid "Sold"
 msgstr "Verkauft"
 
-#: coop/models.py:191 coop/templates/coop/draftuser_detail.html:63
+#: coop/models.py:192 coop/templates/coop/draftuser_detail.html:63
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:26
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:96
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:192 coop/templates/coop/draftuser_detail.html:65
+#: coop/models.py:193 coop/templates/coop/draftuser_detail.html:65
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:29
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:94
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:245
+#: coop/models.py:246
 msgid "Number of Shares"
 msgstr "Anzahl Anteilen"
 
-#: coop/models.py:249
+#: coop/models.py:250
 msgid "Investing member"
 msgstr "Investierende Mitglieder"
 
-#: coop/models.py:260
+#: coop/models.py:261
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:262
+#: coop/models.py:263
 msgid "Paid Membership Fee"
 msgstr "Mitgliedsgebühr bezahlt"
 
@@ -461,7 +461,7 @@ msgid "Membership confirmation"
 msgstr "Mitgliedsbestätigung"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:23
-#: coop/views/shareowner.py:371
+#: coop/views/shareowner.py:372
 #: shifts/templates/shifts/user_shifts_overview_tag.html:17
 msgid "Status"
 msgstr "Status"
@@ -471,14 +471,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:53
-#: shifts/models.py:633 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:634 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:170
 #: shifts/templates/shifts/shift_detail_printable.html:48
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:55
-#: shifts/models.py:632
+#: shifts/models.py:633
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -525,30 +525,30 @@ msgstr "Mitgliedsbestätigung per Mail senden"
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
-#: coop/views/shareowner.py:372
+#: coop/views/shareowner.py:373
 #: shifts/templates/shifts/shift_overview_template.html:80
 #: shifts/templates/shifts/shift_template_overview.html:40
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:377
+#: coop/views/shareowner.py:378
 #: shifts/templates/shifts/user_shifts_overview_tag.html:107
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:385
+#: coop/views/shareowner.py:386
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Befähigung erfordert"
 
-#: coop/views/shareowner.py:393
+#: coop/views/shareowner.py:394
 msgid "Has qualification"
 msgstr "Hat Befähigung"
 
-#: coop/views/shareowner.py:401
+#: coop/views/shareowner.py:402
 msgid "Does not have qualification"
 msgstr "Hat die Befähigung nicht"
 
-#: coop/views/shareowner.py:411
+#: coop/views/shareowner.py:412
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
@@ -611,71 +611,69 @@ msgstr ""
 msgid "Qualifications"
 msgstr "Befähigungen"
 
-#: shifts/models.py:30
+#: shifts/models.py:31
 msgid "Teamleader"
 msgstr "Teamleiter*in"
 
-#: shifts/models.py:31
+#: shifts/models.py:32
 msgid "Cashier"
 msgstr "Kasse"
 
-#: shifts/models.py:32
+#: shifts/models.py:33
 msgid "Member Office"
 msgstr "Mitgliederbüro"
 
-#: shifts/models.py:33
+#: shifts/models.py:34
 msgid "Bread Delivery"
 msgstr "Brotlieferung"
 
-#: shifts/models.py:34
+#: shifts/models.py:35
 msgid "Red Card"
 msgstr "Rote Karte Lebensmittel"
 
-#: shifts/models.py:35
+#: shifts/models.py:36
 msgid "First Aid"
 msgstr "Erste Hilfe"
 
-#: shifts/models.py:80
+#: shifts/models.py:81
 msgid "Monday"
 msgstr "Montag"
 
-#: shifts/models.py:81
+#: shifts/models.py:82
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: shifts/models.py:82
+#: shifts/models.py:83
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: shifts/models.py:83
+#: shifts/models.py:84
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: shifts/models.py:84
+#: shifts/models.py:85
 msgid "Friday"
 msgstr "Freitag"
 
-#: shifts/models.py:85
+#: shifts/models.py:86
 msgid "Saturday"
 msgstr "Samstag"
 
-#: shifts/models.py:86
+#: shifts/models.py:87
 msgid "Sunday"
 msgstr "Sontag"
 
-#: shifts/models.py:551
-#, fuzzy
-#| msgid "Look for a stand-in"
+#: shifts/models.py:552
 msgid "You found a stand-in!"
 msgstr ""
 
-#: shifts/models.py:634 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:635 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:179
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:635 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:636 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:193
 #: shifts/templates/shifts/shift_detail_printable.html:50
 #, fuzzy
@@ -683,26 +681,26 @@ msgstr "Nicht erschienen"
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:636 shifts/templates/shifts/shift_detail.html:201
+#: shifts/models.py:637 shifts/templates/shifts/shift_detail.html:201
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:637 shifts/templates/shifts/shift_detail.html:188
+#: shifts/models.py:638 shifts/templates/shifts/shift_detail.html:188
 #: shifts/templates/shifts/shift_overview_template.html:70
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:667
+#: shifts/models.py:668
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:668
+#: shifts/models.py:669
 #, fuzzy
 #| msgid "Flying"
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:671
+#: shifts/models.py:672
 #, fuzzy
 #| msgid "Shifts"
 msgid "Shift system"
@@ -1180,11 +1178,11 @@ msgid "None"
 msgstr "Keine"
 
 #: shifts/templatetags/shifts.py:45 shifts/templatetags/shifts.py:128
-#: shifts/views.py:504
+#: shifts/views.py:505
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views.py:306
+#: shifts/views.py:307
 msgid "You missed your shift!"
 msgstr "Du hast deine Schicht versäumt!"
 

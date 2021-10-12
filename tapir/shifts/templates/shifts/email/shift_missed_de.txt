@@ -1,6 +1,6 @@
 Hallo {{ tapir_user.first_name }},
 
-Dies ist eine automatische E-Mail von der Supercoop.
+Dies ist eine automatische E-Mail von der SuperCoop.
 
 Es ist gerade im Tapir-System eingetragen worden das du an die folgende Schicht nicht teigenommen hast, obvohl du angemeldet warst :
 {{ shift.get_display_name }}
