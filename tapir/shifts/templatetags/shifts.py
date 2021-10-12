@@ -61,6 +61,15 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
                 filter_classes.add("standin_" + shift_name_as_class(slot.name))
                 filter_classes.add("freeslot_any")
                 filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
+                if not slot.optional:
+                    filter_classes.add("standin_required_any")
+                    filter_classes.add(
+                        "standin_required_" + shift_name_as_class(slot.name)
+                    )
+                    filter_classes.add("freeslot_required_any")
+                    filter_classes.add(
+                        "freeslot_required_" + shift_name_as_class(slot.name)
+                    )
 
                 state = "standin"
             elif (
@@ -74,10 +83,12 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         else:
             filter_classes.add("freeslot_any")
             filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
-            if slot.optional:
-                state = "optional"
-            else:
-                state = "empty"
+            if not slot.optional:
+                filter_classes.add("freeslot_required_any")
+                filter_classes.add(
+                    "freeslot_required_" + shift_name_as_class(slot.name)
+                )
+            state = "empty"
 
         attendances[slot_name].append(state)
 
@@ -121,14 +132,16 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
         if slot_template.get_attendance_template() is None:
             filter_classes.add("freeslot_any")
             filter_classes.add("freeslot_" + shift_name_as_class(slot_template.name))
+            if not slot_template.optional:
+                filter_classes.add("freeslot_required_any")
+                filter_classes.add(
+                    "freeslot_required_" + shift_name_as_class(slot_template.name)
+                )
 
         if slot_template.get_attendance_template():
             state = "regular"
         else:
-            if slot_template.optional:
-                state = "optional"
-            else:
-                state = "empty"
+            state = "empty"
 
         attendances[slot_name].append(state)
 

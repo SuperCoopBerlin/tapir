@@ -3,7 +3,7 @@
 <div class="card m-2" id="user_coop_info_card">
     <h5 class="card-header d-flex justify-content-between align-items-center">
         {% if owner %}
-            <span>{% blocktranslate with coop_share_owner_id=owner.id %}Cooperator #{{ coop_share_owner_id }}{% endblocktranslate %}</span>
+            <span>{% blocktranslate with coop_share_owner_id=owner.id %}Member #{{ coop_share_owner_id }}{% endblocktranslate %}</span>
             {% if perms.accounts.manage %}
                 <span>
                     <a class="btn tapir-btn btn-outline-secondary" href="{% url "coop:shareowner_membership_confirmation" owner.pk %}">

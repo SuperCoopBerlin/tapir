@@ -1,0 +1,11 @@
+Hallo {{ tapir_user.first_name }},
+
+Dies ist eine automatische E-Mail von der SuperCoop.
+
+Es ist gerade im Tapir-System eingetragen worden das du an die folgende Schicht nicht teigenommen hast, obvohl du angemeldet warst :
+{{ shift.get_display_name }}
+Wenn es einer Fehler ist, oder du denkst das du für der Schicht entschuligt sein soll, kontaktiere das Mitgliederbüro: mitglied@supercoop.de .
+Wie im Mitgliederhandbuch geschrieben, wenn ein Mitglied eine Schicht versäumt, muss das Mitglied an 2 Nachholschichten teilnehmen innerhalb 4 Wochen nach der versäumte Schicht um dafür zu kompensieren. Du kannst dich für die Nachholschichten selbst in Tapir eintragen : https://members.supercoop.de/shifts/timetable
+Wenn du deine Nachholschichten nicht machst, können deine Einkaufs- und Wahl-Recht suspendiert werden. Für mehr Information sehe das Mitgliederhandbuch III.F : https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.594fbvgmke0z
+
+Kooperative Grüße,

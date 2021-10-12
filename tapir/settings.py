@@ -163,12 +163,14 @@ PASSWORD_RESET_TIMEOUT = (
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = "Europe/Berlin"
+TIME_ZONE = "Etc/GMT-2"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
+FROM_EMAIL_MEMBER_OFFICE = f"SuperCoop Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

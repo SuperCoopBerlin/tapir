@@ -1,0 +1,10 @@
+Dear {{ tapir_user.first_name }},
+
+This is an automated email from SuperCoop.
+
+You were looking for a stand-in for the following shift: {{ shift.get_display_name }}.
+Another member has taken over your slot for that shift.
+
+If you haven't done so already, don't forget to attend another shift to compensate for the one you will miss!
+
+Cooperatively yours,

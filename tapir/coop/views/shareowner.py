@@ -40,6 +40,7 @@ from tapir.coop.models import (
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
+from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
@@ -215,9 +216,9 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
         template_name = "coop/email/membership_confirmation_welcome.html"
 
     mail = EmailMessage(
-        subject=_("Welcome at Supercoop eG!"),
+        subject=_("Welcome at SuperCoop eG!"),
         body=render_to_string(template_name, {"owner": owner}),
-        from_email="SuperCoop Mitgliederbüro <mitglied@supercoop.de>",
+        from_email=FROM_EMAIL_MEMBER_OFFICE,
         to=[owner.get_info().email],
         bcc=["mitglied@supercoop.de"],
         attachments=[

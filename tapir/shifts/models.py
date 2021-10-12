@@ -3,17 +3,20 @@ from __future__ import annotations
 import datetime
 
 from django.contrib.postgres.fields import ArrayField
+from django.core.mail import EmailMessage
 from django.db import models, transaction
 from django.db.models import Sum
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import timezone
+from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
 from tapir.utils.models import DurationModelMixin
+from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 
 
 class ShiftUserCapability:
@@ -436,7 +439,7 @@ class ShiftSlot(models.Model):
 
     def get_required_capabilities_display(self):
         return ", ".join(
-            [SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.required_capabilities]
+            [str(SHIFT_USER_CAPABILITY_CHOICES[c]) for c in self.required_capabilities]
         )
 
     def get_display_name(self):
@@ -540,6 +543,22 @@ class ShiftSlot(models.Model):
         log_entry.slot_name = attendance.slot.name
         log_entry.shift = attendance.slot.shift
         log_entry.save()
+
+        template_name = (
+            f"shifts/email/stand_in_found_{attendance.user.preferred_language}.txt"
+        )
+
+        with translation.override(attendance.user.preferred_language):
+            mail = EmailMessage(
+                subject=_("You found a stand-in!"),
+                body=render_to_string(
+                    template_name,
+                    {"tapir_user": attendance.user, "shift": attendance.slot.shift},
+                ),
+                from_email=FROM_EMAIL_MEMBER_OFFICE,
+                to=[attendance.user.email],
+            )
+            mail.send()
 
 
 class ShiftAccountEntry(models.Model):

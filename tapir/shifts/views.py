@@ -4,12 +4,14 @@ from datetime import date, time, timedelta
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.core.mail import EmailMessage
 from django.db import transaction
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
 from django.urls import reverse
-from django.utils import timezone
+from django.template.loader import render_to_string
+from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
@@ -24,6 +26,7 @@ from werkzeug.exceptions import BadRequest
 
 from tapir.accounts.models import TapirUser
 from tapir.log.util import freeze_for_log
+from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.forms import (
     ShiftCreateForm,
     ShiftAttendanceTemplateForm,
@@ -190,7 +193,9 @@ class SlotTemplateRegisterView(
         kwargs["slot_template"] = slot_template
 
         blocked_slots = []
-        for slot in slot_template.generated_slots.all():
+        for slot in slot_template.generated_slots.filter(
+            shift__start_time__gte=timezone.now()
+        ):
             attendance = slot.get_valid_attendance()
             if attendance is not None:
                 blocked_slots.append(slot)
@@ -271,6 +276,9 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
             log_entry.state = attendance.state
             log_entry.save()
 
+            if attendance.state == ShiftAttendance.State.MISSED:
+                self.send_shift_missed_email()
+
             entry_value = None
             if attendance.state == ShiftAttendance.State.MISSED:
                 entry_value = -1
@@ -291,6 +299,24 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
                 attendance.save()
 
             return response
+
+    def send_shift_missed_email(self):
+        attendance = self.get_attendance()
+        template_name = (
+            f"shifts/email/shift_missed_{attendance.user.preferred_language}.txt"
+        )
+
+        with translation.override(attendance.user.preferred_language):
+            mail = EmailMessage(
+                subject=_("You missed your shift!"),
+                body=render_to_string(
+                    template_name,
+                    {"tapir_user": attendance.user, "shift": attendance.slot.shift},
+                ),
+                from_email=FROM_EMAIL_MEMBER_OFFICE,
+                to=[attendance.user.email],
+            )
+            mail.send()
 
 
 class UpdateShiftAttendanceStateView(UpdateShiftAttendanceStateBase):

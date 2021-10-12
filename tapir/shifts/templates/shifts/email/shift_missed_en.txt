@@ -1,0 +1,11 @@
+Hi {{ tapir_user.first_name }},
+
+This is an automated email from SuperCoop.
+
+It has been registered in the Tapir system that you didn't attend the following shift which you had registered for:
+{{ shift.get_display_name }}
+If it's a mistake, or you think that you should be excused from this shift, please contact the member office: mitglied@supercoop.de .
+As stated in the Member Manual, a missed shift must be compensated for by completing 2 make-up shifts within four weeks of your missed shift. You can schedule your make-up shifts directly on Tapir : https://members.supercoop.de/shifts/timetable
+Please keep in mind that if you do not complete your make-up shifts your shopping and voting rights will be suspended. For more information please see the Member Manual (Section III.F) :  https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.lk042ux0tm9c.
+
+Cooperatively yours,

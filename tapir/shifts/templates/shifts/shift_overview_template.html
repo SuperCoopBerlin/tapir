@@ -15,6 +15,10 @@
             animation: shift-block-animation 2s infinite;
         }
 
+        .fade-out {
+            opacity: 0.6;
+        }
+
         @keyframes shift-block-animation {
             0% {
                 transform: rotateZ(-3deg);
@@ -59,28 +63,36 @@
                 <h5>{% trans "Filters" %}</h5>
                 <p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-primary active">
+                    <label class="btn btn-outline-dark">
                         <input type="radio" name="slot_status_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
                     </label>
-                    <label class="btn btn-outline-primary">
+                    <label class="btn btn-outline-dark">
                         <input type="radio" name="slot_status_options" autocomplete="off" value="standin"> {% trans 'Looking for a stand-in' %}
                     </label>
-                    <label class="btn btn-outline-primary">
-                        <input type="radio" name="slot_status_options" autocomplete="off" value="freeslot"> {% trans 'Has a free slot' %}
+                    <label class="btn btn-outline-dark active">
+                        <input type="radio" name="slot_status_options" autocomplete="off" value="freeslot" class="active-on-load"> {% trans 'Has a free slot' %}
                     </label>
                 </div>
                 </p>
                 <p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-primary active">
+                    <label class="btn btn-outline-dark active">
                         <input type="radio" name="slot_name_options" autocomplete="off" value="any" checked> {% trans 'Any' %}
                     </label>
                     {% for name in shift_slot_names %}
-                        <label class="btn btn-outline-primary">
+                        <label class="btn btn-outline-dark">
                             <input type="radio" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"> {{ name.1 }}
                         </label>
                     {% endfor %}
                 </div>
+                </p>
+            </li>
+            <li class="list-group-item">
+                <h5>{% trans "Legend" %}</h5>
+                <p>
+                    <span class="btn" style="color: black" id="legend-primary">{% trans 'Help urgently needed' %}</span>
+                    <span class="btn" style="color: black" id="legend-secondary">{% trans 'Some help needed' %}</span>
+                    <span class="btn" style="color: black" id="legend-off">{% trans 'No help needed' %}</span>
                 </p>
             </li>
         </ul>
