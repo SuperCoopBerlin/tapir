@@ -1,6 +1,6 @@
 Dear {{ owner.get_display_name }},
 
-Thanks for your interest in Supercoop!
+Thanks for your interest in SuperCoop!
 
 Joined to this email is your pre-filled Beteiligungserklärung.
 

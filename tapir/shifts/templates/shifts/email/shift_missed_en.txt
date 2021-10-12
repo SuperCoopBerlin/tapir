@@ -1,6 +1,6 @@
 Hi {{ tapir_user.first_name }},
 
-This is an automated email from Supercoop.
+This is an automated email from SuperCoop.
 
 It has been registered in the Tapir system that you didn't attend the following shift which you had registered for:
 {{ shift.get_display_name }}

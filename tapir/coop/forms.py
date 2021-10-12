@@ -62,7 +62,7 @@ class DraftUserRegisterForm(forms.ModelForm):
         draft_user: DraftUser = super().save(commit)
         with translation.override(draft_user.preferred_language):
             mail = EmailMessage(
-                subject=_("Welcome at Supercoop eG!"),
+                subject=_("Welcome at SuperCoop eG!"),
                 body=render_to_string(
                     "coop/email/membership_confirmation_welcome.html",
                     {"owner": draft_user},
