@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
 from tapir.coop.pdfs import get_membership_agreement_pdf
+from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.utils.forms import DateInput, TapirPhoneNumberField
 
 
@@ -66,7 +67,7 @@ class DraftUserRegisterForm(forms.ModelForm):
                     "coop/email/membership_confirmation_welcome.html",
                     {"owner": draft_user},
                 ),
-                from_email="mitglied@supercoop.de",
+                from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[draft_user.email],
                 attachments=[
                     (

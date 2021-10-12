@@ -15,6 +15,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
+from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 
 
 class ShiftUserCapability:
@@ -553,7 +554,7 @@ class ShiftSlot(models.Model):
                     template_name,
                     {"tapir_user": attendance.user, "shift": attendance.slot.shift},
                 ),
-                from_email="SuperCoop Mitgliederbüro <mitglied@supercoop.de>",
+                from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[attendance.user.email],
             )
             mail.send()
