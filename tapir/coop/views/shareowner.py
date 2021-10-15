@@ -16,7 +16,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
-from django.views.generic import UpdateView, CreateView
+from django.views.generic import UpdateView, CreateView, ListView
 from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
@@ -522,3 +522,48 @@ class ShareOwnerExportMailchimpView(
             writer.writerow([owner.get_info().email, "", "", "", lang_tag])
 
         return response
+
+
+class MatchingProgramTable(django_tables2.Table):
+    class Meta:
+        model = ShareOwner
+        template_name = "django_tables2/bootstrap4.html"
+        fields = [
+            "willing_to_gift_a_share",
+        ]
+        sequence = (
+            "display_name",
+            "willing_to_gift_a_share",
+        )
+        order_by = "id"
+
+    display_name = django_tables2.Column(
+        empty_values=(), verbose_name="Name", orderable=False
+    )
+
+    def render_display_name(self, value, record: ShareOwner):
+        return format_html(
+            "<a href={}>{}</a>",
+            record.get_absolute_url(),
+            record.get_info().get_display_name(),
+        )
+
+    def render_willing_to_gift_a_share(self, value, record: ShareOwner):
+        if record.willing_to_gift_a_share is None:
+            return _("No")
+        return record.willing_to_gift_a_share.strftime("%d.%m.%Y")
+
+
+class MatchingProgramListView(PermissionRequiredMixin, SingleTableView):
+    permission_required = "coop.manage"
+    model = ShareOwner
+    template_name = "coop/matching_program.html"
+    table_class = MatchingProgramTable
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .exclude(willing_to_gift_a_share=None)
+            .order_by("willing_to_gift_a_share")
+        )

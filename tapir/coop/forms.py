@@ -129,9 +129,11 @@ class ShareOwnerForm(forms.ModelForm):
             "ratenzahlung",
             "attended_welcome_session",
             "paid_membership_fee",
+            "willing_to_gift_a_share",
         ]
         widgets = {
             "birthdate": DateInput(),
+            "willing_to_gift_a_share": DateInput(),
         }
 
     def __init__(self, *args, **kwargs):

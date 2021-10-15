@@ -74,9 +74,15 @@
                     (<a class="" data-toggle="collapse" href="#shares-table">Details</a>)
                 </div>
             </div>
+
             <div class="row m-1">
                 <div class="col-5 font-weight-bold text-right">{% trans "Has paid" %}:</div>
                 <div class="col-7">{{ owner.paid_membership_fee|yesno:"Yes,No" }}</div>
+            </div>
+
+            <div class="row m-1">
+                <div class="col-5 font-weight-bold text-right">{% trans "Willing to gift a share" %}:</div>
+                <div class="col-7">{{ owner.willing_to_gift_a_share|yesno:"Yes,No" }}</div>
             </div>
 
             <div class="collapse" id="shares-table">

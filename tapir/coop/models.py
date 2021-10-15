@@ -74,6 +74,9 @@ class ShareOwner(models.Model):
         _("Attended Welcome Session"), default=False
     )
     paid_membership_fee = models.BooleanField(_("Paid Membership Fee"), default=True)
+    willing_to_gift_a_share = models.DateField(
+        _("Is willing to gift a share"), null=True, blank=True
+    )
 
     class ShareOwnerQuerySet(models.QuerySet):
         def with_name(self, search_string: str):

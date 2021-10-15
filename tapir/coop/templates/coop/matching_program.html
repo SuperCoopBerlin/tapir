@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load render_table from django_tables2 %}
+{% load bootstrap4 %}
+{% load i18n %}
+{% load static %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="card m-2">
+        <div class="card-header d-flex justify-content-between">
+            <h5>{% trans "Matching program members" %}</h5>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                {% blocktranslate %}
+                    The members in this list have expressed that they are willing to pay the share for a potential new member that otherwise couldn't afford it.
+                {% endblocktranslate %}
+            </li>
+            <li class="list-group-item">
+                {% render_table table %}
+            </li>
+        </ul>
+    </div>
+{% endblock %}
