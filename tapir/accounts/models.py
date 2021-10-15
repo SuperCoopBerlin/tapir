@@ -22,6 +22,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts import validators
 from tapir.log.models import UpdateModelLogEntry
+from tapir.settings import PERMISSIONS
 from tapir.utils.models import CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -195,6 +196,12 @@ class TapirUser(LdapUser):
                 return True
 
         return super().has_perm(perm=perm, obj=obj)
+
+    def get_permissions_display(self):
+        user_perms = [perm for perm in PERMISSIONS if self.has_perm(perm)]
+        if len(user_perms) == 0:
+            return _("None")
+        return ", ".join(user_perms)
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):

@@ -73,6 +73,12 @@
                         <div class="col-4 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
                         <div class="col-8">{{ object.get_preferred_language_display }}</div>
                     </div>
+                    {% if perms.accounts.manage %}
+                        <div class="row m-1">
+                            <div class="col-4 font-weight-bold text-right">{% trans "Permissions" %}:</div>
+                            <div class="col-8">{{ object.get_permissions_display }}</div>
+                        </div>
+                    {% endif %}
 
                     <div class="row m-1 justify-content-end">
                         {% if perms.accounts.manage %}
