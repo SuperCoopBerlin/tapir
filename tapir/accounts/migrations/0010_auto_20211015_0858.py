@@ -9,7 +9,7 @@ import tapir.accounts.validators
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("accounts", "0008_auto_20210909_0943"),
+        ("accounts", "0009_auto_20211003_0941"),
     ]
 
     operations = [
