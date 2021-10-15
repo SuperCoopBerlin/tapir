@@ -35,7 +35,7 @@
             </div>
 
             <div class="row m-1">
-                <div class="col-5 font-weight-bold text-right">From Startnext</div>
+                <div class="col-5 font-weight-bold text-right">From Startnext:</div>
                 <div class="col-7">{{ owner.from_startnext|yesno:"Yes,No" }}</div>
             </div>
 
@@ -47,7 +47,7 @@
             {% endif %}
 
             <div class="row m-1">
-                <div class="col-5 font-weight-bold text-right">{% trans "Welcome Session" %}</div>
+                <div class="col-5 font-weight-bold text-right">{% trans "Welcome Session" %}:</div>
                 <div class="col-7">
                     {% if owner.attended_welcome_session %}
                         <span class="text-success">{% trans "Attended" %}</span>
@@ -68,11 +68,15 @@
             </div>
 
             <div class="row m-1">
-                <div class="col-5 font-weight-bold text-right">{% trans "Owned shares" %}</div>
+                <div class="col-5 font-weight-bold text-right">{% trans "Owned shares" %}:</div>
                 <div class="col-7">
                     <span id="share_owner_num_shares">{{ owner.num_shares }}</span>
                     (<a class="" data-toggle="collapse" href="#shares-table">Details</a>)
                 </div>
+            </div>
+            <div class="row m-1">
+                <div class="col-5 font-weight-bold text-right">{% trans "Has paid" %}:</div>
+                <div class="col-7">{{ owner.paid_membership_fee|yesno:"Yes,No" }}</div>
             </div>
 
             <div class="collapse" id="shares-table">

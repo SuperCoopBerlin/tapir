@@ -363,6 +363,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
             "attended_welcome_session",
             "ratenzahlung",
             "is_company",
+            "paid_membership_fee",
         ]
 
     display_name = CharFilter(method="display_name_filter", label=_("Name"))

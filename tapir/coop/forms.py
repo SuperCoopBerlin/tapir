@@ -127,6 +127,7 @@ class ShareOwnerForm(forms.ModelForm):
             "is_investing",
             "ratenzahlung",
             "attended_welcome_session",
+            "paid_membership_fee",
         ]
         widgets = {
             "birthdate": DateInput(),

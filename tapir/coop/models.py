@@ -63,20 +63,17 @@ class ShareOwner(models.Model):
         max_length=16,
         blank=True,
     )
-
     is_investing = models.BooleanField(
         verbose_name=_("Is investing member"), default=False
     )
-
     ratenzahlung = models.BooleanField(verbose_name=_("Ratenzahlung"), default=False)
-
     # TODO(Leon Handreke): Remove this temporary field again after the Startnext member integration is done
     # It's only used to send special emails to these members
     from_startnext = models.BooleanField(default=False)
-
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
     )
+    paid_membership_fee = models.BooleanField(_("Paid Membership Fee"), default=True)
 
     class ShareOwnerQuerySet(models.QuerySet):
         def with_name(self, search_string: str):
