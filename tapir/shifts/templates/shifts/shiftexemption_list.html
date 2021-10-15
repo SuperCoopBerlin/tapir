@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <div class="card m-2">
+        <h5 class="card-header d-flex justify-content-between justify-content-between">
+            <span>{% trans "Shift exemptions" %}</span>
+            {% if shift_user_data %}
+                <a class="btn tapir-btn btn-outline-primary" href="{% url "shifts:create_shift_exemption" shift_user_data.id %}" id="create_shift_exemption_button">
+                    <span class="material-icons">add</span>
+                    Create
+                </a>
+            {% endif %}
+        </h5>
+        <div class="card-body">
+            <table class="table table-striped" id="shift_exemptions_table">
+                <thead>
+                <th>{% trans "User" %}</th>
+                <th>{% trans "Start date" %}</th>
+                <th>{% trans "End date" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Is active" %}</th>
+                <th></th>
+                </thead>
+                {% for exemption in object_list %}
+                    <tr>
+                        <td class="align-middle"><a href="{{ exemption.shift_user_data.user.get_absolute_url }}">{{ exemption.shift_user_data.user.get_display_name }}</a></td>
+                        <td class="align-middle">{{ exemption.start_date|date:"d.m.y" }}</td>
+                        <td class="align-middle">{{ exemption.end_date|date:"d.m.y" }}</td>
+                        <td class="align-middle">{{ exemption.description }}</td>
+                        <td class="align-middle">{{ exemption.is_valid }}</td>
+                        <td class="align-middle">
+                            <a class="btn tapir-btn btn-outline-info" href="{% url 'shifts:edit_shift_exemption' exemption.pk %}">
+                                <span class="material-icons">edit</span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,3 +1,4 @@
+import datetime
 import json
 import os
 import pathlib
@@ -140,6 +141,14 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
     @staticmethod
     def is_button_disabled(button: WebElement):
         return button.get_attribute("disabled") is not None
+
+    def fill_date_field(self, element_id, date: datetime.date):
+        # Somehow send_keys doesn't work for <input type="date"> in Firefox
+        self.selenium.execute_script(
+            f"document.getElementById('{element_id}').value = '"
+            + date.strftime("%Y-%m-%d")
+            + "';"
+        )
 
 
 class TapirUserTestBase(TapirSeleniumTestBase):

@@ -1,0 +1,238 @@
+[
+  {
+    "model": "accounts.tapiruser",
+    "pk": 1351,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user.one",
+      "first_name": "User",
+      "last_name": "One",
+      "email": "user.one@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2021-08-24T19:22:19.809Z",
+      "phone_number": "+494340702",
+      "birthdate": "1953-08-12",
+      "street": "Hatanpään Valtatie 225",
+      "street_2": "",
+      "postcode": "92417",
+      "city": "Kauhajoki",
+      "country": "FI",
+      "preferred_language": "en",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "coop.shareowner",
+    "pk": 401,
+    "fields": {
+      "user": 1351,
+      "is_company": false,
+      "company_name": "",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "phone_number": "",
+      "birthdate": null,
+      "street": "",
+      "street_2": "",
+      "postcode": "",
+      "city": "",
+      "country": "",
+      "preferred_language": "",
+      "is_investing": false,
+      "ratenzahlung": false,
+      "from_startnext": false,
+      "attended_welcome_session": false
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 1871,
+    "fields": {
+      "start_date": "2021-08-24",
+      "end_date": null,
+      "owner": 401
+    }
+  },
+  {
+    "model": "accounts.tapiruser",
+    "pk": 1352,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user.two",
+      "first_name": "User",
+      "last_name": "Two",
+      "email": "user.two@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2021-08-24T19:22:19.809Z",
+      "phone_number": "+494340702",
+      "birthdate": "1953-08-12",
+      "street": "Hatanpään Valtatie 225",
+      "street_2": "",
+      "postcode": "92417",
+      "city": "Kauhajoki",
+      "country": "FI",
+      "preferred_language": "en",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "coop.shareowner",
+    "pk": 402,
+    "fields": {
+      "user": 1352,
+      "is_company": false,
+      "company_name": "",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "phone_number": "",
+      "birthdate": null,
+      "street": "",
+      "street_2": "",
+      "postcode": "",
+      "city": "",
+      "country": "",
+      "preferred_language": "",
+      "is_investing": false,
+      "ratenzahlung": false,
+      "from_startnext": false,
+      "attended_welcome_session": false
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 1872,
+    "fields": {
+      "start_date": "2021-08-24",
+      "end_date": null,
+      "owner": 402
+    }
+  },
+  {
+    "model": "accounts.tapiruser",
+    "pk": 1353,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user.three",
+      "first_name": "User",
+      "last_name": "Three",
+      "email": "user.three@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2021-08-24T19:22:19.809Z",
+      "phone_number": "+494340702",
+      "birthdate": "1953-08-12",
+      "street": "Hatanpään Valtatie 225",
+      "street_2": "",
+      "postcode": "92417",
+      "city": "Kauhajoki",
+      "country": "FI",
+      "preferred_language": "en",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "coop.shareowner",
+    "pk": 403,
+    "fields": {
+      "user": 1353,
+      "is_company": false,
+      "company_name": "",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "phone_number": "",
+      "birthdate": null,
+      "street": "",
+      "street_2": "",
+      "postcode": "",
+      "city": "",
+      "country": "",
+      "preferred_language": "",
+      "is_investing": false,
+      "ratenzahlung": false,
+      "from_startnext": false,
+      "attended_welcome_session": false
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 1873,
+    "fields": {
+      "start_date": "2021-08-24",
+      "end_date": null,
+      "owner": 403
+    }
+  },
+  {
+    "model": "accounts.tapiruser",
+    "pk": 1354,
+    "fields": {
+      "password": "",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user.four",
+      "first_name": "User",
+      "last_name": "Four",
+      "email": "user.four@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2021-08-24T19:22:19.809Z",
+      "phone_number": "+494340702",
+      "birthdate": "1953-08-12",
+      "street": "Hatanpään Valtatie 225",
+      "street_2": "",
+      "postcode": "92417",
+      "city": "Kauhajoki",
+      "country": "FI",
+      "preferred_language": "en",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "coop.shareowner",
+    "pk": 404,
+    "fields": {
+      "user": 1354,
+      "is_company": false,
+      "company_name": "",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "phone_number": "",
+      "birthdate": null,
+      "street": "",
+      "street_2": "",
+      "postcode": "",
+      "city": "",
+      "country": "",
+      "preferred_language": "",
+      "is_investing": false,
+      "ratenzahlung": false,
+      "from_startnext": false,
+      "attended_welcome_session": false
+    }
+  },
+  {
+    "model": "coop.shareownership",
+    "pk": 1874,
+    "fields": {
+      "start_date": "2021-08-24",
+      "end_date": null,
+      "owner": 404
+    }
+  }
+]

@@ -4,21 +4,14 @@
 {% load i18n %}
 
 {% block content %}
-
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{% url "coop:shareowner_list" %}">{% trans "Users" %}</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
-            </li>
-            <li class="breadcrumb-item">{% trans "Edit user shift data" %}</li>
-        </ol>
-    </nav>
-
     <div class="container">
-        <div class="card m-2">
+        <div class="card m-2" id="shift_exemption_form">
+            <h5 class="card-header">
+                {% if object %}
+                    {% trans "Edit shift exemption for: " %}<a href="{{ object.shift_user_data.user.get_absolute_url }}">{{ object.shift_user_data.user.get_display_name }}</a></h5>
+                {% else %}
+                    {% trans "Create shift exemption for: " %}<a href="{{ selected_user.get_absolute_url }}">{{ selected_user.get_display_name }}</a></h5>
+                {% endif %}
             <div class="card-body">
                 <form role="form" method="post">
                     {% csrf_token %}

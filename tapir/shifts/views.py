@@ -9,6 +9,7 @@ from django.db import transaction
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
@@ -19,6 +20,7 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
+    ListView,
 )
 from werkzeug.exceptions import BadRequest
 
@@ -32,6 +34,7 @@ from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
     UpdateShiftAttendanceForm,
+    ShiftExemptionForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -50,6 +53,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     UpdateShiftAttendanceStateLogEntry,
     ShiftAccountEntry,
+    ShiftExemption,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
 
@@ -664,3 +668,54 @@ class CreateShiftAccountEntryView(PermissionRequiredMixin, CreateView):
 
     def get_success_url(self):
         return self.get_target_user().get_absolute_url()
+
+
+class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
+    model = ShiftExemption
+    form_class = ShiftExemptionForm
+    permission_required = "shifts.manage"
+
+    def get_target_user_data(self) -> ShiftUserData:
+        return ShiftUserData.objects.get(pk=self.kwargs["shift_user_data_pk"])
+
+    def form_valid(self, form):
+        form.instance.shift_user_data = self.get_target_user_data()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["selected_user"] = self.get_target_user_data().user
+        return context
+
+    def get_success_url(self):
+        return self.get_target_user_data().user.get_absolute_url()
+
+
+class EditShiftExemptionView(PermissionRequiredMixin, UpdateView):
+    model = ShiftExemption
+    form_class = ShiftExemptionForm
+    permission_required = "shifts.manage"
+
+    def get_success_url(self):
+        return reverse("shifts:shift_exemption_list")
+
+
+class ShiftExemptionListView(PermissionRequiredMixin, ListView):
+    permission_required = ["shifts.manage"]
+    model = ShiftExemption
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
+        if shift_user_data_id is not None:
+            queryset = queryset.filter(shift_user_data__id=shift_user_data_id)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
+        if shift_user_data_id is not None:
+            context_data["shift_user_data"] = ShiftUserData.objects.get(
+                pk=shift_user_data_id
+            )
+        return context_data

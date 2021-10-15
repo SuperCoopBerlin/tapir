@@ -15,6 +15,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
+from tapir.utils.models import DurationModelMixin
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 
 
@@ -704,6 +705,16 @@ class ShiftUserData(models.Model):
     def is_balance_positive(self):
         return self.get_account_balance() > 1
 
+    def get_current_shift_exemption(self, date=None):
+        return (
+            ShiftExemption.objects.filter(shift_user_data=self)
+            .active_temporal(date)
+            .first()
+        )
+
+    def is_currently_exempted_from_shifts(self, date=None):
+        return self.get_current_shift_exemption(date) is not None
+
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
     if not hasattr(instance, "shift_user_data"):
@@ -711,3 +722,58 @@ def create_shift_user_data(instance: TapirUser, **kwargs):
 
 
 models.signals.post_save.connect(create_shift_user_data, sender=TapirUser)
+
+
+class ShiftExemption(DurationModelMixin, models.Model):
+    shift_user_data = models.ForeignKey(
+        ShiftUserData, related_name="shift_exemptions", on_delete=models.CASCADE
+    )
+    description = models.TextField(_("Description"), null=False, blank=False)
+
+
+class ShiftCycleEntry(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["shift_user_data", "cycle_start_date"],
+                name="user_date_constraint",
+            )
+        ]
+
+    shift_user_data = models.ForeignKey(
+        ShiftUserData, related_name="shift_cycle_logs", on_delete=models.CASCADE
+    )
+    cycle_start_date = models.DateField(_("Cycle start date"), null=False, blank=False)
+    shift_account_entry = models.OneToOneField(
+        ShiftAccountEntry,
+        related_name="shift_cycle_log",
+        on_delete=models.PROTECT,
+        null=True,
+    )
+
+    @staticmethod
+    def apply_cycle_start(cycle_start_date: datetime.date, shift_user_datas=None):
+        if shift_user_datas is None:
+            shift_user_datas = ShiftUserData.objects.all()
+        for shift_user_data in shift_user_datas:
+            if ShiftCycleEntry.objects.filter(
+                shift_user_data=shift_user_data, cycle_start_date=cycle_start_date
+            ).exists():
+                continue
+
+            with transaction.atomic():
+                shift_cycle_log = ShiftCycleEntry.objects.create(
+                    shift_user_data=shift_user_data, cycle_start_date=cycle_start_date
+                )
+
+                if shift_user_data.is_currently_exempted_from_shifts(cycle_start_date):
+                    continue
+
+                shift_account_entry = ShiftAccountEntry.objects.create(
+                    user=shift_user_data.user,
+                    value=-1,
+                    date=cycle_start_date,
+                    description="Shift cycle starting the "
+                    + cycle_start_date.strftime("%d.%m.%y"),
+                )
+                shift_cycle_log.shift_account_entry = shift_account_entry

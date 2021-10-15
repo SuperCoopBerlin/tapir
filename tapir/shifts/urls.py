@@ -108,4 +108,19 @@ urlpatterns = [
         views.CreateShiftAccountEntryView.as_view(),
         name="create_shift_account_entry",
     ),
+    path(
+        "create_shift_exemption/<int:shift_user_data_pk>",
+        views.CreateShiftExemptionView.as_view(),
+        name="create_shift_exemption",
+    ),
+    path(
+        "edit_shift_exemption/<int:pk>",
+        views.EditShiftExemptionView.as_view(),
+        name="edit_shift_exemption",
+    ),
+    path(
+        "shift_exemption_list",
+        views.ShiftExemptionListView.as_view(),
+        name="shift_exemption_list",
+    ),
 ]

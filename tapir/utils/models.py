@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from datetime import date
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q, QuerySet
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 # http://xml.coverpages.org/country3166.html
@@ -265,41 +267,32 @@ class CountryField(models.CharField):
         return "CharField"
 
 
-## Manager to provide convenience queries for DurationModelMixins
-class DurationModelMixinManager(models.Manager):
+class DurationModelMixinQuerySet(models.QuerySet):
     ## Filter all objects that overlap with the given object.
     #
     # @param obj the object that the filtered objects should overlap with
     # @return all objects that overlap with the given object but not the given object itself
-    def overlapping_with(self, obj) -> QuerySet:
-        return (
-            self.get_queryset()
-            .filter(
-                (
-                    # All objects that begin after `obj` begins
-                    Q(start_date__gte=obj.start_date)
-                    &
-                    # and begin during the duration of `obj`
-                    (
-                        Q(start_date__lte=obj.end_date)
-                        if obj.end_date is not None
-                        else Q()
-                    )
-                )
-                | (
-                    # All object that begin before `obj` begins
-                    Q(start_date__lte=obj.start_date)
-                    &
-                    # and end after `obj` begins
-                    (Q(end_date__gte=obj.start_date) | Q(end_date__isnull=True))
-                )
+    def overlapping_with(self, obj) -> DurationModelMixinQuerySet:
+        return self.filter(
+            (
+                # All objects that begin after `obj` begins
+                Q(start_date__gte=obj.start_date)
+                &
+                # and begin during the duration of `obj`
+                (Q(start_date__lte=obj.end_date) if obj.end_date is not None else Q())
             )
-            .exclude(id=(obj.id if hasattr(obj, "id") else None))
-        )
+            | (
+                # All object that begin before `obj` begins
+                Q(start_date__lte=obj.start_date)
+                &
+                # and end after `obj` begins
+                (Q(end_date__gte=obj.start_date) | Q(end_date__isnull=True))
+            )
+        ).exclude(id=(obj.id if hasattr(obj, "id") else None))
 
     ## Filter all objects that are active on a given date.
     # @param effective_date The date that the objects returned should all be active on.
-    def active_temporal(self, effective_date=None) -> QuerySet:
+    def active_temporal(self, effective_date=None) -> DurationModelMixinQuerySet:
         if not effective_date:
             # if no effective date was given, use today as the default
             effective_date = date.today()
@@ -313,7 +306,7 @@ class DurationModelMixin(models.Model):
     start_date = models.DateField(db_index=True)
     end_date = models.DateField(null=True, blank=True, db_index=True)
 
-    objects = DurationModelMixinManager()
+    objects = DurationModelMixinQuerySet.as_manager()
 
     class Meta:
         ordering = ["-start_date"]
