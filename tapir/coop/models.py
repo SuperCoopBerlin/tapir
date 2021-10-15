@@ -237,11 +237,7 @@ class DraftUser(models.Model):
         max_length=16,
     )
 
-    # For now, make this not editable, as one is the 99%-case. In case somebody wants to buy more shares,
-    # we should build a flow for existing users. This also solves the issue of keeping the invoice in sync.
-    num_shares = models.IntegerField(
-        _("Number of Shares"), blank=False, editable=False, default=1
-    )
+    num_shares = models.IntegerField(_("Number of Shares"), blank=False, default=1)
 
     is_investing = models.BooleanField(
         verbose_name=_("Investing member"), default=False

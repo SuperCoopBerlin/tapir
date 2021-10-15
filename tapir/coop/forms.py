@@ -43,6 +43,7 @@ class DraftUserForm(forms.ModelForm):
             "ratenzahlung",
             "paid_membership_fee",
             "signed_membership_agreement",
+            "num_shares",
         ]
         widgets = {
             "birthdate": DateInput(),
