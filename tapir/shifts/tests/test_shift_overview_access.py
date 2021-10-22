@@ -15,5 +15,5 @@ class TestShiftOverviewAccess(TapirSeleniumTestBase):
         )
         self.wait_until_element_present_by_id("repeated-shift-overview-table")
 
-        self.selenium.get(self.live_server_url + reverse("shifts:upcoming_timetable"))
+        self.selenium.get(self.live_server_url + reverse("shifts:calendar_future"))
         self.wait_until_element_present_by_id("upcoming-shifts-timetable")

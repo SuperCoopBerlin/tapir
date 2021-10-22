@@ -107,7 +107,7 @@
                     <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">Shifts</h6>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "shifts:upcoming_timetable" %}">
+                            <a class="nav-link" href="{% url "shifts:calendar_future" %}">
                                 {% trans "Shift calendar" %}
                             </a>
                         </li>
@@ -120,7 +120,7 @@
 
                         {% if perms.shifts.manage %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url "shifts:past_shift_overview" %}">
+                                <a class="nav-link" href="{% url "shifts:calendar_past" %}">
                                     {% trans "Past shifts" %}
                                 </a>
                             </li>

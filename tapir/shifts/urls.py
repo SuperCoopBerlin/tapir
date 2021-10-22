@@ -79,14 +79,14 @@ urlpatterns = [
         name="shift_attendance_template_delete",
     ),
     path(
-        "timetable",
-        views.UpcomingShiftOverview.as_view(),
-        name="upcoming_timetable",
+        "calendar",
+        views.ShiftCalendarFutureView.as_view(),
+        name="calendar_future",
     ),
     path(
-        "past",
-        views.PastShiftOverview.as_view(),
-        name="past_shift_overview",
+        "calendar_past",
+        views.ShiftCalendarPastView.as_view(),
+        name="calendar_past",
     ),
     path(
         "shift_user_data/<int:pk>",

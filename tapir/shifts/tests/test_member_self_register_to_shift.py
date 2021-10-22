@@ -23,7 +23,7 @@ class TestMemberSelfRegisterToShift(TapirSeleniumTestBase):
 
         standard_user = self.get_standard_user()
         self.login(standard_user.get_username(), standard_user.get_username())
-        self.selenium.get(self.live_server_url + reverse("shifts:upcoming_timetable"))
+        self.selenium.get(self.live_server_url + reverse("shifts:calendar_future"))
         self.wait_until_element_present_by_id("upcoming-shifts-timetable")
         self.selenium.find_element_by_id(f"shift_{shift.id}").click()
         self.wait_until_element_present_by_id("shift_detail_card")

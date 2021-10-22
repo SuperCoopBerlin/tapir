@@ -510,7 +510,7 @@ def get_shift_slot_names():
     return shift_slot_names
 
 
-class ShiftOverviewBaseView(TemplateView):
+class ShiftCalendarBaseView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
 
@@ -549,8 +549,8 @@ class ShiftOverviewBaseView(TemplateView):
         return context_data
 
 
-class UpcomingShiftOverview(LoginRequiredMixin, ShiftOverviewBaseView):
-    template_name = "shifts/shift_overview_upcoming.html"
+class ShiftCalendarFutureView(LoginRequiredMixin, ShiftCalendarBaseView):
+    template_name = "shifts/shift_calendar_future.html"
 
     def get_queryset(self):
         monday_this_week = datetime.datetime.combine(
@@ -564,9 +564,9 @@ class UpcomingShiftOverview(LoginRequiredMixin, ShiftOverviewBaseView):
         ).order_by("start_time")
 
 
-class PastShiftOverview(PermissionRequiredMixin, ShiftOverviewBaseView):
+class ShiftCalendarPastView(PermissionRequiredMixin, ShiftCalendarBaseView):
     permission_required = "shifts.manage"
-    template_name = "shifts/shift_overview_past.html"
+    template_name = "shifts/shift_calendar_past.html"
 
     def get_queryset(self):
         return Shift.objects.filter(
