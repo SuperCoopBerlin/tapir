@@ -77,7 +77,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
         attendances[slot_name].append(state)
 
-    if num_valid_attendances < shift.required_attendances:
+    if num_valid_attendances < shift.get_num_required_attendances():
         filter_classes.add("needs_help")
 
     template_group = None
@@ -129,7 +129,7 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
 
         attendances[slot_name].append(state)
 
-    if num_attendances < shift_template.required_attendances:
+    if num_attendances < shift_template.num_required_attendances:
         filter_classes.add("needs_help")
 
     style = ""
