@@ -112,6 +112,7 @@ class ShiftTemplate(models.Model):
         null=True,
         on_delete=models.PROTECT,
     )
+    required_attendances = models.IntegerField(null=False, blank=False, default=3)
 
     # NOTE(Leon Handreke): This could be expanded in the future to allow more placement strategies
     # TODO(Leon Handreke): Extra validation to ensure that it is not blank if part of a group
@@ -331,7 +332,7 @@ class Shift(models.Model):
 
     # TODO(Leon Handreke): For generated shifts, leave this blank instead and use a getter?
     name = models.CharField(blank=False, max_length=255)
-
+    required_attendances = models.IntegerField(null=False, blank=False, default=3)
     description = models.TextField(blank=True, null=False, default="")
 
     start_time = models.DateTimeField(blank=False)

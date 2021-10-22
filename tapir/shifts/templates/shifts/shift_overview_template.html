@@ -11,14 +11,6 @@
     <script src="{% static "shifts/upcoming_shifts.js" %}" defer></script>
 
     <style>
-        .animated-shift-block {
-            animation: shift-block-animation 2s infinite;
-        }
-
-        .fade-out {
-            opacity: 0.6;
-        }
-
         @keyframes shift-block-animation {
             0% {
                 transform: rotateZ(-3deg);
@@ -66,11 +58,11 @@
                     <label class="btn btn-outline-dark">
                         <input type="radio" name="slot_status_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
                     </label>
-                    <label class="btn btn-outline-dark">
-                        <input type="radio" name="slot_status_options" autocomplete="off" value="standin"> {% trans 'Looking for a stand-in' %}
+                    <label class="btn btn-outline-dark active">
+                        <input type="radio" name="slot_status_options" autocomplete="off" value="freeslot"> {% trans 'Has a free slot' %}
                     </label>
                     <label class="btn btn-outline-dark active">
-                        <input type="radio" name="slot_status_options" autocomplete="off" value="freeslot" class="active-on-load"> {% trans 'Has a free slot' %}
+                        <input type="radio" name="slot_status_options" autocomplete="off" value="needs_help" class="active-on-load"> {% trans 'Needs help' %}
                     </label>
                 </div>
                 </p>
@@ -90,9 +82,8 @@
             <li class="list-group-item">
                 <h5>{% trans "Legend" %}</h5>
                 <p>
-                    <span class="btn" style="color: black" id="legend-primary">{% trans 'Help urgently needed' %}</span>
-                    <span class="btn" style="color: black" id="legend-secondary">{% trans 'Some help needed' %}</span>
-                    <span class="btn" style="color: black" id="legend-off">{% trans 'No help needed' %}</span>
+                    <span class="btn" style="color: black" id="legend-primary">{% trans 'Filtered' %}</span>
+                    <span class="btn" style="color: black" id="legend-off">{% trans 'Not filtered' %}</span>
                 </p>
             </li>
         </ul>

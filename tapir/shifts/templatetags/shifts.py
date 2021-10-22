@@ -38,7 +38,8 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
     filter_classes = set()
 
-    num_valid_attendance_on_required_slots = 0
+    num_valid_attendances = 0
+
     for slot in shift.slots.all():
         slot_name = slot.name
         if slot_name == "":
@@ -52,24 +53,13 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
                 attendance = a
                 break
 
-        if attendance and not slot.optional:
-            num_valid_attendance_on_required_slots += 1
+        if attendance:
+            num_valid_attendances += 1
 
         if attendance:
             if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
-                filter_classes.add("standin_any")
-                filter_classes.add("standin_" + shift_name_as_class(slot.name))
                 filter_classes.add("freeslot_any")
                 filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
-                if not slot.optional:
-                    filter_classes.add("standin_required_any")
-                    filter_classes.add(
-                        "standin_required_" + shift_name_as_class(slot.name)
-                    )
-                    filter_classes.add("freeslot_required_any")
-                    filter_classes.add(
-                        "freeslot_required_" + shift_name_as_class(slot.name)
-                    )
 
                 state = "standin"
             elif (
@@ -83,14 +73,12 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         else:
             filter_classes.add("freeslot_any")
             filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
-            if not slot.optional:
-                filter_classes.add("freeslot_required_any")
-                filter_classes.add(
-                    "freeslot_required_" + shift_name_as_class(slot.name)
-                )
             state = "empty"
 
         attendances[slot_name].append(state)
+
+    if num_valid_attendances < shift.required_attendances:
+        filter_classes.add("needs_help")
 
     template_group = None
     if shift.shift_template:
@@ -122,6 +110,8 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
 
     filter_classes = set()
 
+    num_attendances = 0
+
     for slot_template in shift_template.slot_templates.all():
         slot_name = slot_template.name
         if slot_template.name == "":
@@ -129,21 +119,18 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
         if slot_name not in attendances:
             attendances[slot_name] = []
 
-        if slot_template.get_attendance_template() is None:
-            filter_classes.add("freeslot_any")
-            filter_classes.add("freeslot_" + shift_name_as_class(slot_template.name))
-            if not slot_template.optional:
-                filter_classes.add("freeslot_required_any")
-                filter_classes.add(
-                    "freeslot_required_" + shift_name_as_class(slot_template.name)
-                )
-
         if slot_template.get_attendance_template():
             state = "regular"
+            num_attendances += 1
         else:
             state = "empty"
+            filter_classes.add("freeslot_any")
+            filter_classes.add("freeslot_" + shift_name_as_class(slot_template.name))
 
         attendances[slot_name].append(state)
+
+    if num_attendances < shift_template.required_attendances:
+        filter_classes.add("needs_help")
 
     style = ""
     if fill_parent:

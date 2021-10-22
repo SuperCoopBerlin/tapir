@@ -9,12 +9,6 @@
     {{ block.super }}
     <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
     <script src="{% static "shifts/shift_template_overview.js" %}" defer></script>
-
-    <style>
-        .fade-out {
-            opacity: 0.6;
-        }
-    </style>
 {% endblock %}
 
 {% block content %}
@@ -37,7 +31,10 @@
                         <input type="radio" name="slot_name_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
                     </label>
                     <label class="btn btn-outline-dark active">
-                        <input type="radio" name="slot_name_options" autocomplete="off" value="any" class="active-on-load"> {% trans 'Any' %}
+                        <input type="radio" name="slot_name_options" autocomplete="off" value="needs_help" class="active-on-load"> {% trans 'Needs help' %}
+                    </label>
+                    <label class="btn btn-outline-dark active">
+                        <input type="radio" name="slot_name_options" autocomplete="off" value="any"> {% trans 'Any free slot' %}
                     </label>
                     {% for name in shift_slot_names %}
                         <label class="btn btn-outline-dark">
@@ -49,9 +46,8 @@
             <li class="list-group-item">
                 <h5>{% trans "Legend" %}</h5>
                 <p>
-                    <span class="btn" style="color: black" id="legend-primary">{% trans 'Help urgently needed' %}</span>
-                    <span class="btn" style="color: black" id="legend-secondary">{% trans 'Some help needed' %}</span>
-                    <span class="btn" style="color: black" id="legend-off">{% trans 'No help needed' %}</span>
+                    <span class="btn" style="color: black" id="legend-primary">{% trans 'Filtered' %}</span>
+                    <span class="btn" style="color: black" id="legend-off">{% trans 'Not filtered' %}</span>
                 </p>
             </li>
             <li class="list-group-item">
