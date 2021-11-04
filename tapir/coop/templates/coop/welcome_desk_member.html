@@ -1,0 +1,52 @@
+{% extends "accounts/base.html" %}
+
+{% load bootstrap4 %}
+{% load static %}
+{% load i18n %}
+{% load shifts %}
+{% load coop %}
+{% load log %}
+{% load accounts %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
+    <link rel="stylesheet" href="{% static "accounts/css/user_detail.css" %}">
+{% endblock %}
+
+{% block content %}
+    <div class="card m-2">
+        <h5 class="card-header">
+            <span>{{ member.get_info.get_display_name }}</span>
+        </h5>
+        <div class="card-body">
+            {% if can_shop %}
+                <div class="alert alert-success" role="alert">
+                    {{ member.get_info.first_name }}{% trans " can shop :)" %}
+                </div>
+            {% else %}
+                {% if not has_tapir_account %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ member.get_info.first_name }}{% trans " does not have a Tapir account. Contact a member of the management team." %}
+                    </div>
+                {% endif %}
+                {% if not shift_credit_ok %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ member.get_info.first_name }}{% trans " has a negative shift score.  Contact a member of the management team." %}
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% if must_register_to_a_shift %}
+                <div class="alert alert-warning" role="alert">
+                    {{ member.get_info.first_name }}{% trans " is not registered to an ABCD shift yet. Check with them if they plan to do it!" %}
+                </div>
+            {% endif %}
+            {% if not member.attended_welcome_session %}
+                <div class="alert alert-warning" role="alert">
+                    {{ member.get_info.first_name }}{% trans " has not attended a welcome session yet. Check with them if they plan to do it!" %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
