@@ -15,6 +15,7 @@ from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
+from tapir.shifts.models import ShiftAttendanceTemplate
 from tapir.utils.models import DurationModelMixin, CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -181,6 +182,13 @@ class ShareOwner(models.Model):
             return MemberStatus.INVESTING
 
         return MemberStatus.ACTIVE
+
+    def can_shop(self):
+        return (
+            self.user is not None
+            and self.user.shift_user_data.is_balance_ok()
+            and not self.is_investing
+        )
 
 
 class MemberStatus:

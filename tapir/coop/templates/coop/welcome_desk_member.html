@@ -22,28 +22,28 @@
         <div class="card-body">
             {% if can_shop %}
                 <div class="alert alert-success" role="alert">
-                    {{ member.get_info.first_name }}{% trans " can shop :)" %}
+                    {% blocktranslate with name=member.get_info.first_name %}{{ name }}  can shop :){% endblocktranslate %}
                 </div>
             {% else %}
                 {% if not has_tapir_account %}
                     <div class="alert alert-danger" role="alert">
-                        {{ member.get_info.first_name }}{% trans " does not have a Tapir account. Contact a member of the management team." %}
+                        {% blocktranslate with name=member.get_info.first_name %}{{ name }} does not have a Tapir account. Contact a member of the management team.{% endblocktranslate %}
                     </div>
                 {% endif %}
-                {% if not shift_credit_ok %}
+                {% if not shift_balance_ok %}
                     <div class="alert alert-danger" role="alert">
-                        {{ member.get_info.first_name }}{% trans " has a negative shift score.  Contact a member of the management team." %}
+                        {% blocktranslate with name=member.get_info.first_name %}{{ name }} has a negative shift score.  Contact a member of the management team.{% endblocktranslate %}
                     </div>
                 {% endif %}
             {% endif %}
             {% if must_register_to_a_shift %}
                 <div class="alert alert-warning" role="alert">
-                    {{ member.get_info.first_name }}{% trans " is not registered to an ABCD shift yet. Check with them if they plan to do it!" %}
+                    {% blocktranslate with name=member.get_info.first_name %}{{ name }} is not registered to an ABCD shift yet. Make sure they plan to do it!{% endblocktranslate %}
                 </div>
             {% endif %}
             {% if not member.attended_welcome_session %}
                 <div class="alert alert-warning" role="alert">
-                    {{ member.get_info.first_name }}{% trans " has not attended a welcome session yet. Check with them if they plan to do it!" %}
+                    {% blocktranslate with name=member.get_info.first_name %}{{ name }} has not attended a welcome session yet. Make sure they plan to do it!{% endblocktranslate %}
                 </div>
             {% endif %}
         </div>

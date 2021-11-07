@@ -635,18 +635,15 @@ class WelcomeDeskMemberView(PermissionRequiredMixin, generic.DetailView):
         context_data = super().get_context_data(*args, **kwargs)
         share_owner: ShareOwner = context_data["member"]
 
-        context_data["can_shop"] = True
+        context_data["can_shop"] = share_owner.can_shop()
 
         context_data["has_tapir_account"] = share_owner.user is not None
         if not context_data["has_tapir_account"]:
-            context_data["can_shop"] = False
             return context_data
 
-        context_data["shift_credit_ok"] = (
-            share_owner.user.shift_user_data.get_account_balance() > -3
-        )
-        if not context_data["shift_credit_ok"]:
-            context_data["can_shop"] = False
+        context_data[
+            "shift_balance_ok"
+        ] = share_owner.user.shift_user_data.is_balance_ok()
 
         context_data["must_register_to_a_shift"] = (
             share_owner.user.shift_user_data.attendance_mode
