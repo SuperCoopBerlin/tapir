@@ -17,7 +17,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
-from django.views.generic import UpdateView, CreateView, ListView
+from django.views.generic import UpdateView, CreateView
 from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
@@ -637,13 +637,13 @@ class WelcomeDeskMemberView(PermissionRequiredMixin, generic.DetailView):
 
         context_data["can_shop"] = share_owner.can_shop()
 
-        context_data["has_tapir_account"] = share_owner.user is not None
-        if not context_data["has_tapir_account"]:
+        context_data["missing_tapir_account"] = share_owner.user is None
+        if context_data["missing_tapir_account"]:
             return context_data
 
         context_data[
-            "shift_balance_ok"
-        ] = share_owner.user.shift_user_data.is_balance_ok()
+            "shift_balance_not_ok"
+        ] = not share_owner.user.shift_user_data.is_balance_ok()
 
         context_data["must_register_to_a_shift"] = (
             share_owner.user.shift_user_data.attendance_mode

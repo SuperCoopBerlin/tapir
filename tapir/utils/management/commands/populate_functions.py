@@ -15,7 +15,6 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftAttendanceTemplate,
     ShiftTemplate,
-    WEEKDAY_CHOICES,
     ShiftAccountEntry,
     ShiftUserData,
     ShiftSlotTemplate,

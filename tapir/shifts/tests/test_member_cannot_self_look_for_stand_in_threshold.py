@@ -1,4 +1,3 @@
-import time
 from datetime import timedelta
 
 from django.test import tag
@@ -6,9 +5,6 @@ from django.urls import reverse
 from django.utils import timezone
 
 from tapir.shifts.models import (
-    ShiftTemplate,
-    ShiftAttendanceTemplate,
-    ShiftAttendance,
     Shift,
     ShiftSlot,
 )
