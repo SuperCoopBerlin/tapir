@@ -1,0 +1,10 @@
+Hallo {{ tapir_user.first_name }},
+
+This is an automated E-Mail from SuperCoop.
+
+Deine nächste Schicht am Supercoop ist dieser Woche!
+Deine Schicht ist: {{ shift.get_display_name }}
+
+Wenn du an der Schicht nicht teilnehmen kannst, kontaktiere bitte schnellstmöglich die Teamleitung.
+
+Kooperative Grüße,

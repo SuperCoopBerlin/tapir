@@ -721,6 +721,35 @@ class ShiftUserData(models.Model):
     def is_currently_exempted_from_shifts(self, date=None):
         return self.get_current_shift_exemption(date) is not None
 
+    def send_shift_reminder_emails(self):
+        today = datetime.date.today()
+        next_monday = today + datetime.timedelta((0 - today.weekday()) % 7)
+        next_sunday = next_monday + datetime.timedelta(days=7)
+        for attendance in ShiftAttendance.objects.with_valid_state().filter(
+            user=self.user,
+            slot__shift__start_time__gte=next_monday,
+            slot__shift__start_time__lte=next_sunday,
+        ):
+            self.send_shift_reminder_email(attendance.slot.shift)
+
+    def send_shift_reminder_email(self, shift: Shift):
+        template_name = (
+            f"shifts/email/shift_reminder_{self.user.preferred_language}.txt"
+        )
+
+        with translation.override(self.user.preferred_language):
+            mail = EmailMessage(
+                subject=_("Your next SuperCoop shift: %(shift)s")
+                % {"shift": shift.get_display_name()},
+                body=render_to_string(
+                    template_name,
+                    {"tapir_user": self.user, "shift": shift},
+                ),
+                from_email=FROM_EMAIL_MEMBER_OFFICE,
+                to=[self.user.email],
+            )
+            mail.send()
+
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
     if not hasattr(instance, "shift_user_data"):

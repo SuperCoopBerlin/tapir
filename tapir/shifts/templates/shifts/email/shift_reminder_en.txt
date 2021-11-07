@@ -1,0 +1,10 @@
+Hi {{ tapir_user.first_name }},
+
+This is an automated email from SuperCoop.
+
+Your next shift at SuperCoop is this week!
+Your shift is : {{ shift.get_display_name }}
+
+In case you can't attend the shift, contact the teamleader as soon as possible.
+
+Cooperatively yours,
