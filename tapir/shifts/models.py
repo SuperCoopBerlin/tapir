@@ -723,7 +723,7 @@ class ShiftUserData(models.Model):
 
     def send_shift_reminder_emails(self):
         today = datetime.date.today()
-        next_monday = today + datetime.timedelta((0 - today.weekday()) % 7)
+        next_monday = today + datetime.timedelta(days=(0 - today.weekday()) % 7)
         next_sunday = next_monday + datetime.timedelta(days=7)
         for attendance in ShiftAttendance.objects.with_valid_state().filter(
             user=self.user,
@@ -739,7 +739,7 @@ class ShiftUserData(models.Model):
 
         with translation.override(self.user.preferred_language):
             mail = EmailMessage(
-                subject=_("Your next SuperCoop shift: %(shift)s")
+                subject=_("Your upcoming SuperCoop shift: %(shift)s")
                 % {"shift": shift.get_display_name()},
                 body=render_to_string(
                     template_name,
