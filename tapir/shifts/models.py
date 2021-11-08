@@ -604,6 +604,7 @@ class ShiftAttendance(models.Model):
     slot = models.ForeignKey(
         ShiftSlot, related_name="attendances", on_delete=models.PROTECT
     )
+    reminder_email_sent = models.BooleanField(default=False)
 
     class State(models.IntegerChoices):
         PENDING = 1
@@ -729,26 +730,32 @@ class ShiftUserData(models.Model):
             user=self.user,
             slot__shift__start_time__gte=next_monday,
             slot__shift__start_time__lte=next_sunday,
+            reminder_email_sent=False,
         ):
-            self.send_shift_reminder_email(attendance.slot.shift)
+            self.send_shift_reminder_email(attendance)
 
-    def send_shift_reminder_email(self, shift: Shift):
+    def send_shift_reminder_email(self, attendance: ShiftAttendance):
         template_name = (
             f"shifts/email/shift_reminder_{self.user.preferred_language}.txt"
         )
 
-        with translation.override(self.user.preferred_language):
+        with transaction.atomic() and translation.override(
+            self.user.preferred_language
+        ):
             mail = EmailMessage(
                 subject=_("Your upcoming SuperCoop shift: %(shift)s")
-                % {"shift": shift.get_display_name()},
+                % {"shift": attendance.slot.shift.get_display_name()},
                 body=render_to_string(
                     template_name,
-                    {"tapir_user": self.user, "shift": shift},
+                    {"tapir_user": self.user, "shift": attendance.slot.shift},
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[self.user.email],
             )
             mail.send()
+
+            attendance.reminder_email_sent = True
+            attendance.save()
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
