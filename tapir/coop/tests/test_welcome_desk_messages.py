@@ -12,7 +12,7 @@ from tapir.utils.tests_utils import TapirSeleniumTestBase
 class TestWelcomeDeskMessages(TapirSeleniumTestBase):
     class Messages:
         CAN_SHOP = "welcome_desk_can_shop"
-        NO_TAPIR_ACCOUNT = "welcome_desk_no_tapir_account"
+        NO_ACCOUNT = "welcome_desk_no_account"
         SHIFT_BALANCE_NOT_OK = "welcome_desk_shift_balance_not_ok"
         IS_INVESTING = "welcome_desk_is_investing"
         NO_ABCD_SHIFT = "welcome_desk_no_abcd_shift"
@@ -20,7 +20,7 @@ class TestWelcomeDeskMessages(TapirSeleniumTestBase):
 
     MESSAGES = [
         Messages.CAN_SHOP,
-        Messages.NO_TAPIR_ACCOUNT,
+        Messages.NO_ACCOUNT,
         Messages.SHIFT_BALANCE_NOT_OK,
         Messages.IS_INVESTING,
         Messages.NO_ABCD_SHIFT,
@@ -45,7 +45,7 @@ class TestWelcomeDeskMessages(TapirSeleniumTestBase):
         )
         self.check_alerts(
             investing_member.id,
-            [self.Messages.IS_INVESTING, self.Messages.NO_TAPIR_ACCOUNT],
+            [self.Messages.IS_INVESTING, self.Messages.NO_ACCOUNT],
         )
 
         no_welcome_session_member = TapirUser.objects.get(
@@ -68,7 +68,7 @@ class TestWelcomeDeskMessages(TapirSeleniumTestBase):
         self.reset_page()
         self.selenium.get(
             self.live_server_url
-            + reverse("coop:welcome_desk_member", args=[share_owner_id])
+            + reverse("coop:welcome_desk_share_owner", args=[share_owner_id])
         )
         for message in self.MESSAGES:
             found = len(self.selenium.find_elements_by_id(message))

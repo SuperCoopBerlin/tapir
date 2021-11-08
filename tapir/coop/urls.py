@@ -147,7 +147,7 @@ urlpatterns = [
     ),
     path(
         "welcome_desk_member/<int:pk>",
-        views.WelcomeDeskMemberView.as_view(),
-        name="welcome_desk_member",
+        views.WelcomeDeskShareOwnerView.as_view(),
+        name="welcome_desk_share_owner",
     ),
 ]

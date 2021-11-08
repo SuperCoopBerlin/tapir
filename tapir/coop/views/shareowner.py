@@ -595,7 +595,7 @@ class ShareOwnerTableWelcomeDesk(django_tables2.Table):
     def render_display_name(self, value, record: ShareOwner):
         return format_html(
             "<a href={}>{}</a>",
-            reverse("coop:welcome_desk_member", args=[record.pk]),
+            reverse("coop:welcome_desk_share_owner", args=[record.pk]),
             record.get_info().get_display_name(),
         )
 
@@ -625,20 +625,20 @@ class WelcomeDeskSearchView(PermissionRequiredMixin, FilterView, SingleTableView
     filterset_class = ShareOwnerFilterWelcomeDesk
 
 
-class WelcomeDeskMemberView(PermissionRequiredMixin, generic.DetailView):
+class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
     model = ShareOwner
-    template_name = "coop/welcome_desk_member.html"
+    template_name = "coop/welcome_desk_share_owner.html"
     permission_required = "accounts.view"
-    context_object_name = "member"
+    context_object_name = "share_owner"
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
-        share_owner: ShareOwner = context_data["member"]
+        share_owner: ShareOwner = context_data["share_owner"]
 
         context_data["can_shop"] = share_owner.can_shop()
 
-        context_data["missing_tapir_account"] = share_owner.user is None
-        if context_data["missing_tapir_account"]:
+        context_data["missing_account"] = share_owner.user is None
+        if context_data["missing_account"]:
             return context_data
 
         context_data[
