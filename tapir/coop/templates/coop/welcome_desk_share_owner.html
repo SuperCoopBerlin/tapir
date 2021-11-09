@@ -1,0 +1,57 @@
+{% extends "accounts/base.html" %}
+
+{% load bootstrap4 %}
+{% load static %}
+{% load i18n %}
+{% load shifts %}
+{% load coop %}
+{% load log %}
+{% load accounts %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
+    <link rel="stylesheet" href="{% static "accounts/css/user_detail.css" %}">
+{% endblock %}
+
+{% block content %}
+    <div class="card m-2" id="welcome_desk_share_owner">
+        <h5 class="card-header">
+            <span>{{ share_owner.get_info.get_display_name }}</span>
+        </h5>
+        <div class="card-body">
+            {% if can_shop %}
+                <div class="alert alert-success" role="alert" id="welcome_desk_can_shop">
+                    {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }}  can shop :){% endblocktranslate %}
+                </div>
+            {% else %}
+                {% if missing_account %}
+                    <div class="alert alert-danger" role="alert" id="welcome_desk_no_account">
+                        {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }} does not have a Tapir account. Contact a member of the management team.{% endblocktranslate %}
+                    </div>
+                {% endif %}
+                {% if shift_balance_not_ok %}
+                    <div class="alert alert-danger" role="alert" id="welcome_desk_shift_balance_not_ok">
+                        {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }} has a negative shift balance. Contact a member of the management team.{% endblocktranslate %}
+                    </div>
+                {% endif %}
+                {% if share_owner.is_investing %}
+                    <div class="alert alert-danger" role="alert" id="welcome_desk_is_investing">
+                        {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }} is an investing member. If they want to shop, they have to become an active member. Contact a member of the management team.{% endblocktranslate %}
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% if must_register_to_a_shift %}
+                <div class="alert alert-warning" role="alert" id="welcome_desk_no_abcd_shift">
+                    {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }} is not registered to an ABCD shift yet. Make sure they plan to do it!{% endblocktranslate %}
+                </div>
+            {% endif %}
+            {% if not share_owner.attended_welcome_session %}
+                <div class="alert alert-warning" role="alert" id="welcome_desk_no_welcome_session">
+                    {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }} has not attended a welcome session yet. Make sure they plan to do it!{% endblocktranslate %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+

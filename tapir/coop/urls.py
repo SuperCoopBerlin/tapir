@@ -138,6 +138,16 @@ urlpatterns = [
     path(
         "matching_program",
         views.MatchingProgramListView.as_view(),
-        name="matching_program_list_view",
+        name="matching_program_list",
+    ),
+    path(
+        "welcome_desk_search",
+        views.WelcomeDeskSearchView.as_view(),
+        name="welcome_desk_search",
+    ),
+    path(
+        "welcome_desk_member/<int:pk>",
+        views.WelcomeDeskShareOwnerView.as_view(),
+        name="welcome_desk_share_owner",
     ),
 ]
