@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-07 15:59+0200\n"
+"POT-Creation-Date: 2021-11-09 23:44+0200\n"
 "PO-Revision-Date: 2021-08-24 14:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -333,7 +333,7 @@ msgstr "Investierende Mitglieder"
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/templates/coop/about.html:10 templates/base.html:145
+#: coop/templates/coop/about.html:10 templates/base.html:146
 msgid "About Tapir"
 msgstr "Über Tapir"
 
@@ -356,7 +356,7 @@ msgstr "Konto erstellen"
 #: coop/templates/coop/draftuser_form.html:18
 #: coop/templates/coop/draftuser_list.html:8
 #: coop/templates/coop/draftuser_register_form.html:18
-#: coop/templates/coop/statistics.html:128 templates/base.html:92
+#: coop/templates/coop/statistics.html:128 templates/base.html:88
 msgid "Applicants"
 msgstr "Bewerber*innen"
 
@@ -447,7 +447,7 @@ msgid ""
 "                            "
 msgstr ""
 
-#: coop/templates/coop/statistics.html:27 templates/base.html:97
+#: coop/templates/coop/statistics.html:27 templates/base.html:93
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -562,12 +562,19 @@ msgstr "Mitgliedsbestätigung per Mail senden"
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
-#: coop/templates/coop/welcome_desk_member.html:25
+#: coop/templates/coop/welcome_desk_search.html:18 templates/base.html:136
+#: templates/base.html:140
+#, fuzzy
+#| msgid "Welcome Session"
+msgid "Welcome Desk"
+msgstr "Welcome Desk"
+
+#: coop/templates/coop/welcome_desk_share_owner.html:25
 #, python-format
 msgid "%(name)s  can shop :)"
 msgstr "%(name)s kann einkaufen :)"
 
-#: coop/templates/coop/welcome_desk_member.html:30
+#: coop/templates/coop/welcome_desk_share_owner.html:30
 #, python-format
 msgid ""
 "%(name)s does not have a Tapir account. Contact a member of the management "
@@ -575,18 +582,19 @@ msgid ""
 msgstr ""
 "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
-#: coop/templates/coop/welcome_desk_member.html:35
+#: coop/templates/coop/welcome_desk_share_owner.html:35
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s has a negative shift score.  Contact a member of the management "
 #| "team."
 msgid ""
-"%(name)s has a negative shift score. Contact a member of the management team."
+"%(name)s has a negative shift balance. Contact a member of the management "
+"team."
 msgstr ""
 "%(name)s hat ein negatives Schicht-Score. Kontaktiere eine Person aus dem "
 "Vorstand."
 
-#: coop/templates/coop/welcome_desk_member.html:40
+#: coop/templates/coop/welcome_desk_share_owner.html:40
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s does not have a Tapir account. Contact a member of the "
@@ -598,7 +606,7 @@ msgstr ""
 "%(name)s ist ein investierendes Mitglied. Um einkaufen zu könne, müssen sie "
 "ein aktiv Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
 
-#: coop/templates/coop/welcome_desk_member.html:46
+#: coop/templates/coop/welcome_desk_share_owner.html:46
 #, python-format
 msgid ""
 "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do "
@@ -606,7 +614,7 @@ msgid ""
 msgstr ""
 "%(name)s is noch zu keiner ABCD Schicht angemeldet. Er/Sie soll es planen."
 
-#: coop/templates/coop/welcome_desk_member.html:51
+#: coop/templates/coop/welcome_desk_share_owner.html:51
 #, python-format
 msgid ""
 "%(name)s has not attended a welcome session yet. Make sure they plan to do "
@@ -614,13 +622,6 @@ msgid ""
 msgstr ""
 "%(name)s hat an das Willkommenstreffen noch nicht teilgenommen. Er/Sie soll "
 "es planen."
-
-#: coop/templates/coop/welcome_desk_search.html:18 templates/base.html:135
-#: templates/base.html:139
-#, fuzzy
-#| msgid "Welcome Session"
-msgid "Welcome Desk"
-msgstr "Welcome Desk"
 
 #: coop/views/shareowner.py:376
 #: shifts/templates/shifts/shift_calendar_template.html:72
@@ -848,7 +849,7 @@ msgstr "Ändere den Schichtstatus zu"
 msgid "Update Shift User Data"
 msgstr "Nutzer*innendaten der Schicht aktualisieren"
 
-#: shifts/templates/shifts/shift_calendar_future.html:6 templates/base.html:111
+#: shifts/templates/shifts/shift_calendar_future.html:6 templates/base.html:107
 msgid "Shift calendar"
 msgstr "Schicht-Kalender"
 
@@ -877,7 +878,7 @@ msgstr ""
 "Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das "
 "Mitgliederbüro kontaktieren.</p>"
 
-#: shifts/templates/shifts/shift_calendar_past.html:6 templates/base.html:124
+#: shifts/templates/shifts/shift_calendar_past.html:6 templates/base.html:125
 #, fuzzy
 #| msgid "Create a shift"
 msgid "Past shifts"
@@ -1170,7 +1171,7 @@ msgstr "Schicht-Befreiung bearbeiten für: "
 msgid "Create shift exemption for: "
 msgstr "Erzeuge Schicht-Befreiung für: "
 
-#: shifts/templates/shifts/shiftexemption_list.html:8 templates/base.html:129
+#: shifts/templates/shifts/shiftexemption_list.html:8 templates/base.html:130
 msgid "Shift exemptions"
 msgstr "Schicht-Befreiungen"
 
@@ -1375,37 +1376,39 @@ msgstr "Du hast deine Schicht versäumt!"
 msgid "Member manual"
 msgstr "Mitgliederhandbuch"
 
-#: templates/base.html:52
-msgid "Current week: "
-msgstr "Aktuelle Woche: "
-
-#: templates/base.html:55
+#: templates/base.html:51
 msgid "Shop opening hours"
 msgstr "Öffnungszeiten"
 
-#: templates/base.html:58
+#: templates/base.html:54
 msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
 
-#: templates/base.html:65
+#: templates/base.html:61
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
-#: templates/base.html:83
+#: templates/base.html:79
 msgid "Cooperative"
 msgstr "Genossenschaft"
 
-#: templates/base.html:87
+#: templates/base.html:83
 msgid "Members"
 msgstr "Mitglieder"
 
-#: templates/base.html:102
+#: templates/base.html:98
 msgid "Matching program"
 msgstr ""
 
-#: templates/base.html:117
+#: templates/base.html:113
 msgid "ABCD-shifts week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
+
+#: templates/base.html:119
+#, fuzzy
+#| msgid "ABCD weeks calendar"
+msgid "ABCD weeks calendar<br />Current week: "
+msgstr "ABCD-Wochenkalender<br />Aktuelle Woche: "
 
 #: utils/forms.py:23
 msgid ""
@@ -2388,6 +2391,9 @@ msgstr "Anfangsdatum muss gestzt sein"
 #: utils/models.py:361
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Endsdatum sein"
+
+#~ msgid "Current week: "
+#~ msgstr "Aktuelle Woche: "
 
 #~ msgid "Help urgently needed"
 #~ msgstr "Hilfe dringend gebraucht"

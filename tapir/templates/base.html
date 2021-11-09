@@ -48,10 +48,6 @@
                 <a class="nav-link" href="https://wiki.supercoop.de/wiki/Member_Manual">{% trans 'Member manual' %}</a>
             </li>
             <li class="nav-item">
-                {% get_current_week_group as group %}
-                <a class="nav-link" href="{% url "shifts:shift_template_group_calendar" %}">{% trans 'Current week: ' %}{{ group.name }}</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="https://wiki.supercoop.de/wiki/%C3%96ffnungszeiten">{% trans 'Shop opening hours' %}</a>
             </li>
             <li class="nav-item">
@@ -116,6 +112,11 @@
                             <a class="nav-link" href="{% url "shifts:shift_template_overview" %}">
                                 {% trans "ABCD-shifts week-plan" %}
                             </a>
+                        </li>
+
+                        <li class="nav-item">
+                            {% get_current_week_group as group %}
+                            <a class="nav-link" href="{% url "shifts:shift_template_group_calendar" %}">{% trans 'ABCD weeks calendar<br />Current week: ' %}{{ group.name }}</a>
                         </li>
 
                         {% if perms.shifts.manage %}
