@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-13 10:23+0200\n"
-"PO-Revision-Date: 2021-11-13 09:06+0100\n"
+"POT-Creation-Date: 2021-11-13 14:28+0200\n"
+"PO-Revision-Date: 2021-11-13 13:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -73,9 +73,109 @@ msgstr "Land"
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:203
+#: accounts/models.py:206
 msgid "None"
 msgstr "Keine"
+
+#: accounts/templates/accounts/email/welcome_email.html:9
+#, python-format
+msgid ""
+"\n"
+"    <p>Dear %(user_display_name)s,</p>\n"
+"    <p>we just created an account for you in our SuperCoop member system. "
+"Here you can view your upcoming shifts, book an additional shift if you'd "
+"like or mark your shift as “looking for a stand-in” (for example when you go "
+"on vacation). <br/>\n"
+"        Please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual"
+"\">Member Manual</a> section III for more information on the Stand-in System."
+"</p>\n"
+msgstr ""
+"\n"
+"<p> Liebe*r %(user_display_name)s,</p>\n"
+"<p>soeben haben wir für dich ein Konto in unserem SuperCoop Mitgliedersystem "
+"angelegt. Hier kannst du deine kommenden Schichten einsehen, dir nach Lust "
+"und Laune eine zusätzliche Schicht buchen oder eine deiner eigenen Schichten "
+"zur Neubesetzung freigeben, beispielsweise wenn du in den Urlaub fährst.<br /"
+">\n"
+"Mehr über Informationen über das Vertretungssystem findest du im <a href="
+"\"https://wiki.supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>.</"
+"p>\n"
+
+#: accounts/templates/accounts/email/welcome_email.html:18
+#, python-format
+msgid ""
+"\n"
+"                Your regular ABCD-shift is: %(slot_display_name)s. You will "
+"receive a reminder email in advance of your first shift.\n"
+"            "
+msgstr ""
+"\n"
+"Deine regelmäßige ABCD-Schicht ist: %(slot_display_name)s. Vor deiner ersten "
+"Schicht wirst du nochmal eine Erinnerungsmail erhalten.\n"
+" "
+
+#: accounts/templates/accounts/email/welcome_email.html:23
+msgid ""
+"\n"
+"            Flying members: Please keep in mind that you must have at least "
+"one shift “banked” for each shift cycle. For more information please see the "
+"<a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member Manual</"
+"a> .\n"
+"        "
+msgstr ""
+"\n"
+"Fliegende Mitglieder: Bitte achtet darauf, zu jedem Zyklus-Ende mindestens "
+"ein Schichtguthaben auf eurem Schichtkonto zu haben. Mehr Infos findet ihr "
+"im <a href=\"https://wiki.supercoop.de/wiki/Member_Manual"
+"\">Mitgliederhandbuch</a>.\n"
+" "
+
+#: accounts/templates/accounts/email/welcome_email.html:32
+#, python-format
+msgid ""
+"\n"
+"        <p>Your username is *%(username)s* . In order to login to your "
+"account, you first have to set a password : <a href=\"%(site_url)s"
+"%(password_reset_confirm_url)s\">Click here to set your password</a></p>\n"
+"        <p>This link is only valid for a few weeks. Should it expire, you "
+"can get a new one here : <a href=\"%(site_url)s%(password_reset_request_url)s"
+"\">Click here to get a new link</a></p>\n"
+"        <p>You can also login to the SuperCoop wiki with that account.</p>\n"
+"        <p>Alternatively, as for any other question, you can always contact "
+"the <a href=\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-"
+"_Member_Office\">Member Office</a></p>\n"
+"    "
+msgstr ""
+"\n"
+"<p>Dein Nutzer*innenname ist *%(username)s* . Um dein Konto nutzen zu "
+"können, musst du zuerst ein Passwort festlegen: <a href=\"%(site_url)s"
+"%(password_reset_confirm_url)s\">Klick hier um dein Passwort zu setzen.</a></"
+"p>\n"
+"<p>Dieser Link ist nur einige Wochen gültig. Sollte er abgelaufen sein, "
+"kannst du einen neuen Link anfordern: <a href=\"%(site_url)s"
+"%(password_reset_request_url)s\">Klick hier um einen neuen Link zu bekommen."
+"</a></p>\n"
+"<p>Mit diesem Konto kannst du dich auch in inser Wiki einloggen.</p>\n"
+"<p>Alternativ, und auch bei allen anderen Fragen, kannst du dich jederzeit "
+"an das <a href=\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-"
+"_Member_Office\">Mitgliederbüro</a> wenden.</p>\n"
+" "
+
+#: accounts/templates/accounts/email/welcome_email.html:40
+msgid ""
+"\n"
+"        Cooperative regards, <br />\n"
+"        Your SuperCoop Berlin Member Office team.\n"
+"    "
+msgstr ""
+"\n"
+"Kooperative Grüße,<br />\n"
+"dein Team vom Mitgliederbüro SuperCoop Berlin.\n"
+" "
+
+#: accounts/templates/accounts/email/welcome_email_subject.html:2
+msgid "Your account in the SuperCoop member system"
+msgstr "Dein Konto im SuperCoop Schichtsystem"
 
 #: accounts/templates/accounts/user_detail.html:22
 #: coop/templates/coop/shareowner_detail.html:14
@@ -152,6 +252,53 @@ msgstr "Nutzer*innen"
 #: shifts/templates/shifts/shiftuserdata_form.html:30
 msgid "Save"
 msgstr "Speichern"
+
+#: accounts/templates/registration/email/password_reset_email.html:13
+#, python-format
+msgid ""
+"\n"
+"        <p>Hi %(first_name)s,</p>\n"
+"\n"
+"        <p>\n"
+"            Someone asked for password reset for %(email)s.<br/>\n"
+"            Your user name is %(username)s <br/>\n"
+"            Follow this link to reset your password: <a href="
+"\"%(protocol)s://%(domain)s%(password_reset_url)s\">%(protocol)s://%(domain)s"
+"%(password_reset_url)s</a>\n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"            If you have any technical problems, ask for help in the <a href="
+"\"https://supercoopberlin.slack.com/archives/C02KF53UBTR\">#tech_support</a> "
+"channel on Slack, or contact the member office at the shop.\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
+"    <p>Hallo %(first_name)s,</p>\n"
+"\n"
+"    <p>\n"
+"        Jemandem hat nach ein Passwort-Reset gefragt für %(email)s.<br/>\n"
+"        Deine Benutzername ist %(username)s <br/>\n"
+"        Folge dieses Link um dein Passwort zurückzusetzen: <a href="
+"\"%(protocol)s://%(domain)s%(password_reset_url)s\">%(protocol)s://%(domain)s"
+"%(password_reset_url)s</a>\n"
+"    </p>\n"
+"\n"
+"    <p>\n"
+"        Wenn du technische Probleme hast, frag bei Slack in der <a href="
+"\"https://supercoopberlin.slack.com/archives/C02KF53UBTR\">#tech_support</a>-"
+"Kanal, oder kontaktiere das Mitgliederbüro im Laden.\n"
+"    </p>\n"
+" "
+
+#: accounts/templates/registration/email/password_reset_subject.html:2
+msgid ""
+"\n"
+"    Reset your SuperCoop password\n"
+msgstr ""
+"\n"
+"Supercoop Passwort zurücksetzen\n"
 
 #: accounts/templates/registration/login.html:16
 #: accounts/templates/registration/login.html:25
@@ -239,7 +386,7 @@ msgstr ""
 "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die "
 "Symbole ./-/_ enthalten."
 
-#: accounts/views.py:85
+#: accounts/views.py:82
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
@@ -487,14 +634,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:53
-#: shifts/models.py:641 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:638 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:170
 #: shifts/templates/shifts/shift_detail_printable.html:48
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:55
-#: shifts/models.py:640
+#: shifts/models.py:637
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -535,7 +682,8 @@ msgstr ""
 "Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil "
 "eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil "
 "einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als "
-"'verkauft'."
+"'verkauft'.\n"
+" "
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:150
 msgid "Add Share"
@@ -741,50 +889,189 @@ msgstr "Samstag"
 msgid "Sunday"
 msgstr "Sontag"
 
-#: shifts/models.py:559
+#: shifts/models.py:555
 msgid "You found a stand-in!"
 msgstr ""
 
-#: shifts/models.py:642 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:639 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:179
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:643 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:640 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:193
 #: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:644 shifts/templates/shifts/shift_detail.html:201
+#: shifts/models.py:641 shifts/templates/shifts/shift_detail.html:201
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:645 shifts/templates/shifts/shift_detail.html:188
+#: shifts/models.py:642 shifts/templates/shifts/shift_detail.html:188
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:675
+#: shifts/models.py:672
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:676
+#: shifts/models.py:673
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:679
+#: shifts/models.py:676
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:737 shifts/templates/shifts/shiftexemption_list.html:22
+#: shifts/models.py:741
+#, python-format
+msgid "Your upcoming SuperCoop shift: %(shift)s"
+msgstr ""
+
+#: shifts/models.py:772 shifts/templates/shifts/shiftexemption_list.html:22
 #: shifts/templates/shifts/user_shift_account_log.html:27
 msgid "Description"
 msgstr "Beschreibung"
 
-#: shifts/models.py:752
+#: shifts/models.py:787
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
+
+#: shifts/templates/shifts/email/shift_missed.html:9
+#, python-format
+msgid ""
+"\n"
+"    <p>Hi %(first_name)s,</p>\n"
+"\n"
+"    <p>This is an automated email from SuperCoop.</p>\n"
+"\n"
+"    <p>\n"
+"        It has been registered in the Tapir system that you didn't attend "
+"the following shift which you had registered for:\n"
+"        %(shift_display_name)s <br/>\n"
+"        If it's a mistake, or you think that you should be excused from this "
+"shift, please contact the member office: mitglied@supercoop.de .<br/>\n"
+"        As stated in the Member Manual, a missed shift must be compensated "
+"for by completing 2 make-up shifts within four weeks of your missed shift. "
+"You can schedule your make-up shifts directly on <a href=\"https://members."
+"supercoop.de/shifts/timetable\">Tapir</a>.<br/>\n"
+"        Please keep in mind that if you do not complete your make-up shifts "
+"your shopping and voting rights will be suspended. For more information "
+"please see the <a href=\"https://docs.google.com/document/"
+"d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.lk042ux0tm9c."
+"\">Member Manual</a>\n"
+"        (Section III.F).\n"
+"    </p>\n"
+"\n"
+"    <p>Cooperatively yours,</p>\n"
+msgstr ""
+"\n"
+"    <p>Hallo %(first_name)s,</p>\n"
+"\n"
+"    <p>Dies ist eine automatische E-Mail von der SuperCoop.</p>\n"
+"\n"
+"    <p>\n"
+"       Es ist gerade im Tapir-System eingetragen worden, dass du an "
+"folgender Schicht nicht teilgenommen hast, obwohl du angemeldet warst :\n"
+"        %(shift_display_name)s <br/>\n"
+"        Wenn dies ein Fehler ist, oder du für di Schicht entschuldigt sein "
+"solltest, kontaktiere bitte das Mitgliederbüro: mitglied@supercoop.de .<br/"
+">\n"
+"        Im Mitgliederhandbuch steht: Wenn ein Mitglied eine Schicht "
+"versäumt, muss das Mitglied innerhalb von vier Wochen nach der versäumten "
+"Schicht an zwei Nachholschichten teilnehmen, um sie auszugleichen. Du kannst "
+"dich für die Nachholschichten selbst in <a href=\"https://members.supercoop."
+"de/shifts/timetable\">Tapir</a> eintragen.<br/>\n"
+"        Wenn du deine Nachholschichten nicht machst, können deine Einkaufs- "
+"und Wahl-Rechte ausgesetzt werden. Für mehr Information siehe <a href="
+"\"https://docs.google.com/document/"
+"d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.594fbvgmke0z"
+"\">Mitgliederhandbuch</a> III.F\n"
+"    </p>\n"
+"\n"
+"    <p>Kooperative Grüße,</p>\n"
+
+#: shifts/templates/shifts/email/shift_reminder.html:9
+#, python-format
+msgid ""
+"\n"
+"    <p>Hi %(first_name)s,</p>\n"
+"\n"
+"    <p>This is an automated email from SuperCoop.</p>\n"
+"\n"
+"    <p>\n"
+"        Your next shift at SuperCoop is this week!<br/>\n"
+"        Your shift is : %(shift_display_name)s\n"
+"    </p>\n"
+msgstr ""
+"\n"
+"    <p>Hallo %(first_name)s,</p>\n"
+"\n"
+"    <p>This is an automated E-Mail from SuperCoop.</p>\n"
+"\n"
+"    <p>\n"
+"        Deine nächste Schicht am Supercoop ist dieser Woche!<br/>\n"
+"        Deine Schicht ist: %(shift_display_name)s\n"
+"    </p>\n"
+
+#: shifts/templates/shifts/email/shift_reminder.html:20
+msgid ""
+"Since this is your first shift, remember to arrive 20 minutes before the "
+"beginning of the shift in order to get the instructions you need."
+msgstr ""
+"Weil es deine erste Schicht ist, komm bitte 20 Minuten vor der Schicht an um "
+"die Erklärungen zu bekommen."
+
+#: shifts/templates/shifts/email/shift_reminder.html:22
+msgid ""
+"\n"
+"    <p>In case you can't attend the shift, contact the teamleader as soon as "
+"possible.</p>\n"
+"\n"
+"    <p>Cooperatively yours,</p>\n"
+msgstr ""
+"\n"
+"    <p>Wenn du an der Schicht nicht teilnehmen kannst, kontaktiere bitte "
+"schnellstmöglich die Teamleitung.</p>\n"
+"\n"
+"    <p>Kooperative Grüße,</p>\n"
+
+#: shifts/templates/shifts/email/stand_in_found.html:9
+#, python-format
+msgid ""
+"\n"
+"    <p>Dear %(first_name)s,</p>\n"
+"\n"
+"    <p>This is an automated email from SuperCoop.</p>\n"
+"\n"
+"    <p>\n"
+"        You were looking for a stand-in for the following shift: "
+"%(shift_display_name)s.<br/>\n"
+"        Another member has taken over your slot for that shift.\n"
+"    </p>\n"
+"\n"
+"    <p>If you haven't done so already, don't forget to attend another shift "
+"to compensate for the one you will miss!</p>\n"
+"\n"
+"    <p>Cooperatively yours,</p>\n"
+msgstr ""
+"\n"
+"    <p>Hallo %(first_name)s,</p>\n"
+"\n"
+"    <p>Dies ist eine automatische E-Mail von der SuperCoop.</p>\n"
+"\n"
+"    <p>\n"
+"        Du hattest nach Vertretung gesucht für die folgende Schicht: "
+"%(shift_display_name)s.<br/>\n"
+"        Ein anderes Mitglied hat es jetzt übernommen.\n"
+"    </p>\n"
+"\n"
+"    <p>Falls du es noch nicht gemacht hast, vergiss nicht an eine andere "
+"Schicht teilzunehmen!</p>\n"
+"\n"
+"    <p>Kooperative Grüße,</p>\n"
 
 #: shifts/templates/shifts/log/create_shift_attendance_log_entry.html:3
 msgid "Registered for Shift"
@@ -1076,11 +1363,13 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"Dies ist der ABCD-Zeitplan. Er wiederholt sich alle vier Wochen. Deswegen "
+"<p>Dies ist der ABCD-Zeitplan. Er wiederholt sich alle vier Wochen. Deswegen "
 "siehst du nur Wochentage (Montag, Dienstag...) und die Woche (A,B,C oder D) "
 "anstatt genauer Datumsangaben (z.B. 23.8.2021). Um das Datum deiner nächsten "
-"Schicht zu sehen, geh bitte zu deinem Kontoprofil. Wenn du deine regelmäßige "
-"ABCD-Schicht ändern möchtest, wende dich bitte ans Mitgliederbüro."
+"Schicht zu sehen, geh bitte zu deinem Kontoprofil. </p>\n"
+"<p>Wenn du deine regelmäßige ABCD-Schicht ändern möchtest, wende dich bitte "
+"ans Mitgliederbüro.</p>\n"
+" "
 
 #: shifts/templates/shifts/shift_template_overview.html:28
 msgid "Filter by free slot: "
@@ -1265,11 +1554,11 @@ msgid "View all"
 msgstr ""
 
 #: shifts/templatetags/shifts.py:46 shifts/templatetags/shifts.py:118
-#: shifts/views.py:509
+#: shifts/views.py:507
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views.py:311
+#: shifts/views.py:309
 msgid "You missed your shift!"
 msgstr "Du hast deine Schicht versäumt!"
 

@@ -550,15 +550,11 @@ class ShiftSlot(models.Model):
         log_entry.shift = attendance.slot.shift
         log_entry.save()
 
-        template_name = (
-            f"shifts/email/stand_in_found_{attendance.user.preferred_language}.txt"
-        )
-
         with translation.override(attendance.user.preferred_language):
             mail = EmailMessage(
                 subject=_("You found a stand-in!"),
                 body=render_to_string(
-                    template_name,
+                    "shifts/email/stand_in_found.html",
                     {"tapir_user": attendance.user, "shift": attendance.slot.shift},
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
@@ -604,6 +600,7 @@ class ShiftAttendance(models.Model):
     slot = models.ForeignKey(
         ShiftSlot, related_name="attendances", on_delete=models.PROTECT
     )
+    reminder_email_sent = models.BooleanField(default=False)
 
     class State(models.IntegerChoices):
         PENDING = 1
@@ -720,6 +717,44 @@ class ShiftUserData(models.Model):
 
     def is_currently_exempted_from_shifts(self, date=None):
         return self.get_current_shift_exemption(date) is not None
+
+    def send_shift_reminder_emails(self):
+        today = datetime.date.today()
+        next_monday = today + datetime.timedelta(days=(0 - today.weekday()) % 7)
+        next_sunday = next_monday + datetime.timedelta(days=7)
+        for attendance in ShiftAttendance.objects.with_valid_state().filter(
+            user=self.user,
+            slot__shift__start_time__gte=next_monday,
+            slot__shift__start_time__lte=next_sunday,
+            reminder_email_sent=False,
+        ):
+            self.send_shift_reminder_email(attendance)
+
+    def send_shift_reminder_email(self, attendance: ShiftAttendance):
+        is_first_shift = not ShiftAttendance.objects.filter(
+            user=self.user, state=ShiftAttendance.State.DONE
+        ).exists()
+        with transaction.atomic() and translation.override(
+            self.user.preferred_language
+        ):
+            mail = EmailMessage(
+                subject=_("Your upcoming SuperCoop shift: %(shift)s")
+                % {"shift": attendance.slot.shift.get_display_name()},
+                body=render_to_string(
+                    "shifts/email/shift_reminder.html",
+                    {
+                        "tapir_user": self.user,
+                        "shift": attendance.slot.shift,
+                        "is_first_shift": is_first_shift,
+                    },
+                ),
+                from_email=FROM_EMAIL_MEMBER_OFFICE,
+                to=[self.user.email],
+            )
+            mail.send()
+
+            attendance.reminder_email_sent = True
+            attendance.save()
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
