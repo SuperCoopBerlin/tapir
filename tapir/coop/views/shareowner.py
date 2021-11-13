@@ -11,12 +11,13 @@ from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
-from django.views.generic import UpdateView, CreateView, ListView
+from django.views.generic import UpdateView, CreateView
 from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
@@ -44,6 +45,8 @@ from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
+    ShiftAttendanceTemplate,
+    ShiftAttendanceMode,
 )
 from tapir.utils.models import copy_user_info
 
@@ -366,7 +369,6 @@ class ShareOwnerFilter(django_filters.FilterSet):
             "paid_membership_fee",
         ]
 
-    display_name = CharFilter(method="display_name_filter", label=_("Name"))
     status = ChoiceFilter(
         choices=MEMBER_STATUS_CHOICES,
         method="status_filter",
@@ -411,6 +413,10 @@ class ShareOwnerFilter(django_filters.FilterSet):
         choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")],
         method="abcd_week_filter",
         label=_("ABCD Week"),
+    )
+
+    display_name = CharFilter(
+        method="display_name_filter", label=_("Name or member ID")
     )
 
     def display_name_filter(
@@ -567,3 +573,84 @@ class MatchingProgramListView(PermissionRequiredMixin, SingleTableView):
             .exclude(willing_to_gift_a_share=None)
             .order_by("willing_to_gift_a_share")
         )
+
+
+class ShareOwnerTableWelcomeDesk(django_tables2.Table):
+    class Meta:
+        model = ShareOwner
+        template_name = "django_tables2/bootstrap4.html"
+        fields = [
+            "id",
+        ]
+        sequence = (
+            "id",
+            "display_name",
+        )
+        order_by = "id"
+
+    display_name = django_tables2.Column(
+        empty_values=(), verbose_name="Name", orderable=False
+    )
+
+    def render_display_name(self, value, record: ShareOwner):
+        return format_html(
+            "<a href={}>{}</a>",
+            reverse("coop:welcome_desk_share_owner", args=[record.pk]),
+            record.get_info().get_display_name(),
+        )
+
+
+class ShareOwnerFilterWelcomeDesk(django_filters.FilterSet):
+    display_name = CharFilter(
+        method="display_name_filter", label=_("Name or member ID")
+    )
+
+    def display_name_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+    ):
+        if not value:
+            return queryset.none()
+
+        if value.isdigit():
+            return queryset.filter(id=int(value))
+
+        return queryset.with_name(value)
+
+
+class WelcomeDeskSearchView(PermissionRequiredMixin, FilterView, SingleTableView):
+    permission_required = "accounts.view"
+    template_name = "coop/welcome_desk_search.html"
+    table_class = ShareOwnerTableWelcomeDesk
+    model = ShareOwner
+    filterset_class = ShareOwnerFilterWelcomeDesk
+
+
+class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
+    model = ShareOwner
+    template_name = "coop/welcome_desk_share_owner.html"
+    permission_required = "accounts.view"
+    context_object_name = "share_owner"
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        share_owner: ShareOwner = context_data["share_owner"]
+
+        context_data["can_shop"] = share_owner.can_shop()
+
+        context_data["missing_account"] = share_owner.user is None
+        if context_data["missing_account"]:
+            return context_data
+
+        context_data[
+            "shift_balance_not_ok"
+        ] = not share_owner.user.shift_user_data.is_balance_ok()
+
+        context_data["must_register_to_a_shift"] = (
+            share_owner.user.shift_user_data.attendance_mode
+            == ShiftAttendanceMode.REGULAR
+            and not ShiftAttendanceTemplate.objects.filter(
+                user=share_owner.user
+            ).exists()
+        )
+
+        return context_data

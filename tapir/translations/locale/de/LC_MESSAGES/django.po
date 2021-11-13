@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-12 16:30+0200\n"
-"PO-Revision-Date: 2021-08-24 14:34+0200\n"
+"POT-Creation-Date: 2021-11-13 10:23+0200\n"
+"PO-Revision-Date: 2021-11-13 09:06+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -18,60 +18,64 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0\n"
 
-#: accounts/models.py:136 accounts/templates/accounts/user_detail.html:35
+#: accounts/models.py:137 accounts/templates/accounts/user_detail.html:35
 #: coop/templates/coop/draftuser_detail.html:28
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/models.py:140
+#: accounts/models.py:141
 msgid "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
 msgstr ""
 "Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen "
 "oder ./-/_ verwenden."
 
-#: accounts/models.py:144
+#: accounts/models.py:145
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
-#: accounts/models.py:148 accounts/templates/accounts/user_detail.html:43
-#: coop/models.py:51 coop/models.py:228
+#: accounts/models.py:149 accounts/templates/accounts/user_detail.html:43
+#: coop/models.py:52 coop/models.py:238
 #: coop/templates/coop/draftuser_detail.html:36
 #: coop/templates/coop/shareowner_detail.html:43
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:149 accounts/templates/accounts/user_detail.html:53
-#: coop/models.py:52 coop/models.py:229
+#: accounts/models.py:150 accounts/templates/accounts/user_detail.html:53
+#: coop/models.py:53 coop/models.py:239
 #: coop/templates/coop/draftuser_detail.html:40
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:150 coop/models.py:53 coop/models.py:230
+#: accounts/models.py:151 coop/models.py:54 coop/models.py:240
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:151 coop/models.py:54 coop/models.py:231
+#: accounts/models.py:152 coop/models.py:55 coop/models.py:241
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:152 coop/models.py:55 coop/models.py:232
+#: accounts/models.py:153 coop/models.py:56 coop/models.py:242
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:153 coop/models.py:56 coop/models.py:233
+#: accounts/models.py:154 coop/models.py:57 coop/models.py:243
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:154 coop/models.py:57 coop/models.py:234
+#: accounts/models.py:155 coop/models.py:58 coop/models.py:244
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:157 accounts/templates/accounts/user_detail.html:73
-#: coop/models.py:60 coop/models.py:237
+#: accounts/models.py:158 accounts/templates/accounts/user_detail.html:73
+#: coop/models.py:61 coop/models.py:247
 #: coop/templates/coop/shareowner_detail.html:67
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
+
+#: accounts/models.py:203
+msgid "None"
+msgstr "Keine"
 
 #: accounts/templates/accounts/user_detail.html:22
 #: coop/templates/coop/shareowner_detail.html:14
@@ -82,7 +86,7 @@ msgstr "Persönliche Daten"
 #: coop/templates/coop/draftuser_detail.html:151
 #: coop/templates/coop/shareowner_detail.html:24
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:13
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:105
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:115
 #: shifts/templates/shifts/shift_detail.html:19
 #: shifts/templates/shifts/shift_template_detail.html:17
 #: shifts/templates/shifts/user_shifts_overview_tag.html:10
@@ -91,7 +95,7 @@ msgstr "Bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:31
 #: coop/templates/coop/draftuser_detail.html:24
-#: coop/templates/coop/shareowner_detail.html:35 coop/views/shareowner.py:368
+#: coop/templates/coop/shareowner_detail.html:35
 msgid "Name"
 msgstr "Name"
 
@@ -118,13 +122,15 @@ msgstr "Fehlend"
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:84
-#, fuzzy
-#| msgid "Resend Account Activation Email"
+#: accounts/templates/accounts/user_detail.html:78
+msgid "Permissions"
+msgstr ""
+
+#: accounts/templates/accounts/user_detail.html:90
 msgid "Send account activation email"
 msgstr "Konto-Aktivierungsemail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:89
+#: accounts/templates/accounts/user_detail.html:95
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -175,7 +181,7 @@ msgstr "Neues Passwort festlegen"
 
 #: accounts/templates/registration/password_reset_confirm.html:12
 msgid "Please enter a new password"
-msgstr "Bitte gib ein neues Passwort ein."
+msgstr "Bitte gib ein neues Passwort ein"
 
 #: accounts/templates/registration/password_reset_confirm.html:16
 msgid "Change password"
@@ -190,8 +196,6 @@ msgstr ""
 "bereits genutzt. Bitte fordere einen neuen Link an."
 
 #: accounts/templates/registration/password_reset_done.html:9
-#, fuzzy
-#| msgid "Password reset instructions are sent"
 msgid "Password reset instructions have been sent."
 msgstr "Anleitung zum Passwort zurücksetzen wurde gesendet."
 
@@ -239,27 +243,25 @@ msgstr ""
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: coop/forms.py:65 coop/models.py:307 coop/views/shareowner.py:219
-#, fuzzy
-#| msgid "Willkommen bei SuperCoop eG!"
+#: coop/forms.py:66 coop/models.py:313 coop/views/shareowner.py:222
 msgid "Welcome at SuperCoop eG!"
 msgstr "Willkommen in der SuperCoop eG!"
 
-#: coop/models.py:42
+#: coop/models.py:43
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:48 coop/models.py:225
+#: coop/models.py:49 coop/models.py:235
 #: coop/templates/coop/draftuser_list.html:20
 msgid "First name"
 msgstr "Vorname"
 
-#: coop/models.py:49 coop/models.py:226
+#: coop/models.py:50 coop/models.py:236
 #: coop/templates/coop/draftuser_list.html:21
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:50 coop/models.py:227
+#: coop/models.py:51 coop/models.py:237
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
@@ -267,58 +269,62 @@ msgstr "E-Mail-Adresse"
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:71 coop/models.py:265
+#: coop/models.py:70 coop/models.py:271
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:44
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:78 coop/models.py:258
+#: coop/models.py:75 coop/models.py:264
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:127
-msgid "Cannot be a company and have a Tapir account"
-msgstr ""
-
-#: coop/models.py:142
-msgid "User info should be stored in associated Tapir account"
-msgstr ""
-
-#: coop/models.py:191
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:98
-msgid "Sold"
-msgstr "Verkauft"
-
-#: coop/models.py:192 coop/templates/coop/draftuser_detail.html:63
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:26
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:96
-msgid "Investing"
-msgstr "Investierend"
-
-#: coop/models.py:193 coop/templates/coop/draftuser_detail.html:65
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:29
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:94
-msgid "Active"
-msgstr "Aktiv"
-
-#: coop/models.py:246
-msgid "Number of Shares"
-msgstr "Anzahl Anteilen"
-
-#: coop/models.py:250
-msgid "Investing member"
-msgstr "Investierende Mitglieder"
-
-#: coop/models.py:261
-msgid "Signed Beteiligungserklärung"
-msgstr "Beteiligungserklärung unterschrieben"
-
-#: coop/models.py:263
+#: coop/models.py:77 coop/models.py:269
 msgid "Paid Membership Fee"
 msgstr "Mitgliedsgebühr bezahlt"
 
-#: coop/templates/coop/about.html:10 templates/base.html:131
+#: coop/models.py:79
+msgid "Is willing to gift a share"
+msgstr ""
+
+#: coop/models.py:129
+msgid "Cannot be a company and have a Tapir account"
+msgstr ""
+
+#: coop/models.py:145
+msgid "User info should be stored in associated Tapir account"
+msgstr ""
+
+#: coop/models.py:201
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:108
+msgid "Sold"
+msgstr "Verkauft"
+
+#: coop/models.py:202 coop/templates/coop/draftuser_detail.html:63
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:26
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:106
+msgid "Investing"
+msgstr "Investierend"
+
+#: coop/models.py:203 coop/templates/coop/draftuser_detail.html:65
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:29
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:104
+msgid "Active"
+msgstr "Aktiv"
+
+#: coop/models.py:253
+msgid "Number of Shares"
+msgstr "Anzahl Anteilen"
+
+#: coop/models.py:256
+msgid "Investing member"
+msgstr "Investierende Mitglieder"
+
+#: coop/models.py:267
+msgid "Signed Beteiligungserklärung"
+msgstr "Beteiligungserklärung unterschrieben"
+
+#: coop/templates/coop/about.html:10 templates/base.html:146
 msgid "About Tapir"
 msgstr "Über Tapir"
 
@@ -332,8 +338,6 @@ msgid "Create Tapir account"
 msgstr "Tapir-Konto erstellen"
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:27
-#, fuzzy
-#| msgid "Create Tapir account"
 msgid "Create account"
 msgstr "Konto erstellen"
 
@@ -341,7 +345,7 @@ msgstr "Konto erstellen"
 #: coop/templates/coop/draftuser_form.html:18
 #: coop/templates/coop/draftuser_list.html:8
 #: coop/templates/coop/draftuser_register_form.html:18
-#: coop/templates/coop/statistics.html:128 templates/base.html:92
+#: coop/templates/coop/statistics.html:128 templates/base.html:88
 msgid "Applicants"
 msgstr "Bewerber*innen"
 
@@ -378,7 +382,6 @@ msgid "Open"
 msgstr "Offen"
 
 #: coop/templates/coop/draftuser_detail.html:140
-#, fuzzy
 msgid "Register Payment"
 msgstr "Als bezahlt markieren"
 
@@ -389,6 +392,19 @@ msgstr "Mitglied anlegen"
 #: coop/templates/coop/draftuser_list.html:34
 msgid "Signed"
 msgstr "Unterschrieben"
+
+#: coop/templates/coop/matching_program.html:17
+msgid "Matching program members"
+msgstr ""
+
+#: coop/templates/coop/matching_program.html:21
+msgid ""
+"\n"
+"                    The members in this list have expressed that they are "
+"willing to pay the share for a potential new member that otherwise couldn't "
+"afford it.\n"
+"                "
+msgstr ""
 
 #: coop/templates/coop/shareowner_detail.html:18
 msgid "Go to user page"
@@ -419,7 +435,7 @@ msgid ""
 "                            "
 msgstr ""
 
-#: coop/templates/coop/statistics.html:27 templates/base.html:97
+#: coop/templates/coop/statistics.html:27 templates/base.html:93
 msgid "Statistics"
 msgstr "Statistik"
 
@@ -452,8 +468,7 @@ msgid "ABCD shift missing at least one member"
 msgstr "ABCD-Schicht, wo min. ein Mitglied fehlt"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:6
-#, fuzzy, python-format
-#| msgid "Cooperator #%(coop_share_owner_id)s"
+#, python-format
 msgid "Member #%(coop_share_owner_id)s"
 msgstr "Mitglied #%(coop_share_owner_id)s"
 
@@ -462,7 +477,7 @@ msgid "Membership confirmation"
 msgstr "Mitgliedsbestätigung"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:23
-#: coop/views/shareowner.py:372
+#: coop/views/shareowner.py:375
 #: shifts/templates/shifts/user_shifts_overview_tag.html:17
 msgid "Status"
 msgstr "Status"
@@ -472,14 +487,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:53
-#: shifts/models.py:634 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:641 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:170
 #: shifts/templates/shifts/shift_detail_printable.html:48
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:55
-#: shifts/models.py:633
+#: shifts/models.py:640
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -491,11 +506,19 @@ msgstr "Als teilgenommen markieren"
 msgid "Owned shares"
 msgstr "Anteile"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:117
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:79
+msgid "Has paid"
+msgstr ""
+
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:84
+msgid "Willing to gift a share"
+msgstr ""
+
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:127
 msgid "Delete"
 msgstr "Löschen"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:119
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:129
 msgid ""
 "\n"
 "                                                        Only use this to "
@@ -514,48 +537,109 @@ msgstr ""
 "einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als "
 "'verkauft'."
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:140
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:150
 msgid "Add Share"
 msgstr "Anteil hinzufügen"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:150
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:160
 msgid "Send membership confirmation email"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:156
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:166
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
-#: coop/views/shareowner.py:373
-#: shifts/templates/shifts/shift_overview_template.html:80
-#: shifts/templates/shifts/shift_template_overview.html:40
+#: coop/templates/coop/welcome_desk_search.html:18 templates/base.html:136
+#: templates/base.html:140
+msgid "Welcome Desk"
+msgstr "Welcome Desk"
+
+#: coop/templates/coop/welcome_desk_share_owner.html:25
+#, python-format
+msgid "%(name)s  can shop :)"
+msgstr "%(name)s kann einkaufen :)"
+
+#: coop/templates/coop/welcome_desk_share_owner.html:30
+#, python-format
+msgid ""
+"%(name)s does not have a Tapir account. Contact a member of the management "
+"team."
+msgstr ""
+"%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
+
+#: coop/templates/coop/welcome_desk_share_owner.html:35
+#, python-format
+msgid ""
+"%(name)s has a negative shift balance. Contact a member of the management "
+"team."
+msgstr ""
+"%(name)s hat ein negatives Schicht-Score. Kontaktiere eine Person aus dem "
+"Vorstand."
+
+#: coop/templates/coop/welcome_desk_share_owner.html:40
+#, python-format
+msgid ""
+"%(name)s is an investing member. If they want to shop, they have to become "
+"an active member. Contact a member of the management team."
+msgstr ""
+"%(name)s ist ein investierendes Mitglied. Um einkaufen zu könne, müssen sie "
+"ein aktiv Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
+
+#: coop/templates/coop/welcome_desk_share_owner.html:46
+#, python-format
+msgid ""
+"%(name)s is not registered to an ABCD shift yet. Make sure they plan to do "
+"it!"
+msgstr ""
+"%(name)s is noch zu keiner ABCD Schicht angemeldet. Er/Sie soll es planen!"
+
+#: coop/templates/coop/welcome_desk_share_owner.html:51
+#, python-format
+msgid ""
+"%(name)s has not attended a welcome session yet. Make sure they plan to do "
+"it!"
+msgstr ""
+"%(name)s hat an das Willkommenstreffen noch nicht teilgenommen. Er/Sie soll "
+"es planen!"
+
+#: coop/views/shareowner.py:376
+#: shifts/templates/shifts/shift_calendar_template.html:72
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:378
+#: coop/views/shareowner.py:381
 #: shifts/templates/shifts/user_shifts_overview_tag.html:107
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:386
+#: coop/views/shareowner.py:389
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Befähigung erfordert"
 
-#: coop/views/shareowner.py:394
+#: coop/views/shareowner.py:397
 msgid "Has qualification"
 msgstr "Hat Befähigung"
 
-#: coop/views/shareowner.py:402
+#: coop/views/shareowner.py:405
 msgid "Does not have qualification"
 msgstr "Hat die Befähigung nicht"
 
-#: coop/views/shareowner.py:412
+#: coop/views/shareowner.py:415
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: log/models.py:14
+#: coop/views/shareowner.py:419 coop/views/shareowner.py:605
+msgid "Name or member ID"
+msgstr "Name oder Mitgliedsnummer"
+
+#: coop/views/shareowner.py:559
 #, fuzzy
-#| msgid "Create user"
+#| msgctxt "No upcoming shift"
+#| msgid "None"
+msgid "No"
+msgstr "Keine"
+
+#: log/models.py:14
 msgid "Creation Date"
 msgstr "Erstellungsdatum"
 
@@ -572,10 +656,6 @@ msgid "Add Note"
 msgstr "Notiz hinzufügen"
 
 #: shifts/forms.py:50
-#, fuzzy
-#| msgid ""
-#| "I have read the warning about the missing training and confirm that the "
-#| "user should get registered to the shift"
 msgid ""
 "I have read the warning about the missing qualification and confirm that the "
 "user should get registered to the shift"
@@ -584,10 +664,7 @@ msgstr ""
 "dass Benutzer*in für die Schicht registriert werden sollte"
 
 #: shifts/forms.py:74
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The selected user is missing the required training for this shift : "
-#| "{missing_capabilities}"
+#, python-brace-format
 msgid ""
 "The selected user is missing the required qualification for this shift : "
 "{missing_capabilities}"
@@ -599,128 +676,115 @@ msgstr ""
 msgid "This user is already registered to another slot in this ABCD shift."
 msgstr ""
 "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser ABCD-Schicht "
-"registriert"
+"registriert."
 
 #: shifts/forms.py:129
 msgid "This user is already registered to another slot in this shift."
 msgstr ""
 "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht "
-"registriert"
+"registriert."
 
 #: shifts/forms.py:143
 #: shifts/templates/shifts/user_shifts_overview_tag.html:127
 msgid "Qualifications"
 msgstr "Befähigungen"
 
-#: shifts/models.py:31
+#: shifts/models.py:32
 msgid "Teamleader"
 msgstr "Teamleiter*in"
 
-#: shifts/models.py:32
+#: shifts/models.py:33
 msgid "Cashier"
 msgstr "Kasse"
 
-#: shifts/models.py:33
+#: shifts/models.py:34
 msgid "Member Office"
 msgstr "Mitgliederbüro"
 
-#: shifts/models.py:34
+#: shifts/models.py:35
 msgid "Bread Delivery"
 msgstr "Brotlieferung"
 
-#: shifts/models.py:35
+#: shifts/models.py:36
 msgid "Red Card"
 msgstr "Rote Karte Lebensmittel"
 
-#: shifts/models.py:36
+#: shifts/models.py:37
 msgid "First Aid"
 msgstr "Erste Hilfe"
 
-#: shifts/models.py:81
+#: shifts/models.py:82
 msgid "Monday"
 msgstr "Montag"
 
-#: shifts/models.py:82
+#: shifts/models.py:83
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: shifts/models.py:83
+#: shifts/models.py:84
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: shifts/models.py:84
+#: shifts/models.py:85
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: shifts/models.py:85
+#: shifts/models.py:86
 msgid "Friday"
 msgstr "Freitag"
 
-#: shifts/models.py:86
+#: shifts/models.py:87
 msgid "Saturday"
 msgstr "Samstag"
 
-#: shifts/models.py:87
+#: shifts/models.py:88
 msgid "Sunday"
 msgstr "Sontag"
 
-#: shifts/models.py:552
+#: shifts/models.py:559
 msgid "You found a stand-in!"
 msgstr ""
 
-#: shifts/models.py:635 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:642 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:179
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:636 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:643 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:193
 #: shifts/templates/shifts/shift_detail_printable.html:50
-#, fuzzy
-#| msgid "Excuse"
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:637 shifts/templates/shifts/shift_detail.html:201
+#: shifts/models.py:644 shifts/templates/shifts/shift_detail.html:201
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:638 shifts/templates/shifts/shift_detail.html:188
-#: shifts/templates/shifts/shift_overview_template.html:70
+#: shifts/models.py:645 shifts/templates/shifts/shift_detail.html:188
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:668
+#: shifts/models.py:675
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:669
-#, fuzzy
-#| msgid "Flying"
+#: shifts/models.py:676
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:672
-#, fuzzy
-#| msgid "Shifts"
+#: shifts/models.py:679
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:710 shifts/templates/shifts/shiftexemption_list.html:20
-#, fuzzy
-#| msgid "Birthdate"
-msgid "Start date"
-msgstr "Anfangsdatum"
-
-#: shifts/models.py:711 shifts/templates/shifts/shiftexemption_list.html:21
-msgid "End date"
-msgstr "Endsdatum"
-
-#: shifts/models.py:712 shifts/templates/shifts/shiftexemption_list.html:22
+#: shifts/models.py:737 shifts/templates/shifts/shiftexemption_list.html:22
 #: shifts/templates/shifts/user_shift_account_log.html:27
 msgid "Description"
 msgstr "Beschreibung"
+
+#: shifts/models.py:752
+msgid "Cycle start date"
+msgstr "Anfangsdatum"
 
 #: shifts/templates/shifts/log/create_shift_attendance_log_entry.html:3
 msgid "Registered for Shift"
@@ -746,6 +810,83 @@ msgstr "Ändere den Schichtstatus zu"
 msgid "Update Shift User Data"
 msgstr "Nutzer*innendaten der Schicht aktualisieren"
 
+#: shifts/templates/shifts/shift_calendar_future.html:6 templates/base.html:107
+msgid "Shift calendar"
+msgstr "Schicht-Kalender"
+
+#: shifts/templates/shifts/shift_calendar_future.html:10
+#, python-format
+msgid ""
+"\n"
+"        <p>Below you can find all the upcoming shifts, and who is registered "
+"for each shift.</p>\n"
+"        <p>You can sign yourself up for any shift that has a free slot here "
+"on TAPIR. You may also cancel it yourself if done at least "
+"%(nb_days_for_self_unregister)s days before the shift.<br/>\n"
+"            When you sign up for one of these shifts, you only commit to the "
+"shift on that specific day.</p>\n"
+"        <p>To register for a regular ABCD shift you must contact the Member "
+"Office.</p>\n"
+"    "
+msgstr ""
+"\n"
+"<p>Unten findest du alle anstehenden Schichten und wer für die einzelnen "
+"Schichten angemeldet ist.</p></p> Du kannst dich für jede Schicht, die einen "
+"freien Platz hat, hier auf TAPIR anmelden. Du kannst dich auch selbst "
+"abmelden, wenn du dies mindestens %(nb_days_for_self_unregister)s Tage vor "
+"der Schicht tust. </p></p>Wenn du dich für eine dieser Schichten anmeldest, "
+"verpflichtest du dich nur für die Schicht an diesem bestimmten Tag.</p><p> "
+"Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das "
+"Mitgliederbüro kontaktieren.</p> "
+
+#: shifts/templates/shifts/shift_calendar_past.html:6 templates/base.html:125
+msgid "Past shifts"
+msgstr "Vergangene Schichten"
+
+#: shifts/templates/shifts/shift_calendar_template.html:55
+msgid "Filters"
+msgstr "Filter"
+
+#: shifts/templates/shifts/shift_calendar_template.html:59
+#: shifts/templates/shifts/shift_template_overview.html:31
+msgid "No filter"
+msgstr "Kein Filter"
+
+#: shifts/templates/shifts/shift_calendar_template.html:62
+msgid "Has a free slot"
+msgstr "Hat einen freien Platz"
+
+#: shifts/templates/shifts/shift_calendar_template.html:65
+#: shifts/templates/shifts/shift_template_overview.html:34
+msgid "Needs help"
+msgstr ""
+
+#: shifts/templates/shifts/shift_calendar_template.html:83
+#: shifts/templates/shifts/shift_template_overview.html:47
+msgid "Legend"
+msgstr "Legende"
+
+#: shifts/templates/shifts/shift_calendar_template.html:85
+#: shifts/templates/shifts/shift_template_overview.html:49
+msgid "Filtered"
+msgstr "Gefiltert"
+
+#: shifts/templates/shifts/shift_calendar_template.html:86
+#: shifts/templates/shifts/shift_template_overview.html:50
+msgid "Not filtered"
+msgstr "Nicht gefiltert"
+
+#: shifts/templates/shifts/shift_calendar_template.html:95
+#: shifts/templates/shifts/shift_template_group_calendar.html:16
+msgid "starting"
+msgstr "beginnt"
+
+#: shifts/templates/shifts/shift_calendar_template.html:95
+#: shifts/templates/shifts/shift_template_group_calendar.html:16
+#: shifts/templates/shifts/shift_template_overview.html:59
+msgid "Week "
+msgstr "Woche "
+
 #: shifts/templates/shifts/shift_day_printable.html:54
 #: shifts/templates/shifts/shift_detail_printable.html:46
 msgid "Slot"
@@ -753,8 +894,6 @@ msgstr "Platz"
 
 #: shifts/templates/shifts/shift_day_printable.html:55
 #: shifts/templates/shifts/shift_detail_printable.html:47
-#, fuzzy
-#| msgid "Members"
 msgid "Member"
 msgstr "Mitglied"
 
@@ -772,8 +911,6 @@ msgstr "Erforderliche Befähigung: "
 
 #: shifts/templates/shifts/shift_day_printable.html:79
 #: shifts/templates/shifts/shift_detail_printable.html:71
-#, fuzzy
-#| msgid "Special Capabilties"
 msgid "Has qualifications: "
 msgstr "Hat Befähigungen: "
 
@@ -834,7 +971,7 @@ msgid ""
 msgstr ""
 "Du kannst nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor der Schicht nach "
 "einer Vertretung suchen. Wenn du die Schicht nicht wahrnehmen kannst, wende "
-"dich bitte schnellstmöglich an die Teamleitung!"
+"dich bitte schnellstmöglich an die Teamleitung."
 
 #: shifts/templates/shifts/shift_detail.html:97
 msgid "Look for a stand-in"
@@ -856,25 +993,13 @@ msgstr ""
 "Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner "
 "Schicht abmelden. Von ABCD-Schichten kannst du dich überhaupt nicht "
 "abmelden. Wenn du die Schicht nicht wahrnehmen kannst, suche bitte eine "
-"Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung!"
+"Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung."
 
 #: shifts/templates/shifts/shift_detail.html:119
 msgid "Unregister myself"
 msgstr "Melde mich ab"
 
 #: shifts/templates/shifts/shift_detail.html:128
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                                                        Only use this to "
-#| "correct mistakes, i.e. if the share was erroneously\n"
-#| "                                                        entered into the "
-#| "system and the person never actually\n"
-#| "                                                        bought it. If the "
-#| "person simply sold their share back to the\n"
-#| "                                                        coop, please mark "
-#| "the share as sold instead.\n"
-#| "                                                    "
 msgid ""
 "You can only register yourself\n"
 "                                                for a shift if :<br/>\n"
@@ -891,7 +1016,7 @@ msgstr ""
 "- du keinen anderen Platz in derselben Schicht gebucht hast\n"
 "- du das erforderliche Training gemacht hast (wenn du ein Training möchtest, "
 "wende dich bitte ans Mitgliederbüro\n"
-"- die Schicht in der Zukunft liegt"
+"- die Schicht in der Zukunft liegt "
 
 #: shifts/templates/shifts/shift_detail.html:139
 msgid "Register myself"
@@ -900,86 +1025,6 @@ msgstr "Melde mich an"
 #: shifts/templates/shifts/shift_detail.html:156
 msgid "Register a member"
 msgstr "Melde ein Mitglied an"
-
-#: shifts/templates/shifts/shift_overview_past.html:6 templates/base.html:119
-#, fuzzy
-#| msgid "Create a shift"
-msgid "Past shifts"
-msgstr "Vergangene Schichten"
-
-#: shifts/templates/shifts/shift_overview_template.html:63
-msgid "Filters"
-msgstr "Filter"
-
-#: shifts/templates/shifts/shift_overview_template.html:67
-#: shifts/templates/shifts/shift_template_overview.html:37
-msgid "No filter"
-msgstr "Kein Filter"
-
-#: shifts/templates/shifts/shift_overview_template.html:73
-msgid "Has a free slot"
-msgstr "Hat einen freien Platz"
-
-#: shifts/templates/shifts/shift_overview_template.html:91
-#: shifts/templates/shifts/shift_template_overview.html:50
-msgid "Legend"
-msgstr "Legende"
-
-#: shifts/templates/shifts/shift_overview_template.html:93
-#: shifts/templates/shifts/shift_template_overview.html:52
-msgid "Help urgently needed"
-msgstr "Hilfe dringend gebraucht"
-
-#: shifts/templates/shifts/shift_overview_template.html:94
-#: shifts/templates/shifts/shift_template_overview.html:53
-msgid "Some help needed"
-msgstr "Hilfe gewünscht"
-
-#: shifts/templates/shifts/shift_overview_template.html:95
-#: shifts/templates/shifts/shift_template_overview.html:54
-msgid "No help needed"
-msgstr "Kein Hilfe gebraucht"
-
-#: shifts/templates/shifts/shift_overview_template.html:104
-#: shifts/templates/shifts/shift_template_group_calendar.html:16
-msgid "starting"
-msgstr "beginnt"
-
-#: shifts/templates/shifts/shift_overview_template.html:104
-#: shifts/templates/shifts/shift_template_group_calendar.html:16
-#: shifts/templates/shifts/shift_template_overview.html:63
-msgid "Week "
-msgstr "Woche "
-
-#: shifts/templates/shifts/shift_overview_upcoming.html:6
-#: templates/base.html:106
-msgid "Shift calendar"
-msgstr "Schicht-Kalender"
-
-#: shifts/templates/shifts/shift_overview_upcoming.html:10
-#, python-format
-msgid ""
-"\n"
-"        <p>Below you can find all the upcoming shifts, and who is registered "
-"for each shift.</p>\n"
-"        <p>You can sign yourself up for any shift that has a free slot here "
-"on TAPIR. You may also cancel it yourself if done at least "
-"%(nb_days_for_self_unregister)s days before the shift.<br/>\n"
-"            When you sign up for one of these shifts, you only commit to the "
-"shift on that specific day.</p>\n"
-"        <p>To register for a regular ABCD shift you must contact the Member "
-"Office.</p>\n"
-"    "
-msgstr ""
-"\n"
-"<p>Unten findest du alle anstehenden Schichten und wer für die einzelnen "
-"Schichten angemeldet ist.</p></p> Du kannst dich für jede Schicht, die einen "
-"freien Platz hat, hier auf TAPIR anmelden. Du kannst dich auch selbst "
-"abmelden, wenn du dies mindestens %(nb_days_for_self_unregister)s Tage vor "
-"der Schicht tust. </p></p>Wenn du dich für eine dieser Schichten anmeldest, "
-"verpflichtest du dich nur für die Schicht an diesem bestimmten Tag.</p><p> "
-"Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das "
-"Mitgliederbüro kontaktieren.</p>"
 
 #: shifts/templates/shifts/shift_template_detail.html:34
 #: shifts/templates/shifts/user_shifts_overview_tag.html:6
@@ -1013,13 +1058,13 @@ msgstr "ABCD-Wochenkalender"
 
 #: shifts/templates/shifts/shift_template_group_calendar.html:13
 msgid "Download the calendar as a file."
-msgstr "Kalender als Dokument herunterladen"
+msgstr "Kalender als Dokument herunterladen."
 
-#: shifts/templates/shifts/shift_template_overview.html:24
+#: shifts/templates/shifts/shift_template_overview.html:18
 msgid "ABCD schedule overview, current week: "
 msgstr "ABCD-Zeitplan Übersicht, laufende Woche: "
 
-#: shifts/templates/shifts/shift_template_overview.html:28
+#: shifts/templates/shifts/shift_template_overview.html:22
 msgid ""
 "\n"
 "                    <p>This is the ABCD shiftplan. It repeats every four "
@@ -1037,9 +1082,13 @@ msgstr ""
 "Schicht zu sehen, geh bitte zu deinem Kontoprofil. Wenn du deine regelmäßige "
 "ABCD-Schicht ändern möchtest, wende dich bitte ans Mitgliederbüro."
 
-#: shifts/templates/shifts/shift_template_overview.html:34
+#: shifts/templates/shifts/shift_template_overview.html:28
 msgid "Filter by free slot: "
 msgstr "Nach freien Plätzen filtern: "
+
+#: shifts/templates/shifts/shift_template_overview.html:37
+msgid "Any free slot"
+msgstr "Hat einen freien Platz"
 
 #: shifts/templates/shifts/shiftaccountentry_form.html:13
 msgid "Create manual shift account entry for: "
@@ -1054,12 +1103,10 @@ msgid "Edit shift exemption for: "
 msgstr "Schicht-Befreiung bearbeiten für: "
 
 #: shifts/templates/shifts/shiftexemption_form.html:13
-#, fuzzy
-#| msgid "Create manual shift account entry for: "
 msgid "Create shift exemption for: "
 msgstr "Erzeuge Schicht-Befreiung für: "
 
-#: shifts/templates/shifts/shiftexemption_list.html:8 templates/base.html:124
+#: shifts/templates/shifts/shiftexemption_list.html:8 templates/base.html:130
 msgid "Shift exemptions"
 msgstr "Schicht-Befreiungen"
 
@@ -1067,23 +1114,27 @@ msgstr "Schicht-Befreiungen"
 msgid "User"
 msgstr "Benutzer*in"
 
+#: shifts/templates/shifts/shiftexemption_list.html:20
+msgid "Start date"
+msgstr "Anfangsdatum"
+
+#: shifts/templates/shifts/shiftexemption_list.html:21
+msgid "End date"
+msgstr "Endsdatum"
+
 #: shifts/templates/shifts/shiftexemption_list.html:23
-msgid "Is valid"
-msgstr "Ist gültig"
+msgid "Is active"
+msgstr "Inaktiv"
 
 #: shifts/templates/shifts/shiftuserdata_form.html:16
 msgid "Edit user shift data"
 msgstr "Bearbeite Nutzer*in-Schichtdaten"
 
 #: shifts/templates/shifts/slot_register.html:16
-#, fuzzy
-#| msgid "Shifts"
 msgid "Shift"
 msgstr "Schicht"
 
 #: shifts/templates/shifts/slot_register.html:29
-#, fuzzy
-#| msgid "Register for ABCD Shift"
 msgid "Register for Shift"
 msgstr "Für eine Schicht anmelden"
 
@@ -1101,18 +1152,6 @@ msgid "Some shifts are already occupied"
 msgstr "Manche Schichten sind bereits besetzt"
 
 #: shifts/templates/shifts/slot_template_register.html:51
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        <p>A flying member has already registered to the "
-#| "shifts linked below.</p>\n"
-#| "                        <p>It is still possible to sign someone up for "
-#| "this shift using the ABCD system. This would mean that the member is "
-#| "signing up to work this shift on a recurring 4 week basis (i.e. once per "
-#| "shift cycle).</p>\n"
-#| "                        <p>IMPORTANT: If a flying member had previously "
-#| "signed up for the same shift, the ABCD member will have to sign up for a "
-#| "different shift for that particular cycle.</p>\n"
 msgid ""
 "\n"
 "                        <p>A flying member has already registered to the "
@@ -1133,7 +1172,7 @@ msgstr ""
 "Mitglied für diese Schicht auf einer wiederkehrenden 4-Wochen-Basis (d.h. "
 "einmal pro Schichtzyklus) anmeldet.</p><p>WICHTIG: Wenn sich ein fliegendes "
 "Mitglied zuvor für dieselbe Schicht angemeldet hat, muss sich das ABCD-"
-"Mitglied für eine andere Schicht für diesen bestimmten Zyklus anmelden.</p>"
+"Mitglied für eine andere Schicht für diesen bestimmten Zyklus anmelden.</p> "
 
 #: shifts/templates/shifts/slot_template_register.html:56
 msgid "Already occupied shifts :"
@@ -1141,7 +1180,7 @@ msgstr "Schon besetzte Schichten:"
 
 #: shifts/templates/shifts/user_shift_account_log.html:10
 msgid "Shift account log for: "
-msgstr "Schichtkonto-Protokoll für:"
+msgstr "Schichtkonto-Protokoll für: "
 
 #: shifts/templates/shifts/user_shift_account_log.html:16
 msgid "Add a manual entry"
@@ -1156,8 +1195,6 @@ msgid "Value"
 msgstr "Wert"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
-#, fuzzy
-#| msgid "Set Regular 🏠️"
 msgid "Set ABCD 🏠️"
 msgstr "Als ABCD markieren 🏠️"
 
@@ -1166,8 +1203,6 @@ msgid "Find an ABCD shift"
 msgstr "ABCD-Schicht auswählen"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:73
-#, fuzzy
-#| msgid "Set Flying️g"
 msgid "Set Flying️"
 msgstr "Als fliegend markieren"
 
@@ -1204,47 +1239,37 @@ msgid "On alert"
 msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:122
-#, fuzzy
-#| msgid "Log"
 msgid "log"
 msgstr "Protokoll"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:132
-#, fuzzy
-#| msgctxt "No upcoming shift"
-#| msgid "None"
 msgctxt "No qualifications"
 msgid "None"
 msgstr "Keine"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:137
-#, fuzzy
-#| msgid "Description"
 msgid "Exemption"
 msgstr "Befreiung"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:140
+#: shifts/templates/shifts/user_shifts_overview_tag.html:141
 msgid "until"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:142
-#, fuzzy
-#| msgctxt "No upcoming shift"
-#| msgid "None"
+#: shifts/templates/shifts/user_shifts_overview_tag.html:143
 msgctxt "No shift exemption"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:146
+#: shifts/templates/shifts/user_shifts_overview_tag.html:148
 msgid "View all"
 msgstr ""
 
-#: shifts/templatetags/shifts.py:45 shifts/templatetags/shifts.py:117
-#: shifts/views.py:483
+#: shifts/templatetags/shifts.py:46 shifts/templatetags/shifts.py:118
+#: shifts/views.py:509
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views.py:307
+#: shifts/views.py:311
 msgid "You missed your shift!"
 msgstr "Du hast deine Schicht versäumt!"
 
@@ -1252,33 +1277,37 @@ msgstr "Du hast deine Schicht versäumt!"
 msgid "Member manual"
 msgstr "Mitgliederhandbuch"
 
-#: templates/base.html:52
-msgid "Current week: "
-msgstr "Aktuelle Woche: "
-
-#: templates/base.html:55
+#: templates/base.html:51
 msgid "Shop opening hours"
 msgstr "Öffnungszeiten"
 
-#: templates/base.html:58
+#: templates/base.html:54
 msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
 
-#: templates/base.html:65
+#: templates/base.html:61
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
-#: templates/base.html:83
+#: templates/base.html:79
 msgid "Cooperative"
 msgstr "Genossenschaft"
 
-#: templates/base.html:87
+#: templates/base.html:83
 msgid "Members"
 msgstr "Mitglieder"
 
-#: templates/base.html:112
+#: templates/base.html:98
+msgid "Matching program"
+msgstr ""
+
+#: templates/base.html:113
 msgid "ABCD-shifts week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
+
+#: templates/base.html:119
+msgid "ABCD weeks calendar<br />Current week: "
+msgstr "ABCD-Wochenkalender<br />Aktuelle Woche: "
 
 #: utils/forms.py:23
 msgid ""
@@ -1290,977 +1319,992 @@ msgstr ""
 "Landesvorwahlnummer für Mobilfunk, für Festnetz die Landes- und "
 "Ortsvorwahlnummer"
 
-#: utils/models.py:10
+#: utils/models.py:12
 msgid "Andorra"
 msgstr ""
 
-#: utils/models.py:11
+#: utils/models.py:13
 msgid "United Arab Emirates"
 msgstr ""
 
-#: utils/models.py:12
+#: utils/models.py:14
 msgid "Afghanistan"
 msgstr ""
 
-#: utils/models.py:13
+#: utils/models.py:15
 msgid "Antigua & Barbuda"
 msgstr ""
 
-#: utils/models.py:14
+#: utils/models.py:16
 msgid "Anguilla"
 msgstr ""
 
-#: utils/models.py:15
+#: utils/models.py:17
 msgid "Albania"
 msgstr ""
 
-#: utils/models.py:16
+#: utils/models.py:18
 msgid "Armenia"
 msgstr ""
 
-#: utils/models.py:17
+#: utils/models.py:19
 msgid "Netherlands Antilles"
 msgstr ""
 
-#: utils/models.py:18
+#: utils/models.py:20
 msgid "Angola"
 msgstr ""
 
-#: utils/models.py:19
+#: utils/models.py:21
 msgid "Antarctica"
 msgstr ""
 
-#: utils/models.py:20
+#: utils/models.py:22
 msgid "Argentina"
 msgstr ""
 
-#: utils/models.py:21
+#: utils/models.py:23
 msgid "American Samoa"
 msgstr ""
 
-#: utils/models.py:22
+#: utils/models.py:24
 msgid "Austria"
 msgstr ""
 
-#: utils/models.py:23
+#: utils/models.py:25
 msgid "Australia"
 msgstr ""
 
-#: utils/models.py:24
+#: utils/models.py:26
 msgid "Aruba"
 msgstr ""
 
-#: utils/models.py:25
+#: utils/models.py:27
 msgid "Azerbaijan"
 msgstr ""
 
-#: utils/models.py:26
+#: utils/models.py:28
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-#: utils/models.py:27
+#: utils/models.py:29
 msgid "Barbados"
 msgstr ""
 
-#: utils/models.py:28
+#: utils/models.py:30
 msgid "Bangladesh"
 msgstr ""
 
-#: utils/models.py:29
+#: utils/models.py:31
 msgid "Belgium"
 msgstr ""
 
-#: utils/models.py:30
+#: utils/models.py:32
 msgid "Burkina Faso"
 msgstr ""
 
-#: utils/models.py:31
+#: utils/models.py:33
 msgid "Bulgaria"
 msgstr ""
 
-#: utils/models.py:32
+#: utils/models.py:34
 msgid "Bahrain"
 msgstr ""
 
-#: utils/models.py:33
+#: utils/models.py:35
 msgid "Burundi"
 msgstr ""
 
-#: utils/models.py:34
+#: utils/models.py:36
 msgid "Benin"
 msgstr ""
 
-#: utils/models.py:35
+#: utils/models.py:37
 msgid "Bermuda"
 msgstr ""
 
-#: utils/models.py:36
+#: utils/models.py:38
 msgid "Brunei Darussalam"
 msgstr ""
 
-#: utils/models.py:37
+#: utils/models.py:39
 msgid "Bolivia"
 msgstr ""
 
-#: utils/models.py:38
+#: utils/models.py:40
 msgid "Brazil"
 msgstr ""
 
-#: utils/models.py:39
+#: utils/models.py:41
 msgid "Bahama"
 msgstr ""
 
-#: utils/models.py:40
+#: utils/models.py:42
 msgid "Bhutan"
 msgstr ""
 
-#: utils/models.py:41
+#: utils/models.py:43
 msgid "Bouvet Island"
 msgstr ""
 
-#: utils/models.py:42
+#: utils/models.py:44
 msgid "Botswana"
 msgstr ""
 
-#: utils/models.py:43
+#: utils/models.py:45
 msgid "Belarus"
 msgstr ""
 
-#: utils/models.py:44
+#: utils/models.py:46
 msgid "Belize"
 msgstr ""
 
-#: utils/models.py:45
+#: utils/models.py:47
 msgid "Canada"
 msgstr ""
 
-#: utils/models.py:46
+#: utils/models.py:48
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: utils/models.py:47
+#: utils/models.py:49
 msgid "Central African Republic"
 msgstr ""
 
-#: utils/models.py:48
+#: utils/models.py:50
 msgid "Congo"
 msgstr ""
 
-#: utils/models.py:49
+#: utils/models.py:51
 msgid "Switzerland"
 msgstr ""
 
-#: utils/models.py:50
+#: utils/models.py:52
 msgid "Ivory Coast"
 msgstr ""
 
-#: utils/models.py:51
+#: utils/models.py:53
 msgid "Cook Iislands"
 msgstr ""
 
-#: utils/models.py:52
+#: utils/models.py:54
 msgid "Chile"
 msgstr ""
 
-#: utils/models.py:53
+#: utils/models.py:55
 msgid "Cameroon"
 msgstr ""
 
-#: utils/models.py:54
+#: utils/models.py:56
 msgid "China"
 msgstr ""
 
-#: utils/models.py:55
+#: utils/models.py:57
 msgid "Colombia"
 msgstr ""
 
-#: utils/models.py:56
+#: utils/models.py:58
 msgid "Costa Rica"
 msgstr ""
 
-#: utils/models.py:57
+#: utils/models.py:59
 msgid "Cuba"
 msgstr ""
 
-#: utils/models.py:58
+#: utils/models.py:60
 msgid "Cape Verde"
 msgstr ""
 
-#: utils/models.py:59
+#: utils/models.py:61
 msgid "Christmas Island"
 msgstr ""
 
-#: utils/models.py:60
+#: utils/models.py:62
 msgid "Cyprus"
 msgstr ""
 
-#: utils/models.py:61
+#: utils/models.py:63
 msgid "Czech Republic"
 msgstr ""
 
-#: utils/models.py:62
+#: utils/models.py:64
 msgid "Germany"
 msgstr ""
 
-#: utils/models.py:63
+#: utils/models.py:65
 msgid "Djibouti"
 msgstr ""
 
-#: utils/models.py:64
+#: utils/models.py:66
 msgid "Denmark"
 msgstr ""
 
-#: utils/models.py:65
+#: utils/models.py:67
 msgid "Dominica"
 msgstr ""
 
-#: utils/models.py:66
+#: utils/models.py:68
 msgid "Dominican Republic"
 msgstr ""
 
-#: utils/models.py:67
+#: utils/models.py:69
 msgid "Algeria"
 msgstr ""
 
-#: utils/models.py:68
+#: utils/models.py:70
 msgid "Ecuador"
 msgstr ""
 
-#: utils/models.py:69
+#: utils/models.py:71
 msgid "Estonia"
 msgstr ""
 
-#: utils/models.py:70
+#: utils/models.py:72
 msgid "Egypt"
 msgstr ""
 
-#: utils/models.py:71
+#: utils/models.py:73
 msgid "Western Sahara"
 msgstr ""
 
-#: utils/models.py:72
+#: utils/models.py:74
 msgid "Eritrea"
 msgstr ""
 
-#: utils/models.py:73
+#: utils/models.py:75
 msgid "Spain"
 msgstr ""
 
-#: utils/models.py:74
+#: utils/models.py:76
 msgid "Ethiopia"
 msgstr ""
 
-#: utils/models.py:75
+#: utils/models.py:77
 msgid "Finland"
 msgstr ""
 
-#: utils/models.py:76
+#: utils/models.py:78
 msgid "Fiji"
 msgstr ""
 
-#: utils/models.py:77
+#: utils/models.py:79
 msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
-#: utils/models.py:78
+#: utils/models.py:80
 msgid "Micronesia"
 msgstr ""
 
-#: utils/models.py:79
+#: utils/models.py:81
 msgid "Faroe Islands"
 msgstr ""
 
-#: utils/models.py:80
+#: utils/models.py:82
 msgid "France"
 msgstr ""
 
-#: utils/models.py:81
+#: utils/models.py:83
 msgid "France, Metropolitan"
 msgstr ""
 
-#: utils/models.py:82
+#: utils/models.py:84
 msgid "Gabon"
 msgstr ""
 
-#: utils/models.py:83
+#: utils/models.py:85
 msgid "United Kingdom (Great Britain)"
 msgstr ""
 
-#: utils/models.py:84
+#: utils/models.py:86
 msgid "Grenada"
 msgstr ""
 
-#: utils/models.py:85
+#: utils/models.py:87
 msgid "Georgia"
 msgstr ""
 
-#: utils/models.py:86
+#: utils/models.py:88
 msgid "French Guiana"
 msgstr ""
 
-#: utils/models.py:87
+#: utils/models.py:89
 msgid "Ghana"
 msgstr ""
 
-#: utils/models.py:88
+#: utils/models.py:90
 msgid "Gibraltar"
 msgstr ""
 
-#: utils/models.py:89
+#: utils/models.py:91
 msgid "Greenland"
 msgstr ""
 
-#: utils/models.py:90
+#: utils/models.py:92
 msgid "Gambia"
 msgstr ""
 
-#: utils/models.py:91
+#: utils/models.py:93
 msgid "Guinea"
 msgstr ""
 
-#: utils/models.py:92
+#: utils/models.py:94
 msgid "Guadeloupe"
 msgstr ""
 
-#: utils/models.py:93
+#: utils/models.py:95
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: utils/models.py:94
+#: utils/models.py:96
 msgid "Greece"
 msgstr ""
 
-#: utils/models.py:95
+#: utils/models.py:97
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
-#: utils/models.py:96
+#: utils/models.py:98
 msgid "Guatemala"
 msgstr ""
 
-#: utils/models.py:97
+#: utils/models.py:99
 msgid "Guam"
 msgstr ""
 
-#: utils/models.py:98
+#: utils/models.py:100
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: utils/models.py:99
+#: utils/models.py:101
 msgid "Guyana"
 msgstr ""
 
-#: utils/models.py:100
+#: utils/models.py:102
 msgid "Hong Kong"
 msgstr ""
 
-#: utils/models.py:101
+#: utils/models.py:103
 msgid "Heard & McDonald Islands"
 msgstr ""
 
-#: utils/models.py:102
+#: utils/models.py:104
 msgid "Honduras"
 msgstr ""
 
-#: utils/models.py:103
+#: utils/models.py:105
 msgid "Croatia"
 msgstr ""
 
-#: utils/models.py:104
+#: utils/models.py:106
 msgid "Haiti"
 msgstr ""
 
-#: utils/models.py:105
+#: utils/models.py:107
 msgid "Hungary"
 msgstr ""
 
-#: utils/models.py:106
+#: utils/models.py:108
 msgid "Indonesia"
 msgstr ""
 
-#: utils/models.py:107
+#: utils/models.py:109
 msgid "Ireland"
 msgstr ""
 
-#: utils/models.py:108
+#: utils/models.py:110
 msgid "Israel"
 msgstr ""
 
-#: utils/models.py:109
+#: utils/models.py:111
 msgid "India"
 msgstr ""
 
-#: utils/models.py:110
+#: utils/models.py:112
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: utils/models.py:111
+#: utils/models.py:113
 msgid "Iraq"
 msgstr ""
 
-#: utils/models.py:112
+#: utils/models.py:114
 msgid "Islamic Republic of Iran"
 msgstr ""
 
-#: utils/models.py:113
+#: utils/models.py:115
 msgid "Iceland"
 msgstr ""
 
-#: utils/models.py:114
+#: utils/models.py:116
 msgid "Italy"
 msgstr ""
 
-#: utils/models.py:115
+#: utils/models.py:117
 msgid "Jamaica"
 msgstr ""
 
-#: utils/models.py:116
+#: utils/models.py:118
 msgid "Jordan"
 msgstr ""
 
-#: utils/models.py:117
+#: utils/models.py:119
 msgid "Japan"
 msgstr ""
 
-#: utils/models.py:118
+#: utils/models.py:120
 msgid "Kenya"
 msgstr ""
 
-#: utils/models.py:119
+#: utils/models.py:121
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: utils/models.py:120
+#: utils/models.py:122
 msgid "Cambodia"
 msgstr ""
 
-#: utils/models.py:121
+#: utils/models.py:123
 msgid "Kiribati"
 msgstr ""
 
-#: utils/models.py:122
+#: utils/models.py:124
 msgid "Comoros"
 msgstr ""
 
-#: utils/models.py:123
+#: utils/models.py:125
 msgid "St. Kitts and Nevis"
 msgstr ""
 
-#: utils/models.py:124
+#: utils/models.py:126
 msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
-#: utils/models.py:125
+#: utils/models.py:127
 msgid "Korea, Republic of"
 msgstr ""
 
-#: utils/models.py:126
+#: utils/models.py:128
 msgid "Kuwait"
 msgstr ""
 
-#: utils/models.py:127
+#: utils/models.py:129
 msgid "Cayman Islands"
 msgstr ""
 
-#: utils/models.py:128
+#: utils/models.py:130
 msgid "Kazakhstan"
 msgstr ""
 
-#: utils/models.py:129
+#: utils/models.py:131
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: utils/models.py:130
+#: utils/models.py:132
 msgid "Lebanon"
 msgstr ""
 
-#: utils/models.py:131
+#: utils/models.py:133
 msgid "Saint Lucia"
 msgstr ""
 
-#: utils/models.py:132
+#: utils/models.py:134
 msgid "Liechtenstein"
 msgstr ""
 
-#: utils/models.py:133
+#: utils/models.py:135
 msgid "Sri Lanka"
 msgstr ""
 
-#: utils/models.py:134
+#: utils/models.py:136
 msgid "Liberia"
 msgstr ""
 
-#: utils/models.py:135
+#: utils/models.py:137
 msgid "Lesotho"
 msgstr ""
 
-#: utils/models.py:136
+#: utils/models.py:138
 msgid "Lithuania"
 msgstr ""
 
-#: utils/models.py:137
+#: utils/models.py:139
 msgid "Luxembourg"
 msgstr ""
 
-#: utils/models.py:138
+#: utils/models.py:140
 msgid "Latvia"
 msgstr ""
 
-#: utils/models.py:139
+#: utils/models.py:141
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
-#: utils/models.py:140
+#: utils/models.py:142
 msgid "Morocco"
 msgstr ""
 
-#: utils/models.py:141
+#: utils/models.py:143
 msgid "Monaco"
 msgstr ""
 
-#: utils/models.py:142
+#: utils/models.py:144
 msgid "Moldova, Republic of"
 msgstr ""
 
-#: utils/models.py:143
+#: utils/models.py:145
 msgid "Madagascar"
 msgstr ""
 
-#: utils/models.py:144
+#: utils/models.py:146
 msgid "Marshall Islands"
 msgstr ""
 
-#: utils/models.py:145
+#: utils/models.py:147
 msgid "Mali"
 msgstr ""
 
-#: utils/models.py:146
+#: utils/models.py:148
 msgid "Mongolia"
 msgstr ""
 
-#: utils/models.py:147
+#: utils/models.py:149
 msgid "Myanmar"
 msgstr ""
 
-#: utils/models.py:148
+#: utils/models.py:150
 msgid "Macau"
 msgstr ""
 
-#: utils/models.py:149
+#: utils/models.py:151
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: utils/models.py:150
+#: utils/models.py:152
 msgid "Martinique"
 msgstr ""
 
-#: utils/models.py:151
+#: utils/models.py:153
 msgid "Mauritania"
 msgstr ""
 
-#: utils/models.py:152
+#: utils/models.py:154
 msgid "Monserrat"
 msgstr ""
 
-#: utils/models.py:153
+#: utils/models.py:155
 msgid "Malta"
 msgstr ""
 
-#: utils/models.py:154
+#: utils/models.py:156
 msgid "Mauritius"
 msgstr ""
 
-#: utils/models.py:155
+#: utils/models.py:157
 msgid "Maldives"
 msgstr ""
 
-#: utils/models.py:156
+#: utils/models.py:158
 msgid "Malawi"
 msgstr ""
 
-#: utils/models.py:157
+#: utils/models.py:159
 msgid "Mexico"
 msgstr ""
 
-#: utils/models.py:158
+#: utils/models.py:160
 msgid "Malaysia"
 msgstr ""
 
-#: utils/models.py:159
+#: utils/models.py:161
 msgid "Mozambique"
 msgstr ""
 
-#: utils/models.py:160
+#: utils/models.py:162
 msgid "Namibia"
 msgstr ""
 
-#: utils/models.py:161
+#: utils/models.py:163
 msgid "New Caledonia"
 msgstr ""
 
-#: utils/models.py:162
+#: utils/models.py:164
 msgid "Niger"
 msgstr ""
 
-#: utils/models.py:163
+#: utils/models.py:165
 msgid "Norfolk Island"
 msgstr ""
 
-#: utils/models.py:164
+#: utils/models.py:166
 msgid "Nigeria"
 msgstr ""
 
-#: utils/models.py:165
+#: utils/models.py:167
 msgid "Nicaragua"
 msgstr ""
 
-#: utils/models.py:166
+#: utils/models.py:168
 msgid "Netherlands"
 msgstr ""
 
-#: utils/models.py:167
+#: utils/models.py:169
 msgid "Norway"
 msgstr ""
 
-#: utils/models.py:168
+#: utils/models.py:170
 msgid "Nepal"
 msgstr ""
 
-#: utils/models.py:169
+#: utils/models.py:171
 msgid "Nauru"
 msgstr ""
 
-#: utils/models.py:170
+#: utils/models.py:172
 msgid "Niue"
 msgstr ""
 
-#: utils/models.py:171
+#: utils/models.py:173
 msgid "New Zealand"
 msgstr ""
 
-#: utils/models.py:172
+#: utils/models.py:174
 msgid "Oman"
 msgstr ""
 
-#: utils/models.py:173
+#: utils/models.py:175
 msgid "Panama"
 msgstr ""
 
-#: utils/models.py:174
+#: utils/models.py:176
 msgid "Peru"
 msgstr ""
 
-#: utils/models.py:175
+#: utils/models.py:177
 msgid "French Polynesia"
 msgstr ""
 
-#: utils/models.py:176
+#: utils/models.py:178
 msgid "Papua New Guinea"
 msgstr ""
 
-#: utils/models.py:177
+#: utils/models.py:179
 msgid "Philippines"
 msgstr ""
 
-#: utils/models.py:178
+#: utils/models.py:180
 msgid "Pakistan"
 msgstr ""
 
-#: utils/models.py:179
+#: utils/models.py:181
 msgid "Poland"
 msgstr ""
 
-#: utils/models.py:180
+#: utils/models.py:182
 msgid "St. Pierre & Miquelon"
 msgstr ""
 
-#: utils/models.py:181
+#: utils/models.py:183
 msgid "Pitcairn"
 msgstr ""
 
-#: utils/models.py:182
+#: utils/models.py:184
 msgid "Puerto Rico"
 msgstr ""
 
-#: utils/models.py:183
+#: utils/models.py:185
 msgid "Portugal"
 msgstr ""
 
-#: utils/models.py:184
+#: utils/models.py:186
 msgid "Palau"
 msgstr ""
 
-#: utils/models.py:185
+#: utils/models.py:187
 msgid "Paraguay"
 msgstr ""
 
-#: utils/models.py:186
+#: utils/models.py:188
 msgid "Qatar"
 msgstr ""
 
-#: utils/models.py:187
+#: utils/models.py:189
 msgid "Reunion"
 msgstr ""
 
-#: utils/models.py:188
+#: utils/models.py:190
 msgid "Romania"
 msgstr ""
 
-#: utils/models.py:189
+#: utils/models.py:191
 msgid "Russian Federation"
 msgstr ""
 
-#: utils/models.py:190
+#: utils/models.py:192
 msgid "Rwanda"
 msgstr ""
 
-#: utils/models.py:191
+#: utils/models.py:193
 msgid "Saudi Arabia"
 msgstr ""
 
-#: utils/models.py:192
+#: utils/models.py:194
 msgid "Solomon Islands"
 msgstr ""
 
-#: utils/models.py:193
+#: utils/models.py:195
 msgid "Seychelles"
 msgstr ""
 
-#: utils/models.py:194
+#: utils/models.py:196
 msgid "Sudan"
 msgstr ""
 
-#: utils/models.py:195
+#: utils/models.py:197
 msgid "Sweden"
 msgstr ""
 
-#: utils/models.py:196
+#: utils/models.py:198
 msgid "Singapore"
 msgstr ""
 
-#: utils/models.py:197
+#: utils/models.py:199
 msgid "St. Helena"
 msgstr ""
 
-#: utils/models.py:198
+#: utils/models.py:200
 msgid "Slovenia"
 msgstr ""
 
-#: utils/models.py:199
+#: utils/models.py:201
 msgid "Svalbard & Jan Mayen Islands"
 msgstr ""
 
-#: utils/models.py:200
+#: utils/models.py:202
 msgid "Slovakia"
 msgstr ""
 
-#: utils/models.py:201
+#: utils/models.py:203
 msgid "Sierra Leone"
 msgstr ""
 
-#: utils/models.py:202
+#: utils/models.py:204
 msgid "San Marino"
 msgstr ""
 
-#: utils/models.py:203
+#: utils/models.py:205
 msgid "Senegal"
 msgstr ""
 
-#: utils/models.py:204
+#: utils/models.py:206
 msgid "Somalia"
 msgstr ""
 
-#: utils/models.py:205
+#: utils/models.py:207
 msgid "Suriname"
 msgstr ""
 
-#: utils/models.py:206
+#: utils/models.py:208
 msgid "Sao Tome & Principe"
 msgstr ""
 
-#: utils/models.py:207
+#: utils/models.py:209
 msgid "El Salvador"
 msgstr ""
 
-#: utils/models.py:208
+#: utils/models.py:210
 msgid "Syrian Arab Republic"
 msgstr ""
 
-#: utils/models.py:209
+#: utils/models.py:211
 msgid "Swaziland"
 msgstr ""
 
-#: utils/models.py:210
+#: utils/models.py:212
 msgid "Turks & Caicos Islands"
 msgstr ""
 
-#: utils/models.py:211
+#: utils/models.py:213
 msgid "Chad"
 msgstr ""
 
-#: utils/models.py:212
+#: utils/models.py:214
 msgid "French Southern Territories"
 msgstr ""
 
-#: utils/models.py:213
+#: utils/models.py:215
 msgid "Togo"
 msgstr ""
 
-#: utils/models.py:214
+#: utils/models.py:216
 msgid "Thailand"
 msgstr ""
 
-#: utils/models.py:215
+#: utils/models.py:217
 msgid "Tajikistan"
 msgstr ""
 
-#: utils/models.py:216
+#: utils/models.py:218
 msgid "Tokelau"
 msgstr ""
 
-#: utils/models.py:217
+#: utils/models.py:219
 msgid "Turkmenistan"
 msgstr ""
 
-#: utils/models.py:218
+#: utils/models.py:220
 msgid "Tunisia"
 msgstr ""
 
-#: utils/models.py:219
+#: utils/models.py:221
 msgid "Tonga"
 msgstr ""
 
-#: utils/models.py:220
+#: utils/models.py:222
 msgid "East Timor"
 msgstr ""
 
-#: utils/models.py:221
+#: utils/models.py:223
 msgid "Turkey"
 msgstr ""
 
-#: utils/models.py:222
+#: utils/models.py:224
 msgid "Trinidad & Tobago"
 msgstr ""
 
-#: utils/models.py:223
+#: utils/models.py:225
 msgid "Tuvalu"
 msgstr ""
 
-#: utils/models.py:224
+#: utils/models.py:226
 msgid "Taiwan, Province of China"
 msgstr ""
 
-#: utils/models.py:225
+#: utils/models.py:227
 msgid "Tanzania, United Republic of"
 msgstr ""
 
-#: utils/models.py:226
+#: utils/models.py:228
 msgid "Ukraine"
 msgstr ""
 
-#: utils/models.py:227
+#: utils/models.py:229
 msgid "Uganda"
 msgstr ""
 
-#: utils/models.py:228
+#: utils/models.py:230
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
-#: utils/models.py:229
+#: utils/models.py:231
 msgid "United States of America"
 msgstr ""
 
-#: utils/models.py:230
+#: utils/models.py:232
 msgid "Uruguay"
 msgstr ""
 
-#: utils/models.py:231
+#: utils/models.py:233
 msgid "Uzbekistan"
 msgstr ""
 
-#: utils/models.py:232
+#: utils/models.py:234
 msgid "Vatican City State (Holy See)"
 msgstr ""
 
-#: utils/models.py:233
+#: utils/models.py:235
 msgid "St. Vincent & the Grenadines"
 msgstr ""
 
-#: utils/models.py:234
+#: utils/models.py:236
 msgid "Venezuela"
 msgstr ""
 
-#: utils/models.py:235
+#: utils/models.py:237
 msgid "British Virgin Islands"
 msgstr ""
 
-#: utils/models.py:236
+#: utils/models.py:238
 msgid "United States Virgin Islands"
 msgstr ""
 
-#: utils/models.py:237
+#: utils/models.py:239
 msgid "Viet Nam"
 msgstr ""
 
-#: utils/models.py:238
+#: utils/models.py:240
 msgid "Vanuatu"
 msgstr ""
 
-#: utils/models.py:239
+#: utils/models.py:241
 msgid "Wallis & Futuna Islands"
 msgstr ""
 
-#: utils/models.py:240
+#: utils/models.py:242
 msgid "Samoa"
 msgstr ""
 
-#: utils/models.py:241
+#: utils/models.py:243
 msgid "Yemen"
 msgstr ""
 
-#: utils/models.py:242
+#: utils/models.py:244
 msgid "Mayotte"
 msgstr ""
 
-#: utils/models.py:243
+#: utils/models.py:245
 msgid "Yugoslavia"
 msgstr ""
 
-#: utils/models.py:244
+#: utils/models.py:246
 msgid "South Africa"
 msgstr ""
 
-#: utils/models.py:245
+#: utils/models.py:247
 msgid "Zambia"
 msgstr ""
 
-#: utils/models.py:246
+#: utils/models.py:248
 msgid "Zaire"
 msgstr ""
 
-#: utils/models.py:247
+#: utils/models.py:249
 msgid "Zimbabwe"
 msgstr ""
 
-#: utils/models.py:248
+#: utils/models.py:250
 msgid "Unknown or unspecified country"
 msgstr ""
 
-#: utils/models.py:252
+#: utils/models.py:254
 msgid "🇩🇪 Deutsch"
 msgstr ""
 
-#: utils/models.py:253
+#: utils/models.py:255
 msgid "🇬🇧 English"
 msgstr ""
 
-#: utils/models.py:365
+#: utils/models.py:358
 msgid "start date must be set"
 msgstr "Anfangsdatum muss gestzt sein"
 
-#: utils/models.py:368
+#: utils/models.py:361
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Endsdatum sein"
+
+#~ msgid "Current week: "
+#~ msgstr "Aktuelle Woche: "
+
+#~ msgid "Help urgently needed"
+#~ msgstr "Hilfe dringend gebraucht"
+
+#~ msgid "Some help needed"
+#~ msgstr "Hilfe gewünscht"
+
+#~ msgid "No help needed"
+#~ msgstr "Kein Hilfe gebraucht"
+
+#~ msgid "Is valid"
+#~ msgstr "Ist gültig"
 
 #~ msgid "Someone took over the shift your were looking for a stand-in for"
 #~ msgstr "Jemandem hat deine Schicht übernommen"
@@ -2338,10 +2382,6 @@ msgstr "Anfangsdatum muss vor Endsdatum sein"
 
 #~ msgid "ABCD schedule overview"
 #~ msgstr "ABCD Schichtkalender"
-
-#, fuzzy
-#~ msgid "Number of filtered members : "
-#~ msgstr "Anzahl gefilterter Mitglieder : "
 
 #~ msgid "OK"
 #~ msgstr "OK"
