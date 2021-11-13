@@ -731,10 +731,9 @@ class ShiftUserData(models.Model):
             self.send_shift_reminder_email(attendance)
 
     def send_shift_reminder_email(self, attendance: ShiftAttendance):
-        template_name = (
-            f"shifts/email/shift_reminder_{self.user.preferred_language}.txt"
-        )
-
+        is_first_shift = not ShiftAttendance.objects.filter(
+            user=self.user, state=ShiftAttendance.State.DONE
+        ).exists()
         with transaction.atomic() and translation.override(
             self.user.preferred_language
         ):
@@ -742,8 +741,12 @@ class ShiftUserData(models.Model):
                 subject=_("Your upcoming SuperCoop shift: %(shift)s")
                 % {"shift": attendance.slot.shift.get_display_name()},
                 body=render_to_string(
-                    template_name,
-                    {"tapir_user": self.user, "shift": attendance.slot.shift},
+                    "shifts/email/shift_reminder.html",
+                    {
+                        "tapir_user": self.user,
+                        "shift": attendance.slot.shift,
+                        "is_first_shift": is_first_shift,
+                    },
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[self.user.email],
