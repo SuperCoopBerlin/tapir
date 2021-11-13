@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-09 23:44+0200\n"
-"PO-Revision-Date: 2021-08-24 14:34+0200\n"
+"POT-Creation-Date: 2021-11-13 10:23+0200\n"
+"PO-Revision-Date: 2021-11-13 09:06+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -74,9 +74,6 @@ msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
 #: accounts/models.py:203
-#, fuzzy
-#| msgctxt "No upcoming shift"
-#| msgid "None"
 msgid "None"
 msgstr "Keine"
 
@@ -130,8 +127,6 @@ msgid "Permissions"
 msgstr ""
 
 #: accounts/templates/accounts/user_detail.html:90
-#, fuzzy
-#| msgid "Resend Account Activation Email"
 msgid "Send account activation email"
 msgstr "Konto-Aktivierungsemail erneut senden"
 
@@ -186,7 +181,7 @@ msgstr "Neues Passwort festlegen"
 
 #: accounts/templates/registration/password_reset_confirm.html:12
 msgid "Please enter a new password"
-msgstr "Bitte gib ein neues Passwort ein."
+msgstr "Bitte gib ein neues Passwort ein"
 
 #: accounts/templates/registration/password_reset_confirm.html:16
 msgid "Change password"
@@ -201,8 +196,6 @@ msgstr ""
 "bereits genutzt. Bitte fordere einen neuen Link an."
 
 #: accounts/templates/registration/password_reset_done.html:9
-#, fuzzy
-#| msgid "Password reset instructions are sent"
 msgid "Password reset instructions have been sent."
 msgstr "Anleitung zum Passwort zurücksetzen wurde gesendet."
 
@@ -251,8 +244,6 @@ msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
 #: coop/forms.py:66 coop/models.py:313 coop/views/shareowner.py:222
-#, fuzzy
-#| msgid "Willkommen bei SuperCoop eG!"
 msgid "Welcome at SuperCoop eG!"
 msgstr "Willkommen in der SuperCoop eG!"
 
@@ -347,8 +338,6 @@ msgid "Create Tapir account"
 msgstr "Tapir-Konto erstellen"
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:27
-#, fuzzy
-#| msgid "Create Tapir account"
 msgid "Create account"
 msgstr "Konto erstellen"
 
@@ -393,7 +382,6 @@ msgid "Open"
 msgstr "Offen"
 
 #: coop/templates/coop/draftuser_detail.html:140
-#, fuzzy
 msgid "Register Payment"
 msgstr "Als bezahlt markieren"
 
@@ -480,8 +468,7 @@ msgid "ABCD shift missing at least one member"
 msgstr "ABCD-Schicht, wo min. ein Mitglied fehlt"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:6
-#, fuzzy, python-format
-#| msgid "Cooperator #%(coop_share_owner_id)s"
+#, python-format
 msgid "Member #%(coop_share_owner_id)s"
 msgstr "Mitglied #%(coop_share_owner_id)s"
 
@@ -564,8 +551,6 @@ msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
 #: coop/templates/coop/welcome_desk_search.html:18 templates/base.html:136
 #: templates/base.html:140
-#, fuzzy
-#| msgid "Welcome Session"
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
@@ -583,10 +568,7 @@ msgstr ""
 "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
 #: coop/templates/coop/welcome_desk_share_owner.html:35
-#, fuzzy, python-format
-#| msgid ""
-#| "%(name)s has a negative shift score.  Contact a member of the management "
-#| "team."
+#, python-format
 msgid ""
 "%(name)s has a negative shift balance. Contact a member of the management "
 "team."
@@ -595,10 +577,7 @@ msgstr ""
 "Vorstand."
 
 #: coop/templates/coop/welcome_desk_share_owner.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "%(name)s does not have a Tapir account. Contact a member of the "
-#| "management team."
+#, python-format
 msgid ""
 "%(name)s is an investing member. If they want to shop, they have to become "
 "an active member. Contact a member of the management team."
@@ -612,7 +591,7 @@ msgid ""
 "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do "
 "it!"
 msgstr ""
-"%(name)s is noch zu keiner ABCD Schicht angemeldet. Er/Sie soll es planen."
+"%(name)s is noch zu keiner ABCD Schicht angemeldet. Er/Sie soll es planen!"
 
 #: coop/templates/coop/welcome_desk_share_owner.html:51
 #, python-format
@@ -621,7 +600,7 @@ msgid ""
 "it!"
 msgstr ""
 "%(name)s hat an das Willkommenstreffen noch nicht teilgenommen. Er/Sie soll "
-"es planen."
+"es planen!"
 
 #: coop/views/shareowner.py:376
 #: shifts/templates/shifts/shift_calendar_template.html:72
@@ -650,9 +629,8 @@ msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
 #: coop/views/shareowner.py:419 coop/views/shareowner.py:605
-#, fuzzy
 msgid "Name or member ID"
-msgstr "Anzahl gefilterter Mitglieder : "
+msgstr "Name oder Mitgliedsnummer"
 
 #: coop/views/shareowner.py:559
 #, fuzzy
@@ -662,8 +640,6 @@ msgid "No"
 msgstr "Keine"
 
 #: log/models.py:14
-#, fuzzy
-#| msgid "Create user"
 msgid "Creation Date"
 msgstr "Erstellungsdatum"
 
@@ -680,10 +656,6 @@ msgid "Add Note"
 msgstr "Notiz hinzufügen"
 
 #: shifts/forms.py:50
-#, fuzzy
-#| msgid ""
-#| "I have read the warning about the missing training and confirm that the "
-#| "user should get registered to the shift"
 msgid ""
 "I have read the warning about the missing qualification and confirm that the "
 "user should get registered to the shift"
@@ -692,10 +664,7 @@ msgstr ""
 "dass Benutzer*in für die Schicht registriert werden sollte"
 
 #: shifts/forms.py:74
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "The selected user is missing the required training for this shift : "
-#| "{missing_capabilities}"
+#, python-brace-format
 msgid ""
 "The selected user is missing the required qualification for this shift : "
 "{missing_capabilities}"
@@ -707,13 +676,13 @@ msgstr ""
 msgid "This user is already registered to another slot in this ABCD shift."
 msgstr ""
 "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser ABCD-Schicht "
-"registriert"
+"registriert."
 
 #: shifts/forms.py:129
 msgid "This user is already registered to another slot in this shift."
 msgstr ""
 "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht "
-"registriert"
+"registriert."
 
 #: shifts/forms.py:143
 #: shifts/templates/shifts/user_shifts_overview_tag.html:127
@@ -785,8 +754,6 @@ msgstr "Nicht erschienen"
 #: shifts/models.py:643 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:193
 #: shifts/templates/shifts/shift_detail_printable.html:50
-#, fuzzy
-#| msgid "Excuse"
 msgid "Excused"
 msgstr "Entschuldigt"
 
@@ -803,14 +770,10 @@ msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
 #: shifts/models.py:676
-#, fuzzy
-#| msgid "Flying"
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
 #: shifts/models.py:679
-#, fuzzy
-#| msgid "Shifts"
 msgid "Shift system"
 msgstr "Schichten"
 
@@ -820,8 +783,6 @@ msgid "Description"
 msgstr "Beschreibung"
 
 #: shifts/models.py:752
-#, fuzzy
-#| msgid "Birthdate"
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -876,11 +837,9 @@ msgstr ""
 "der Schicht tust. </p></p>Wenn du dich für eine dieser Schichten anmeldest, "
 "verpflichtest du dich nur für die Schicht an diesem bestimmten Tag.</p><p> "
 "Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das "
-"Mitgliederbüro kontaktieren.</p>"
+"Mitgliederbüro kontaktieren.</p> "
 
 #: shifts/templates/shifts/shift_calendar_past.html:6 templates/base.html:125
-#, fuzzy
-#| msgid "Create a shift"
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
@@ -909,17 +868,13 @@ msgstr "Legende"
 
 #: shifts/templates/shifts/shift_calendar_template.html:85
 #: shifts/templates/shifts/shift_template_overview.html:49
-#, fuzzy
-#| msgid "Filters"
 msgid "Filtered"
-msgstr "Filter"
+msgstr "Gefiltert"
 
 #: shifts/templates/shifts/shift_calendar_template.html:86
 #: shifts/templates/shifts/shift_template_overview.html:50
-#, fuzzy
-#| msgid "No filter"
 msgid "Not filtered"
-msgstr "Kein Filter"
+msgstr "Nicht gefiltert"
 
 #: shifts/templates/shifts/shift_calendar_template.html:95
 #: shifts/templates/shifts/shift_template_group_calendar.html:16
@@ -939,8 +894,6 @@ msgstr "Platz"
 
 #: shifts/templates/shifts/shift_day_printable.html:55
 #: shifts/templates/shifts/shift_detail_printable.html:47
-#, fuzzy
-#| msgid "Members"
 msgid "Member"
 msgstr "Mitglied"
 
@@ -958,8 +911,6 @@ msgstr "Erforderliche Befähigung: "
 
 #: shifts/templates/shifts/shift_day_printable.html:79
 #: shifts/templates/shifts/shift_detail_printable.html:71
-#, fuzzy
-#| msgid "Special Capabilties"
 msgid "Has qualifications: "
 msgstr "Hat Befähigungen: "
 
@@ -1020,7 +971,7 @@ msgid ""
 msgstr ""
 "Du kannst nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor der Schicht nach "
 "einer Vertretung suchen. Wenn du die Schicht nicht wahrnehmen kannst, wende "
-"dich bitte schnellstmöglich an die Teamleitung!"
+"dich bitte schnellstmöglich an die Teamleitung."
 
 #: shifts/templates/shifts/shift_detail.html:97
 msgid "Look for a stand-in"
@@ -1042,25 +993,13 @@ msgstr ""
 "Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner "
 "Schicht abmelden. Von ABCD-Schichten kannst du dich überhaupt nicht "
 "abmelden. Wenn du die Schicht nicht wahrnehmen kannst, suche bitte eine "
-"Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung!"
+"Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung."
 
 #: shifts/templates/shifts/shift_detail.html:119
 msgid "Unregister myself"
 msgstr "Melde mich ab"
 
 #: shifts/templates/shifts/shift_detail.html:128
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                                                        Only use this to "
-#| "correct mistakes, i.e. if the share was erroneously\n"
-#| "                                                        entered into the "
-#| "system and the person never actually\n"
-#| "                                                        bought it. If the "
-#| "person simply sold their share back to the\n"
-#| "                                                        coop, please mark "
-#| "the share as sold instead.\n"
-#| "                                                    "
 msgid ""
 "You can only register yourself\n"
 "                                                for a shift if :<br/>\n"
@@ -1077,7 +1016,7 @@ msgstr ""
 "- du keinen anderen Platz in derselben Schicht gebucht hast\n"
 "- du das erforderliche Training gemacht hast (wenn du ein Training möchtest, "
 "wende dich bitte ans Mitgliederbüro\n"
-"- die Schicht in der Zukunft liegt"
+"- die Schicht in der Zukunft liegt "
 
 #: shifts/templates/shifts/shift_detail.html:139
 msgid "Register myself"
@@ -1119,7 +1058,7 @@ msgstr "ABCD-Wochenkalender"
 
 #: shifts/templates/shifts/shift_template_group_calendar.html:13
 msgid "Download the calendar as a file."
-msgstr "Kalender als Dokument herunterladen"
+msgstr "Kalender als Dokument herunterladen."
 
 #: shifts/templates/shifts/shift_template_overview.html:18
 msgid "ABCD schedule overview, current week: "
@@ -1148,8 +1087,6 @@ msgid "Filter by free slot: "
 msgstr "Nach freien Plätzen filtern: "
 
 #: shifts/templates/shifts/shift_template_overview.html:37
-#, fuzzy
-#| msgid "Has a free slot"
 msgid "Any free slot"
 msgstr "Hat einen freien Platz"
 
@@ -1166,8 +1103,6 @@ msgid "Edit shift exemption for: "
 msgstr "Schicht-Befreiung bearbeiten für: "
 
 #: shifts/templates/shifts/shiftexemption_form.html:13
-#, fuzzy
-#| msgid "Create manual shift account entry for: "
 msgid "Create shift exemption for: "
 msgstr "Erzeuge Schicht-Befreiung für: "
 
@@ -1180,8 +1115,6 @@ msgid "User"
 msgstr "Benutzer*in"
 
 #: shifts/templates/shifts/shiftexemption_list.html:20
-#, fuzzy
-#| msgid "Birthdate"
 msgid "Start date"
 msgstr "Anfangsdatum"
 
@@ -1190,8 +1123,6 @@ msgid "End date"
 msgstr "Endsdatum"
 
 #: shifts/templates/shifts/shiftexemption_list.html:23
-#, fuzzy
-#| msgid "Inactive"
 msgid "Is active"
 msgstr "Inaktiv"
 
@@ -1200,14 +1131,10 @@ msgid "Edit user shift data"
 msgstr "Bearbeite Nutzer*in-Schichtdaten"
 
 #: shifts/templates/shifts/slot_register.html:16
-#, fuzzy
-#| msgid "Shifts"
 msgid "Shift"
 msgstr "Schicht"
 
 #: shifts/templates/shifts/slot_register.html:29
-#, fuzzy
-#| msgid "Register for ABCD Shift"
 msgid "Register for Shift"
 msgstr "Für eine Schicht anmelden"
 
@@ -1225,18 +1152,6 @@ msgid "Some shifts are already occupied"
 msgstr "Manche Schichten sind bereits besetzt"
 
 #: shifts/templates/shifts/slot_template_register.html:51
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        <p>A flying member has already registered to the "
-#| "shifts linked below.</p>\n"
-#| "                        <p>It is still possible to sign someone up for "
-#| "this shift using the ABCD system. This would mean that the member is "
-#| "signing up to work this shift on a recurring 4 week basis (i.e. once per "
-#| "shift cycle).</p>\n"
-#| "                        <p>IMPORTANT: If a flying member had previously "
-#| "signed up for the same shift, the ABCD member will have to sign up for a "
-#| "different shift for that particular cycle.</p>\n"
 msgid ""
 "\n"
 "                        <p>A flying member has already registered to the "
@@ -1257,7 +1172,7 @@ msgstr ""
 "Mitglied für diese Schicht auf einer wiederkehrenden 4-Wochen-Basis (d.h. "
 "einmal pro Schichtzyklus) anmeldet.</p><p>WICHTIG: Wenn sich ein fliegendes "
 "Mitglied zuvor für dieselbe Schicht angemeldet hat, muss sich das ABCD-"
-"Mitglied für eine andere Schicht für diesen bestimmten Zyklus anmelden.</p>"
+"Mitglied für eine andere Schicht für diesen bestimmten Zyklus anmelden.</p> "
 
 #: shifts/templates/shifts/slot_template_register.html:56
 msgid "Already occupied shifts :"
@@ -1265,7 +1180,7 @@ msgstr "Schon besetzte Schichten:"
 
 #: shifts/templates/shifts/user_shift_account_log.html:10
 msgid "Shift account log for: "
-msgstr "Schichtkonto-Protokoll für:"
+msgstr "Schichtkonto-Protokoll für: "
 
 #: shifts/templates/shifts/user_shift_account_log.html:16
 msgid "Add a manual entry"
@@ -1280,8 +1195,6 @@ msgid "Value"
 msgstr "Wert"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
-#, fuzzy
-#| msgid "Set Regular 🏠️"
 msgid "Set ABCD 🏠️"
 msgstr "Als ABCD markieren 🏠️"
 
@@ -1290,8 +1203,6 @@ msgid "Find an ABCD shift"
 msgstr "ABCD-Schicht auswählen"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:73
-#, fuzzy
-#| msgid "Set Flying️g"
 msgid "Set Flying️"
 msgstr "Als fliegend markieren"
 
@@ -1328,22 +1239,15 @@ msgid "On alert"
 msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:122
-#, fuzzy
-#| msgid "Log"
 msgid "log"
 msgstr "Protokoll"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:132
-#, fuzzy
-#| msgctxt "No upcoming shift"
-#| msgid "None"
 msgctxt "No qualifications"
 msgid "None"
 msgstr "Keine"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:137
-#, fuzzy
-#| msgid "Description"
 msgid "Exemption"
 msgstr "Befreiung"
 
@@ -1352,9 +1256,6 @@ msgid "until"
 msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:143
-#, fuzzy
-#| msgctxt "No upcoming shift"
-#| msgid "None"
 msgctxt "No shift exemption"
 msgid "None"
 msgstr "Keine"
@@ -1405,8 +1306,6 @@ msgid "ABCD-shifts week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
 #: templates/base.html:119
-#, fuzzy
-#| msgid "ABCD weeks calendar"
 msgid "ABCD weeks calendar<br />Current week: "
 msgstr "ABCD-Wochenkalender<br />Aktuelle Woche: "
 
