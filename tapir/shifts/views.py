@@ -302,15 +302,13 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
 
     def send_shift_missed_email(self):
         attendance = self.get_attendance()
-        template_name = (
-            f"shifts/email/shift_missed_{attendance.user.preferred_language}.txt"
-        )
+        template_name = ()
 
         with translation.override(attendance.user.preferred_language):
             mail = EmailMessage(
                 subject=_("You missed your shift!"),
                 body=render_to_string(
-                    template_name,
+                    "shifts/email/shift_missed.html",
                     {"tapir_user": attendance.user, "shift": attendance.slot.shift},
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
