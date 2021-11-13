@@ -64,24 +64,21 @@ class PasswordResetView(auth_views.PasswordResetView):
 @csrf_protect
 @permission_required("accounts.manage")
 def send_user_welcome_email(request, pk):
-    u = get_object_or_404(TapirUser, pk=pk)
+    tapir_user = get_object_or_404(TapirUser, pk=pk)
 
-    suffix = u.preferred_language
-    print(f"welcome_email_subject_{suffix}.txt")
-
-    email = u.get_password_reset_email(
-        subject_template_name=f"accounts/welcome_email_subject_{suffix}.txt",
-        email_template_name=f"accounts/welcome_email_{suffix}.txt",
+    email = tapir_user.get_email_from_template(
+        subject_template_name="accounts/email/welcome_email_subject.html",
+        email_template_name="accounts/email/welcome_email.html",
     )
     email.send()
 
     log_entry = EmailLogEntry().populate(
         email_message=email,
         actor=request.user,
-        user=u,
+        user=tapir_user,
     )
     log_entry.save()
 
     messages.info(request, _("Account welcome email sent."))
 
-    return redirect(u.get_absolute_url())
+    return redirect(tapir_user.get_absolute_url())

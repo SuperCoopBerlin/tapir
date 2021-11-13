@@ -174,18 +174,21 @@ class TapirUser(LdapUser):
     def get_absolute_url(self):
         return reverse("accounts:user_detail", args=[self.pk])
 
-    def get_password_reset_email(self, subject_template_name, email_template_name):
+    def get_email_from_template(
+        self, subject_template_name: str, email_template_name: str
+    ):
         # TODO(Leon Handreke): Should this be in views? Check in the django source how they do it.
         context = {
             "site_url": settings.SITE_URL,
             "uid": urlsafe_base64_encode(force_bytes(self.pk)),
-            "user": self,
+            "tapir_user": self,
             "token": default_token_generator.make_token(self),
         }
-        subject = loader.render_to_string(subject_template_name, context)
-        # Email subject *must not* contain newlines
-        subject = "".join(subject.splitlines())
-        body = loader.render_to_string(email_template_name, context)
+        with translation.override(self.preferred_language):
+            subject = loader.render_to_string(subject_template_name, context)
+            # Email subject *must not* contain newlines
+            subject = "".join(subject.splitlines())
+            body = loader.render_to_string(email_template_name, context)
         return EmailMultiAlternatives(subject, body, to=[self.email])
 
     def has_perm(self, perm, obj=None):
