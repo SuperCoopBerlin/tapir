@@ -550,15 +550,11 @@ class ShiftSlot(models.Model):
         log_entry.shift = attendance.slot.shift
         log_entry.save()
 
-        template_name = (
-            f"shifts/email/stand_in_found_{attendance.user.preferred_language}.txt"
-        )
-
         with translation.override(attendance.user.preferred_language):
             mail = EmailMessage(
                 subject=_("You found a stand-in!"),
                 body=render_to_string(
-                    template_name,
+                    "shifts/email/stand_in_found.html",
                     {"tapir_user": attendance.user, "shift": attendance.slot.shift},
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
