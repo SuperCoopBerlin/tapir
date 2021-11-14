@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-13 14:28+0200\n"
-"PO-Revision-Date: 2021-11-13 13:27+0100\n"
+"POT-Creation-Date: 2021-11-14 13:49+0200\n"
+"PO-Revision-Date: 2021-11-14 12:47+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -73,7 +73,7 @@ msgstr "Land"
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:206
+#: accounts/models.py:208
 msgid "None"
 msgstr "Keine"
 
@@ -634,14 +634,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:53
-#: shifts/models.py:638 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:639 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:170
 #: shifts/templates/shifts/shift_detail_printable.html:48
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:55
-#: shifts/models.py:637
+#: shifts/models.py:638
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -893,49 +893,49 @@ msgstr "Sontag"
 msgid "You found a stand-in!"
 msgstr ""
 
-#: shifts/models.py:639 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:640 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:179
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:640 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:641 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:193
 #: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:641 shifts/templates/shifts/shift_detail.html:201
+#: shifts/models.py:642 shifts/templates/shifts/shift_detail.html:201
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:642 shifts/templates/shifts/shift_detail.html:188
+#: shifts/models.py:643 shifts/templates/shifts/shift_detail.html:188
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:672
+#: shifts/models.py:673
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:673
+#: shifts/models.py:674
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:676
+#: shifts/models.py:677
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:741
+#: shifts/models.py:742
 #, python-format
 msgid "Your upcoming SuperCoop shift: %(shift)s"
 msgstr ""
 
-#: shifts/models.py:772 shifts/templates/shifts/shiftexemption_list.html:22
+#: shifts/models.py:774 shifts/templates/shifts/shiftexemption_list.html:22
 #: shifts/templates/shifts/user_shift_account_log.html:27
 msgid "Description"
 msgstr "Beschreibung"
 
-#: shifts/models.py:787
+#: shifts/models.py:789
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -1009,7 +1009,7 @@ msgstr ""
 "\n"
 "    <p>Hallo %(first_name)s,</p>\n"
 "\n"
-"    <p>This is an automated E-Mail from SuperCoop.</p>\n"
+"    <p>Dies ist eine automatische E-Mail von der SuperCoop.</p>\n"
 "\n"
 "    <p>\n"
 "        Deine nächste Schicht am Supercoop ist dieser Woche!<br/>\n"
@@ -1554,7 +1554,7 @@ msgid "View all"
 msgstr ""
 
 #: shifts/templatetags/shifts.py:46 shifts/templatetags/shifts.py:118
-#: shifts/views.py:507
+#: shifts/views.py:508
 msgid "General"
 msgstr "Allgemein"
 
