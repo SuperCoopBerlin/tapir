@@ -314,6 +314,7 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[attendance.user.email],
             )
+            mail.content_subtype = "html"
             mail.send()
 
 

@@ -189,7 +189,9 @@ class TapirUser(LdapUser):
             # Email subject *must not* contain newlines
             subject = "".join(subject.splitlines())
             body = loader.render_to_string(email_template_name, context)
-        return EmailMultiAlternatives(subject, body, to=[self.email])
+        email = EmailMultiAlternatives(subject, body, to=[self.email])
+        email.content_subtype = "html"
+        return email
 
     def has_perm(self, perm, obj=None):
         # This is a hack to allow permissions based on client certificates. ClientPermsMiddleware checks the

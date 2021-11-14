@@ -560,6 +560,7 @@ class ShiftSlot(models.Model):
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[attendance.user.email],
             )
+            mail.content_subtype = "html"
             mail.send()
 
 
@@ -751,6 +752,7 @@ class ShiftUserData(models.Model):
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[self.user.email],
             )
+            mail.content_subtype = "html"
             mail.send()
 
             attendance.reminder_email_sent = True

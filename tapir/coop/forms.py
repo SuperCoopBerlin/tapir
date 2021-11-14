@@ -78,6 +78,7 @@ class DraftUserRegisterForm(forms.ModelForm):
                     )
                 ],
             )
+            mail.content_subtype = "html"
             mail.send()
         return draft_user
 
