@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime
+import time
 
 from django.contrib.postgres.fields import ArrayField
 from django.core.mail import EmailMessage
@@ -730,6 +731,7 @@ class ShiftUserData(models.Model):
             reminder_email_sent=False,
         ):
             self.send_shift_reminder_email(attendance)
+            time.sleep(0.1)
 
     def send_shift_reminder_email(self, attendance: ShiftAttendance):
         is_first_shift = not ShiftAttendance.objects.filter(
