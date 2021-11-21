@@ -8,7 +8,7 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
-    <script src="{% static "shifts/shift_template_overview.js" %}" defer></script>
+    <script src="{% static "shifts/ShiftFiltersManager.js" %}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -24,30 +24,12 @@
                     <p>If you would like to change your regular ABCD shift, please contact the Member Office.</p>
                 {% endblocktranslate %}
             </li>
-            <li class="list-group-item">
-                <h5>{% trans 'Filter by free slot: ' %}</h5>
-                <span class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-dark">
-                        <input type="radio" name="slot_name_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
-                    </label>
-                    <label class="btn btn-outline-dark active">
-                        <input type="radio" name="slot_name_options" autocomplete="off" value="needs_help" class="active-on-load"> {% trans 'Needs help' %}
-                    </label>
-                    <label class="btn btn-outline-dark active">
-                        <input type="radio" name="slot_name_options" autocomplete="off" value="any"> {% trans 'Any free slot' %}
-                    </label>
-                    {% for name in shift_slot_names %}
-                        <label class="btn btn-outline-dark">
-                            <input type="radio" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"> {{ name.1 }}
-                        </label>
-                    {% endfor %}
-                </span>
-            </li>
-            <li class="list-group-item">
+            {% shift_filters %}
+            <li class="list-group-item" id="filter-legend">
                 <h5>{% trans "Legend" %}</h5>
                 <p>
-                    <span class="btn" style="color: black" id="legend-primary">{% trans 'Filtered' %}</span>
-                    <span class="btn" style="color: black" id="legend-off">{% trans 'Not filtered' %}</span>
+                    <span class="btn shift-filter-legend" style="color: black" id="legend-highlighted">Text set on load</span>
+                    <span class="btn shift-filter-legend" style="color: black" id="legend-hidden">{% trans 'Other shifts' context "Filters" %}</span>
                 </p>
             </li>
             <li class="list-group-item">

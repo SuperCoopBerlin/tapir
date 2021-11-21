@@ -8,36 +8,7 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
-    <script src="{% static "shifts/upcoming_shifts.js" %}" defer></script>
-
-    <style>
-        @keyframes shift-block-animation {
-            0% {
-                transform: rotateZ(-3deg);
-            }
-            3% {
-                transform: rotateZ(+3deg);
-            }
-            6% {
-                transform: rotateZ(-3deg);
-            }
-            9% {
-                transform: rotateZ(+3deg);
-            }
-            12% {
-                transform: rotateZ(-3deg);
-            }
-            15% {
-                transform: rotateZ(+3deg);
-            }
-            18% {
-                transform: rotateZ(0deg);
-            }
-            100% {
-                transform: rotateZ(0deg);
-            }
-        }
-    </style>
+    <script src="{% static "shifts/ShiftFiltersBase.js" %}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -50,42 +21,11 @@
             {% block card_helptext %}
             {% endblock %}
         </div>
+    </div>
+    <div class="card m-2">
+        <h5 class="card-header">{% trans "Filters" %}</h5>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <h5>{% trans "Filters" %}</h5>
-                <p>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-dark">
-                        <input type="radio" name="slot_status_options" autocomplete="off" value="no-filter" checked> {% trans 'No filter' %}
-                    </label>
-                    <label class="btn btn-outline-dark active">
-                        <input type="radio" name="slot_status_options" autocomplete="off" value="freeslot"> {% trans 'Has a free slot' %}
-                    </label>
-                    <label class="btn btn-outline-dark active">
-                        <input type="radio" name="slot_status_options" autocomplete="off" value="needs_help" class="active-on-load"> {% trans 'Needs help' %}
-                    </label>
-                </div>
-                </p>
-                <p>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                    <label class="btn btn-outline-dark active">
-                        <input type="radio" name="slot_name_options" autocomplete="off" value="any" checked> {% trans 'Any' %}
-                    </label>
-                    {% for name in shift_slot_names %}
-                        <label class="btn btn-outline-dark">
-                            <input type="radio" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"> {{ name.1 }}
-                        </label>
-                    {% endfor %}
-                </div>
-                </p>
-            </li>
-            <li class="list-group-item">
-                <h5>{% trans "Legend" %}</h5>
-                <p>
-                    <span class="btn" style="color: black" id="legend-primary">{% trans 'Filtered' %}</span>
-                    <span class="btn" style="color: black" id="legend-off">{% trans 'Not filtered' %}</span>
-                </p>
-            </li>
+            {% shift_filters %}
         </ul>
     </div>
     <div id="upcoming-shifts-timetable" class="d-flex flex-wrap">

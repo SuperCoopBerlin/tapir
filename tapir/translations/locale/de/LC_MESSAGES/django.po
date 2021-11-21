@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-14 13:49+0200\n"
-"PO-Revision-Date: 2021-11-14 12:47+0100\n"
+"POT-Creation-Date: 2021-11-21 18:43+0200\n"
+"PO-Revision-Date: 2021-11-21 17:43+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -655,7 +655,7 @@ msgstr "Anteile"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:79
 msgid "Has paid"
-msgstr ""
+msgstr "Hat bezahlt"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:84
 msgid "Willing to gift a share"
@@ -750,8 +750,7 @@ msgstr ""
 "%(name)s hat an das Willkommenstreffen noch nicht teilgenommen. Er/Sie soll "
 "es planen!"
 
-#: coop/views/shareowner.py:376
-#: shifts/templates/shifts/shift_calendar_template.html:72
+#: coop/views/shareowner.py:376 shifts/templates/shifts/shift_filters.html:21
 msgid "Any"
 msgstr "Alle"
 
@@ -776,16 +775,14 @@ msgstr "Hat die Befähigung nicht"
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:419 coop/views/shareowner.py:605
+#: coop/views/shareowner.py:419 coop/views/shareowner.py:608
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:559
-#, fuzzy
-#| msgctxt "No upcoming shift"
-#| msgid "None"
+#: coop/views/shareowner.py:561
+msgctxt "Willing to give a share"
 msgid "No"
-msgstr "Keine"
+msgstr "Nein"
 
 #: log/models.py:14
 msgid "Creation Date"
@@ -891,7 +888,7 @@ msgstr "Sontag"
 
 #: shifts/models.py:555
 msgid "You found a stand-in!"
-msgstr ""
+msgstr "Vertretung gefunden!"
 
 #: shifts/models.py:640 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:179
@@ -928,7 +925,7 @@ msgstr "Schichten"
 #: shifts/models.py:742
 #, python-format
 msgid "Your upcoming SuperCoop shift: %(shift)s"
-msgstr ""
+msgstr "Deine nächste SuperCoop Schicht: %(shift)s"
 
 #: shifts/models.py:774 shifts/templates/shifts/shiftexemption_list.html:22
 #: shifts/templates/shifts/user_shift_account_log.html:27
@@ -1130,47 +1127,18 @@ msgstr ""
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/templates/shifts/shift_calendar_template.html:55
+#: shifts/templates/shifts/shift_calendar_template.html:26
 msgid "Filters"
 msgstr "Filter"
 
-#: shifts/templates/shifts/shift_calendar_template.html:59
-#: shifts/templates/shifts/shift_template_overview.html:31
-msgid "No filter"
-msgstr "Kein Filter"
-
-#: shifts/templates/shifts/shift_calendar_template.html:62
-msgid "Has a free slot"
-msgstr "Hat einen freien Platz"
-
-#: shifts/templates/shifts/shift_calendar_template.html:65
-#: shifts/templates/shifts/shift_template_overview.html:34
-msgid "Needs help"
-msgstr ""
-
-#: shifts/templates/shifts/shift_calendar_template.html:83
-#: shifts/templates/shifts/shift_template_overview.html:47
-msgid "Legend"
-msgstr "Legende"
-
-#: shifts/templates/shifts/shift_calendar_template.html:85
-#: shifts/templates/shifts/shift_template_overview.html:49
-msgid "Filtered"
-msgstr "Gefiltert"
-
-#: shifts/templates/shifts/shift_calendar_template.html:86
-#: shifts/templates/shifts/shift_template_overview.html:50
-msgid "Not filtered"
-msgstr "Nicht gefiltert"
-
-#: shifts/templates/shifts/shift_calendar_template.html:95
+#: shifts/templates/shifts/shift_calendar_template.html:35
 #: shifts/templates/shifts/shift_template_group_calendar.html:16
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_calendar_template.html:95
+#: shifts/templates/shifts/shift_calendar_template.html:35
 #: shifts/templates/shifts/shift_template_group_calendar.html:16
-#: shifts/templates/shifts/shift_template_overview.html:59
+#: shifts/templates/shifts/shift_template_overview.html:41
 msgid "Week "
 msgstr "Woche "
 
@@ -1313,6 +1281,33 @@ msgstr "Melde mich an"
 msgid "Register a member"
 msgstr "Melde ein Mitglied an"
 
+#: shifts/templates/shifts/shift_filters.html:4
+msgid "Use the buttons below to filter the shifts that are relevant to you."
+msgstr "Bitte wähle unten den gewünschten Filter für dich aus."
+
+#: shifts/templates/shifts/shift_filters.html:8
+msgid "No filter"
+msgstr "Kein Filter"
+
+#: shifts/templates/shifts/shift_filters.html:11
+msgid "Has a free slot"
+msgstr "Hat einen freien Platz"
+
+#: shifts/templates/shifts/shift_filters.html:14
+msgid "Most help needed"
+msgstr "Hilfe am meisten gebraucht"
+
+#: shifts/templates/shifts/shift_filters.html:32
+#: shifts/templates/shifts/shift_template_overview.html:29
+msgid "Legend"
+msgstr "Legende"
+
+#: shifts/templates/shifts/shift_filters.html:35
+#: shifts/templates/shifts/shift_template_overview.html:32
+msgctxt "Filters"
+msgid "Other shifts"
+msgstr "Andere Schichten"
+
 #: shifts/templates/shifts/shift_template_detail.html:34
 #: shifts/templates/shifts/user_shifts_overview_tag.html:6
 msgid "Shifts"
@@ -1370,14 +1365,6 @@ msgstr ""
 "<p>Wenn du deine regelmäßige ABCD-Schicht ändern möchtest, wende dich bitte "
 "ans Mitgliederbüro.</p>\n"
 " "
-
-#: shifts/templates/shifts/shift_template_overview.html:28
-msgid "Filter by free slot: "
-msgstr "Nach freien Plätzen filtern: "
-
-#: shifts/templates/shifts/shift_template_overview.html:37
-msgid "Any free slot"
-msgstr "Hat einen freien Platz"
 
 #: shifts/templates/shifts/shiftaccountentry_form.html:13
 msgid "Create manual shift account entry for: "
@@ -1542,7 +1529,7 @@ msgstr "Befreiung"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:141
 msgid "until"
-msgstr ""
+msgstr "bis"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:143
 msgctxt "No shift exemption"
@@ -2580,6 +2567,21 @@ msgstr "Anfangsdatum muss gestzt sein"
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Endsdatum sein"
 
+#~ msgid "Filter by free slot: "
+#~ msgstr "Nach freien Plätzen filtern: "
+
+#~ msgid "Needs help"
+#~ msgstr "Hilfe gebraucht"
+
+#~ msgid "Any free slot"
+#~ msgstr "Hat einen freien Platz"
+
+#~ msgid "Filtered"
+#~ msgstr "Gefiltert"
+
+#~ msgid "Not filtered"
+#~ msgstr "Nicht gefiltert"
+
 #~ msgid "Current week: "
 #~ msgstr "Aktuelle Woche: "
 
@@ -2588,9 +2590,6 @@ msgstr "Anfangsdatum muss vor Endsdatum sein"
 
 #~ msgid "Some help needed"
 #~ msgstr "Hilfe gewünscht"
-
-#~ msgid "No help needed"
-#~ msgstr "Kein Hilfe gebraucht"
 
 #~ msgid "Is valid"
 #~ msgstr "Ist gültig"

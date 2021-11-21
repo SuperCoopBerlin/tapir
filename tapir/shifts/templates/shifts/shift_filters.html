@@ -1,0 +1,37 @@
+{% load i18n %}
+
+<li class="list-group-item">
+    <p>{% trans "Use the buttons below to filter the shifts that are relevant to you." %}</p>
+    <p>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons" id="slot-status-group">
+        <label class="btn btn-outline-dark">
+            <input type="radio" name="slot_status_options" autocomplete="off" value="no-filter"> {% trans 'No filter' %}
+        </label>
+        <label class="btn btn-outline-dark">
+            <input type="radio" name="slot_status_options" autocomplete="off" value="free-slot"> {% trans 'Has a free slot' %}
+        </label>
+        <label class="btn btn-outline-dark active">
+            <input type="radio" name="slot_status_options" autocomplete="off" value="needs-help" class="active-on-load"> {% trans 'Most help needed' %}
+        </label>
+    </div>
+    </p>
+    <p>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons" id="slot-name-group">
+        <label class="btn btn-outline-dark active">
+            <input type="radio" name="slot_name_options" autocomplete="off" value="any" class="active-on-load"> {% trans 'Any' %}
+        </label>
+        {% for name in shift_slot_names %}
+            <label class="btn btn-outline-dark">
+                <input type="radio" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"> {{ name.1 }}
+            </label>
+        {% endfor %}
+    </div>
+    </p>
+</li>
+<li class="list-group-item" id="filter-legend">
+    <h5>{% trans "Legend" %}</h5>
+    <p>
+        <span class="btn shift-filter-legend" style="color: black" id="legend-highlighted">Text set on load</span>
+        <span class="btn shift-filter-legend" style="color: black" id="legend-hidden">{% trans 'Other shifts' context "Filters" %}</span>
+    </p>
+</li>

@@ -161,3 +161,8 @@ def template_group_name_to_character(name: str):
     if name[-1] == "D":
         return "Ⓓ"
     return None
+
+
+@register.inclusion_tag("shifts/shift_filters.html", takes_context=True)
+def shift_filters(context):
+    return context

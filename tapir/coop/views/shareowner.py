@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
@@ -556,7 +556,10 @@ class MatchingProgramTable(django_tables2.Table):
 
     def render_willing_to_gift_a_share(self, value, record: ShareOwner):
         if record.willing_to_gift_a_share is None:
-            return _("No")
+            return pgettext_lazy(
+                context="Willing to give a share",
+                message="No",
+            )
         return record.willing_to_gift_a_share.strftime("%d.%m.%Y")
 
 
