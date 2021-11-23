@@ -16,8 +16,8 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
-from tapir.utils.models import DurationModelMixin
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
+from tapir.utils.models import DurationModelMixin
 
 
 class ShiftUserCapability:
@@ -190,9 +190,12 @@ class ShiftTemplate(models.Model):
         shift = self.generated_shifts.filter(
             start_time=generated_shift.start_time
         ).first()
-        if not shift:
-            generated_shift.save()
-            shift = generated_shift
+
+        if shift:
+            return shift
+
+        generated_shift.save()
+        shift = generated_shift
 
         for slot_template in self.slot_templates.all():
             slot = ShiftSlot.objects.create(

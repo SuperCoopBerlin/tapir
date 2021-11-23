@@ -9,8 +9,8 @@ from django.db import transaction
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
-from django.urls import reverse
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
@@ -559,7 +559,7 @@ class ShiftCalendarFutureView(LoginRequiredMixin, ShiftCalendarBaseView):
         )
         return Shift.objects.filter(
             start_time__gte=monday_this_week,
-            end_time__lt=monday_this_week + timedelta(days=8 * 7),
+            end_time__lt=monday_this_week + datetime.timedelta(days=365),
         ).order_by("start_time")
 
 
@@ -718,3 +718,15 @@ class ShiftExemptionListView(PermissionRequiredMixin, ListView):
                 pk=shift_user_data_id
             )
         return context_data
+
+
+def generate_shifts_up_to(target_day: datetime.date):
+    target_monday = target_day - datetime.timedelta(days=target_day.weekday())
+    current_monday = datetime.date.today() - datetime.timedelta(
+        days=datetime.date.today().weekday()
+    )
+
+    while current_monday < target_monday:
+        current_monday += datetime.timedelta(days=7)
+        group = get_week_group(current_monday)
+        group.create_shifts(current_monday)
