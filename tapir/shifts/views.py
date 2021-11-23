@@ -530,7 +530,7 @@ class ShiftCalendarBaseView(TemplateView):
         # A nested dict containing weeks (indexed by the Monday of the week), then days, then a list of shifts
         # OrderedDict[OrderedDict[list]]
         shifts_by_weeks_and_days = OrderedDict()
-
+        week_to_group = {}
         for shift in upcoming_shifts:
             shift_day = shift.start_time.date()
             shift_week_monday = shift_day - timedelta(days=shift_day.weekday())
@@ -540,12 +540,19 @@ class ShiftCalendarBaseView(TemplateView):
             shifts_by_weeks_and_days[shift_week_monday].setdefault(shift_day, [])
 
             shifts_by_weeks_and_days[shift_week_monday][shift_day].append(shift)
+            week_to_group[shift_week_monday] = shift.shift_template.group
 
         context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
 
         context_data["shift_slot_names"] = get_shift_slot_names()
+        context_data["week_to_group"] = week_to_group
 
         return context_data
+
+
+@register.filter
+def dictionary_get(dic, key):
+    return dic[key]
 
 
 class ShiftCalendarFutureView(LoginRequiredMixin, ShiftCalendarBaseView):

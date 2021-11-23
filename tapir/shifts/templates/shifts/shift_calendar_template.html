@@ -31,8 +31,9 @@
     <div id="upcoming-shifts-timetable" class="d-flex flex-wrap">
         {% for week, shifts_by_day in shifts_by_weeks_and_days.items %}
             <div class="card m-2">
-                {% get_week_group week as week_group %}
-                <h5 class="card-header">KW {{ week|date:"W" }} {% trans 'starting' %} {{ week }}, {% trans 'Week ' %}{{ week_group.name }}</h5>
+                {% with week_group=week_to_group|dictionary_get:week %}
+                    <h5 class="card-header">KW {{ week|date:"W" }} {% trans 'starting' %} {{ week }}, {% trans 'Week ' %}{{ week_group.name }}</h5>
+                {% endwith %}
                 <div class="card-body d-flex flex-row">
                     {% for day, shift_infos in shifts_by_day.items %}
                         <div class="d-flex flex-column">
