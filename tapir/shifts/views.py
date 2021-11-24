@@ -540,7 +540,8 @@ class ShiftCalendarBaseView(TemplateView):
             shifts_by_weeks_and_days[shift_week_monday].setdefault(shift_day, [])
 
             shifts_by_weeks_and_days[shift_week_monday][shift_day].append(shift)
-            week_to_group[shift_week_monday] = shift.shift_template.group
+            if shift.shift_template is not None:
+                week_to_group[shift_week_monday] = shift.shift_template.group
 
         context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
 
@@ -552,7 +553,7 @@ class ShiftCalendarBaseView(TemplateView):
 
 @register.filter
 def dictionary_get(dic, key):
-    return dic[key]
+    return dic[key] if key in dic else None
 
 
 class ShiftCalendarFutureView(LoginRequiredMixin, ShiftCalendarBaseView):
