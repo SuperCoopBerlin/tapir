@@ -54,6 +54,7 @@ from tapir.shifts.models import (
     UpdateShiftAttendanceStateLogEntry,
     ShiftAccountEntry,
     ShiftExemption,
+    SHIFT_ATTENDANCE_STATES,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
 
@@ -113,9 +114,16 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
                 == ShiftAttendance.State.LOOKING_FOR_STAND_IN
             )
 
+            slot.previous_attendances = ShiftAttendance.objects.filter(slot=slot)
+            if slot.get_valid_attendance() is not None:
+                slot.previous_attendances = slot.previous_attendances.exclude(
+                    id=slot.get_valid_attendance().id
+                )
+
         context["slots"] = slots
         context["attendance_states"] = ShiftAttendance.State
         context["NB_DAYS_FOR_SELF_UNREGISTER"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
+        context["SHIFT_ATTENDANCE_STATES"] = SHIFT_ATTENDANCE_STATES
         return context
 
 
