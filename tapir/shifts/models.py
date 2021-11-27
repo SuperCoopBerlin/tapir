@@ -7,7 +7,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.mail import EmailMessage
 from django.db import models, transaction
 from django.db.models import Sum
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -625,6 +625,7 @@ class ShiftAttendance(models.Model):
 
     # Only filled if state is MISSED_EXCUSED
     excused_reason = models.TextField(blank=True)
+    last_state_update = models.DateTimeField(null=True)
 
     account_entry = models.OneToOneField(
         ShiftAccountEntry,
@@ -636,6 +637,16 @@ class ShiftAttendance(models.Model):
 
     def is_valid(self):
         return self.state in ShiftAttendance.VALID_STATES
+
+
+@receiver(pre_save, sender=ShiftAttendance)
+def on_change(sender, instance: ShiftAttendance, **kwargs):
+    if instance.id is None:
+        instance.last_state_update = timezone.now()
+    else:
+        previous = sender.objects.get(id=instance.id)
+        if previous.state != instance.state:
+            instance.last_state_update = timezone.now()
 
 
 SHIFT_ATTENDANCE_STATES = {
