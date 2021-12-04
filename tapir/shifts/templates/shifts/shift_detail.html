@@ -187,15 +187,27 @@
                                                         {% trans "Missed" %}
                                                     </button>
                                                 </form>
-                                                <form style="display: inline;"
-                                                      method="post"
-                                                      action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.LOOKING_FOR_STAND_IN %}">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn btn-sm tapir-btn btn-warning member-office-look-for-standin-button">
-                                                        <span class="material-icons">sync</span>
-                                                        {% trans "Looking for a stand-in" %}
-                                                    </button>
-                                                </form>
+                                                {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
+                                                    <form style="display: inline;"
+                                                          method="post"
+                                                          action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.PENDING %}">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-sm tapir-btn btn-warning member-office-look-for-standin-button">
+                                                            <span class="material-icons">sync</span>
+                                                            {% trans "Cancel looking for a stand-in" %}
+                                                        </button>
+                                                    </form>
+                                                {% else %}
+                                                    <form style="display: inline;"
+                                                          method="post"
+                                                          action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.LOOKING_FOR_STAND_IN %}">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-sm tapir-btn btn-warning member-office-look-for-standin-button">
+                                                            <span class="material-icons">sync</span>
+                                                            {% trans "Looking for a stand-in" %}
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
                                                 <a href="{% url "shifts:update_shift_attendance_state_with_form" attendance.pk attendance.State.MISSED_EXCUSED %}" type="submit" class="btn btn-sm tapir-btn btn-warning member-office-excused-button">
                                                     <span class="material-icons">sick</span>
                                                     {% trans "Excused" %}
