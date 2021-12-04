@@ -55,15 +55,21 @@
                             <td><h5>#{{ forloop.counter }}</h5></td>
                             <td>{{ slot.name }}{% if slot.optional and perms.shifts.manage %} ({% trans 'optional' %}){% endif %}</td>
                             {% with slot.get_valid_attendance as attendance %}
-                                {% if attendance and attendance.state != attendance_states.LOOKING_FOR_STAND_IN %}
-                                    {% if perms.shifts.manage %}
-                                        <td><a class="shift-user"
+                                {% if attendance %}
+                                    <td>
+                                        {% if perms.shifts.manage %}
+                                            <a class="shift-user"
                                                href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a>
-                                        </td>
-                                    {% else %}
-                                        <td><span class="shift-user">{{ attendance.user.first_name }}</span></td>
-                                    {% endif %}
-                                    <td>{{ slot.get_valid_attendance.get_state_display }}</td>
+                                        {% else %}
+                                            <span class="shift-user">{{ attendance.user.first_name }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ attendance.get_state_display }}
+                                        {% if attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
+                                            {% trans 'since' %} {{ attendance.last_state_update|date:"d.m.Y H:i" }}
+                                        {% endif %}
+                                    </td>
                                 {% else %}
                                     <td>{% trans "Vacant" %}</td>
                                     <td></td>
