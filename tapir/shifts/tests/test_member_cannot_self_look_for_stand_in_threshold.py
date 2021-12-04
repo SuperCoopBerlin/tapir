@@ -18,7 +18,7 @@ class TestMemberCannotSelfLookForStandInThreshold(TapirSeleniumTestBase):
         self.login(standard_user.get_username(), standard_user.get_username())
 
         start_time = timezone.now() + timedelta(
-            days=Shift.NB_DAYS_FOR_SELF_UNREGISTER - 2
+            days=Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN - 1
         )
         end_time = start_time + timedelta(hours=3)
         shift = Shift.objects.create(start_time=start_time, end_time=end_time)

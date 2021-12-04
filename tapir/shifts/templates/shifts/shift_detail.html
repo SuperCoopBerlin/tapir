@@ -93,7 +93,7 @@
                                                   action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance_states.LOOKING_FOR_STAND_IN %}">
                                                 {% csrf_token %}
                                                 {% blocktranslate asvar stand_in_tooltip %}You can only look for a stand-in
-                                                    {{ NB_DAYS_FOR_SELF_UNREGISTER }} days before the shift. If you can't
+                                                    {{ NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN }} days before the shift. If you can't
                                                     attend, contact your shift leader as soon as
                                                     possible.{% endblocktranslate %}
                                                 <span {% if not slot.can_look_for_stand_in %} data-toggle="tooltip"
