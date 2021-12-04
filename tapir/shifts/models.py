@@ -639,15 +639,23 @@ class ShiftAttendance(models.Model):
     def is_valid(self):
         return self.state in ShiftAttendance.VALID_STATES
 
+    def get_absolute_url(self):
+        return reverse(
+            "shifts:update_shift_attendance_state_with_form", args=[self.pk, self.state]
+        )
+
 
 @receiver(pre_save, sender=ShiftAttendance)
 def on_change(sender, instance: ShiftAttendance, **kwargs):
     if instance.id is None:
         instance.last_state_update = timezone.now()
-    else:
-        previous = sender.objects.get(id=instance.id)
-        if previous.state != instance.state:
-            instance.last_state_update = timezone.now()
+        return
+
+    previous = sender.objects.get(id=instance.id)
+    if previous.state is instance.state:
+        return
+
+    instance.last_state_update = timezone.now()
 
 
 SHIFT_ATTENDANCE_STATES = {

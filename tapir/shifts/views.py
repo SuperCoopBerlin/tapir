@@ -244,6 +244,7 @@ class SlotTemplateRegisterView(
 
 class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
     model = ShiftAttendance
+    get_state_from_kwargs = True
 
     def get_attendance(self):
         return ShiftAttendance.objects.get(pk=self.kwargs["pk"])
@@ -275,8 +276,10 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
             response = super().form_valid(form)
 
             attendance = self.get_attendance()
-            attendance.state = self.kwargs["state"]
-            attendance.save()
+            if self.get_state_from_kwargs:
+                attendance.state = self.kwargs["state"]
+                attendance.save()
+
             log_entry = UpdateShiftAttendanceStateLogEntry().populate(
                 actor=self.request.user,
                 user=attendance.user,
@@ -290,6 +293,12 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
             if attendance.state == ShiftAttendance.State.MISSED:
                 self.send_shift_missed_email()
 
+            if attendance.account_entry is not None:
+                previous_entry = attendance.account_entry
+                attendance.account_entry = None
+                attendance.save()
+                previous_entry.delete()
+
             entry_value = None
             if attendance.state == ShiftAttendance.State.MISSED:
                 entry_value = -1
@@ -300,11 +309,15 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
                 entry_value = 1
 
             if entry_value is not None:
+                description = f"Shift {SHIFT_ATTENDANCE_STATES[attendance.state]}"
+                if "description" in form.data:
+                    description = f"{description} ({form.data['description']})"
+
                 entry = ShiftAccountEntry.objects.create(
                     user=attendance.user,
                     value=entry_value,
                     date=attendance.slot.shift.start_time,
-                    description=self.get_description(form),
+                    description=description,
                 )
                 attendance.account_entry = entry
                 attendance.save()
@@ -313,7 +326,6 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
 
     def send_shift_missed_email(self):
         attendance = self.get_attendance()
-        template_name = ()
 
         with translation.override(attendance.user.preferred_language):
             mail = EmailMessage(
@@ -332,25 +344,15 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
 class UpdateShiftAttendanceStateView(UpdateShiftAttendanceStateBase):
     fields = []
 
-    def get_description(self, form: UpdateShiftAttendanceForm) -> str:
-        attendance = self.get_attendance()
-        if attendance.state == ShiftAttendance.State.MISSED:
-            description = "Shift missed: "
-        elif attendance.state == ShiftAttendance.State.DONE:
-            description = "Shift attended: "
-        return description + attendance.slot.get_display_name()
-
 
 class UpdateShiftAttendanceStateWithFormView(UpdateShiftAttendanceStateBase):
     form_class = UpdateShiftAttendanceForm
+    get_state_from_kwargs = False
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update({"state": self.kwargs["state"]})
         return kwargs
-
-    def get_description(self, form: UpdateShiftAttendanceForm):
-        return "Excused from shift: " + form.data["description"]
 
 
 @require_POST
