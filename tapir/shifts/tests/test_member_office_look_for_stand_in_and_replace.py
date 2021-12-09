@@ -27,7 +27,7 @@ class TestMemberOfficeLookForStandInAndReplace(TapirSeleniumTestBase):
         self.login(member_office_user.get_username(), member_office_user.get_username())
 
         start_time = timezone.now() + timedelta(
-            days=Shift.NB_DAYS_FOR_SELF_UNREGISTER + 2
+            days=Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN + 2
         )
         end_time = start_time + timedelta(hours=3)
         shift = Shift.objects.create(start_time=start_time, end_time=end_time)

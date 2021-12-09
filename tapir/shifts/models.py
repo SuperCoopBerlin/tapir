@@ -7,7 +7,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.mail import EmailMessage
 from django.db import models, transaction
 from django.db.models import Sum
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -343,6 +343,7 @@ class Shift(models.Model):
     end_time = models.DateTimeField(blank=False)
 
     NB_DAYS_FOR_SELF_UNREGISTER = 7
+    NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
 
     def __str__(self):
         display_name = "%s: %s %s-%s" % (
@@ -508,7 +509,7 @@ class ShiftSlot(models.Model):
         )
         early_enough = (
             self.shift.start_time - timezone.now()
-        ).days > Shift.NB_DAYS_FOR_SELF_UNREGISTER
+        ).days > Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
         return user_is_registered_to_slot and early_enough
 
     def update_attendance_from_template(self):
@@ -625,6 +626,7 @@ class ShiftAttendance(models.Model):
 
     # Only filled if state is MISSED_EXCUSED
     excused_reason = models.TextField(blank=True)
+    last_state_update = models.DateTimeField(null=True)
 
     account_entry = models.OneToOneField(
         ShiftAccountEntry,
@@ -636,6 +638,24 @@ class ShiftAttendance(models.Model):
 
     def is_valid(self):
         return self.state in ShiftAttendance.VALID_STATES
+
+    def get_absolute_url(self):
+        return reverse(
+            "shifts:update_shift_attendance_state_with_form", args=[self.pk, self.state]
+        )
+
+
+@receiver(pre_save, sender=ShiftAttendance)
+def on_change(sender, instance: ShiftAttendance, **kwargs):
+    if instance.id is None:
+        instance.last_state_update = timezone.now()
+        return
+
+    previous = sender.objects.get(id=instance.id)
+    if previous.state is instance.state:
+        return
+
+    instance.last_state_update = timezone.now()
 
 
 SHIFT_ATTENDANCE_STATES = {

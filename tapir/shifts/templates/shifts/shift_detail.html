@@ -45,6 +45,7 @@
                         <th>{% trans 'Actions' %}</th>
                         {% if perms.shifts.manage %}
                             <th>{% trans 'Member-Office actions' %}</th>
+                            <th>{% trans 'Previous attendances' %}</th>
                         {% endif %}
                     </tr>
                     </thead>
@@ -55,17 +56,24 @@
                             <td>{{ slot.name }}{% if slot.optional and perms.shifts.manage %} ({% trans 'optional' %}){% endif %}</td>
                             {% with slot.get_valid_attendance as attendance %}
                                 {% if attendance %}
-                                    {% if perms.shifts.manage %}
-                                        <td><a class="shift-user"
+                                    <td>
+                                        {% if perms.shifts.manage %}
+                                            <a class="shift-user"
                                                href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a>
-                                        </td>
-                                    {% else %}
-                                        <td><span class="shift-user">{{ attendance.user.first_name }}</span></td>
-                                    {% endif %}
+                                        {% else %}
+                                            <span class="shift-user">{{ attendance.user.first_name }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ attendance.get_state_display }}
+                                        {% if attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
+                                            {% trans 'since' %} {{ attendance.last_state_update|date:"d.m.Y H:i" }}
+                                        {% endif %}
+                                    </td>
                                 {% else %}
                                     <td>{% trans "Vacant" %}</td>
+                                    <td></td>
                                 {% endif %}
-                                <td>{{ slot.get_valid_attendance.get_state_display }}</td>
                                 <td>
                                     {% if attendance.user == request.user %}
                                         {% if attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
@@ -85,7 +93,7 @@
                                                   action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance_states.LOOKING_FOR_STAND_IN %}">
                                                 {% csrf_token %}
                                                 {% blocktranslate asvar stand_in_tooltip %}You can only look for a stand-in
-                                                    {{ NB_DAYS_FOR_SELF_UNREGISTER }} days before the shift. If you can't
+                                                    {{ NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN }} days before the shift. If you can't
                                                     attend, contact your shift leader as soon as
                                                     possible.{% endblocktranslate %}
                                                 <span {% if not slot.can_look_for_stand_in %} data-toggle="tooltip"
@@ -159,7 +167,7 @@
                                     {% endif %}
                                     {% if slot.get_valid_attendance is not None %}
                                         {% with slot.get_valid_attendance as attendance %}
-                                            {% if attendance.state == attendance.State.PENDING  or attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
+                                            {% if attendance.state == attendance.State.PENDING or attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
                                                 <form style="display: inline;"
                                                       method="post"
                                                       action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.DONE %}">
@@ -179,15 +187,27 @@
                                                         {% trans "Missed" %}
                                                     </button>
                                                 </form>
-                                                <form style="display: inline;"
-                                                      method="post"
-                                                      action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.LOOKING_FOR_STAND_IN %}">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn btn-sm tapir-btn btn-warning member-office-look-for-standin-button">
-                                                        <span class="material-icons">sync</span>
-                                                        {% trans "Looking for a stand-in" %}
-                                                    </button>
-                                                </form>
+                                                {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
+                                                    <form style="display: inline;"
+                                                          method="post"
+                                                          action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.PENDING %}">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-sm tapir-btn btn-warning member-office-look-for-standin-button">
+                                                            <span class="material-icons">sync</span>
+                                                            {% trans "Cancel looking for a stand-in" %}
+                                                        </button>
+                                                    </form>
+                                                {% else %}
+                                                    <form style="display: inline;"
+                                                          method="post"
+                                                          action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance.State.LOOKING_FOR_STAND_IN %}">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-sm tapir-btn btn-warning member-office-look-for-standin-button">
+                                                            <span class="material-icons">sync</span>
+                                                            {% trans "Looking for a stand-in" %}
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
                                                 <a href="{% url "shifts:update_shift_attendance_state_with_form" attendance.pk attendance.State.MISSED_EXCUSED %}" type="submit" class="btn btn-sm tapir-btn btn-warning member-office-excused-button">
                                                     <span class="material-icons">sick</span>
                                                     {% trans "Excused" %}
@@ -201,11 +221,19 @@
                                                         {% trans "Cancelled" %}
                                                     </button>
                                                 </form>
-                                            {% elif attendance.state == attendance.State.EXCUSE %}
-                                                {{ attendance.excuse }}
                                             {% endif %}
                                         {% endwith %}
                                     {% endif %}
+                                </td>
+                                <td>
+                                    {% for previous_attendance in slot.previous_attendances %}
+                                        <p>
+                                            {{ previous_attendance.user.get_display_name }} ({{ SHIFT_ATTENDANCE_STATES|dictionary_get:previous_attendance.state }})
+                                            <a class="btn btn-sm tapir-btn btn-outline-info" href="{% url "shifts:update_shift_attendance_state_with_form" previous_attendance.pk previous_attendance.state %}">
+                                                <span class="material-icons">edit</span>
+                                            </a>
+                                        </p>
+                                    {% endfor %}
                                 </td>
                             {% endif %}
                         </tr>
