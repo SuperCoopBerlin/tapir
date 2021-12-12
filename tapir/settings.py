@@ -202,14 +202,13 @@ PERMISSIONS = {
     "coop.admin": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
     "accounts.view": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
     "accounts.manage": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
+    "welcomedesk.view": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
 }
 
 # Permissions granted to client presenting a given SSL client cert. Currently used for the welcome desk machines.
 CLIENT_PERMISSIONS = {
     "CN=welcome-desk.members.supercoop.de,O=SuperCoop Berlin eG,C=DE": [
-        "accounts.view",
-        "shifts.view",
-        "shifts.manage",
+        "welcomedesk.view",
     ]
 }
 

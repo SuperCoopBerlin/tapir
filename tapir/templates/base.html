@@ -132,11 +132,11 @@
                             </li>
                         {% endif %}
                     </ul>
-                    {% if perms.accounts.view %}
+                    {% if perms.welcomedesk.view %}
                         <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% trans "Welcome Desk" %}</h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url "coop:welcome_desk_search" %}">
+                                <a class="nav-link" href="{% url "coop:welcome_desk_search" %}" id="welcome_desk_link">
                                     {% trans "Welcome Desk" %}
                                 </a>
                             </li>

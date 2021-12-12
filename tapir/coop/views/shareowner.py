@@ -621,7 +621,7 @@ class ShareOwnerFilterWelcomeDesk(django_filters.FilterSet):
 
 
 class WelcomeDeskSearchView(PermissionRequiredMixin, FilterView, SingleTableView):
-    permission_required = "accounts.view"
+    permission_required = "welcomedesk.view"
     template_name = "coop/welcome_desk_search.html"
     table_class = ShareOwnerTableWelcomeDesk
     model = ShareOwner
@@ -631,7 +631,7 @@ class WelcomeDeskSearchView(PermissionRequiredMixin, FilterView, SingleTableView
 class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
     model = ShareOwner
     template_name = "coop/welcome_desk_share_owner.html"
-    permission_required = "accounts.view"
+    permission_required = "welcomedesk.view"
     context_object_name = "share_owner"
 
     def get_context_data(self, *args, **kwargs):
