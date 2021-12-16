@@ -162,9 +162,17 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-EMAIL_CONFIG = env.email("EMAIL_URL", default="consolemail://")
-# This hack to apply the email config is from the from django-environ tips page
-vars().update(EMAIL_CONFIG)
+
+EMAIL_ENV = env("EMAIL_ENV", default="dev")
+if EMAIL_ENV == "dev":
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+elif EMAIL_ENV == "prod":
+    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+    EMAIL_HOST = "smtp-relay.gmail.com"
+    EMAIL_HOST_USER = "mitglied@supercoop.de"
+    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
 
 EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
 FROM_EMAIL_MEMBER_OFFICE = f"SuperCoop Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
