@@ -22,7 +22,8 @@ services:
     volumes:
       - .:/app
     environment:
-      - VIRTUAL_HOST=localhost
+      VIRTUAL_HOST: localhost
+      DEBUG: 1
     depends_on:
       - openldap
       - db

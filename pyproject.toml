@@ -21,6 +21,8 @@ phonenumbers = "^8.12.28"
 weasyprint = "^52.5"
 django-select2 = "^7.7.1"
 django-silk = "^4.1.0"
+gunicorn = "^20.1.0"
+django-environ = "^0.8.1"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"

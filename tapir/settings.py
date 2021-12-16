@@ -13,20 +13,25 @@ import os
 import sys
 from pathlib import Path
 
+import environ
+
+env = environ.Env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "fl%20e9dbkh4mosi5$i$!5&+f^ic5=7^92hrchl89x+)k0ctsn"
+SECRET_KEY = env(
+    "SECRET_KEY", default="fl%20e9dbkh4mosi5$i$!5&+f^ic5=7^92hrchl89x+)k0ctsn"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG", cast=bool, default=False)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
 
 ENABLE_SILK_PROFILING = False
 
@@ -98,22 +103,11 @@ WSGI_APPLICATION = "tapir.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DATABASE_NAME", "tapir"),
-        "USER": os.environ.get("DATABASE_USER", "tapir"),
-        "PASSWORD": os.environ.get("DATABASE_PASSWORD", "tapir"),
-        "HOST": os.environ.get("DATABASE_HOST", "db"),
-        "PORT": os.environ.get("DATABASE_PORT", 5432),
-    },
-    "ldap": {
-        "ENGINE": "ldapdb.backends.ldap",
-        "NAME": "ldap://openldap/",
-        "USER": "cn=admin,dc=supercoop,dc=de",
-        "PASSWORD": "admin",
-    },
+    "default": env.db(default="postgresql://tapir:tapir@db:5432/tapir"),
+    "ldap": env.db_url(
+        "LDAP_URL", default="ldap://cn=admin,dc=supercoop,dc=de:admin@openldap"
+    ),
 }
 
 DATABASE_ROUTERS = ["ldapdb.router.Router"]
@@ -168,9 +162,13 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_CONFIG = env.email("EMAIL_URL", default="consolemail://")
+# This hack to apply the email config is from the from django-environ tips page
+vars().update(EMAIL_CONFIG)
+
 EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
 FROM_EMAIL_MEMBER_OFFICE = f"SuperCoop Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
+DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -215,7 +213,7 @@ CLIENT_PERMISSIONS = {
 AUTH_USER_MODEL = "accounts.TapirUser"
 LOGIN_REDIRECT_URL = "accounts:user_me"
 
-SITE_URL = "http://127.0.0.1:8000"
+SITE_URL = env("SITE_URL", default="http://127.0.0.1:8000")
 
 PHONENUMBER_DEFAULT_REGION = "DE"
 
