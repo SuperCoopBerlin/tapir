@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "tapir.shifts",
     "tapir.utils",
     "tapir.coop",
+    "tapir.odoo",
     "bootstrap_datepicker_plus",
     "django_tables2",
     "django_filters",
@@ -111,24 +112,6 @@ DATABASES = {
 }
 
 DATABASE_ROUTERS = ["ldapdb.router.Router"]
-
-ODOO = {
-    "BASE_URL": "http://odoo:8069/",
-    # Used because in development, the web interface is accessed from the Docker host
-    "WEB_BASE_URL": "http://127.0.0.1:8069/",
-    "DATABASE": "odoo",
-    "USERNAME": "admin",
-    "PASSWORD": "admin",
-}
-
-ODOO_TAX_ID_NOT_TAXABLE = 20
-ODOO_JOURNAL_ID_CASH = 6
-ODOO_JOURNAL_ID_BANK = 7
-
-# SKR03 8200 "Erlöse"
-ODOO_ACCOUNT_ID_8200 = 1151
-# SKR03 0810 "Geschäftsguthaben der verbleibenden Mitglieder"
-ODOO_ACCOUNT_ID_0810 = 161
 
 
 # Password validation
