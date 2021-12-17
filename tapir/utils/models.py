@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import namedtuple
 from datetime import date
 
 from django.core.exceptions import ValidationError
@@ -297,7 +298,10 @@ class DurationModelMixinQuerySet(models.QuerySet):
             # if no effective date was given, use today as the default
             effective_date = date.today()
         return self.overlapping_with(
-            DurationModelMixin(start_date=effective_date, end_date=effective_date)
+            # It's impossible to instantiate an abstract model, therefore create a namedtuple here
+            namedtuple("FakeDurationModelMixin", ["start_date", "end_date"])(
+                effective_date, effective_date
+            )
         )
 
 

@@ -36,7 +36,6 @@ ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
 ENABLE_SILK_PROFILING = False
 
 # Application definition
-
 INSTALLED_APPS = [
     # Must come before contrib.auth to let the custom templates be discovered for auth views
     "tapir.accounts",
@@ -82,6 +81,8 @@ if ENABLE_SILK_PROFILING:
     MIDDLEWARE = ["silk.middleware.SilkyMiddleware"] + MIDDLEWARE
 
 ROOT_URLCONF = "tapir.urls"
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 TEMPLATES = [
     {
