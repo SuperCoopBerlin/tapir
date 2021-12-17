@@ -58,25 +58,5 @@ services:
     ports:
       - 5900:5900 # VNC
 
-  #odoo:
-  #        image: "odoo:12"
-  #        depends_on:
-  #                - odoo_db
-  #        ports:
-  #                - "8069:8069"
-  #        volumes:
-  #                - ./testdata/odoo/filestore:/var/lib/odoo/filestore
-  #        environment:
-  #                - HOST=odoo_db
-  #        command: "--database=odoo"
-  #odoo_db:
-  #        image: postgres:10
-  #        volumes:
-  #                - ./testdata/odoo/odoo.sql:/docker-entrypoint-initdb.d/odoo.sql
-  #        environment:
-  #                - POSTGRES_DB=odoo
-  #                - POSTGRES_PASSWORD=odoo
-  #                - POSTGRES_USER=odoo
-
 volumes:
   nginx-certs-volume:
