@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load bootstrap4 %}
+{% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 
@@ -45,14 +45,12 @@
                 <form role="form" method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
-                    <span class="text-right">
-                        {% buttons %}
-                            <button type="submit" class="btn tapir-btn btn-primary">
-                                <span class="material-icons">save</span>
-                                {% trans 'Save' %}
-                            </button>
-                        {% endbuttons %}
-                    </span>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn tapir-btn btn-primary">
+                            <span class="material-icons">save</span>
+                            {% trans 'Save' %}
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
