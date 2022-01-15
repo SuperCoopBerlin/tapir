@@ -166,7 +166,9 @@ class CreateShiftAccountEntryForm(forms.ModelForm):
     class Meta:
         model = ShiftAccountEntry
         fields = ["date", "value", "description"]
-        widgets = {"date": DateTimePickerInput()}
+        widgets = {
+            "date": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"})
+        }
 
 
 class UpdateShiftAttendanceForm(forms.ModelForm):
