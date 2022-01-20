@@ -144,7 +144,7 @@ msgstr ""
 "<p>Dieser Link ist nur einige Wochen gültig. Sollte er abgelaufen sein, kannst du einen "
 "neuen Link anfordern: <a href=\"%(site_url)s%(password_reset_request_url)s\">Klick hier um "
 "einen neuen Link zu bekommen.</a></p>\n"
-"<p>Mit diesem Konto kannst du dich auch in inser Wiki einloggen.</p>\n"
+"<p>Mit diesem Konto kannst du dich auch in unser Wiki einloggen.</p>\n"
 "<p>Alternativ, und auch bei allen anderen Fragen, kannst du dich jederzeit an das <a href="
 "\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Mitgliederbüro</"
 "a> wenden.</p>\n"
@@ -261,9 +261,9 @@ msgstr ""
 "    <p>Hallo %(first_name)s,</p>\n"
 "\n"
 "    <p>\n"
-"        Jemandem hat nach ein Passwort-Reset gefragt für %(email)s.<br/>\n"
+"        Jemand hat nach einem Passwort-Reset gefragt für %(email)s.<br/>\n"
 "        Deine Benutzername ist %(username)s <br/>\n"
-"        Folge dieses Link um dein Passwort zurückzusetzen: <a href=\"%(protocol)s://"
+"        Folge diesem Link um dein Passwort zurückzusetzen: <a href=\"%(protocol)s://"
 "%(domain)s%(password_reset_url)s\">%(protocol)s://%(domain)s%(password_reset_url)s</a>\n"
 "    </p>\n"
 "\n"
@@ -346,7 +346,7 @@ msgstr "Probleme beim Anmelden?"
 #: accounts/templates/registration/password_reset_form.html:16
 msgid "Please enter your email adress, we will send you instructions to reset your password."
 msgstr ""
-"Bitte gib dein E-Mail-Adresse ein. Wir schicken dir dann eine Anleitung, wie du dein "
+"Bitte gib deine E-Mail-Adresse ein. Wir schicken dir dann eine Anleitung, wie du dein "
 "Passwort zurücksetzen kannst."
 
 #: accounts/templates/registration/password_reset_form.html:19
@@ -407,11 +407,11 @@ msgstr "Mitgliedsgebühr bezahlt"
 
 #: coop/models.py:79
 msgid "Is willing to gift a share"
-msgstr ""
+msgstr "Ist bereit Anteile zu verschenken"
 
 #: coop/models.py:129
 msgid "Cannot be a company and have a Tapir account"
-msgstr ""
+msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
 #: coop/models.py:145
 msgid "User info should be stored in associated Tapir account"
@@ -435,7 +435,7 @@ msgstr "Aktiv"
 
 #: coop/models.py:253
 msgid "Number of Shares"
-msgstr "Anzahl Anteilen"
+msgstr "Anzahl an Anteilen"
 
 #: coop/models.py:256
 msgid "Investing member"
@@ -524,7 +524,7 @@ msgstr ""
 
 #: coop/templates/coop/shareowner_detail.html:18
 msgid "Go to user page"
-msgstr ""
+msgstr "Zur Nutzerseite"
 
 #: coop/templates/coop/shareowner_form.html:12
 msgid "Edit share owner"
@@ -831,7 +831,7 @@ msgstr "Samstag"
 
 #: shifts/models.py:89
 msgid "Sunday"
-msgstr "Sontag"
+msgstr "Sonntag"
 
 #: shifts/models.py:560
 msgid "You found a stand-in!"
@@ -952,7 +952,7 @@ msgstr ""
 "    <p>Dies ist eine automatische E-Mail von der SuperCoop.</p>\n"
 "\n"
 "    <p>\n"
-"        Deine nächste Schicht am Supercoop ist dieser Woche!<br/>\n"
+"        Deine nächste Schicht am Supercoop ist diese Woche!<br/>\n"
 "        Deine Schicht ist: %(shift_display_name)s\n"
 "    </p>\n"
 
@@ -1215,7 +1215,7 @@ msgstr ""
 "- du keinen anderen Platz in derselben Schicht gebucht hast\n"
 "- du das erforderliche Training gemacht hast (wenn du ein Training möchtest, wende dich "
 "bitte ans Mitgliederbüro\n"
-"- die Schicht in der Zukunft liegt "
+"- die Schicht in der Zukunft liegt."
 
 #: shifts/templates/shifts/shift_detail.html:147
 msgid "Register myself"
@@ -1532,7 +1532,7 @@ msgstr "ABCD-Wochenkalender<br />Aktuelle Woche: "
 
 #: utils/forms.py:23
 msgid ""
-"German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. "
+"German phone numbers don't need a prefix (e.g. (0)1736160646), international always (e.g. "
 "+12125552368)"
 msgstr ""
 "Innerstädtische und Mobilfunk-Verbindungen benötigen keine Vorwahlnummer (z.B. "
@@ -2505,7 +2505,7 @@ msgstr ""
 
 #: utils/models.py:362
 msgid "start date must be set"
-msgstr "Anfangsdatum muss gestzt sein"
+msgstr "Anfangsdatum muss gesetzt sein"
 
 #: utils/models.py:365
 msgid "Start date must be prior to end date"
