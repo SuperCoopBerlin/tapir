@@ -194,13 +194,7 @@ class ShiftTemplate(models.Model):
         shift = generated_shift
 
         for slot_template in self.slot_templates.all():
-            slot = ShiftSlot.objects.create(
-                slot_template=slot_template,
-                name=slot_template.name,
-                shift=shift,
-                required_capabilities=slot_template.required_capabilities,
-                optional=slot_template.optional,
-            )
+            slot = slot_template.create_slot_from_template(shift)
             slot.update_attendance_from_template()
 
         return shift
@@ -208,6 +202,77 @@ class ShiftTemplate(models.Model):
     def update_future_shift_attendances(self, now=None):
         for slot_template in self.slot_templates.all():
             slot_template.update_future_slot_attendances(now)
+
+    def update_slots(self, desired_slots, change_time: datetime.datetime):
+        # desired_slots should be a map of slot_name -> target_number_of_slots
+        deletion_warnings = []
+        with transaction.atomic():
+            slots_to_delete = dict()
+            slots_to_create = dict()
+            for slot_name, slot_count in desired_slots.items():
+                current_slots = self.slot_templates.filter(name=slot_name)
+                if current_slots.count() > slot_count:
+                    slots_to_delete[slot_name] = current_slots.count() - slot_count
+                if current_slots.count() < slot_count:
+                    slots_to_create[slot_name] = slot_count - current_slots.count()
+
+            for slot_name, slot_count in slots_to_create.items():
+                for _ in range(slot_count):
+                    self.add_slot_template(slot_name, change_time)
+
+            for slot_name, slot_count in slots_to_delete.items():
+                nb_slots_left_to_delete = slot_count
+                all_slot_templates = self.slot_templates.filter(name=slot_name)
+                empty_slot_templates = all_slot_templates.filter(
+                    attendance_template__isnull=True
+                )[:nb_slots_left_to_delete]
+
+                for slot_template in empty_slot_templates:
+                    deletion_warnings.extend(
+                        slot_template.delete_self_and_warn_about_users_loosing_their_slots(
+                            change_time
+                        )
+                    )
+                    nb_slots_left_to_delete -= 1
+
+                not_empty_slot_templates = all_slot_templates.filter(
+                    attendance_template__isnull=False
+                )[:nb_slots_left_to_delete]
+
+                for slot_template in not_empty_slot_templates:
+                    deletion_warnings.extend(
+                        slot_template.delete_self_and_warn_about_users_loosing_their_slots(
+                            change_time
+                        )
+                    )
+                    nb_slots_left_to_delete -= 1
+
+                if nb_slots_left_to_delete > 0:
+                    raise Exception(
+                        f"Slots left to delete should be 0! Slot name:{slot_name} Target slot count:{slot_count} Left to delete:{nb_slots_left_to_delete}"
+                    )
+
+        return deletion_warnings
+
+    def add_slot_template(
+        self, slot_name: str, change_time: datetime.datetime
+    ) -> ShiftSlotTemplate:
+        slot_template = ShiftSlotTemplate.objects.create(
+            name=slot_name, shift_template=self
+        )
+
+        example_slot = self.slot_templates.filter(name=slot_name).first()
+        if example_slot:
+            slot_template.required_capabilities = example_slot.required_capabilities
+
+        if slot_name == "" or self.slot_templates.filter(name=slot_name).count() > 3:
+            slot_template.optional = True
+
+        slot_template.save()
+        for shift in self.generated_shifts.filter(start_time__gt=change_time):
+            slot_template.create_slot_from_template(shift)
+
+        return slot_template
 
 
 class ShiftSlotTemplate(models.Model):
@@ -268,6 +333,53 @@ class ShiftSlotTemplate(models.Model):
         ):
             slot.update_attendance_from_template()
 
+    def create_slot_from_template(self, shift: Shift):
+        return ShiftSlot.objects.create(
+            slot_template=self,
+            name=self.name,
+            shift=shift,
+            required_capabilities=self.required_capabilities,
+            optional=self.optional,
+        )
+
+    def delete_self_and_warn_about_users_loosing_their_slots(
+        self, change_time: datetime.datetime
+    ):
+        deletion_warnings = []
+        for slot in self.generated_slots.all():
+            if slot.shift.start_time < change_time:
+                slot.slot_template = None
+                slot.save()
+            else:
+                attendance = slot.get_valid_attendance()
+                if attendance and (
+                    self.get_attendance_template() is None
+                    or attendance.user != self.attendance_template.user
+                ):
+                    deletion_warnings.append(
+                        {
+                            "user": attendance.user,
+                            "slot_name": slot.get_display_name(),
+                            "is_ABCD": False,
+                        }
+                    )
+                for attendance in slot.attendances.all():
+                    attendance.delete()
+                slot.delete()
+
+        attendance_template = self.get_attendance_template()
+        if attendance_template is not None:
+            deletion_warnings.append(
+                {
+                    "user": attendance_template.user,
+                    "slot_name": self.get_display_name(),
+                    "is_ABCD": True,
+                }
+            )
+            attendance_template.delete()
+        self.delete()
+        return deletion_warnings
+
 
 class ShiftAttendanceTemplate(models.Model):
     user = models.ForeignKey(
@@ -292,7 +404,6 @@ def on_shift_attendance_template_delete(
     sender, instance: ShiftAttendanceTemplate, using, **kwargs
 ):
     for slot in instance.slot_template.generated_slots.all():
-        attendances = ShiftAttendance.objects.filter(slot=slot)
         for attendance in slot.attendances.filter(
             slot__shift__start_time__gte=timezone.now(), user=instance.user
         ):
