@@ -203,7 +203,9 @@ class ShiftTemplate(models.Model):
         for slot_template in self.slot_templates.all():
             slot_template.update_future_slot_attendances(now)
 
-    def update_slots(self, desired_slots, change_time: datetime.datetime):
+    def update_slots(
+        self, desired_slots, change_time: datetime.datetime, dry_run=False
+    ):
         # desired_slots should be a map of slot_name -> target_number_of_slots
         deletion_warnings = []
         with transaction.atomic():
@@ -218,6 +220,8 @@ class ShiftTemplate(models.Model):
 
             for slot_name, slot_count in slots_to_create.items():
                 for _ in range(slot_count):
+                    if dry_run:
+                        continue
                     self.add_slot_template(slot_name, change_time)
 
             for slot_name, slot_count in slots_to_delete.items():
@@ -230,7 +234,7 @@ class ShiftTemplate(models.Model):
                 for slot_template in empty_slot_templates:
                     deletion_warnings.extend(
                         slot_template.delete_self_and_warn_about_users_loosing_their_slots(
-                            change_time
+                            change_time, dry_run
                         )
                     )
                     nb_slots_left_to_delete -= 1
@@ -242,7 +246,7 @@ class ShiftTemplate(models.Model):
                 for slot_template in not_empty_slot_templates:
                     deletion_warnings.extend(
                         slot_template.delete_self_and_warn_about_users_loosing_their_slots(
-                            change_time
+                            change_time, dry_run
                         )
                     )
                     nb_slots_left_to_delete -= 1
@@ -343,13 +347,14 @@ class ShiftSlotTemplate(models.Model):
         )
 
     def delete_self_and_warn_about_users_loosing_their_slots(
-        self, change_time: datetime.datetime
+        self, change_time: datetime.datetime, dry_run: bool
     ):
         deletion_warnings = []
         for slot in self.generated_slots.all():
             if slot.shift.start_time < change_time:
                 slot.slot_template = None
-                slot.save()
+                if not dry_run:
+                    slot.save()
             else:
                 attendance = slot.get_valid_attendance()
                 if attendance and (
@@ -364,8 +369,10 @@ class ShiftSlotTemplate(models.Model):
                         }
                     )
                 for attendance in slot.attendances.all():
-                    attendance.delete()
-                slot.delete()
+                    if not dry_run:
+                        attendance.delete()
+                if not dry_run:
+                    slot.delete()
 
         attendance_template = self.get_attendance_template()
         if attendance_template is not None:
@@ -376,8 +383,10 @@ class ShiftSlotTemplate(models.Model):
                     "is_ABCD": True,
                 }
             )
-            attendance_template.delete()
-        self.delete()
+            if not dry_run:
+                attendance_template.delete()
+        if not dry_run:
+            self.delete()
         return deletion_warnings
 
 
