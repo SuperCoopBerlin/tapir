@@ -167,14 +167,10 @@ class ShiftTemplate(models.Model):
                     break
                 shift_date += datetime.timedelta(days=1)
 
-        # TODO(Leon Handreke): Is this timezone user-configurable? Would make sense to use a globally-configurable
-        # timezone here, but store aware dates for sure.
-        start_time = datetime.datetime.combine(
-            shift_date, self.start_time, timezone.localtime().tzinfo
-        )
-        end_time = datetime.datetime.combine(
-            shift_date, self.end_time, timezone.localtime().tzinfo
-        )
+        start_time = datetime.datetime.combine(shift_date, self.start_time)
+        start_time = timezone.make_aware(start_time)
+        end_time = datetime.datetime.combine(shift_date, self.end_time)
+        end_time = timezone.make_aware(end_time)
 
         return Shift(
             shift_template=self,
