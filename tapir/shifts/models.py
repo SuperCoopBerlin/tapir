@@ -266,6 +266,8 @@ class ShiftTemplate(models.Model):
         )
 
         example_slot = self.slot_templates.filter(name=slot_name).first()
+        if example_slot is None:
+            example_slot = ShiftSlotTemplate.objects.filter(name=slot_name).first()
         if example_slot:
             slot_template.required_capabilities = example_slot.required_capabilities
 
@@ -610,8 +612,8 @@ class ShiftSlot(models.Model):
             ).exists()
         )
         early_enough = (
-            self.shift.start_time - timezone.now()
-        ).days > Shift.NB_DAYS_FOR_SELF_UNREGISTER
+            self.shift.start_time.date() - timezone.now().date()
+        ).days >= Shift.NB_DAYS_FOR_SELF_UNREGISTER
         return (
             user_is_registered_to_slot
             and user_is_not_registered_to_slot_template
@@ -624,8 +626,8 @@ class ShiftSlot(models.Model):
             and self.get_valid_attendance().user == user
         )
         early_enough = (
-            self.shift.start_time - timezone.now()
-        ).days > Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
+            self.shift.start_time.date() - timezone.now().date()
+        ).days >= Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
         return user_is_registered_to_slot and early_enough
 
     def update_attendance_from_template(self):
