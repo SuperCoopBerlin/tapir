@@ -800,6 +800,9 @@ class ShiftAttendanceMode:
 
 
 class ShiftUserData(models.Model):
+    # We create a ShiftUserData for every TapirUser with the Django Signals mechanism (see create_shift_user_data
+    # below). For this reason, we assume TapirUser.shift_user_data to exist in all places in the code. Note that
+    # signals do not get triggered by loaddata, so test fixtures need to include ShiftUserData.
     user = models.OneToOneField(
         TapirUser, null=False, on_delete=models.PROTECT, related_name="shift_user_data"
     )
