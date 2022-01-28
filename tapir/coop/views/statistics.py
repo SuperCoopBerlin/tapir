@@ -1,10 +1,13 @@
+import datetime
+
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db.models import Count
+from django.utils import timezone
 from django.views import generic
 from django.views.generic import TemplateView
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner, MemberStatus, DraftUser
+from tapir.coop.models import ShareOwner, MemberStatus, DraftUser, ShareOwnership
 from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftSlotTemplate,
@@ -68,6 +71,26 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
         slot_templates_free = slot_templates.filter(attendance_template__isnull=True)
         context["slot_templates"] = slot_templates
         context["slot_templates_free"] = slot_templates_free
+
+        context["nb_share_ownerships_now"] = ShareOwnership.objects.active_temporal(
+            timezone.now()
+        ).count()
+        start_date = ShareOwnership.objects.order_by("start_date").first().start_date
+        start_date = datetime.date(day=1, month=start_date.month, year=start_date.year)
+        end_date = timezone.now().date()
+        end_date = datetime.date(day=1, month=end_date.month, year=end_date.year)
+        context["nb_shares_by_month"] = dict()
+        current_date = start_date
+        while current_date <= end_date:
+            context["nb_shares_by_month"][
+                current_date
+            ] = ShareOwnership.objects.active_temporal(current_date).count()
+            if current_date.month < 12:
+                current_date = datetime.date(
+                    day=1, month=current_date.month + 1, year=current_date.year
+                )
+            else:
+                current_date = datetime.date(day=1, month=1, year=current_date.year + 1)
 
         return context
 

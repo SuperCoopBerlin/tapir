@@ -28,19 +28,59 @@
             </h5>
             <div class="card-body">
                 <ul>
-                    <li>Out of <a href="#" onclick="show_card('active_members_card')">{{ active_members|length }} active members</a>, <a href="#" onclick="show_card('active_users_card')">{{ active_users|length }} members</a> have a Tapir account. <a href="#" onclick="show_card('members_missing_account_card')">{{ members_missing_accounts|length }} users</a> are missing an account.</li>
-                    <li>Out of <a href="#" onclick="show_card('active_users_card')">{{ active_users|length }} members</a> with a Tapir account, <a href="#" onclick="show_card('members_in_abcd_system_card')">{{ members_in_abcd_system|length }} members </a> are in the ABCD system and <a href="#" onclick="show_card('members_in_flying_system_card')">{{ members_in_flying_system|length }} members</a> are in the flying system.</li>
-                    <li>Out of <a href="#" onclick="show_card('members_in_abcd_system_card')">{{ members_in_abcd_system|length }} members </a> in the ABCD system, <a href="#" onclick="show_card('members_in_abcd_system_without_shift_attendance_card')">{{ members_in_abcd_system_without_shift_attendance|length }} members </a> are not registered to an ABCD shift.</li>
-                    <li><a href="#" onclick="show_card('applicants_card')">{{ applicants|length }} applicants</a> are waiting to become members.</li>
+                    <li>Out of <a href="#" onclick="show_card('active_members_card')">{{ active_members|length }} active
+                        members</a>, <a href="#" onclick="show_card('active_users_card')">{{ active_users|length }}
+                        members</a> have a Tapir account. <a href="#"
+                                                             onclick="show_card('members_missing_account_card')">{{ members_missing_accounts|length }}
+                        users</a> are missing an account.
+                    </li>
+                    <li>Out of <a href="#" onclick="show_card('active_users_card')">{{ active_users|length }}
+                        members</a> with a Tapir account, <a href="#"
+                                                             onclick="show_card('members_in_abcd_system_card')">{{ members_in_abcd_system|length }}
+                        members </a> are in the ABCD system and <a href="#"
+                                                                   onclick="show_card('members_in_flying_system_card')">{{ members_in_flying_system|length }}
+                        members</a> are in the flying system.
+                    </li>
+                    <li>Out of <a href="#"
+                                  onclick="show_card('members_in_abcd_system_card')">{{ members_in_abcd_system|length }}
+                        members </a> in the ABCD system, <a href="#"
+                                                            onclick="show_card('members_in_abcd_system_without_shift_attendance_card')">{{ members_in_abcd_system_without_shift_attendance|length }}
+                        members </a> are not registered to an ABCD shift.
+                    </li>
+                    <li><a href="#" onclick="show_card('applicants_card')">{{ applicants|length }} applicants</a> are
+                        waiting to become members.
+                    </li>
                     <li>Number of users by shift slot name
                         <ul>
                             {% for slot_type, users in users_by_slot_name.items %}
-                                <li>{{ slot_type }} : <a href="#" onclick="show_card('{{ slot_type }}_card')">{{ users|length }} members</a></li>
+                                <li>{{ slot_type }} : <a href="#"
+                                                         onclick="show_card('{{ slot_type }}_card')">{{ users|length }}
+                                    members</a></li>
                             {% endfor %}
                         </ul>
                     </li>
-                    <li>Out of {{ abcd_shifts|length }} ABCD shifts, <a href="#" onclick="show_card('abcd_shifts_not_full_card')">{{ abcd_shifts_not_full|length }}</a> are missing at least one member.</li>
-                    <li>Out of {{ slot_templates|length }} ABCD shift slots, {{ slot_templates_free|length }} are free.</li>
+                    <li>Out of {{ abcd_shifts|length }} ABCD shifts, <a href="#"
+                                                                        onclick="show_card('abcd_shifts_not_full_card')">{{ abcd_shifts_not_full|length }}</a>
+                        are missing at least one member.
+                    </li>
+                    <li>Out of {{ slot_templates|length }} ABCD shift slots, {{ slot_templates_free|length }} are
+                        free.
+                    </li>
+                    <li>There are currently <a href="#" onclick="show_card('shares_card')">{{ nb_share_ownerships_now }} shares</a>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card m-2 statistics-toggle-card" id="shares_card">
+            <h5 class="card-header">
+                <span>{% trans "Share stats" %}</span>
+            </h5>
+            <div class="card-body">
+                <ul>
+                    {% for date, number in nb_shares_by_month.items %}
+                        <li>{{ date|date:"d.m.Y" }}: {{ number }}</li>
+                    {% endfor %}
+                <li>{% now "d.m.Y" %}: {{ nb_share_ownerships_now }} </li>
                 </ul>
             </div>
         </div>
@@ -149,7 +189,7 @@
                     </ul>
                 </div>
             </div>
-        {% endfor%}
+        {% endfor %}
 
         <div class="card m-2 statistics-toggle-card" id="abcd_shifts_not_full_card">
             <h5 class="card-header">
