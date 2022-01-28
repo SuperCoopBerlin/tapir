@@ -58,5 +58,32 @@ services:
     ports:
       - 5900:5900 # VNC
 
+  # Backend for Celery task queue
+  redis:
+    image: redis:alpine
+
+  celery:
+    build: .
+    command: bash -c "poetry install &&
+                      poetry run celery -A tapir worker -l info"
+    volumes:
+      - .:/app
+    environment:
+      DEBUG: 1
+    depends_on:
+      - redis
+
+  celery-beat:
+    build: .
+    # --schedule to avoid polluting the app directory
+    command: bash -c "poetry install &&
+                      poetry run celery -A tapir beat -l info --schedule /tmp/celerybeat-schedule"
+    volumes:
+      - .:/app
+    environment:
+      DEBUG: 1
+    depends_on:
+      - redis
+
 volumes:
   nginx-certs-volume:
