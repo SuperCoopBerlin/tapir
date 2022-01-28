@@ -44,16 +44,6 @@ class TapirMemberListFilterBase(TapirSeleniumTestBase):
         return len(user_links) == 1
 
 
-class TestStarnextFilter(TapirMemberListFilterBase):
-    @tag("selenium")
-    def test_startnext_filter(self):
-        included_users = [self.get_test_user("elia.fontai")]
-        excluded_users = [self.get_test_user("nicolas.vicente")]
-        self.check_member_list_filter(
-            "id_from_startnext", "true", included_users, excluded_users
-        )
-
-
 class TestWelcomeSessionFilter(TapirMemberListFilterBase):
     @tag("selenium")
     def test_welcome_session_filter(self):

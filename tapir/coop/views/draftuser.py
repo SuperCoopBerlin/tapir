@@ -134,7 +134,6 @@ def create_share_owner_from_draftuser(request, pk):
         share_owner = ShareOwner.objects.create(
             is_company=False,
             is_investing=draft.is_investing,
-            from_startnext=draft.from_startnext,
             ratenzahlung=draft.ratenzahlung,
             attended_welcome_session=draft.attended_welcome_session,
             paid_membership_fee=draft.paid_membership_fee,

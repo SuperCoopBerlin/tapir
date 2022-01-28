@@ -290,7 +290,6 @@ class ShareOwnerTable(django_tables2.Table):
         fields = [
             "id",
             "attended_welcome_session",
-            "from_startnext",
             "ratenzahlung",
             "is_company",
         ]
@@ -298,7 +297,6 @@ class ShareOwnerTable(django_tables2.Table):
             "id",
             "display_name",
             "status",
-            "from_startnext",
             "attended_welcome_session",
             "ratenzahlung",
             "is_company",
@@ -362,7 +360,6 @@ class ShareOwnerFilter(django_filters.FilterSet):
     class Meta:
         model = ShareOwner
         fields = [
-            "from_startnext",
             "attended_welcome_session",
             "ratenzahlung",
             "is_company",

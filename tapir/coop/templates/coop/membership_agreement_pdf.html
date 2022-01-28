@@ -112,18 +112,17 @@
             Ich beantrage hiermit die Aufnahme in die SuperCoop Berlin eG. Ich möchte mich mit insgesamt
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">{{ owner.num_shares }}</span>
             Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen
-            in Höhe von 100 € je Geschäftsanteil plus einem Eintrittsgeld in Höhe von 10 € zu leisten{% if owner.from_startnext %} (oder habe diese bereits via Startnext geleistet){% endif %}, das der Deckung von
+            in Höhe von 100 € je Geschäftsanteil plus einem Eintrittsgeld in Höhe von 10 € zu leisten, das der Deckung von
             Verwaltungskosten dient. Insgesamt verpflichte ich mich daher,
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">
             {{ owner.get_initial_amount|floatformat:0 }}
             </span>€
-            zu leisten{% if owner.from_startnext %} (oder habe diese bereits geleistet){% endif %}. Die Satzung der
+            zu leisten. Die Satzung der
             SuperCoop Berlin eG ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
             <a href="https://supercoop.de/unsere-genossenschaft/">https://supercoop.de/unsere-genossenschaft/</a>
         </div>
     </div>
 
-    {% if not owner.from_startnext %}
     <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
@@ -137,13 +136,12 @@
                 {{ num_additional_shares }}
             </span>
             weiteren Anteilen an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz
-            vorgesehenen Zahlungen in Höhe von 100 € je Geschäftsanteil zu leisten{%  if payment_from_startnext %} (oder habe diese bereits via Startnext geleistet){% endif %}. Zusammen mit dem Pflichtanteil
+            vorgesehenen Zahlungen in Höhe von 100 € je Geschäftsanteil zu leisten. Zusammen mit dem Pflichtanteil
             verpflichte ich mich daher, insgesamt
             <span style="display: inline-block; width: 10mm; border-bottom: 2px solid black; text-align: center;"></span>
-            €  zu leisten{% if payment_from_startnext %} (oder habe diese bereits geleistet){% endif %}.
+            €  zu leisten.
         </div>
     </div>
-    {% endif %}
 
     <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
@@ -197,19 +195,13 @@
             {% endif %}
         </div>
         <div style="flex: 1">
-            {% if owner.from_startnext and not owner.ratenzahlung %}
-                Ich habe meine Zahlungen bereits vollständig via Startnext geleistet.
-            {% elif payment_from_startnext %}
-                Ich habe meine Zahlungen bereits vollständig via Startnext geleistet.
-            {% else %}
-                Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen: <br />
+            Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen: <br />
             <div style="margin-left: 10mm; line-height: 1.2; margin-top: 3mm;">
                 Kontoinhaber: SuperCoop Berlin eG<br />
                 IBAN: <span style="font-family: monospace">DE98 4306 0967 1121 3790 00</span><br />
                 BIC: <span style="font-family: monospace">GENODEM1GLS</span><br />
                 Betreff: Anteil und Eintrittsgeld {{ owner.first_name }} {{ owner.last_name }}
             </div>
-            {% endif %}
         </div>
     </div>
 

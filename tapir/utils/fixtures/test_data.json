@@ -17629,7 +17629,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17655,7 +17654,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17681,7 +17679,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17707,7 +17704,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17733,7 +17729,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17759,7 +17754,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17785,7 +17779,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17811,7 +17804,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17837,7 +17829,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17863,7 +17854,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17889,7 +17879,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17915,7 +17904,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17941,7 +17929,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17967,7 +17954,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -17993,7 +17979,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18019,7 +18004,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18045,7 +18029,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18071,7 +18054,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18097,7 +18079,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18123,7 +18104,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18149,7 +18129,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18175,7 +18154,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18201,7 +18179,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18227,7 +18204,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18253,7 +18229,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18279,7 +18254,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18305,7 +18279,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18331,7 +18304,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18357,7 +18329,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18383,7 +18354,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18409,7 +18379,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18435,7 +18404,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18461,7 +18429,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18487,7 +18454,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18513,7 +18479,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18539,7 +18504,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18565,7 +18529,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18591,7 +18554,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18617,7 +18579,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18643,7 +18604,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18669,7 +18629,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18695,7 +18654,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18721,7 +18679,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18747,7 +18704,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18773,7 +18729,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18799,7 +18754,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18825,7 +18779,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18851,7 +18804,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18877,7 +18829,6 @@
       "preferred_language": "de",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18903,7 +18854,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18929,7 +18879,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18955,7 +18904,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -18981,7 +18929,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19007,7 +18954,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19033,7 +18979,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19059,7 +19004,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19085,7 +19029,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19111,7 +19054,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19137,7 +19079,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19163,7 +19104,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19189,7 +19129,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19215,7 +19154,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19241,7 +19179,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19267,7 +19204,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19293,7 +19229,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19319,7 +19254,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19345,7 +19279,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19371,7 +19304,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19397,7 +19329,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19423,7 +19354,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19449,7 +19379,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19475,7 +19404,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19501,7 +19429,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19527,7 +19454,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19553,7 +19479,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19579,7 +19504,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19605,7 +19529,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19631,7 +19554,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19657,7 +19579,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19683,7 +19604,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19709,7 +19629,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19735,7 +19654,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19761,7 +19679,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19787,7 +19704,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19813,7 +19729,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19839,7 +19754,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19865,7 +19779,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19891,7 +19804,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19917,7 +19829,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19943,7 +19854,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19969,7 +19879,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -19995,7 +19904,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20021,7 +19929,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20047,7 +19954,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20073,7 +19979,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20099,7 +20004,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20125,7 +20029,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20151,7 +20054,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20177,7 +20079,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20203,7 +20104,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20229,7 +20129,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20255,7 +20154,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20281,7 +20179,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20307,7 +20204,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20333,7 +20229,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20359,7 +20254,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20385,7 +20279,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20411,7 +20304,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20437,7 +20329,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20463,7 +20354,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20489,7 +20379,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20515,7 +20404,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20541,7 +20429,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20567,7 +20454,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20593,7 +20479,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20619,7 +20504,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20645,7 +20529,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20671,7 +20554,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20697,7 +20579,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20723,7 +20604,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20749,7 +20629,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20775,7 +20654,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20801,7 +20679,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20827,7 +20704,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20853,7 +20729,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20879,7 +20754,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20905,7 +20779,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20931,7 +20804,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20957,7 +20829,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -20983,7 +20854,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21009,7 +20879,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21035,7 +20904,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21061,7 +20929,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21087,7 +20954,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21113,7 +20979,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21139,7 +21004,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21165,7 +21029,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21191,7 +21054,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21217,7 +21079,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21243,7 +21104,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21269,7 +21129,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21295,7 +21154,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21321,7 +21179,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21347,7 +21204,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21373,7 +21229,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21399,7 +21254,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21425,7 +21279,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21451,7 +21304,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21477,7 +21329,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21503,7 +21354,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21529,7 +21379,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21555,7 +21404,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21581,7 +21429,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21607,7 +21454,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21633,7 +21479,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21659,7 +21504,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21685,7 +21529,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21711,7 +21554,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21737,7 +21579,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21763,7 +21604,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21789,7 +21629,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21815,7 +21654,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21841,7 +21679,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21867,7 +21704,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21893,7 +21729,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21919,7 +21754,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21945,7 +21779,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21971,7 +21804,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -21997,7 +21829,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22023,7 +21854,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22049,7 +21879,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22075,7 +21904,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22101,7 +21929,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22127,7 +21954,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22153,7 +21979,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22179,7 +22004,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22205,7 +22029,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22231,7 +22054,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22257,7 +22079,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22283,7 +22104,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22309,7 +22129,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22335,7 +22154,6 @@
       "preferred_language": "de",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22361,7 +22179,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22387,7 +22204,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22413,7 +22229,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22439,7 +22254,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22465,7 +22279,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22491,7 +22304,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22517,7 +22329,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22543,7 +22354,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22569,7 +22379,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22595,7 +22404,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22621,7 +22429,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22647,7 +22454,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22673,7 +22479,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22699,7 +22504,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22725,7 +22529,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22751,7 +22554,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22777,7 +22579,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22803,7 +22604,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22829,7 +22629,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22855,7 +22654,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22881,7 +22679,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22907,7 +22704,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22933,7 +22729,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22959,7 +22754,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -22985,7 +22779,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23011,7 +22804,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23037,7 +22829,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23063,7 +22854,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23089,7 +22879,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23115,7 +22904,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23141,7 +22929,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23167,7 +22954,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23193,7 +22979,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23219,7 +23004,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23245,7 +23029,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23271,7 +23054,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23297,7 +23079,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23323,7 +23104,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23349,7 +23129,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23375,7 +23154,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23401,7 +23179,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23427,7 +23204,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23453,7 +23229,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23479,7 +23254,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23505,7 +23279,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23531,7 +23304,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23557,7 +23329,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23583,7 +23354,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23609,7 +23379,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23635,7 +23404,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23661,7 +23429,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23687,7 +23454,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23713,7 +23479,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23739,7 +23504,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23765,7 +23529,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23791,7 +23554,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23817,7 +23579,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23843,7 +23604,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23869,7 +23629,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23895,7 +23654,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23921,7 +23679,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23947,7 +23704,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23973,7 +23729,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -23999,7 +23754,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24025,7 +23779,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24051,7 +23804,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24077,7 +23829,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24103,7 +23854,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24129,7 +23879,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24155,7 +23904,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24181,7 +23929,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24207,7 +23954,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24233,7 +23979,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24259,7 +24004,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24285,7 +24029,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24311,7 +24054,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24337,7 +24079,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24363,7 +24104,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24389,7 +24129,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24415,7 +24154,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24441,7 +24179,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24467,7 +24204,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24493,7 +24229,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24519,7 +24254,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24545,7 +24279,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24571,7 +24304,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24597,7 +24329,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24623,7 +24354,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24649,7 +24379,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24675,7 +24404,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24701,7 +24429,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24727,7 +24454,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24753,7 +24479,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24779,7 +24504,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24805,7 +24529,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24831,7 +24554,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24857,7 +24579,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24883,7 +24604,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24909,7 +24629,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24935,7 +24654,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24961,7 +24679,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -24987,7 +24704,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25013,7 +24729,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25039,7 +24754,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25065,7 +24779,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25091,7 +24804,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25117,7 +24829,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25143,7 +24854,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25169,7 +24879,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25195,7 +24904,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25221,7 +24929,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25247,7 +24954,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25273,7 +24979,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25299,7 +25004,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25325,7 +25029,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25351,7 +25054,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25377,7 +25079,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25403,7 +25104,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25429,7 +25129,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25455,7 +25154,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25481,7 +25179,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25507,7 +25204,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25533,7 +25229,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25559,7 +25254,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25585,7 +25279,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25611,7 +25304,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25637,7 +25329,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25663,7 +25354,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25689,7 +25379,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25715,7 +25404,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25741,7 +25429,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25767,7 +25454,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25793,7 +25479,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25819,7 +25504,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25845,7 +25529,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25871,7 +25554,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25897,7 +25579,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25923,7 +25604,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25949,7 +25629,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -25975,7 +25654,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26001,7 +25679,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26027,7 +25704,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26053,7 +25729,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26079,7 +25754,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26105,7 +25779,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26131,7 +25804,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26157,7 +25829,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26183,7 +25854,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26209,7 +25879,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26235,7 +25904,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26261,7 +25929,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26287,7 +25954,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26313,7 +25979,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26339,7 +26004,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26365,7 +26029,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26391,7 +26054,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26417,7 +26079,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26443,7 +26104,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26469,7 +26129,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26495,7 +26154,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26521,7 +26179,6 @@
       "preferred_language": "de",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26547,7 +26204,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26573,7 +26229,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26599,7 +26254,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26625,7 +26279,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26651,7 +26304,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26677,7 +26329,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26703,7 +26354,6 @@
       "preferred_language": "de",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26729,7 +26379,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26755,7 +26404,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26781,7 +26429,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26807,7 +26454,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26833,7 +26479,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26859,7 +26504,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26885,7 +26529,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26911,7 +26554,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26937,7 +26579,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26963,7 +26604,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -26989,7 +26629,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27015,7 +26654,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27041,7 +26679,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27067,7 +26704,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27093,7 +26729,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27119,7 +26754,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27145,7 +26779,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27171,7 +26804,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27197,7 +26829,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27223,7 +26854,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27249,7 +26879,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27275,7 +26904,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27301,7 +26929,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27327,7 +26954,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27353,7 +26979,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27379,7 +27004,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27405,7 +27029,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27431,7 +27054,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27457,7 +27079,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27483,7 +27104,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27509,7 +27129,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27535,7 +27154,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27561,7 +27179,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27587,7 +27204,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27613,7 +27229,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27639,7 +27254,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27665,7 +27279,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27691,7 +27304,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27717,7 +27329,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27743,7 +27354,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27769,7 +27379,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27795,7 +27404,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": true,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27821,7 +27429,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27847,7 +27454,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27873,7 +27479,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27899,7 +27504,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27925,7 +27529,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27951,7 +27554,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -27977,7 +27579,6 @@
       "preferred_language": "en",
       "is_investing": true,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
@@ -28003,7 +27604,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": true,
-      "from_startnext": true,
       "attended_welcome_session": true,
       "paid_membership_fee": true,
       "willing_to_gift_a_share": null
