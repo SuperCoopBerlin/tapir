@@ -13,6 +13,7 @@ import os
 import sys
 from pathlib import Path
 
+import celery.schedules
 import environ
 
 env = environ.Env()
@@ -116,7 +117,12 @@ DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
-
+CELERY_BEAT_SCHEDULE = {
+    "send_shift_reminders": {
+        "task": "tapir.shifts.tasks.send_shift_reminders",
+        "schedule": celery.schedules.crontab(hour="*/2"),  # Every two hours
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
