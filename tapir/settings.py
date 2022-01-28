@@ -120,7 +120,9 @@ CELERY_RESULT_BACKEND = "redis://redis:6379"
 CELERY_BEAT_SCHEDULE = {
     "send_shift_reminders": {
         "task": "tapir.shifts.tasks.send_shift_reminders",
-        "schedule": celery.schedules.crontab(hour="*/2"),  # Every two hours
+        "schedule": celery.schedules.crontab(
+            hour="*/2", minute=5
+        ),  # Every two hours five after the hour
     },
 }
 
