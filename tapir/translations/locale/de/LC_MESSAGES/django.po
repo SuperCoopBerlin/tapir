@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-15 12:35+0200\n"
-"PO-Revision-Date: 2022-01-15 11:37+0100\n"
+"POT-Creation-Date: 2022-01-28 15:05+0100\n"
+"PO-Revision-Date: 2022-01-28 15:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -445,7 +445,7 @@ msgstr "Investierende Mitglieder"
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/templates/coop/about.html:10 templates/base.html:146
+#: coop/templates/coop/about.html:10 templates/base.html:150
 msgid "About Tapir"
 msgstr "Über Tapir"
 
@@ -465,7 +465,7 @@ msgstr "Konto erstellen"
 #: coop/templates/coop/draftuser_detail.html:12 coop/templates/coop/draftuser_form.html:18
 #: coop/templates/coop/draftuser_list.html:8
 #: coop/templates/coop/draftuser_register_form.html:18
-#: coop/templates/coop/statistics.html:128 templates/base.html:88
+#: coop/templates/coop/statistics.html:168 templates/base.html:92
 msgid "Applicants"
 msgstr "Bewerber*innen"
 
@@ -550,35 +550,49 @@ msgid ""
 "                            "
 msgstr ""
 
-#: coop/templates/coop/statistics.html:27 templates/base.html:93
+#: coop/templates/coop/shop_extension_share_count.html:2
+msgid ""
+"Progress of the funding of the shop-expansion through shares. Click this link to learn "
+"more."
+msgstr ""
+
+#: coop/templates/coop/shop_extension_share_count.html:3
+msgid "Shop-expansion funding"
+msgstr ""
+
+#: coop/templates/coop/statistics.html:27 templates/base.html:97
 msgid "Statistics"
 msgstr "Statistik"
 
-#: coop/templates/coop/statistics.html:50
+#: coop/templates/coop/statistics.html:76
+msgid "Share stats"
+msgstr ""
+
+#: coop/templates/coop/statistics.html:90
 msgid "Active members"
 msgstr "Aktive Mitglieder"
 
-#: coop/templates/coop/statistics.html:63
+#: coop/templates/coop/statistics.html:103
 msgid "Active members with a Tapir account"
 msgstr "Aktive Mitglieder mit Tapir-Konto"
 
-#: coop/templates/coop/statistics.html:76
+#: coop/templates/coop/statistics.html:116
 msgid "Active members without a Tapir account"
 msgstr "Aktive Mitglieder ohne Tapir-Konto"
 
-#: coop/templates/coop/statistics.html:89
+#: coop/templates/coop/statistics.html:129
 msgid "Members in the ABCD system"
 msgstr "Mitglieder im ABCD-Schichtsystem"
 
-#: coop/templates/coop/statistics.html:102
+#: coop/templates/coop/statistics.html:142
 msgid "Members in the flying system"
 msgstr "Mitglieder im fliegenden Schichtsystem"
 
-#: coop/templates/coop/statistics.html:115
+#: coop/templates/coop/statistics.html:155
 msgid "ABCD members not registered to an ABCD shift"
 msgstr "ABCD-Mitglieder ohne Schichtregistrierung"
 
-#: coop/templates/coop/statistics.html:156
+#: coop/templates/coop/statistics.html:196
 msgid "ABCD shift missing at least one member"
 msgstr "ABCD-Schicht, wo min. ein Mitglied fehlt"
 
@@ -600,14 +614,14 @@ msgstr "Status"
 msgid "Inactive"
 msgstr "Inaktiv"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:53 shifts/models.py:663
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:53 shifts/models.py:781
 #: shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:178
 #: shifts/templates/shifts/shift_detail_printable.html:48
 msgid "Attended"
 msgstr "Teilgenommen"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:55 shifts/models.py:662
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:55 shifts/models.py:780
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -662,8 +676,8 @@ msgstr "Mitgliedsbestätigung per Mail senden"
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
-#: coop/templates/coop/welcome_desk_search.html:18 templates/base.html:136
-#: templates/base.html:140
+#: coop/templates/coop/welcome_desk_search.html:18 templates/base.html:140
+#: templates/base.html:144
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
@@ -833,53 +847,53 @@ msgstr "Samstag"
 msgid "Sunday"
 msgstr "Sonntag"
 
-#: shifts/models.py:560
+#: shifts/models.py:678
 msgid "You found a stand-in!"
 msgstr "Vertretung gefunden!"
 
-#: shifts/models.py:664 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:782 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:187
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:665 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:783 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:213
 #: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:666 shifts/templates/shifts/shift_detail.html:221
+#: shifts/models.py:784 shifts/templates/shifts/shift_detail.html:221
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:667 shifts/templates/shifts/shift_detail.html:207
+#: shifts/models.py:785 shifts/templates/shifts/shift_detail.html:207
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:697
+#: shifts/models.py:818
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:698
+#: shifts/models.py:819
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:701
+#: shifts/models.py:822
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:767
+#: shifts/models.py:888
 #, python-format
 msgid "Your upcoming SuperCoop shift: %(shift)s"
 msgstr "Deine nächste SuperCoop Schicht: %(shift)s"
 
-#: shifts/models.py:799 shifts/templates/shifts/shiftexemption_list.html:22
+#: shifts/models.py:920 shifts/templates/shifts/shiftexemption_list.html:22
 #: shifts/templates/shifts/user_shift_account_log.html:27
 msgid "Description"
 msgstr "Beschreibung"
 
-#: shifts/models.py:814
+#: shifts/models.py:935
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -1037,7 +1051,7 @@ msgstr "Ändere den Schichtstatus zu"
 msgid "Update Shift User Data"
 msgstr "Nutzer*innendaten der Schicht aktualisieren"
 
-#: shifts/templates/shifts/shift_calendar_future.html:6 templates/base.html:107
+#: shifts/templates/shifts/shift_calendar_future.html:6 templates/base.html:111
 msgid "Shift calendar"
 msgstr "Schicht-Kalender"
 
@@ -1064,7 +1078,7 @@ msgstr ""
 "Tag.</p><p> Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das Mitgliederbüro "
 "kontaktieren.</p> "
 
-#: shifts/templates/shifts/shift_calendar_past.html:6 templates/base.html:125
+#: shifts/templates/shifts/shift_calendar_past.html:6 templates/base.html:129
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
@@ -1330,7 +1344,7 @@ msgstr "Schicht-Befreiung bearbeiten für: "
 msgid "Create shift exemption for: "
 msgstr "Erzeuge Schicht-Befreiung für: "
 
-#: shifts/templates/shifts/shiftexemption_list.html:8 templates/base.html:130
+#: shifts/templates/shifts/shiftexemption_list.html:8 templates/base.html:134
 msgid "Shift exemptions"
 msgstr "Schicht-Befreiungen"
 
@@ -1494,45 +1508,45 @@ msgstr "Allgemein"
 msgid "You missed your shift!"
 msgstr "Du hast deine Schicht versäumt!"
 
-#: templates/base.html:48
+#: templates/base.html:49
 msgid "Member manual"
 msgstr "Mitgliederhandbuch"
 
-#: templates/base.html:51
+#: templates/base.html:52
 msgid "Shop opening hours"
 msgstr "Öffnungszeiten"
 
-#: templates/base.html:54
+#: templates/base.html:55
 msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
 
-#: templates/base.html:61
+#: templates/base.html:65
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
-#: templates/base.html:79
+#: templates/base.html:83
 msgid "Cooperative"
 msgstr "Genossenschaft"
 
-#: templates/base.html:83
+#: templates/base.html:87
 msgid "Members"
 msgstr "Mitglieder"
 
-#: templates/base.html:98
+#: templates/base.html:102
 msgid "Matching program"
 msgstr ""
 
-#: templates/base.html:113
+#: templates/base.html:117
 msgid "ABCD-shifts week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
-#: templates/base.html:119
+#: templates/base.html:123
 msgid "ABCD weeks calendar<br />Current week: "
 msgstr "ABCD-Wochenkalender<br />Aktuelle Woche: "
 
 #: utils/forms.py:23
 msgid ""
-"German phone numbers don't need a prefix (e.g. (0)1736160646), international always (e.g. "
+"German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. "
 "+12125552368)"
 msgstr ""
 "Innerstädtische und Mobilfunk-Verbindungen benötigen keine Vorwahlnummer (z.B. "

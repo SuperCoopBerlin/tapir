@@ -1,6 +1,7 @@
 {% load django_bootstrap5 %}
 {% load static %}
 {% load i18n %}
+{% load coop %}
 
 <!doctype html>
 <html>
@@ -52,6 +53,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="mailto:mitglied@supercoop.de" data-toggle="tooltip" title="Currently you can only contact the member office per email at : mitglied@supercoop.de. More contact options will be available later.">{% trans 'Contact the member office' %}</a>
+            </li>
+            <li>
+                <a class="nav-link" href="https://wiki.supercoop.de/wiki/Finanzierung">{% shop_extension_share_count  %}</a>
             </li>
         </ul>
     </div>

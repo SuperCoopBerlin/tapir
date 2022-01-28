@@ -1,0 +1,10 @@
+{% load i18n %}
+<span data-toggle="tooltip" title="{% trans "Progress of the funding of the shop-expansion through shares. Click this link to learn more." %}">
+    <span>{% trans "Shop-expansion funding" %}</span>
+    <span class="progress" style="width: 200px;">
+        <span class="progress-bar" role="progressbar" style="width: {{ shop_extension_progress }}%;"
+              aria-valuenow="{{ shop_extension_current }}" aria-valuemin="0" aria-valuemax="{{ shop_extension_max }}">
+            <span>{{ shop_extension_current }} / {{ shop_extension_max }}</span>
+        </span>
+    </span>
+</span>
