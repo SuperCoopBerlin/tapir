@@ -5,7 +5,7 @@ description = ""
 authors = ["Leon Handreke <leonh@ndreke.de>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 Django = "~3.2"
 django-ldapdb = "^1.5.1"
 django-weasyprint = "^1.1.0"
@@ -28,7 +28,7 @@ redis = "^4.1.2"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"
-ipython = "^7.21.0"
+ipython = "^8.0.1"
 pre-commit = "^2.11.1"
 Werkzeug = "^1.0.1"
 pytest = "^6.2.4"
