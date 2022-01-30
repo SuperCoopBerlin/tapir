@@ -13,6 +13,8 @@ import os
 import sys
 from pathlib import Path
 
+import celery.schedules
+import email.utils
 import environ
 
 env = environ.Env()
@@ -114,6 +116,16 @@ DATABASES = {
 
 DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
+CELERY_BEAT_SCHEDULE = {
+    "send_shift_reminders": {
+        "task": "tapir.shifts.tasks.send_shift_reminders",
+        "schedule": celery.schedules.crontab(
+            hour="*/2", minute=5
+        ),  # Every two hours five after the hour
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -165,6 +177,15 @@ elif EMAIL_ENV == "prod":
 EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
 FROM_EMAIL_MEMBER_OFFICE = f"SuperCoop Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
+
+
+# DJANGO_ADMINS="Blake <blake@cyb.org>, Alice Judge <alice@cyb.org>"
+ADMINS = tuple(
+    email.utils.parseaddr(email) for email in env.list("DJANGO_ADMINS", default=[])
+)
+# Crash emails will come from this address.
+# NOTE(Leon Handreke): I don't know if our Google SMTP will reject other senders, so play it safe.
+SERVER_EMAIL = "mitglied@supercoop.de"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

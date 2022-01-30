@@ -189,7 +189,6 @@ def populate_users():
             share_owner.blank_info_fields()
 
         share_owner.is_investing = randomizer % 7 == 0 or is_company
-        share_owner.from_startnext = randomizer % 5 == 0
         share_owner.ratenzahlung = randomizer % 8 == 0
         share_owner.attended_welcome_session = randomizer % 9 != 0
         if share_owner.is_company:

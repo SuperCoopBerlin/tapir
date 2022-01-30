@@ -45,7 +45,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false
     }
   },
@@ -104,7 +103,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false
     }
   },
@@ -163,7 +161,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false
     }
   },
@@ -222,7 +219,6 @@
       "preferred_language": "",
       "is_investing": false,
       "ratenzahlung": false,
-      "from_startnext": false,
       "attended_welcome_session": false
     }
   },

@@ -68,9 +68,6 @@ class ShareOwner(models.Model):
         verbose_name=_("Is investing member"), default=False
     )
     ratenzahlung = models.BooleanField(verbose_name=_("Ratenzahlung"), default=False)
-    # TODO(Leon Handreke): Remove this temporary field again after the Startnext member integration is done
-    # It's only used to send special emails to these members
-    from_startnext = models.BooleanField(default=False)
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
     )
@@ -255,10 +252,6 @@ class DraftUser(models.Model):
     is_investing = models.BooleanField(
         verbose_name=_("Investing member"), default=False
     )
-    # TODO(Leon Handreke): Remove this temporary field again after the Startnext member integration is done
-    # It's only used to send special emails to these members
-    from_startnext = models.BooleanField(default=False)
-    startnext_welcome_email_sent = models.BooleanField(default=False)
 
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
@@ -298,35 +291,3 @@ class DraftUser(models.Model):
             and self.last_name
             and self.signed_membership_agreement
         )
-
-    def send_startnext_email(self):
-        if not self.from_startnext:
-            raise Exception("Not from startnext")
-        if self.startnext_welcome_email_sent:
-            print(
-                "Welcome email for %d %s already sent"
-                % (self.pk, self.get_display_name())
-            )
-            return
-        with translation.override(self.preferred_language):
-            mail = EmailMessage(
-                subject=_("Welcome at SuperCoop eG!"),
-                body=render_to_string(
-                    "coop/email/membership_agreement_startnext.html", {"u": self}
-                ),
-                from_email=FROM_EMAIL_MEMBER_OFFICE,
-                to=[self.email],
-                bcc=["mitglied@supercoop.de"],
-                attachments=[
-                    (
-                        "Beteiligungserklärung %s.pdf" % self.get_display_name(),
-                        pdfs.get_membership_agreement_pdf(self).write_pdf(),
-                        "application/pdf",
-                    )
-                ],
-            )
-        mail.content_subtype = "html"
-        mail.send()
-
-        self.startnext_welcome_email_sent = True
-        self.save()
