@@ -92,6 +92,16 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
             else:
                 current_date = datetime.date(day=1, month=1, year=current_date.year + 1)
 
+        threshold_date = datetime.date(day=1, month=1, year=2022)
+        members_before_2022 = ShareOwner.objects.filter(
+            share_ownerships__start_date__lt=threshold_date
+        ).distinct()
+        new_shares_by_old_members = ShareOwnership.objects.filter(
+            start_date__gte=threshold_date, owner__in=members_before_2022
+        )
+        context["new_shares_by_old_members_threshold_date"] = threshold_date
+        context["new_shares_by_old_members"] = new_shares_by_old_members.count()
+
         return context
 
 

@@ -55,7 +55,7 @@
                 <a class="nav-link" href="mailto:mitglied@supercoop.de" data-toggle="tooltip" title="Currently you can only contact the member office per email at : mitglied@supercoop.de. More contact options will be available later.">{% trans 'Contact the member office' %}</a>
             </li>
             <li>
-                <a class="nav-link" href="https://wiki.supercoop.de/wiki/Finanzierung">{% shop_extension_share_count  %}</a>
+                <a class="nav-link" href="https://wiki.supercoop.de/wiki/Finanzierung">{% shop_extension_progress_bar %}</a>
             </li>
         </ul>
     </div>
@@ -142,6 +142,16 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "coop:welcome_desk_search" %}" id="welcome_desk_link">
                                     {% trans "Welcome Desk" %}
+                                </a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                    {% if perms.coop.manage %}
+                        <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% trans "Financing campaign" %}</h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url "coop:financing_campaign_update" 2 %}">
+                                    {% trans "Edit campaign" %}
                                 </a>
                             </li>
                         </ul>

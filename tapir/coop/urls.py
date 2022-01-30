@@ -150,4 +150,9 @@ urlpatterns = [
         views.WelcomeDeskShareOwnerView.as_view(),
         name="welcome_desk_share_owner",
     ),
+    path(
+        "financing_campaign/<int:pk>/edit",
+        views.FinancingCampaignUpdateView.as_view(),
+        name="financing_campaign_update",
+    ),
 ]

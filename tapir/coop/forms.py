@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 
-from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner
+from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner, FinancingCampaign
 from tapir.coop.pdfs import get_membership_agreement_pdf
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.utils.forms import DateInput, TapirPhoneNumberField
@@ -156,3 +156,26 @@ class ShareOwnerForm(forms.ModelForm):
                 "phone_number",
             ]:
                 del self.fields[f]
+
+
+class FinancingCampaignForm(forms.ModelForm):
+    class Meta:
+        model = FinancingCampaign
+        fields = [
+            "name",
+            "is_active",
+            "goal",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for source in self.instance.sources.all():
+            self.fields[f"financing_source_{source.id}"] = forms.IntegerField(
+                required=True, label=_(source.name), initial=source.raised_amount
+            )
+
+    def save(self, commit=True):
+        for source in self.instance.sources.all():
+            source.raised_amount = self.cleaned_data[f"financing_source_{source.id}"]
+            source.save()
+        return super().save(commit=commit)

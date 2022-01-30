@@ -291,3 +291,23 @@ class DraftUser(models.Model):
             and self.last_name
             and self.signed_membership_agreement
         )
+
+
+class FinancingCampaign(models.Model):
+    is_active = models.BooleanField(_("Currently active"), default=False, null=False)
+    name = models.CharField(_("Name"), max_length=150, blank=False, null=False)
+    goal = models.IntegerField(_("Goal"), blank=False, null=False)
+
+
+class FinancingSource(models.Model):
+    name = models.CharField(_("Name"), max_length=150, blank=False, null=False)
+    raised_amount = models.IntegerField(
+        _("Raised amount"), blank=False, null=False, default=0
+    )
+    campaign = models.ForeignKey(
+        FinancingCampaign,
+        related_name="sources",
+        blank=False,
+        null=False,
+        on_delete=models.CASCADE,
+    )

@@ -2,7 +2,12 @@ import datetime
 
 from django import template
 
-from tapir.coop.models import ShareOwner, ShareOwnership
+from tapir.coop.models import (
+    ShareOwner,
+    ShareOwnership,
+    FinancingCampaign,
+    FinancingSource,
+)
 
 register = template.Library()
 
@@ -15,15 +20,30 @@ def share_owner_ownership_list(context, share_owner: ShareOwner):
     return context
 
 
-@register.inclusion_tag("coop/shop_extension_share_count.html", takes_context=True)
-def shop_extension_share_count(context):
-    nb_shares_at_start = ShareOwnership.objects.active_temporal(
-        datetime.date(day=1, month=1, year=2022)
-    ).count()
-    nb_shares_now = ShareOwnership.objects.active_temporal().count()
-    context["shop_extension_current"] = nb_shares_now - nb_shares_at_start
-    context["shop_extension_max"] = 200
-    context["shop_extension_progress"] = (
-        context["shop_extension_current"] / context["shop_extension_max"]
-    ) * 100
+@register.inclusion_tag("coop/shop_extension_progress_bar.html", takes_context=True)
+def shop_extension_progress_bar(context):
+    campaign = FinancingCampaign.objects.filter(name="shop_extension_2022").first()
+    context["shop_extension_campaign_is_active"] = (
+        campaign is not None and campaign.is_active
+    )
+    if campaign is None:
+        return context
+
+    context["shop_extension_campaign_goal"] = campaign.goal
+
+    sources = dict()
+    progress_bar_colors = ["bg-primary", "bg-success", "bg-warning"]
+    for source_index, source in enumerate(
+        FinancingSource.objects.filter(campaign=campaign)
+    ):
+        source_context = dict()
+        source_context["width"] = round(
+            100 * float(source.raised_amount) / campaign.goal
+        )
+        source_context["color"] = progress_bar_colors[
+            source_index % len(progress_bar_colors)
+        ]
+        sources[source.name] = source_context
+    context["shop_extension_sources"] = sources
+
     return context

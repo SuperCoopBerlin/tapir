@@ -1,0 +1,14 @@
+{% load i18n %}
+{% if shop_extension_campaign_is_active %}
+    <span data-toggle="tooltip"
+          title="{% trans "Progress of the funding of the shop-expansion through shares. Click this link to learn more." %}">
+    <span>{% trans "Shop-expansion funding" %}</span>
+    <span class="progress" style="width: 200px;">
+        {% for source_name, source_data in shop_extension_sources.items %}
+            <span class="progress-bar {{ source_data.color }}" role="progressbar" style="width: {{ source_data.width }}%;">
+                <span>{% trans source_name %}</span>
+            </span>
+        {% endfor %}
+    </span>
+</span>
+{% endif %}
