@@ -149,11 +149,7 @@
                     {% if perms.coop.manage %}
                         <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% trans "Financing campaign" %}</h6>
                         <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url "coop:financing_campaign_update" 2 %}">
-                                    {% trans "Edit campaign" %}
-                                </a>
-                            </li>
+                            {% financing_nav_links %}
                         </ul>
                     {% endif %}
                     <a class="nav-link text-muted" id="about-link" href="{% url "coop:about" %}">

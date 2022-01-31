@@ -22,10 +22,8 @@ def share_owner_ownership_list(context, share_owner: ShareOwner):
 
 @register.inclusion_tag("coop/shop_extension_progress_bar.html", takes_context=True)
 def shop_extension_progress_bar(context):
-    campaign = FinancingCampaign.objects.filter(name="shop_extension_2022").first()
-    context["shop_extension_campaign_is_active"] = (
-        campaign is not None and campaign.is_active
-    )
+    campaign = FinancingCampaign.objects.filter(is_active=True).first()
+    context["shop_extension_campaign_is_active"] = campaign is not None
     if campaign is None:
         return context
 
@@ -46,4 +44,13 @@ def shop_extension_progress_bar(context):
         sources[source.name] = source_context
     context["shop_extension_sources"] = sources
 
+    return context
+
+
+@register.inclusion_tag("coop/financing_nav_links.html", takes_context=True)
+def financing_nav_links(context):
+    campaigns = dict()
+    for campaign in FinancingCampaign.objects.all():
+        campaigns[campaign.name] = campaign.id
+    context["financing_campaigns"] = campaigns
     return context
