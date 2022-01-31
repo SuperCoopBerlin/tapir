@@ -2,7 +2,7 @@
 {% if shop_extension_campaign_is_active %}
     <span data-toggle="tooltip"
           title="{% trans "Click this link to learn more." %}">
-    <span>{% trans "Shop-expansion funding" %}</span>
+    <span>{{ shop_extension_campaign_name }}</span>
     <span class="progress" style="width: 200px;">
         {% for source_name, source_data in shop_extension_sources.items %}
             <span class="progress-bar {{ source_data.color }}" role="progressbar" style="width: {{ source_data.width }}%;">

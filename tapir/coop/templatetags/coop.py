@@ -28,6 +28,7 @@ def shop_extension_progress_bar(context):
         return context
 
     context["shop_extension_campaign_goal"] = campaign.goal
+    context["shop_extension_campaign_name"] = campaign.name
 
     sources = dict()
     progress_bar_colors = ["bg-primary", "bg-success", "bg-warning"]
