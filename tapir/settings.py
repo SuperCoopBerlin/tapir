@@ -180,9 +180,7 @@ DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 
 
 # DJANGO_ADMINS="Blake <blake@cyb.org>, Alice Judge <alice@cyb.org>"
-ADMINS = tuple(
-    email.utils.parseaddr(email) for email in env.list("DJANGO_ADMINS", default=[])
-)
+ADMINS = tuple(email.utils.parseaddr(x) for x in env.list("DJANGO_ADMINS", default=[]))
 # Crash emails will come from this address.
 # NOTE(Leon Handreke): I don't know if our Google SMTP will reject other senders, so play it safe.
 SERVER_EMAIL = "mitglied@supercoop.de"
