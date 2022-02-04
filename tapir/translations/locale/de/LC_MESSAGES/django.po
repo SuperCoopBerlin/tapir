@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-31 20:21+0100\n"
-"PO-Revision-Date: 2022-01-31 20:21+0100\n"
+"POT-Creation-Date: 2022-02-04 20:33+0100\n"
+"PO-Revision-Date: 2022-02-04 20:35+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -571,10 +571,6 @@ msgstr ""
 msgid "Click this link to learn more."
 msgstr "Klick hier um mehr zu lernen."
 
-#: coop/templates/coop/shop_extension_progress_bar.html:5
-msgid "Shop-expansion funding"
-msgstr "Laden-Erweiterung-Finanzierung"
-
 #: coop/templates/coop/statistics.html:27 templates/base.html:97
 msgid "Statistics"
 msgstr "Statistik"
@@ -629,14 +625,14 @@ msgstr "Status"
 msgid "Inactive"
 msgstr "Inaktiv"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:48 shifts/models.py:781
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:48 shifts/models.py:774
 #: shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:178
 #: shifts/templates/shifts/shift_detail_printable.html:48
 msgid "Attended"
 msgstr "Teilgenommen"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:50 shifts/models.py:780
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:50 shifts/models.py:773
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -810,6 +806,30 @@ msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht
 msgid "Qualifications"
 msgstr "Befähigungen"
 
+#: shifts/forms.py:198
+msgid ""
+"I have read the warning about the cancelled attendances and confirm that the exemption "
+"should be created"
+msgstr ""
+
+#: shifts/forms.py:205
+msgid ""
+"I have read the warning about the cancelled ABCD attendances and confirm that the "
+"exemption should be created "
+msgstr ""
+
+#: shifts/forms.py:237
+msgid ""
+"The user will be unregistered from the following shifts because they are within the range "
+"of "
+msgstr ""
+
+#: shifts/forms.py:265
+msgid ""
+"The user will be unregistered from the following ABCD shifts because the exemption is "
+"longer"
+msgstr ""
+
 #: shifts/models.py:33
 msgid "Teamleader"
 msgstr "Teamleiter*in"
@@ -862,53 +882,53 @@ msgstr "Samstag"
 msgid "Sunday"
 msgstr "Sonntag"
 
-#: shifts/models.py:678
+#: shifts/models.py:671
 msgid "You found a stand-in!"
 msgstr "Vertretung gefunden!"
 
-#: shifts/models.py:782 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:775 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:187
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:783 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:776 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:213
 #: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:784 shifts/templates/shifts/shift_detail.html:221
+#: shifts/models.py:777 shifts/templates/shifts/shift_detail.html:221
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:785 shifts/templates/shifts/shift_detail.html:207
+#: shifts/models.py:778 shifts/templates/shifts/shift_detail.html:207
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:818
+#: shifts/models.py:811
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:819
+#: shifts/models.py:812
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:822
+#: shifts/models.py:815
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:888
+#: shifts/models.py:878
 #, python-format
 msgid "Your upcoming SuperCoop shift: %(shift)s"
 msgstr "Deine nächste SuperCoop Schicht: %(shift)s"
 
-#: shifts/models.py:920 shifts/templates/shifts/shiftexemption_list.html:22
+#: shifts/models.py:910 shifts/templates/shifts/shiftexemption_list.html:22
 #: shifts/templates/shifts/user_shift_account_log.html:27
 msgid "Description"
 msgstr "Beschreibung"
 
-#: shifts/models.py:935
+#: shifts/models.py:952
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -971,7 +991,7 @@ msgid ""
 "    <p>This is an automated email from SuperCoop.</p>\n"
 "\n"
 "    <p>\n"
-"        Your next shift at SuperCoop is this week!<br/>\n"
+"        Your next shift at SuperCoop is soon!<br/>\n"
 "        Your shift is : %(shift_display_name)s\n"
 "    </p>\n"
 msgstr ""
@@ -981,7 +1001,7 @@ msgstr ""
 "    <p>Dies ist eine automatische E-Mail von der SuperCoop.</p>\n"
 "\n"
 "    <p>\n"
-"        Deine nächste Schicht am Supercoop ist diese Woche!<br/>\n"
+"        Deine nächste Schicht am Supercoop ist bald!<br/>\n"
 "        Deine Schicht ist: %(shift_display_name)s\n"
 "    </p>\n"
 
@@ -1516,13 +1536,17 @@ msgstr "Keine"
 msgid "View all"
 msgstr "Alle ansehen"
 
-#: shifts/templatetags/shifts.py:46 shifts/templatetags/shifts.py:118 shifts/views.py:521
+#: shifts/templatetags/shifts.py:46 shifts/templatetags/shifts.py:118 shifts/views.py:524
 msgid "General"
 msgstr "Allgemein"
 
 #: shifts/views.py:332
 msgid "You missed your shift!"
 msgstr "Du hast deine Schicht versäumt!"
+
+#: shifts/views.py:715
+msgid "Is covered by shift exemption: "
+msgstr ""
 
 #: templates/base.html:49
 msgid "Member manual"
@@ -2544,6 +2568,9 @@ msgstr "Anfangsdatum muss gesetzt sein"
 #: utils/models.py:365
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Endsdatum sein"
+
+#~ msgid "Shop-expansion funding"
+#~ msgstr "Laden-Erweiterung-Finanzierung"
 
 #~ msgid "Filter by free slot: "
 #~ msgstr "Nach freien Plätzen filtern: "

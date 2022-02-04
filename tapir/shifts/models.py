@@ -865,13 +865,10 @@ class ShiftUserData(models.Model):
         return self.get_current_shift_exemption(date) is not None
 
     def send_shift_reminder_emails(self):
-        today = datetime.date.today()
-        next_monday = today + datetime.timedelta(days=(0 - today.weekday()) % 7)
-        next_sunday = next_monday + datetime.timedelta(days=7)
         for attendance in ShiftAttendance.objects.with_valid_state().filter(
             user=self.user,
-            slot__shift__start_time__gte=next_monday,
-            slot__shift__start_time__lte=next_sunday,
+            slot__shift__start_time__gte=timezone.now(),
+            slot__shift__start_time__lte=timezone.now() + datetime.timedelta(days=7),
             reminder_email_sent=False,
         ):
             self.send_shift_reminder_email(attendance)
