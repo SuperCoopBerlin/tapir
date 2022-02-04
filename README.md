@@ -39,7 +39,7 @@ before every commit:
 
 ### Django Shell
 
-    docker-compose exec web poetry run python manage.py shell
+    docker-compose exec web poetry run python manage.py shell_plus
 
 ### LDAP
 
