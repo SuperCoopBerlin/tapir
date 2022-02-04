@@ -70,7 +70,6 @@ class ShiftFiltersManager {
         }
 
         this.slot_name_group.style.display = this.current_status_filter.value == StatusFilter.FREESLOT ? null : "none";
-        this.filter_legend.style.display = this.current_status_filter.value != StatusFilter.NO_FILTER ? null : "none";
     }
 
     private update_shift_block(shift_block: HTMLElement, slot_status_filter: StatusFilter, slot_name_filter: string) {

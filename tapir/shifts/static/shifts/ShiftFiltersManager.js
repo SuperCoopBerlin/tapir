@@ -52,7 +52,6 @@ class ShiftFiltersManager {
             this.legend_highlighted.innerText += " - " + this.current_slot_filter.parentElement.innerText;
         }
         this.slot_name_group.style.display = this.current_status_filter.value == StatusFilter.FREESLOT ? null : "none";
-        this.filter_legend.style.display = this.current_status_filter.value != StatusFilter.NO_FILTER ? null : "none";
     }
     update_shift_block(shift_block, slot_status_filter, slot_name_filter) {
         shift_block.classList.remove(this.HIDDEN_CLASS);
