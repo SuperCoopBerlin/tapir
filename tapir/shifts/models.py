@@ -7,7 +7,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.mail import EmailMessage
 from django.db import models, transaction
 from django.db.models import Sum
-from django.db.models.signals import pre_delete, pre_save
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -151,7 +151,7 @@ class ShiftTemplate(models.Model):
     def get_display_name(self):
         display_name = "%s %s %s" % (
             self.name,
-            self.get_weekday_display(),
+            _(self.get_weekday_display()),
             self.start_time.strftime("%H:%M"),
         )
         if self.group:
@@ -405,21 +405,14 @@ class ShiftAttendanceTemplate(models.Model):
         self.slot_template.update_future_slot_attendances()
         return res
 
-
-@receiver(
-    pre_delete,
-    sender=ShiftAttendanceTemplate,
-    dispatch_uid="shift_attendance_template_delete_signal",
-)
-def on_shift_attendance_template_delete(
-    sender, instance: ShiftAttendanceTemplate, using, **kwargs
-):
-    for slot in instance.slot_template.generated_slots.all():
-        for attendance in slot.attendances.filter(
-            slot__shift__start_time__gte=timezone.now(), user=instance.user
+    def cancel_attendances(self, starting_from: datetime.datetime):
+        for attendance in ShiftAttendance.objects.filter(
+            slot__in=self.slot_template.generated_slots.all(),
+            user=self.user,
+            slot__shift__start_time__gte=starting_from,
         ):
-            if attendance.user == instance.user:
-                attendance.delete()
+            attendance.state = ShiftAttendance.State.CANCELLED
+            attendance.save()
 
 
 class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
@@ -918,6 +911,33 @@ class ShiftExemption(DurationModelMixin, models.Model):
         ShiftUserData, related_name="shift_exemptions", on_delete=models.CASCADE
     )
     description = models.TextField(_("Description"), null=False, blank=False)
+
+    THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT = 6
+
+    @staticmethod
+    def get_attendances_covered_by_exemption(
+        user: TapirUser, start_date: datetime.date, end_date: datetime.date
+    ):
+        start_time = timezone.make_aware(
+            datetime.datetime.combine(start_date, datetime.time(hour=0, minute=0))
+        )
+        end_time = timezone.make_aware(
+            datetime.datetime.combine(end_date, datetime.time(hour=23, minute=59))
+        )
+        return ShiftAttendance.objects.filter(
+            user=user,
+            slot__shift__start_time__gte=start_time,
+            slot__shift__end_time__lte=end_time,
+        )
+
+    @staticmethod
+    def must_unregister_from_abcd_shift(
+        start_date: datetime.date, end_date: datetime.date
+    ):
+        return (
+            (end_date - start_date).days
+            >= ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT * 4 * 7
+        )
 
 
 class ShiftCycleEntry(models.Model):

@@ -372,6 +372,7 @@ def shift_attendance_template_delete(request, pk):
         log_entry.shift_template = slot_template.shift_template
         log_entry.save()
 
+        shift_attendance_template.cancel_attendances(timezone.now())
         shift_attendance_template.delete()
 
     return redirect(request.GET.get("next", slot_template.shift_template))
@@ -495,7 +496,9 @@ def get_week_group(target_time: date) -> ShiftTemplateGroup:
         )
         sunday = monday + timedelta(days=7)
         shifts = Shift.objects.filter(
-            start_time__gte=monday, end_time__lte=sunday, shift_template__isnull=False
+            start_time__gte=monday,
+            end_time__lte=sunday,
+            shift_template__group__isnull=False,
         )
         if not shifts.exists():
             continue
@@ -700,6 +703,35 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.shift_user_data = self.get_target_user_data()
+        exemption: ShiftExemption = form.instance
+        user = self.get_target_user_data().user
+        for attendance in ShiftExemption.get_attendances_covered_by_exemption(
+            user=user,
+            start_date=exemption.start_date,
+            end_date=exemption.end_date,
+        ):
+            attendance.state = ShiftAttendance.State.CANCELLED
+            attendance.excused_reason = (
+                _("Is covered by shift exemption: ") + exemption.description
+            )
+            attendance.save()
+
+        if ShiftExemption.must_unregister_from_abcd_shift(
+            start_date=exemption.start_date, end_date=exemption.end_date
+        ):
+            for attendance_template in ShiftAttendanceTemplate.objects.filter(
+                user=user
+            ):
+                attendance_template.cancel_attendances(
+                    timezone.make_aware(
+                        datetime.datetime.combine(
+                            date=exemption.start_date,
+                            time=datetime.time(hour=0, minute=0),
+                        )
+                    )
+                )
+                attendance_template.delete()
+
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -709,6 +741,11 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
 
     def get_success_url(self):
         return self.get_target_user_data().user.get_absolute_url()
+
+    def get_form(self):
+        form = super().get_form()
+        form.user = self.get_target_user_data().user
+        return form
 
 
 class EditShiftExemptionView(PermissionRequiredMixin, UpdateView):
