@@ -221,7 +221,7 @@ class ShiftExemptionForm(forms.ModelForm):
             "confirm_cancelled_attendances" in self.cleaned_data
             and not self.cleaned_data["confirm_cancelled_attendances"]
         ):
-            covered_attendances = ShiftExemption.get_attendances_covered_by_exemption(
+            covered_attendances = ShiftExemption.get_attendances_cancelled_by_exemption(
                 user=self.user,
                 start_date=self.cleaned_data["start_date"],
                 end_date=self.cleaned_data["end_date"],
