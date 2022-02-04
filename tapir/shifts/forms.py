@@ -209,8 +209,8 @@ class ShiftExemptionForm(forms.ModelForm):
         widget=HiddenInput,
     )
 
-    def validate_unique(self):
-        super().validate_unique()
+    def clean(self):
+        super().clean()
         if (
             "confirm_cancelled_attendances" in self._errors
             or "confirm_cancelled_abcd_attendances" in self._errors
