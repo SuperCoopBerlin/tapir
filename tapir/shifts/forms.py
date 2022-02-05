@@ -192,3 +192,82 @@ class ShiftExemptionForm(forms.ModelForm):
             "start_date": DateInput(),
             "end_date": DateInput(),
         }
+
+    confirm_cancelled_attendances = BooleanField(
+        label=_(
+            "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
+        ),
+        required=False,
+        widget=HiddenInput,
+    )
+    confirm_cancelled_abcd_attendances = BooleanField(
+        label=_(
+            "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be "
+            "created "
+        ),
+        required=False,
+        widget=HiddenInput,
+    )
+
+    def clean(self):
+        super().clean()
+        if (
+            "confirm_cancelled_attendances" in self._errors
+            or "confirm_cancelled_abcd_attendances" in self._errors
+        ):
+            return
+
+        if (
+            "confirm_cancelled_attendances" in self.cleaned_data
+            and not self.cleaned_data["confirm_cancelled_attendances"]
+        ):
+            covered_attendances = ShiftExemption.get_attendances_cancelled_by_exemption(
+                user=self.user,
+                start_date=self.cleaned_data["start_date"],
+                end_date=self.cleaned_data["end_date"],
+            )
+            if covered_attendances.count() > 0:
+                attendances_display = ", ".join(
+                    [
+                        attendance.slot.get_display_name()
+                        for attendance in covered_attendances
+                    ]
+                )
+                error_msg = _(
+                    f"The user will be unregistered from the following shifts because they are within the range of "
+                    f"the exemption : {attendances_display} "
+                )
+                self.add_error("confirm_cancelled_attendances", error_msg)
+                self.fields[
+                    "confirm_cancelled_attendances"
+                ].widget = forms.CheckboxInput()
+                self.fields["confirm_cancelled_attendances"].required = True
+
+        if (
+            "confirm_cancelled_abcd_attendances" in self.cleaned_data
+            and not self.cleaned_data["confirm_cancelled_abcd_attendances"]
+            and ShiftExemption.must_unregister_from_abcd_shift(
+                start_date=self.cleaned_data["start_date"],
+                end_date=self.cleaned_data["end_date"],
+            )
+        ):
+            attendance_templates = ShiftAttendanceTemplate.objects.filter(
+                user=self.user
+            )
+            if attendance_templates.count() > 0:
+                attendances_display = ", ".join(
+                    [
+                        attendance.slot_template.get_display_name()
+                        for attendance in attendance_templates
+                    ]
+                )
+                error_msg = _(
+                    f"The user will be unregistered from the following ABCD shifts because the exemption is longer"
+                    f" than {ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT} cycles: "
+                    f"{attendances_display}"
+                )
+                self.add_error("confirm_cancelled_abcd_attendances", error_msg)
+                self.fields[
+                    "confirm_cancelled_abcd_attendances"
+                ].widget = forms.CheckboxInput()
+                self.fields["confirm_cancelled_abcd_attendances"].required = True
