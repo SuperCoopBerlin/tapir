@@ -37,6 +37,7 @@ from tapir.coop.models import (
     MEMBER_STATUS_CHOICES,
     MemberStatus,
     get_member_status_translation,
+    COOP_SHARE_PRICE,
 )
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
@@ -411,6 +412,9 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="abcd_week_filter",
         label=_("ABCD Week"),
     )
+    has_unpaid_shares = BooleanFilter(
+        method="has_unpaid_shares_filter", label="Has unpaid shares"
+    )
 
     display_name = CharFilter(
         method="display_name_filter", label=_("Name or member ID")
@@ -464,6 +468,18 @@ class ShareOwnerFilter(django_filters.FilterSet):
         return queryset.filter(
             user__shift_attendance_templates__slot_template__shift_template__group__name=value
         )
+
+    def has_unpaid_shares_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+    ):
+        unpaid_shares = ShareOwnership.objects.filter(
+            amount_paid__lt=COOP_SHARE_PRICE, owner__in=queryset
+        )
+
+        if value:
+            return queryset.filter(share_ownerships__in=unpaid_shares)
+        else:
+            return queryset.exclude(share_ownerships__in=unpaid_shares)
 
 
 class ShareOwnerListView(

@@ -16,6 +16,7 @@ class ShareOwnershipForm(forms.ModelForm):
         fields = [
             "start_date",
             "end_date",
+            "amount_paid",
         ]
         widgets = {
             "start_date": DateInput(),

@@ -1,22 +1,21 @@
 from decimal import Decimal
 
 from django.core.exceptions import ValidationError
-from django.core.mail import EmailMessage
 from django.db import models
 from django.db.models import Q
-from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils
 from tapir.accounts.models import TapirUser
-from tapir.coop import pdfs
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry
-from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.models import ShiftAttendanceTemplate
-from tapir.utils.models import DurationModelMixin, CountryField
+from tapir.utils.models import (
+    DurationModelMixin,
+    CountryField,
+    DurationModelMixinQuerySet,
+)
 from tapir.utils.user_utils import UserUtils
 
 COOP_SHARE_PRICE = Decimal(100)
@@ -221,6 +220,28 @@ class ShareOwnership(DurationModelMixin, models.Model):
         null=False,
         on_delete=models.PROTECT,
     )
+
+    amount_paid = models.DecimalField(
+        blank=False,
+        null=False,
+        default=COOP_SHARE_PRICE,
+        max_digits=10,
+        decimal_places=2,
+    )
+
+    def is_fully_paid(self):
+        return self.amount_paid >= COOP_SHARE_PRICE
+
+    def clean(self):
+        super().clean()
+        if self.amount_paid < 0:
+            raise ValidationError(_("Amount paid for a share can't be negative"))
+        if self.amount_paid > COOP_SHARE_PRICE:
+            raise ValidationError(
+                _(
+                    f"Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
+                )
+            )
 
 
 class DeleteShareOwnershipLogEntry(ModelLogEntry):
