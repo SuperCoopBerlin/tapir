@@ -281,6 +281,7 @@ class DraftUser(models.Model):
         _("Signed Beteiligungserklärung"), default=False
     )
     paid_membership_fee = models.BooleanField(_("Paid Membership Fee"), default=False)
+    paid_shares = models.BooleanField(_("Paid Shares"), default=False)
 
     ratenzahlung = models.BooleanField(verbose_name=_("Ratenzahlung"), default=False)
 

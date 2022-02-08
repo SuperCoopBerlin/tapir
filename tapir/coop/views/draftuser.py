@@ -18,6 +18,7 @@ from tapir.coop.models import (
     DraftUser,
     ShareOwner,
     ShareOwnership,
+    COOP_SHARE_PRICE,
 )
 from tapir.utils.models import copy_user_info
 
@@ -116,7 +117,7 @@ def register_draftuser_payment(request, pk):
 @require_POST
 @csrf_protect
 @permission_required("coop.manage")
-def create_share_owner_from_draftuser(request, pk):
+def create_share_owner_from_draft_user_view(request, pk):
     # For now, we don't create users for our new members yet but only ShareOwners. Later, this will be used for
     # investing members
 
@@ -131,23 +132,29 @@ def create_share_owner_from_draftuser(request, pk):
         )
 
     with transaction.atomic():
-        share_owner = ShareOwner.objects.create(
-            is_company=False,
-            is_investing=draft.is_investing,
-            ratenzahlung=draft.ratenzahlung,
-            attended_welcome_session=draft.attended_welcome_session,
-            paid_membership_fee=draft.paid_membership_fee,
-        )
-
-        copy_user_info(draft, share_owner)
-        share_owner.save()
-
-        for _ in range(0, draft.num_shares):
-            ShareOwnership.objects.create(
-                owner=share_owner,
-                start_date=date.today(),
-            )
-
+        share_owner = create_share_owner_and_shares_from_draft_user(draft)
         draft.delete()
 
     return redirect(share_owner.get_absolute_url())
+
+
+def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> ShareOwner:
+    share_owner = ShareOwner.objects.create(
+        is_company=False,
+        is_investing=draft_user.is_investing,
+        ratenzahlung=draft_user.ratenzahlung,
+        attended_welcome_session=draft_user.attended_welcome_session,
+        paid_membership_fee=draft_user.paid_membership_fee,
+    )
+
+    copy_user_info(draft_user, share_owner)
+    share_owner.save()
+
+    for _ in range(0, draft_user.num_shares):
+        ShareOwnership.objects.create(
+            owner=share_owner,
+            start_date=date.today(),
+            amount_paid=(COOP_SHARE_PRICE if draft_user.paid_shares else 0),
+        )
+
+    return share_owner

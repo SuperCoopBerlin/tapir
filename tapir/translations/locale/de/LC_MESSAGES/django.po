@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-04 20:33+0100\n"
-"PO-Revision-Date: 2022-02-04 20:35+0100\n"
+"POT-Creation-Date: 2022-02-08 21:20+0100\n"
+"PO-Revision-Date: 2022-02-08 21:23+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -26,47 +26,46 @@ msgstr "Nutzer*innenname"
 #: accounts/models.py:141
 msgid "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
 msgstr ""
-"Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen oder ./-/_ "
-"verwenden."
+"Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen oder ./-/_ verwenden."
 
 #: accounts/models.py:145
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
-#: accounts/models.py:149 accounts/templates/accounts/user_detail.html:43 coop/models.py:52
-#: coop/models.py:235 coop/templates/coop/draftuser_detail.html:36
+#: accounts/models.py:149 accounts/templates/accounts/user_detail.html:43 coop/models.py:51
+#: coop/models.py:256 coop/templates/coop/draftuser_detail.html:36
 #: coop/templates/coop/shareowner_detail.html:43
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:150 accounts/templates/accounts/user_detail.html:53 coop/models.py:53
-#: coop/models.py:236 coop/templates/coop/draftuser_detail.html:40
+#: accounts/models.py:150 accounts/templates/accounts/user_detail.html:53 coop/models.py:52
+#: coop/models.py:257 coop/templates/coop/draftuser_detail.html:40
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:151 coop/models.py:54 coop/models.py:237
+#: accounts/models.py:151 coop/models.py:53 coop/models.py:258
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:152 coop/models.py:55 coop/models.py:238
+#: accounts/models.py:152 coop/models.py:54 coop/models.py:259
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:153 coop/models.py:56 coop/models.py:239
+#: accounts/models.py:153 coop/models.py:55 coop/models.py:260
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:154 coop/models.py:57 coop/models.py:240
+#: accounts/models.py:154 coop/models.py:56 coop/models.py:261
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:155 coop/models.py:58 coop/models.py:241
+#: accounts/models.py:155 coop/models.py:57 coop/models.py:262
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:158 accounts/templates/accounts/user_detail.html:73 coop/models.py:61
-#: coop/models.py:244 coop/templates/coop/shareowner_detail.html:67
+#: accounts/models.py:158 accounts/templates/accounts/user_detail.html:73 coop/models.py:60
+#: coop/models.py:265 coop/templates/coop/shareowner_detail.html:67
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
@@ -79,18 +78,18 @@ msgstr "Keine"
 msgid ""
 "\n"
 "    <p>Dear %(user_display_name)s,</p>\n"
-"    <p>we just created an account for you in our SuperCoop member system. Here you can "
-"view your upcoming shifts, book an additional shift if you'd like or mark your shift as "
-"“looking for a stand-in” (for example when you go on vacation). <br/>\n"
+"    <p>we just created an account for you in our SuperCoop member system. Here you can view "
+"your upcoming shifts, book an additional shift if you'd like or mark your shift as “looking "
+"for a stand-in” (for example when you go on vacation). <br/>\n"
 "        Please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member "
 "Manual</a> section III for more information on the Stand-in System.</p>\n"
 msgstr ""
 "\n"
 "<p> Liebe*r %(user_display_name)s,</p>\n"
-"<p>soeben haben wir für dich ein Konto in unserem SuperCoop Mitgliedersystem angelegt. "
-"Hier kannst du deine kommenden Schichten einsehen, dir nach Lust und Laune eine "
-"zusätzliche Schicht buchen oder eine deiner eigenen Schichten zur Neubesetzung freigeben, "
-"beispielsweise wenn du in den Urlaub fährst.<br />\n"
+"<p>soeben haben wir für dich ein Konto in unserem SuperCoop Mitgliedersystem angelegt. Hier "
+"kannst du deine kommenden Schichten einsehen, dir nach Lust und Laune eine zusätzliche "
+"Schicht buchen oder eine deiner eigenen Schichten zur Neubesetzung freigeben, beispielsweise "
+"wenn du in den Urlaub fährst.<br />\n"
 "Mehr über Informationen über das Vertretungssystem findest du im <a href=\"https://wiki."
 "supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>.</p>\n"
 
@@ -103,8 +102,8 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"Deine regelmäßige ABCD-Schicht ist: %(slot_display_name)s. Vor deiner ersten Schicht wirst "
-"du nochmal eine Erinnerungsmail erhalten.\n"
+"Deine regelmäßige ABCD-Schicht ist: %(slot_display_name)s. Vor deiner ersten Schicht wirst du "
+"nochmal eine Erinnerungsmail erhalten.\n"
 " "
 
 #: accounts/templates/accounts/email/welcome_email.html:23
@@ -117,8 +116,8 @@ msgid ""
 msgstr ""
 "\n"
 "Fliegende Mitglieder: Bitte achtet darauf, zu jedem Zyklus-Ende mindestens ein "
-"Schichtguthaben auf eurem Schichtkonto zu haben. Mehr Infos findet ihr im <a href="
-"\"https://wiki.supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>.\n"
+"Schichtguthaben auf eurem Schichtkonto zu haben. Mehr Infos findet ihr im <a href=\"https://"
+"wiki.supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>.\n"
 " "
 
 #: accounts/templates/accounts/email/welcome_email.html:32
@@ -126,28 +125,28 @@ msgstr ""
 msgid ""
 "\n"
 "        <p>Your username is *%(username)s* . In order to login to your account, you first "
-"have to set a password : <a href=\"%(site_url)s%(password_reset_confirm_url)s\">Click here "
-"to set your password</a></p>\n"
-"        <p>This link is only valid for a few weeks. Should it expire, you can get a new "
-"one here : <a href=\"%(site_url)s%(password_reset_request_url)s\">Click here to get a new "
-"link</a></p>\n"
+"have to set a password : <a href=\"%(site_url)s%(password_reset_confirm_url)s\">Click here to "
+"set your password</a></p>\n"
+"        <p>This link is only valid for a few weeks. Should it expire, you can get a new one "
+"here : <a href=\"%(site_url)s%(password_reset_request_url)s\">Click here to get a new link</"
+"a></p>\n"
 "        <p>You can also login to the SuperCoop wiki with that account.</p>\n"
 "        <p>Alternatively, as for any other question, you can always contact the <a href="
-"\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Member Office</"
-"a></p>\n"
+"\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Member Office</a></"
+"p>\n"
 "    "
 msgstr ""
 "\n"
-"<p>Dein Nutzer*innenname ist *%(username)s* . Um dein Konto nutzen zu können, musst du "
-"zuerst ein Passwort festlegen: <a href=\"%(site_url)s%(password_reset_confirm_url)s"
-"\">Klick hier um dein Passwort zu setzen.</a></p>\n"
-"<p>Dieser Link ist nur einige Wochen gültig. Sollte er abgelaufen sein, kannst du einen "
-"neuen Link anfordern: <a href=\"%(site_url)s%(password_reset_request_url)s\">Klick hier um "
-"einen neuen Link zu bekommen.</a></p>\n"
+"<p>Dein Nutzer*innenname ist *%(username)s* . Um dein Konto nutzen zu können, musst du zuerst "
+"ein Passwort festlegen: <a href=\"%(site_url)s%(password_reset_confirm_url)s\">Klick hier um "
+"dein Passwort zu setzen.</a></p>\n"
+"<p>Dieser Link ist nur einige Wochen gültig. Sollte er abgelaufen sein, kannst du einen neuen "
+"Link anfordern: <a href=\"%(site_url)s%(password_reset_request_url)s\">Klick hier um einen "
+"neuen Link zu bekommen.</a></p>\n"
 "<p>Mit diesem Konto kannst du dich auch in unser Wiki einloggen.</p>\n"
 "<p>Alternativ, und auch bei allen anderen Fragen, kannst du dich jederzeit an das <a href="
-"\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Mitgliederbüro</"
-"a> wenden.</p>\n"
+"\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Mitgliederbüro</a> "
+"wenden.</p>\n"
 " "
 
 #: accounts/templates/accounts/email/welcome_email.html:40
@@ -166,44 +165,40 @@ msgstr ""
 msgid "Your account in the SuperCoop member system"
 msgstr "Dein Konto im SuperCoop Schichtsystem"
 
-#: accounts/templates/accounts/user_detail.html:22
-#: coop/templates/coop/shareowner_detail.html:14
+#: accounts/templates/accounts/user_detail.html:22 coop/templates/coop/shareowner_detail.html:14
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:25
-#: coop/templates/coop/draftuser_detail.html:150
+#: accounts/templates/accounts/user_detail.html:25 coop/templates/coop/draftuser_detail.html:143
 #: coop/templates/coop/shareowner_detail.html:24
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:13
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:110
-#: shifts/templates/shifts/shift_detail.html:19
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:117
+#: shifts/templates/shifts/shift_detail.html:35
 #: shifts/templates/shifts/shift_template_detail.html:17
 #: shifts/templates/shifts/user_shifts_overview_tag.html:10
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:31 coop/models.py:298 coop/models.py:303
+#: accounts/templates/accounts/user_detail.html:31 coop/models.py:320 coop/models.py:325
 #: coop/templates/coop/draftuser_detail.html:24 coop/templates/coop/shareowner_detail.html:35
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:39
-#: coop/templates/coop/draftuser_detail.html:32 coop/templates/coop/draftuser_list.html:22
-#: coop/templates/coop/shareowner_detail.html:39
+#: accounts/templates/accounts/user_detail.html:39 coop/templates/coop/draftuser_detail.html:32
+#: coop/templates/coop/draftuser_list.html:22 coop/templates/coop/shareowner_detail.html:39
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
 #: accounts/templates/accounts/user_detail.html:48
 #: accounts/templates/accounts/user_detail.html:58
-#: accounts/templates/accounts/user_detail.html:68
-#: coop/templates/coop/draftuser_detail.html:54 coop/templates/coop/shareowner_detail.html:52
-#: coop/templates/coop/shareowner_detail.html:62
+#: accounts/templates/accounts/user_detail.html:68 coop/templates/coop/draftuser_detail.html:54
+#: coop/templates/coop/shareowner_detail.html:52 coop/templates/coop/shareowner_detail.html:62
 #: shifts/templates/shifts/user_shifts_overview_tag.html:60
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:63
-#: coop/templates/coop/draftuser_detail.html:49 coop/templates/coop/shareowner_detail.html:57
+#: accounts/templates/accounts/user_detail.html:63 coop/templates/coop/draftuser_detail.html:49
+#: coop/templates/coop/shareowner_detail.html:57
 msgid "Address"
 msgstr "Adresse"
 
@@ -229,8 +224,8 @@ msgstr "Nutzer*innen"
 #: coop/templates/coop/draftuser_form.html:40
 #: coop/templates/coop/draftuser_register_form.html:51
 #: coop/templates/coop/financingcampaign_form.html:21
-#: coop/templates/coop/shareowner_form.html:21
-#: coop/templates/coop/shareownership_form.html:29 shifts/templates/shifts/shift_form.html:25
+#: coop/templates/coop/shareowner_form.html:21 coop/templates/coop/shareownership_form.html:29
+#: shifts/templates/shifts/shift_form.html:25
 #: shifts/templates/shifts/shiftaccountentry_form.html:21
 #: shifts/templates/shifts/shiftattendance_form.html:26
 #: shifts/templates/shifts/shiftexemption_form.html:22
@@ -264,8 +259,8 @@ msgstr ""
 "    <p>\n"
 "        Jemand hat nach einem Passwort-Reset gefragt für %(email)s.<br/>\n"
 "        Deine Benutzername ist %(username)s <br/>\n"
-"        Folge diesem Link um dein Passwort zurückzusetzen: <a href=\"%(protocol)s://"
-"%(domain)s%(password_reset_url)s\">%(protocol)s://%(domain)s%(password_reset_url)s</a>\n"
+"        Folge diesem Link um dein Passwort zurückzusetzen: <a href=\"%(protocol)s://%(domain)s"
+"%(password_reset_url)s\">%(protocol)s://%(domain)s%(password_reset_url)s</a>\n"
 "    </p>\n"
 "\n"
 "    <p>\n"
@@ -283,8 +278,7 @@ msgstr ""
 "\n"
 "Supercoop Passwort zurücksetzen\n"
 
-#: accounts/templates/registration/login.html:16
-#: accounts/templates/registration/login.html:25
+#: accounts/templates/registration/login.html:16 accounts/templates/registration/login.html:25
 msgid "Sign in"
 msgstr "Einloggen"
 
@@ -331,14 +325,14 @@ msgstr "Anleitung zum Passwort zurücksetzen wurde gesendet."
 
 #: accounts/templates/registration/password_reset_done.html:11
 msgid ""
-"We've emailed you instructions for setting your password, if an account exists with the "
-"email you entered. You should receive them shortly. If you don't receive an email, please "
-"make sure you've entered the address you registered with, and check your spam folder."
+"We've emailed you instructions for setting your password, if an account exists with the email "
+"you entered. You should receive them shortly. If you don't receive an email, please make sure "
+"you've entered the address you registered with, and check your spam folder."
 msgstr ""
 "Wir haben dir eine Anleitung geschickt, wie du ein neues Passwort für dein Konto festlegen "
 "kannst. Du solltest sie in Kürze erhalten. Wenn nicht, dann prüfe bitte, ob du auch die E-"
-"Mail-Adresse angegeben hast, mit der du dich registriert hast, und schau auch in deinem "
-"Spam-Ordner nach."
+"Mail-Adresse angegeben hast, mit der du dich registriert hast, und schau auch in deinem Spam-"
+"Ordner nach."
 
 #: accounts/templates/registration/password_reset_form.html:11
 msgid "Problems with logging in?"
@@ -369,92 +363,105 @@ msgstr ""
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: coop/forms.py:66 coop/views/shareowner.py:222
+#: coop/forms.py:68 coop/views/shareowner.py:223
 msgid "Welcome at SuperCoop eG!"
 msgstr "Willkommen in der SuperCoop eG!"
 
-#: coop/models.py:43
+#: coop/models.py:42
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:49 coop/models.py:232 coop/templates/coop/draftuser_list.html:20
+#: coop/models.py:48 coop/models.py:253 coop/templates/coop/draftuser_list.html:20
 msgid "First name"
 msgstr "Vorname"
 
-#: coop/models.py:50 coop/models.py:233 coop/templates/coop/draftuser_list.html:21
+#: coop/models.py:49 coop/models.py:254 coop/templates/coop/draftuser_list.html:21
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:51 coop/models.py:234
+#: coop/models.py:50 coop/models.py:255
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: coop/models.py:68
+#: coop/models.py:67
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:70 coop/models.py:264 coop/templates/coop/draftuser_detail.html:71
+#: coop/models.py:69 coop/models.py:286 coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:39
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:79
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:72 coop/models.py:257
+#: coop/models.py:71 coop/models.py:278
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:74 coop/models.py:262
+#: coop/models.py:73 coop/models.py:283 coop/templates/coop/draftuser_detail.html:127
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:74
 msgid "Paid Membership Fee"
 msgstr "Mitgliedsgebühr bezahlt"
 
-#: coop/models.py:76
+#: coop/models.py:75
 msgid "Is willing to gift a share"
 msgstr "Ist bereit Anteile zu verschenken"
 
-#: coop/models.py:126
+#: coop/models.py:125
 msgid "Cannot be a company and have a Tapir account"
 msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
-#: coop/models.py:142
+#: coop/models.py:141
 msgid "User info should be stored in associated Tapir account"
 msgstr ""
 
-#: coop/models.py:198 coop/templates/coop/user_coop_share_ownership_list_tag.html:103
+#: coop/models.py:197 coop/templates/coop/user_coop_share_ownership_list_tag.html:110
 msgid "Sold"
 msgstr "Verkauft"
 
-#: coop/models.py:199 coop/templates/coop/draftuser_detail.html:63
+#: coop/models.py:198 coop/templates/coop/draftuser_detail.html:63
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:26
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:101
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:200 coop/templates/coop/draftuser_detail.html:65
+#: coop/models.py:199 coop/templates/coop/draftuser_detail.html:65
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:29
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:99
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:250
+#: coop/models.py:238
+msgid "Amount paid for a share can't be negative"
+msgstr ""
+
+#: coop/models.py:242
+#, python-brace-format
+msgid "Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
+msgstr ""
+
+#: coop/models.py:271
 msgid "Number of Shares"
 msgstr "Anzahl an Anteilen"
 
-#: coop/models.py:253
+#: coop/models.py:274
 msgid "Investing member"
 msgstr "Investierende Mitglieder"
 
-#: coop/models.py:260
+#: coop/models.py:281
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:297
+#: coop/models.py:284 coop/templates/coop/draftuser_detail.html:133
+msgid "Paid Shares"
+msgstr "Anteil(e) bezahlt"
+
+#: coop/models.py:319
 msgid "Currently active"
 msgstr ""
 
-#: coop/models.py:299
+#: coop/models.py:321
 msgid "Goal"
-msgstr ""
+msgstr "Ziel"
 
-#: coop/models.py:305
+#: coop/models.py:327
 msgid "Raised amount"
 msgstr ""
 
@@ -476,8 +483,7 @@ msgid "Create account"
 msgstr "Konto erstellen"
 
 #: coop/templates/coop/draftuser_detail.html:12 coop/templates/coop/draftuser_form.html:18
-#: coop/templates/coop/draftuser_list.html:8
-#: coop/templates/coop/draftuser_register_form.html:18
+#: coop/templates/coop/draftuser_list.html:8 coop/templates/coop/draftuser_register_form.html:18
 #: coop/templates/coop/statistics.html:169 templates/base.html:92
 msgid "Applicants"
 msgstr "Bewerber*innen"
@@ -486,42 +492,35 @@ msgstr "Bewerber*innen"
 msgid "Member Type"
 msgstr "Art der Mitgliedschaft"
 
-#: coop/templates/coop/draftuser_detail.html:76
+#: coop/templates/coop/draftuser_detail.html:77
 msgid "Shares requested"
 msgstr "Angeforderte Anteile"
 
-#: coop/templates/coop/draftuser_detail.html:80
+#: coop/templates/coop/draftuser_detail.html:81
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:45
 msgid "Welcome Session"
 msgstr "Willkommenstreffen"
 
-#: coop/templates/coop/draftuser_detail.html:98 coop/templates/coop/draftuser_list.html:23
+#: coop/templates/coop/draftuser_detail.html:99 coop/templates/coop/draftuser_list.html:23
 msgid "Beteiligungserklärung"
 msgstr "Beteiligungserklärung"
 
-#: coop/templates/coop/draftuser_detail.html:124 coop/templates/coop/draftuser_list.html:24
-msgid "Payment"
-msgstr "Bezahlung"
-
-#: coop/templates/coop/draftuser_detail.html:129 coop/templates/coop/draftuser_list.html:39
-msgid "Paid"
-msgstr "Bezahlt"
-
-#: coop/templates/coop/draftuser_detail.html:131
-msgid "Open"
-msgstr "Offen"
-
-#: coop/templates/coop/draftuser_detail.html:139
-msgid "Register Payment"
-msgstr "Als bezahlt markieren"
-
-#: coop/templates/coop/draftuser_detail.html:164
+#: coop/templates/coop/draftuser_detail.html:160
 msgid "Create Member"
 msgstr "Mitglied anlegen"
+
+#: coop/templates/coop/draftuser_list.html:24
+msgid "Payment"
+msgstr "Bezahlung"
 
 #: coop/templates/coop/draftuser_list.html:34
 msgid "Signed"
 msgstr "Unterschrieben"
+
+#: coop/templates/coop/draftuser_list.html:39
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:105
+msgid "Paid"
+msgstr "Bezahlt"
 
 #: coop/templates/coop/financingcampaign_form.html:12
 msgid "Edit financing campaign"
@@ -534,8 +533,8 @@ msgstr ""
 #: coop/templates/coop/matching_program.html:21
 msgid ""
 "\n"
-"                    The members in this list have expressed that they are willing to pay "
-"the share for a potential new member that otherwise couldn't afford it.\n"
+"                    The members in this list have expressed that they are willing to pay the "
+"share for a potential new member that otherwise couldn't afford it.\n"
 "                "
 msgstr ""
 
@@ -555,11 +554,11 @@ msgstr "Genossenschaftsmitglieder"
 msgid "Export"
 msgstr "Exportieren"
 
-#: coop/templates/coop/shareowner_list.html:41
+#: coop/templates/coop/shareowner_list.html:43
 msgid "Clear all filters"
 msgstr "Alle Filter entfernen"
 
-#: coop/templates/coop/shareowner_list.html:44
+#: coop/templates/coop/shareowner_list.html:46
 #, python-format
 msgid ""
 "\n"
@@ -616,8 +615,8 @@ msgstr "Mitglied #%(coop_share_owner_id)s"
 msgid "Membership confirmation"
 msgstr "Mitgliedsbestätigung"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:23
-#: coop/views/shareowner.py:372 shifts/templates/shifts/user_shifts_overview_tag.html:17
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:23 coop/views/shareowner.py:373
+#: shifts/templates/shifts/user_shifts_overview_tag.html:17
 msgid "Status"
 msgstr "Status"
 
@@ -627,7 +626,7 @@ msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:48 shifts/models.py:774
 #: shifts/templates/shifts/shift_day_printable.html:56
-#: shifts/templates/shifts/shift_detail.html:178
+#: shifts/templates/shifts/shift_detail.html:203
 #: shifts/templates/shifts/shift_detail_printable.html:48
 msgid "Attended"
 msgstr "Teilgenommen"
@@ -644,46 +643,46 @@ msgstr "Als teilgenommen markieren"
 msgid "Owned shares"
 msgstr "Anteile"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:74
-msgid "Has paid"
-msgstr "Hat bezahlt"
-
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:79
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:84
 msgid "Willing to gift a share"
 msgstr ""
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:122
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:107
+msgid "Waiting payment"
+msgstr "Bezahlung ausstehend"
+
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:129
 msgid "Delete"
 msgstr "Löschen"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:124
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:131
 msgid ""
 "\n"
-"                                                        Only use this to correct mistakes, "
-"i.e. if the share was erroneously\n"
+"                                                        Only use this to correct mistakes, i."
+"e. if the share was erroneously\n"
 "                                                        entered into the system and the "
 "person never actually\n"
-"                                                        bought it. If the person simply "
-"sold their share back to the\n"
-"                                                        coop, please mark the share as "
-"sold instead.\n"
+"                                                        bought it. If the person simply sold "
+"their share back to the\n"
+"                                                        coop, please mark the share as sold "
+"instead.\n"
 "                                                    "
 msgstr ""
 "\n"
 "Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil eingetragen "
-"wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop "
-"zurückverkauft hat, markiere den Anteil bitte als 'verkauft'.\n"
+"wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop zurückverkauft "
+"hat, markiere den Anteil bitte als 'verkauft'.\n"
 " "
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:145
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:152
 msgid "Add Share"
 msgstr "Anteil hinzufügen"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:155
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:162
 msgid "Send membership confirmation email"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:161
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:168
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
@@ -710,8 +709,8 @@ msgstr "%(name)s hat ein negatives Schicht-Score. Kontaktiere eine Person aus de
 #: coop/templates/coop/welcome_desk_share_owner.html:40
 #, python-format
 msgid ""
-"%(name)s is an investing member. If they want to shop, they have to become an active "
-"member. Contact a member of the management team."
+"%(name)s is an investing member. If they want to shop, they have to become an active member. "
+"Contact a member of the management team."
 msgstr ""
 "%(name)s ist ein investierendes Mitglied. Um einkaufen zu könne, müssen sie ein aktiv "
 "Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
@@ -724,38 +723,37 @@ msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Er/Sie soll es plane
 #: coop/templates/coop/welcome_desk_share_owner.html:51
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
-msgstr ""
-"%(name)s hat an das Willkommenstreffen noch nicht teilgenommen. Er/Sie soll es planen!"
+msgstr "%(name)s hat an das Willkommenstreffen noch nicht teilgenommen. Er/Sie soll es planen!"
 
-#: coop/views/shareowner.py:373 shifts/templates/shifts/shift_filters.html:21
+#: coop/views/shareowner.py:374 shifts/templates/shifts/shift_filters.html:27
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:378 shifts/templates/shifts/user_shifts_overview_tag.html:107
+#: coop/views/shareowner.py:379 shifts/templates/shifts/user_shifts_overview_tag.html:107
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:386
+#: coop/views/shareowner.py:387
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Befähigung erfordert"
 
-#: coop/views/shareowner.py:394
+#: coop/views/shareowner.py:395
 msgid "Has qualification"
 msgstr "Hat Befähigung"
 
-#: coop/views/shareowner.py:402
+#: coop/views/shareowner.py:403
 msgid "Does not have qualification"
 msgstr "Hat die Befähigung nicht"
 
-#: coop/views/shareowner.py:412
+#: coop/views/shareowner.py:413
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:416 coop/views/shareowner.py:605
+#: coop/views/shareowner.py:420 coop/views/shareowner.py:621
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:558
+#: coop/views/shareowner.py:574
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
@@ -778,11 +776,11 @@ msgstr "Notiz hinzufügen"
 
 #: shifts/forms.py:50
 msgid ""
-"I have read the warning about the missing qualification and confirm that the user should "
-"get registered to the shift"
+"I have read the warning about the missing qualification and confirm that the user should get "
+"registered to the shift"
 msgstr ""
-"Ich habe die Warnung über die fehlende Befähigung gelesen und bestätige, dass Benutzer*in "
-"für die Schicht registriert werden sollte"
+"Ich habe die Warnung über die fehlende Befähigung gelesen und bestätige, dass Benutzer*in für "
+"die Schicht registriert werden sollte"
 
 #: shifts/forms.py:74
 #, python-brace-format
@@ -808,26 +806,24 @@ msgstr "Befähigungen"
 
 #: shifts/forms.py:198
 msgid ""
-"I have read the warning about the cancelled attendances and confirm that the exemption "
-"should be created"
+"I have read the warning about the cancelled attendances and confirm that the exemption should "
+"be created"
 msgstr ""
 
 #: shifts/forms.py:205
 msgid ""
-"I have read the warning about the cancelled ABCD attendances and confirm that the "
-"exemption should be created "
+"I have read the warning about the cancelled ABCD attendances and confirm that the exemption "
+"should be created "
 msgstr ""
 
 #: shifts/forms.py:237
 msgid ""
-"The user will be unregistered from the following shifts because they are within the range "
-"of "
+"The user will be unregistered from the following shifts because they are within the range of "
 msgstr ""
 
 #: shifts/forms.py:265
 msgid ""
-"The user will be unregistered from the following ABCD shifts because the exemption is "
-"longer"
+"The user will be unregistered from the following ABCD shifts because the exemption is longer"
 msgstr ""
 
 #: shifts/models.py:33
@@ -887,22 +883,23 @@ msgid "You found a stand-in!"
 msgstr "Vertretung gefunden!"
 
 #: shifts/models.py:775 shifts/templates/shifts/shift_day_printable.html:57
-#: shifts/templates/shifts/shift_detail.html:187
+#: shifts/templates/shifts/shift_detail.html:213
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Missed"
 msgstr "Nicht erschienen"
 
 #: shifts/models.py:776 shifts/templates/shifts/shift_day_printable.html:58
-#: shifts/templates/shifts/shift_detail.html:213
+#: shifts/templates/shifts/shift_detail.html:243
 #: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:777 shifts/templates/shifts/shift_detail.html:221
+#: shifts/models.py:777 shifts/templates/shifts/shift_detail.html:251
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:778 shifts/templates/shifts/shift_detail.html:207
+#: shifts/models.py:778 shifts/templates/shifts/shift_detail.html:235
+#: shifts/templates/shifts/shift_filters.html:55
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
@@ -928,7 +925,7 @@ msgstr "Deine nächste SuperCoop Schicht: %(shift)s"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: shifts/models.py:952
+#: shifts/models.py:968
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -941,18 +938,17 @@ msgid ""
 "    <p>This is an automated email from SuperCoop.</p>\n"
 "\n"
 "    <p>\n"
-"        It has been registered in the Tapir system that you didn't attend the following "
-"shift which you had registered for:\n"
+"        It has been registered in the Tapir system that you didn't attend the following shift "
+"which you had registered for:\n"
 "        %(shift_display_name)s <br/>\n"
 "        If it's a mistake, or you think that you should be excused from this shift, please "
 "contact the member office: mitglied@supercoop.de .<br/>\n"
-"        As stated in the Member Manual, a missed shift must be compensated for by "
-"completing 2 make-up shifts within four weeks of your missed shift. You can schedule your "
-"make-up shifts directly on <a href=\"https://members.supercoop.de/shifts/timetable"
-"\">Tapir</a>.<br/>\n"
-"        Please keep in mind that if you do not complete your make-up shifts your shopping "
-"and voting rights will be suspended. For more information please see the <a href=\"https://"
-"docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h."
+"        As stated in the Member Manual, a missed shift must be compensated for by completing "
+"2 make-up shifts within four weeks of your missed shift. You can schedule your make-up shifts "
+"directly on <a href=\"https://members.supercoop.de/shifts/timetable\">Tapir</a>.<br/>\n"
+"        Please keep in mind that if you do not complete your make-up shifts your shopping and "
+"voting rights will be suspended. For more information please see the <a href=\"https://docs."
+"google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h."
 "lk042ux0tm9c.\">Member Manual</a>\n"
 "        (Section III.F).\n"
 "    </p>\n"
@@ -965,18 +961,18 @@ msgstr ""
 "    <p>Dies ist eine automatische E-Mail von der SuperCoop.</p>\n"
 "\n"
 "    <p>\n"
-"       Es ist gerade im Tapir-System eingetragen worden, dass du an folgender Schicht "
-"nicht teilgenommen hast, obwohl du angemeldet warst :\n"
+"       Es ist gerade im Tapir-System eingetragen worden, dass du an folgender Schicht nicht "
+"teilgenommen hast, obwohl du angemeldet warst :\n"
 "        %(shift_display_name)s <br/>\n"
 "        Wenn dies ein Fehler ist, oder du für di Schicht entschuldigt sein solltest, "
 "kontaktiere bitte das Mitgliederbüro: mitglied@supercoop.de .<br/>\n"
 "        Im Mitgliederhandbuch steht: Wenn ein Mitglied eine Schicht versäumt, muss das "
 "Mitglied innerhalb von vier Wochen nach der versäumten Schicht an zwei Nachholschichten "
-"teilnehmen, um sie auszugleichen. Du kannst dich für die Nachholschichten selbst in <a "
-"href=\"https://members.supercoop.de/shifts/timetable\">Tapir</a> eintragen.<br/>\n"
-"        Wenn du deine Nachholschichten nicht machst, können deine Einkaufs- und Wahl-"
-"Rechte ausgesetzt werden. Für mehr Information siehe <a href=\"https://docs.google.com/"
-"document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.594fbvgmke0z"
+"teilnehmen, um sie auszugleichen. Du kannst dich für die Nachholschichten selbst in <a href="
+"\"https://members.supercoop.de/shifts/timetable\">Tapir</a> eintragen.<br/>\n"
+"        Wenn du deine Nachholschichten nicht machst, können deine Einkaufs- und Wahl-Rechte "
+"ausgesetzt werden. Für mehr Information siehe <a href=\"https://docs.google.com/document/"
+"d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.594fbvgmke0z"
 "\">Mitgliederhandbuch</a> III.F\n"
 "    </p>\n"
 "\n"
@@ -1010,20 +1006,19 @@ msgid ""
 "Since this is your first shift, remember to arrive 20 minutes before the beginning of the "
 "shift in order to get the instructions you need."
 msgstr ""
-"Weil es deine erste Schicht ist, komm bitte 20 Minuten vor der Schicht an um die "
-"Erklärungen zu bekommen."
+"Weil es deine erste Schicht ist, komm bitte 20 Minuten vor der Schicht an um die Erklärungen "
+"zu bekommen."
 
 #: shifts/templates/shifts/email/shift_reminder.html:22
 msgid ""
 "\n"
-"    <p>In case you can't attend the shift, contact the teamleader as soon as possible.</"
-"p>\n"
+"    <p>In case you can't attend the shift, contact the teamleader as soon as possible.</p>\n"
 "\n"
 "    <p>Cooperatively yours,</p>\n"
 msgstr ""
 "\n"
-"    <p>Wenn du an der Schicht nicht teilnehmen kannst, kontaktiere bitte schnellstmöglich "
-"die Teamleitung.</p>\n"
+"    <p>Wenn du an der Schicht nicht teilnehmen kannst, kontaktiere bitte schnellstmöglich die "
+"Teamleitung.</p>\n"
 "\n"
 "    <p>Kooperative Grüße,</p>\n"
 
@@ -1036,13 +1031,13 @@ msgid ""
 "    <p>This is an automated email from SuperCoop.</p>\n"
 "\n"
 "    <p>\n"
-"        You were looking for a stand-in for the following shift: %(shift_display_name)s."
-"<br/>\n"
+"        You were looking for a stand-in for the following shift: %(shift_display_name)s.<br/"
+">\n"
 "        Another member has taken over your slot for that shift.\n"
 "    </p>\n"
 "\n"
-"    <p>If you haven't done so already, don't forget to attend another shift to compensate "
-"for the one you will miss!</p>\n"
+"    <p>If you haven't done so already, don't forget to attend another shift to compensate for "
+"the one you will miss!</p>\n"
 "\n"
 "    <p>Cooperatively yours,</p>\n"
 msgstr ""
@@ -1052,8 +1047,8 @@ msgstr ""
 "    <p>Dies ist eine automatische E-Mail von der SuperCoop.</p>\n"
 "\n"
 "    <p>\n"
-"        Du hattest nach Vertretung gesucht für die folgende Schicht: "
-"%(shift_display_name)s.<br/>\n"
+"        Du hattest nach Vertretung gesucht für die folgende Schicht: %(shift_display_name)s."
+"<br/>\n"
 "        Ein anderes Mitglied hat diese jetzt übernommen.\n"
 "    </p>\n"
 "\n"
@@ -1094,20 +1089,20 @@ msgstr "Schicht-Kalender"
 #, python-format
 msgid ""
 "\n"
-"        <p>Below you can find all the upcoming shifts, and who is registered for each "
-"shift.</p>\n"
-"        <p>You can sign yourself up for any shift that has a free slot here on TAPIR. You "
-"may also cancel it yourself if done at least %(nb_days_for_self_unregister)s days before "
-"the shift.<br/>\n"
+"        <p>Below you can find all the upcoming shifts, and who is registered for each shift.</"
+"p>\n"
+"        <p>You can sign yourself up for any shift that has a free slot here on TAPIR. You may "
+"also cancel it yourself if done at least %(nb_days_for_self_unregister)s days before the "
+"shift.<br/>\n"
 "            When you sign up for one of these shifts, you only commit to the shift on that "
 "specific day.</p>\n"
 "        <p>To register for a regular ABCD shift you must contact the Member Office.</p>\n"
 "    "
 msgstr ""
 "\n"
-"<p>Unten findest du alle anstehenden Schichten und wer für die einzelnen Schichten "
-"angemeldet ist.</p></p> Du kannst dich für jede Schicht, die einen freien Platz hat, hier "
-"auf TAPIR anmelden. Du kannst dich auch selbst abmelden, wenn du dies mindestens "
+"<p>Unten findest du alle anstehenden Schichten und wer für die einzelnen Schichten angemeldet "
+"ist.</p></p> Du kannst dich für jede Schicht, die einen freien Platz hat, hier auf TAPIR "
+"anmelden. Du kannst dich auch selbst abmelden, wenn du dies mindestens "
 "%(nb_days_for_self_unregister)s Tage vor der Schicht tust. </p></p>Wenn du dich für eine "
 "dieser Schichten anmeldest, verpflichtest du dich nur für die Schicht an diesem bestimmten "
 "Tag.</p><p> Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das Mitgliederbüro "
@@ -1117,18 +1112,14 @@ msgstr ""
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/templates/shifts/shift_calendar_template.html:26
-msgid "Filters"
-msgstr "Filter"
-
-#: shifts/templates/shifts/shift_calendar_template.html:35
+#: shifts/templates/shifts/shift_calendar_template.html:32
 #: shifts/templates/shifts/shift_template_group_calendar.html:16
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_calendar_template.html:35
+#: shifts/templates/shifts/shift_calendar_template.html:33
 #: shifts/templates/shifts/shift_template_group_calendar.html:16
-#: shifts/templates/shifts/shift_template_overview.html:41
+#: shifts/templates/shifts/shift_template_overview.html:38
 msgid "Week "
 msgstr "Woche "
 
@@ -1143,8 +1134,6 @@ msgid "Member"
 msgstr "Mitglied"
 
 #: shifts/templates/shifts/shift_day_printable.html:66
-#: shifts/templates/shifts/shift_detail.html:56
-#: shifts/templates/shifts/shift_detail_printable.html:58
 #: shifts/templates/shifts/shift_template_detail.html:44
 msgid "optional"
 msgstr "optional"
@@ -1159,152 +1148,203 @@ msgstr "Erforderliche Befähigung: "
 msgid "Has qualifications: "
 msgstr "Hat Befähigungen: "
 
-#: shifts/templates/shifts/shift_detail.html:15
+#: shifts/templates/shifts/shift_detail.html:31
 msgid "Get printable version"
 msgstr "Druckversion erhalten"
 
-#: shifts/templates/shifts/shift_detail.html:25
+#: shifts/templates/shifts/shift_detail.html:41
 msgid "Generated from"
 msgstr "Erzeugt von"
 
-#: shifts/templates/shifts/shift_detail.html:42
+#: shifts/templates/shifts/shift_detail.html:58
 #: shifts/templates/shifts/shift_template_detail.html:32
 msgid "Details"
 msgstr "Details"
 
-#: shifts/templates/shifts/shift_detail.html:43
+#: shifts/templates/shifts/shift_detail.html:59
 #: shifts/templates/shifts/shift_template_detail.html:33
 msgid "Registered user"
 msgstr "Angemeldete*r Nutzer*in"
 
-#: shifts/templates/shifts/shift_detail.html:44
+#: shifts/templates/shifts/shift_detail.html:60
 msgid "Attendance"
 msgstr "Anwesenheit"
 
-#: shifts/templates/shifts/shift_detail.html:45
+#: shifts/templates/shifts/shift_detail.html:61
 msgid "Actions"
 msgstr "Aktionen"
 
-#: shifts/templates/shifts/shift_detail.html:47
+#: shifts/templates/shifts/shift_detail.html:63
 msgid "Member-Office actions"
 msgstr "Mitgliederbüro Aktionen"
 
-#: shifts/templates/shifts/shift_detail.html:48
+#: shifts/templates/shifts/shift_detail.html:64
 msgid "Previous attendances"
 msgstr "Vorherige Anwesenheiten"
 
-#: shifts/templates/shifts/shift_detail.html:70
+#: shifts/templates/shifts/shift_detail.html:86
 msgid "since"
 msgstr ""
 
-#: shifts/templates/shifts/shift_detail.html:74
+#: shifts/templates/shifts/shift_detail.html:90
 msgid "Vacant"
 msgstr "Frei"
 
-#: shifts/templates/shifts/shift_detail.html:85
+#: shifts/templates/shifts/shift_detail.html:102
 msgid "Cancels the search for a stand-in. Use this if you want to attend the shift."
 msgstr ""
 "Beendet die Suche nach Vertretung. Benutze dies, wenn du die Schicht wahrnehmen möchtest."
 
-#: shifts/templates/shifts/shift_detail.html:87
+#: shifts/templates/shifts/shift_detail.html:104
 msgid "Cancel look for a stand-in"
 msgstr "Beende die Suche nach Vertretung"
 
-#: shifts/templates/shifts/shift_detail.html:95
-#, python-format
+#: shifts/templates/shifts/shift_detail.html:112
+#, fuzzy, python-format
+#| msgid ""
+#| "You can only look for a stand-in\n"
+#| "                                                    %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s "
+#| "days before the shift. If you can't\n"
+#| "                                                    attend, contact your shift leader as "
+#| "soon as\n"
+#| "                                                    possible."
 msgid ""
-"You can only look for a stand-in\n"
+"You can only look for a\n"
+"                                                    stand-in\n"
 "                                                    %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s "
-"days before the shift. If you can't\n"
-"                                                    attend, contact your shift leader as "
-"soon as\n"
+"days before the shift. If\n"
+"                                                    you can't\n"
+"                                                    attend, contact your shift leader as soon "
+"as\n"
 "                                                    possible."
 msgstr ""
 "Du kannst nur bis %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s Tage vor der Schicht nach einer "
 "Vertretung suchen. Wenn du die Schicht nicht wahrnehmen kannst, wende dich bitte "
 "schnellstmöglich an die Teamleitung."
 
-#: shifts/templates/shifts/shift_detail.html:105
+#: shifts/templates/shifts/shift_detail.html:125
 msgid "Look for a stand-in"
 msgstr "Suche nach Vertretung"
 
-#: shifts/templates/shifts/shift_detail.html:115
-#, python-format
+#: shifts/templates/shifts/shift_detail.html:135
+#, fuzzy, python-format
+#| msgid ""
+#| "You can only unregister\n"
+#| "                                                yourself\n"
+#| "                                                %(NB_DAYS_FOR_SELF_UNREGISTER)s days "
+#| "before the shift. Also, ABCD-Shifts\n"
+#| "                                                can't be unregistered from. If you can't\n"
+#| "                                                attend, look for a stand-in or contact "
+#| "your shift leader as soon as\n"
+#| "                                                possible."
 msgid ""
 "You can only unregister\n"
 "                                                yourself\n"
-"                                                %(NB_DAYS_FOR_SELF_UNREGISTER)s days "
-"before the shift. Also, ABCD-Shifts\n"
+"                                                %(NB_DAYS_FOR_SELF_UNREGISTER)s days before "
+"the shift. Also,\n"
+"                                                ABCD-Shifts\n"
 "                                                can't be unregistered from. If you can't\n"
-"                                                attend, look for a stand-in or contact "
-"your shift leader as soon as\n"
+"                                                attend, look for a stand-in or contact your "
+"shift leader as soon as\n"
 "                                                possible."
 msgstr ""
-"Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner Schicht abmelden. "
-"Von ABCD-Schichten kannst du dich überhaupt nicht abmelden. Wenn du die Schicht nicht "
-"wahrnehmen kannst, suche bitte eine Vertretung oder melde dich schnellstmöglich bei deiner "
-"Teamleitung."
+"Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner Schicht abmelden. Von "
+"ABCD-Schichten kannst du dich überhaupt nicht abmelden. Wenn du die Schicht nicht wahrnehmen "
+"kannst, suche bitte eine Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung."
 
-#: shifts/templates/shifts/shift_detail.html:127
+#: shifts/templates/shifts/shift_detail.html:149
 msgid "Unregister myself"
 msgstr "Melde mich ab"
 
-#: shifts/templates/shifts/shift_detail.html:136
+#: shifts/templates/shifts/shift_detail.html:158
+#, fuzzy
+#| msgid ""
+#| "You can only register yourself\n"
+#| "                                                for a shift if :<br/>\n"
+#| "                                                -You are not registered to another slot in "
+#| "that shift<br/>\n"
+#| "                                                -You have the required qualification (if "
+#| "you want to get a qualification, contact the member office)<br/>\n"
+#| "                                                -The shift is in the future<br/>\n"
+#| "                                            "
 msgid ""
-"You can only register yourself\n"
+"You can only register\n"
+"                                                yourself\n"
 "                                                for a shift if :<br/>\n"
 "                                                -You are not registered to another slot in "
 "that shift<br/>\n"
-"                                                -You have the required qualification (if "
-"you want to get a qualification, contact the member office)<br/>\n"
+"                                                -You have the required qualification (if you "
+"want to get a\n"
+"                                                qualification, contact the member office)<br/"
+">\n"
 "                                                -The shift is in the future<br/>\n"
 "                                            "
 msgstr ""
 "Du kannst dich nur für eine Schicht anmelden, wenn\n"
 "- du keinen anderen Platz in derselben Schicht gebucht hast\n"
-"- du das erforderliche Training gemacht hast (wenn du ein Training möchtest, wende dich "
-"bitte ans Mitgliederbüro\n"
+"- du das erforderliche Training gemacht hast (wenn du ein Training möchtest, wende dich bitte "
+"ans Mitgliederbüro\n"
 "- die Schicht in der Zukunft liegt\n"
 " "
 
-#: shifts/templates/shifts/shift_detail.html:147
+#: shifts/templates/shifts/shift_detail.html:172
 msgid "Register myself"
 msgstr "Melde mich an"
 
-#: shifts/templates/shifts/shift_detail.html:164
+#: shifts/templates/shifts/shift_detail.html:189
 msgid "Register a member"
 msgstr "Melde ein Mitglied an"
 
-#: shifts/templates/shifts/shift_detail.html:197
+#: shifts/templates/shifts/shift_detail.html:224
 msgid "Cancel looking for a stand-in"
 msgstr "Beende die Suche nach Vertretung"
 
 #: shifts/templates/shifts/shift_filters.html:4
+msgid "Filters"
+msgstr "Filter"
+
+#: shifts/templates/shifts/shift_filters.html:6
 msgid "Use the buttons below to filter the shifts that are relevant to you."
 msgstr "Bitte wähle unten den gewünschten Filter für dich aus."
 
-#: shifts/templates/shifts/shift_filters.html:8
+#: shifts/templates/shifts/shift_filters.html:11
 msgid "No filter"
 msgstr "Kein Filter"
 
-#: shifts/templates/shifts/shift_filters.html:11
+#: shifts/templates/shifts/shift_filters.html:15
 msgid "Has a free slot"
 msgstr "Hat einen freien Platz"
 
-#: shifts/templates/shifts/shift_filters.html:14
+#: shifts/templates/shifts/shift_filters.html:19
 msgid "Most help needed"
 msgstr "Hilfe am meisten gebraucht"
 
-#: shifts/templates/shifts/shift_filters.html:32
-#: shifts/templates/shifts/shift_template_overview.html:29
+#: shifts/templates/shifts/shift_filters.html:39
 msgid "Legend"
 msgstr "Legende"
 
-#: shifts/templates/shifts/shift_filters.html:35
-#: shifts/templates/shifts/shift_template_overview.html:32
+#: shifts/templates/shifts/shift_filters.html:45
 msgctxt "Filters"
 msgid "Other shifts"
 msgstr "Andere Schichten"
+
+#: shifts/templates/shifts/shift_filters.html:49
+#, fuzzy
+#| msgid "Any free slot"
+msgid "Free slot"
+msgstr "Hat einen freien Platz"
+
+#: shifts/templates/shifts/shift_filters.html:51
+#, fuzzy
+#| msgid "Attendance"
+msgid "ABCD attendance"
+msgstr "Anwesenheit"
+
+#: shifts/templates/shifts/shift_filters.html:53
+#, fuzzy
+#| msgid "Attendance"
+msgid "Flying attendance"
+msgstr "Anwesenheit"
 
 #: shifts/templates/shifts/shift_template_detail.html:34
 #: shifts/templates/shifts/user_shifts_overview_tag.html:6
@@ -1317,8 +1357,7 @@ msgid "Unregister"
 msgstr "Abmelden"
 
 #: shifts/templates/shifts/shift_template_detail.html:80
-#: shifts/templates/shifts/slot_register.html:23
-#: shifts/templates/shifts/slot_register.html:39
+#: shifts/templates/shifts/slot_register.html:23 shifts/templates/shifts/slot_register.html:39
 #: shifts/templates/shifts/slot_template_register.html:23
 #: shifts/templates/shifts/slot_template_register.html:39
 msgid "Register"
@@ -1340,26 +1379,37 @@ msgstr "ABCD-Wochenkalender"
 msgid "Download the calendar as a file."
 msgstr "Kalender als Dokument herunterladen."
 
-#: shifts/templates/shifts/shift_template_overview.html:18
+#: shifts/templates/shifts/shift_template_overview.html:19
 msgid "ABCD schedule overview, current week: "
 msgstr "ABCD-Zeitplan Übersicht, laufende Woche: "
 
 #: shifts/templates/shifts/shift_template_overview.html:22
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                    <p>This is the ABCD shiftplan. It repeats every four weeks. That's why "
+#| "you see only weekdays (Monday, Tuesday...) and the week (A,B,C or D), instead of specific "
+#| "dates (e.g. 23.8.2021). To see the date of your next shift, please go to your profile.</"
+#| "p>\n"
+#| "                    <p>If you would like to change your regular ABCD shift, please contact "
+#| "the Member Office.</p>\n"
+#| "                "
 msgid ""
 "\n"
 "                    <p>This is the ABCD shiftplan. It repeats every four weeks. That's why "
-"you see only weekdays (Monday, Tuesday...) and the week (A,B,C or D), instead of specific "
-"dates (e.g. 23.8.2021). To see the date of your next shift, please go to your profile.</"
-"p>\n"
+"you see only weekdays\n"
+"                        (Monday, Tuesday...) and the week (A,B,C or D), instead of specific "
+"dates (e.g. 23.8.2021).\n"
+"                        To see the date of your next shift, please go to your profile.</p>\n"
 "                    <p>If you would like to change your regular ABCD shift, please contact "
 "the Member Office.</p>\n"
 "                "
 msgstr ""
 "\n"
 "<p>Dies ist der ABCD-Zeitplan. Er wiederholt sich alle vier Wochen. Deswegen siehst du nur "
-"Wochentage (Montag, Dienstag...) und die Woche (A,B,C oder D) anstatt genauer "
-"Datumsangaben (z.B. 23.8.2021). Um das Datum deiner nächsten Schicht zu sehen, geh bitte "
-"zu deinem Kontoprofil. </p>\n"
+"Wochentage (Montag, Dienstag...) und die Woche (A,B,C oder D) anstatt genauer Datumsangaben "
+"(z.B. 23.8.2021). Um das Datum deiner nächsten Schicht zu sehen, geh bitte zu deinem "
+"Kontoprofil. </p>\n"
 "<p>Wenn du deine regelmäßige ABCD-Schicht ändern möchtest, wende dich bitte ans "
 "Mitgliederbüro.</p>\n"
 " "
@@ -1428,23 +1478,23 @@ msgstr "Manche Schichten sind bereits besetzt"
 #: shifts/templates/shifts/slot_template_register.html:49
 msgid ""
 "\n"
-"                        <p>A flying member has already registered to the shifts linked "
-"below.</p>\n"
-"                        <p>It is still possible to sign someone up for this shift using "
-"the ABCD system. This would mean that the member is signing up to work this shift on a "
-"recurring 4 week basis (i.e. once per shift cycle).</p>\n"
+"                        <p>A flying member has already registered to the shifts linked below."
+"</p>\n"
+"                        <p>It is still possible to sign someone up for this shift using the "
+"ABCD system. This would mean that the member is signing up to work this shift on a recurring "
+"4 week basis (i.e. once per shift cycle).</p>\n"
 "                        <p>IMPORTANT: If a flying member had previously signed up for the "
 "same shift, the ABCD member will have to sign up for a different shift for that particular "
 "cycle.</p>\n"
 "                    "
 msgstr ""
 "\n"
-"<p>Ein fliegendes Mitglied hat sich bereits für die unten verlinkten Schichten angemeldet."
-"</p><p>Es ist immer noch möglich, jemanden für diese Schicht über das ABCD-System "
-"anzumelden. Dies würde bedeuten, dass sich das Mitglied für diese Schicht auf einer "
-"wiederkehrenden 4-Wochen-Basis (d.h. einmal pro Schichtzyklus) anmeldet.</p><p>WICHTIG: "
-"Wenn sich ein fliegendes Mitglied zuvor für dieselbe Schicht angemeldet hat, muss sich das "
-"ABCD-Mitglied für eine andere Schicht für diesen bestimmten Zyklus anmelden.</p> "
+"<p>Ein fliegendes Mitglied hat sich bereits für die unten verlinkten Schichten angemeldet.</"
+"p><p>Es ist immer noch möglich, jemanden für diese Schicht über das ABCD-System anzumelden. "
+"Dies würde bedeuten, dass sich das Mitglied für diese Schicht auf einer wiederkehrenden 4-"
+"Wochen-Basis (d.h. einmal pro Schichtzyklus) anmeldet.</p><p>WICHTIG: Wenn sich ein "
+"fliegendes Mitglied zuvor für dieselbe Schicht angemeldet hat, muss sich das ABCD-Mitglied "
+"für eine andere Schicht für diesen bestimmten Zyklus anmelden.</p> "
 
 #: shifts/templates/shifts/slot_template_register.html:54
 msgid "Already occupied shifts :"
@@ -1593,9 +1643,9 @@ msgid ""
 "German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. "
 "+12125552368)"
 msgstr ""
-"Innerstädtische und Mobilfunk-Verbindungen benötigen keine Vorwahlnummer (z.B. "
-"01736160646), internationale Verbindungen benötigen die Landesvorwahlnummer für Mobilfunk, "
-"für Festnetz die Landes- und Ortsvorwahlnummer"
+"Innerstädtische und Mobilfunk-Verbindungen benötigen keine Vorwahlnummer (z.B. 01736160646), "
+"internationale Verbindungen benötigen die Landesvorwahlnummer für Mobilfunk, für Festnetz die "
+"Landes- und Ortsvorwahlnummer"
 
 #: utils/models.py:13
 msgid "Andorra"
@@ -2569,6 +2619,15 @@ msgstr "Anfangsdatum muss gesetzt sein"
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Endsdatum sein"
 
+#~ msgid "Open"
+#~ msgstr "Offen"
+
+#~ msgid "Register Payment"
+#~ msgstr "Als bezahlt markieren"
+
+#~ msgid "Has paid"
+#~ msgstr "Hat bezahlt"
+
 #~ msgid "Shop-expansion funding"
 #~ msgstr "Laden-Erweiterung-Finanzierung"
 
@@ -2577,9 +2636,6 @@ msgstr "Anfangsdatum muss vor Endsdatum sein"
 
 #~ msgid "Needs help"
 #~ msgstr "Hilfe gebraucht"
-
-#~ msgid "Any free slot"
-#~ msgstr "Hat einen freien Platz"
 
 #~ msgid "Filtered"
 #~ msgstr "Gefiltert"
