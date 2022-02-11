@@ -22,9 +22,29 @@
                     <p>
                         <a href="{% url "password_reset" %}">{% trans "Forgot your password?" %}</a>
                     </p>
-                    <button type="submit" class="btn tapir-btn btn-primary btn-block"><span class="material-icons">login</span>{% trans "Sign in" %}</button>
+                    <button type="submit" class="btn tapir-btn btn-primary btn-block"><span
+                            class="material-icons">login</span>{% trans "Sign in" %}</button>
                 </form>
             </div>
         </div>
     </div>
+
+    <div class="input-group" id="custom_password_group">
+        <div class="input-group-append" style="cursor: pointer;">
+            <span title="Click here to show/hide password" class="btn btn-outline-secondary tapir-btn form-control" id="password_toggle">
+                <i class="material-icons">visibility</i>
+            </span>
+        </div>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById('id_password');
+        const customPassword = document.getElementById('custom_password_group');
+        passwordInput.parentElement.insertBefore(customPassword, passwordInput);
+        customPassword.children[0].insertAdjacentElement("beforebegin", passwordInput);
+
+        document.getElementById('password_toggle').addEventListener('click', () => {
+            passwordInput.type = passwordInput.type == 'password' ? 'text' : "password";
+        })
+    </script>
 {% endblock %}
