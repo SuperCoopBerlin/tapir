@@ -18,13 +18,50 @@
             <div class="card-body">
                 <form role="form" method="post">
                     {% csrf_token %}
-                    {% bootstrap_form form %}
+                    <div class="mb-3">
+                        <label class="form-label" for="id_username">Nutzer*innenname</label>
+                        <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username"
+                               maxlength="150" class="form-control" placeholder="Nutzer*innenname" required=""
+                               id="id_username">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="id_password">Passwort</label>
+                        <div class="input-group" id="custom_password_group">
+                            <input type="password" name="password" autocomplete="current-password" class="form-control"
+                                   placeholder="Passwort" required="" id="id_password">
+                            <div class="input-group-append" style="cursor: pointer;">
+                                <span title="Click here to show/hide password"
+                                      class="btn btn-outline-secondary tapir-btn form-control" id="password_toggle">
+                                    <i id="password_toggle_icon" class="material-icons">visibility</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                     <p>
                         <a href="{% url "password_reset" %}">{% trans "Forgot your password?" %}</a>
                     </p>
-                    <button type="submit" class="btn tapir-btn btn-primary btn-block"><span class="material-icons">login</span>{% trans "Sign in" %}</button>
+                    <button type="submit" class="btn tapir-btn btn-primary btn-block">
+                        <span class="material-icons">login</span>
+                        {% trans "Sign in" %}
+                    </button>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+        const passwordInput = document.getElementById('id_password');
+        const passwordToggleIcon = document.getElementById('password_toggle_icon');
+
+        document.getElementById('password_toggle').addEventListener('click', () => {
+            if (passwordInput.type == 'password') {
+                passwordInput.type = "text";
+                passwordToggleIcon.innerText = "visibility_off"
+            } else {
+                passwordInput.type = "password";
+                passwordToggleIcon.innerText = "visibility"
+            }
+
+        })
+    </script>
 {% endblock %}
