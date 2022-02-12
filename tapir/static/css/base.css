@@ -63,8 +63,7 @@ The css is from https://google.github.io/material-design-icons/#icon-font-for-th
   font-style: normal;
   font-weight: 400;
   src: url(/static/material-icons/MaterialIcons-Regular.eot); /* For IE6-8 */
-  src: local('Material Icons'),
-    local('MaterialIcons-Regular'),
+  src:
     url(/static/material-icons/MaterialIcons-Regular.woff2) format('woff2'),
     url(/static/material-icons/MaterialIcons-Regular.woff) format('woff'),
     url(/static/material-icons/MaterialIcons-Regular.ttf) format('truetype');
