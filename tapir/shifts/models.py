@@ -918,15 +918,20 @@ class ShiftExemption(DurationModelMixin, models.Model):
         start_time = timezone.make_aware(
             datetime.datetime.combine(start_date, datetime.time(hour=0, minute=0))
         )
-        end_time = timezone.make_aware(
-            datetime.datetime.combine(end_date, datetime.time(hour=23, minute=59))
+        end_time = (
+            timezone.make_aware(
+                datetime.datetime.combine(end_date, datetime.time(hour=23, minute=59))
+            )
+            if end_date
+            else None
         )
 
         attendances = ShiftAttendance.objects.filter(
             user=user,
             slot__shift__start_time__gte=start_time,
-            slot__shift__end_time__lte=end_time,
         )
+        if end_time:
+            attendances = attendances.filter(slot__shift__end_time__lte=end_time)
 
         if not ShiftExemption.must_unregister_from_abcd_shift(
             start_date=start_date, end_date=end_date
@@ -947,6 +952,9 @@ class ShiftExemption(DurationModelMixin, models.Model):
     def must_unregister_from_abcd_shift(
         start_date: datetime.date, end_date: datetime.date
     ):
+        # Infinite exemption
+        if not end_date:
+            return True
         return (
             (end_date - start_date).days
             >= ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT * 4 * 7

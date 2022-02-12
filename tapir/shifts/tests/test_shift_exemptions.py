@@ -64,6 +64,7 @@ class TestShiftExemptions(TapirSeleniumTestBase):
         )
         shifts_deleted_by_short_exemption = []
         shifts_deleted_by_long_exemption = []
+        shifts_deleted_by_infinite_exemption = []
         for days in [10, 50, 100, 365]:
             shift = shift_template.create_shift(
                 start_date=datetime.date.today() + datetime.timedelta(days=days)
@@ -72,6 +73,8 @@ class TestShiftExemptions(TapirSeleniumTestBase):
                 shifts_deleted_by_short_exemption.append(shift)
             if days in [100]:
                 shifts_deleted_by_long_exemption.append(shift)
+            if days in [365]:
+                shifts_deleted_by_infinite_exemption.append(shift)
 
         start_date = datetime.date.today() + datetime.timedelta(days=40)
         end_date = datetime.date.today() + datetime.timedelta(days=60)
@@ -123,6 +126,17 @@ class TestShiftExemptions(TapirSeleniumTestBase):
             "The exemption is longer than 6 cycles, the user should have lost it's attendance template",
         )
 
+        start_date = datetime.date.today() + datetime.timedelta(days=70)
+        end_date = None
+        self.create_exemption(
+            standard_user_tapir,
+            start_date,
+            end_date,
+            "AN_INFINITE_EXEMPTION",
+            shifts_deleted_by_infinite_exemption,
+            ShiftAttendanceTemplate.objects.filter(user=standard_user_tapir),
+        )
+
     def create_exemption(
         self,
         user: TapirUser,
@@ -141,7 +155,8 @@ class TestShiftExemptions(TapirSeleniumTestBase):
         self.selenium.find_element_by_id("create_shift_exemption_button").click()
         self.wait_until_element_present_by_id("shift_exemption_form")
         self.fill_date_field("id_start_date", start_date)
-        self.fill_date_field("id_end_date", end_date)
+        if end_date is not None:
+            self.fill_date_field("id_end_date", end_date)
         self.selenium.find_element_by_id("id_description").send_keys(description)
 
         if attendances is None:
@@ -153,7 +168,7 @@ class TestShiftExemptions(TapirSeleniumTestBase):
                 "No attendance is expected to be deleted, therefore the warning should not be displayed",
             )
 
-        if attendance_templates is None:
+        if attendance_templates is None or not attendance_templates.exists():
             self.assertEqual(
                 "hidden",
                 self.selenium.find_element_by_id(
@@ -168,7 +183,7 @@ class TestShiftExemptions(TapirSeleniumTestBase):
             self.wait_until_element_present_by_id("shift_exemption_list_button")
             return ShiftExemption.objects.get(description=description)
 
-        if attendances is not None:
+        if attendances is not None and len(attendances) > 0:
             self.selenium.find_element_by_id("id_confirm_cancelled_attendances").click()
             for attendance in attendances:
                 self.assertTrue(
@@ -177,7 +192,7 @@ class TestShiftExemptions(TapirSeleniumTestBase):
                     f"{attendance.get_display_name()}",
                 )
 
-        if attendance_templates is not None:
+        if attendance_templates is not None and attendance_templates.exists():
             self.selenium.find_element_by_id(
                 "id_confirm_cancelled_abcd_attendances"
             ).click()
