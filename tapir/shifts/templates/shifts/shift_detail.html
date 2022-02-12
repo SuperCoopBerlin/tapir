@@ -98,7 +98,7 @@
                                                   action="{% url "shifts:update_shift_attendance_state" attendance.pk attendance_states.PENDING %}">
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn btn-sm tapir-btn btn-warning"
-                                                        id="cancel_look_for_stand_in" data-toggle="tooltip"
+                                                        id="cancel_look_for_stand_in" data-bs-toggle="tooltip"
                                                         title="{% trans 'Cancels the search for a stand-in. Use this if you want to attend the shift.' %}">
                                                     <span class="material-icons">cancel</span>
                                                     {% trans "Cancel look for a stand-in" %}
@@ -115,7 +115,7 @@
                                                     you can't
                                                     attend, contact your shift leader as soon as
                                                     possible.{% endblocktranslate %}
-                                                <span {% if not slot.can_look_for_stand_in %} data-toggle="tooltip"
+                                                <span {% if not slot.can_look_for_stand_in %} data-bs-toggle="tooltip"
                                                                                               title="{{ stand_in_tooltip }}"{% endif %}>
                                             <button type="submit" class="btn btn-sm tapir-btn btn-warning"
                                                     id="self_look_for_stand_in_button"
@@ -139,7 +139,7 @@
                                                 can't be unregistered from. If you can't
                                                 attend, look for a stand-in or contact your shift leader as soon as
                                                 possible.{% endblocktranslate %}
-                                            <span {% if not slot.can_self_unregister %} data-toggle="tooltip"
+                                            <span {% if not slot.can_self_unregister %} data-bs-toggle="tooltip"
                                                                                         title="{{ self_unregister_tooltip }}"{% endif %}>
                                         <button type="submit" class="btn btn-sm tapir-btn btn-danger"
                                                 id="unregister_self_button"
@@ -163,7 +163,7 @@
                                                 qualification, contact the member office)<br/>
                                                 -The shift is in the future<br/>
                                             {% endblocktranslate %}
-                                            <span {% if not slot.can_register %} data-toggle="tooltip" data-html="true"
+                                            <span {% if not slot.can_register %} data-bs-toggle="tooltip" data-html="true"
                                                                                  title="{{ self_register_tooltip }}"{% endif %}>
                                         <button type="submit" class="btn tapir-btn btn-info register-self-button"
                                                 {% if not slot.can_register %}disabled

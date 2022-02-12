@@ -21,26 +21,27 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     {% trans "Personal Data" %}
                     {% if perms.accounts.manage %}
-                        <a class="btn tapir-btn btn-outline-info" href="{% url "accounts:user_update" object.pk %}" id="tapir_user_edit_button">
+                        <a class="btn tapir-btn btn-outline-info" href="{% url "accounts:user_update" object.pk %}"
+                           id="tapir_user_edit_button">
                             <span class="material-icons">edit</span>{% trans 'Edit' %}
                         </a>
                     {% endif %}
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
-                        <div class="col-4 font-weight-bold text-right">{% trans "Name" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% trans "Name" %}:</div>
                         <div class="col-8" id="tapir_user_display_name">{{ object.get_display_name }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 font-weight-bold text-right">{% trans "Username" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% trans "Username" %}:</div>
                         <div class="col-8" id="tapir_user_username">{{ object.username }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 font-weight-bold text-right">{% trans "Email" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% trans "Email" %}:</div>
                         <div class="col-8" id="tapir_user_email">{{ object.email }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 font-weight-bold text-right">{% trans "Phone number" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% trans "Phone number" %}:</div>
                         <div class="col-8" id="tapir_user_phone_number">
                             {% if object.phone_number %}
                                 {{ object.phone_number|format_phone_number }}
@@ -50,7 +51,7 @@
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% trans "Birthdate" %}:</div>
                         <div class="col-8" id="tapir_user_birthdate">
                             {% if object.birthdate %}
                                 {{ object.birthdate|date:"d.m.Y" }}
@@ -60,7 +61,7 @@
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 font-weight-bold text-right">{% trans "Address" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% trans "Address" %}:</div>
                         <div class="col-8" id="tapir_user_address">
                             {% if object.street and object.city %}
                                 {{ object.get_display_address }}
@@ -70,30 +71,31 @@
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 font-weight-bold text-right">{% trans "Preferred Language" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% trans "Preferred Language" %}:</div>
                         <div class="col-8">{{ object.get_preferred_language_display }}</div>
                     </div>
                     {% if perms.accounts.manage %}
                         <div class="row m-1">
-                            <div class="col-4 font-weight-bold text-right">{% trans "Permissions" %}:</div>
+                            <div class="col-4 fw-bold text-end">{% trans "Permissions" %}:</div>
                             <div class="col-8">{{ object.get_permissions_display }}</div>
                         </div>
                     {% endif %}
 
-                    <div class="row m-1 justify-content-end">
-                        {% if perms.accounts.manage %}
-                            <form
-                                    method="post"
-                                    action="{% url "accounts:send_user_welcome_email" object.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="align-self-right btn tapir-btn btn-info ml-3">
-                                    <span class="material-icons">send</span>{% trans "Send account activation email" %}
-                                </button>
-                            </form>
-                        {% endif %}
-                        {% if object.pk == request.user.pk %}
-                            <a class="btn tapir-btn btn-outline-info ml-1" href="{% url "password_change" %}"><span class="material-icons">vpn_key</span>{% trans "Change Password" %}</a>
-                        {% endif %}
+                    <div class="row m-1 mt-4">
+                        <div class="d-flex justify-content-end gap-2">
+                            {% if perms.accounts.manage %}
+                                <form method="post" action="{% url "accounts:send_user_welcome_email" object.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn tapir-btn btn-info ml-3">
+                                        <span class="material-icons">send</span>{% trans "Send account activation email" %}
+                                    </button>
+                                </form>
+                            {% endif %}
+                            {% if object.pk == request.user.pk %}
+                                <a class="btn tapir-btn btn-outline-info ml-1" href="{% url "password_change" %}"><span
+                                        class="material-icons">vpn_key</span>{% trans "Change Password" %}</a>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

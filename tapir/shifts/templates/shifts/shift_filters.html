@@ -5,30 +5,30 @@
     <div class="card-body">
         <p>{% trans "Use the buttons below to filter the shifts that are relevant to you." %}</p>
         <p>
-        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="slot-status-group">
-            <label class="btn btn-outline-dark">
-                <input type="radio" name="slot_status_options" autocomplete="off"
-                       value="no-filter"> {% trans 'No filter' %}
-            </label>
-            <label class="btn btn-outline-dark">
-                <input type="radio" name="slot_status_options" autocomplete="off"
-                       value="free-slot"> {% trans 'Has a free slot' %}
-            </label>
-            <label class="btn btn-outline-dark active">
-                <input type="radio" name="slot_status_options" autocomplete="off" value="needs-help"
-                       class="active-on-load"> {% trans 'Most help needed' %}
-            </label>
+        <div class="btn-group" id="slot-status-group">
+            <input type="radio" class="btn-check" name="slot_status_options" autocomplete="off"
+                   value="no-filter" id="btn_no_filter">
+            <label class="btn btn-outline-dark" for="btn_no_filter">{% trans 'No filter' %}</label>
+            <input type="radio" class="btn-check" name="slot_status_options" autocomplete="off" value="free-slot"
+                   id="btn_free_slot">
+            <label class="btn btn-outline-dark" for="btn_free_slot">{% trans 'Has a free slot' %}</label>
+            <input type="radio" class="btn-check active-on-load" name="slot_status_options" autocomplete="off"
+                   value="needs-help" id="btn_most_help">
+            <label class="btn btn-outline-dark" for="btn_most_help">{% trans 'Most help needed' %}</label>
         </div>
         </p>
         <p>
-        <div class="btn-group-vertical btn-group-toggle" data-toggle="buttons" id="slot-name-group">
-            <label class="btn btn-outline-dark active">
-                <input type="radio" name="slot_name_options" autocomplete="off" value="any"
-                       class="active-on-load"> {% trans 'Any' %}
+        <div class="btn-group-vertical" data-bs-toggle="buttons" id="slot-name-group">
+            <input type="radio" class="btn-check active-on-load" name="slot_name_options" autocomplete="off"
+                   value="any" id="btn_any">
+            <label class="btn btn-outline-dark" for="btn_any">
+                {% trans 'Any' %}
             </label>
             {% for name in shift_slot_names %}
-                <label class="btn btn-outline-dark">
-                    <input type="radio" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"> {{ name.1 }}
+                <input type="radio" class="btn-check" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"
+                    id="id_{{ name.0 }}">
+                <label class="btn btn-outline-dark" for="id_{{ name.0 }}">
+                     {{ name.1 }}
                 </label>
             {% endfor %}
         </div>

@@ -6,38 +6,28 @@
 
 {% block content %}
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{% url "coop:draftuser_list" %}">{% trans "Applicants" %}</a>
-            </li>
-            <li class="breadcrumb-item">
-                {{ object.get_display_name }}
-            </li>
-        </ol>
-    </nav>
-
     <div class="container">
         <div class="card m-2">
+            <h5 class="card-header">{% trans "Applicant" %}: {{ object.get_display_name }}</h5>
             <div class="card-body" id="draft_user_detail_card">
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Name" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Name" %}:</div>
                     <div class="col-9" id="draft_user_display_name">{{ object.get_display_name }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Username" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Username" %}:</div>
                     <div class="col-9" id="draft_user_username">{{ object.username }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Email" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Email" %}:</div>
                     <div class="col-9" id="draft_user_email">{{ object.email }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Phone number" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Phone number" %}:</div>
                     <div class="col-9" id="draft_user_phone_number">{{ object.phone_number|format_phone_number }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Birthdate" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Birthdate" %}:</div>
                     <div class="col-9" id="draft_user_birthdate">
                         {% if object.birthdate %}
                             {{ object.birthdate|date:"d.m.Y" }}
@@ -46,7 +36,7 @@
                         {% endif %}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Address" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Address" %}:</div>
                     <div class="col-9" id="draft_user_address">
                         {% if object.street and object.city %}
                             {{ object.get_display_address }}
@@ -57,7 +47,7 @@
                 </div>
 
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Member Type" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Member Type" %}:</div>
                     <div class="col-9" id="draft_user_member_type">
                         {% if object.is_investing %}
                             <span style="color: blue;">{% trans "Investing" %}</span>
@@ -68,17 +58,17 @@
                 </div>
 
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Ratenzahlung" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Ratenzahlung" %}:</div>
                     <div class="col-9" id="draft_user_ratenzahlung">{% if object.ratenzahlung %}Yes{% else %}
                         No{% endif %}</div>
                 </div>
 
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Shares requested" %}</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Shares requested" %}</div>
                     <div class="col-4" id="draft_user_num_shares">{{ object.num_shares }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Welcome Session" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Welcome Session" %}:</div>
                     <div class="col-4">
                         {% if object.attended_welcome_session %}
                             <span class="text-success">Attended</span>
@@ -96,7 +86,7 @@
                     </div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Beteiligungserklärung" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Beteiligungserklärung" %}:</div>
                     <div class="col-9">
 
                         {% if object.signed_membership_agreement %}
@@ -124,43 +114,45 @@
                     </div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Paid Membership Fee" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Paid Membership Fee" %}:</div>
                     <div class="col-9" id="draft_user_paid_membership_fee">
                         {{ object.paid_membership_fee|yesno:"Yes,No" }}
                     </div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 font-weight-bold text-right">{% trans "Paid Shares" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% trans "Paid Shares" %}:</div>
                     <div class="col-9" id="draft_user_paid_shares">
                         {{ object.paid_shares|yesno:"Yes,No" }}
                     </div>
                 </div>
-                <div class="row m-1 mt-5 flex-row">
-                    <div style="flex-grow: 1;"></div>
-                    <a class="btn tapir-btn btn-outline-secondary ml-3"
-                       href="{% url "coop:draftuser_update" object.pk %}">
-                        <span class="material-icons">edit</span>
-                        {% trans "Edit" %}
-                    </a>
-                    <form class="form-inline ml-3" method="POST" action="{% url "coop:draftuser_delete" object.pk %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn tapir-btn btn-danger">
-                            <span class="material-icons">delete</span>Delete
-                        </button>
-                    </form>
-
-                    {% if object.can_create_user %}
-                        <form
-                                method="post"
-                                action="{% url "coop:draftuser_create_share_owner" object.pk %}">
+                <div class="row m-1 mt-5">
+                    <div class="d-flex flex-row justify-content-end gap-2">
+                        <a class="btn tapir-btn btn-outline-secondary ml-3"
+                           href="{% url "coop:draftuser_update" object.pk %}">
+                            <span class="material-icons">edit</span>
+                            {% trans "Edit" %}
+                        </a>
+                        <form class="form-inline ml-3" method="POST"
+                              action="{% url "coop:draftuser_delete" object.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="align-self-right btn tapir-btn btn-primary ml-3"
-                                    id="button_create_share_owner">
-                                <span class="material-icons">person_add</span>
-                                {% trans "Create Member" %}
+                            <button type="submit" class="btn tapir-btn btn-danger">
+                                <span class="material-icons">delete</span>Delete
                             </button>
                         </form>
-                    {% endif %}
+
+                        {% if object.can_create_user %}
+                            <form
+                                    method="post"
+                                    action="{% url "coop:draftuser_create_share_owner" object.pk %}">
+                                {% csrf_token %}
+                                <button type="submit" class="align-self-right btn tapir-btn btn-primary ml-3"
+                                        id="button_create_share_owner">
+                                    <span class="material-icons">person_add</span>
+                                    {% trans "Create Member" %}
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>

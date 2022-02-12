@@ -11,25 +11,16 @@
 
 {% block content %}
 
-    {% if request.user.is_authenticated %}
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{% url "coop:draftuser_list" %}">{% trans "Applicants" %}</a>
-                </li>
-                {% if form.instance.pk %}
-                    <li class="breadcrumb-item">
-                        <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
-                    </li>
-                {% else %}
-                    <li class="breadcrumb-item">Create</li>
-                {% endif %}
-            </ol>
-        </nav>
-    {% endif %}
-
     <div class="container">
         <div class="card m-2">
+            <h5 class="card-header">
+                {% if form.instance.pk %}
+                    Editing
+                    <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
+                {% else %}
+                    {% trans 'Create applicant' %}
+                {% endif %}
+            </h5>
             <div class="card-body">
                 <form role="form" method="post">
                     {% csrf_token %}

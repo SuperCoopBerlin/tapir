@@ -14,7 +14,7 @@
     <div class="card-body">
         <div class="row m-1">
             {% if user.shift_user_data.attendance_mode == 'flying' %}
-                <div class="col-4 font-weight-bold text-right">{% trans "Status" %}:</div>
+                <div class="col-4 fw-bold text-end">{% trans "Status" %}:</div>
                 <div class="col-8">
                     {{ user.shift_user_data.get_attendance_mode_display }}
 
@@ -31,7 +31,7 @@
 
 
             {% else %}
-                <div class="col-4 font-weight-bold text-right">{% trans "ABCD Shift" %}:</div>
+                <div class="col-4 fw-bold text-end">{% trans "ABCD Shift" %}:</div>
                 <div class="col-8">
                     {% if user.shift_attendance_templates.count > 0 %}
                         {% comment %}Usually there will only be one {% endcomment %}
@@ -79,7 +79,7 @@
         </div>
 
         <div class="row m-1">
-            <div class="col-4 font-weight-bold text-right">{% trans "Upcoming Shift" %}:</div>
+            <div class="col-4 fw-bold text-end">{% trans "Upcoming Shift" %}:</div>
             <div class="col-8">
                 {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
                     {% if next_slot %}
@@ -87,7 +87,7 @@
                             {{ next_slot.get_display_name }}
                         </a>
                         (in {{ next_slot.shift.start_time|timeuntil }})<br/>
-                        <a data-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
+                        <a data-bs-toggle="collapse" href="#upcoming-shifts">{% trans "Show more" %}</a>
                         <div class="collapse" id="upcoming-shifts">
                             {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
                                 <a href="{% url "shifts:shift_detail" shift_attendance.slot.shift.pk %}">
@@ -103,7 +103,7 @@
         </div>
 
         <div class="row m-1">
-            <div class="col-4 font-weight-bold text-right">{% trans "Shift Status" %}:</div>
+            <div class="col-4 fw-bold text-end">{% trans "Shift Status" %}:</div>
             <div class="col-8" id="user-shift-status">
                 {% if user.shift_user_data.is_balance_ok %}
                     <span class="text-success">{% trans "Up to date" %}</span>
@@ -123,7 +123,7 @@
         </div>
 
         <div class="row m-1">
-            <div class="col-4 font-weight-bold text-right">{% trans "Qualifications" %}:</div>
+            <div class="col-4 fw-bold text-end">{% trans "Qualifications" %}:</div>
             <div class="col-8">
                 {% if user.shift_user_data.capabilities %}
                     {{ user.shift_user_data.get_capabilities_display }}
@@ -133,7 +133,7 @@
             </div>
         </div>
         <div class="row m-1">
-            <div class="col-4 font-weight-bold text-right">{% trans "Exemption" %}:</div>
+            <div class="col-4 fw-bold text-end">{% trans "Exemption" %}:</div>
             <div class="col-8">
                 <span id="shift_exemption_value">
                     {% if user.shift_user_data.get_current_shift_exemption %}

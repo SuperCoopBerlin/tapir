@@ -47,9 +47,9 @@ class ShiftFiltersManager {
         for (let shift_block of this.shift_blocks) {
             this.update_shift_block(shift_block, this.current_status_filter.value, this.current_slot_filter.value);
         }
-        this.legend_highlighted.innerText = this.current_status_filter.parentElement.innerText;
+        this.legend_highlighted.innerText = this.current_status_filter.nextElementSibling.innerHTML;
         if (this.current_status_filter.value == StatusFilter.FREESLOT) {
-            this.legend_highlighted.innerText += " - " + this.current_slot_filter.parentElement.innerText;
+            this.legend_highlighted.innerText += " - " + this.current_slot_filter.nextElementSibling.innerHTML;
         }
         this.slot_name_group.style.display = this.current_status_filter.value == StatusFilter.FREESLOT ? null : "none";
     }
