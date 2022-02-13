@@ -5,7 +5,7 @@
 {% block content %}
     <div class="card m-2">
         <h5 class="card-header d-flex justify-content-between align-items-center">
-            {% trans "Applicants" %}
+            {% translate "Applicants" %}
             <span class="align-self-right">
                 <a class="btn tapir-btn btn-outline-primary" href="{% url "coop:draftuser_create" %}">
                     <span class="material-icons">person_add</span>
@@ -17,11 +17,11 @@
 
             <table class="table table-striped" id="applicants_table">
                 <thead>
-                <th>{% trans "First name" %}</th>
-                <th>{% trans "Last name" %}</th>
-                <th>{% trans "Email" %}</th>
-                <th>{% trans "Beteiligungserklärung" %}</th>
-                <th>{% trans "Payment" %}</th>
+                <th>{% translate "First name" %}</th>
+                <th>{% translate "Last name" %}</th>
+                <th>{% translate "Email" %}</th>
+                <th>{% translate "Beteiligungserklärung" %}</th>
+                <th>{% translate "Payment" %}</th>
                 <th></th>
                 </thead>
                 {% for u in object_list %}
@@ -31,12 +31,12 @@
                         <td class="align-middle">{{ u.email }}</td>
                         <td class="align-middle">
                             {% if u.signed_membership_agreement %}
-                                <span class="text-success">{% trans "Signed" %}</span>
+                                <span class="text-success">{% translate "Signed" %}</span>
                             {% endif %}
                         </td>
                         <td class="align-middle">
                             {% if u.paid_membership_fee %}
-                                <span class="text-success">{% trans "Paid" %}</span>
+                                <span class="text-success">{% translate "Paid" %}</span>
                             {% endif %}
                         </td>
                         <td class="align-middle">

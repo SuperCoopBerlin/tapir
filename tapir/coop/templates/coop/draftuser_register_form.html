@@ -15,7 +15,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{% url "coop:draftuser_list" %}">{% trans "Applicants" %}</a>
+                    <a href="{% url "coop:draftuser_list" %}">{% translate "Applicants" %}</a>
                 </li>
                 {% if form.instance.pk %}
                     <li class="breadcrumb-item">
@@ -48,7 +48,7 @@
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn tapir-btn btn-primary">
                             <span class="material-icons">save</span>
-                            {% trans 'Save' %}
+                            {% translate 'Save' %}
                         </button>
                     </div>
                 </form>

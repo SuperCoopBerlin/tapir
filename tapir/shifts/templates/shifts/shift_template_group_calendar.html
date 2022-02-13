@@ -7,13 +7,13 @@
 {% block content %}
     <div class="card m-2">
         <h5 class="card-header">
-            {% trans 'ABCD weeks calendar' %}
+            {% translate 'ABCD weeks calendar' %}
         </h5>
         <div class="card-body">
-            <p><a href="{% static "shifts/ABCD_weeks_calendar_DE.png" %}">{% trans 'Download the calendar as a file.' %}</a></p>
+            <p><a href="{% static "shifts/ABCD_weeks_calendar_DE.png" %}">{% translate 'Download the calendar as a file.' %}</a></p>
             <p><ul>
                 {% for date, group in date_to_group.items %}
-                    <li>KW {{ date|date:"W" }} {% trans 'starting' %} {{ date|date:"d.m.y" }}, {% trans 'Week ' %}{{ group }}</li>
+                    <li>KW {{ date|date:"W" }} {% translate 'starting' %} {{ date|date:"d.m.y" }}, {% translate 'Week ' %}{{ group }}</li>
                 {% endfor %}
             </ul></p>
         </div>

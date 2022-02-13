@@ -13,20 +13,20 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    {% trans "ABCD Shift" %}
+                    {% translate "ABCD Shift" %}
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ slot_template.shift_template.get_absolute_url }}">
                         {{ slot_template.shift_template.get_display_name }}
                     </a>
                 </li>
-                <li class="breadcrumb-item">{% trans "Register" %}</li>
+                <li class="breadcrumb-item">{% translate "Register" %}</li>
             </ol>
         </nav>
 
         <div class="card m-2" id="shift_form_card">
             <h5 class="card-header d-flex justify-content-between align-items-center">
-                {% trans "Register for ABCD Shift" %}:
+                {% translate "Register for ABCD Shift" %}:
                 {{ slot_template.shift_template.get_display_name }}
             </h5>
             <div class="card-body">
@@ -36,7 +36,7 @@
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn tapir-btn btn-primary">
                             <span class="material-icons">person_add</span>
-                            {% trans 'Register' %}
+                            {% translate 'Register' %}
                         </button>
                     </div>
                 </form>
@@ -44,14 +44,14 @@
         </div>
         {% if blocked_slots|length > 0 %}
             <div class="card m-2 border-warning">
-                <h5 class="card-header bg-warning">{% trans 'Some shifts are already occupied' %}</h5>
+                <h5 class="card-header bg-warning">{% translate 'Some shifts are already occupied' %}</h5>
                 <div class="card-body">
                     {% blocktranslate %}
                         <p>A flying member has already registered to the shifts linked below.</p>
                         <p>It is still possible to sign someone up for this shift using the ABCD system. This would mean that the member is signing up to work this shift on a recurring 4 week basis (i.e. once per shift cycle).</p>
                         <p>IMPORTANT: If a flying member had previously signed up for the same shift, the ABCD member will have to sign up for a different shift for that particular cycle.</p>
                     {% endblocktranslate %}
-                    <p>{% trans 'Already occupied shifts :' %}
+                    <p>{% translate 'Already occupied shifts :' %}
                         <ul id="occupied_shifts_list">
                             {% for slot in blocked_slots %}
                                 <li><a href="{{ slot.shift.get_absolute_url }}">{{ slot.shift.get_display_name }}</a></li>

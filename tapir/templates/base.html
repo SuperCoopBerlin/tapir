@@ -46,13 +46,13 @@
                 <a class="nav-link" href="https://wiki.supercoop.de">Wiki</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://wiki.supercoop.de/wiki/Member_Manual">{% trans 'Member manual' %}</a>
+                <a class="nav-link" href="https://wiki.supercoop.de/wiki/Member_Manual">{% translate 'Member manual' %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="https://wiki.supercoop.de/wiki/%C3%96ffnungszeiten">{% trans 'Shop opening hours' %}</a>
+                <a class="nav-link" href="https://wiki.supercoop.de/wiki/%C3%96ffnungszeiten">{% translate 'Shop opening hours' %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="mailto:mitglied@supercoop.de" data-bs-toggle="tooltip" title="Currently you can only contact the member office per email at : mitglied@supercoop.de. More contact options will be available later.">{% trans 'Contact the member office' %}</a>
+                <a class="nav-link" href="mailto:mitglied@supercoop.de" data-bs-toggle="tooltip" title="Currently you can only contact the member office per email at : mitglied@supercoop.de. More contact options will be available later.">{% translate 'Contact the member office' %}</a>
             </li>
             <li>
                 <a class="nav-link" href="https://wiki.supercoop.de/wiki/Finanzierung">{% shop_extension_progress_bar %}</a>
@@ -62,7 +62,7 @@
 
     <form class="form-inline" method="get" action="{% url "coop:shareowner_list" %}">
         <span class="mr-5">
-        <input id="member_search" name="display_name" type="text" placeholder="{% trans "Search Members" %}" class="form-control">
+        <input id="member_search" name="display_name" type="text" placeholder="{% translate "Search Members" %}" class="form-control">
         </span>
     </form>
 
@@ -84,22 +84,22 @@
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "coop:shareowner_list" %}">
-                                    {% trans "Members" %}
+                                    {% translate "Members" %}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "coop:draftuser_list" %}">
-                                    {% trans "Applicants" %}
+                                    {% translate "Applicants" %}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "coop:statistics" %}">
-                                    {% trans "Statistics" %}
+                                    {% translate "Statistics" %}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "coop:matching_program_list" %}">
-                                    {% trans "Matching program" %}
+                                    {% translate "Matching program" %}
                                 </a>
                             </li>
                         </ul>
@@ -108,52 +108,52 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "shifts:calendar_future" %}">
-                                {% trans "Shift calendar" %}
+                                {% translate "Shift calendar" %}
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "shifts:shift_template_overview" %}">
-                                {% trans "ABCD-shifts week-plan" %}
+                                {% translate "ABCD-shifts week-plan" %}
                             </a>
                         </li>
 
                         <li class="nav-item">
                             {% get_current_week_group as group %}
-                            <a class="nav-link" href="{% url "shifts:shift_template_group_calendar" %}">{% trans 'ABCD weeks calendar<br />Current week: ' %}{{ group.name }}</a>
+                            <a class="nav-link" href="{% url "shifts:shift_template_group_calendar" %}">{% translate 'ABCD weeks calendar<br />Current week: ' %}{{ group.name }}</a>
                         </li>
 
                         {% if perms.shifts.manage %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "shifts:calendar_past" %}">
-                                    {% trans "Past shifts" %}
+                                    {% translate "Past shifts" %}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "shifts:shift_exemption_list" %}">
-                                    {% trans "Shift exemptions" %}
+                                    {% translate "Shift exemptions" %}
                                 </a>
                             </li>
                         {% endif %}
                     </ul>
                     {% if perms.welcomedesk.view %}
-                        <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% trans "Welcome Desk" %}</h6>
+                        <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% translate "Welcome Desk" %}</h6>
                         <ul class="nav flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "coop:welcome_desk_search" %}" id="welcome_desk_link">
-                                    {% trans "Welcome Desk" %}
+                                    {% translate "Welcome Desk" %}
                                 </a>
                             </li>
                         </ul>
                     {% endif %}
                     {% if perms.coop.manage %}
-                        <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% trans "Financing campaign" %}</h6>
+                        <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% translate "Financing campaign" %}</h6>
                         <ul class="nav flex-column">
                             {% financing_nav_links %}
                         </ul>
                     {% endif %}
                     <a class="nav-link text-muted" id="about-link" href="{% url "coop:about" %}">
-                        {% trans "About Tapir" %}
+                        {% translate "About Tapir" %}
                     </a>
                 {% endblock %}
             </div>

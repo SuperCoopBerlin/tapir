@@ -1,5 +1,5 @@
 {% load i18n %}
 
-{% trans "Set shift attendance to" %} {{ state_name }}
+{% translate "Set shift attendance to" %} {{ state_name }}
 <a href="{{ entry.shift.get_absolute_url }}">{{ entry.shift.get_display_name }}</a>
 {% if entry.slot_name %}({{ entry.slot_name }}){% endif %}

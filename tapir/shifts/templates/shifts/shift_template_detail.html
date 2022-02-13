@@ -14,7 +14,7 @@
             {% if perms.shifts.manage %}
                 <a class="btn tapir-btn btn-outline-info" href="{% url "admin:shifts_shifttemplate_change" object.pk %}">
                     <span class="material-icons button-icon">edit</span>
-                    {% trans "Edit" %}
+                    {% translate "Edit" %}
                 </a>
             {% endif %}
         </h5>
@@ -29,9 +29,9 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>{% trans 'Details' %}</th>
-                        <th>{% trans 'Registered user' %}</th>
-                        <th>{% trans 'Shifts' %}</th>
+                        <th>{% translate 'Details' %}</th>
+                        <th>{% translate 'Registered user' %}</th>
+                        <th>{% translate 'Shifts' %}</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -41,7 +41,7 @@
                             <td><h5>#{{ forloop.counter }}</h5></td>
                             <td>
                                 {{ slot.name }}
-                                {% if slot.optional %}({% trans 'optional' %}){% endif %}
+                                {% if slot.optional %}({% translate 'optional' %}){% endif %}
                             </td>
                             {% with slot.attendance_template as attendance %}
                                 {% if attendance %}
@@ -61,7 +61,7 @@
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn tapir-btn btn-sm btn-secondary ml-2">
                                                     <span class="material-icons">person_remove</span>
-                                                    {% trans "Unregister" %}
+                                                    {% translate "Unregister" %}
                                                 </button>
                                             </form>
                                         {% endif %}
@@ -77,7 +77,7 @@
                                             <a class="btn tapir-btn btn-secondary abcd_shift_register_button"
                                                href="{% url "shifts:slottemplate_register" slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
                                                 <span class="material-icons">person_add</span>
-                                                {% trans "Register" %}
+                                                {% translate "Register" %}
                                             </a>
                                         {% endif %}
                                     </td>
@@ -90,7 +90,7 @@
                 </table>
 
                 <div>
-                    <h5>{% trans "Future generated Shifts" %}</h5>
+                    <h5>{% translate "Future generated Shifts" %}</h5>
                     <ul class="list-group">
                         {% for shift in object.get_future_generated_shifts %}
                             <li class="list-group-item">
@@ -104,7 +104,7 @@
                 </div>
 
                 <div>
-                    <h5>{% trans "Past generated Shifts" %}</h5>
+                    <h5>{% translate "Past generated Shifts" %}</h5>
                     <ul class="list-group">
                         {% for shift in object.get_past_generated_shifts %}
                             <li class="list-group-item">

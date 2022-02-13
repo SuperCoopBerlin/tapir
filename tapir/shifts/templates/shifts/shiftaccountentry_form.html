@@ -10,7 +10,7 @@
 {% block content %}
     <div class="container">
         <div class="card m-2">
-            <h5 class="card-header">{% trans "Create manual shift account entry for: " %}<a href="{{ user.get_absolute_url }}">{{ user.get_display_name }}</a></h5>
+            <h5 class="card-header">{% translate "Create manual shift account entry for: " %}<a href="{{ user.get_absolute_url }}">{{ user.get_display_name }}</a></h5>
             <div class="card-body">
                 <form role="form" method="post">
                     {% csrf_token %}
@@ -18,7 +18,7 @@
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn tapir-btn btn-primary">
                             <span class="material-icons">save</span>
-                            {% trans 'Save' %}
+                            {% translate 'Save' %}
                         </button>
                     </div>
                 </form>

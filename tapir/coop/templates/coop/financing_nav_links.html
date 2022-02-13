@@ -3,7 +3,7 @@
 {% for campaign_name, campaign_id in financing_campaigns.items %}
     <li class="nav-item">
         <a class="nav-link" href="{% url "coop:financing_campaign_update" campaign_id %}">
-            {% trans campaign_name %}
+            {% translate campaign_name %}
         </a>
     </li>
 {% endfor %}

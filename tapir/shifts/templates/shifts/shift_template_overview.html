@@ -16,7 +16,7 @@
         <div class="card">
             <h5 class="card-header">
                 {% get_current_week_group as group %}
-                {% trans "ABCD schedule overview, current week: " %}{{ group.name }}
+                {% translate "ABCD schedule overview, current week: " %}{{ group.name }}
             </h5>
             <div class="card-body">
                 {% blocktranslate %}
@@ -35,7 +35,7 @@
             <tr>
                 <th></th>
                 {% for group in shift_template_groups %}
-                    <th class="text-center">{% trans 'Week ' %}{{ group }}</th>
+                    <th class="text-center">{% translate 'Week ' %}{{ group }}</th>
                 {% endfor %}
             </tr>
             </thead>

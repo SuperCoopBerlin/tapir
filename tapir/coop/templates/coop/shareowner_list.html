@@ -16,10 +16,10 @@
 
     <div class="card m-2">
         <div class="card-header d-flex justify-content-between">
-            <h5>{% trans "Cooperative Members" %}</h5>
+            <h5>{% translate "Cooperative Members" %}</h5>
             <div class="btn-group">
                 <button type="button" class="btn tapir-btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                    {% trans "Export" %}
+                    {% translate "Export" %}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
@@ -40,7 +40,7 @@
                         {% bootstrap_button '<span class="material-icons">filter_alt</span>Filter' button_class="filter-button btn tapir-btn btn-primary"%}
                         <a class="btn tapir-btn btn-outline-secondary" href="{% url "coop:shareowner_list" %}">
                             <span class="material-icons">clear</span>
-                            {% trans "Clear all filters" %}
+                            {% translate "Clear all filters" %}
                         </a>
                         <div class="ml-2">
                             {% blocktrans %}

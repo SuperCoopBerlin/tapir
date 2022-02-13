@@ -8,26 +8,26 @@
 
     <div class="container">
         <div class="card m-2">
-            <h5 class="card-header">{% trans "Applicant" %}: {{ object.get_display_name }}</h5>
+            <h5 class="card-header">{% translate "Applicant" %}: {{ object.get_display_name }}</h5>
             <div class="card-body" id="draft_user_detail_card">
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Name" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Name" %}:</div>
                     <div class="col-9" id="draft_user_display_name">{{ object.get_display_name }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Username" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Username" %}:</div>
                     <div class="col-9" id="draft_user_username">{{ object.username }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Email" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Email" %}:</div>
                     <div class="col-9" id="draft_user_email">{{ object.email }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Phone number" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Phone number" %}:</div>
                     <div class="col-9" id="draft_user_phone_number">{{ object.phone_number|format_phone_number }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Birthdate" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Birthdate" %}:</div>
                     <div class="col-9" id="draft_user_birthdate">
                         {% if object.birthdate %}
                             {{ object.birthdate|date:"d.m.Y" }}
@@ -36,39 +36,39 @@
                         {% endif %}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Address" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Address" %}:</div>
                     <div class="col-9" id="draft_user_address">
                         {% if object.street and object.city %}
                             {{ object.get_display_address }}
                         {% else %}
-                            <span class="text-danger">{% trans "Missing" %}</span>
+                            <span class="text-danger">{% translate "Missing" %}</span>
                         {% endif %}
                     </div>
                 </div>
 
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Member Type" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Member Type" %}:</div>
                     <div class="col-9" id="draft_user_member_type">
                         {% if object.is_investing %}
-                            <span style="color: blue;">{% trans "Investing" %}</span>
+                            <span style="color: blue;">{% translate "Investing" %}</span>
                         {% else %}
-                            <span style="color: green;">{% trans "Active" %}</span>
+                            <span style="color: green;">{% translate "Active" %}</span>
                         {% endif %}
                     </div>
                 </div>
 
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Ratenzahlung" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Ratenzahlung" %}:</div>
                     <div class="col-9" id="draft_user_ratenzahlung">{% if object.ratenzahlung %}Yes{% else %}
                         No{% endif %}</div>
                 </div>
 
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Shares requested" %}</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Shares requested" %}</div>
                     <div class="col-4" id="draft_user_num_shares">{{ object.num_shares }}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Welcome Session" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Welcome Session" %}:</div>
                     <div class="col-4">
                         {% if object.attended_welcome_session %}
                             <span class="text-success">Attended</span>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Beteiligungserklärung" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Beteiligungserklärung" %}:</div>
                     <div class="col-9">
 
                         {% if object.signed_membership_agreement %}
@@ -114,13 +114,13 @@
                     </div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Paid Membership Fee" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Paid Membership Fee" %}:</div>
                     <div class="col-9" id="draft_user_paid_membership_fee">
                         {{ object.paid_membership_fee|yesno:"Yes,No" }}
                     </div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% trans "Paid Shares" %}:</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Paid Shares" %}:</div>
                     <div class="col-9" id="draft_user_paid_shares">
                         {{ object.paid_shares|yesno:"Yes,No" }}
                     </div>
@@ -130,7 +130,7 @@
                         <a class="btn tapir-btn btn-outline-secondary ml-3"
                            href="{% url "coop:draftuser_update" object.pk %}">
                             <span class="material-icons">edit</span>
-                            {% trans "Edit" %}
+                            {% translate "Edit" %}
                         </a>
                         <form class="form-inline ml-3" method="POST"
                               action="{% url "coop:draftuser_delete" object.pk %}">
@@ -148,7 +148,7 @@
                                 <button type="submit" class="align-self-right btn tapir-btn btn-primary ml-3"
                                         id="button_create_share_owner">
                                     <span class="material-icons">person_add</span>
-                                    {% trans "Create Member" %}
+                                    {% translate "Create Member" %}
                                 </button>
                             </form>
                         {% endif %}

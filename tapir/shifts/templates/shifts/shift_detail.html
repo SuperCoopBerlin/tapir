@@ -28,17 +28,17 @@
                     <span>
                     <a class="btn tapir-btn btn-outline-secondary"
                        href="{% url "shifts:shift_detail_printable" shift.pk %}">
-                        <span class="material-icons">print</span>{% trans 'Get printable version' %}
+                        <span class="material-icons">print</span>{% translate 'Get printable version' %}
                     </a>
                     <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:shift_edit" shift.pk %}"
                        id="shift_edit_button">
-                        <span class="material-icons">edit</span>{% trans 'Edit' %}
+                        <span class="material-icons">edit</span>{% translate 'Edit' %}
                     </a>
                     </span>
                 {% endif %}
             </h5>
             {% if shift.shift_template %}
-                <span>{% trans "Generated from" %}:
+                <span>{% translate "Generated from" %}:
                     <a href="{{ shift.shift_template.get_absolute_url }}">
                         {{ shift.shift_template.get_display_name }}</a>
                 </span>
@@ -55,13 +55,13 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>{% trans 'Details' %}</th>
-                        <th>{% trans 'Registered user' %}</th>
-                        <th>{% trans 'Attendance' %}</th>
-                        <th>{% trans 'Actions' %}</th>
+                        <th>{% translate 'Details' %}</th>
+                        <th>{% translate 'Registered user' %}</th>
+                        <th>{% translate 'Attendance' %}</th>
+                        <th>{% translate 'Actions' %}</th>
                         {% if perms.shifts.manage %}
-                            <th>{% trans 'Member-Office actions' %}</th>
-                            <th>{% trans 'Previous attendances' %}</th>
+                            <th>{% translate 'Member-Office actions' %}</th>
+                            <th>{% translate 'Previous attendances' %}</th>
                         {% endif %}
                     </tr>
                     </thead>
@@ -83,11 +83,11 @@
                                     <td><span class="shift-centered-content">
                                         {{ attendance.get_state_display }}
                                         {% if attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
-                                            {% trans 'since' %} {{ attendance.last_state_update|date:"d.m.Y H:i" }}
+                                            {% translate 'since' %} {{ attendance.last_state_update|date:"d.m.Y H:i" }}
                                         {% endif %}
                                     </span></td>
                                 {% else %}
-                                    <td><span class="shift-centered-content">{% trans "Vacant" %}</span></td>
+                                    <td><span class="shift-centered-content">{% translate "Vacant" %}</span></td>
                                     <td></td>
                                 {% endif %}
                                 <td><span class="shift-centered-content">
@@ -99,9 +99,9 @@
                                                 {% csrf_token %}
                                                 <button type="submit" class="btn btn-sm tapir-btn btn-warning"
                                                         id="cancel_look_for_stand_in" data-bs-toggle="tooltip"
-                                                        title="{% trans 'Cancels the search for a stand-in. Use this if you want to attend the shift.' %}">
+                                                        title="{% translate 'Cancels the search for a stand-in. Use this if you want to attend the shift.' %}">
                                                     <span class="material-icons">cancel</span>
-                                                    {% trans "Cancel look for a stand-in" %}
+                                                    {% translate "Cancel look for a stand-in" %}
                                                 </button>
                                             </form>
                                         {% else %}
@@ -122,7 +122,7 @@
                                                     {% if not slot.can_look_for_stand_in %}disabled
                                                     style="pointer-events: none;"{% endif %}>
                                                 <span class="material-icons">sync</span>
-                                                {% trans "Look for a stand-in" %}
+                                                {% translate "Look for a stand-in" %}
                                             </button>
                                             </span>
                                             </form>
@@ -146,7 +146,7 @@
                                                 {% if not slot.can_self_unregister %}disabled
                                                 style="pointer-events: none;"{% endif %}>
                                             <span class="material-icons">person_remove</span>
-                                            {% trans "Unregister myself" %}
+                                            {% translate "Unregister myself" %}
                                         </button>
                                         </span>
                                         </form>
@@ -169,7 +169,7 @@
                                                 {% if not slot.can_register %}disabled
                                                 style="pointer-events: none;"{% endif %}>
                                             <span class="material-icons">person_add</span>
-                                            {% trans "Register myself" %}
+                                            {% translate "Register myself" %}
                                         </button>
                                         </span>
                                         </form>
@@ -186,7 +186,7 @@
                                             <button type="submit"
                                                     class="btn tapir-btn btn-outline-info register-button">
                                                 <span class="material-icons">person_add</span>
-                                                {% trans "Register a member" %}
+                                                {% translate "Register a member" %}
                                             </button>
                                         </form>
                                     {% endif %}
@@ -200,7 +200,7 @@
                                                     <button type="submit"
                                                             class="btn tapir-btn btn-success button-mark-attended">
                                                         <span class="material-icons">thumb_up</span>
-                                                        {% trans "Attended" %}
+                                                        {% translate "Attended" %}
                                                     </button>
                                                 </form>
                                                 <form style="display: inline;"
@@ -210,7 +210,7 @@
                                                     <button type="submit"
                                                             class="btn tapir-btn btn-danger button-mark-missed">
                                                         <span class="material-icons">thumb_down</span>
-                                                        {% trans "Missed" %}
+                                                        {% translate "Missed" %}
                                                     </button>
                                                 </form>
                                                 {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
@@ -221,7 +221,7 @@
                                                         <button type="submit"
                                                                 class="btn tapir-btn btn-warning member-office-look-for-standin-button">
                                                             <span class="material-icons">sync</span>
-                                                            {% trans "Cancel looking for a stand-in" %}
+                                                            {% translate "Cancel looking for a stand-in" %}
                                                         </button>
                                                     </form>
                                                 {% else %}
@@ -232,7 +232,7 @@
                                                         <button type="submit"
                                                                 class="btn tapir-btn btn-warning member-office-look-for-standin-button">
                                                             <span class="material-icons">sync</span>
-                                                            {% trans "Looking for a stand-in" %}
+                                                            {% translate "Looking for a stand-in" %}
                                                         </button>
                                                     </form>
                                                 {% endif %}
@@ -240,7 +240,7 @@
                                                    type="submit"
                                                    class="btn tapir-btn btn-warning member-office-excused-button">
                                                     <span class="material-icons">sick</span>
-                                                    {% trans "Excused" %}
+                                                    {% translate "Excused" %}
                                                 </a>
                                                 <form style="display: inline;"
                                                       method="post"
@@ -248,7 +248,7 @@
                                                     {% csrf_token %}
                                                     <button type="submit" class="btn tapir-btn btn-secondary">
                                                         <span class="material-icons">person_remove</span>
-                                                        {% trans "Cancelled" %}
+                                                        {% translate "Cancelled" %}
                                                     </button>
                                                 </form>
                                             {% endif %}

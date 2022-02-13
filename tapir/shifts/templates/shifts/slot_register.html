@@ -13,20 +13,20 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    {% trans "Shift" %}
+                    {% translate "Shift" %}
                 </li>
                 <li class="breadcrumb-item">
                     <a href="{{ slot.shift.get_absolute_url }}">
                         {{ slot.shift.get_display_name }}
                     </a>
                 </li>
-                <li class="breadcrumb-item">{% trans "Register" %}</li>
+                <li class="breadcrumb-item">{% translate "Register" %}</li>
             </ol>
         </nav>
 
         <div class="card m-2" id="shift_form_card">
             <h5 class="card-header d-flex justify-content-between align-items-center">
-                {% trans "Register for Shift" %}:
+                {% translate "Register for Shift" %}:
                 {{ slot.shift.get_display_name }}
             </h5>
             <div class="card-body">
@@ -36,7 +36,7 @@
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn tapir-btn btn-primary">
                             <span class="material-icons">person_add</span>
-                            {% trans 'Register' %}
+                            {% translate 'Register' %}
                         </button>
                     </div>
                 </form>

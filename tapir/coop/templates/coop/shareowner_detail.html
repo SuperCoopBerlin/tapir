@@ -11,60 +11,60 @@
         <div class="col-6 p-0">
             <div class="card m-2" id="share_owner_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
-                    {% trans "Personal Data" %}
+                    {% translate "Personal Data" %}
                     {% if object.user is not None %}
                         <a class="btn tapir-btn btn-outline-primary" href="{% url "accounts:user_detail" object.user.pk %}">
                             <span class="material-icons">account_circle</span>
-                            {% trans "Go to user page" %}
+                            {% translate "Go to user page" %}
                         </a>
                     {% elif not object.is_company %}
                         <span>
                         <a class="btn tapir-btn btn-outline-primary" href="{% url "coop:shareowner_update" object.pk %}" id="edit_share_owner_button">
                             <span class="material-icons">edit</span>
-                            {% trans "Edit" %}
+                            {% translate "Edit" %}
                         </a>
                         <a class="btn tapir-btn btn-primary" href="{% url "coop:create_user_from_shareowner" object.pk %}" id="create_tapir_user_button">
                             <span class="material-icons">person_add</span>
-                            {% trans "Create Tapir account" %}
+                            {% translate "Create Tapir account" %}
                         </a>
                     </span>
                     {% endif %}
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% trans "Name" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
                         <div class="col-8" id="share_owner_display_name">{{ object.get_info.get_display_name }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% trans "Email" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% translate "Email" %}:</div>
                         <div class="col-8" id="share_owner_email">{{ object.get_info.email }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% trans "Phone number" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% translate "Phone number" %}:</div>
                         <div class="col-8" id="share_owner_phone_number">{{ object.get_info.phone_number|format_phone_number }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% trans "Birthdate" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% translate "Birthdate" %}:</div>
                         <div class="col-8" id="share_owner_birthdate">
                             {% if object.get_info.birthdate %}
                                 {{ object.get_info.birthdate|date:"d.m.Y" }}
                             {% else %}
-                                <span class="text-danger">{% trans "Missing" %}</span>
+                                <span class="text-danger">{% translate "Missing" %}</span>
                             {% endif %}
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% trans "Address" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% translate "Address" %}:</div>
                         <div class="col-8" id="share_owner_address">
                             {% if object.street and object.city %}
                                 {{ object.get_display_address }}
                             {% else %}
-                                <span class="text-danger">{% trans "Missing" %}</span>
+                                <span class="text-danger">{% translate "Missing" %}</span>
                             {% endif %}
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% trans "Preferred Language" %}:</div>
+                        <div class="col-4 fw-bold text-end">{% translate "Preferred Language" %}:</div>
                         <div class="col-8" id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
                     </div>
                 </div>

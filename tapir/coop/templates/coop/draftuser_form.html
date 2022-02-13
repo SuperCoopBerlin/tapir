@@ -18,7 +18,7 @@
                     Editing
                     <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
                 {% else %}
-                    {% trans 'Create applicant' %}
+                    {% translate 'Create applicant' %}
                 {% endif %}
             </h5>
             <div class="card-body">
@@ -28,7 +28,7 @@
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn tapir-btn btn-primary">
                             <span class="material-icons">person_add</span>
-                            {% trans 'Save' %}
+                            {% translate 'Save' %}
                         </button>
                     </div>
                 </form>
