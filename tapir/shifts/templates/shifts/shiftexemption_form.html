@@ -7,11 +7,15 @@
     <div class="container">
         <div class="card m-2" id="shift_exemption_form">
             <h5 class="card-header">
-                {% if object %}
-                    {% trans "Edit shift exemption for: " %}<a href="{{ object.shift_user_data.user.get_absolute_url }}">{{ object.shift_user_data.user.get_display_name }}</a></h5>
+                {% if object.pk %}
+                    {% trans "Edit shift exemption for: " %}
                 {% else %}
-                    {% trans "Create shift exemption for: " %}<a href="{{ selected_user.get_absolute_url }}">{{ selected_user.get_display_name }}</a></h5>
+                    {% trans "Create shift exemption for:" %}
                 {% endif %}
+                <a href="{{ object.shift_user_data.user.get_absolute_url }}">
+                    {{ object.shift_user_data.user.get_display_name }}
+                </a>
+            </h5>
             <div class="card-body">
                 <form role="form" method="post">
                     {% csrf_token %}

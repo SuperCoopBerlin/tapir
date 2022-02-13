@@ -217,12 +217,13 @@ class ShiftExemptionForm(forms.ModelForm):
         ):
             return
 
+        user = self.instance.shift_user_data.user
         if (
             "confirm_cancelled_attendances" in self.cleaned_data
             and not self.cleaned_data["confirm_cancelled_attendances"]
         ):
             covered_attendances = ShiftExemption.get_attendances_cancelled_by_exemption(
-                user=self.user,
+                user=user,
                 start_date=self.cleaned_data["start_date"],
                 end_date=self.cleaned_data["end_date"],
             )
@@ -251,9 +252,7 @@ class ShiftExemptionForm(forms.ModelForm):
                 end_date=self.cleaned_data["end_date"],
             )
         ):
-            attendance_templates = ShiftAttendanceTemplate.objects.filter(
-                user=self.user
-            )
+            attendance_templates = ShiftAttendanceTemplate.objects.filter(user=user)
             if attendance_templates.count() > 0:
                 attendances_display = ", ".join(
                     [
