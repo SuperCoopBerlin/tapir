@@ -99,27 +99,27 @@ urlpatterns = [
         name="shift_template_group_calendar",
     ),
     path(
-        "user_shift_account_log/<int:user_pk>",
+        "shift_account_entry/log/<int:user_pk>",
         views.UserShiftAccountLog.as_view(),
         name="user_shift_account_log",
     ),
     path(
-        "create_shift_account_entry/<int:user_pk>",
+        "shift_account_entry/create/<int:user_pk>",
         views.CreateShiftAccountEntryView.as_view(),
         name="create_shift_account_entry",
     ),
     path(
-        "create_shift_exemption/<int:shift_user_data_pk>",
+        "shift_exemption/create/<int:shift_user_data_pk>",
         views.CreateShiftExemptionView.as_view(),
         name="create_shift_exemption",
     ),
     path(
-        "edit_shift_exemption/<int:pk>",
+        "shift_exemption/<int:pk>/edit",
         views.EditShiftExemptionView.as_view(),
         name="edit_shift_exemption",
     ),
     path(
-        "shift_exemption_list",
+        "shift_exemption",
         views.ShiftExemptionListView.as_view(),
         name="shift_exemption_list",
     ),
