@@ -6,7 +6,7 @@
     gap: 10px;
 }
 
-.supercoop-authentification {
+.tapir-authentication {
     display: grid;
     grid-template-areas:
         "login"
@@ -15,16 +15,16 @@
 }
 
 @media (min-width: 992px) {
-    .supercoop-authentification {
+    .tapir-authentication {
         grid-template-areas: "login register";
         grid-template-columns: 1fr 1fr;
     }
 }
 
-.supercoop-register {
+.tapir-register {
     grid-area: register;
 }
 
-.supercoop-login {
+.tapir-login {
     grid-area: login;
 }
