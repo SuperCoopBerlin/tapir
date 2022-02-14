@@ -78,7 +78,7 @@
                                   method="post"
                                   action="{% url "coop:mark_draftuser_attended_welcome_session" object.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn tapir-btn btn-success ml-3">
+                                <button type="submit" class="btn tapir-btn btn-success ms-3">
                                     <span class="material-icons">check</span>Mark Attended
                                 </button>
                             </form>
@@ -94,7 +94,7 @@
                         {% else %}
                             <span class="text-warning">Pending</span>
                         {% endif %}
-                        <a class="btn tapir-btn btn-outline-secondary ml-3"
+                        <a class="btn tapir-btn btn-outline-secondary ms-3"
                            href="{% url "coop:draftuser_membership_agreement" object.pk %}">
                             <span class="material-icons">file_present</span>
                             Beteiligungserklärung
@@ -104,7 +104,7 @@
                                   method="post"
                                   action="{% url "coop:mark_draftuser_signed_membership_agreement" object.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn tapir-btn btn-success ml-3">
+                                <button type="submit" class="btn tapir-btn btn-success ms-3">
                                     <span id="button_marker_membership_agreement_signed"
                                           class="material-icons">check</span>
                                     Mark Signed
@@ -125,14 +125,14 @@
                         {{ object.paid_shares|yesno:"Yes,No" }}
                     </div>
                 </div>
-                <div class="row m-1 mt-5">
+                <div class="d-flex m-1 mt-5">
                     <div class="d-flex flex-row justify-content-end gap-2">
-                        <a class="btn tapir-btn btn-outline-secondary ml-3"
+                        <a class="btn tapir-btn btn-outline-secondary ms-3"
                            href="{% url "coop:draftuser_update" object.pk %}">
                             <span class="material-icons">edit</span>
                             {% translate "Edit" %}
                         </a>
-                        <form class="form-inline ml-3" method="POST"
+                        <form class="form-inline ms-3" method="POST"
                               action="{% url "coop:draftuser_delete" object.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="btn tapir-btn btn-danger">
@@ -145,7 +145,7 @@
                                     method="post"
                                     action="{% url "coop:draftuser_create_share_owner" object.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="align-self-right btn tapir-btn btn-primary ml-3"
+                                <button type="submit" class="align-self-right btn tapir-btn btn-primary ms-3"
                                         id="button_create_share_owner">
                                     <span class="material-icons">person_add</span>
                                     {% translate "Create Member" %}

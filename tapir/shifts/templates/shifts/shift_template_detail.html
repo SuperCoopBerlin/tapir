@@ -59,7 +59,7 @@
                                                   method="post"
                                                   action="{% url "shifts:shift_attendance_template_delete" attendance.pk %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn tapir-btn btn-sm btn-secondary ml-2">
+                                                <button type="submit" class="btn tapir-btn btn-sm btn-secondary ms-2">
                                                     <span class="material-icons">person_remove</span>
                                                     {% translate "Unregister" %}
                                                 </button>

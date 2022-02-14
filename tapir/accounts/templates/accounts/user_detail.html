@@ -81,18 +81,18 @@
                         </div>
                     {% endif %}
 
-                    <div class="row m-1 mt-4">
+                    <div class="d-flex m-1 mt-4">
                         <div class="d-flex justify-content-end gap-2">
                             {% if perms.accounts.manage %}
                                 <form method="post" action="{% url "accounts:send_user_welcome_email" object.pk %}">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn tapir-btn btn-info ml-3">
+                                    <button type="submit" class="btn tapir-btn btn-info ms-3">
                                         <span class="material-icons">send</span>{% translate "Send account activation email" %}
                                     </button>
                                 </form>
                             {% endif %}
                             {% if object.pk == request.user.pk %}
-                                <a class="btn tapir-btn btn-outline-info ml-1" href="{% url "password_change" %}"><span
+                                <a class="btn tapir-btn btn-outline-info ms-1" href="{% url "password_change" %}"><span
                                         class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
                             {% endif %}
                         </div>

@@ -163,15 +163,15 @@
                                                 qualification, contact the member office)<br/>
                                                 -The shift is in the future<br/>
                                             {% endblocktranslate %}
-                                            <span {% if not slot.can_register %} data-bs-toggle="tooltip" data-html="true"
-                                                                                 title="{{ self_register_tooltip }}"{% endif %}>
-                                        <button type="submit" class="btn tapir-btn btn-info register-self-button"
-                                                {% if not slot.can_register %}disabled
-                                                style="pointer-events: none;"{% endif %}>
-                                            <span class="material-icons">person_add</span>
-                                            {% translate "Register myself" %}
-                                        </button>
-                                        </span>
+                                            <span {% if not slot.can_register %} data-bs-toggle="tooltip" data-bs-html="true"
+                                                                                                          title="{{ self_register_tooltip }}"{% endif %}>
+                                                <button type="submit" class="btn tapir-btn btn-info register-self-button"
+                                                                      {% if not slot.can_register %}disabled
+                                                                      style="pointer-events: none;"{% endif %}>
+                                                    <span class="material-icons">person_add</span>
+                                                    {% translate "Register myself" %}
+                                                </button>
+                                            </span>
                                         </form>
                                     {% endif %}
                                 </span></td>
