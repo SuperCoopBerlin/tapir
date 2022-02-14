@@ -339,7 +339,7 @@ msgid "Problems with logging in?"
 msgstr "Probleme beim Anmelden?"
 
 #: accounts/templates/registration/password_reset_form.html:16
-msgid "Please enter your email adress, we will send you instructions to reset your password."
+msgid "Please enter your email address, we will send you instructions to reset your password."
 msgstr ""
 "Bitte gib deine E-Mail-Adresse ein. Wir schicken dir dann eine Anleitung, wie du dein "
 "Passwort zurücksetzen kannst."
@@ -1196,7 +1196,7 @@ msgstr ""
 "Beendet die Suche nach Vertretung. Benutze dies, wenn du die Schicht wahrnehmen möchtest."
 
 #: shifts/templates/shifts/shift_detail.html:104
-msgid "Cancel look for a stand-in"
+msgid "Cancel looking for a stand-in"
 msgstr "Beende die Suche nach Vertretung"
 
 #: shifts/templates/shifts/shift_detail.html:112
@@ -1257,20 +1257,10 @@ msgid "Unregister myself"
 msgstr "Melde mich ab"
 
 #: shifts/templates/shifts/shift_detail.html:158
-#, fuzzy
-#| msgid ""
-#| "You can only register yourself\n"
-#| "                                                for a shift if :<br/>\n"
-#| "                                                -You are not registered to another slot in "
-#| "that shift<br/>\n"
-#| "                                                -You have the required qualification (if "
-#| "you want to get a qualification, contact the member office)<br/>\n"
-#| "                                                -The shift is in the future<br/>\n"
-#| "                                            "
 msgid ""
 "You can only register\n"
 "                                                yourself\n"
-"                                                for a shift if :<br/>\n"
+"                                                for a shift if:<br/>\n"
 "                                                -You are not registered to another slot in "
 "that shift<br/>\n"
 "                                                -You have the required qualification (if you "
@@ -1294,10 +1284,6 @@ msgstr "Melde mich an"
 #: shifts/templates/shifts/shift_detail.html:189
 msgid "Register a member"
 msgstr "Melde ein Mitglied an"
-
-#: shifts/templates/shifts/shift_detail.html:224
-msgid "Cancel looking for a stand-in"
-msgstr "Beende die Suche nach Vertretung"
 
 #: shifts/templates/shifts/shift_filters.html:4
 msgid "Filters"

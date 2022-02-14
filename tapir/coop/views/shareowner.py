@@ -246,7 +246,7 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
     log_entry.save()
 
     # TODO(Leon Handreke): Add a message to the user log here.
-    messages.success(request, "Welcome email with Mitgliedschaftsbestätigung sent.")
+    messages.success(request, _("Welcome email with membership confirmation sent."))
     return redirect(owner.get_absolute_url())
 
 

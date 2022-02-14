@@ -5,13 +5,15 @@
 {% block content %}
     <div class="card m-2">
         <h5 class="card-header d-flex justify-content-between align-items-center" id="draft_user_registration_confirmed">
-            Registration confirmed
+            {% translate "Registration confirmed" %}
         </h5>
         <div class="card-body">
+            {%  blocktranslate %}
             <p>Registration successful! Congratulations!</p>
-            <p>We just sent you an email confirmation of your pre-registration with the Beteiligungserklärung already filled with your informations. You just have to print it and send it back to us per post or scan it and send it per email.</p>
-            <p>Once we have received both your Beteiligungserklärung and the corresponding payment, we'll send you a the confirmation of your membership.</p>
-            <p>We will also create you an account for this website and for the wiki.</p>
+            <p>We just emailed your confirmation of your pre-registration with the Beteiligungserklärung already filled with your information. You just have to print it and send it back to us per post or scan it and send it per email.</p>
+            <p>Once we have received both your Beteiligungserklärung and the corresponding payment, we'll send you the confirmation of your membership.</p>
+            <p>We will also create for you an account for this website and for the wiki.</p>
+            {% endblocktranslate %}
         </div>
     </div>
 {% endblock %}

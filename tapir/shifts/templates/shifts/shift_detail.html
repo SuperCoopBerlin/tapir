@@ -101,7 +101,7 @@
                                                         id="cancel_look_for_stand_in" data-bs-toggle="tooltip"
                                                         title="{% translate 'Cancels the search for a stand-in. Use this if you want to attend the shift.' %}">
                                                     <span class="material-icons">cancel</span>
-                                                    {% translate "Cancel look for a stand-in" %}
+                                                    {% translate "Cancel looking for a stand-in" %}
                                                 </button>
                                             </form>
                                         {% else %}
@@ -157,7 +157,7 @@
                                             {% csrf_token %}
                                             {% blocktranslate asvar self_register_tooltip %}You can only register
                                                 yourself
-                                                for a shift if :<br/>
+                                                for a shift if:<br/>
                                                 -You are not registered to another slot in that shift<br/>
                                                 -You have the required qualification (if you want to get a
                                                 qualification, contact the member office)<br/>
