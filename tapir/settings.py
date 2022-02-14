@@ -167,14 +167,17 @@ elif EMAIL_ENV == "test":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 elif EMAIL_ENV == "prod":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = "smtp-relay.gmail.com"
-    EMAIL_HOST_USER = "mitglied@supercoop.de"
+    EMAIL_HOST = env("EMAIL_HOST", default="smtp-relay.gmail.com")
+    EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="mitglied@supercoop.de")
     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
 
-EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
-FROM_EMAIL_MEMBER_OFFICE = f"SuperCoop Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
+EMAIL_ADDRESS_MEMBER_OFFICE = env(
+    "EMAIL_ADDRESS_MEMBER_OFFICE", default="mitglied@supercoop.de"
+)
+COOP_NAME = env("COOP_NAME", default="SuperCoop Berlin")
+FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 
 
@@ -182,7 +185,7 @@ DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 ADMINS = tuple(email.utils.parseaddr(x) for x in env.list("DJANGO_ADMINS", default=[]))
 # Crash emails will come from this address.
 # NOTE(Leon Handreke): I don't know if our Google SMTP will reject other senders, so play it safe.
-SERVER_EMAIL = "mitglied@supercoop.de"
+SERVER_EMAIL = env("SERVER_EMAIL", default="mitglied@supercoop.de")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -197,9 +200,9 @@ SELECT2_I18N_PATH = "select2/4.0.13/js/i18n"
 
 WEASYPRINT_BASEURL = "/"
 
-REG_PERSON_BASE_DN = "ou=people,dc=supercoop,dc=de"
+REG_PERSON_BASE_DN = env("REG_PERSON_BASE_DN", default="ou=people,dc=supercoop,dc=de")
 REG_PERSON_OBJECT_CLASSES = ["inetOrgPerson", "organizationalPerson", "person"]
-REG_GROUP_BASE_DN = "ou=groups,dc=supercoop,dc=de"
+REG_GROUP_BASE_DN = env("REG_GROUP_BASE_DN", default="ou=groups,dc=supercoop,dc=de")
 REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
 # Groups are stored in the LDAP tree
@@ -218,8 +221,12 @@ PERMISSIONS = {
 }
 
 # Permissions granted to client presenting a given SSL client cert. Currently used for the welcome desk machines.
+LDAP_WELCOME_DESK_ID = env(
+    "LDAP_WELCOME_DESK_ID",
+    default="CN=welcome-desk.members.supercoop.de,O=SuperCoop Berlin eG,C=DE",
+)
 CLIENT_PERMISSIONS = {
-    "CN=welcome-desk.members.supercoop.de,O=SuperCoop Berlin eG,C=DE": [
+    LDAP_WELCOME_DESK_ID: [
         "welcomedesk.view",
     ]
 }
@@ -237,5 +244,3 @@ if ENABLE_SILK_PROFILING:
     SILKY_PYTHON_PROFILER = True
     SILKY_PYTHON_PROFILER_BINARY = True
     SILKY_META = True
-
-COOP_NAME = env("COOP_NAME", default="Tapir")
