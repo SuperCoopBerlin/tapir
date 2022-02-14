@@ -163,7 +163,8 @@
                                                 qualification, contact the member office)<br/>
                                                 -The shift is in the future<br/>
                                             {% endblocktranslate %}
-                                            <span {% if not slot.can_register %} data-bs-toggle="tooltip" data-bs-html="true"
+                                        {% autoescape off %}
+                                        <span {% if not slot.can_register %} data-bs-toggle="tooltip" data-bs-html="true"
                                                                                                           title="{{ self_register_tooltip }}"{% endif %}>
                                                 <button type="submit" class="btn tapir-btn btn-info register-self-button"
                                                                       {% if not slot.can_register %}disabled
@@ -172,6 +173,7 @@
                                                     {% translate "Register myself" %}
                                                 </button>
                                             </span>
+                                                {% endautoescape %}
                                         </form>
                                     {% endif %}
                                 </span></td>
