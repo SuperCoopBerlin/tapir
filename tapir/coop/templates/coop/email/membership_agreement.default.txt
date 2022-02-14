@@ -1,0 +1,5 @@
+Hello {{ owner.get_info.get_display_name }},
+
+Thanks for your interest!
+
+See attached your pre-filled Beteiligungserklärung.
