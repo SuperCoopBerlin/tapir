@@ -26,6 +26,7 @@ from django.views.generic import (
 )
 from werkzeug.exceptions import BadRequest
 
+from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, MemberStatus
 from tapir.log.util import freeze_for_log
@@ -335,8 +336,16 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
             mail = EmailMessage(
                 subject=_("You missed your shift!"),
                 body=render_to_string(
-                    "shifts/email/shift_missed.html",
-                    {"tapir_user": attendance.user, "shift": attendance.slot.shift},
+                    [
+                        "shifts/email/shift_missed.html",
+                        "shifts/email/shift_missed.default.html",
+                    ],
+                    {
+                        "tapir_user": attendance.user,
+                        "shift": attendance.slot.shift,
+                        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+                        "coop_name": settings.COOP_NAME,
+                    },
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[attendance.user.email],

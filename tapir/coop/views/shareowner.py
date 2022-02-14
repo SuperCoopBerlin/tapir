@@ -12,6 +12,7 @@ from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirec
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import translation
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
@@ -23,6 +24,7 @@ from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
+from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.forms import (
@@ -138,7 +140,7 @@ class ShareOwnerUpdateView(
 @require_GET
 @permission_required("coop.manage")
 def empty_membership_agreement(request):
-    filename = "Beteiligungserklärung SuperCoop eG.pdf"
+    filename = "Beteiligungserklärung " + settings.COOP_NAME + ".pdf"
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
     response.write(pdfs.get_membership_agreement_pdf().write_pdf())
@@ -215,25 +217,33 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
     owner = get_object_or_404(ShareOwner, pk=pk)
 
     if owner.is_investing:
-        template_name = "coop/email/membership_confirmation_welcome_investing.html"
+        template_names = [
+            "coop/email/membership_confirmation_welcome_investing.html",
+            "coop/email/membership_confirmation_welcome_investing.default.html",
+        ]
     else:
-        template_name = "coop/email/membership_confirmation_welcome.html"
+        template_names = [
+            "coop/email/membership_confirmation_welcome.html",
+            "coop/email/membership_confirmation_welcome.default.html",
+        ]
 
-    mail = EmailMessage(
-        subject=_("Welcome at SuperCoop eG!"),
-        body=render_to_string(template_name, {"owner": owner}),
-        from_email=FROM_EMAIL_MEMBER_OFFICE,
-        to=[owner.get_info().email],
-        bcc=["mitglied@supercoop.de"],
-        attachments=[
-            (
-                "Mitgliedschaftsbestätigung %s.pdf"
-                % owner.get_info().get_display_name(),
-                pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf(),
-                "application/pdf",
-            )
-        ],
-    )
+    with translation.override(owner.get_info().preferred_language):
+        mail = EmailMessage(
+            subject=_("Welcome at %(organisation_name)s!")
+            % {"organisation_name": settings.COOP_NAME},
+            body=render_to_string(template_names, {"owner": owner}),
+            from_email=FROM_EMAIL_MEMBER_OFFICE,
+            to=[owner.get_info().email],
+            bcc=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
+            attachments=[
+                (
+                    "Mitgliedschaftsbestätigung %s.pdf"
+                    % owner.get_info().get_display_name(),
+                    pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf(),
+                    "application/pdf",
+                )
+            ],
+        )
     mail.content_subtype = "html"
     mail.send()
 
@@ -522,9 +532,7 @@ class ShareOwnerExportMailchimpView(
 
     def render_to_response(self, context, **response_kwargs):
         response = HttpResponse(content_type="text/csv")
-        response[
-            "Content-Disposition"
-        ] = 'attachment; filename="supercoop_members_mailchimp.csv"'
+        response["Content-Disposition"] = 'attachment; filename="members_mailchimp.csv"'
         writer = csv.writer(response)
 
         writer.writerow(["Email Address", "First Name", "Last Name", "Address", "TAGS"])

@@ -40,9 +40,14 @@ class DraftUserCreateView(
 
 
 class DraftUserRegisterView(DraftUserViewMixin, generic.CreateView):
-    template_name = "coop/draftuser_register_form.html"
     form_class = DraftUserRegisterForm
     success_url = "/coop/user/draft/register/confirm"
+
+    def get_template_names(self):
+        return [
+            "coop/draftuser_register_form.html",
+            "coop/draftuser_register_form.default.html",
+        ]
 
 
 class DraftUserConfirmRegistrationView(DraftUserViewMixin, generic.TemplateView):

@@ -67,8 +67,14 @@ def send_user_welcome_email(request, pk):
     tapir_user = get_object_or_404(TapirUser, pk=pk)
 
     email = tapir_user.get_email_from_template(
-        subject_template_name="accounts/email/welcome_email_subject.html",
-        email_template_name="accounts/email/welcome_email.html",
+        subject_template_names=[
+            "accounts/email/welcome_email_subject.html",
+            "accounts/email/welcome_email_subject.default.html",
+        ],
+        email_template_names=[
+            "accounts/email/welcome_email.html",
+            "accounts/email/welcome_email.default.html",
+        ],
     )
     email.send()
 

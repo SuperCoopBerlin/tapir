@@ -175,7 +175,7 @@ class TapirUser(LdapUser):
         return reverse("accounts:user_detail", args=[self.pk])
 
     def get_email_from_template(
-        self, subject_template_name: str, email_template_name: str
+        self, subject_template_names: list, email_template_names: list
     ):
         # TODO(Leon Handreke): Should this be in views? Check in the django source how they do it.
         context = {
@@ -185,10 +185,10 @@ class TapirUser(LdapUser):
             "token": default_token_generator.make_token(self),
         }
         with translation.override(self.preferred_language):
-            subject = loader.render_to_string(subject_template_name, context)
+            subject = loader.render_to_string(subject_template_names, context)
             # Email subject *must not* contain newlines
             subject = "".join(subject.splitlines())
-            body = loader.render_to_string(email_template_name, context)
+            body = loader.render_to_string(email_template_names, context)
         email = EmailMultiAlternatives(subject, body, to=[self.email])
         email.content_subtype = "html"
         return email

@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 
+from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
@@ -664,8 +665,16 @@ class ShiftSlot(models.Model):
             mail = EmailMessage(
                 subject=_("You found a stand-in!"),
                 body=render_to_string(
-                    "shifts/email/stand_in_found.html",
-                    {"tapir_user": attendance.user, "shift": attendance.slot.shift},
+                    [
+                        "shifts/email/stand_in_found.html",
+                        "shifts/email/stand_in_found.default.html",
+                    ],
+                    {
+                        "tapir_user": attendance.user,
+                        "shift": attendance.slot.shift,
+                        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+                        "coop_name": settings.COOP_NAME,
+                    },
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[attendance.user.email],
@@ -878,14 +887,22 @@ class ShiftUserData(models.Model):
             self.user.preferred_language
         ):
             mail = EmailMessage(
-                subject=_("Your upcoming SuperCoop shift: %(shift)s")
-                % {"shift": attendance.slot.shift.get_display_name()},
+                subject=_("Your upcoming %(coop_name)s shift: %(shift)s")
+                % {
+                    "shift": attendance.slot.shift.get_display_name(),
+                    "coop_name": settings.COOP_NAME,
+                },
                 body=render_to_string(
-                    "shifts/email/shift_reminder.html",
+                    [
+                        "shifts/email/shift_reminder.html",
+                        "shifts/email/shift_reminder.default.html",
+                    ],
                     {
                         "tapir_user": self.user,
                         "shift": attendance.slot.shift,
                         "is_first_shift": is_first_shift,
+                        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+                        "coop_name": settings.COOP_NAME,
                     },
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
