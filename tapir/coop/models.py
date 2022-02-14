@@ -314,6 +314,9 @@ class DraftUser(models.Model):
             and self.signed_membership_agreement
         )
 
+    def get_info(self):
+        return self
+
 
 class FinancingCampaign(models.Model):
     is_active = models.BooleanField(_("Currently active"), default=False, null=False)
