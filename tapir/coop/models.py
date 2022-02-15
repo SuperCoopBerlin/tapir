@@ -315,6 +315,10 @@ class DraftUser(models.Model):
         )
 
     def get_info(self):
+        """
+        get_info is an interface implemented by both ShareOwner and DraftUser
+        to allow identical treatment in templates.
+        """
         return self
 
 
