@@ -895,8 +895,11 @@ class ShiftUserData(models.Model):
             attendance.save()
 
     def get_credit_requirement_for_cycle(self, cycle_start_date: datetime.date):
-        if self.user.share_owner.is_active() or self.is_currently_exempted_from_shifts(
-            cycle_start_date
+        if not hasattr(self.user, "share_owner") or self.user.share_owner is None:
+            return 0
+        if (
+            not self.user.share_owner.is_active()
+            or self.is_currently_exempted_from_shifts(cycle_start_date)
         ):
             return 0
         return 1
