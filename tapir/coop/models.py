@@ -183,8 +183,11 @@ class ShareOwner(models.Model):
         return (
             self.user is not None
             and self.user.shift_user_data.is_balance_ok()
-            and not self.is_investing
+            and self.is_active()
         )
+
+    def is_active(self) -> bool:
+        return self.get_member_status() == MemberStatus.ACTIVE
 
 
 class MemberStatus:

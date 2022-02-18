@@ -13,6 +13,7 @@ class TestShiftCycleStart(TapirSeleniumTestBase):
         user_two: TapirUser = TapirUser.objects.get(username="user.two")
         user_three: TapirUser = TapirUser.objects.get(username="user.three")
         user_four: TapirUser = TapirUser.objects.get(username="user.four")
+        user_five: TapirUser = TapirUser.objects.get(username="user.five")
 
         ShiftExemption.objects.create(
             shift_user_data=user_one.shift_user_data,
@@ -66,4 +67,9 @@ class TestShiftCycleStart(TapirSeleniumTestBase):
             user_four.shift_user_data.get_account_balance(),
             0,
             "user_four has an exemption with no end date that covers both cycles, it's balance should be 0",
+        )
+        self.assertEqual(
+            user_five.shift_user_data.get_account_balance(),
+            0,
+            "user_five is an investing member, they are not required to do shifts, their balance should be 0",
         )
