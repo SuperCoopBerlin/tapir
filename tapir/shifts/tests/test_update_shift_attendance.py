@@ -31,7 +31,7 @@ class TestUpdateShiftAttendance(TapirSeleniumTestBase):
         self.selenium.get(self.live_server_url + hilla.get_absolute_url())
         self.wait_until_element_present_by_id("tapir_user_detail_card")
         self.assertIn(
-            "Up to date",
+            "OK",
             self.selenium.find_element_by_id("user-shift-status").text,
             "User's shift status should be up to date because we just checked that it's shift credit score is 0.",
         )

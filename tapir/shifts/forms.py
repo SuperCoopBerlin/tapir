@@ -203,7 +203,7 @@ class ShiftExemptionForm(forms.ModelForm):
     confirm_cancelled_abcd_attendances = BooleanField(
         label=_(
             "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be "
-            "created "
+            "created"
         ),
         required=False,
         widget=HiddenInput,
@@ -235,8 +235,7 @@ class ShiftExemptionForm(forms.ModelForm):
                     ]
                 )
                 error_msg = _(
-                    f"The user will be unregistered from the following shifts because they are within the range of "
-                    f"the exemption : {attendances_display} "
+                    f"The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
                 )
                 self.add_error("confirm_cancelled_attendances", error_msg)
                 self.fields[
@@ -261,9 +260,7 @@ class ShiftExemptionForm(forms.ModelForm):
                     ]
                 )
                 error_msg = _(
-                    f"The user will be unregistered from the following ABCD shifts because the exemption is longer"
-                    f" than {ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT} cycles: "
-                    f"{attendances_display}"
+                    f"The user will be unregistered from the following ABCD shifts because the exemption is longer than {ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT} cycles: {attendances_display}"
                 )
                 self.add_error("confirm_cancelled_abcd_attendances", error_msg)
                 self.fields[

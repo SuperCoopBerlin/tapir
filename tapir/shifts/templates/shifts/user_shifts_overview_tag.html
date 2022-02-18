@@ -106,13 +106,14 @@
             <div class="col-4 fw-bold text-end">{% translate "Shift Status" %}:</div>
             <div class="col-8" id="user-shift-status">
                 {% if user.shift_user_data.is_balance_ok %}
-                    <span class="text-success">{% translate "Up to date" %}</span>
+                    <span class="text-success">{% translate "OK" %}</span>
 
                     {% if user.shift_user_data.get_account_balance < 0 %}
                         ({% translate "Shift for ongoing cycle pending" %})
                     {% elif user.shift_user_data.get_account_balance > 0 %}
                         ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_account_balance %}
-                        {{ num_banked_shifts }} banked shifts{% endblocktranslate %})
+                            {{ num_banked_shifts }} banked shifts
+                        {% endblocktranslate %})
                     {% endif %}
                 {% else %}
                     <span class="text-danger">{% translate "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>

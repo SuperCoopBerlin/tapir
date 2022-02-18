@@ -3,8 +3,11 @@
 <div class="card m-2" id="user_coop_info_card">
     <h5 class="card-header d-flex justify-content-between align-items-center">
         {% if owner %}
-            <span>{% blocktranslate with coop_share_owner_id=owner.id %}Member #
-                {{ coop_share_owner_id }}{% endblocktranslate %}</span>
+            <span>
+                {% blocktranslate with coop_share_owner_id=owner.id %}
+                    Member #{{ coop_share_owner_id }}
+                {% endblocktranslate %}
+            </span>
             {% if perms.accounts.manage %}
                 <span>
                     <a class="btn tapir-btn btn-outline-secondary"
@@ -148,7 +151,7 @@
             </div>
 
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Paid Membership Fee" %}:</div>
+                <div class="col-5 fw-bold text-end">{% translate "Paid Entrance Fee" %}:</div>
                 <div class="col-7">{{ owner.paid_membership_fee|yesno:"Yes,No" }}</div>
             </div>
 
