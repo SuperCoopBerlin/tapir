@@ -138,7 +138,7 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
         context["members"] = ShareOwner.objects.filter(
             share_ownerships__in=extra_shares
         ).distinct()
-        context["average_extra_shares"] = (
+        context["average_extra_shares"] = "{:.2f}".format(
             extra_shares.count() / context["members"].count()
         )
 
