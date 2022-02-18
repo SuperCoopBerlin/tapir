@@ -1,13 +1,19 @@
 import datetime
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.utils import timezone
 from django.views import generic
 from django.views.generic import TemplateView
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner, MemberStatus, DraftUser, ShareOwnership
+from tapir.coop.models import (
+    ShareOwner,
+    MemberStatus,
+    DraftUser,
+    ShareOwnership,
+    COOP_SHARE_PRICE,
+)
 from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftSlotTemplate,
@@ -72,6 +78,13 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
         context["slot_templates"] = slot_templates
         context["slot_templates_free"] = slot_templates_free
 
+        context["shares"] = self.get_shares_context()
+        context["extra_shares"] = self.get_extra_shares_context()
+        return context
+
+    @staticmethod
+    def get_shares_context():
+        context = dict()
         context["nb_share_ownerships_now"] = ShareOwnership.objects.active_temporal(
             timezone.now()
         ).count()
@@ -92,15 +105,50 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
             else:
                 current_date = datetime.date(day=1, month=1, year=current_date.year + 1)
 
-        threshold_date = datetime.date(day=1, month=1, year=2022)
-        members_before_2022 = ShareOwner.objects.filter(
-            share_ownerships__start_date__lt=threshold_date
-        ).distinct()
-        new_shares_by_old_members = ShareOwnership.objects.filter(
-            start_date__gte=threshold_date, owner__in=members_before_2022
+        nb_months_since_start = (
+            (datetime.date.today().year - start_date.year) * 12
+            + datetime.date.today().month
+            - start_date.month
         )
-        context["new_shares_by_old_members_threshold_date"] = threshold_date
-        context["new_shares_by_old_members"] = new_shares_by_old_members.count()
+        context["average_shares_per_month"] = "{:.2f}".format(
+            context["nb_share_ownerships_now"] / nb_months_since_start
+        )
+        context["start_date"] = start_date
+
+        return context
+
+    @staticmethod
+    def get_extra_shares_context():
+        context = dict()
+        threshold_date = datetime.date(day=1, month=1, year=2022)
+        first_shares = [
+            share_owner.get_oldest_active_share_ownership().id
+            for share_owner in ShareOwner.objects.exclude(
+                id__in=ShareOwner.objects.with_status(MemberStatus.SOLD)
+            )
+        ]
+        extra_shares = (
+            ShareOwnership.objects.filter(start_date__gte=threshold_date)
+            .exclude(id__in=first_shares)
+            .active_temporal()
+        )
+
+        context["threshold_date"] = threshold_date
+        context["share_count"] = extra_shares.count()
+        context["members"] = ShareOwner.objects.filter(
+            share_ownerships__in=extra_shares
+        ).distinct()
+        context["average_extra_shares"] = (
+            extra_shares.count() / context["members"].count()
+        )
+
+        total_amount_paid = extra_shares.aggregate(Sum("amount_paid"))[
+            "amount_paid__sum"
+        ]
+        total_cost = extra_shares.count() * COOP_SHARE_PRICE
+        context["total_amount_paid"] = total_amount_paid
+        context["total_cost"] = total_cost
+        context["paid_percentage"] = "{:.0%}".format(total_amount_paid / total_cost)
 
         return context
 

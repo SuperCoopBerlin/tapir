@@ -66,8 +66,47 @@
                     <li>Out of {{ slot_templates|length }} ABCD shift slots, {{ slot_templates_free|length }} are
                         free.
                     </li>
-                    <li>There are currently <a href="#" onclick="show_card('shares_card')">{{ nb_share_ownerships_now }} shares</a>.</li>
-                    <li>People who were already members before the {{ new_shares_by_old_members_threshold_date|date:"d.m.Y" }} have bought {{ new_shares_by_old_members }} new shares since that date.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card m-2">
+            <h5 class="card-header">
+                <span>{% translate "Statistics on shares" %}</span>
+            </h5>
+            <div class="card-body">
+                <ul>
+                    <li>There are currently
+                        <a href="#" onclick="show_card('shares_card')">{{ shares.nb_share_ownerships_now }} shares</a>.
+                        <ul>
+                            <li>This means on average {{ shares.average_shares_per_month }} new shares per month since
+                                the {{ shares.start_date|date:"d.m.Y" }}</li>
+                        </ul>
+                    </li>
+                    <li>Extra shares since the {{ extra_shares.threshold_date|date:"d.m.Y" }} :
+                        <ul>
+                            <li>
+                                An extra share is any share that is bought beyond the first compulsory share,
+                                independently of whether the person became a member before or after
+                                the {{ extra_shares.threshold_date|date:"d.m.Y" }}.
+                            </li>
+                            <li>
+                                Since the {{ extra_shares.threshold_date|date:"d.m.Y" }},
+                                <a href="#" onclick="show_card('extra_share_owners')">
+                                    {{ extra_shares.share_count }} extra shares
+                                </a> have been bought.
+                            </li>
+                            <li>
+                                These extra shares have been bought by {{ extra_shares.members|length }} members,
+                                which is {{ extra_shares.average_extra_shares }} average extra share per member.
+                            </li>
+                            <li>
+                                For those extra shares, {{ extra_shares.total_amount_paid }}€ have been paid out of the
+                                total cost of {{ extra_shares.total_cost }}€, or {{ extra_shares.paid_percentage }}.
+                            </li>
+                        </ul>
+
+                    </li>
                 </ul>
             </div>
         </div>
@@ -78,10 +117,10 @@
             </h5>
             <div class="card-body">
                 <ul>
-                    {% for date, number in nb_shares_by_month.items %}
+                    {% for date, number in shares.nb_shares_by_month.items %}
                         <li>{{ date|date:"d.m.Y" }}: {{ number }}</li>
                     {% endfor %}
-                <li>{% now "d.m.Y" %}: {{ nb_share_ownerships_now }} </li>
+                    <li>{% now "d.m.Y" %}: {{ shares.nb_share_ownerships_now }} </li>
                 </ul>
             </div>
         </div>
@@ -200,6 +239,20 @@
                 <ul>
                     {% for shift in abcd_shifts_not_full %}
                         <li><a href="{{ shift.get_absolute_url }}">{{ shift.get_display_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="card m-2 statistics-toggle-card" id="extra_share_owners">
+            <h5 class="card-header">
+                <span>{% translate "Members who bought extra shares" %}</span>
+            </h5>
+            <div class="card-body">
+                <ul>
+                    {% for owner in extra_shares.members %}
+                        <li><a href="{{ owner.get_info.get_absolute_url }}">{{ owner.get_info.get_display_name }}</a>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
