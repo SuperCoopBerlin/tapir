@@ -777,6 +777,11 @@ def generate_shifts_up_to(target_day: datetime.date):
 
 
 def get_sidebar_link_groups(request):
+    current_week_group_name = "???"
+    current_week_group = get_current_week_group()
+    if current_week_group is not None:
+        current_week_group_name = current_week_group.name
+
     links = [
         SidebarLink(
             display_name=_("Shift calendar"),
@@ -790,7 +795,7 @@ def get_sidebar_link_groups(request):
         ),
         SidebarLink(
             display_name=_(
-                f"ABCD weeks calendar, current week: {get_current_week_group().name}"
+                f"ABCD weeks calendar, current week: {current_week_group_name}"
             ),
             material_icon="table_view",
             url=reverse_lazy("shifts:shift_template_group_calendar"),

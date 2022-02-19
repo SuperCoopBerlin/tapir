@@ -697,6 +697,7 @@ def get_sidebar_link_groups(request):
                 display_name=_("Welcome Desk"),
                 material_icon="table_restaurant",
                 url=reverse_lazy("coop:welcome_desk_search"),
+                html_id="welcome_desk_link",
             ),
         ]
 
