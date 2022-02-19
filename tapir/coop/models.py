@@ -14,7 +14,6 @@ from tapir.shifts.models import ShiftAttendanceTemplate
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
-    DurationModelMixinQuerySet,
 )
 from tapir.utils.user_utils import UserUtils
 
@@ -329,6 +328,9 @@ class FinancingCampaign(models.Model):
     is_active = models.BooleanField(_("Currently active"), default=False, null=False)
     name = models.CharField(_("Name"), max_length=150, blank=False, null=False)
     goal = models.IntegerField(_("Goal"), blank=False, null=False)
+
+    def get_absolute_url(self):
+        return reverse("coop:financing_campaign_update", args=[self.pk])
 
 
 class FinancingSource(models.Model):

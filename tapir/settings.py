@@ -49,11 +49,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.postgres",
     "django_bootstrap5",
+    "tapir.core",
     "tapir.log",
     "tapir.shifts",
     "tapir.utils",
     "tapir.coop",
     "tapir.odoo",
+    "tapir.supercoop_berlin",
     "bootstrap_datepicker_plus",
     "django_tables2",
     "django_filters",
@@ -190,7 +192,7 @@ SERVER_EMAIL = "mitglied@supercoop.de"
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "tapir/static")]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "core/static")
 
 SELECT2_JS = "select2/4.0.13/js/select2.min.js"
 SELECT2_CSS = "select2/4.0.13/css/select2.min.css"

@@ -1,10 +1,7 @@
-import datetime
-
 from django import template
 
 from tapir.coop.models import (
     ShareOwner,
-    ShareOwnership,
     FinancingCampaign,
     FinancingSource,
 )
@@ -45,13 +42,4 @@ def shop_extension_progress_bar(context):
         sources[source.name] = source_context
     context["shop_extension_sources"] = sources
 
-    return context
-
-
-@register.inclusion_tag("coop/financing_nav_links.html", takes_context=True)
-def financing_nav_links(context):
-    campaigns = dict()
-    for campaign in FinancingCampaign.objects.all():
-        campaigns[campaign.name] = campaign.id
-    context["financing_campaigns"] = campaigns
     return context

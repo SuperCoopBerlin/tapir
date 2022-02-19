@@ -3,7 +3,7 @@
     <span data-bs-toggle="tooltip"
           title="{% translate "Click this link to learn more." %}">
     <span>{{ shop_extension_campaign_name }}</span>
-    <span class="progress" style="width: 200px;">
+    <span class="progress" style="width: 400px;">
         {% for source_name, source_data in shop_extension_sources.items %}
             <span class="progress-bar {{ source_data.color }}" role="progressbar" style="width: {{ source_data.width }}%;">
                 <span>{% translate source_name %}</span>
