@@ -14,18 +14,35 @@ from tapir.shifts.models import (
 admin.site.register(ShiftUserData)
 
 
-class ShiftTemplateInline(admin.TabularInline):
+class ShiftAdminPermissionMixin:
+    def has_module_permission(self, request):
+        return request.user.has_perm("shifts.manage")
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm("shifts.manage")
+
+    def has_add_permission(self, request, obj=None):
+        return request.user.has_perm("shifts.manage")
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm("shifts.manage")
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.has_perm("shifts.manage")
+
+
+class ShiftTemplateInline(ShiftAdminPermissionMixin, admin.TabularInline):
     model = ShiftTemplate
     show_change_link = True
     extra = 3
 
 
 @admin.register(ShiftTemplateGroup)
-class ShiftTemplateGroupAdmin(admin.ModelAdmin):
+class ShiftTemplateGroupAdmin(ShiftAdminPermissionMixin, admin.ModelAdmin):
     inlines = [ShiftTemplateInline]
 
 
-class ShiftSlotTemplateInline(admin.TabularInline):
+class ShiftSlotTemplateInline(ShiftAdminPermissionMixin, admin.TabularInline):
     model = ShiftSlotTemplate
     extra = 1
 
@@ -36,7 +53,7 @@ class ShiftInline(admin.TabularInline):
 
 
 @admin.register(ShiftTemplate)
-class ShiftTemplateAdmin(admin.ModelAdmin):
+class ShiftTemplateAdmin(ShiftAdminPermissionMixin, admin.ModelAdmin):
     inlines = [ShiftSlotTemplateInline, ShiftInline]
 
 
@@ -46,7 +63,7 @@ class ShiftAttendanceTemplateInline(admin.TabularInline):
 
 
 @admin.register(ShiftSlotTemplate)
-class ShiftSlotTemplateAdmin(admin.ModelAdmin):
+class ShiftSlotTemplateAdmin(ShiftAdminPermissionMixin, admin.ModelAdmin):
     inlines = [ShiftAttendanceTemplateInline]
 
 
