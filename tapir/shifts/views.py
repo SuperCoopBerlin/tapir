@@ -376,7 +376,7 @@ def shift_attendance_template_delete(request, pk):
         shift_attendance_template.cancel_attendances(timezone.now())
         shift_attendance_template.delete()
 
-    return safe_redirect(request.GET.get("next", slot_template.shift_template), request)
+    return safe_redirect(request.GET.get("next"), slot_template.shift_template, request)
 
 
 @require_POST
@@ -405,7 +405,7 @@ def shiftslot_register_user(request, pk, user_pk):
         log_entry.shift = shift_attendance.slot.shift
         log_entry.save()
 
-    return safe_redirect(request.GET.get("next", slot.shift), request)
+    return safe_redirect(request.GET.get("next"), slot.shift, request)
 
 
 class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView):

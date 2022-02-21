@@ -390,7 +390,10 @@ def copy_user_info(source, target):
     target.preferred_language = source.preferred_language
 
 
-def safe_redirect(redirect_url, request):
+def safe_redirect(redirect_url, default, request):
+    if redirect_url is None:
+        return redirect(default)
+
     if not url_has_allowed_host_and_scheme(
         url=redirect_url, allowed_hosts=None, require_https=request.is_secure()
     ):

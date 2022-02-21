@@ -49,4 +49,4 @@ def create_text_log_entry(request, **kwargs):
         return HttpResponseBadRequest(str(form.errors))
 
     form.save()
-    return safe_redirect(request.GET.get("next", "/"), request)
+    return safe_redirect(request.GET.get("next"), "/", request)
