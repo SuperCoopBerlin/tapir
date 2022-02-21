@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
 
 from tapir.accounts.models import TapirUser
@@ -8,6 +8,7 @@ from tapir.coop.models import ShareOwner
 from tapir.log.forms import CreateTextLogEntryForm
 from tapir.log.models import EmailLogEntry, TextLogEntry
 from tapir.log.util import freeze_for_log
+from tapir.utils.models import safe_redirect
 
 
 @require_GET
@@ -44,8 +45,8 @@ def create_text_log_entry(request, **kwargs):
 
     form = CreateTextLogEntryForm(request.POST, instance=log_entry)
 
-    if form.is_valid():
-        form.save()
-        return redirect(request.GET.get("next"))
+    if not form.is_valid():
+        return HttpResponseBadRequest(str(form.errors))
 
-    return HttpResponseBadRequest(str(form.errors))
+    form.save()
+    return safe_redirect(request.GET.get("next", "/"), request)

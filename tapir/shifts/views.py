@@ -57,6 +57,7 @@ from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
+from tapir.utils.models import safe_redirect
 
 
 def time_to_seconds(time):
@@ -375,7 +376,7 @@ def shift_attendance_template_delete(request, pk):
         shift_attendance_template.cancel_attendances(timezone.now())
         shift_attendance_template.delete()
 
-    return redirect(request.GET.get("next", slot_template.shift_template))
+    return safe_redirect(request.GET.get("next", slot_template.shift_template), request)
 
 
 @require_POST
@@ -404,7 +405,7 @@ def shiftslot_register_user(request, pk, user_pk):
         log_entry.shift = shift_attendance.slot.shift
         log_entry.save()
 
-    return redirect(request.GET.get("next", slot.shift))
+    return safe_redirect(request.GET.get("next", slot.shift), request)
 
 
 class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView):
