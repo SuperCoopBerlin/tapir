@@ -57,7 +57,7 @@ from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
-from tapir.utils.models import safe_redirect
+from tapir.utils.shortcuts import safe_redirect
 
 
 def time_to_seconds(time):

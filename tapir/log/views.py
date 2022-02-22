@@ -8,7 +8,7 @@ from tapir.coop.models import ShareOwner
 from tapir.log.forms import CreateTextLogEntryForm
 from tapir.log.models import EmailLogEntry, TextLogEntry
 from tapir.log.util import freeze_for_log
-from tapir.utils.models import safe_redirect
+from tapir.utils.shortcuts import safe_redirect
 
 
 @require_GET
