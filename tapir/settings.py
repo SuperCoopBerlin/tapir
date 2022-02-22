@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     "tapir.utils",
     "tapir.coop",
     "tapir.odoo",
-    "tapir.supercoop_berlin",
     "bootstrap_datepicker_plus",
     "django_tables2",
     "django_filters",

@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.datetime_safe import date
-from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
@@ -21,8 +20,6 @@ from tapir.coop.models import (
     ShareOwnership,
     COOP_SHARE_PRICE,
 )
-from tapir.core.config import sidebar_links_providers
-from tapir.core.models import SidebarLink, SidebarLinkGroup
 from tapir.utils.models import copy_user_info
 
 
@@ -161,27 +158,3 @@ def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> Shar
         )
 
     return share_owner
-
-
-def get_sidebar_link_groups(request):
-    if not request.user.has_perm("coop.manage"):
-        return None
-
-    links = [
-        SidebarLink(
-            display_name=_("Applicants"),
-            material_icon="person_outline",
-            url=reverse_lazy("coop:draftuser_list"),
-        ),
-    ]
-
-    return [
-        SidebarLinkGroup(
-            name=_("Cooperative"),
-            ordering=100,
-            links=links,
-        )
-    ]
-
-
-sidebar_links_providers.append(get_sidebar_link_groups)

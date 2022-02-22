@@ -11,7 +11,7 @@ from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
@@ -39,8 +39,6 @@ from tapir.coop.models import (
     get_member_status_translation,
     COOP_SHARE_PRICE,
 )
-from tapir.core.config import sidebar_links_providers
-from tapir.core.models import SidebarLink, SidebarLinkGroup
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
@@ -672,42 +670,3 @@ class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
         )
 
         return context_data
-
-
-def get_sidebar_link_groups(request):
-    links = []
-
-    if request.user.has_perm("coop.manage"):
-        links += [
-            SidebarLink(
-                display_name=_("Members"),
-                material_icon="person",
-                url=reverse_lazy("coop:shareowner_list"),
-            ),
-            SidebarLink(
-                display_name=_("Matching program"),
-                material_icon="card_giftcard",
-                url=reverse_lazy("coop:matching_program_list"),
-            ),
-        ]
-
-    if request.user.has_perm("welcomedesk.view"):
-        links += [
-            SidebarLink(
-                display_name=_("Welcome Desk"),
-                material_icon="table_restaurant",
-                url=reverse_lazy("coop:welcome_desk_search"),
-                html_id="welcome_desk_link",
-            ),
-        ]
-
-    return [
-        SidebarLinkGroup(
-            name=_("Cooperative"),
-            ordering=100,
-            links=links,
-        )
-    ]
-
-
-sidebar_links_providers.append(get_sidebar_link_groups)

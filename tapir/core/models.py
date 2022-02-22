@@ -1,23 +1,17 @@
-class SidebarLink:
-    url: str
-    display_name: str
-    material_icon: str
-    is_active: bool
-    html_id: str  # for automated tests
-
-    def __init__(self, url: str, display_name: str, material_icon: str, html_id=""):
-        self.url = url
-        self.display_name = display_name
-        self.material_icon = material_icon
-        self.html_id = html_id
-
-
 class SidebarLinkGroup:
     name: str
     links: []
-    ordering: int
 
-    def __init__(self, name: str, links: [], ordering):
+    def __init__(self, name: str):
         self.name = name
-        self.links = links
-        self.ordering = ordering
+        self.links = []
+
+    def add_link(self, display_name: str, material_icon: str, url: str, html_id=""):
+        self.links.append(
+            {
+                "url": url,
+                "display_name": display_name,
+                "material_icon": material_icon,
+                "html_id": html_id,
+            }
+        )

@@ -2,9 +2,7 @@ import datetime
 
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db.models import Count, Sum
-from django.urls import reverse_lazy
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import TemplateView
 
@@ -16,8 +14,6 @@ from tapir.coop.models import (
     ShareOwnership,
     COOP_SHARE_PRICE,
 )
-from tapir.core.config import sidebar_links_providers
-from tapir.core.models import SidebarLink, SidebarLinkGroup
 from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftSlotTemplate,
@@ -159,27 +155,3 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
 
 class AboutView(LoginRequiredMixin, TemplateView):
     template_name = "coop/about.html"
-
-
-def get_sidebar_link_groups(request):
-    if not request.user.has_perm("coop.manage"):
-        return None
-
-    links = [
-        SidebarLink(
-            display_name=_("Statistics"),
-            material_icon="calculate",
-            url=reverse_lazy("coop:statistics"),
-        ),
-    ]
-
-    return [
-        SidebarLinkGroup(
-            name=_("Cooperative"),
-            ordering=100,
-            links=links,
-        )
-    ]
-
-
-sidebar_links_providers.append(get_sidebar_link_groups)

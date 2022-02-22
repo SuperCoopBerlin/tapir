@@ -10,7 +10,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
 from django.template.loader import render_to_string
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
@@ -25,8 +25,6 @@ from django.views.generic import (
 from werkzeug.exceptions import BadRequest
 
 from tapir.accounts.models import TapirUser
-from tapir.core.config import sidebar_links_providers
-from tapir.core.models import SidebarLink, SidebarLinkGroup
 from tapir.log.util import freeze_for_log
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.forms import (
@@ -774,55 +772,3 @@ def generate_shifts_up_to(target_day: datetime.date):
         current_monday += datetime.timedelta(days=7)
         group = get_week_group(current_monday)
         group.create_shifts(current_monday)
-
-
-def get_sidebar_link_groups(request):
-    current_week_group_name = "???"
-    current_week_group = get_current_week_group()
-    if current_week_group is not None:
-        current_week_group_name = current_week_group.name
-
-    links = [
-        SidebarLink(
-            display_name=_("Shift calendar"),
-            material_icon="calendar_today",
-            url=reverse_lazy("shifts:calendar_future"),
-        ),
-        SidebarLink(
-            display_name=_("ABCD-shifts week-plan"),
-            material_icon="today",
-            url=reverse_lazy("shifts:shift_template_overview"),
-        ),
-        SidebarLink(
-            display_name=_(
-                f"ABCD weeks calendar, current week: {current_week_group_name}"
-            ),
-            material_icon="table_view",
-            url=reverse_lazy("shifts:shift_template_group_calendar"),
-        ),
-    ]
-
-    if request.user.has_perm("shifts.manage"):
-        links += [
-            SidebarLink(
-                display_name=_("Past shifts"),
-                material_icon="history",
-                url=reverse_lazy("shifts:calendar_past"),
-            ),
-            SidebarLink(
-                display_name=_("Shift exemptions"),
-                material_icon="beach_access",
-                url=reverse_lazy("shifts:shift_exemption_list"),
-            ),
-        ]
-
-    return [
-        SidebarLinkGroup(
-            name=_("Shifts"),
-            ordering=200,
-            links=links,
-        )
-    ]
-
-
-sidebar_links_providers.append(get_sidebar_link_groups)
