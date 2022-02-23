@@ -24,6 +24,11 @@ from tapir.shifts.models import (
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
 
+SHIFT_NAME_CASHIER_MORNING = "Cashier morning"
+SHIFT_NAME_CASHIER_AFTERNOON = "Cashier afternoon"
+SHIFT_NAME_STORAGE_MORNING = "Storage morning"
+SHIFT_NAME_STORAGE_AFTERNOON = "Storage afternoon"
+
 
 def delete_templates():
     ShiftAttendanceTemplate.objects.all().delete()
@@ -44,7 +49,7 @@ def populate_shifts():
         )
 
         shift = Shift.objects.get_or_create(
-            name="Cashier morning",
+            name=SHIFT_NAME_CASHIER_MORNING,
             start_time=morning,
             end_time=noon,
         )
@@ -52,7 +57,7 @@ def populate_shifts():
             ShiftSlot.objects.create(shift=shift, optional=False)
 
         shift = Shift.objects.get_or_create(
-            name="Cashier afternoon",
+            name=SHIFT_NAME_CASHIER_AFTERNOON,
             start_time=noon,
             end_time=evening,
         )
@@ -60,7 +65,7 @@ def populate_shifts():
             ShiftSlot.objects.create(shift=shift, optional=False)
 
         shift = Shift.objects.get_or_create(
-            name="Storage morning",
+            name=SHIFT_NAME_STORAGE_MORNING,
             start_time=morning,
             end_time=noon,
         )
@@ -68,7 +73,7 @@ def populate_shifts():
             ShiftSlot.objects.create(shift=shift, optional=False)
 
         shift = Shift.objects.get_or_create(
-            name="Storage afternoon",
+            name=SHIFT_NAME_STORAGE_AFTERNOON,
             start_time=noon,
             end_time=evening,
         )
@@ -85,7 +90,7 @@ def populate_user_shifts(user_id):
     start_time = datetime.datetime.combine(
         date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
     )
-    shift = Shift.objects.get(name="Cashier morning", start_time=start_time)
+    shift = Shift.objects.get(name=SHIFT_NAME_CASHIER_MORNING, start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift, user=user, state=ShiftAttendance.State.DONE
     )
@@ -94,7 +99,7 @@ def populate_user_shifts(user_id):
     start_time = datetime.datetime.combine(
         date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
     )
-    shift = Shift.objects.get(name="Storage morning", start_time=start_time)
+    shift = Shift.objects.get(name=SHIFT_NAME_STORAGE_MORNING, start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift,
         user=user,
@@ -106,7 +111,7 @@ def populate_user_shifts(user_id):
     start_time = datetime.datetime.combine(
         date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
     )
-    shift = Shift.objects.get(name="Cashier morning", start_time=start_time)
+    shift = Shift.objects.get(name=SHIFT_NAME_CASHIER_MORNING, start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift, user=user, state=ShiftAttendance.State.CANCELLED
     )
@@ -114,7 +119,7 @@ def populate_user_shifts(user_id):
     start_time = datetime.datetime.combine(
         date, datetime.time(hour=12, tzinfo=datetime.timezone.utc)
     )
-    shift = Shift.objects.get(name="Cashier afternoon", start_time=start_time)
+    shift = Shift.objects.get(name=SHIFT_NAME_CASHIER_AFTERNOON, start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift, user=user, state=ShiftAttendance.State.PENDING
     )
@@ -123,7 +128,7 @@ def populate_user_shifts(user_id):
     start_time = datetime.datetime.combine(
         date, datetime.time(hour=12, tzinfo=datetime.timezone.utc)
     )
-    shift = Shift.objects.get(name="Storage afternoon", start_time=start_time)
+    shift = Shift.objects.get(name=SHIFT_NAME_STORAGE_AFTERNOON, start_time=start_time)
     ShiftAttendance.objects.get_or_create(
         shift=shift, user=user, state=ShiftAttendance.State.PENDING
     )
