@@ -167,7 +167,7 @@ def populate_users():
         is_company = randomizer % 70 == 0
         is_investing = randomizer % 7 == 0 or is_company
 
-        tapir_user: TapirUser = None
+        tapir_user = None
         if not is_company and not is_investing:
             tapir_user = TapirUser.objects.create(
                 username=json_user.get_username(),
@@ -204,7 +204,7 @@ def populate_users():
         elif randomizer % 60 == 0:
             end_date = datetime.date(day=18, month=8, year=2020)
 
-        for i in range(json_user.num_shares):
+        for _ in range(json_user.num_shares):
             ShareOwnership.objects.create(
                 owner=share_owner,
                 start_date=start_date,
@@ -248,24 +248,30 @@ def populate_shift_templates():
     if ShiftTemplateGroup.objects.count() < 4:
         populate_template_groups()
 
+    slot_name_warenannahme = "Warenannahme & Lagerhaltung"
+    slot_name_cashier = "Kasse"
+    slot_name_general = ""
+    slot_name_teamleader = "Teamleitung"
+    slot_name_cleaning = "Reinigung & Aufräumen"
+
     start_hours = [(8, 15), (11, 0), (13, 45), (16, 30), (19, 15)]
     first_shift_slots = {
-        "Teamleitung": 1,
-        "Warenannahme & Lagerhaltung": 4,
-        "": 2,
+        slot_name_teamleader: 1,
+        slot_name_warenannahme: 4,
+        slot_name_general: 2,
     }
     last_shift_slots = {
-        "Teamleitung": 1,
-        "Warenannahme & Lagerhaltung": 1,
-        "Reinigung & Aufräumen": 2,
-        "Kasse": 2,
-        "": 2,
+        slot_name_teamleader: 1,
+        slot_name_warenannahme: 1,
+        slot_name_cleaning: 2,
+        slot_name_cashier: 2,
+        slot_name_general: 2,
     }
     middle_shift_slots = {
-        "Teamleitung": 1,
-        "Warenannahme & Lagerhaltung": 1,
-        "Kasse": 2,
-        "": 2,
+        slot_name_teamleader: 1,
+        slot_name_warenannahme: 1,
+        slot_name_cashier: 2,
+        slot_name_general: 2,
     }
     for weekday in [2, 3, 4, 5]:
         for template_group in ShiftTemplateGroup.objects.all():

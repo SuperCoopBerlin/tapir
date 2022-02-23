@@ -327,11 +327,8 @@ class DurationModelMixin(models.Model):
             return False
 
         # now we have established that the start date is today or in the past
-        if self.end_date is None:
-            # unlimited duration
-            return True
-        elif self.end_date >= effective_date:
-            # end date is today or in the future
+        if self.end_date is None or self.end_date >= effective_date:
+            # unlimited duration or end date is today or in the future
             return True
 
         # end date is in the past, the model is not active anymore

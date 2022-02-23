@@ -195,10 +195,9 @@ class TapirUser(LdapUser):
 
     def has_perm(self, perm, obj=None):
         # This is a hack to allow permissions based on client certificates. ClientPermsMiddleware checks the
-        # certificate in the request and adds the extra permissions the the user object, which is accessible here.
-        if hasattr(self, "client_perms"):
-            if perm in self.client_perms:
-                return True
+        # certificate in the request and adds the extra permissions the user object, which is accessible here.
+        if hasattr(self, "client_perms") and perm in self.client_perms:
+            return True
 
         return super().has_perm(perm=perm, obj=obj)
 

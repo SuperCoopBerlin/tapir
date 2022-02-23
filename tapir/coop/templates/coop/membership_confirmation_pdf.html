@@ -28,7 +28,7 @@
     </div>
     <div style="flex-grow: 1"></div>
     <div style="margin-top: 13mm;">
-        <img src="{% static "coop/img/supercoop_logo.png" %}" style="width: 60mm;" />
+        <img src="{% static "coop/img/supercoop_logo.png" %}" style="width: 60mm;" alt="SuperCoop Logo"/>
     </div>
 </div>
 
@@ -40,11 +40,11 @@
 
     <p>herzlich Willkommen als offizielles Mitglied der SuperCoop eG!</p>
 
-    <p>Mit dem Zeichnen von <b>{{ owner.get_active_share_ownerships.count }} Anteil(en)</b> hast du dich dafür entschieden,
+    <p>Mit dem Zeichnen von <strong>{{ owner.get_active_share_ownerships.count }} Anteil(en)</strong> hast du dich dafür entschieden,
         gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!</p>
 
     <p>Wir freuen uns sehr, dich als Mitglied der SuperCoop eG begrüßen zu dürfen und bestätigen die Aufnahme in die
-        Genossenschaft mit der <b>Mitgliedsnummer {{ owner.id }}</b>. Über diese Nummer wird auch die Ausübung deiner Rechte und
+        Genossenschaft mit der <strong>Mitgliedsnummer {{ owner.id }}</strong>. Über diese Nummer wird auch die Ausübung deiner Rechte und
         Pflichten als Mitglied erfolgen. Bitte merke oder notiere dir deine Nummer deshalb.</p>
 
     <p>Du möchtest anderen von der Vision und Idee von SuperCoop erzählen? Auf unserer Webseite findest du alle Infos über

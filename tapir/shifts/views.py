@@ -487,7 +487,7 @@ class EditShiftUserDataView(PermissionRequiredMixin, UpdateView):
 
 
 @register.simple_tag
-def get_week_group(target_time: date) -> ShiftTemplateGroup:
+def get_week_group(target_time: date) -> ShiftTemplateGroup | None:
     for delta in list(range(52)) + list(range(-52, 0)):
         monday = (
             target_time - timedelta(days=target_time.weekday()) + timedelta(weeks=delta)

@@ -64,14 +64,14 @@ class ShiftTemplateGroup(models.Model):
             for shift_template in self.shift_templates.all()
         ]
 
-    def get_group_index(self) -> int:
+    def get_group_index(self) -> int | None:
         for pair in ShiftTemplateGroup.NAME_INT_PAIRS:
             if pair["name"] == self.name:
                 return pair["index"]
         return None
 
     @staticmethod
-    def get_group_from_index(index: int) -> ShiftTemplateGroup:
+    def get_group_from_index(index: int) -> ShiftTemplateGroup | None:
         for pair in ShiftTemplateGroup.NAME_INT_PAIRS:
             if pair["index"] == index:
                 return ShiftTemplateGroup.objects.get(name=pair["name"])
@@ -131,7 +131,7 @@ class ShiftTemplate(models.Model):
             self.end_time.strftime("%H:%M"),
         )
         if self.group:
-            display_name = "%s (%s)" % (display_name, self.group.name)
+            display_name = f"{display_name} ({self.group.name})"
         return display_name
 
     def get_absolute_url(self):
@@ -155,7 +155,7 @@ class ShiftTemplate(models.Model):
             self.start_time.strftime("%H:%M"),
         )
         if self.group:
-            display_name = "%s (%s)" % (display_name, self.group.name)
+            display_name = f"{display_name} ({self.group.name})"
         return display_name
 
     def _generate_shift(self, start_date: datetime.date):
@@ -248,12 +248,6 @@ class ShiftTemplate(models.Model):
                         slot_template.delete_self_and_warn_about_users_loosing_their_slots(
                             change_time, dry_run
                         )
-                    )
-                    nb_slots_left_to_delete -= 1
-
-                if nb_slots_left_to_delete > 0:
-                    raise Exception(
-                        f"Slots left to delete should be 0! Slot name:{slot_name} Target slot count:{slot_count} Left to delete:{nb_slots_left_to_delete}"
                     )
 
         return deletion_warnings
@@ -464,7 +458,7 @@ class Shift(models.Model):
             timezone.localtime(self.end_time).strftime("%H:%M"),
         )
         if self.shift_template and self.shift_template.group:
-            display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
+            display_name = f"{display_name} ({self.shift_template.group.name})"
 
         display_name = "%s [%d/%d]" % (
             display_name,
@@ -481,7 +475,7 @@ class Shift(models.Model):
             timezone.localtime(self.end_time).strftime("%H:%M"),
         )
         if self.shift_template and self.shift_template.group:
-            display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
+            display_name = f"{display_name} ({self.shift_template.group.name})"
         return display_name
 
     def get_absolute_url(self):

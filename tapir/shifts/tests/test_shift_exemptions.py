@@ -209,7 +209,7 @@ class TestShiftExemptions(TapirSeleniumTestBase):
         self.wait_until_element_present_by_id("shift_exemption_list_button")
         return ShiftExemption.objects.get(description=description)
 
-    def check_is_exempted(self, user: TapirUser, exemption: ShiftExemption):
+    def check_is_exempted(self, user: TapirUser, exemption: ShiftExemption | None):
         self.assertEqual(
             exemption is not None,
             user.shift_user_data.is_currently_exempted_from_shifts(),

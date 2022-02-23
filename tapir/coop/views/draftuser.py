@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -127,7 +128,7 @@ def create_share_owner_from_draft_user_view(request, pk):
         return redirect(draft)
 
     if draft.num_shares < 0:
-        raise Exception(
+        raise ValidationError(
             "Trying to create a share owner from a draft user without shares"
         )
 
