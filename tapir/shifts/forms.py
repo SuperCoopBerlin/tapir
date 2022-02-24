@@ -1,4 +1,3 @@
-from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelChoiceField, CheckboxSelectMultiple, BooleanField
@@ -26,8 +25,8 @@ class ShiftCreateForm(forms.ModelForm):
         model = Shift
         fields = ["name", "start_time", "end_time"]
         widgets = {
-            "start_time": DateTimePickerInput().start_of("shift"),
-            "end_time": DateTimePickerInput().end_of("shift"),
+            "start_time": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"}),
+            "end_time": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"}),
         }
 
 

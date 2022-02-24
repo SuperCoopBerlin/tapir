@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     "tapir.utils",
     "tapir.coop",
     "tapir.odoo",
-    "bootstrap_datepicker_plus",
     "django_tables2",
     "django_filters",
     "django_select2",  # For autocompletion in form fields
