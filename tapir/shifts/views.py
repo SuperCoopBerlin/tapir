@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.mail import EmailMessage
 from django.db import transaction
+from django.db.models import Count
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
@@ -13,6 +14,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
+from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import (
@@ -25,6 +27,7 @@ from django.views.generic import (
 from werkzeug.exceptions import BadRequest
 
 from tapir.accounts.models import TapirUser
+from tapir.coop.models import ShareOwner, MemberStatus
 from tapir.log.util import freeze_for_log
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.forms import (
@@ -771,3 +774,107 @@ def generate_shifts_up_to(target_day: datetime.date):
         current_monday += datetime.timedelta(days=7)
         group = get_week_group(current_monday)
         group.create_shifts(current_monday)
+
+
+class StatisticsView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "shifts/statistics.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["members"] = self.get_members_context()
+        context["abcd_slots"] = self.get_abcd_slots_context()
+        context["weeks"] = self.get_weeks_context()
+
+        return context
+
+    @staticmethod
+    def get_members_context():
+        context = {}
+
+        active_members = ShareOwner.objects.with_status(MemberStatus.ACTIVE)
+        active_users = TapirUser.objects.filter(share_owner__in=active_members)
+        context["active_users_count"] = active_users.count()
+        exempted_users = ShiftUserData.objects.filter(
+            user__in=active_users
+        ).is_covered_by_exemption()
+        context["exempted_users_count"] = exempted_users.count()
+        users_doing_shifts = active_users.exclude(shift_user_data__in=exempted_users)
+        context["users_doing_shifts_count"] = users_doing_shifts.count()
+
+        context["abcd_slots_count"] = ShiftSlotTemplate.objects.count()
+        context["extra_abcd_slots_count"] = (
+            context["abcd_slots_count"] - context["users_doing_shifts_count"]
+        )
+
+        members_in_abcd_system = users_doing_shifts.with_shift_attendance_mode(
+            ShiftAttendanceMode.REGULAR
+        )
+        context["members_in_abcd_system_count"] = members_in_abcd_system.count()
+
+        context[
+            "members_in_flying_system_count"
+        ] = active_users.with_shift_attendance_mode(ShiftAttendanceMode.FLYING).count()
+
+        context["members_in_abcd_system_without_shift_attendance_count"] = (
+            members_in_abcd_system.annotate(
+                num_template_attendances=Count("shift_attendance_templates")
+            )
+            .filter(num_template_attendances=0)
+            .count()
+        )
+
+        return context
+
+    @staticmethod
+    def get_abcd_slots_context():
+        slot_types = ShiftSlotTemplate.objects.values("name").distinct()
+        abcd_slots = {}
+        for slot_type in slot_types:
+            displayed_name = slot_type["name"]
+            if displayed_name == "":
+                displayed_name = "General"
+            abcd_slots[displayed_name] = {}
+            abcd_slots[displayed_name][
+                "registered"
+            ] = TapirUser.objects.registered_to_shift_slot_name(
+                slot_type["name"]
+            ).count()
+            abcd_slots[displayed_name]["slot_count"] = ShiftSlotTemplate.objects.filter(
+                name=slot_type["name"]
+            ).count()
+        return abcd_slots
+
+    @staticmethod
+    def get_weeks_context():
+        context = {}
+        today = datetime.date.today()
+        weeks = {"Last": -1, "Current": 0, "Next": 1}
+        for week, delta in weeks.items():
+            week_context = {}
+            monday = today - timedelta(days=today.weekday()) + timedelta(weeks=delta)
+            week_start = datetime.datetime.combine(
+                monday, datetime.time(hour=0, minute=0), timezone.now().tzinfo
+            )
+            week_end = monday + datetime.timedelta(days=7)
+            shifts = Shift.objects.filter(
+                start_time__gte=week_start,
+                end_time__lte=week_end,
+            )
+            week_context["shifts_count"] = shifts.count()
+            week_context["slots_count"] = ShiftSlot.objects.filter(
+                shift__in=shifts
+            ).count()
+            week_context["occupied_count"] = (
+                ShiftAttendance.objects.filter(slot__shift__in=shifts)
+                .with_valid_state()
+                .count()
+            )
+            week_context["standin_search_count"] = ShiftAttendance.objects.filter(
+                slot__shift__in=shifts,
+                state=ShiftAttendance.State.LOOKING_FOR_STAND_IN,
+            ).count()
+
+            context[week] = week_context
+
+        return context

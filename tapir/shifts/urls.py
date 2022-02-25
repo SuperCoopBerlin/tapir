@@ -123,4 +123,9 @@ urlpatterns = [
         views.ShiftExemptionListView.as_view(),
         name="shift_exemption_list",
     ),
+    path(
+        "statistics",
+        views.StatisticsView.as_view(),
+        name="statistics",
+    ),
 ]

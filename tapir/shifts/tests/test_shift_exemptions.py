@@ -13,6 +13,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftSlotTemplate,
     ShiftTemplateGroup,
+    ShiftUserData,
 )
 from tapir.utils.tests_utils import TapirSeleniumTestBase
 
@@ -214,6 +215,13 @@ class TestShiftExemptions(TapirSeleniumTestBase):
             exemption is not None,
             user.shift_user_data.is_currently_exempted_from_shifts(),
         )
+        self.assertEqual(
+            exemption is not None,
+            ShiftUserData.objects.filter(id=user.shift_user_data.id)
+            .is_covered_by_exemption()
+            .exists(),
+        )
+
         self.selenium.get(
             self.live_server_url + reverse("accounts:user_detail", args=[user.id])
         )

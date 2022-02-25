@@ -14,7 +14,6 @@ from tapir.shifts.models import ShiftAttendanceTemplate
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
-    DurationModelMixinQuerySet,
 )
 from tapir.utils.user_utils import UserUtils
 

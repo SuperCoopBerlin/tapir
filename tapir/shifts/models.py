@@ -786,6 +786,13 @@ class ShiftAttendanceMode:
     FLYING = "flying"
 
 
+class ShiftUserDataQuerySet(models.QuerySet):
+    def is_covered_by_exemption(self, date=None):
+        return self.filter(
+            shift_exemptions__in=ShiftExemption.objects.active_temporal(date)
+        )
+
+
 class ShiftUserData(models.Model):
     # We create a ShiftUserData for every TapirUser with the Django Signals mechanism (see create_shift_user_data
     # below). For this reason, we assume TapirUser.shift_user_data to exist in all places in the code. Note that
@@ -812,6 +819,8 @@ class ShiftUserData(models.Model):
         default=ShiftAttendanceMode.REGULAR,
         blank=False,
     )
+
+    objects = ShiftUserDataQuerySet.as_manager()
 
     def get_capabilities_display(self):
         return ", ".join(

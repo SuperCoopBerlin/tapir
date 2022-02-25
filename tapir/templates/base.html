@@ -96,7 +96,7 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url "coop:statistics" %}">
-                                    {% translate "Statistics" %}
+                                    {% translate "Members and shares statistics" %}
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -137,6 +137,10 @@
                                 </a>
                             </li>
                         {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "shifts:statistics" %}">
+                                {% translate 'Shift statistics' %}</a>
+                        </li>
                     </ul>
                     {% if perms.welcomedesk.view %}
                         <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{% translate "Welcome Desk" %}</h6>
