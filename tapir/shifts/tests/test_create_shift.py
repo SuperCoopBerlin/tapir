@@ -61,30 +61,11 @@ class TestCreateShift(ShiftTestBase):
             self.selenium.find_element_by_id("shift_card_title").text,
         )
 
-        # TODO(Leon Handreke): Make the create shift form have a number of slots argument again.
-        # self.assertEqual(
-        #    self.selenium.find_element_by_xpath(
-        #        "//*[@id='attendance_table']/tbody/tr[{0}]/td[1]/h5".format(
-        #            self.shift_num_slots
-        #        )
-        #    ).text,
-        #    "#" + str(self.shift_num_slots),
-        # )
-
-        # self.assertEqual(
-        #    len(
-        #        self.selenium.find_elements_by_xpath(
-        #            "//*[@id='attendance_table']/tbody/tr/td[1]/h5"
-        #        )
-        #    ),
-        #    self.shift_num_slots,
-        # )
-
         ShiftTestBase.shift_id = self.selenium.current_url.split("/")[-2]
 
     def check_shift_in_timetable(self):
         shift_block = self.selenium.find_element_by_id(
-            "shift_{0}".format(ShiftTestBase.shift_id)
+            f"shift_{ShiftTestBase.shift_id}"
         )
         shift_time = (
             self.shift_start_time.time().strftime("%H:%M")
@@ -103,9 +84,7 @@ class TestCreateShift(ShiftTestBase):
         self.login_as_admin()
         self.selenium.get(self.live_server_url + reverse("shifts:calendar_future"))
         self.wait_until_element_present_by_id("upcoming-shifts-timetable")
-        self.selenium.find_element_by_id(
-            "shift_{0}".format(ShiftTestBase.shift_id)
-        ).click()
+        self.selenium.find_element_by_id(f"shift_{ShiftTestBase.shift_id}").click()
         self.wait_until_element_present_by_id("shift_detail_card")
         self.selenium.find_element_by_id("shift_edit_button").click()
         self.wait_until_element_present_by_id("shift_form_card")

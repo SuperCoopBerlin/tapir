@@ -188,7 +188,7 @@ class TestShiftExemptions(TapirSeleniumTestBase):
             for attendance in attendances:
                 self.assertTrue(
                     attendance.get_display_name() in self.selenium.page_source,
-                    f"There should be a warning that the following attendance will be deleted: "
+                    "There should be a warning that the following attendance will be deleted: "
                     f"{attendance.get_display_name()}",
                 )
 
@@ -201,7 +201,7 @@ class TestShiftExemptions(TapirSeleniumTestBase):
                     display_name = attendance_template.slot_template.get_display_name()
                 self.assertTrue(
                     display_name in self.selenium.page_source,
-                    f"There should be a warning that the following attendance template will be deleted: "
+                    "There should be a warning that the following attendance template will be deleted: "
                     f"{display_name}",
                 )
 

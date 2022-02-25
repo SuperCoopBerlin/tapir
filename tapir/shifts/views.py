@@ -389,9 +389,7 @@ def shiftslot_register_user(request, pk, user_pk):
             "You don't have the rights to register other users to shifts."
         )
     if not slot.user_can_attend(selected_user):
-        raise BadRequest(
-            "User ({0}) can't join shift slot ({1})".format(selected_user.pk, slot.pk)
-        )
+        raise BadRequest(f"User ({selected_user.pk}) can't join shift slot ({slot.pk})")
 
     with transaction.atomic():
         shift_attendance = ShiftAttendance.objects.create(slot=slot, user=selected_user)
@@ -644,7 +642,7 @@ class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        date_to_group = dict()
+        date_to_group = {}
         today = timezone.now().date()
         for week in range(52):
             monday = today - timedelta(days=today.weekday()) + timedelta(weeks=week)

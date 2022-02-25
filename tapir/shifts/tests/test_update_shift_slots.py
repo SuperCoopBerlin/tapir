@@ -112,17 +112,15 @@ class TestUpdateShiftSlots(TapirSeleniumTestBase):
             future_shift.slots.filter(name=self.SLOT_NAME_GENERAL).count(),
             "The future shift should have no general slot",
         )
-        self.assertTrue(
+        self.assertIsNotNone(
             ShiftSlotTemplate.objects.get(
                 shift_template=shift_template, name=self.SLOT_NAME_STORAGE
             ).get_attendance_template()
-            is not None
         )
-        self.assertTrue(
+        self.assertIsNotNone(
             ShiftSlotTemplate.objects.get(
                 shift_template=shift_template, name=self.SLOT_NAME_LEADER
             ).get_attendance_template()
-            is not None
         )
 
         for slot in ShiftSlot.objects.filter(

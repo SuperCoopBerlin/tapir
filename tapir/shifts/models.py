@@ -53,7 +53,7 @@ class ShiftTemplateGroup(models.Model):
     ]
 
     def __str__(self):
-        return "%s: %s" % (self.__class__.__name__, self.name)
+        return f"{self.__class__.__name__}: {self.name}"
 
     def create_shifts(self, start_date: datetime.date):
         if start_date.weekday() != 0:
