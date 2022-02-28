@@ -173,10 +173,8 @@ elif EMAIL_ENV == "prod":
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
 
-EMAIL_ADDRESS_MEMBER_OFFICE = env(
-    "EMAIL_ADDRESS_MEMBER_OFFICE", default="mitglied@supercoop.de"
-)
-COOP_NAME = env("COOP_NAME", default="SuperCoop Berlin")
+EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
+COOP_NAME = "SuperCoop Berlin"
 FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 
@@ -200,9 +198,9 @@ SELECT2_I18N_PATH = "select2/4.0.13/js/i18n"
 
 WEASYPRINT_BASEURL = "/"
 
-REG_PERSON_BASE_DN = env("REG_PERSON_BASE_DN", default="ou=people,dc=supercoop,dc=de")
+REG_PERSON_BASE_DN = "ou=people,dc=supercoop,dc=de"
 REG_PERSON_OBJECT_CLASSES = ["inetOrgPerson", "organizationalPerson", "person"]
-REG_GROUP_BASE_DN = env("REG_GROUP_BASE_DN", default="ou=groups,dc=supercoop,dc=de")
+REG_GROUP_BASE_DN = "ou=groups,dc=supercoop,dc=de"
 REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
 # Groups are stored in the LDAP tree
@@ -221,10 +219,7 @@ PERMISSIONS = {
 }
 
 # Permissions granted to client presenting a given SSL client cert. Currently used for the welcome desk machines.
-LDAP_WELCOME_DESK_ID = env(
-    "LDAP_WELCOME_DESK_ID",
-    default="CN=welcome-desk.members.supercoop.de,O=SuperCoop Berlin eG,C=DE",
-)
+LDAP_WELCOME_DESK_ID = "CN=welcome-desk.members.supercoop.de,O=SuperCoop Berlin eG,C=DE"
 CLIENT_PERMISSIONS = {
     LDAP_WELCOME_DESK_ID: [
         "welcomedesk.view",
