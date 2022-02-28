@@ -11,6 +11,8 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Run Test
         run: docker-compose run web make test
+      - name: Override Coverage Source Path for Sonar # The sonar scan
+        run: sed -i 's/<source>\/app\/tapir<\/source>/<source>\/github\/workspace<\/source>/g' coverage.xml
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
