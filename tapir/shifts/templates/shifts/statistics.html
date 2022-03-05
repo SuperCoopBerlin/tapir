@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "shifts/base.html" %}
 
 {% load django_bootstrap5 %}
 {% load i18n %}
@@ -16,7 +16,7 @@
                         <ul>
                             <li>Out of those {{ members.active_users_count }}, {{ members.exempted_users_count }} are
                                 currently exempted from
-                                doing shifts. This leaves {{ users_doing_shifts_count }} who are expected to do shifts.
+                                doing shifts. This leaves {{ members.users_doing_shifts_count }} who are expected to do shifts.
                             </li>
                             <li>There are currently {{ members.abcd_slots_count }} ABCD shift slots, which
                                 is {{ members.extra_abcd_slots_count }} more than users expected to do shifts.
