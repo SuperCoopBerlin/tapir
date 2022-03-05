@@ -9,7 +9,10 @@ _WEASYPRINT_FONT_CONFIG = weasyprint.fonts.FontConfiguration()
 def get_shareowner_membership_confirmation_pdf(owner):
     doc = weasyprint.HTML(
         string=render_to_string(
-            "coop/membership_confirmation_pdf.html",
+            [
+                "coop/membership_confirmation_pdf.html",
+                "coop/membership_confirmation_pdf.default.html",
+            ],
             {
                 "owner": owner,
             },
@@ -26,7 +29,13 @@ def get_membership_agreement_pdf(owner=None, **kwargs):
     }
     context.update(kwargs)
     doc = weasyprint.HTML(
-        string=render_to_string("coop/membership_agreement_pdf.html", context),
+        string=render_to_string(
+            [
+                "coop/membership_agreement_pdf.html",
+                "coop/membership_agreement_pdf.default.html",
+            ],
+            context,
+        ),
         base_url=settings.WEASYPRINT_BASEURL,
         url_fetcher=django_url_fetcher,
     )

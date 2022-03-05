@@ -5,5 +5,4 @@ test-lint:
 	poetry run black --check .
 
 test: test-lint
-	# poetry run ./manage.py makemigrations --check
-	poetry run pytest
+	poetry run pytest --cov-report xml:coverage.xml

@@ -4,12 +4,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <title>{% translate 'Stand-in found' %}</title>
 </head>
 <body>
 {% blocktranslate with first_name=tapir_user.first_name shift_display_name=shift.get_display_name %}
     <p>Dear {{ first_name }},</p>
 
-    <p>This is an automated email from SuperCoop.</p>
+    <p>This is an automated email from {{ coop_name }}.</p>
 
     <p>
         You were looking for a stand-in for the following shift: {{ shift_display_name }}.<br/>
@@ -17,8 +18,6 @@
     </p>
 
     <p>If you haven't done so already, don't forget to attend another shift to compensate for the one you will miss!</p>
-
-    <p>Cooperatively yours,</p>
 {% endblocktranslate %}
 </body>
 </html>

@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 
+from tapir import settings
 from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner, FinancingCampaign
 from tapir.coop.pdfs import get_membership_agreement_pdf
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
@@ -65,10 +66,17 @@ class DraftUserRegisterForm(forms.ModelForm):
         draft_user: DraftUser = super().save(commit)
         with translation.override(draft_user.preferred_language):
             mail = EmailMessage(
-                subject=_("Welcome at SuperCoop eG!"),
+                subject=_("Welcome at %(organisation_name)s!")
+                % {"organisation_name": settings.COOP_NAME},
                 body=render_to_string(
-                    "coop/email/membership_confirmation_welcome.html",
-                    {"owner": draft_user},
+                    [
+                        "coop/email/membership_confirmation_welcome.html",
+                        "coop/email/membership_confirmation_welcome.default.html",
+                    ],
+                    {
+                        "owner": draft_user,
+                        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+                    },
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[draft_user.email],

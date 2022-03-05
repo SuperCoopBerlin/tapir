@@ -29,19 +29,19 @@
         </span>
         {% endif %}
         <div style="margin-top: 2mm;">
-            SuperCoop Berlin eG<br />
-            Glogauer Straße 21<br />
-            10999 Berlin
+            Organisation<br />
+            Straße 1<br />
+            12345 Stadt
         </div>
     </div>
     <div style="flex-grow: 1"></div>
     <div style="margin-top: 13mm;">
-        <img src="{% static "coop/img/supercoop_logo.png" %}" style="width: 60mm;" alt="SuperCoop Logo"/>
+        <img src="{% static "../static/images/Logo_dark.svg" %}" style="width: 60mm;" />
     </div>
 </div>
 
 <div style="text-align: center; font-size: 14pt; font-weight: bold;">
-    Beteiligungserklärung SuperCoop Berlin eG
+    Beteiligungserklärung <em>Organisation</em>
 </div>
 
 <div style="margin-top: 10mm; line-height: 1.8rem;">
@@ -63,7 +63,7 @@
         </div>
 
         <div style="color: grey; display: flex; flex-direction: row;">
-            <div style="margin-right: 3mm;"><strong>oder</strong> Firma:</div>
+            <div style="margin-right: 3mm;"><b>oder</b> Firma:</div>
             <div style="border-bottom: 2px solid grey; flex: 1; vertical-align: bottom;">
                 <span style="margin-left: 5mm;"><!-- Company Name --></span>
             </div>
@@ -109,17 +109,17 @@
             {% endif %}
         </div>
         <div style="flex: 1">
-            Ich beantrage hiermit die Aufnahme in die SuperCoop Berlin eG. Ich möchte mich mit insgesamt
+            Ich beantrage hiermit die Aufnahme in die <strong>Organisation</strong>. Ich möchte mich mit insgesamt
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">{{ owner.num_shares }}</span>
             Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen
-            in Höhe von 100 € je Geschäftsanteil plus einem Eintrittsgeld in Höhe von 10 € zu leisten, das der Deckung von
+            in Höhe von <strong>100,- € je Geschäftsanteil</strong> plus einem Eintrittsgeld in Höhe von 10,- € zu leisten, das der Deckung von
             Verwaltungskosten dient. Insgesamt verpflichte ich mich daher,
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">
             {{ owner.get_initial_amount|floatformat:0 }}
             </span>€
             zu leisten. Die Satzung der
-            SuperCoop Berlin eG ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
-            <a href="https://supercoop.de/unsere-genossenschaft/">https://supercoop.de/unsere-genossenschaft/</a>
+            <strong>Organisation</strong> ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
+            <a href="https://wirmarkt.de/unsere-genossenschaft/">https://wirmarkt.de/unsere-genossenschaft/</a>
         </div>
     </div>
 
@@ -131,15 +131,15 @@
             {% endif %}
         </div>
         <div style="flex: 1">
-            Ich bin Mitglied der SuperCoop Berlin eG und möchte mich mit
+            Ich bin Mitglied der <strong>Organisation</strong> und möchte mich mit
             <span style="display: inline-block; width: 10mm; border-bottom: 2px solid black; text-align: center;">
                 {{ num_additional_shares }}
             </span>
             weiteren Anteilen an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz
-            vorgesehenen Zahlungen in Höhe von 100 € je Geschäftsanteil zu leisten. Zusammen mit dem Pflichtanteil
+            vorgesehenen Zahlungen in Höhe von 100,- € je Geschäftsanteil zu leisten. Zusammen mit dem Pflichtanteil
             verpflichte ich mich daher, insgesamt
             <span style="display: inline-block; width: 10mm; border-bottom: 2px solid black; text-align: center;"></span>
-            €  zu leisten.
+            € zu leisten.
         </div>
     </div>
 
@@ -152,7 +152,7 @@
         </div>
         <div style="flex: 1">
             Ich möchte als investierendes Mitglied (= Fördermitglied) in die Mitgliederliste eingetragen werden.<br />
-            <strong>Hinweis</strong>: Investierende Mitglieder sind fördernde Mitglieder. Sie haben kein Stimmrecht in der
+            <b>Hinweis</b>: Investierende Mitglieder sind fördernde Mitglieder. Sie haben kein Stimmrecht in der
             Generalversammlung und können die Leistungen der Genossenschaft nicht nutzen.
         </div>
     </div>
@@ -165,7 +165,7 @@
             {% endif %}
         </div>
         <div style="flex: 1">
-            Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von 3 Jahren zum Ende des Geschäftsjahres
+            Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von <strong>3 Jahren zum Ende des Geschäftsjahres</strong>
             bestimmt. Die lange Laufzeit dient zur finanziellen Stabilität und ist ein wesentlicher Kern des
             Genossenschaftsprinzips, das auf langfristige Ziele ausgerichtet ist. Eine Übertragung von Geschäftsanteilen
             ist auch vorher bereits möglich und in der Satzung geregelt.
@@ -197,18 +197,18 @@
         <div style="flex: 1">
             Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen: <br />
             <div style="margin-left: 10mm; line-height: 1.2; margin-top: 3mm;">
-                Kontoinhaber: SuperCoop Berlin eG<br />
-                IBAN: <span style="font-family: monospace">DE98 4306 0967 1121 3790 00</span><br />
-                BIC: <span style="font-family: monospace">GENODEM1GLS</span><br />
+                Kontoinhaber: <strong>Organisation</strong><br />
+                IBAN: <span style="font-family: monospace">DEXX 1111 2222 3333 4444 00</span><br />
+                BIC: <span style="font-family: monospace">BIC1231234</span><br />
                 Betreff: Anteil und Eintrittsgeld {{ owner.first_name }} {{ owner.last_name }}
             </div>
         </div>
     </div>
 
     <div style="border: 1px solid black; margin-top: 10mm; padding: 2mm; font-size: 7pt; line-height: 1.0rem;">
-        <strong>Datenschutzerklärung</strong>
-        Verantwortlich für die Datenverarbeitung ist die SuperCoop Berlin eG, Glogauer Straße 21, 10999 Berlin.
-        Erreichbar unter contact@supercoop.de. Der Name, die Anschrift und das Geburtsdatum werden für die
+        <b>Datenschutzerklärung</b>
+        Verantwortlich für die Datenverarbeitung ist die <strong>Organisation und Anschrift</strong>.
+        Erreichbar unter <a href="mailto:contact">contact-e-mail</a>. Der Name, die Anschrift und das Geburtsdatum werden für die
         Mitgliederliste der Genossenschaft benötigt (Art. 6 Absatz 1 c DS-GVO i.V.m. § 30 Absatz 2 Satz 1 Nr.1 GenG).
         Über die Adresse oder die E-Mail-Adresse werden Sie von der Genossenschaft zu Versammlungen eingeladen (Art. 6
         Absatz 1c DS-GVO i.V.m § 46 Absatz 1 Satz 1 GenG i.V.m. § 6 Nr.4 GenG) und im Rahmen der Mitgliedschaft über

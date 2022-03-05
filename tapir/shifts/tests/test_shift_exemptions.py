@@ -13,6 +13,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftSlotTemplate,
     ShiftTemplateGroup,
+    ShiftUserData,
 )
 from tapir.utils.tests_utils import TapirSeleniumTestBase
 
@@ -188,7 +189,7 @@ class TestShiftExemptions(TapirSeleniumTestBase):
             for attendance in attendances:
                 self.assertTrue(
                     attendance.get_display_name() in self.selenium.page_source,
-                    f"There should be a warning that the following attendance will be deleted: "
+                    "There should be a warning that the following attendance will be deleted: "
                     f"{attendance.get_display_name()}",
                 )
 
@@ -201,7 +202,7 @@ class TestShiftExemptions(TapirSeleniumTestBase):
                     display_name = attendance_template.slot_template.get_display_name()
                 self.assertTrue(
                     display_name in self.selenium.page_source,
-                    f"There should be a warning that the following attendance template will be deleted: "
+                    "There should be a warning that the following attendance template will be deleted: "
                     f"{display_name}",
                 )
 
@@ -209,11 +210,18 @@ class TestShiftExemptions(TapirSeleniumTestBase):
         self.wait_until_element_present_by_id("shift_exemption_list_button")
         return ShiftExemption.objects.get(description=description)
 
-    def check_is_exempted(self, user: TapirUser, exemption: ShiftExemption):
+    def check_is_exempted(self, user: TapirUser, exemption: ShiftExemption | None):
         self.assertEqual(
             exemption is not None,
             user.shift_user_data.is_currently_exempted_from_shifts(),
         )
+        self.assertEqual(
+            exemption is not None,
+            ShiftUserData.objects.filter(id=user.shift_user_data.id)
+            .is_covered_by_exemption()
+            .exists(),
+        )
+
         self.selenium.get(
             self.live_server_url + reverse("accounts:user_detail", args=[user.id])
         )

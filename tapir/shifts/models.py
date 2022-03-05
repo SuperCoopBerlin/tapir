@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils import timezone, translation
 from django.utils.translation import gettext_lazy as _
 
+from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
@@ -53,7 +54,7 @@ class ShiftTemplateGroup(models.Model):
     ]
 
     def __str__(self):
-        return "%s: %s" % (self.__class__.__name__, self.name)
+        return f"{self.__class__.__name__}: {self.name}"
 
     def create_shifts(self, start_date: datetime.date):
         if start_date.weekday() != 0:
@@ -64,14 +65,14 @@ class ShiftTemplateGroup(models.Model):
             for shift_template in self.shift_templates.all()
         ]
 
-    def get_group_index(self) -> int:
+    def get_group_index(self) -> int | None:
         for pair in ShiftTemplateGroup.NAME_INT_PAIRS:
             if pair["name"] == self.name:
                 return pair["index"]
         return None
 
     @staticmethod
-    def get_group_from_index(index: int) -> ShiftTemplateGroup:
+    def get_group_from_index(index: int) -> ShiftTemplateGroup | None:
         for pair in ShiftTemplateGroup.NAME_INT_PAIRS:
             if pair["index"] == index:
                 return ShiftTemplateGroup.objects.get(name=pair["name"])
@@ -131,7 +132,7 @@ class ShiftTemplate(models.Model):
             self.end_time.strftime("%H:%M"),
         )
         if self.group:
-            display_name = "%s (%s)" % (display_name, self.group.name)
+            display_name = f"{display_name} ({self.group.name})"
         return display_name
 
     def get_absolute_url(self):
@@ -155,7 +156,7 @@ class ShiftTemplate(models.Model):
             self.start_time.strftime("%H:%M"),
         )
         if self.group:
-            display_name = "%s (%s)" % (display_name, self.group.name)
+            display_name = f"{display_name} ({self.group.name})"
         return display_name
 
     def _generate_shift(self, start_date: datetime.date):
@@ -248,12 +249,6 @@ class ShiftTemplate(models.Model):
                         slot_template.delete_self_and_warn_about_users_loosing_their_slots(
                             change_time, dry_run
                         )
-                    )
-                    nb_slots_left_to_delete -= 1
-
-                if nb_slots_left_to_delete > 0:
-                    raise Exception(
-                        f"Slots left to delete should be 0! Slot name:{slot_name} Target slot count:{slot_count} Left to delete:{nb_slots_left_to_delete}"
                     )
 
         return deletion_warnings
@@ -464,7 +459,7 @@ class Shift(models.Model):
             timezone.localtime(self.end_time).strftime("%H:%M"),
         )
         if self.shift_template and self.shift_template.group:
-            display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
+            display_name = f"{display_name} ({self.shift_template.group.name})"
 
         display_name = "%s [%d/%d]" % (
             display_name,
@@ -481,7 +476,7 @@ class Shift(models.Model):
             timezone.localtime(self.end_time).strftime("%H:%M"),
         )
         if self.shift_template and self.shift_template.group:
-            display_name = "%s (%s)" % (display_name, self.shift_template.group.name)
+            display_name = f"{display_name} ({self.shift_template.group.name})"
         return display_name
 
     def get_absolute_url(self):
@@ -670,8 +665,16 @@ class ShiftSlot(models.Model):
             mail = EmailMessage(
                 subject=_("You found a stand-in!"),
                 body=render_to_string(
-                    "shifts/email/stand_in_found.html",
-                    {"tapir_user": attendance.user, "shift": attendance.slot.shift},
+                    [
+                        "shifts/email/stand_in_found.html",
+                        "shifts/email/stand_in_found.default.html",
+                    ],
+                    {
+                        "tapir_user": attendance.user,
+                        "shift": attendance.slot.shift,
+                        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+                        "coop_name": settings.COOP_NAME,
+                    },
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,
                 to=[attendance.user.email],
@@ -792,6 +795,13 @@ class ShiftAttendanceMode:
     FLYING = "flying"
 
 
+class ShiftUserDataQuerySet(models.QuerySet):
+    def is_covered_by_exemption(self, date=None):
+        return self.filter(
+            shift_exemptions__in=ShiftExemption.objects.active_temporal(date)
+        )
+
+
 class ShiftUserData(models.Model):
     # We create a ShiftUserData for every TapirUser with the Django Signals mechanism (see create_shift_user_data
     # below). For this reason, we assume TapirUser.shift_user_data to exist in all places in the code. Note that
@@ -818,6 +828,8 @@ class ShiftUserData(models.Model):
         default=ShiftAttendanceMode.REGULAR,
         blank=False,
     )
+
+    objects = ShiftUserDataQuerySet.as_manager()
 
     def get_capabilities_display(self):
         return ", ".join(
@@ -875,14 +887,22 @@ class ShiftUserData(models.Model):
             self.user.preferred_language
         ):
             mail = EmailMessage(
-                subject=_("Your upcoming SuperCoop shift: %(shift)s")
-                % {"shift": attendance.slot.shift.get_display_name()},
+                subject=_("Your upcoming %(coop_name)s shift: %(shift)s")
+                % {
+                    "shift": attendance.slot.shift.get_display_name(),
+                    "coop_name": settings.COOP_NAME,
+                },
                 body=render_to_string(
-                    "shifts/email/shift_reminder.html",
+                    [
+                        "shifts/email/shift_reminder.html",
+                        "shifts/email/shift_reminder.default.html",
+                    ],
                     {
                         "tapir_user": self.user,
                         "shift": attendance.slot.shift,
                         "is_first_shift": is_first_shift,
+                        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+                        "coop_name": settings.COOP_NAME,
                     },
                 ),
                 from_email=FROM_EMAIL_MEMBER_OFFICE,

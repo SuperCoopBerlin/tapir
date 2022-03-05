@@ -70,8 +70,5 @@ class JsonUser:
             self.street, self.street_2, self.postcode, self.city
         )
 
-    def save(self):
-        pass
-
     def get_tapir_user(self) -> TapirUser:
         return TapirUser.objects.get(username=self.get_username())

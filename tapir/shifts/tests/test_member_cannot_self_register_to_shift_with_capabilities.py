@@ -15,7 +15,7 @@ class TestMemberCannotSelfRegisterToShiftWithCapabilities(TapirSeleniumTestBase)
             start_time=timezone.now().date() + datetime.timedelta(days=1),
             end_time=timezone.now().date() + datetime.timedelta(days=1, hours=3),
         )
-        slot = ShiftSlot.objects.create(
+        ShiftSlot.objects.create(
             shift=shift, required_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR]
         )
 

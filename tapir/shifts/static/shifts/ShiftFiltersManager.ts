@@ -36,7 +36,7 @@ class ShiftFiltersManager {
 
         for (let slot_status_button of document.getElementsByName("slot_status_options") as NodeListOf<HTMLInputElement>) {
             if (slot_status_button.classList.contains("active-on-load")) {
-                this.current_status_filter = slot_status_button as HTMLInputElement;
+                this.current_status_filter = slot_status_button;
                 slot_status_button.click();
             }
 
@@ -48,7 +48,7 @@ class ShiftFiltersManager {
 
         for (let slot_name_button of document.getElementsByName("slot_name_options") as NodeListOf<HTMLInputElement>) {
             if (slot_name_button.classList.contains("active-on-load")) {
-                this.current_slot_filter = slot_name_button as HTMLInputElement;
+                this.current_slot_filter = slot_name_button;
                 slot_name_button.click();
             }
             slot_name_button.addEventListener("click", () => {
@@ -96,4 +96,4 @@ class ShiftFiltersManager {
     }
 }
 
-new ShiftFiltersManager();
+var shiftFilterManager = new ShiftFiltersManager();

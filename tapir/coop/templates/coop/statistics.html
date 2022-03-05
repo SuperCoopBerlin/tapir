@@ -24,7 +24,7 @@
     <div class="container">
         <div class="card m-2">
             <h5 class="card-header">
-                <span>{% translate "Statistics" %}</span>
+                <span>{% translate "Statistics on members" %}</span>
             </h5>
             <div class="card-body">
                 <ul>
@@ -34,37 +34,8 @@
                                                              onclick="show_card('members_missing_account_card')">{{ members_missing_accounts|length }}
                         users</a> are missing an account.
                     </li>
-                    <li>Out of <a href="#" onclick="show_card('active_users_card')">{{ active_users|length }}
-                        members</a> with a Tapir account, <a href="#"
-                                                             onclick="show_card('members_in_abcd_system_card')">{{ members_in_abcd_system|length }}
-                        members </a> are in the ABCD system and <a href="#"
-                                                                   onclick="show_card('members_in_flying_system_card')">{{ members_in_flying_system|length }}
-                        members</a> are in the flying system.
-                    </li>
-                    <li>Out of <a href="#"
-                                  onclick="show_card('members_in_abcd_system_card')">{{ members_in_abcd_system|length }}
-                        members </a> in the ABCD system, <a href="#"
-                                                            onclick="show_card('members_in_abcd_system_without_shift_attendance_card')">{{ members_in_abcd_system_without_shift_attendance|length }}
-                        members </a> are not registered to an ABCD shift.
-                    </li>
                     <li><a href="#" onclick="show_card('applicants_card')">{{ applicants|length }} applicants</a> are
                         waiting to become members.
-                    </li>
-                    <li>Number of users by shift slot name
-                        <ul>
-                            {% for slot_type, users in users_by_slot_name.items %}
-                                <li>{{ slot_type }} : <a href="#"
-                                                         onclick="show_card('{{ slot_type }}_card')">{{ users|length }}
-                                    members</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li>Out of {{ abcd_shifts|length }} ABCD shifts, <a href="#"
-                                                                        onclick="show_card('abcd_shifts_not_full_card')">{{ abcd_shifts_not_full|length }}</a>
-                        are missing at least one member.
-                    </li>
-                    <li>Out of {{ slot_templates|length }} ABCD shift slots, {{ slot_templates_free|length }} are
-                        free.
                     </li>
                 </ul>
             </div>
@@ -164,45 +135,6 @@
             </div>
         </div>
 
-        <div class="card m-2 statistics-toggle-card" id="members_in_abcd_system_card">
-            <h5 class="card-header">
-                <span>{% translate "Members in the ABCD system" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    {% for member in members_in_abcd_system %}
-                        <li><a href="{{ member.get_absolute_url }}">{{ member.get_display_name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <div class="card m-2 statistics-toggle-card" id="members_in_flying_system_card">
-            <h5 class="card-header">
-                <span>{% translate "Members in the flying system" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    {% for member in members_in_flying_system %}
-                        <li><a href="{{ member.get_absolute_url }}">{{ member.get_display_name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <div class="card m-2 statistics-toggle-card" id="members_in_abcd_system_without_shift_attendance_card">
-            <h5 class="card-header">
-                <span>{% translate "ABCD members not registered to an ABCD shift" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    {% for member in members_in_abcd_system_without_shift_attendance %}
-                        <li><a href="{{ member.get_absolute_url }}">{{ member.get_display_name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
         <div class="card m-2 statistics-toggle-card" id="applicants_card">
             <h5 class="card-header">
                 <span>{% translate "Applicants" %}</span>
@@ -211,34 +143,6 @@
                 <ul>
                     {% for applicant in applicants %}
                         <li><a href="{{ applicant.get_absolute_url }}">{{ applicant.get_display_name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        {% for slot_type, users in users_by_slot_type.items %}
-            <div class="card m-2 statistics-toggle-card" id="{{ slot_type }}_card">
-                <h5 class="card-header">
-                    <span>Users registered to a {{ slot_type }} shift</span>
-                </h5>
-                <div class="card-body">
-                    <ul>
-                        {% for user in users %}
-                            <li><a href="{{ user.get_absolute_url }}">{{ user.get_display_name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-        {% endfor %}
-
-        <div class="card m-2 statistics-toggle-card" id="abcd_shifts_not_full_card">
-            <h5 class="card-header">
-                <span>{% translate "ABCD shift missing at least one member" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    {% for shift in abcd_shifts_not_full %}
-                        <li><a href="{{ shift.get_absolute_url }}">{{ shift.get_display_name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

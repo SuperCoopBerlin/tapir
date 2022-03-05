@@ -4,9 +4,6 @@
 
 .shift-template-block-container, .shift-block-container, .shift-block {
     height: 100%;
-}
-
-.shift-template-block-container, .shift-block, .shift-block-container {
     min-width: 240px;
 }
 

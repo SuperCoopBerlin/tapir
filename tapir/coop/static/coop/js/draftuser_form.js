@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         'O': /[ÒÓÔÕØ]/g,
         'r': /[řŕ]/g,
         'R': /[ŘŔ]/g,
-        's': /[ššş]/g,
+        's': /[šş]/g,
         'S': /[ŠŞŚ]/g,
         't': /[ťţ]/g,
         'T': /[ŤŢ]/g,

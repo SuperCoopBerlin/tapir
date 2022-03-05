@@ -1,6 +1,16 @@
 from django.core.management.base import BaseCommand
 
-from tapir.utils.management.commands.populate_functions import *
+from tapir.utils.management.commands.populate_functions import (
+    populate_users,
+    populate_template_groups,
+    populate_shift_templates,
+    populate_shifts,
+    populate_user_shifts,
+    delete_templates,
+    generate_shifts,
+    clear_data,
+    reset_all_test_data,
+)
 
 
 class Command(BaseCommand):

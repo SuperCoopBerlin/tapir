@@ -5,7 +5,8 @@
 {% load core %}
 
 <!doctype html>
-<html>
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
 
 <head>
     <meta charset="utf-8">
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="{% static "bootstrap/5.1.3/css/bootstrap.min.css" %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
     <link rel="stylesheet" href="{% static "css/base.css" %}">
+    <link rel="stylesheet" href="{% static "css/custom.css" %}">
 
     <!-- jQuery is required by select2, so load it here at the top -->
     <script src="{% static "jQuery/jquery-3.5.1.min.js" %}"></script>

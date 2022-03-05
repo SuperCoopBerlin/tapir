@@ -18,7 +18,7 @@
 <!-- A DIN 5008 Letter has 2,7cm of top margin -->
 <div style="display: flex">
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
-        <span style="font-size: 6pt;">SuperCoop Berlin eG, Glogauer Straße 21, 10999 Berlin</span>
+        <span style="font-size: 6pt;">Organisation, Straße 1, 12345 Stadt</span>
         <div style="margin-top: 2mm;">
             {{ owner.get_info.get_display_name }}<br />
             {% if owner.get_info.street_2 %} {{ owner.get_info.street_2 }}<br />{% endif %}
@@ -28,36 +28,30 @@
     </div>
     <div style="flex-grow: 1"></div>
     <div style="margin-top: 13mm;">
-        <img src="{% static "coop/img/supercoop_logo.png" %}" style="width: 60mm;" alt="SuperCoop Logo"/>
+        <img src="{% static "../static/images/Logo_dark.svg" %}" style="width: 60mm;" />
     </div>
 </div>
 
 <div style="margin-top: 10mm; line-height: 1.8rem;">
-    <div style="display: flex; justify-content: flex-end">Berlin, {% now "j. F Y" %}</div>
-    <div style="margin-top: 8mm; font-weight: bold">Bestätigung der Mitgliedschaft bei SuperCoop Berlin eG</div>
+    <div style="display: flex; justify-content: flex-end">Stadt, {% now "j. F Y" %}</div>
+    <div style="margin-top: 8mm; font-weight: bold">Bestätigung der Mitgliedschaft bei <strong>Organisation</strong></div>
 
     <p>Liebe*r {{ owner.get_info.get_display_name }},</p>
 
-    <p>herzlich Willkommen als offizielles Mitglied der SuperCoop eG!</p>
+    <p>herzlich Willkommen als offizielles Mitglied der <strong>Organisation</strong>!</p>
 
-    <p>Mit dem Zeichnen von <strong>{{ owner.get_active_share_ownerships.count }} Anteil(en)</strong> hast du dich dafür entschieden,
+    <p>Mit dem Zeichnen von <b>{{ owner.get_active_share_ownerships.count }} Anteil(en)</b> hast du dich dafür entschieden,
         gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!</p>
 
-    <p>Wir freuen uns sehr, dich als Mitglied der SuperCoop eG begrüßen zu dürfen und bestätigen die Aufnahme in die
-        Genossenschaft mit der <strong>Mitgliedsnummer {{ owner.id }}</strong>. Über diese Nummer wird auch die Ausübung deiner Rechte und
+    <p>Wir freuen uns sehr, dich als Mitglied der <strong>Organisation</strong> begrüßen zu dürfen und bestätigen die Aufnahme in die
+        Genossenschaft mit der <b>Mitgliedsnummer {{ owner.id }}</b>. Über diese Nummer wird auch die Ausübung deiner Rechte und
         Pflichten als Mitglied erfolgen. Bitte merke oder notiere dir deine Nummer deshalb.</p>
 
-    <p>Du möchtest anderen von der Vision und Idee von SuperCoop erzählen? Auf unserer Webseite findest du alle Infos über
-        das Modell und die Mitgliedschaft: <a href="https://supercoop.de">https://supercoop.de</a></p>
+    <p>Du möchtest anderen von unserer Vision und Idee erzählen? Auf unserer Webseite findest du alle Infos über
+        das Modell und die Mitgliedschaft: <a href="https://wirmarkt.de">https://wirmarkt.de</a></p>
 
-    <p>Bei Fragen kannst du dich gerne an <a href="mailto:mitglied@supercoop.de">mitglied@supercoop.de</a> wenden und wir
+    <p>Bei Fragen kannst du dich gerne an <a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a> wenden und wir
         antworten dir so schnell wie möglich. Wir freuen uns, dass du dabei bist!</p>
-
-    <p>Kooperative Grüße</p>
-
-    <p>Euer Vorstand<br />
-        Eugénie, Jessica, Johanna und Marie für das SuperCoop Team</p>
-
 </div>
 
 </body>

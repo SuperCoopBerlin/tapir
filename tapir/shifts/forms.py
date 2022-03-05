@@ -1,4 +1,3 @@
-from bootstrap_datepicker_plus import DateTimePickerInput
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import ModelChoiceField, CheckboxSelectMultiple, BooleanField
@@ -26,8 +25,8 @@ class ShiftCreateForm(forms.ModelForm):
         model = Shift
         fields = ["name", "start_time", "end_time"]
         widgets = {
-            "start_time": DateTimePickerInput().start_of("shift"),
-            "end_time": DateTimePickerInput().end_of("shift"),
+            "start_time": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"}),
+            "end_time": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"}),
         }
 
 
@@ -41,7 +40,7 @@ class TapirUserChoiceField(ModelChoiceField):
 
     def label_from_instance(self, obj: TapirUser):
         # Share Owner will always exist because we filter out all others above
-        return "{} {} ({})".format(obj.first_name, obj.last_name, obj.share_owner.id)
+        return f"{obj.first_name} {obj.last_name} ({obj.share_owner.id})"
 
 
 class MissingCapabilitiesWarningMixin(forms.Form):
@@ -166,7 +165,7 @@ class UpdateShiftAttendanceForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         state = kwargs.pop("state")
-        super(UpdateShiftAttendanceForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.initial["state"] = state
 
 
@@ -238,7 +237,7 @@ class ShiftExemptionForm(forms.ModelForm):
             )
         ):
             attendance_templates = ShiftAttendanceTemplate.objects.filter(user=user)
-            if attendance_templates.count() > 0:
+            if attendance_templates.exists():
                 attendances_display = ", ".join(
                     [
                         attendance.slot_template.get_display_name()

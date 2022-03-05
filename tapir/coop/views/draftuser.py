@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -39,9 +40,14 @@ class DraftUserCreateView(
 
 
 class DraftUserRegisterView(DraftUserViewMixin, generic.CreateView):
-    template_name = "coop/draftuser_register_form.html"
     form_class = DraftUserRegisterForm
     success_url = "/coop/user/draft/register/confirm"
+
+    def get_template_names(self):
+        return [
+            "coop/draftuser_register_form.html",
+            "coop/draftuser_register_form.default.html",
+        ]
 
 
 class DraftUserConfirmRegistrationView(DraftUserViewMixin, generic.TemplateView):
@@ -127,7 +133,7 @@ def create_share_owner_from_draft_user_view(request, pk):
         return redirect(draft)
 
     if draft.num_shares < 0:
-        raise Exception(
+        raise ValidationError(
             "Trying to create a share owner from a draft user without shares"
         )
 
