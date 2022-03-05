@@ -56,11 +56,11 @@ The css is from https://google.github.io/material-design-icons/#icon-font-for-th
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(/static/material-icons/MaterialIcons-Regular.6.4.2.eot); /* For IE6-8 */
+  src: url(/static/core/material-icons/MaterialIcons-Regular.6.4.2.eot); /* For IE6-8 */
   src:
-    url(/static/material-icons/MaterialIcons-Regular.6.4.2.woff2) format('woff2'),
-    url(/static/material-icons/MaterialIcons-Regular.6.4.2.woff) format('woff'),
-    url(/static/material-icons/MaterialIcons-Regular.6.4.2.ttf) format('truetype');
+    url(/static/core/material-icons/MaterialIcons-Regular.6.4.2.woff2) format('woff2'),
+    url(/static/core/material-icons/MaterialIcons-Regular.6.4.2.woff) format('woff'),
+    url(/static/core/material-icons/MaterialIcons-Regular.6.4.2.ttf) format('truetype');
 }
 
 .material-icons {
