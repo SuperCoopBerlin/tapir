@@ -93,6 +93,11 @@ def get_sidebar_link_groups(request):
             material_icon="beach_access",
             url=reverse_lazy("shifts:shift_exemption_list"),
         )
+        shifts_group.add_link(
+            display_name=_("Shift statistics"),
+            material_icon="calculate",
+            url=reverse_lazy("shifts:statistics"),
+        )
 
     if FinancingCampaign.objects.exists():
         campaign_group = SidebarLinkGroup(name=_("Financing campaign"))
@@ -125,6 +130,11 @@ def get_sidebar_link_groups(request):
         display_name=_("Contact the member office"),
         material_icon="email",
         url="mailto:mitglied@supercoop.de",
+    )
+    misc_group.add_link(
+        display_name=_("About tapir"),
+        material_icon="help",
+        url=reverse_lazy("coop:about"),
     )
 
     return groups
