@@ -118,4 +118,9 @@ urlpatterns = [
         views.StatisticsView.as_view(),
         name="statistics",
     ),
+    path(
+        "calendarview",
+        views.ShiftCalendarView.as_view(),
+        name="calendarview",
+    ),
 ]

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load coop %}
+
+{% block content %}
+    <div class="container">
+        <div class="card m-2">
+            <h5 class="card-header">
+                <span>{% translate "Shift calendar" %}</span>
+            </h5>
+            <div class="card-body">
+                {{ shiftcalendar }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
