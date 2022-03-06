@@ -4,6 +4,7 @@ import os
 import pathlib
 import socket
 
+import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.db import DEFAULT_DB_ALIAS
 from django.test import TestCase, override_settings
@@ -189,3 +190,8 @@ class TapirUserTestBase(TapirSeleniumTestBase):
 
 class LdapEnabledTestCase(TestCase):
     databases = {"ldap", DEFAULT_DB_ALIAS}
+
+
+class TapirFactoryTestBase(LdapEnabledTestCase):
+    def setUp(self) -> None:
+        factory.random.reseed_random(self.__class__.__name__)
