@@ -10,24 +10,10 @@
 
 {% block content %}
     <div class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    {% translate "ABCD Shift" %}
-                </li>
-                <li class="breadcrumb-item">
-                    <a href="{{ slot_template.shift_template.get_absolute_url }}">
-                        {{ slot_template.shift_template.get_display_name }}
-                    </a>
-                </li>
-                <li class="breadcrumb-item">{% translate "Register" %}</li>
-            </ol>
-        </nav>
-
         <div class="card m-2" id="shift_form_card">
-            <h5 class="card-header d-flex justify-content-between align-items-center">
-                {% translate "Register for ABCD Shift" %}:
-                {{ slot_template.shift_template.get_display_name }}
+            <h5 class="card-header d-flex align-items-center gap-1">
+                <span>{% translate "Register for ABCD Shift" %}:</span>
+                <a href="{{ slot_template.shift_template.get_absolute_url }}">{{ slot_template.shift_template.get_display_name }}</a>
             </h5>
             <div class="card-body">
                 <form role="form" method="post">

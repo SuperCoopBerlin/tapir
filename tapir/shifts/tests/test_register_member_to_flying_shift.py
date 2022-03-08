@@ -32,13 +32,13 @@ class TestRegisterAbcdMemberToAbcdShift(TapirSeleniumTestBase):
         self.wait_until_element_present_by_id("upcoming-shifts-timetable")
         self.selenium.find_element_by_id(f"shift_{shift.id}").click()
         self.wait_until_element_present_by_id("shift_detail_card")
-        self.selenium.find_elements_by_class_name("register-button")[0].click()
-        self.wait_until_element_present_by_id("shift_form_card")
+        self.selenium.find_elements_by_class_name("register-to-slot-button")[0].click()
+        self.wait_until_element_present_by_id("register_to_shift_slot_card")
         self.selenium.find_element_by_id("select2-id_user-container").click()
         search_field = self.selenium.find_element_by_class_name("select2-search__field")
         search_field.send_keys(other_user.get_display_name())
         search_field.send_keys(Keys.ENTER)
-        self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
+        self.selenium.find_element_by_id("register_button").click()
         self.wait_until_element_present_by_id("shift_detail_card")
         self.assertEqual(
             other_user.get_display_name(),

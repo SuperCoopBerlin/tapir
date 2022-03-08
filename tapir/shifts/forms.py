@@ -1,5 +1,5 @@
 from django import forms
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, PermissionDenied
 from django.forms import ModelChoiceField, CheckboxSelectMultiple, BooleanField
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
@@ -16,6 +16,7 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftAccountEntry,
     ShiftExemption,
+    SHIFT_SLOT_WARNING_CHOICES,
 )
 from tapir.utils.forms import DateInput
 
@@ -52,13 +53,12 @@ class MissingCapabilitiesWarningMixin(forms.Form):
         widget=HiddenInput,
     )
 
-    def validate_unique(self):
-        super().validate_unique()
+    def clean(self):
+        super().clean()
         if "user" in self._errors:
             return
 
         user: TapirUser = self.cleaned_data["user"]
-
         if (
             "confirm_missing_capabilities" in self.cleaned_data
             and not self.cleaned_data["confirm_missing_capabilities"]
@@ -81,6 +81,7 @@ class MissingCapabilitiesWarningMixin(forms.Form):
 
 class ShiftAttendanceTemplateForm(MissingCapabilitiesWarningMixin, forms.ModelForm):
     user = TapirUserChoiceField()
+    slot_template: ShiftSlotTemplate
 
     class Meta:
         model = ShiftAttendanceTemplate
@@ -91,6 +92,10 @@ class ShiftAttendanceTemplateForm(MissingCapabilitiesWarningMixin, forms.ModelFo
             pk=kwargs.pop("slot_template_pk", None)
         )
         super().__init__(*args, **kwargs)
+        for warning in self.slot_template.warnings:
+            self.fields[f"warning_{warning}"] = forms.BooleanField(
+                label=SHIFT_SLOT_WARNING_CHOICES[warning]
+            )
 
     def clean_user(self):
         user: TapirUser = self.cleaned_data["user"]
@@ -110,28 +115,39 @@ class ShiftAttendanceTemplateForm(MissingCapabilitiesWarningMixin, forms.ModelFo
         return self.slot_template.required_capabilities
 
 
-class ShiftAttendanceForm(MissingCapabilitiesWarningMixin, forms.ModelForm):
+class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
     user = TapirUserChoiceField()
-
-    class Meta:
-        model = ShiftAttendance
-        fields = ["user"]
+    request_user: TapirUser
+    slot: ShiftSlot
 
     def __init__(self, *args, **kwargs):
-        self.slot = ShiftSlot.objects.get(pk=kwargs.pop("slot_pk", None))
+        self.slot = kwargs.pop("slot", None)
+        self.request_user = kwargs.pop("request_user", None)
         super().__init__(*args, **kwargs)
+        self.fields["user"].disabled = not self.request_user.has_perm("shifts.manage")
+        for warning in self.slot.warnings:
+            self.fields[f"warning_{warning}"] = forms.BooleanField(
+                label=SHIFT_SLOT_WARNING_CHOICES[warning]
+            )
+
+    def get_required_capabilities(self):
+        return self.slot.required_capabilities
 
     def clean_user(self):
         user = self.cleaned_data["user"]
+        if (
+            not self.request_user.has_perm("shifts.manage")
+            and user.pk != self.request_user.pk
+        ):
+            raise PermissionDenied(
+                _("You need the shifts.manage permission to do this."), code="invalid"
+            )
         if self.slot.shift.slots.filter(attendances__user=user).exists():
             raise ValidationError(
                 _("This user is already registered to another slot in this shift."),
                 code="invalid",
             )
         return user
-
-    def get_required_capabilities(self):
-        return self.slot.required_capabilities
 
 
 class ShiftUserDataForm(forms.ModelForm):

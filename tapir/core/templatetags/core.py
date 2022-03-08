@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import FinancingCampaign
 from tapir.core.models import SidebarLinkGroup
-from tapir.shifts.views import get_current_week_group
+from tapir.shifts.templatetags.shifts import get_current_week_group
 
 register = template.Library()
 

@@ -27,7 +27,10 @@ class TestMemberSelfRegisterToShift(TapirSeleniumTestBase):
         self.wait_until_element_present_by_id("upcoming-shifts-timetable")
         self.selenium.find_element_by_id(f"shift_{shift.id}").click()
         self.wait_until_element_present_by_id("shift_detail_card")
-        self.selenium.find_elements_by_class_name("register-self-button")[0].click()
+        self.selenium.find_elements_by_class_name("register-to-slot-button")[0].click()
+        self.wait_until_element_present_by_id("register_to_shift_slot_card")
+        self.selenium.find_element_by_id("register_button").click()
+
         self.assertEqual(
             standard_user.first_name,
             self.selenium.find_element_by_class_name("shift-user").text,

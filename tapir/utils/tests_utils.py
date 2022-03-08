@@ -140,7 +140,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
 
     @staticmethod
     def is_button_disabled(button: WebElement):
-        return button.get_attribute("disabled") is not None
+        return "disabled" in button.get_attribute("class")
 
     def fill_date_field(self, element_id, date: datetime.date):
         # Somehow send_keys doesn't work for <input type="date"> in Firefox

@@ -31,8 +31,6 @@
                         <th></th>
                         <th>{% translate 'Details' %}</th>
                         <th>{% translate 'Registered user' %}</th>
-                        <th>{% translate 'Shifts' %}</th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -41,7 +39,6 @@
                             <td><h5>#{{ forloop.counter }}</h5></td>
                             <td>
                                 {{ slot.name }}
-                                {% if slot.optional %}({% translate 'optional' %}){% endif %}
                             </td>
                             {% with slot.attendance_template as attendance %}
                                 {% if attendance %}
@@ -66,11 +63,6 @@
                                             </form>
                                         {% endif %}
                                     </td>
-                                    <td>
-                                        {% if perms.shifts.manage %}
-                                            <!-- TODO: Past and future shift attendances -->
-                                        {% endif %}
-                                    </td>
                                 {% else %}
                                     <td>
                                         {% if perms.shifts.manage %}
@@ -81,7 +73,6 @@
                                             </a>
                                         {% endif %}
                                     </td>
-                                    <td></td>
                                 {% endif %}
                             {% endwith %}
                         </tr>
