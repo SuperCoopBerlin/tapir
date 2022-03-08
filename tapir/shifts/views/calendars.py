@@ -1,8 +1,11 @@
+import datetime
+from calendar import MONDAY
 from collections import OrderedDict
-from datetime import timedelta, date, datetime, time
+from datetime import timedelta, date, time
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
 
 from tapir.shifts.models import (
@@ -13,6 +16,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
+from tapir.shifts.year_schedule import ColorHTMLCalendar
 
 
 class ShiftCalendarBaseView(TemplateView):
@@ -144,4 +148,29 @@ class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
             monday = today - timedelta(days=today.weekday()) + timedelta(weeks=week)
             date_to_group[monday] = get_week_group(monday).name
         context["date_to_group"] = date_to_group
+        return context
+
+
+class ShiftCalendarView(LoginRequiredMixin, TemplateView):
+    template_name = "shifts/calendarview.html"
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        # TODO Frederik: a static calendar.html would accelerate
+        thisyear = date.today().year
+        start_date = date(thisyear, 1, 1)
+        end_date = date(thisyear, 12, 31)
+        delta = end_date - start_date  # returns timedelta
+        shift_dict = {}
+        for i in range(delta.days + 1):
+            # iterate through days of year
+            day = start_date + datetime.timedelta(days=i)
+            monday = day - datetime.timedelta(days=day.weekday() % 7)
+            if monday not in shift_dict.keys():
+                # populate with shift names at first day of week
+                shift_dict[monday] = get_week_group(day).name
+        cal = ColorHTMLCalendar(firstweekday=MONDAY, shift_color_dict=shift_dict)
+        html_result = cal.formatyearpage(theyear=thisyear, width=4)
+        context["shiftcal"] = mark_safe(html_result)
         return context

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "shifts/base.html" %}
 
 {% load django_bootstrap5 %}
 {% load i18n %}
@@ -11,7 +11,7 @@
                 <span>{% translate "Shift calendar" %}</span>
             </h5>
             <div class="card-body">
-                {{ shiftcalendar }}
+                {{ shiftcal }}
             </div>
         </div>
     </div>
