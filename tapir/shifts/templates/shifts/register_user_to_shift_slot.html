@@ -1,0 +1,39 @@
+{% extends "core/base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+
+{% block head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card m-2" id="register_to_shift_slot_card">
+            <h5 class="card-header d-flex align-items-center gap-1">
+                <span>{% translate "Register for shift slot" %}:</span>
+                <a href="{{ slot.shift.get_absolute_url }}">{{ slot.get_display_name }}</a>
+            </h5>
+            <div class="card-body">
+                {% if slot.shift.description %}
+                    <p>{{ slot.shift.description }}</p>
+                {% endif %}
+                <form role="form" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="d-flex justify-content-end gap-2">
+                        <a href="{{ slot.shift.get_absolute_url }}" class="btn tapir-btn btn-outline-secondary">
+                            <span class="material-icons">cancel</span>
+                            {% translate 'Cancel' %}
+                        </a>
+                        <button type="submit" class="btn tapir-btn btn-primary" id="register_button">
+                            <span class="material-icons">person_add</span>
+                            {% translate 'Register' %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

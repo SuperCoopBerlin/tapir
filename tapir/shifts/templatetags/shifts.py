@@ -1,4 +1,7 @@
+from datetime import timedelta, date, datetime, time
+
 from django import template
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from tapir.shifts.models import (
@@ -6,6 +9,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
     WEEKDAY_CHOICES,
     ShiftAttendance,
+    ShiftTemplateGroup,
 )
 
 register = template.Library()
@@ -166,3 +170,32 @@ def template_group_name_to_character(name: str):
 @register.inclusion_tag("shifts/shift_filters.html", takes_context=True)
 def shift_filters(context):
     return context
+
+
+@register.simple_tag
+def get_week_group(target_time: date) -> ShiftTemplateGroup | None:
+    for delta in list(range(52)) + list(range(-52, 0)):
+        monday = (
+            target_time - timedelta(days=target_time.weekday()) + timedelta(weeks=delta)
+        )
+        monday = datetime.combine(monday, time(), timezone.now().tzinfo)
+        sunday = monday + timedelta(days=7)
+        shifts = Shift.objects.filter(
+            start_time__gte=monday,
+            end_time__lte=sunday,
+            shift_template__group__isnull=False,
+        )
+        if not shifts.exists():
+            continue
+
+        corrected_week = (
+            shifts.first().shift_template.group.get_group_index() - delta
+        ) % 4
+        return ShiftTemplateGroup.get_group_from_index(corrected_week)
+
+    return None
+
+
+@register.simple_tag
+def get_current_week_group() -> ShiftTemplateGroup:
+    return get_week_group(timezone.now())
