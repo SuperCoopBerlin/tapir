@@ -1,0 +1,10 @@
+.month {
+    border:1px;
+    width: 90%;
+    text-align: center;
+}
+.month th {
+    text-align: center;
+    width:35px;
+    height:25px;
+}

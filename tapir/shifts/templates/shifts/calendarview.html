@@ -1,8 +1,17 @@
 {% extends "shifts/base.html" %}
 
 {% load django_bootstrap5 %}
+{% load static %}
+{% load shifts %}
 {% load i18n %}
 {% load coop %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "shifts/css/calendar.css" %}">
+{% endblock %}
+
+
 
 {% block content %}
     <div class="container">

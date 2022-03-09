@@ -171,6 +171,7 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
                 # populate with shift names at first day of week
                 shift_dict[monday] = get_week_group(day).name
         cal = ColorHTMLCalendar(firstweekday=MONDAY, shift_color_dict=shift_dict)
-        html_result = cal.formatyearpage(theyear=thisyear, width=4)
+        html_result = cal.formatyear(theyear=thisyear, width=4)
+        # html_result = html_result.replace('<td ', '<td  width="100" height="150"')
         context["shiftcal"] = mark_safe(html_result)
         return context
