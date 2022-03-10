@@ -8,3 +8,14 @@
     width:35px;
     height:25px;
 }
+
+.legend {
+    text-align: center;
+    width: 10%;
+    height:25px;
+}
+
+.A td, .A { background: rgba(161, 156, 110, 0.5);}
+.B td, .B { background: rgba(42, 116, 127, 0.5);}
+.C td, .C { background: rgba(207, 119, 48, 0.5);}
+.D td, .D { background: rgba(153, 41, 39, 0.5);}

@@ -5,31 +5,17 @@ import datetime
 # override HTMLCalender method to use colors
 # TODO locale einpflegen
 class ColorHTMLCalendar(calendar.HTMLCalendar):
-    def __init__(self, firstweekday, shift_color_dict):
+    def __init__(self, firstweekday, shift_dict):
         super(ColorHTMLCalendar, self).__init__(firstweekday=firstweekday)
-        self.shift_colors = {
-            "A": "#A19C6E",
-            "B": "#2A747F",
-            "C": "#CF7730",
-            "D": "#992927",
-        }
-        self.shift_color_dict = self.colorkey(shift_color_dict)
-
-    def colorkey(self, shiftdatedict):
-        """
-        Replace shift name with color from class variable
-        """
-        for key, value in shiftdatedict.items():
-            shiftdatedict[key] = self.shift_colors[value]
-        return shiftdatedict
+        self.shift_dict = shift_dict
 
     def formatweek(self, theweek, shift_key):
         """
         Return a complete week as a table row.
         """
         s = "".join(self.formatday(d, wd) for (d, wd) in theweek)
-        return '<tr style="background-color:%s">%s</tr>' % (
-            self.shift_color_dict[shift_key],
+        return "<tr class=%s >%s</tr>" % (
+            self.shift_dict[shift_key],
             s,
         )
 
@@ -58,4 +44,44 @@ class ColorHTMLCalendar(calendar.HTMLCalendar):
             a("\n")
         a("</table>")
         a("\n")
+        return "".join(v)
+
+    def formatyear(self, theyear, width=3):
+        """
+        Return a formatted year as a table of tables.
+        """
+        v = []
+        a = v.append
+        width = max(width, 1)
+        a(
+            '<table border="0" cellpadding="0" cellspacing="0" class="%s">'
+            % self.cssclass_year
+        )
+        a("\n")
+        a(
+            '<tr><th colspan="%d" class="%s">%s</th></tr>'
+            % (width, self.cssclass_year_head, theyear)
+        )
+        for i in range(calendar.January, calendar.January + 12, width):
+            # months in this row
+            months = range(i, min(i + width, 13))
+            a("<tr>")
+            for m in months:
+                a("<td>")
+                a(self.formatmonth(theyear, m, withyear=False))
+                a("</td>")
+            a("</tr>")
+        a("</table>")
+        a('<table class="legend"><tr>')
+        for value in list(
+            sorted({ele for val in self.shift_dict.values() for ele in val})
+        ):
+            a(
+                "<td class=%s>%s</td>"
+                % (
+                    value,
+                    value,
+                )
+            )
+        a("</tr> </table>")
         return "".join(v)
