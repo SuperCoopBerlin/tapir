@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
+from weasyprint import HTML
 
 from tapir.shifts.models import (
     Shift,
@@ -169,8 +170,13 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
             monday = day - datetime.timedelta(days=day.weekday() % 7)
             if monday not in shift_dict.keys():
                 # populate with shift names at first day of week
-                shift_dict[monday] = get_week_group(day).name
+                shift_dict[monday] = get_week_group(monday).name
         cal = ColorHTMLCalendar(firstweekday=MONDAY, shift_dict=shift_dict)
         html_result = cal.formatyear(theyear=thisyear, width=4)
+        # TODO relative paths: HOWTO?
+        HTML(string=html_result).write_pdf(
+            "tapir/shifts/static/shifts/ABCD_weeks_calendar_EN.pdf",
+            stylesheets=["tapir/shifts/static/shifts/css/calendar.css"],
+        )
         context["shiftcal"] = mark_safe(html_result)
         return context
