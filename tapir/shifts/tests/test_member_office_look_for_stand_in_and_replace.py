@@ -1,3 +1,4 @@
+import time
 from datetime import timedelta
 
 from django.test import tag
@@ -40,14 +41,14 @@ class TestMemberOfficeLookForStandInAndReplace(TapirSeleniumTestBase):
         self.selenium.find_element_by_class_name(
             "member-office-look-for-standin-button"
         ).click()
-        self.wait_until_element_present_by_class_name("register-button")
-        self.selenium.find_element_by_class_name("register-button").click()
-        self.wait_until_element_present_by_id("shift_form_card")
+        self.wait_until_element_present_by_class_name("register-to-slot-button")
+        self.selenium.find_element_by_class_name("register-to-slot-button").click()
+        self.wait_until_element_present_by_id("register_to_shift_slot_card")
         self.selenium.find_element_by_id("select2-id_user-container").click()
         search_field = self.selenium.find_element_by_class_name("select2-search__field")
         search_field.send_keys(replacing_user.get_display_name())
         search_field.send_keys(Keys.ENTER)
-        self.selenium.find_element_by_xpath('//button[@type="submit"]').click()
+        self.selenium.find_element_by_id("register_button").click()
         self.wait_until_element_present_by_id("shift_detail_card")
         self.assertEqual(
             ShiftAttendance.objects.filter(

@@ -117,10 +117,9 @@
                                                     possible.{% endblocktranslate %}
                                                 <span {% if not slot.can_look_for_stand_in %} data-bs-toggle="tooltip"
                                                                                               title="{{ stand_in_tooltip }}"{% endif %}>
-                                            <button type="submit" class="btn btn-sm tapir-btn btn-warning"
-                                                    id="self_look_for_stand_in_button"
-                                                    {% if not slot.can_look_for_stand_in %}disabled
-                                                    style="pointer-events: none;"{% endif %}>
+                                            <button type="submit"
+                                                    class="btn btn-sm tapir-btn btn-warning {% if not slot.can_look_for_stand_in %}disabled{% endif %}"
+                                                    id="self_look_for_stand_in_button">
                                                 <span class="material-icons">sync</span>
                                                 {% translate "Look for a stand-in" %}
                                             </button>
@@ -150,48 +149,32 @@
                                         </button>
                                         </span>
                                         </form>
-                                    {% elif slot.show_register_self %}
-                                        <form style="display: inline;"
-                                              method="post" id="self-register-form"
-                                              action="{% url "shifts:shiftslot_register_user" slot.pk user.pk %}">
-                                            {% csrf_token %}
-                                            {% blocktranslate asvar self_register_tooltip %}You can only register
-                                                yourself
-                                                for a shift if:<br/>
-                                                -You are not registered to another slot in that shift<br/>
-                                                -You have the required qualification (if you want to get a
-                                                qualification, contact the member office)<br/>
-                                                -The shift is in the future<br/>
-                                            {% endblocktranslate %}
+                                    {% elif not slot.is_occupied %}
+                                        {% blocktranslate asvar self_register_tooltip %}You can only register
+                                            yourself
+                                            for a shift if:<br/>
+                                            -You are not registered to another slot in that shift<br/>
+                                            -You have the required qualification (if you want to get a
+                                            qualification, contact the member office)<br/>
+                                            -The shift is in the future<br/>
+                                        {% endblocktranslate %}
                                         {% autoescape off %}
-                                        <span {% if not slot.can_register %} data-bs-toggle="tooltip" data-bs-html="true"
-                                                                                                          title="{{ self_register_tooltip }}"{% endif %}>
-                                                <button type="submit" class="btn tapir-btn btn-info register-self-button"
-                                                                      {% if not slot.can_register %}disabled
-                                                                      style="pointer-events: none;"{% endif %}>
+                                            <span {% if not slot.can_self_register and not perms.shifts.manage %}
+                                                data-bs-toggle="tooltip"
+                                                data-bs-html="true"
+                                                title="{{ self_register_tooltip }}"{% endif %}>
+                                                <a href="{% url "shifts:slot_register" slot.pk %}"
+                                                   class="btn tapir-btn btn-outline-info register-to-slot-button {% if not slot.can_self_register and not perms.shifts.manage %}disabled{% endif %}">
                                                     <span class="material-icons">person_add</span>
-                                                    {% translate "Register myself" %}
-                                                </button>
+                                                    {% translate "Register" %}
+                                                </a>
                                             </span>
-                                                {% endautoescape %}
-                                        </form>
+                                        {% endautoescape %}
                                     {% endif %}
                                 </span></td>
                             {% endwith %}
                             {% if perms.shifts.manage %}
                                 <td><span class="shift-centered-content">
-                                    {% if slot.get_valid_attendance is None or slot.get_valid_attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
-                                        <form style="display: inline;"
-                                              method="post"
-                                              action="{% url "shifts:slot_register" slot.pk %}">
-                                            {% csrf_token %}
-                                            <button type="submit"
-                                                    class="btn tapir-btn btn-outline-info register-button">
-                                                <span class="material-icons">person_add</span>
-                                                {% translate "Register a member" %}
-                                            </button>
-                                        </form>
-                                    {% endif %}
                                     {% if slot.get_valid_attendance is not None %}
                                         {% with slot.get_valid_attendance as attendance %}
                                             {% if attendance.state == attendance.State.PENDING or attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}

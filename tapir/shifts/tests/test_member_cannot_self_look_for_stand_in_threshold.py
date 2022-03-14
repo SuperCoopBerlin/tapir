@@ -1,3 +1,4 @@
+import time
 from datetime import timedelta
 
 from django.test import tag
@@ -27,7 +28,9 @@ class TestMemberCannotSelfLookForStandInThreshold(TapirSeleniumTestBase):
             self.live_server_url + reverse("shifts:shift_detail", args=[shift.pk])
         )
         self.wait_until_element_present_by_id("shift_detail_card")
-        self.selenium.find_element_by_class_name("register-self-button").click()
+        self.selenium.find_element_by_class_name("register-to-slot-button").click()
+        self.wait_until_element_present_by_id("register_to_shift_slot_card")
+        self.selenium.find_element_by_id("register_button").click()
         self.wait_until_element_present_by_id("self_look_for_stand_in_button")
         self.assertFalse(
             slot.user_can_look_for_standin(standard_user.get_tapir_user()),

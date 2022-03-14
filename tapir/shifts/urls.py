@@ -29,16 +29,6 @@ urlpatterns = [
         name="shift_day_printable",
     ),
     path(
-        "shift/create",
-        views.CreateShiftView.as_view(),
-        name="shift_create",
-    ),
-    path(
-        "shiftslot/<int:pk>/register/<int:user_pk>",
-        views.shiftslot_register_user,
-        name="shiftslot_register_user",
-    ),
-    path(
         "shift/<int:pk>/edit",
         views.EditShiftView.as_view(),
         name="shift_edit",
@@ -65,12 +55,12 @@ urlpatterns = [
     ),
     path(
         "slottemplate/<int:slot_template_pk>/register",
-        views.SlotTemplateRegisterView.as_view(),
+        views.RegisterUserToShiftSlotTemplateView.as_view(),
         name="slottemplate_register",
     ),
     path(
         "shiftslot/<int:slot_pk>/register/",
-        views.SlotRegisterView.as_view(),
+        views.RegisterUserToShiftSlotView.as_view(),
         name="slot_register",
     ),
     path(
