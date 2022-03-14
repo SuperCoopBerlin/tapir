@@ -2,7 +2,7 @@ from django.test import Client
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
-from tapir.accounts.tests.factories import TapirUserFactory
+from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

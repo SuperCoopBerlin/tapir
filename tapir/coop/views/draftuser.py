@@ -129,10 +129,11 @@ def create_share_owner_from_draft_user_view(request, pk):
 
     draft = DraftUser.objects.get(pk=pk)
     if not draft.signed_membership_agreement:
-        # TODO(Leon Handreke): Error message
-        return redirect(draft)
+        raise ValidationError(
+            "Members can only be created after they have signed the membership agreement."
+        )
 
-    if draft.num_shares < 0:
+    if draft.num_shares <= 0:
         raise ValidationError(
             "Trying to create a share owner from a draft user without shares"
         )
