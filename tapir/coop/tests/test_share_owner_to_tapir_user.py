@@ -9,7 +9,7 @@ from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
-class TestsDraftUserToShareOwner(TapirFactoryTestBase):
+class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
     def test_requires_permissions(self):
         self.login_as_normal_user()
         share_owner: ShareOwner = ShareOwnerFactory.create()
