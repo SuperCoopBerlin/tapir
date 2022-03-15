@@ -1,4 +1,28 @@
 import factory
+import phonenumbers
+from faker.providers.phone_number.de_DE import Provider
+from faker import Faker
+
+
+class CustomPhoneProvider(Provider):
+    # From https://stackoverflow.com/a/57875941
+    # Faker sometimes generates invalid phone numbers, like (182)722-5289x4545.
+    # Even with factory.Faker("phone_number", locale="de"), it sometimes generates numbers that are too short.
+    def phone_number(self):
+        tries = 0
+        while tries < 10:
+            phone_number = self.numerify(self.random_element(self.formats))
+            parsed_number = phonenumbers.parse(phone_number, "DE")
+            if phonenumbers.is_valid_number(parsed_number):
+                return phonenumbers.format_number(
+                    parsed_number, phonenumbers.PhoneNumberFormat.E164
+                )
+            tries += 1
+        return "+4917612345678"
+
+
+fake = Faker()
+fake.add_provider(CustomPhoneProvider)
 
 
 class UserDataFactory(factory.django.DjangoModelFactory):
@@ -23,7 +47,7 @@ class UserDataFactory(factory.django.DjangoModelFactory):
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
     email = factory.Faker("email")
-    phone_number = factory.Faker("phone_number")
+    phone_number = factory.LazyAttribute(lambda _: fake.phone_number())
     street = factory.Faker("street_address")
     postcode = factory.Faker("postcode")
     city = factory.Faker("city")

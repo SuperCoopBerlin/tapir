@@ -41,7 +41,7 @@ class DraftUserCreateView(
 
 class DraftUserRegisterView(DraftUserViewMixin, generic.CreateView):
     form_class = DraftUserRegisterForm
-    success_url = "/coop/user/draft/register/confirm"
+    success_url = reverse_lazy("coop:draftuser_confirm_registration")
 
     def get_template_names(self):
         return [
