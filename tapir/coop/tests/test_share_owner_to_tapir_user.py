@@ -1,9 +1,8 @@
-from django.core.handlers.wsgi import WSGIRequest
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.accounts.tests.factories.user_data_factory import USER_DATA_ATTRIBUTES
+from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
@@ -40,7 +39,7 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
             msg_prefix="The user should be redirected to the new TapirUser's page.",
         )
 
-        for attribute in USER_DATA_ATTRIBUTES:
+        for attribute in UserDataFactory.ATTRIBUTES:
             self.assertEqual(
                 getattr(share_owner, attribute),
                 getattr(tapir_user, attribute),
@@ -48,7 +47,7 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
             )
 
         share_owner = tapir_user.share_owner
-        for attribute in USER_DATA_ATTRIBUTES:
+        for attribute in UserDataFactory.ATTRIBUTES:
             self.assertFalse(
                 getattr(share_owner, attribute),
                 f"The ShareOwner should have his {attribute} blanked.",

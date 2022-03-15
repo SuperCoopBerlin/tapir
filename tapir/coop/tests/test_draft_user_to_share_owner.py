@@ -1,9 +1,8 @@
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 
-from tapir.accounts.tests.factories.user_data_factory import USER_DATA_ATTRIBUTES
 from tapir.coop.models import DraftUser, ShareOwner, ShareOwnership, COOP_SHARE_PRICE
-from tapir.coop.tests.factories import DraftUserFactory
+from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -54,7 +53,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase):
             "After creating the share owner, the draft user should have been destroyed",
         )
 
-        for attribute in USER_DATA_ATTRIBUTES + ["is_investing"]:
+        for attribute in ShareOwnerFactory.ATTRIBUTES:
             self.assertEqual(
                 getattr(draft_user, attribute),
                 getattr(share_owner, attribute),

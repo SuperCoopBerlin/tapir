@@ -15,6 +15,8 @@ class ShareOwnerFactory(UserDataFactory):
     class Meta:
         model = ShareOwner
 
+    ATTRIBUTES = UserDataFactory.ATTRIBUTES + ["is_investing"]
+
     is_investing = factory.Faker("pybool")
 
     @factory.post_generation
@@ -29,6 +31,20 @@ class DraftUserFactory(UserDataFactory):
     class Meta:
         model = DraftUser
 
+    ATTRIBUTES = UserDataFactory.ATTRIBUTES + [
+        "num_shares",
+        "is_investing",
+        "paid_shares",
+        "attended_welcome_session",
+        "ratenzahlung",
+        "paid_membership_fee",
+        "signed_membership_agreement",
+    ]
+
     num_shares = factory.Faker("pyint", min_value=1, max_value=20)
     is_investing = factory.Faker("pybool")
     paid_shares = factory.Faker("pybool")
+    attended_welcome_session = factory.Faker("pybool")
+    ratenzahlung = factory.Faker("pybool")
+    paid_membership_fee = factory.Faker("pybool")
+    signed_membership_agreement = factory.Faker("pybool")

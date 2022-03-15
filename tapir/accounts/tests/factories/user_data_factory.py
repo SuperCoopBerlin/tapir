@@ -1,24 +1,24 @@
 import factory
 
 
-USER_DATA_ATTRIBUTES = [
-    "first_name",
-    "last_name",
-    "email",
-    "phone_number",
-    "birthdate",
-    "street",
-    "street_2",
-    "postcode",
-    "city",
-    "country",
-    "preferred_language",
-]
-
-
 class UserDataFactory(factory.django.DjangoModelFactory):
     class Meta:
         abstract = True
+        exclude = ("ATTRIBUTES",)
+
+    ATTRIBUTES = [
+        "first_name",
+        "last_name",
+        "email",
+        "phone_number",
+        "birthdate",
+        "street",
+        "street_2",
+        "postcode",
+        "city",
+        "country",
+        "preferred_language",
+    ]
 
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")

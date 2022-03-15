@@ -40,6 +40,8 @@ class DraftUserForm(forms.ModelForm):
             "street_2",
             "postcode",
             "city",
+            "country",
+            "preferred_language",
             "is_investing",
             "attended_welcome_session",
             "ratenzahlung",
