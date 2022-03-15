@@ -41,3 +41,11 @@ class TapirUserFactory(UserDataFactory):
             # or a previous run
             group.members.remove(user_dn)
             group.save()
+
+    @factory.post_generation
+    def shift_capabilities(self, create, shift_capabilities, **kwargs):
+        if not create:
+            return
+
+        self.shift_user_data.capabilities = shift_capabilities or []
+        self.shift_user_data.save()

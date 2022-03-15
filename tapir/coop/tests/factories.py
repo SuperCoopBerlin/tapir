@@ -1,7 +1,7 @@
 import factory
 
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
-from tapir.coop.models import ShareOwnership, ShareOwner, DraftUser
+from tapir.coop.models import ShareOwnership, ShareOwner, DraftUser, COOP_SHARE_PRICE
 
 
 class ShareOwnershipFactory(factory.django.DjangoModelFactory):
@@ -9,6 +9,7 @@ class ShareOwnershipFactory(factory.django.DjangoModelFactory):
         model = ShareOwnership
 
     start_date = factory.Faker("date")
+    amount_paid = factory.Faker("pydecimal", min_value=0, max_value=COOP_SHARE_PRICE)
 
 
 class ShareOwnerFactory(UserDataFactory):
@@ -24,7 +25,7 @@ class ShareOwnerFactory(UserDataFactory):
         if not create:
             return
         for _ in range(nb_shares or 1):
-            ShareOwnershipFactory(owner=self)
+            ShareOwnershipFactory.create(owner=self)
 
 
 class DraftUserFactory(UserDataFactory):
