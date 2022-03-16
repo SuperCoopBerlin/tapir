@@ -20,7 +20,6 @@ class TestRegisterDraftUser(TapirFactoryTestBase):
         ]
 
         for attribute in cant_be_set_when_self_registering:
-            continue
             # Even if the client sends True, those value should be saved as False
             setattr(mock_draft_user, attribute, True)
 
@@ -28,8 +27,7 @@ class TestRegisterDraftUser(TapirFactoryTestBase):
         for attribute in DraftUserFactory.ATTRIBUTES:
             post_data[attribute] = getattr(mock_draft_user, attribute)
         response = self.client.post(reverse("coop:draftuser_register"), post_data)
-        print(response.content)
-        print(post_data)
+
         self.assertRedirects(response, reverse("coop:draftuser_confirm_registration"))
 
         draft_user = DraftUser.objects.get(
