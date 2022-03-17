@@ -1,21 +1,16 @@
 import datetime
 
 from django.urls import reverse
-from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.shifts.models import (
-    ShiftAttendance,
-    Shift,
-    ShiftSlot,
     ShiftAttendanceMode,
     ShiftAccountEntry,
     ShiftAttendanceTemplate,
 )
-from tapir.shifts.tests.factories import ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

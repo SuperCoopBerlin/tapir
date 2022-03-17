@@ -17,6 +17,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
     ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
+    ShiftSlotWarning,
 )
 from tapir.utils.forms import DateInput
 
@@ -58,7 +59,7 @@ class MissingCapabilitiesWarningMixin(forms.Form):
         if "user" in self._errors:
             return
 
-        user: TapirUser = self.cleaned_data["user"]
+        user_to_register: TapirUser = self.cleaned_data["user"]
         if (
             "confirm_missing_capabilities" in self.cleaned_data
             and not self.cleaned_data["confirm_missing_capabilities"]
@@ -66,7 +67,7 @@ class MissingCapabilitiesWarningMixin(forms.Form):
             missing_capabilities = [
                 _(SHIFT_USER_CAPABILITY_CHOICES[capability])
                 for capability in self.get_required_capabilities()
-                if capability not in user.shift_user_data.capabilities
+                if capability not in user_to_register.shift_user_data.capabilities
             ]
             if len(missing_capabilities) > 0:
                 error_msg = _(
@@ -133,21 +134,21 @@ class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
     def get_required_capabilities(self):
         return self.slot.required_capabilities
 
-    def clean_user(self):
-        user = self.cleaned_data["user"]
+    def clean_user_to_register(self):
+        user_to_register = self.cleaned_data["user"]
         if (
             not self.request_user.has_perm("shifts.manage")
-            and user.pk != self.request_user.pk
+            and user_to_register.pk != self.request_user.pk
         ):
             raise PermissionDenied(
                 _("You need the shifts.manage permission to do this."), code="invalid"
             )
-        if self.slot.shift.slots.filter(attendances__user=user).exists():
+        if self.slot.shift.slots.filter(attendances__user=user_to_register).exists():
             raise ValidationError(
                 _("This user is already registered to another slot in this shift."),
                 code="invalid",
             )
-        return user
+        return user_to_register
 
 
 class ShiftUserDataForm(forms.ModelForm):
