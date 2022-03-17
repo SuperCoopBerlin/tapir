@@ -1,5 +1,6 @@
 import datetime
 
+from django.core import mail
 from django.urls import reverse
 from django.utils import timezone
 
@@ -84,4 +85,14 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase):
             ShiftAttendance.objects.get(slot=slot, user=user_looking).state,
             ShiftAttendance.State.CANCELLED,
             "The attendance of the user that was looking for a stand-in should be cancelled.",
+        )
+        self.assertEqual(
+            len(mail.outbox),
+            1,
+            "An email should have been sent to the email that was looking for a stand-in",
+        )
+        self.assertEqual(
+            mail.outbox[0].to,
+            [user_looking.email],
+            "The email should have been sent to user_looking",
         )
