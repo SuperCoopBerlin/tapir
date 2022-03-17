@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime
 import time
+import calendar
 
 from django.contrib.postgres.fields import ArrayField
 from django.core.mail import EmailMessage
@@ -106,15 +107,9 @@ class ShiftTemplateGroup(models.Model):
         return None
 
 
-# TODO(Leon Handreke): There must be a library to supply this
+# Generate weekdays
 WEEKDAY_CHOICES = [
-    (0, _("Monday")),
-    (1, _("Tuesday")),
-    (2, _("Wednesday")),
-    (3, _("Thursday")),
-    (4, _("Friday")),
-    (5, _("Saturday")),
-    (6, _("Sunday")),
+    (i, _(calendar.day_name[i])) for i in calendar.Calendar().iterweekdays()
 ]
 
 
