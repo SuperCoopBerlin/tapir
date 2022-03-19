@@ -7,6 +7,9 @@ db.sqlite3
 media
 *.mo
 
+# Temporary compiled scss files
+/static
+
 # Backup files #
 *.bak
 

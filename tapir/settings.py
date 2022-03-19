@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "django_filters",
     "django_select2",  # For autocompletion in form fields
     "phonenumber_field",
+    "sass_processor",
     # TODO(Leon Handreke): Don't install in prod
     "django_extensions",
 ]
@@ -191,6 +192,12 @@ SERVER_EMAIL = env("SERVER_EMAIL", default="mitglied@supercoop.de")
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "sass_processor.finders.CssFinder",
+]
+SASS_PROCESSOR_INCLUDE_FILE_PATTERN = r"^.+\.(scss|sass|css)$"
 
 SELECT2_JS = "core/select2/4.0.13/js/select2.min.js"
 SELECT2_CSS = "core/select2/4.0.13/css/select2.min.css"
