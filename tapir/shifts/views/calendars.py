@@ -161,7 +161,7 @@ class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
         html_result = cal.formatyear(theyear=thisyear, width=4)
         # TODO relative paths: HOWTO?
         HTML(string=html_result).write_pdf(
-            "tapir/shifts/static/shifts/ABCD_weeks_calendar_EN.pdf",
+            "tapir/shifts/static/shifts/ABCD_weeks_calendar.pdf",
             stylesheets=["tapir/shifts/static/shifts/css/calendar.css"],
         )
         context["shiftcal"] = mark_safe(html_result)

@@ -1,6 +1,6 @@
 import calendar
 from datetime import datetime, timedelta, date
-
+from django.utils.translation import gettext_lazy as _
 from tapir.shifts.templatetags.shifts import get_week_group
 
 
@@ -97,3 +97,27 @@ class ColorHTMLCalendar(calendar.HTMLCalendar):
             )
         a("</tr> </table>")
         return "".join(v)
+
+    def formatweekday(self, day):
+        """
+        Return a weekday name as a table header.
+        SuperCoop: Overwrites locale
+        """
+        return '<th class="%s">%s</th>' % (
+            self.cssclasses_weekday_head[day],
+            _(calendar.day_abbr[day]),
+        )
+
+    def formatmonthname(self, theyear, themonth, withyear=True):
+        """
+        Return a month name as a table row.
+        SuperCoop: Overwrites locale
+        """
+        if withyear:
+            s = "%s %s" % (calendar.month_name[themonth], theyear)
+        else:
+            s = "%s" % _(calendar.month_name[themonth])
+        return '<tr><th colspan="7" class="%s">%s</th></tr>' % (
+            self.cssclass_month_head,
+            s,
+        )
