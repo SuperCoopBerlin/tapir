@@ -2,7 +2,6 @@
 {% load static %}
 {% load i18n %}
 {% load coop %}
-{% load core %}
 {% load sass_tags %}
 
 <!doctype html>
@@ -75,7 +74,7 @@
         <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="sidebar-sticky">
                 {% block sidebar %}
-                    {% sidebar_links %}
+                    {% include "core/sidebar.html" %}
                 {% endblock %}
             </div>
         </nav>

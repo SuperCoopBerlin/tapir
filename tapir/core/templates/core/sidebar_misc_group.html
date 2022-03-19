@@ -1,0 +1,29 @@
+{% load i18n %}
+
+<h6 class="sidebar-group-heading">{% translate "Miscellaneous" %}</h6>
+<nav class="sidebar-group-item-list">
+    <a class="sidebar-item" href="https://wiki.supercoop.de">
+        <span class="material-icons">feed</span>
+        {% translate "Wiki" %}
+    </a>
+
+    <a class="sidebar-item" href="https://wiki.supercoop.de/wiki/Member_Manual">
+        <span class="material-icons">menu_book</span>
+        {% translate "Member manual" %}
+    </a>
+
+    <a class="sidebar-item" href="https://wiki.supercoop.de/wiki/%C3%96ffnungszeiten">
+        <span class="material-icons">access_time</span>
+        {% translate "Shop opening hours" %}
+    </a>
+
+    <a class="sidebar-item" href="mailto:mitglied@supercoop.de">
+        <span class="material-icons">email</span>
+        {% translate "Contact the member office" %}
+    </a>
+
+    <a class="sidebar-item" href="{% url "coop:about" %}">
+        <span class="material-icons">help</span>
+        {% translate "About Tapir" %}
+    </a>
+</nav>

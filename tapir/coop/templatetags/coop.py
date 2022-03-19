@@ -43,3 +43,8 @@ def shop_extension_progress_bar(context):
     context["shop_extension_sources"] = sources
 
     return context
+
+
+@register.inclusion_tag("coop/sidebar_financing_campaigns_group.html")
+def sidebar_financing_campaigns_group():
+    return {"campaigns": FinancingCampaign.objects.all()}

@@ -1,0 +1,42 @@
+{% load i18n %}
+{% load shifts %}
+
+<h6 class="sidebar-group-heading ">{% translate "Shifts" %}</h6>
+
+<nav class="sidebar-group-item-list">
+    <a class="sidebar-item" href="{% url "shifts:calendar_future" %}">
+        <span class="material-icons">calendar_today</span>
+        {% translate "Shift calendar" %}
+    </a>
+
+    <a class="sidebar-item" href="{% url "shifts:shift_template_overview" %}">
+        <span class="material-icons">today</span>
+        {% translate "ABCD-shifts week-plan" %}
+    </a>
+
+    <a class="sidebar-item" href="{% url "shifts:shift_template_group_calendar" %}">
+        <span class="material-icons">table_view</span>
+        {% get_current_week_group as current_week_group %}
+        {% blocktranslate with current_week_group_name=current_week_group.name %}
+            ABCD weeks calendar, current week: {{ current_week_group_name }}
+        {% endblocktranslate %}
+    </a>
+
+    {% if perms.shifts.manage %}
+        <a class="sidebar-item" href="{% url "shifts:calendar_past" %}">
+            <span class="material-icons">history</span>
+            {% translate "Past shifts" %}
+        </a>
+
+        <a class="sidebar-item" href="{% url "shifts:shift_exemption_list" %}">
+            <span class="material-icons">beach_access</span>
+            {% translate "Shift exemptions" %}
+        </a>
+
+        <a class="sidebar-item" href="{% url "shifts:statistics" %}">
+            <span class="material-icons">calculate</span>
+            {% translate "Shift statistics" %}
+        </a>
+    {% endif %}
+
+</nav>

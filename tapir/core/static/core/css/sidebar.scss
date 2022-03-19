@@ -1,0 +1,64 @@
+@import "core/bootstrap/5.1.3/css/bootstrap.min";
+
+/* Sidebar, stolen from https://getbootstrap.com/docs/4.1/examples/dashboard/ */
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+  .sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+}
+
+.sidebar-group-heading {
+  // Padding left and right to indent a bit
+  @extend .px-3;
+  // Offset a bit from the group before
+  @extend .mt-4;
+  @extend .mb-1;
+
+  @extend .text-muted;
+
+  font-size: .75rem;
+  text-transform: uppercase;
+}
+
+.sidebar-group-item-list {
+  @extend .nav;
+  @extend .flex-column;
+}
+
+.sidebar-item {
+  @extend .nav-link;
+
+  // Align items vertically
+  @extend .d-flex;
+  @extend .align-items-center;
+
+  // A small gap between the icon and the text
+  @extend .gap-1;
+
+  font-weight: 500;
+  color: #333;
+
+  &:hover {
+    color: #007bff;
+  }
+}

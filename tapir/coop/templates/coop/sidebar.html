@@ -1,0 +1,38 @@
+{% load i18n %}
+
+<h6 class="sidebar-group-heading ">{% translate "Cooperative campaign" %}</h6>
+
+<nav class="sidebar-group-item-list">
+    <a class="sidebar-item" href="{% url "coop:draftuser_list" %}">
+        <span class="material-icons">person_outline</span>
+        {% translate "Applicants" %}
+    </a>
+
+    <a class="sidebar-item" href="{% url "coop:shareowner_list" %}">
+        <span class="material-icons">person</span>
+        {% translate "Members" %}
+    </a>
+
+    <a class="sidebar-item" href="{% url "coop:matching_program_list" %}">
+        <span class="material-icons">card_giftcard</span>
+        {% translate "Matching program" %}
+    </a>
+
+    <a class="sidebar-item" href="{% url "coop:statistics" %}">
+        <span class="material-icons">calculate</span>
+        {% translate "Statistics" %}
+    </a>
+</nav>
+
+{% if perms.welcomedesk.view %}
+    <h6 class="sidebar-group-heading ">{% translate "Welcome Desk" %}</h6>
+    <nav class="sidebar-group-item-list">
+        <a class="sidebar-item" href="{% url "coop:welcome_desk_search" %}" id="welcome_desk_link">
+            <span class="material-icons">table_restaurant</span>
+            {% translate "Welcome Desk" %}
+        </a>
+    </nav>
+{% endif %}
+
+{% load coop %}
+{% sidebar_financing_campaigns_group %}

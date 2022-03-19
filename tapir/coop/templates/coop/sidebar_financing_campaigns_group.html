@@ -1,0 +1,14 @@
+{% load i18n %}
+
+<h6 class="sidebar-group-heading ">{% translate "Financing campaign" %}</h6>
+
+{% if campaigns.exists %}
+    <nav class="sidebar-group-item-list">
+        {% for campaign in campaigns %}
+            <a class="sidebar-item" href="{{ campaign.get_absolute_url }}">
+                <span class="material-icons">calendar_today</span>
+                {{ campaign.name }}
+            </a>
+        {% endfor %}
+    </nav>
+{% endif %}
