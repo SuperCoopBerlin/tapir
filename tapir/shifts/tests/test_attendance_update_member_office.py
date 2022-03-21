@@ -2,8 +2,6 @@ import datetime
 
 from django.urls import reverse
 
-from django.urls import reverse
-
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
