@@ -18,7 +18,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase):
             reverse("login"),
             response.url,
             "The user should be redirected to the login page because they don't have the right permissions",
-        )  # Can't use self.assertRedirects because the response's URL contain's the get parameters
+        )  # Can't use self.assertRedirects because the response's URL contains the get parameters
         self.assertFalse(
             ShareOwner.objects.filter(
                 first_name=draft_user.first_name, last_name=draft_user.last_name
