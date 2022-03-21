@@ -8,9 +8,14 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftSlotWarning,
     ShiftUserCapability,
+    ShiftAttendanceTemplate,
 )
-from tapir.shifts.tests.factories import ShiftFactory
-from tapir.shifts.tests.utils import register_user_to_shift
+from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
+from tapir.shifts.tests.utils import (
+    register_user_to_shift,
+    check_registration_successful,
+    register_user_to_shift_template,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -20,7 +25,7 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
         shift = self.create_shift_in_the_future()
 
         response = register_user_to_shift(self.client, user, shift)
-        self.check_registration_successful(response, user, shift)
+        check_registration_successful(self, response, user, shift)
 
     def test_member_self_registers_with_warning(self):
         shift = self.create_shift_in_the_future()
@@ -51,7 +56,7 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
             reverse("shifts:slot_register", args=[slot.id]),
             {"user": user.id, f"warning_{warning}": True},
         )
-        self.check_registration_successful(response, user, shift)
+        check_registration_successful(self, response, user, shift)
 
     def test_member_self_registers_with_capability(self):
         shift = self.create_shift_in_the_future()
@@ -65,7 +70,7 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
         user.shift_user_data.save()
 
         response = register_user_to_shift(self.client, user, shift)
-        self.check_registration_successful(response, user, shift)
+        check_registration_successful(self, response, user, shift)
 
     def test_member_self_registers_without_capability(self):
         shift = self.create_shift_in_the_future()
@@ -98,20 +103,23 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
             "Normal users should not be able to register themselves to a shifts that are in the past.",
         )
 
+    def test_member_self_registers_to_abcd_shift(self):
+        user = self.login_as_normal_user()
+        shift_template = ShiftTemplateFactory.create()
+
+        response = register_user_to_shift_template(self.client, user, shift_template)
+        self.assertEqual(
+            response.status_code,
+            403,
+            "Non-member-office users should not be be able to register themselves to ABCD shifts.",
+        )
+        self.assertFalse(
+            ShiftAttendanceTemplate.objects.filter(user=user).exists(),
+            "The shift attendance template should not have been created.",
+        )
+
     def create_shift_in_the_future(self):
         start_time = timezone.now() + datetime.timedelta(hours=0, minutes=30)
         shift = ShiftFactory.create(start_time=start_time)
         self.assertTrue(shift.is_in_the_future(), "The shift should be in the future.")
         return shift
-
-    def check_registration_successful(self, response, user, shift):
-        self.assertRedirects(
-            response,
-            shift.get_absolute_url(),
-            msg_prefix="The registration should be successful and therefore redirect to the shift's page.",
-        )
-        self.assertEqual(
-            ShiftAttendance.objects.filter(user=user, slot__shift=shift).count(),
-            1,
-            "Exactly one attendance should have been created.",
-        )
