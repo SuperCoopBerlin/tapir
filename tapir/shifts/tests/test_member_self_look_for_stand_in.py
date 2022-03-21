@@ -8,8 +8,6 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
-    ShiftSlotWarning,
-    ShiftUserCapability,
     Shift,
 )
 from tapir.shifts.tests.factories import ShiftFactory
