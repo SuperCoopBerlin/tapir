@@ -23,6 +23,7 @@ from tapir.shifts.models import (
 )
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
+from tapir.utils.shortcuts import get_monday
 
 SHIFT_NAME_CASHIER_MORNING = "Cashier morning"
 SHIFT_NAME_CASHIER_AFTERNOON = "Cashier afternoon"
@@ -325,9 +326,7 @@ def populate_shift_templates():
 def generate_shifts(print_progress=False):
     if print_progress:
         print("Generating shifts")
-    start_day = datetime.date.today() - datetime.timedelta(days=20)
-    while start_day.weekday() != 0:
-        start_day = start_day + datetime.timedelta(days=1)
+    start_day = get_monday(datetime.date.today() - datetime.timedelta(days=20))
 
     groups = ShiftTemplateGroup.objects.all()
     for week in range(8):

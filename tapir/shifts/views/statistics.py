@@ -19,6 +19,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     ShiftCycleEntry,
 )
+from tapir.utils.shortcuts import get_monday
 
 
 class StatisticsView(LoginRequiredMixin, TemplateView):
@@ -98,7 +99,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
         weeks = {"Last": -1, "Current": 0, "Next": 1}
         for week, delta in weeks.items():
             week_context = {}
-            monday = today - timedelta(days=today.weekday()) + timedelta(weeks=delta)
+            monday = get_monday(today) + timedelta(weeks=delta)
             week_start = datetime.datetime.combine(
                 monday, datetime.time(hour=0, minute=0), timezone.now().tzinfo
             )

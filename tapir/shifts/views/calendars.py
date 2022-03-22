@@ -13,6 +13,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
+from tapir.utils.shortcuts import get_monday
 
 
 class ShiftCalendarBaseView(TemplateView):
@@ -141,7 +142,7 @@ class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
         date_to_group = {}
         today = timezone.now().date()
         for week in range(52):
-            monday = today - timedelta(days=today.weekday()) + timedelta(weeks=week)
+            monday = get_monday(today) + timedelta(weeks=week)
             date_to_group[monday] = get_week_group(monday).name
         context["date_to_group"] = date_to_group
         return context

@@ -125,6 +125,10 @@ CELERY_BEAT_SCHEDULE = {
             hour="*/2", minute=5
         ),  # Every two hours five after the hour
     },
+    "apply_shift_cycle_start": {
+        "task": "tapir.shifts.tasks.apply_shift_cycle_start",
+        "schedule": celery.schedules.crontab(hour="*/2", minute=20),
+    },
 }
 
 # Password validation

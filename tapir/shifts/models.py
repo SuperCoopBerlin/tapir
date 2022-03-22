@@ -1046,6 +1046,8 @@ class ShiftCycleEntry(models.Model):
             )
         ]
 
+    SHIFT_CYCLE_DURATION = 28
+
     shift_user_data = models.ForeignKey(
         ShiftUserData, related_name="shift_cycle_logs", on_delete=models.CASCADE
     )
