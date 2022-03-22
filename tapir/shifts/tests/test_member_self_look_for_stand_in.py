@@ -1,65 +1,96 @@
-from datetime import timedelta
+import datetime
 
-from django.test import tag
+from django.core import mail
 from django.urls import reverse
 from django.utils import timezone
 
+from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
+    ShiftSlot,
     ShiftAttendance,
     Shift,
-    ShiftSlot,
 )
-from tapir.utils.tests_utils import TapirSeleniumTestBase
+from tapir.shifts.tests.factories import ShiftFactory
+from tapir.shifts.tests.utils import register_user_to_shift
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
-class TestMemberSelfLookForStandIn(TapirSeleniumTestBase):
-    @tag("selenium")
+class TestMemberSelfLookForStandIn(TapirFactoryTestBase):
     def test_member_self_look_for_stand_in(self):
-        user1 = self.get_standard_user()
-        self.login(user1.get_username(), user1.get_username())
+        user = self.login_as_normal_user()
+        start_time = timezone.now() + datetime.timedelta(
+            days=Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN, hours=1
+        )
+        shift = ShiftFactory.create(start_time=start_time)
 
-        start_time = timezone.now() + timedelta(
-            days=Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN + 2
+        register_user_to_shift(self.client, user, shift)
+        attendance = ShiftAttendance.objects.get(slot__shift=shift, user=user)
+        self.client.post(
+            reverse(
+                "shifts:update_shift_attendance_state",
+                args=[attendance.id, ShiftAttendance.State.LOOKING_FOR_STAND_IN],
+            )
         )
-        end_time = start_time + timedelta(hours=3)
-        shift = Shift.objects.create(start_time=start_time, end_time=end_time)
-        slot = ShiftSlot.objects.create(shift=shift)
-        self.selenium.get(
-            self.live_server_url + reverse("shifts:shift_detail", args=[shift.pk])
-        )
-        self.wait_until_element_present_by_id("shift_detail_card")
-        self.selenium.find_element_by_class_name("register-to-slot-button").click()
-        self.wait_until_element_present_by_id("register_to_shift_slot_card")
-        self.selenium.find_element_by_id("register_button").click()
-        self.wait_until_element_present_by_id("self_look_for_stand_in_button")
-        self.selenium.find_element_by_id("self_look_for_stand_in_button").click()
-        self.wait_until_element_present_by_id("cancel_look_for_stand_in")
-
-        self.logout_if_necessary()
-        user2 = self.get_member_office_user()
-        self.login(user2.get_username(), user2.get_username())
-        self.selenium.get(
-            self.live_server_url + reverse("shifts:shift_detail", args=[shift.pk])
-        )
-        self.selenium.find_element_by_class_name("register-to-slot-button").click()
-        self.wait_until_element_present_by_id("register_to_shift_slot_card")
-        self.selenium.find_element_by_id("register_button").click()
 
         self.assertEqual(
-            ShiftAttendance.objects.filter(
-                user=user2.get_tapir_user(),
-                slot=slot,
-                state=ShiftAttendance.State.PENDING,
-            ).count(),
-            1,
-            "The second user should have taken over the shift slot and therefore should have a valid attendance",
+            ShiftAttendance.objects.get(slot__shift=shift, user=user).state,
+            ShiftAttendance.State.LOOKING_FOR_STAND_IN,
+            "The attendance state should have been set to cancelled.",
+        )
+
+    def test_member_self_look_for_stand_in_threshold(self):
+        user = self.login_as_normal_user()
+        start_time = timezone.now() + datetime.timedelta(
+            days=Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN - 1
+        )
+        shift = ShiftFactory.create(start_time=start_time)
+
+        register_user_to_shift(self.client, user, shift)
+        attendance = ShiftAttendance.objects.get(slot__shift=shift, user=user)
+        response = self.client.post(
+            reverse(
+                "shifts:update_shift_attendance_state",
+                args=[attendance.id, ShiftAttendance.State.LOOKING_FOR_STAND_IN],
+            )
+        )
+
+        self.assertEqual(
+            response.status_code,
+            403,
+            "The user should not be able to search of a stand-in because the shift is too close to now.",
+        )
+
+    def test_stand_in_found(self):
+        user_looking = TapirUserFactory.create()
+        start_time = timezone.now() + datetime.timedelta(days=1)
+        shift = ShiftFactory.create(start_time=start_time)
+        slot = ShiftSlot.objects.filter(shift=shift).first()
+        ShiftAttendance.objects.create(
+            user=user_looking,
+            state=ShiftAttendance.State.LOOKING_FOR_STAND_IN,
+            slot=ShiftSlot.objects.filter(shift=shift).first(),
+        )
+
+        user_replacing = self.login_as_normal_user()
+
+        register_user_to_shift(self.client, user_replacing, shift)
+        self.assertEqual(
+            ShiftAttendance.objects.get(slot=slot, user=user_replacing).state,
+            ShiftAttendance.State.PENDING,
+            "The replacing user should be registered as normal.",
         )
         self.assertEqual(
-            ShiftAttendance.objects.filter(
-                user=user1.get_tapir_user(),
-                slot=slot,
-                state=ShiftAttendance.State.CANCELLED,
-            ).count(),
+            ShiftAttendance.objects.get(slot=slot, user=user_looking).state,
+            ShiftAttendance.State.CANCELLED,
+            "The attendance of the user that was looking for a stand-in should be cancelled.",
+        )
+        self.assertEqual(
+            len(mail.outbox),
             1,
-            "The first user should have it's attendance cancelled because the second user took over the shift.",
+            "An email should have been sent to the email that was looking for a stand-in",
+        )
+        self.assertEqual(
+            mail.outbox[0].to,
+            [user_looking.email],
+            "The email should have been sent to user_looking",
         )

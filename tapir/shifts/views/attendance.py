@@ -112,7 +112,7 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
         )
         look_for_standing = (
             state == ShiftAttendance.State.LOOKING_FOR_STAND_IN
-            and self.get_attendance().slot.user_can_look_for_standin
+            and self.get_attendance().slot.user_can_look_for_standin(self.request.user)
         )
         cancel_look_for_standing = (
             state == ShiftAttendance.State.PENDING
@@ -242,7 +242,6 @@ def shift_attendance_template_delete(request, pk):
 
 
 class RegisterUserToShiftSlotView(PermissionRequiredMixin, FormView):
-    model = ShiftAttendance
     template_name = "shifts/register_user_to_shift_slot.html"
     form_class = RegisterUserToShiftSlotForm
 
@@ -270,6 +269,8 @@ class RegisterUserToShiftSlotView(PermissionRequiredMixin, FormView):
         return context
 
     def get_initial(self):
+        if self.request.user.has_perm("shifts.manage"):
+            return {}
         return {"user": self.request.user}
 
     def get_success_url(self):
@@ -278,14 +279,16 @@ class RegisterUserToShiftSlotView(PermissionRequiredMixin, FormView):
     def form_valid(self, form):
         response = super().form_valid(form)
         slot = self.get_slot()
-        user = form.cleaned_data["user"]
+        user_to_register = form.cleaned_data["user"]
 
         with transaction.atomic():
-            attendance = ShiftAttendance.objects.create(user=user, slot=slot)
+            attendance = ShiftAttendance.objects.create(
+                user=user_to_register, slot=slot
+            )
             slot.mark_stand_in_found_if_relevant(self.request.user)
             log_entry = CreateShiftAttendanceLogEntry().populate(
-                actor=user,
-                user=user,
+                actor=self.request.user,
+                user=user_to_register,
                 model=attendance,
             )
             log_entry.slot_name = attendance.slot.name

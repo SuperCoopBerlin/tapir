@@ -1,34 +1,35 @@
-from django.test import tag
+from django.test import Client
 from django.urls import reverse
 
-from tapir.utils.management.commands.populate_functions import generate_shifts
-from tapir.utils.tests_utils import TapirUserTestBase
+from tapir.accounts.models import TapirUser
+from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
-class AccountsStandardUserDetailPage(TapirUserTestBase):
-    @tag("selenium")
+class AccountsStandardUserDetailPage(TapirFactoryTestBase):
     def test_standard_user_detail_page(self):
-        generate_shifts()
-
-        user = self.get_standard_user()
-        self.login(user.get_username(), user.get_username())
-        self.selenium.get(self.live_server_url + reverse("accounts:user_me"))
-        self.wait_until_element_present_by_id("tapir_user_detail_card")
-        self.check_tapir_user_details(user)
-
-        repeated_shifts = self.selenium.find_elements_by_class_name("repeated-shift")
-        self.assertEqual(len(repeated_shifts), 1)
-        self.assertIn(
-            "Warenannahme & Lagerhaltung Supermarket Friday 16:30 (B)",
-            repeated_shifts[0].text,
+        client = Client()
+        user: TapirUser = TapirUserFactory.create()
+        self.assertTrue(client.login(username=user.username, password=user.username))
+        response = client.get(reverse("accounts:user_me"), follow=True)
+        self.assertEqual(
+            user.id,
+            response.context["object"].id,
+            "The logged in user should be the view's context object.",
+        )
+        self.assertInHTML(
+            f"<div class='col-8' id='tapir_user_username'>{ user.username }</div>",
+            response.content.decode(),
         )
 
-        self.assertFalse(self.does_element_exist_by_id("tapir_user_edit_button"))
-        self.assertFalse(self.does_element_exist_by_id("share_owner_edit_buttons"))
-        self.assertFalse(self.does_element_exist_by_id("add_note_button"))
-        self.assertFalse(
-            self.does_element_exist_by_class_name("unregister-repeated-shift-button")
-        )
-
-        upcoming_shift = self.selenium.find_element_by_id("upcoming_shift")
-        self.assertRegex(upcoming_shift.text, "Fri.*16:30")
+        for button in [
+            "tapir_user_edit_button",
+            "share_owner_edit_button",
+            "add_note_button",
+        ]:
+            self.assertNotContains(
+                response,
+                button,
+                200,
+                "The user is not in the member office, they should not see the edit buttons",
+            )

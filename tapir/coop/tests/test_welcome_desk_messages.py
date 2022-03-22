@@ -1,15 +1,20 @@
 import datetime
 
-from django.test import tag
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
+from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import ShareOwner
-from tapir.shifts.models import ShiftAccountEntry
-from tapir.utils.tests_utils import TapirSeleniumTestBase
+from tapir.coop.tests.factories import ShareOwnerFactory
+from tapir.shifts.models import (
+    ShiftAttendanceMode,
+    ShiftAccountEntry,
+    ShiftAttendanceTemplate,
+)
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
-class TestWelcomeDeskMessages(TapirSeleniumTestBase):
+class TestWelcomeDeskMessages(TapirFactoryTestBase):
     class Messages:
         CAN_SHOP = "welcome_desk_can_shop"
         NO_ACCOUNT = "welcome_desk_no_account"
@@ -27,64 +32,75 @@ class TestWelcomeDeskMessages(TapirSeleniumTestBase):
         Messages.NO_WELCOME_SESSION,
     ]
 
-    @tag("selenium")
-    def test_welcome_desk_messages(self):
-        self.login_as_admin()
+    def test_no_warnings(self):
+        self.check_alerts(
+            self.get_no_warnings_user().share_owner, [self.Messages.CAN_SHOP]
+        )
 
-        roberto = TapirUser.objects.get(username="roberto.cortes")
-        all_ok_member = roberto.share_owner
-        self.check_alerts(all_ok_member.id, [self.Messages.CAN_SHOP])
+    def test_no_account(self):
+        self.check_alerts(
+            ShareOwnerFactory.create(attended_welcome_session=True, is_investing=False),
+            [self.Messages.NO_ACCOUNT],
+        )
 
+    def test_shift_balance_not_ok(self):
+        user = self.get_no_warnings_user()
         ShiftAccountEntry.objects.create(
-            user=roberto, value=-5, date=datetime.datetime.now()
+            user=user, value=-5, date=datetime.datetime.now()
         )
-        self.check_alerts(all_ok_member.id, [self.Messages.SHIFT_BALANCE_NOT_OK])
+        self.check_alerts(user.share_owner, [self.Messages.SHIFT_BALANCE_NOT_OK])
 
-        investing_member = ShareOwner.objects.get(
-            email="mehmet.menemencioglu@example.com"
+    def test_is_investing(self):
+        user = self.get_no_warnings_user()
+        user.share_owner.is_investing = True
+        user.share_owner.save()
+        self.check_alerts(user.share_owner, [self.Messages.IS_INVESTING])
+
+    def test_no_abcd_shift(self):
+        user = self.get_no_warnings_user()
+        user.shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
+        user.shift_user_data.save()
+        self.assertFalse(
+            ShiftAttendanceTemplate.objects.filter(user=user).exists(),
+            "We assume that the create user is not registered to any ABCD shift",
         )
         self.check_alerts(
-            investing_member.id,
-            [self.Messages.IS_INVESTING, self.Messages.NO_ACCOUNT],
+            user.share_owner, [self.Messages.NO_ABCD_SHIFT, self.Messages.CAN_SHOP]
         )
 
-        no_welcome_session_member = TapirUser.objects.get(
-            username="carmelo.rodriguez"
-        ).share_owner
+    def test_no_welcome_session(self):
+        user = self.get_no_warnings_user()
+        user.share_owner.attended_welcome_session = False
+        user.share_owner.save()
         self.check_alerts(
-            no_welcome_session_member.id,
-            [self.Messages.CAN_SHOP, self.Messages.NO_WELCOME_SESSION],
+            user.share_owner, [self.Messages.NO_WELCOME_SESSION, self.Messages.CAN_SHOP]
         )
 
-        no_abcd_shift_member = TapirUser.objects.get(
-            username="margarethe.dohmen"
-        ).share_owner
-        self.check_alerts(
-            no_abcd_shift_member.id,
-            [self.Messages.CAN_SHOP, self.Messages.NO_ABCD_SHIFT],
+    def check_alerts(self, share_owner: ShareOwner, expected_messages):
+        self.login_as_member_office_user()
+        response = self.client.get(
+            reverse("coop:welcome_desk_share_owner", args=[share_owner.id])
         )
-
-    def check_alerts(self, share_owner_id, expected_messages):
-        self.reset_page()
-        self.selenium.get(
-            self.live_server_url
-            + reverse("coop:welcome_desk_share_owner", args=[share_owner_id])
-        )
+        response_content = response.content.decode()
         for message in self.MESSAGES:
-            found = len(self.selenium.find_elements_by_id(message))
             if message in expected_messages:
-                self.assertEqual(
-                    found,
-                    1,
-                    f"Message {message} should be showing for user {ShareOwner.objects.get(id=share_owner_id).get_info().get_display_name()}",
+                self.assertIn(
+                    message,
+                    response_content,
+                    f"Message {message} should be showing for user {share_owner.get_info().get_display_name()}",
                 )
             else:
-                self.assertEqual(
-                    found,
-                    0,
-                    f"Message {message} should not be showing for user {ShareOwner.objects.get(id=share_owner_id).get_info().get_display_name()}",
+                self.assertNotIn(
+                    message,
+                    response_content,
+                    f"Message {message} should not be showing for user {share_owner.get_info().get_display_name()}",
                 )
 
-    def reset_page(self):
-        self.selenium.get(self.live_server_url + reverse("coop:welcome_desk_search"))
-        self.wait_until_element_present_by_id("welcome_desk_table")
+    @staticmethod
+    def get_no_warnings_user() -> TapirUser:
+        user = TapirUserFactory.create(
+            share_owner__is_investing=False, share_owner__attended_welcome_session=True
+        )
+        user.shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
+        user.shift_user_data.save()
+        return user

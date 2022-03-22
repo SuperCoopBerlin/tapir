@@ -14,7 +14,7 @@
                        href="{% url "coop:shareowner_membership_confirmation" owner.pk %}">
                         <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
                     </a>
-                    <a class="btn tapir-btn btn-outline-info" href="{% url "coop:shareowner_update" owner.pk %}">
+                    <a class="btn tapir-btn btn-outline-info" href="{% url "coop:shareowner_update" owner.pk %}" id="share_owner_edit_button">
                         <span class="material-icons">edit</span>{% translate 'Edit' %}
                     </a>
                 </span>

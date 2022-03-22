@@ -1,55 +1,93 @@
 import datetime
 
-from django.test import tag
 from django.urls import reverse
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner
-from tapir.shifts.models import (
-    ShiftAccountEntry,
-    ShiftAttendance,
-    ShiftAttendanceTemplate,
-    Shift,
-    ShiftSlot,
-)
-from tapir.utils.tests_utils import TapirSeleniumTestBase
+from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.models import ShiftAttendance, Shift, ShiftSlot
+from tapir.shifts.tests.factories import ShiftFactory
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
-class TestWelcomeDeskAccess(TapirSeleniumTestBase):
-    @tag("selenium")
-    def test_welcome_desk_access(self):
-        standard_user = TapirUser.objects.get(
-            username=self.get_standard_user().get_username()
-        )
-        self.login(standard_user.username, standard_user.username)
+class TestWelcomeDeskAccess(TapirFactoryTestBase):
+    def test_normal_user_no_access_without_shift(self):
+        normal_user = self.login_as_normal_user()
 
-        ShiftAttendance.objects.filter(user=standard_user).delete()
-        ShiftAttendanceTemplate.objects.filter(user=standard_user).delete()
-
-        self.selenium.get(self.live_server_url + reverse("accounts:user_me"))
-        self.wait_until_element_present_by_id("tapir_user_detail_card")
         self.assertFalse(
-            self.does_element_exist_by_id("welcome_desk_link"),
-            "The user has no special permissions and is not in a shift at the moment, should therefore not see the welcome desk link.",
+            ShiftAttendance.objects.filter(user=normal_user).exists(),
+            "We assume that the user starts without any shift attendance.",
         )
 
-        shift = Shift.objects.create(
-            start_time=timezone.now() - timezone.timedelta(hours=1),
-            end_time=timezone.now() + timezone.timedelta(hours=1),
+        start_time = timezone.now() + datetime.timedelta(hours=0, minutes=30)
+        shift_not_now = ShiftFactory.create(
+            start_time=start_time, end_time=start_time + datetime.timedelta(hours=3)
         )
-        slot = ShiftSlot.objects.create(shift=shift)
-        ShiftAttendance.objects.create(slot=slot, user=standard_user)
+        self.register_user_to_shift(normal_user, shift_not_now)
 
-        self.selenium.get(self.live_server_url + reverse("coop:welcome_desk_search"))
-        self.wait_until_element_present_by_id("welcome_desk_table")
+        response = self.client.get(reverse("accounts:user_me"), follow=True)
+        # We check the user from the request because the permission is not part the user,
+        # it only gets added by the middleware.
+        self.assertFalse(
+            response.context["request"].user.has_perm("welcomedesk.view"),
+            "The user is not doing a shift at the moment, they should not have access to the welcome desk.",
+        )
+        self.assertNotIn(
+            "welcome_desk_link",
+            response.content.decode(),
+            "The user should not have access to the welcome desk page, therefore the link should not be visible.",
+        )
+
+    def test_normal_user_access_with_shift(self):
+        start_time = timezone.now() - datetime.timedelta(hours=1)
+        shift_now = ShiftFactory.create(
+            start_time=start_time, end_time=start_time + datetime.timedelta(hours=3)
+        )
+
+        normal_user = TapirUserFactory.create(is_in_member_office=False)
+        self.login_as_member_office_user()
+        self.register_user_to_shift(normal_user, shift_now)
+
+        self.login_as_user(normal_user)
+        response = self.client.get(reverse("accounts:user_me"), follow=True)
+
         self.assertTrue(
-            self.does_element_exist_by_id("welcome_desk_link"),
-            "The user has just been registered to a shift that is happening now, they should see the welcome desk link.",
+            response.context["request"].user.has_perm("welcomedesk.view"),
+            "The user is doing a shift at the moment, they should have access to the welcome desk.",
+        )
+        self.assertIn(
+            "welcome_desk_link",
+            response.content.decode(),
+            "The user should have access to the welcome desk page, therefore the link should be visible.",
         )
 
-        self.selenium.get(
-            self.live_server_url
-            + reverse("coop:welcome_desk_share_owner", args=[standard_user.pk])
+    def test_member_office_user(self):
+        member_office_user = self.login_as_member_office_user()
+
+        self.assertFalse(
+            ShiftAttendance.objects.filter(user=member_office_user).exists(),
+            "We assume that the user starts without any shift attendance.",
         )
-        self.wait_until_element_present_by_id("welcome_desk_share_owner")
+
+        response = self.client.get(reverse("accounts:user_me"), follow=True)
+
+        self.assertTrue(
+            response.context["request"].user.has_perm("welcomedesk.view"),
+            "Member office users should always have access to the welcome desk.",
+        )
+        self.assertIn(
+            "welcome_desk_link",
+            response.content.decode(),
+            "The user should have access to the welcome desk page, therefore the link should be visible.",
+        )
+
+    def register_user_to_shift(self, user: TapirUser, shift: Shift):
+        slot = ShiftSlot.objects.filter(shift=shift, attendances__isnull=True).first()
+        self.client.post(
+            reverse("shifts:slot_register", args=[slot.id]), {"user": user.id}
+        )
+        self.assertEqual(
+            ShiftAttendance.objects.filter(slot=slot, user=user).count(),
+            1,
+            "Registration should have worked",
+        )

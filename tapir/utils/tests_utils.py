@@ -4,9 +4,10 @@ import os
 import pathlib
 import socket
 
+import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.db import DEFAULT_DB_ALIAS
-from django.test import TestCase, override_settings
+from django.test import TestCase, override_settings, Client
 from django.urls import reverse
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -18,7 +19,9 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
+from tapir.accounts.models import TapirUser
 from tapir.accounts.templatetags.accounts import format_phone_number
+from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.utils.json_user import JsonUser
 
 TAPIR_SELENIUM_BASE_FIXTURES = ["admin_account.json", "test_data.json"]
@@ -189,3 +192,25 @@ class TapirUserTestBase(TapirSeleniumTestBase):
 
 class LdapEnabledTestCase(TestCase):
     databases = {"ldap", DEFAULT_DB_ALIAS}
+
+
+class TapirFactoryTestBase(LdapEnabledTestCase):
+    client: Client
+
+    def setUp(self) -> None:
+        factory.random.reseed_random(self.__class__.__name__)
+        self.client = Client()
+
+    def login_as_user(self, user: TapirUser):
+        success = self.client.login(username=user.username, password=user.username)
+        self.assertTrue(success, f"User {user.username} should be able to log in.")
+
+    def login_as_member_office_user(self) -> TapirUser:
+        user = TapirUserFactory.create(is_in_member_office=True)
+        self.login_as_user(user)
+        return user
+
+    def login_as_normal_user(self) -> TapirUser:
+        user = TapirUserFactory.create(is_in_member_office=False)
+        self.login_as_user(user)
+        return user

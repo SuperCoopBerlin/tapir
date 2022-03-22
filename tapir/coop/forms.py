@@ -40,6 +40,8 @@ class DraftUserForm(forms.ModelForm):
             "street_2",
             "postcode",
             "city",
+            "country",
+            "preferred_language",
             "is_investing",
             "attended_welcome_session",
             "ratenzahlung",
@@ -104,6 +106,7 @@ class DraftUserRegisterForm(forms.ModelForm):
             "street_2",
             "postcode",
             "city",
+            "country",
             "preferred_language",
         ]
         required = [
@@ -115,6 +118,7 @@ class DraftUserRegisterForm(forms.ModelForm):
             "street",
             "postcode",
             "city",
+            "country",
             "preferred_language",
         ]
         widgets = {"birthdate": DateInput()}
