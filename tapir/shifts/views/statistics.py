@@ -17,6 +17,7 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftSlotTemplate,
     ShiftUserData,
+    ShiftCycleEntry,
 )
 
 
@@ -29,6 +30,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
         context["members"] = self.get_members_context()
         context["abcd_slots"] = self.get_abcd_slots_context()
         context["weeks"] = self.get_weeks_context()
+        context["cycles"] = self.get_cycles_context()
 
         return context
 
@@ -122,3 +124,25 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
             context[week] = week_context
 
         return context
+
+    @staticmethod
+    def get_cycles_context():
+        cycles = []
+
+        for value in (
+            ShiftCycleEntry.objects.values("cycle_start_date")
+            .distinct()
+            .order_by("-cycle_start_date")
+        ):
+            date = value["cycle_start_date"]
+            entries = ShiftCycleEntry.objects.filter(cycle_start_date=date)
+            cycle = {
+                "date": date,
+                "nb_members_total": entries.count(),
+                "nb_members_doing_shifts": entries.filter(
+                    shift_account_entry__isnull=False
+                ).count(),
+            }
+            cycles.append(cycle)
+
+        return cycles
