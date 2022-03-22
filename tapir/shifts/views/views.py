@@ -1,10 +1,13 @@
 from datetime import datetime
 
+import django_tables2
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
+from django.db.models import Sum
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
@@ -13,6 +16,8 @@ from django.views.generic import (
     UpdateView,
 )
 from django.views.generic import DetailView, TemplateView
+from django_tables2 import SingleTableView
+from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
 from tapir.log.util import freeze_for_log
@@ -212,3 +217,55 @@ class ShiftDayPrintableView(PermissionRequiredMixin, TemplateView):
 class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView):
     template_name = "shifts/shift_template_detail.html"
     model = ShiftTemplate
+
+
+class ShiftUserDataTable(django_tables2.Table):
+    class Meta:
+        model = ShiftUserData
+        template_name = "django_tables2/bootstrap4.html"
+        fields = [
+            "account_balance",
+            "attendance_mode",
+        ]
+        sequence = (
+            "display_name",
+            "account_balance",
+            "attendance_mode",
+        )
+        order_by = "account_balance"
+
+    display_name = django_tables2.Column(
+        empty_values=(), verbose_name="Name", orderable=False
+    )
+    email = django_tables2.Column(empty_values=(), orderable=False, visible=False)
+
+    def render_display_name(self, value, record: ShiftUserData):
+        return format_html(
+            "<a href={}>{}</a>",
+            record.user.get_absolute_url(),
+            record.user.get_display_name(),
+        )
+
+    def value_display_name(self, value, record: ShiftUserData):
+        return record.user.get_display_name()
+
+    def value_email(self, value, record: ShiftUserData):
+        return record.user.email
+
+
+class MembersOnAlertView(PermissionRequiredMixin, ExportMixin, SingleTableView):
+    table_class = ShiftUserDataTable
+    model = ShiftUserData
+    template_name = "shifts/members_on_alert_list.html"
+    permission_required = "coop.manage"
+
+    export_formats = ["csv", "json"]
+
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .annotate(account_balance=Sum("user__shift_account_entries__value"))
+            .filter(account_balance__lt=-1)
+            .order_by("user__date_joined")
+        )

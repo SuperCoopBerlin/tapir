@@ -1,0 +1,41 @@
+{% extends "core/base.html" %}
+
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load querystring from django_tables2 %}
+{% load export_url from django_tables2 %}
+
+{% block content %}
+
+    <div class="card m-2">
+        <div class="card-header d-flex justify-content-between">
+            <h5>{% translate "Members on alert" %}</h5>
+            <div class="btn-group">
+                <button type="button" class="btn tapir-btn btn-outline-secondary btn-sm dropdown-toggle"
+                        data-bs-toggle="dropdown">
+                    {% translate "Export" %}
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    {% for format in view.export_formats %}
+                        <a class="dropdown-item" href="{% export_url format %}">
+                            download <code>.{{ format }}</code>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                {% blocktranslate %}
+                    The members in this list are on alert relative to their shift account : the current balance is -2
+                    or less.
+                {% endblocktranslate %}
+            </li>
+            <li class="list-group-item">
+                {% render_table table %}
+            </li>
+        </ul>
+    </div>
+{% endblock %}

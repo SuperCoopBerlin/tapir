@@ -98,6 +98,11 @@ def get_sidebar_link_groups(request):
             material_icon="calculate",
             url=reverse_lazy("shifts:statistics"),
         )
+        shifts_group.add_link(
+            display_name=_("Members on alert"),
+            material_icon="priority_high",
+            url=reverse_lazy("shifts:members_on_alert"),
+        )
 
     if FinancingCampaign.objects.exists():
         campaign_group = SidebarLinkGroup(name=_("Financing campaign"))
