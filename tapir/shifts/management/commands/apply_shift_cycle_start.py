@@ -24,8 +24,11 @@ class Command(BaseCommand):
         if new_cycle_start_date is None:
             return
 
-        if datetime.date.today() >= new_cycle_start_date:
+        while datetime.date.today() >= new_cycle_start_date:
             ShiftCycleEntry.apply_cycle_start(new_cycle_start_date)
+            new_cycle_start_date += datetime.timedelta(
+                days=ShiftCycleEntry.SHIFT_CYCLE_DURATION
+            )
 
     @staticmethod
     def get_first_cycle_start_date():
