@@ -159,3 +159,38 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
             flying_user,
             "The flying user should be have kept their shift.",
         )
+
+    def test_member_registers_after_unregister(self):
+        user = TapirUserFactory.create()
+        shift_template = ShiftTemplateFactory.create()
+        shift = shift_template.create_shift(
+            start_date=datetime.date.today() + datetime.timedelta(days=1)
+        )
+
+        self.login_as_member_office_user()
+        register_user_to_shift_template(self.client, user, shift_template)
+
+        attendance_template = ShiftAttendanceTemplate.objects.get(user=user)
+        self.client.post(
+            reverse(
+                "shifts:shift_attendance_template_delete", args=[attendance_template.id]
+            )
+        )
+
+        self.assertFalse(
+            ShiftAttendanceTemplate.objects.filter(user=user).exists(),
+            "The user should be unregistered from the ABCD shift.",
+        )
+        self.assertEqual(
+            ShiftAttendance.objects.get(user=user, slot__shift=shift).state,
+            ShiftAttendance.State.CANCELLED,
+            "After being unregistered from the ABCD shift, the attendance for the normal shift should be cancelled.",
+        )
+
+        response = register_user_to_shift_template(self.client, user, shift_template)
+        check_registration_successful_template(self, response, user, shift_template)
+        self.assertEqual(
+            ShiftAttendance.objects.get(user=user, slot__shift=shift).state,
+            ShiftAttendance.State.PENDING,
+            "After being re-registered to the ABCD shift, the user should also get his normal attendances back.",
+        )

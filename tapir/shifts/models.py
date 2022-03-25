@@ -675,12 +675,16 @@ class ShiftSlot(models.Model):
         if not attendance_template:
             return
 
-        # Create ShiftAttendance if slot not taken yet and user has not already cancelled
-        if (
-            not self.get_valid_attendance()
-            and not self.attendances.filter(user=attendance_template.user).exists()
-        ):
-            ShiftAttendance.objects.create(user=attendance_template.user, slot=self)
+        if self.get_valid_attendance():
+            return
+
+        attendance = self.attendances.filter(user=attendance_template.user).first()
+        if attendance is None:
+            attendance = ShiftAttendance.objects.create(
+                user=attendance_template.user, slot=self
+            )
+        attendance.state = ShiftAttendance.State.PENDING
+        attendance.save()
 
     def mark_stand_in_found_if_relevant(self, actor: TapirUser):
         attendances = ShiftAttendance.objects.filter(
