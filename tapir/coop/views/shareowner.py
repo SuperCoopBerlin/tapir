@@ -545,7 +545,15 @@ class ShareOwnerExportMailchimpView(
                 lang_tag = '"Deutsch"'
             if owner.get_info().preferred_language == "en":
                 lang_tag = '"English"'
-            writer.writerow([owner.get_info().email, "", "", "", lang_tag])
+            writer.writerow(
+                [
+                    owner.get_info().email,
+                    owner.get_info().first_name,
+                    owner.get_info().last_name,
+                    owner.get_info().street,
+                    lang_tag,
+                ]
+            )
 
         return response
 
