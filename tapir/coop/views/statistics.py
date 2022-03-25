@@ -12,8 +12,8 @@ from tapir.coop.models import (
     MemberStatus,
     DraftUser,
     ShareOwnership,
-    COOP_SHARE_PRICE,
 )
+from tapir.settings import COOP_SHARE_PRICE
 
 
 class StatisticsView(PermissionRequiredMixin, generic.TemplateView):

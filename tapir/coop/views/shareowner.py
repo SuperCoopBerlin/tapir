@@ -39,12 +39,11 @@ from tapir.coop.models import (
     MEMBER_STATUS_CHOICES,
     MemberStatus,
     get_member_status_translation,
-    COOP_SHARE_PRICE,
 )
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
+from tapir.settings import FROM_EMAIL_MEMBER_OFFICE, COOP_SHARE_PRICE
 from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,

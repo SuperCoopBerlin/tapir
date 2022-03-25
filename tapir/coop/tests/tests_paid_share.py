@@ -1,7 +1,8 @@
-from tapir.coop.models import DraftUser, ShareOwnership, COOP_SHARE_PRICE
+from tapir.coop.models import ShareOwnership
 from tapir.coop.tests.factories import DraftUserFactory
 from tapir.coop.views import create_share_owner_and_shares_from_draft_user
-from tapir.utils.tests_utils import LdapEnabledTestCase, TapirFactoryTestBase
+from tapir.settings import COOP_SHARE_PRICE
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class PaidShareTests(TapirFactoryTestBase):

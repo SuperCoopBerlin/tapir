@@ -1,7 +1,8 @@
 import factory
 
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
-from tapir.coop.models import ShareOwnership, ShareOwner, DraftUser, COOP_SHARE_PRICE
+from tapir.coop.models import ShareOwnership, ShareOwner, DraftUser
+from tapir.settings import COOP_SHARE_PRICE
 
 
 class ShareOwnershipFactory(factory.django.DjangoModelFactory):

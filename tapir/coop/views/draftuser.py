@@ -19,8 +19,8 @@ from tapir.coop.models import (
     DraftUser,
     ShareOwner,
     ShareOwnership,
-    COOP_SHARE_PRICE,
 )
+from tapir.settings import COOP_SHARE_PRICE
 from tapir.utils.models import copy_user_info
 
 

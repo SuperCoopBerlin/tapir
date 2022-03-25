@@ -5,8 +5,9 @@ from django.urls import reverse
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.coop.models import ShareOwnership, COOP_SHARE_PRICE, MemberStatus
+from tapir.coop.models import ShareOwnership, MemberStatus
 from tapir.coop.tests.factories import ShareOwnerFactory
+from tapir.settings import COOP_SHARE_PRICE
 from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftSlotTemplate,

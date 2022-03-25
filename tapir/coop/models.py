@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
@@ -10,15 +8,12 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry
-from tapir.shifts.models import ShiftAttendanceTemplate
+from tapir.settings import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
 )
 from tapir.utils.user_utils import UserUtils
-
-COOP_SHARE_PRICE = Decimal(100)
-COOP_ENTRY_AMOUNT = Decimal(10)
 
 
 class ShareOwner(models.Model):
