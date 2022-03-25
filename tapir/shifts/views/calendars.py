@@ -144,10 +144,11 @@ class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 
-        # TODO Frederik: a static calendar.html would accelerate
         thisyear = date.today().year
-        start_date = date(thisyear, 1, 1)
-        end_date = date(thisyear, 12, 31)
+        # take current year if other year hasn't been provided
+        showyear = thisyear if "year" not in self.kwargs else self.kwargs["year"]
+        start_date = date(showyear, 1, 1)
+        end_date = date(showyear, 12, 31)
         delta = end_date - start_date  # returns timedelta
         shift_dict = {}
         for i in range(delta.days + 1):
@@ -156,13 +157,23 @@ class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
             monday = day - datetime.timedelta(days=day.weekday() % 7)
             if monday not in shift_dict.keys():
                 # populate with shift names at first day of week
-                shift_dict[monday] = get_week_group(monday).name
+                week_group = get_week_group(monday)
+                # since (currently) some weeks return None, which of course have no attribute name
+                if week_group is None:
+                    shift_dict[monday] = None
+                else:
+                    shift_dict[monday] = week_group.name
         cal = ColorHTMLCalendar(firstweekday=MONDAY, shift_dict=shift_dict)
-        html_result = cal.formatyear(theyear=thisyear, width=4)
+        html_result = cal.formatyear(theyear=showyear, width=4)
         # TODO relative paths: HOWTO?
         HTML(string=html_result).write_pdf(
             "tapir/shifts/static/shifts/ABCD_weeks_calendar.pdf",
             stylesheets=["tapir/shifts/static/shifts/css/calendar.css"],
         )
         context["shiftcal"] = mark_safe(html_result)
+        # the not-shown year
+        otheryear = [x for x in [thisyear, thisyear + 1] if x != showyear][
+            0
+        ]  # prob nicer way prossible
+        context["otheryear"] = otheryear
         return context

@@ -17,7 +17,8 @@
             {% translate 'ABCD weeks calendar' %}
         </h5>
             <div class="card-body">
-                <p><a href="{% static "shifts/ABCD_weeks_calendar_EN.pdf" %}">{% translate 'Download calendar as pdf' %}</a></p>
+                <a href="{% static "shifts/ABCD_weeks_calendar_EN.pdf" %}">{% translate 'Download calendar as pdf' %}</a>
+                 <a href="{% url "shifts:shift_template_group_calendar"  otheryear %}">{{ otheryear }}</a>
                 {{ shiftcal }}
             </div>
     </div>

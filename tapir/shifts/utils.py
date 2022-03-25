@@ -85,9 +85,8 @@ class ColorHTMLCalendar(calendar.HTMLCalendar):
             a("</tr>")
         a("</table>")
         a('<table class="legend"><tr>')
-        for value in list(
-            sorted({ele for val in self.shift_dict.values() for ele in val})
-        ):
+        # returns a sorted list of unique shift names (and remove None from list)
+        for value in sorted(set([i for i in self.shift_dict.values() if i])):
             a(
                 "<td class=%s>%s</td>"
                 % (
