@@ -1,9 +1,9 @@
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 
+from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.models import DraftUser, ShareOwner, ShareOwnership
 from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
-from tapir.settings import COOP_SHARE_PRICE
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

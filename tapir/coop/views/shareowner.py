@@ -27,6 +27,7 @@ from django_tables2.export import ExportMixin
 from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
+from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
@@ -43,7 +44,7 @@ from tapir.coop.models import (
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import FROM_EMAIL_MEMBER_OFFICE, COOP_SHARE_PRICE
+from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,

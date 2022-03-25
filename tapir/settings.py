@@ -10,8 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
-import sys
-from decimal import Decimal
 from pathlib import Path
 
 import celery.schedules
@@ -244,6 +242,3 @@ if ENABLE_SILK_PROFILING:
     SILKY_PYTHON_PROFILER = True
     SILKY_PYTHON_PROFILER_BINARY = True
     SILKY_META = True
-
-COOP_SHARE_PRICE = Decimal(100)
-COOP_ENTRY_AMOUNT = Decimal(10)

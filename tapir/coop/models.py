@@ -7,8 +7,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils
 from tapir.accounts.models import TapirUser
+from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry
-from tapir.settings import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
