@@ -12,6 +12,7 @@ from tapir.shifts.models import (
 
 class ShiftAttendanceSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(source="user.id", read_only=True)
+    slot_name = serializers.CharField(source="slot.name", read_only=True)
 
     class Meta:
         model = ShiftAttendance
@@ -40,22 +41,6 @@ class ShareOwnerSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ShiftUserDataSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ShiftUserData
-        fields = "__all__"
-
-
-class TapirUserSerializer(serializers.ModelSerializer):
-    share_owner = ShareOwnerSerializer(many=False, read_only=True)
-    shift_user_data = ShiftUserDataSerializer(many=False, read_only=True)
-
-    class Meta:
-        model = TapirUser
-        exclude = ["password"]
-        depth = 1
-
-
 class StringListField(serializers.ListField):
     child = serializers.CharField()
 
@@ -71,3 +56,13 @@ class ShiftUserDataSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_known_capabilities(obj):
         return SHIFT_USER_CAPABILITY_CHOICES.keys()
+
+
+class TapirUserSerializer(serializers.ModelSerializer):
+    share_owner = ShareOwnerSerializer(many=False, read_only=True)
+    shift_user_data = ShiftUserDataSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = TapirUser
+        exclude = ["password"]
+        depth = 1
