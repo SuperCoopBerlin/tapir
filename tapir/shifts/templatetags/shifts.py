@@ -11,6 +11,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftTemplateGroup,
 )
+from tapir.utils.shortcuts import get_monday
 
 register = template.Library()
 
@@ -175,9 +176,7 @@ def shift_filters(context):
 @register.simple_tag
 def get_week_group(target_time: date) -> ShiftTemplateGroup | None:
     for delta in list(range(52)) + list(range(-52, 0)):
-        monday = (
-            target_time - timedelta(days=target_time.weekday()) + timedelta(weeks=delta)
-        )
+        monday = get_monday(target_time) + timedelta(weeks=delta)
         monday = datetime.combine(monday, time(), timezone.now().tzinfo)
         sunday = monday + timedelta(days=7)
         shifts = Shift.objects.filter(

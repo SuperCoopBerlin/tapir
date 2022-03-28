@@ -17,7 +17,9 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftSlotTemplate,
     ShiftUserData,
+    ShiftCycleEntry,
 )
+from tapir.utils.shortcuts import get_monday
 
 
 class StatisticsView(LoginRequiredMixin, TemplateView):
@@ -29,6 +31,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
         context["members"] = self.get_members_context()
         context["abcd_slots"] = self.get_abcd_slots_context()
         context["weeks"] = self.get_weeks_context()
+        context["cycles"] = self.get_cycles_context()
 
         return context
 
@@ -96,7 +99,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
         weeks = {"Last": -1, "Current": 0, "Next": 1}
         for week, delta in weeks.items():
             week_context = {}
-            monday = today - timedelta(days=today.weekday()) + timedelta(weeks=delta)
+            monday = get_monday(today) + timedelta(weeks=delta)
             week_start = datetime.datetime.combine(
                 monday, datetime.time(hour=0, minute=0), timezone.now().tzinfo
             )
@@ -122,3 +125,25 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
             context[week] = week_context
 
         return context
+
+    @staticmethod
+    def get_cycles_context():
+        cycles = []
+
+        for value in (
+            ShiftCycleEntry.objects.values("cycle_start_date")
+            .distinct()
+            .order_by("-cycle_start_date")
+        ):
+            date = value["cycle_start_date"]
+            entries = ShiftCycleEntry.objects.filter(cycle_start_date=date)
+            cycle = {
+                "date": date,
+                "nb_members_total": entries.count(),
+                "nb_members_doing_shifts": entries.filter(
+                    shift_account_entry__isnull=False
+                ).count(),
+            }
+            cycles.append(cycle)
+
+        return cycles

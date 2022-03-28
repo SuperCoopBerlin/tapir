@@ -16,7 +16,8 @@
                         <ul>
                             <li>Out of those {{ members.active_users_count }}, {{ members.exempted_users_count }} are
                                 currently exempted from
-                                doing shifts. This leaves {{ members.users_doing_shifts_count }} who are expected to do shifts.
+                                doing shifts. This leaves {{ members.users_doing_shifts_count }} who are expected to do
+                                shifts.
                             </li>
                             <li>There are currently {{ members.abcd_slots_count }} ABCD shift slots, which
                                 is {{ members.extra_abcd_slots_count }} more than users expected to do shifts.
@@ -62,6 +63,19 @@
                             {% endfor %}
                         </table>
                     </li>
+                </ul>
+            </div>
+        </div>
+        <div class="card m-2">
+            <h5 class="card-header">
+                <span>{% translate "Shift cycle list" %}</span>
+            </h5>
+            <div class="card-body">
+                <ul>
+                    {% for cycle in cycles %}
+                        <li>{{ cycle.date|date:"d.m.Y" }} : {{ cycle.nb_members_doing_shifts }} members where expected
+                            to do a shift out of {{ cycle.nb_members_total }}</li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>

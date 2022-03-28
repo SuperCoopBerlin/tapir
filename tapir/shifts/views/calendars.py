@@ -18,6 +18,7 @@ from tapir.shifts.models import (
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
 from tapir.shifts.utils import ColorHTMLCalendar
+from tapir.utils.shortcuts import get_monday
 
 
 class ShiftCalendarBaseView(TemplateView):
@@ -140,7 +141,7 @@ class ShiftTemplateOverview(LoginRequiredMixin, SelectedUserViewMixin, TemplateV
 
 class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
     template_name = "shifts/shift_template_group_calendar.html"
-
+    
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
 

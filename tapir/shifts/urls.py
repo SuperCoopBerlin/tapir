@@ -123,4 +123,9 @@ urlpatterns = [
         views.StatisticsView.as_view(),
         name="statistics",
     ),
+    path(
+        "members_on_alert",
+        views.MembersOnAlertView.as_view(),
+        name="members_on_alert",
+    ),
 ]
