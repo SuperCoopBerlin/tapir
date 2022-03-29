@@ -1,9 +1,10 @@
-from datetime import timedelta, date, datetime, time
+import datetime
 
 from django import template
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+import tapir.shifts.config
 from tapir.shifts.models import (
     Shift,
     ShiftTemplate,
@@ -174,25 +175,31 @@ def shift_filters(context):
 
 
 @register.simple_tag
-def get_week_group(target_time: date) -> ShiftTemplateGroup | None:
-    for delta in list(range(52)) + list(range(-52, 0)):
-        monday = get_monday(target_time) + timedelta(weeks=delta)
-        monday = datetime.combine(monday, time(), timezone.now().tzinfo)
-        sunday = monday + timedelta(days=7)
-        shifts = Shift.objects.filter(
-            start_time__gte=monday,
-            end_time__lte=sunday,
-            shift_template__group__isnull=False,
-        )
-        if not shifts.exists():
-            continue
+def get_week_group(target_date, cycle_start_dates=None) -> ShiftTemplateGroup | None:
+    if not ShiftTemplateGroup.objects.exists():
+        # Many tests run without creating any ShiftTemplateGroup but still call get_week_group
+        return None
 
-        corrected_week = (
-            shifts.first().shift_template.group.get_group_index() - delta
-        ) % 4
-        return ShiftTemplateGroup.get_group_from_index(corrected_week)
+    if isinstance(target_date, datetime.datetime):
+        target_date = target_date.date()
+    target_date = get_monday(target_date)
 
-    return None
+    if cycle_start_dates is None:
+        cycle_start_dates = tapir.shifts.config.cycle_start_dates
+
+    if cycle_start_dates[0] > target_date:
+        ref_date = cycle_start_dates[0]
+    else:
+        # Get the highest date that is before target_date
+        ref_date = [
+            get_monday(cycle_start_date)
+            for cycle_start_date in cycle_start_dates
+            if cycle_start_date <= target_date
+        ][-1]
+    delta_weeks = (
+        (target_date - ref_date).days / 7
+    ) % ShiftTemplateGroup.objects.count()
+    return ShiftTemplateGroup.get_group_from_index(delta_weeks)
 
 
 @register.simple_tag
