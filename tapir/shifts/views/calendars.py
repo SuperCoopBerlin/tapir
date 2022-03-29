@@ -1,9 +1,13 @@
+from calendar import MONDAY
 from collections import OrderedDict
 from datetime import timedelta, date, datetime, time
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import HttpResponse
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
+from weasyprint import HTML
 
 from tapir.shifts.models import (
     Shift,
@@ -12,13 +16,14 @@ from tapir.shifts.models import (
     ShiftTemplate,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
+from tapir.shifts.utils import ColorHTMLCalendar
 from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
 from tapir.utils.shortcuts import get_monday
 
 
 class ShiftCalendarBaseView(TemplateView):
     def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(*args, **kwargs)
+        context_data = super().get_context_data(**kwargs)
 
         context_data["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
         # Only filter the eight weeks to make things faster
@@ -137,12 +142,51 @@ class ShiftTemplateOverview(LoginRequiredMixin, SelectedUserViewMixin, TemplateV
 class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
     template_name = "shifts/shift_template_group_calendar.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        date_to_group = {}
-        today = timezone.now().date()
-        for week in range(52):
-            monday = get_monday(today) + timedelta(weeks=week)
-            date_to_group[monday] = get_week_group(monday).name
-        context["date_to_group"] = date_to_group
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        thisyear = date.today().year
+        # take current year if other year hasn't been provided
+        showyear = thisyear if "year" not in self.kwargs else self.kwargs["year"]
+        start_date = date(showyear, 1, 1)
+        end_date = date(showyear, 12, 31)
+        delta = end_date - start_date  # returns timedelta
+        shift_dict = {}
+        for i in range(delta.days + 1):
+            # iterate through days of year
+            day = start_date + timedelta(days=i)
+            monday = get_monday(day)  # - datetime.timedelta(days=day.weekday() % 7)
+            if monday not in shift_dict.keys():
+                # populate with shift names at first day of week
+                week_group = get_week_group(monday)
+                # since (currently) some weeks return None, which of course have no attribute name
+                if week_group is None:
+                    shift_dict[monday] = None
+                else:
+                    shift_dict[monday] = week_group.name
+        cal = ColorHTMLCalendar(firstweekday=MONDAY, shift_dict=shift_dict)
+        html_result = cal.formatyear(theyear=showyear, width=4)
+        context["shiftcal"] = mark_safe(html_result)
+        # the not-shown year
+        otheryear = [x for x in [thisyear, thisyear + 1] if x != showyear][
+            0
+        ]  # prob nicer way prossible
+        context["otheryear"] = otheryear
+        context["showyear"] = showyear
         return context
+
+
+class Calendarpdf(ShiftTemplateGroupCalendar):
+    def get_context_data(self, *args, **kwargs):
+        return super().get_context_data(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        context = self.get_context_data()
+        response = HttpResponse(content_type="application/pdf")
+        year = context["showyear"]
+        response["Content-Disposition"] = f"filename=shiftcalendar_{year}.pdf"
+        html = context["shiftcal"]
+        pdffile = HTML(string=html).write_pdf(
+            response, stylesheets=["tapir/shifts/static/shifts/css/calendar.css"]
+        )
+        return response

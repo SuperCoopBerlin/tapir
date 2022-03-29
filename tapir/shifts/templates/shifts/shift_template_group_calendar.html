@@ -3,19 +3,30 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
+{% load shifts %}
+{% load coop %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "shifts/css/calendar.css" %}">
+{% endblock %}
 
 {% block content %}
     <div class="card m-2">
         <h5 class="card-header">
             {% translate 'ABCD weeks calendar' %}
         </h5>
-        <div class="card-body">
-            <p><a href="{% static "shifts/ABCD_weeks_calendar_DE.png" %}">{% translate 'Download the calendar as a file.' %}</a></p>
-            <p><ul>
-                {% for date, group in date_to_group.items %}
-                    <li>KW {{ date|date:"W" }} {% translate 'starting' %} {{ date|date:"d.m.y" }}, {% translate 'Week ' %}{{ group }}</li>
-                {% endfor %}
-            </ul></p>
-        </div>
+            <div class="card-body">
+                <a class="btn tapir-btn btn-outline-secondary ms-3"
+                           href="{% url "shifts:calendarpdf" showyear %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate 'Download calendar as pdf' %}
+                </a>
+                <a class="btn tapir-btn btn-outline-secondary ms-3"
+                           href="{% url "shifts:shift_template_group_calendar"  otheryear %}">
+                            {% translate 'Change year to ' %} {{ otheryear }}
+                </a>
+                {{ shiftcal }}
+            </div>
     </div>
 {% endblock %}
