@@ -27,7 +27,6 @@
     padding-left: 250px;
 }
 
-/* Bigger than A4 so calendar fits */
 @page {
     size: landscape;
     margin: 2%;
