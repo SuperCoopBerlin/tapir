@@ -95,7 +95,7 @@ urlpatterns = [
     ),
     path(
         "group_calendar/<int:year>/pdf",
-        views.Calendarpdf.as_view(),
+        views.ShiftTemplateGroupCalendarAsPdf.as_view(),
         name="calendarpdf",
     ),
     path(

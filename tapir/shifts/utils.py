@@ -1,8 +1,11 @@
 from calendar import HTMLCalendar, month_name, day_abbr
 from datetime import datetime, timedelta, date
+
 from django.utils.translation import gettext_lazy as _
 
+from tapir.shifts.models import ShiftTemplateGroup
 from tapir.shifts.templatetags.shifts import get_week_group
+from tapir.utils.shortcuts import get_monday
 
 
 def generate_shifts_up_to(target_day: datetime.date):
@@ -17,19 +20,17 @@ def generate_shifts_up_to(target_day: datetime.date):
 
 # override HTMLCalender method to use colors
 class ColorHTMLCalendar(HTMLCalendar):
-    def __init__(self, firstweekday, shift_dict):
+    def __init__(self, firstweekday, monday_to_week_group_map):
         super(ColorHTMLCalendar, self).__init__(firstweekday=firstweekday)
-        self.shift_dict = shift_dict
+        self.monday_to_week_group_map = monday_to_week_group_map
 
-    def formatweek(self, theweek, shift_key):
+    def formatweek(self, theweek, monday):
         """
         Return a complete week as a table row.
         """
         s = "".join(self.formatday(d, wd) for (d, wd) in theweek)
-        return "<tr class=%s >%s</tr>" % (
-            self.shift_dict[shift_key],
-            s,
-        )
+        week_group = self.monday_to_week_group_map[monday]
+        return f"<tr class='{week_group}' >{s}</tr>"
 
     def formatmonth(self, theyear, themonth, withyear=True):
         """
@@ -48,10 +49,9 @@ class ColorHTMLCalendar(HTMLCalendar):
         a("\n")
         for week in self.monthdays2calendar(theyear, themonth):
             # for every week, find first day (which of course can be in previous month)
-            firstdayofweekwithinmonth = list(filter(lambda x: x[0] != 0, week))[0][0]
-            d = date(theyear, themonth, firstdayofweekwithinmonth)
-            firstdayofweek = d - timedelta(days=d.weekday() % 7)
-            a(self.formatweek(week, shift_key=firstdayofweek))
+            first_day_of_week_within_month = [day for day in week if day[0] != 0][0]
+            d = date(theyear, themonth, first_day_of_week_within_month[0])
+            a(self.formatweek(week, monday=get_monday(d)))
             a("\n")
         a("</table>")
         a("\n")
@@ -64,36 +64,25 @@ class ColorHTMLCalendar(HTMLCalendar):
         v = []
         a = v.append
         width = max(width, 1)
+        a('<table class="legend"><tr>')
+        for group in ShiftTemplateGroup.objects.order_by("name"):
+            a(f"<td class='{group.name}'>{group.name}</td>")
+        a(f"<td class='year'>{theyear}</td>")
+        a("</tr></table>")
         a(
             '<table border="0" cellpadding="0" cellspacing="0" class="%s">'
             % self.cssclass_year
-        )
-        a("\n")
-        a(
-            '<tr><th colspan="%d" class="%s">%s</th></tr>'
-            % (width, self.cssclass_year_head, theyear)
         )
         for i in range(1, 1 + 12, width):
             # months in this row
             months = range(i, min(i + width, 13))
             a("<tr>")
             for m in months:
-                a("<td>")
+                a("<td style='vertical-align: top;'>")
                 a(self.formatmonth(theyear, m, withyear=False))
                 a("</td>")
             a("</tr>")
         a("</table>")
-        a('<table class="legend"><tr>')
-        # returns a sorted list of unique shift names (and remove None from list)
-        for value in sorted(set([i for i in self.shift_dict.values() if i])):
-            a(
-                "<td class=%s>%s</td>"
-                % (
-                    value,
-                    value,
-                )
-            )
-        a("</tr> </table>")
         return "".join(v)
 
     def formatweekday(self, day):
