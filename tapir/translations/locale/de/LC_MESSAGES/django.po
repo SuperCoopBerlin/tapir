@@ -1544,13 +1544,13 @@ msgstr "Zukünftige erstellte Schichten"
 msgid "Past generated Shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/templates/shifts/shift_template_group_calendar.html:10
+#: shifts/templates/shifts/shift_template_group_calendar.html:18
 msgid "ABCD weeks calendar"
 msgstr "ABCD-Wochenkalender"
 
-#: shifts/templates/shifts/shift_template_group_calendar.html:13
-msgid "Download the calendar as a file."
-msgstr "Kalender als Dokument herunterladen."
+#: shifts/templates/shifts/shift_template_group_calendar.html:28
+msgid "as pdf"
+msgstr "als pdf"
 
 #: shifts/templates/shifts/shift_template_overview.html:19
 msgid "ABCD schedule overview, current week: "
