@@ -7,63 +7,77 @@
 {% block content %}
     <div class="container">
         <div class="card m-2">
+            <h5 class="card-header">Members Statistics</h5>
+            <div class="card-body">
+                <h6>Members Statistics</h6>
+                <ul>
+                    <li>There are currently <b>{{ members.active_users_count }} active members</b> with a Tapir account.
+                        <ul>
+                            <li><b>{{ members.exempted_users_count }}</b> are currently <b>exempted</b> from
+                                doing shifts.</li>
+                            <li><b>{{ members.users_doing_shifts_count }}</b> are expected to <b>do shifts</b>.
+                            </li>
+                        </ul>
+                    <li>Within these <b>{{ members.users_doing_shifts_count }} members doing shifts</b>...
+                        <ul>
+                            <li><b>{{ members.members_in_abcd_system_count }}</b> are in the <b>ABCD system</b></li>
+                            <li><b>{{ members.members_in_flying_system_count }}</b> are in the <b>flying system</b>.</li>
+                        </ul>
+                    </li>
+                    <li><b>{{ members.members_in_abcd_system_without_shift_attendance_count }}</b> are <b>not
+                        registered</b> to a shift.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="card m-2">
             <h5 class="card-header">
                 <span>{% translate "Statistics on shifts" %}</span>
             </h5>
             <div class="card-body">
+               <h6>ABCD Shift Slots</h6>
                 <ul>
-                    <li>There are currently {{ members.active_users_count }} active members with a Tapir account.
-                        <ul>
-                            <li>Out of those {{ members.active_users_count }}, {{ members.exempted_users_count }} are
-                                currently exempted from
-                                doing shifts. This leaves {{ members.users_doing_shifts_count }} who are expected to do
-                                shifts.
-                            </li>
-                            <li>There are currently {{ members.abcd_slots_count }} ABCD shift slots, which
-                                is {{ members.extra_abcd_slots_count }} more than users expected to do shifts.
-                            </li>
-                            <li>Within the members expected to do shifts, {{ members.members_in_abcd_system_count }} are
-                                in the ABCD
-                                system and {{ members.members_in_flying_system_count }} are in the flying system.
-                            </li>
-                            <li>Out of the {{ members.members_in_abcd_system_count }} members in the ABCD system (active
-                                and not
-                                exempted), {{ members.members_in_abcd_system_without_shift_attendance_count }} are not
-                                registered to a
-                                shift.
-                            </li>
-                        </ul>
-                    </li>
-                    <li>ABCD shift slots
-                        <ul>
-                            {% for slot_name, infos in abcd_slots.items %}
-                                <li>{{ slot_name }} : {{ infos.slot_count }} slots, {{ infos.registered }} members
-                                    registered
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li>Attendance
-                        <table class="table">
-                            <tr>
-                                <th>Week</th>
-                                <th>Shifts</th>
-                                <th>Slots</th>
-                                <th>Occupied slots (including looking for stand-in)</th>
-                                <th>Looking for a stand-in</th>
-                            </tr>
-                            {% for week, stats in weeks.items %}
-                                <tr>
-                                    <td>{{ week }}</td>
-                                    <td>{{ stats.shifts_count }}</td>
-                                    <td>{{ stats.slots_count }}</td>
-                                    <td>{{ stats.occupied_count }}</td>
-                                    <td>{{ stats.standin_search_count }}</td>
-                                </tr>
-                            {% endfor %}
-                        </table>
+                    <li>There are currently <b>{{ members.abcd_slots_count }} ABCD shift slots</b></li>
+                    <li>There are <b>{{ members.extra_abcd_slots_count }} slots</b> more than users expected to do shifts.
                     </li>
                 </ul>
+                <table class="table">
+                    <tr>
+                        <th>Slot Name</th>
+                        <th>Open Slots</th>
+                        <th>Members Registered</th>
+                    </tr>
+                {% for slot_name, infos in abcd_slots.items %}
+                    <tr>
+                        <td>{{ slot_name }}</td>
+                        <td>{{ infos.slot_count }}</td>
+                        <td>{{ infos.registered }} </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="card m-2">
+            <h5 class="card-header">Attendance</h5>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>Week</th>
+                        <th>Shifts</th>
+                        <th>Slots</th>
+                        <th>Occupied slots (including looking for stand-in)</th>
+                        <th>Looking for a stand-in</th>
+                    </tr>
+                    {% for week, stats in weeks.items %}
+                        <tr>
+                            <td>{{ week }}</td>
+                            <td>{{ stats.shifts_count }}</td>
+                            <td>{{ stats.slots_count }}</td>
+                            <td>{{ stats.occupied_count }}</td>
+                            <td>{{ stats.standin_search_count }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
         <div class="card m-2">
@@ -71,12 +85,20 @@
                 <span>{% translate "Shift cycle list" %}</span>
             </h5>
             <div class="card-body">
-                <ul>
+                <table class="table">
+                    <tr>
+                        <th>Cycle Date</th>
+                        <th>members where expected to do a shift</th>
+                        <th>out of members total</th>
+                    </tr>
                     {% for cycle in cycles %}
-                        <li>{{ cycle.date|date:"d.m.Y" }} : {{ cycle.nb_members_doing_shifts }} members where expected
-                            to do a shift out of {{ cycle.nb_members_total }}</li>
+                    <tr>
+                        <td>{{ cycle.date|date:"d.m.Y" }}</td>
+                        <td>{{ cycle.nb_members_doing_shifts }} </td>
+                        <td>{{ cycle.nb_members_total }}</td>
+                    </tr>
                     {% endfor %}
-                </ul>
+                </table>
             </div>
         </div>
     </div>
