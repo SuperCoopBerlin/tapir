@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shifts', '0033_shiftslottemplate_warnings'),
+        ("shifts", "0033_shiftslottemplate_warnings"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='shift',
-            name='cancelled',
+            model_name="shift",
+            name="cancelled",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='shift',
-            name='cancelled_reason',
+            model_name="shift",
+            name="cancelled_reason",
             field=models.CharField(max_length=1000, null=True),
         ),
     ]
