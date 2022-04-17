@@ -11,21 +11,21 @@
             <div class="card-body">
                 <h6>Members Statistics</h6>
                 <ul>
-                    <li>There are currently <b>{{ members.active_users_count }} active members</b> with a Tapir account.
+                    <li>There are currently <strong>{{ members.active_users_count }} active members</strong> with a Tapir account.
                         <ul>
-                            <li><b>{{ members.exempted_users_count }}</b> are currently <b>exempted</b> from
+                            <li><strong>{{ members.exempted_users_count }}</strong> are currently <strong>exempted</strong> from
                                 doing shifts.</li>
-                            <li><b>{{ members.users_doing_shifts_count }}</b> are expected to <b>do shifts</b>.
+                            <li><strong>{{ members.users_doing_shifts_count }}</strong> are expected to <strong>do shifts</strong>.
                             </li>
                         </ul>
-                    <li>Within these <b>{{ members.users_doing_shifts_count }} members doing shifts</b>...
+                    <li>Within these <strong>{{ members.users_doing_shifts_count }} members doing shifts</strong>...
                         <ul>
-                            <li><b>{{ members.members_in_abcd_system_count }}</b> are in the <b>ABCD system</b></li>
-                            <li><b>{{ members.members_in_flying_system_count }}</b> are in the <b>flying system</b>.</li>
+                            <li><strong>{{ members.members_in_abcd_system_count }}</strong> are in the <strong>ABCD system</strong></li>
+                            <li><strong>{{ members.members_in_flying_system_count }}</strong> are in the <strong>flying system</strong>.</li>
                         </ul>
                     </li>
-                    <li><b>{{ members.members_in_abcd_system_without_shift_attendance_count }}</b> are <b>not
-                        registered</b> to a shift.
+                    <li><strong>{{ members.members_in_abcd_system_without_shift_attendance_count }}</strong> are <strong>not
+                        registered</strong> to a shift.
                     </li>
                 </ul>
             </div>
@@ -37,8 +37,8 @@
             <div class="card-body">
                <h6>ABCD Shift Slots</h6>
                 <ul>
-                    <li>There are currently <b>{{ members.abcd_slots_count }} ABCD shift slots</b></li>
-                    <li>There are <b>{{ members.extra_abcd_slots_count }} slots</b> more than users expected to do shifts.
+                    <li>There are currently <strong>{{ members.abcd_slots_count }} ABCD shift slots</strong></li>
+                    <li>There are <strong>{{ members.extra_abcd_slots_count }} slots</strong> more than users expected to do shifts.
                     </li>
                 </ul>
                 <table class="table">
