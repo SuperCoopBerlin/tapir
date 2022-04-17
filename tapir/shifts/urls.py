@@ -123,4 +123,9 @@ urlpatterns = [
         views.MembersOnAlertView.as_view(),
         name="members_on_alert",
     ),
+    path(
+        "shift/<int:pk>/cancel",
+        views.CancelShiftView.as_view(),
+        name="cancel_shift",
+    ),
 ]

@@ -9,6 +9,7 @@ class ShiftFiltersManager {
         this.HIDDEN_CLASS = "btn-light";
         this.NO_FILTER_CLASS = "btn-outline-dark";
         this.HIGHLIGHT_CLASS = "btn-info";
+        this.CANCELLED_CLASS = "btn-secondary";
         window.addEventListener('load', () => {
             this.init();
         });
@@ -16,8 +17,10 @@ class ShiftFiltersManager {
     init() {
         this.legend_highlighted = document.getElementById("legend-highlighted");
         this.legend_highlighted.classList.add(this.HIGHLIGHT_CLASS);
-        this.legend_hidden = document.getElementById("legend-hidden");
-        this.legend_hidden.classList.add(this.HIDDEN_CLASS);
+        let legend_hidden = document.getElementById("legend-hidden");
+        legend_hidden.classList.add(this.HIDDEN_CLASS);
+        let legend_cancelled = document.getElementById("legend-cancelled");
+        legend_cancelled.classList.add(this.CANCELLED_CLASS);
         this.filter_legend = document.getElementById("filter-legend");
         this.slot_name_group = document.getElementById("slot-name-group");
         this.shift_blocks = Array.from(document.getElementsByClassName("shift-block"));
@@ -54,6 +57,13 @@ class ShiftFiltersManager {
         this.slot_name_group.style.display = this.current_status_filter.value == StatusFilter.FREESLOT ? null : "none";
     }
     update_shift_block(shift_block, slot_status_filter, slot_name_filter) {
+        if (shift_block.classList.contains("cancelled")) {
+            shift_block.classList.add(this.CANCELLED_CLASS);
+            return;
+        }
+        else {
+            shift_block.classList.remove(this.CANCELLED_CLASS);
+        }
         shift_block.classList.remove(this.HIDDEN_CLASS);
         shift_block.classList.remove(this.NO_FILTER_CLASS);
         shift_block.classList.remove(this.HIGHLIGHT_CLASS);

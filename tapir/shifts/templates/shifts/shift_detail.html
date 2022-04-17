@@ -34,6 +34,11 @@
                        id="shift_edit_button">
                         <span class="material-icons">edit</span>{% translate 'Edit' %}
                     </a>
+                    {% if not shift.cancelled %}
+                        <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:cancel_shift" shift.pk %}">
+                            <span class="material-icons">cancel</span>{% translate 'Cancel' %}
+                        </a>
+                    {% endif %}
                     </span>
                 {% endif %}
             </h5>
@@ -48,6 +53,12 @@
             {% if shift.description %}
                 <li class="list-group-item">
                     {{ shift.description }}
+                </li>
+            {% endif %}
+            {% if shift.cancelled %}
+                <li class="list-group-item bg-warning">
+                    {% translate 'This shift has been cancelled: ' %}
+                    {{ shift.cancelled_reason }}
                 </li>
             {% endif %}
             <li class="list-group-item">
@@ -157,6 +168,7 @@
                                             -You have the required qualification (if you want to get a
                                             qualification, contact the member office)<br/>
                                             -The shift is in the future<br/>
+                                            -The shift is not cancelled (holidays...)<br/>
                                         {% endblocktranslate %}
                                         {% autoescape off %}
                                             <span {% if not slot.can_self_register and not perms.shifts.manage %}

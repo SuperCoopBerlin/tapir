@@ -17,7 +17,6 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
     ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
-    ShiftSlotWarning,
 )
 from tapir.utils.forms import DateInput
 
@@ -269,3 +268,9 @@ class ShiftExemptionForm(forms.ModelForm):
                     "confirm_cancelled_abcd_attendances"
                 ].widget = forms.CheckboxInput()
                 self.fields["confirm_cancelled_abcd_attendances"].required = True
+
+
+class ShiftCancelForm(forms.ModelForm):
+    class Meta:
+        model = Shift
+        fields = ["cancelled_reason"]

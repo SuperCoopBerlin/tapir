@@ -2,7 +2,6 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.mail import EmailMessage
 from django.db import transaction
-from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils import timezone, translation
@@ -14,10 +13,8 @@ from django.views.generic import (
     UpdateView,
     FormView,
 )
-from werkzeug.exceptions import BadRequest
 
 from tapir import settings
-from tapir.accounts.models import TapirUser
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.forms import (
     ShiftAttendanceTemplateForm,
@@ -33,8 +30,6 @@ from tapir.shifts.models import (
     DeleteShiftAttendanceTemplateLogEntry,
     CreateShiftAttendanceLogEntry,
     UpdateShiftAttendanceStateLogEntry,
-    ShiftAccountEntry,
-    SHIFT_ATTENDANCE_STATES,
 )
 from tapir.shifts.views.views import SelectedUserViewMixin
 from tapir.utils.shortcuts import safe_redirect
@@ -74,7 +69,23 @@ class RegisterUserToShiftSlotTemplateView(
         with transaction.atomic():
             response = super().form_valid(form)
 
-            shift_attendance_template = self.object
+            shift_attendance_template: ShiftAttendanceTemplate = self.object
+
+            for (
+                shift
+            ) in shift_attendance_template.slot_template.shift_template.generated_shifts.filter(
+                start_time__gt=timezone.now()
+            ):
+                # Check for future cancelled shifts, the user should get a point.
+                attendance = ShiftAttendance.objects.filter(
+                    user=shift_attendance_template.user, slot__shift=shift
+                ).first()
+                if not shift.cancelled or not attendance:
+                    continue
+                attendance.state = ShiftAttendance.State.MISSED_EXCUSED
+                attendance.save()
+                attendance.update_shift_account_entry(shift.cancelled_reason)
+
             log_entry = CreateShiftAttendanceTemplateLogEntry().populate(
                 actor=self.request.user,
                 user=self.object.user,
@@ -148,34 +159,10 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
             if attendance.state == ShiftAttendance.State.MISSED:
                 self.send_shift_missed_email()
 
-            if attendance.account_entry is not None:
-                previous_entry = attendance.account_entry
-                attendance.account_entry = None
-                attendance.save()
-                previous_entry.delete()
-
-            entry_value = None
-            if attendance.state == ShiftAttendance.State.MISSED:
-                entry_value = -1
-            elif attendance.state in [
-                ShiftAttendance.State.DONE,
-                ShiftAttendance.State.MISSED_EXCUSED,
-            ]:
-                entry_value = 1
-
-            if entry_value is not None:
-                description = f"Shift {SHIFT_ATTENDANCE_STATES[attendance.state]}"
-                if "description" in form.data:
-                    description = f"{description} ({form.data['description']})"
-
-                entry = ShiftAccountEntry.objects.create(
-                    user=attendance.user,
-                    value=entry_value,
-                    date=attendance.slot.shift.start_time,
-                    description=description,
-                )
-                attendance.account_entry = entry
-                attendance.save()
+            description = None
+            if "description" in form.data:
+                description = form.data["description"]
+            attendance.update_shift_account_entry(description)
 
             return response
 

@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import calendar
 import datetime
 import time
-import calendar
 
 from django.contrib.postgres.fields import ArrayField
 from django.core.mail import EmailMessage
@@ -428,9 +428,8 @@ class ShiftAttendanceTemplate(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        res = super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
         self.slot_template.update_future_slot_attendances()
-        return res
 
     def cancel_attendances(self, starting_from: datetime.datetime):
         for attendance in ShiftAttendance.objects.filter(
@@ -479,6 +478,9 @@ class Shift(models.Model):
 
     start_time = models.DateTimeField(blank=False)
     end_time = models.DateTimeField(blank=False)
+
+    cancelled = models.BooleanField(default=False)
+    cancelled_reason = models.CharField(null=True, max_length=1000)
 
     NB_DAYS_FOR_SELF_UNREGISTER = 7
     NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
@@ -627,6 +629,7 @@ class ShiftSlot(models.Model):
             # User must have all required capabilities
             set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
             and self.shift.is_in_the_future()
+            and not self.shift.cancelled
         )
 
     def user_can_self_unregister(self, user: TapirUser) -> bool:
@@ -802,6 +805,36 @@ class ShiftAttendance(models.Model):
         return reverse(
             "shifts:update_shift_attendance_state_with_form", args=[self.pk, self.state]
         )
+
+    def update_shift_account_entry(self, entry_description=""):
+        if self.account_entry is not None:
+            previous_entry = self.account_entry
+            self.account_entry = None
+            self.save()
+            previous_entry.delete()
+
+        entry_value = None
+        if self.state == ShiftAttendance.State.MISSED:
+            entry_value = -1
+        elif self.state in [
+            ShiftAttendance.State.DONE,
+            ShiftAttendance.State.MISSED_EXCUSED,
+        ]:
+            entry_value = 1
+
+        if entry_value is None:
+            return
+
+        description = f"Shift {SHIFT_ATTENDANCE_STATES[self.state]} {self.slot.get_display_name()} {entry_description}"
+
+        entry = ShiftAccountEntry.objects.create(
+            user=self.user,
+            value=entry_value,
+            date=timezone.now(),
+            description=description,
+        )
+        self.account_entry = entry
+        self.save()
 
 
 @receiver(pre_save, sender=ShiftAttendance)

@@ -44,6 +44,9 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
     filter_classes = set()
 
+    if shift.cancelled:
+        filter_classes.add("cancelled")
+
     num_valid_attendances = 0
 
     for slot in shift.slots.all():

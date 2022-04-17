@@ -118,6 +118,19 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
             "The shift attendance template should not have been created.",
         )
 
+    def test_member_cant_register_to_cancelled_shift(self):
+        user = self.login_as_normal_user()
+        shift = self.create_shift_in_the_future()
+        shift.cancelled = True
+        shift.save()
+
+        response = register_user_to_shift(self.client, user, shift)
+        self.assertEqual(
+            response.status_code,
+            403,
+            "Normal members should not be able to register themselves to cancelled shift.",
+        )
+
     def create_shift_in_the_future(self):
         start_time = timezone.now() + datetime.timedelta(hours=0, minutes=30)
         shift = ShiftFactory.create(start_time=start_time)
