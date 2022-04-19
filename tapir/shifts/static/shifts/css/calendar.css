@@ -26,10 +26,9 @@
 .legend .year {
     padding-left: 250px;
 }
-
 @page {
     size: landscape;
-    margin: 2%;
+    margin: 1%;
 }
 
 table.month {
