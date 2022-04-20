@@ -67,7 +67,7 @@ class ShiftCalendarFutureView(LoginRequiredMixin, ShiftCalendarBaseView):
     template_name = "shifts/shift_calendar_future.html"
 
     def get_queryset(self):
-        monday_this_week = datetime.combine(
+        monday_this_week = datetime.datetime.combine(
             datetime.date.today()
             - datetime.timedelta(days=datetime.date.today().weekday()),
             datetime.time(),
