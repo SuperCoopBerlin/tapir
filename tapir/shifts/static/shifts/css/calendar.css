@@ -1,0 +1,37 @@
+.month {
+    width: 90%;
+    text-align: center;
+}
+.month th {
+    text-align: center;
+    width:35px;
+    height:25px;
+}
+
+.A { background: rgba(161, 156, 110, 0.8);}
+.B { background: rgba(42, 116, 127, 0.8);}
+.C { background: rgba(207, 119, 48, 0.8);}
+.D { background: rgba(153, 41, 39, 0.8);}
+
+.legend {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.legend td {
+    width: 54px;
+}
+
+.legend .year {
+    padding-left: 250px;
+}
+@page {
+    size: landscape;
+    margin: 1%;
+}
+
+table.month {
+  caption-side: bottom;
+  border-collapse: collapse;
+}

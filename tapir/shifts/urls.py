@@ -89,6 +89,16 @@ urlpatterns = [
         name="shift_template_group_calendar",
     ),
     path(
+        "group_calendar/<int:year>",
+        views.ShiftTemplateGroupCalendar.as_view(),
+        name="shift_template_group_calendar",
+    ),
+    path(
+        "group_calendar/<int:year>/pdf",
+        views.ShiftTemplateGroupCalendarAsPdf.as_view(),
+        name="calendarpdf",
+    ),
+    path(
         "shift_account_entry/log/<int:user_pk>",
         views.UserShiftAccountLog.as_view(),
         name="user_shift_account_log",

@@ -3,19 +3,38 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
+{% load shifts %}
+{% load coop %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "shifts/css/calendar.css" %}">
+{% endblock %}
 
 {% block content %}
     <div class="card m-2">
-        <h5 class="card-header">
-            {% translate 'ABCD weeks calendar' %}
+        <h5 class="card-header d-flex justify-content-between align-items-center">
+            <span>
+                {% translate 'ABCD weeks calendar' %}
+            </span>
+            <span>
+                <a class="btn tapir-btn btn-outline-secondary ms-3"
+                   href="{% url "shifts:shift_template_group_calendar" displayed_year|add:-1 %}">
+                    <span class="material-icons">arrow_back</span>{{ displayed_year|add:-1 }}
+                </a>
+                <a class="btn tapir-btn btn-outline-secondary ms-3"
+                   href="{% url "shifts:calendarpdf" displayed_year %}">
+                    <span class="material-icons">file_present</span>
+                    {{ displayed_year }} {% translate 'as pdf' %}
+                </a>
+                <a class="btn tapir-btn btn-outline-secondary ms-3"
+                   href="{% url "shifts:shift_template_group_calendar" displayed_year|add:1 %}">
+                    {{ displayed_year|add:1 }}<span class="material-icons">arrow_forward</span>
+                </a>
+            </span>
         </h5>
         <div class="card-body">
-            <p><a href="{% static "shifts/ABCD_weeks_calendar_DE.png" %}">{% translate 'Download the calendar as a file.' %}</a></p>
-            <p><ul>
-                {% for date, group in date_to_group.items %}
-                    <li>KW {{ date|date:"W" }} {% translate 'starting' %} {{ date|date:"d.m.y" }}, {% translate 'Week ' %}{{ group }}</li>
-                {% endfor %}
-            </ul></p>
+            {{ rendered_calendar }}
         </div>
     </div>
 {% endblock %}
