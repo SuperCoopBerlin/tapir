@@ -4,7 +4,6 @@ from tapir.shifts.models import ShiftNames
 
 
 class ShiftNamesTestCase(unittest.TestCase):
-
     def test_get_names_for_index(self):
         self.assertEquals("A", ShiftNames.get_name(0))
         self.assertEquals("B", ShiftNames.get_name(1))
@@ -24,5 +23,5 @@ class ShiftNamesTestCase(unittest.TestCase):
         self.assertIsNone(ShiftNames.get_index("foobar"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

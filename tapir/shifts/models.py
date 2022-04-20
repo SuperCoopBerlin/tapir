@@ -250,7 +250,7 @@ class ShiftTemplate(models.Model):
             slot_template.update_future_slot_attendances(now)
 
     def update_slots(
-            self, desired_slots, change_time: datetime.datetime, dry_run=False
+        self, desired_slots, change_time: datetime.datetime, dry_run=False
     ):
         # desired_slots should be a map of slot_name -> target_number_of_slots
         deletion_warnings = []
@@ -299,7 +299,7 @@ class ShiftTemplate(models.Model):
         return deletion_warnings
 
     def add_slot_template(
-            self, slot_name: str, change_time: datetime.datetime
+        self, slot_name: str, change_time: datetime.datetime
     ) -> ShiftSlotTemplate:
         slot_template = ShiftSlotTemplate.objects.create(
             name=slot_name, shift_template=self
@@ -366,15 +366,15 @@ class ShiftSlotTemplate(models.Model):
     def user_can_attend(self, user):
         return (
             # Slot must not be attended yet
-                not hasattr(self, "attendance_template")
-                and
-                # User isn't already registered for this shift
-                not self.shift_template.get_attendance_templates()
-                .filter(user=user)
-                .exists()
-                and
-                # User must have all required capabilities
-                set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
+            not hasattr(self, "attendance_template")
+            and
+            # User isn't already registered for this shift
+            not self.shift_template.get_attendance_templates()
+            .filter(user=user)
+            .exists()
+            and
+            # User must have all required capabilities
+            set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
         )
 
     def get_attendance_template(self):
@@ -384,7 +384,7 @@ class ShiftSlotTemplate(models.Model):
 
     def update_future_slot_attendances(self, now=None):
         for slot in self.generated_slots.filter(
-                shift__start_time__gt=now or timezone.now()
+            shift__start_time__gt=now or timezone.now()
         ):
             slot.update_attendance_from_template()
 
@@ -399,7 +399,7 @@ class ShiftSlotTemplate(models.Model):
         )
 
     def delete_self_and_warn_about_users_loosing_their_slots(
-            self, change_time: datetime.datetime, dry_run: bool
+        self, change_time: datetime.datetime, dry_run: bool
     ):
         deletion_warnings = []
         for slot in self.generated_slots.all():
@@ -410,8 +410,8 @@ class ShiftSlotTemplate(models.Model):
             else:
                 attendance = slot.get_valid_attendance()
                 if attendance and (
-                        self.get_attendance_template() is None
-                        or attendance.user != self.attendance_template.user
+                    self.get_attendance_template() is None
+                    or attendance.user != self.attendance_template.user
                 ):
                     deletion_warnings.append(
                         {
@@ -456,9 +456,9 @@ class ShiftAttendanceTemplate(models.Model):
 
     def cancel_attendances(self, starting_from: datetime.datetime):
         for attendance in ShiftAttendance.objects.filter(
-                slot__in=self.slot_template.generated_slots.all(),
-                user=self.user,
-                slot__shift__start_time__gte=starting_from,
+            slot__in=self.slot_template.generated_slots.all(),
+            user=self.user,
+            slot__shift__start_time__gte=starting_from,
         ):
             attendance.state = ShiftAttendance.State.CANCELLED
             attendance.save()
@@ -657,32 +657,32 @@ class ShiftSlot(models.Model):
 
     def user_can_self_unregister(self, user: TapirUser) -> bool:
         user_is_registered_to_slot = (
-                self.get_valid_attendance() is not None
-                and self.get_valid_attendance().user == user
+            self.get_valid_attendance() is not None
+            and self.get_valid_attendance().user == user
         )
         user_is_not_registered_to_slot_template = (
-                self.slot_template is None
-                or not ShiftAttendanceTemplate.objects.filter(
-            slot_template=self.slot_template, user=user
-        ).exists()
+            self.slot_template is None
+            or not ShiftAttendanceTemplate.objects.filter(
+                slot_template=self.slot_template, user=user
+            ).exists()
         )
         early_enough = (
-                               self.shift.start_time.date() - timezone.now().date()
-                       ).days >= Shift.NB_DAYS_FOR_SELF_UNREGISTER
+            self.shift.start_time.date() - timezone.now().date()
+        ).days >= Shift.NB_DAYS_FOR_SELF_UNREGISTER
         return (
-                user_is_registered_to_slot
-                and user_is_not_registered_to_slot_template
-                and early_enough
+            user_is_registered_to_slot
+            and user_is_not_registered_to_slot_template
+            and early_enough
         )
 
     def user_can_look_for_standin(self, user: TapirUser) -> bool:
         user_is_registered_to_slot = (
-                self.get_valid_attendance() is not None
-                and self.get_valid_attendance().user == user
+            self.get_valid_attendance() is not None
+            and self.get_valid_attendance().user == user
         )
         early_enough = (
-                               self.shift.start_time.date() - timezone.now().date()
-                       ).days >= Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
+            self.shift.start_time.date() - timezone.now().date()
+        ).days >= Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
         return user_is_registered_to_slot and early_enough
 
     def update_attendance_from_template(self):
@@ -945,8 +945,8 @@ class ShiftUserData(models.Model):
     def get_account_balance(self):
         # Might return None if no objects, so "or 0"
         return (
-                self.user.shift_account_entries.aggregate(balance=Sum("value"))["balance"]
-                or 0
+            self.user.shift_account_entries.aggregate(balance=Sum("value"))["balance"]
+            or 0
         )
 
     def is_balance_ok(self):
@@ -963,8 +963,8 @@ class ShiftUserData(models.Model):
     def get_current_shift_exemption(self, date=None):
         return (
             ShiftExemption.objects.filter(shift_user_data=self)
-                .active_temporal(date)
-                .first()
+            .active_temporal(date)
+            .first()
         )
 
     def is_currently_exempted_from_shifts(self, date=None):
@@ -972,10 +972,10 @@ class ShiftUserData(models.Model):
 
     def send_shift_reminder_emails(self):
         for attendance in ShiftAttendance.objects.with_valid_state().filter(
-                user=self.user,
-                slot__shift__start_time__gte=timezone.now(),
-                slot__shift__start_time__lte=timezone.now() + datetime.timedelta(days=7),
-                reminder_email_sent=False,
+            user=self.user,
+            slot__shift__start_time__gte=timezone.now(),
+            slot__shift__start_time__lte=timezone.now() + datetime.timedelta(days=7),
+            reminder_email_sent=False,
         ):
             self.send_shift_reminder_email(attendance)
             time.sleep(0.1)
@@ -985,14 +985,14 @@ class ShiftUserData(models.Model):
             user=self.user, state=ShiftAttendance.State.DONE
         ).exists()
         with transaction.atomic() and translation.override(
-                self.user.preferred_language
+            self.user.preferred_language
         ):
             mail = EmailMessage(
                 subject=_("Your upcoming %(coop_name)s shift: %(shift)s")
-                        % {
-                            "shift": attendance.slot.shift.get_display_name(),
-                            "coop_name": settings.COOP_NAME,
-                        },
+                % {
+                    "shift": attendance.slot.shift.get_display_name(),
+                    "coop_name": settings.COOP_NAME,
+                },
                 body=render_to_string(
                     [
                         "shifts/email/shift_reminder.html",
@@ -1049,7 +1049,7 @@ class ShiftExemption(DurationModelMixin, models.Model):
 
     @staticmethod
     def get_attendances_cancelled_by_exemption(
-            user: TapirUser, start_date: datetime.date, end_date: datetime.date
+        user: TapirUser, start_date: datetime.date, end_date: datetime.date
     ):
         start_time = timezone.make_aware(
             datetime.datetime.combine(start_date, datetime.time(hour=0, minute=0))
@@ -1070,7 +1070,7 @@ class ShiftExemption(DurationModelMixin, models.Model):
             attendances = attendances.filter(slot__shift__end_time__lte=end_time)
 
         if not ShiftExemption.must_unregister_from_abcd_shift(
-                start_date=start_date, end_date=end_date
+            start_date=start_date, end_date=end_date
         ):
             return attendances
 
@@ -1086,14 +1086,14 @@ class ShiftExemption(DurationModelMixin, models.Model):
 
     @staticmethod
     def must_unregister_from_abcd_shift(
-            start_date: datetime.date, end_date: datetime.date
+        start_date: datetime.date, end_date: datetime.date
     ):
         # Infinite exemption
         if not end_date:
             return True
         return (
-                (end_date - start_date).days
-                >= ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT * 4 * 7
+            (end_date - start_date).days
+            >= ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT * 4 * 7
         )
 
 
@@ -1126,7 +1126,7 @@ class ShiftCycleEntry(models.Model):
 
         for shift_user_data in shift_user_datas:
             if ShiftCycleEntry.objects.filter(
-                    shift_user_data=shift_user_data, cycle_start_date=cycle_start_date
+                shift_user_data=shift_user_data, cycle_start_date=cycle_start_date
             ).exists():
                 continue
 
@@ -1146,7 +1146,7 @@ class ShiftCycleEntry(models.Model):
                     value=-credit_requirement,
                     date=cycle_start_date,
                     description="Shift cycle starting the "
-                                + cycle_start_date.strftime("%d.%m.%y"),
+                    + cycle_start_date.strftime("%d.%m.%y"),
                 )
                 shift_cycle_log.shift_account_entry = shift_account_entry
                 shift_cycle_log.save()
