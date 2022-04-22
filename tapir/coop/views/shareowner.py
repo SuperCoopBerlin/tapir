@@ -677,4 +677,7 @@ class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
             ).exists()
         )
 
+        if share_owner.user:
+            context_data["user"] = share_owner.user
+
         return context_data

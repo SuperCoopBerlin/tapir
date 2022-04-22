@@ -11,7 +11,6 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
-    <link rel="stylesheet" href="{% static "accounts/css/user_detail.css" %}">
 {% endblock %}
 
 {% block content %}
@@ -60,6 +59,20 @@
                 </div>
             {% endif %}
         </div>
+        {% if user %}
+        <div class="row m-1">
+            <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
+            <div class="col-8">{{ user.get_display_name }}</div>
+        </div>
+        <div class="row m-1">
+            <div class="col-4 fw-bold text-end">{% translate "Member ID" %}:</div>
+            <div class="col-8">#{{ share_owner.pk }}</div>
+        </div>
+        <div class="row m-1">
+            <div class="col-4 fw-bold text-end">{% translate "Co-Purchaser" %}:</div>
+            <div class="col-8">{{ user.co_purchaser }}</div>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
 
