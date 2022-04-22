@@ -153,6 +153,7 @@ class TapirUser(LdapUser):
     postcode = models.CharField(_("Postcode"), max_length=32, blank=True)
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
+    co_purchaser = models.CharField(_("Co-Purchaser"), max_length=150, blank=True)
 
     preferred_language = models.CharField(
         _("Preferred Language"),
