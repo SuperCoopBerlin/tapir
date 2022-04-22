@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-22 20:19+0200\n"
+"POT-Creation-Date: 2022-04-22 22:10+0200\n"
 "PO-Revision-Date: 2022-03-05 19:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -68,6 +68,7 @@ msgid "Country"
 msgstr "Land"
 
 #: accounts/models.py:156 accounts/templates/accounts/user_detail.html:76
+#: coop/templates/coop/welcome_desk_share_owner.html:72
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
@@ -229,6 +230,7 @@ msgstr "Persönliche Daten"
 #: accounts/templates/accounts/user_detail.html:24 coop/models.py:329
 #: coop/models.py:337 coop/templates/coop/draftuser_detail.html:14
 #: coop/templates/coop/shareowner_detail.html:35
+#: coop/templates/coop/welcome_desk_share_owner.html:64
 msgid "Name"
 msgstr "Name"
 
@@ -272,6 +274,7 @@ msgstr "Passwort ändern"
 #: coop/templates/coop/shareowner_detail.html:24
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:18
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:108
+#: coop/templates/coop/welcome_desk_share_owner.html:79
 #: shifts/templates/shifts/shift_detail.html:35
 #: shifts/templates/shifts/shift_template_detail.html:17
 #: shifts/templates/shifts/user_shifts_overview_tag.html:10
@@ -841,7 +844,7 @@ msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
-#: coop/templates/coop/welcome_desk_share_owner.html:25
+#: coop/templates/coop/welcome_desk_share_owner.html:24
 #, fuzzy, python-format
 #| msgid "%(name)s  can shop :)"
 msgid ""
@@ -849,7 +852,7 @@ msgid ""
 "                        :)"
 msgstr "%(name)s kann einkaufen :)"
 
-#: coop/templates/coop/welcome_desk_share_owner.html:31
+#: coop/templates/coop/welcome_desk_share_owner.html:30
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s does not have a Tapir account. Contact a member of the "
@@ -860,7 +863,7 @@ msgid ""
 msgstr ""
 "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
-#: coop/templates/coop/welcome_desk_share_owner.html:37
+#: coop/templates/coop/welcome_desk_share_owner.html:36
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s has a negative shift balance. Contact a member of the management "
@@ -874,7 +877,7 @@ msgstr ""
 "%(name)s hat ein negatives Schicht-Score. Kontaktiere eine Person aus dem "
 "Vorstand."
 
-#: coop/templates/coop/welcome_desk_share_owner.html:44
+#: coop/templates/coop/welcome_desk_share_owner.html:43
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s is an investing member. If they want to shop, they have to "
@@ -888,7 +891,7 @@ msgstr ""
 "%(name)s ist ein investierendes Mitglied. Um einkaufen zu könne, müssen sie "
 "ein aktiv Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
 
-#: coop/templates/coop/welcome_desk_share_owner.html:52
+#: coop/templates/coop/welcome_desk_share_owner.html:51
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s is not registered to an ABCD shift yet. Make sure they plan to "
@@ -899,7 +902,7 @@ msgid ""
 msgstr ""
 "%(name)s is noch zu keiner ABCD Schicht angemeldet. Er/Sie soll es planen!"
 
-#: coop/templates/coop/welcome_desk_share_owner.html:58
+#: coop/templates/coop/welcome_desk_share_owner.html:57
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s has not attended a welcome session yet. Make sure they plan to "
@@ -910,6 +913,12 @@ msgid ""
 msgstr ""
 "%(name)s hat an das Willkommenstreffen noch nicht teilgenommen. Er/Sie soll "
 "es planen!"
+
+#: coop/templates/coop/welcome_desk_share_owner.html:68
+#, fuzzy
+#| msgid "Member"
+msgid "Member ID"
+msgstr "Mitglied"
 
 #: coop/views/shareowner.py:259
 msgid "Welcome email with membership confirmation sent."
