@@ -104,7 +104,7 @@ def get_sidebar_link_groups(request):
             url=reverse_lazy("shifts:members_on_alert"),
         )
 
-    if FinancingCampaign.objects.exists():
+    if request.user.has_perm("shifts.manage") and FinancingCampaign.objects.exists():
         campaign_group = SidebarLinkGroup(name=_("Financing campaign"))
         groups.append(campaign_group)
         for campaign in FinancingCampaign.objects.all():
