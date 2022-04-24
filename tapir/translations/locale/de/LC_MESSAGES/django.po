@@ -981,8 +981,8 @@ msgstr "ABCD-Schicht-Wochenplan"
 
 #: core/templatetags/core.py:80
 #, python-brace-format
-msgid "ABCD weeks calendar, current week: {current_week_group_name}"
-msgstr "ABCD-Wochenkalender\nAktuelle Woche: {current_week_group_name}"
+msgid "ABCD annual calendar, current week: {current_week_group_name}"
+msgstr "ABCD-Jahreskalender\nAktuelle Woche: {current_week_group_name}"
 
 #: core/templatetags/core.py:87
 #: shifts/templates/shifts/shift_calendar_past.html:6
