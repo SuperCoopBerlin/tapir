@@ -677,7 +677,4 @@ class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
             ).exists()
         )
 
-        if share_owner.user is not None:
-            context_data["user"] = share_owner.user
-
         return context_data
