@@ -77,7 +77,9 @@ def get_sidebar_link_groups(request):
         url=reverse_lazy("shifts:shift_template_overview"),
     )
     shifts_group.add_link(
-        display_name=_(f"ABCD weeks calendar, current week: {current_week_group_name}"),
+        display_name=_(
+            "ABCD weeks calendar, current week: {current_week_group_name}"
+        ).format(current_week_group_name=current_week_group_name),
         material_icon="table_view",
         url=reverse_lazy("shifts:shift_template_group_calendar"),
     )
