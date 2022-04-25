@@ -698,10 +698,13 @@ class ShiftSlot(models.Model):
             return
 
         attendance_template = self.slot_template.get_attendance_template()
-        if not attendance_template:
-            return
-
-        if self.get_valid_attendance():
+        if (
+            not attendance_template
+            or self.get_valid_attendance()
+            or attendance_template.user.shift_user_data.is_currently_exempted_from_shifts(
+                self.shift.start_time.date()
+            )
+        ):
             return
 
         attendance = self.attendances.filter(user=attendance_template.user).first()
