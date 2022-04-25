@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-22 22:10+0200\n"
+"POT-Creation-Date: 2022-04-24 20:05+0200\n"
 "PO-Revision-Date: 2022-03-05 19:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -227,14 +227,23 @@ msgstr ""
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:24 coop/models.py:329
+#: accounts/templates/accounts/user_detail.html:26
+#: coop/templates/coop/draftuser_detail.html:133
+#: coop/templates/coop/shareowner_detail.html:24
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:18
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:108
+#: shifts/templates/shifts/shift_detail.html:35
+#: shifts/templates/shifts/shift_template_detail.html:17
+#: shifts/templates/shifts/user_shifts_overview_tag.html:10
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: accounts/templates/accounts/user_detail.html:32 coop/models.py:329
 #: coop/models.py:337 coop/templates/coop/draftuser_detail.html:14
 #: coop/templates/coop/shareowner_detail.html:35
-#: coop/templates/coop/welcome_desk_share_owner.html:64
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:32
 #: coop/templates/coop/draftuser_detail.html:22
 #: coop/templates/coop/draftuser_list.html:22
 #: coop/templates/coop/shareowner_detail.html:39
@@ -994,8 +1003,8 @@ msgstr "ABCD-Schicht-Wochenplan"
 
 #: core/templatetags/core.py:80
 #, python-brace-format
-msgid "ABCD weeks calendar, current week: {current_week_group_name}"
-msgstr "ABCD-Wochenkalender<br />Aktuelle Woche: {current_week_group_name}"
+msgid "ABCD annual calendar, current week: {current_week_group_name}"
+msgstr "ABCD-Jahreskalender\nAktuelle Woche: {current_week_group_name}"
 
 #: core/templatetags/core.py:87
 #: shifts/templates/shifts/shift_calendar_past.html:6

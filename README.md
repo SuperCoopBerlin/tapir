@@ -22,6 +22,11 @@ Next, set up the test database and load test data
     # Load lots of test users & shifts
     docker-compose exec web poetry run python manage.py populate --reset_all
 
+### Pre-existing accounts
+After running the commands above, you can log-in as 3 different users. In each case, the password is the username:
+ - admin (not a member, just an account with admin rights)
+ - roberto.cortes (member office rights)
+ - nicolas.vicente (normal member without special rights)
 
 ## Developing
 
@@ -130,3 +135,7 @@ openssl pkcs12 -export -inkey $CERT_HOSTNAME.members.supercoop.de.key -in $CERT_
 rm $CERT_HOSTNAME.members.supercoop.de.key $CERT_HOSTNAME.members.supercoop.de.cer $CERT_HOSTNAME.members.supercoop.de.req
 ```
 
+### Buttons
+We use a slightly customized version of the boostrap buttons, typically using those HTML classes: `btn tapir-btn btn-[BOOTSTRAP COLOR]`.  
+Each button should have an icon, we use material-icons.  
+We use outlined buttons for links that have no consequences (for example, going to an edit page), and filled buttons when there are consequences (for example, a save button, or sending an email). 
