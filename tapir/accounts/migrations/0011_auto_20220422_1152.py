@@ -7,13 +7,15 @@ import ldapdb.models.fields
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('accounts', '0010_auto_20211015_0858'),
+        ("accounts", "0010_auto_20211015_0858"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='tapiruser',
-            name='co_purchaser',
-            field=models.CharField(blank=True, max_length=150, verbose_name='Co-Purchaser'),
+            model_name="tapiruser",
+            name="co_purchaser",
+            field=models.CharField(
+                blank=True, max_length=150, verbose_name="Co-Purchaser"
+            ),
         ),
     ]

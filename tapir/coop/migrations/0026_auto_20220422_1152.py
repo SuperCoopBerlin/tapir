@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('coop', '0025_draftuser_paid_shares'),
+        ("coop", "0025_draftuser_paid_shares"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='draftuser',
-            name='paid_membership_fee',
-            field=models.BooleanField(default=False, verbose_name='Paid Entrance Fee'),
+            model_name="draftuser",
+            name="paid_membership_fee",
+            field=models.BooleanField(default=False, verbose_name="Paid Entrance Fee"),
         ),
         migrations.AlterField(
-            model_name='shareowner',
-            name='paid_membership_fee',
-            field=models.BooleanField(default=True, verbose_name='Paid Entrance Fee'),
+            model_name="shareowner",
+            name="paid_membership_fee",
+            field=models.BooleanField(default=True, verbose_name="Paid Entrance Fee"),
         ),
     ]
