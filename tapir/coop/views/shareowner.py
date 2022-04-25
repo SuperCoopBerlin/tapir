@@ -675,6 +675,7 @@ class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
             and not ShiftAttendanceTemplate.objects.filter(
                 user=share_owner.user
             ).exists()
+            and not share_owner.user.shift_user_data.is_currently_exempted_from_shifts()
         )
 
         return context_data

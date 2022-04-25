@@ -10,6 +10,7 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftAccountEntry,
     ShiftAttendanceTemplate,
+    ShiftExemption,
 )
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -61,12 +62,34 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
         user.shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
         user.shift_user_data.save()
         self.assertFalse(
+            user.shift_user_data.is_currently_exempted_from_shifts(),
+            "We assume that the user is not currently exempted.",
+        )
+        self.assertFalse(
             ShiftAttendanceTemplate.objects.filter(user=user).exists(),
             "We assume that the create user is not registered to any ABCD shift",
         )
         self.check_alerts(
             user.share_owner, [self.Messages.NO_ABCD_SHIFT, self.Messages.CAN_SHOP]
         )
+
+    def test_no_abcd_shift_but_exempted(self):
+        user = self.get_no_warnings_user()
+        user.shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
+        user.shift_user_data.save()
+        ShiftExemption.objects.create(
+            shift_user_data=user.shift_user_data,
+            start_date=datetime.date.today() - datetime.timedelta(days=3),
+        )
+        self.assertTrue(
+            user.shift_user_data.is_currently_exempted_from_shifts(),
+            "The user should be exempted.",
+        )
+        self.assertFalse(
+            ShiftAttendanceTemplate.objects.filter(user=user).exists(),
+            "We assume that the create user is not registered to any ABCD shift",
+        )
+        self.check_alerts(user.share_owner, [self.Messages.CAN_SHOP])
 
     def test_no_welcome_session(self):
         user = self.get_no_warnings_user()
