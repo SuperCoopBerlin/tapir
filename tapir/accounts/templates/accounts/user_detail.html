@@ -11,7 +11,6 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
-    <link rel="stylesheet" href="{% static "accounts/css/user_detail.css" %}">
 {% endblock %}
 
 {% block content %}
@@ -20,12 +19,6 @@
             <div class="card m-2" id="tapir_user_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     {% translate "Personal Data" %}
-                    {% if perms.accounts.manage %}
-                        <a class="btn tapir-btn btn-outline-info" href="{% url "accounts:user_update" object.pk %}"
-                           id="tapir_user_edit_button">
-                            <span class="material-icons">edit</span>{% translate 'Edit' %}
-                        </a>
-                    {% endif %}
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
@@ -80,9 +73,15 @@
                             <div class="col-8">{{ object.get_permissions_display }}</div>
                         </div>
                     {% endif %}
+                    <div class="row m-1">
+                        <div class="col-4 fw-bold text-end">{% translate "Co-Purchaser" %}:</div>
+                        <div class="col-8">
+                            {% if object.co_purchaser %}{{ object.co_purchaser }}{% else %}-{% endif %}
+                        </div>
+                    </div>
 
-                    <div class="d-flex m-1 mt-4">
-                        <div class="d-flex justify-content-end gap-2">
+                    <div class="d-flex justify-content-sm-end m-1 mt-3">
+                        <div class="ms-1">
                             {% if perms.accounts.manage %}
                                 <form method="post" action="{% url "accounts:send_user_welcome_email" object.pk %}">
                                     {% csrf_token %}
@@ -91,11 +90,21 @@
                                     </button>
                                 </form>
                             {% endif %}
-                            {% if object.pk == request.user.pk %}
-                                <a class="btn tapir-btn btn-outline-info ms-1" href="{% url "password_change" %}"><span
-                                        class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
-                            {% endif %}
                         </div>
+                        {% if object.pk == request.user.pk %}
+                        <div class="ms-1">
+                            <a class="btn tapir-btn btn-outline-info ms-1" href="{% url "password_change" %}"><span
+                                    class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
+                        </div>
+                        {% endif %}
+                        {% if perms.accounts.manage %}
+                        <div class="ms-1">
+                            <a class="btn tapir-btn btn-outline-info" href="{% url "accounts:user_update" object.pk %}"
+                            id="tapir_user_edit_button">
+                                <span class="material-icons">edit</span>{% translate 'Edit' %}
+                            </a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

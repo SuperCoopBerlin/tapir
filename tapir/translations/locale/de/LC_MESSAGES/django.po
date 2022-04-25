@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: accounts/models.py:137 accounts/templates/accounts/user_detail.html:36
+#: accounts/models.py:137 accounts/templates/accounts/user_detail.html:28
 #: coop/templates/coop/draftuser_detail.html:18
 msgid "Username"
 msgstr "Nutzer*innenname"
@@ -33,14 +33,14 @@ msgstr ""
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
-#: accounts/models.py:149 accounts/templates/accounts/user_detail.html:44
+#: accounts/models.py:149 accounts/templates/accounts/user_detail.html:36
 #: coop/models.py:50 coop/models.py:258
 #: coop/templates/coop/draftuser_detail.html:26
 #: coop/templates/coop/shareowner_detail.html:43
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:150 accounts/templates/accounts/user_detail.html:54
+#: accounts/models.py:150 accounts/templates/accounts/user_detail.html:46
 #: coop/models.py:51 coop/models.py:259
 #: coop/templates/coop/draftuser_detail.html:30
 #: coop/templates/coop/shareowner_detail.html:47
@@ -67,13 +67,18 @@ msgstr "Ort"
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:158 accounts/templates/accounts/user_detail.html:74
+#: accounts/models.py:156 accounts/templates/accounts/user_detail.html:76
+#: coop/templates/coop/welcome_desk_share_owner.html:72
+msgid "Co-Purchaser"
+msgstr "Miteinkäufer*in"
+
+#: accounts/models.py:159 accounts/templates/accounts/user_detail.html:66
 #: coop/models.py:59 coop/models.py:267
 #: coop/templates/coop/shareowner_detail.html:67
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:207
+#: accounts/models.py:208
 msgid "None"
 msgstr "Keine"
 
@@ -217,7 +222,7 @@ msgstr ""
 msgid "Your account in the member system"
 msgstr ""
 
-#: accounts/templates/accounts/user_detail.html:22
+#: accounts/templates/accounts/user_detail.html:20
 #: coop/templates/coop/shareowner_detail.html:14
 msgid "Personal Data"
 msgstr "Persönliche Daten"
@@ -239,16 +244,15 @@ msgstr "Bearbeiten"
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:40
 #: coop/templates/coop/draftuser_detail.html:22
 #: coop/templates/coop/draftuser_list.html:22
 #: coop/templates/coop/shareowner_detail.html:39
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:49
-#: accounts/templates/accounts/user_detail.html:59
-#: accounts/templates/accounts/user_detail.html:69
+#: accounts/templates/accounts/user_detail.html:41
+#: accounts/templates/accounts/user_detail.html:51
+#: accounts/templates/accounts/user_detail.html:61
 #: coop/templates/coop/draftuser_detail.html:44
 #: coop/templates/coop/shareowner_detail.html:52
 #: coop/templates/coop/shareowner_detail.html:62
@@ -256,23 +260,35 @@ msgstr "E-Mail-Adresse"
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:64
+#: accounts/templates/accounts/user_detail.html:56
 #: coop/templates/coop/draftuser_detail.html:39
 #: coop/templates/coop/shareowner_detail.html:57
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:79
+#: accounts/templates/accounts/user_detail.html:71
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:90
+#: accounts/templates/accounts/user_detail.html:88
 msgid "Send account activation email"
 msgstr "Konto-Aktivierungsemail erneut senden"
 
 #: accounts/templates/accounts/user_detail.html:96
 msgid "Change Password"
 msgstr "Passwort ändern"
+
+#: accounts/templates/accounts/user_detail.html:103
+#: coop/templates/coop/draftuser_detail.html:133
+#: coop/templates/coop/shareowner_detail.html:24
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:18
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:108
+#: coop/templates/coop/welcome_desk_share_owner.html:79
+#: shifts/templates/shifts/shift_detail.html:35
+#: shifts/templates/shifts/shift_template_detail.html:17
+#: shifts/templates/shifts/user_shifts_overview_tag.html:10
+msgid "Edit"
+msgstr "Bearbeiten"
 
 #: accounts/templates/accounts/user_form.html:11
 #: shifts/templates/shifts/shiftuserdata_form.html:11
@@ -837,7 +853,7 @@ msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
-#: coop/templates/coop/welcome_desk_share_owner.html:25
+#: coop/templates/coop/welcome_desk_share_owner.html:24
 #, fuzzy, python-format
 #| msgid "%(name)s  can shop :)"
 msgid ""
@@ -845,7 +861,7 @@ msgid ""
 "                        :)"
 msgstr "%(name)s kann einkaufen :)"
 
-#: coop/templates/coop/welcome_desk_share_owner.html:31
+#: coop/templates/coop/welcome_desk_share_owner.html:30
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s does not have a Tapir account. Contact a member of the "
@@ -856,7 +872,7 @@ msgid ""
 msgstr ""
 "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
-#: coop/templates/coop/welcome_desk_share_owner.html:37
+#: coop/templates/coop/welcome_desk_share_owner.html:36
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s has a negative shift balance. Contact a member of the management "
@@ -870,7 +886,7 @@ msgstr ""
 "%(name)s hat ein negatives Schicht-Score. Kontaktiere eine Person aus dem "
 "Vorstand."
 
-#: coop/templates/coop/welcome_desk_share_owner.html:44
+#: coop/templates/coop/welcome_desk_share_owner.html:43
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s is an investing member. If they want to shop, they have to "
@@ -884,7 +900,7 @@ msgstr ""
 "%(name)s ist ein investierendes Mitglied. Um einkaufen zu könne, müssen sie "
 "ein aktiv Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
 
-#: coop/templates/coop/welcome_desk_share_owner.html:52
+#: coop/templates/coop/welcome_desk_share_owner.html:51
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s is not registered to an ABCD shift yet. Make sure they plan to "
@@ -895,7 +911,7 @@ msgid ""
 msgstr ""
 "%(name)s is noch zu keiner ABCD Schicht angemeldet. Er/Sie soll es planen!"
 
-#: coop/templates/coop/welcome_desk_share_owner.html:58
+#: coop/templates/coop/welcome_desk_share_owner.html:57
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s has not attended a welcome session yet. Make sure they plan to "
@@ -906,6 +922,12 @@ msgid ""
 msgstr ""
 "%(name)s hat an das Willkommenstreffen noch nicht teilgenommen. Er/Sie soll "
 "es planen!"
+
+#: coop/templates/coop/welcome_desk_share_owner.html:68
+#, fuzzy
+#| msgid "Member"
+msgid "Member ID"
+msgstr "Mitglied"
 
 #: coop/views/shareowner.py:259
 msgid "Welcome email with membership confirmation sent."
@@ -945,7 +967,7 @@ msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
 
-#: core/templates/core/base.html:56
+#: core/templates/core/base.html:55
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 

@@ -90,6 +90,27 @@ Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations
 
 For the changes to take effect, restart the Docker container. This will run `manage.py compilemessages` automatically.
 
+### How to change model classes
+
+#### 1. Change in model class
+This is quite easy by adding the property to the model class. See this page as reference:
+[Python Guide - Create model in django](https://pythonguides.com/create-model-in-django/).
+
+#### 2. Generate migration files
+All changes must be done in the docker container. Since our development environment is included to the 
+docker container, you must run djangos makemigrations on docker. You can do this with this command: 
+
+    docker compose exec web poetry run python manage.py makemigrations
+
+Please check the migration script. It might contain unwished changes. There seems to be a bug in ldpa migrations.
+
+#### 3. Migrate development database
+Last step is to update the database. this is done with this command:
+
+    docker compose exec web poetry run python manage.py migrate
+
+Please check, if applications runs (again).
+
 ### Welcome Desk Authentication
 
 All users logging in at the welcome desk are granted more permissions. This magic uses SSL client certificates. The web server requests and checks the client certificate and subsequently sets a header that is then checked by `tapir.accounts.middleware.ClientPermsMiddleware`.
