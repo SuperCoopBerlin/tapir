@@ -74,7 +74,7 @@
             </div>
             {% if perms.accounts.manage %}
             <div class="row m-1 justify-content-sm-end">
-                <a class="col-1 btn tapir-btn btn-outline-info"
+                <a class="col-md-auto col-1 btn tapir-btn btn-outline-info"
                    href="{% url 'accounts:user_update' share_owner.get_info.pk %}"
                 id="tapir_user_edit_button">
                     <span class="material-icons">edit</span>{% translate 'Edit' %}
