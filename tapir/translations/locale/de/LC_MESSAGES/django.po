@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-24 20:05+0200\n"
+"POT-Creation-Date: 2022-04-25 08:44+0200\n"
 "PO-Revision-Date: 2022-03-05 19:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: accounts/models.py:137 accounts/templates/accounts/user_detail.html:28
+#: accounts/models.py:137 accounts/templates/accounts/user_detail.html:29
 #: coop/templates/coop/draftuser_detail.html:18
 msgid "Username"
 msgstr "Nutzer*innenname"
@@ -33,14 +33,14 @@ msgstr ""
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
-#: accounts/models.py:149 accounts/templates/accounts/user_detail.html:36
+#: accounts/models.py:149 accounts/templates/accounts/user_detail.html:37
 #: coop/models.py:50 coop/models.py:258
 #: coop/templates/coop/draftuser_detail.html:26
 #: coop/templates/coop/shareowner_detail.html:43
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:150 accounts/templates/accounts/user_detail.html:46
+#: accounts/models.py:150 accounts/templates/accounts/user_detail.html:47
 #: coop/models.py:51 coop/models.py:259
 #: coop/templates/coop/draftuser_detail.html:30
 #: coop/templates/coop/shareowner_detail.html:47
@@ -67,12 +67,12 @@ msgstr "Ort"
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:156 accounts/templates/accounts/user_detail.html:76
+#: accounts/models.py:156 accounts/templates/accounts/user_detail.html:77
 #: coop/templates/coop/welcome_desk_share_owner.html:72
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:159 accounts/templates/accounts/user_detail.html:66
+#: accounts/models.py:159 accounts/templates/accounts/user_detail.html:67
 #: coop/models.py:59 coop/models.py:267
 #: coop/templates/coop/shareowner_detail.html:67
 msgid "Preferred Language"
@@ -222,37 +222,28 @@ msgstr ""
 msgid "Your account in the member system"
 msgstr ""
 
-#: accounts/templates/accounts/user_detail.html:20
+#: accounts/templates/accounts/user_detail.html:21
 #: coop/templates/coop/shareowner_detail.html:14
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:26
-#: coop/templates/coop/draftuser_detail.html:133
-#: coop/templates/coop/shareowner_detail.html:24
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:18
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:108
-#: shifts/templates/shifts/shift_detail.html:35
-#: shifts/templates/shifts/shift_template_detail.html:17
-#: shifts/templates/shifts/user_shifts_overview_tag.html:10
-msgid "Edit"
-msgstr "Bearbeiten"
-
-#: accounts/templates/accounts/user_detail.html:32 coop/models.py:329
+#: accounts/templates/accounts/user_detail.html:25 coop/models.py:329
 #: coop/models.py:337 coop/templates/coop/draftuser_detail.html:14
 #: coop/templates/coop/shareowner_detail.html:35
+#: coop/templates/coop/welcome_desk_share_owner.html:64
 msgid "Name"
 msgstr "Name"
 
+#: accounts/templates/accounts/user_detail.html:33
 #: coop/templates/coop/draftuser_detail.html:22
 #: coop/templates/coop/draftuser_list.html:22
 #: coop/templates/coop/shareowner_detail.html:39
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:41
-#: accounts/templates/accounts/user_detail.html:51
-#: accounts/templates/accounts/user_detail.html:61
+#: accounts/templates/accounts/user_detail.html:42
+#: accounts/templates/accounts/user_detail.html:52
+#: accounts/templates/accounts/user_detail.html:62
 #: coop/templates/coop/draftuser_detail.html:44
 #: coop/templates/coop/shareowner_detail.html:52
 #: coop/templates/coop/shareowner_detail.html:62
@@ -260,30 +251,30 @@ msgstr "E-Mail-Adresse"
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:56
+#: accounts/templates/accounts/user_detail.html:57
 #: coop/templates/coop/draftuser_detail.html:39
 #: coop/templates/coop/shareowner_detail.html:57
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:71
+#: accounts/templates/accounts/user_detail.html:72
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:88
+#: accounts/templates/accounts/user_detail.html:89
 msgid "Send account activation email"
 msgstr "Konto-Aktivierungsemail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:96
+#: accounts/templates/accounts/user_detail.html:97
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: accounts/templates/accounts/user_detail.html:103
+#: accounts/templates/accounts/user_detail.html:104
 #: coop/templates/coop/draftuser_detail.html:133
 #: coop/templates/coop/shareowner_detail.html:24
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:18
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:108
-#: coop/templates/coop/welcome_desk_share_owner.html:79
+#: coop/templates/coop/welcome_desk_share_owner.html:80
 #: shifts/templates/shifts/shift_detail.html:35
 #: shifts/templates/shifts/shift_template_detail.html:17
 #: shifts/templates/shifts/user_shifts_overview_tag.html:10
@@ -1001,57 +992,59 @@ msgstr "Schicht-Kalender"
 msgid "ABCD-shifts week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
-#: core/templatetags/core.py:80
+#: core/templatetags/core.py:81
 #, python-brace-format
 msgid "ABCD annual calendar, current week: {current_week_group_name}"
-msgstr "ABCD-Jahreskalender\nAktuelle Woche: {current_week_group_name}"
+msgstr ""
+"ABCD-Jahreskalender\n"
+"Aktuelle Woche: {current_week_group_name}"
 
-#: core/templatetags/core.py:87
+#: core/templatetags/core.py:89
 #: shifts/templates/shifts/shift_calendar_past.html:6
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
-#: core/templatetags/core.py:92
+#: core/templatetags/core.py:94
 #: shifts/templates/shifts/shiftexemption_list.html:8
 msgid "Shift exemptions"
 msgstr "Schicht-Befreiungen"
 
-#: core/templatetags/core.py:97
+#: core/templatetags/core.py:99
 msgid "Shift statistics"
 msgstr "Schicht-Statistiken"
 
-#: core/templatetags/core.py:102
+#: core/templatetags/core.py:104
 #: shifts/templates/shifts/members_on_alert_list.html:14
 #, fuzzy
 #| msgid "Member manual"
 msgid "Members on alert"
 msgstr "Mitgliederhandbuch"
 
-#: core/templatetags/core.py:108
+#: core/templatetags/core.py:110
 msgid "Financing campaign"
 msgstr "Finanzierungskampagne"
 
-#: core/templatetags/core.py:117
+#: core/templatetags/core.py:119
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
-#: core/templatetags/core.py:120
+#: core/templatetags/core.py:122
 msgid "Wiki"
 msgstr "Wiki"
 
-#: core/templatetags/core.py:125
+#: core/templatetags/core.py:127
 msgid "Member manual"
 msgstr "Mitgliederhandbuch"
 
-#: core/templatetags/core.py:130
+#: core/templatetags/core.py:132
 msgid "Shop opening hours"
 msgstr "Öffnungszeiten"
 
-#: core/templatetags/core.py:135
+#: core/templatetags/core.py:137
 msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
 
-#: core/templatetags/core.py:140
+#: core/templatetags/core.py:142
 msgid "About tapir"
 msgstr "Über Tapir"
 
