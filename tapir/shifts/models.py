@@ -29,6 +29,7 @@ class ShiftUserCapability:
     BREAD_DELIVERY = "bread_delivery"
     RED_CARD = "red_card"
     FIRST_AID = "first_aid"
+    WELCOME_SESSION = "welcome_session"
 
 
 SHIFT_USER_CAPABILITY_CHOICES = {
@@ -38,6 +39,7 @@ SHIFT_USER_CAPABILITY_CHOICES = {
     ShiftUserCapability.BREAD_DELIVERY: _("Bread Delivery"),
     ShiftUserCapability.RED_CARD: _("Red Card"),
     ShiftUserCapability.FIRST_AID: _("First Aid"),
+    ShiftUserCapability.WELCOME_SESSION: _("Welcome Session"),
 }
 
 

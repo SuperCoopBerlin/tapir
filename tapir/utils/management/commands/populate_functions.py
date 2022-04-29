@@ -259,6 +259,7 @@ def populate_shift_templates():
     slot_name_general = ""
     slot_name_teamleader = "Teamleitung"
     slot_name_cleaning = "Reinigung & Aufräumen"
+    slot_name_welcomesession = "Welcome Session"
 
     start_hours = [(8, 15), (11, 0), (13, 45), (16, 30), (19, 15)]
     first_shift_slots = {
@@ -312,6 +313,8 @@ def populate_shift_templates():
                         capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
                     if slot_name == "Kasse":
                         capabilities = [ShiftUserCapability.CASHIER]
+                    if slot_name == "Welcome Session":
+                        capabilities = [ShiftUserCapability.WELCOME_SESSION]
                     for index in range(slot_quantity):
                         ShiftSlotTemplate.objects.create(
                             name=slot_name,
