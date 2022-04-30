@@ -1168,7 +1168,7 @@ msgstr "Erste Hilfe"
 
 #: shifts/models.py:40
 msgid "Welcome Session"
-msgstr "Willkommensrunde"
+msgstr "Willkommenstreffen"
 
 
 #: shifts/models.py:54
