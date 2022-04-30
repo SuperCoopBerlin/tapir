@@ -1166,6 +1166,11 @@ msgstr "Rote Karte Lebensmittel"
 msgid "First Aid"
 msgstr "Erste Hilfe"
 
+#: shifts/models.py:40
+msgid "Welcome Session"
+msgstr "Willkommenstreffen"
+
+
 #: shifts/models.py:54
 msgid ""
 "I understand that all working groups help the Warenannahme & Lagerhaltung "
