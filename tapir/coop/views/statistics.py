@@ -7,12 +7,12 @@ from django.views import generic
 from django.views.generic import TemplateView
 
 from tapir.accounts.models import TapirUser
+from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.models import (
     ShareOwner,
     MemberStatus,
     DraftUser,
     ShareOwnership,
-    COOP_SHARE_PRICE,
 )
 
 

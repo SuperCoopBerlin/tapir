@@ -27,6 +27,7 @@ from django_tables2.export import ExportMixin
 from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
+from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
@@ -39,7 +40,6 @@ from tapir.coop.models import (
     MEMBER_STATUS_CHOICES,
     MemberStatus,
     get_member_status_translation,
-    COOP_SHARE_PRICE,
 )
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
@@ -546,7 +546,15 @@ class ShareOwnerExportMailchimpView(
                 lang_tag = '"Deutsch"'
             if owner.get_info().preferred_language == "en":
                 lang_tag = '"English"'
-            writer.writerow([owner.get_info().email, "", "", "", lang_tag])
+            writer.writerow(
+                [
+                    owner.get_info().email,
+                    owner.get_info().first_name,
+                    owner.get_info().last_name,
+                    owner.get_info().street,
+                    lang_tag,
+                ]
+            )
 
         return response
 

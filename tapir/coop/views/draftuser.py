@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 
 from tapir.coop import pdfs
+from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.forms import (
     DraftUserForm,
     DraftUserRegisterForm,
@@ -19,7 +20,6 @@ from tapir.coop.models import (
     DraftUser,
     ShareOwner,
     ShareOwnership,
-    COOP_SHARE_PRICE,
 )
 from tapir.utils.models import copy_user_info
 
