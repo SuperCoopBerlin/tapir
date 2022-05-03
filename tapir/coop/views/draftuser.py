@@ -27,6 +27,7 @@ from tapir.utils.models import copy_user_info
 class DraftUserViewMixin:
     model = DraftUser
     form_class = DraftUserForm
+    ordering = ["created_at"]
 
 
 class DraftUserListView(PermissionRequiredMixin, DraftUserViewMixin, generic.ListView):

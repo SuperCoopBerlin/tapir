@@ -15,13 +15,14 @@
         </h5>
         <div class="card-body">
 
-            <table class="table table-striped" id="applicants_table" aria-label="{% translate 'List of applicants' %}">
+            <table class="table table-striped table-responsive" id="applicants_table" aria-label="{% translate 'List of applicants' %}">
                 <thead>
                 <th>{% translate "First name" %}</th>
                 <th>{% translate "Last name" %}</th>
                 <th>{% translate "Email" %}</th>
                 <th>{% translate "Beteiligungserklärung" %}</th>
                 <th>{% translate "Entrance Fee" %}</th>
+                <th>{% translate "Date" %}</th>
                 <th></th>
                 </thead>
                 {% for u in object_list %}
@@ -39,6 +40,7 @@
                                 <span class="text-success">{% translate "Paid" %}</span>
                             {% endif %}
                         </td>
+                        <td class="align-middle">{{ u.created_at|date:"d.m.Y" }}</td>
                         <td class="align-middle">
                             <a class="btn tapir-btn btn-outline-primary" href="{% url "coop:draftuser_detail" u.pk %}">
                                 <span class="material-icons">visibility</span>
