@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-30 13:34+0200\n"
+"POT-Creation-Date: 2022-05-12 23:34+0200\n"
 "PO-Revision-Date: 2022-03-05 19:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1587,7 +1587,11 @@ msgstr "Anwesenheit"
 msgid "Actions"
 msgstr "Aktionen"
 
-#: shifts/templates/shifts/shift_detail.html:74
+#: shifts/templates/shifts/shift_detail.html:73
+msgid "Requirement fulfilled?"
+msgstr "Voraussetzungen erfüllt?"
+
+#: shifts/templates/shifts/shift_detail.html:75
 msgid "Member-Office actions"
 msgstr "Mitgliederbüro Aktionen"
 
@@ -1695,6 +1699,10 @@ msgstr ""
 "wende dich bitte ans Mitgliederbüro\n"
 "- die Schicht in der Zukunft liegt\n"
 " "
+
+#: shifts/templates/shifts/shift_detail.html:194
+msgid "Missing qualification: "
+msgstr "Fehlende Qualifikation: "
 
 #: shifts/templates/shifts/shift_filters.html:4
 msgid "Filters"
