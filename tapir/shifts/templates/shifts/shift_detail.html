@@ -188,11 +188,15 @@
                                 </span></td>
                             {% endwith %}
                             <!-- Requirements -->
-                            {% if slot.get_required_capabilities_display in request.user.shift_user_data.get_capabilities_display %}
-                                <td><span class="material-icons">task_alt</span></td>
-                            {% else %}
-                                <td><span class="material-icons">do_disturb_alt</span><br/> {% translate "Missing qualification: " %}  {{slot.get_required_capabilities_display}}</td>
-                            {% endif %}
+                            {% with slot.get_required_capabilities_display as requirement %}
+
+                                {% if requirement in request.user.shift_user_data.get_capabilities_display %}
+                                    <td><span class="material-icons">task_alt</span>{{requirement}}</td>
+                                {% else %}
+                                    <td><span class="material-icons">do_disturb_alt</span><br/> {% translate "Missing qualification: " %}  {{requirement}}</td>
+                                {% endif %}
+
+                            {% endwith %}
                             <!-- Member-Office actions -->
                             {% if perms.shifts.manage %}
                                 <td><span class="shift-centered-content">
