@@ -1075,7 +1075,15 @@ msgstr "Protokoll"
 
 #: log/templates/log/log_entry_list_tag.html:11
 msgid "List of log entries for this user"
-msgstr "List der Protokoll-Einträge für dieses Mitglied"
+msgstr "Liste der Protokoll-Einträge für dieses Mitglied"
+
+#: log/templates/log/log_entry_list_tag.html:15
+msgid "Actor"
+msgstr "Ausführender"
+
+#: log/templates/log/log_entry_list_tag.html:16
+msgid "Message"
+msgstr "Notiz"
 
 #: log/templates/log/log_entry_list_tag.html:39
 msgid "Notes about this user"

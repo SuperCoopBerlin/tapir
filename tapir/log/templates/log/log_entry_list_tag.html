@@ -11,9 +11,9 @@
         <table class="table table-striped" aria-label="{% translate 'List of log entries for this user' %}">
             <thead>
             <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Actor</th>
-                <th scope="col">Message</th>
+                <th scope="col">{% translate "Date" %}</th>
+                <th scope="col">{% translate "Actor" %}</th>
+                <th scope="col">{% translate "Message" %}</th>
             </tr>
             </thead>
             {% for o in log_entries %}
