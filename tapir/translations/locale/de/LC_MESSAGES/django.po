@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-12 23:34+0200\n"
+"POT-Creation-Date: 2022-05-20 21:49+0200\n"
 "PO-Revision-Date: 2022-03-05 19:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -777,14 +777,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:53
-#: shifts/models.py:883 shifts/templates/shifts/shift_day_printable.html:56
-#: shifts/templates/shifts/shift_detail.html:209
+#: shifts/models.py:889 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/templates/shifts/shift_detail.html:215
 #: shifts/templates/shifts/shift_detail_printable.html:48
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:55
-#: shifts/models.py:882
+#: shifts/models.py:888
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -1200,54 +1200,54 @@ msgid ""
 "suffer from fear of heigts."
 msgstr ""
 
-#: shifts/models.py:742
+#: shifts/models.py:748
 msgid "You found a stand-in!"
 msgstr "Vertretung gefunden!"
 
-#: shifts/models.py:884 shifts/templates/shifts/shift_day_printable.html:57
-#: shifts/templates/shifts/shift_detail.html:219
+#: shifts/models.py:890 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/templates/shifts/shift_detail.html:225
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:885 shifts/templates/shifts/shift_day_printable.html:58
-#: shifts/templates/shifts/shift_detail.html:249
+#: shifts/models.py:891 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/templates/shifts/shift_detail.html:255
 #: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:886 shifts/templates/shifts/shift_detail.html:257
+#: shifts/models.py:892 shifts/templates/shifts/shift_detail.html:263
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:887 shifts/templates/shifts/shift_detail.html:241
+#: shifts/models.py:893 shifts/templates/shifts/shift_detail.html:247
 #: shifts/templates/shifts/shift_filters.html:57
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:927
+#: shifts/models.py:933
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:928
+#: shifts/models.py:934
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:931
+#: shifts/models.py:937
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:996
+#: shifts/models.py:1002
 #, python-format
 msgid "Your upcoming %(coop_name)s shift: %(shift)s"
 msgstr "Deine nächste %(coop_name)s Schicht: %(shift)s"
 
-#: shifts/models.py:1051 shifts/templates/shifts/shiftexemption_list.html:22
+#: shifts/models.py:1057 shifts/templates/shifts/shiftexemption_list.html:22
 #: shifts/templates/shifts/user_shift_account_log.html:28
 msgid "Description"
 msgstr "Beschreibung"
 
-#: shifts/models.py:1119
+#: shifts/models.py:1125
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -1620,7 +1620,7 @@ msgstr ""
 "wahrnehmen möchtest."
 
 #: shifts/templates/shifts/shift_detail.html:117
-#: shifts/templates/shifts/shift_detail.html:230
+#: shifts/templates/shifts/shift_detail.html:236
 msgid "Cancel looking for a stand-in"
 msgstr "Beende die Suche nach Vertretung"
 
@@ -1704,10 +1704,6 @@ msgstr ""
 "wende dich bitte ans Mitgliederbüro\n"
 "- die Schicht in der Zukunft liegt\n"
 " "
-
-#: shifts/templates/shifts/shift_detail.html:194
-msgid "Missing qualification: "
-msgstr "Fehlende Qualifikation: "
 
 #: shifts/templates/shifts/shift_filters.html:4
 msgid "Filters"
@@ -2959,6 +2955,9 @@ msgstr "Anfangsdatum muss gesetzt sein"
 #: utils/models.py:362
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Endsdatum sein"
+
+#~ msgid "Missing qualification: "
+#~ msgstr "Fehlende Qualifikation: "
 
 #~ msgid "Monday"
 #~ msgstr "Montag"

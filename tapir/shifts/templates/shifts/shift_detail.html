@@ -188,15 +188,15 @@
                                 </span></td>
                             {% endwith %}
                             <!-- Requirements -->
-                            {% with slot.get_required_capabilities_display as requirement %}
-
-                                {% if requirement in request.user.shift_user_data.get_capabilities_display %}
-                                    <td><span class="material-icons">task_alt</span>{{requirement}}</td>
+                            {% for key, value in slot.get_required_capabilities_dict.items %}
+                                {% if key in request.user.shift_user_data.capabilities %}
+                                    <td><span class="material-icons">check</span>{{ value }}</td>
                                 {% else %}
-                                    <td><span class="material-icons">do_disturb_alt</span><br/> {% translate "Missing qualification: " %}  {{requirement}}</td>
+                                    <td><span class="material-icons">close</span> {{ value }}</td>
                                 {% endif %}
-
-                            {% endwith %}
+                                {% empty %}
+                                    <td><span  class="material-icons">check</span></td>
+                            {% endfor %}
                             <!-- Member-Office actions -->
                             {% if perms.shifts.manage %}
                                 <td><span class="shift-centered-content">
