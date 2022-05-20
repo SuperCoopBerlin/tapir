@@ -1,13 +1,23 @@
 import datetime
 
 from django.core.management.base import BaseCommand
-from tapir.shifts.models import ShiftTemplate, ShiftSlotTemplate
+from tapir.shifts.models import ShiftTemplate, ShiftSlotTemplate, ShiftUserCapability
 
 
 #
 # for testing start this command with
 #  docker compose exec web poetry run python manage.py add_cutting_cheese_shifts
 #
+def create_new_shift_slot_template(name, shift_template):
+    shift_slot = ShiftSlotTemplate(
+        name=name,
+        optional=False,
+        shift_template=shift_template,
+        required_capabilities=[ShiftUserCapability.HANDLING_CHEESE],
+    )
+    shift_slot.save()
+
+
 class Command(BaseCommand):
     help = "New shift 'Kaesetheke' needed as described in internal dict NEWSHIFTSLOTS"
     MONDAY = 0
@@ -63,17 +73,9 @@ class Command(BaseCommand):
                             "Create new slot template for weekday "
                             + str(new_slot["weekday"])
                         )
-                        self.create_new_shift_slot_template(
-                            new_slot["name"], shift_template
-                        )
+                        create_new_shift_slot_template(new_slot["name"], shift_template)
                 else:
                     print(
                         "Slot template already exists for weekday "
                         + str(new_slot["weekday"])
                     )
-
-    def create_new_shift_slot_template(self, name, shift_template):
-        shift_slot = ShiftSlotTemplate(
-            name=name, optional=False, shift_template=shift_template
-        )
-        shift_slot.save()
