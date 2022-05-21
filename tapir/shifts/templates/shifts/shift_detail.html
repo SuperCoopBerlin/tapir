@@ -190,12 +190,12 @@
                             <!-- Requirements -->
                             {% for key, value in slot.get_required_capabilities_dict.items %}
                                 {% if key in request.user.shift_user_data.capabilities %}
-                                    <td><span class="material-icons">check</span>{{ value }}</td>
+                                    <td><span class="d-flex align-items-center"><span class="material-icons">check</span><span>{{ value }}</span></span></td>
                                 {% else %}
-                                    <td><span class="material-icons">close</span> {{ value }}</td>
+                                     <td><span class="d-flex align-items-center"><span class="material-icons">close</span><span>{{ value }}</span></span></td>
                                 {% endif %}
                                 {% empty %}
-                                    <td><span  class="material-icons">check</span></td>
+                                    <td><span class="d-flex align-items-center"><span class="material-icons">check</span><span></span></span></td>
                             {% endfor %}
                             <!-- Member-Office actions -->
                             {% if perms.shifts.manage %}

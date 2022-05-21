@@ -624,7 +624,10 @@ class ShiftSlot(models.Model):
 
     def get_required_capabilities_display(self):
         return ", ".join(
-            [str(SHIFT_USER_CAPABILITY_CHOICES[c]) for c in self.required_capabilities]
+            [
+                str(SHIFT_USER_CAPABILITY_CHOICES[capability])
+                for capability in self.required_capabilities
+            ]
         )
 
     def get_required_capabilities_dict(self):
@@ -632,7 +635,8 @@ class ShiftSlot(models.Model):
         returns required capabilites as dictionary with corresponding translatiom
         """
         return {
-            c: _(SHIFT_USER_CAPABILITY_CHOICES[c]) for c in self.required_capabilities
+            capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
+            for capability in self.required_capabilities
         }
 
     def get_display_name(self):
