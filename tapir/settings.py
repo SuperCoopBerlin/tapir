@@ -178,6 +178,7 @@ elif EMAIL_ENV == "prod":
     EMAIL_USE_TLS = True
 
 EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
+EMAIL_ADDRESS_ACCOUNTING = "accounting@supercoop.de"
 COOP_NAME = "SuperCoop Berlin"
 FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
