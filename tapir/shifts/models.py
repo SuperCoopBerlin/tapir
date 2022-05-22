@@ -30,6 +30,7 @@ class ShiftUserCapability:
     RED_CARD = "red_card"
     FIRST_AID = "first_aid"
     WELCOME_SESSION = "welcome_session"
+    HANDLING_CHEESE = "handling_cheese"
 
 
 SHIFT_USER_CAPABILITY_CHOICES = {
@@ -40,6 +41,7 @@ SHIFT_USER_CAPABILITY_CHOICES = {
     ShiftUserCapability.RED_CARD: _("Red Card"),
     ShiftUserCapability.FIRST_AID: _("First Aid"),
     ShiftUserCapability.WELCOME_SESSION: _("Welcome Session"),
+    ShiftUserCapability.HANDLING_CHEESE: _("Handling Cheese"),
 }
 
 
@@ -301,7 +303,10 @@ class ShiftTemplate(models.Model):
         return deletion_warnings
 
     def add_slot_template(
-        self, slot_name: str, change_time: datetime.datetime
+        self,
+        slot_name: str,
+        change_time: datetime.datetime,
+        required_capabilities: list[ShiftUserCapability] = [],
     ) -> ShiftSlotTemplate:
         slot_template = ShiftSlotTemplate.objects.create(
             name=slot_name, shift_template=self
