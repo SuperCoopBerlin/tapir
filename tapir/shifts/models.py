@@ -306,22 +306,17 @@ class ShiftTemplate(models.Model):
         self,
         slot_name: str,
         change_time: datetime.datetime,
-        required_capabilities: list[ShiftUserCapability] = [],
+        required_capabilities=None,
     ) -> ShiftSlotTemplate:
+        if required_capabilities is None:
+            required_capabilities = []
+
         slot_template = ShiftSlotTemplate.objects.create(
-            name=slot_name, shift_template=self
+            name=slot_name,
+            shift_template=self,
+            required_capabilities=required_capabilities,
         )
 
-        example_slot = self.slot_templates.filter(name=slot_name).first()
-        if example_slot is None:
-            example_slot = ShiftSlotTemplate.objects.filter(name=slot_name).first()
-        if example_slot:
-            slot_template.required_capabilities = example_slot.required_capabilities
-
-        if slot_name == "" or self.slot_templates.filter(name=slot_name).count() > 3:
-            slot_template.optional = True
-
-        slot_template.save()
         for shift in self.generated_shifts.filter(start_time__gt=change_time):
             slot_template.create_slot_from_template(shift)
 
