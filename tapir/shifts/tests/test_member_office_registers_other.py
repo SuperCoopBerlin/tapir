@@ -11,6 +11,7 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftAttendanceTemplate,
     ShiftExemption,
+    ShiftTemplate,
 )
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.shifts.tests.utils import (
@@ -199,25 +200,24 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
 
     def test_register_user_to_abcd_during_exemption(self):
         user: TapirUser = TapirUserFactory.create()
-        shift_template = ShiftTemplateFactory.create()
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create()
         shift_1 = shift_template.create_shift(
             start_date=datetime.date.today() + datetime.timedelta(days=10)
         )
         shift_2 = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=20)
+            start_date=datetime.date.today() + datetime.timedelta(days=30)
         )
         shift_3 = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=30)
+            start_date=datetime.date.today() + datetime.timedelta(days=50)
         )
 
         ShiftExemption.objects.create(
             shift_user_data=user.shift_user_data,
-            start_date=datetime.date.today() + datetime.timedelta(days=15),
-            end_date=datetime.date.today() + datetime.timedelta(days=25),
+            start_date=datetime.date.today() + datetime.timedelta(days=20),
+            end_date=datetime.date.today() + datetime.timedelta(days=40),
         )
-
         self.login_as_member_office_user()
-        response = register_user_to_shift_template(self.client, user, shift_template)
+        register_user_to_shift_template(self.client, user, shift_template)
 
         self.assertTrue(
             ShiftAttendance.objects.filter(user=user, slot__shift=shift_1).exists(),

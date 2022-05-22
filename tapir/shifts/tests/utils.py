@@ -1,3 +1,4 @@
+import django.test
 from django.urls import reverse
 
 from tapir.shifts.models import (
@@ -8,14 +9,14 @@ from tapir.shifts.models import (
 )
 
 
-def register_user_to_shift(client, user, shift):
+def register_user_to_shift(client: django.test.Client, user, shift):
     slot = ShiftSlot.objects.filter(shift=shift).first()
     return client.post(
         reverse("shifts:slot_register", args=[slot.id]), {"user": user.id}
     )
 
 
-def register_user_to_shift_template(client, user, shift_template):
+def register_user_to_shift_template(client: django.test.Client, user, shift_template):
     slot_template = ShiftSlotTemplate.objects.filter(
         shift_template=shift_template
     ).first()
