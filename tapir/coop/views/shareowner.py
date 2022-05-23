@@ -234,7 +234,10 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
             body=render_to_string(template_names, {"owner": owner}),
             from_email=FROM_EMAIL_MEMBER_OFFICE,
             to=[owner.get_info().email],
-            bcc=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
+            bcc=[
+                settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+                settings.EMAIL_ADDRESS_ACCOUNTING,
+            ],
             attachments=[
                 (
                     "Mitgliedschaftsbestätigung %s.pdf"

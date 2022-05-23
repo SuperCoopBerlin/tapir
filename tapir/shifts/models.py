@@ -303,22 +303,20 @@ class ShiftTemplate(models.Model):
         return deletion_warnings
 
     def add_slot_template(
-        self, slot_name: str, change_time: datetime.datetime
+        self,
+        slot_name: str,
+        change_time: datetime.datetime,
+        required_capabilities=None,
     ) -> ShiftSlotTemplate:
+        if required_capabilities is None:
+            required_capabilities = []
+
         slot_template = ShiftSlotTemplate.objects.create(
-            name=slot_name, shift_template=self
+            name=slot_name,
+            shift_template=self,
+            required_capabilities=required_capabilities,
         )
 
-        example_slot = self.slot_templates.filter(name=slot_name).first()
-        if example_slot is None:
-            example_slot = ShiftSlotTemplate.objects.filter(name=slot_name).first()
-        if example_slot:
-            slot_template.required_capabilities = example_slot.required_capabilities
-
-        if slot_name == "" or self.slot_templates.filter(name=slot_name).count() > 3:
-            slot_template.optional = True
-
-        slot_template.save()
         for shift in self.generated_shifts.filter(start_time__gt=change_time):
             slot_template.create_slot_from_template(shift)
 
@@ -626,8 +624,20 @@ class ShiftSlot(models.Model):
 
     def get_required_capabilities_display(self):
         return ", ".join(
-            [str(SHIFT_USER_CAPABILITY_CHOICES[c]) for c in self.required_capabilities]
+            [
+                str(SHIFT_USER_CAPABILITY_CHOICES[capability])
+                for capability in self.required_capabilities
+            ]
         )
+
+    def get_required_capabilities_dict(self):
+        """
+        returns required capabilites as dictionary with corresponding translatiom
+        """
+        return {
+            capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
+            for capability in self.required_capabilities
+        }
 
     def get_display_name(self):
         display_name = self.shift.get_display_name()
