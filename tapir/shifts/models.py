@@ -498,8 +498,23 @@ class Shift(models.Model):
 
     # TODO(Leon Handreke): For generated shifts, leave this blank instead and use a getter?
     name = models.CharField(blank=False, max_length=255)
-    num_required_attendances = models.IntegerField(null=True, blank=False, default=3)
-    description = models.TextField(blank=True, null=False, default="")
+    num_required_attendances = models.IntegerField(
+        verbose_name=_("Number of required attendances"),
+        help_text=_(
+            "If there are less members registered to a shift than that number, "
+            "it will be highlighted in the shift calendar."
+        ),
+        null=True,
+        blank=False,
+        default=3,
+    )
+    description = models.TextField(
+        verbose_name=_("Description"),
+        help_text=_("Is shown on the shift page below the title"),
+        blank=True,
+        null=False,
+        default="",
+    )
 
     start_time = models.DateTimeField(blank=False)
     end_time = models.DateTimeField(blank=False)

@@ -138,4 +138,24 @@ urlpatterns = [
         views.CancelShiftView.as_view(),
         name="cancel_shift",
     ),
+    path(
+        "shift/create",
+        views.ShiftCreateView.as_view(),
+        name="create_shift",
+    ),
+    path(
+        "management",
+        views.ShiftManagementView.as_view(),
+        name="management",
+    ),
+    path(
+        "shift/<int:shift_pk>/slot/create",
+        views.ShiftSlotCreateView.as_view(),
+        name="create_slot",
+    ),
+    path(
+        "slot/<int:pk>/edit",
+        views.ShiftSlotEditView.as_view(),
+        name="edit_slot",
+    ),
 ]
