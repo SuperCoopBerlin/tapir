@@ -710,7 +710,7 @@ class ShiftSlot(models.Model):
             and self.get_valid_attendance().user == user
         )
         early_enough = (
-            self.shift.start_time.date() - timezone.now().date()
+            self.shift.start_time - timezone.now()
         ).days >= Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
         return user_is_registered_to_slot and early_enough
 
