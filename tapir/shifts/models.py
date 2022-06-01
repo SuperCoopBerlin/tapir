@@ -5,6 +5,7 @@ import datetime
 import time
 
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
 from django.db import models, transaction
 from django.db.models import Sum
@@ -486,6 +487,17 @@ class DeleteShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
     template_name = "shifts/log/delete_shift_attendance_template_log_entry.html"
 
 
+def required_attendances_min(value):
+    """
+    Raises Validation error if number of attendances are negative
+    """
+    if value < 0:
+        raise ValidationError(
+            _('Number of required Attendances can not be negative.'),
+            code="invalid",
+        )
+
+
 class Shift(models.Model):
     # ShiftTemplate that this shift was generated from, may be null for manually-created shifts
     shift_template = models.ForeignKey(
@@ -507,6 +519,7 @@ class Shift(models.Model):
         null=True,
         blank=False,
         default=3,
+        validators=[required_attendances_min]
     )
     description = models.TextField(
         verbose_name=_("Description"),
