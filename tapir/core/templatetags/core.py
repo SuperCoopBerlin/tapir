@@ -106,9 +106,9 @@ def get_sidebar_link_groups(request):
             url=reverse_lazy("shifts:members_on_alert"),
         )
         shifts_group.add_link(
-            display_name=_("Shift management"),
-            material_icon="settings",
-            url=reverse_lazy("shifts:management"),
+            display_name=_("Add a shift"),
+            material_icon="add_circle_outline",
+            url=reverse_lazy("shifts:create_shift"),
         )
 
     if request.user.has_perm("shifts.manage") and FinancingCampaign.objects.exists():

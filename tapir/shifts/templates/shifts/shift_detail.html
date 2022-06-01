@@ -26,21 +26,21 @@
                 <span id="shift_card_title">Shift: {{ shift.get_display_name }}</span>
                 {% if perms.shifts.manage %}
                     <span>
-                    <a class="btn tapir-btn btn-outline-secondary"
-                       href="{% url "shifts:shift_detail_printable" shift.pk %}">
-                        <span class="material-icons">print</span>{% translate 'Get printable version' %}
-                    </a>
-                    <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:create_slot" shift.pk %}">
-                        <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
-                    </a>
-                    <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:shift_edit" shift.pk %}"
-                       id="shift_edit_button">
-                        <span class="material-icons">edit</span>{% translate 'Edit' %}
-                    </a>
+                        <a class="btn tapir-btn btn-outline-secondary"
+                           href="{% url "shifts:shift_detail_printable" shift.pk %}">
+                            <span class="material-icons">print</span>{% translate 'Get printable version' %}
+                        </a>
+                        <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:create_slot" shift.pk %}">
+                            <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
+                        </a>
+                        <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:shift_edit" shift.pk %}"
+                           id="shift_edit_button">
+                            <span class="material-icons">edit</span>{% translate 'Edit' %}
+                        </a>
                         {% if not shift.cancelled %}
                             <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:cancel_shift" shift.pk %}">
-                            <span class="material-icons">cancel</span>{% translate 'Cancel' %}
-                        </a>
+                                <span class="material-icons">cancel</span>{% translate 'Cancel' %}
+                            </a>
                         {% endif %}
                     </span>
                 {% endif %}
@@ -274,8 +274,8 @@
                                     {% endif %}
                                     <a class="btn tapir-btn btn-outline-info"
                                        href="{% url "shifts:edit_slot" slot.pk %}">
-                                    <span class="material-icons">edit</span>{% translate 'Edit slot' %}
-                                </a>
+                                        <span class="material-icons">edit</span>{% translate 'Edit slot' %}
+                                    </a>
                                 </span>
                                 </td>
                                 <td><span class="shift-centered-content">

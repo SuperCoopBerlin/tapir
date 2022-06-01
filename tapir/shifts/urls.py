@@ -144,11 +144,6 @@ urlpatterns = [
         name="create_shift",
     ),
     path(
-        "management",
-        views.ShiftManagementView.as_view(),
-        name="management",
-    ),
-    path(
         "shift/<int:shift_pk>/slot/create",
         views.ShiftSlotCreateView.as_view(),
         name="create_slot",
