@@ -163,7 +163,9 @@ class ShiftTemplate(models.Model):
         null=True,
         on_delete=models.PROTECT,
     )
-    num_required_attendances = models.IntegerField(null=False, blank=False, default=3)
+    num_required_attendances = models.PositiveIntegerField(
+        null=False, blank=False, default=3
+    )
 
     # NOTE(Leon Handreke): This could be expanded in the future to allow more placement strategies
     # TODO(Leon Handreke): Extra validation to ensure that it is not blank if part of a group
@@ -498,7 +500,7 @@ class Shift(models.Model):
 
     # TODO(Leon Handreke): For generated shifts, leave this blank instead and use a getter?
     name = models.CharField(blank=False, max_length=255)
-    num_required_attendances = models.IntegerField(
+    num_required_attendances = models.PositiveIntegerField(
         verbose_name=_("Number of required attendances"),
         help_text=_(
             "If there are less members registered to a shift than that number, "
