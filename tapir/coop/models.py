@@ -340,3 +340,32 @@ class FinancingSource(models.Model):
         null=False,
         on_delete=models.CASCADE,
     )
+
+
+class IncomingPayment(models.Model):
+    paying_member = models.ForeignKey(
+        ShareOwner,
+        verbose_name=_("Paying member"),
+        related_name="member",
+        null=False,
+        blank=False,
+        on_delete=models.deletion.CASCADE,
+    )
+    amount = models.PositiveIntegerField(
+        verbose_name=_("Amount"), null=False, blank=False
+    )
+    payment_date = models.DateField(
+        verbose_name=_("Payment date"), null=False, blank=False
+    )
+    creation_date = models.DateField(
+        verbose_name=_("Creation date"), null=False, blank=False
+    )
+    comment = models.TextField(blank=True, null=False, default="")
+    created_by = models.ForeignKey(
+        TapirUser,
+        verbose_name=_("Created by"),
+        related_name="creator",
+        null=False,
+        blank=False,
+        on_delete=models.deletion.PROTECT,
+    )
