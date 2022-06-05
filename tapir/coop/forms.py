@@ -5,7 +5,13 @@ from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
-from tapir.coop.models import ShareOwnership, DraftUser, ShareOwner, FinancingCampaign
+from tapir.coop.models import (
+    ShareOwnership,
+    DraftUser,
+    ShareOwner,
+    FinancingCampaign,
+    IncomingPayment,
+)
 from tapir.coop.pdfs import get_membership_agreement_pdf
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.utils.forms import DateInput, TapirPhoneNumberField
@@ -193,3 +199,17 @@ class FinancingCampaignForm(forms.ModelForm):
             source.raised_amount = self.cleaned_data[f"financing_source_{source.id}"]
             source.save()
         return super().save(commit=commit)
+
+
+class IncomingPaymentForm(forms.ModelForm):
+    class Meta:
+        model = IncomingPayment
+        fields = [
+            "paying_member",
+            "credited_member",
+            "amount",
+            "payment_date",
+            "creation_date",
+            "comment",
+            "created_by",
+        ]

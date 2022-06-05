@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
@@ -183,6 +183,17 @@ class ShareOwner(models.Model):
     def is_active(self) -> bool:
         return self.get_member_status() == MemberStatus.ACTIVE
 
+    def get_total_expected_payment(self) -> float:
+        return COOP_ENTRY_AMOUNT + self.share_ownerships.count() * COOP_SHARE_PRICE
+
+    def get_currently_paid_amount(self) -> float:
+        return (
+            IncomingPayment.objects.filter(credited_member=self).aggregate(
+                Sum("amount")
+            )["amount__sum"]
+            or 0
+        )
+
 
 class MemberStatus:
     SOLD = "sold"
@@ -346,13 +357,23 @@ class IncomingPayment(models.Model):
     paying_member = models.ForeignKey(
         ShareOwner,
         verbose_name=_("Paying member"),
-        related_name="member",
+        related_name="paying_member",
         null=False,
         blank=False,
-        on_delete=models.deletion.CASCADE,
+        on_delete=models.deletion.PROTECT,
     )
-    amount = models.PositiveIntegerField(
-        verbose_name=_("Amount"), null=False, blank=False
+    credited_member = models.ForeignKey(
+        ShareOwner,
+        verbose_name=_("Credited member"),
+        related_name="credited_member",
+        null=False,
+        blank=False,
+        on_delete=models.deletion.PROTECT,
+    )
+    amount = (
+        models.PositiveIntegerField(  # TODO Théo 04.06.22 Make this a decimal field
+            verbose_name=_("Amount"), null=False, blank=False
+        )
     )
     payment_date = models.DateField(
         verbose_name=_("Payment date"), null=False, blank=False

@@ -75,6 +75,14 @@
                 </div>
             </div>
 
+            <div class="row m-1">
+                <div class="col-5 fw-bold text-end">{% translate "Payment" %}:</div>
+                <div class="col-7">
+                    <span id="share_owner_num_shares">{{ owner.get_currently_paid_amount }} / {{ owner.get_total_expected_payment }} €</span>
+                    (<a class="" data-bs-toggle="collapse" href="#shares-table">Details</a>)
+                </div>
+            </div>
+
             <div class="collapse" id="shares-table">
                 <table class="table" aria-label="{% translate 'List of shares owned by this member' %}">
                     <thead>

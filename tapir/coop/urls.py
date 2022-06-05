@@ -155,4 +155,14 @@ urlpatterns = [
         views.FinancingCampaignUpdateView.as_view(),
         name="financing_campaign_update",
     ),
+    path(
+        "payments/list",
+        views.IncomingPaymentListView.as_view(),
+        name="incoming_payment_list",
+    ),
+    path(
+        "payments/create",
+        views.IncomingPaymentCreateView.as_view(),
+        name="incoming_payment_create",
+    ),
 ]
