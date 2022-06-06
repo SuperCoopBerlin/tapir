@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Count, F
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
@@ -12,6 +12,7 @@ from tapir.log.models import UpdateModelLogEntry, ModelLogEntry
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
+    positive_number_validator,
 )
 from tapir.utils.user_utils import UserUtils
 
@@ -96,6 +97,20 @@ class ShareOwner(models.Model):
                     share_ownerships__in=active_ownerships,
                     is_investing=(status == MemberStatus.INVESTING),
                 ).distinct()
+
+        def with_fully_paid(self, fully_paid: bool):
+            annotated = self.annotate(
+                paid_amount=Sum("credited_payments__amount")
+            ).annotate(
+                expected_payments=Count("share_ownerships", distinct=True)
+                * COOP_SHARE_PRICE
+                + COOP_ENTRY_AMOUNT
+            )
+            if fully_paid:
+                return annotated.filter(paid_amount__gte=F("expected_payments"))
+            return annotated.filter(
+                Q(paid_amount__lte=F("expected_payments")) | Q(paid_amount=None)
+            )
 
     objects = ShareOwnerQuerySet.as_manager()
 
@@ -357,7 +372,7 @@ class IncomingPayment(models.Model):
     paying_member = models.ForeignKey(
         ShareOwner,
         verbose_name=_("Paying member"),
-        related_name="paying_member",
+        related_name="debited_payments",
         null=False,
         blank=False,
         on_delete=models.deletion.PROTECT,
@@ -365,15 +380,21 @@ class IncomingPayment(models.Model):
     credited_member = models.ForeignKey(
         ShareOwner,
         verbose_name=_("Credited member"),
-        related_name="credited_member",
+        related_name="credited_payments",
         null=False,
         blank=False,
         on_delete=models.deletion.PROTECT,
+        help_text=_(  # TODO Théo 05.06.22 : Fix help text not showing in the form
+            "In almost all cases, the credited member is the same as the paying member. "
+            "Only if a person if giting another person a share, through the matching program, "
+            "then the fields can be different."
+        ),
     )
-    amount = (
-        models.PositiveIntegerField(  # TODO Théo 04.06.22 Make this a decimal field
-            verbose_name=_("Amount"), null=False, blank=False
-        )
+    amount = models.FloatField(
+        verbose_name=_("Amount"),
+        null=False,
+        blank=False,
+        validators=[positive_number_validator],
     )
     payment_date = models.DateField(
         verbose_name=_("Payment date"), null=False, blank=False

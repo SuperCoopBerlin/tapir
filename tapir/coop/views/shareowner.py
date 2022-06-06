@@ -426,9 +426,11 @@ class ShareOwnerFilter(django_filters.FilterSet):
         label=_("ABCD Week"),
     )
     has_unpaid_shares = BooleanFilter(
-        method="has_unpaid_shares_filter", label="Has unpaid shares"
+        method="has_unpaid_shares_filter", label=_("Has unpaid shares")
     )
-
+    is_fully_paid = BooleanFilter(
+        method="is_fully_paid_filter", label=_("Is fully paid")
+    )
     display_name = CharFilter(
         method="display_name_filter", label=_("Name or member ID")
     )
@@ -493,6 +495,11 @@ class ShareOwnerFilter(django_filters.FilterSet):
             return queryset.filter(share_ownerships__in=unpaid_shares)
         else:
             return queryset.exclude(share_ownerships__in=unpaid_shares)
+
+    def is_fully_paid_filter(
+        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+    ):
+        return queryset.with_fully_paid(value)
 
 
 class ShareOwnerListView(
