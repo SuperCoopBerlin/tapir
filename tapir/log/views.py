@@ -1,3 +1,4 @@
+import django_tables2
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
@@ -6,9 +7,10 @@ from django.views.decorators.http import require_GET, require_POST
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.log.forms import CreateTextLogEntryForm
-from tapir.log.models import EmailLogEntry, TextLogEntry
+from tapir.log.models import EmailLogEntry, TextLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.utils.shortcuts import safe_redirect
+from django_tables2 import SingleTableView
 
 
 @require_GET
@@ -50,3 +52,23 @@ def create_text_log_entry(request, **kwargs):
 
     form.save()
     return safe_redirect(request.GET.get("next"), "/", request)
+
+
+class LogTable(django_tables2.Table):
+    entry = django_tables2.Column(
+        empty_values=(), accessor="as_leaf_class__render", verbose_name="Message"
+    )
+
+    class Meta:
+        model = LogEntry
+        template_name = "django_tables2/bootstrap.html"
+        fields = ["created_date", "actor", "entry"]
+
+    def render_actor(self, value):
+        return "%s" % value.get_display_name()
+
+
+class LogTableView(SingleTableView):
+    model = LogEntry
+    table_class = LogTable
+    template_name = "log/log_overview.html"

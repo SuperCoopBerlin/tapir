@@ -19,4 +19,9 @@ urlpatterns = [
         views.create_text_log_entry,
         name="create_share_owner_text_log_entry",
     ),
+    path(
+        "log_overview",
+        views.LogTableView.as_view(),
+        name="log_overview",
+    ),
 ]
