@@ -79,7 +79,8 @@ class ShiftFactory(factory.django.DjangoModelFactory):
     def nb_slots(self, create, nb_slots, **kwargs):
         if not create:
             return
-        nb_slots = nb_slots or 1
+        if nb_slots is None:
+            nb_slots = 1
         for _ in range(nb_slots):
             ShiftSlotFactory.create(shift=self)
         self.num_required_attendances = math.ceil(nb_slots / 2)

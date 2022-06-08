@@ -41,7 +41,7 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase):
     def test_member_self_look_for_stand_in_threshold(self):
         user = self.login_as_normal_user()
         start_time = timezone.now() + datetime.timedelta(
-            days=Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN - 1
+            days=Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN, hours=-1
         )
         shift = ShiftFactory.create(start_time=start_time)
 
@@ -57,7 +57,7 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase):
         self.assertEqual(
             response.status_code,
             403,
-            "The user should not be able to search of a stand-in because the shift is too close to now.",
+            f"The user should not be able to search of a stand-in because the shift is too close to now. {timezone.now()} {start_time}",
         )
 
     def test_stand_in_found(self):
