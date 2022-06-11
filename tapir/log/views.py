@@ -1,4 +1,11 @@
 import django_tables2
+import django_filters
+from django_filters import DateRangeFilter
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableMixin
+
+from django.utils.translation import gettext_lazy as _
+
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
@@ -10,7 +17,6 @@ from tapir.log.forms import CreateTextLogEntryForm
 from tapir.log.models import EmailLogEntry, TextLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.utils.shortcuts import safe_redirect
-from django_tables2 import SingleTableView
 
 
 @require_GET
@@ -68,7 +74,37 @@ class LogTable(django_tables2.Table):
         return "%s" % value.get_display_name()
 
 
-class LogTableView(SingleTableView):
+class LogFilter(django_filters.FilterSet):
+    def __init__(self, *args, **kwargs):
+        """
+        Actors for ChoiceFilter
+        """
+        super().__init__(*args, **kwargs)
+        try:
+            self.filters["actor"].extra["choices"] = [
+                (
+                    TapirUser.objects.get(pk=x).id,
+                    TapirUser.objects.get(pk=x).get_display_name(),
+                )
+                for x in LogEntry.objects.all()
+                .values_list("actor", flat=True)
+                .distinct()
+                if x is not None
+            ]
+        except (KeyError, AttributeError):
+            pass
+
+    time = DateRangeFilter(field_name="created_date")
+    actor = django_filters.ChoiceFilter(choices=[], label=_("Actor"))
+
+    class Meta:
+        model = LogEntry
+        fields = ["time", "actor"]
+
+
+class LogTableView(SingleTableMixin, FilterView):
     model = LogEntry
     table_class = LogTable
     template_name = "log/log_overview.html"
+
+    filterset_class = LogFilter

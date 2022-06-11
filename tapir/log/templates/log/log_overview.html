@@ -12,10 +12,11 @@
         <h5 class="card-header d-flex justify-content-between">
             <span>{% translate "Logs" %}</span>
         </h5>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                {% render_table table %}
-            </li>
-        </ul>
-
+        {% if filter %}
+            <form action="" method="get" class="form log-filter-form">
+            {% bootstrap_form filter.form %}
+            {% bootstrap_button '<span class="material-icons">filter_alt</span>Filter' button_class="filter-button btn tapir-btn btn-primary"%}
+        </form>
+        {% endif %}
+        {% render_table table  'django_tables2/bootstrap.html' %}
 {% endblock %}
