@@ -96,11 +96,6 @@ def get_sidebar_link_groups(request):
             url=reverse_lazy("shifts:shift_exemption_list"),
         )
         shifts_group.add_link(
-            display_name=_("Shift statistics"),
-            material_icon="calculate",
-            url=reverse_lazy("shifts:statistics"),
-        )
-        shifts_group.add_link(
             display_name=_("Members on alert"),
             material_icon="priority_high",
             url=reverse_lazy("shifts:members_on_alert"),
@@ -110,6 +105,12 @@ def get_sidebar_link_groups(request):
             material_icon="add_circle_outline",
             url=reverse_lazy("shifts:create_shift"),
         )
+
+    shifts_group.add_link(
+        display_name=_("Shift statistics"),
+        material_icon="calculate",
+        url=reverse_lazy("shifts:statistics"),
+    )
 
     if request.user.has_perm("shifts.manage") and FinancingCampaign.objects.exists():
         campaign_group = SidebarLinkGroup(name=_("Financing campaign"))
