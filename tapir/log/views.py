@@ -75,27 +75,19 @@ class LogTable(django_tables2.Table):
 
 
 class LogFilter(django_filters.FilterSet):
-    def __init__(self, *args, **kwargs):
-        """
-        Actors for ChoiceFilter
-        """
-        super().__init__(*args, **kwargs)
-        try:
-            self.filters["actor"].extra["choices"] = [
-                (
-                    TapirUser.objects.get(pk=x).id,
-                    TapirUser.objects.get(pk=x).get_display_name(),
-                )
-                for x in LogEntry.objects.all()
-                .values_list("actor", flat=True)
-                .distinct()
-                if x is not None
-            ]
-        except (KeyError, AttributeError):
-            pass
 
     time = DateRangeFilter(field_name="created_date")
-    actor = django_filters.ChoiceFilter(choices=[], label=_("Actor"))
+    actor = django_filters.ChoiceFilter(
+        choices=[
+            (
+                TapirUser.objects.get(pk=x).id,
+                TapirUser.objects.get(pk=x).get_display_name(),
+            )
+            for x in LogEntry.objects.all().values_list("actor", flat=True).distinct()
+            if x is not None
+        ],
+        label=_("Actor"),
+    )
 
     class Meta:
         model = LogEntry
