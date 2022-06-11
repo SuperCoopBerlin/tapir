@@ -16,22 +16,25 @@ from tapir.coop.models import (
 )
 
 
-class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
+class StatisticsView(LoginRequiredMixin, generic.TemplateView):
     template_name = "coop/statistics.html"
-    permission_required = "coop.manage"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         active_members = ShareOwner.objects.with_status(MemberStatus.ACTIVE)
-        active_users = TapirUser.objects.filter(share_owner__in=active_members)
+        investing_members = ShareOwner.objects.with_status(MemberStatus.INVESTING)
+        context["members_count"] = active_members.count() + investing_members.count()
 
-        context["active_members"] = active_members.order_by("id")
-        context["active_users"] = active_users.order_by("id")
-        context["members_missing_accounts"] = active_members.filter(user=None).order_by(
-            "id"
-        )
-        context["applicants"] = DraftUser.objects.order_by("id")
+        context["active_members_count"] = active_members.count()
+        context["investing_members_count"] = investing_members.count()
+        context["active_users_count"] = TapirUser.objects.filter(
+            share_owner__in=active_members
+        ).count()
+        context["members_missing_accounts_count"] = active_members.filter(
+            user=None
+        ).count()
+        context["applicants_count"] = DraftUser.objects.count()
 
         context["shares"] = self.get_shares_context()
         context["extra_shares"] = self.get_extra_shares_context()
@@ -48,17 +51,19 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
         end_date = timezone.now().date()
         end_date = datetime.date(day=1, month=end_date.month, year=end_date.year)
         context["nb_shares_by_month"] = dict()
-        current_date = start_date
-        while current_date <= end_date:
+        current_date = end_date
+        while current_date >= start_date:
             context["nb_shares_by_month"][
                 current_date
             ] = ShareOwnership.objects.active_temporal(current_date).count()
-            if current_date.month < 12:
+            if current_date.month > 1:
                 current_date = datetime.date(
-                    day=1, month=current_date.month + 1, year=current_date.year
+                    day=1, month=current_date.month - 1, year=current_date.year
                 )
             else:
-                current_date = datetime.date(day=1, month=1, year=current_date.year + 1)
+                current_date = datetime.date(
+                    day=1, month=12, year=current_date.year - 1
+                )
 
         nb_months_since_start = (
             (datetime.date.today().year - start_date.year) * 12
@@ -72,8 +77,7 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
 
         return context
 
-    @staticmethod
-    def get_extra_shares_context():
+    def get_extra_shares_context(self):
         context = dict()
         threshold_date = datetime.date(day=1, month=1, year=2022)
         first_shares = [
@@ -90,10 +94,16 @@ class StatisticsView(PermissionRequiredMixin, generic.TemplateView):
 
         context["threshold_date"] = threshold_date
         context["share_count"] = extra_shares.count()
-        context["members"] = ShareOwner.objects.filter(
+        members_who_bought_extra_shares = ShareOwner.objects.filter(
             share_ownerships__in=extra_shares
         ).distinct()
-        members_count = context["members"].count() if context["members"].exists() else 1
+        if self.request.user.has_perm("coop.view"):
+            context["members"] = members_who_bought_extra_shares
+        members_count = (
+            members_who_bought_extra_shares.count()
+            if members_who_bought_extra_shares.exists()
+            else 1
+        )
         context["average_extra_shares"] = "{:.2f}".format(
             extra_shares.count() / members_count
         )

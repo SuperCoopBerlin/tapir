@@ -42,11 +42,6 @@ def get_sidebar_link_groups(request):
             material_icon="card_giftcard",
             url=reverse_lazy("coop:matching_program_list"),
         )
-        coop_group.add_link(
-            display_name=_("Statistics"),
-            material_icon="calculate",
-            url=reverse_lazy("coop:statistics"),
-        )
         groups.append(coop_group)
 
     if request.user.has_perm("welcomedesk.view"):
@@ -106,12 +101,6 @@ def get_sidebar_link_groups(request):
             url=reverse_lazy("shifts:create_shift"),
         )
 
-    shifts_group.add_link(
-        display_name=_("Shift statistics"),
-        material_icon="calculate",
-        url=reverse_lazy("shifts:statistics"),
-    )
-
     if request.user.has_perm("shifts.manage") and FinancingCampaign.objects.exists():
         campaign_group = SidebarLinkGroup(name=_("Financing campaign"))
         groups.append(campaign_group)
@@ -143,6 +132,16 @@ def get_sidebar_link_groups(request):
         display_name=_("Contact the member office"),
         material_icon="email",
         url="mailto:mitglied@supercoop.de",
+    )
+    misc_group.add_link(
+        display_name=_("Coop statistics"),
+        material_icon="calculate",
+        url=reverse_lazy("coop:statistics"),
+    )
+    misc_group.add_link(
+        display_name=_("Shift statistics"),
+        material_icon="calculate",
+        url=reverse_lazy("shifts:statistics"),
     )
     misc_group.add_link(
         display_name=_("About tapir"),
