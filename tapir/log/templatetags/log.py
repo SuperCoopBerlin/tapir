@@ -1,6 +1,6 @@
 from django import template
 from django.urls import reverse
-
+from datetime import datetime, timedelta
 from tapir.log.models import LogEntry
 
 register = template.Library()
@@ -12,7 +12,12 @@ def log_entry_list(context, **kwargs):
     if not any(key in kwargs for key in ("user", "sharewoner")) or len(kwargs) > 1:
         raise ValueError
 
-    raw_entries = LogEntry.objects.filter(**kwargs).order_by("-created_date")
+    last_x_days = 30  # TODO (Frederik) this should be in some config file IMO
+    raw_entries = LogEntry.objects.filter(
+        **kwargs,
+        created_date__gte=datetime.now()
+        - timedelta(days=last_x_days),  # show only the last x days
+    ).order_by("-created_date")
     log_entries = [entry.as_leaf_class() for entry in raw_entries]
     context["log_entries"] = log_entries
 
