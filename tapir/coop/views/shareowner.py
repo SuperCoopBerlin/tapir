@@ -441,46 +441,50 @@ class ShareOwnerFilter(django_filters.FilterSet):
         if value.isdigit():
             return queryset.filter(id=int(value))
 
-        return queryset.with_name(value)
+        return queryset.with_name(value).distinct()
 
     def status_filter(self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
-        return queryset.with_status(value)
+        return queryset.with_status(value).distinct()
 
     def shift_attendance_mode_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
         return queryset.filter(
             user__in=TapirUser.objects.with_shift_attendance_mode(value)
-        )
+        ).distinct()
 
     def registered_to_slot_with_capability_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
         return queryset.filter(
             user__in=TapirUser.objects.registered_to_shift_slot_with_capability(value)
-        )
+        ).distinct()
 
     def has_capability_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
-        return queryset.filter(user__in=TapirUser.objects.has_capability(value))
+        return queryset.filter(
+            user__in=TapirUser.objects.has_capability(value)
+        ).distinct()
 
     def not_has_capability_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
-        return queryset.exclude(user__in=TapirUser.objects.has_capability(value))
+        return queryset.exclude(
+            user__in=TapirUser.objects.has_capability(value)
+        ).distinct()
 
     def has_tapir_account_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
     ):
-        return queryset.exclude(user__isnull=value)
+        return queryset.exclude(user__isnull=value).distinct()
 
     def abcd_week_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
         return queryset.filter(
             user__shift_attendance_templates__slot_template__shift_template__group__name=value
-        )
+        ).distinct()
 
     def has_unpaid_shares_filter(
         self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
@@ -490,9 +494,9 @@ class ShareOwnerFilter(django_filters.FilterSet):
         )
 
         if value:
-            return queryset.filter(share_ownerships__in=unpaid_shares)
+            return queryset.filter(share_ownerships__in=unpaid_shares).distinct()
         else:
-            return queryset.exclude(share_ownerships__in=unpaid_shares)
+            return queryset.exclude(share_ownerships__in=unpaid_shares).distinct()
 
 
 class ShareOwnerListView(
