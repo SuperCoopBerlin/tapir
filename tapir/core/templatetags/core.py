@@ -42,6 +42,11 @@ def get_sidebar_link_groups(request):
             material_icon="card_giftcard",
             url=reverse_lazy("coop:matching_program_list"),
         )
+        coop_group.add_link(
+            display_name=_("Incoming payments"),
+            material_icon="euro",
+            url=reverse_lazy("coop:incoming_payment_list"),
+        )
         groups.append(coop_group)
 
     if request.user.has_perm("welcomedesk.view"):

@@ -80,8 +80,8 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
 
     def get_queryset(self):
         queryset = IncomingPayment.objects.all()
-        logged_in_share_owner = self.request.user.share_owner
         if not self.request.user.has_perm("coop.view"):
+            logged_in_share_owner = self.request.user.share_owner
             return queryset.filter(
                 paying_member=logged_in_share_owner,
                 credited_member=logged_in_share_owner,
