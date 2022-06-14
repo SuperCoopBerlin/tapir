@@ -1,7 +1,8 @@
 import django_filters
 import django_tables2
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.html import format_html
 from django.views import generic
 from django_filters.views import FilterView
@@ -52,7 +53,7 @@ class IncomingPaymentTable(django_tables2.Table):
         return record.payment_date.strftime("%d.%m.%Y")
 
     def render_creation_date(self, value, record: IncomingPayment):
-        return record.payment_date.strftime("%d.%m.%Y")
+        return record.creation_date.strftime("%d.%m.%Y")
 
 
 class IncomingPaymentFilter(django_filters.FilterSet):
@@ -70,13 +71,27 @@ class IncomingPaymentFilter(django_filters.FilterSet):
         }  # TODO Théo 06.06.22 : find out how to set widgets in filter forms
 
 
-class IncomingPaymentListView(PermissionRequiredMixin, FilterView, SingleTableView):
+class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
     table_class = IncomingPaymentTable
     model = IncomingPayment
     template_name = "coop/incoming_payment_list.html"
-    permission_required = "coop.manage"
 
     filterset_class = IncomingPaymentFilter
+
+    def get_queryset(self):
+        queryset = IncomingPayment.objects.all()
+        logged_in_share_owner = self.request.user.share_owner
+        if not self.request.user.has_perm("coop.view"):
+            return queryset.filter(
+                paying_member=logged_in_share_owner,
+                credited_member=logged_in_share_owner,
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["enable_filter"] = self.request.user.has_perm("coop.view")
+        return context_data
 
 
 class IncomingPaymentCreateView(PermissionRequiredMixin, generic.CreateView):
@@ -86,3 +101,10 @@ class IncomingPaymentCreateView(PermissionRequiredMixin, generic.CreateView):
 
     def get_success_url(self):
         return reverse("coop:incoming_payment_list")
+
+    def form_valid(self, form):
+        payment: IncomingPayment = form.instance
+        payment.creation_date = timezone.now().date()
+        payment.created_by = self.request.user
+        payment.save()
+        return super().form_valid(form)

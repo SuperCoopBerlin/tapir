@@ -14,7 +14,7 @@ from tapir.coop.models import (
 )
 from tapir.coop.pdfs import get_membership_agreement_pdf
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
-from tapir.shifts.forms import TapirUserChoiceField, ShareOwnerChoiceField
+from tapir.shifts.forms import ShareOwnerChoiceField
 from tapir.utils.forms import DateInput, TapirPhoneNumberField
 
 
@@ -210,9 +210,7 @@ class IncomingPaymentForm(forms.ModelForm):
             "credited_member",
             "amount",
             "payment_date",
-            "creation_date",
             "comment",
-            "created_by",
         ]
         widgets = {
             "payment_date": DateInput(),
@@ -221,4 +219,3 @@ class IncomingPaymentForm(forms.ModelForm):
 
     paying_member = ShareOwnerChoiceField()
     credited_member = ShareOwnerChoiceField()
-    created_by = TapirUserChoiceField()
