@@ -7,6 +7,7 @@ Tapir [has a trunk](https://www.youtube.com/watch?v=JgwBecM_E6Q), but not quite 
 [but not quite as badass as the other
 animals](https://www.youtube.com/watch?v=zJm6nDnR2SE). Let's teach Tapir some tricks!
 
+This project is licensed under the terms of the [AGPL license](LICENSE.md).
 ## Getting started
 
     docker-compose up

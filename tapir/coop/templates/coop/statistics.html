@@ -28,15 +28,16 @@
             </h5>
             <div class="card-body">
                 <ul>
-                    <li>Out of <a href="#" onclick="show_card('active_members_card')">{{ active_members|length }} active
-                        members</a>, <a href="#" onclick="show_card('active_users_card')">{{ active_users|length }}
-                        members</a> have a Tapir account. <a href="#"
-                                                             onclick="show_card('members_missing_account_card')">{{ members_missing_accounts|length }}
-                        users</a> are missing an account.
+                    <li>There are currently {{ members_count }} members in total.
+                        <ul>
+                            <li>{{ active_members_count }} active members.</li>
+                            <li>{{ investing_members_count }} investing members.</li>
+                        </ul>
                     </li>
-                    <li><a href="#" onclick="show_card('applicants_card')">{{ applicants|length }} applicants</a> are
-                        waiting to become members.
+                    <li>Out of {{ active_members_count }} active members, {{ active_users_count }} members have a Tapir
+                        account. {{ members_missing_accounts|length }} users are missing an account.
                     </li>
+                    <li>{{ applicants_count }} applicants are waiting to become members.</li>
                 </ul>
             </div>
         </div>
@@ -63,9 +64,14 @@
                             </li>
                             <li>
                                 Since the {{ extra_shares.threshold_date|date:"d.m.Y" }},
-                                <a href="#" onclick="show_card('extra_share_owners')">
+                                {% if perms.coop.view %}
+                                    <a href="#" onclick="show_card('extra_share_owners')">
+                                        {{ extra_shares.share_count }} extra shares
+                                    </a>
+                                {% else %}
                                     {{ extra_shares.share_count }} extra shares
-                                </a> have been bought.
+                                {% endif %}
+                                have been bought.
                             </li>
                             <li>
                                 These extra shares have been bought by {{ extra_shares.members|length }} members,
@@ -88,78 +94,29 @@
             </h5>
             <div class="card-body">
                 <ul>
+                    <li>{% now "d.m.Y" %}: {{ shares.nb_share_ownerships_now }} </li>
                     {% for date, number in shares.nb_shares_by_month.items %}
                         <li>{{ date|date:"d.m.Y" }}: {{ number }}</li>
                     {% endfor %}
-                    <li>{% now "d.m.Y" %}: {{ shares.nb_share_ownerships_now }} </li>
                 </ul>
             </div>
         </div>
 
-        <div class="card m-2 statistics-toggle-card" id="active_members_card">
-            <h5 class="card-header">
-                <span>{% translate "Active members" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    {% for member in active_members %}
-                        <li><a href="{{ member.get_absolute_url }}">{{ member.get_info.get_display_name }}</a></li>
-                    {% endfor %}
-                </ul>
+        {% if perms.coop.view %}
+            <div class="card m-2 statistics-toggle-card" id="extra_share_owners">
+                <h5 class="card-header">
+                    <span>{% translate "Members who bought extra shares" %}</span>
+                </h5>
+                <div class="card-body">
+                    <ul>
+                        {% for owner in extra_shares.members %}
+                            <li>
+                                <a href="{{ owner.get_info.get_absolute_url }}">{{ owner.get_info.get_display_name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        </div>
-
-        <div class="card m-2 statistics-toggle-card" id="active_users_card">
-            <h5 class="card-header">
-                <span>{% translate "Active members with a Tapir account" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    {% for user in active_users %}
-                        <li><a href="{{ user.get_absolute_url }}">{{ user.get_display_name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <div class="card m-2 statistics-toggle-card" id="members_missing_account_card">
-            <h5 class="card-header">
-                <span>{% translate "Active members without a Tapir account" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    {% for member in members_missing_accounts %}
-                        <li><a href="{{ member.get_absolute_url }}">{{ member.get_info.get_display_name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <div class="card m-2 statistics-toggle-card" id="applicants_card">
-            <h5 class="card-header">
-                <span>{% translate "Applicants" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    {% for applicant in applicants %}
-                        <li><a href="{{ applicant.get_absolute_url }}">{{ applicant.get_display_name }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        <div class="card m-2 statistics-toggle-card" id="extra_share_owners">
-            <h5 class="card-header">
-                <span>{% translate "Members who bought extra shares" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    {% for owner in extra_shares.members %}
-                        <li><a href="{{ owner.get_info.get_absolute_url }}">{{ owner.get_info.get_display_name }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}

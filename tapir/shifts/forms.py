@@ -25,10 +25,39 @@ from tapir.utils.forms import DateInput
 class ShiftCreateForm(forms.ModelForm):
     class Meta:
         model = Shift
-        fields = ["name", "start_time", "end_time"]
+        fields = [
+            "name",
+            "start_time",
+            "end_time",
+            "num_required_attendances",
+            "description",
+        ]
         widgets = {
             "start_time": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"}),
             "end_time": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"}),
+        }
+
+    def clean_end_time(self):
+        if self.cleaned_data["end_time"] <= self.cleaned_data["start_time"]:
+            raise ValidationError(
+                _("The shift must end after it starts."),
+                code="invalid",
+            )
+
+        return self.cleaned_data["end_time"]
+
+
+class ShiftSlotForm(forms.ModelForm):
+    class Meta:
+        model = ShiftSlot
+        fields = ["name", "required_capabilities", "warnings"]
+        widgets = {
+            "required_capabilities": forms.widgets.CheckboxSelectMultiple(
+                choices=SHIFT_USER_CAPABILITY_CHOICES.items()
+            ),
+            "warnings": forms.widgets.CheckboxSelectMultiple(
+                choices=SHIFT_SLOT_WARNING_CHOICES.items()
+            ),
         }
 
 

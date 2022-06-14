@@ -13,14 +13,13 @@
     <div class="container">
         <div class="card m-2" id="shift_form_card">
             <h5 class="card-header d-flex justify-content-between align-items-center">
-                {{ card_title }}
+                {% translate "Add a slot to " %}{{ shift_name }}
             </h5>
             <ul class="list-group list-group-flush">
                 {% if not form.instance.pk %}
                     <li class="list-group-item">
                         {% blocktranslate %}
-                            <p>Be careful when creating a shift, as you won't be able to delete it afterwards.</p>
-                            <p>Slots can be added to the shift after it has been created.</p>
+                            Be careful when creating a shift slot, as you won't be able to delete it afterwards.
                         {% endblocktranslate %}
                     </li>
                 {% endif %}
@@ -29,7 +28,7 @@
                         {% csrf_token %}
                         {% bootstrap_form form %}
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn tapir-btn btn-primary" id="shift_save_button">
+                            <button type="submit" class="btn tapir-btn btn-primary">
                                 <span class="material-icons">save</span>
                                 {% translate 'Save' %}
                             </button>

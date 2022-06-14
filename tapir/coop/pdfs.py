@@ -2,8 +2,9 @@ import weasyprint
 from django.conf import settings
 from django.template.loader import render_to_string
 from django_weasyprint.utils import django_url_fetcher
+from weasyprint.text.fonts import FontConfiguration
 
-_WEASYPRINT_FONT_CONFIG = weasyprint.fonts.FontConfiguration()
+_WEASYPRINT_FONT_CONFIG = FontConfiguration()
 
 
 def get_shareowner_membership_confirmation_pdf(owner):

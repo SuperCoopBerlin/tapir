@@ -26,19 +26,22 @@
                 <span id="shift_card_title">Shift: {{ shift.get_display_name }}</span>
                 {% if perms.shifts.manage %}
                     <span>
-                    <a class="btn tapir-btn btn-outline-secondary"
-                       href="{% url "shifts:shift_detail_printable" shift.pk %}">
-                        <span class="material-icons">print</span>{% translate 'Get printable version' %}
-                    </a>
-                    <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:shift_edit" shift.pk %}"
-                       id="shift_edit_button">
-                        <span class="material-icons">edit</span>{% translate 'Edit' %}
-                    </a>
-                    {% if not shift.cancelled %}
-                        <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:cancel_shift" shift.pk %}">
-                            <span class="material-icons">cancel</span>{% translate 'Cancel' %}
+                        <a class="btn tapir-btn btn-outline-secondary"
+                           href="{% url "shifts:shift_detail_printable" shift.pk %}">
+                            <span class="material-icons">print</span>{% translate 'Get printable version' %}
                         </a>
-                    {% endif %}
+                        <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:create_slot" shift.pk %}">
+                            <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
+                        </a>
+                        <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:shift_edit" shift.pk %}"
+                           id="shift_edit_button">
+                            <span class="material-icons">edit</span>{% translate 'Edit' %}
+                        </a>
+                        {% if not shift.cancelled %}
+                            <a class="btn tapir-btn btn-outline-info" href="{% url "shifts:cancel_shift" shift.pk %}">
+                                <span class="material-icons">cancel</span>{% translate 'Cancel' %}
+                            </a>
+                        {% endif %}
                     </span>
                 {% endif %}
             </h5>
@@ -102,7 +105,7 @@
                                     <td><span class="shift-centered-content">{% translate "Vacant" %}</span></td>
                                     <td></td>
                                 {% endif %}
-                            <!-- Actions -->
+                                <!-- Actions -->
                                 <td><span class="shift-centered-content">
                                     {% if attendance.user == request.user %}
                                         {% if attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
@@ -188,15 +191,20 @@
                                 </span></td>
                             {% endwith %}
                             <!-- Requirements -->
-                            {% for key, value in slot.get_required_capabilities_dict.items %}
-                                {% if key in request.user.shift_user_data.capabilities %}
-                                    <td><span class="d-flex align-items-center"><span class="material-icons">check</span><span>{{ value }}</span></span></td>
-                                {% else %}
-                                     <td><span class="d-flex align-items-center"><span class="material-icons">close</span><span>{{ value }}</span></span></td>
-                                {% endif %}
+                            <td>
+                                {% for key, value in slot.get_required_capabilities_dict.items %}
+                                    {% if key in request.user.shift_user_data.capabilities %}
+                                        <span class="d-flex align-items-center"><span
+                                                class="material-icons">check</span><span>{{ value }}</span></span>
+                                    {% else %}
+                                        <span class="d-flex align-items-center"><span
+                                                class="material-icons">close</span><span>{{ value }}</span></span>
+                                    {% endif %}
                                 {% empty %}
-                                    <td><span class="d-flex align-items-center"><span class="material-icons">check</span><span></span></span></td>
-                            {% endfor %}
+                                    <span class="d-flex align-items-center"><span
+                                            class="material-icons">check</span><span></span></span>
+                                {% endfor %}
+                            </td>
                             <!-- Member-Office actions -->
                             {% if perms.shifts.manage %}
                                 <td><span class="shift-centered-content">
@@ -263,7 +271,12 @@
                                                 </form>
                                             {% endif %}
                                         {% endwith %}
-                                    {% endif %}</span>
+                                    {% endif %}
+                                    <a class="btn tapir-btn btn-outline-info"
+                                       href="{% url "shifts:edit_slot" slot.pk %}">
+                                        <span class="material-icons">edit</span>{% translate 'Edit slot' %}
+                                    </a>
+                                </span>
                                 </td>
                                 <td><span class="shift-centered-content">
                                     {% for previous_attendance in slot.previous_attendances %}
