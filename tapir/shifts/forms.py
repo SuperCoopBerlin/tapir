@@ -19,7 +19,7 @@ from tapir.shifts.models import (
     ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
 )
-from tapir.utils.forms import DateInput
+from tapir.utils.forms import DateInputTapir
 
 
 class ShiftCreateForm(forms.ModelForm):
@@ -233,8 +233,8 @@ class ShiftExemptionForm(forms.ModelForm):
         model = ShiftExemption
         fields = ["start_date", "end_date", "description"]
         widgets = {
-            "start_date": DateInput(),
-            "end_date": DateInput(),
+            "start_date": DateInputTapir(),
+            "end_date": DateInputTapir(),
         }
 
     confirm_cancelled_attendances = BooleanField(

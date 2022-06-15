@@ -10,7 +10,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 
 
-class DateInput(forms.DateInput):
+class DateInputTapir(forms.DateInput):
     input_type = "date"
 
     def format_value(self, value: date):
@@ -34,7 +34,7 @@ class DateRangeWidgetTapir(DateRangeWidget):
     suffixes = ["after", "before"]
 
     def __init__(self, attrs=None):
-        widgets = (DateInput, DateInput)
+        widgets = (DateInputTapir, DateInputTapir)
         super(SuffixedMultiWidget, self).__init__(widgets, attrs)
 
 

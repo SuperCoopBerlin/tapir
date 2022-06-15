@@ -3,7 +3,7 @@ from django.contrib.auth import forms as auth_forms
 from django.forms import TextInput
 
 from tapir.accounts.models import TapirUser
-from tapir.utils.forms import DateInput, TapirPhoneNumberField
+from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
 class TapirUserForm(forms.ModelForm):
@@ -26,7 +26,7 @@ class TapirUserForm(forms.ModelForm):
             "co_purchaser",
         ]
         widgets = {
-            "birthdate": DateInput(),
+            "birthdate": DateInputTapir(),
             "username": TextInput(attrs={"readonly": True}),
         }
 

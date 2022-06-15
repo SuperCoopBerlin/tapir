@@ -15,7 +15,7 @@ from tapir.coop.models import (
 from tapir.coop.pdfs import get_membership_agreement_pdf
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.forms import ShareOwnerChoiceField
-from tapir.utils.forms import DateInput, TapirPhoneNumberField
+from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
 class ShareOwnershipForm(forms.ModelForm):
@@ -27,8 +27,8 @@ class ShareOwnershipForm(forms.ModelForm):
             "amount_paid",
         ]
         widgets = {
-            "start_date": DateInput(),
-            "end_date": DateInput(),
+            "start_date": DateInputTapir(),
+            "end_date": DateInputTapir(),
         }
 
 
@@ -58,7 +58,7 @@ class DraftUserForm(forms.ModelForm):
             "num_shares",
         ]
         widgets = {
-            "birthdate": DateInput(),
+            "birthdate": DateInputTapir(),
         }
 
 
@@ -128,7 +128,7 @@ class DraftUserRegisterForm(forms.ModelForm):
             "country",
             "preferred_language",
         ]
-        widgets = {"birthdate": DateInput()}
+        widgets = {"birthdate": DateInputTapir()}
 
 
 class ShareOwnerForm(forms.ModelForm):
@@ -154,8 +154,8 @@ class ShareOwnerForm(forms.ModelForm):
             "willing_to_gift_a_share",
         ]
         widgets = {
-            "birthdate": DateInput(),
-            "willing_to_gift_a_share": DateInput(),
+            "birthdate": DateInputTapir(),
+            "willing_to_gift_a_share": DateInputTapir(),
         }
 
     def __init__(self, *args, **kwargs):
@@ -213,8 +213,8 @@ class IncomingPaymentForm(forms.ModelForm):
             "comment",
         ]
         widgets = {
-            "payment_date": DateInput(),
-            "creation_date": DateInput(),
+            "payment_date": DateInputTapir(),
+            "creation_date": DateInputTapir(),
         }
 
     paying_member = ShareOwnerChoiceField()
