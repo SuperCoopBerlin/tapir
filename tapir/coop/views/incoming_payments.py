@@ -10,7 +10,7 @@ from django_tables2 import SingleTableView
 
 from tapir.coop.forms import IncomingPaymentForm
 from tapir.coop.models import IncomingPayment
-from tapir.utils.forms import DateInput
+from tapir.utils.forms import DateFromToRangeFilterTapir
 
 
 class IncomingPaymentTable(django_tables2.Table):
@@ -63,12 +63,14 @@ class IncomingPaymentFilter(django_filters.FilterSet):
             "paying_member",
             "credited_member",
             "created_by",
-            "payment_date",  # TODO Théo 04.06.22 : use from/to date instead of an exact one
-            "creation_date",
         ]
-        widgets = {
-            "payment_date": DateInput()
-        }  # TODO Théo 06.06.22 : find out how to set widgets in filter forms
+
+    payment_date = DateFromToRangeFilterTapir(
+        field_name="payment_date",
+    )
+    creation_date = DateFromToRangeFilterTapir(
+        field_name="creation_date",
+    )
 
 
 class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
