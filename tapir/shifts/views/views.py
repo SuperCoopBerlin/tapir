@@ -7,6 +7,7 @@ from django.db import transaction
 from django.db.models import Sum
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
+from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
@@ -68,7 +69,11 @@ class EditShiftUserDataView(PermissionRequiredMixin, UpdateView):
 
 
 def get_shift_slot_names():
-    shift_slot_names = ShiftSlot.objects.values_list("name", flat=True).distinct()
+    shift_slot_names = (
+        ShiftSlot.objects.filter(shift__start_time__gt=timezone.now())
+        .values_list("name", flat=True)
+        .distinct()
+    )
     shift_slot_names = [
         (shift_name_as_class(name), _(name)) for name in shift_slot_names if name != ""
     ]
