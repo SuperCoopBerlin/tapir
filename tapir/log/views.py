@@ -68,14 +68,37 @@ class LogTable(django_tables2.Table):
     class Meta:
         model = LogEntry
         template_name = "django_tables2/bootstrap.html"
-        fields = ["created_date", "actor", "entry"]
+        fields = ["created_date", "actor", "user", "entry"]
 
     def render_actor(self, value):
         return "%s" % value.get_display_name()
 
 
 class LogFilter(django_filters.FilterSet):
+    def __init__(self, user=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.request.user.has_perm("coop.view"):
+            userfield_choices = [
+                (
+                    TapirUser.objects.get(username=self.request.user).id,
+                    self.request.user,
+                )
+            ]
+        else:
+            userfield_choices = [
+                (
+                    TapirUser.objects.get(pk=x).id,
+                    TapirUser.objects.get(pk=x).get_display_name(),
+                )
+                for x in LogEntry.objects.all()
+                .values_list("user", flat=True)
+                .distinct()
+                if x is not None
+            ]
+        # First Method
+        self.filters["user"].extra["choices"] = userfield_choices
 
+    user = django_filters.ChoiceFilter(choices=[])  # choices depend on request
     time = DateRangeFilter(field_name="created_date")
     actor = django_filters.ChoiceFilter(
         choices=[
@@ -91,7 +114,7 @@ class LogFilter(django_filters.FilterSet):
 
     class Meta:
         model = LogEntry
-        fields = ["time", "actor"]
+        fields = ["time", "actor", "user"]
 
 
 class LogTableView(SingleTableMixin, FilterView):
@@ -100,3 +123,9 @@ class LogTableView(SingleTableMixin, FilterView):
     template_name = "log/log_overview.html"
 
     filterset_class = LogFilter
+
+    def get_queryset(self):
+        queryset = LogEntry.objects.all()
+        if not self.request.user.has_perm("coop.view"):
+            return queryset.filter(user=self.request.user)
+        return queryset
