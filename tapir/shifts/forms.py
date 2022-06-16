@@ -68,10 +68,10 @@ class ShiftSlotForm(forms.ModelForm):
 class TapirUserChoiceField(ModelChoiceField):
     widget = Select2Widget()
 
-    def __init__(self):
-        # Super edgecase but filer out just to be sure
-        # TODO(Leon Handreke): Filter out inactive when we can do it efficiently
-        super().__init__(queryset=TapirUser.objects.filter(share_owner__isnull=False))
+    def __init__(
+        self, queryset=TapirUser.objects.filter(share_owner__isnull=False), **kwargs
+    ):
+        super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: TapirUser):
         # Share Owner will always exist because we filter out all others above
@@ -81,13 +81,10 @@ class TapirUserChoiceField(ModelChoiceField):
 class ShareOwnerChoiceField(ModelChoiceField):
     widget = Select2Widget()
 
-    def __init__(self):
-        # Super edgecase but filer out just to be sure
-        # TODO(Leon Handreke): Filter out inactive when we can do it efficiently
-        super().__init__(queryset=ShareOwner.objects.all())
+    def __init__(self, queryset=ShareOwner.objects.all(), **kwargs):
+        super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: ShareOwner):
-        # Share Owner will always exist because we filter out all others above
         return f"{obj.get_info().first_name} {obj.get_info().last_name} ({obj.id})"
 
 

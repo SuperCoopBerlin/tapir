@@ -10,6 +10,7 @@ from django_tables2 import SingleTableView
 
 from tapir.coop.forms import IncomingPaymentForm
 from tapir.coop.models import IncomingPayment
+from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
 
 
@@ -59,11 +60,7 @@ class IncomingPaymentTable(django_tables2.Table):
 class IncomingPaymentFilter(django_filters.FilterSet):
     class Meta:
         model = IncomingPayment
-        fields = [
-            "paying_member",
-            "credited_member",
-            "created_by",
-        ]
+        fields = []
 
     payment_date = DateFromToRangeFilterTapir(
         field_name="payment_date",
@@ -71,6 +68,10 @@ class IncomingPaymentFilter(django_filters.FilterSet):
     creation_date = DateFromToRangeFilterTapir(
         field_name="creation_date",
     )
+
+    paying_member = ShareOwnerModelChoiceFilter()
+    credited_member = ShareOwnerModelChoiceFilter()
+    created_by = TapirUserModelChoiceFilter()
 
 
 class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
