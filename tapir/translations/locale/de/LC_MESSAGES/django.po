@@ -918,7 +918,7 @@ msgstr "Mitglied"
 #: coop/views/shareowner.py:238
 #, python-format
 msgid "Confirmation of the investing membership at %(organisation_name)s!"
-msgstr "Bestätigung der Fördernitgliedschaft bei %(organisation_name)s!"
+msgstr "Bestätigung der Fördermitgliedschaft bei %(organisation_name)s!"
 
 #: coop/views/shareowner.py:270
 msgid "Welcome email with membership confirmation sent."

@@ -34,7 +34,7 @@
 
 <div style="margin-top: 10mm; line-height: 1.8rem;">
     <div style="display: flex; justify-content: flex-end">Berlin, {% now "j. F Y" %}</div>
-    <div style="margin-top: 8mm; font-weight: bold">Bestätigung der Mitgliedschaft bei SuperCoop Berlin eG</div>
+    <div style="margin-top: 8mm; font-weight: bold">Bestätigung der {% if owner.is_investing %}Fördermitgliedschaft{% else %}Mitgliedschaft{% endif %} bei SuperCoop Berlin eG</div>
 
     <p>Liebe*r {{ owner.get_info.get_display_name }},</p>
 
