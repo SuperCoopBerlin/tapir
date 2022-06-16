@@ -221,16 +221,24 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
             "coop/email/membership_confirmation_welcome_investing.html",
             "coop/email/membership_confirmation_welcome_investing.default.html",
         ]
+        subject = f"Bestätigung der Fördernitgliedschaft bei {settings.COOP_NAME}"
     else:
         template_names = [
             "coop/email/membership_confirmation_welcome.html",
             "coop/email/membership_confirmation_welcome.default.html",
         ]
+        subject = "Welcome at %(organisation_name)s!"
 
     with translation.override(owner.get_info().preferred_language):
+        subject = _("Welcome at %(organisation_name)s!") % {
+            "organisation_name": settings.COOP_NAME
+        }
+        if owner.is_investing:
+            subject = _(
+                "Confirmation of the investing membership at %(organisation_name)s!"
+            ) % {"organisation_name": settings.COOP_NAME}
         mail = EmailMessage(
-            subject=_("Welcome at %(organisation_name)s!")
-            % {"organisation_name": settings.COOP_NAME},
+            subject=subject,
             body=render_to_string(template_names, {"owner": owner}),
             from_email=FROM_EMAIL_MEMBER_OFFICE,
             to=[owner.get_info().email],
