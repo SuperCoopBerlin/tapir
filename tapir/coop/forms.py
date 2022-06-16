@@ -1,5 +1,7 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
+from django.forms import DateField, IntegerField
 from django.template.loader import render_to_string
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
@@ -30,6 +32,36 @@ class ShareOwnershipForm(forms.ModelForm):
             "start_date": DateInputTapir(),
             "end_date": DateInputTapir(),
         }
+
+
+class ShareOwnershipCreateMultipleForm(forms.Form):
+    start_date = DateField(
+        label=_("Start date"),
+        required=True,
+        widget=DateInputTapir,
+        help_text=_(
+            "Usually, the date on the membership agreement, or today. "
+            "In the case of sold or gifted shares, can be set in the future."
+        ),
+    )
+    end_date = DateField(
+        label=_("End date"),
+        required=False,
+        widget=DateInputTapir,
+        help_text=_(
+            "Usually left empty. "
+            "Can be set to a point in the future "
+            "if it is already known that the shares will be transferred to another member in the future."
+        ),
+    )
+    num_shares = IntegerField(
+        label=_("Number of shares to create"), required=True, min_value=1
+    )
+
+    def clean_end_date(self):
+        if self.cleaned_data["end_date"] < self.cleaned_data["start_date"]:
+            raise ValidationError(_("The end date must be later than the start date."))
+        return self.cleaned_data["end_date"]
 
 
 class DraftUserForm(forms.ModelForm):

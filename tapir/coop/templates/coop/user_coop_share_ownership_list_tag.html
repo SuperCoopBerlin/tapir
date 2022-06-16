@@ -105,7 +105,7 @@
                                         <span class="text-warning">{% translate "Waiting payment" %} ({{ o.amount_paid }}€)</span>
                                     {% endif %}
                                 {% else %}
-                                    <span class="text-danger">{% translate "Sold" %}</span>
+                                    <span class="text-danger">{% translate "Sold or future" %}</span>
                                 {% endif %}
                             </td>
                             {% if perms.coop.manage %}
@@ -150,9 +150,9 @@
                 </table>
                 {% if perms.accounts.manage %}
                     <div class="d-flex justify-content-end">
-                        <a class="ml-auto btn tapir-btn btn-outline-info" href="{% url "coop:share_create" owner.pk %}">
+                        <a class="ml-auto btn tapir-btn btn-outline-info" href="{% url "coop:share_create_multiple" owner.pk %}">
                             <span class="material-icons">add</span>
-                            {% translate "Add Share" %}
+                            {% translate "Add Shares" %}
                         </a>
                     </div>
                 {% endif %}

@@ -1,5 +1,4 @@
 import csv
-from datetime import date
 
 import django_filters
 import django_tables2
@@ -18,7 +17,7 @@ from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
-from django.views.generic import UpdateView, CreateView
+from django.views.generic import UpdateView, FormView
 from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
@@ -31,6 +30,7 @@ from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
+    ShareOwnershipCreateMultipleForm,
 )
 from tapir.coop.models import (
     ShareOwnership,
@@ -69,20 +69,35 @@ class ShareOwnershipUpdateView(
     permission_required = "coop.manage"
 
 
-class ShareOwnershipCreateView(
-    PermissionRequiredMixin, ShareOwnershipViewMixin, CreateView
-):
+class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
+    form_class = ShareOwnershipCreateMultipleForm
     permission_required = "coop.manage"
+    template_name = "core/generic_form.html"
 
-    def get_initial(self):
-        return {"start_date": date.today()}
-
-    def _get_share_owner(self):
+    def get_share_owner(self) -> ShareOwner:
         return get_object_or_404(ShareOwner, pk=self.kwargs["shareowner_pk"])
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["card_title"] = _(
+            f"Add shares to {self.get_share_owner().get_info().get_display_name()}"
+        )
+        return context_data
+
     def form_valid(self, form):
-        form.instance.owner = self._get_share_owner()
+        share_owner = self.get_share_owner()
+        with transaction.atomic():
+            for _ in range(form.cleaned_data["num_shares"]):
+                ShareOwnership.objects.create(
+                    owner=share_owner,
+                    amount_paid=0,
+                    start_date=form.cleaned_data["start_date"],
+                    end_date=form.cleaned_data["end_date"],
+                )
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return self.get_share_owner().get_info().get_absolute_url()
 
 
 @require_POST
