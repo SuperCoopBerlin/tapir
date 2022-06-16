@@ -384,11 +384,6 @@ class IncomingPayment(models.Model):
         null=False,
         blank=False,
         on_delete=models.deletion.PROTECT,
-        help_text=_(  # TODO Théo 05.06.22 : Fix help text not showing in the form
-            "In almost all cases, the credited member is the same as the paying member. "
-            "Only if a person if giting another person a share, through the matching program, "
-            "then the fields can be different."
-        ),
     )
     amount = models.FloatField(
         verbose_name=_("Amount"),

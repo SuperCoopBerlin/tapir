@@ -218,4 +218,10 @@ class IncomingPaymentForm(forms.ModelForm):
         }
 
     paying_member = ShareOwnerChoiceField()
-    credited_member = ShareOwnerChoiceField()
+    credited_member = ShareOwnerChoiceField(
+        help_text=_(
+            "In almost all cases, the credited member is the same as the paying member. "
+            "Only if a person if giting another person a share through the matching program, "
+            "then the fields can be different."
+        )
+    )
