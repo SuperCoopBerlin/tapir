@@ -87,6 +87,7 @@
                 <table class="table" aria-label="{% translate 'List of shares owned by this member' %}">
                     <thead>
                     <tr>
+                        <th scope="col">#</th>
                         <th scope="col">Purchased</th>
                         <th scope="col">Sold</th>
                         <th scope="col">Status</th>
@@ -95,6 +96,7 @@
                     </thead>
                     {% for o in owner.share_ownerships.all %}
                         <tr>
+                            <td>{{ o.id }}</td>
                             <td>{{ o.start_date }}</td>
                             <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
                             <td>

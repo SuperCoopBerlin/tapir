@@ -40,6 +40,8 @@ from tapir.coop.models import (
     MEMBER_STATUS_CHOICES,
     MemberStatus,
     get_member_status_translation,
+    CreateShareOwnershipsLogEntry,
+    UpdateShareOwnershipLogEntry,
 )
 from tapir.log.models import EmailLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
@@ -64,9 +66,26 @@ class ShareOwnershipViewMixin:
 
 
 class ShareOwnershipUpdateView(
-    PermissionRequiredMixin, ShareOwnershipViewMixin, UpdateView
+    PermissionRequiredMixin, UpdateViewLogMixin, ShareOwnershipViewMixin, UpdateView
 ):
     permission_required = "coop.manage"
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            response = super().form_valid(form)
+
+            new_frozen = freeze_for_log(form.instance)
+            if self.old_object_frozen != new_frozen:
+                log_entry = UpdateShareOwnershipLogEntry().populate(
+                    share_ownership=form.instance,
+                    old_frozen=self.old_object_frozen,
+                    new_frozen=new_frozen,
+                    share_owner=form.instance.owner,
+                    actor=self.request.user,
+                )
+                log_entry.save()
+
+            return response
 
 
 class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
@@ -86,7 +105,17 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
 
     def form_valid(self, form):
         share_owner = self.get_share_owner()
+
         with transaction.atomic():
+            CreateShareOwnershipsLogEntry().populate(
+                num_shares=form.cleaned_data["num_shares"],
+                start_date=form.cleaned_data["start_date"],
+                end_date=form.cleaned_data["end_date"],
+                actor=self.request.user,
+                user=share_owner.user,
+                share_owner=share_owner,
+            ).save()
+
             for _ in range(form.cleaned_data["num_shares"]):
                 ShareOwnership.objects.create(
                     owner=share_owner,
@@ -94,6 +123,7 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
+
         return super().form_valid(form)
 
     def get_success_url(self):

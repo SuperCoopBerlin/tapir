@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q, Sum, Count, F
+from django.db.models import Q, Sum, Count, F, PositiveIntegerField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
@@ -8,7 +8,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
-from tapir.log.models import UpdateModelLogEntry, ModelLogEntry
+from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
@@ -406,3 +406,43 @@ class IncomingPayment(models.Model):
         blank=False,
         on_delete=models.deletion.PROTECT,
     )
+
+
+class CreateShareOwnershipsLogEntry(LogEntry):
+    num_shares = PositiveIntegerField(blank=False, null=False)
+    start_date = models.DateField(null=False, blank=False)
+    end_date = models.DateField(null=True, blank=True, db_index=True)
+
+    template_name = "coop/log/create_share_ownerships_log_entry.html"
+
+    def populate(
+        self, num_shares, start_date, end_date, actor, user=None, share_owner=None
+    ):
+        self.num_shares = num_shares
+        self.start_date = start_date
+        self.end_date = end_date
+        return super().populate(actor=actor, user=user, share_owner=share_owner)
+
+
+class UpdateShareOwnershipLogEntry(UpdateModelLogEntry):
+    share_ownership_id = PositiveIntegerField(blank=False, null=False)
+
+    template_name = "coop/log/update_share_ownership_log_entry.html"
+
+    def populate(
+        self,
+        share_ownership,
+        old_frozen,
+        new_frozen,
+        actor,
+        user=None,
+        share_owner=None,
+    ):
+        self.share_ownership_id = share_ownership.id
+        return super().populate(
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+            actor=actor,
+            user=user,
+            share_owner=share_owner,
+        )

@@ -59,7 +59,10 @@ class ShareOwnershipCreateMultipleForm(forms.Form):
     )
 
     def clean_end_date(self):
-        if self.cleaned_data["end_date"] < self.cleaned_data["start_date"]:
+        if (
+            self.cleaned_data["end_date"]
+            and self.cleaned_data["end_date"] < self.cleaned_data["start_date"]
+        ):
             raise ValidationError(_("The end date must be later than the start date."))
         return self.cleaned_data["end_date"]
 
@@ -252,8 +255,8 @@ class IncomingPaymentForm(forms.ModelForm):
     paying_member = ShareOwnerChoiceField()
     credited_member = ShareOwnerChoiceField(
         help_text=_(
-            "In almost all cases, the credited member is the same as the paying member. "
-            "Only if a person if giting another person a share through the matching program, "
+            "Usually, the credited member is the same as the paying member. "
+            "Only if a person if gifting another person a share through the matching program, "
             "then the fields can be different."
         )
     )
