@@ -18,7 +18,7 @@
             </thead>
             {% for o in log_entries %}
                 <tr>
-                    <td>{{ o.created_date|date:"SHORT_DATETIME_FORMAT" }}</td>
+                    <td>{{ o.created_date|date:"d.m.Y H:i" }}</td>
                     <td>{{ o.actor.get_display_name|default_if_none:o.actor }}</td>
                     <td>{{ o.render }}</td>
                 </tr>
