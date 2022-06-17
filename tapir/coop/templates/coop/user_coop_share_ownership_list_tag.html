@@ -79,7 +79,7 @@
                 <div class="col-5 fw-bold text-end">{% translate "Payment" %}:</div>
                 <div class="col-7">
                     <span id="share_owner_num_shares">{{ owner.get_currently_paid_amount }} / {{ owner.get_total_expected_payment }} €</span>
-                    (<a href="{% url 'coop:incoming_payment_list'  %}?credited_member={{ owner.id }}">{% translate "Details" %}</a>)
+                    (<a href="{% url 'coop:incoming_payment_list'  %}">{% translate "Details" %}</a>)
                 </div>
             </div>
 

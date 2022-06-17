@@ -1,15 +1,18 @@
 import django_filters
 import django_tables2
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 
+from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
-from tapir.coop.models import IncomingPayment
+from tapir.coop.models import IncomingPayment, ShareOwner
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
 
@@ -19,6 +22,7 @@ class IncomingPaymentTable(django_tables2.Table):
         model = IncomingPayment
         template_name = "django_tables2/bootstrap4.html"
         fields = [
+            "id",
             "paying_member",
             "credited_member",
             "amount",
@@ -29,26 +33,31 @@ class IncomingPaymentTable(django_tables2.Table):
         ]
         order_by = "payment_date"
 
+    def before_render(self, request):
+        self.request = request
+
+    def render_id(self, value, record: IncomingPayment):
+        return f"#{record.id}"
+
+    def render_member(self, logged_in_member: TapirUser, other_member: ShareOwner):
+        if logged_in_member.share_owner == other_member or logged_in_member.has_perm(
+            "coop.view"
+        ):
+            return format_html(
+                "<a href={}>{}</a>",
+                other_member.get_info().get_absolute_url(),
+                other_member.get_info().get_display_name(),
+            )
+        return _("Other member")
+
     def render_paying_member(self, value, record: IncomingPayment):
-        return format_html(
-            "<a href={}>{}</a>",
-            record.paying_member.get_absolute_url(),
-            record.paying_member.get_info().get_display_name(),
-        )
+        return self.render_member(self.request.user, record.paying_member)
 
     def render_credited_member(self, value, record: IncomingPayment):
-        return format_html(
-            "<a href={}>{}</a>",
-            record.credited_member.get_absolute_url(),
-            record.credited_member.get_info().get_display_name(),
-        )
+        return self.render_member(self.request.user, record.credited_member)
 
     def render_created_by(self, value, record: IncomingPayment):
-        return format_html(
-            "<a href={}>{}</a>",
-            record.created_by.get_absolute_url(),
-            record.created_by.get_display_name(),
-        )
+        return self.render_member(self.request.user, record.created_by.share_owner)
 
     def render_payment_date(self, value, record: IncomingPayment):
         return record.payment_date.strftime("%d.%m.%Y")
@@ -86,8 +95,8 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
         if not self.request.user.has_perm("coop.view"):
             logged_in_share_owner = self.request.user.share_owner
             return queryset.filter(
-                paying_member=logged_in_share_owner,
-                credited_member=logged_in_share_owner,
+                Q(paying_member=logged_in_share_owner)
+                | Q(credited_member=logged_in_share_owner)
             )
         return queryset
 
