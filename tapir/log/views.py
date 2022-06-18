@@ -81,18 +81,21 @@ class LogFilter(django_filters.FilterSet):
             userfield_choices = [
                 (
                     TapirUser.objects.get(username=self.request.user).id,
-                    self.request.user,
+                    TapirUser.objects.get(
+                        username=self.request.user
+                    ).get_display_name(),
                 )
             ]
         else:
             userfield_choices = [
                 (
-                    TapirUser.objects.get(pk=x).id,
+                    x,
                     TapirUser.objects.get(pk=x).get_display_name(),
                 )
-                for x in LogEntry.objects.all()
-                .values_list("user", flat=True)
+                for x in TapirUser.objects.all()
+                .values_list("id", flat=True)
                 .distinct()
+                .order_by("username")
                 if x is not None
             ]
         # First Method
