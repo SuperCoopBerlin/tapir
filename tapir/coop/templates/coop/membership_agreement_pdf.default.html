@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Beteiligungserklärung {{ owner.first_name }} {{ owner.last_name }}</title>
-    <link rel="stylesheet" href="{% static "coop/css/membership_agreement_pdf.css" %}">
+    <link rel="stylesheet" href="{% static 'coop/css/membership_agreement_pdf.css' %}">
 </head>
 <body>
 
@@ -36,7 +36,7 @@
     </div>
     <div style="flex-grow: 1"></div>
     <div style="margin-top: 13mm;">
-        <img src="{% static "../static/images/Logo_dark.svg" %}" style="width: 60mm;" />
+        <img src="{% static '../static/images/Logo_dark.svg' %}" style="width: 60mm;" />
     </div>
 </div>
 
@@ -203,7 +203,7 @@
                 Betreff: Anteil und Eintrittsgeld {{ owner.first_name }} {{ owner.last_name }}
             </div>
         </div>
-    </div>
+    </div>"
 
     <div style="border: 1px solid black; margin-top: 10mm; padding: 2mm; font-size: 7pt; line-height: 1.0rem;">
         <b>Datenschutzerklärung</b>

@@ -7,8 +7,8 @@
 
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static "shifts/css/shifts.css" %}">
-    <script src="{% static "shifts/ShiftFiltersManager.js" %}" defer></script>
+    <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
+    <script src="{% static 'shifts/ShiftFiltersManager.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -48,7 +48,7 @@
                             {% for shift in shift_infos %}
                                 <!-- a little bit of margin so the boxes don't overlap -->
                                 <div style="margin: 3px">
-                                    <a href="{% url "shifts:shift_detail" shift.pk %}">
+                                    <a href="{% url 'shifts:shift_detail' shift.pk %}">
                                         {% shift_block shift True %}
                                     </a>
                                 </div>

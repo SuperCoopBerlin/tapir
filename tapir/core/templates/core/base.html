@@ -13,12 +13,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{% block title %}Tapir{% endblock %}</title>
-    <link rel="stylesheet" href="{% static "core/bootstrap/5.1.3/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static 'core/bootstrap/5.1.3/css/bootstrap.min.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'core/favicon.ico' %}"/>
-    <link rel="stylesheet" href="{% static "core/css/base.css" %}">
+    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
 
     <!-- jQuery is required by select2, so load it here at the top -->
-    <script src="{% static "core/jQuery/jquery-3.5.1.min.js" %}"></script>
+    <script src="{% static 'core/jQuery/jquery-3.5.1.min.js' %}"></script>
 
     {% block head %}{% endblock %}
     <script>
@@ -50,9 +50,9 @@
     </div>
 
     {% if perms.coop.manage %}
-        <form class="form-inline" method="get" action="{% url "coop:shareowner_list" %}">
+        <form class="form-inline" method="get" action="{% url 'coop:shareowner_list' %}">
         <span class="mr-5">
-        <input id="member_search" name="display_name" type="text" placeholder="{% translate "Search Members" %}"
+        <input id="member_search" name="display_name" type="text" placeholder="{% translate 'Search Members' %}"
                class="form-control">
         </span>
         </form>
@@ -60,10 +60,10 @@
 
     {% if request.user.is_authenticated %}
         <a class="text-light nav-link"
-           href="{% url "accounts:user_me" %}">{{ request.user.first_name }} {{ request.user.last_name }}</a>
-        <a class="text-light nav-link" href="{% url "logout" %}" id="logout">Logout</a>
+           href="{% url 'accounts:user_me' %}">{{ request.user.first_name }} {{ request.user.last_name }}</a>
+        <a class="text-light nav-link" href="{% url 'logout' %}" id="logout">Logout</a>
     {% else %}
-        <a class="text-light nav-link" href="{% url "login" %}">Login</a>
+        <a class="text-light nav-link" href="{% url 'login' %}">Login</a>
     {% endif %}
 </nav>
 
@@ -88,5 +88,5 @@
 </div>
 </body>
 
-<script src="{% static "core/bootstrap/5.1.3/js/bootstrap.bundle.min.js" %}"></script>
+<script src="{% static 'core/bootstrap/5.1.3/js/bootstrap.bundle.min.js' %}"></script>
 </html>

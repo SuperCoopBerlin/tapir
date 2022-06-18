@@ -8,7 +8,7 @@
 
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static "shifts/css/calendar.css" %}">
+    <link rel="stylesheet" href="{% static 'shifts/css/calendar.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -19,16 +19,16 @@
             </span>
             <span>
                 <a class="btn tapir-btn btn-outline-secondary ms-3"
-                   href="{% url "shifts:shift_template_group_calendar" displayed_year|add:-1 %}">
+                   href="{% url 'shifts:shift_template_group_calendar' displayed_year|add:-1 %}">
                     <span class="material-icons">arrow_back</span>{{ displayed_year|add:-1 }}
                 </a>
                 <a class="btn tapir-btn btn-outline-secondary ms-3"
-                   href="{% url "shifts:calendarpdf" displayed_year %}">
+                   href="{% url 'shifts:calendarpdf' displayed_year %}">
                     <span class="material-icons">file_present</span>
                     {{ displayed_year }} {% translate 'as pdf' %}
                 </a>
                 <a class="btn tapir-btn btn-outline-secondary ms-3"
-                   href="{% url "shifts:shift_template_group_calendar" displayed_year|add:1 %}">
+                   href="{% url 'shifts:shift_template_group_calendar' displayed_year|add:1 %}">
                     {{ displayed_year|add:1 }}<span class="material-icons">arrow_forward</span>
                 </a>
             </span>
