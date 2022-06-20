@@ -1,5 +1,6 @@
 import django_tables2
 import django_filters
+from django.db import OperationalError, ProgrammingError
 from django_filters import DateRangeFilter
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
@@ -103,17 +104,20 @@ class LogFilter(django_filters.FilterSet):
 
     user = django_filters.ChoiceFilter(choices=[])  # choices depend on request
     time = DateRangeFilter(field_name="created_date")
-    actor = django_filters.ChoiceFilter(
-        choices=[
+
+    try:
+        actorchoices = [
             (
                 TapirUser.objects.get(pk=x).id,
                 TapirUser.objects.get(pk=x).get_display_name(),
             )
             for x in LogEntry.objects.all().values_list("actor", flat=True).distinct()
             if x is not None
-        ],
-        label=_("Actor"),
-    )
+        ]
+    except (OperationalError, ProgrammingError) as e:
+        actorchoices = []
+
+    actor = django_filters.ChoiceFilter(choices=actorchoices, label=_("Actor"))
 
     class Meta:
         model = LogEntry
