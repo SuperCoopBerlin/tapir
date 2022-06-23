@@ -180,7 +180,7 @@
                                                 data-bs-toggle="tooltip"
                                                 data-bs-html="true"
                                                 title="{{ self_register_tooltip }}"{% endif %}>
-                                                <a href="{% url #shifts:slot_register' slot.pk %}"
+                                                <a href="{% url 'shifts:slot_register' slot.pk %}"
                                                    class="btn tapir-btn btn-outline-info register-to-slot-button {% if not slot.can_self_register and not perms.shifts.manage %}disabled{% endif %}">
                                                     <span class="material-icons">person_add</span>
                                                     {% translate "Register" %}
