@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{% url "coop:shareowner_list" %}">{% translate "Users" %}</a>
+                <a href="{% url 'coop:shareowner_list' %}">{% translate "Users" %}</a>
             </li>
             <li class="breadcrumb-item">
                 <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
