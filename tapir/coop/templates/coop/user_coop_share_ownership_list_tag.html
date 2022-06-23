@@ -116,7 +116,7 @@
                                         <div class="dropdown-menu dropdown-menu-right" style="min-width: 20rem;">
                                         <!-- white-space: normal; to make the long text wrap -->
                                         <form class="form-inline" method="post"
-                                              action="{% url 'coop:shareownership_delete# o.pk %}">
+                                              action="{% url 'coop:shareownership_delete' o.pk %}">
                                         {% csrf_token %}
                                             <button type="submit" class="dropdown-item " style="white-space: normal;"
                                                     href="#">
