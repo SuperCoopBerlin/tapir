@@ -12,7 +12,7 @@ def log_entry_list(context, **kwargs):
     if not any(key in kwargs for key in ("user", "sharewoner")) or len(kwargs) > 1:
         raise ValueError
 
-    last_x_days = 30  # TODO (Frederik) this should be in some config file IMO
+    last_x_days = 30
     raw_entries = LogEntry.objects.filter(
         **kwargs,
         created_date__gte=datetime.now()
