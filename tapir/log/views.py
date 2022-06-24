@@ -72,7 +72,7 @@ class LogTable(django_tables2.Table):
         fields = ["created_date", "actor", "user", "entry"]
 
     def render_actor(self, value):
-        return "%s" % value.get_display_name()
+        return value.get_display_name()
 
 
 class LogFilter(django_filters.FilterSet):
