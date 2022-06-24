@@ -275,7 +275,7 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
 @permission_required("coop.manage")
 def shareowner_membership_confirmation(request, pk):
     owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = "Mitgliedschaftsbestätigung %s.pdf" % owner.get_display_name()
+    filename = "Mitgliedschaftsbestätigung %s.pdf" % owner.get_info().get_display_name()
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="{}"'.format(filename)
