@@ -120,11 +120,12 @@ class MemberCountEvolutionJsonView(BaseLineChartView):
         return ShareCountEvolutionJsonView.get_dates_from_first_share_to_today()
 
     def get_providers(self):
-        return [_("All members"), _("Active")]
+        return [_("All members"), _("Active"), _("Active with account")]
 
     def get_data(self):
         all_members_counts = []
         active_members_counts = []
+        active_members_with_account_counts = []
 
         for date in ShareCountEvolutionJsonView.get_dates_from_first_share_to_today():
             shares_active_at_date = ShareOwnership.objects.active_temporal(date)
@@ -132,13 +133,21 @@ class MemberCountEvolutionJsonView(BaseLineChartView):
                 share_ownerships__in=shares_active_at_date
             ).distinct()
             all_members_counts.append(members.count())
-            active_members_counts.append(
-                members.with_status(MemberStatus.ACTIVE).count()
+
+            active_members = members.with_status(MemberStatus.ACTIVE)
+            active_members_counts.append(active_members.count())
+
+            active_members_with_account = TapirUser.objects.filter(
+                share_owner__in=active_members
+            )
+            active_members_with_account_counts.append(
+                active_members_with_account.count()
             )
 
         return [
             all_members_counts,
             active_members_counts,
+            active_members_with_account_counts,
         ]
 
 
