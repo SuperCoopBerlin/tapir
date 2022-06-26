@@ -122,7 +122,9 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
 
     num_attendances = 0
 
-    for slot_template in shift_template.slot_templates.all():
+    for slot_template in shift_template.slot_templates.all().order_by(
+        Length("name").asc()
+    ):
         slot_name = slot_template.name
         if slot_template.name == "":
             slot_name = _("General")
