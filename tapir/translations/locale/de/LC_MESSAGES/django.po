@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-26 09:02+0200\n"
+"POT-Creation-Date: 2022-06-26 10:39+0200\n"
 "PO-Revision-Date: 2022-03-05 19:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -504,6 +504,7 @@ msgstr "Investierend"
 
 #: coop/models.py:198 coop/templates/coop/draftuser_detail.html:55
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:34
+#: coop/views/statistics.py:123
 msgid "Active"
 msgstr "Aktiv"
 
@@ -724,31 +725,15 @@ msgstr ""
 msgid "Click this link to learn more."
 msgstr "Klick hier um mehr zu lernen."
 
-#: coop/templates/coop/statistics.html:27
+#: coop/templates/coop/statistics.html:43
 msgid "Statistics on members"
 msgstr "Mitglieder-Statistiken"
 
-#: coop/templates/coop/statistics.html:47
+#: coop/templates/coop/statistics.html:71
 msgid "Statistics on shares"
 msgstr "Anteile-Statistiken"
 
-#: coop/templates/coop/statistics.html:93
-msgid "Monthly evolution of the number of shares"
-msgstr "Monatliche Entwicklung der Anzahl an Anteile"
-
-#: coop/templates/coop/statistics.html:107
-#, fuzzy
-#| msgid "Monthly evolution of the number of shares"
-msgid "Monthly evolution of the number of members (both active and investing)"
-msgstr "Monatliche Entwicklung der Anzahl an Anteile"
-
-#: coop/templates/coop/statistics.html:120
-#, fuzzy
-#| msgid "Monthly evolution of the number of shares"
-msgid "Monthly evolution of the number of members (active)"
-msgstr "Monatliche Entwicklung der Anzahl an Anteile"
-
-#: coop/templates/coop/statistics.html:134
+#: coop/templates/coop/statistics.html:126
 msgid "Members who bought extra shares"
 msgstr ""
 
@@ -969,6 +954,18 @@ msgstr "Name oder Mitgliedsnummer"
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
+
+#: coop/views/statistics.py:123
+#, fuzzy
+#| msgid "Active members"
+msgid "All members"
+msgstr "Aktive Mitglieder"
+
+#: coop/views/statistics.py:150
+#, fuzzy
+#| msgid "Number of Shares"
+msgid "Number of shares"
+msgstr "Anzahl an Anteilen"
 
 #: core/templates/core/base.html:55
 msgid "Search Members"
@@ -3054,8 +3051,19 @@ msgstr "Anfangsdatum muss gesetzt sein"
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Endsdatum sein"
 
-#~ msgid "Active members"
-#~ msgstr "Aktive Mitglieder"
+#~ msgid "Monthly evolution of the number of shares"
+#~ msgstr "Monatliche Entwicklung der Anzahl an Anteile"
+
+#, fuzzy
+#~| msgid "Monthly evolution of the number of shares"
+#~ msgid ""
+#~ "Monthly evolution of the number of members (both active and investing)"
+#~ msgstr "Monatliche Entwicklung der Anzahl an Anteile"
+
+#, fuzzy
+#~| msgid "Monthly evolution of the number of shares"
+#~ msgid "Monthly evolution of the number of members (active)"
+#~ msgstr "Monatliche Entwicklung der Anzahl an Anteile"
 
 #~ msgid "Active members with a Tapir account"
 #~ msgstr "Aktive Mitglieder mit Tapir-Konto"

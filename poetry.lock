@@ -440,6 +440,14 @@ beautifulsoup4 = ">=4.8.0"
 Django = ">=2.2"
 
 [[package]]
+name = "django-chartjs"
+version = "2.3.0"
+description = "Django Chart.js and Hightchart ajax views"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "django-environ"
 version = "0.8.1"
 description = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
@@ -1578,7 +1586,7 @@ test = ["pytest"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "5bcdb9974e920111acf18fc58b3893b0d70849b41b56511ac322665b58799f20"
+content-hash = "b1ee3ad6fd34c6457b69c8a613fe1c5bf9976daeb93c2cdc11106acbdecd6e03"
 
 [metadata.files]
 amqp = [
@@ -1936,6 +1944,10 @@ django-bootstrap-datepicker-plus = [
 django-bootstrap5 = [
     {file = "django-bootstrap5-21.3.tar.gz", hash = "sha256:35086341881780a44b2e27255894f6029fc5ef75e5a0ec8ebd82f47a5184fa73"},
     {file = "django_bootstrap5-21.3-py3-none-any.whl", hash = "sha256:c7a686420aa98692f15bd16e61a90dc6a3607e441a4dea37af840b83d4820cac"},
+]
+django-chartjs = [
+    {file = "django-chartjs-2.3.0.tar.gz", hash = "sha256:576ad20cfb6d18efcd3142784752cc8f7445601180d74fbaa6af9fd2f866899b"},
+    {file = "django_chartjs-2.3.0-py3-none-any.whl", hash = "sha256:3cc1660ff1403c021b3ede163062120e36fde194e97e1a84a7eb1a8f09223183"},
 ]
 django-environ = [
     {file = "django-environ-0.8.1.tar.gz", hash = "sha256:6f0bc902b43891656b20486938cba0861dc62892784a44919170719572a534cb"},
