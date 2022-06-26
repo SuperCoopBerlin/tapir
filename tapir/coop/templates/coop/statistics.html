@@ -28,9 +28,9 @@
             </h5>
             <div class="card-body">
                 <ul>
-                    <li>There are currently {{ members_count }} members in total.
+                    <li>There are currently <a href="#" onclick="show_card('all_members_count_card')">{{ members_count }} members</a> in total.
                         <ul>
-                            <li>{{ active_members_count }} active members.</li>
+                            <li><a href="#" onclick="show_card('active_members_count_card')">{{ active_members_count }} active members.</a></li>
                             <li>{{ investing_members_count }} investing members.</li>
                         </ul>
                     </li>
@@ -96,6 +96,32 @@
                 <ul>
                     <li>{% now "d.m.Y" %}: {{ shares.nb_share_ownerships_now }} </li>
                     {% for date, number in shares.nb_shares_by_month.items %}
+                        <li>{{ date|date:"d.m.Y" }}: {{ number }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="card m-2 statistics-toggle-card" id="all_members_count_card">
+            <h5 class="card-header">
+                <span>{% translate "Monthly evolution of the number of members (both active and investing)" %}</span>
+            </h5>
+            <div class="card-body">
+                <ul>
+                    {% for date, number in members_count_evolution.all_members_evolution.items %}
+                        <li>{{ date|date:"d.m.Y" }}: {{ number }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    <div class="card m-2 statistics-toggle-card" id="active_members_count_card">
+            <h5 class="card-header">
+                <span>{% translate "Monthly evolution of the number of members (active)" %}</span>
+            </h5>
+            <div class="card-body">
+                <ul>
+                    {% for date, number in members_count_evolution.active_members_evolution.items %}
                         <li>{{ date|date:"d.m.Y" }}: {{ number }}</li>
                     {% endfor %}
                 </ul>

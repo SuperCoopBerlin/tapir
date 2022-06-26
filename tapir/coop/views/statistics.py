@@ -1,6 +1,6 @@
 import datetime
 
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.utils import timezone
 from django.views import generic
@@ -13,6 +13,9 @@ from tapir.coop.models import (
     MemberStatus,
     DraftUser,
     ShareOwnership,
+)
+from tapir.utils.shortcuts import (
+    get_first_of_previous_first_day_of_month,
 )
 
 
@@ -38,6 +41,34 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
 
         context["shares"] = self.get_shares_context()
         context["extra_shares"] = self.get_extra_shares_context()
+        context["members_count_evolution"] = self.get_evolution_of_members_count()
+
+        return context
+
+    @staticmethod
+    def get_evolution_of_members_count():
+        first_share_ownership = ShareOwnership.objects.order_by("start_date").first()
+        if not first_share_ownership:
+            return None
+
+        start_date = first_share_ownership.start_date.replace(day=1)
+        current_date = datetime.date.today()
+        all_members_evolution = dict()
+        active_members_evolution = dict()
+        while current_date >= start_date:
+            shares_active_at_date = ShareOwnership.objects.active_temporal(current_date)
+            members = ShareOwner.objects.filter(
+                share_ownerships__in=shares_active_at_date
+            ).distinct()
+            all_members_evolution[current_date] = members.count()
+            active_members_evolution[current_date] = members.with_status(
+                MemberStatus.ACTIVE
+            ).count()
+            current_date = get_first_of_previous_first_day_of_month(current_date)
+
+        context = dict()
+        context["all_members_evolution"] = all_members_evolution
+        context["active_members_evolution"] = active_members_evolution
         return context
 
     @staticmethod
@@ -56,14 +87,7 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
             context["nb_shares_by_month"][
                 current_date
             ] = ShareOwnership.objects.active_temporal(current_date).count()
-            if current_date.month > 1:
-                current_date = datetime.date(
-                    day=1, month=current_date.month - 1, year=current_date.year
-                )
-            else:
-                current_date = datetime.date(
-                    day=1, month=12, year=current_date.year - 1
-                )
+            current_date = get_first_of_previous_first_day_of_month(current_date)
 
         nb_months_since_start = (
             (datetime.date.today().year - start_date.year) * 12

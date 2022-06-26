@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-16 11:39+0200\n"
+"POT-Creation-Date: 2022-06-26 09:02+0200\n"
 "PO-Revision-Date: 2022-03-05 19:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -34,36 +34,36 @@ msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
 #: accounts/models.py:149 accounts/templates/accounts/user_detail.html:37
-#: coop/models.py:45 coop/models.py:253
+#: coop/models.py:47 coop/models.py:255
 #: coop/templates/coop/draftuser_detail.html:26
 #: coop/templates/coop/shareowner_detail.html:43
 msgid "Phone number"
 msgstr "Telefonnummer"
 
 #: accounts/models.py:150 accounts/templates/accounts/user_detail.html:47
-#: coop/models.py:46 coop/models.py:254
+#: coop/models.py:48 coop/models.py:256
 #: coop/templates/coop/draftuser_detail.html:30
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:151 coop/models.py:47 coop/models.py:255
+#: accounts/models.py:151 coop/models.py:49 coop/models.py:257
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:152 coop/models.py:48 coop/models.py:256
+#: accounts/models.py:152 coop/models.py:50 coop/models.py:258
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:153 coop/models.py:49 coop/models.py:257
+#: accounts/models.py:153 coop/models.py:51 coop/models.py:259
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:154 coop/models.py:50 coop/models.py:258
+#: accounts/models.py:154 coop/models.py:52 coop/models.py:260
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:155 coop/models.py:51 coop/models.py:259
+#: accounts/models.py:155 coop/models.py:53 coop/models.py:261
 msgid "Country"
 msgstr "Land"
 
@@ -73,7 +73,7 @@ msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
 #: accounts/models.py:159 accounts/templates/accounts/user_detail.html:67
-#: coop/models.py:54 coop/models.py:262
+#: coop/models.py:56 coop/models.py:264
 #: coop/templates/coop/shareowner_detail.html:67
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
@@ -227,8 +227,8 @@ msgstr ""
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:25 coop/models.py:324
-#: coop/models.py:332 coop/templates/coop/draftuser_detail.html:14
+#: accounts/templates/accounts/user_detail.html:25 coop/models.py:326
+#: coop/models.py:334 coop/templates/coop/draftuser_detail.html:14
 #: coop/templates/coop/shareowner_detail.html:35
 #: coop/templates/coop/welcome_desk_share_owner.html:64
 msgid "Name"
@@ -441,108 +441,108 @@ msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 msgid "Welcome at %(organisation_name)s!"
 msgstr "Willkommen in der %(organisation_name)s!"
 
-#: coop/models.py:36
+#: coop/models.py:38
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:42 coop/models.py:250
+#: coop/models.py:44 coop/models.py:252
 #: coop/templates/coop/draftuser_list.html:21
 msgid "First name"
 msgstr "Vorname"
 
-#: coop/models.py:43 coop/models.py:251
+#: coop/models.py:45 coop/models.py:253
 #: coop/templates/coop/draftuser_list.html:22
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:44 coop/models.py:252
+#: coop/models.py:46 coop/models.py:254
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: coop/models.py:61
+#: coop/models.py:63
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:63 coop/models.py:283
+#: coop/models.py:65 coop/models.py:285
 #: coop/templates/coop/draftuser_detail.html:61
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:44
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:159
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:65 coop/models.py:275
+#: coop/models.py:67 coop/models.py:277
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:67 coop/models.py:280
+#: coop/models.py:69 coop/models.py:282
 #: coop/templates/coop/draftuser_detail.html:117
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:154
 msgid "Paid Entrance Fee"
 msgstr "Eintrittsgeld bezahlt"
 
-#: coop/models.py:69
+#: coop/models.py:71
 msgid "Is willing to gift a share"
 msgstr "Ist bereit Anteile zu verschenken"
 
-#: coop/models.py:119
+#: coop/models.py:121
 msgid "Cannot be a company and have a Tapir account"
 msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
-#: coop/models.py:135
+#: coop/models.py:137
 msgid "User info should be stored in associated Tapir account"
 msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 
-#: coop/models.py:194
+#: coop/models.py:196
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:100
 msgid "Sold"
 msgstr "Verkauft"
 
-#: coop/models.py:195 coop/templates/coop/draftuser_detail.html:53
+#: coop/models.py:197 coop/templates/coop/draftuser_detail.html:53
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:31
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:196 coop/templates/coop/draftuser_detail.html:55
+#: coop/models.py:198 coop/templates/coop/draftuser_detail.html:55
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:34
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:235
+#: coop/models.py:237
 msgid "Amount paid for a share can't be negative"
 msgstr "Der Betrag kann nicht negative sein"
 
-#: coop/models.py:239
+#: coop/models.py:241
 #, python-brace-format
 msgid ""
 "Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a "
 "share)"
 msgstr "Der Betrag kann nicht mehr als {COOP_SHARE_PRICE} sein"
 
-#: coop/models.py:268
+#: coop/models.py:270
 msgid "Number of Shares"
 msgstr "Anzahl an Anteilen"
 
-#: coop/models.py:271
+#: coop/models.py:273
 msgid "Investing member"
 msgstr "Investierende Mitglieder"
 
-#: coop/models.py:278
+#: coop/models.py:280
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:281 coop/templates/coop/draftuser_detail.html:123
+#: coop/models.py:283 coop/templates/coop/draftuser_detail.html:123
 msgid "Paid Shares"
 msgstr "Anteil(e) bezahlt"
 
-#: coop/models.py:323
+#: coop/models.py:325
 msgid "Currently active"
 msgstr "Gerade aktiv"
 
-#: coop/models.py:325
+#: coop/models.py:327
 msgid "Goal"
 msgstr "Ziel"
 
-#: coop/models.py:334
+#: coop/models.py:336
 msgid "Raised amount"
 msgstr "Erreichter Betrag"
 
@@ -736,7 +736,19 @@ msgstr "Anteile-Statistiken"
 msgid "Monthly evolution of the number of shares"
 msgstr "Monatliche Entwicklung der Anzahl an Anteile"
 
-#: coop/templates/coop/statistics.html:108
+#: coop/templates/coop/statistics.html:107
+#, fuzzy
+#| msgid "Monthly evolution of the number of shares"
+msgid "Monthly evolution of the number of members (both active and investing)"
+msgstr "Monatliche Entwicklung der Anzahl an Anteile"
+
+#: coop/templates/coop/statistics.html:120
+#, fuzzy
+#| msgid "Monthly evolution of the number of shares"
+msgid "Monthly evolution of the number of members (active)"
+msgstr "Monatliche Entwicklung der Anzahl an Anteile"
+
+#: coop/templates/coop/statistics.html:134
 msgid "Members who bought extra shares"
 msgstr ""
 
@@ -1505,13 +1517,26 @@ msgid "Some shifts are already occupied"
 msgstr "Manche Schichten sind bereits besetzt"
 
 #: shifts/templates/shifts/register_user_to_shift_slot_template.html:35
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                        <p>A flying member has already registered to the "
+#| "shifts linked below.</p>\n"
+#| "                        <p>It is still possible to sign someone up for "
+#| "this shift using the ABCD system. This would mean that the member is "
+#| "signing up to work this shift on a recurring 4 week basis (i.e. once per "
+#| "shift cycle).</p>\n"
+#| "                        <p>IMPORTANT: If a flying member had previously "
+#| "signed up for the same shift, the ABCD member will have to sign up for a "
+#| "different shift for that particular cycle.</p>\n"
+#| "                    "
 msgid ""
 "\n"
 "                        <p>A flying member has already registered to the "
 "shifts linked below.</p>\n"
 "                        <p>It is still possible to sign someone up for this "
 "shift using the ABCD system. This would mean that the member is signing up "
-"to work this shift on a recurring 4 week basis (i.e. once per shift cycle).</"
+"to work this shift on a recurring 4-week basis (i.e. once per shift cycle).</"
 "p>\n"
 "                        <p>IMPORTANT: If a flying member had previously "
 "signed up for the same shift, the ABCD member will have to sign up for a "
