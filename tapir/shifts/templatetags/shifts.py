@@ -1,6 +1,7 @@
 import datetime
 
 from django import template
+from django.db.models.functions import Length
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -49,7 +50,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
     num_valid_attendances = 0
 
-    for slot in shift.slots.all():
+    for slot in shift.slots.all().order_by(Length("name").asc()):
         slot_name = slot.name
         if slot_name == "":
             slot_name = _("General")
