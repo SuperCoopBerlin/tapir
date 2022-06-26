@@ -1184,7 +1184,7 @@ msgstr ""
 
 #: shifts/models.py:58
 msgid ""
-"I understand that all working groups help the Warenannahme & Lagerhaltung "
+"I understand that all working groups help the Warenannahme & Lager "
 "working group until the shop opens."
 msgstr ""
 
