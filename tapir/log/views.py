@@ -99,12 +99,7 @@ class LogFilter(django_filters.FilterSet):
             ]
         # First Method
         self.filters["user"].extra["choices"] = userfield_choices
-
-    user = django_filters.ChoiceFilter(choices=[])  # choices depend on request
-    time = DateRangeFilter(field_name="created_date")
-
-    try:
-        actorchoices = [
+        self.filters["actor"].extra["choices"] = [
             (
                 TapirUser.objects.get(pk=x).id,
                 TapirUser.objects.get(pk=x).get_display_name(),
@@ -112,10 +107,11 @@ class LogFilter(django_filters.FilterSet):
             for x in LogEntry.objects.all().values_list("actor", flat=True).distinct()
             if x is not None
         ]
-    except (OperationalError, ProgrammingError) as e:
-        actorchoices = []
 
-    actor = django_filters.ChoiceFilter(choices=actorchoices, label=_("Actor"))
+    user = django_filters.ChoiceFilter(choices=[])  # choices depend on request
+    time = DateRangeFilter(field_name="created_date")
+
+    actor = django_filters.ChoiceFilter(choices=[], label=_("Actor"))
 
     class Meta:
         model = LogEntry
