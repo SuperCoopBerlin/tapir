@@ -86,19 +86,17 @@
     <div class="row">
         <nav id="tapirSidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse multi-collapse">
             <div class="sidebar-sticky">
-                <div class="d-md-none" style="height: 120px;"></div> <!-- Pushes the links down so that they don't go under the navbar -->
+                <div class="d-md-none" style="height: 120px;"></div>
+                <!-- Pushes the links down so that they don't go under the navbar -->
                 {% block sidebar %}
                     {% sidebar_links %}
                 {% endblock %}
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-4">
-            <!-- make it a bit wider than the default to fit the shift stuff -->
-            <div class="container" style="max-width: 1500px;">
-                {% bootstrap_messages %}
-                {% block content %}{% endblock %}
-            </div>
+        <main role="main" class="col-md-9 ms-sm-auto col-lg-10 p-2 p-md-3 p-lg-4">
+            {% bootstrap_messages %}
+            {% block content %}{% endblock %}
         </main>
     </div>
 </div>
