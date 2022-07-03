@@ -10,7 +10,7 @@
 
 {% block content %}
     <div class="container">
-        <div class="card m-2" id="shift_form_card">
+        <div class="card mb-2" id="shift_form_card">
             <h5 class="card-header d-flex align-items-center gap-1">
                 <span>{% translate "Register for ABCD Shift" %}:</span>
                 <a href="{{ slot_template.shift_template.get_absolute_url }}">{{ slot_template.shift_template.get_display_name }}</a>
@@ -29,7 +29,7 @@
             </div>
         </div>
         {% if blocked_slots|length > 0 %}
-            <div class="card m-2 border-warning">
+            <div class="card mb-2 border-warning">
                 <h5 class="card-header bg-warning">{% translate 'Some shifts are already occupied' %}</h5>
                 <div class="card-body">
                     {% blocktranslate %}

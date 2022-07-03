@@ -28,7 +28,7 @@
                 .then(data => {
                     const context = document.getElementById(canvas_id).getContext("2d");
                     new Chart(context, {
-                        type: 'line', data: data, options: {'responsive': false}
+                        type: 'line', data: data
                     });
                 });
         }
@@ -37,91 +37,98 @@
 
 {% block content %}
 
-    <div class="container">
-        <div class="card m-2">
-            <h5 class="card-header">
-                <span>{% translate "Statistics on members" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    <li>There are currently {{ members_count }} members in total.
-                        <ul>
-                            <li>{{ active_members_count }} active members.</li>
-                            <li>{{ investing_members_count }} investing members.</li>
-                        </ul>
-                    </li>
-                    <li>Out of {{ active_members_count }} active members, {{ active_users_count }} members have a Tapir
-                        account. {{ members_missing_accounts_count }} users are missing an account.
-                    </li>
-                    <li>{{ applicants_count }} applicants are waiting to become members.</li>
-                </ul>
-                <canvas id="member_count_evolution_canvas" width="600" height="480" ></canvas>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header">
+                    <span>{% translate "Statistics on members" %}</span>
+                </h5>
+                <div class="card-body">
+                    <ul>
+                        <li>There are currently {{ members_count }} members in total.
+                            <ul>
+                                <li>{{ active_members_count }} active members.</li>
+                                <li>{{ investing_members_count }} investing members.</li>
+                            </ul>
+                        </li>
+                        <li>Out of {{ active_members_count }} active members, {{ active_users_count }} members have a
+                            Tapir
+                            account. {{ members_missing_accounts_count }} users are missing an account.
+                        </li>
+                        <li>{{ applicants_count }} applicants are waiting to become members.</li>
+                    </ul>
+                    <canvas id="member_count_evolution_canvas"></canvas>
 
-                <script type="text/javascript">
-                    stats_chart(
-                        '{% url "coop:member_count_evolution_json" %}',
-                        'member_count_evolution_canvas'
-                    )
-                </script>
+                    <script type="text/javascript">
+                        stats_chart(
+                            '{% url "coop:member_count_evolution_json" %}',
+                            'member_count_evolution_canvas'
+                        )
+                    </script>
+                </div>
             </div>
         </div>
 
-        <div class="card m-2">
-            <h5 class="card-header">
-                <span>{% translate "Statistics on shares" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    <li>There are currently
-                        {{ shares.nb_share_ownerships_now }} shares.
-                        <ul>
-                            <li>This means on average {{ shares.average_shares_per_month }} new shares per month since
-                                the {{ shares.start_date|date:"d.m.Y" }}</li>
-                        </ul>
-                    </li>
-                    <li>Extra shares since the {{ extra_shares.threshold_date|date:"d.m.Y" }} :
-                        <ul>
-                            <li>
-                                An extra share is any share that is bought beyond the first compulsory share,
-                                independently of whether the person became a member before or after
-                                the {{ extra_shares.threshold_date|date:"d.m.Y" }}.
-                            </li>
-                            <li>
-                                Since the {{ extra_shares.threshold_date|date:"d.m.Y" }},
-                                {% if perms.coop.view %}
-                                    <a href="#" onclick="show_card('extra_share_owners')">
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header">
+                    <span>{% translate "Statistics on shares" %}</span>
+                </h5>
+                <div class="card-body">
+                    <ul>
+                        <li>There are currently
+                            {{ shares.nb_share_ownerships_now }} shares.
+                            <ul>
+                                <li>This means on average {{ shares.average_shares_per_month }} new shares per month
+                                    since
+                                    the {{ shares.start_date|date:"d.m.Y" }}</li>
+                            </ul>
+                        </li>
+                        <li>Extra shares since the {{ extra_shares.threshold_date|date:"d.m.Y" }} :
+                            <ul>
+                                <li>
+                                    An extra share is any share that is bought beyond the first compulsory share,
+                                    independently of whether the person became a member before or after
+                                    the {{ extra_shares.threshold_date|date:"d.m.Y" }}.
+                                </li>
+                                <li>
+                                    Since the {{ extra_shares.threshold_date|date:"d.m.Y" }},
+                                    {% if perms.coop.view %}
+                                        <a href="#" onclick="show_card('extra_share_owners')">
+                                            {{ extra_shares.share_count }} extra shares
+                                        </a>
+                                    {% else %}
                                         {{ extra_shares.share_count }} extra shares
-                                    </a>
-                                {% else %}
-                                    {{ extra_shares.share_count }} extra shares
-                                {% endif %}
-                                have been bought.
-                            </li>
-                            <li>
-                                These extra shares have been bought by {{ extra_shares.members|length }} members,
-                                which is {{ extra_shares.average_extra_shares }} average extra share per member.
-                            </li>
-                            <li>
-                                For those extra shares, {{ extra_shares.total_amount_paid }}€ have been paid out of the
-                                total cost of {{ extra_shares.total_cost }}€, or {{ extra_shares.paid_percentage }}.
-                            </li>
-                        </ul>
+                                    {% endif %}
+                                    have been bought.
+                                </li>
+                                <li>
+                                    These extra shares have been bought by {{ extra_shares.members|length }} members,
+                                    which is {{ extra_shares.average_extra_shares }} average extra share per member.
+                                </li>
+                                <li>
+                                    For those extra shares, {{ extra_shares.total_amount_paid }}€ have been paid out of
+                                    the
+                                    total cost of {{ extra_shares.total_cost }}€, or {{ extra_shares.paid_percentage }}.
+                                </li>
+                            </ul>
 
-                    </li>
-                </ul>
-                <canvas id="share_count_evolution_canvas" width="600" height="480" ></canvas>
+                        </li>
+                    </ul>
+                    <canvas id="share_count_evolution_canvas"></canvas>
 
-                <script type="text/javascript">
-                    stats_chart(
-                        '{% url "coop:share_count_evolution_json" %}',
-                        'share_count_evolution_canvas'
-                    )
-                </script>
+                    <script type="text/javascript">
+                        stats_chart(
+                            '{% url "coop:share_count_evolution_json" %}',
+                            'share_count_evolution_canvas'
+                        )
+                    </script>
+                </div>
             </div>
         </div>
 
         {% if perms.coop.view %}
-            <div class="card m-2 statistics-toggle-card" id="extra_share_owners">
+            <div class="card mb-2 statistics-toggle-card" id="extra_share_owners">
                 <h5 class="card-header">
                     <span>{% translate "Members who bought extra shares" %}</span>
                 </h5>

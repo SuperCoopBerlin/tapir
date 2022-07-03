@@ -7,9 +7,9 @@
 {% load accounts %}
 
 {% block content %}
-    <div class="d-flex flex-wrap">
-        <div class="col-6 p-0">
-            <div class="card m-2" id="share_owner_detail_card">
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-2" id="share_owner_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     {% translate "Personal Data" %}
                     {% if object.user is not None %}
@@ -71,11 +71,11 @@
             </div>
         </div>
 
-        <div class="col-6 p-0">
+        <div class="col-xl-6">
             {% share_owner_ownership_list object %}
         </div>
 
-        <div class="col-12 p-0">
+        <div class="col-xl">
             {% share_owner_log_entry_list object %}
         </div>
     </div>
