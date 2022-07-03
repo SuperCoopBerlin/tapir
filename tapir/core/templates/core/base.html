@@ -35,17 +35,17 @@
 
 <body>
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top shadow px-3">
+<header class="navbar navbar-expand-md navbar-dark bg-dark sticky-top shadow px-3">
     <div class="container-fluid">
         <span class="navbar-brand">
             <img alt="SuperCoop Berlin Logo" height=30" src="{% static 'core/images/Logo_white.png' %}">
         </span>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
+                aria-controls="tapirNavbar tapirSidebar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content: flex-end;">
+        <div class="collapse multi-collapse navbar-collapse" id="tapirNavbar" style="justify-content: flex-end;">
             <ul class="navbar-nav">
                 <div>
                     <a class="nav-link"
@@ -80,12 +80,13 @@
             </ul>
         </div>
     </div>
-</nav>
+</header>
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <nav id="tapirSidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse multi-collapse">
             <div class="sidebar-sticky">
+                <div class="d-md-none" style="height: 120px;"></div> <!-- Pushes the links down so that they don't go under the navbar -->
                 {% block sidebar %}
                     {% sidebar_links %}
                 {% endblock %}
