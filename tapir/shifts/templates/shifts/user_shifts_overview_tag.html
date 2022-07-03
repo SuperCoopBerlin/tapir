@@ -6,7 +6,7 @@
         {% translate "Shifts" %}
         {% if perms.shifts.manage and user.shift_user_data %}
             <a class="btn tapir-btn btn-outline-info" id="edit_shift_user_data_button"
-               href="{% url "shifts:edit_shift_user_data" user.shift_user_data.pk %}">
+               href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
                 <span class="material-icons button-icon">edit</span>{% translate 'Edit' %}
             </a>
         {% endif %}
@@ -20,7 +20,7 @@
 
                     {% if perms.accounts.manage %}
                         <form style="display: inline;" method="POST"
-                              action="{% url "shifts:set_user_attendance_mode_regular" user.pk %}">
+                              action="{% url 'shifts:set_user_attendance_mode_regular' user.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="btn tapir-btn btn-secondary btn-sm">
                                 {% translate "Set ABCD 🏠️" %}
@@ -44,7 +44,7 @@
 
                             {% if perms.shifts.manage %}
                                 <form class="form-inline" method="POST"
-                                      action="{% url "shifts:shift_attendance_template_delete" shift_attendance_template.pk %}?next={% url "accounts:user_detail" user.pk %}">
+                                      action="{% url 'shifts:shift_attendance_template_delete' shift_attendance_template.pk %}?next={% url 'accounts:user_detail' user.pk %}">
                                     {% csrf_token %}
                                     <button type="submit"
                                             class="btn tapir-btn btn-secondary btn-sm unregister-repeated-shift-button">
@@ -60,13 +60,13 @@
 
                         {% if perms.shifts.manage %}
                             <a class="btn tapir-btn btn-outline-secondary btn-sm"
-                               href="{% url "shifts:shift_template_overview" %}?selected_user={{ user.pk|urlencode }}"
+                               href="{% url 'shifts:shift_template_overview' %}?selected_user={{ user.pk|urlencode }}"
                                id="find_abcd_shift_button">
                                 <span class="material-icons">search</span>{% translate "Find an ABCD shift" %}
                             </a>
 
                             <form style="display: inline;" method="POST"
-                                  action="{% url "shifts:set_user_attendance_mode_flying" user.pk %}">
+                                  action="{% url 'shifts:set_user_attendance_mode_flying' user.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn tapir-btn btn-secondary btn-sm">
                                     {% translate "Set Flying️" %} ✈
@@ -90,7 +90,7 @@
                         <a data-bs-toggle="collapse" href="#upcoming-shifts">{% translate "Show more" %}</a>
                         <div class="collapse" id="upcoming-shifts">
                             {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
-                                <a href="{% url "shifts:shift_detail" shift_attendance.slot.shift.pk %}">
+                                <a href="{% url 'shifts:shift_detail' shift_attendance.slot.shift.pk %}">
                                     {% shift_block shift_attendance.slot.shift %}
                                 </a>
                             {% endfor %}

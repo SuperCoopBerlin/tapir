@@ -9,7 +9,7 @@
 
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+    <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -38,7 +38,7 @@
                     </div>
                     <div class="member-filter-form-buttons">
                         {% bootstrap_button '<span class="material-icons">filter_alt</span>Filter' button_class="filter-button btn tapir-btn btn-primary"%}
-                        <a class="btn tapir-btn btn-outline-secondary" href="{% url "coop:shareowner_list" %}">
+                        <a class="btn tapir-btn btn-outline-secondary" href="{% url 'coop:shareowner_list' %}">
                             <span class="material-icons">clear</span>
                             {% translate "Clear all filters" %}
                         </a>

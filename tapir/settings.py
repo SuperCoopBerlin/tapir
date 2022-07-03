@@ -9,11 +9,11 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import email.utils
 import os
 from pathlib import Path
 
 import celery.schedules
-import email.utils
 import environ
 
 env = environ.Env()
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "phonenumber_field",
     # TODO(Leon Handreke): Don't install in prod
     "django_extensions",
+    "chartjs",
 ]
 
 if ENABLE_SILK_PROFILING:

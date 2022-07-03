@@ -26,6 +26,7 @@ django-bootstrap5 = "^21.3"
 celery = "^5.2.7"
 redis = "^4.3.3"
 ipython = "^8.4.0"
+django-chartjs = "^2.3.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"

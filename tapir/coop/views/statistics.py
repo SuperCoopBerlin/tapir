@@ -1,8 +1,10 @@
 import datetime
 
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from chartjs.views.lines import BaseLineChartView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import TemplateView
 
@@ -13,6 +15,9 @@ from tapir.coop.models import (
     MemberStatus,
     DraftUser,
     ShareOwnership,
+)
+from tapir.utils.shortcuts import (
+    get_first_of_next_month,
 )
 
 
@@ -38,6 +43,7 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
 
         context["shares"] = self.get_shares_context()
         context["extra_shares"] = self.get_extra_shares_context()
+
         return context
 
     @staticmethod
@@ -48,22 +54,6 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
         ).count()
         start_date = ShareOwnership.objects.order_by("start_date").first().start_date
         start_date = datetime.date(day=1, month=start_date.month, year=start_date.year)
-        end_date = timezone.now().date()
-        end_date = datetime.date(day=1, month=end_date.month, year=end_date.year)
-        context["nb_shares_by_month"] = dict()
-        current_date = end_date
-        while current_date >= start_date:
-            context["nb_shares_by_month"][
-                current_date
-            ] = ShareOwnership.objects.active_temporal(current_date).count()
-            if current_date.month > 1:
-                current_date = datetime.date(
-                    day=1, month=current_date.month - 1, year=current_date.year
-                )
-            else:
-                current_date = datetime.date(
-                    day=1, month=12, year=current_date.year - 1
-                )
 
         nb_months_since_start = (
             (datetime.date.today().year - start_date.year) * 12
@@ -123,6 +113,73 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
         context["paid_percentage"] = paid_percentage
 
         return context
+
+
+class MemberCountEvolutionJsonView(BaseLineChartView):
+    def get_labels(self):
+        return ShareCountEvolutionJsonView.get_dates_from_first_share_to_today()
+
+    def get_providers(self):
+        return [_("All members"), _("Active"), _("Active with account")]
+
+    def get_data(self):
+        all_members_counts = []
+        active_members_counts = []
+        active_members_with_account_counts = []
+
+        for date in ShareCountEvolutionJsonView.get_dates_from_first_share_to_today():
+            shares_active_at_date = ShareOwnership.objects.active_temporal(date)
+            members = ShareOwner.objects.filter(
+                share_ownerships__in=shares_active_at_date
+            ).distinct()
+            all_members_counts.append(members.count())
+
+            active_members = members.with_status(MemberStatus.ACTIVE)
+            active_members_counts.append(active_members.count())
+
+            active_members_with_account = TapirUser.objects.filter(
+                share_owner__in=active_members
+            )
+            active_members_with_account_counts.append(
+                active_members_with_account.count()
+            )
+
+        return [
+            all_members_counts,
+            active_members_counts,
+            active_members_with_account_counts,
+        ]
+
+
+class ShareCountEvolutionJsonView(BaseLineChartView):
+    def get_labels(self):
+        return self.get_dates_from_first_share_to_today()
+
+    def get_providers(self):
+        return [_("Number of shares")]
+
+    def get_data(self):
+        return [
+            [
+                ShareOwnership.objects.active_temporal(date).count()
+                for date in self.get_dates_from_first_share_to_today()
+            ]
+        ]
+
+    @staticmethod
+    def get_dates_from_first_share_to_today():
+        first_share_ownership = ShareOwnership.objects.order_by("start_date").first()
+        if not first_share_ownership:
+            return []
+
+        current_date = first_share_ownership.start_date.replace(day=1)
+        end_date = datetime.date.today()
+        dates = []
+        while current_date < end_date:
+            dates.append(current_date)
+            current_date = get_first_of_next_month(current_date)
+
+        return dates
 
 
 class AboutView(LoginRequiredMixin, TemplateView):

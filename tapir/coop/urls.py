@@ -156,6 +156,16 @@ urlpatterns = [
         name="financing_campaign_update",
     ),
     path(
+        "member_count_evolution_json",
+        views.MemberCountEvolutionJsonView.as_view(),
+        name="member_count_evolution_json",
+    ),
+    path(
+        "share_count_evolution_json",
+        views.ShareCountEvolutionJsonView.as_view(),
+        name="share_count_evolution_json",
+    ),
+    path(
         "payments/list",
         views.IncomingPaymentListView.as_view(),
         name="incoming_payment_list",

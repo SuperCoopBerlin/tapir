@@ -11,10 +11,10 @@
             {% if perms.accounts.manage %}
                 <span>
                     <a class="btn tapir-btn btn-outline-secondary"
-                       href="{% url "coop:shareowner_membership_confirmation" owner.pk %}">
+                       href="{% url 'coop:shareowner_membership_confirmation' owner.pk %}">
                         <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
                     </a>
-                    <a class="btn tapir-btn btn-outline-info" href="{% url "coop:shareowner_update" owner.pk %}" id="share_owner_edit_button">
+                    <a class="btn tapir-btn btn-outline-info" href="{% url 'coop:shareowner_update' owner.pk %}" id="share_owner_edit_button">
                         <span class="material-icons">edit</span>{% translate 'Edit' %}
                     </a>
                 </span>
@@ -56,7 +56,7 @@
                         {% if perms.accounts.manage %}
                             <form style="display: inline;"
                                   method="post"
-                                  action="{% url "coop:mark_shareowner_attended_welcome_session" owner.pk %}">
+                                  action="{% url 'coop:mark_shareowner_attended_welcome_session' owner.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn tapir-btn btn-sm btn-success ml-3">
                                     <span class="material-icons">check</span>{% translate "Mark Attended" %}
@@ -113,7 +113,7 @@
                             {% if perms.coop.manage %}
                                 <td>
                                     <a class="btn tapir-btn btn-outline-secondary btn-sm"
-                                       href="{% url "coop:share_update" o.pk %}">
+                                       href="{% url 'coop:share_update' o.pk %}">
                                         <span class="material-icons">edit</span>
                                         {% translate "Edit" %}
                                     </a>
@@ -126,7 +126,7 @@
                                         <div class="dropdown-menu dropdown-menu-right" style="min-width: 20rem;">
                                         <!-- white-space: normal; to make the long text wrap -->
                                         <form class="form-inline" method="post"
-                                              action="{% url "coop:shareownership_delete" o.pk %}">
+                                              action="{% url 'coop:shareownership_delete' o.pk %}">
                                         {% csrf_token %}
                                             <button type="submit" class="dropdown-item " style="white-space: normal;"
                                                     href="#">
@@ -152,7 +152,7 @@
                 </table>
                 {% if perms.accounts.manage %}
                     <div class="d-flex justify-content-end">
-                        <a class="ml-auto btn tapir-btn btn-outline-info" href="{% url "coop:share_create_multiple" owner.pk %}">
+                        <a class="ml-auto btn tapir-btn btn-outline-info" href="{% url 'coop:share_create_multiple' owner.pk %}">
                             <span class="material-icons">add</span>
                             {% translate "Add Shares" %}
                         </a>
@@ -178,7 +178,7 @@
             {% if perms.accounts.manage %}
                 <div class="row m-1 mt-4 justify-content-end">
                     <form class="d-flex justify-content-end" method="POST"
-                          action="{% url "coop:send_shareowner_membership_confirmation_welcome_email" owner.pk %}">
+                          action="{% url 'coop:send_shareowner_membership_confirmation_welcome_email' owner.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="btn tapir-btn btn-info align-self-right">
                             <span class="material-icons">send</span>{% translate 'Send membership confirmation email' %}

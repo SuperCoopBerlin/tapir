@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load coop %}
+{% load static %}
 
 {% block head %}
     <style>
@@ -10,9 +11,9 @@
             display: none;
         }
     </style>
-{% endblock %}
 
-{% block content %}
+    <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+
     <script>
         function show_card(card_id) {
             for (let other_card of document.getElementsByClassName("statistics-toggle-card")) {
@@ -20,7 +21,22 @@
             }
             document.getElementById(card_id).style.display = "flex";
         }
+
+        function stats_chart(url, canvas_id) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const context = document.getElementById(canvas_id).getContext("2d");
+                    new Chart(context, {
+                        type: 'line', data: data, options: {'responsive': false}
+                    });
+                });
+        }
     </script>
+{% endblock %}
+
+{% block content %}
+
     <div class="container">
         <div class="card m-2">
             <h5 class="card-header">
@@ -35,10 +51,18 @@
                         </ul>
                     </li>
                     <li>Out of {{ active_members_count }} active members, {{ active_users_count }} members have a Tapir
-                        account. {{ members_missing_accounts|length }} users are missing an account.
+                        account. {{ members_missing_accounts_count }} users are missing an account.
                     </li>
                     <li>{{ applicants_count }} applicants are waiting to become members.</li>
                 </ul>
+                <canvas id="member_count_evolution_canvas" width="600" height="480" ></canvas>
+
+                <script type="text/javascript">
+                    stats_chart(
+                        '{% url "coop:member_count_evolution_json" %}',
+                        'member_count_evolution_canvas'
+                    )
+                </script>
             </div>
         </div>
 
@@ -49,7 +73,7 @@
             <div class="card-body">
                 <ul>
                     <li>There are currently
-                        <a href="#" onclick="show_card('shares_card')">{{ shares.nb_share_ownerships_now }} shares</a>.
+                        {{ shares.nb_share_ownerships_now }} shares.
                         <ul>
                             <li>This means on average {{ shares.average_shares_per_month }} new shares per month since
                                 the {{ shares.start_date|date:"d.m.Y" }}</li>
@@ -85,20 +109,14 @@
 
                     </li>
                 </ul>
-            </div>
-        </div>
+                <canvas id="share_count_evolution_canvas" width="600" height="480" ></canvas>
 
-        <div class="card m-2 statistics-toggle-card" id="shares_card">
-            <h5 class="card-header">
-                <span>{% translate "Monthly evolution of the number of shares" %}</span>
-            </h5>
-            <div class="card-body">
-                <ul>
-                    <li>{% now "d.m.Y" %}: {{ shares.nb_share_ownerships_now }} </li>
-                    {% for date, number in shares.nb_shares_by_month.items %}
-                        <li>{{ date|date:"d.m.Y" }}: {{ number }}</li>
-                    {% endfor %}
-                </ul>
+                <script type="text/javascript">
+                    stats_chart(
+                        '{% url "coop:share_count_evolution_json" %}',
+                        'share_count_evolution_canvas'
+                    )
+                </script>
             </div>
         </div>
 

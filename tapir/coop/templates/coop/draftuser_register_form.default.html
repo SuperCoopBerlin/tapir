@@ -6,7 +6,7 @@
 
 {% block head %}
     {{ block.super }}
-    <script src="{% static "coop/js/draftuser_form.js" %}"></script>
+    <script src="{% static 'coop/js/draftuser_form.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -15,7 +15,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
-                    <a href="{% url "coop:draftuser_list" %}">{% translate "Applicants" %}</a>
+                    <a href="{% url 'coop:draftuser_list' %}">{% translate "Applicants" %}</a>
                 </li>
                 {% if form.instance.pk %}
                     <li class="breadcrumb-item">

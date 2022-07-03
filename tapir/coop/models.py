@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q, Sum, Count, F, PositiveIntegerField
@@ -87,11 +89,11 @@ class ShareOwner(models.Model):
 
             return self.filter(combined_filters)
 
-        def with_status(self, status: str):
-            active_ownerships = ShareOwnership.objects.active_temporal()
+        def with_status(self, status: str, date=datetime.date.today()):
+            active_ownerships = ShareOwnership.objects.active_temporal(date)
 
             if status == MemberStatus.SOLD:
-                return self.exclude(share_ownerships__in=active_ownerships)
+                return self.exclude(share_ownerships__in=active_ownerships).distinct()
             else:
                 return self.filter(
                     share_ownerships__in=active_ownerships,
