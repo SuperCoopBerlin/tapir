@@ -20,6 +20,7 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftSlot,
     ShiftUserCapability,
+    ShiftCycleEntry,
 )
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
@@ -279,7 +280,7 @@ def populate_shift_templates():
         slot_name_cashier: 2,
         slot_name_general: 2,
     }
-    for weekday in [2, 3, 4, 5]:
+    for weekday in [0, 1, 2, 3, 4, 5]:
         for template_group in ShiftTemplateGroup.objects.all():
             for index, start_hour in enumerate(start_hours):
                 start_time = datetime.time(
@@ -360,6 +361,7 @@ def clear_data():
     print("Clearing data...")
     LogEntry.objects.all().delete()
     ShiftAttendance.objects.all().delete()
+    ShiftCycleEntry.objects.all().delete()
     ShiftAccountEntry.objects.all().delete()
     Shift.objects.all().delete()
     ShiftAttendanceTemplate.objects.all().delete()
