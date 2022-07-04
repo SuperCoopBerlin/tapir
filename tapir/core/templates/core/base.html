@@ -35,54 +35,68 @@
 
 <body>
 
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top shadow px-3">
-    <span class="navbar-brand">
-        <img alt="SuperCoop Berlin Logo" height=30" src="{% static 'core/images/Logo_white.png' %}">
-    </span>
+<header class="navbar navbar-expand-md navbar-dark bg-dark sticky-top shadow px-3">
+    <div class="container-fluid">
+        <span class="navbar-brand">
+            <img alt="SuperCoop Berlin Logo" height=30" src="{% static 'core/images/Logo_white.png' %}">
+        </span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
+                aria-controls="tapirNavbar tapirSidebar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse d-flex justify-content-center">
-        <div class="navbar-nav">
-            <div>
-                <a class="nav-link"
-                   href="https://wiki.supercoop.de/wiki/Finanzierung">{% shop_extension_progress_bar %}</a>
-            </div>
+        <div class="collapse multi-collapse navbar-collapse" id="tapirNavbar" style="justify-content: flex-end;">
+            <ul class="navbar-nav">
+                <div>
+                    <a class="nav-link"
+                       href="https://wiki.supercoop.de/wiki/Finanzierung">{% shop_extension_progress_bar %}</a>
+                </div>
+
+                {% if perms.coop.manage %}
+                    <li class="nav-item">
+                        <form class="form-inline" method="get" action="{% url 'coop:shareowner_list' %}">
+                        <span class="mr-5">
+                        <input id="member_search" name="display_name" type="text"
+                               placeholder="{% translate 'Search Members' %}"
+                               class="form-control">
+                        </span>
+                        </form>
+                    </li>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="text-light nav-link"
+                           href="{% url 'accounts:user_me' %}">{{ request.user.first_name }} {{ request.user.last_name }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="text-light nav-link" href="{% url 'logout' %}" id="logout">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="text-light nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </div>
-
-    {% if perms.coop.manage %}
-        <form class="form-inline" method="get" action="{% url 'coop:shareowner_list' %}">
-        <span class="mr-5">
-        <input id="member_search" name="display_name" type="text" placeholder="{% translate 'Search Members' %}"
-               class="form-control">
-        </span>
-        </form>
-    {% endif %}
-
-    {% if request.user.is_authenticated %}
-        <a class="text-light nav-link"
-           href="{% url 'accounts:user_me' %}">{{ request.user.first_name }} {{ request.user.last_name }}</a>
-        <a class="text-light nav-link" href="{% url 'logout' %}" id="logout">Logout</a>
-    {% else %}
-        <a class="text-light nav-link" href="{% url 'login' %}">Login</a>
-    {% endif %}
-</nav>
+</header>
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <nav id="tapirSidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse multi-collapse">
             <div class="sidebar-sticky">
+                <div class="d-md-none" style="height: 120px;"></div>
+                <!-- Pushes the links down so that they don't go under the navbar -->
                 {% block sidebar %}
                     {% sidebar_links %}
                 {% endblock %}
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ms-sm-auto col-lg-10 px-4">
-            <!-- make it a bit wider than the default to fit the shift stuff -->
-            <div class="container" style="max-width: 1500px;">
-                {% bootstrap_messages %}
-                {% block content %}{% endblock %}
-            </div>
+        <main role="main" class="col-md-9 ms-sm-auto col-lg-10 p-2 p-md-3 p-lg-4">
+            {% bootstrap_messages %}
+            {% block content %}{% endblock %}
         </main>
     </div>
 </div>
