@@ -382,3 +382,11 @@ def copy_user_info(source, target):
     target.city = source.city
     target.country = source.country
     target.preferred_language = source.preferred_language
+
+
+def positive_number_validator(value):
+    if value < 0:
+        raise ValidationError(
+            _("Must be a positive number."),
+            code="invalid",
+        )

@@ -75,10 +75,19 @@
                 </div>
             </div>
 
+            <div class="row m-1">
+                <div class="col-5 fw-bold text-end">{% translate "Payment" %}:</div>
+                <div class="col-7">
+                    <span id="share_owner_num_shares">{{ owner.get_currently_paid_amount }} / {{ owner.get_total_expected_payment }} €</span>
+                    (<a href="{% url 'coop:incoming_payment_list'  %}">{% translate "Details" %}</a>)
+                </div>
+            </div>
+
             <div class="collapse" id="shares-table">
                 <table class="table" aria-label="{% translate 'List of shares owned by this member' %}">
                     <thead>
                     <tr>
+                        <th scope="col">#</th>
                         <th scope="col">Purchased</th>
                         <th scope="col">Sold</th>
                         <th scope="col">Status</th>
@@ -87,6 +96,7 @@
                     </thead>
                     {% for o in owner.share_ownerships.all %}
                         <tr>
+                            <td>{{ o.id }}</td>
                             <td>{{ o.start_date }}</td>
                             <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
                             <td>
@@ -97,7 +107,7 @@
                                         <span class="text-warning">{% translate "Waiting payment" %} ({{ o.amount_paid }}€)</span>
                                     {% endif %}
                                 {% else %}
-                                    <span class="text-danger">{% translate "Sold" %}</span>
+                                    <span class="text-danger">{% translate "Sold or future" %}</span>
                                 {% endif %}
                             </td>
                             {% if perms.coop.manage %}
@@ -142,9 +152,9 @@
                 </table>
                 {% if perms.accounts.manage %}
                     <div class="d-flex justify-content-end">
-                        <a class="ml-auto btn tapir-btn btn-outline-info" href="{% url 'coop:share_create' owner.pk %}">
+                        <a class="ml-auto btn tapir-btn btn-outline-info" href="{% url 'coop:share_create_multiple' owner.pk %}">
                             <span class="material-icons">add</span>
-                            {% translate "Add Share" %}
+                            {% translate "Add Shares" %}
                         </a>
                     </div>
                 {% endif %}

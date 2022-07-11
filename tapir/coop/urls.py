@@ -71,9 +71,9 @@ urlpatterns = [
         name="empty_membership_agreement",
     ),
     path(
-        "member/<int:shareowner_pk>/create_shareownership",
-        views.ShareOwnershipCreateView.as_view(),
-        name="share_create",
+        "member/<int:shareowner_pk>/create_shareownerships",
+        views.ShareOwnershipCreateMultipleView.as_view(),
+        name="share_create_multiple",
     ),
     path(
         "member/<int:shareowner_pk>/create_user",
@@ -164,5 +164,15 @@ urlpatterns = [
         "share_count_evolution_json",
         views.ShareCountEvolutionJsonView.as_view(),
         name="share_count_evolution_json",
+    ),
+    path(
+        "payments/list",
+        views.IncomingPaymentListView.as_view(),
+        name="incoming_payment_list",
+    ),
+    path(
+        "payments/create",
+        views.IncomingPaymentCreateView.as_view(),
+        name="incoming_payment_create",
     ),
 ]

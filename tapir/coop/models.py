@@ -2,7 +2,7 @@ import datetime
 
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Sum, Count, F, PositiveIntegerField
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
@@ -10,10 +10,11 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
-from tapir.log.models import UpdateModelLogEntry, ModelLogEntry
+from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
+    positive_number_validator,
 )
 from tapir.utils.user_utils import UserUtils
 
@@ -98,6 +99,20 @@ class ShareOwner(models.Model):
                     share_ownerships__in=active_ownerships,
                     is_investing=(status == MemberStatus.INVESTING),
                 ).distinct()
+
+        def with_fully_paid(self, fully_paid: bool):
+            annotated = self.annotate(
+                paid_amount=Sum("credited_payments__amount")
+            ).annotate(
+                expected_payments=Count("share_ownerships", distinct=True)
+                * COOP_SHARE_PRICE
+                + COOP_ENTRY_AMOUNT
+            )
+            if fully_paid:
+                return annotated.filter(paid_amount__gte=F("expected_payments"))
+            return annotated.filter(
+                Q(paid_amount__lte=F("expected_payments")) | Q(paid_amount=None)
+            )
 
     objects = ShareOwnerQuerySet.as_manager()
 
@@ -184,6 +199,17 @@ class ShareOwner(models.Model):
 
     def is_active(self) -> bool:
         return self.get_member_status() == MemberStatus.ACTIVE
+
+    def get_total_expected_payment(self) -> float:
+        return COOP_ENTRY_AMOUNT + self.share_ownerships.count() * COOP_SHARE_PRICE
+
+    def get_currently_paid_amount(self) -> float:
+        return (
+            IncomingPayment.objects.filter(credited_member=self).aggregate(
+                Sum("amount")
+            )["amount__sum"]
+            or 0
+        )
 
 
 class MemberStatus:
@@ -342,3 +368,83 @@ class FinancingSource(models.Model):
         null=False,
         on_delete=models.CASCADE,
     )
+
+
+class IncomingPayment(models.Model):
+    paying_member = models.ForeignKey(
+        ShareOwner,
+        verbose_name=_("Paying member"),
+        related_name="debited_payments",
+        null=False,
+        blank=False,
+        on_delete=models.deletion.PROTECT,
+    )
+    credited_member = models.ForeignKey(
+        ShareOwner,
+        verbose_name=_("Credited member"),
+        related_name="credited_payments",
+        null=False,
+        blank=False,
+        on_delete=models.deletion.PROTECT,
+    )
+    amount = models.FloatField(
+        verbose_name=_("Amount"),
+        null=False,
+        blank=False,
+        validators=[positive_number_validator],
+    )
+    payment_date = models.DateField(
+        verbose_name=_("Payment date"), null=False, blank=False
+    )
+    creation_date = models.DateField(
+        verbose_name=_("Creation date"), null=False, blank=False
+    )
+    comment = models.TextField(blank=True, null=False, default="")
+    created_by = models.ForeignKey(
+        TapirUser,
+        verbose_name=_("Created by"),
+        related_name="creator",
+        null=False,
+        blank=False,
+        on_delete=models.deletion.PROTECT,
+    )
+
+
+class CreateShareOwnershipsLogEntry(LogEntry):
+    num_shares = PositiveIntegerField(blank=False, null=False)
+    start_date = models.DateField(null=False, blank=False)
+    end_date = models.DateField(null=True, blank=True, db_index=True)
+
+    template_name = "coop/log/create_share_ownerships_log_entry.html"
+
+    def populate(
+        self, num_shares, start_date, end_date, actor, user=None, share_owner=None
+    ):
+        self.num_shares = num_shares
+        self.start_date = start_date
+        self.end_date = end_date
+        return super().populate(actor=actor, user=user, share_owner=share_owner)
+
+
+class UpdateShareOwnershipLogEntry(UpdateModelLogEntry):
+    share_ownership_id = PositiveIntegerField(blank=False, null=False)
+
+    template_name = "coop/log/update_share_ownership_log_entry.html"
+
+    def populate(
+        self,
+        share_ownership,
+        old_frozen,
+        new_frozen,
+        actor,
+        user=None,
+        share_owner=None,
+    ):
+        self.share_ownership_id = share_ownership.id
+        return super().populate(
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+            actor=actor,
+            user=user,
+            share_owner=share_owner,
+        )

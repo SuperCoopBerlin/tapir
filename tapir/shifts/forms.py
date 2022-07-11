@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django_select2.forms import Select2Widget
 
 from tapir.accounts.models import TapirUser
+from tapir.coop.models import ShareOwner
 from tapir.shifts.models import (
     Shift,
     ShiftAttendanceTemplate,
@@ -18,7 +19,7 @@ from tapir.shifts.models import (
     ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
 )
-from tapir.utils.forms import DateInput
+from tapir.utils.forms import DateInputTapir
 
 
 class ShiftCreateForm(forms.ModelForm):
@@ -67,14 +68,24 @@ class ShiftSlotForm(forms.ModelForm):
 class TapirUserChoiceField(ModelChoiceField):
     widget = Select2Widget()
 
-    def __init__(self):
-        # Super edgecase but filer out just to be sure
-        # TODO(Leon Handreke): Filter out inactive when we can do it efficiently
-        super().__init__(queryset=TapirUser.objects.filter(share_owner__isnull=False))
+    def __init__(
+        self, queryset=TapirUser.objects.filter(share_owner__isnull=False), **kwargs
+    ):
+        super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: TapirUser):
         # Share Owner will always exist because we filter out all others above
         return f"{obj.first_name} {obj.last_name} ({obj.share_owner.id})"
+
+
+class ShareOwnerChoiceField(ModelChoiceField):
+    widget = Select2Widget()
+
+    def __init__(self, queryset=ShareOwner.objects.all(), **kwargs):
+        super().__init__(queryset=queryset, **kwargs)
+
+    def label_from_instance(self, obj: ShareOwner):
+        return f"{obj.get_info().first_name} {obj.get_info().last_name} ({obj.id})"
 
 
 class MissingCapabilitiesWarningMixin(forms.Form):
@@ -225,8 +236,8 @@ class ShiftExemptionForm(forms.ModelForm):
         model = ShiftExemption
         fields = ["start_date", "end_date", "description"]
         widgets = {
-            "start_date": DateInput(),
-            "end_date": DateInput(),
+            "start_date": DateInputTapir(),
+            "end_date": DateInputTapir(),
         }
 
     confirm_cancelled_attendances = BooleanField(

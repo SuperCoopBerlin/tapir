@@ -3,11 +3,14 @@ from datetime import date
 from django import forms
 from django.utils import formats
 from django.utils.translation import gettext_lazy as _
+from django_filters import RangeFilter
+from django_filters.fields import DateRangeField
+from django_filters.widgets import DateRangeWidget, SuffixedMultiWidget
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
 
 
-class DateInput(forms.DateInput):
+class DateInputTapir(forms.DateInput):
     input_type = "date"
 
     def format_value(self, value: date):
@@ -25,3 +28,19 @@ class TapirPhoneNumberField(PhoneNumberField):
         super(TapirPhoneNumberField, self).__init__(
             *args, help_text=help_text, **kwargs
         )
+
+
+class DateRangeWidgetTapir(DateRangeWidget):
+    suffixes = ["after", "before"]
+
+    def __init__(self, attrs=None):
+        widgets = (DateInputTapir, DateInputTapir)
+        super(SuffixedMultiWidget, self).__init__(widgets, attrs)
+
+
+class DateRangeFieldTapir(DateRangeField):
+    widget = DateRangeWidgetTapir
+
+
+class DateFromToRangeFilterTapir(RangeFilter):
+    field_class = DateRangeFieldTapir
