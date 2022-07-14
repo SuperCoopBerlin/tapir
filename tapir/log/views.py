@@ -79,9 +79,11 @@ class LogTable(django_tables2.Table):
 
 
 class LogFilter(django_filters.FilterSet):
-    def __init__(self, user=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not self.request.user.has_perm("coop.view"):
+        if hasattr(self.request, "user") and not self.request.user.has_perm(
+            "coop.view"
+        ):
             userfield_choices = [
                 (
                     self.request.user.id,
@@ -97,7 +99,6 @@ class LogFilter(django_filters.FilterSet):
                 for user in TapirUser.objects.all().order_by("username")
                 if user is not None
             ]
-        # First Method
         self.filters["user"].extra["choices"] = userfield_choices
         self.filters["actor"].extra["choices"] = [
             (
