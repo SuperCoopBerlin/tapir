@@ -1,9 +1,10 @@
 import django_tables2
 import django_filters
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import OperationalError, ProgrammingError
 from django_filters import DateRangeFilter
 from django_filters.views import FilterView
-from django_tables2.views import SingleTableMixin
+from django_tables2.views import SingleTableView
 
 from django.utils.translation import gettext_lazy as _
 
@@ -17,6 +18,7 @@ from tapir.coop.models import ShareOwner
 from tapir.log.forms import CreateTextLogEntryForm
 from tapir.log.models import EmailLogEntry, TextLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
+from tapir.utils.filters import TapirUserModelChoiceFilter
 from tapir.utils.shortcuts import safe_redirect
 
 
@@ -84,42 +86,29 @@ class LogFilter(django_filters.FilterSet):
         if hasattr(self.request, "user") and not self.request.user.has_perm(
             "coop.view"
         ):
-            userfield_choices = [
-                (
-                    self.request.user.id,
-                    self.request.user.get_display_name(),
-                )
-            ]
+            UserList = TapirUser.objects.filter(id=self.request.user.pk)
         else:
-            userfield_choices = [
-                (
-                    user.id,
-                    user.get_display_name(),
-                )
+            ids = [
+                user.id
                 for user in TapirUser.objects.all().order_by("username")
-                if user is not None
+                if user is not None and hasattr(user, "share_owner")
             ]
-        self.filters["user"].extra["choices"] = userfield_choices
-        self.filters["actor"].extra["choices"] = [
-            (
-                TapirUser.objects.get(pk=x).id,
-                TapirUser.objects.get(pk=x).get_display_name(),
-            )
-            for x in LogEntry.objects.all().values_list("actor", flat=True).distinct()
-            if x is not None
-        ]
+            UserList = TapirUser.objects.filter(id__in=ids)
+        self.filters["user"].field.queryset = UserList
+        self.filters["actor"].field.queryset = TapirUser.objects.filter(
+            id__in=LogEntry.objects.all().values_list("actor", flat=True).distinct()
+        )
 
-    user = django_filters.ChoiceFilter(choices=[])  # choices depend on request
+    user = TapirUserModelChoiceFilter()
     time = DateRangeFilter(field_name="created_date")
-
-    actor = django_filters.ChoiceFilter(choices=[], label=_("Actor"))
+    actor = TapirUserModelChoiceFilter()
 
     class Meta:
         model = LogEntry
         fields = ["time", "actor", "user"]
 
 
-class LogTableView(SingleTableMixin, FilterView):
+class LogTableView(LoginRequiredMixin, FilterView, SingleTableView):
     model = LogEntry
     table_class = LogTable
     template_name = "log/log_overview.html"

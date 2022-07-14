@@ -3,9 +3,14 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load coop %}
-
+{% load static %}
 {% load render_table from django_tables2 %}
 
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+    {{ filter.form.media }}
+{% endblock %}
 
 {% block content %}
     <div class="card m-2">
