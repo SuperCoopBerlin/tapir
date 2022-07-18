@@ -140,3 +140,7 @@ rm $CERT_HOSTNAME.members.supercoop.de.key $CERT_HOSTNAME.members.supercoop.de.c
 We use a slightly customized version of the boostrap buttons, typically using those HTML classes: `btn tapir-btn btn-[BOOTSTRAP COLOR]`.  
 Each button should have an icon, we use material-icons.  
 We use outlined buttons for links that have no consequences (for example, going to an edit page), and filled buttons when there are consequences (for example, a save button, or sending an email). 
+
+# Troubleshooting
+
+* On macOS, you might have to install Postgresql to get `psycopg2` working. Use `brew install postgresql` for that.

@@ -11,7 +11,7 @@
                 {% translate "Cancel shift:" %} {{ form.instance }}
             </h5>
             <div class="card-body">
-                <p>
+                <div>
                     {% blocktranslate %}
                         Cancelling a shift is used for example for holidays. It has the following consequences :
                         <ul>
@@ -20,7 +20,7 @@
                             <li>Members who registered just to this shift don't get a point.</li>
                         </ul>
                     {% endblocktranslate %}
-                </p>
+                </div>
                 <form role="form" method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}

@@ -1,1 +1,1 @@
-✉️ Email sent: "{{ entry.subject }}" (<a href="{% url 'log:email_log_entry_content' entry.pk %}">📥 Download</a>)
+{% translate "Email sent" %}: <a href="{% url 'log:email_log_entry_content' entry.pk %}">"{{ entry.subject }}"</a>.
