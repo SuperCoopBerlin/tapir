@@ -9,8 +9,8 @@ register = template.Library()
 @register.inclusion_tag("log/log_entry_list_tag.html", takes_context=True)
 def log_entry_list(context, **kwargs):
     # check if user or shareowner is in kwargs and is length one
-    if not any(key in kwargs for key in ("user", "sharewoner")) or len(kwargs) > 1:
-        raise ValueError
+    if not any(key in kwargs for key in ("user", "share_owner")) or len(kwargs) > 1:
+        raise ValueError(f"{kwargs} not found")
 
     last_x_days = 30
     raw_entries = LogEntry.objects.filter(
