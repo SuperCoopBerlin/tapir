@@ -22,6 +22,14 @@ def log_entry_list(context, **kwargs):
     context["log_entries"] = log_entries
 
     key, val = next(iter(kwargs.items()))
+    # both user and share_owner is possible, so combine here to 'member'
+    if key == "user":
+        member = val.share_owner.id
+    elif key == "share_owner":
+        member = val.id
+    else:
+        raise Exception
+    context["member"] = member
     context["create_text_log_entry_action_url"] = "%s?next=%s" % (
         reverse(f"log:create_{key}_text_log_entry", args=[val.pk]),
         val.get_absolute_url(),
