@@ -65,11 +65,12 @@ def create_text_log_entry(request, **kwargs):
 
 class LogTable(django_tables2.Table):
     entry = django_tables2.Column(
-        empty_values=(), accessor="as_leaf_class__render", verbose_name="Message"
+        empty_values=(), accessor="as_leaf_class__render", verbose_name=_("Message")
     )
     member = django_tables2.Column(
-        empty_values=(), accessor="user", verbose_name="Member-ID"
+        empty_values=(), accessor="user", verbose_name=_("Member") + "-ID"
     )
+    actor = django_tables2.Column(verbose_name=_("Actor"))
 
     class Meta:
         model = LogEntry
@@ -110,8 +111,8 @@ class LogFilter(django_filters.FilterSet):
         )
 
     time = DateRangeFilter(field_name="created_date")
-    actor = TapirUserModelChoiceFilter()
-    members = ShareOwnerModelChoiceFilter(method="member_filter", label="Members")
+    actor = TapirUserModelChoiceFilter(label=_("Actor"))
+    members = ShareOwnerModelChoiceFilter(method="member_filter", label=_("Member"))
 
     def member_filter(self, queryset, name, value):
         # check if value is either in user or share_owner (can only be in one)
