@@ -122,7 +122,7 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
     filter_classes = set()
 
     num_attendances = 0
-    
+
     # order by length of name so that the shift name does not interfere with header
     for slot_template in shift_template.slot_templates.all().order_by(
         Length("name").asc()
