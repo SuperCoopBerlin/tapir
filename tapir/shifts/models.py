@@ -55,7 +55,7 @@ class ShiftSlotWarning:
 
 SHIFT_SLOT_WARNING_CHOICES = {
     ShiftSlotWarning.IN_THE_MORNING_EVERYONE_HELPS_STORAGE: _(
-        "I understand that all working groups help the Warenannahme & Lagerhaltung working group until the shop opens."
+        "I understand that all working groups help the Warenannahme & Lager working group until the shop opens."
     ),
     ShiftSlotWarning.IN_THE_EVENING_EVERYONE_HELPS_CLEAN: _(
         "I understand that all working groups help the Reinigung & Aufräumen working group after the shop closes."
