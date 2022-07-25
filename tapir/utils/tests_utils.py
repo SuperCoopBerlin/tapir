@@ -53,10 +53,10 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
 
     def login(self, username: str, password: str):
         self.selenium.get(self.live_server_url + reverse("login"))
-        login_card = self.selenium.find_element_by_id("login-card")
-        login_card.find_element_by_id("id_username").send_keys(username)
-        login_card.find_element_by_id("id_password").send_keys(password)
-        login_card.find_element_by_tag_name("button").click()
+        login_card = self.selenium.find_element(By.ID, "login-card")
+        login_card.find_element(By.ID, "id_username").send_keys(username)
+        login_card.find_element(By.ID, "id_password").send_keys(password)
+        login_card.find_element(By.TAG_NAME, "button").click()
         self.wait_until_element_present_by_id("logout")
 
     def login_as_admin(self):
@@ -96,7 +96,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
 
         if not self.does_element_exist_by_id("logout"):
             return
-        logout_button = self.selenium.find_element_by_id("logout")
+        logout_button = self.selenium.find_element(By.ID, "logout")
         logout_button.click()
         self.wait_until_element_present_by_id("login-card")
 
@@ -105,7 +105,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
     def does_element_exist_by_id(self, html_id: str) -> bool:
         try:
             self.selenium.implicitly_wait(1)
-            self.selenium.find_element_by_id(html_id)
+            self.selenium.find_element(By.ID, html_id)
         except NoSuchElementException:
             return False
         finally:
@@ -135,7 +135,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
     def go_to_user_page(self, user_display_name: str):
         self.selenium.get(self.live_server_url + reverse("coop:shareowner_list"))
 
-        member_search = self.selenium.find_element_by_id("member_search")
+        member_search = self.selenium.find_element(By.ID, "member_search")
         member_search.send_keys(user_display_name)
         member_search.send_keys(Keys.ENTER)
 
@@ -157,35 +157,35 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
 class TapirUserTestBase(TapirSeleniumTestBase):
     def check_tapir_user_details(self, user: JsonUser):
         self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_display_name").text,
+            self.selenium.find_element(By.ID, "tapir_user_display_name").text,
             user.get_display_name(),
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_username").text,
+            self.selenium.find_element(By.ID, "tapir_user_username").text,
             user.get_username(),
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_email").text,
+            self.selenium.find_element(By.ID, "tapir_user_email").text,
             user.email,
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_phone_number").text,
+            self.selenium.find_element(By.ID, "tapir_user_phone_number").text,
             format_phone_number(user.phone_number),
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_birthdate").text,
+            self.selenium.find_element(By.ID, "tapir_user_birthdate").text,
             user.get_birthdate_display(),
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("tapir_user_address").text,
+            self.selenium.find_element(By.ID, "tapir_user_address").text,
             user.get_display_address(),
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("share_owner_status").text,
+            self.selenium.find_element(By.ID, "share_owner_status").text,
             "Active",
         )
         self.assertEqual(
-            self.selenium.find_element_by_id("share_owner_num_shares").text,
+            self.selenium.find_element(By.ID, "share_owner_num_shares").text,
             str(user.num_shares),
         )
 

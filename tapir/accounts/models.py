@@ -22,7 +22,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts import validators
 from tapir.log.models import UpdateModelLogEntry
-from tapir.settings import PERMISSIONS
+from tapir.settings import PERMISSIONS, COOP_NAME
 from tapir.utils.models import CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -184,6 +184,7 @@ class TapirUser(LdapUser):
             "uid": urlsafe_base64_encode(force_bytes(self.pk)),
             "tapir_user": self,
             "token": default_token_generator.make_token(self),
+            "coop_name": COOP_NAME,
         }
         with translation.override(self.preferred_language):
             subject = loader.render_to_string(subject_template_names, context)

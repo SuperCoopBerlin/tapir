@@ -13,44 +13,42 @@
         </span>
     </h5>
     <div class="card-body">
-        <table class="table table-striped" aria-label="{% translate 'List of log entries for this user' %}">
-            <thead>
-            <tr>
-                <th scope="col">{% translate "Date" %}</th>
-                <th scope="col">{% translate "Actor" %}</th>
-                <th scope="col">{% translate "Message" %}</th>
-            </tr>
-            </thead>
-            {% for o in log_entries %}
+        <div class="table-responsive">
+            <table class="table table-striped" aria-label="{% translate 'List of log entries for this member' %}">
+                <thead>
                 <tr>
-                    <td>{{ o.created_date|date:"d.m.Y H:i" }}</td>
-                    <td>{{ o.actor.get_display_name|default_if_none:o.actor }}</td>
-                    <td>{{ o.render }}</td>
+                    <th scope="col">{% translate 'Date' %}</th>
+                    <th scope="col">{% translate 'Actor' %}</th>
+                    <th scope="col">{% translate 'Message' %}</th>
                 </tr>
-            {% endfor %}
-            {% if perms.accounts.manage %}
-                <tr>
+                </thead>
+                {% for o in log_entries %}
+                    <tr>
+                        <td>{{ o.created_date|date:"d.m.Y H:i" }}</td>
+                        <td>{{ o.actor.get_display_name|default_if_none:o.actor }}</td>
+                        <td>{{ o.render }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
 
-                    <td colspan="3">
-
-                        <form method="POST" action="{{ create_text_log_entry_action_url }}">
-                            {% csrf_token %}
-                            {% comment %}
-                        Ideally we would let the form field render itself here, but it's easier to style as an inline field
-                        this way.
-                        {% endcomment %}
-                            <div class="d-flex">
-                                <input class="form-control flex-grow-1" name="text" placeholder="{% translate 'Notes about this user' %}">
-                                <button class="btn tapir-btn btn-sm btn-info ms-2" type="submit" id="add_note_button" style="min-width: 100px;">
-                                    <span class="material-icons">note_add</span>
-                                    {% translate "Add Note" %}
-                                </button>
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-            {% endif %}
-        </table>
-
+        {% if perms.accounts.manage %}
+            <form method="POST" action="{{ create_text_log_entry_action_url }}">
+                {% csrf_token %}
+                {% comment %}
+                    Ideally we would let the form field render itself here, but it's easier to style as
+                    an inline field
+                    this way.
+                {% endcomment %}
+                <div class="d-flex flex-wrap justify-content-end">
+                    <input class="form-control m-1" name="text"
+                           placeholder="{% translate 'Notes about this user' %}">
+                    <button class="btn btn-sm btn-info" type="submit"
+                            id="add_note_button" style="min-width: 100px;">
+                        {% translate "Add Note" %}
+                    </button>
+                </div>
+            </form>
+        {% endif %}
     </div>
 </div>

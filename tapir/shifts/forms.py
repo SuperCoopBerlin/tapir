@@ -307,8 +307,12 @@ class ShiftExemptionForm(forms.ModelForm):
                     ]
                 )
                 error_msg = _(
-                    f"The user will be unregistered from the following ABCD shifts because the exemption is longer than {ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT} cycles: {attendances_display}"
-                )
+                    "The user will be unregistered from the following ABCD shifts because the exemption is longer "
+                    "than %(number_of_cycles)s cycles: %(attendances_display)s "
+                ) % {
+                    "number_of_cycles": ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT,
+                    "attendances_display": attendances_display,
+                }
                 self.add_error("confirm_cancelled_abcd_attendances", error_msg)
                 self.fields[
                     "confirm_cancelled_abcd_attendances"
