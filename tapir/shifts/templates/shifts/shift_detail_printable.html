@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load shifts %}
 
 <style>
     @page {
@@ -65,7 +66,11 @@
             <td>
                 {% with slot.get_valid_attendance as attendance %}
                     {% if attendance %}
-                        {{ attendance.user.get_display_name }} <br/><br/>
+                        {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
+                            {{ attendance.user.get_display_name }} ({% translate "Looking for a stand-in" %}) <br/><br/>
+                        {% else %}
+                            {{ attendance.user.get_display_name }} <br/><br/>
+                        {% endif %}
                         {% if attendance.user.shift_user_data.capabilities|length > 0 %}
                             <span class="small-text">
                                 {% translate 'Has qualifications: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
