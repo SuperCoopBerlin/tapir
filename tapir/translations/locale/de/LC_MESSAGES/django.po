@@ -1287,8 +1287,8 @@ msgid ""
 "exemption is longer than %(number_of_cycles)s cycles: "
 "%(attendances_display)s "
 msgstr ""
-"Das Mitglied wird von die folgende ABCD-Schichten abgemeldet weil die "
-"Befreiung länger als %(number_of_cycles)s Zyklen: %(attendances_display)s"
+"Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die "
+"Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s"
 
 #: shifts/models.py:37
 msgid "Teamleader"
