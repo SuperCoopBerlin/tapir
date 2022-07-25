@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load coop %}
 
+{% block title %}
+    {% translate "Edit share owner" %}: {{ object.get_info.get_display_name }}
+{% endblock %}
+
 {% block content %}
 
     <div class="container">

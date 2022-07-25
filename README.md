@@ -22,7 +22,7 @@ docker-compose up
 
 This starts a container with an LDAP server and automatically loads the test data into the LDAP.
 
-For local developement and testing, set up the test database and load test data
+For local development and testing, set up the test database and load test data
 
 ```
 # Create tables
@@ -34,6 +34,7 @@ docker-compose exec web poetry run python manage.py populate --reset_all
 ```
 
 For more information, have a look at our [Documentation](CONTRIBUTING.md#documentation).
+
 ## Contributing
 
 This is an active open-source project, so you can get involved in it easily!
@@ -45,3 +46,7 @@ You can do so **without any programming or Python knowledge**! Just choose a tas
 3. [:earth_africa: Translate Tapir](CONTRIBUTING.md#translate-tapir)
 4. [:book: Improve Documentation](CONTRIBUTING.md#documentation)
 5. [:apple: Become a part of SuperCoop e.G.](https://supercoop.de/en/joinus/)
+
+## Troubleshooting
+
+* On macOS, in order to set up a local Python `venv`, you might have to install Postgresql to get `psycopg2` working. Use `brew install postgresql` for that. 

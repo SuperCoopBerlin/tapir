@@ -98,9 +98,9 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["card_title"] = _(
-            f"Add shares to {self.get_share_owner().get_info().get_display_name()}"
-        )
+        context_data["card_title"] = _(f"Add shares to %(name)s") % {
+            "name": self.get_share_owner().get_info().get_display_name()
+        }
         return context_data
 
     def form_valid(self, form):
@@ -363,6 +363,12 @@ class ShareOwnerTable(django_tables2.Table):
         sequence = (
             "id",
             "display_name",
+            "first_name",
+            "last_name",
+            "street",
+            "postcode",
+            "city",
+            "country",
             "status",
             "attended_welcome_session",
             "ratenzahlung",
@@ -371,8 +377,14 @@ class ShareOwnerTable(django_tables2.Table):
         order_by = "id"
 
     display_name = django_tables2.Column(
-        empty_values=(), verbose_name="Name", orderable=False
+        empty_values=(), verbose_name="Name", orderable=False, exclude_from_export=True
     )
+    first_name = django_tables2.Column(empty_values=(), orderable=False, visible=False)
+    last_name = django_tables2.Column(empty_values=(), orderable=False, visible=False)
+    street = django_tables2.Column(empty_values=(), orderable=False, visible=False)
+    postcode = django_tables2.Column(empty_values=(), orderable=False, visible=False)
+    city = django_tables2.Column(empty_values=(), orderable=False, visible=False)
+    country = django_tables2.Column(empty_values=(), orderable=False, visible=False)
     status = django_tables2.Column(empty_values=(), orderable=False)
     email = django_tables2.Column(empty_values=(), orderable=False, visible=False)
     phone_number = django_tables2.Column(
@@ -384,18 +396,63 @@ class ShareOwnerTable(django_tables2.Table):
     preferred_language = django_tables2.Column(
         empty_values=(), orderable=False, visible=False
     )
+    num_shares = django_tables2.Column(empty_values=(), orderable=False, visible=False)
+    join_date = django_tables2.Column(empty_values=(), orderable=False, visible=False)
 
-    def render_display_name(self, value, record: ShareOwner):
+    @staticmethod
+    def render_display_name(value, record: ShareOwner):
         return format_html(
             "<a href={}>{}</a>",
             record.get_absolute_url(),
             record.get_info().get_display_name(),
         )
 
-    def value_display_name(self, value, record: ShareOwner):
+    @staticmethod
+    def value_display_name(value, record: ShareOwner):
         return record.get_info().get_display_name()
 
-    def render_status(self, value, record: ShareOwner):
+    @staticmethod
+    def value_first_name(value, record: ShareOwner):
+        return record.get_info().first_name
+
+    @staticmethod
+    def value_last_name(value, record: ShareOwner):
+        return record.get_info().last_name
+
+    @staticmethod
+    def value_postcode(value, record: ShareOwner):
+        return record.get_info().postcode
+
+    @staticmethod
+    def render_postcode(value, record: ShareOwner):
+        return record.get_info().postcode
+
+    @staticmethod
+    def value_street(value, record: ShareOwner):
+        return record.get_info().street
+
+    @staticmethod
+    def render_street(value, record: ShareOwner):
+        return record.get_info().street
+
+    @staticmethod
+    def value_city(value, record: ShareOwner):
+        return record.get_info().city
+
+    @staticmethod
+    def render_city(value, record: ShareOwner):
+        return record.get_info().city
+
+    @staticmethod
+    def value_country(value, record: ShareOwner):
+        return record.get_info().country
+
+    @staticmethod
+    def render_country(value, record: ShareOwner):
+        return record.get_info().country
+
+    @staticmethod
+    def render_status(value, record: ShareOwner):
         status = record.get_member_status()
         if status == MemberStatus.SOLD:
             color = "orange"
@@ -410,17 +467,30 @@ class ShareOwnerTable(django_tables2.Table):
             color,
         )
 
-    def value_status(self, value, record: ShareOwner):
+    @staticmethod
+    def value_status(value, record: ShareOwner):
         return record.get_member_status()
 
-    def value_email(self, value, record: ShareOwner):
+    @staticmethod
+    def value_email(value, record: ShareOwner):
         return record.get_info().email
 
-    def value_phone_number(self, value, record: ShareOwner):
+    @staticmethod
+    def value_phone_number(value, record: ShareOwner):
         return record.get_info().phone_number
 
-    def value_preferred_language(self, value, record: ShareOwner):
+    @staticmethod
+    def value_preferred_language(value, record: ShareOwner):
         return record.get_info().preferred_language
+
+    @staticmethod
+    def value_num_shares(value, record: ShareOwner):
+        return record.num_shares()
+
+    @staticmethod
+    def value_join_date(value, record: ShareOwner):
+        ownership = record.get_oldest_active_share_ownership()
+        return ownership.start_date if ownership is not None else ""
 
 
 class ShareOwnerFilter(django_filters.FilterSet):
@@ -488,9 +558,8 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="display_name_filter", label=_("Name or member ID")
     )
 
-    def display_name_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
-    ):
+    @staticmethod
+    def display_name_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         # This is an ugly hack to enable searching by Mitgliedsnummer from the
         # one-stop search box in the top right
         if value.isdigit():
@@ -498,51 +567,57 @@ class ShareOwnerFilter(django_filters.FilterSet):
 
         return queryset.with_name(value).distinct()
 
-    def status_filter(self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
+    @staticmethod
+    def status_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         return queryset.with_status(value).distinct()
 
+    @staticmethod
     def shift_attendance_mode_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
         return queryset.filter(
             user__in=TapirUser.objects.with_shift_attendance_mode(value)
         ).distinct()
 
+    @staticmethod
     def registered_to_slot_with_capability_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
         return queryset.filter(
             user__in=TapirUser.objects.registered_to_shift_slot_with_capability(value)
         ).distinct()
 
+    @staticmethod
     def has_capability_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
         return queryset.filter(
             user__in=TapirUser.objects.has_capability(value)
         ).distinct()
 
+    @staticmethod
     def not_has_capability_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
         return queryset.exclude(
             user__in=TapirUser.objects.has_capability(value)
         ).distinct()
 
+    @staticmethod
     def has_tapir_account_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
     ):
         return queryset.exclude(user__isnull=value).distinct()
 
-    def abcd_week_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
-    ):
+    @staticmethod
+    def abcd_week_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         return queryset.filter(
             user__shift_attendance_templates__slot_template__shift_template__group__name=value
         ).distinct()
 
+    @staticmethod
     def has_unpaid_shares_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
     ):
         unpaid_shares = ShareOwnership.objects.filter(
             amount_paid__lt=COOP_SHARE_PRICE, owner__in=queryset
@@ -597,12 +672,21 @@ class ShareOwnerExportMailchimpView(
         # Only active members should be on our mailing lists
         return super().get_queryset().filter(is_investing=False)
 
-    def render_to_response(self, context, **response_kwargs):
+    @staticmethod
+    def render_to_response(context, **response_kwargs):
         response = HttpResponse(content_type="text/csv")
         response["Content-Disposition"] = 'attachment; filename="members_mailchimp.csv"'
         writer = csv.writer(response)
 
-        writer.writerow(["Email Address", "First Name", "Last Name", "Address", "TAGS"])
+        writer.writerow(
+            [
+                "Email Address",
+                "First Name",
+                "Last Name",
+                "Address",
+                "Tags",
+            ]
+        )
         for owner in context["object_list"]:
             if not owner.get_info().email:
                 continue
@@ -643,14 +727,16 @@ class MatchingProgramTable(django_tables2.Table):
         empty_values=(), verbose_name="Name", orderable=False
     )
 
-    def render_display_name(self, value, record: ShareOwner):
+    @staticmethod
+    def render_display_name(value, record: ShareOwner):
         return format_html(
             "<a href={}>{}</a>",
             record.get_absolute_url(),
             record.get_info().get_display_name(),
         )
 
-    def render_willing_to_gift_a_share(self, value, record: ShareOwner):
+    @staticmethod
+    def render_willing_to_gift_a_share(value, record: ShareOwner):
         if record.willing_to_gift_a_share is None:
             return pgettext_lazy(
                 context="Willing to give a share",
@@ -691,7 +777,8 @@ class ShareOwnerTableWelcomeDesk(django_tables2.Table):
         empty_values=(), verbose_name="Name", orderable=False
     )
 
-    def render_display_name(self, value, record: ShareOwner):
+    @staticmethod
+    def render_display_name(value, record: ShareOwner):
         return format_html(
             "<a href={}>{}</a>",
             reverse("coop:welcome_desk_share_owner", args=[record.pk]),
@@ -704,9 +791,8 @@ class ShareOwnerFilterWelcomeDesk(django_filters.FilterSet):
         method="display_name_filter", label=_("Name or member ID")
     )
 
-    def display_name_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
-    ):
+    @staticmethod
+    def display_name_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         if not value:
             return queryset.none()
 

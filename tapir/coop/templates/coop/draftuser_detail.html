@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load accounts %}
 
+{% block title %}
+    {% translate "Applicant" %}: {{ object.get_display_name }}
+{% endblock %}
+
 {% block content %}
 
     <div class="container">

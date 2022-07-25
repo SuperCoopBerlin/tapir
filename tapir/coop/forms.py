@@ -7,6 +7,12 @@ from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
+from tapir.coop.config import (
+    COOP_SHARE_PRICE,
+    COOP_MIN_SHARES,
+    COOP_MAX_SHARES,
+    COOP_DEFAULT_SHARES,
+)
 from tapir.coop.models import (
     ShareOwnership,
     DraftUser,
@@ -99,6 +105,29 @@ class DraftUserForm(forms.ModelForm):
 
 class DraftUserRegisterForm(forms.ModelForm):
     phone_number = TapirPhoneNumberField()
+    num_shares = forms.IntegerField(
+        label=_("Number of Shares"),
+        initial=COOP_DEFAULT_SHARES,
+        min_value=COOP_MIN_SHARES,
+        max_value=COOP_MAX_SHARES,
+        help_text=_(
+            "Number of shares you would like to purchase. The price of one share is EUR %(share_price)s. "
+            "You need to purchase at least one share to become member of the cooperative. "
+            "To support our cooperative even more, you may voluntarily purchase more shares."
+        )
+        % {"share_price": COOP_SHARE_PRICE},
+    )
+    is_investing = forms.BooleanField(
+        initial=False,
+        required=False,
+        label=_(
+            "I would like to join the membership list as an investing member (= sponsoring member)"
+        ),
+        help_text=_(
+            "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General "
+            "Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
+        ),
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

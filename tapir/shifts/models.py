@@ -67,7 +67,7 @@ SHIFT_SLOT_WARNING_CHOICES = {
         "I understand that I may need to carry heavy weights for this shift."
     ),
     ShiftSlotWarning.MUST_NOT_BE_SCARED_OF_HEIGHTS: _(
-        "I understand that I may need to work high, for example up a ladder. I do not suffer from fear of heigts."
+        "I understand that I may need to work high, for example up a ladder. I do not suffer from fear of heights."
     ),
 }
 

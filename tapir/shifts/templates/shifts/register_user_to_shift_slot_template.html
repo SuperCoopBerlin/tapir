@@ -37,13 +37,13 @@
                         <p>It is still possible to sign someone up for this shift using the ABCD system. This would mean that the member is signing up to work this shift on a recurring 4-week basis (i.e. once per shift cycle).</p>
                         <p>IMPORTANT: If a flying member had previously signed up for the same shift, the ABCD member will have to sign up for a different shift for that particular cycle.</p>
                     {% endblocktranslate %}
-                    <p>{% translate 'Already occupied shifts :' %}
+                    <div>{% translate 'Already occupied shifts :' %}
                         <ul id="occupied_shifts_list">
                             {% for slot in blocked_slots %}
                                 <li><a href="{{ slot.shift.get_absolute_url }}">{{ slot.shift.get_display_name }}</a></li>
                             {% endfor %}
                         </ul>
-                    </p>
+                    </div>
                 </div>
             </div>
         {% endif %}
