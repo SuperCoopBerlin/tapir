@@ -1,0 +1,32 @@
+{% extends "core/base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load coop %}
+{% load static %}
+{% load render_table from django_tables2 %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+    {{ filter.form.media }}
+{% endblock %}
+
+{% block content %}
+    <div class="card m-2">
+        <h5 class="card-header d-flex justify-content-between">
+
+            <span>{% translate "Logs" %}</span>
+        </h5>
+        <div class="card-body">
+
+        {% if filter %}
+            <form action="" method="get" class="form log-filter-form">
+            {% bootstrap_form filter.form %}
+            {% bootstrap_button '<span class="material-icons">filter_alt</span>Filter' button_class="filter-button btn tapir-btn btn-primary"%}
+        </form>
+        {% endif %}
+        {% render_table table  'django_tables2/bootstrap.html' %}
+        </div>
+    </div>
+{% endblock %}

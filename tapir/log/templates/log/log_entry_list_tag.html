@@ -4,9 +4,14 @@
 {% load log %}
 
 <div class="card mb-2">
-    <div class="card-header">
-        <h5>{% translate "Log" %}</h5>
-    </div>
+    <h5 class="card-header d-flex justify-content-between align-items-center" id="user_log">
+        {% translate "Log" %}
+        <span>
+            <a class="btn tapir-btn btn-outline-info" href="{% url 'log:log_overview'  %}?members={{ member }}">
+                {% translate 'Details' %}
+            </a>
+        </span>
+    </h5>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-striped" aria-label="{% translate 'List of log entries for this member' %}">

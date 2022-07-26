@@ -1,3 +1,13 @@
+import django_tables2
+import django_filters
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from django_filters import DateRangeFilter
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableView
+
+from django.utils.translation import gettext_lazy as _
+
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
@@ -6,8 +16,9 @@ from django.views.decorators.http import require_GET, require_POST
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.log.forms import CreateTextLogEntryForm
-from tapir.log.models import EmailLogEntry, TextLogEntry
+from tapir.log.models import EmailLogEntry, TextLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
+from tapir.utils.filters import TapirUserModelChoiceFilter, ShareOwnerModelChoiceFilter
 from tapir.utils.shortcuts import safe_redirect
 
 
@@ -50,3 +61,80 @@ def create_text_log_entry(request, **kwargs):
 
     form.save()
     return safe_redirect(request.GET.get("next"), "/", request)
+
+
+class LogTable(django_tables2.Table):
+    entry = django_tables2.Column(
+        empty_values=(), accessor="as_leaf_class__render", verbose_name=_("Message")
+    )
+    member = django_tables2.Column(
+        empty_values=(), accessor="user", verbose_name=_("Member") + "-ID"
+    )
+    actor = django_tables2.Column(verbose_name=_("Actor"))
+
+    class Meta:
+        model = LogEntry
+        template_name = "django_tables2/bootstrap.html"
+        fields = ["created_date", "actor", "member", "entry"]
+
+    def render_member(self, record):
+        # show user or share_owner, depending on what is available
+        if record.user is None:
+            return record.share_owner.id
+        else:
+            return record.user.share_owner.id
+
+    def render_actor(self, value):
+        return value.get_display_name()
+
+
+class LogFilter(django_filters.FilterSet):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if hasattr(self.request, "user") and not self.request.user.has_perm(
+            "coop.view"
+        ):
+            share_owner_List = ShareOwner.objects.filter(
+                id=self.request.user.share_owner.id
+            )
+        else:
+            # In case the user who requests the Logs actually has permission, make a list of all ShareOwners
+            ids = [
+                share_owner.id
+                for share_owner in ShareOwner.objects.all().order_by("id")
+                if share_owner is not None
+            ]
+            share_owner_List = ShareOwner.objects.filter(id__in=ids)
+        self.filters["members"].field.queryset = share_owner_List
+        self.filters["actor"].field.queryset = TapirUser.objects.filter(
+            id__in=LogEntry.objects.all().values_list("actor", flat=True).distinct()
+        )
+
+    time = DateRangeFilter(field_name="created_date")
+    actor = TapirUserModelChoiceFilter(label=_("Actor"))
+    members = ShareOwnerModelChoiceFilter(method="member_filter", label=_("Member"))
+
+    def member_filter(self, queryset, name, value):
+        # check if value is either in user or share_owner (can only be in one)
+        return queryset.filter(
+            Q(share_owner__id__icontains=value.id)
+            | Q(user__share_owner__id__icontains=value.id)
+        )
+
+    class Meta:
+        model = LogEntry
+        fields = ["time", "actor", "members"]
+
+
+class LogTableView(LoginRequiredMixin, FilterView, SingleTableView):
+    model = LogEntry
+    table_class = LogTable
+    template_name = "log/log_overview.html"
+
+    filterset_class = LogFilter
+
+    def get_queryset(self):
+        queryset = LogEntry.objects.all()
+        if not self.request.user.has_perm("coop.view"):
+            return queryset.filter(user=self.request.user)
+        return queryset
