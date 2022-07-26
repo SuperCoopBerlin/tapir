@@ -10,14 +10,9 @@ urlpatterns = [
         name="email_log_entry_content",
     ),
     path(
-        "text/create/user/<int:user_pk>",
+        "text/create/<str:member_type>/<int:member_pk>",
         views.create_text_log_entry,
-        name="create_user_text_log_entry",
-    ),
-    path(
-        "text/create/shareowner/<int:shareowner_pk>",
-        views.create_text_log_entry,
-        name="create_share_owner_text_log_entry",
+        name="create_text_log_entry",
     ),
     path(
         "log_overview",

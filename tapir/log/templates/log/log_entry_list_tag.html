@@ -4,10 +4,10 @@
 {% load log %}
 
 <div class="card mb-2">
-    <h5 class="card-header d-flex justify-content-between align-items-center" id="user_log">
+    <h5 class="card-header d-flex justify-content-between align-items-center">
         {% translate "Log" %}
         <span>
-            <a class="btn tapir-btn btn-outline-info" href="{% url 'log:log_overview'  %}?members={{ member }}">
+            <a class="btn tapir-btn btn-outline-info" href="{% url 'log:log_overview'  %}?members={{ share_owner_id }}">
                 {% translate 'Details' %}
             </a>
         </span>
@@ -43,9 +43,9 @@
                 <div class="d-flex flex-wrap justify-content-end">
                     <input class="form-control m-1" name="text"
                            placeholder="{% translate 'Notes about this user' %}">
-                    <button class="btn btn-sm btn-info" type="submit"
+                    <button class="btn btn-sm tapir-btn btn-info" type="submit"
                             id="add_note_button" style="min-width: 100px;">
-                        {% translate "Add Note" %}
+                        <span class="material-icons">note</span>{% translate "Add Note" %}
                     </button>
                 </div>
             </form>

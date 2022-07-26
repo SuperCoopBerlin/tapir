@@ -1,6 +1,9 @@
-from django import template
-from django.urls import reverse
 from datetime import datetime, timedelta
+
+from django import template
+from django.db.models import Q
+from django.urls import reverse
+
 from tapir.log.models import LogEntry
 
 register = template.Library()
@@ -8,31 +11,44 @@ register = template.Library()
 
 @register.inclusion_tag("log/log_entry_list_tag.html", takes_context=True)
 def log_entry_list(context, **kwargs):
-    # check if user or shareowner is in kwargs and is length one
-    if not any(key in kwargs for key in ("user", "share_owner")) or len(kwargs) > 1:
-        raise ValueError(f"{kwargs} not found")
+    tapir_user = kwargs.get("tapir_user")
+    share_owner = kwargs.get("share_owner")
 
-    last_x_days = 30
-    raw_entries = LogEntry.objects.filter(
-        **kwargs,
-        created_date__gte=datetime.now()
-        - timedelta(days=last_x_days),  # show only the last x days
+    if not tapir_user and not share_owner:
+        raise ValueError(
+            "One of 'tapir_user' or 'share_owner' is required as parameter of this tag"
+        )
+
+    log_entries = LogEntry.objects.filter(
+        created_date__gte=datetime.now() - timedelta(days=30),
     ).order_by("-created_date")
-    log_entries = [entry.as_leaf_class() for entry in raw_entries]
+
+    if tapir_user:
+        member = tapir_user
+        member_type = "tapir_user"
+        filters = Q(user__id=tapir_user.id)
+        if hasattr(tapir_user, "share_owner"):
+            filters = filters | Q(share_owner__id=tapir_user.share_owner.id)
+    else:
+        member = share_owner
+        member_type = "share_owner"
+        filters = Q(share_owner__id=share_owner.id) | Q(
+            user__share_owner=share_owner.id
+        )
+    log_entries = log_entries.filter(filters).distinct()
+
+    log_entries = [entry.as_leaf_class() for entry in log_entries]
     context["log_entries"] = log_entries
 
-    key, val = next(iter(kwargs.items()))
-    # both user and share_owner is possible, so combine here to 'member'
-    if key == "user":
-        member = val.share_owner.id
-    elif key == "share_owner":
-        member = val.id
-    else:
-        raise Exception
-    context["member"] = member
-    context["create_text_log_entry_action_url"] = "%s?next=%s" % (
-        reverse(f"log:create_{key}_text_log_entry", args=[val.pk]),
-        val.get_absolute_url(),
+    share_owner_id = None
+    if tapir_user and hasattr(tapir_user, "share_owner"):
+        share_owner_id = tapir_user.share_owner.id
+    elif share_owner:
+        share_owner_id = share_owner.id
+    context["share_owner_id"] = share_owner_id
+
+    context["create_text_log_entry_action_url"] = reverse(
+        f"log:create_text_log_entry", args=[member_type, member.id]
     )
 
     return context

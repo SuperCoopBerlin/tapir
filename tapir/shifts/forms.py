@@ -74,8 +74,8 @@ class TapirUserChoiceField(ModelChoiceField):
         super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: TapirUser):
-        # Share Owner will always exist because we filter out all others above
-        return f"{obj.first_name} {obj.last_name} ({obj.share_owner.id})"
+        share_owner_id = obj.share_owner.id if hasattr(obj, "share_owner") else ""
+        return f"{obj.first_name} {obj.last_name} ({share_owner_id})"
 
 
 class ShareOwnerChoiceField(ModelChoiceField):
