@@ -95,6 +95,13 @@ msgid ""
 "        on vacation).\n"
 "    </p>\n"
 msgstr ""
+"\n"
+"<p> Liebe:r %(user_display_name)s,</p>\n"
+"<p>soeben haben wir für dich ein Konto in unserer %(coop_name)s "
+"Mitgliederverwaltung angelegt. Hier kannst du deine kommenden Schichten "
+"einsehen, dir nach Lust und Laune eine zusätzliche Schicht buchen oder eine "
+"deiner eigenen Schichten zur Neubesetzung freigeben, beispielsweise wenn du "
+"in den Urlaub fährst.</p>\n"
 
 #: accounts/templates/accounts/email/welcome_email.default.html:21
 #: accounts/templates/accounts/email/welcome_email.html:19
@@ -117,6 +124,10 @@ msgid ""
 "one shift “banked” for each shift cycle.\n"
 "        "
 msgstr ""
+"\n"
+"Fliegende Mitglieder: Bitte achtet darauf, zu jedem Schicht-Zyklus-Ende mindestens "
+"ein Schichtguthaben auf eurem Schichtkonto zu haben.\n"
+" "
 
 #: accounts/templates/accounts/email/welcome_email.default.html:35
 #, python-format
@@ -269,7 +280,7 @@ msgstr "Berechtigungen"
 
 #: accounts/templates/accounts/user_detail.html:93
 msgid "Send account activation email"
-msgstr "Konto-Aktivierungsemail erneut senden"
+msgstr "Konto-Aktivierungs-E-Mail senden"
 
 #: accounts/templates/accounts/user_detail.html:101
 msgid "Change Password"
@@ -313,7 +324,7 @@ msgstr "Speichern"
 
 #: accounts/templates/registration/email/password_reset_email.html:7
 msgid "Password reset"
-msgstr "Passwort gesetzt"
+msgstr "Passwort zurückgesetzt"
 
 #: accounts/templates/registration/email/password_reset_email.html:14
 #, python-format
@@ -357,7 +368,7 @@ msgstr "Einloggen"
 
 #: accounts/templates/registration/login.html:33
 msgid "Click here to show/hide the password"
-msgstr ""
+msgstr "Hier klicken, um das Passwort ein-/auszublenden"
 
 #: accounts/templates/registration/login.html:41
 msgid "Forgot your password?"
@@ -456,7 +467,7 @@ msgstr ""
 
 #: coop/forms.py:48 shifts/templates/shifts/shiftexemption_list.html:21
 msgid "End date"
-msgstr "Endsdatum"
+msgstr "Enddatum"
 
 #: coop/forms.py:52
 msgid ""
@@ -474,7 +485,7 @@ msgstr ""
 
 #: coop/forms.py:103 coop/models.py:296
 msgid "Number of Shares"
-msgstr "Anzahl an Anteilen"
+msgstr "Anzahl Anteile"
 
 #: coop/forms.py:108
 #, python-format
@@ -589,7 +600,7 @@ msgstr "Der Betrag kann nicht mehr als {COOP_SHARE_PRICE} sein"
 
 #: coop/models.py:299
 msgid "Investing member"
-msgstr "Investierende Mitglieder"
+msgstr "Investierendes Mitglied"
 
 #: coop/models.py:306
 msgid "Signed Beteiligungserklärung"
@@ -617,11 +628,11 @@ msgstr "Zahlendes Mitglied"
 
 #: coop/models.py:384
 msgid "Credited member"
-msgstr "Gutgeschriebenes Mitglied"
+msgstr "Empfangendes Mitglied"
 
 #: coop/models.py:391
 msgid "Amount"
-msgstr "Anzahl"
+msgstr "Betrag"
 
 #: coop/models.py:397
 msgid "Payment date"
@@ -633,7 +644,7 @@ msgstr "Erstellungsdatum"
 
 #: coop/models.py:405
 msgid "Created by"
-msgstr "Angelegt von"
+msgstr "Erstellt durch"
 
 #: coop/templates/coop/about.html:10
 msgid "About Tapir"
@@ -768,7 +779,7 @@ msgstr "Finanzierungskampagne editieren"
 #: coop/templates/coop/incoming_payment_list.html:19
 #: core/templatetags/core.py:46
 msgid "Incoming payments"
-msgstr "Eingehende Zahlung"
+msgstr "Eingehende Zahlungen"
 
 #: coop/templates/coop/incoming_payment_list.html:23
 msgid "Register a new payment"
@@ -798,7 +809,7 @@ msgstr ""
 
 #: coop/templates/coop/shareowner_detail.html:18
 msgid "Go to user page"
-msgstr "Zur Nutzerseite"
+msgstr "Zur Nutzer*innen-Seite"
 
 #: coop/templates/coop/shareowner_form.html:8
 #: coop/templates/coop/shareowner_form.html:16
@@ -833,7 +844,7 @@ msgstr ""
 
 #: coop/templates/coop/shop_extension_progress_bar.html:4
 msgid "Click this link to learn more."
-msgstr "Klick hier um mehr zu lernen."
+msgstr "Klicke hier um mehr zu erfahren."
 
 #: coop/templates/coop/statistics.html:44
 msgid "Statistics on members"
@@ -845,7 +856,7 @@ msgstr "Anteile-Statistiken"
 
 #: coop/templates/coop/statistics.html:133
 msgid "Members who bought extra shares"
-msgstr ""
+msgstr "Mitglieder die weitere Anteile übernommen haben"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:7
 #, python-format
@@ -945,7 +956,7 @@ msgstr "Anteile hinzufügen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:174
 msgid "Willing to gift a share"
-msgstr ""
+msgstr "Bereit Anteile zu schenken"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:184
 msgid "Send membership confirmation email"
@@ -1260,16 +1271,16 @@ msgid ""
 "I have read the warning about the cancelled attendances and confirm that the "
 "exemption should be created"
 msgstr ""
-"Ich habe die Warnung über die Abgesagte Schicht-Anwesenheiten und bestätige "
-"das die Befreigung erzeugt warden soll"
+"Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und "
+"bestätige, dass die Befreiung erzeugt werden soll"
 
 #: shifts/forms.py:252
 msgid ""
 "I have read the warning about the cancelled ABCD attendances and confirm "
 "that the exemption should be created"
 msgstr ""
-"Ich habe die Warnung über die abgesagte ABCD-Schicht-Befreiungen gelesen und "
-"bestätige das die Befreiung erzeugt werden soll"
+"Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und "
+"bestätige, dass die Befreiung erzeugt werden soll"
 
 #: shifts/forms.py:285
 #, python-brace-format
@@ -1323,6 +1334,8 @@ msgid ""
 "I understand that all working groups help the Warenannahme & Lager "
 "working group until the shop opens."
 msgstr ""
+"Ich bestätige, dass alle Arbeitsgruppen die Arbeitsgruppe Warenannahme & "
+"Lagerhaltung bis zur Eröffnung des Ladens unterstützen."
 
 #: shifts/models.py:61
 msgid ""
@@ -1339,12 +1352,16 @@ msgstr ""
 #: shifts/models.py:67
 msgid "I understand that I may need to carry heavy weights for this shift."
 msgstr ""
+"Mir ist klar, dass ich bei dieser Schicht möglicherweise schwere Gewichte "
+"heben muss."
 
 #: shifts/models.py:70
 msgid ""
 "I understand that I may need to work high, for example up a ladder. I do not "
 "suffer from fear of heights."
 msgstr ""
+"Mir ist klar, dass ich möglicherweise in großer Höhe arbeiten muss, zum "
+"Beispiel auf einer Leiter. Ich leide nicht unter Höhenangst."
 
 #: shifts/models.py:504
 msgid "Number of required attendances"
@@ -1414,7 +1431,7 @@ msgstr "Anfangsdatum"
 
 #: shifts/templates/shifts/cancel_shift.html:11
 msgid "Cancel shift:"
-msgstr ""
+msgstr "Schicht absagen:"
 
 #: shifts/templates/shifts/cancel_shift.html:15
 msgid ""
@@ -1434,7 +1451,7 @@ msgstr ""
 
 #: shifts/templates/shifts/cancel_shift.html:30
 msgid "Confirm cancellation"
-msgstr ""
+msgstr "Absage bestätigen"
 
 #: shifts/templates/shifts/email/shift_missed.default.html:7
 #: shifts/templates/shifts/email/shift_missed.html:7
@@ -1457,6 +1474,20 @@ msgid ""
 "shift, please contact the member office: %(contact_email_address)s .<br/>\n"
 "    </p>\n"
 msgstr ""
+"\n"
+"    <p>Hallo %(first_name)s,</p>\n"
+"\n"
+"    <p>Dies ist eine automatisierte E-Mail von %(coop_name)s.</p>\n"
+"\n"
+"    <p>\n"
+"        Es wurde in der %(coop_name)s Schichtplanung registriert, dass du an "
+"der folgenden Schicht, für die du dich angemeldet hattest, nicht "
+"teilgenommen hast:\n"
+"        %(shift_display_name)s <br/>\n"
+"        Wenn es sich um einen Fehler handelt oder du der Meinung bist, dass "
+"du von dieser Schicht befreit werden solltest, wende dich bitte an das "
+"Mitgliederbüro: %(contact_email_address)s .<br/>\n"
+"    </p>\n"
 
 #: shifts/templates/shifts/email/shift_missed.html:10
 #, python-format
@@ -1514,7 +1545,7 @@ msgstr ""
 
 #: shifts/templates/shifts/email/shift_reminder.default.html:7
 msgid "Shift reminder"
-msgstr "Schicht-Errinerung"
+msgstr "Schicht-Erinnerung"
 
 #: shifts/templates/shifts/email/shift_reminder.default.html:10
 #, python-format
@@ -1882,7 +1913,7 @@ msgstr "Abgesagt"
 
 #: shifts/templates/shifts/shift_filters.html:51
 msgid "Free slot"
-msgstr "Hat einen freien Platz"
+msgstr "Freier Platz"
 
 #: shifts/templates/shifts/shift_filters.html:53
 msgid "ABCD attendance"
@@ -1991,7 +2022,7 @@ msgstr "Benutzer*in"
 
 #: shifts/templates/shifts/shiftexemption_list.html:23
 msgid "Is active"
-msgstr "Inaktiv"
+msgstr "Ist aktiv"
 
 #: shifts/templates/shifts/shiftslot_form.html:16
 msgid "Add a slot to "
@@ -2015,7 +2046,7 @@ msgstr "Bearbeite Nutzer*in-Schichtdaten"
 
 #: shifts/templates/shifts/statistics.html:47
 msgid "Statistics on shifts"
-msgstr "Schicht-Statistiken"
+msgstr "Schicht-Statistik"
 
 #: shifts/templates/shifts/statistics.html:58
 msgid "Gives details of the attendance per slot type."
@@ -2135,7 +2166,7 @@ msgstr "Du hast deine Schicht versäumt!"
 
 #: shifts/views/exemptions.py:45
 msgid "Is covered by shift exemption: "
-msgstr "Ist abgedeckt durch Schicht Befreiung : "
+msgstr "Ist durch Schicht-Befreiung abgedeckt: "
 
 #: utils/forms.py:26
 msgid ""
@@ -3117,7 +3148,7 @@ msgstr "Anfangsdatum muss gesetzt sein"
 
 #: utils/models.py:362
 msgid "Start date must be prior to end date"
-msgstr "Anfangsdatum muss vor Endsdatum sein"
+msgstr "Anfangsdatum muss vor Enddatum sein"
 
 #: utils/models.py:390
 msgid "Must be a positive number."
