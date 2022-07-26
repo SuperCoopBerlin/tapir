@@ -1,17 +1,18 @@
-import django_tables2
+import datetime
+
 import django_filters
+import django_tables2
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
+from django.http import HttpResponse, HttpResponseBadRequest
+from django.shortcuts import get_object_or_404
+from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
+from django.views.decorators.http import require_GET, require_POST
 from django_filters import DateRangeFilter
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableView
-
-from django.utils.translation import gettext_lazy as _
-
-from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404
-from django.views.decorators.http import require_GET, require_POST
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -68,7 +69,7 @@ class LogTable(django_tables2.Table):
         empty_values=(), accessor="as_leaf_class__render", verbose_name=_("Message")
     )
     member = django_tables2.Column(
-        empty_values=(), accessor="user", verbose_name=_("Member") + "-ID"
+        empty_values=(), accessor="user", verbose_name=_("Member")
     )
     actor = django_tables2.Column(verbose_name=_("Actor"))
 
@@ -77,15 +78,26 @@ class LogTable(django_tables2.Table):
         template_name = "django_tables2/bootstrap.html"
         fields = ["created_date", "actor", "member", "entry"]
 
+    def render_created_date(self, value: datetime.datetime):
+        return value.strftime("%d.%m.%Y %H:%M")
+
     def render_member(self, record):
         # show user or share_owner, depending on what is available
-        if record.user is None:
-            return record.share_owner.id
-        else:
-            return record.user.share_owner.id
+        value = (
+            record.user.share_owner if record.user is not None else record.share_owner
+        )
+        return format_html(
+            "<a href={}>{}</a>",
+            value.get_absolute_url(),
+            value.get_info().get_display_name(),
+        )
 
-    def render_actor(self, value):
-        return value.get_display_name()
+    def render_actor(self, value: TapirUser):
+        return format_html(
+            "<a href={}>{}</a>",
+            value.get_absolute_url(),
+            value.get_display_name(),
+        )
 
 
 class LogFilter(django_filters.FilterSet):
@@ -94,7 +106,7 @@ class LogFilter(django_filters.FilterSet):
         if hasattr(self.request, "user") and not self.request.user.has_perm(
             "coop.view"
         ):
-            share_owner_List = ShareOwner.objects.filter(
+            share_owner_list = ShareOwner.objects.filter(
                 id=self.request.user.share_owner.id
             )
         else:
@@ -104,8 +116,8 @@ class LogFilter(django_filters.FilterSet):
                 for share_owner in ShareOwner.objects.all().order_by("id")
                 if share_owner is not None
             ]
-            share_owner_List = ShareOwner.objects.filter(id__in=ids)
-        self.filters["members"].field.queryset = share_owner_List
+            share_owner_list = ShareOwner.objects.filter(id__in=ids)
+        self.filters["members"].field.queryset = share_owner_list
         self.filters["actor"].field.queryset = TapirUser.objects.filter(
             id__in=LogEntry.objects.all().values_list("actor", flat=True).distinct()
         )
