@@ -26,7 +26,8 @@ class ShiftCalendarBaseView(TemplateView):
         context_data = super().get_context_data(**kwargs)
 
         context_data["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
-        # Only filter the eight weeks to make things faster
+        # Because the shift views show a lot of shifts,
+        # we preload all related objects to avoid doing many database requests.
         upcoming_shifts = (
             self.get_queryset()
             .prefetch_related("slots")

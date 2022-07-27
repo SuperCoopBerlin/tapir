@@ -1,7 +1,6 @@
 import datetime
 
 from django import template
-from django.db.models.functions import Length
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -51,7 +50,13 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
     num_valid_attendances = 0
 
     # order by length of name so that the shift name does not interfere with header
-    for slot in shift.slots.all().order_by(Length("name").asc()):
+    # we can't use shift.slots.all().order_by(Length("name").asc()),
+    # because we that would load the slots again from the database.
+    # Instead, we want to use the preloaded slots coming from prefetch_related() in the view
+    slots = [slot for slot in shift.slots.all()]
+    slots.sort(key=lambda slot: len(slot.name))
+
+    for slot in slots:
         slot_name = slot.name
         if slot_name == "":
             slot_name = _("General")
@@ -124,9 +129,15 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
     num_attendances = 0
 
     # order by length of name so that the shift name does not interfere with header
-    for slot_template in shift_template.slot_templates.all().order_by(
-        Length("name").asc()
-    ):
+    # we can't use shift_template.slot_templates.all().order_by(...)
+    # because we that would load the slots again from the database.
+    # Instead, we want to use the preloaded slots coming from prefetch_related() in the view
+    slot_templates = [
+        slot_template for slot_template in shift_template.slot_templates.all()
+    ]
+    slot_templates.sort(key=lambda slot_template: len(slot_template.name))
+
+    for slot_template in slot_templates:
         slot_name = slot_template.name
         if slot_template.name == "":
             slot_name = _("General")
