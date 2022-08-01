@@ -113,13 +113,18 @@ class LogFilter(django_filters.FilterSet):
         if self.request.user.has_perm("coop.view"):
             # In case the user who requests the Logs actually has permission, make a list of all ShareOwners
             share_owner_list = ShareOwner.objects.order_by("id")
+            user_list = TapirUser.objects.all()
         else:
             share_owner_list = ShareOwner.objects.filter(
                 id=self.request.user.share_owner.id
             )
+            user_list = TapirUser.objects.filter(pk=self.request.user.pk)
+
         self.filters["members"].field.queryset = share_owner_list
         self.filters["actor"].field.queryset = TapirUser.objects.filter(
-            id__in=LogEntry.objects.all().values_list("actor", flat=True).distinct()
+            id__in=LogEntry.objects.filter(user_id__in=user_list)
+            .values_list("actor", flat=True)
+            .distinct()
         )
 
     time = DateRangeFilter(field_name="created_date")
