@@ -84,6 +84,7 @@ class LogTable(django_tables2.Table):
         model = LogEntry
         template_name = "django_tables2/bootstrap.html"
         fields = ["created_date", "actor", "member", "entry"]
+        order_by = "-created_date"
 
     def render_created_date(self, value: datetime.datetime):
         return value.strftime("%d.%m.%Y %H:%M")
