@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django import template
 from django.db.models import Q
 from django.urls import reverse
@@ -19,9 +17,7 @@ def log_entry_list(context, **kwargs):
             "One of 'tapir_user' or 'share_owner' is required as parameter of this tag"
         )
 
-    log_entries = LogEntry.objects.filter(
-        created_date__gte=datetime.now(),
-    ).order_by("-created_date")
+    log_entries = LogEntry.objects.order_by("-created_date")
 
     if tapir_user:
         member = tapir_user
