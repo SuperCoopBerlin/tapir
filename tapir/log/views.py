@@ -70,7 +70,10 @@ def create_text_log_entry(request, **kwargs):
 
 class LogTable(django_tables2.Table):
     entry = django_tables2.Column(
-        empty_values=(), accessor="as_leaf_class__render", verbose_name=_("Message")
+        empty_values=(),
+        accessor="as_leaf_class__render",
+        verbose_name=_("Message"),
+        orderable=False,
     )
     member = django_tables2.Column(
         empty_values=(), accessor="user", verbose_name=_("Member")
