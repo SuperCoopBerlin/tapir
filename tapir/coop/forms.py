@@ -64,7 +64,7 @@ class ShareOwnershipCreateMultipleForm(forms.Form):
         label=_("Number of shares to create"), required=True, min_value=1
     )
     send_confirmation_email = BooleanField(
-        label=_("Send confirmation email"), initial=True
+        label=_("Send confirmation email"), required=False, initial=True
     )
 
     def clean_end_date(self):

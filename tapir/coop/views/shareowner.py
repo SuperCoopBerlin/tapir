@@ -53,6 +53,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendanceMode,
 )
+from tapir.utils.email_utils import EmailUtils
 from tapir.utils.models import copy_user_info
 
 
@@ -123,6 +124,21 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
+
+        if form.cleaned_data["send_confirmation_email"]:
+            email = EmailUtils.get_email_from_template(
+                member=share_owner,
+                subject_template_names=[
+                    "coop/email/extra_shares_bought.subject.txt",
+                    "coop/email/extra_shares_bought.subject.default.txt",
+                ],
+                email_template_names=[
+                    "coop/email/extra_shares_bought.body.txt",
+                    "coop/email/extra_shares_bought.body.default.txt",
+                ],
+                extra_context={"num_shares": form.cleaned_data["num_shares"]},
+            )
+            email.send()
 
         return super().form_valid(form)
 
