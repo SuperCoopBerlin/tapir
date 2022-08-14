@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-01 22:31+0200\n"
+"POT-Creation-Date: 2022-08-14 09:37+0200\n"
 "PO-Revision-Date: 2022-08-02 19:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1792,8 +1792,8 @@ msgid "Actions"
 msgstr "Aktionen"
 
 #: shifts/templates/shifts/shift_detail.html:76
-msgid "Requirement fulfilled?"
-msgstr "Voraussetzungen erfüllt?"
+msgid "Do you meet the requirements?"
+msgstr "Erfüllst du die Voraussetzungen?"
 
 #: shifts/templates/shifts/shift_detail.html:78
 msgid "Member-Office actions"
