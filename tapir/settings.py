@@ -165,11 +165,8 @@ USE_TZ = True
 
 # django-environ EMAIL_URL mechanism is a bit hairy with passwords with slashes in them, so use this instead
 EMAIL_ENV = env("EMAIL_ENV", default="dev")
-if EMAIL_ENV == "dev":
+if EMAIL_ENV == "dev" or EMAIL_ENV == "test":
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-elif EMAIL_ENV == "test":
-    # Local SMTP
-    EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 elif EMAIL_ENV == "prod":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = env("EMAIL_HOST", default="smtp-relay.gmail.com")
