@@ -1,2 +1,0 @@
-Placeholder mail body.
-Congrats {{ member_infos.first_name }}! You bought {{ num_shares }} SuperCoop shares!

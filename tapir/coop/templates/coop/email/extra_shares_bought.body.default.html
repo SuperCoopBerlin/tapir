@@ -1,0 +1,14 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+    {% translate "Extra shares bought" %}
+{% endblock %}
+
+{% block body %}
+    {% blocktranslate with first_name=member_infos.first_name num_shares=num_shares %}
+        Placeholder mail body.
+        Congrats {{ first_name }}! You bought {{ num_shares }} SuperCoop shares!
+    {% endblocktranslate %}
+{% endblock %}

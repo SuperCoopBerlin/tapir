@@ -38,7 +38,6 @@ class EmailUtils:
             body = loader.render_to_string(email_template_names, context)
         email = EmailMultiAlternatives(subject, body, to=[member_infos.email])
 
-        is_html = subject_template_names[0][-4:] == "html"
-        email.content_subtype = "html" if is_html else "plain"
+        email.content_subtype = "html"
 
         return email

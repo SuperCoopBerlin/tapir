@@ -130,11 +130,11 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
                 member=share_owner,
                 subject_template_names=[
                     "coop/email/extra_shares_bought.subject.txt",
-                    "coop/email/extra_shares_bought.subject.default.txt",
+                    "coop/email/extra_shares_bought.subject.default.html",
                 ],
                 email_template_names=[
                     "coop/email/extra_shares_bought.body.txt",
-                    "coop/email/extra_shares_bought.body.default.txt",
+                    "coop/email/extra_shares_bought.body.default.html",
                 ],
                 extra_context={"num_shares": form.cleaned_data["num_shares"]},
             )
@@ -282,13 +282,11 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
             "coop/email/membership_confirmation_welcome_investing.html",
             "coop/email/membership_confirmation_welcome_investing.default.html",
         ]
-        subject = f"Bestätigung der Fördernitgliedschaft bei {settings.COOP_NAME}"
     else:
         template_names = [
             "coop/email/membership_confirmation_welcome.html",
             "coop/email/membership_confirmation_welcome.default.html",
         ]
-        subject = "Welcome at %(organisation_name)s!"
 
     with translation.override(owner.get_info().preferred_language):
         subject = _("Welcome at %(organisation_name)s!") % {
@@ -303,10 +301,7 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
             body=render_to_string(template_names, {"owner": owner}),
             from_email=FROM_EMAIL_MEMBER_OFFICE,
             to=[owner.get_info().email],
-            bcc=[
-                settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-                settings.EMAIL_ADDRESS_ACCOUNTING,
-            ],
+            bcc=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
             attachments=[
                 (
                     "Mitgliedschaftsbestätigung %s.pdf"
