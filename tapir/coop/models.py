@@ -111,7 +111,7 @@ class ShareOwner(models.Model):
             if fully_paid:
                 return annotated.filter(paid_amount__gte=F("expected_payments"))
             return annotated.filter(
-                Q(paid_amount__lte=F("expected_payments")) | Q(paid_amount=None)
+                Q(paid_amount__lt=F("expected_payments")) | Q(paid_amount=None)
             )
 
     objects = ShareOwnerQuerySet.as_manager()
