@@ -2,19 +2,24 @@ import django.contrib.auth.views as auth_views
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.tokens import default_token_generator
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 
+from tapir import settings
 from tapir.accounts.forms import TapirUserForm, PasswordResetForm
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.log.models import EmailLogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
+from tapir.utils.email_utils import EmailUtils
 
 
 class UserDetailView(PermissionRequiredMixin, generic.DetailView):
@@ -66,7 +71,8 @@ class PasswordResetView(auth_views.PasswordResetView):
 def send_user_welcome_email(request, pk):
     tapir_user = get_object_or_404(TapirUser, pk=pk)
 
-    email = tapir_user.get_email_from_template(
+    email = EmailUtils.get_email_from_template(
+        tapir_user,
         subject_template_names=[
             "accounts/email/welcome_email_subject.html",
             "accounts/email/welcome_email_subject.default.html",
@@ -75,6 +81,11 @@ def send_user_welcome_email(request, pk):
             "accounts/email/welcome_email.html",
             "accounts/email/welcome_email.default.html",
         ],
+        extra_context={
+            "site_url": settings.SITE_URL,
+            "uid": urlsafe_base64_encode(force_bytes(tapir_user)),
+            "token": default_token_generator.make_token(tapir_user),
+        },
     )
     email.send()
 

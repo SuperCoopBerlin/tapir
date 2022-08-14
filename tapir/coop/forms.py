@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
-from django.forms import DateField, IntegerField
+from django.forms import DateField, IntegerField, BooleanField
 from django.template.loader import render_to_string
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
@@ -62,6 +62,9 @@ class ShareOwnershipCreateMultipleForm(forms.Form):
     )
     num_shares = IntegerField(
         label=_("Number of shares to create"), required=True, min_value=1
+    )
+    send_confirmation_email = BooleanField(
+        label=_("Send confirmation email"), initial=True
     )
 
     def clean_end_date(self):
