@@ -5,8 +5,8 @@ from django.urls import reverse
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.coop.config import COOP_SHARE_PRICE
-from tapir.coop.models import ShareOwnership, MemberStatus
+from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
+from tapir.coop.models import ShareOwnership, MemberStatus, IncomingPayment, ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.shifts.models import (
     ShiftTemplateGroup,
@@ -58,6 +58,49 @@ class TestShareOwnerList(TapirFactoryTestBase):
             {"has_unpaid_shares": False},
             must_be_in=owners_with_all_paid_share,
             must_be_out=owners_with_unpaid_share,
+        )
+
+    def test_is_fully_paid(self):
+        # We must create several members, because if the filters only give one result back
+        # we get redirected to the user's page directly
+        owners_with_unpaid_share = []
+        for shares in range(1, 3):
+            owner = ShareOwnerFactory.create(nb_shares=shares)
+            self.assertEqual(
+                owner.get_currently_paid_amount(), 0
+            )  # should have no amount before...
+            self.create_incoming_payment(owner, 0)
+            self.assertEqual(owner.get_currently_paid_amount(), 0)  # ... and after
+
+        owners_with_all_paid_share = []
+        for shares in range(1, 3):
+            owner = ShareOwnerFactory.create(nb_shares=shares)
+
+            amount = shares * COOP_SHARE_PRICE + COOP_ENTRY_AMOUNT
+            self.create_incoming_payment(owner, amount)
+            self.assertEqual(owner.get_currently_paid_amount(), amount)
+            owners_with_all_paid_share.append(owner)
+
+        self.visit_view(
+            {"is_fully_paid": True},
+            must_be_out=owners_with_unpaid_share,
+            must_be_in=owners_with_all_paid_share,
+        )
+        self.visit_view(
+            {"is_fully_paid": False},
+            must_be_out=owners_with_all_paid_share,
+            must_be_in=owners_with_unpaid_share,
+        )
+
+    @staticmethod
+    def create_incoming_payment(member: ShareOwner, amount) -> IncomingPayment:
+        return IncomingPayment.objects.create(
+            paying_member=member,
+            credited_member=member,
+            amount=amount,
+            payment_date=timezone.now().date(),
+            creation_date=timezone.now().date(),
+            created_by=TapirUserFactory.create(is_in_member_office=True),
         )
 
     def test_abcd_week(self):
