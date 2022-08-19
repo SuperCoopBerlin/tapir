@@ -71,11 +71,18 @@ class TestShareOwnerList(TapirFactoryTestBase):
             )  # should have no amount before...
             self.create_incoming_payment(owner, 0)
             self.assertEqual(owner.get_currently_paid_amount(), 0)  # ... and after
+            owners_with_unpaid_share.append(owner)
+
+        owners_with_partially_paid_share = []
+        for shares in range(1, 3):
+            owner = ShareOwnerFactory.create(nb_shares=shares)
+            self.create_incoming_payment(owner, 55)
+            self.assertEqual(owner.get_currently_paid_amount(), 55)
+            owners_with_partially_paid_share.append(owner)
 
         owners_with_all_paid_share = []
         for shares in range(1, 3):
             owner = ShareOwnerFactory.create(nb_shares=shares)
-
             amount = shares * COOP_SHARE_PRICE + COOP_ENTRY_AMOUNT
             self.create_incoming_payment(owner, amount)
             self.assertEqual(owner.get_currently_paid_amount(), amount)
@@ -90,6 +97,11 @@ class TestShareOwnerList(TapirFactoryTestBase):
             {"is_fully_paid": False},
             must_be_out=owners_with_all_paid_share,
             must_be_in=owners_with_unpaid_share,
+        )
+        self.visit_view(
+            {"is_fully_paid": False},
+            must_be_out=owners_with_all_paid_share,
+            must_be_in=owners_with_partially_paid_share,
         )
 
     @staticmethod
