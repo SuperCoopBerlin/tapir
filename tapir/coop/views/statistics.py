@@ -182,5 +182,5 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
         return dates
 
 
-class AboutView(LoginRequiredMixin, TemplateView):
+class AboutView(TemplateView):
     template_name = "coop/about.html"
