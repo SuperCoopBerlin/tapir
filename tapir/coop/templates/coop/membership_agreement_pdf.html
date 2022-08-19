@@ -29,9 +29,9 @@
         </span>
         {% endif %}
         <div style="margin-top: 2mm;">
-            SuperCoop Berlin eG<br />
-            Glogauer Straße 21<br />
-            10999 Berlin
+            {{coop_full_name}}<br />
+            {{coop_street}}<br />
+            {{coop_place}}
         </div>
     </div>
     <div style="flex-grow: 1"></div>
@@ -41,7 +41,7 @@
 </div>
 
 <div style="text-align: center; font-size: 14pt; font-weight: bold;">
-    Beteiligungserklärung SuperCoop Berlin eG
+    Beteiligungserklärung {{coop_full_name}}
 </div>
 
 <div style="margin-top: 10mm; line-height: 1.8rem;">
@@ -109,7 +109,7 @@
             {% endif %}
         </div>
         <div style="flex: 1">
-            Ich beantrage hiermit die Aufnahme in die SuperCoop Berlin eG. Ich möchte mich mit insgesamt
+            Ich beantrage hiermit die Aufnahme in die {{coop_full_name}}. Ich möchte mich mit insgesamt
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">{{ owner.num_shares }}</span>
             Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen
             in Höhe von 100 € je Geschäftsanteil plus einem Eintrittsgeld in Höhe von 10 € zu leisten, das der Deckung von
@@ -117,8 +117,7 @@
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">
             {{ owner.get_initial_amount|floatformat:0 }}
             </span>€
-            zu leisten. Die Satzung der
-            SuperCoop Berlin eG ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
+            zu leisten. Die Satzung von {{coop_full_name}} ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
             <a href="https://supercoop.de/unsere-genossenschaft/">https://supercoop.de/unsere-genossenschaft/</a>
         </div>
     </div>
@@ -131,7 +130,7 @@
             {% endif %}
         </div>
         <div style="flex: 1">
-            Ich bin Mitglied der SuperCoop Berlin eG und möchte mich mit
+            Ich bin Mitglied von {{coop_full_name}} und möchte mich mit
             <span style="display: inline-block; width: 10mm; border-bottom: 2px solid black; text-align: center;">
                 {{ num_additional_shares }}
             </span>
