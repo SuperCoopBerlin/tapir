@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-14 09:37+0200\n"
+"POT-Creation-Date: 2022-08-14 19:24+0200\n"
 "PO-Revision-Date: 2022-08-02 19:07+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,67 +18,67 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: accounts/models.py:137 accounts/templates/accounts/user_detail.html:33
+#: accounts/models.py:132 accounts/templates/accounts/user_detail.html:33
 #: coop/templates/coop/draftuser_detail.html:22
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/models.py:141
+#: accounts/models.py:136
 msgid "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
 msgstr ""
 "Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen "
 "oder ./-/_ verwenden."
 
-#: accounts/models.py:145
+#: accounts/models.py:140
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
-#: accounts/models.py:149 accounts/templates/accounts/user_detail.html:41
+#: accounts/models.py:144 accounts/templates/accounts/user_detail.html:41
 #: coop/models.py:48 coop/models.py:281
 #: coop/templates/coop/draftuser_detail.html:30
 #: coop/templates/coop/shareowner_detail.html:43
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:150 accounts/templates/accounts/user_detail.html:51
+#: accounts/models.py:145 accounts/templates/accounts/user_detail.html:51
 #: coop/models.py:49 coop/models.py:282
 #: coop/templates/coop/draftuser_detail.html:34
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:151 coop/models.py:50 coop/models.py:283
+#: accounts/models.py:146 coop/models.py:50 coop/models.py:283
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:152 coop/models.py:51 coop/models.py:284
+#: accounts/models.py:147 coop/models.py:51 coop/models.py:284
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:153 coop/models.py:52 coop/models.py:285
+#: accounts/models.py:148 coop/models.py:52 coop/models.py:285
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:154 coop/models.py:53 coop/models.py:286
+#: accounts/models.py:149 coop/models.py:53 coop/models.py:286
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:155 coop/models.py:54 coop/models.py:287
+#: accounts/models.py:150 coop/models.py:54 coop/models.py:287
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:156 accounts/templates/accounts/user_detail.html:81
+#: accounts/models.py:151 accounts/templates/accounts/user_detail.html:81
 #: coop/templates/coop/welcome_desk_share_owner.html:72
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:159 accounts/templates/accounts/user_detail.html:71
+#: accounts/models.py:154 accounts/templates/accounts/user_detail.html:71
 #: coop/models.py:57 coop/models.py:290
 #: coop/templates/coop/shareowner_detail.html:67
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:209
+#: accounts/models.py:184
 msgid "None"
 msgstr "Keine"
 
@@ -451,7 +451,7 @@ msgstr ""
 "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die "
 "Symbole ./-/_ enthalten."
 
-#: accounts/views.py:88
+#: accounts/views.py:99
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
@@ -479,15 +479,21 @@ msgstr ""
 msgid "Number of shares to create"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/forms.py:72
+#: coop/forms.py:67
+#, fuzzy
+#| msgid "Send membership confirmation email"
+msgid "Send confirmation email"
+msgstr "Mitgliedsbestätigung per Mail senden"
+
+#: coop/forms.py:75
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:109 coop/models.py:296
+#: coop/forms.py:112 coop/models.py:296
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
-#: coop/forms.py:114
+#: coop/forms.py:117
 #, python-format
 msgid ""
 "Number of shares you would like to purchase. The price of one share is EUR "
@@ -496,25 +502,25 @@ msgid ""
 "purchase more shares."
 msgstr ""
 
-#: coop/forms.py:124
+#: coop/forms.py:127
 msgid ""
 "I would like to join the membership list as an investing member (= "
 "sponsoring member)"
 msgstr ""
 
-#: coop/forms.py:127
+#: coop/forms.py:130
 msgid ""
 "<b>Note</b>: Investing members are sponsoring members. They have no voting "
 "rights in the General Assembly and cannot use the services of the "
 "cooperative that are exclusive to ordinary members. "
 msgstr ""
 
-#: coop/forms.py:142 coop/views/shareowner.py:278
+#: coop/forms.py:145 coop/views/shareowner.py:292
 #, python-format
 msgid "Welcome at %(organisation_name)s!"
 msgstr "Willkommen in der %(organisation_name)s!"
 
-#: coop/forms.py:287
+#: coop/forms.py:290
 msgid ""
 "Usually, the credited member is the same as the paying member. Only if a "
 "person if gifting another person a share through the matching program, then "
@@ -772,6 +778,28 @@ msgstr "Bewerber*in erzeugen"
 msgid "Register"
 msgstr "Anmelden"
 
+#: coop/templates/coop/email/extra_shares_bought.body.default.html:6
+msgid "Extra shares bought"
+msgstr ""
+
+#: coop/templates/coop/email/extra_shares_bought.body.default.html:10
+#, python-format
+msgid ""
+"\n"
+"        Placeholder mail body.\n"
+"        Congrats %(first_name)s! You bought %(num_shares)s SuperCoop "
+"shares!\n"
+"    "
+msgstr ""
+
+#: coop/templates/coop/email/extra_shares_bought.subject.default.html:3
+#, python-format
+msgid ""
+"\n"
+"    Placeholder mail subject. Congrats! You bought %(num_shares)s SuperCoop "
+"shares!\n"
+msgstr ""
+
 #: coop/templates/coop/financingcampaign_form.html:12
 msgid "Edit financing campaign"
 msgstr "Finanzierungskampagne editieren"
@@ -874,7 +902,7 @@ msgid "Membership confirmation"
 msgstr "Mitgliedsbestätigung"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:28
-#: coop/views/shareowner.py:509
+#: coop/views/shareowner.py:520
 #: shifts/templates/shifts/user_shifts_overview_tag.html:17
 msgid "Status"
 msgstr "Status"
@@ -1041,58 +1069,58 @@ msgstr "Mitglieds-ID"
 msgid "Other member"
 msgstr "Anderes Mitglied"
 
-#: coop/views/shareowner.py:101
+#: coop/views/shareowner.py:102
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:283
+#: coop/views/shareowner.py:297
 #, python-format
 msgid "Confirmation of the investing membership at %(organisation_name)s!"
 msgstr "Bestätigung der Fördermitgliedschaft bei %(organisation_name)s!"
 
-#: coop/views/shareowner.py:315
+#: coop/views/shareowner.py:326
 msgid "Welcome email with membership confirmation sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:510 shifts/templates/shifts/shift_filters.html:25
+#: coop/views/shareowner.py:521 shifts/templates/shifts/shift_filters.html:25
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:515
+#: coop/views/shareowner.py:526
 #: shifts/templates/shifts/user_shifts_overview_tag.html:107
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:523
+#: coop/views/shareowner.py:534
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Befähigung erfordert"
 
-#: coop/views/shareowner.py:531
+#: coop/views/shareowner.py:542
 msgid "Has qualification"
 msgstr "Hat Befähigung"
 
-#: coop/views/shareowner.py:539
+#: coop/views/shareowner.py:550
 msgid "Does not have qualification"
 msgstr "Hat die Befähigung nicht"
 
-#: coop/views/shareowner.py:549
+#: coop/views/shareowner.py:560
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:552
+#: coop/views/shareowner.py:563
 msgid "Has unpaid shares"
 msgstr "Hat unbezahlte Anteile"
 
-#: coop/views/shareowner.py:555
+#: coop/views/shareowner.py:566
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:558 coop/views/shareowner.py:791
+#: coop/views/shareowner.py:569 coop/views/shareowner.py:802
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:743
+#: coop/views/shareowner.py:754
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"

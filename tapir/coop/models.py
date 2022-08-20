@@ -448,3 +448,7 @@ class UpdateShareOwnershipLogEntry(UpdateModelLogEntry):
             user=user,
             share_owner=share_owner,
         )
+
+
+class NewMembersAndSharesEmailRecapLogs(models.Model):
+    sent_recap_up_to = models.DateField(null=False, blank=False)
