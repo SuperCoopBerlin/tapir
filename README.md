@@ -8,7 +8,7 @@ Members can use Tapir to register or unregister for shifts, search for a stand-i
 
 The Tapir project is developed by SuperCoop members, in collaberation with [WirMarkt Hamburg](https://wirmarkt.de/) and is licensed under the terms of the [AGPL license](LICENSE.md).
 
-SuperCoop members can access the system at [https://members.supercoop.de]().
+SuperCoop members can access the system at [https://members.supercoop.de](https://members.supercoop.de).
 
 > Tapir (/ˈteɪpər/) [has a trunk](https://www.youtube.com/watch?v=JgwBecM_E6Q), but not quite such a beautiful one as [Mme. l'élephan](https://github.com/elefan-grenoble/gestion-compte). Tapir is badass, [but not quite as badass as the other animals](https://www.youtube.com/watch?v=zJm6nDnR2SE). Let's teach Tapir some tricks!
 
