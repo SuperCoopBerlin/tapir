@@ -15,6 +15,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftUserData,
     ShiftExemption,
+    CreateExemptionLogEntry,
 )
 
 
@@ -51,6 +52,13 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
         ):
             ShiftAttendanceTemplate.objects.filter(user=user).delete()
 
+        CreateExemptionLogEntry().populate(
+            start_date=exemption.start_date,
+            end_date=exemption.end_date,
+            actor=self.request.user,
+            user=user,
+            share_owner=self.get_target_user_data().user.share_owner,
+        ).save()
         return super().form_valid(form)
 
     def get_success_url(self):

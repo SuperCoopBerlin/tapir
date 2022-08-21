@@ -17,7 +17,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.accounts.models import TapirUser
-from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
+from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.utils.models import DurationModelMixin
 
@@ -1132,6 +1132,18 @@ class ShiftExemption(DurationModelMixin, models.Model):
             (end_date - start_date).days
             >= ShiftExemption.THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT * 4 * 7
         )
+
+
+class CreateExemptionLogEntry(LogEntry):
+    start_date = models.DateField(null=False, blank=False)
+    end_date = models.DateField(null=True, blank=True, db_index=True)
+
+    template_name = "shifts/log/create_exemption_log_entry.html"
+
+    def populate(self, start_date, end_date, actor, user=None, share_owner=None):
+        self.start_date = start_date
+        self.end_date = end_date
+        return super().populate(actor=actor, user=user, share_owner=share_owner)
 
 
 class ShiftCycleEntry(models.Model):
