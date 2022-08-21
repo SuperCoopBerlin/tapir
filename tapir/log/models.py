@@ -106,13 +106,20 @@ class EmailLogEntry(LogEntry):
 
     template_name = "log/email_log_entry.html"
 
-    subject = models.CharField(max_length=128)
+    email_id = models.CharField(
+        max_length=128, null=False, blank=False, default="unknown"
+    )
+    subject = models.CharField(max_length=128, null=True, blank=True)
     email_content = models.BinaryField()
 
-    def populate(self, email_message: EmailMessage, *args, **kwargs):
+    def populate(self, email_id: str, email_message: EmailMessage, *args, **kwargs):
+        self.email_id = email_id
         self.subject = email_message.subject
         self.email_content = email_message.message().as_bytes()
         return super().populate(*args, **kwargs)
+
+    def get_display_name(self) -> str:
+        raise NotImplementedError("Return email name or subject")
 
 
 class TextLogEntry(LogEntry):

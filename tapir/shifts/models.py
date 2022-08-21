@@ -19,6 +19,7 @@ from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
+from tapir.shifts.emails.stand_in_found_email import StandInFoundEmail
 from tapir.utils.models import DurationModelMixin
 
 
@@ -766,26 +767,8 @@ class ShiftSlot(models.Model):
         log_entry.shift = attendance.slot.shift
         log_entry.save()
 
-        with translation.override(attendance.user.preferred_language):
-            mail = EmailMessage(
-                subject=_("You found a stand-in!"),
-                body=render_to_string(
-                    [
-                        "shifts/email/stand_in_found.html",
-                        "shifts/email/stand_in_found.default.html",
-                    ],
-                    {
-                        "tapir_user": attendance.user,
-                        "shift": attendance.slot.shift,
-                        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-                        "coop_name": settings.COOP_NAME,
-                    },
-                ),
-                from_email=FROM_EMAIL_MEMBER_OFFICE,
-                to=[attendance.user.email],
-            )
-            mail.content_subtype = "html"
-            mail.send()
+        email = StandInFoundEmail(attendance.slot.shift)
+        email.send_to_tapir_user(actor=actor, recipient=attendance.user)
 
 
 class ShiftAccountEntry(models.Model):
