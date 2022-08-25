@@ -410,6 +410,23 @@ class IncomingPayment(models.Model):
     )
 
 
+class CreatePaymentLogEntry(LogEntry):
+    amount = models.FloatField(blank=False, null=False)
+    payment_date = models.DateField(null=False, blank=False)
+    end_date = models.DateField(null=True, blank=True, db_index=True)
+    paying_member = TapirUser()
+
+    template_name = "coop/log/create_payment_log_entry.html"
+
+    def populate(
+        self, amount, payment_date, actor, paying_member, user=None, share_owner=None
+    ):
+        self.amount = amount
+        self.payment_date = payment_date
+        self.paying_member = paying_member
+        return super().populate(actor=actor, user=user, share_owner=share_owner)
+
+
 class CreateShareOwnershipsLogEntry(LogEntry):
     num_shares = PositiveIntegerField(blank=False, null=False)
     start_date = models.DateField(null=False, blank=False)

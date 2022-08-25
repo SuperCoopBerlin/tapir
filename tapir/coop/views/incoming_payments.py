@@ -2,6 +2,7 @@ import django_filters
 import django_tables2
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db.models import Q
+from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
@@ -12,7 +13,8 @@ from django_tables2 import SingleTableView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
-from tapir.coop.models import IncomingPayment, ShareOwner
+from tapir.coop.models import IncomingPayment, ShareOwner, CreatePaymentLogEntry
+from tapir.log.models import LogEntry
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
 
@@ -115,8 +117,17 @@ class IncomingPaymentCreateView(PermissionRequiredMixin, generic.CreateView):
         return reverse("coop:incoming_payment_list")
 
     def form_valid(self, form):
-        payment: IncomingPayment = form.instance
-        payment.creation_date = timezone.now().date()
-        payment.created_by = self.request.user
-        payment.save()
+        with transaction.atomic():
+            payment: IncomingPayment = form.instance
+            payment.creation_date = timezone.now().date()
+            payment.created_by = self.request.user
+            payment.save()
+            CreatePaymentLogEntry().populate(
+                amount=form.cleaned_data["amount"],
+                payment_date=form.cleaned_data["payment_date"],
+                actor=self.request.user,
+                paying_member=form.cleaned_data["paying_member"],
+                user=form.cleaned_data["credited_member"].user,
+                share_owner=form.cleaned_data["credited_member"],
+            ).save()
         return super().form_valid(form)
