@@ -8,7 +8,7 @@
 
 (English below)
 
-<p>Liebe*r {{ owner.get_info.get_display_name }},</p>
+<p>Liebe*r {{ share_owner.get_info.get_display_name }},</p>
 
 <p>herzlich Willkommen als offizielles Fördermitglied der SuperCoop Berlin eG! Mit dem Zeichnen von {% if owner.get_active_share_ownerships.count == 1 %}einem Genossenschaftsanteil{% else %}{{ owner.get_active_share_ownerships.count }} Anteilen{% endif %}hast du dich dafür entschieden, gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!</p>
 
@@ -21,7 +21,7 @@
 
 <hr />
 
-<p>Dear {{ owner.get_info.get_display_name }},</p>
+<p>Dear {{ share_owner.get_info.get_display_name }},</p>
 
 <p>Welcome as an official investing member of SuperCoop Berlin eG! By subscribing to {% if owner.get_active_share_ownerships.count == 1 %}a cooperative share{% else %}{{ owner.get_active_share_ownerships.count }} cooperative shares{% endif %}, you have decided to shape the food system together with us and many other coop members!</p>
 

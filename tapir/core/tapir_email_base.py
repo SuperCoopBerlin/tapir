@@ -33,14 +33,12 @@ class TapirEmailBase:
             "Subclasses of TapirEmail must override get_description"
         )
 
-    @staticmethod
-    def get_subject_templates() -> List:
+    def get_subject_templates(self) -> List:
         raise NotImplementedError(
             "Subclasses of TapirEmail must override get_subject_templates"
         )
 
-    @staticmethod
-    def get_body_templates() -> List:
+    def get_body_templates(self) -> List:
         raise NotImplementedError(
             "Subclasses of TapirEmail must override get_body_templates"
         )
@@ -50,6 +48,9 @@ class TapirEmailBase:
 
     def get_from_email(self) -> str:
         return EMAIL_ADDRESS_MEMBER_OFFICE
+
+    def get_attachments(self) -> List:
+        return []
 
     def send_to_share_owner(self, actor: TapirUser, recipient: ShareOwner):
         self.__send(
@@ -94,6 +95,7 @@ class TapirEmailBase:
             body=body,
             to=[member_infos.email],
             from_email=self.get_from_email(),
+            attachments=self.get_attachments(),
         )
 
         email.content_subtype = "html"

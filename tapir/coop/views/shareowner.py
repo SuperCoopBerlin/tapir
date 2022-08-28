@@ -5,13 +5,10 @@ import django_tables2
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.core.mail import EmailMessage
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
-from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import translation
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
@@ -27,6 +24,7 @@ from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
+from tapir.coop.emails.membership_confirmation_email import MembershipConfirmationEmail
 from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
@@ -43,10 +41,9 @@ from tapir.coop.models import (
     CreateShareOwnershipsLogEntry,
     UpdateShareOwnershipLogEntry,
 )
-from tapir.log.models import EmailLogEntry, LogEntry
+from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
@@ -277,53 +274,11 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
 def send_shareowner_membership_confirmation_welcome_email(request, pk):
     owner = get_object_or_404(ShareOwner, pk=pk)
 
-    if owner.is_investing:
-        template_names = [
-            "coop/email/membership_confirmation_welcome_investing.html",
-            "coop/email/membership_confirmation_welcome_investing.default.html",
-        ]
-    else:
-        template_names = [
-            "coop/email/membership_confirmation_welcome.html",
-            "coop/email/membership_confirmation_welcome.default.html",
-        ]
+    email = MembershipConfirmationEmail(share_owner=owner)
+    email.send_to_share_owner(actor=request.user, recipient=owner)
 
-    with translation.override(owner.get_info().preferred_language):
-        subject = _("Welcome at %(organisation_name)s!") % {
-            "organisation_name": settings.COOP_NAME
-        }
-        if owner.is_investing:
-            subject = _(
-                "Confirmation of the investing membership at %(organisation_name)s!"
-            ) % {"organisation_name": settings.COOP_NAME}
-        mail = EmailMessage(
-            subject=subject,
-            body=render_to_string(template_names, {"owner": owner}),
-            from_email=FROM_EMAIL_MEMBER_OFFICE,
-            to=[owner.get_info().email],
-            bcc=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
-            attachments=[
-                (
-                    "Mitgliedschaftsbestätigung %s.pdf"
-                    % owner.get_info().get_display_name(),
-                    pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf(),
-                    "application/pdf",
-                )
-            ],
-        )
-    mail.content_subtype = "html"
-    mail.send()
+    messages.info(request, _("Membership confirmation email sent."))
 
-    log_entry = EmailLogEntry().populate(
-        email_message=mail,
-        actor=request.user,
-        user=owner.user,
-        share_owner=(owner if not owner.user else None),
-    )
-    log_entry.save()
-
-    # TODO(Leon Handreke): Add a message to the user log here.
-    messages.success(request, _("Welcome email with membership confirmation sent."))
     return redirect(owner.get_absolute_url())
 
 

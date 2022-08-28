@@ -27,15 +27,13 @@ class StandInFoundEmail(TapirEmailBase):
             "when the corresponding slot is taken over by another member."
         )
 
-    @staticmethod
-    def get_subject_templates() -> List:
+    def get_subject_templates(self) -> List:
         return [
             "shifts/email/stand_in_found.subject.html",
             "shifts/email/stand_in_found.subject.default.html",
         ]
 
-    @staticmethod
-    def get_body_templates() -> List:
+    def get_body_templates(self) -> List:
         return [
             "shifts/email/stand_in_found.body.html",
             "shifts/email/stand_in_found.body.default.html",

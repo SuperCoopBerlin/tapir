@@ -28,15 +28,13 @@ class TapirAccountCreatedEmail(TapirEmailBase):
     def get_description() -> str:
         return _("Sent to a member when the accounts gets created.")
 
-    @staticmethod
-    def get_subject_templates() -> List:
+    def get_subject_templates(self) -> List:
         return [
             "accounts/email/tapir_account_created.subject.html",
             "accounts/email/tapir_account_created.subject.default.html",
         ]
 
-    @staticmethod
-    def get_body_templates() -> List:
+    def get_body_templates(self) -> List:
         return [
             "accounts/email/tapir_account_created.body.html",
             "accounts/email/tapir_account_created.body.default.html",
