@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 
 from tapir import settings
+from tapir.accounts.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.accounts.forms import TapirUserForm, PasswordResetForm
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.log.models import EmailLogEntry
@@ -71,30 +72,8 @@ class PasswordResetView(auth_views.PasswordResetView):
 def send_user_welcome_email(request, pk):
     tapir_user = get_object_or_404(TapirUser, pk=pk)
 
-    email = EmailUtils.get_email_from_template(
-        tapir_user,
-        subject_template_names=[
-            "accounts/email/welcome_email_subject.html",
-            "accounts/email/welcome_email_subject.default.html",
-        ],
-        email_template_names=[
-            "accounts/email/welcome_email.html",
-            "accounts/email/welcome_email.default.html",
-        ],
-        extra_context={
-            "site_url": settings.SITE_URL,
-            "uid": urlsafe_base64_encode(force_bytes(tapir_user)),
-            "token": default_token_generator.make_token(tapir_user),
-        },
-    )
-    email.send()
-
-    log_entry = EmailLogEntry().populate(
-        email_message=email,
-        actor=request.user,
-        user=tapir_user,
-    )
-    log_entry.save()
+    email = TapirAccountCreatedEmail(tapir_user)
+    email.send_to_tapir_user(actor=request.user, recipient=tapir_user)
 
     messages.info(request, _("Account welcome email sent."))
 
