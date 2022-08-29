@@ -1,0 +1,22 @@
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% translate 'Shift missed' %}</title>
+</head>
+<body>
+    {% blocktranslate with first_name=member_infos.first_name shift_display_name=shift.get_display_name contact_email_address=contact_email_address %}
+        <p>Hi {{ first_name }},</p>
+
+        <p>This is an automated email from {{ coop_name }}.</p>
+
+        <p>
+            It has been registered in the {{ coop_name }} shift system that you didn't attend the following shift which you had registered for:
+            {{ shift_display_name }} <br/>
+            If it's a mistake, or you think that you should be excused from this shift, please contact the member office: {{ contact_email_address }} .<br/>
+        </p>
+    {% endblocktranslate %}
+</body>
+</html>
