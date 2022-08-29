@@ -1,8 +1,5 @@
 from typing import List
 
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
@@ -54,6 +51,20 @@ class MembershipConfirmationEmail(TapirEmailBase):
                 "application/pdf",
             )
         ]
+
+    def get_extra_context(self) -> dict:
+        return {"organization_name": settings.COOP_NAME}
+
+    @classmethod
+    def get_dummy_version(cls) -> TapirEmailBase:
+        share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
+        mail = cls(share_owner=share_owner)
+        mail.get_full_context(
+            share_owner=share_owner,
+            member_infos=share_owner.get_info(),
+            tapir_user=share_owner.user,
+        )
+        return mail
 
 
 all_emails[MembershipConfirmationEmail.get_unique_id()] = MembershipConfirmationEmail

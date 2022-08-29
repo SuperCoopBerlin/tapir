@@ -19,7 +19,6 @@ from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry
 from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
-from tapir.shifts.emails.stand_in_found_email import StandInFoundEmail
 from tapir.utils.models import DurationModelMixin
 
 
@@ -746,29 +745,6 @@ class ShiftSlot(models.Model):
             )
         attendance.state = ShiftAttendance.State.PENDING
         attendance.save()
-
-    def mark_stand_in_found_if_relevant(self, actor: TapirUser):
-        attendances = ShiftAttendance.objects.filter(
-            slot=self, state=ShiftAttendance.State.LOOKING_FOR_STAND_IN
-        )
-        if not attendances.exists():
-            return
-
-        attendance = attendances.first()
-        attendance.state = ShiftAttendance.State.CANCELLED
-        attendance.save()
-
-        log_entry = ShiftAttendanceTakenOverLogEntry().populate(
-            actor=actor,
-            user=attendance.user,
-            model=attendance,
-        )
-        log_entry.slot_name = attendance.slot.name
-        log_entry.shift = attendance.slot.shift
-        log_entry.save()
-
-        email = StandInFoundEmail(attendance.slot.shift)
-        email.send_to_tapir_user(actor=actor, recipient=attendance.user)
 
 
 class ShiftAccountEntry(models.Model):

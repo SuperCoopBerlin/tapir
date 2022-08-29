@@ -3,7 +3,9 @@ from typing import List
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
+from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase, all_emails
+from tapir.shifts.models import Shift
 
 
 class StandInFoundEmail(TapirEmailBase):
@@ -12,16 +14,16 @@ class StandInFoundEmail(TapirEmailBase):
     def __init__(self, shift):
         self.shift = shift
 
-    @staticmethod
-    def get_unique_id() -> str:
+    @classmethod
+    def get_unique_id(cls) -> str:
         return "tapir.shifts.stand_in_found"
 
-    @staticmethod
-    def get_name() -> str:
+    @classmethod
+    def get_name(cls) -> str:
         return _("Stand-in found")
 
-    @staticmethod
-    def get_description() -> str:
+    @classmethod
+    def get_description(cls) -> str:
         return _(
             "Sent to a member that was looking for a stand-in"
             "when the corresponding slot is taken over by another member."
@@ -45,6 +47,17 @@ class StandInFoundEmail(TapirEmailBase):
             "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
             "coop_name": settings.COOP_NAME,
         }
+
+    @classmethod
+    def get_dummy_version(cls) -> TapirEmailBase:
+        share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
+        mail = cls(shift=Shift.objects.order_by("?")[0])
+        mail.get_full_context(
+            share_owner=share_owner,
+            member_infos=share_owner.get_info(),
+            tapir_user=share_owner.user,
+        )
+        return mail
 
 
 all_emails[StandInFoundEmail.get_unique_id()] = StandInFoundEmail

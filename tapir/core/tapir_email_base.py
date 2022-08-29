@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List
 
 from django.core.mail import EmailMultiAlternatives
@@ -9,7 +11,6 @@ from tapir.coop.models import ShareOwner
 from tapir.log.models import EmailLogEntry
 from tapir.settings import COOP_NAME, EMAIL_ADDRESS_MEMBER_OFFICE
 
-
 all_emails = {}
 
 
@@ -17,30 +18,40 @@ class TapirEmailBase:
     class Meta:
         abstract = True
 
-    @staticmethod
-    def get_unique_id() -> str:
+    context = None
+
+    @classmethod
+    def get_unique_id(cls) -> str:
         raise NotImplementedError(
-            "Subclasses of TapirEmail must override get_unique_id"
+            f"Subclass {cls.__name__} of TapirEmail must override get_unique_id"
         )
 
-    @staticmethod
-    def get_name() -> str:
-        raise NotImplementedError("Subclasses of TapirEmail must override get_name")
-
-    @staticmethod
-    def get_description() -> str:
+    @classmethod
+    def get_name(cls) -> str:
         raise NotImplementedError(
-            "Subclasses of TapirEmail must override get_description"
+            f"Subclass {cls.__name__} of TapirEmail must override get_name"
+        )
+
+    @classmethod
+    def get_description(cls) -> str:
+        raise NotImplementedError(
+            f"Subclass {cls.__name__} of TapirEmail must override get_description"
         )
 
     def get_subject_templates(self) -> List:
         raise NotImplementedError(
-            "Subclasses of TapirEmail must override get_subject_templates"
+            f"Subclass {type(self).__name__} of TapirEmail must override get_subject_templates"
         )
 
     def get_body_templates(self) -> List:
         raise NotImplementedError(
-            "Subclasses of TapirEmail must override get_body_templates"
+            f"Subclass {type(self).__name__} of TapirEmail must override get_body_templates"
+        )
+
+    @classmethod
+    def get_dummy_version(cls) -> TapirEmailBase:
+        raise NotImplementedError(
+            f"Subclass {cls.__name__} of TapirEmail must override get_dummy_version"
         )
 
     def get_extra_context(self) -> dict:
@@ -51,6 +62,28 @@ class TapirEmailBase:
 
     def get_attachments(self) -> List:
         return []
+
+    def get_subject(self, context: dict) -> str:
+        return loader.render_to_string(self.get_subject_templates(), context)
+
+    def get_body(self, context: dict) -> str:
+        return loader.render_to_string(self.get_body_templates(), context)
+
+    def get_full_context(
+        self,
+        share_owner: ShareOwner,
+        member_infos,
+        tapir_user: TapirUser,
+    ) -> dict:
+        if self.context is None:
+            self.context = {
+                "share_owner": share_owner,
+                "tapir_user": tapir_user,
+                "member_infos": member_infos,
+                "coop_name": COOP_NAME,
+            } | self.get_extra_context()  # '|' is the union operator for dictionaries.
+
+        return self.context
 
     def send_to_share_owner(self, actor: TapirUser, recipient: ShareOwner):
         self.__send(
@@ -77,18 +110,15 @@ class TapirEmailBase:
         member_infos,
         tapir_user: TapirUser,
     ):
-        context = {
-            "share_owner": share_owner,
-            "tapir_user": tapir_user,
-            "member_infos": member_infos,
-            "coop_name": COOP_NAME,
-        } | self.get_extra_context()  # '|' is the union operator for dictionaries.
+        context = self.get_full_context(
+            share_owner=share_owner, member_infos=member_infos, tapir_user=tapir_user
+        )
 
         with translation.override(member_infos.preferred_language):
-            subject = loader.render_to_string(self.get_subject_templates(), context)
+            subject = self.get_subject(context)
             # Email subject *must not* contain newlines
             subject = "".join(subject.splitlines())
-            body = loader.render_to_string(self.get_body_templates(), context)
+            body = self.get_body(context)
 
         email = EmailMultiAlternatives(
             subject=subject,
