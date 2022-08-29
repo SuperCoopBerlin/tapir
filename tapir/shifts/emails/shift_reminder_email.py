@@ -2,13 +2,13 @@ from typing import List
 
 from django.utils.translation import gettext_lazy as _
 
-from tapir import settings
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase, all_emails
+from tapir.shifts import config
 from tapir.shifts.models import Shift
 
 
-class ShiftMissedEmail(TapirEmailBase):
+class ShiftReminderEmail(TapirEmailBase):
     shift = None
 
     def __init__(self, shift):
@@ -16,33 +16,32 @@ class ShiftMissedEmail(TapirEmailBase):
 
     @classmethod
     def get_unique_id(cls) -> str:
-        return "tapir.shifts.shift_missed"
+        return "tapir.shifts.shift_reminder"
 
     @classmethod
     def get_name(cls) -> str:
-        return _("Shift missed")
+        return _("Shift reminder")
 
     @classmethod
     def get_description(cls) -> str:
-        return _("Sent to a member when the member office marks the shift as missed")
+        return _(
+            f"Sent to a member {config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT} days before their shift"
+        )
 
     def get_subject_templates(self) -> List:
         return [
-            "shifts/email/shift_missed.subject.html",
-            "shifts/email/shift_missed.subject.default.html",
+            "shifts/email/shift_reminder.subject.html",
+            "shifts/email/shift_reminder.subject.default.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
-            "shifts/email/shift_missed.body.html",
-            "shifts/email/shift_missed.body.default.html",
+            "shifts/email/shift_reminder.body.html",
+            "shifts/email/shift_reminder.body.default.html",
         ]
 
     def get_extra_context(self) -> dict:
-        return {
-            "shift": self.shift,
-            "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-        }
+        return {"shift": self.shift}
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase:
@@ -54,6 +53,3 @@ class ShiftMissedEmail(TapirEmailBase):
             tapir_user=share_owner.user,
         )
         return mail
-
-
-all_emails[ShiftMissedEmail.get_unique_id()] = ShiftMissedEmail
