@@ -24,6 +24,9 @@ from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
+from tapir.coop.emails.extra_shares_confirmation_email import (
+    ExtraSharesConfirmationEmail,
+)
 from tapir.coop.emails.membership_confirmation_email_for_active_member import (
     MembershipConfirmationForActiveMemberEmail,
 )
@@ -55,7 +58,6 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendanceMode,
 )
-from tapir.utils.email_utils import EmailUtils
 from tapir.utils.models import copy_user_info
 
 
@@ -128,19 +130,10 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
                 )
 
         if form.cleaned_data["send_confirmation_email"]:
-            email = EmailUtils.get_email_from_template(
-                member=share_owner,
-                subject_template_names=[
-                    "coop/email/extra_shares_bought.subject.txt",
-                    "coop/email/extra_shares_bought.subject.default.html",
-                ],
-                email_template_names=[
-                    "coop/email/extra_shares_bought.body.txt",
-                    "coop/email/extra_shares_bought.body.default.html",
-                ],
-                extra_context={"num_shares": form.cleaned_data["num_shares"]},
+            email = ExtraSharesConfirmationEmail(
+                num_shares=form.cleaned_data["num_shares"]
             )
-            email.send()
+            email.send_to_share_owner(share_owner)
 
         return super().form_valid(form)
 
