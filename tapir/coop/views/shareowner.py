@@ -24,7 +24,12 @@ from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
-from tapir.coop.emails.membership_confirmation_email import MembershipConfirmationEmail
+from tapir.coop.emails.membership_confirmation_email_for_active_member import (
+    MembershipConfirmationForActiveMemberEmail,
+)
+from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
+    MembershipConfirmationForInvestingMemberEmail,
+)
 from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
@@ -272,14 +277,18 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
 @csrf_protect
 @permission_required("coop.manage")
 def send_shareowner_membership_confirmation_welcome_email(request, pk):
-    owner = get_object_or_404(ShareOwner, pk=pk)
+    share_owner = get_object_or_404(ShareOwner, pk=pk)
 
-    email = MembershipConfirmationEmail(share_owner=owner)
-    email.send_to_share_owner(actor=request.user, recipient=owner)
+    email = (
+        MembershipConfirmationForInvestingMemberEmail(share_owner=share_owner)
+        if share_owner.is_investing
+        else MembershipConfirmationForActiveMemberEmail
+    )
+    email.send_to_share_owner(actor=request.user, recipient=share_owner)
 
     messages.info(request, _("Membership confirmation email sent."))
 
-    return redirect(owner.get_absolute_url())
+    return redirect(share_owner.get_absolute_url())
 
 
 @require_GET
