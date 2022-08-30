@@ -1,12 +1,8 @@
+{% extends "core/email_base.html" %}
+
 {% load i18n %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>{% translate 'Shift missed' %}</title>
-</head>
-<body>
+{% block body %}
     {% blocktranslate with first_name=member_infos.first_name shift_display_name=shift.get_display_name contact_email_address=contact_email_address %}
         <p>Hi {{ first_name }},</p>
 
@@ -18,5 +14,4 @@
             If it's a mistake, or you think that you should be excused from this shift, please contact the member office: {{ contact_email_address }} .<br/>
         </p>
     {% endblocktranslate %}
-</body>
-</html>
+{% endblock body %}

@@ -2,10 +2,6 @@
 
 {% load i18n %}
 
-{% block title %}
-    {% translate "Stand-in found" %}
-{% endblock %}
-
 {% block body %}
     {% blocktranslate with first_name=tapir_user.first_name shift_display_name=shift.get_display_name %}
         <p>Dear {{ first_name }},</p>
@@ -19,4 +15,4 @@
 
         <p>If you haven't done so already, don't forget to attend another shift to compensate for the one you will miss!</p>
     {% endblocktranslate %}
-{% endblock %}
+{% endblock body %}

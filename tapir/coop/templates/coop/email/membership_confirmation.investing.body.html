@@ -1,36 +1,42 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="utf-8">
-    <title>Mitgliedschaftsbestätigung</title>
-</head>
-<body>
+{% extends "core/email_base.html" %}
 
-(English below)
+{% load i18n %}
 
-<p>Liebe*r {{ share_owner.get_info.get_display_name }},</p>
+{% block body %}
 
-<p>herzlich Willkommen als offizielles Fördermitglied der SuperCoop Berlin eG! Mit dem Zeichnen von {% if owner.get_active_share_ownerships.count == 1 %}einem Genossenschaftsanteil{% else %}{{ owner.get_active_share_ownerships.count }} Anteilen{% endif %}hast du dich dafür entschieden, gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!</p>
+    (English below)
 
-<p>Wir freuen uns sehr, dich als Fördermitglied der SuperCoop eG begrüßen zu dürfen und bestätigen die Aufnahme in die Genossenschaft mit der Mitgliedsnummer {{ owner.id }}. Deine Mitgliedschaftsbestätigung findest du als PDF im Anhang.</p>
+    <p>Liebe*r {{ share_owner.get_info.get_display_name }},</p>
 
-<p>Bei Fragen kannst du dich gerne an mitglied@supercoop.de wenden.</p>
+    <p>herzlich Willkommen als offizielles Fördermitglied der SuperCoop Berlin eG! Mit dem Zeichnen von
+        {% if owner.get_active_share_ownerships.count == 1 %}einem Genossenschaftsanteil
+            {% else %}{{ owner.get_active_share_ownerships.count }} Anteilen{% endif %}hast du dich dafür entschieden,
+        gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!</p>
 
-<p>Kooperative Grüße<br />
-    Eugénie, Jessica, Johanna und Marie für das SuperCoop Team</p>
+    <p>Wir freuen uns sehr, dich als Fördermitglied der SuperCoop eG begrüßen zu dürfen und bestätigen die Aufnahme in
+        die Genossenschaft mit der Mitgliedsnummer {{ owner.id }}. Deine Mitgliedschaftsbestätigung findest du als PDF
+        im Anhang.</p>
 
-<hr />
+    <p>Bei Fragen kannst du dich gerne an mitglied@supercoop.de wenden.</p>
 
-<p>Dear {{ share_owner.get_info.get_display_name }},</p>
+    <p>Kooperative Grüße<br/>
+        Eugénie, Jessica, Johanna und Marie für das SuperCoop Team</p>
 
-<p>Welcome as an official investing member of SuperCoop Berlin eG! By subscribing to {% if owner.get_active_share_ownerships.count == 1 %}a cooperative share{% else %}{{ owner.get_active_share_ownerships.count }} cooperative shares{% endif %}, you have decided to shape the food system together with us and many other coop members!</p>
+    <hr/>
 
-<p>We are very happy to confirm your admission to the cooperative with the membership number {{ owner.id }}. See the attached PDF for full details.</p>
+    <p>Dear {{ share_owner.get_info.get_display_name }},</p>
 
-<p>Cooperative greetings,<br />
-    Eugénie, Jessica, Johanna and Marie<br />
-Executive Board<br />
-    SuperCoop Berlin eG</p>
-</body>
-</html>
+    <p>Welcome as an official investing member of SuperCoop Berlin eG! By subscribing to
+        {% if owner.get_active_share_ownerships.count == 1 %}a cooperative share
+            {% else %}{{ owner.get_active_share_ownerships.count }} cooperative shares{% endif %}, you have decided to
+        shape the food system together with us and many other coop members!</p>
 
+    <p>We are very happy to confirm your admission to the cooperative with the membership number {{ owner.id }}. See the
+        attached PDF for full details.</p>
+
+    <p>Cooperative greetings,<br/>
+        Eugénie, Jessica, Johanna and Marie<br/>
+        Executive Board<br/>
+        SuperCoop Berlin eG</p>
+
+{% endblock body %}

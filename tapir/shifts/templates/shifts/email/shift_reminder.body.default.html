@@ -1,24 +1,20 @@
+{% extends "core/email_base.html" %}
+
 {% load i18n %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>{% translate 'Shift reminder' %}</title>
-</head>
-<body>
-{% blocktranslate with first_name=tapir_user.first_name shift_display_name=shift.get_display_name %}
-    <p>Hi {{ first_name }},</p>
+{% block body %}
 
-    <p>This is an automated email from {{ coop_name }}.</p>
+    {% blocktranslate with first_name=tapir_user.first_name shift_display_name=shift.get_display_name %}
+        <p>Hi {{ first_name }},</p>
 
-    <p>
-        Your next shift at {{ coop_name }} is: <br/>
-        <strong>{{ shift_display_name }}</strong>
-    </p>
-{% endblocktranslate %}
+        <p>This is an automated email from {{ coop_name }}.</p>
+
+        <p>
+            Your next shift at {{ coop_name }} is: <br/>
+            <strong>{{ shift_display_name }}</strong>
+        </p>
+    {% endblocktranslate %}
     <p>
         {% translate "In case you can't attend the shift, contact the team leader as soon as possible." %}
     </p>
-</body>
-</html>
+{% endblock body %}

@@ -118,6 +118,7 @@ class TapirEmailBase:
             subject = self.get_subject(context)
             # Email subject *must not* contain newlines
             subject = "".join(subject.splitlines())
+            context |= {"subject": subject}
             body = self.get_body(context)
 
         email = EmailMultiAlternatives(
