@@ -24,7 +24,7 @@ class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
 
     @classmethod
     def get_description(cls) -> str:
-        return _("")
+        return ""
 
     def get_subject_templates(self) -> List:
         return [
