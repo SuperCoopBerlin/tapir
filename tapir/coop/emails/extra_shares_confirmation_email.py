@@ -61,7 +61,7 @@ class ExtraSharesConfirmationEmail(TapirEmailBase):
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase:
         share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
-        mail = cls(num_shares=3)
+        mail = cls(num_shares=3, share_owner=share_owner)
         mail.get_full_context(
             share_owner=share_owner,
             member_infos=share_owner.get_info(),
