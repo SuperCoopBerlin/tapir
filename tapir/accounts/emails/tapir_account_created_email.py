@@ -49,7 +49,7 @@ class TapirAccountCreatedEmail(TapirEmailBase):
         }
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase:
+    def get_dummy_version(cls) -> TapirEmailBase | None:
         share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
         mail = cls(tapir_user=share_owner.user)
         mail.get_full_context(

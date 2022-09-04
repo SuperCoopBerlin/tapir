@@ -54,8 +54,10 @@ class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
         return {"organization_name": settings.COOP_NAME}
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase:
-        share_owner = ShareOwner.objects.filter(user__isnull=True).order_by("?")[0]
+    def get_dummy_version(cls) -> TapirEmailBase | None:
+        share_owner = ShareOwner.objects.filter(user__isnull=True).order_by("?").first()
+        if not share_owner:
+            return None
         mail = cls(share_owner=share_owner)
         mail.get_full_context(
             share_owner=share_owner,

@@ -49,7 +49,7 @@ class TapirEmailBase:
         )
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase:
+    def get_dummy_version(cls) -> TapirEmailBase | None:
         raise NotImplementedError(
             f"Subclass {cls.__name__} of TapirEmail must override get_dummy_version"
         )

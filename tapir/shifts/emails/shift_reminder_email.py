@@ -3,7 +3,7 @@ from typing import List
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase, all_emails
+from tapir.core.tapir_email_base import TapirEmailBase
 from tapir.shifts import config
 from tapir.shifts.models import Shift
 
@@ -44,9 +44,14 @@ class ShiftReminderEmail(TapirEmailBase):
         return {"shift": self.shift}
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase:
-        share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
-        mail = cls(shift=Shift.objects.order_by("?")[0])
+    def get_dummy_version(cls) -> TapirEmailBase | None:
+        share_owner = (
+            ShareOwner.objects.filter(user__isnull=False).order_by("?").first()
+        )
+        shift = Shift.objects.order_by("?").first()
+        if not share_owner or not shift:
+            return None
+        mail = cls(shift=shift)
         mail.get_full_context(
             share_owner=share_owner,
             member_infos=share_owner.get_info(),

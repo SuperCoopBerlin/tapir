@@ -49,9 +49,14 @@ class StandInFoundEmail(TapirEmailBase):
         }
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase:
-        share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
-        mail = cls(shift=Shift.objects.order_by("?")[0])
+    def get_dummy_version(cls) -> TapirEmailBase | None:
+        share_owner = (
+            ShareOwner.objects.filter(user__isnull=False).order_by("?").first()
+        )
+        shift = Shift.objects.order_by("?").first()
+        if not share_owner or not shift:
+            return None
+        mail = cls(shift=shift)
         mail.get_full_context(
             share_owner=share_owner,
             member_infos=share_owner.get_info(),
