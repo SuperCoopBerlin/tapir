@@ -129,11 +129,10 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
                     end_date=form.cleaned_data["end_date"],
                 )
 
-        if form.cleaned_data["send_confirmation_email"]:
-            email = ExtraSharesConfirmationEmail(
-                num_shares=form.cleaned_data["num_shares"]
-            )
-            email.send_to_share_owner(actor=self.request.user, recipient=share_owner)
+        email = ExtraSharesConfirmationEmail(
+            num_shares=form.cleaned_data["num_shares"], share_owner=share_owner
+        )
+        email.send_to_share_owner(actor=self.request.user, recipient=share_owner)
 
         return super().form_valid(form)
 

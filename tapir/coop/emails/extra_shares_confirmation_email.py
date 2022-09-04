@@ -3,15 +3,18 @@ from typing import List
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
+from tapir.coop import pdfs
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase, all_emails
 
 
 class ExtraSharesConfirmationEmail(TapirEmailBase):
     num_shares = None
+    share_owner = None
 
-    def __init__(self, num_shares: int):
+    def __init__(self, num_shares: int, share_owner: ShareOwner):
         self.num_shares = num_shares
+        self.share_owner = share_owner
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -42,6 +45,18 @@ class ExtraSharesConfirmationEmail(TapirEmailBase):
             "num_shares": self.num_shares,
             "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         }
+
+    def get_attachments(self) -> List:
+        return [
+            (
+                "Bestätigung Erwerb Anteile %s.pdf"
+                % self.share_owner.get_info().get_display_name(),
+                pdfs.get_confirmation_extra_shares_pdf(
+                    share_owner=self.share_owner, num_shares=self.num_shares
+                ).write_pdf(),
+                "application/pdf",
+            )
+        ]
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase:

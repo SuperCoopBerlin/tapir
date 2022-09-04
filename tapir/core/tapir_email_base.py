@@ -6,10 +6,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 from django.utils import translation
 
+from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.log.models import EmailLogEntry
-from tapir.settings import COOP_NAME, EMAIL_ADDRESS_MEMBER_OFFICE
 
 all_emails = {}
 
@@ -58,7 +58,7 @@ class TapirEmailBase:
         return {}
 
     def get_from_email(self) -> str:
-        return EMAIL_ADDRESS_MEMBER_OFFICE
+        return settings.EMAIL_ADDRESS_MEMBER_OFFICE
 
     def get_attachments(self) -> List:
         return []
@@ -80,7 +80,7 @@ class TapirEmailBase:
                 "share_owner": share_owner,
                 "tapir_user": tapir_user,
                 "member_infos": member_infos,
-                "coop_name": COOP_NAME,
+                "coop_name": settings.COOP_NAME,
             } | self.get_extra_context()  # '|' is the union operator for dictionaries.
 
         return self.context
