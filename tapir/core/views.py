@@ -16,8 +16,8 @@ class EmailListView(TemplateView):
 
             example = (
                 EmailLogEntry.objects.filter(email_id=email.get_unique_id())
-                .order_by("?")
-                .first()
+                .order_by("created_date")
+                .last()
             )
             if example is not None:
                 example = reverse("log:email_log_entry_content", args=[example.id])
