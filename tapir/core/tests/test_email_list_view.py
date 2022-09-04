@@ -12,7 +12,7 @@ class TestEmailListView(TapirFactoryTestBase):
 
     def test_all_emails_are_included(self):
         user = TapirUserFactory.create(
-            preferred_language="de", is_in_member_office=True
+            preferred_language="en", is_in_member_office=True
         )
         self.login_as_user(user)
 
@@ -21,13 +21,13 @@ class TestEmailListView(TapirFactoryTestBase):
 
         response_content = response.content.decode()
         expected_email_names = [
-            "Tapir-Konto erstellt",
-            "Schicht versäumt",
-            "Vertretung gefunden",
-            "Schicht-Erinnerung",
+            "Tapir account created",
+            "Shift missed",
+            "Stand-in found",
+            "Shift reminder",
             "Extra shares bought",
-            "Mitgliedsbestätigung für aktive Mitglieder",
-            "Mitgliedsbestätigung für investierende Mitglieder",
+            "Membership confirmation for active users",
+            "Membership confirmation for investing users",
         ]
         for name in expected_email_names:
             self.assertIn(name, response_content)
