@@ -8,6 +8,13 @@ from weasyprint.text.fonts import FontConfiguration
 
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
 from tapir.coop.models import ShareOwner
+from tapir.settings import (
+    COOP_FULL_NAME,
+    COOP_STREET,
+    COOP_PLACE,
+    COOP_NAME,
+    EMAIL_ADDRESS_MEMBER_OFFICE,
+)
 
 _WEASYPRINT_FONT_CONFIG = FontConfiguration()
 
@@ -21,6 +28,11 @@ def get_shareowner_membership_confirmation_pdf(owner):
             ],
             {
                 "owner": owner,
+                "COOP_NAME": COOP_NAME,
+                "EMAIL_ADDRESS_MEMBER_OFFICE": EMAIL_ADDRESS_MEMBER_OFFICE,
+                "COOP_FULL_NAME": COOP_FULL_NAME,
+                "COOP_STREET": COOP_STREET,
+                "COOP_PLACE": COOP_PLACE,
             },
         ),
         base_url=settings.WEASYPRINT_BASEURL,
@@ -32,6 +44,9 @@ def get_shareowner_membership_confirmation_pdf(owner):
 def get_membership_agreement_pdf(owner=None, **kwargs):
     context = {
         "owner": owner,
+        "coop_full_name": COOP_FULL_NAME,
+        "coop_street": COOP_STREET,
+        "coop_place": COOP_PLACE,
         "share_price": COOP_SHARE_PRICE,
         "entry_amount": COOP_ENTRY_AMOUNT,
     }

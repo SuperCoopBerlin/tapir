@@ -809,6 +809,9 @@ class ShiftAttendance(models.Model):
         related_name="shift_attendance",
     )
 
+    def get_state_display(self):
+        return SHIFT_ATTENDANCE_STATES[self.state]
+
     def is_valid(self):
         return self.state in ShiftAttendance.VALID_STATES
 
