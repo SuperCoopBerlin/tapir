@@ -1,6 +1,7 @@
 import datetime
 
 from django.urls import reverse
+from django.utils import translation
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
@@ -153,7 +154,8 @@ class TestExemptions(TapirFactoryTestBase):
         self.do_long_exemption_test(end_date=None)
 
     def do_long_exemption_test(self, end_date):
-        user = TapirUserFactory.create()
+        language = "en"
+        user = TapirUserFactory.create(is_in_member_office=False)
         shift_template = ShiftTemplateFactory.create()
         shift_kept = shift_template.create_shift(
             start_date=datetime.date.today() + datetime.timedelta(days=1)
@@ -161,7 +163,10 @@ class TestExemptions(TapirFactoryTestBase):
         shift_cancelled = shift_template.create_shift(
             start_date=datetime.date.today() + datetime.timedelta(days=20)
         )
-        self.login_as_member_office_user()
+        member_office_user = TapirUserFactory.create(
+            preferred_language=language, is_in_member_office=True
+        )
+        self.login_as_user(member_office_user)
         register_user_to_shift_template(self.client, user, shift_template)
 
         post_data = {
@@ -179,26 +184,29 @@ class TestExemptions(TapirFactoryTestBase):
             response_content,
             "There should be a warning about the attendance that will get cancelled.",
         )
-        self.assertIn(
-            shift_cancelled.slots.first().get_display_name(),
-            response_content,
-            "The cancelled slot name should be part of the warning.",
-        )
-        self.assertNotIn(
-            shift_kept.slots.first().get_display_name(),
-            response_content,
-            "That shift is not affected, the slot name should not be in the list.",
-        )
+        with translation.override(member_office_user.preferred_language):
+            self.assertIn(
+                shift_cancelled.slots.first().get_display_name(),
+                response_content,
+                "The cancelled slot name should be part of the warning.",
+            )
+        with translation.override(member_office_user.preferred_language):
+            self.assertNotIn(
+                shift_kept.slots.first().get_display_name(),
+                response_content,
+                "That shift is not affected, the slot name should not be in the list.",
+            )
         self.assertIn(
             "confirm_cancelled_abcd_attendances",
             response_content,
             "There should be a warning about the attendance template that will get cancelled.",
         )
-        self.assertIn(
-            shift_template.slot_templates.first().get_display_name(),
-            response_content,
-            "The cancelled slot template name should be part of the warning.",
-        )
+        with translation.override(member_office_user.preferred_language):
+            self.assertIn(
+                shift_template.slot_templates.first().get_display_name(),
+                response_content,
+                "The cancelled slot template name should be part of the warning.",
+            )
 
         post_data["confirm_cancelled_attendances"] = True
         post_data["confirm_cancelled_abcd_attendances"] = True
