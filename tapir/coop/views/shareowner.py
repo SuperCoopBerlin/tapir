@@ -133,7 +133,7 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
             email = ExtraSharesConfirmationEmail(
                 num_shares=form.cleaned_data["num_shares"]
             )
-            email.send_to_share_owner(share_owner)
+            email.send_to_share_owner(actor=self.request.user, recipient=share_owner)
 
         return super().form_valid(form)
 
@@ -273,10 +273,10 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
 
     email = (
-        MembershipConfirmationForInvestingMemberEmail(share_owner=share_owner)
+        MembershipConfirmationForInvestingMemberEmail
         if share_owner.is_investing
         else MembershipConfirmationForActiveMemberEmail
-    )
+    )(share_owner=share_owner)
     email.send_to_share_owner(actor=request.user, recipient=share_owner)
 
     messages.info(request, _("Membership confirmation email sent."))

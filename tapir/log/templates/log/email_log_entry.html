@@ -1,5 +1,8 @@
 {% load i18n %}
-{% translate "Email sent" %}:
-<a href="{% url 'log:email_log_entry_content' entry.pk %}">
-    "{{ entry.subject }}"
-</a>.
+{% translate "Email sent." %}<br />
+Name : {{ entry.get_name }}<br />
+Subject : {{ entry.subject }}<br />
+<a class="btn tapir-btn btn-sm btn-outline-secondary" href="{% url 'log:email_log_entry_content' entry.pk %}">
+    <span class="material-icons">download</span>
+    Download
+</a>

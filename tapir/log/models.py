@@ -118,8 +118,14 @@ class EmailLogEntry(LogEntry):
         self.email_content = email_message.message().as_bytes()
         return super().populate(*args, **kwargs)
 
-    def get_display_name(self) -> str:
-        raise NotImplementedError("Return email name or subject")
+    def get_name(self) -> str:
+        # Must import locally to avoid import loop.
+        # TODO find a way to avoid the local import
+        from tapir.core.tapir_email_base import all_emails
+
+        if self.email_id is not None and self.email_id in all_emails.keys():
+            return all_emails[self.email_id].get_name()
+        return _("Not available")
 
 
 class TextLogEntry(LogEntry):
