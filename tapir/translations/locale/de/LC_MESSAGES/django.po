@@ -1656,6 +1656,10 @@ msgstr "Ändere den Schichtstatus zu"
 msgid "Update Shift User Data"
 msgstr "Nutzer*innendaten der Schicht aktualisieren"
 
+#: shifts/templates/shifts/log/update_exemption_log_entry.html:3
+msgid "Update Exemption"
+msgstr "Schicht-Befreiung aktualisiert"
+
 #: shifts/templates/shifts/members_on_alert_list.html:31
 msgid ""
 "\n"

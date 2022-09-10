@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.db import transaction
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
@@ -7,6 +8,8 @@ from django.views.generic import (
     ListView,
 )
 
+from tapir.log.util import freeze_for_log
+from tapir.log.views import UpdateViewLogMixin
 from tapir.shifts.forms import (
     ShiftExemptionForm,
 )
@@ -16,6 +19,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     ShiftExemption,
     CreateExemptionLogEntry,
+    UpdateExemptionLogEntry,
 )
 
 
@@ -65,13 +69,31 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
         return self.get_target_user_data().user.get_absolute_url()
 
 
-class EditShiftExemptionView(PermissionRequiredMixin, UpdateView):
+class EditShiftExemptionView(PermissionRequiredMixin, UpdateViewLogMixin, UpdateView):
     model = ShiftExemption
     form_class = ShiftExemptionForm
     permission_required = "shifts.manage"
 
     def get_success_url(self):
         return reverse("shifts:shift_exemption_list")
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            response = super().form_valid(form)
+
+            new_frozen = freeze_for_log(form.instance)
+            if self.old_object_frozen != new_frozen:
+                log_entry = UpdateExemptionLogEntry().populate(
+                    old_frozen=self.old_object_frozen,
+                    new_frozen=new_frozen,
+                    user=ShiftUserData.objects.get(
+                        shift_exemptions=self.kwargs["pk"]
+                    ).user,
+                    actor=self.request.user,
+                )
+                log_entry.save()
+
+            return response
 
 
 class ShiftExemptionListView(PermissionRequiredMixin, ListView):

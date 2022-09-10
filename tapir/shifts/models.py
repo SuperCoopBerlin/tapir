@@ -1146,6 +1146,10 @@ class CreateExemptionLogEntry(LogEntry):
         return super().populate(actor=actor, user=user, share_owner=share_owner)
 
 
+class UpdateExemptionLogEntry(UpdateModelLogEntry):
+    template_name = "shifts/log/update_exemption_log_entry.html"
+
+
 class ShiftCycleEntry(models.Model):
     class Meta:
         constraints = [
