@@ -413,7 +413,6 @@ class IncomingPayment(models.Model):
 class CreatePaymentLogEntry(LogEntry):
     amount = models.FloatField(blank=False, null=False)
     payment_date = models.DateField(null=False, blank=False)
-    end_date = models.DateField(null=True, blank=True, db_index=True)
     paying_member = TapirUser()
 
     template_name = "coop/log/create_payment_log_entry.html"
