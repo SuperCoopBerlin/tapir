@@ -242,13 +242,13 @@ class TestExemptions(TapirFactoryTestBase):
             "The exemption should have been created. The tests also assume that the user has no other exemption.",
         )
 
-    def test_create_shares_creates_log_entry(self):
+    def test_creates_log_entry(self):
         user = TapirUserFactory.create()
         start_date = datetime.date.today() + datetime.timedelta(days=30)
         end_date = datetime.date.today() + datetime.timedelta(days=50)
         self.assertEqual(CreateExemptionLogEntry.objects.count(), 0)
 
-        self.login_as_member_office_user()
+        actor = self.login_as_member_office_user()
         response = self.client.post(
             reverse("shifts:create_shift_exemption", args=[user.shift_user_data.pk]),
             {
@@ -264,3 +264,5 @@ class TestExemptions(TapirFactoryTestBase):
         log_entry = CreateExemptionLogEntry.objects.first()
         self.assertEqual(log_entry.start_date, start_date)
         self.assertEqual(log_entry.end_date, end_date)
+        self.assertEqual(log_entry.actor, actor)
+        self.assertEqual(log_entry.user, user)
