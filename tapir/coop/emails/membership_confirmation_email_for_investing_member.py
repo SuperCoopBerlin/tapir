@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir import settings
 from tapir.coop import pdfs
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase, all_emails
+from tapir.core.tapir_email_base import TapirEmailBase
 
 
 class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
@@ -65,8 +65,3 @@ class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
             tapir_user=share_owner.user,
         )
         return mail
-
-
-all_emails[
-    MembershipConfirmationForInvestingMemberEmail.get_unique_id()
-] = MembershipConfirmationForInvestingMemberEmail

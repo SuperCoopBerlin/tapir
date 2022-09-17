@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List
+from typing import List, Type
 
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
@@ -141,3 +141,7 @@ class TapirEmailBase:
             share_owner=share_owner,
         )
         log_entry.save()
+
+    @classmethod
+    def register_email(cls, mail_class: Type[TapirEmailBase]):
+        all_emails[mail_class.get_unique_id()] = mail_class

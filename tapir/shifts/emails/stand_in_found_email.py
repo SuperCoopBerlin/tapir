@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase, all_emails
+from tapir.core.tapir_email_base import TapirEmailBase
 from tapir.shifts.models import Shift
 
 
@@ -63,6 +63,3 @@ class StandInFoundEmail(TapirEmailBase):
             tapir_user=share_owner.user,
         )
         return mail
-
-
-all_emails[StandInFoundEmail.get_unique_id()] = StandInFoundEmail

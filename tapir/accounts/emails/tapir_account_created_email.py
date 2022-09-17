@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase, all_emails
+from tapir.core.tapir_email_base import TapirEmailBase
 
 
 class TapirAccountCreatedEmail(TapirEmailBase):
@@ -58,6 +58,3 @@ class TapirAccountCreatedEmail(TapirEmailBase):
             tapir_user=share_owner.user,
         )
         return mail
-
-
-all_emails[TapirAccountCreatedEmail.get_unique_id()] = TapirAccountCreatedEmail
