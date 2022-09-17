@@ -1,9 +1,12 @@
+from typing import Type
+
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.urls import reverse
+from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 
-from tapir.core.tapir_email_base import all_emails
+from tapir.core.tapir_email_base import all_emails, TapirEmailBase
 from tapir.log.models import EmailLogEntry
 
 
@@ -13,9 +16,14 @@ class EmailListView(PermissionRequiredMixin, TemplateView):
     permission_required = "coop.manage"
 
     def get_context_data(self, **kwargs):
+        language = self.request.user.preferred_language
+        if "force_language" in self.request.GET.keys():
+            language = self.request.GET["force_language"]
+
         view_context = super().get_context_data(**kwargs)
         emails_for_template = []
         for index, email in enumerate(all_emails.values()):
+            email: Type[TapirEmailBase]
             dummy = email.get_dummy_version()
 
             example = (
@@ -26,8 +34,12 @@ class EmailListView(PermissionRequiredMixin, TemplateView):
             if example is not None:
                 example = reverse("log:email_log_entry_content", args=[example.id])
 
-            subject = dummy.get_subject(dummy.context) if dummy else _("Not available")
-            body = dummy.get_body(dummy.context) if dummy else _("Not available")
+            with translation.override(language):
+                subject = (
+                    dummy.get_subject(dummy.context) if dummy else _("Not available")
+                )
+                body = dummy.get_body(dummy.context) if dummy else _("Not available")
+
             email_for_template = {
                 "code": email.get_unique_id(),
                 "name": email.get_name(),

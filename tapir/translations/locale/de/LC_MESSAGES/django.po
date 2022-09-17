@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-17 10:39+0200\n"
-"PO-Revision-Date: 2022-09-17 10:33+0200\n"
+"POT-Creation-Date: 2022-09-17 11:25+0200\n"
+"PO-Revision-Date: 2022-09-17 11:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -250,8 +250,9 @@ msgstr ""
 " "
 
 #: accounts/templates/accounts/email/tapir_account_created.subject.default.html:2
-msgid "Your account in the member system"
-msgstr ""
+#, python-format
+msgid "Your account in Tapir, %(coop_name)s's member system"
+msgstr "Dein Konto in Tapir, das Mitgliedersystem von %(coop_name)s"
 
 #: accounts/templates/accounts/user_detail.html:17 log/views.py:79
 #: log/views.py:133 shifts/templates/shifts/shift_day_printable.html:55
@@ -1416,7 +1417,7 @@ msgstr "Schicht-Statistiken"
 msgid "About tapir"
 msgstr "Über Tapir"
 
-#: core/views.py:29 core/views.py:30 log/models.py:128
+#: core/views.py:36 core/views.py:39 log/models.py:128
 msgid "Not available"
 msgstr ""
 
