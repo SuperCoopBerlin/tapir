@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-17 09:58+0200\n"
-"PO-Revision-Date: 2022-09-17 09:57+0200\n"
+"POT-Creation-Date: 2022-09-17 10:39+0200\n"
+"PO-Revision-Date: 2022-09-17 10:33+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -909,8 +909,9 @@ msgstr ""
 "    "
 
 #: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:46
-msgid "Confirmation acquisition of additional shares in SuperCoop Berlin eG"
-msgstr "Bestätigung Erwerb zusätzlicher Anteile bei SuperCoop Berlin eG"
+#, python-format
+msgid "Confirmation acquisition of additional shares in %(coop_full_name)s"
+msgstr "Bestätigung Erwerb zusätzlicher Anteile bei %(coop_full_name)s"
 
 #: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:51
 #, python-format

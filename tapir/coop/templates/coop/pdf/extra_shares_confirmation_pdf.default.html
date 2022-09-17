@@ -31,9 +31,9 @@
             {{ member_infos.postcode }} {{ member_infos.city }}
         </span>
         <div style="margin-top: 2mm;">
-            SuperCoop Berlin eG<br/>
-            Oudenarder Straße 16<br/>
-            13347 Berlin
+            {{ coop_full_name }}<br/>
+            {{ coop_street }}<br/>
+            {{ coop_place }}
         </div>
     </div>
     <div style="flex-grow: 1"></div>
@@ -43,7 +43,7 @@
 </div>
 
 <div style="text-align: center; font-size: 14pt; font-weight: bold;">
-    {% translate "Confirmation acquisition of additional shares in SuperCoop Berlin eG" %}
+    {% blocktranslate %}Confirmation acquisition of additional shares in {{ coop_full_name }}{% endblocktranslate %}
 </div>
 
 <div style="margin-top: 10mm; line-height: 1.8rem;">
