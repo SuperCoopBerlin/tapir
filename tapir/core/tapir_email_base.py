@@ -93,7 +93,7 @@ class TapirEmailBase:
             tapir_user=recipient.user,
         )
 
-    def send_to_tapir_user(self, actor: TapirUser, recipient: TapirUser):
+    def send_to_tapir_user(self, actor: TapirUser | None, recipient: TapirUser):
         self.__send(
             actor=actor,
             share_owner=recipient.share_owner
