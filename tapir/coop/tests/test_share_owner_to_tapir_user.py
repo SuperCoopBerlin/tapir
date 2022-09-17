@@ -91,12 +91,14 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
         )
 
     def test_creating_the_user_must_send_the_activation_email(self):
-        share_owner: ShareOwner = ShareOwnerFactory.create()
+        user_email_address = "test_address@test.net"
+        share_owner: ShareOwner = ShareOwnerFactory.create(email=user_email_address)
         self.login_as_member_office_user()
 
         self.assertEqual(len(mail.outbox), 0)
         self.visit_create_user_view(share_owner)
         self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to, [user_email_address])
         self.assertIn(
             TapirUser.objects.all().last().username,
             mail.outbox[0].body,
