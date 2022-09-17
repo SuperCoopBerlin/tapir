@@ -33,6 +33,7 @@ from tapir.coop.emails.membership_confirmation_email_for_active_member import (
 from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
     MembershipConfirmationForInvestingMemberEmail,
 )
+from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
@@ -262,6 +263,8 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
             LogEntry.objects.filter(share_owner=owner).update(
                 user=form.instance, share_owner=None
             )
+            email = TapirAccountCreatedEmail(tapir_user=owner.user)
+            email.send_to_tapir_user(actor=self.request.user, recipient=owner.user)
             return response
 
 

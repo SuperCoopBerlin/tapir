@@ -1,3 +1,4 @@
+from django.core import mail
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
@@ -24,7 +25,7 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
             "The TapirUser should not have been created because the logged in user does not have the right permission",
         )
 
-    def test_draft_user_to_share_owner(self):
+    def test_share_owner_to_tapir_user(self):
         share_owner: ShareOwner = ShareOwnerFactory.create()
         self.login_as_member_office_user()
         response = self.visit_create_user_view(share_owner)
@@ -87,6 +88,19 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
             TapirUser.objects.filter(share_owner=tapir_user.share_owner).count(),
             1,
             "Only the original TapirUser should be there, the request should not have created an extra user.",
+        )
+
+    def test_creating_the_user_must_send_the_activation_email(self):
+        share_owner: ShareOwner = ShareOwnerFactory.create()
+        self.login_as_member_office_user()
+
+        self.assertEqual(len(mail.outbox), 0)
+        self.visit_create_user_view(share_owner)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            TapirUser.objects.all().last().username,
+            mail.outbox[0].body,
+            "The username must be included in the email",
         )
 
     def visit_create_user_view(self, share_owner: ShareOwner):

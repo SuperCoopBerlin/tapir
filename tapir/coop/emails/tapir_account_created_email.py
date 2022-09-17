@@ -31,14 +31,14 @@ class TapirAccountCreatedEmail(TapirEmailBase):
 
     def get_subject_templates(self) -> List:
         return [
-            "accounts/email/tapir_account_created.subject.html",
-            "accounts/email/tapir_account_created.subject.default.html",
+            "coop/email/tapir_account_created.subject.html",
+            "coop/email/tapir_account_created.subject.default.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
-            "accounts/email/tapir_account_created.body.html",
-            "accounts/email/tapir_account_created.body.default.html",
+            "coop/email/tapir_account_created.body.html",
+            "coop/email/tapir_account_created.body.default.html",
         ]
 
     def get_extra_context(self) -> dict:
