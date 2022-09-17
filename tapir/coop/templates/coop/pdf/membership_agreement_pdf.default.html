@@ -21,24 +21,25 @@
 <div style="display: flex">
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
         {% if owner %}
-        <span style="font-size: 6pt;">
+            <span style="font-size: 6pt;">
             {{ owner.first_name }} {{ owner.last_name }},
-            {% if owner.street and owner.city %}
-                {% if owner.street_2 %} {{ owner.street_2 }},{% endif %}
-                {{ owner.street }},
-                {{ owner.postcode }} {{ owner.city }}
-            {% endif %}
+                {% if owner.street and owner.city %}
+                    {% if owner.street_2 %} {{ owner.street_2 }},{% endif %}
+                    {{ owner.street }},
+                    {{ owner.postcode }} {{ owner.city }}
+                {% endif %}
         </span>
         {% endif %}
         <div style="margin-top: 2mm;">
-            Organisation<br />
-            Straße 1<br />
+            Organisation<br/>
+            Straße 1<br/>
             12345 Stadt
         </div>
     </div>
     <div style="flex-grow: 1"></div>
     <div style="margin-top: 13mm;">
-        <img src="{% static '../static/images/Logo_dark.svg' %}" style="width: 60mm;" />
+        <img src="{% static '../static/images/Logo_dark.svg' %}" style="width: 60mm;"
+             alt="{% translate 'Organisation logo' %}"/>
     </div>
 </div>
 
@@ -58,14 +59,14 @@
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
                 <span style="margin-left: 5mm;">
                     {% if owner.birthdate %}
-                    {{ owner.birthdate }}
+                        {{ owner.birthdate }}
                     {% endif %}
                 </span>
             </div>
         </div>
 
         <div style="color: grey; display: flex; flex-direction: row;">
-            <div style="margin-right: 3mm;"><b>oder</b> Firma:</div>
+            <div style="margin-right: 3mm;"><strong>oder</strong> Firma:</div>
             <div style="border-bottom: 2px solid grey; flex: 1; vertical-align: bottom;">
                 <span style="margin-left: 5mm;"><!-- Company Name --></span>
             </div>
@@ -81,7 +82,7 @@
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
                 <span style="margin-left: 5mm;">
                     {% if owner.street and owner.city %}
-                    {{ owner.street }}{% if owner.street_2 %} {{ owner.street_2 }}{% endif %},
+                        {{ owner.street }}{% if owner.street_2 %} {{ owner.street_2 }}{% endif %},
                         {{ owner.postcode }} {{ owner.city }}
                     {% endif %}
                 </span>
@@ -106,21 +107,24 @@
     <div style="display: flex; flex-direction: row; margin-top: 10mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span style="position: absolute; left: 2mm;" class="material-icons">check_box_outline_blank</span>
-            {% if owner and not owner.share_ownerships%}
-            <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
+            {% if owner and not owner.share_ownerships %}
+                <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
         <div style="flex: 1">
             Ich beantrage hiermit die Aufnahme in die <strong>Organisation</strong>. Ich möchte mich mit insgesamt
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">{{ owner.num_shares }}</span>
-            Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen
-            in Höhe von <strong>100,- € je Geschäftsanteil</strong> plus einem Eintrittsgeld in Höhe von 10,- € zu leisten, das der Deckung von
+            Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen
+            Zahlungen
+            in Höhe von <strong>100,- € je Geschäftsanteil</strong> plus einem Eintrittsgeld in Höhe von 10,- € zu
+            leisten, das der Deckung von
             Verwaltungskosten dient. Insgesamt verpflichte ich mich daher,
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">
             {{ owner.get_initial_amount|floatformat:0 }}
             </span>€
             zu leisten. Die Satzung der
-            <strong>Organisation</strong> ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
+            <strong>Organisation</strong> ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann
+            hier eingesehen werden:
             <a href="https://wirmarkt.de/unsere-genossenschaft/">https://wirmarkt.de/unsere-genossenschaft/</a>
         </div>
     </div>
@@ -153,8 +157,9 @@
             {% endif %}
         </div>
         <div style="flex: 1">
-            Ich möchte als investierendes Mitglied (= Fördermitglied) in die Mitgliederliste eingetragen werden.<br />
-            <b>Hinweis</b>: Investierende Mitglieder sind fördernde Mitglieder. Sie haben kein Stimmrecht in der
+            Ich möchte als investierendes Mitglied (= Fördermitglied) in die Mitgliederliste eingetragen werden.<br/>
+            <strong>Hinweis</strong>: Investierende Mitglieder sind fördernde Mitglieder. Sie haben kein Stimmrecht in
+            der
             Generalversammlung und können die Leistungen der Genossenschaft nicht nutzen.
         </div>
     </div>
@@ -163,11 +168,12 @@
         <div style="margin-right: 8mm; width: 5mm;">
             <span style="position: absolute; left: 2mm;" class="material-icons">check_box_outline_blank</span>
             {% if owner %}
-            <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
+                <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
         <div style="flex: 1">
-            Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von <strong>3 Jahren zum Ende des Geschäftsjahres</strong>
+            Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von <strong>3 Jahren zum Ende des
+            Geschäftsjahres</strong>
             bestimmt. Die lange Laufzeit dient zur finanziellen Stabilität und ist ein wesentlicher Kern des
             Genossenschaftsprinzips, das auf langfristige Ziele ausgerichtet ist. Eine Übertragung von Geschäftsanteilen
             ist auch vorher bereits möglich und in der Satzung geregelt.
@@ -185,7 +191,7 @@
             {% if owner.ratenzahlung %}
                 Ratenzahlung
             {% endif %}
-            </span><br />
+            </span><br/>
             (Weiteres, z.Bsp. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle)
         </div>
     </div>
@@ -193,24 +199,26 @@
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
             {% if owner %}
-            <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
+                <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
         <div style="flex: 1">
-            Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen: <br />
+            Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen: <br/>
             <div style="margin-left: 10mm; line-height: 1.2; margin-top: 3mm;">
-                Kontoinhaber: <strong>Organisation</strong><br />
-                IBAN: <span style="font-family: monospace">DEXX 1111 2222 3333 4444 00</span><br />
-                BIC: <span style="font-family: monospace">BIC1231234</span><br />
+                Kontoinhaber: <strong>Organisation</strong><br/>
+                IBAN: <span style="font-family: monospace">DEXX 1111 2222 3333 4444 00</span><br/>
+                BIC: <span style="font-family: monospace">BIC1231234</span><br/>
                 Betreff: Anteil und Eintrittsgeld {{ owner.first_name }} {{ owner.last_name }}
             </div>
         </div>
-    </div>"
+    </div>
+    "
 
     <div style="border: 1px solid black; margin-top: 10mm; padding: 2mm; font-size: 7pt; line-height: 1.0rem;">
-        <b>Datenschutzerklärung</b>
+        <strong>Datenschutzerklärung</strong>
         Verantwortlich für die Datenverarbeitung ist die <strong>Organisation und Anschrift</strong>.
-        Erreichbar unter <a href="mailto:contact">contact-e-mail</a>. Der Name, die Anschrift und das Geburtsdatum werden für die
+        Erreichbar unter <a href="mailto:contact">contact-e-mail</a>. Der Name, die Anschrift und das Geburtsdatum
+        werden für die
         Mitgliederliste der Genossenschaft benötigt (Art. 6 Absatz 1 c DS-GVO i.V.m. § 30 Absatz 2 Satz 1 Nr.1 GenG).
         Über die Adresse oder die E-Mail-Adresse werden Sie von der Genossenschaft zu Versammlungen eingeladen (Art. 6
         Absatz 1c DS-GVO i.V.m § 46 Absatz 1 Satz 1 GenG i.V.m. § 6 Nr.4 GenG) und im Rahmen der Mitgliedschaft über
@@ -218,7 +226,7 @@
         Die Genossenschaft hat ein berechtigtes Interesse an einer unkomplizierten und rechtssicheren Erfüllung ihrer
         Verbindlichkeiten. Die Bereitstellung der personenbezogenen Daten ist gesetzlich bzw. durch die Satzung
         vorgeschrieben, die Nichtbereitstellung hätte zur Folge, dass die Mitgliedschaft nicht zustande kommen kann.
-        <br /><br/>
+        <br/><br/>
         Die personenbezogenen Daten werden nicht an Dritte weitergeleitet, soweit nicht im Einzelfall dafür eine
         Einwilligung erteilt wird. Wir sind allerdings gesetzlich verpflichtet, in einigen Fällen Dritten die Einsicht
         in die personenbezogenen Daten zu gewähren. Das betrifft zum Beispiel andere Mitglieder, den gesetzlichen
@@ -241,7 +249,7 @@
     <div style="border-top: 2px solid black; width: 100%; margin-top: 10mm; margin-bottom: 4mm;">
     </div>
     <div style="text-align: center;">
-    Zulassung durch die Genossenschaft. Dem Antrag wird entsprochen:
+        Zulassung durch die Genossenschaft. Dem Antrag wird entsprochen:
     </div>
 
 
@@ -250,10 +258,6 @@
         <div style="flex-grow: 1"></div>
         <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum, Unterschrift)</div>
     </div>
-
-</div>
-
-
 
 </div>
 
