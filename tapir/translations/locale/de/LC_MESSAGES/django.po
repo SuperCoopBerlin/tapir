@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-04 13:23+0200\n"
-"PO-Revision-Date: 2022-09-04 13:22+0200\n"
+"POT-Creation-Date: 2022-09-17 09:58+0200\n"
+"PO-Revision-Date: 2022-09-17 09:57+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -492,39 +492,39 @@ msgstr "Mitgliedsbestätigung für aktive Mitglieder"
 msgid "Membership confirmation for investing users"
 msgstr "Mitgliedsbestätigung für investierende Mitglieder"
 
-#: coop/forms.py:45 shifts/templates/shifts/shiftexemption_list.html:20
+#: coop/forms.py:39 shifts/templates/shifts/shiftexemption_list.html:20
 msgid "Start date"
 msgstr "Anfangsdatum"
 
-#: coop/forms.py:49
+#: coop/forms.py:43
 msgid ""
 "Usually, the date on the membership agreement, or today. In the case of sold "
 "or gifted shares, can be set in the future."
 msgstr ""
 
-#: coop/forms.py:54 shifts/templates/shifts/shiftexemption_list.html:21
+#: coop/forms.py:48 shifts/templates/shifts/shiftexemption_list.html:21
 msgid "End date"
 msgstr "Enddatum"
 
-#: coop/forms.py:58
+#: coop/forms.py:52
 msgid ""
 "Usually left empty. Can be set to a point in the future if it is already "
 "known that the shares will be transferred to another member in the future."
 msgstr ""
 
-#: coop/forms.py:64
+#: coop/forms.py:58
 msgid "Number of shares to create"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/forms.py:72
+#: coop/forms.py:66
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:109 coop/models.py:296
+#: coop/forms.py:103 coop/models.py:296
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
-#: coop/forms.py:114
+#: coop/forms.py:108
 #, python-format
 msgid ""
 "Number of shares you would like to purchase. The price of one share is EUR "
@@ -533,25 +533,20 @@ msgid ""
 "purchase more shares."
 msgstr ""
 
-#: coop/forms.py:124
+#: coop/forms.py:118
 msgid ""
 "I would like to join the membership list as an investing member (= "
 "sponsoring member)"
 msgstr ""
 
-#: coop/forms.py:127
+#: coop/forms.py:121
 msgid ""
 "<b>Note</b>: Investing members are sponsoring members. They have no voting "
 "rights in the General Assembly and cannot use the services of the "
 "cooperative that are exclusive to ordinary members. "
 msgstr ""
 
-#: coop/forms.py:142
-#, python-format
-msgid "Welcome at %(organisation_name)s!"
-msgstr "Willkommen in der %(organisation_name)s!"
-
-#: coop/forms.py:287
+#: coop/forms.py:251
 msgid ""
 "Usually, the credited member is the same as the paying member. Only if a "
 "person if gifting another person a share through the matching program, then "
@@ -988,6 +983,11 @@ msgstr ""
 "        </p>\n"
 "    "
 
+#: coop/templates/coop/pdf/membership_agreement_pdf.default.html:42
+#: coop/templates/coop/pdf/membership_confirmation_pdf.default.html:34
+msgid "Organisation logo"
+msgstr ""
+
 #: coop/templates/coop/shareowner_detail.html:18
 msgid "Go to user page"
 msgstr "Zur Nutzer*innen-Seite"
@@ -1065,14 +1065,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:53
-#: shifts/models.py:866 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:869 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:221
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:55
-#: shifts/models.py:865
+#: shifts/models.py:868
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -1309,7 +1309,7 @@ msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
 #: core/templates/core/email_list.html:26 shifts/models.py:509
-#: shifts/models.py:989 shifts/templates/shifts/shiftexemption_list.html:22
+#: shifts/models.py:992 shifts/templates/shifts/shiftexemption_list.html:22
 #: shifts/templates/shifts/user_shift_account_log.html:28
 msgid "Description"
 msgstr "Beschreibung"
@@ -1415,13 +1415,13 @@ msgstr "Schicht-Statistiken"
 msgid "About tapir"
 msgstr "Über Tapir"
 
+#: core/views.py:29 core/views.py:30 log/models.py:128
+msgid "Not available"
+msgstr ""
+
 #: log/models.py:14
 msgid "Creation Date"
 msgstr "Erstellungsdatum"
-
-#: log/models.py:128
-msgid "Not available"
-msgstr ""
 
 #: log/templates/log/email_log_entry.html:2
 msgid "Email sent."
@@ -1643,41 +1643,41 @@ msgstr ""
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:867 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:870 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:231
 #: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:868 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:871 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:261
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:869 shifts/templates/shifts/shift_detail.html:269
+#: shifts/models.py:872 shifts/templates/shifts/shift_detail.html:269
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:870 shifts/templates/shifts/shift_detail.html:253
+#: shifts/models.py:873 shifts/templates/shifts/shift_detail.html:253
 #: shifts/templates/shifts/shift_detail_printable.html:70
 #: shifts/templates/shifts/shift_filters.html:57
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:910
+#: shifts/models.py:913
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:911
+#: shifts/models.py:914
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:914
+#: shifts/models.py:917
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1057
+#: shifts/models.py:1060
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -1764,7 +1764,10 @@ msgid ""
 "            (Section III.F).\n"
 "        </p>\n"
 "\n"
-"        <p>Cooperatively yours,</p>\n"
+"        <p>\n"
+"            Cooperatively yours, <br/>\n"
+"            Your %(coop_name)s member office.\n"
+"        </p>\n"
 "    "
 msgstr ""
 "\n"
@@ -1791,7 +1794,10 @@ msgstr ""
 "\">Mitgliederhandbuch</a> III.F\n"
 "    </p>\n"
 "\n"
-"    <p>Kooperative Grüße,</p> "
+"    <p>\n"
+"         Kooperative Grüße, <br/>\n"
+"         Dein %(coop_name)s Mitgliedsbüro\n"
+"    </p> "
 
 #: shifts/templates/shifts/email/shift_missed.subject.default.html:3
 msgid ""
