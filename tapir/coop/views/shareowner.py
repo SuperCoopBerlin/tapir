@@ -1,10 +1,12 @@
 import csv
+import datetime
 
 import django_filters
 import django_tables2
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
@@ -297,16 +299,56 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
 
 @require_GET
 @permission_required("coop.manage")
-def shareowner_membership_confirmation(_, pk):
+def shareowner_membership_confirmation(request, pk):
     owner = get_object_or_404(ShareOwner, pk=pk)
     filename = "Mitgliedschaftsbestätigung %s.pdf" % owner.get_info().get_display_name()
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="{}"'.format(filename)
+
+    num_shares = (
+        request.GET["num_shares"]
+        if "num_shares" in request.GET.keys()
+        else owner.get_active_share_ownerships().count()
+    )
+    date = (
+        datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
+        if "date" in request.GET.keys()
+        else timezone.now().date()
+    )
+
     pdf = pdfs.get_shareowner_membership_confirmation_pdf(
         owner,
-        num_shares=owner.get_active_share_ownerships().count(),
-        date=timezone.now().date(),
+        num_shares=num_shares,
+        date=date,
+    )
+    response.write(pdf.write_pdf())
+    return response
+
+
+@require_GET
+@permission_required("coop.manage")
+def shareowner_extra_shares_confirmation(request, pk):
+    share_owner = get_object_or_404(ShareOwner, pk=pk)
+    filename = (
+        "Bestätigung Erwerb Anteile %s.pdf" % share_owner.get_info().get_display_name()
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+
+    if "num_shares" not in request.GET.keys():
+        raise ValidationError("Missing parameter : num_shares")
+    num_shares = request.GET["num_shares"]
+
+    if "date" not in request.GET.keys():
+        raise ValidationError("Missing parameter : date")
+    date = datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
+
+    pdf = pdfs.get_confirmation_extra_shares_pdf(
+        share_owner,
+        num_shares=num_shares,
+        date=date,
     )
     response.write(pdf.write_pdf())
     return response
