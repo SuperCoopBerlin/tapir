@@ -1,6 +1,7 @@
 import datetime
 
 from django.core.management import BaseCommand
+from django.utils import timezone
 
 from tapir.coop.models import (
     NewMembersAndSharesEmailRecapLogs,
@@ -22,9 +23,7 @@ class Command(BaseCommand):
         if last_mail is not None:
             start_date = last_mail.sent_recap_up_to + datetime.date.today()
         else:
-            start_date = (
-                ShareOwnership.objects.order_by("start_date").first().start_date
-            )
+            start_date = timezone.now().date() - datetime.timedelta(days=-7)
 
         # We sent the recap up to yesterday, so that the next recap includes all of today's new shares,
         # including the one that will be created today but after the email has been sent.
