@@ -51,7 +51,12 @@ class MembershipConfirmationForActiveMemberEmail(TapirEmailBase):
         ]
 
     def get_extra_context(self) -> dict:
-        return {"organization_name": settings.COOP_NAME}
+        return {
+            "organization_name": settings.COOP_NAME,
+            "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+            "management_email_address": settings.EMAIL_ADDRESS_MANAGEMENT,
+            "supervisors_email_address": settings.EMAIL_ADDRESS_SUPERVISORS,
+        }
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase:

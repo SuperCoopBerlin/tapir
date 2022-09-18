@@ -177,6 +177,8 @@ elif EMAIL_ENV == "prod":
 
 EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
 EMAIL_ADDRESS_ACCOUNTING = "accounting@supercoop.de"
+EMAIL_ADDRESS_MANAGEMENT = "contact@supercoop.de"
+EMAIL_ADDRESS_SUPERVISORS = "aufsichtsrat@supercoop.de"
 COOP_NAME = "SuperCoop Berlin"
 COOP_FULL_NAME = "SuperCoop Berlin eG"
 COOP_STREET = "Oudenarder Straße 16"
