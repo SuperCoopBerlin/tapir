@@ -5,15 +5,16 @@ from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.emails.shift_missed_email import ShiftMissedEmail
 from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
 )
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
 
 
-class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase):
+class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase, TapirEmailTestBase):
     USER_EMAIL_ADDRESS = "test_address@test.net"
 
     def test_shift_attended(self):
@@ -23,11 +24,12 @@ class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase):
         self.do_test(ShiftAttendance.State.MISSED_EXCUSED, 1)
 
     def test_shift_missed(self):
-        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(0, len(mail.outbox))
         self.do_test(ShiftAttendance.State.MISSED, -1)
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].to, [self.USER_EMAIL_ADDRESS])
-        self.assertEqual(mail.outbox[0].subject, "Du hast deine Schicht versäumt!")
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEmailOfClass_GotSentTo(
+            ShiftMissedEmail, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+        )
 
     def test_update_from_missed_to_attended(self):
         user: TapirUser = TapirUserFactory.create()

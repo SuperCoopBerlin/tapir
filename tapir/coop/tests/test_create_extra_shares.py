@@ -3,15 +3,18 @@ import datetime
 from django.core import mail
 from django.urls import reverse
 
+from tapir.coop.emails.extra_shares_confirmation_email import (
+    ExtraSharesConfirmationEmail,
+)
 from tapir.coop.models import (
     CreateShareOwnershipsLogEntry,
     ShareOwner,
 )
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
 
 
-class TestCreateExtraShares(TapirFactoryTestBase):
+class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestBase):
     VIEW_NAME = "coop:share_create_multiple"
 
     def test_create_shares_requires_permissions(self):
@@ -79,9 +82,12 @@ class TestCreateExtraShares(TapirFactoryTestBase):
             },
             follow=True,
         )
+
         self.assertEqual(len(mail.outbox), 1)
         sent_mail = mail.outbox[0]
-        self.assertEqual([email_address], sent_mail.to)
+        self.assertEmailOfClass_GotSentTo(
+            ExtraSharesConfirmationEmail, email_address, sent_mail
+        )
+
         self.assertEqual(1, len(sent_mail.attachments))
-        attachment_name = sent_mail.attachments[0][0]
-        self.assertEqual(".pdf", attachment_name[-4:])
+        self.assertEmailAttachmentIsAPdf(sent_mail.attachments[0])

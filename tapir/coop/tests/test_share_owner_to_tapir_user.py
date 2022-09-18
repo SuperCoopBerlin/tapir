@@ -4,12 +4,13 @@ from django.urls import reverse
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
+from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
 
 
-class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
+class TestsShareOwnerToTapirUser(TapirFactoryTestBase, TapirEmailTestBase):
     def test_requires_permissions(self):
         self.login_as_normal_user()
         share_owner: ShareOwner = ShareOwnerFactory.create()
@@ -97,11 +98,15 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
 
         self.assertEqual(len(mail.outbox), 0)
         self.visit_create_user_view(share_owner)
+
         self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].to, [user_email_address])
+        sent_mail = mail.outbox[0]
+        self.assertEmailOfClass_GotSentTo(
+            TapirAccountCreatedEmail, user_email_address, sent_mail
+        )
         self.assertIn(
             TapirUser.objects.all().last().username,
-            mail.outbox[0].body,
+            sent_mail.body,
             "The username must be included in the email",
         )
 

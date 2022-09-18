@@ -82,6 +82,7 @@ class TapirEmailBase:
                 "member_infos": member_infos,
                 "coop_name": settings.COOP_NAME,
                 "coop_full_name": settings.COOP_FULL_NAME,
+                "email_unique_id": self.get_unique_id(),
             } | self.get_extra_context()  # '|' is the union operator for dictionaries.
 
         return self.context
