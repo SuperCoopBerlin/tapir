@@ -50,6 +50,7 @@ from tapir.coop.models import (
     get_member_status_translation,
     CreateShareOwnershipsLogEntry,
     UpdateShareOwnershipLogEntry,
+    ExtraSharesForAccountingRecap,
 )
 from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
@@ -112,10 +113,11 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
 
     def form_valid(self, form):
         share_owner = self.get_share_owner()
+        num_shares = form.cleaned_data["num_shares"]
 
         with transaction.atomic():
             CreateShareOwnershipsLogEntry().populate(
-                num_shares=form.cleaned_data["num_shares"],
+                num_shares=num_shares,
                 start_date=form.cleaned_data["start_date"],
                 end_date=form.cleaned_data["end_date"],
                 actor=self.request.user,
@@ -130,6 +132,12 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
+
+            ExtraSharesForAccountingRecap.objects.create(
+                member=share_owner,
+                number_of_shares=num_shares,
+                date=timezone.now().date(),
+            )
 
         email = ExtraSharesConfirmationEmail(
             num_shares=form.cleaned_data["num_shares"], share_owner=share_owner
