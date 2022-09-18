@@ -129,6 +129,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.apply_shift_cycle_start",
         "schedule": celery.schedules.crontab(hour="*/2", minute=20),
     },
+    "send_accounting_recap": {
+        "task": "tapir.coop.tasks.send_accounting_recap",
+        "schedule": celery.schedules.crontab(minute=0, hour=0, day_of_week="sunday"),
+    },
 }
 
 # Password validation
