@@ -36,7 +36,7 @@
 </div>
 
 <div style="margin-top: 10mm; line-height: 1.8rem;">
-    <div style="display: flex; justify-content: flex-end">Stadt, {% now "j. F Y" %}</div>
+    <div style="display: flex; justify-content: flex-end">Stadt, {{ date|date:"j. F Y" }}</div>
     <div style="margin-top: 8mm; font-weight: bold">Bestätigung der {% if owner.is_investing %}
         Fördermitgliedschaft{% else %}Mitgliedschaft{% endif %} bei <strong>Organisation</strong></div>
 
@@ -44,7 +44,7 @@
 
     <p>herzlich Willkommen als offizielles Mitglied der <strong>Organisation</strong>!</p>
 
-    <p>Mit dem Zeichnen von <strong>{{ owner.get_active_share_ownerships.count }} Anteil(en)</strong> hast du dich dafür
+    <p>Mit dem Zeichnen von <strong>{{ num_shares }} Anteil(en)</strong> hast du dich dafür
         entschieden,
         gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!</p>
 

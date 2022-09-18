@@ -1,5 +1,6 @@
 from typing import List
 
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
@@ -44,7 +45,9 @@ class MembershipConfirmationForActiveMemberEmail(TapirEmailBase):
                 "Mitgliedschaftsbestätigung %s.pdf"
                 % self.share_owner.get_info().get_display_name(),
                 pdfs.get_shareowner_membership_confirmation_pdf(
-                    self.share_owner
+                    self.share_owner,
+                    num_shares=self.share_owner.get_active_share_ownerships().count(),
+                    date=timezone.now().date(),
                 ).write_pdf(),
                 "application/pdf",
             )

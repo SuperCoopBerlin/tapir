@@ -1,5 +1,6 @@
 from typing import List
 
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
@@ -52,7 +53,9 @@ class ExtraSharesConfirmationEmail(TapirEmailBase):
                 "Bestätigung Erwerb Anteile %s.pdf"
                 % self.share_owner.get_info().get_display_name(),
                 pdfs.get_confirmation_extra_shares_pdf(
-                    share_owner=self.share_owner, num_shares=self.num_shares
+                    share_owner=self.share_owner,
+                    num_shares=self.num_shares,
+                    date=timezone.now().date(),
                 ).write_pdf(),
                 "application/pdf",
             )

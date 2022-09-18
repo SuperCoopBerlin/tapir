@@ -9,6 +9,7 @@ from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
@@ -288,13 +289,18 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
 
 @require_GET
 @permission_required("coop.manage")
-def shareowner_membership_confirmation(request, pk):
+def shareowner_membership_confirmation(_, pk):
     owner = get_object_or_404(ShareOwner, pk=pk)
     filename = "Mitgliedschaftsbestätigung %s.pdf" % owner.get_info().get_display_name()
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="{}"'.format(filename)
-    response.write(pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf())
+    pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+        owner,
+        num_shares=owner.get_active_share_ownerships().count(),
+        date=timezone.now().date(),
+    )
+    response.write(pdf.write_pdf())
     return response
 
 
