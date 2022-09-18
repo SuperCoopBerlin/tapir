@@ -124,5 +124,5 @@ class TestIncomingPayments(TapirFactoryTestBase):
 
         self.assertEqual(CreatePaymentLogEntry.objects.count(), 1)
         log_entry = CreatePaymentLogEntry.objects.first()
-        self.assertEqual(log_entry.paying_member.id, self.normal_member_1.id)
         self.assertEqual(log_entry.amount, 100)
+        self.assertEqual(log_entry.payment_date, timezone.now().date())

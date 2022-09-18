@@ -796,8 +796,8 @@ msgstr "Eingehende Zahlung registrieren"
 
 #: coop/templates/coop/log/create_payment_log_entry.html:2
 #, python-format
-msgid "New Payment: %(amount)s € on %(payment_date)s paid by %(paying_member)s"
-msgstr "Neue Zahlung: %(amount)s € am %(payment_date)s bezahlt von %(paying_member)s"
+msgid "New Payment: %(amount)s € on %(payment_date)s"
+msgstr "Neue Zahlung: %(amount)s € am %(payment_date)s"
 
 #: coop/templates/coop/matching_program.html:17
 msgid "Matching program members"
