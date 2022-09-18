@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-18 12:18+0200\n"
+"POT-Creation-Date: 2022-09-18 12:34+0200\n"
 "PO-Revision-Date: 2022-09-18 12:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1303,14 +1303,15 @@ msgstr ""
 
 #: core/templates/core/email_list.html:27
 msgid ""
-"The previews in the \"Subject\" \"Body\" column are fake : they show what "
-"the email would look like if it was sent to a random user, using random data."
+"The previews in the \"Subject\" and \"Body\" columns are fake : they show "
+"what the email would look like if it was sent to a random user, using random "
+"data."
 msgstr ""
 
 #: core/templates/core/email_list.html:28
 msgid ""
-"The files in the \"Example\" column are real : they have been sent to a user "
-"exactly as shown. They can therefore contain private information."
+"The files in the \"Last sent example\" column are real : they have been sent "
+"to a user exactly as shown. They can therefore contain private information."
 msgstr ""
 
 #: core/templates/core/email_list.html:32
@@ -1332,8 +1333,10 @@ msgid "Body"
 msgstr ""
 
 #: core/templates/core/email_list.html:39
-msgid "Example"
-msgstr ""
+#, fuzzy
+#| msgid "Last name"
+msgid "Last sent example"
+msgstr "Nachname"
 
 #: core/templatetags/core.py:29
 msgid "Cooperative"

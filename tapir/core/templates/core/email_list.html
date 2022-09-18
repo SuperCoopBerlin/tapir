@@ -24,8 +24,8 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
                 <p>{% translate "This is the list of all emails that can get sent by Tapir." %}</p>
-                <p>{% translate 'The previews in the "Subject" "Body" column are fake : they show what the email would look like if it was sent to a random user, using random data.' %}</p>
-                <p>{% translate 'The files in the "Example" column are real : they have been sent to a user exactly as shown. They can therefore contain private information.' %}</p>
+                <p>{% translate 'The previews in the "Subject" and "Body" columns are fake : they show what the email would look like if it was sent to a random user, using random data.' %}</p>
+                <p>{% translate 'The files in the "Last sent example" column are real : they have been sent to a user exactly as shown. They can therefore contain private information.' %}</p>
             </li>
             <li class="list-group-item">
                 <div class="table-responsive">
@@ -36,7 +36,7 @@
                             <th>{% translate "Description" %}</th>
                             <th>{% translate "Subject" %}</th>
                             <th>{% translate "Body" %}</th>
-                            <th>{% translate "Example" %}</th>
+                            <th>{% translate "Last sent example" %}</th>
                         </tr>
                         </thead>
                         {% for email in emails %}
