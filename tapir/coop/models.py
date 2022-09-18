@@ -337,6 +337,7 @@ class DraftUser(models.Model):
             and self.first_name
             and self.last_name
             and self.signed_membership_agreement
+            and self.num_shares > 0
         )
 
     def get_info(self):
