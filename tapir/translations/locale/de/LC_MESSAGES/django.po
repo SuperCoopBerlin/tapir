@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-18 12:34+0200\n"
+"POT-Creation-Date: 2022-09-18 17:11+0200\n"
 "PO-Revision-Date: 2022-09-18 12:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -93,8 +93,8 @@ msgstr "Mitglied"
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:29 coop/models.py:352
-#: coop/models.py:360 coop/templates/coop/draftuser_detail.html:18
+#: accounts/templates/accounts/user_detail.html:29 coop/models.py:353
+#: coop/models.py:361 coop/templates/coop/draftuser_detail.html:18
 #: coop/templates/coop/shareowner_detail.html:35
 #: coop/templates/coop/welcome_desk_share_owner.html:64
 #: core/templates/core/email_list.html:35
@@ -312,19 +312,19 @@ msgstr ""
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: coop/emails/extra_shares_confirmation_email.py:25
+#: coop/emails/extra_shares_confirmation_email.py:26
 msgid "Extra shares bought"
 msgstr ""
 
-#: coop/emails/extra_shares_confirmation_email.py:29
+#: coop/emails/extra_shares_confirmation_email.py:30
 msgid "Sent when someone who is already a member buys more shares"
 msgstr ""
 
-#: coop/emails/membership_confirmation_email_for_active_member.py:23
+#: coop/emails/membership_confirmation_email_for_active_member.py:24
 msgid "Membership confirmation for active users"
 msgstr "Mitgliedsbestätigung für aktive Mitglieder"
 
-#: coop/emails/membership_confirmation_email_for_investing_member.py:23
+#: coop/emails/membership_confirmation_email_for_investing_member.py:24
 msgid "Membership confirmation for investing users"
 msgstr "Mitgliedsbestätigung für investierende Mitglieder"
 
@@ -486,39 +486,39 @@ msgstr "Beteiligungserklärung unterschrieben"
 msgid "Paid Shares"
 msgstr "Anteil(e) bezahlt"
 
-#: coop/models.py:351
+#: coop/models.py:352
 msgid "Currently active"
 msgstr "Gerade aktiv"
 
-#: coop/models.py:353
+#: coop/models.py:354
 msgid "Goal"
 msgstr "Ziel"
 
-#: coop/models.py:362
+#: coop/models.py:363
 msgid "Raised amount"
 msgstr "Erreichter Betrag"
 
-#: coop/models.py:376
+#: coop/models.py:377
 msgid "Paying member"
 msgstr "Zahlendes Mitglied"
 
-#: coop/models.py:384
+#: coop/models.py:385
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:391
+#: coop/models.py:392
 msgid "Amount"
 msgstr "Betrag"
 
-#: coop/models.py:397
+#: coop/models.py:398
 msgid "Payment date"
 msgstr "Zahldatum"
 
-#: coop/models.py:400
+#: coop/models.py:401
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
-#: coop/models.py:405
+#: coop/models.py:406
 msgid "Created by"
 msgstr "Erstellt durch"
 
@@ -647,6 +647,57 @@ msgstr "Bewerber*in erzeugen"
 #: shifts/templates/shifts/shift_template_detail.html:72
 msgid "Register"
 msgstr "Anmelden"
+
+#: coop/templates/coop/email/accounting_recap.body.default.html:6
+#, python-format
+msgid ""
+"\n"
+"        <p>\n"
+"            Hello Accounting team,\n"
+"        </p>\n"
+"        <p>\n"
+"            This is the Tapir accounting recap for the past week.\n"
+"        </p>\n"
+"        <p>\n"
+"            %(num_new_members)s new members have been created. For those new "
+"members, %(total_num_shares_new_members)s shares\n"
+"            have been created.<br/>\n"
+"            Additionally, %(total_num_shares_existing_members)s shares have "
+"been created for existing members.\n"
+"        </p>\n"
+"    "
+msgstr ""
+
+#: coop/templates/coop/email/accounting_recap.body.default.html:22
+#, fuzzy
+#| msgid "All members"
+msgid "New members"
+msgstr "Alle Mitglieder"
+
+#: coop/templates/coop/email/accounting_recap.body.default.html:27
+#: coop/templates/coop/email/accounting_recap.body.default.html:39
+#, fuzzy
+#| msgid "Owned shares"
+msgid "share(s)"
+msgstr "Anteile"
+
+#: coop/templates/coop/email/accounting_recap.body.default.html:34
+#, fuzzy
+#| msgid "Is investing member"
+msgid "New shares for existing members"
+msgstr "Ist investierendes Mitglied"
+
+#: coop/templates/coop/email/accounting_recap.body.default.html:48
+msgid ""
+"This email is send automatically every Sunday. Contact the Tapir team on "
+"Slack if you have any question."
+msgstr ""
+
+#: coop/templates/coop/email/accounting_recap.subject.default.html:3
+msgid ""
+"\n"
+"    Accounting recap\n"
+msgstr ""
 
 #: coop/templates/coop/email/extra_shares_bought.body.default.html:6
 #, python-format
@@ -1064,7 +1115,7 @@ msgid "Membership confirmation"
 msgstr "Mitgliedsbestätigung"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:28
-#: coop/views/shareowner.py:479
+#: coop/views/shareowner.py:535
 #: shifts/templates/shifts/user_shifts_overview_tag.html:17
 msgid "Status"
 msgstr "Status"
@@ -1226,53 +1277,53 @@ msgstr "Mitglieds-ID"
 msgid "Other member"
 msgstr "Anderes Mitglied"
 
-#: coop/views/shareowner.py:107
+#: coop/views/shareowner.py:111
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:284
+#: coop/views/shareowner.py:295
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:480 shifts/templates/shifts/shift_filters.html:25
+#: coop/views/shareowner.py:536 shifts/templates/shifts/shift_filters.html:25
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:485
+#: coop/views/shareowner.py:541
 #: shifts/templates/shifts/user_shifts_overview_tag.html:107
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:493
+#: coop/views/shareowner.py:549
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Befähigung erfordert"
 
-#: coop/views/shareowner.py:501
+#: coop/views/shareowner.py:557
 msgid "Has qualification"
 msgstr "Hat Befähigung"
 
-#: coop/views/shareowner.py:509
+#: coop/views/shareowner.py:565
 msgid "Does not have qualification"
 msgstr "Hat die Befähigung nicht"
 
-#: coop/views/shareowner.py:519
+#: coop/views/shareowner.py:575
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:522
+#: coop/views/shareowner.py:578
 msgid "Has unpaid shares"
 msgstr "Hat unbezahlte Anteile"
 
-#: coop/views/shareowner.py:525
+#: coop/views/shareowner.py:581
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:528 coop/views/shareowner.py:761
+#: coop/views/shareowner.py:584 coop/views/shareowner.py:817
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:713
+#: coop/views/shareowner.py:769
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"

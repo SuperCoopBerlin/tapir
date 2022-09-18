@@ -1,7 +1,7 @@
 import factory
 import phonenumbers
-from faker.providers.phone_number.de_DE import Provider
 from faker import Faker
+from faker.providers.phone_number.de_DE import Provider
 
 
 class CustomPhoneProvider(Provider):
@@ -12,7 +12,10 @@ class CustomPhoneProvider(Provider):
         tries = 0
         while tries < 10:
             phone_number = self.numerify(self.random_element(self.formats))
-            parsed_number = phonenumbers.parse(phone_number, "DE")
+            try:
+                parsed_number = phonenumbers.parse(phone_number, "DE")
+            except phonenumbers.phonenumberutil.NumberParseException:
+                continue
             if phonenumbers.is_valid_number(parsed_number):
                 return phonenumbers.format_number(
                     parsed_number, phonenumbers.PhoneNumberFormat.E164
