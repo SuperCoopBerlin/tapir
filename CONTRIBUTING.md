@@ -133,8 +133,9 @@ docker-compose up -d openldap
 Then, run the tests.
 
 ```
-docker-compose run web poetry run pytest
+docker-compose run --rm web poetry run pytest
 ```
+The `--rm` option will delete the temporary containers created to run the tests. Omit it if you want to keep the containers.
 
 To regenerate the test data fixtures:
 
