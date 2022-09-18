@@ -78,6 +78,7 @@ def get_confirmation_extra_shares_pdf(
         "coop_full_name": settings.COOP_FULL_NAME,
         "coop_street": settings.COOP_STREET,
         "coop_place": settings.COOP_PLACE,
+        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
     }
 
     with translation.override(share_owner.get_info().preferred_language):
