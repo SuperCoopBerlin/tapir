@@ -1,14 +1,17 @@
 import csv
+import datetime
 
 import django_filters
 import django_tables2
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
@@ -49,6 +52,7 @@ from tapir.coop.models import (
     get_member_status_translation,
     CreateShareOwnershipsLogEntry,
     UpdateShareOwnershipLogEntry,
+    ExtraSharesForAccountingRecap,
 )
 from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
@@ -111,10 +115,11 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
 
     def form_valid(self, form):
         share_owner = self.get_share_owner()
+        num_shares = form.cleaned_data["num_shares"]
 
         with transaction.atomic():
             CreateShareOwnershipsLogEntry().populate(
-                num_shares=form.cleaned_data["num_shares"],
+                num_shares=num_shares,
                 start_date=form.cleaned_data["start_date"],
                 end_date=form.cleaned_data["end_date"],
                 actor=self.request.user,
@@ -129,6 +134,12 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
+
+            ExtraSharesForAccountingRecap.objects.create(
+                member=share_owner,
+                number_of_shares=num_shares,
+                date=timezone.now().date(),
+            )
 
         email = ExtraSharesConfirmationEmail(
             num_shares=form.cleaned_data["num_shares"], share_owner=share_owner
@@ -294,7 +305,52 @@ def shareowner_membership_confirmation(request, pk):
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="{}"'.format(filename)
-    response.write(pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf())
+
+    num_shares = (
+        request.GET["num_shares"]
+        if "num_shares" in request.GET.keys()
+        else owner.get_active_share_ownerships().count()
+    )
+    date = (
+        datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
+        if "date" in request.GET.keys()
+        else timezone.now().date()
+    )
+
+    pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+        owner,
+        num_shares=num_shares,
+        date=date,
+    )
+    response.write(pdf.write_pdf())
+    return response
+
+
+@require_GET
+@permission_required("coop.manage")
+def shareowner_extra_shares_confirmation(request, pk):
+    share_owner = get_object_or_404(ShareOwner, pk=pk)
+    filename = (
+        "Bestätigung Erwerb Anteile %s.pdf" % share_owner.get_info().get_display_name()
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+
+    if "num_shares" not in request.GET.keys():
+        raise ValidationError("Missing parameter : num_shares")
+    num_shares = request.GET["num_shares"]
+
+    if "date" not in request.GET.keys():
+        raise ValidationError("Missing parameter : date")
+    date = datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
+
+    pdf = pdfs.get_confirmation_extra_shares_pdf(
+        share_owner,
+        num_shares=num_shares,
+        date=date,
+    )
+    response.write(pdf.write_pdf())
     return response
 
 

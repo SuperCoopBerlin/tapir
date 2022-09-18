@@ -337,6 +337,7 @@ class DraftUser(models.Model):
             and self.first_name
             and self.last_name
             and self.signed_membership_agreement
+            and self.num_shares > 0
         )
 
     def get_info(self):
@@ -450,5 +451,23 @@ class UpdateShareOwnershipLogEntry(UpdateModelLogEntry):
         )
 
 
-class NewMembersAndSharesEmailRecapLogs(models.Model):
-    sent_recap_up_to = models.DateField(null=False, blank=False)
+class NewMembershipsForAccountingRecap(models.Model):
+    member = models.ForeignKey(
+        ShareOwner,
+        null=False,
+        blank=False,
+        on_delete=models.deletion.PROTECT,
+    )
+    number_of_shares = models.PositiveIntegerField(null=False, blank=False)
+    date = models.DateField(null=False, blank=False)
+
+
+class ExtraSharesForAccountingRecap(models.Model):
+    member = models.ForeignKey(
+        ShareOwner,
+        null=False,
+        blank=False,
+        on_delete=models.deletion.PROTECT,
+    )
+    number_of_shares = models.PositiveIntegerField(null=False, blank=False)
+    date = models.DateField(null=False, blank=False)

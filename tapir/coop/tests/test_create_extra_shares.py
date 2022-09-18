@@ -2,6 +2,7 @@ import datetime
 
 from django.core import mail
 from django.urls import reverse
+from django.utils import timezone
 
 from tapir.coop.emails.extra_shares_confirmation_email import (
     ExtraSharesConfirmationEmail,
@@ -9,6 +10,7 @@ from tapir.coop.emails.extra_shares_confirmation_email import (
 from tapir.coop.models import (
     CreateShareOwnershipsLogEntry,
     ShareOwner,
+    ExtraSharesForAccountingRecap,
 )
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
@@ -80,7 +82,6 @@ class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestBase):
                 "start_date": start_date,
                 "num_shares": num_shares,
             },
-            follow=True,
         )
 
         self.assertEqual(len(mail.outbox), 1)
@@ -91,3 +92,23 @@ class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestBase):
 
         self.assertEqual(1, len(sent_mail.attachments))
         self.assertEmailAttachmentIsAPdf(sent_mail.attachments[0])
+
+    def test_creating_shares_creates_an_accounting_recap_entry(self):
+        share_owner: ShareOwner = ShareOwnerFactory.create()
+        start_date = datetime.date(year=2022, month=6, day=17)
+        num_shares = 3
+        self.login_as_member_office_user()
+
+        self.assertEqual(0, ExtraSharesForAccountingRecap.objects.count())
+        self.client.post(
+            reverse(self.VIEW_NAME, args=[share_owner.id]),
+            {
+                "start_date": start_date,
+                "num_shares": num_shares,
+            },
+        )
+        self.assertEqual(1, ExtraSharesForAccountingRecap.objects.count())
+        recap_entry = ExtraSharesForAccountingRecap.objects.all()[0]
+        self.assertEqual(share_owner, recap_entry.member)
+        self.assertEqual(3, recap_entry.number_of_shares)
+        self.assertEqual(timezone.now().date(), recap_entry.date)
