@@ -5,6 +5,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.datetime_safe import date
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
@@ -26,6 +27,7 @@ from tapir.coop.models import (
     DraftUser,
     ShareOwner,
     ShareOwnership,
+    NewMembershipsForAccountingRecap,
 )
 from tapir.utils.models import copy_user_info
 
@@ -145,6 +147,13 @@ def create_share_owner_from_draft_user_view(request, pk):
     with transaction.atomic():
         share_owner = create_share_owner_and_shares_from_draft_user(draft_user)
         draft_user.delete()
+
+        NewMembershipsForAccountingRecap.objects.create(
+            member=share_owner,
+            number_of_shares=share_owner.get_active_share_ownerships().count(),
+            date=timezone.now().date(),
+        )
+
         email = (
             MembershipConfirmationForInvestingMemberEmail
             if share_owner.is_investing

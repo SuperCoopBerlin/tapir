@@ -1,6 +1,7 @@
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.utils import timezone
 
 from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.emails.membership_confirmation_email_for_active_member import (
@@ -9,7 +10,12 @@ from tapir.coop.emails.membership_confirmation_email_for_active_member import (
 from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
     MembershipConfirmationForInvestingMemberEmail,
 )
-from tapir.coop.models import DraftUser, ShareOwner, ShareOwnership
+from tapir.coop.models import (
+    DraftUser,
+    ShareOwner,
+    ShareOwnership,
+    NewMembershipsForAccountingRecap,
+)
 from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
 
@@ -137,3 +143,17 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
             self.USER_EMAIL_ADDRESS,
             mail.outbox[0],
         )
+
+    def test_creating_a_share_owner_creates_a_recap_entry(self):
+        self.login_as_member_office_user()
+        draft_user = DraftUserFactory.create(
+            signed_membership_agreement=True, num_shares=3
+        )
+
+        self.assertEqual(0, NewMembershipsForAccountingRecap.objects.count())
+        self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.assertEqual(1, NewMembershipsForAccountingRecap.objects.count())
+        recap_entry = NewMembershipsForAccountingRecap.objects.all()[0]
+        self.assertEqual(draft_user.first_name, recap_entry.member.first_name)
+        self.assertEqual(timezone.now().date(), recap_entry.date)
+        self.assertEqual(3, recap_entry.number_of_shares)
