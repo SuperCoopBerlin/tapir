@@ -162,6 +162,9 @@ Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations
 
 For the changes to take effect, restart the Docker container. This will run `manage.py compilemessages` automatically.
 
+You may want to use [PoEdit](https://poedit.net/) to edit the translation files.
+PoEdit formats the .po file slightly differently than `makemessages` does. To keep the changes clear, run `makemessages` again after saving from PoEdit.
+
 ### Pre-existing accounts
 
 After running the commands above, you can log-in as 3 different users. In each case, the password is the username:
