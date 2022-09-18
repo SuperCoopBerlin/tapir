@@ -11,7 +11,7 @@ from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
-class TestShareOwnership(TapirFactoryTestBase):
+class TestCreateExtraShares(TapirFactoryTestBase):
     VIEW_NAME = "coop:share_create_multiple"
 
     def test_create_shares_requires_permissions(self):
