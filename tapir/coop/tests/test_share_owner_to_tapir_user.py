@@ -1,14 +1,16 @@
+from django.core import mail
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
+from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
 
 
-class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
+class TestsShareOwnerToTapirUser(TapirFactoryTestBase, TapirEmailTestBase):
     def test_requires_permissions(self):
         self.login_as_normal_user()
         share_owner: ShareOwner = ShareOwnerFactory.create()
@@ -24,7 +26,7 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
             "The TapirUser should not have been created because the logged in user does not have the right permission",
         )
 
-    def test_draft_user_to_share_owner(self):
+    def test_share_owner_to_tapir_user(self):
         share_owner: ShareOwner = ShareOwnerFactory.create()
         self.login_as_member_office_user()
         response = self.visit_create_user_view(share_owner)
@@ -87,6 +89,25 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase):
             TapirUser.objects.filter(share_owner=tapir_user.share_owner).count(),
             1,
             "Only the original TapirUser should be there, the request should not have created an extra user.",
+        )
+
+    def test_creating_the_user_must_send_the_activation_email(self):
+        user_email_address = "test_address@test.net"
+        share_owner: ShareOwner = ShareOwnerFactory.create(email=user_email_address)
+        self.login_as_member_office_user()
+
+        self.assertEqual(len(mail.outbox), 0)
+        self.visit_create_user_view(share_owner)
+
+        self.assertEqual(len(mail.outbox), 1)
+        sent_mail = mail.outbox[0]
+        self.assertEmailOfClass_GotSentTo(
+            TapirAccountCreatedEmail, user_email_address, sent_mail
+        )
+        self.assertIn(
+            TapirUser.objects.all().last().username,
+            sent_mail.body,
+            "The username must be included in the email",
         )
 
     def visit_create_user_view(self, share_owner: ShareOwner):

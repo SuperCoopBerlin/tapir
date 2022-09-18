@@ -5,13 +5,10 @@ import django_tables2
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.core.mail import EmailMessage
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
-from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import translation
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
@@ -27,6 +24,16 @@ from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
+from tapir.coop.emails.extra_shares_confirmation_email import (
+    ExtraSharesConfirmationEmail,
+)
+from tapir.coop.emails.membership_confirmation_email_for_active_member import (
+    MembershipConfirmationForActiveMemberEmail,
+)
+from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
+    MembershipConfirmationForInvestingMemberEmail,
+)
+from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
@@ -43,10 +50,9 @@ from tapir.coop.models import (
     CreateShareOwnershipsLogEntry,
     UpdateShareOwnershipLogEntry,
 )
-from tapir.log.models import EmailLogEntry, LogEntry
+from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
@@ -123,6 +129,11 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
+
+        email = ExtraSharesConfirmationEmail(
+            num_shares=form.cleaned_data["num_shares"], share_owner=share_owner
+        )
+        email.send_to_share_owner(actor=self.request.user, recipient=share_owner)
 
         return super().form_valid(form)
 
@@ -252,6 +263,8 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
             LogEntry.objects.filter(share_owner=owner).update(
                 user=form.instance, share_owner=None
             )
+            email = TapirAccountCreatedEmail(tapir_user=owner.user)
+            email.send_to_tapir_user(actor=self.request.user, recipient=owner.user)
             return response
 
 
@@ -259,61 +272,18 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
 @csrf_protect
 @permission_required("coop.manage")
 def send_shareowner_membership_confirmation_welcome_email(request, pk):
-    owner = get_object_or_404(ShareOwner, pk=pk)
+    share_owner = get_object_or_404(ShareOwner, pk=pk)
 
-    if owner.is_investing:
-        template_names = [
-            "coop/email/membership_confirmation_welcome_investing.html",
-            "coop/email/membership_confirmation_welcome_investing.default.html",
-        ]
-        subject = f"Bestätigung der Fördernitgliedschaft bei {settings.COOP_NAME}"
-    else:
-        template_names = [
-            "coop/email/membership_confirmation_welcome.html",
-            "coop/email/membership_confirmation_welcome.default.html",
-        ]
-        subject = "Welcome at %(organisation_name)s!"
+    email = (
+        MembershipConfirmationForInvestingMemberEmail
+        if share_owner.is_investing
+        else MembershipConfirmationForActiveMemberEmail
+    )(share_owner=share_owner)
+    email.send_to_share_owner(actor=request.user, recipient=share_owner)
 
-    with translation.override(owner.get_info().preferred_language):
-        subject = _("Welcome at %(organisation_name)s!") % {
-            "organisation_name": settings.COOP_NAME
-        }
-        if owner.is_investing:
-            subject = _(
-                "Confirmation of the investing membership at %(organisation_name)s!"
-            ) % {"organisation_name": settings.COOP_NAME}
-        mail = EmailMessage(
-            subject=subject,
-            body=render_to_string(template_names, {"owner": owner}),
-            from_email=FROM_EMAIL_MEMBER_OFFICE,
-            to=[owner.get_info().email],
-            bcc=[
-                settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-                settings.EMAIL_ADDRESS_ACCOUNTING,
-            ],
-            attachments=[
-                (
-                    "Mitgliedschaftsbestätigung %s.pdf"
-                    % owner.get_info().get_display_name(),
-                    pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf(),
-                    "application/pdf",
-                )
-            ],
-        )
-    mail.content_subtype = "html"
-    mail.send()
+    messages.info(request, _("Membership confirmation email sent."))
 
-    log_entry = EmailLogEntry().populate(
-        email_message=mail,
-        actor=request.user,
-        user=owner.user,
-        share_owner=(owner if not owner.user else None),
-    )
-    log_entry.save()
-
-    # TODO(Leon Handreke): Add a message to the user log here.
-    messages.success(request, _("Welcome email with membership confirmation sent."))
-    return redirect(owner.get_absolute_url())
+    return redirect(share_owner.get_absolute_url())
 
 
 @require_GET

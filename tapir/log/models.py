@@ -106,13 +106,26 @@ class EmailLogEntry(LogEntry):
 
     template_name = "log/email_log_entry.html"
 
-    subject = models.CharField(max_length=128)
+    email_id = models.CharField(
+        max_length=128, null=False, blank=False, default="unknown"
+    )
+    subject = models.CharField(max_length=128, null=True, blank=True)
     email_content = models.BinaryField()
 
-    def populate(self, email_message: EmailMessage, *args, **kwargs):
+    def populate(self, email_id: str, email_message: EmailMessage, *args, **kwargs):
+        self.email_id = email_id
         self.subject = email_message.subject
         self.email_content = email_message.message().as_bytes()
         return super().populate(*args, **kwargs)
+
+    def get_name(self) -> str:
+        # Must import locally to avoid import loop.
+        # TODO find a way to avoid the local import
+        from tapir.core.tapir_email_base import all_emails
+
+        if self.email_id is not None and self.email_id in all_emails.keys():
+            return all_emails[self.email_id].get_name()
+        return _("Not available")
 
 
 class TextLogEntry(LogEntry):

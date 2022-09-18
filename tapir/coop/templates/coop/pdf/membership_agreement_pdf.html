@@ -196,7 +196,7 @@
         <div style="flex: 1">
             Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen: <br />
             <div style="margin-left: 10mm; line-height: 1.2; margin-top: 3mm;">
-                Kontoinhaber: SuperCoop Berlin eG<br />
+                Kontoinhaber: {{ coop_full_name }}<br />
                 IBAN: <span style="font-family: monospace">DE98 4306 0967 1121 3790 00</span><br />
                 BIC: <span style="font-family: monospace">GENODEM1GLS</span><br />
                 Betreff: Anteil und Eintrittsgeld {{ owner.first_name }} {{ owner.last_name }}
@@ -206,7 +206,7 @@
 
     <div style="border: 1px solid black; margin-top: 10mm; padding: 2mm; font-size: 7pt; line-height: 1.0rem;">
         <strong>Datenschutzerklärung</strong>
-        Verantwortlich für die Datenverarbeitung ist die SuperCoop Berlin eG, Glogauer Straße 21, 10999 Berlin.
+        Verantwortlich für die Datenverarbeitung ist die {{ coop_full_name }}, {{ coop_street }}, {{ coop_place }}.
         Erreichbar unter contact@supercoop.de. Der Name, die Anschrift und das Geburtsdatum werden für die
         Mitgliederliste der Genossenschaft benötigt (Art. 6 Absatz 1 c DS-GVO i.V.m. § 30 Absatz 2 Satz 1 Nr.1 GenG).
         Über die Adresse oder die E-Mail-Adresse werden Sie von der Genossenschaft zu Versammlungen eingeladen (Art. 6

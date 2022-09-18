@@ -1,0 +1,20 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+
+{% block body %}
+
+    {% blocktranslate with first_name=tapir_user.first_name shift_display_name=shift.get_display_name %}
+        <p>Hi {{ first_name }},</p>
+
+        <p>This is an automated email from {{ coop_name }}.</p>
+
+        <p>
+            Your next shift at {{ coop_name }} is: <br/>
+            <strong>{{ shift_display_name }}</strong>
+        </p>
+    {% endblocktranslate %}
+    <p>
+        {% translate "In case you can't attend the shift, contact the team leader as soon as possible." %}
+    </p>
+{% endblock body %}

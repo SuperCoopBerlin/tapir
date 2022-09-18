@@ -1,18 +1,22 @@
 import datetime
 
+from django.core import mail
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.emails.shift_missed_email import ShiftMissedEmail
 from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
 )
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
 
 
-class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase):
+class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase, TapirEmailTestBase):
+    USER_EMAIL_ADDRESS = "test_address@test.net"
+
     def test_shift_attended(self):
         self.do_test(ShiftAttendance.State.DONE, 1)
 
@@ -20,7 +24,12 @@ class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase):
         self.do_test(ShiftAttendance.State.MISSED_EXCUSED, 1)
 
     def test_shift_missed(self):
+        self.assertEqual(0, len(mail.outbox))
         self.do_test(ShiftAttendance.State.MISSED, -1)
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEmailOfClass_GotSentTo(
+            ShiftMissedEmail, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+        )
 
     def test_update_from_missed_to_attended(self):
         user: TapirUser = TapirUserFactory.create()
@@ -61,7 +70,9 @@ class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase):
         )
 
     def do_test(self, target_state, expected_account_balance):
-        user: TapirUser = TapirUserFactory.create()
+        user: TapirUser = TapirUserFactory.create(
+            preferred_language="de", email=self.USER_EMAIL_ADDRESS
+        )
         shift = ShiftFactory.create()
         attendance = ShiftAttendance.objects.create(
             user=user, slot=ShiftSlot.objects.filter(shift=shift).first()

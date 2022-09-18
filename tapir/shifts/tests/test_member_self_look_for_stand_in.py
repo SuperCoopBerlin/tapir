@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.emails.stand_in_found_email import StandInFoundEmail
 from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
@@ -12,10 +13,12 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.shifts.tests.utils import register_user_to_shift
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
 
 
-class TestMemberSelfLookForStandIn(TapirFactoryTestBase):
+class TestMemberSelfLookForStandIn(TapirFactoryTestBase, TapirEmailTestBase):
+    USER_EMAIL_ADDRESS = "test_address@test.net"
+
     def test_member_self_look_for_stand_in(self):
         user = self.login_as_normal_user()
         start_time = timezone.now() + datetime.timedelta(
@@ -61,7 +64,7 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase):
         )
 
     def test_stand_in_found(self):
-        user_looking = TapirUserFactory.create()
+        user_looking = TapirUserFactory.create(email=self.USER_EMAIL_ADDRESS)
         start_time = timezone.now() + datetime.timedelta(days=1)
         shift = ShiftFactory.create(start_time=start_time)
         slot = ShiftSlot.objects.filter(shift=shift).first()
@@ -89,8 +92,6 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase):
             1,
             "An email should have been sent to the email that was looking for a stand-in",
         )
-        self.assertEqual(
-            mail.outbox[0].to,
-            [user_looking.email],
-            "The email should have been sent to user_looking",
+        self.assertEmailOfClass_GotSentTo(
+            StandInFoundEmail, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )

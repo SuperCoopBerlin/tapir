@@ -47,6 +47,11 @@ def get_sidebar_link_groups(request):
             material_icon="euro",
             url=reverse_lazy("coop:incoming_payment_list"),
         )
+        coop_group.add_link(
+            display_name=_("Emails"),
+            material_icon="mail",
+            url=reverse_lazy("core:email_list"),
+        )
         groups.append(coop_group)
 
     if request.user.has_perm("welcomedesk.view"):

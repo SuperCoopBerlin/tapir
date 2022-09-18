@@ -3,9 +3,11 @@ import json
 import os
 import pathlib
 import socket
+from typing import Type
 
 import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.core.mail import EmailMessage
 from django.db import DEFAULT_DB_ALIAS
 from django.test import TestCase, override_settings, Client
 from django.urls import reverse
@@ -22,6 +24,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from tapir.accounts.models import TapirUser
 from tapir.accounts.templatetags.accounts import format_phone_number
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.core.tapir_email_base import TapirEmailBase
 from tapir.utils.json_user import JsonUser
 
 TAPIR_SELENIUM_BASE_FIXTURES = ["admin_account.json", "test_data.json"]
@@ -70,9 +73,9 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
                 "commands",
                 "test_users.json",
             )
-            file = open(path_to_json_file, encoding="UTF-8")
-            json_string = file.read()
-            file.close()
+            json_file = open(path_to_json_file, encoding="UTF-8")
+            json_string = json_file.read()
+            json_file.close()
             self.test_users = json.loads(json_string)["results"]
 
         for parsed_user in self.test_users:
@@ -214,3 +217,23 @@ class TapirFactoryTestBase(LdapEnabledTestCase):
         user = TapirUserFactory.create(is_in_member_office=False)
         self.login_as_user(user)
         return user
+
+
+class TapirEmailTestBase(TestCase):
+    def assertEmailOfClass_GotSentTo(
+        self,
+        expected_class: Type[TapirEmailBase],
+        target_email_address: str,
+        mail: EmailMessage,
+    ):
+        self.assertEqual([target_email_address], mail.to)
+        self.assertInHTML(
+            f"<meta name='email_id' content='{expected_class.get_unique_id()}' />",
+            mail.body,
+        )
+
+    def assertEmailAttachmentIsAPdf(self, attachment):
+        attachment_name = attachment[0]
+        self.assertEqual(".pdf", attachment_name[-4:])
+        attachment_type = attachment[2]
+        self.assertEqual("application/pdf", attachment_type)
