@@ -225,7 +225,9 @@ class MemberAgeDistributionJsonView(BaseLineChartView):
 
         self.age_to_number_of_members_map = {}
         today = timezone.now().date()
-        for share_owner in ShareOwner.objects.all():
+        for share_owner in ShareOwner.objects.exclude(is_company=True).exclude(
+            id__in=ShareOwner.objects.with_status(MemberStatus.SOLD)
+        ):
             birthdate = share_owner.get_info().birthdate
             if not birthdate:
                 continue
