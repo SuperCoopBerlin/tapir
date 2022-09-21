@@ -171,6 +171,11 @@ urlpatterns = [
         name="share_count_evolution_json",
     ),
     path(
+        "member_age_distribution_json",
+        views.MemberAgeDistributionJsonView.as_view(),
+        name="member_age_distribution_json",
+    ),
+    path(
         "payments/list",
         views.IncomingPaymentListView.as_view(),
         name="incoming_payment_list",

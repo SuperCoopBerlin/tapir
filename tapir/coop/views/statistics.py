@@ -1,5 +1,6 @@
 import datetime
 
+from chartjs.colors import next_color, COLORS
 from chartjs.views.lines import BaseLineChartView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
@@ -116,8 +117,10 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
 
 
 class MemberCountEvolutionJsonView(BaseLineChartView):
+    dates_from_first_share_to_today = None
+
     def get_labels(self):
-        return ShareCountEvolutionJsonView.get_dates_from_first_share_to_today()
+        return self.get_and_cache_dates_from_first_share_to_today()
 
     def get_providers(self):
         return [_("All members"), _("Active"), _("Active with account")]
@@ -127,7 +130,7 @@ class MemberCountEvolutionJsonView(BaseLineChartView):
         active_members_counts = []
         active_members_with_account_counts = []
 
-        for date in ShareCountEvolutionJsonView.get_dates_from_first_share_to_today():
+        for date in self.get_and_cache_dates_from_first_share_to_today():
             shares_active_at_date = ShareOwnership.objects.active_temporal(date)
             members = ShareOwner.objects.filter(
                 share_ownerships__in=shares_active_at_date
@@ -150,10 +153,19 @@ class MemberCountEvolutionJsonView(BaseLineChartView):
             active_members_with_account_counts,
         ]
 
+    def get_and_cache_dates_from_first_share_to_today(self):
+        if self.dates_from_first_share_to_today is None:
+            self.dates_from_first_share_to_today = (
+                ShareCountEvolutionJsonView.get_dates_from_first_share_to_today()
+            )
+        return self.dates_from_first_share_to_today
+
 
 class ShareCountEvolutionJsonView(BaseLineChartView):
+    dates_from_first_share_to_today = None
+
     def get_labels(self):
-        return self.get_dates_from_first_share_to_today()
+        return self.get_and_cache_dates_from_first_share_to_today()
 
     def get_providers(self):
         return [_("Number of shares")]
@@ -162,9 +174,19 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
         return [
             [
                 ShareOwnership.objects.active_temporal(date).count()
-                for date in self.get_dates_from_first_share_to_today()
+                for date in self.get_and_cache_dates_from_first_share_to_today()
             ]
         ]
+
+    def get_colors(self):
+        return next_color(COLORS[1:])
+
+    def get_and_cache_dates_from_first_share_to_today(self):
+        if self.dates_from_first_share_to_today is None:
+            self.dates_from_first_share_to_today = (
+                self.get_dates_from_first_share_to_today()
+            )
+        return self.dates_from_first_share_to_today
 
     @staticmethod
     def get_dates_from_first_share_to_today():
@@ -180,6 +202,47 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
             current_date = get_first_of_next_month(current_date)
 
         return dates
+
+
+class MemberAgeDistributionJsonView(BaseLineChartView):
+    age_to_number_of_members_map = None
+
+    def get_labels(self):
+        return list(self.get_age_distribution().keys())
+
+    def get_providers(self):
+        return [_("Number of members (X-axis) by age (Y-axis)")]
+
+    def get_data(self):
+        return [list(self.get_age_distribution().values())]
+
+    def get_colors(self):
+        return next_color(COLORS[1:])
+
+    def get_age_distribution(self) -> dict:
+        if self.age_to_number_of_members_map is not None:
+            return self.age_to_number_of_members_map
+
+        self.age_to_number_of_members_map = {}
+        today = timezone.now().date()
+        for share_owner in ShareOwner.objects.all():
+            birthdate = share_owner.get_info().birthdate
+            if not birthdate:
+                continue
+            age = (
+                today.year
+                - birthdate.year
+                - ((today.month, today.day) < (birthdate.month, birthdate.day))
+            )
+            if age not in self.age_to_number_of_members_map.keys():
+                self.age_to_number_of_members_map[age] = 0
+            self.age_to_number_of_members_map[age] += 1
+
+        self.age_to_number_of_members_map = dict(
+            sorted(self.age_to_number_of_members_map.items())
+        )
+
+        return self.age_to_number_of_members_map
 
 
 class AboutView(TemplateView):
