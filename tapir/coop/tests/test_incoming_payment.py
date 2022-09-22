@@ -5,6 +5,7 @@ from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import (
     IncomingPayment,
+    CreatePaymentLogEntry,
 )
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -103,3 +104,25 @@ class TestIncomingPayments(TapirFactoryTestBase):
             response.content.decode(),
             "Payment should not be visible because it does not concern the logged in member.",
         )
+
+    def test_add_payment_creates_logentry(self):
+        self.assertEqual(CreatePaymentLogEntry.objects.count(), 0)
+
+        self.login_as_user(self.admin_member)
+        response = self.client.post(
+            reverse("coop:incoming_payment_create"),
+            {
+                "paying_member": self.normal_member_1.share_owner.id,
+                "credited_member": self.normal_member_1.share_owner.id,
+                "amount": 100,
+                "payment_date": timezone.now().date(),
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertEqual(CreatePaymentLogEntry.objects.count(), 1)
+        log_entry = CreatePaymentLogEntry.objects.first()
+        self.assertEqual(log_entry.amount, 100)
+        self.assertEqual(log_entry.payment_date, timezone.now().date())

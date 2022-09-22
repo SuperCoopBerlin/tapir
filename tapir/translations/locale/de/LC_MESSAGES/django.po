@@ -1125,14 +1125,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:53
-#: shifts/models.py:869 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:915 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:221
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:55
-#: shifts/models.py:868
+#: shifts/models.py:914
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -1273,7 +1273,7 @@ msgstr ""
 msgid "Member ID"
 msgstr "Mitglieds-ID"
 
-#: coop/views/incoming_payments.py:51
+#: coop/views/incoming_payments.py:53
 msgid "Other member"
 msgstr "Anderes Mitglied"
 
@@ -1706,7 +1706,13 @@ msgid ""
 "highlighted in the shift calendar."
 msgstr ""
 
-#: shifts/models.py:510
+#: shifts/models.py:514 shifts/models.py:1083
+#: shifts/templates/shifts/shiftexemption_list.html:22
+#: shifts/templates/shifts/user_shift_account_log.html:28
+msgid "Description"
+msgstr "Beschreibung"
+
+#: shifts/models.py:515
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
@@ -1716,31 +1722,31 @@ msgstr ""
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:871 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:917 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:261
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:872 shifts/templates/shifts/shift_detail.html:269
+#: shifts/models.py:918 shifts/templates/shifts/shift_detail.html:269
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:873 shifts/templates/shifts/shift_detail.html:253
+#: shifts/models.py:919 shifts/templates/shifts/shift_detail.html:253
 #: shifts/templates/shifts/shift_detail_printable.html:70
 #: shifts/templates/shifts/shift_filters.html:57
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:913
+#: shifts/models.py:959
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:914
+#: shifts/models.py:960
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:917
+#: shifts/models.py:963
 msgid "Shift system"
 msgstr "Schichten"
 
@@ -1958,6 +1964,15 @@ msgstr ""
 "\n"
 "Vertretung gefunden!\n"
 
+#: shifts/templates/shifts/log/create_exemption_log_entry.html:3
+msgid "without end date"
+msgstr "ohne Endddatum"
+
+#: shifts/templates/shifts/log/create_exemption_log_entry.html:6
+#, python-format
+msgid "Added exemption starting %(start_date)s until %(ending)s"
+msgstr "Schicht-Befreiung hinzugefügt von %(start_date)s bis %(ending)s"
+
 #: shifts/templates/shifts/log/create_shift_attendance_log_entry.html:3
 msgid "Registered for Shift"
 msgstr "Für Schicht angemeldet"
@@ -1973,6 +1988,10 @@ msgstr "Abgemeldet von ABCD-Schicht"
 #: shifts/templates/shifts/log/shift_attendance_taken_over_log_entry.html:3
 msgid "Someone took over your shift"
 msgstr "Jemand hat deine Schicht übernommen"
+
+#: shifts/templates/shifts/log/update_exemption_log_entry.html:3
+msgid "Update Exemption"
+msgstr "Schicht-Befreiung aktualisiert"
 
 #: shifts/templates/shifts/log/update_shift_attendance_state_log_entry.html:3
 msgid "Set shift attendance to"
@@ -2499,11 +2518,11 @@ msgid "View all"
 msgstr "Alle ansehen"
 
 #: shifts/templatetags/shifts.py:62 shifts/templatetags/shifts.py:143
-#: shifts/views/views.py:80
+#: shifts/views/views.py:97
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views/exemptions.py:45
+#: shifts/views/exemptions.py:50
 msgid "Is covered by shift exemption: "
 msgstr "Ist durch Schicht-Befreiung abgedeckt: "
 

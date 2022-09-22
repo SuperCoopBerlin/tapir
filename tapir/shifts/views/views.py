@@ -22,6 +22,7 @@ from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
 from tapir.log.util import freeze_for_log
+from tapir.log.views import UpdateViewLogMixin
 from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
@@ -59,13 +60,29 @@ class SelectedUserViewMixin:
         return context
 
 
-class EditShiftUserDataView(PermissionRequiredMixin, UpdateView):
+class EditShiftUserDataView(PermissionRequiredMixin, UpdateViewLogMixin, UpdateView):
     permission_required = "shifts.manage"
     model = ShiftUserData
     form_class = ShiftUserDataForm
 
     def get_success_url(self):
         return self.object.user.get_absolute_url()
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            response = super().form_valid(form)
+
+            new_frozen = freeze_for_log(form.instance)
+            if self.old_object_frozen != new_frozen:
+                log_entry = UpdateShiftUserDataLogEntry().populate(
+                    old_frozen=self.old_object_frozen,
+                    new_frozen=new_frozen,
+                    user=self.object.user,
+                    actor=self.request.user,
+                )
+                log_entry.save()
+
+            return response
 
 
 def get_shift_slot_names():
