@@ -12,12 +12,15 @@ The end date is used for two cases :
 
 A share without an end date is considered valid forever.
 
+Editing a share will create a log entry.
+
 ## Creating more shares
 
 A member can buy more shares from the organisation. This can be done from the member's page by clicking the "Add shares"
 button. That button is visible after clicking "details" next to the user's number of shares.
 
-Creating more shares will send a confirmation email to the member, with a confirmation PDF attached.
+Creating more shares will send a confirmation email to the member, with a confirmation PDF attached. It will also create
+a log entry.
 
 ## Accounting recap
 

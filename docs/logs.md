@@ -22,5 +22,8 @@ The following actions create log entries :
 - A member got unregistered from an ABCD shift
 - A stand-in has been found for a shift slot
 - The shift information of a member got updated (for example, they have a new capability)
+- A payment got registered
+- A shift exemption got created
+- A shift exemption got edited
 
 It is also possible to create entries with arbitrary text from the member's page.

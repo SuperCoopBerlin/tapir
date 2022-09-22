@@ -21,6 +21,8 @@ The following information are stored for each member.
 Normal members can see information about themselves.
 Members with member-office access can see and edit the information of all members.
 
+Editing the information about a member creates a log entry.
+
 ## Creating a member
 
 The first step to create a member is to create an Applicant. This can be done with the create button on the top right of
