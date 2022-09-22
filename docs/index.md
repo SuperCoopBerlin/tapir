@@ -92,6 +92,7 @@ Tapir recognized three statuses for members :
 
 The [member list page](https://members-test.supercoop.de/coop/member/) offers several filters. Filters can be combined
 freely. The following filters are available :
+
 - Has participated in a welcome session
 - Is paying by installments
 - Is a company
@@ -236,28 +237,110 @@ involved people are anonymize. Accounts with member office access can see all pa
 
 ### Access rights
 
+Members have limited access to information. There are two access levels :
+
+- Normal member
+- Member office
+
+Normal members typically only have access to information that concerns them. They cannot edit their own information.
+They can't see for example the private information of other members. Information that they can see that doesn't directly
+concern them include :
+
+- Statistics
+- Shift calendars
+
+Members with member office access can see and edit all the information available on Tapir.
+
 ## Logs
+
+Executing some actions create a log entry.
+Log entries can be seen on the [corresponding page](https://members-test.supercoop.de/log/log_overview) or on the
+member's page. The log entries page allows to filter by date, actor or "subject" (the member that the action applied to)
+.
+They include :
+
+- Who did the action
+- At what date and time
+- Who the action applied to
+- What has been done
+
+The following actions create log entries :
+
+- Updating the information of a member (for example changing their phone number)
+- Creating more shares for a member
+- Updating a share (for example setting the end date)
+- An email got sent
+- A member has registered (or got registered) to a shift slot (or an ABCD shift)
+- The attendance status of a member to a shift slot got updated (for example, marked as attended)
+- A member got unregistered from an ABCD shift
+- A stand-in has been found for a shift slot
+- The shift information of a member got updated (for example, they have a new capability)
+
+It is also possible to create entries with arbitrary text from the member's page.
+
+## Emails
+
+Most emails that Tapir sends are visible on the [email page](https://members-test.supercoop.de/core/email_list). The
+email page shows a description, a preview of the subject and body, and a link to download a copy of the last sent
+version of that email.
+
+Emails are either translated in the member's preferred language or contain both english and german text.
+
+Sending one of those email always creates a log entry for the corresponding member. The log entry has a download link to
+the .eml file that is an exact copy of the email that the member received.
+
+Tapir sends the following emails, always to the corresponding member :
+
+- They missed a shift
+- They will have a shift in 7 days
+- Someone took over a shift that they were looking for a stand-in for
+- Confirmation that they got more shares
+- Confirmation of membership for active members
+- Confirmation of membership for investing members
+- Tapir account created
+
+The following emails are exceptions : they are not visible on the email page and don't create a log entry :
+
+- Password reset
+- Accounting recap
+
+## Financing campains
+
+TODO
+
+## Statistics
+
+TODO
 
 ## Shifts
 
+TODO
+
 ### ABCD and flying
+
+TODO
 
 ### Welcome desk
 
+TODO
 Mitkäufer
 
 ### A shift
 
+TODO
+
 #### A shift slot
+
+TODO
 
 ### Shift capabilities
 
+TODO
+
 ### Shift accounts
+
+TODO
 
 ### Shift exemptions
 
-## Emails
-
-## Financing campains
-
-## Statistics
+TODO
