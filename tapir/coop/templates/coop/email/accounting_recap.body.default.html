@@ -1,0 +1,51 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+
+{% block body %}
+    {% blocktranslate %}
+        <p>
+            Hello Accounting team,
+        </p>
+        <p>
+            This is the Tapir accounting recap for the past week.
+        </p>
+        <p>
+            {{ num_new_members }} new members have been created. For those new members, {{ total_num_shares_new_members }} shares
+            have been created.<br/>
+            Additionally, {{ total_num_shares_existing_members }} shares have been created for existing members.
+        </p>
+    {% endblocktranslate %}
+    <p>
+        <ul>
+            <li>
+                {% translate "New members" %}
+                <ul>
+                    {% for entry in new_member_recap_entries %}
+                        <li>
+                            <a href="{% url 'coop:shareowner_membership_confirmation' entry.member.id %}?num_shares={{ entry.number_of_shares }}&date={{ entry.date|date:"d.m.Y" }}">
+                                {{ entry.member.get_info.get_display_name }}, {{ entry.number_of_shares }} {% translate "share(s)" %}, {{ entry.date|date:"d.m.Y" }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li>
+                {% translate "New shares for existing members" %}
+                <ul>
+                    {% for entry in extra_shares_recap_entries %}
+                        <li>
+                            <a href="{% url 'coop:shareowner_membership_confirmation' entry.member.id %}?num_shares={{ entry.number_of_shares }}&date={{ entry.date|date:"d.m.Y" }}">
+                                {{ entry.member.get_info.get_display_name }}, {{ entry.number_of_shares }} {% translate "share(s)" %}, {{ entry.date|date:"d.m.Y" }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </p>
+    <p>
+        {% translate "This email is send automatically every Sunday. Contact the Tapir team on Slack if you have any question." %}
+    </p>
+
+{% endblock body %}

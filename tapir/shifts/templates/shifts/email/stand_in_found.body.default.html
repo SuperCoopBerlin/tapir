@@ -1,0 +1,18 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+
+{% block body %}
+    {% blocktranslate with first_name=tapir_user.first_name shift_display_name=shift.get_display_name %}
+        <p>Dear {{ first_name }},</p>
+
+        <p>This is an automated email from {{ coop_name }}.</p>
+
+        <p>
+            You were looking for a stand-in for the following shift: {{ shift_display_name }}.<br/>
+            Another member has taken over your slot for that shift.
+        </p>
+
+        <p>If you haven't done so already, don't forget to attend another shift to compensate for the one you will miss!</p>
+    {% endblocktranslate %}
+{% endblock body %}

@@ -129,6 +129,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.apply_shift_cycle_start",
         "schedule": celery.schedules.crontab(hour="*/2", minute=20),
     },
+    "send_accounting_recap": {
+        "task": "tapir.coop.tasks.send_accounting_recap",
+        "schedule": celery.schedules.crontab(minute=0, hour=0, day_of_week="sunday"),
+    },
 }
 
 # Password validation
@@ -177,7 +181,12 @@ elif EMAIL_ENV == "prod":
 
 EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
 EMAIL_ADDRESS_ACCOUNTING = "accounting@supercoop.de"
+EMAIL_ADDRESS_MANAGEMENT = "contact@supercoop.de"
+EMAIL_ADDRESS_SUPERVISORS = "aufsichtsrat@supercoop.de"
 COOP_NAME = "SuperCoop Berlin"
+COOP_FULL_NAME = "SuperCoop Berlin eG"
+COOP_STREET = "Oudenarder Straße 16"
+COOP_PLACE = "13347 Berlin"
 FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 

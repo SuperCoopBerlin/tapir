@@ -5,6 +5,7 @@ from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.utils.datetime_safe import date
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
@@ -12,6 +13,12 @@ from django.views.decorators.http import require_POST, require_GET
 
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
+from tapir.coop.emails.membership_confirmation_email_for_active_member import (
+    MembershipConfirmationForActiveMemberEmail,
+)
+from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
+    MembershipConfirmationForInvestingMemberEmail,
+)
 from tapir.coop.forms import (
     DraftUserForm,
     DraftUserRegisterForm,
@@ -20,6 +27,7 @@ from tapir.coop.models import (
     DraftUser,
     ShareOwner,
     ShareOwnership,
+    NewMembershipsForAccountingRecap,
 )
 from tapir.utils.models import copy_user_info
 
@@ -125,23 +133,33 @@ def register_draftuser_payment(request, pk):
 @csrf_protect
 @permission_required("coop.manage")
 def create_share_owner_from_draft_user_view(request, pk):
-    # For now, we don't create users for our new members yet but only ShareOwners. Later, this will be used for
-    # investing members
-
-    draft = DraftUser.objects.get(pk=pk)
-    if not draft.signed_membership_agreement:
+    draft_user = DraftUser.objects.get(pk=pk)
+    if not draft_user.signed_membership_agreement:
         raise ValidationError(
             "Members can only be created after they have signed the membership agreement."
         )
 
-    if draft.num_shares <= 0:
+    if not draft_user.can_create_user():
         raise ValidationError(
-            "Trying to create a share owner from a draft user without shares"
+            "DraftUser is not ready (could be missing information or invalid amount of shares)"
         )
 
     with transaction.atomic():
-        share_owner = create_share_owner_and_shares_from_draft_user(draft)
-        draft.delete()
+        share_owner = create_share_owner_and_shares_from_draft_user(draft_user)
+        draft_user.delete()
+
+        NewMembershipsForAccountingRecap.objects.create(
+            member=share_owner,
+            number_of_shares=share_owner.get_active_share_ownerships().count(),
+            date=timezone.now().date(),
+        )
+
+        email = (
+            MembershipConfirmationForInvestingMemberEmail
+            if share_owner.is_investing
+            else MembershipConfirmationForActiveMemberEmail
+        )(share_owner=share_owner)
+        email.send_to_share_owner(actor=request.user, recipient=share_owner)
 
     return redirect(share_owner.get_absolute_url())
 

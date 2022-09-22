@@ -1,19 +1,33 @@
+from django.core import mail
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.utils import timezone
 
 from tapir.coop.config import COOP_SHARE_PRICE
-from tapir.coop.models import DraftUser, ShareOwner, ShareOwnership
+from tapir.coop.emails.membership_confirmation_email_for_active_member import (
+    MembershipConfirmationForActiveMemberEmail,
+)
+from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
+    MembershipConfirmationForInvestingMemberEmail,
+)
+from tapir.coop.models import (
+    DraftUser,
+    ShareOwner,
+    ShareOwnership,
+    NewMembershipsForAccountingRecap,
+)
 from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
 
 
-class TestsDraftUserToShareOwner(TapirFactoryTestBase):
+class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
+    VIEW_NAME = "coop:draftuser_create_share_owner"
+    USER_EMAIL_ADDRESS = "test_address@test.net"
+
     def test_requires_permissions(self):
         self.login_as_normal_user()
         draft_user = DraftUserFactory.create(signed_membership_agreement=True)
-        response = self.client.post(
-            reverse("coop:draftuser_create_share_owner", args=[draft_user.pk])
-        )
+        response = self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
 
         self.assertIn(
             reverse("login"),
@@ -31,9 +45,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase):
         self.login_as_member_office_user()
 
         draft_user = DraftUserFactory.create(signed_membership_agreement=True)
-        response = self.client.post(
-            reverse("coop:draftuser_create_share_owner", args=[draft_user.pk])
-        )
+        response = self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
         share_owners = ShareOwner.objects.filter(
             first_name=draft_user.first_name, last_name=draft_user.last_name
         )
@@ -72,9 +84,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase):
 
         draft_user = DraftUserFactory.create(signed_membership_agreement=False)
         with self.assertRaises(ValidationError):
-            self.client.post(
-                reverse("coop:draftuser_create_share_owner", args=[draft_user.pk])
-            )
+            self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
 
     def test_paid_shares(self):
         self.login_as_member_office_user()
@@ -83,9 +93,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase):
             draft_user = DraftUserFactory.create(
                 signed_membership_agreement=True, paid_shares=paid_shares
             )
-            self.client.post(
-                reverse("coop:draftuser_create_share_owner", args=[draft_user.pk])
-            )
+            self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
             share_owner = ShareOwner.objects.get(
                 first_name=draft_user.first_name, last_name=draft_user.last_name
             )
@@ -97,3 +105,55 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase):
                 draft_user.num_shares,
                 "The created shares should not be paid",
             )
+
+    def test_creating_active_share_owner_sends_the_membership_confirmation_for_active_members_email(
+        self,
+    ):
+        self.login_as_member_office_user()
+
+        draft_user = DraftUserFactory.create(
+            signed_membership_agreement=True,
+            is_investing=False,
+            email=self.USER_EMAIL_ADDRESS,
+        )
+        self.assertEqual(0, len(mail.outbox))
+        self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEmailOfClass_GotSentTo(
+            MembershipConfirmationForActiveMemberEmail,
+            self.USER_EMAIL_ADDRESS,
+            mail.outbox[0],
+        )
+
+    def test_creating_investing_share_owner_sends_the_membership_confirmation_for_investing_members_email(
+        self,
+    ):
+        self.login_as_member_office_user()
+
+        draft_user = DraftUserFactory.create(
+            signed_membership_agreement=True,
+            is_investing=True,
+            email=self.USER_EMAIL_ADDRESS,
+        )
+        self.assertEqual(0, len(mail.outbox))
+        self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEmailOfClass_GotSentTo(
+            MembershipConfirmationForInvestingMemberEmail,
+            self.USER_EMAIL_ADDRESS,
+            mail.outbox[0],
+        )
+
+    def test_creating_a_share_owner_creates_a_recap_entry(self):
+        self.login_as_member_office_user()
+        draft_user = DraftUserFactory.create(
+            signed_membership_agreement=True, num_shares=3
+        )
+
+        self.assertEqual(0, NewMembershipsForAccountingRecap.objects.count())
+        self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.assertEqual(1, NewMembershipsForAccountingRecap.objects.count())
+        recap_entry = NewMembershipsForAccountingRecap.objects.all()[0]
+        self.assertEqual(draft_user.first_name, recap_entry.member.first_name)
+        self.assertEqual(timezone.now().date(), recap_entry.date)
+        self.assertEqual(3, recap_entry.number_of_shares)

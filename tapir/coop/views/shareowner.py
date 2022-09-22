@@ -1,17 +1,17 @@
 import csv
+import datetime
 
 import django_filters
 import django_tables2
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.core.mail import EmailMessage
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
-from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import translation
+from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
@@ -27,6 +27,16 @@ from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
+from tapir.coop.emails.extra_shares_confirmation_email import (
+    ExtraSharesConfirmationEmail,
+)
+from tapir.coop.emails.membership_confirmation_email_for_active_member import (
+    MembershipConfirmationForActiveMemberEmail,
+)
+from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
+    MembershipConfirmationForInvestingMemberEmail,
+)
+from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
@@ -42,11 +52,11 @@ from tapir.coop.models import (
     get_member_status_translation,
     CreateShareOwnershipsLogEntry,
     UpdateShareOwnershipLogEntry,
+    ExtraSharesForAccountingRecap,
 )
-from tapir.log.models import EmailLogEntry, LogEntry
+from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
@@ -105,10 +115,11 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
 
     def form_valid(self, form):
         share_owner = self.get_share_owner()
+        num_shares = form.cleaned_data["num_shares"]
 
         with transaction.atomic():
             CreateShareOwnershipsLogEntry().populate(
-                num_shares=form.cleaned_data["num_shares"],
+                num_shares=num_shares,
                 start_date=form.cleaned_data["start_date"],
                 end_date=form.cleaned_data["end_date"],
                 actor=self.request.user,
@@ -123,6 +134,17 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
+
+            ExtraSharesForAccountingRecap.objects.create(
+                member=share_owner,
+                number_of_shares=num_shares,
+                date=timezone.now().date(),
+            )
+
+        email = ExtraSharesConfirmationEmail(
+            num_shares=form.cleaned_data["num_shares"], share_owner=share_owner
+        )
+        email.send_to_share_owner(actor=self.request.user, recipient=share_owner)
 
         return super().form_valid(form)
 
@@ -252,6 +274,8 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
             LogEntry.objects.filter(share_owner=owner).update(
                 user=form.instance, share_owner=None
             )
+            email = TapirAccountCreatedEmail(tapir_user=owner.user)
+            email.send_to_tapir_user(actor=self.request.user, recipient=owner.user)
             return response
 
 
@@ -259,61 +283,18 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
 @csrf_protect
 @permission_required("coop.manage")
 def send_shareowner_membership_confirmation_welcome_email(request, pk):
-    owner = get_object_or_404(ShareOwner, pk=pk)
+    share_owner = get_object_or_404(ShareOwner, pk=pk)
 
-    if owner.is_investing:
-        template_names = [
-            "coop/email/membership_confirmation_welcome_investing.html",
-            "coop/email/membership_confirmation_welcome_investing.default.html",
-        ]
-        subject = f"Bestätigung der Fördernitgliedschaft bei {settings.COOP_NAME}"
-    else:
-        template_names = [
-            "coop/email/membership_confirmation_welcome.html",
-            "coop/email/membership_confirmation_welcome.default.html",
-        ]
-        subject = "Welcome at %(organisation_name)s!"
+    email = (
+        MembershipConfirmationForInvestingMemberEmail
+        if share_owner.is_investing
+        else MembershipConfirmationForActiveMemberEmail
+    )(share_owner=share_owner)
+    email.send_to_share_owner(actor=request.user, recipient=share_owner)
 
-    with translation.override(owner.get_info().preferred_language):
-        subject = _("Welcome at %(organisation_name)s!") % {
-            "organisation_name": settings.COOP_NAME
-        }
-        if owner.is_investing:
-            subject = _(
-                "Confirmation of the investing membership at %(organisation_name)s!"
-            ) % {"organisation_name": settings.COOP_NAME}
-        mail = EmailMessage(
-            subject=subject,
-            body=render_to_string(template_names, {"owner": owner}),
-            from_email=FROM_EMAIL_MEMBER_OFFICE,
-            to=[owner.get_info().email],
-            bcc=[
-                settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-                settings.EMAIL_ADDRESS_ACCOUNTING,
-            ],
-            attachments=[
-                (
-                    "Mitgliedschaftsbestätigung %s.pdf"
-                    % owner.get_info().get_display_name(),
-                    pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf(),
-                    "application/pdf",
-                )
-            ],
-        )
-    mail.content_subtype = "html"
-    mail.send()
+    messages.info(request, _("Membership confirmation email sent."))
 
-    log_entry = EmailLogEntry().populate(
-        email_message=mail,
-        actor=request.user,
-        user=owner.user,
-        share_owner=(owner if not owner.user else None),
-    )
-    log_entry.save()
-
-    # TODO(Leon Handreke): Add a message to the user log here.
-    messages.success(request, _("Welcome email with membership confirmation sent."))
-    return redirect(owner.get_absolute_url())
+    return redirect(share_owner.get_absolute_url())
 
 
 @require_GET
@@ -324,7 +305,52 @@ def shareowner_membership_confirmation(request, pk):
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = 'filename="{}"'.format(filename)
-    response.write(pdfs.get_shareowner_membership_confirmation_pdf(owner).write_pdf())
+
+    num_shares = (
+        request.GET["num_shares"]
+        if "num_shares" in request.GET.keys()
+        else owner.get_active_share_ownerships().count()
+    )
+    date = (
+        datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
+        if "date" in request.GET.keys()
+        else timezone.now().date()
+    )
+
+    pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+        owner,
+        num_shares=num_shares,
+        date=date,
+    )
+    response.write(pdf.write_pdf())
+    return response
+
+
+@require_GET
+@permission_required("coop.manage")
+def shareowner_extra_shares_confirmation(request, pk):
+    share_owner = get_object_or_404(ShareOwner, pk=pk)
+    filename = (
+        "Bestätigung Erwerb Anteile %s.pdf" % share_owner.get_info().get_display_name()
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+
+    if "num_shares" not in request.GET.keys():
+        raise ValidationError("Missing parameter : num_shares")
+    num_shares = request.GET["num_shares"]
+
+    if "date" not in request.GET.keys():
+        raise ValidationError("Missing parameter : date")
+    date = datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
+
+    pdf = pdfs.get_confirmation_extra_shares_pdf(
+        share_owner,
+        num_shares=num_shares,
+        date=date,
+    )
+    response.write(pdf.write_pdf())
     return response
 
 

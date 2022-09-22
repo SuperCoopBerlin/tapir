@@ -22,13 +22,13 @@
             document.getElementById(card_id).style.display = "flex";
         }
 
-        function stats_chart(url, canvas_id) {
+        function stats_chart(url, canvas_id, type) {
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     const context = document.getElementById(canvas_id).getContext("2d");
                     new Chart(context, {
-                        type: 'line', data: data
+                        type: type, data: data
                     });
                 });
         }
@@ -62,7 +62,18 @@
                     <script type="text/javascript">
                         stats_chart(
                             '{% url "coop:member_count_evolution_json" %}',
-                            'member_count_evolution_canvas'
+                            'member_count_evolution_canvas',
+                            'line',
+                        )
+                    </script>
+
+                    <canvas id="member_age_distribution_canvas"></canvas>
+
+                    <script type="text/javascript">
+                        stats_chart(
+                            '{% url "coop:member_age_distribution_json" %}',
+                            'member_age_distribution_canvas',
+                            'bar',
                         )
                     </script>
                 </div>
@@ -120,7 +131,8 @@
                     <script type="text/javascript">
                         stats_chart(
                             '{% url "coop:share_count_evolution_json" %}',
-                            'share_count_evolution_canvas'
+                            'share_count_evolution_canvas',
+                            'line',
                         )
                     </script>
                 </div>

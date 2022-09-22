@@ -6,7 +6,7 @@
 
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href='{% static 'accounts/css/accounts.css' %}">
+    <link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <p>
-                        <a href="{% url "password_reset" %}">{% translate "Forgot your password?" %}</a>
+                        <a href="{% url "password_reset" %}">{% translate "Forgot your password or your username?" %}</a>
                     </p>
                     <button type="submit" class="btn tapir-btn btn-primary btn-block">
                         <span class="material-icons">login</span>

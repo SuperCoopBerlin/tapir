@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 
 from tapir.accounts.forms import TapirUserForm, PasswordResetForm
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
-from tapir.log.models import EmailLogEntry
+from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 
@@ -66,24 +66,8 @@ class PasswordResetView(auth_views.PasswordResetView):
 def send_user_welcome_email(request, pk):
     tapir_user = get_object_or_404(TapirUser, pk=pk)
 
-    email = tapir_user.get_email_from_template(
-        subject_template_names=[
-            "accounts/email/welcome_email_subject.html",
-            "accounts/email/welcome_email_subject.default.html",
-        ],
-        email_template_names=[
-            "accounts/email/welcome_email.html",
-            "accounts/email/welcome_email.default.html",
-        ],
-    )
-    email.send()
-
-    log_entry = EmailLogEntry().populate(
-        email_message=email,
-        actor=request.user,
-        user=tapir_user,
-    )
-    log_entry.save()
+    email = TapirAccountCreatedEmail(tapir_user)
+    email.send_to_tapir_user(actor=request.user, recipient=tapir_user)
 
     messages.info(request, _("Account welcome email sent."))
 

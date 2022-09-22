@@ -8,21 +8,16 @@ import pyasn1.type.namedtype
 import pyasn1.type.univ
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager
-from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import EmailMultiAlternatives
 from django.db import connections, router, models
-from django.template import loader
 from django.urls import reverse
 from django.utils import translation
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils
 from tapir.accounts import validators
 from tapir.log.models import UpdateModelLogEntry
-from tapir.settings import PERMISSIONS, COOP_NAME
+from tapir.settings import PERMISSIONS
 from tapir.utils.models import CountryField
 from tapir.utils.user_utils import UserUtils
 
@@ -174,26 +169,6 @@ class TapirUser(LdapUser):
 
     def get_absolute_url(self):
         return reverse("accounts:user_detail", args=[self.pk])
-
-    def get_email_from_template(
-        self, subject_template_names: list, email_template_names: list
-    ):
-        # TODO(Leon Handreke): Should this be in views? Check in the django source how they do it.
-        context = {
-            "site_url": settings.SITE_URL,
-            "uid": urlsafe_base64_encode(force_bytes(self.pk)),
-            "tapir_user": self,
-            "token": default_token_generator.make_token(self),
-            "coop_name": COOP_NAME,
-        }
-        with translation.override(self.preferred_language):
-            subject = loader.render_to_string(subject_template_names, context)
-            # Email subject *must not* contain newlines
-            subject = "".join(subject.splitlines())
-            body = loader.render_to_string(email_template_names, context)
-        email = EmailMultiAlternatives(subject, body, to=[self.email])
-        email.content_subtype = "html"
-        return email
 
     def has_perm(self, perm, obj=None):
         # This is a hack to allow permissions based on client certificates. ClientPermsMiddleware checks the

@@ -133,8 +133,9 @@ docker-compose up -d openldap
 Then, run the tests.
 
 ```
-docker-compose run web poetry run pytest
+docker-compose run --rm web poetry run pytest
 ```
+The `--rm` option will delete the temporary containers created to run the tests. Omit it if you want to keep the containers.
 
 To regenerate the test data fixtures:
 
@@ -160,6 +161,9 @@ docker-compose exec -w /app/tapir web poetry run python ../manage.py makemessage
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
 
 For the changes to take effect, restart the Docker container. This will run `manage.py compilemessages` automatically.
+
+You may want to use [PoEdit](https://poedit.net/) to edit the translation files.
+PoEdit formats the .po file slightly differently than `makemessages` does. To keep the changes clear, run `makemessages` again after saving from PoEdit.
 
 ### Pre-existing accounts
 

@@ -1,0 +1,85 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% load accounts %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% blocktranslate with display_name=member_infos.get_display_name %}
+            Confirmation acquisition of additional shares in {{ coop_name }} for {{ display_name }}
+        {% endblocktranslate %}
+    </title>
+    <link rel="stylesheet" href="{% static 'coop/css/membership_agreement_pdf.css' %}">
+</head>
+
+<body>
+
+<!-- Falzmarken -->
+<span style="border-top: 1px solid grey; width: 5mm; position: fixed; left: -15mm; top: 60mm;"></span>
+<span style="border-top: 1px solid grey; width: 5mm; position: fixed; left: -15mm; top: 165mm;"></span>
+
+<!-- A DIN 5008 Letter has 2,7cm of top margin -->
+<div style="display: flex">
+    <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
+        <span style="font-size: 6pt;">
+            {{ member_infos.get_display_name }},<br/>
+            {{ member_infos.street }},<br/>
+            {% if member_infos.street_2 %} {{ member_infos.street_2 }},<br/>{% endif %}
+            {{ member_infos.postcode }} {{ member_infos.city }}
+        </span>
+        <div style="margin-top: 2mm;">
+            {{ coop_full_name }}<br/>
+            {{ coop_street }}<br/>
+            {{ coop_place }}
+        </div>
+    </div>
+    <div style="flex-grow: 1"></div>
+    <div style="margin-top: 13mm;">
+        <img src="{% static 'coop/img/supercoop_logo.png' %}" style="width: 60mm;" alt="SuperCoop Logo"/>
+    </div>
+</div>
+
+<div style="text-align: center; font-size: 14pt; font-weight: bold;">
+    {% blocktranslate %}Confirmation acquisition of additional shares in {{ coop_full_name }}{% endblocktranslate %}
+</div>
+
+<div style="margin-top: 10mm; line-height: 1.8rem;">
+    <div style="display: flex; justify-content: flex-end">Berlin, {{ date|date:"j. F Y" }}</div>
+    {% blocktranslate with first_name=member_infos.first_name %}
+        <p>Dear {{ first_name }},</p>
+
+        <p>
+            Thank you for your support!<br/>
+            This document confirms that you have purchased {{ num_shares }} additional shares.
+            Once payment is received, this information will also be reflected in your Tapir profile.
+        </p>
+
+        <p>
+            Reminder: Your membership number is {{ member_number }}.<br/>
+            This number is important for your communication with us and the Member Office.
+            Please save it as you will need it often.
+        </p>
+
+        <p>
+            If you have any questions, feel free to contact the Member Office
+            (<a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>)
+            and we will answer you as soon as possible.
+        </p>
+
+        <p>
+            Thank you for your continued support!
+        </p>
+
+        <p>
+            Cooperative greetings<br/>
+            Your Executive Board<br/>
+            Eugénie, Jessica, Johanna and Marie for the SuperCoop Team<br/>
+        </p>
+    {% endblocktranslate %}
+</div>
+
+</body>
+</html>

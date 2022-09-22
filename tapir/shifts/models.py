@@ -2,23 +2,18 @@ from __future__ import annotations
 
 import calendar
 import datetime
-import time
 
 from django.contrib.postgres.fields import ArrayField
-from django.core.mail import EmailMessage
 from django.db import models, transaction
 from django.db.models import Sum
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import timezone, translation
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
-from tapir.settings import FROM_EMAIL_MEMBER_OFFICE
 from tapir.utils.models import DurationModelMixin
 
 
@@ -746,47 +741,6 @@ class ShiftSlot(models.Model):
         attendance.state = ShiftAttendance.State.PENDING
         attendance.save()
 
-    def mark_stand_in_found_if_relevant(self, actor: TapirUser):
-        attendances = ShiftAttendance.objects.filter(
-            slot=self, state=ShiftAttendance.State.LOOKING_FOR_STAND_IN
-        )
-        if not attendances.exists():
-            return
-
-        attendance = attendances.first()
-        attendance.state = ShiftAttendance.State.CANCELLED
-        attendance.save()
-
-        log_entry = ShiftAttendanceTakenOverLogEntry().populate(
-            actor=actor,
-            user=attendance.user,
-            model=attendance,
-        )
-        log_entry.slot_name = attendance.slot.name
-        log_entry.shift = attendance.slot.shift
-        log_entry.save()
-
-        with translation.override(attendance.user.preferred_language):
-            mail = EmailMessage(
-                subject=_("You found a stand-in!"),
-                body=render_to_string(
-                    [
-                        "shifts/email/stand_in_found.html",
-                        "shifts/email/stand_in_found.default.html",
-                    ],
-                    {
-                        "tapir_user": attendance.user,
-                        "shift": attendance.slot.shift,
-                        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-                        "coop_name": settings.COOP_NAME,
-                    },
-                ),
-                from_email=FROM_EMAIL_MEMBER_OFFICE,
-                to=[attendance.user.email],
-            )
-            mail.content_subtype = "html"
-            mail.send()
-
 
 class ShiftAccountEntry(models.Model):
     """ShiftAccountEntry represents and entry to the shift "bank account" of a user.
@@ -1006,51 +960,6 @@ class ShiftUserData(models.Model):
 
     def is_currently_exempted_from_shifts(self, date=None):
         return self.get_current_shift_exemption(date) is not None
-
-    def send_shift_reminder_emails(self):
-        for attendance in ShiftAttendance.objects.with_valid_state().filter(
-            user=self.user,
-            slot__shift__start_time__gte=timezone.now(),
-            slot__shift__start_time__lte=timezone.now() + datetime.timedelta(days=7),
-            reminder_email_sent=False,
-        ):
-            self.send_shift_reminder_email(attendance)
-            time.sleep(0.1)
-
-    def send_shift_reminder_email(self, attendance: ShiftAttendance):
-        is_first_shift = not ShiftAttendance.objects.filter(
-            user=self.user, state=ShiftAttendance.State.DONE
-        ).exists()
-        with transaction.atomic() and translation.override(
-            self.user.preferred_language
-        ):
-            mail = EmailMessage(
-                subject=_("Your upcoming %(coop_name)s shift: %(shift)s")
-                % {
-                    "shift": attendance.slot.shift.get_display_name(),
-                    "coop_name": settings.COOP_NAME,
-                },
-                body=render_to_string(
-                    [
-                        "shifts/email/shift_reminder.html",
-                        "shifts/email/shift_reminder.default.html",
-                    ],
-                    {
-                        "tapir_user": self.user,
-                        "shift": attendance.slot.shift,
-                        "is_first_shift": is_first_shift,
-                        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-                        "coop_name": settings.COOP_NAME,
-                    },
-                ),
-                from_email=FROM_EMAIL_MEMBER_OFFICE,
-                to=[self.user.email],
-            )
-            mail.content_subtype = "html"
-            mail.send()
-
-            attendance.reminder_email_sent = True
-            attendance.save()
 
     def get_credit_requirement_for_cycle(self, cycle_start_date: datetime.date):
         if not hasattr(self.user, "share_owner") or self.user.share_owner is None:
