@@ -25,4 +25,5 @@ The following chapters are available :
 - [Emails](./emails)
 - [Statistics](./statistics)
 - [Shifts](./shifts)
+- [Welcome desk](./welcome_desk)
 

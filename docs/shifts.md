@@ -1,65 +1,96 @@
 # Shifts
 
-TODO
+Shifts represent work that members can provide for the organisation. Each shift has one or more slots that member can
+register to, thus committing to doing the corresponding work at the given time.
 
-## ABCD and flying
+## ABCD shifts and single shifts
 
-TODO
+There are two types of shifts : ABCD and single.
 
-## Welcome desk
+A single shift represents a specific moment. It is associated with a specific date and time. Example : 24/09/2022 at 15:
+00).
 
-The goal of the welcome desk is to allow normal members (without member office access) who are currently doing a shift
-to search for a member and check if they (trying to access the shop) are allowed to shop, without giving away private
-information.
+An ABCD shift represents a regular occurrence : It is associated with a weekday, a time in the day, and a week group.
+Example : Each Wednesday of weeks B, at 12:00.
 
-Members with member office rights always have access to the welcome desk page.
-Normal members have access to the welcome desk during their shifts (from 20 minutes before the start to 20 minutes after
-it ends).
+- [Single shifts](./shifts_single)
+- [ABCD shifts](./shifts_abcd)
 
-A member is considered allowed to shop if :
+## Attendance types
 
-- They have a Tapir account
-- Their shift account balance is -1 or higher
-- Their member status is active (not investing or sold)
+There are two attendance types :
 
-If the member is not allowed to shop, the welcome desk will list the reasons why.
+- ABCD, for members that are expected to register to one ABCD shift
+- Flying, for members that never register to ABCD shifts but instead register to single shifts.
 
-The welcome desk can also display the following warnings. A warning does not prevent a user from shopping (the welcome
-desk shows "can shop" and the warning).
-
-- The member should register to a shift (shown if the member is in the ABCD shift system and they are not registered to
-  an ABCD shift)
-- They have not attended a welcome session yet
-
-### Co-Purchaser
-
-To each member can be associated a "co-purchaser". That other person can use the shop without being a member. If a
-member has a co-purchaser, the welcome desk will show it.
-
-## A shift
-
-TODO
-
-### A shift slot
-
-TODO
-
-## An ABCD Shift
-
-TODO
-
-### An ABCD shift slot
-
-TODO
-
-## Shift capabilities
-
-TODO
+The attendance type is only informative, it does not influence shift registration or attendance logic.
 
 ## Shift accounts
 
-TODO
+The shift account system helps track attendances. Members are supposed to attend one shift per cycle.
+
+Automatically at the beginning of each cycle, 1 point is removed from each member who is supposed to do a shift this
+cycle. Members are expected to do shifts if :
+
+- Their member status is active
+- Their account got created before the shift cycle started
+- They are not [exempted](#shift-exemptions) at the beginning of the cycle
+
+Three things can influence the account balance of a member :
+
+- When they were registered to a shift slot, and their attendance got confirmed, they get +1
+- When they were registered to a shift, and they get marked as no-show, they get -2
+- Accounts with member office access can create arbitrary entries with any value to the shift account
+
+### Members on alert
+
+There is a list of [members on alert](https://members-test.supercoop.de/shifts/members_on_alert) showing all members
+that have an account balance of -2 or less.
+
+The [welcome desk](./welcome_desk) shows members with a balance of -2 or less as on alert.
 
 ## Shift exemptions
 
-TODO
+Members can get exempted for doing shifts.
+The [list of exemptions](https://members-test.supercoop.de/shifts/shift_exemption) is accessible from the sidebar.
+Exempted users don't get -1 on their shift accounts on cyle starts.
+
+An exemption can be created by going to the list of exemptions for that member (accessible from that member's profile
+page), then clicking the create button on the top right.
+
+An exemption has the following information :
+
+- Start date
+- End date (optional, the exemption is infinite if no end date is set)
+- Description
+
+When creating or editing an exemption, shift attendances can get cancelled :
+
+- Single attendances within the timeframe of the exemption get cancelled, whether they are derived from ABCD attendances
+  or not.
+- If the exemption is longer than 6 cycles, the member gets unregistered from all their ABCD shifts. All future single
+  attendances derived from those ABCD attendances get cancelled, even those that are outside the timeframe of the
+  exemption.
+
+## Calendars
+
+There are four calendars available : past single shifts, future single shifts, ABCD shifts, ABCD groups.
+
+Single and ABCD shift calendars, by default, highlight the shifts that have fewer people registered to them than
+required. There are also filters to highlight shifts that have a free slot for a particular slot name.
+
+[Single shift calendars](https://members.supercoop.de/shifts/calendar) show single shifts grouped by date. For each
+date, there is a button to download the attendance list for all the shifts of that day, in a printable format.
+
+The [ABCD shift calendar](https://members.supercoop.de/shifts/shifttemplate/overview) shows the ABCD shifts grouped by
+weekday and week group.
+
+## Statistics
+
+There is a dedicated page for shift statistics. The following statistics are available :
+
+- Ratio of flying members to ABCD members,
+- Ratio of members that are expected to do shifts against total members
+- Ratio of number of ABCD slots relative to the number of members expected to do shifts
+- Number of slots for each slot type
+- Evolution of the number of members doing shifts
