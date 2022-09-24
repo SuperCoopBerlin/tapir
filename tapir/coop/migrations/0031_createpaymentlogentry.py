@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("log", "0004_auto_20211003_0941"),
-        ("coop", "0029_auto_20220617_1056"),
+        ("coop", "0030_newmembersandsharesemailrecaplogs"),
     ]
 
     operations = [
