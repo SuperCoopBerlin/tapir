@@ -1,7 +1,7 @@
 import datetime
 
 from django.urls import reverse
-from django.utils import translation
+from django.utils import translation, timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
@@ -10,7 +10,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     CreateExemptionLogEntry,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory
+from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
 from tapir.shifts.tests.utils import register_user_to_shift_template
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -274,3 +274,123 @@ class TestExemptions(TapirFactoryTestBase):
         self.assertEqual(log_entry.end_date, end_date)
         self.assertEqual(log_entry.actor, actor)
         self.assertEqual(log_entry.user, user)
+
+    def test_edit_shift_exemption_requires_member_office_access(self):
+        user = self.login_as_normal_user()
+        shift_template = ShiftTemplateFactory.create()
+        ShiftAttendanceTemplate.objects.create(
+            user=user, slot_template=shift_template.slot_templates.first()
+        )
+        exemption = ShiftExemption.objects.create(
+            shift_user_data=user.shift_user_data,
+            start_date=timezone.now().date(),
+            end_date=timezone.now().date() + datetime.timedelta(days=3),
+            description="A test description",
+        )
+
+        post_data = {
+            "start_date": exemption.start_date,
+            "end_date": timezone.now().date() + datetime.timedelta(days=365),
+            "description": "A test exemption",
+        }
+        response = self.client.post(
+            reverse("shifts:edit_shift_exemption", args=[exemption.pk]),
+            post_data,
+            follow=True,
+        )
+
+        self.assertEqual(
+            response.status_code,
+            403,
+            "A user that is not in the member should not have access to shift slot creation.",
+        )
+
+    def test_edit_exemption_cancels_abcd_shift(self):
+        user = TapirUserFactory.create(is_in_member_office=False)
+        shift_template = ShiftTemplateFactory.create()
+        ShiftAttendanceTemplate.objects.create(
+            user=user, slot_template=shift_template.slot_templates.first()
+        )
+        exemption = ShiftExemption.objects.create(
+            shift_user_data=user.shift_user_data,
+            start_date=timezone.now().date(),
+            end_date=timezone.now().date() + datetime.timedelta(days=3),
+            description="A test description",
+        )
+
+        self.login_as_member_office_user()
+        post_data = {
+            "start_date": exemption.start_date,
+            "end_date": timezone.now().date() + datetime.timedelta(days=365),
+            "description": "A test exemption",
+            "confirm_cancelled_abcd_attendances": True,
+        }
+        response = self.client.post(
+            reverse("shifts:edit_shift_exemption", args=[exemption.pk]),
+            post_data,
+            follow=True,
+        )
+        self.assertEqual(200, response.status_code)
+
+        self.assertFalse(
+            ShiftAttendanceTemplate.objects.filter(
+                user=user, slot_template__shift_template=shift_template
+            ).exists(),
+            "The exemption got edited to something longer than the threshold, the attendance should be cancelled",
+        )
+
+    def test_edit_exemption_cancels_single_shift(self):
+        user = TapirUserFactory.create(is_in_member_office=False)
+        shift_1 = ShiftFactory.create(
+            start_time=timezone.now() + datetime.timedelta(days=1)
+        )
+        attendance_1 = ShiftAttendance.objects.create(
+            user=user, slot=shift_1.slots.first()
+        )
+
+        shift_2 = ShiftFactory.create(
+            start_time=timezone.now() + datetime.timedelta(days=10)
+        )
+        attendance_2 = ShiftAttendance.objects.create(
+            user=user, slot=shift_2.slots.first()
+        )
+
+        shift_3 = ShiftFactory.create(
+            start_time=timezone.now() + datetime.timedelta(days=20)
+        )
+        attendance_3 = ShiftAttendance.objects.create(
+            user=user, slot=shift_3.slots.first()
+        )
+
+        exemption = ShiftExemption.objects.create(
+            shift_user_data=user.shift_user_data,
+            start_date=timezone.now().date() + datetime.timedelta(days=3),
+            end_date=timezone.now().date() + datetime.timedelta(days=8),
+            description="A test description",
+        )
+
+        self.login_as_member_office_user()
+        post_data = {
+            "start_date": exemption.start_date,
+            "end_date": timezone.now().date() + datetime.timedelta(days=15),
+            "description": "A test exemption",
+            "confirm_cancelled_attendances": True,
+        }
+        response = self.client.post(
+            reverse("shifts:edit_shift_exemption", args=[exemption.pk]),
+            post_data,
+            follow=True,
+        )
+        self.assertEqual(200, response.status_code)
+
+        self.assertEqual(ShiftAttendance.State.PENDING, attendance_1.state)
+        attendance_1.refresh_from_db()
+        self.assertEqual(ShiftAttendance.State.PENDING, attendance_1.state)
+
+        self.assertEqual(ShiftAttendance.State.PENDING, attendance_2.state)
+        attendance_2.refresh_from_db()
+        self.assertEqual(ShiftAttendance.State.CANCELLED, attendance_2.state)
+
+        self.assertEqual(ShiftAttendance.State.PENDING, attendance_3.state)
+        attendance_3.refresh_from_db()
+        self.assertEqual(ShiftAttendance.State.PENDING, attendance_3.state)

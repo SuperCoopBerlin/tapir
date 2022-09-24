@@ -1032,7 +1032,7 @@ class ShiftExemption(DurationModelMixin, models.Model):
 
     @staticmethod
     def must_unregister_from_abcd_shift(
-        start_date: datetime.date, end_date: datetime.date
+        start_date: datetime.date, end_date: datetime.date | None
     ):
         # Infinite exemption
         if not end_date:

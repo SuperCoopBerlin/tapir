@@ -38,8 +38,21 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
         return super().get_form_kwargs(*args, **kwargs)
 
     def form_valid(self, form):
-        exemption: ShiftExemption = form.instance
-        user = self.get_target_user_data().user
+        with transaction.atomic():
+            exemption: ShiftExemption = form.instance
+            self.cancel_attendances_covered_by_exemption(exemption)
+            CreateExemptionLogEntry().populate(
+                start_date=exemption.start_date,
+                end_date=exemption.end_date,
+                actor=self.request.user,
+                user=exemption.shift_user_data.user,
+                share_owner=self.get_target_user_data().user.share_owner,
+            ).save()
+            return super().form_valid(form)
+
+    @staticmethod
+    def cancel_attendances_covered_by_exemption(exemption: ShiftExemption):
+        user = exemption.shift_user_data.user
         for attendance in ShiftExemption.get_attendances_cancelled_by_exemption(
             user=user,
             start_date=exemption.start_date,
@@ -56,15 +69,6 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
         ):
             ShiftAttendanceTemplate.objects.filter(user=user).delete()
 
-        CreateExemptionLogEntry().populate(
-            start_date=exemption.start_date,
-            end_date=exemption.end_date,
-            actor=self.request.user,
-            user=user,
-            share_owner=self.get_target_user_data().user.share_owner,
-        ).save()
-        return super().form_valid(form)
-
     def get_success_url(self):
         return self.get_target_user_data().user.get_absolute_url()
 
@@ -80,6 +84,9 @@ class EditShiftExemptionView(PermissionRequiredMixin, UpdateViewLogMixin, Update
     def form_valid(self, form):
         with transaction.atomic():
             response = super().form_valid(form)
+
+            exemption: ShiftExemption = form.instance
+            CreateShiftExemptionView.cancel_attendances_covered_by_exemption(exemption)
 
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
