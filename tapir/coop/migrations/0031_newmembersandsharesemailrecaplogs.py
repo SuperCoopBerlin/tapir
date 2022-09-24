@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("coop", "0029_auto_20220617_1056"),
+        ("coop", "0030_createpaymentlogentry"),
     ]
 
     operations = [
