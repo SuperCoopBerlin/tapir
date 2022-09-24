@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("coop", "0031_createpaymentlogentry"),
+        ("coop", "0030_newmembersandsharesemailrecaplogs"),
     ]
 
     operations = [
