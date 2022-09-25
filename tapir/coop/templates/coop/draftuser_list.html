@@ -30,25 +30,25 @@
                     <th>{% translate "Date" %}</th>
                     <th></th>
                     </thead>
-                    {% for u in object_list %}
+                    {% for user in object_list %}
                         <tr>
-                            <td class="align-middle">{{ u.first_name }}</td>
-                            <td class="align-middle">{{ u.last_name }}</td>
-                            <td class="align-middle">{{ u.email }}</td>
+                            <td class="align-middle">{{ user.first_name }}</td>
+                            <td class="align-middle">{{ user.last_name }}</td>
+                            <td class="align-middle">{{ user.email }}</td>
                             <td class="align-middle">
-                                {% if u.signed_membership_agreement %}
+                                {% if user.signed_membership_agreement %}
                                     <span class="text-success">{% translate "Signed" %}</span>
                                 {% endif %}
                             </td>
                             <td class="align-middle">
-                                {% if u.paid_membership_fee %}
+                                {% if user.paid_membership_fee %}
                                     <span class="text-success">{% translate "Paid" %}</span>
                                 {% endif %}
                             </td>
-                            <td class="align-middle">{{ u.created_at|date:"d.m.Y" }}</td>
+                            <td class="align-middle">{{ user.created_at|date:"d.m.Y" }}</td>
                             <td class="align-middle">
                                 <a class="btn tapir-btn btn-outline-primary"
-                                   href="{% url 'coop:draftuser_detail' u.pk %}">
+                                   href="{% url 'coop:draftuser_detail' user.pk %}">
                                     <span class="material-icons">visibility</span>
                                     Show
                                 </a>
