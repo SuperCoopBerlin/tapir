@@ -26,7 +26,7 @@ class ShareOwnerFactory(UserDataFactory):
         if not create:
             return
         for _ in range(nb_shares or 1):
-            ShareOwnershipFactory.create(owner=self)
+            ShareOwnershipFactory.create(share_owner=self)
 
 
 class DraftUserFactory(UserDataFactory):

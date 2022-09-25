@@ -178,7 +178,7 @@ def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> Shar
 
     for _ in range(0, draft_user.num_shares):
         ShareOwnership.objects.create(
-            owner=share_owner,
+            share_owner=share_owner,
             start_date=date.today(),
             amount_paid=(COOP_SHARE_PRICE if draft_user.paid_shares else 0),
         )

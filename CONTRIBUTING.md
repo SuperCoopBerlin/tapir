@@ -88,6 +88,10 @@ A few definitions to help newcomers understand the model classes.
 | Shift | Represents a shift with a specific date and time (for example, 18/06/21 10:00 to 13:00). Can be a one-time activity or an instance of a ShiftTemplate |
 | ShiftTemplate | Represents the recurring aspect of a shift in the ABCD system. For example helping at the shop on Tuesday, 10:00 to 13:00, on Week C. It has a weekday (Tuesday) and a time, but no date (18/06/21) |
 
+### Conventions
+
+- In-Text: shareowner is the notation standard for in-text, `share_owner` for in-code
+
 ### Welcome Desk Authentication
 
 All users logging in at the welcome desk are granted more permissions. This magic uses SSL client certificates. The web server requests and checks the client certificate and subsequently sets a header that is then checked by `tapir.accounts.middleware.ClientPermsMiddleware`.

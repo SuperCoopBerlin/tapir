@@ -416,7 +416,7 @@ class Migration(migrations.Migration):
                 ("start_date", models.DateField(db_index=True)),
                 ("end_date", models.DateField(blank=True, db_index=True, null=True)),
                 (
-                    "owner",
+                    "share_owner",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.PROTECT,
                         related_name="share_ownerships",

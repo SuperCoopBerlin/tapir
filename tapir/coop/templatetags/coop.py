@@ -13,7 +13,7 @@ register = template.Library()
     "coop/user_coop_share_ownership_list_tag.html", takes_context=True
 )
 def share_owner_ownership_list(context, share_owner: ShareOwner):
-    context["owner"] = share_owner
+    context["share_owner"] = share_owner
     return context
 
 

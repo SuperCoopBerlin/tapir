@@ -10,7 +10,7 @@
             <li class="breadcrumb-item"><a href="#">Cooperative</a></li>
             <li class="breadcrumb-item">
                 {% if user %}
-                {{ object.owner.get_info.get_display_name }}
+                {{ object.share_owner.get_info.get_display_name }}
                 {% endif %}
             </li>
             <li class="breadcrumb-item active" aria-current="page">Share</li>
