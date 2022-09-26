@@ -134,10 +134,6 @@ def register_draftuser_payment(request, pk):
 @permission_required("coop.manage")
 def create_share_owner_from_draft_user_view(request, pk):
     draft_user = DraftUser.objects.get(pk=pk)
-    if not draft_user.signed_membership_agreement:
-        raise ValidationError(
-            "Members can only be created after they have signed the membership agreement."
-        )
 
     if not draft_user.can_create_user():
         raise ValidationError(
