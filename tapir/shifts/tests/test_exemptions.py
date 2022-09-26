@@ -3,6 +3,7 @@ import datetime
 from django.urls import reverse
 from django.utils import translation, timezone
 
+from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftExemption,
@@ -18,6 +19,8 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 class TestExemptions(TapirFactoryTestBase):
     FIRST_CYCLE_START_DATE = datetime.date(day=18, month=1, year=2021)
     SECOND_CYCLE_START_DATE = datetime.date(day=15, month=2, year=2021)
+
+    VIEW_NAME_EDIT_SHIFT_EXEMPTION = "shifts:edit_shift_exemption"
 
     def test_no_exemption(self):
         user = TapirUserFactory.create()
@@ -285,7 +288,7 @@ class TestExemptions(TapirFactoryTestBase):
             shift_user_data=user.shift_user_data,
             start_date=timezone.now().date(),
             end_date=timezone.now().date() + datetime.timedelta(days=3),
-            description="A test description",
+            description="Lorem ipsum",
         )
 
         post_data = {
@@ -294,7 +297,7 @@ class TestExemptions(TapirFactoryTestBase):
             "description": "A test exemption",
         }
         response = self.client.post(
-            reverse("shifts:edit_shift_exemption", args=[exemption.pk]),
+            reverse(self.VIEW_NAME_EDIT_SHIFT_EXEMPTION, args=[exemption.pk]),
             post_data,
             follow=True,
         )
@@ -315,7 +318,7 @@ class TestExemptions(TapirFactoryTestBase):
             shift_user_data=user.shift_user_data,
             start_date=timezone.now().date(),
             end_date=timezone.now().date() + datetime.timedelta(days=3),
-            description="A test description",
+            description="dolor sit amet",
         )
 
         self.login_as_member_office_user()
@@ -326,7 +329,7 @@ class TestExemptions(TapirFactoryTestBase):
             "confirm_cancelled_abcd_attendances": True,
         }
         response = self.client.post(
-            reverse("shifts:edit_shift_exemption", args=[exemption.pk]),
+            reverse(self.VIEW_NAME_EDIT_SHIFT_EXEMPTION, args=[exemption.pk]),
             post_data,
             follow=True,
         )
@@ -366,7 +369,7 @@ class TestExemptions(TapirFactoryTestBase):
             shift_user_data=user.shift_user_data,
             start_date=timezone.now().date() + datetime.timedelta(days=3),
             end_date=timezone.now().date() + datetime.timedelta(days=8),
-            description="A test description",
+            description="consectetur adipiscing elit",
         )
 
         self.login_as_member_office_user()
@@ -377,7 +380,7 @@ class TestExemptions(TapirFactoryTestBase):
             "confirm_cancelled_attendances": True,
         }
         response = self.client.post(
-            reverse("shifts:edit_shift_exemption", args=[exemption.pk]),
+            reverse(self.VIEW_NAME_EDIT_SHIFT_EXEMPTION, args=[exemption.pk]),
             post_data,
             follow=True,
         )
@@ -394,3 +397,30 @@ class TestExemptions(TapirFactoryTestBase):
         self.assertEqual(ShiftAttendance.State.PENDING, attendance_3.state)
         attendance_3.refresh_from_db()
         self.assertEqual(ShiftAttendance.State.PENDING, attendance_3.state)
+
+    def test_invalid_attendances_are_not_affected_by_exemptions(self):
+        tapir_user: TapirUser = TapirUserFactory.create()
+
+        for state in ShiftAttendance.State:
+            shift = ShiftFactory.create(start_time=timezone.now())
+            ShiftAttendance.objects.create(
+                user=tapir_user,
+                slot=shift.slots.first(),
+                state=state,
+            )
+
+        attendances = ShiftExemption.get_attendances_cancelled_by_exemption(
+            user=tapir_user,
+            start_date=timezone.now().date() - datetime.timedelta(days=1),
+            end_date=None,
+        )
+        self.assertEqual(2, attendances.count())
+        self.assertEqual(
+            1, attendances.filter(state=ShiftAttendance.State.PENDING).count()
+        )
+        self.assertEqual(
+            1,
+            attendances.filter(
+                state=ShiftAttendance.State.LOOKING_FOR_STAND_IN
+            ).count(),
+        )

@@ -795,6 +795,11 @@ class ShiftAttendance(models.Model):
         State.LOOKING_FOR_STAND_IN,
     ]
 
+    STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP = [
+        State.PENDING,
+        State.LOOKING_FOR_STAND_IN,
+    ]
+
     state = models.IntegerField(choices=State.choices, default=State.PENDING)
 
     # Only filled if state is MISSED_EXCUSED
@@ -995,7 +1000,7 @@ class ShiftExemption(DurationModelMixin, models.Model):
 
     @staticmethod
     def get_attendances_cancelled_by_exemption(
-        user: TapirUser, start_date: datetime.date, end_date: datetime.date
+        user: TapirUser, start_date: datetime.date, end_date: datetime.date | None
     ):
         start_time = timezone.make_aware(
             datetime.datetime.combine(start_date, datetime.time(hour=0, minute=0))
@@ -1011,7 +1016,9 @@ class ShiftExemption(DurationModelMixin, models.Model):
         attendances = ShiftAttendance.objects.filter(
             user=user,
             slot__shift__start_time__gte=start_time,
+            state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
         )
+
         if end_time:
             attendances = attendances.filter(slot__shift__end_time__lte=end_time)
 
