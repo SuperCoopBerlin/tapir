@@ -80,17 +80,15 @@ The whole application is running in a docker environment, make sure it is also i
 
 A few definitions to help newcomers understand the model classes.
 
-| Class | Definition |
-| --- | --- |
-| DraftUser | Also called Applicant. Represents a person that expressed interest in joining but that hasn't completed the subscription process yet. |
-| ShareOwner | Represents a person or a company that is either currently owning at least a share, or has owned shares in the past. Therefore they are or have been a member of the cooperative. They may not be active, for example investing members or someone who sold their shares. |
-| TapirUser | Represents a person with a user account. Accounts are linked between Tapir and the Wiki for example. Gets created when the member becomes active (part of the shift system etc.), but can become inactive. |
-| Shift | Represents a shift with a specific date and time (for example, 18/06/21 10:00 to 13:00). Can be a one-time activity or an instance of a ShiftTemplate |
-| ShiftTemplate | Represents the recurring aspect of a shift in the ABCD system. For example helping at the shop on Tuesday, 10:00 to 13:00, on Week C. It has a weekday (Tuesday) and a time, but no date (18/06/21) |
+The class name is the convention for the word in texts, followed by how to write the class in code.
 
-### Conventions
-
-- In-Text: shareowner is the notation standard for in-text, `share_owner` for in-code
+| Class         | In-Code       | Definition                                                                                                                                                                                                                                                               |
+|---------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| DraftUser     |               | Also called Applicant. Represents a person that expressed interest in joining but that hasn't completed the subscription process yet.                                                                                                                                    |
+| Shareowner    | `share_owner` | Represents a person or a company that is either currently owning at least a share, or has owned shares in the past. Therefore they are or have been a member of the cooperative. They may not be active, for example investing members or someone who sold their shares. |
+| TapirUser     | `user`        | Represents a person with a user account. Accounts are linked between Tapir and the Wiki for example. Gets created when the member becomes active (part of the shift system etc.), but can become inactive.                                                               |
+| Shift         |               | Represents a shift with a specific date and time (for example, 18/06/21 10:00 to 13:00). Can be a one-time activity or an instance of a ShiftTemplate                                                                                                                    |
+| ShiftTemplate |               | Represents the recurring aspect of a shift in the ABCD system. For example helping at the shop on Tuesday, 10:00 to 13:00, on Week C. It has a weekday (Tuesday) and a time, but no date (18/06/21)                                                                      |
 
 ### Welcome Desk Authentication
 
