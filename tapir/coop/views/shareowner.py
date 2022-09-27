@@ -652,7 +652,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
         queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
     ):
         unpaid_shares = ShareOwnership.objects.filter(
-            amount_paid__lt=COOP_SHARE_PRICE, owner__in=queryset
+            amount_paid__lt=COOP_SHARE_PRICE, share_owner__in=queryset
         )
 
         if value:
