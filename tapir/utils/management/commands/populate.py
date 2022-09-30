@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 
+from tapir import settings
 from tapir.utils.management.commands.populate_functions import (
     populate_users,
     populate_template_groups,
@@ -60,6 +61,12 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        if not settings.DEBUG:
+            print(
+                "This is not a debug instance. Are you sure you want to run commands that generate test data?"
+            )
+            return
+
         if options["users"]:
             populate_users()
         if options["shift_template_groups"]:
