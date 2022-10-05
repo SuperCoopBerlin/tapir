@@ -35,6 +35,7 @@ class Command(BaseCommand):
             ),
             "new_member_recap_entries": new_membership_entries,
             "extra_shares_recap_entries": extra_share_entries,
+            "site_url": settings.SITE_URL,
         }
         body = loader.render_to_string(
             [

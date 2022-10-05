@@ -131,7 +131,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     "send_accounting_recap": {
         "task": "tapir.coop.tasks.send_accounting_recap",
-        "schedule": celery.schedules.crontab(minute=0, hour=0, day_of_week="sunday"),
+        "schedule": celery.schedules.crontab(hour=12, minute=0, day_of_week="sunday"),
     },
 }
 
