@@ -71,6 +71,7 @@ class TapirUserChoiceField(ModelChoiceField):
     def __init__(
         self, queryset=TapirUser.objects.filter(share_owner__isnull=False), **kwargs
     ):
+        queryset = queryset.prefetch_related("share_owner")
         super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: TapirUser):
@@ -82,6 +83,7 @@ class ShareOwnerChoiceField(ModelChoiceField):
     widget = Select2Widget()
 
     def __init__(self, queryset=ShareOwner.objects.all(), **kwargs):
+        queryset = queryset.prefetch_related("user")
         super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: ShareOwner):

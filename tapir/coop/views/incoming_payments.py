@@ -1,8 +1,8 @@
 import django_filters
 import django_tables2
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.db import transaction
 from django.db.models import Q
-from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
@@ -14,7 +14,6 @@ from django_tables2 import SingleTableView
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
 from tapir.coop.models import IncomingPayment, ShareOwner, CreatePaymentLogEntry
-from tapir.log.models import LogEntry
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
 
