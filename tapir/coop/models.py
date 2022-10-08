@@ -181,8 +181,14 @@ class ShareOwner(models.Model):
         return ShareOwnership.objects.active_temporal().filter(owner=self).count()
 
     def get_member_status(self):
-        oldest_active = self.get_oldest_active_share_ownership()
-        if oldest_active is None or not oldest_active.is_active:
+        # Here we try to use only share_ownerships.all() without filter or count(),
+        # because in list views the shares have been prefetched.
+        # If we do any filtering on self.share_ownerships, it would trigger one DB query per item in the list.
+        has_active_share = (
+            len([share for share in self.share_ownerships.all() if share.is_active()])
+            > 0
+        )
+        if not has_active_share:
             return MemberStatus.SOLD
 
         if self.is_investing:

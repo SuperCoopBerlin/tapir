@@ -681,6 +681,12 @@ class ShareOwnerListView(
             )
         return response
 
+    def get_queryset(self):
+        queryset = ShareOwner.objects.prefetch_related(
+            "share_ownerships"
+        ).prefetch_related("user")
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["filtered_member_count"] = self.object_list.count()
