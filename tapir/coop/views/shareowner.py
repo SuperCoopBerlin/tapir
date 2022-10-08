@@ -841,6 +841,9 @@ class WelcomeDeskSearchView(PermissionRequiredMixin, FilterView, SingleTableView
     model = ShareOwner
     filterset_class = ShareOwnerFilterWelcomeDesk
 
+    def get_queryset(self):
+        return super().get_queryset().prefetch_related("user")
+
 
 class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
     model = ShareOwner
