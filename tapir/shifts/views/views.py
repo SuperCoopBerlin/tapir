@@ -275,6 +275,7 @@ class MembersOnAlertView(PermissionRequiredMixin, ExportMixin, SingleTableView):
         return (
             super()
             .get_queryset()
+            .prefetch_related("user")
             .annotate(account_balance=Sum("user__shift_account_entries__value"))
             .filter(account_balance__lt=-1)
             .order_by("user__date_joined")
