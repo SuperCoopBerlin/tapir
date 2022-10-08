@@ -789,6 +789,7 @@ class MatchingProgramListView(PermissionRequiredMixin, SingleTableView):
             .get_queryset()
             .exclude(willing_to_gift_a_share=None)
             .order_by("willing_to_gift_a_share")
+            .prefetch_related("user")
         )
 
 
