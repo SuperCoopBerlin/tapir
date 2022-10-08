@@ -52,6 +52,11 @@ def get_sidebar_link_groups(request):
             material_icon="mail",
             url=reverse_lazy("core:email_list"),
         )
+        coop_group.add_link(
+            display_name=_("Logs"),
+            material_icon="manage_search",
+            url=reverse_lazy("log:log_overview"),
+        )
         groups.append(coop_group)
 
     if request.user.has_perm("welcomedesk.view"):

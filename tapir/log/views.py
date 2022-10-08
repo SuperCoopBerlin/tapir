@@ -91,13 +91,11 @@ class LogTable(django_tables2.Table):
 
     def render_member(self, record):
         # show user or share_owner, depending on what is available
-        value = (
-            record.user.share_owner if record.user is not None else record.share_owner
-        )
+        value = record.user or record.share_owner.get_info()
         return format_html(
             "<a href={}>{}</a>",
             value.get_absolute_url(),
-            value.get_info().get_display_name(),
+            value.get_display_name(),
         )
 
     def render_actor(self, value: TapirUser):
@@ -111,19 +109,17 @@ class LogTable(django_tables2.Table):
 class LogFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        share_owners = self.filters["members"].field.queryset
+        tapir_users = self.filters["actor"].field.queryset
         if self.request.user.has_perm("coop.view"):
             # In case the user who requests the Logs actually has permission, make a list of all ShareOwners
-            share_owner_list = ShareOwner.objects.order_by("id")
-            user_list = TapirUser.objects.all()
+            share_owners = share_owners.order_by("id")
         else:
-            share_owner_list = ShareOwner.objects.filter(
-                id=self.request.user.share_owner.id
-            )
-            user_list = TapirUser.objects.filter(pk=self.request.user.pk)
-
-        self.filters["members"].field.queryset = share_owner_list
-        self.filters["actor"].field.queryset = TapirUser.objects.filter(
-            id__in=LogEntry.objects.filter(user_id__in=user_list)
+            share_owners = share_owners.filter(id=self.request.user.share_owner.id)
+            tapir_users = tapir_users.filter(pk=self.request.user.pk)
+        self.filters["members"].field.queryset = share_owners
+        self.filters["actor"].field.queryset = tapir_users.filter(
+            id__in=LogEntry.objects.filter(user_id__in=tapir_users)
             .values_list("actor", flat=True)
             .distinct()
         )
@@ -151,7 +147,14 @@ class LogTableView(LoginRequiredMixin, FilterView, SingleTableView):
     filterset_class = LogFilter
 
     def get_queryset(self):
-        queryset = LogEntry.objects.all()
+        queryset = (
+            LogEntry.objects.all()
+            .prefetch_related("actor")
+            .prefetch_related("user")
+            .prefetch_related("share_owner")
+            .prefetch_related("share_owner__user")
+            .prefetch_related("log_class_type")
+        )
         if not self.request.user.has_perm("coop.view"):
             return queryset.filter(user=self.request.user)
         return queryset
