@@ -5,6 +5,10 @@
 {% load coop %}
 {% load static %}
 
+{% block title %}
+    {% translate "Create Tapir account" %}: {{ form.instance.get_display_name }}
+{% endblock %}
+
 {% block head %}
     {{ block.super }}
     <script src="{% static 'coop/js/draftuser_form.js' %}"></script>

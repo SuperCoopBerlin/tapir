@@ -4,6 +4,10 @@
 {% load static %}
 {% load i18n %}
 
+{% block title %}
+    {% translate "Login" %}
+{% endblock %}
+
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}">

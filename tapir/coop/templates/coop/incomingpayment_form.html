@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load static %}
 
+{% block title %}
+    {% translate "Create payment" %}
+{% endblock %}
+
 {% block head %}
     {{ form.media }}
 {% endblock %}

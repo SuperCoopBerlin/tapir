@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load static %}
 
+{% block title %}
+    {{ card_title }}
+{% endblock %}
+
 {% block head %}
     {{ block.super }}
     {{ form.media }}

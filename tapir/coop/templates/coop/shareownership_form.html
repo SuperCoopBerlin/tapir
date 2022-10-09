@@ -3,22 +3,17 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 
+{% block title %}
+    {% translate "Edit share" %}: {{ form.instance.owner.get_info.get_display_name }}
+{% endblock %}
+
 {% block content %}
 
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Cooperative</a></li>
-            <li class="breadcrumb-item">
-                {% if user %}
-                {{ object.owner.get_info.get_display_name }}
-                {% endif %}
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">Share</li>
-        </ol>
-    </nav>
-
     <div class="container">
-        <div class="card mb-2">
+        <div class="card m-2">
+            <h5 class="card-header">
+                {% translate "Edit share" %}: {{ form.instance.owner.get_info.get_display_name }}
+            </h5>
             <div class="card-body">
                 <form role="form" method="post">
                     {% csrf_token %}

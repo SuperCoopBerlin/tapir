@@ -1,5 +1,7 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
+from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, UpdateView
 
 from tapir.shifts.forms import ShiftCreateForm, ShiftSlotForm, ShiftCancelForm
@@ -13,7 +15,7 @@ class ShiftCreateView(PermissionRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["card_title"] = f"Creating a shift"
+        context["card_title"] = _("Create a shift")
         return context
 
 
@@ -28,7 +30,7 @@ class ShiftSlotCreateView(PermissionRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context[
-            "shift_name"
+            "card_title"
         ] = f"Adding a slot to {self.get_shift().get_display_name()}"
         return context
 
@@ -47,6 +49,14 @@ class ShiftSlotEditView(PermissionRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return self.object.shift.get_absolute_url()
+
+    def get_slot(self) -> ShiftSlot:
+        return get_object_or_404(ShiftSlot, pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = _("Edit slot: ") + self.get_slot().get_display_name()
+        return context
 
 
 class CancelShiftView(PermissionRequiredMixin, UpdateView):
@@ -89,5 +99,5 @@ class EditShiftView(PermissionRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["card_title"] = f"Editing shift: {self.object.get_display_name()}"
+        context["card_title"] = _("Edit shift:") + self.object.get_display_name()
         return context

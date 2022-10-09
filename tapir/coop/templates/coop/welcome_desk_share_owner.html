@@ -8,6 +8,10 @@
 {% load log %}
 {% load accounts %}
 
+{% block title %}
+    {% translate "Welcome Desk" %}: {{ share_owner.get_info.get_display_name }}
+{% endblock %}
+
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">

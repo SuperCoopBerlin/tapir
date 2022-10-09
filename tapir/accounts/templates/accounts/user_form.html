@@ -3,21 +3,16 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 
+{% block title %}
+    {% translate "Edit member" %}: {{ form.instance.get_display_name }}
+{% endblock %}
+
 {% block content %}
-
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{% url 'coop:shareowner_list' %}">{% translate "Users" %}</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{ form.instance.get_absolute_url }}">{{ form.instance.get_display_name }}</a>
-            </li>
-        </ol>
-    </nav>
-
     <div class="container">
         <div class="card mb-2">
+            <h5 class="card-header">
+                Editing <a href="{{ form.instance.get_absolute_url }}">{{ form.instance.get_display_name }}</a>
+            </h5>
             <div class="card-body">
                 <form role="form" method="post">
                     {% csrf_token %}

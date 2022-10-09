@@ -4,11 +4,15 @@
 {% load i18n %}
 {% load static %}
 
+{% block title %}
+    {% translate "Cancel shift:" %} {{ form.instance }}
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="card mb-2" >
             <h5 class="card-header bg-warning">
-                {% translate "Cancel shift:" %} {{ form.instance }}
+                {% translate "Cancel shift:" %} <a href="{{ form.instance.get_absolute_url }}">{{ form.instance }}</a>
             </h5>
             <div class="card-body">
                 <div>

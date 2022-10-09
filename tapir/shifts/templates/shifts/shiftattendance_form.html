@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load static %}
 
+{% block title %}
+    {% translate 'Shift attendance' %}: {{ object.user.get_display_name }}
+{% endblock %}
+
 {% block head %}
     {{ block.super }}
 {% endblock %}

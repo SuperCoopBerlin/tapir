@@ -6,6 +6,10 @@
 {% load log %}
 {% load accounts %}
 
+{% block title %}
+    {% translate "Member" %}: {{ object.get_info.get_display_name }}
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col-xl-6">
