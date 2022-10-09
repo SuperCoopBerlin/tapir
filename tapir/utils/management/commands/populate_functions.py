@@ -56,7 +56,7 @@ def populate_shifts():
             end_time=noon,
         )
         for _ in range(3):
-            ShiftSlot.objects.create(shift=shift, optional=False)
+            ShiftSlot.objects.create(shift=shift)
 
         shift = Shift.objects.get_or_create(
             name=SHIFT_NAME_CASHIER_AFTERNOON,
@@ -64,7 +64,7 @@ def populate_shifts():
             end_time=evening,
         )
         for _ in range(3):
-            ShiftSlot.objects.create(shift=shift, optional=False)
+            ShiftSlot.objects.create(shift=shift)
 
         shift = Shift.objects.get_or_create(
             name=SHIFT_NAME_STORAGE_MORNING,
@@ -72,7 +72,7 @@ def populate_shifts():
             end_time=noon,
         )
         for _ in range(3):
-            ShiftSlot.objects.create(shift=shift, optional=False)
+            ShiftSlot.objects.create(shift=shift)
 
         shift = Shift.objects.get_or_create(
             name=SHIFT_NAME_STORAGE_AFTERNOON,
@@ -80,7 +80,7 @@ def populate_shifts():
             end_time=evening,
         )
         for _ in range(3):
-            ShiftSlot.objects.create(shift=shift, optional=False)
+            ShiftSlot.objects.create(shift=shift)
 
     print("Populated shift templates for today")
 
@@ -318,7 +318,6 @@ def populate_shift_templates():
                             name=slot_name,
                             shift_template=shift_template,
                             required_capabilities=capabilities,
-                            optional=index > 0,
                         )
 
     print("Populated shift templates")

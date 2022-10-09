@@ -70,5 +70,5 @@ class ShiftAttendanceInline(admin.TabularInline):
 @admin.register(ShiftSlot)
 class ShiftSlotAdmin(admin.ModelAdmin):
     inlines = [ShiftAttendanceInline]
-    list_display = ["name", "optional"]
+    list_display = ["name"]
     search_fields = ["name"]
