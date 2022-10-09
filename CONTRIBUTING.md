@@ -142,7 +142,7 @@ To regenerate the test data fixtures:
 ```
 docker-compose up --force-recreate
 docker compose exec web poetry run python manage.py migrate
-docker compose exec web poetry run python manage.py populate --reset_all
+docker compose exec web poetry run python manage.py generate_test_data --reset_all
 docker-compose exec web poetry run python manage.py dumpdata accounts.TapirUser shifts.ShiftTemplateGroup shifts.ShiftTemplate shifts.ShiftSlotTemplate shifts.ShiftAttendanceTemplate coop.ShareOwner coop.ShareOwnership > tapir/utils/fixtures/test_data.json
 ```
 
