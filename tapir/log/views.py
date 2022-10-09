@@ -16,6 +16,7 @@ from django_tables2.views import SingleTableView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
+from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.forms import CreateTextLogEntryForm
 from tapir.log.models import EmailLogEntry, TextLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
@@ -69,6 +70,13 @@ def create_text_log_entry(request, **kwargs):
 
 
 class LogTable(django_tables2.Table):
+    class Meta:
+        model = LogEntry
+        template_name = TAPIR_TABLE_TEMPLATE
+        fields = ["created_date", "actor", "member", "entry"]
+        order_by = "-created_date"
+        attrs = {"class": TAPIR_TABLE_CLASSES}
+
     entry = django_tables2.Column(
         empty_values=(),
         accessor="as_leaf_class__render",
@@ -78,13 +86,8 @@ class LogTable(django_tables2.Table):
     member = django_tables2.Column(
         empty_values=(), accessor="user", verbose_name=_("Member")
     )
-    actor = django_tables2.Column(verbose_name=_("Actor"))
 
-    class Meta:
-        model = LogEntry
-        template_name = "django_tables2/bootstrap.html"
-        fields = ["created_date", "actor", "member", "entry"]
-        order_by = "-created_date"
+    actor = django_tables2.Column(verbose_name=_("Actor"))
 
     def render_created_date(self, value: datetime.datetime):
         return value.strftime("%d.%m.%Y %H:%M")

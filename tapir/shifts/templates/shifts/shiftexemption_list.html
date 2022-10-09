@@ -1,6 +1,7 @@
 {% extends "core/base.html" %}
 
 {% load i18n %}
+{% load core %}
 
 {% block content %}
     <div class="card mb-2">
@@ -14,7 +15,7 @@
             {% endif %}
         </h5>
         <div class="card-body">
-            <table class="table table-striped" id="shift_exemptions_table" aria-label="{% translate 'List of shift exemptions' %}">
+            <table class="{% tapir_table_classes %}" id="shift_exemptions_table" aria-label="{% translate 'List of shift exemptions' %}">
                 <thead>
                 <th>{% translate "User" %}</th>
                 <th>{% translate "Start date" %}</th>

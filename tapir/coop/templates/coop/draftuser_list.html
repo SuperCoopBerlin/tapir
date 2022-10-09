@@ -1,6 +1,7 @@
 {% extends "core/base.html" %}
 
 {% load i18n %}
+{% load core %}
 
 {% block title %}
     {% translate "Applicants" %}
@@ -19,7 +20,7 @@
         </h5>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped" id="applicants_table"
+                <table class="{% tapir_table_classes %}" id="applicants_table"
                        aria-label="{% translate 'List of applicants' %}">
                     <thead>
                     <th>{% translate "First name" %}</th>
