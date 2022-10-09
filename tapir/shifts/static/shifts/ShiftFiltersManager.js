@@ -67,6 +67,10 @@ class ShiftFiltersManager {
         shift_block.classList.remove(this.HIDDEN_CLASS);
         shift_block.classList.remove(this.NO_FILTER_CLASS);
         shift_block.classList.remove(this.HIGHLIGHT_CLASS);
+        if (shift_block.classList.contains("is_in_the_past")) {
+            shift_block.classList.add(this.HIDDEN_CLASS);
+            return;
+        }
         let addedClass;
         switch (slot_status_filter) {
             case StatusFilter.NO_FILTER:
