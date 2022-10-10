@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load static %}
 
+{% block title %}
+    {% translate "Register for shift slot" %}: {{ slot_template.get_display_name }}
+{% endblock %}
+
 {% block head %}
     {{ form.media }}
 {% endblock %}

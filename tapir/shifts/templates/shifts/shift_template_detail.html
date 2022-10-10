@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load core %}
 
+{% block title %}
+    {% translate 'Shift Template' %}: {{ object.get_display_name }}
+{% endblock %}
+
 {% block head %}
     {{ form.media }}
 {% endblock %}
@@ -11,7 +15,7 @@
 {% block content %}
     <div class="card mb-2" id="shift_detail_card">
         <h5 class="card-header d-flex justify-content-between align-items-center">
-            <span>Shift Template: {{ object.name }} {{ object.get_weekday_display }} {{ object.start_time|time:"H:i" }} - {{ object.end_time|time:"H:i" }} ({{ object.group.name }})</span>
+            <span>{% translate 'Shift Template' %}: {{ object.get_display_name }}</span>
             {% if perms.shifts.manage %}
                 <a class="btn tapir-btn btn-outline-info" href="{% url 'admin:shifts_shifttemplate_change' object.pk %}">
                     <span class="material-icons button-icon">edit</span>

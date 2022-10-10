@@ -3,6 +3,10 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 
+{% block title %}
+    {% translate 'Shift exemption' %}: {{ object.shift_user_data.user.get_display_name }}
+{% endblock %}
+
 {% block content %}
     <div class="container">
         <div class="card mb-2" id="shift_exemption_form">

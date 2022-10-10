@@ -4,6 +4,14 @@
 {% load i18n %}
 {% load static %}
 
+{% block title %}
+    {% if form.instance.pk %}
+        {% translate "Edit applicant" %}: {{ form.instance.get_display_name }}
+    {% else %}
+        {% translate 'Create applicant' %}
+    {% endif %}
+{% endblock %}
+
 {% block head %}
     {{ block.super }}
     <script src="{% static 'coop/js/draftuser_form.js' %}"></script>
@@ -15,8 +23,8 @@
         <div class="card mb-2">
             <h5 class="card-header">
                 {% if form.instance.pk %}
-                    Editing
-                    <a href="{{ form.instance.user.get_absolute_url }}">{{ form.instance.user.get_full_name }}</a>
+                    {% translate 'Edit applicant' %}:
+                    <a href="{{ form.instance.get_absolute_url }}">{{ form.instance.get_display_name }}</a>
                 {% else %}
                     {% translate 'Create applicant' %}
                 {% endif %}

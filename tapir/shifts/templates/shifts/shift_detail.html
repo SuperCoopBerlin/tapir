@@ -4,6 +4,10 @@
 {% load i18n %}
 {% load core %}
 
+{% block title %}
+    {% translate 'Shift' %}: {{ shift.get_display_name }}
+{% endblock %}
+
 {% block head %}
     <style>
         .shift-centered-content {
@@ -24,7 +28,7 @@
     <div class="card mb-2" id="shift_detail_card">
         <div class="card-header">
             <h5 class="d-flex justify-content-between align-items-center">
-                <span id="shift_card_title">Shift: {{ shift.get_display_name }}</span>
+                <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 {% if perms.shifts.manage %}
                     <span>
                         <a class="btn tapir-btn btn-outline-secondary"

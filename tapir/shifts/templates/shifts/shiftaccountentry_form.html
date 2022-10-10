@@ -3,6 +3,10 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 
+{% block title %}
+    {% translate "Shift account: " %}{{ user.get_display_name }}
+{% endblock %}
+
 {% block head %}
     {{ form.media }}
 {% endblock %}

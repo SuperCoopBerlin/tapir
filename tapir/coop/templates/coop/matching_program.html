@@ -5,6 +5,10 @@
 {% load i18n %}
 {% load static %}
 
+{% block title %}
+    {% translate "Matching program" %}
+{% endblock %}
+
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">

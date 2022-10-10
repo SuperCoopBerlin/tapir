@@ -6,6 +6,10 @@
 {% load shifts %}
 {% load coop %}
 
+{% block title %}
+    {% translate 'ABCD weeks calendar' %}
+{% endblock %}
+
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/calendar.css' %}">
