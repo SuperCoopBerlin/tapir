@@ -50,7 +50,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
             first_name=draft_user.first_name, last_name=draft_user.last_name
         )
         self.assertEqual(
-            share_owners.count(), 1, "The share owner should have been created"
+            share_owners.count(), 1, "The shareowner should have been created"
         )
 
         share_owner = share_owners.first()
@@ -63,7 +63,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
             DraftUser.objects.filter(
                 first_name=draft_user.first_name, last_name=draft_user.last_name
             ).exists(),
-            "After creating the share owner, the draft user should have been destroyed",
+            "After creating the shareowner, the draft user should have been destroyed",
         )
 
         for attribute in ShareOwnerFactory.ATTRIBUTES:
@@ -74,7 +74,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
             )
 
         self.assertEqual(
-            ShareOwnership.objects.filter(owner=share_owner).count(),
+            ShareOwnership.objects.filter(share_owner=share_owner).count(),
             draft_user.num_shares,
             "The ShareOwner should have the number of shares requested by the DraftUser",
         )
@@ -100,7 +100,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
             amount_paid = COOP_SHARE_PRICE if paid_shares else 0
             self.assertEqual(
                 ShareOwnership.objects.filter(
-                    owner=share_owner, amount_paid=amount_paid
+                    share_owner=share_owner, amount_paid=amount_paid
                 ).count(),
                 draft_user.num_shares,
                 "The created shares should not be paid",

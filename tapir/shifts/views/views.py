@@ -118,21 +118,21 @@ def set_user_attendance_mode_regular(request, user_pk):
 
 
 def _set_user_attendance_mode(request, user_pk, attendance_mode):
-    u = get_object_or_404(TapirUser, pk=user_pk)
-    old_shift_user_data = freeze_for_log(u.shift_user_data)
+    user = get_object_or_404(TapirUser, pk=user_pk)
+    old_shift_user_data = freeze_for_log(user.shift_user_data)
 
     with transaction.atomic():
-        u.shift_user_data.attendance_mode = attendance_mode
-        u.shift_user_data.save()
+        user.shift_user_data.attendance_mode = attendance_mode
+        user.shift_user_data.save()
         log_entry = UpdateShiftUserDataLogEntry().populate(
             actor=request.user,
-            user=u,
+            user=user,
             old_frozen=old_shift_user_data,
-            new_model=u.shift_user_data,
+            new_model=user.shift_user_data,
         )
         log_entry.save()
 
-    return redirect(u)
+    return redirect(user)
 
 
 class UserShiftAccountLog(PermissionRequiredMixin, TemplateView):

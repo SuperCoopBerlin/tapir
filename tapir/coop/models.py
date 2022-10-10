@@ -20,7 +20,7 @@ from tapir.utils.user_utils import UserUtils
 
 
 class ShareOwner(models.Model):
-    """ShareOwner represents an owner of a ShareOwnership.
+    """ShareOwner represents an share_owner of a ShareOwnership.
 
     Usually, this is just a proxy for the associated user. However, it may also be used to
     represent a person or company that does not have their own account.
@@ -178,7 +178,7 @@ class ShareOwner(models.Model):
         return self.share_ownerships.active_temporal()
 
     def num_shares(self) -> int:
-        return ShareOwnership.objects.active_temporal().filter(owner=self).count()
+        return ShareOwnership.objects.active_temporal().filter(share_owner=self).count()
 
     def get_member_status(self):
         # Here we try to use only share_ownerships.all() without filter or count(),
@@ -244,7 +244,7 @@ class UpdateShareOwnerLogEntry(UpdateModelLogEntry):
 class ShareOwnership(DurationModelMixin, models.Model):
     """ShareOwnership represents ownership of a single share."""
 
-    owner = models.ForeignKey(
+    share_owner = models.ForeignKey(
         ShareOwner,
         related_name="share_ownerships",
         blank=False,
@@ -277,7 +277,7 @@ class ShareOwnership(DurationModelMixin, models.Model):
 
 class DeleteShareOwnershipLogEntry(ModelLogEntry):
     template_name = "coop/log/delete_share_ownership_log_entry.html"
-    exclude_fields = ["id", "owner"]
+    exclude_fields = ["id", "share_owner"]
 
 
 class DraftUser(models.Model):

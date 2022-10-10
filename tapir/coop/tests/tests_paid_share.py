@@ -9,7 +9,7 @@ class PaidShareTests(TapirFactoryTestBase):
     def test_create_share_owner_with_unpaid_shares(self):
         draft_user = DraftUserFactory.create(paid_shares=False)
         share_owner = create_share_owner_and_shares_from_draft_user(draft_user)
-        for ownership in ShareOwnership.objects.filter(owner=share_owner):
+        for ownership in ShareOwnership.objects.filter(share_owner=share_owner):
             self.assertEqual(
                 0,
                 ownership.amount_paid,
@@ -19,7 +19,7 @@ class PaidShareTests(TapirFactoryTestBase):
     def test_create_share_owner_with_paid_shares(self):
         draft_user = DraftUserFactory.create(paid_shares=True)
         share_owner = create_share_owner_and_shares_from_draft_user(draft_user)
-        for ownership in ShareOwnership.objects.filter(owner=share_owner):
+        for ownership in ShareOwnership.objects.filter(share_owner=share_owner):
             self.assertEqual(
                 COOP_SHARE_PRICE,
                 ownership.amount_paid,

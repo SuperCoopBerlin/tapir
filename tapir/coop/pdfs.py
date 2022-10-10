@@ -8,14 +8,14 @@ from tapir.utils.pdfs import render_pdf
 
 
 def get_shareowner_membership_confirmation_pdf(
-    owner: ShareOwner, num_shares: int, date: datetime.date
+    share_owner: ShareOwner, num_shares: int, date: datetime.date
 ):
     templates = [
         "coop/pdf/membership_confirmation_pdf.html",
         "coop/pdf/membership_confirmation_pdf.default.html",
     ]
     context = {
-        "owner": owner,
+        "share_owner": share_owner,
         "num_shares": num_shares,
         "date": date,
         "COOP_NAME": settings.COOP_NAME,
@@ -27,17 +27,17 @@ def get_shareowner_membership_confirmation_pdf(
     return render_pdf(
         templates=templates,
         context=context,
-        language=owner.preferred_language,
+        language=share_owner.preferred_language,
     )
 
 
-def get_membership_agreement_pdf(owner=None, num_shares=1):
+def get_membership_agreement_pdf(share_owner=None, num_shares=1):
     templates = [
         "coop/pdf/membership_agreement_pdf.html",
         "coop/pdf/membership_agreement_pdf.default.html",
     ]
     context = {
-        "owner": owner,
+        "share_owner": share_owner,
         "coop_full_name": settings.COOP_FULL_NAME,
         "coop_street": settings.COOP_STREET,
         "coop_place": settings.COOP_PLACE,

@@ -213,7 +213,7 @@ def populate_users():
 
         for _ in range(json_user.num_shares):
             ShareOwnership.objects.create(
-                owner=share_owner,
+                share_owner=share_owner,
                 start_date=start_date,
                 end_date=end_date,
             )

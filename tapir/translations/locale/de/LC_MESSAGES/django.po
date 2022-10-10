@@ -1059,7 +1059,7 @@ msgstr "Zur Nutzer*innen-Seite"
 
 #: coop/templates/coop/shareowner_form.html:8
 #: coop/templates/coop/shareowner_form.html:16
-msgid "Edit share owner"
+msgid "Edit shareowner"
 msgstr "Mitglied bearbeiten"
 
 #: coop/templates/coop/shareowner_list.html:11 core/templatetags/core.py:36

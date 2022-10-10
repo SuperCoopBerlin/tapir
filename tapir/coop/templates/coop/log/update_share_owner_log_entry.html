@@ -1,4 +1,6 @@
-Update Share Owner:
+{% load i18n %}
+
+{% translate "Update Member:" %}:
 {% for change in changes %}
     <strong>{{ change.0 }}</strong>: {{ change.1 }} → {{ change.2 }}<br />
 {% endfor %}
