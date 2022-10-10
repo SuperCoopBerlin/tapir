@@ -14,6 +14,7 @@ from django_tables2 import SingleTableView
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
 from tapir.coop.models import IncomingPayment, ShareOwner, CreatePaymentLogEntry
+from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
 
@@ -21,7 +22,7 @@ from tapir.utils.forms import DateFromToRangeFilterTapir
 class IncomingPaymentTable(django_tables2.Table):
     class Meta:
         model = IncomingPayment
-        template_name = "django_tables2/bootstrap4.html"
+        template_name = TAPIR_TABLE_TEMPLATE
         fields = [
             "id",
             "paying_member",
@@ -33,6 +34,7 @@ class IncomingPaymentTable(django_tables2.Table):
             "created_by",
         ]
         order_by = "-payment_date"
+        attrs = {"class": TAPIR_TABLE_CLASSES}
 
     def before_render(self, request):
         self.request = request

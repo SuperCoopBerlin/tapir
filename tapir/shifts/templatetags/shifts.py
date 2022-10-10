@@ -106,6 +106,9 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
     if fill_parent:
         style = "height:100%; width: 100%;"
 
+    if not shift.is_in_the_future():
+        filter_classes.add("is_in_the_past")
+
     return {
         "attendances": attendances,
         "name": shift.name,

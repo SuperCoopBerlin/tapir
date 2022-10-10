@@ -2,6 +2,7 @@
 
 {% load django_bootstrap5 %}
 {% load i18n %}
+{% load core %}
 
 {% block head %}
     {{ form.media }}
@@ -25,7 +26,7 @@
                 </li>
             {% endif %}
             <li class="list-group-item">
-                <table class="table" aria-label="{% translate 'List of slots for this ABCD shifts' %}">
+                <table class="{% tapir_table_classes %}" aria-label="{% translate 'List of slots for this ABCD shifts' %}">
                     <thead>
                     <tr>
                         <th></th>

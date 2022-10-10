@@ -32,76 +32,78 @@ class TestShareOwnerList(TapirFactoryTestBase):
     def test_has_unpaid_shares(self):
         # We must create several members, because if the filters only give one result back
         # we get redirected to the user's page directly
-        owners_with_unpaid_share = []
+        share_owners_with_unpaid_share = []
         for _ in range(2):
-            owner = ShareOwnerFactory.create()
-            owners_with_unpaid_share.append(owner)
-            shares = ShareOwnership.objects.filter(owner=owner)
+            share_owner = ShareOwnerFactory.create()
+            share_owners_with_unpaid_share.append(share_owner)
+            shares = ShareOwnership.objects.filter(share_owner=share_owner)
             for share in shares:
                 share.amount_paid = 0 if share == shares.first() else COOP_SHARE_PRICE
                 share.save()
 
-        owners_with_all_paid_share = []
+        share_owners_with_all_paid_share = []
         for _ in range(2):
-            owner = ShareOwnerFactory.create()
-            owners_with_all_paid_share.append(owner)
-            for share in ShareOwnership.objects.filter(owner=owner):
+            share_owner = ShareOwnerFactory.create()
+            share_owners_with_all_paid_share.append(share_owner)
+            for share in ShareOwnership.objects.filter(share_owner=share_owner):
                 share.amount_paid = COOP_SHARE_PRICE
                 share.save()
 
         self.visit_view(
             {"has_unpaid_shares": True},
-            must_be_in=owners_with_unpaid_share,
-            must_be_out=owners_with_all_paid_share,
+            must_be_in=share_owners_with_unpaid_share,
+            must_be_out=share_owners_with_all_paid_share,
         )
         self.visit_view(
             {"has_unpaid_shares": False},
-            must_be_in=owners_with_all_paid_share,
-            must_be_out=owners_with_unpaid_share,
+            must_be_in=share_owners_with_all_paid_share,
+            must_be_out=share_owners_with_unpaid_share,
         )
 
     def test_is_fully_paid(self):
         # We must create several members, because if the filters only give one result back
         # we get redirected to the user's page directly
-        owners_with_unpaid_share = []
+        share_owners_with_unpaid_share = []
         for shares in range(1, 3):
-            owner = ShareOwnerFactory.create(nb_shares=shares)
+            share_owner = ShareOwnerFactory.create(nb_shares=shares)
             self.assertEqual(
-                owner.get_currently_paid_amount(), 0
+                share_owner.get_currently_paid_amount(), 0
             )  # should have no amount before...
-            self.create_incoming_payment(owner, 0)
-            self.assertEqual(owner.get_currently_paid_amount(), 0)  # ... and after
-            owners_with_unpaid_share.append(owner)
+            self.create_incoming_payment(share_owner, 0)
+            self.assertEqual(
+                share_owner.get_currently_paid_amount(), 0
+            )  # ... and after
+            share_owners_with_unpaid_share.append(share_owner)
 
-        owners_with_partially_paid_share = []
+        share_owners_with_partially_paid_share = []
         for shares in range(1, 3):
-            owner = ShareOwnerFactory.create(nb_shares=shares)
-            self.create_incoming_payment(owner, 55)
-            self.assertEqual(owner.get_currently_paid_amount(), 55)
-            owners_with_partially_paid_share.append(owner)
+            share_owner = ShareOwnerFactory.create(nb_shares=shares)
+            self.create_incoming_payment(share_owner, 55)
+            self.assertEqual(share_owner.get_currently_paid_amount(), 55)
+            share_owners_with_partially_paid_share.append(share_owner)
 
-        owners_with_all_paid_share = []
+        share_owners_with_all_paid_share = []
         for shares in range(1, 3):
-            owner = ShareOwnerFactory.create(nb_shares=shares)
+            share_owner = ShareOwnerFactory.create(nb_shares=shares)
             amount = shares * COOP_SHARE_PRICE + COOP_ENTRY_AMOUNT
-            self.create_incoming_payment(owner, amount)
-            self.assertEqual(owner.get_currently_paid_amount(), amount)
-            owners_with_all_paid_share.append(owner)
+            self.create_incoming_payment(share_owner, amount)
+            self.assertEqual(share_owner.get_currently_paid_amount(), amount)
+            share_owners_with_all_paid_share.append(share_owner)
 
         self.visit_view(
             {"is_fully_paid": True},
-            must_be_out=owners_with_unpaid_share,
-            must_be_in=owners_with_all_paid_share,
+            must_be_out=share_owners_with_unpaid_share,
+            must_be_in=share_owners_with_all_paid_share,
         )
         self.visit_view(
             {"is_fully_paid": False},
-            must_be_out=owners_with_all_paid_share,
-            must_be_in=owners_with_unpaid_share,
+            must_be_out=share_owners_with_all_paid_share,
+            must_be_in=share_owners_with_unpaid_share,
         )
         self.visit_view(
             {"is_fully_paid": False},
-            must_be_out=owners_with_all_paid_share,
-            must_be_in=owners_with_partially_paid_share,
+            must_be_out=share_owners_with_all_paid_share,
+            must_be_in=share_owners_with_partially_paid_share,
         )
 
     @staticmethod
@@ -153,14 +155,14 @@ class TestShareOwnerList(TapirFactoryTestBase):
         )
 
     def test_has_qualification(self):
-        owners_with_capability = [
+        share_owners_with_capability = [
             TapirUserFactory.create(
                 shift_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR]
             ).share_owner
             for _ in range(2)
         ]
 
-        owners_without_capability = [
+        share_owners_without_capability = [
             TapirUserFactory.create(
                 shift_capabilities=[ShiftUserCapability.CASHIER]
             ).share_owner,
@@ -169,53 +171,55 @@ class TestShareOwnerList(TapirFactoryTestBase):
 
         self.visit_view(
             {"has_capability": ShiftUserCapability.SHIFT_COORDINATOR},
-            must_be_in=owners_with_capability,
-            must_be_out=owners_without_capability,
+            must_be_in=share_owners_with_capability,
+            must_be_out=share_owners_without_capability,
         )
 
     def test_has_status(self):
-        owners_with_status_sold = [
+        share_owners_with_status_sold = [
             ShareOwnerFactory.create(),
             TapirUserFactory.create().share_owner,
         ]
         for share_ownership in ShareOwnership.objects.filter(
-            owner__in=owners_with_status_sold
+            share_owner__in=share_owners_with_status_sold
         ):
             share_ownership.end_date = timezone.now() - datetime.timedelta(days=1)
             share_ownership.save()
 
-        owners_with_status_investing = [
+        share_owners_with_status_investing = [
             ShareOwnerFactory.create(),
             TapirUserFactory.create().share_owner,
         ]
-        for owner in owners_with_status_investing:
-            owner.is_investing = True
-            owner.save()
+        for share_owner in share_owners_with_status_investing:
+            share_owner.is_investing = True
+            share_owner.save()
 
-        owners_with_status_active = [
+        share_owners_with_status_active = [
             ShareOwnerFactory.create(),
             TapirUserFactory.create().share_owner,
         ]
-        for owner in owners_with_status_active:
-            owner.is_investing = False
-            owner.save()
+        for share_owner in share_owners_with_status_active:
+            share_owner.is_investing = False
+            share_owner.save()
 
         self.visit_view(
             {"status": MemberStatus.SOLD},
-            must_be_in=owners_with_status_sold,
-            must_be_out=owners_with_status_investing + owners_with_status_active,
+            must_be_in=share_owners_with_status_sold,
+            must_be_out=share_owners_with_status_investing
+            + share_owners_with_status_active,
         )
 
         self.visit_view(
             {"status": MemberStatus.ACTIVE},
-            must_be_in=owners_with_status_active,
-            must_be_out=owners_with_status_investing + owners_with_status_sold,
+            must_be_in=share_owners_with_status_active,
+            must_be_out=share_owners_with_status_investing
+            + share_owners_with_status_sold,
         )
 
         self.visit_view(
             {"status": MemberStatus.INVESTING},
-            must_be_in=owners_with_status_investing,
-            must_be_out=owners_with_status_active + owners_with_status_sold,
+            must_be_in=share_owners_with_status_investing,
+            must_be_out=share_owners_with_status_active + share_owners_with_status_sold,
         )
 
     def test_attended_welcome_session(self):
@@ -243,16 +247,16 @@ class TestShareOwnerList(TapirFactoryTestBase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
-        for owner in must_be_in:
+        for share_owner in must_be_in:
             self.assertIn(
-                owner,
+                share_owner,
                 response.context["table"].rows.data,
-                f"{owner.get_display_name()} should show up in the list filtered by {query_dictionary.urlencode()}.",
+                f"{share_owner.get_display_name()} should show up in the list filtered by {query_dictionary.urlencode()}.",
             )
-        for owner in must_be_out:
+        for share_owner in must_be_out:
             self.assertNotIn(
-                owner,
+                share_owner,
                 response.context["table"].rows.data,
-                f"{owner.get_display_name()} should not show up in the list filtered by {query_dictionary.urlencode()}.",
+                f"{share_owner.get_display_name()} should not show up in the list filtered by {query_dictionary.urlencode()}.",
             )
         return response
