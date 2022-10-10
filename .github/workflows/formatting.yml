@@ -1,14 +1,13 @@
-name: Run Tests
+name: Run black formatting check
 
 on: push
 
 jobs:
   test:
-    name: Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Run Test
+      - name: Run formatting check
         run: docker-compose run web make test-lint
