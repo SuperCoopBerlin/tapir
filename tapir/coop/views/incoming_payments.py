@@ -33,7 +33,7 @@ class IncomingPaymentTable(django_tables2.Table):
             "comment",
             "created_by",
         ]
-        order_by = "payment_date"
+        order_by = "-payment_date"
         attrs = {"class": TAPIR_TABLE_CLASSES}
 
     def before_render(self, request):

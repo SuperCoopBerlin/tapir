@@ -1,12 +1,12 @@
 from django.core.management.base import BaseCommand
 
 from tapir import settings
-from tapir.utils.management.commands.populate_functions import (
-    populate_users,
-    populate_template_groups,
-    populate_shift_templates,
-    populate_shifts,
-    populate_user_shifts,
+from tapir.utils.management.commands.generate_test_data_functions import (
+    generate_test_users,
+    generate_test_template_groups,
+    generate_test_shift_templates,
+    generate_test_shifts,
+    generate_test_user_shifts,
     delete_templates,
     generate_shifts,
     clear_data,
@@ -39,7 +39,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--user_shifts",
-            help="Register the given users to the shifts created with the 'populate shifts' command",
+            help="Register the given users to the shifts created with the 'generate_test_data shifts' command",
         )
         parser.add_argument(
             "--delete_templates", help="Delete all ShiftTemplates", action="store_true"
@@ -56,7 +56,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             "--reset_all",
-            help="Runs --clear then populate most models",
+            help="Runs --clear then generated test data for most models",
             action="store_true",
         )
 
@@ -68,15 +68,15 @@ class Command(BaseCommand):
             return
 
         if options["users"]:
-            populate_users()
+            generate_test_users()
         if options["shift_template_groups"]:
-            populate_template_groups()
+            generate_test_template_groups()
         if options["shift_templates"]:
-            populate_shift_templates()
+            generate_test_shift_templates()
         if options["shifts"]:
-            populate_shifts()
+            generate_test_shifts()
         if options["user_shifts"]:
-            populate_user_shifts(options["user_shifts"])
+            generate_test_user_shifts(options["user_shifts"])
         if options["delete_templates"]:
             delete_templates()
         if options["generate_shifts"]:

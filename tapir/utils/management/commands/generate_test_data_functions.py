@@ -37,7 +37,7 @@ def delete_templates():
     ShiftTemplate.objects.all().delete()
 
 
-def populate_shifts():
+def generate_test_shifts():
     for delta in range(-7, 7):
         date = datetime.date.today() - datetime.timedelta(days=delta)
         morning = datetime.datetime.combine(
@@ -82,10 +82,10 @@ def populate_shifts():
         for _ in range(3):
             ShiftSlot.objects.create(shift=shift, optional=False)
 
-    print("Populated shift templates for today")
+    print("Generated test shifts")
 
 
-def populate_user_shifts(user_id):
+def generate_test_user_shifts(user_id):
     user = TapirUser.objects.get(pk=user_id)
 
     date = datetime.date.today() - datetime.timedelta(days=4)
@@ -135,15 +135,15 @@ def populate_user_shifts(user_id):
         shift=shift, user=user, state=ShiftAttendance.State.PENDING
     )
 
-    print("Populated user " + user.username + "(id=" + str(user_id) + ") shifts")
+    print("Generated test user " + user.username + "(id=" + str(user_id) + ") shifts")
 
 
-def populate_template_groups():
+def generate_test_template_groups():
     ShiftTemplateGroup.objects.all().delete()
     for week in ["A", "B", "C", "D"]:
         ShiftTemplateGroup.objects.get_or_create(name=week)
 
-    print("Populated template groups")
+    print("Generated test template groups")
 
 
 def get_test_users():
@@ -160,7 +160,7 @@ def get_test_users():
 USER_COUNT = 400
 
 
-def populate_users():
+def generate_test_users():
     # Users generated with https://randomuser.me
     print(f"Creating {USER_COUNT} users, this may take a while")
 
@@ -251,9 +251,9 @@ def populate_users():
     print("Created fake users")
 
 
-def populate_shift_templates():
+def generate_test_shift_templates():
     if ShiftTemplateGroup.objects.count() < 4:
-        populate_template_groups()
+        generate_test_template_groups()
 
     slot_name_warenannahme = "Warenannahme & Lager"
     slot_name_cashier = "Kasse"
@@ -321,7 +321,7 @@ def populate_shift_templates():
                             optional=index > 0,
                         )
 
-    print("Populated shift templates")
+    print("Generated test shift templates")
 
 
 def generate_shifts(print_progress=False):
@@ -339,7 +339,7 @@ def generate_shifts(print_progress=False):
         print("Generated shifts")
 
 
-def populate_applicants():
+def generate_test_applicants():
     parsed_users = get_test_users()
     for index, parsed_user in enumerate(parsed_users[USER_COUNT : USER_COUNT + 50]):
         json_user = JsonUser(parsed_user)
@@ -378,8 +378,8 @@ def clear_data():
 def reset_all_test_data():
     random.seed("supercoop")
     clear_data()
-    populate_template_groups()
-    populate_shift_templates()
+    generate_test_template_groups()
+    generate_test_shift_templates()
     generate_shifts(True)
-    populate_users()
-    populate_applicants()
+    generate_test_users()
+    generate_test_applicants()
