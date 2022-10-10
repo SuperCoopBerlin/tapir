@@ -348,9 +348,6 @@ class ShiftSlotTemplate(models.Model):
         null=False,
     )
 
-    # Whether this ShiftSlot is required to be filled
-    optional = models.BooleanField(default=False)
-
     def get_required_capabilities_display(self):
         return ", ".join(
             [SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.required_capabilities]
@@ -394,7 +391,6 @@ class ShiftSlotTemplate(models.Model):
             shift=shift,
             required_capabilities=self.required_capabilities,
             warnings=self.warnings,
-            optional=self.optional,
         )
 
     def delete_self_and_warn_about_users_loosing_their_slots(
@@ -535,7 +531,7 @@ class Shift(models.Model):
         display_name = "%s [%d/%d]" % (
             display_name,
             self.get_valid_attendances().count(),
-            self.get_required_slots().count(),
+            self.slots.count(),
         )
 
         return display_name
@@ -552,12 +548,6 @@ class Shift(models.Model):
 
     def get_absolute_url(self):
         return reverse("shifts:shift_detail", args=[self.pk])
-
-    def get_required_slots(self):
-        return self.slots.filter(optional=False)
-
-    def get_optional_slots(self):
-        return self.slots.filter(optional=True)
 
     def get_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return ShiftAttendance.objects.filter(slot__shift=self)
@@ -630,9 +620,6 @@ class ShiftSlot(models.Model):
         blank=True,
         null=False,
     )
-
-    # Whether this ShiftSlot is required to be filled
-    optional = models.BooleanField(default=False)
 
     def get_required_capabilities_display(self):
         return ", ".join(

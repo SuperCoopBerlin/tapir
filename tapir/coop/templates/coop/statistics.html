@@ -150,9 +150,9 @@
                 </h5>
                 <div class="card-body">
                     <ul>
-                        {% for owner in extra_shares.members %}
+                        {% for share_owner in extra_shares.members %}
                             <li>
-                                <a href="{{ owner.get_info.get_absolute_url }}">{{ owner.get_info.get_display_name }}</a>
+                                <a href="{{ share_owner.get_info.get_absolute_url }}">{{ share_owner.get_info.get_display_name }}</a>
                             </li>
                         {% endfor %}
                     </ul>

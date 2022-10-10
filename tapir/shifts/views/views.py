@@ -21,6 +21,7 @@ from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
+from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.shifts.forms import (
@@ -118,21 +119,21 @@ def set_user_attendance_mode_regular(request, user_pk):
 
 
 def _set_user_attendance_mode(request, user_pk, attendance_mode):
-    u = get_object_or_404(TapirUser, pk=user_pk)
-    old_shift_user_data = freeze_for_log(u.shift_user_data)
+    user = get_object_or_404(TapirUser, pk=user_pk)
+    old_shift_user_data = freeze_for_log(user.shift_user_data)
 
     with transaction.atomic():
-        u.shift_user_data.attendance_mode = attendance_mode
-        u.shift_user_data.save()
+        user.shift_user_data.attendance_mode = attendance_mode
+        user.shift_user_data.save()
         log_entry = UpdateShiftUserDataLogEntry().populate(
             actor=request.user,
-            user=u,
+            user=user,
             old_frozen=old_shift_user_data,
-            new_model=u.shift_user_data,
+            new_model=user.shift_user_data,
         )
         log_entry.save()
 
-    return redirect(u)
+    return redirect(user)
 
 
 class UserShiftAccountLog(PermissionRequiredMixin, TemplateView):
@@ -232,7 +233,7 @@ class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView)
 class ShiftUserDataTable(django_tables2.Table):
     class Meta:
         model = ShiftUserData
-        template_name = "django_tables2/bootstrap4.html"
+        template_name = TAPIR_TABLE_TEMPLATE
         fields = [
             "account_balance",
             "attendance_mode",
@@ -243,6 +244,7 @@ class ShiftUserDataTable(django_tables2.Table):
             "attendance_mode",
         )
         order_by = "account_balance"
+        attrs = {"class": TAPIR_TABLE_CLASSES}
 
     display_name = django_tables2.Column(
         empty_values=(), verbose_name="Name", orderable=False

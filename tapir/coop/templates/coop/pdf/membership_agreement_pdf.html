@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Beteiligungserklärung {{ owner.first_name }} {{ owner.last_name }}</title>
+    <title>Beteiligungserklärung {{ share_owner.first_name }} {{ share_owner.last_name }}</title>
     <link rel="stylesheet" href="{% static 'coop/css/membership_agreement_pdf.css' %}">
 </head>
 <body>
@@ -18,13 +18,13 @@
 <!-- A DIN 5008 Letter has 2,7cm of top margin -->
 <div style="display: flex">
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
-        {% if owner %}
+        {% if share_owner %}
         <span style="font-size: 6pt;">
-            {{ owner.first_name }} {{ owner.last_name }},
-            {% if owner.street and owner.city %}
-                {% if owner.street_2 %} {{ owner.street_2 }},{% endif %}
-                {{ owner.street }},
-                {{ owner.postcode }} {{ owner.city }}
+            {{ share_owner.first_name }} {{ share_owner.last_name }},
+            {% if share_owner.street and share_owner.city %}
+                {% if share_owner.street_2 %} {{ share_owner.street_2 }},{% endif %}
+                {{ share_owner.street }},
+                {{ share_owner.postcode }} {{ share_owner.city }}
             {% endif %}
         </span>
         {% endif %}
@@ -49,14 +49,14 @@
         <div style="display: flex; flex-direction: row;">
             <div style="margin-right: 3mm;">Vorname und Name:</div>
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
-                <span style="margin-left: 5mm;">{{ owner.first_name }} {{ owner.last_name }}</span>
+                <span style="margin-left: 5mm;">{{ share_owner.first_name }} {{ share_owner.last_name }}</span>
             </div>
 
             <div style="margin-right: 3mm; margin-left: 3mm;">geboren am:</div>
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
                 <span style="margin-left: 5mm;">
-                    {% if owner.birthdate %}
-                    {{ owner.birthdate }}
+                    {% if share_owner.birthdate %}
+                    {{ share_owner.birthdate }}
                     {% endif %}
                 </span>
             </div>
@@ -78,9 +78,9 @@
             <div style="margin-right: 3mm;">Adresse:</div>
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
                 <span style="margin-left: 5mm;">
-                    {% if owner.street and owner.city %}
-                    {{ owner.street }}{% if owner.street_2 %} {{ owner.street_2 }}{% endif %},
-                        {{ owner.postcode }} {{ owner.city }}
+                    {% if share_owner.street and share_owner.city %}
+                    {{ share_owner.street }}{% if share_owner.street_2 %} {{ share_owner.street_2 }}{% endif %},
+                        {{ share_owner.postcode }} {{ share_owner.city }}
                     {% endif %}
                 </span>
             </div>
@@ -89,13 +89,13 @@
         <div style="display: flex; flex-direction: row;">
             <div style="margin-right: 3mm;">E-Mail:</div>
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
-                <span style="margin-left: 5mm;">{{ owner.email }}</span>
+                <span style="margin-left: 5mm;">{{ share_owner.email }}</span>
             </div>
 
             <div style="margin-right: 3mm; margin-left: 3mm;">Telefon:</div>
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
                 <span style="margin-left: 5mm;">
-                    {{ owner.phone_number|format_phone_number }}
+                    {{ share_owner.phone_number|format_phone_number }}
                 </span>
             </div>
         </div>
@@ -104,18 +104,18 @@
     <div style="display: flex; flex-direction: row; margin-top: 10mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span style="position: absolute; left: 2mm;" class="material-icons">check_box_outline_blank</span>
-            {% if owner and not owner.share_ownerships%}
+            {% if share_owner and not share_owner.share_ownerships%}
             <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
         <div style="flex: 1">
             Ich beantrage hiermit die Aufnahme in die {{coop_full_name}}. Ich möchte mich mit insgesamt
-            <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">{{ owner.num_shares }}</span>
+            <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">{{ share_owner.num_shares }}</span>
             Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen
             in Höhe von 100 € je Geschäftsanteil plus einem Eintrittsgeld in Höhe von 10 € zu leisten, das der Deckung von
             Verwaltungskosten dient. Insgesamt verpflichte ich mich daher,
             <span style="display: inline-block; width: 20mm; border-bottom: 2px solid black; text-align: center;">
-            {{ owner.get_initial_amount|floatformat:0 }}
+            {{ share_owner.get_initial_amount|floatformat:0 }}
             </span>€
             zu leisten. Die Satzung von {{coop_full_name}} ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
             <a href="https://supercoop.de/unsere-genossenschaft/">https://supercoop.de/unsere-genossenschaft/</a>
@@ -125,7 +125,7 @@
     <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
-            {% if owner.share_ownerships %}
+            {% if share_owner.share_ownerships %}
                 <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
@@ -145,7 +145,7 @@
     <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
-            {% if owner.is_investing %}
+            {% if share_owner.is_investing %}
                 <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
@@ -159,7 +159,7 @@
     <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span style="position: absolute; left: 2mm;" class="material-icons">check_box_outline_blank</span>
-            {% if owner %}
+            {% if share_owner %}
             <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
@@ -173,13 +173,13 @@
     <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
-            {% if owner.ratenzahlung %}
+            {% if share_owner.ratenzahlung %}
                 <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
         <div style="flex: 1">
             <span style="display: inline-block; width: 100mm; border-bottom: 2px solid black; text-align: center;">
-            {% if owner.ratenzahlung %}
+            {% if share_owner.ratenzahlung %}
                 Ratenzahlung
             {% endif %}
             </span><br />
@@ -189,7 +189,7 @@
     <div style="display: flex; flex-direction: row; margin-top: 5mm;">
         <div style="margin-right: 8mm; width: 5mm;">
             <span class="material-icons">check_box_outline_blank</span>
-            {% if owner %}
+            {% if share_owner %}
             <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
             {% endif %}
         </div>
@@ -199,7 +199,7 @@
                 Kontoinhaber: {{ coop_full_name }}<br />
                 IBAN: <span style="font-family: monospace">DE98 4306 0967 1121 3790 00</span><br />
                 BIC: <span style="font-family: monospace">GENODEM1GLS</span><br />
-                Betreff: Anteil und Eintrittsgeld {{ owner.first_name }} {{ owner.last_name }}
+                Betreff: Anteil und Eintrittsgeld {{ share_owner.first_name }} {{ share_owner.last_name }}
             </div>
         </div>
     </div>

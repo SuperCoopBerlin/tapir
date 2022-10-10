@@ -54,7 +54,7 @@
     "fields": {
       "start_date": "2021-08-24",
       "end_date": null,
-      "owner": 401
+      "share_owner": 401
     }
   },
   {
@@ -112,7 +112,7 @@
     "fields": {
       "start_date": "2021-08-24",
       "end_date": null,
-      "owner": 402
+      "share_owner": 402
     }
   },
   {

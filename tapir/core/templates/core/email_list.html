@@ -1,6 +1,7 @@
 {% extends "core/base.html" %}
 
 {% load i18n %}
+{% load core %}
 
 {% block title %}
     {% translate "Email list" %}
@@ -29,7 +30,7 @@
             </li>
             <li class="list-group-item">
                 <div class="table-responsive">
-                    <table class="table table-striped" aria-label="{% translate 'List of all emails' %}">
+                    <table class="{% tapir_table_classes %}" aria-label="{% translate 'List of all emails' %}">
                         <thead>
                         <tr>
                             <th>{% translate "Name" %}</th>

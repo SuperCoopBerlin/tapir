@@ -4,15 +4,14 @@
 {% load i18n %}
 
 {% block title %}
-    {% translate "Edit share" %}: {{ form.instance.owner.get_info.get_display_name }}
+    {% translate "Edit share" %}: {{ form.share_owner.owner.get_info.get_display_name }}
 {% endblock %}
 
 {% block content %}
-
     <div class="container">
         <div class="card m-2">
             <h5 class="card-header">
-                {% translate "Edit share" %}: {{ form.instance.owner.get_info.get_display_name }}
+                {% translate "Edit share" %}: {{ form.share_owner.owner.get_info.get_display_name }}
             </h5>
             <div class="card-body">
                 <form role="form" method="post">

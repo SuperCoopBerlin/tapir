@@ -18,10 +18,12 @@ class TestShareOwnerPayments(TapirFactoryTestBase):
             310,
             "Total expected should be 3x share price + entry fee, or 3x100+10",
         )
-        ShareOwnership.objects.create(owner=member, start_date=timezone.now().date())
+        ShareOwnership.objects.create(
+            share_owner=member, start_date=timezone.now().date()
+        )
         self.assertEqual(member.get_total_expected_payment(), 410)
         ShareOwnership.objects.create(
-            owner=ShareOwnerFactory.create(), start_date=timezone.now().date()
+            share_owner=ShareOwnerFactory.create(), start_date=timezone.now().date()
         )
         self.assertEqual(member.get_total_expected_payment(), 410)
 
