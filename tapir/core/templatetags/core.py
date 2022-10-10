@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import FinancingCampaign
+from tapir.core.config import TAPIR_TABLE_CLASSES
 from tapir.core.models import SidebarLinkGroup
 from tapir.shifts.templatetags.shifts import get_current_week_group
 
@@ -165,3 +166,8 @@ def get_sidebar_link_groups(request):
     )
 
     return groups
+
+
+@register.simple_tag
+def tapir_table_classes():
+    return TAPIR_TABLE_CLASSES

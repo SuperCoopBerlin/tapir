@@ -22,41 +22,44 @@
         <div class="card-header d-flex justify-content-between">
             <h5>{% translate "Cooperative Members" %}</h5>
             <div class="btn-group">
-                <button type="button" class="btn tapir-btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                <button type="button" class="btn tapir-btn btn-outline-secondary btn-sm dropdown-toggle"
+                        data-bs-toggle="dropdown">
                     {% translate "Export" %}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
                         <a class="dropdown-item" href="{% export_url format %}">
-                            download  <code>.{{ format }}</code>
+                            download <code>.{{ format }}</code>
                         </a>
                     {% endfor %}
                 </div>
             </div>
         </div>
-        <div class="card-body" id="share_owner_table">
+        <ul class="list-group list-group-flush" id="share_owner_table">
             {% if filter %}
-                <form action="" method="get" class="form member-filter-form">
-                    <div class="member-filter-form-filters">
-                        {% bootstrap_form filter.form %}
-                    </div>
-                    <div class="member-filter-form-buttons">
-                        {% bootstrap_button '<span class="material-icons">filter_alt</span>Filter' button_class="filter-button btn tapir-btn btn-primary"%}
-                        <a class="btn tapir-btn btn-outline-secondary" href="{% url 'coop:shareowner_list' %}">
-                            <span class="material-icons">clear</span>
-                            {% translate "Clear all filters" %}
-                        </a>
-                        <div class="ms-2">
-                            {% blocktranslate %}
-                            Filtered {{ filtered_member_count }} of {{ total_member_count }}
-                            {% endblocktranslate %}
+                <li class="list-group-item">
+                    <form action="" method="get" class="form member-filter-form">
+                        <div class="member-filter-form-filters">
+                            {% bootstrap_form filter.form %}
                         </div>
-                    </div>
-                </form>
+                        <div class="member-filter-form-buttons">
+                            {% bootstrap_button '<span class="material-icons">filter_alt</span>Filter' button_class="filter-button btn tapir-btn btn-primary" %}
+                            <a class="btn tapir-btn btn-outline-secondary" href="{% url 'coop:shareowner_list' %}">
+                                <span class="material-icons">clear</span>
+                                {% translate "Clear all filters" %}
+                            </a>
+                            <div class="ms-2">
+                                {% blocktranslate %}
+                                    Filtered {{ filtered_member_count }} of {{ total_member_count }}
+                                {% endblocktranslate %}
+                            </div>
+                        </div>
+                    </form>
+                </li>
             {% endif %}
-            <div class="table-responsive">
-            {% render_table table %}
-            </div>
-        </div>
+            <li class="list-group-item">
+                {% render_table table %}
+            </li>
+        </ul>
     </div>
 {% endblock %}

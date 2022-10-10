@@ -21,6 +21,7 @@ from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
+from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.shifts.forms import (
@@ -232,7 +233,7 @@ class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView)
 class ShiftUserDataTable(django_tables2.Table):
     class Meta:
         model = ShiftUserData
-        template_name = "django_tables2/bootstrap4.html"
+        template_name = TAPIR_TABLE_TEMPLATE
         fields = [
             "account_balance",
             "attendance_mode",
@@ -243,6 +244,7 @@ class ShiftUserDataTable(django_tables2.Table):
             "attendance_mode",
         )
         order_by = "account_balance"
+        attrs = {"class": TAPIR_TABLE_CLASSES}
 
     display_name = django_tables2.Column(
         empty_values=(), verbose_name="Name", orderable=False

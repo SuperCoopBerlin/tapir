@@ -2,6 +2,7 @@
 
 {% load django_bootstrap5 %}
 {% load i18n %}
+{% load core %}
 
 {% block content %}
     <div class="card mb-2" id="user_shift_account_log">
@@ -19,7 +20,7 @@
         </h5>
         <div class="card-body">
 
-            <table class="table" id="attendance_table"
+            <table class="{% tapir_table_classes %}" id="attendance_table"
                    aria-label="{% translate 'List of changes to this members shift account ' %}">
                 <thead>
                 <tr>

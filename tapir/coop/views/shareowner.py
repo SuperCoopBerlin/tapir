@@ -54,6 +54,7 @@ from tapir.coop.models import (
     UpdateShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
 )
+from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
@@ -385,7 +386,7 @@ class CurrentShareOwnerMixin:
 class ShareOwnerTable(django_tables2.Table):
     class Meta:
         model = ShareOwner
-        template_name = "django_tables2/bootstrap4.html"
+        template_name = TAPIR_TABLE_TEMPLATE
         fields = [
             "id",
             "attended_welcome_session",
@@ -407,6 +408,7 @@ class ShareOwnerTable(django_tables2.Table):
             "is_company",
         )
         order_by = "id"
+        attrs = {"class": TAPIR_TABLE_CLASSES}
 
     display_name = django_tables2.Column(
         empty_values=(), verbose_name="Name", orderable=False, exclude_from_export=True
@@ -751,7 +753,7 @@ class ShareOwnerExportMailchimpView(
 class MatchingProgramTable(django_tables2.Table):
     class Meta:
         model = ShareOwner
-        template_name = "django_tables2/bootstrap4.html"
+        template_name = TAPIR_TABLE_TEMPLATE
         fields = [
             "willing_to_gift_a_share",
         ]
@@ -760,6 +762,7 @@ class MatchingProgramTable(django_tables2.Table):
             "willing_to_gift_a_share",
         )
         order_by = "id"
+        attrs = {"class": TAPIR_TABLE_CLASSES}
 
     display_name = django_tables2.Column(
         empty_values=(), verbose_name="Name", orderable=False
@@ -802,7 +805,7 @@ class MatchingProgramListView(PermissionRequiredMixin, SingleTableView):
 class ShareOwnerTableWelcomeDesk(django_tables2.Table):
     class Meta:
         model = ShareOwner
-        template_name = "django_tables2/bootstrap4.html"
+        template_name = TAPIR_TABLE_TEMPLATE
         fields = [
             "id",
         ]
@@ -811,6 +814,7 @@ class ShareOwnerTableWelcomeDesk(django_tables2.Table):
             "display_name",
         )
         order_by = "id"
+        attrs = {"class": TAPIR_TABLE_CLASSES}
 
     display_name = django_tables2.Column(
         empty_values=(), verbose_name="Name", orderable=False
