@@ -5,7 +5,11 @@
 {% load static %}
 
 {% block title %}
-    {% translate "Edit applicant" %}: {{ form.instance.get_display_name }}
+    {% if form.instance.pk %}
+        {% translate "Edit applicant" %}: {{ form.instance.get_display_name }}
+    {% else %}
+        {% translate 'Create applicant' %}
+    {% endif %}
 {% endblock %}
 
 {% block head %}
