@@ -1,18 +1,15 @@
-name: Run tests and SonarCloudScan
+name: Run SonarCloud Scan
 
 on: push
 
 jobs:
-  test_and_scan:
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Run Test
-        run: docker-compose run web make test
-      - name: Override Coverage Source Path for Sonar # Fixes the sonar scan and the coverage.xml file using different base directories.
-        run: sed -i 's/<source>\/app\/tapir<\/source>/<source>\/github\/workspace<\/source>\//g' coverage.xml
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

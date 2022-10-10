@@ -4,5 +4,5 @@ lint:
 test-lint:
 	poetry run black --check .
 
-test: test-lint
+test:
 	poetry run pytest --cov-report xml:coverage.xml
