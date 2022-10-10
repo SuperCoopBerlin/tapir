@@ -2,6 +2,7 @@
 
 {% load django_bootstrap5 %}
 {% load i18n %}
+{% load core %}
 
 {% block head %}
     <style>
@@ -65,7 +66,7 @@
                 </li>
             {% endif %}
             <li class="list-group-item">
-                <table class="table" id="attendance_table" aria-label="{% translate 'List of slots for this shift' %}">
+                <table class="{% tapir_table_classes %}" id="attendance_table" aria-label="{% translate 'List of slots for this shift' %}">
                     <thead>
                     <tr>
                         <th></th>
