@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     "tapir.shifts",
     "tapir.utils",
     "tapir.coop",
-    "tapir.odoo",
     "django_tables2",
     "django_filters",
     "django_select2",  # For autocompletion in form fields
