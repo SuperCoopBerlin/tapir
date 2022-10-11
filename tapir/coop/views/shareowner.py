@@ -681,7 +681,6 @@ class ShareOwnerListView(
     export_formats = ["csv", "json"]
 
     def get(self, request, *args, **kwargs):
-        # TODO(Leon Handreke): Make FilterView properly subclasseable
         response = super().get(request, *args, **kwargs)
         if self.object_list.count() == 1:
             return HttpResponseRedirect(

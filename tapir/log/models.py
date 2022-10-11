@@ -97,7 +97,6 @@ class LogEntry(models.Model):
 
     def render(self):
         """Render this LogEntry"""
-        # TODO: This really belongs in some sort of view class, it's only here for convenience
         return render_to_string(self.template_name, self.get_context_data())
 
 
@@ -120,7 +119,6 @@ class EmailLogEntry(LogEntry):
 
     def get_name(self) -> str:
         # Must import locally to avoid import loop.
-        # TODO find a way to avoid the local import
         from tapir.core.tapir_email_base import all_emails
 
         if self.email_id is not None and self.email_id in all_emails.keys():

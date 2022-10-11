@@ -14,7 +14,6 @@ urlpatterns = [
         views.set_user_attendance_mode_regular,
         name="set_user_attendance_mode_regular",
     ),
-    # TODO(Leon Handreke): Can we somehow introduce a sub-namespace here?
     path("shift/<int:pk>/", views.ShiftDetailView.as_view(), name="shift_detail"),
     path(
         "shift/<int:pk>/printable",

@@ -77,17 +77,6 @@ class LdapUser(AbstractUser):
 
     def has_perm(self, perm, obj=None):
         user_dn = self.get_ldap().build_dn()
-        # TODO(Leon Handreke): This is a case of very aggressive programming, we require both the perm to
-        # be defined in settings and the group to exist. Probably a fair expectation, but explode more
-        # gracefully.
-        # We use a custom permission system based on statically-defined permissions in settings for
-        # these reasons:
-        # 1. Easier to keep an overview of what group is allowed to do what
-        # 2. Permissions must not be tied to models and can therefore be more broad and simple
-        #
-        # TODO(Leon Handreke): Taking the group from LDAP is probably not the smartest move because
-        # I'm about the only person comfortable to use Apache Directory Studio. Move this into
-        # out app and build a nice group management interface?
         for group_cn in settings.PERMISSIONS.get(perm, []):
             if LdapGroup.objects.filter(cn=group_cn).count() == 0:
                 continue
