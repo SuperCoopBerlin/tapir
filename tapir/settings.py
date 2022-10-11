@@ -164,6 +164,10 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
+EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
+EMAIL_ADDRESS_ACCOUNTING = "accounting@supercoop.de"
+EMAIL_ADDRESS_MANAGEMENT = "contact@supercoop.de"
+EMAIL_ADDRESS_SUPERVISORS = "aufsichtsrat@supercoop.de"
 
 # django-environ EMAIL_URL mechanism is a bit hairy with passwords with slashes in them, so use this instead
 EMAIL_ENV = env("EMAIL_ENV", default="dev")
@@ -172,15 +176,12 @@ if EMAIL_ENV == "dev" or EMAIL_ENV == "test":
 elif EMAIL_ENV == "prod":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
     EMAIL_HOST = env("EMAIL_HOST", default="smtp-relay.gmail.com")
-    EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="mitglied@supercoop.de")
+    EMAIL_HOST_USER = env("EMAIL_HOST_USER", default=EMAIL_ADDRESS_MEMBER_OFFICE)
     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
 
-EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
-EMAIL_ADDRESS_ACCOUNTING = "accounting@supercoop.de"
-EMAIL_ADDRESS_MANAGEMENT = "contact@supercoop.de"
-EMAIL_ADDRESS_SUPERVISORS = "aufsichtsrat@supercoop.de"
+
 COOP_NAME = "SuperCoop Berlin"
 COOP_FULL_NAME = "SuperCoop Berlin eG"
 COOP_STREET = "Oudenarder Straße 16"
@@ -193,7 +194,7 @@ DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 ADMINS = tuple(email.utils.parseaddr(x) for x in env.list("DJANGO_ADMINS", default=[]))
 # Crash emails will come from this address.
 # NOTE(Leon Handreke): I don't know if our Google SMTP will reject other senders, so play it safe.
-SERVER_EMAIL = env("SERVER_EMAIL", default="mitglied@supercoop.de")
+SERVER_EMAIL = env("SERVER_EMAIL", default=EMAIL_ADDRESS_MEMBER_OFFICE)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
