@@ -11,6 +11,7 @@ from tapir.shifts.models import (
     WEEKDAY_CHOICES,
     ShiftAttendance,
     ShiftTemplateGroup,
+    ShiftSlot,
 )
 from tapir.utils.shortcuts import get_monday
 
@@ -42,13 +43,6 @@ def shift_name_as_class(shift_name: str) -> str:
 def shift_to_block_object(shift: Shift, fill_parent: bool):
     attendances = {}
 
-    filter_classes = set()
-
-    if shift.cancelled:
-        filter_classes.add("cancelled")
-
-    num_valid_attendances = 0
-
     # order by length of name so that the shift name does not interfere with header
     # we can't use shift.slots.all().order_by(Length("name").asc()),
     # because we that would load the slots again from the database.
@@ -63,38 +57,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         if slot_name not in attendances:
             attendances[slot_name] = []
 
-        attendance = None
-        for a in slot.attendances.all():
-            if a.is_valid():
-                attendance = a
-                break
-
-        if attendance:
-            num_valid_attendances += 1
-
-        if attendance:
-            if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
-                filter_classes.add("freeslot_any")
-                filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
-
-                state = "standin"
-            elif (
-                slot.slot_template is not None
-                and hasattr(slot.slot_template, "attendance_template")
-                and slot.slot_template.attendance_template.user == attendance.user
-            ):
-                state = "regular"
-            else:
-                state = "single"
-        else:
-            filter_classes.add("freeslot_any")
-            filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
-            state = "empty"
-
-        attendances[slot_name].append(state)
-
-    if num_valid_attendances < shift.get_num_required_attendances():
-        filter_classes.add("needs_help")
+        attendances[slot_name].append(get_attendance_state_for_html_icon(slot))
 
     template_group = None
     if shift.shift_template:
@@ -105,9 +68,6 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
     style = ""
     if fill_parent:
         style = "height:100%; width: 100%;"
-
-    if not shift.is_in_the_future():
-        filter_classes.add("is_in_the_past")
 
     return {
         "attendances": attendances,
@@ -120,8 +80,61 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         "style": style,
         "id": shift.id,
         "is_template": False,
-        "filter_classes": filter_classes,
+        "filter_classes": get_html_classes_for_filtering(shift),
     }
+
+
+def get_attendance_state_for_html_icon(slot: ShiftSlot) -> str:
+    attendance = None
+    for a in slot.attendances.all():
+        if a.is_valid():
+            attendance = a
+            break
+
+    if not attendance:
+        return "empty"
+
+    if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
+        return "standin"
+    if (
+        slot.slot_template is not None
+        and hasattr(slot.slot_template, "attendance_template")
+        and slot.slot_template.attendance_template.user == attendance.user
+    ):
+        return "regular"
+    return "single"
+
+
+def get_html_classes_for_filtering(shift: Shift) -> set:
+    if shift.cancelled:
+        return {"cancelled"}
+
+    if not shift.is_in_the_future():
+        return {"is_in_the_past"}
+
+    filter_classes = set()
+    num_valid_attendances = 0
+    for slot in shift.slots.all():
+        valid_attendance = None
+        for a in slot.attendances.all():
+            if a.is_valid():
+                valid_attendance = a
+                break
+
+        if valid_attendance:
+            num_valid_attendances += 1
+
+        if (
+            not valid_attendance
+            or valid_attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN
+        ):
+            filter_classes.add("freeslot_any")
+            filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
+
+    if num_valid_attendances < shift.get_num_required_attendances():
+        filter_classes.add("needs_help")
+
+    return filter_classes
 
 
 def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: bool):
