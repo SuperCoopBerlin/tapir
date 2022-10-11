@@ -162,8 +162,6 @@ class ShiftTemplate(models.Model):
         null=False, blank=False, default=3
     )
 
-    # NOTE(Leon Handreke): This could be expanded in the future to allow more placement strategies
-    # TODO(Leon Handreke): Extra validation to ensure that it is not blank if part of a group
     weekday = models.IntegerField(blank=True, null=True, choices=WEEKDAY_CHOICES)
 
     start_time = models.TimeField(blank=False)
@@ -250,75 +248,6 @@ class ShiftTemplate(models.Model):
         for slot_template in self.slot_templates.all():
             slot_template.update_future_slot_attendances(now)
 
-    def update_slots(
-        self, desired_slots, change_time: datetime.datetime, dry_run=False
-    ):
-        # desired_slots should be a map of slot_name -> target_number_of_slots
-        deletion_warnings = []
-        with transaction.atomic():
-            slots_to_delete = dict()
-            slots_to_create = dict()
-            for slot_name, slot_count in desired_slots.items():
-                current_slots = self.slot_templates.filter(name=slot_name)
-                if current_slots.count() > slot_count:
-                    slots_to_delete[slot_name] = current_slots.count() - slot_count
-                if current_slots.count() < slot_count:
-                    slots_to_create[slot_name] = slot_count - current_slots.count()
-
-            for slot_name, slot_count in slots_to_create.items():
-                for _ in range(slot_count):
-                    if dry_run:
-                        continue
-                    self.add_slot_template(slot_name, change_time)
-
-            for slot_name, slot_count in slots_to_delete.items():
-                nb_slots_left_to_delete = slot_count
-                all_slot_templates = self.slot_templates.filter(name=slot_name)
-                empty_slot_templates = all_slot_templates.filter(
-                    attendance_template__isnull=True
-                )[:nb_slots_left_to_delete]
-
-                for slot_template in empty_slot_templates:
-                    deletion_warnings.extend(
-                        slot_template.delete_self_and_warn_about_users_loosing_their_slots(
-                            change_time, dry_run
-                        )
-                    )
-                    nb_slots_left_to_delete -= 1
-
-                not_empty_slot_templates = all_slot_templates.filter(
-                    attendance_template__isnull=False
-                )[:nb_slots_left_to_delete]
-
-                for slot_template in not_empty_slot_templates:
-                    deletion_warnings.extend(
-                        slot_template.delete_self_and_warn_about_users_loosing_their_slots(
-                            change_time, dry_run
-                        )
-                    )
-
-        return deletion_warnings
-
-    def add_slot_template(
-        self,
-        slot_name: str,
-        change_time: datetime.datetime,
-        required_capabilities=None,
-    ) -> ShiftSlotTemplate:
-        if required_capabilities is None:
-            required_capabilities = []
-
-        slot_template = ShiftSlotTemplate.objects.create(
-            name=slot_name,
-            shift_template=self,
-            required_capabilities=required_capabilities,
-        )
-
-        for shift in self.generated_shifts.filter(start_time__gt=change_time):
-            slot_template.create_slot_from_template(shift)
-
-        return slot_template
-
 
 class ShiftSlotTemplate(models.Model):
     name = models.CharField(blank=True, max_length=255)
@@ -393,49 +322,6 @@ class ShiftSlotTemplate(models.Model):
             warnings=self.warnings,
         )
 
-    def delete_self_and_warn_about_users_loosing_their_slots(
-        self, change_time: datetime.datetime, dry_run: bool
-    ):
-        deletion_warnings = []
-        for slot in self.generated_slots.all():
-            if slot.shift.start_time < change_time:
-                slot.slot_template = None
-                if not dry_run:
-                    slot.save()
-            else:
-                attendance = slot.get_valid_attendance()
-                if attendance and (
-                    self.get_attendance_template() is None
-                    or attendance.user != self.attendance_template.user
-                ):
-                    deletion_warnings.append(
-                        {
-                            "user": attendance.user,
-                            "slot_name": slot.get_display_name(),
-                            "is_ABCD": False,
-                        }
-                    )
-                for attendance in slot.attendances.all():
-                    if not dry_run:
-                        attendance.delete()
-                if not dry_run:
-                    slot.delete()
-
-        attendance_template = self.get_attendance_template()
-        if attendance_template is not None:
-            deletion_warnings.append(
-                {
-                    "user": attendance_template.user,
-                    "slot_name": self.get_display_name(),
-                    "is_ABCD": True,
-                }
-            )
-            if not dry_run:
-                attendance_template.delete()
-        if not dry_run:
-            self.delete()
-        return deletion_warnings
-
 
 class ShiftAttendanceTemplate(models.Model):
     user = models.ForeignKey(
@@ -467,7 +353,6 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
 
     # Don't link directly to the slot because it may be less stable than the shift
     slot_template_name = models.CharField(blank=True, max_length=255)
-    # TODO(Leon Handreke): Implement a system to decomission shifts
     shift_template = models.ForeignKey(ShiftTemplate, on_delete=models.PROTECT)
 
 
@@ -489,7 +374,6 @@ class Shift(models.Model):
         on_delete=models.PROTECT,
     )
 
-    # TODO(Leon Handreke): For generated shifts, leave this blank instead and use a getter?
     name = models.CharField(blank=False, max_length=255)
     num_required_attendances = models.PositiveIntegerField(
         verbose_name=_("Number of required attendances"),
@@ -734,7 +618,7 @@ class ShiftAccountEntry(models.Model):
 
     Usually, a user will be debited one credit every four weeks and will be credited one for completing their shift.
 
-    Based on the the account balance and the dates of the entries, the penalties are calculated. For example, if the
+    Based on the account balance and the dates of the entries, the penalties are calculated. For example, if the
     balance has been -2 for four weeks (TBD, this is just an example), the cooperator's right to shop will be revoked.
     """
 
