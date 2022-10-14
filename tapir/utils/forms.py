@@ -31,10 +31,12 @@ class TapirPhoneNumberField(PhoneNumberField):
 
 
 class DateRangeWidgetTapir(DateRangeWidget):
-    suffixes = ["after", "before"]
+    suffixes = ["start", "end"]
 
     def __init__(self, attrs=None):
-        widgets = (DateInputTapir, DateInputTapir)
+        start = DateInputTapir(attrs={"aria_label": "end date"})
+        end = DateInputTapir(attrs={"aria_label": "end date"})
+        widgets = (start, end)
         super(SuffixedMultiWidget, self).__init__(widgets, attrs)
 
 
