@@ -1,14 +1,21 @@
 {% load i18n %}
 {% if shop_extension_campaign_is_active %}
-    <span data-bs-toggle="tooltip"
-          title="{% translate 'Click this link to learn more.' %}">
-    <span>{{ shop_extension_campaign_name }}</span>
-    <span class="progress" style="width: 400px; height:30px;">
-        {% for source_name, source_data in shop_extension_sources.items %}
-            <span class="progress-bar {{ source_data.color }}" role="progressbar" style="width: {{ source_data.width }}%;">
-                <span>{% translate source_name %}</span>
+
+    <div>
+        <a class="nav-link"
+           href={{FINANCING_INFORMATION_URL}}>
+            <span data-bs-toggle="tooltip"
+                  title="{% translate 'Click this link to learn more.' %}">
+                <span>{{ shop_extension_campaign_name }}</span>
+                <span class="progress" style="width: 400px; height:30px;">
+                    {% for source_name, source_data in shop_extension_sources.items %}
+                    <span class="progress-bar {{ source_data.color }}" role="progressbar" style="width: {{ source_data.width }}%;">
+                        <span>{% translate source_name %}</span>
+                    </span>
+                    {% endfor %}
+                </span>
             </span>
-        {% endfor %}
-    </span>
-</span>
+        </a>
+    </div>
+
 {% endif %}
