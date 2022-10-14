@@ -68,18 +68,22 @@
             </div>
 
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Owned shares" %}:</div>
+
+                <div class="col-5 fw-bold text-end">
+                    <a class="" data-bs-toggle="collapse" href="#shares-table">{% translate "Owned shares" %}:</a>
+                </div>
                 <div class="col-7">
                     <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
-                    (<a class="" data-bs-toggle="collapse" href="#shares-table">Details</a>)
+
                 </div>
             </div>
 
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Payment" %}:</div>
+                <div class="col-5 fw-bold text-end">
+                    <a href="{% url 'coop:incoming_payment_list'  %}?credited_member={{ share_owner.pk }}">{% translate "Payments" %}:</a>
+                </div>
                 <div class="col-7">
                     <span id="share_owner_num_shares">{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
-                    (<a href="{% url 'coop:incoming_payment_list'  %}?credited_member={{ share_owner.pk }}">{% translate "Details" %}</a>)
                 </div>
             </div>
 
