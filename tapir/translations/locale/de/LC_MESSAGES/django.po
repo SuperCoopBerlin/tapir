@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-14 22:04+0200\n"
+"POT-Creation-Date: 2022-10-14 22:31+0200\n"
 "PO-Revision-Date: 2022-09-18 12:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -941,10 +941,8 @@ msgstr "Finanzierungskampagne editieren"
 
 #: coop/templates/coop/incoming_payment_list.html:10
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:83
-#, fuzzy
-#| msgid "Payment"
 msgid "Payments"
-msgstr "Bezahlung"
+msgstr "Zahlungen"
 
 #: coop/templates/coop/incoming_payment_list.html:23
 #: core/templatetags/core.py:47
@@ -1574,10 +1572,11 @@ msgid "Message"
 msgstr "Nachricht"
 
 #: log/templates/log/log_entry_list_tag.html:47
+#: log/templates/log/log_entry_list_tag.html:48
 msgid "Notes about this user"
 msgstr "Notizen über diese*n Benutzer*in"
 
-#: log/templates/log/log_entry_list_tag.html:50
+#: log/templates/log/log_entry_list_tag.html:51
 msgid "Add Note"
 msgstr "Notiz hinzufügen"
 
@@ -3611,9 +3610,6 @@ msgstr "Anfangsdatum muss vor Enddatum sein"
 #: utils/models.py:390
 msgid "Must be a positive number."
 msgstr "Muss eine positive Zahl sein."
-
-#~ msgid "Payment"
-#~ msgstr "Bezahlung"
 
 #~ msgid "Shift management"
 #~ msgstr "Schicht-Kalender"

@@ -95,7 +95,9 @@
                         <th scope="col">Purchased</th>
                         <th scope="col">Sold</th>
                         <th scope="col">Status</th>
-                        <th scope="col"></th>
+                        {% if perms.coop.manage %}
+                            <th scope="col">{% translate 'Edit' %}</th>
+                        {% endif %}
                     </tr>
                     </thead>
                     {% for o in share_owner.share_ownerships.all %}
