@@ -3,9 +3,9 @@
 <div class="card">
     <h5 class="card-header">{% translate "Filters" %}</h5>
     <div class="card-body">
-        <p>{% translate "Use the buttons below to filter the shifts that are relevant to you." %}</p>
-        <p>
-        <div class="btn-group" id="slot-status-group">
+        <fieldset>
+            <legend style="font-size:14px">{% translate "Use the buttons below to filter the shifts that are relevant to you." %}</legend>
+                    <div class="btn-group" id="slot-status-group">
             <input type="radio" class="btn-check" name="slot_status_options" autocomplete="off"
                    value="no-filter" id="btn_no_filter">
             <label class="btn btn-outline-dark" for="btn_no_filter">{% translate 'No filter' %}</label>
@@ -16,13 +16,18 @@
                    value="needs-help" id="btn_most_help">
             <label class="btn btn-outline-dark" for="btn_most_help">{% translate 'Most help needed' %}</label>
         </div>
-        </p>
+        </fieldset>
+        <!-- If 'Has a free slot' -->
         <p>
+
+        </p>
         <div class="btn-group-vertical" data-bs-toggle="buttons" id="slot-name-group">
-            <input type="radio" class="btn-check active-on-load" name="slot_name_options" autocomplete="off"
+        <fieldset>
+            <legend style="font-size:14px">{% translate "Filter for type of slot" %}:</legend>
+           <input type="radio" class="btn-check active-on-load" name="slot_name_options" autocomplete="off"
                    value="any" id="btn_any">
             <label class="btn btn-outline-dark" for="btn_any">
-                {% translate 'Any' %}
+                {% translate "Any" %}
             </label>
             {% for name in shift_slot_names %}
                 <input type="radio" class="btn-check" name="slot_name_options" autocomplete="off" value="{{ name.0 }}"
@@ -31,8 +36,8 @@
                      {{ name.1 }}
                 </label>
             {% endfor %}
+        </fieldset>
         </div>
-        </p>
     </div>
 </div>
 <div class="card" id="filter-legend">

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-15 10:58+0200\n"
+"POT-Creation-Date: 2022-10-15 12:23+0200\n"
 "PO-Revision-Date: 2022-09-18 12:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1337,7 +1337,7 @@ msgstr "Anteile zu %(name)s hinzufügen"
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:544 shifts/templates/shifts/shift_filters.html:25
+#: coop/views/shareowner.py:544 shifts/templates/shifts/shift_filters.html:27
 msgid "Any"
 msgstr "Alle"
 
@@ -1782,7 +1782,7 @@ msgstr "Abgesagt"
 
 #: shifts/models.py:749 shifts/templates/shifts/shift_detail.html:258
 #: shifts/templates/shifts/shift_detail_printable.html:70
-#: shifts/templates/shifts/shift_filters.html:57
+#: shifts/templates/shifts/shift_filters.html:59
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
@@ -2306,7 +2306,7 @@ msgstr "Slot bearbeiten"
 msgid "Filters"
 msgstr "Filter"
 
-#: shifts/templates/shifts/shift_filters.html:6
+#: shifts/templates/shifts/shift_filters.html:7
 msgid "Use the buttons below to filter the shifts that are relevant to you."
 msgstr "Bitte wähle unten den gewünschten Filter für dich aus."
 
@@ -2322,29 +2322,33 @@ msgstr "Hat einen freien Platz"
 msgid "Most help needed"
 msgstr "Hilfe am meisten gebraucht"
 
-#: shifts/templates/shifts/shift_filters.html:39
+#: shifts/templates/shifts/shift_filters.html:23
+msgid "Filter for type of slot"
+msgstr "Nach dem Schicht-Typ filtern"
+
+#: shifts/templates/shifts/shift_filters.html:41
 msgid "Legend"
 msgstr "Legende"
 
-#: shifts/templates/shifts/shift_filters.html:45
+#: shifts/templates/shifts/shift_filters.html:47
 msgctxt "Filters"
 msgid "Other shifts"
 msgstr "Andere Schichten"
 
-#: shifts/templates/shifts/shift_filters.html:47
+#: shifts/templates/shifts/shift_filters.html:49
 msgctxt "Filters"
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/templates/shifts/shift_filters.html:51
+#: shifts/templates/shifts/shift_filters.html:53
 msgid "Free slot"
 msgstr "Freier Platz"
 
-#: shifts/templates/shifts/shift_filters.html:53
+#: shifts/templates/shifts/shift_filters.html:55
 msgid "ABCD attendance"
 msgstr "ABCD Anwesenheit"
 
-#: shifts/templates/shifts/shift_filters.html:55
+#: shifts/templates/shifts/shift_filters.html:57
 msgid "Flying attendance"
 msgstr "Fliegende Anwesenheit"
 
