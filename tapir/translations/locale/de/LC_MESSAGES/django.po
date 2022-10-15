@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-14 22:31+0200\n"
+"POT-Creation-Date: 2022-10-15 10:58+0200\n"
 "PO-Revision-Date: 2022-09-18 12:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -141,7 +141,8 @@ msgstr "Passwort ändern"
 #: coop/templates/coop/draftuser_detail.html:137
 #: coop/templates/coop/shareowner_detail.html:28
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:18
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:122
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:99
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:124
 #: coop/templates/coop/welcome_desk_share_owner.html:84
 #: shifts/templates/shifts/shift_detail.html:43
 #: shifts/templates/shifts/shift_template_detail.html:22
@@ -429,7 +430,7 @@ msgstr "Ist investierendes Mitglied"
 #: coop/models.py:66 coop/models.py:317
 #: coop/templates/coop/draftuser_detail.html:65
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:44
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:173
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:175
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
@@ -439,7 +440,7 @@ msgstr "An Willkommenstreffen teilgenommen"
 
 #: coop/models.py:70 coop/models.py:314
 #: coop/templates/coop/draftuser_detail.html:121
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:168
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:170
 msgid "Paid Entrance Fee"
 msgstr "Eintrittsgeld bezahlt"
 
@@ -647,7 +648,7 @@ msgid "Signed"
 msgstr "Unterschrieben"
 
 #: coop/templates/coop/draftuser_list.html:46
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:109
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:111
 msgid "Paid"
 msgstr "Bezahlt"
 
@@ -1207,19 +1208,19 @@ msgstr "Anteile"
 msgid "List of shares owned by this member"
 msgstr "Liste der Anteile die dieses Mitglied gehören"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:111
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:113
 msgid "Waiting payment"
 msgstr "Bezahlung ausstehend"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:114
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:116
 msgid "Sold or future"
 msgstr ""
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:137
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:139
 msgid "Delete"
 msgstr "Löschen"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:139
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:141
 msgid ""
 "\n"
 "                                                        Only use this to "
@@ -1240,19 +1241,19 @@ msgstr ""
 "'verkauft'.\n"
 " "
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:161
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:163
 msgid "Add Shares"
 msgstr "Anteile hinzufügen"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:178
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:180
 msgid "Willing to gift a share"
 msgstr "Bereit Anteile zu schenken"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:188
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:190
 msgid "Send membership confirmation email"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:194
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:196
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
@@ -3610,6 +3611,9 @@ msgstr "Anfangsdatum muss vor Enddatum sein"
 #: utils/models.py:390
 msgid "Must be a positive number."
 msgstr "Muss eine positive Zahl sein."
+
+#~ msgid "Time"
+#~ msgstr "Uhrzeit"
 
 #~ msgid "Shift management"
 #~ msgstr "Schicht-Kalender"
