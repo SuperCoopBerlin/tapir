@@ -248,6 +248,17 @@ class ShiftTemplate(models.Model):
         for slot_template in self.slot_templates.all():
             slot_template.update_future_slot_attendances(now)
 
+    def add_slot_template_and_update_future_shifts(
+        self, slot_name: str, required_capabilities: []
+    ):
+        slot_template = ShiftSlotTemplate.objects.create(
+            name=slot_name,
+            shift_template=self,
+            required_capabilities=required_capabilities,
+        )
+        for shift in self.generated_shifts.filter(start_time__gt=timezone.now()):
+            slot_template.create_slot_from_template(shift)
+
 
 class ShiftSlotTemplate(models.Model):
     name = models.CharField(blank=True, max_length=255)
