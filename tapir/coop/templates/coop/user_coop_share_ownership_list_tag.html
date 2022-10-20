@@ -14,7 +14,7 @@
                        href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
                         <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
                     </a>
-                    <a class="btn tapir-btn btn-outline-info" href="{% url 'coop:shareowner_update' share_owner.pk %}" id="share_owner_edit_button">
+                    <a class="btn tapir-btn btn-outline-secondary" href="{% url 'coop:shareowner_update' share_owner.pk %}" id="share_owner_edit_button">
                         <span class="material-icons">edit</span>{% translate 'Edit' %}
                     </a>
                 </span>
@@ -68,18 +68,22 @@
             </div>
 
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Owned shares" %}:</div>
+
+                <div class="col-5 fw-bold text-end">
+                    <a class="" data-bs-toggle="collapse" href="#shares-table">{% translate "Owned shares" %}:</a>
+                </div>
                 <div class="col-7">
                     <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
-                    (<a class="" data-bs-toggle="collapse" href="#shares-table">Details</a>)
+
                 </div>
             </div>
 
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Payment" %}:</div>
+                <div class="col-5 fw-bold text-end">
+                    <a href="{% url 'coop:incoming_payment_list'  %}?credited_member={{ share_owner.pk }}">{% translate "Payments" %}:</a>
+                </div>
                 <div class="col-7">
                     <span id="share_owner_num_shares">{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
-                    (<a href="{% url 'coop:incoming_payment_list'  %}?credited_member={{ share_owner.pk }}">{% translate "Details" %}</a>)
                 </div>
             </div>
 
@@ -91,7 +95,9 @@
                         <th scope="col">Purchased</th>
                         <th scope="col">Sold</th>
                         <th scope="col">Status</th>
-                        <th scope="col"></th>
+                        {% if perms.coop.manage %}
+                            <th scope="col">{% translate 'Edit' %}</th>
+                        {% endif %}
                     </tr>
                     </thead>
                     {% for o in share_owner.share_ownerships.all %}
@@ -152,7 +158,7 @@
                 </table>
                 {% if perms.accounts.manage %}
                     <div class="d-flex justify-content-end">
-                        <a class="ml-auto btn tapir-btn btn-outline-info" href="{% url 'coop:share_create_multiple' share_owner.pk %}">
+                        <a class="ml-auto btn tapir-btn btn-outline-secondary" href="{% url 'coop:share_create_multiple' share_owner.pk %}">
                             <span class="material-icons">add</span>
                             {% translate "Add Shares" %}
                         </a>

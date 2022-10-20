@@ -97,13 +97,13 @@
                         {% endif %}
                         {% if object.pk == request.user.pk %}
                             <div class="ms-1">
-                                <a class="btn tapir-btn btn-outline-info ms-1" href="{% url 'password_change' %}"><span
+                                <a class="btn tapir-btn btn-outline-secondary ms-1" href="{% url 'password_change' %}"><span
                                         class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
                             </div>
                         {% endif %}
                         {% if perms.accounts.manage %}
                             <div class="ms-1">
-                                <a class="btn tapir-btn btn-outline-info"
+                                <a class="btn tapir-btn btn-outline-secondary"
                                    href="{% url 'accounts:user_update' object.pk %}"
                                    id="tapir_user_edit_button">
                                     <span class="material-icons">edit</span>{% translate 'Edit' %}

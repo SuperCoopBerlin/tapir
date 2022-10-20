@@ -37,7 +37,7 @@
         <table class="table" id="repeated-shift-overview-table" aria-label="{% translate 'Calendar of ABCD shifts' %}">
             <thead>
             <tr>
-                <th></th>
+                <th class="text-center">Time</th>
                 {% for group in shift_template_groups %}
                     <th class="text-center">{% translate 'Week ' %}{{ group }}</th>
                 {% endfor %}

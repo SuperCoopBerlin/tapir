@@ -1,5 +1,6 @@
 from django import template
 
+from tapir.coop.config import FINANCING_INFORMATION_URL
 from tapir.coop.models import (
     ShareOwner,
     FinancingCampaign,
@@ -20,6 +21,7 @@ def share_owner_ownership_list(context, share_owner: ShareOwner):
 @register.inclusion_tag("coop/shop_extension_progress_bar.html", takes_context=True)
 def shop_extension_progress_bar(context):
     campaign = FinancingCampaign.objects.filter(is_active=True).first()
+    context["FINANCING_INFORMATION_URL"] = FINANCING_INFORMATION_URL
     context["shop_extension_campaign_is_active"] = campaign is not None
     if campaign is None:
         return context
