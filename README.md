@@ -13,8 +13,11 @@ SuperCoop members can access the system at [https://members.supercoop.de](https:
 > Tapir (/ˈteɪpər/) [has a trunk](https://www.youtube.com/watch?v=JgwBecM_E6Q), but not quite such a beautiful one as [Mme. l'élephan](https://github.com/elefan-grenoble/gestion-compte). Tapir is badass, [but not quite as badass as the other animals](https://www.youtube.com/watch?v=zJm6nDnR2SE). Let's teach Tapir some tricks!
 
 ## Getting started
+1. Clone the project
+2. install docker
+3. configure our [pre-commit hooks](CONTRIBUTING.md#pre-commit-hooks)
 
-Clone the project, install docker and run
+Then you can start by running
 
 ```
 docker-compose up
@@ -32,7 +35,7 @@ docker-compose exec web poetry run python manage.py loaddata admin_account
 # Load lots of test users & shifts
 docker-compose exec web poetry run python manage.py generate_test_data --reset_all
 ```
-
+You then can find the local instance of Tapir at [http://localhost:8000](http://localhost:8000).
 For more information, have a look at our [Documentation](CONTRIBUTING.md#documentation).
 
 ## Contributing
