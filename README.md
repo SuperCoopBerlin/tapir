@@ -20,7 +20,7 @@ SuperCoop members can access the system at [https://members.supercoop.de](https:
 Then you can start by running
 
 ```
-docker-compose up
+docker compose up
 ```
 
 This starts a container with an LDAP server and automatically loads the test data into the LDAP.
