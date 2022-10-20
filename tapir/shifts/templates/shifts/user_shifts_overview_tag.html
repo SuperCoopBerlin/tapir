@@ -5,7 +5,7 @@
     <h5 class="card-header d-flex justify-content-between align-items-center" id="user_shift_card">
         {% translate "Shifts" %}
         {% if perms.shifts.manage and user.shift_user_data %}
-            <a class="btn tapir-btn btn-outline-info" id="edit_shift_user_data_button"
+            <a class="btn tapir-btn btn-outline-secondary" id="edit_shift_user_data_button"
                href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
                 <span class="material-icons button-icon">edit</span>{% translate 'Edit' %}
             </a>

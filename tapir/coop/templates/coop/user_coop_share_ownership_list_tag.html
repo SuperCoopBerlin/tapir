@@ -14,7 +14,7 @@
                        href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
                         <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
                     </a>
-                    <a class="btn tapir-btn btn-outline-info" href="{% url 'coop:shareowner_update' share_owner.pk %}" id="share_owner_edit_button">
+                    <a class="btn tapir-btn btn-outline-secondary" href="{% url 'coop:shareowner_update' share_owner.pk %}" id="share_owner_edit_button">
                         <span class="material-icons">edit</span>{% translate 'Edit' %}
                     </a>
                 </span>
@@ -158,7 +158,7 @@
                 </table>
                 {% if perms.accounts.manage %}
                     <div class="d-flex justify-content-end">
-                        <a class="ml-auto btn tapir-btn btn-outline-info" href="{% url 'coop:share_create_multiple' share_owner.pk %}">
+                        <a class="ml-auto btn tapir-btn btn-outline-secondary" href="{% url 'coop:share_create_multiple' share_owner.pk %}">
                             <span class="material-icons">add</span>
                             {% translate "Add Shares" %}
                         </a>
