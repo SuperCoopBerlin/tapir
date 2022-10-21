@@ -17,6 +17,9 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class TestMemberSelfRegisters(TapirFactoryTestBase):
+    VIEW_NAME_CANCEL_SHIFT = "shifts:cancel_shift"
+    A_CANCELLATION_REASON = "A cancellation reason"
+
     def test_flying_member_gets_attendance_cancelled(self):
         user = TapirUserFactory.create(is_in_member_office=False)
         self.login_as_member_office_user()
@@ -24,8 +27,8 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
         register_user_to_shift(self.client, user, shift)
 
         response = self.client.post(
-            reverse("shifts:cancel_shift", args=[shift.id]),
-            {"cancelled_reason": "A cancellation reason"},
+            reverse(self.VIEW_NAME_CANCEL_SHIFT, args=[shift.id]),
+            {"cancelled_reason": self.A_CANCELLATION_REASON},
         )
 
         self.assertRedirects(
@@ -55,8 +58,8 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
         register_user_to_shift_template(self.client, user, shift_template)
 
         response = self.client.post(
-            reverse("shifts:cancel_shift", args=[shift.id]),
-            {"cancelled_reason": "A cancellation reason"},
+            reverse(self.VIEW_NAME_CANCEL_SHIFT, args=[shift.id]),
+            {"cancelled_reason": self.A_CANCELLATION_REASON},
         )
 
         self.assertRedirects(
@@ -84,8 +87,8 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
             timezone.now().date() + datetime.timedelta(days=2)
         )
         self.client.post(
-            reverse("shifts:cancel_shift", args=[shift.id]),
-            {"cancelled_reason": "A cancellation reason"},
+            reverse(self.VIEW_NAME_CANCEL_SHIFT, args=[shift.id]),
+            {"cancelled_reason": self.A_CANCELLATION_REASON},
         )
 
         register_user_to_shift_template(self.client, user, shift_template)

@@ -16,6 +16,8 @@ class TestIncomingPayments(TapirFactoryTestBase):
     NORMAL_MEMBER_3_NAME = "Maggie"
     ADMIN_MEMBER_NAME = "Skinner"
 
+    VIEW_NAME_PAYMENT_LIST = "coop:incoming_payment_list"
+
     admin_member: TapirUser
     normal_member_1: TapirUser
     normal_member_2: TapirUser
@@ -47,7 +49,7 @@ class TestIncomingPayments(TapirFactoryTestBase):
         ]
 
         self.login_as_user(self.normal_member_1)
-        response = self.client.get(reverse("coop:incoming_payment_list"))
+        response = self.client.get(reverse(self.VIEW_NAME_PAYMENT_LIST))
         self.assertEqual(response.status_code, 200)
 
         for payment in visible_payments:
@@ -61,7 +63,7 @@ class TestIncomingPayments(TapirFactoryTestBase):
         self.create_incoming_payment(self.normal_member_2, self.normal_member_1),
 
         self.login_as_user(self.normal_member_1)
-        response = self.client.get(reverse("coop:incoming_payment_list"))
+        response = self.client.get(reverse(self.VIEW_NAME_PAYMENT_LIST))
         response_content = response.content.decode()
 
         self.assertIn(self.NORMAL_MEMBER_1_NAME, response_content)
@@ -71,7 +73,7 @@ class TestIncomingPayments(TapirFactoryTestBase):
     def test_admin_member_sees_all_names(self):
         self.create_incoming_payment(self.normal_member_1, self.normal_member_2),
         self.login_as_user(self.admin_member)
-        response = self.client.get(reverse("coop:incoming_payment_list"))
+        response = self.client.get(reverse(self.VIEW_NAME_PAYMENT_LIST))
         response_content = response.content.decode()
 
         self.assertIn(self.ADMIN_MEMBER_NAME, response_content)
