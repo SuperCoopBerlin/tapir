@@ -86,10 +86,10 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
         raise Exception("No test user found")
 
     def get_vorstand_user(self) -> JsonUser:
-        return self.get_test_user("ariana.perrin")
+        return self.get_test_user("roberto.cortes")
 
     def get_member_office_user(self) -> JsonUser:
-        return self.get_test_user("roberto.cortes")
+        return self.get_test_user("sasha.hubert")
 
     def get_standard_user(self) -> JsonUser:
         return self.get_test_user("nicolas.vicente")

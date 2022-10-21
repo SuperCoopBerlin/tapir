@@ -3,76 +3,102 @@
 There are many tasks to do, even without programming knowledge.
 Just choose a task that you like.
 
-1. [:bug: Report issues or :bulb: suggest new features](CONTRIBUTING.md#report-issues-or-suggest-new-features)  
+1. [:bug: Report issues or :bulb: suggest new features](CONTRIBUTING.md#report-issues-or-suggest-new-features)
 2. [:computer: Contribute Code](CONTRIBUTING.md#contribute-code)
 3. [:earth_africa: Translate Tapir](CONTRIBUTING.md#translate-tapir)
 4. [:book: Improve Documentation](CONTRIBUTING.md#documentation)
 5. [:apple: Become a part of SuperCoop e.G.](https://supercoop.de/en/joinus/)
 
-
 #### I just have a question?!
-If you are part of SuperCoop, reach out to us on [Slack](https://supercoopberlin.slack.com/). In case you are not member of SuperCoop, feel free to write us a mail to contact@supercoop.de.
+
+If you are part of SuperCoop, reach out to us on [Slack](https://supercoopberlin.slack.com/). In case you are not member
+of SuperCoop, feel free to write us a mail to contact@supercoop.de.
 
 # Report issues or suggest new features
-If you have found a translation error, check [Translate Tapir](CONTRIBUTING.md#translate-tapir) to see if you can fix it yourself.
+
+If you have found a translation error, check [Translate Tapir](CONTRIBUTING.md#translate-tapir) to see if you can fix it
+yourself.
 
 You found a bug in Tapir? You have an idea for a neat new feature? There two possibilities to let us know:
 
-1. Create an issue here in the repository (see [Github manual for how to create issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue))
+1. Create an issue here in the repository (
+   see [Github manual for how to create issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue))
 2. [Contact us directly](CONTRIBUTING.md#i-just-have-a-question)
 
-In case it is a bug, describe us how to reproduce the behaviour you've encountered and how you would expect it to be. 
+In case it is a bug, describe us how to reproduce the behaviour you've encountered and how you would expect it to be.
 You can also attach screenshots, if available.
 
 # Translate Tapir
 
 We would be happy to have complete translations and welcome new languages!
 
-Translations in django projects are done via translation strings in the code, which then look up the correct translation in a message file. If no translation for the code string is available, it takes the default text (most likely in english). Therefore, it is our responsibility to mark and translate. The system can only translate strings it knows about.
+Translations in django projects are done via translation strings in the code, which then look up the correct translation
+in a message file. If no translation for the code string is available, it takes the default text (most likely in
+english). Therefore, it is our responsibility to mark and translate. The system can only translate strings it knows
+about.
 
-The available translations are in the [locale directory](https://github.com/SuperCoopBerlin/tapir/tree/master/tapir/translations). If you can't find your language, feel free to create a new `*.po` file and [open an issue](CONTRIBUTING.md#report-issues-or-suggest-new-features) if you need help. 
-Also checkout the [django documentation for Translations](https://docs.djangoproject.com/en/4.0/topics/i18n/translation/).
+The available translations are in
+the [locale directory](https://github.com/SuperCoopBerlin/tapir/tree/master/tapir/translations). If you can't find your
+language, feel free to create a new `*.po` file
+and [open an issue](CONTRIBUTING.md#report-issues-or-suggest-new-features) if you need help.
+Also checkout
+the [django documentation for Translations](https://docs.djangoproject.com/en/4.0/topics/i18n/translation/).
 
 # Contribute Code
+
 If you would like to help and are able to contribute code, you are most welcome.
 
-In this chapter, we describe the basic procedure of how you can contribute code to the repository. Make yourself familiar with the technology stack and dependencies we use for Tapir (see [Documentation](CONTRIBUTING.md#documentation)).
+In this chapter, we describe the basic procedure of how you can contribute code to the repository. Make yourself
+familiar with the technology stack and dependencies we use for Tapir (
+see [Documentation](CONTRIBUTING.md#documentation)).
 
 ## Getting started
-There are many feature requests and ideas for new features in the issue tracker which you can use. If you have own ideas on how to improve this app and want to make sure that the pull request will be merged, it is strongly suggested you open an issue first to discuss the feature. If you want to claim an issue for yourself, let us know by commenting the issue with your idea how to solve it.
+
+There are many feature requests and ideas for new features in the issue tracker which you can use. If you have own ideas
+on how to improve this app and want to make sure that the pull request will be merged, it is strongly suggested you open
+an issue first to discuss the feature. If you want to claim an issue for yourself, let us know by commenting the issue
+with your idea how to solve it.
 
 You can start by downloading the IDE of your choice, see our recommendations next chapter.
 
-No code should be added the the main branch directly, if you're not 100% sure about it. Instead, developers use a "Fork-and-Branch Git Workflow" (see for example [here](https://github.com/vicente-gonzalez-ruiz/fork_and_branch_git_workflow)).
+No code should be added the the main branch directly, if you're not 100% sure about it. Instead, developers use a "
+Fork-and-Branch Git Workflow" (see for
+example [here](https://github.com/vicente-gonzalez-ruiz/fork_and_branch_git_workflow)).
 
-After cloning the project from the repository, make sure you [install the pre-commits](CONTRIBUTING.md#pre-commit-hooks).
+After cloning the project from the repository, make sure you [install the pre-commits](CONTRIBUTING.md#pre-commit-hooks)
+.
 
 Then start with [setting up the docker container](README.md#getting-started).
 
 ##### IDE
 
-We mostly use [PyCharm](https://www.jetbrains.com/pycharm/) for development. You can fully use it for developement. However, we are not fully happy with it since it needs the Professional License to activate full Django support
+We mostly use [PyCharm](https://www.jetbrains.com/pycharm/) for development. You can fully use it for developement.
+However, we are not fully happy with it since it needs the Professional License to activate full Django support
 Make sure to enable Django support in the project settings so that things like the template language and the
-test runner are automagically selected (note that right now this doesn't really work anymore as the tests must be run inside docker to have an LDAP server. But PyCharm is still pretty cool).
+test runner are automagically selected (note that right now this doesn't really work anymore as the tests must be run
+inside docker to have an LDAP server. But PyCharm is still pretty cool).
 
 ##### Pre-commit hooks
 
-First thing after checkout, run the following to install auto-formatting using [black](https://github.com/psf/black/): 
+First thing after checkout, run the following to install auto-formatting using [black](https://github.com/psf/black/):
 
 ```
 poetry install && pre-commit install
 ```
+
 This will enforce certain criteria are fulfilled before every commit.
 
 ## Style guide/code conventions
 
-We use the the `Black` package, which "can be viewed as a strict subset of PEP 8". When you installed the pre-commit correctly as mentioned above, the style guide should be enforced automatically with every commit.
+We use the the `Black` package, which "can be viewed as a strict subset of PEP 8". When you installed the pre-commit
+correctly as mentioned above, the style guide should be enforced automatically with every commit.
 
 # Documentation
 
 ## Technologies used
 
-Mostly Python with LDAP, Django but also little HTML and CSS. You can get a first idea at [Django start](https://www.djangoproject.com/start/). For member management, we use LDAP.
+Mostly Python with LDAP, Django but also little HTML and CSS. You can get a first idea
+at [Django start](https://www.djangoproject.com/start/). For member management, we use LDAP.
 
 The whole application is running in a docker environment, make sure it is also installed.
 
@@ -92,7 +118,9 @@ The class name is the convention for the word in texts, followed by how to write
 
 ### Welcome Desk Authentication
 
-All users logging in at the welcome desk are granted more permissions. This magic uses SSL client certificates. The web server requests and checks the client certificate and subsequently sets a header that is then checked by `tapir.accounts.middleware.ClientPermsMiddleware`.
+All users logging in at the welcome desk are granted more permissions. This magic uses SSL client certificates. The web
+server requests and checks the client certificate and subsequently sets a header that is then checked
+by `tapir.accounts.middleware.ClientPermsMiddleware`.
 
 Here are some quick one-liners for key management:
 
@@ -137,7 +165,9 @@ Then, run the tests.
 ```
 docker-compose run --rm web poetry run pytest
 ```
-The `--rm` option will delete the temporary containers created to run the tests. Omit it if you want to keep the containers.
+
+The `--rm` option will delete the temporary containers created to run the tests. Omit it if you want to keep the
+containers.
 
 To regenerate the test data fixtures:
 
@@ -150,7 +180,8 @@ docker-compose exec web poetry run python manage.py dumpdata accounts.TapirUser 
 
 #### Selenium Tests
 
-You can connect to the selenium container via VNC for debugging purpose. The address is localhost:5900, password : secret
+You can connect to the selenium container via VNC for debugging purpose. The address is localhost:5900, password :
+secret
 
 ### Translations
 
@@ -165,15 +196,18 @@ Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations
 For the changes to take effect, restart the Docker container. This will run `manage.py compilemessages` automatically.
 
 You may want to use [PoEdit](https://poedit.net/) to edit the translation files.
-PoEdit formats the .po file slightly differently than `makemessages` does. To keep the changes clear, run `makemessages` again after saving from PoEdit.
+PoEdit formats the .po file slightly differently than `makemessages` does. To keep the changes clear, run `makemessages`
+again after saving from PoEdit.
 
 ### Pre-existing accounts
 
-After running the commands above, you can log-in as 3 different users. In each case, the password is the username:
+After running `manage.py generate_test_data --reset_all`, 400 members are created. 
+You can log in as any of them, in each case, the password is the username. Here are a few examples:
 
 - admin (not a member, just an account with admin rights)
-- roberto.cortes (member office rights)
-- nicolas.vicente (normal member without special rights)
+- roberto.cortes, milla.karjala, magdalena.nieto (vorstand)
+- sasha.hubert, kuzey.tahincioglu, sandra.gutierrez (member office)
+- louis.robert, nicolas.vicente, mustafa.bakircioglu (normal member)
 
 ### How to change model classes
 
@@ -184,7 +218,7 @@ This is quite easy by adding the property to the model class. See this page as r
 
 #### 2. Generate migration files
 
-All changes must be done in the docker container. Since our development environment is included to the 
+All changes must be done in the docker container. Since our development environment is included to the
 docker container, you must run djangos makemigrations on docker. You can do this with this command:
 
 ```
@@ -205,6 +239,8 @@ Please check, if applications runs (again).
 
 ### Buttons
 
-We use a slightly customized version of the boostrap buttons, typically using those HTML classes: `btn tapir-btn btn-[BOOTSTRAP COLOR]`.  
+We use a slightly customized version of the boostrap buttons, typically using those HTML
+classes: `btn tapir-btn btn-[BOOTSTRAP COLOR]`.  
 Each button should have an icon, we use material-icons.  
-We use outlined buttons for links that have no consequences (for example, going to an edit page), and filled buttons when there are consequences (for example, a save button, or sending an email).
+We use outlined buttons for links that have no consequences (for example, going to an edit page), and filled buttons
+when there are consequences (for example, a save button, or sending an email).
