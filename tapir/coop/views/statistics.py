@@ -17,6 +17,7 @@ from tapir.coop.models import (
     DraftUser,
     ShareOwnership,
 )
+from tapir.settings import PERMISSION_COOP_VIEW
 from tapir.utils.shortcuts import (
     get_first_of_next_month,
 )
@@ -88,7 +89,7 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
         members_who_bought_extra_shares = ShareOwner.objects.filter(
             share_ownerships__in=extra_shares
         ).distinct()
-        if self.request.user.has_perm("coop.view"):
+        if self.request.user.has_perm(PERMISSION_COOP_VIEW):
             context["members"] = members_who_bought_extra_shares
         members_count = (
             members_who_bought_extra_shares.count()

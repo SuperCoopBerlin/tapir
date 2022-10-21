@@ -29,6 +29,7 @@ from tapir.coop.models import (
     ShareOwnership,
     NewMembershipsForAccountingRecap,
 )
+from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.models import copy_user_info
 
 
@@ -39,13 +40,13 @@ class DraftUserViewMixin:
 
 
 class DraftUserListView(PermissionRequiredMixin, DraftUserViewMixin, generic.ListView):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
 
 
 class DraftUserCreateView(
     PermissionRequiredMixin, DraftUserViewMixin, generic.CreateView
 ):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
 
 
 class DraftUserRegisterView(DraftUserViewMixin, generic.CreateView):
@@ -66,24 +67,24 @@ class DraftUserConfirmRegistrationView(DraftUserViewMixin, generic.TemplateView)
 class DraftUserUpdateView(
     PermissionRequiredMixin, DraftUserViewMixin, generic.UpdateView
 ):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
 
 
 class DraftUserDetailView(
     PermissionRequiredMixin, DraftUserViewMixin, generic.DetailView
 ):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
 
 
 class DraftUserDeleteView(
     PermissionRequiredMixin, DraftUserViewMixin, generic.DeleteView
 ):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
     success_url = reverse_lazy("coop:draftuser_list")
 
 
 @require_GET
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def draftuser_membership_agreement(request, pk):
     draft_user = get_object_or_404(DraftUser, pk=pk)
     filename = "Beteiligungserklärung %s %s.pdf" % (
@@ -99,7 +100,7 @@ def draftuser_membership_agreement(request, pk):
 
 @require_POST
 @csrf_protect
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def mark_signed_membership_agreement(request, pk):
     user = DraftUser.objects.get(pk=pk)
     user.signed_membership_agreement = True
@@ -110,7 +111,7 @@ def mark_signed_membership_agreement(request, pk):
 
 @require_POST
 @csrf_protect
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def mark_attended_welcome_session(request, pk):
     user = DraftUser.objects.get(pk=pk)
     user.attended_welcome_session = True
@@ -121,7 +122,7 @@ def mark_attended_welcome_session(request, pk):
 
 @require_POST
 @csrf_protect
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def register_draftuser_payment(request, pk):
     draft = get_object_or_404(DraftUser, pk=pk)
     draft.paid_membership_fee = True
@@ -131,7 +132,7 @@ def register_draftuser_payment(request, pk):
 
 @require_POST
 @csrf_protect
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def create_share_owner_from_draft_user_view(request, pk):
     draft_user = DraftUser.objects.get(pk=pk)
 

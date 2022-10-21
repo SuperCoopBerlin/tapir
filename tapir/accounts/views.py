@@ -15,6 +15,7 @@ from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
+from tapir.settings import PERMISSION_ACCOUNTS_MANAGE
 
 
 class UserDetailView(PermissionRequiredMixin, generic.DetailView):
@@ -24,7 +25,7 @@ class UserDetailView(PermissionRequiredMixin, generic.DetailView):
     def get_permission_required(self):
         if self.request.user.pk == self.kwargs["pk"]:
             return []
-        return ["accounts.manage"]
+        return [PERMISSION_ACCOUNTS_MANAGE]
 
 
 class UserMeView(LoginRequiredMixin, generic.RedirectView):
@@ -33,7 +34,7 @@ class UserMeView(LoginRequiredMixin, generic.RedirectView):
 
 
 class UserUpdateView(PermissionRequiredMixin, UpdateViewLogMixin, generic.UpdateView):
-    permission_required = "accounts.manage"
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
     model = TapirUser
     form_class = TapirUserForm
     template_name = "accounts/user_form.html"
@@ -61,7 +62,7 @@ class PasswordResetView(auth_views.PasswordResetView):
 
 @require_POST
 @csrf_protect
-@permission_required("accounts.manage")
+@permission_required(PERMISSION_ACCOUNTS_MANAGE)
 def send_user_welcome_email(request, pk):
     tapir_user = get_object_or_404(TapirUser, pk=pk)
 

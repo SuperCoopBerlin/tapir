@@ -24,6 +24,7 @@ from tapir.accounts.models import TapirUser
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
+from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
@@ -62,7 +63,7 @@ class SelectedUserViewMixin:
 
 
 class EditShiftUserDataView(PermissionRequiredMixin, UpdateViewLogMixin, UpdateView):
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
     model = ShiftUserData
     form_class = ShiftUserDataForm
 
@@ -105,14 +106,14 @@ def dictionary_get(dic, key):
 
 @require_POST
 @csrf_protect
-@permission_required("shifts.manage")
+@permission_required(PERMISSION_SHIFTS_MANAGE)
 def set_user_attendance_mode_flying(request, user_pk):
     return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.FLYING)
 
 
 @require_POST
 @csrf_protect
-@permission_required("shifts.manage")
+@permission_required(PERMISSION_SHIFTS_MANAGE)
 def set_user_attendance_mode_regular(request, user_pk):
     return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.REGULAR)
 
@@ -143,7 +144,7 @@ class UserShiftAccountLog(PermissionRequiredMixin, TemplateView):
     def get_permission_required(self):
         if self.request.user == self.get_target_user():
             return []
-        return ["shifts.manage"]
+        return [PERMISSION_SHIFTS_MANAGE]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -157,7 +158,7 @@ class UserShiftAccountLog(PermissionRequiredMixin, TemplateView):
 class CreateShiftAccountEntryView(PermissionRequiredMixin, CreateView):
     model = ShiftAccountEntry
     form_class = CreateShiftAccountEntryForm
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_target_user(self) -> TapirUser:
         return TapirUser.objects.get(pk=self.kwargs["user_pk"])
@@ -214,7 +215,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
 
 class ShiftDayPrintableView(PermissionRequiredMixin, TemplateView):
     template_name = "shifts/shift_day_printable.html"
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -267,7 +268,7 @@ class MembersOnAlertView(PermissionRequiredMixin, ExportMixin, SingleTableView):
     table_class = ShiftUserDataTable
     model = ShiftUserData
     template_name = "shifts/members_on_alert_list.html"
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
 
     export_formats = ["csv", "json"]
 

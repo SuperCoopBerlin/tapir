@@ -6,10 +6,11 @@ from tapir.coop.forms import FinancingCampaignForm
 from tapir.coop.models import (
     FinancingCampaign,
 )
+from tapir.settings import PERMISSION_COOP_MANAGE
 
 
 class FinancingCampaignUpdateView(PermissionRequiredMixin, generic.UpdateView):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
     model = FinancingCampaign
     form_class = FinancingCampaignForm
 

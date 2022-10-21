@@ -78,9 +78,9 @@ class LdapUser(AbstractUser):
     def has_perm(self, perm, obj=None):
         user_dn = self.get_ldap().build_dn()
         for group_cn in settings.PERMISSIONS.get(perm, []):
-            if LdapGroup.objects.filter(cn=group_cn).count() == 0:
+            group = LdapGroup.objects.filter(cn=group_cn).first()
+            if not group:
                 continue
-            group = LdapGroup.objects.get(cn=group_cn)
             if user_dn in group.members:
                 return True
 

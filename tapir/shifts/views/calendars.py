@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
 from weasyprint import HTML
 
+from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.models import (
     Shift,
     WEEKDAY_CHOICES,
@@ -81,7 +82,7 @@ class ShiftCalendarFutureView(LoginRequiredMixin, ShiftCalendarBaseView):
 
 
 class ShiftCalendarPastView(PermissionRequiredMixin, ShiftCalendarBaseView):
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
     template_name = "shifts/shift_calendar_past.html"
 
     def get_queryset(self):

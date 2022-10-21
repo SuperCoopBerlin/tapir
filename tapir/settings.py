@@ -213,24 +213,30 @@ REG_PERSON_OBJECT_CLASSES = ["inetOrgPerson", "organizationalPerson", "person"]
 REG_GROUP_BASE_DN = "ou=groups,dc=supercoop,dc=de"
 REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
+PERMISSION_SHIFTS_MANAGE = "shifts.manage"
+PERMISSION_COOP_VIEW = "coop.view"
+PERMISSION_COOP_MANAGE = "coop.manage"
+PERMISSION_COOP_ADMIN = "coop.admin"
+PERMISSION_ACCOUNTS_MANAGE = "accounts.manage"
+PERMISSION_WELCOMEDESK_VIEW = "welcomedesk.view"
+
 # Groups are stored in the LDAP tree
 GROUP_VORSTAND = "vorstand"
 GROUP_MEMBER_OFFICE = "member-office"
 PERMISSIONS = {
-    "shifts.manage": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
-    "coop.view": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
-    "coop.manage": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
-    "coop.admin": [GROUP_VORSTAND],
-    "accounts.view": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
-    "accounts.manage": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
-    "welcomedesk.view": [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
+    PERMISSION_SHIFTS_MANAGE: [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
+    PERMISSION_COOP_VIEW: [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
+    PERMISSION_COOP_MANAGE: [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
+    PERMISSION_COOP_ADMIN: [GROUP_VORSTAND],
+    PERMISSION_ACCOUNTS_MANAGE: [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
+    PERMISSION_WELCOMEDESK_VIEW: [GROUP_VORSTAND, GROUP_MEMBER_OFFICE],
 }
 
 # Permissions granted to client presenting a given SSL client cert. Currently used for the welcome desk machines.
 LDAP_WELCOME_DESK_ID = "CN=welcome-desk.members.supercoop.de,O=SuperCoop Berlin eG,C=DE"
 CLIENT_PERMISSIONS = {
     LDAP_WELCOME_DESK_ID: [
-        "welcomedesk.view",
+        PERMISSION_WELCOMEDESK_VIEW,
     ]
 }
 

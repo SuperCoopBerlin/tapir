@@ -12,6 +12,7 @@ from django.views.generic import (
     FormView,
 )
 
+from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.emails.shift_missed_email import ShiftMissedEmail
 from tapir.shifts.emails.stand_in_found_email import StandInFoundEmail
 from tapir.shifts.forms import (
@@ -37,7 +38,7 @@ from tapir.utils.shortcuts import safe_redirect
 class RegisterUserToShiftSlotTemplateView(
     PermissionRequiredMixin, SelectedUserViewMixin, CreateView
 ):
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
     model = ShiftAttendanceTemplate
     template_name = "shifts/register_user_to_shift_slot_template.html"
     form_class = ShiftAttendanceTemplateForm
@@ -128,7 +129,7 @@ class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
         )
         if self_unregister or look_for_standing or cancel_look_for_standing:
             return []
-        return ["shifts.manage"]
+        return [PERMISSION_SHIFTS_MANAGE]
 
     def get_success_url(self):
         return self.get_object().slot.shift.get_absolute_url()
@@ -179,7 +180,7 @@ class UpdateShiftAttendanceStateWithFormView(UpdateShiftAttendanceStateBase):
 
 @require_POST
 @csrf_protect
-@permission_required("shifts.manage")
+@permission_required(PERMISSION_SHIFTS_MANAGE)
 def shift_attendance_template_delete(request, pk):
     shift_attendance_template = get_object_or_404(ShiftAttendanceTemplate, pk=pk)
     slot_template = shift_attendance_template.slot_template
@@ -204,7 +205,7 @@ class RegisterUserToShiftSlotView(PermissionRequiredMixin, FormView):
     def get_permission_required(self):
         if self.get_slot().user_can_attend(self.request.user):
             return []
-        return ["shifts.manage"]
+        return [PERMISSION_SHIFTS_MANAGE]
 
     def get_slot(self) -> ShiftSlot:
         return get_object_or_404(ShiftSlot, pk=self.kwargs["slot_pk"])
@@ -225,7 +226,7 @@ class RegisterUserToShiftSlotView(PermissionRequiredMixin, FormView):
         return context
 
     def get_initial(self):
-        if self.request.user.has_perm("shifts.manage"):
+        if self.request.user.has_perm(PERMISSION_SHIFTS_MANAGE):
             return {}
         return {"user": self.request.user}
 

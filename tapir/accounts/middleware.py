@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
 
+from tapir.settings import PERMISSION_WELCOMEDESK_VIEW
 from tapir.shifts.models import Shift, ShiftAttendance
 
 
@@ -35,4 +36,4 @@ class ClientPermsMiddleware(MiddlewareMixin):
             .exists()
         )
         if user_is_currently_doing_a_shift:
-            request.user.client_perms = ["welcomedesk.view"]
+            request.user.client_perms = [PERMISSION_WELCOMEDESK_VIEW]

@@ -20,12 +20,13 @@ from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.forms import CreateTextLogEntryForm
 from tapir.log.models import EmailLogEntry, TextLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
+from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_VIEW
 from tapir.utils.filters import TapirUserModelChoiceFilter, ShareOwnerModelChoiceFilter
 from tapir.utils.shortcuts import safe_redirect
 
 
 @require_GET
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def email_log_entry_content(request, pk):
     log_entry = get_object_or_404(EmailLogEntry, pk=pk)
     filename = "tapir_email_{}_{}.eml".format(
@@ -47,7 +48,7 @@ class UpdateViewLogMixin:
 
 
 @require_POST
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def create_text_log_entry(request, **kwargs):
     member_type = kwargs.get("member_type")
     member_id = kwargs.get("member_pk")
@@ -114,7 +115,7 @@ class LogFilter(django_filters.FilterSet):
         super().__init__(*args, **kwargs)
         share_owners = self.filters["members"].field.queryset
         tapir_users = self.filters["actor"].field.queryset
-        if self.request.user.has_perm("coop.view"):
+        if self.request.user.has_perm(PERMISSION_COOP_VIEW):
             # In case the user who requests the Logs actually has permission, make a list of all ShareOwners
             share_owners = share_owners.order_by("id")
         else:
@@ -158,6 +159,6 @@ class LogTableView(LoginRequiredMixin, FilterView, SingleTableView):
             .prefetch_related("share_owner__user")
             .prefetch_related("log_class_type")
         )
-        if not self.request.user.has_perm("coop.view"):
+        if not self.request.user.has_perm(PERMISSION_COOP_VIEW):
             return queryset.filter(user=self.request.user)
         return queryset

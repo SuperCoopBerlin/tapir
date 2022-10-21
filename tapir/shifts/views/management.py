@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, UpdateView
 
+from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.forms import ShiftCreateForm, ShiftSlotForm, ShiftCancelForm
 from tapir.shifts.models import Shift, ShiftSlot, ShiftAttendance
 
@@ -11,7 +12,7 @@ from tapir.shifts.models import Shift, ShiftSlot, ShiftAttendance
 class ShiftCreateView(PermissionRequiredMixin, CreateView):
     model = Shift
     form_class = ShiftCreateForm
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -22,7 +23,7 @@ class ShiftCreateView(PermissionRequiredMixin, CreateView):
 class ShiftSlotCreateView(PermissionRequiredMixin, CreateView):
     model = ShiftSlot
     form_class = ShiftSlotForm
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_shift(self):
         return Shift.objects.get(pk=self.kwargs.get("shift_pk"))
@@ -45,7 +46,7 @@ class ShiftSlotCreateView(PermissionRequiredMixin, CreateView):
 class ShiftSlotEditView(PermissionRequiredMixin, UpdateView):
     model = ShiftSlot
     form_class = ShiftSlotForm
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_success_url(self):
         return self.object.shift.get_absolute_url()
@@ -60,7 +61,7 @@ class ShiftSlotEditView(PermissionRequiredMixin, UpdateView):
 
 
 class CancelShiftView(PermissionRequiredMixin, UpdateView):
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
     model = Shift
     form_class = ShiftCancelForm
     template_name = "shifts/cancel_shift.html"
@@ -93,7 +94,7 @@ class CancelShiftView(PermissionRequiredMixin, UpdateView):
 
 
 class EditShiftView(PermissionRequiredMixin, UpdateView):
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
     model = Shift
     form_class = ShiftCreateForm
 

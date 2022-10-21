@@ -11,6 +11,8 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class TestWelcomeDeskAccess(TapirFactoryTestBase):
+    PERMISSION_WELCOMEDESK_VIEW = "welcomedesk.view"
+
     def test_normal_user_no_access_without_shift(self):
         normal_user = self.login_as_normal_user()
 
@@ -29,7 +31,7 @@ class TestWelcomeDeskAccess(TapirFactoryTestBase):
         # We check the user from the request because the permission is not part the user,
         # it only gets added by the middleware.
         self.assertFalse(
-            response.context["request"].user.has_perm("welcomedesk.view"),
+            response.context["request"].user.has_perm(self.PERMISSION_WELCOMEDESK_VIEW),
             "The user is not doing a shift at the moment, they should not have access to the welcome desk.",
         )
         self.assertNotIn(
@@ -52,7 +54,7 @@ class TestWelcomeDeskAccess(TapirFactoryTestBase):
         response = self.client.get(reverse("accounts:user_me"), follow=True)
 
         self.assertTrue(
-            response.context["request"].user.has_perm("welcomedesk.view"),
+            response.context["request"].user.has_perm(self.PERMISSION_WELCOMEDESK_VIEW),
             "The user is doing a shift at the moment, they should have access to the welcome desk.",
         )
         self.assertIn(
@@ -72,7 +74,7 @@ class TestWelcomeDeskAccess(TapirFactoryTestBase):
         response = self.client.get(reverse("accounts:user_me"), follow=True)
 
         self.assertTrue(
-            response.context["request"].user.has_perm("welcomedesk.view"),
+            response.context["request"].user.has_perm(self.PERMISSION_WELCOMEDESK_VIEW),
             "Member office users should always have access to the welcome desk.",
         )
         self.assertIn(

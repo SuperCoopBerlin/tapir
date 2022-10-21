@@ -15,6 +15,7 @@ from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
 from tapir.coop.models import IncomingPayment, ShareOwner, CreatePaymentLogEntry
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
+from tapir.settings import PERMISSION_COOP_VIEW, PERMISSION_COOP_MANAGE
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
 
@@ -44,7 +45,7 @@ class IncomingPaymentTable(django_tables2.Table):
 
     def render_member(self, logged_in_member: TapirUser, other_member: ShareOwner):
         if logged_in_member.share_owner == other_member or logged_in_member.has_perm(
-            "coop.view"
+            PERMISSION_COOP_VIEW
         ):
             return format_html(
                 "<a href={}>{}</a>",
@@ -95,7 +96,7 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
 
     def get_queryset(self):
         queryset = IncomingPayment.objects.all()
-        if not self.request.user.has_perm("coop.view"):
+        if not self.request.user.has_perm(PERMISSION_COOP_VIEW):
             tapir_user: TapirUser = self.request.user
             logged_in_share_owner = tapir_user.share_owner
             return queryset.filter(
@@ -106,12 +107,12 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["enable_filter"] = self.request.user.has_perm("coop.view")
+        context_data["enable_filter"] = self.request.user.has_perm(PERMISSION_COOP_VIEW)
         return context_data
 
 
 class IncomingPaymentCreateView(PermissionRequiredMixin, generic.CreateView):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
     model = IncomingPayment
     form_class = IncomingPaymentForm
 

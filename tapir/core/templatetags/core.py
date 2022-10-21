@@ -5,6 +5,11 @@ from django.utils.translation import gettext_lazy as _
 from tapir.coop.models import FinancingCampaign
 from tapir.core.config import TAPIR_TABLE_CLASSES
 from tapir.core.models import SidebarLinkGroup
+from tapir.settings import (
+    PERMISSION_COOP_MANAGE,
+    PERMISSION_SHIFTS_MANAGE,
+    PERMISSION_WELCOMEDESK_VIEW,
+)
 from tapir.shifts.templatetags.shifts import get_current_week_group
 
 register = template.Library()
@@ -26,7 +31,7 @@ def sidebar_links(context):
 def get_sidebar_link_groups(request):
     groups = []
 
-    if request.user.has_perm("coop.manage"):
+    if request.user.has_perm(PERMISSION_COOP_MANAGE):
         coop_group = SidebarLinkGroup(name=_("Cooperative"))
         coop_group.add_link(
             display_name=_("Applicants"),
@@ -60,7 +65,7 @@ def get_sidebar_link_groups(request):
         )
         groups.append(coop_group)
 
-    if request.user.has_perm("welcomedesk.view"):
+    if request.user.has_perm(PERMISSION_WELCOMEDESK_VIEW):
         welcomedesk_group = SidebarLinkGroup(name=_("Welcome Desk"))
         welcomedesk_group.add_link(
             display_name=_("Welcome Desk"),
@@ -95,7 +100,7 @@ def get_sidebar_link_groups(request):
         url=reverse_lazy("shifts:shift_template_group_calendar"),
     )
 
-    if request.user.has_perm("shifts.manage"):
+    if request.user.has_perm(PERMISSION_SHIFTS_MANAGE):
         shifts_group.add_link(
             display_name=_("Past shifts"),
             material_icon="history",
@@ -117,7 +122,10 @@ def get_sidebar_link_groups(request):
             url=reverse_lazy("shifts:create_shift"),
         )
 
-    if request.user.has_perm("shifts.manage") and FinancingCampaign.objects.exists():
+    if (
+        request.user.has_perm(PERMISSION_COOP_MANAGE)
+        and FinancingCampaign.objects.exists()
+    ):
         campaign_group = SidebarLinkGroup(name=_("Financing campaign"))
         groups.append(campaign_group)
         for campaign in FinancingCampaign.objects.all():

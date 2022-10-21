@@ -8,12 +8,13 @@ from django.views.generic import TemplateView
 
 from tapir.core.tapir_email_base import all_emails, TapirEmailBase
 from tapir.log.models import EmailLogEntry
+from tapir.settings import PERMISSION_COOP_MANAGE
 
 
 class EmailListView(PermissionRequiredMixin, TemplateView):
     template_name = "core/email_list.html"
 
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
 
     def get_context_data(self, **kwargs):
         language = self.request.user.preferred_language

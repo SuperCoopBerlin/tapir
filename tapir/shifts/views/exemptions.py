@@ -10,6 +10,7 @@ from django.views.generic import (
 
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
+from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.forms import (
     ShiftExemptionForm,
 )
@@ -26,7 +27,7 @@ from tapir.shifts.models import (
 class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
     model = ShiftExemption
     form_class = ShiftExemptionForm
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_target_user_data(self) -> ShiftUserData:
         return ShiftUserData.objects.get(pk=self.kwargs["shift_user_data_pk"])
@@ -75,7 +76,7 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
 class EditShiftExemptionView(PermissionRequiredMixin, UpdateViewLogMixin, UpdateView):
     model = ShiftExemption
     form_class = ShiftExemptionForm
-    permission_required = "shifts.manage"
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_success_url(self):
         return reverse("shifts:shift_exemption_list")
@@ -102,7 +103,7 @@ class EditShiftExemptionView(PermissionRequiredMixin, UpdateViewLogMixin, Update
 
 
 class ShiftExemptionListView(PermissionRequiredMixin, ListView):
-    permission_required = ["shifts.manage"]
+    permission_required = [PERMISSION_SHIFTS_MANAGE]
     model = ShiftExemption
 
     def get_queryset(self):

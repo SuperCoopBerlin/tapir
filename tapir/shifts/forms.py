@@ -7,6 +7,7 @@ from django_select2.forms import Select2Widget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
+from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.models import (
     Shift,
     ShiftAttendanceTemplate,
@@ -170,7 +171,9 @@ class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
         self.slot = kwargs.pop("slot", None)
         self.request_user = kwargs.pop("request_user", None)
         super().__init__(*args, **kwargs)
-        self.fields["user"].disabled = not self.request_user.has_perm("shifts.manage")
+        self.fields["user"].disabled = not self.request_user.has_perm(
+            PERMISSION_SHIFTS_MANAGE
+        )
         for warning in self.slot.warnings:
             self.fields[f"warning_{warning}"] = forms.BooleanField(
                 label=SHIFT_SLOT_WARNING_CHOICES[warning]
@@ -182,7 +185,7 @@ class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
     def clean_user_to_register(self):
         user_to_register = self.cleaned_data["user"]
         if (
-            not self.request_user.has_perm("shifts.manage")
+            not self.request_user.has_perm(PERMISSION_SHIFTS_MANAGE)
             and user_to_register.pk != self.request_user.pk
         ):
             raise PermissionDenied(

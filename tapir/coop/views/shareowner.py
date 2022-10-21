@@ -58,6 +58,12 @@ from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
+from tapir.settings import (
+    PERMISSION_COOP_MANAGE,
+    PERMISSION_COOP_ADMIN,
+    PERMISSION_ACCOUNTS_MANAGE,
+    PERMISSION_WELCOMEDESK_VIEW,
+)
 from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
@@ -79,7 +85,7 @@ class ShareOwnershipViewMixin:
 class ShareOwnershipUpdateView(
     PermissionRequiredMixin, UpdateViewLogMixin, ShareOwnershipViewMixin, UpdateView
 ):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
 
     def form_valid(self, form):
         with transaction.atomic():
@@ -100,7 +106,7 @@ class ShareOwnershipUpdateView(
 
 class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
     form_class = ShareOwnershipCreateMultipleForm
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
     template_name = "core/generic_form.html"
 
     def get_share_owner(self) -> ShareOwner:
@@ -154,7 +160,7 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
 @require_POST
 @csrf_protect
 # Higher permission requirement since this is a destructive operation only to correct mistakes
-@permission_required("coop.admin")
+@permission_required(PERMISSION_COOP_ADMIN)
 def share_ownership_delete(request, pk):
     share_ownership = get_object_or_404(ShareOwnership, pk=pk)
     share_owner = share_ownership.share_owner
@@ -172,7 +178,7 @@ def share_ownership_delete(request, pk):
 
 class ShareOwnerDetailView(PermissionRequiredMixin, generic.DetailView):
     model = ShareOwner
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -184,7 +190,7 @@ class ShareOwnerDetailView(PermissionRequiredMixin, generic.DetailView):
 class ShareOwnerUpdateView(
     PermissionRequiredMixin, UpdateViewLogMixin, generic.UpdateView
 ):
-    permission_required = "accounts.manage"
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
     model = ShareOwner
     form_class = ShareOwnerForm
 
@@ -205,7 +211,7 @@ class ShareOwnerUpdateView(
 
 
 @require_GET
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def empty_membership_agreement(request):
     filename = "Beteiligungserklärung " + settings.COOP_NAME + ".pdf"
     response = HttpResponse(content_type="application/pdf")
@@ -216,7 +222,7 @@ def empty_membership_agreement(request):
 
 @require_POST
 @csrf_protect
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def mark_shareowner_attended_welcome_session(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     old_frozen = freeze_for_log(share_owner)
@@ -239,7 +245,7 @@ def mark_shareowner_attended_welcome_session(request, pk):
 class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
     model = TapirUser
     template_name = "coop/create_user_from_shareowner_form.html"
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
     fields = ["first_name", "last_name", "username"]
 
     def get_shareowner(self):
@@ -283,7 +289,7 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
 
 @require_POST
 @csrf_protect
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def send_shareowner_membership_confirmation_welcome_email(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
 
@@ -300,7 +306,7 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
 
 
 @require_GET
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def shareowner_membership_confirmation(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     filename = (
@@ -331,7 +337,7 @@ def shareowner_membership_confirmation(request, pk):
 
 
 @require_GET
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def shareowner_extra_shares_confirmation(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     filename = (
@@ -359,7 +365,7 @@ def shareowner_extra_shares_confirmation(request, pk):
 
 
 @require_GET
-@permission_required("coop.manage")
+@permission_required(PERMISSION_COOP_MANAGE)
 def shareowner_membership_agreement(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     filename = "Beteiligungserklärung %s.pdf" % share_owner.get_display_name()
@@ -671,7 +677,7 @@ class ShareOwnerListView(
     table_class = ShareOwnerTable
     model = ShareOwner
     template_name = "coop/shareowner_list.html"
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
 
     filterset_class = ShareOwnerFilter
 
@@ -701,7 +707,7 @@ class ShareOwnerListView(
 class ShareOwnerExportMailchimpView(
     PermissionRequiredMixin, CurrentShareOwnerMixin, generic.list.BaseListView
 ):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
     model = ShareOwner
 
     def get_queryset(self):
@@ -783,7 +789,7 @@ class MatchingProgramTable(django_tables2.Table):
 
 
 class MatchingProgramListView(PermissionRequiredMixin, SingleTableView):
-    permission_required = "coop.manage"
+    permission_required = PERMISSION_COOP_MANAGE
     model = ShareOwner
     template_name = "coop/matching_program.html"
     table_class = MatchingProgramTable
@@ -842,7 +848,7 @@ class ShareOwnerFilterWelcomeDesk(django_filters.FilterSet):
 
 
 class WelcomeDeskSearchView(PermissionRequiredMixin, FilterView, SingleTableView):
-    permission_required = "welcomedesk.view"
+    permission_required = PERMISSION_WELCOMEDESK_VIEW
     template_name = "coop/welcome_desk_search.html"
     table_class = ShareOwnerTableWelcomeDesk
     model = ShareOwner
@@ -855,7 +861,7 @@ class WelcomeDeskSearchView(PermissionRequiredMixin, FilterView, SingleTableView
 class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
     model = ShareOwner
     template_name = "coop/welcome_desk_share_owner.html"
-    permission_required = "welcomedesk.view"
+    permission_required = PERMISSION_WELCOMEDESK_VIEW
     context_object_name = "share_owner"
 
     def get_context_data(self, *args, **kwargs):
