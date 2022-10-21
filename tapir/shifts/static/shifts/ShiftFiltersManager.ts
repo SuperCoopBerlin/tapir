@@ -110,4 +110,4 @@ class ShiftFiltersManager {
     }
 }
 
-var shiftFilterManager = new ShiftFiltersManager();
+let shiftFilterManager = new ShiftFiltersManager();

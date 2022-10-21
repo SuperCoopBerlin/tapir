@@ -87,5 +87,5 @@ class ShiftFiltersManager {
         shift_block.classList.add(addedClass);
     }
 }
-var shiftFilterManager = new ShiftFiltersManager();
+let shiftFilterManager = new ShiftFiltersManager();
 //# sourceMappingURL=ShiftFiltersManager.js.map
