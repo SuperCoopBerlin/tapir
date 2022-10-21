@@ -6,6 +6,8 @@ from weasyprint import Document
 from tapir.coop.models import ShareOwner
 from tapir.utils.pdfs import render_pdf
 
+CONTENT_TYPE_PDF = "application/pdf"
+
 
 def get_shareowner_membership_confirmation_pdf(
     share_owner: ShareOwner, num_shares: int, date: datetime.date

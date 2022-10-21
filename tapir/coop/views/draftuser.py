@@ -29,6 +29,7 @@ from tapir.coop.models import (
     ShareOwnership,
     NewMembershipsForAccountingRecap,
 )
+from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.models import copy_user_info
 
@@ -92,7 +93,7 @@ def draftuser_membership_agreement(request, pk):
         draft_user.last_name,
     )
 
-    response = HttpResponse(content_type="application/pdf")
+    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     response["Content-Disposition"] = 'filename="{}"'.format(filename)
     response.write(pdfs.get_membership_agreement_pdf(draft_user).write_pdf())
     return response

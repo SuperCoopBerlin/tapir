@@ -24,6 +24,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from tapir.accounts.models import TapirUser
 from tapir.accounts.templatetags.accounts import format_phone_number
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_base import TapirEmailBase
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.json_user import JsonUser
@@ -237,4 +238,4 @@ class TapirEmailTestBase(TestCase):
         attachment_name = attachment[0]
         self.assertEqual(".pdf", attachment_name[-4:])
         attachment_type = attachment[2]
-        self.assertEqual("application/pdf", attachment_type)
+        self.assertEqual(CONTENT_TYPE_PDF, attachment_type)

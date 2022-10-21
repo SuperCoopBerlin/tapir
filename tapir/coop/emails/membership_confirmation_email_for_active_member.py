@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir import settings
 from tapir.coop import pdfs
 from tapir.coop.models import ShareOwner
+from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_base import TapirEmailBase
 
 
@@ -49,7 +50,7 @@ class MembershipConfirmationForActiveMemberEmail(TapirEmailBase):
                     num_shares=self.share_owner.get_active_share_ownerships().count(),
                     date=timezone.now().date(),
                 ).write_pdf(),
-                "application/pdf",
+                CONTENT_TYPE_PDF,
             )
         ]
 

@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
 from weasyprint import HTML
 
+from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.models import (
     Shift,
@@ -175,7 +176,7 @@ class ShiftTemplateGroupCalendarAsPdf(ShiftTemplateGroupCalendar):
 
     def get(self, *args, **kwargs):
         context = self.get_context_data()
-        response = HttpResponse(content_type="application/pdf")
+        response = HttpResponse(content_type=CONTENT_TYPE_PDF)
         response[
             "Content-Disposition"
         ] = f"filename=shiftcalendar_{context['displayed_year']}.pdf"

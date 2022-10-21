@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir import settings
 from tapir.coop import pdfs
 from tapir.coop.models import ShareOwner
+from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_base import TapirEmailBase
 
 
@@ -57,7 +58,7 @@ class ExtraSharesConfirmationEmail(TapirEmailBase):
                     num_shares=self.num_shares,
                     date=timezone.now().date(),
                 ).write_pdf(),
-                "application/pdf",
+                CONTENT_TYPE_PDF,
             )
         ]
 

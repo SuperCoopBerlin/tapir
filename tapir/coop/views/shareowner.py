@@ -54,6 +54,7 @@ from tapir.coop.models import (
     UpdateShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
 )
+from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
@@ -214,7 +215,7 @@ class ShareOwnerUpdateView(
 @permission_required(PERMISSION_COOP_MANAGE)
 def empty_membership_agreement(request):
     filename = "Beteiligungserklärung " + settings.COOP_NAME + ".pdf"
-    response = HttpResponse(content_type="application/pdf")
+    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
     response.write(pdfs.get_membership_agreement_pdf().write_pdf())
     return response
@@ -313,7 +314,7 @@ def shareowner_membership_confirmation(request, pk):
         "Mitgliedschaftsbestätigung %s.pdf" % share_owner.get_info().get_display_name()
     )
 
-    response = HttpResponse(content_type="application/pdf")
+    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     response["Content-Disposition"] = 'filename="{}"'.format(filename)
 
     num_shares = (
@@ -344,7 +345,7 @@ def shareowner_extra_shares_confirmation(request, pk):
         "Bestätigung Erwerb Anteile %s.pdf" % share_owner.get_info().get_display_name()
     )
 
-    response = HttpResponse(content_type="application/pdf")
+    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     response["Content-Disposition"] = 'filename="{}"'.format(filename)
 
     if "num_shares" not in request.GET.keys():
@@ -370,7 +371,7 @@ def shareowner_membership_agreement(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     filename = "Beteiligungserklärung %s.pdf" % share_owner.get_display_name()
 
-    response = HttpResponse(content_type="application/pdf")
+    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     response["Content-Disposition"] = 'filename="{}"'.format(filename)
     response.write(pdfs.get_membership_agreement_pdf(share_owner).write_pdf())
     return response
