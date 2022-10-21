@@ -8,6 +8,8 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
+from tapir.utils.expection_utils import TapirException
+
 # http://xml.coverpages.org/country3166.html
 COUNTRIES = (
     ("AD", _("Andorra")),
@@ -367,7 +369,7 @@ def get_country_code(full_country_name: str) -> str:
         if full_country_name in pair[1]:
             return pair[0]
 
-    raise Exception("Country code not found for " + full_country_name)
+    raise TapirException("Country code not found for " + full_country_name)
 
 
 def copy_user_info(source, target):

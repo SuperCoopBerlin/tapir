@@ -1,0 +1,2 @@
+class TapirException(Exception):
+    pass

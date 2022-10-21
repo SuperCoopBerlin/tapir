@@ -25,6 +25,7 @@ from tapir.accounts.models import TapirUser
 from tapir.accounts.templatetags.accounts import format_phone_number
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.utils.expection_utils import TapirException
 from tapir.utils.json_user import JsonUser
 
 TAPIR_SELENIUM_BASE_FIXTURES = ["admin_account.json", "test_data.json"]
@@ -83,7 +84,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
             if json_user.get_username() == searched_username:
                 return json_user
 
-        raise Exception("No test user found")
+        raise TapirException("No test user found")
 
     def get_vorstand_user(self) -> JsonUser:
         return self.get_test_user("roberto.cortes")
