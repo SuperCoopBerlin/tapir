@@ -8,7 +8,6 @@ from django.db.models import Sum
 from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
 from django.utils import timezone
-from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
@@ -43,6 +42,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
+from tapir.utils.shortcuts import get_html_link
 
 
 class SelectedUserViewMixin:
@@ -251,10 +251,8 @@ class ShiftUserDataTable(django_tables2.Table):
     email = django_tables2.Column(empty_values=(), orderable=False, visible=False)
 
     def render_display_name(self, value, record: ShiftUserData):
-        return format_html(
-            "<a href={}>{}</a>",
-            record.user.get_absolute_url(),
-            record.user.get_display_name(),
+        return get_html_link(
+            record.user.get_absolute_url(), record.user.get_display_name()
         )
 
     def value_display_name(self, value, record: ShiftUserData):

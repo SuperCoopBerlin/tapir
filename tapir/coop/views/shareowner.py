@@ -10,7 +10,6 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
@@ -72,7 +71,7 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
 )
 from tapir.utils.models import copy_user_info
-from tapir.utils.shortcuts import set_header_for_file_download
+from tapir.utils.shortcuts import set_header_for_file_download, get_html_link
 
 
 class ShareOwnershipViewMixin:
@@ -440,11 +439,8 @@ class ShareOwnerTable(django_tables2.Table):
 
     @staticmethod
     def render_display_name(value, record: ShareOwner):
-        return format_html(
-            "<a href={}>{}</a>",
-            record.get_absolute_url(),
-            record.get_info().get_display_name(),
-        )
+        member = record.get_info()
+        return get_html_link(member.get_absolute_url(), member.get_display_name())
 
     @staticmethod
     def value_display_name(value, record: ShareOwner):
@@ -774,11 +770,8 @@ class MatchingProgramTable(django_tables2.Table):
 
     @staticmethod
     def render_display_name(value, record: ShareOwner):
-        return format_html(
-            "<a href={}>{}</a>",
-            record.get_absolute_url(),
-            record.get_info().get_display_name(),
-        )
+        member = record.get_info()
+        return get_html_link(member.get_absolute_url(), member.get_display_name())
 
     @staticmethod
     def render_willing_to_gift_a_share(value, record: ShareOwner):
@@ -826,11 +819,8 @@ class ShareOwnerTableWelcomeDesk(django_tables2.Table):
 
     @staticmethod
     def render_display_name(value, record: ShareOwner):
-        return format_html(
-            "<a href={}>{}</a>",
-            reverse("coop:welcome_desk_share_owner", args=[record.pk]),
-            record.get_info().get_display_name(),
-        )
+        member = record.get_info()
+        return get_html_link(member.get_absolute_url(), member.get_display_name())
 
 
 class ShareOwnerFilterWelcomeDesk(django_filters.FilterSet):

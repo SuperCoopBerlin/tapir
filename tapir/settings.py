@@ -34,7 +34,7 @@ DEBUG = env("DEBUG", cast=bool, default=False)
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
 
-ENABLE_SILK_PROFILING = False
+ENABLE_SILK_PROFILING = True
 
 # Application definition
 INSTALLED_APPS = [

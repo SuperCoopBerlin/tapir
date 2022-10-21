@@ -7,7 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, QuerySet
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
-from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_GET, require_POST
 from django_filters import DateRangeFilter
@@ -25,6 +24,7 @@ from tapir.utils.filters import TapirUserModelChoiceFilter, ShareOwnerModelChoic
 from tapir.utils.shortcuts import (
     safe_redirect,
     set_header_for_file_download,
+    get_html_link,
 )
 
 
@@ -99,18 +99,10 @@ class LogTable(django_tables2.Table):
     def render_member(self, record):
         # show user or share_owner, depending on what is available
         value = record.user or record.share_owner.get_info()
-        return format_html(
-            "<a href={}>{}</a>",
-            value.get_absolute_url(),
-            value.get_display_name(),
-        )
+        return get_html_link(value.get_absolute_url(), value.get_display_name())
 
     def render_actor(self, value: TapirUser):
-        return format_html(
-            "<a href={}>{}</a>",
-            value.get_absolute_url(),
-            value.get_display_name(),
-        )
+        return get_html_link(value.get_absolute_url(), value.get_display_name())
 
 
 class LogFilter(django_filters.FilterSet):

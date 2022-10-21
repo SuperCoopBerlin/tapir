@@ -5,7 +5,6 @@ from django.db import transaction
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django_filters.views import FilterView
@@ -18,6 +17,7 @@ from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.settings import PERMISSION_COOP_VIEW, PERMISSION_COOP_MANAGE
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
+from tapir.utils.shortcuts import get_html_link
 
 
 class IncomingPaymentTable(django_tables2.Table):
@@ -47,10 +47,9 @@ class IncomingPaymentTable(django_tables2.Table):
         if logged_in_member.share_owner == other_member or logged_in_member.has_perm(
             PERMISSION_COOP_VIEW
         ):
-            return format_html(
-                "<a href={}>{}</a>",
-                other_member.get_info().get_absolute_url(),
-                other_member.get_info().get_display_name(),
+            other_member = other_member.get_info()
+            return get_html_link(
+                other_member.get_absolute_url(), other_member.get_display_name()
             )
         return _("Other member")
 
