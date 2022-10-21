@@ -22,7 +22,10 @@ from tapir.log.models import EmailLogEntry, TextLogEntry, LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_VIEW
 from tapir.utils.filters import TapirUserModelChoiceFilter, ShareOwnerModelChoiceFilter
-from tapir.utils.shortcuts import safe_redirect
+from tapir.utils.shortcuts import (
+    safe_redirect,
+    set_header_for_file_download,
+)
 
 
 @require_GET
@@ -35,7 +38,7 @@ def email_log_entry_content(request, pk):
     )
 
     response = HttpResponse(content_type="application/octet-stream")
-    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+    set_header_for_file_download(response, filename)
     response.write(log_entry.email_content)
     return response
 

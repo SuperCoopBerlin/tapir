@@ -72,6 +72,7 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
 )
 from tapir.utils.models import copy_user_info
+from tapir.utils.shortcuts import set_header_for_file_download
 
 
 class ShareOwnershipViewMixin:
@@ -216,7 +217,7 @@ class ShareOwnerUpdateView(
 def empty_membership_agreement(request):
     filename = "Beteiligungserklärung " + settings.COOP_NAME + ".pdf"
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
+    set_header_for_file_download(response, filename)
     response.write(pdfs.get_membership_agreement_pdf().write_pdf())
     return response
 
@@ -315,7 +316,7 @@ def shareowner_membership_confirmation(request, pk):
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+    set_header_for_file_download(response, filename)
 
     num_shares = (
         request.GET["num_shares"]
@@ -346,7 +347,7 @@ def shareowner_extra_shares_confirmation(request, pk):
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+    set_header_for_file_download(response, filename)
 
     if "num_shares" not in request.GET.keys():
         raise ValidationError("Missing parameter : num_shares")
@@ -372,7 +373,7 @@ def shareowner_membership_agreement(request, pk):
     filename = "Beteiligungserklärung %s.pdf" % share_owner.get_display_name()
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+    set_header_for_file_download(response, filename)
     response.write(pdfs.get_membership_agreement_pdf(share_owner).write_pdf())
     return response
 
@@ -718,7 +719,7 @@ class ShareOwnerExportMailchimpView(
     @staticmethod
     def render_to_response(context, **response_kwargs):
         response = HttpResponse(content_type="text/csv")
-        response["Content-Disposition"] = 'attachment; filename="members_mailchimp.csv"'
+        set_header_for_file_download(response, "members_mailchimp.csv")
         writer = csv.writer(response)
 
         writer.writerow(

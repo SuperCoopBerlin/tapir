@@ -32,6 +32,7 @@ from tapir.coop.models import (
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.models import copy_user_info
+from tapir.utils.shortcuts import set_header_for_file_download
 
 
 class DraftUserViewMixin:
@@ -94,7 +95,7 @@ def draftuser_membership_agreement(request, pk):
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    response["Content-Disposition"] = 'filename="{}"'.format(filename)
+    set_header_for_file_download(response, filename)
     response.write(pdfs.get_membership_agreement_pdf(draft_user).write_pdf())
     return response
 

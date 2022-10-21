@@ -1,5 +1,6 @@
 import datetime
 
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils.encoding import iri_to_uri
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -30,3 +31,7 @@ def get_first_of_previous_first_day_of_month(date: datetime.date):
     if date.day != 1:
         return date.replace(day=1)
     return (date - datetime.timedelta(days=2)).replace(day=1)
+
+
+def set_header_for_file_download(response: HttpResponse, filename: str):
+    response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
