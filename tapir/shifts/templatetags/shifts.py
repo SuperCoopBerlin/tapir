@@ -211,7 +211,8 @@ def shift_filters(context):
 
 @register.simple_tag
 def get_week_group(target_date, cycle_start_dates=None) -> ShiftTemplateGroup | None:
-    if not ShiftTemplateGroup.objects.exists():
+    shift_groups_count = ShiftTemplateGroup.objects.count()
+    if shift_groups_count == 0:
         # Many tests run without creating any ShiftTemplateGroup but still call get_week_group
         return None
 
@@ -231,9 +232,7 @@ def get_week_group(target_date, cycle_start_dates=None) -> ShiftTemplateGroup | 
             for cycle_start_date in cycle_start_dates
             if cycle_start_date <= target_date
         ][-1]
-    delta_weeks = (
-        (target_date - ref_date).days / 7
-    ) % ShiftTemplateGroup.objects.count()
+    delta_weeks = ((target_date - ref_date).days / 7) % shift_groups_count
     return ShiftTemplateGroup.get_group_from_index(delta_weeks)
 
 
