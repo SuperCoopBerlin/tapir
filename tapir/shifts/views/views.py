@@ -75,13 +75,12 @@ class EditShiftUserDataView(PermissionRequiredMixin, UpdateViewLogMixin, UpdateV
 
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
-                log_entry = UpdateShiftUserDataLogEntry().populate(
+                UpdateShiftUserDataLogEntry().populate(
                     old_frozen=self.old_object_frozen,
                     new_frozen=new_frozen,
-                    user=self.object.user,
+                    tapir_user=self.object.user,
                     actor=self.request.user,
-                )
-                log_entry.save()
+                ).save()
 
             return response
 
@@ -125,13 +124,12 @@ def _set_user_attendance_mode(request, user_pk, attendance_mode):
     with transaction.atomic():
         user.shift_user_data.attendance_mode = attendance_mode
         user.shift_user_data.save()
-        log_entry = UpdateShiftUserDataLogEntry().populate(
+        UpdateShiftUserDataLogEntry().populate(
             actor=request.user,
-            user=user,
+            tapir_user=user,
             old_frozen=old_shift_user_data,
-            new_model=user.shift_user_data,
-        )
-        log_entry.save()
+            new_frozen=freeze_for_log(user.shift_user_data),
+        ).save()
 
     return redirect(user)
 

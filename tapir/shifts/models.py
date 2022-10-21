@@ -3,6 +3,7 @@ from __future__ import annotations
 import calendar
 import datetime
 
+from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models, transaction
 from django.db.models import Sum
@@ -366,6 +367,18 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
     slot_template_name = models.CharField(blank=True, max_length=255)
     shift_template = models.ForeignKey(ShiftTemplate, on_delete=models.PROTECT)
 
+    def populate(
+        self,
+        actor: User,
+        tapir_user: TapirUser,
+        shift_attendance_template: ShiftAttendanceTemplate,
+    ):
+        self.slot_template_name = shift_attendance_template.slot_template.name
+        self.shift_template = shift_attendance_template.slot_template.shift_template
+        return super().populate_base(
+            actor=actor, tapir_user=tapir_user, model=shift_attendance_template
+        )
+
 
 class CreateShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
     template_name = "shifts/log/create_shift_attendance_template_log_entry.html"
@@ -474,6 +487,14 @@ class ShiftAttendanceLogEntry(ModelLogEntry):
         if self.state is not None:
             context["state_name"] = SHIFT_ATTENDANCE_STATES[self.state]
         return context
+
+    def populate(self, actor: User, tapir_user: TapirUser, attendance: ShiftAttendance):
+        self.slot_name = attendance.slot.name
+        self.shift = attendance.slot.shift
+        self.state = attendance.state
+        return super().populate_base(
+            actor=actor, tapir_user=tapir_user, model=attendance
+        )
 
 
 class CreateShiftAttendanceLogEntry(ShiftAttendanceLogEntry):
@@ -768,6 +789,20 @@ class UpdateShiftAttendanceStateLogEntry(ShiftAttendanceLogEntry):
 class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
     template_name = "shifts/log/update_shift_user_data_log_entry.html"
 
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        tapir_user: TapirUser,
+        actor: User,
+    ):
+        return super().populate_base(
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+            tapir_user=tapir_user,
+            actor=actor,
+        )
+
 
 class ShiftAttendanceMode:
     REGULAR = "regular"
@@ -938,14 +973,34 @@ class CreateExemptionLogEntry(LogEntry):
 
     template_name = "shifts/log/create_exemption_log_entry.html"
 
-    def populate(self, start_date, end_date, actor, user=None, share_owner=None):
+    def populate(
+        self,
+        start_date: datetime.date,
+        end_date: datetime.date | None,
+        actor,
+        tapir_user,
+    ):
         self.start_date = start_date
         self.end_date = end_date
-        return super().populate(actor=actor, user=user, share_owner=share_owner)
+        return super().populate_base(actor=actor, tapir_user=tapir_user)
 
 
 class UpdateExemptionLogEntry(UpdateModelLogEntry):
     template_name = "shifts/log/update_exemption_log_entry.html"
+
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        tapir_user: TapirUser,
+        actor: User,
+    ):
+        return super().populate_base(
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+            tapir_user=tapir_user,
+            actor=actor,
+        )
 
 
 class ShiftCycleEntry(models.Model):

@@ -45,8 +45,7 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
                 start_date=exemption.start_date,
                 end_date=exemption.end_date,
                 actor=self.request.user,
-                user=exemption.shift_user_data.user,
-                share_owner=self.get_target_user_data().user.share_owner,
+                tapir_user=exemption.shift_user_data.user,
             ).save()
             return super().form_valid(form)
 
@@ -90,15 +89,14 @@ class EditShiftExemptionView(PermissionRequiredMixin, UpdateViewLogMixin, Update
 
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
-                log_entry = UpdateExemptionLogEntry().populate(
+                UpdateExemptionLogEntry().populate(
                     old_frozen=self.old_object_frozen,
                     new_frozen=new_frozen,
-                    user=ShiftUserData.objects.get(
+                    tapir_user=ShiftUserData.objects.get(
                         shift_exemptions=self.kwargs["pk"]
                     ).user,
                     actor=self.request.user,
-                )
-                log_entry.save()
+                ).save()
 
             return response
 

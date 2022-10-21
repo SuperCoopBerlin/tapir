@@ -87,14 +87,13 @@ class ShareOwnershipUpdateView(
 
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
-                log_entry = UpdateShareOwnershipLogEntry().populate(
+                UpdateShareOwnershipLogEntry().populate(
                     share_ownership=form.instance,
                     old_frozen=self.old_object_frozen,
                     new_frozen=new_frozen,
-                    share_owner=form.instance.share_owner,
                     actor=self.request.user,
-                )
-                log_entry.save()
+                    share_owner=form.instance.share_owner,
+                ).save()
 
             return response
 
@@ -120,12 +119,11 @@ class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
 
         with transaction.atomic():
             CreateShareOwnershipsLogEntry().populate(
+                actor=self.request.user,
+                share_owner=share_owner,
                 num_shares=num_shares,
                 start_date=form.cleaned_data["start_date"],
                 end_date=form.cleaned_data["end_date"],
-                actor=self.request.user,
-                user=share_owner.user,
-                share_owner=share_owner,
             ).save()
 
             for _ in range(form.cleaned_data["num_shares"]):
@@ -196,13 +194,12 @@ class ShareOwnerUpdateView(
 
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
-                log_entry = UpdateShareOwnerLogEntry().populate(
+                UpdateShareOwnerLogEntry().populate(
                     old_frozen=self.old_object_frozen,
                     new_frozen=new_frozen,
                     share_owner=form.instance,
                     actor=self.request.user,
-                )
-                log_entry.save()
+                ).save()
 
             return response
 
@@ -222,19 +219,19 @@ def empty_membership_agreement(request):
 @permission_required("coop.manage")
 def mark_shareowner_attended_welcome_session(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
-    old_share_owner_dict = freeze_for_log(share_owner)
+    old_frozen = freeze_for_log(share_owner)
 
     with transaction.atomic():
         share_owner.attended_welcome_session = True
         share_owner.save()
 
-        log_entry = UpdateShareOwnerLogEntry().populate(
-            old_frozen=old_share_owner_dict,
-            new_model=share_owner,
+        new_frozen = freeze_for_log(share_owner)
+        UpdateShareOwnerLogEntry().populate(
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
             share_owner=share_owner,
             actor=request.user,
-        )
-        log_entry.save()
+        ).save()
 
     return redirect(share_owner.get_absolute_url())
 

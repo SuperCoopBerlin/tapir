@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q, Sum, Count, F, PositiveIntegerField
@@ -20,7 +21,7 @@ from tapir.utils.user_utils import UserUtils
 
 
 class ShareOwner(models.Model):
-    """ShareOwner represents an share_owner of a ShareOwnership.
+    """ShareOwner represents a share_owner of a ShareOwnership.
 
     Usually, this is just a proxy for the associated user. However, it may also be used to
     represent a person or company that does not have their own account.
@@ -240,6 +241,20 @@ def get_member_status_translation(searched_status: str) -> str:
 class UpdateShareOwnerLogEntry(UpdateModelLogEntry):
     template_name = "coop/log/update_share_owner_log_entry.html"
 
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        share_owner: ShareOwner,
+        actor: User,
+    ):
+        return super().populate_base(
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+            share_owner=share_owner,
+            actor=actor,
+        )
+
 
 class ShareOwnership(DurationModelMixin, models.Model):
     """ShareOwnership represents ownership of a single share."""
@@ -278,6 +293,9 @@ class ShareOwnership(DurationModelMixin, models.Model):
 class DeleteShareOwnershipLogEntry(ModelLogEntry):
     template_name = "coop/log/delete_share_ownership_log_entry.html"
     exclude_fields = ["id", "share_owner"]
+
+    def populate(self, share_owner: ShareOwner, actor, model):
+        return self.populate_base(share_owner=share_owner, actor=actor, model=model)
 
 
 class DraftUser(models.Model):
@@ -424,12 +442,15 @@ class CreatePaymentLogEntry(LogEntry):
     template_name = "coop/log/create_payment_log_entry.html"
 
     def populate(
-        self, amount, payment_date, actor, paying_member, user=None, share_owner=None
+        self,
+        actor: User,
+        share_owner: ShareOwner,
+        amount: float,
+        payment_date: datetime.date,
     ):
         self.amount = amount
         self.payment_date = payment_date
-        self.paying_member = paying_member
-        return super().populate(actor=actor, user=user, share_owner=share_owner)
+        return super().populate_base(actor=actor, share_owner=share_owner)
 
 
 class CreateShareOwnershipsLogEntry(LogEntry):
@@ -440,12 +461,17 @@ class CreateShareOwnershipsLogEntry(LogEntry):
     template_name = "coop/log/create_share_ownerships_log_entry.html"
 
     def populate(
-        self, num_shares, start_date, end_date, actor, user=None, share_owner=None
+        self,
+        actor,
+        share_owner,
+        num_shares: int,
+        start_date: datetime.date,
+        end_date: datetime.date | None,
     ):
         self.num_shares = num_shares
         self.start_date = start_date
         self.end_date = end_date
-        return super().populate(actor=actor, user=user, share_owner=share_owner)
+        return super().populate_base(actor=actor, share_owner=share_owner)
 
 
 class UpdateShareOwnershipLogEntry(UpdateModelLogEntry):
@@ -455,19 +481,17 @@ class UpdateShareOwnershipLogEntry(UpdateModelLogEntry):
 
     def populate(
         self,
-        share_ownership,
-        old_frozen,
-        new_frozen,
+        share_ownership: ShareOwnership,
+        old_frozen: dict,
+        new_frozen: dict,
         actor,
-        user=None,
-        share_owner=None,
+        share_owner: ShareOwner,
     ):
         self.share_ownership_id = share_ownership.id
-        return super().populate(
+        return super().populate_base(
             old_frozen=old_frozen,
             new_frozen=new_frozen,
             actor=actor,
-            user=user,
             share_owner=share_owner,
         )
 

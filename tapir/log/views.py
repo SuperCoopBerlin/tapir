@@ -54,7 +54,7 @@ def create_text_log_entry(request, **kwargs):
 
     if member_type == "tapir_user":
         member = TapirUser.objects.get(id=member_id)
-        log_entry = TextLogEntry().populate(actor=request.user, user=member)
+        log_entry = TextLogEntry().populate(actor=request.user, tapir_user=member)
     else:
         member = ShareOwner.objects.get(id=member_id)
         log_entry = TextLogEntry().populate(actor=request.user, share_owner=member)

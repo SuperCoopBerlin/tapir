@@ -96,7 +96,8 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
     def get_queryset(self):
         queryset = IncomingPayment.objects.all()
         if not self.request.user.has_perm("coop.view"):
-            logged_in_share_owner = self.request.user.share_owner
+            tapir_user: TapirUser = self.request.user
+            logged_in_share_owner = tapir_user.share_owner
             return queryset.filter(
                 Q(paying_member=logged_in_share_owner)
                 | Q(credited_member=logged_in_share_owner)
@@ -124,11 +125,9 @@ class IncomingPaymentCreateView(PermissionRequiredMixin, generic.CreateView):
             payment.created_by = self.request.user
             payment.save()
             CreatePaymentLogEntry().populate(
+                actor=self.request.user,
+                share_owner=form.cleaned_data["credited_member"],
                 amount=form.cleaned_data["amount"],
                 payment_date=form.cleaned_data["payment_date"],
-                actor=self.request.user,
-                paying_member=form.cleaned_data["paying_member"],
-                user=form.cleaned_data["credited_member"].user,
-                share_owner=form.cleaned_data["credited_member"],
             ).save()
         return super().form_valid(form)

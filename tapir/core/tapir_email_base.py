@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import List, Type
 
+from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 from django.utils import translation
@@ -87,7 +88,7 @@ class TapirEmailBase:
 
         return self.context
 
-    def send_to_share_owner(self, actor: TapirUser, recipient: ShareOwner):
+    def send_to_share_owner(self, actor: User, recipient: ShareOwner):
         self.__send(
             actor=actor,
             share_owner=recipient,
@@ -95,7 +96,7 @@ class TapirEmailBase:
             tapir_user=recipient.user,
         )
 
-    def send_to_tapir_user(self, actor: TapirUser | None, recipient: TapirUser):
+    def send_to_tapir_user(self, actor: User | None, recipient: TapirUser):
         self.__send(
             actor=actor,
             share_owner=recipient.share_owner
@@ -107,7 +108,7 @@ class TapirEmailBase:
 
     def __send(
         self,
-        actor: TapirUser,
+        actor: User,
         share_owner: ShareOwner,
         member_infos,
         tapir_user: TapirUser,
@@ -134,14 +135,13 @@ class TapirEmailBase:
         email.content_subtype = "html"
         email.send()
 
-        log_entry = EmailLogEntry().populate(
+        EmailLogEntry().populate(
             email_id=self.get_unique_id(),
             email_message=email,
             actor=actor,
-            user=tapir_user,
+            tapir_user=tapir_user,
             share_owner=share_owner,
-        )
-        log_entry.save()
+        ).save()
 
     @classmethod
     def register_email(cls, mail_class: Type[TapirEmailBase]):

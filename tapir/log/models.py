@@ -70,7 +70,7 @@ class LogEntry(models.Model):
         else:
             return self
 
-    def populate(self, actor=None, user=None, share_owner=None):
+    def populate_base(self, actor=None, tapir_user=None, share_owner=None):
         """Populate the log entry model fields.
 
         This should be used instead of the normal model creation mechanism to do event-specific info extraction logic
@@ -79,7 +79,7 @@ class LogEntry(models.Model):
         by the log entry class instead."""
 
         self.actor = actor
-        self.user = user
+        self.user = tapir_user
         self.share_owner = share_owner
 
         if self.share_owner and hasattr(self.share_owner, "user"):
@@ -111,11 +111,20 @@ class EmailLogEntry(LogEntry):
     subject = models.CharField(max_length=128, null=True, blank=True)
     email_content = models.BinaryField()
 
-    def populate(self, email_id: str, email_message: EmailMessage, *args, **kwargs):
+    def populate(
+        self,
+        email_id: str,
+        email_message: EmailMessage,
+        actor=None,
+        tapir_user=None,
+        share_owner=None,
+    ):
         self.email_id = email_id
         self.subject = email_message.subject
         self.email_content = email_message.message().as_bytes()
-        return super().populate(*args, **kwargs)
+        return super().populate_base(
+            actor=actor, tapir_user=tapir_user, share_owner=share_owner
+        )
 
     def get_name(self) -> str:
         # Must import locally to avoid import loop.
@@ -129,7 +138,7 @@ class EmailLogEntry(LogEntry):
 class TextLogEntry(LogEntry):
     """TextLogEntry logs a manual textual notes.
 
-    This entry type should only be used for manual, user-entered text. For log entries created as a side-effect of
+    This entry type should only be used for manual, user-entered text. For log entries created as a side effect of
     another action, please create an event-specific LogEntry.
     """
 
@@ -137,9 +146,11 @@ class TextLogEntry(LogEntry):
 
     text = models.TextField(blank=False)
 
-    def populate(self, text=None, *args, **kwargs):
-        self.text = text
-        return super().populate(*args, **kwargs)
+    def populate(self, actor, share_owner=None, tapir_user=None):
+        # The value for the text field is set by a CreateTextLogEntryForm
+        return super().populate_base(
+            actor=actor, share_owner=share_owner, tapir_user=tapir_user
+        )
 
 
 class UpdateModelLogEntry(LogEntry):
@@ -150,8 +161,15 @@ class UpdateModelLogEntry(LogEntry):
     class Meta:
         abstract = True
 
-    def populate(
-        self, old_frozen=None, new_frozen=None, old_model=None, new_model=None, **kwargs
+    def populate_base(
+        self,
+        actor=None,
+        tapir_user=None,
+        share_owner=None,
+        old_frozen: dict | None = None,
+        new_frozen: dict | None = None,
+        old_model=None,
+        new_model=None,
     ):
         if old_model:
             old_frozen = freeze_for_log(old_model)
@@ -173,7 +191,9 @@ class UpdateModelLogEntry(LogEntry):
         self.old_values = old_frozen
         self.new_values = new_frozen
 
-        return super().populate(**kwargs)
+        return super().populate_base(
+            actor=actor, tapir_user=tapir_user, share_owner=share_owner
+        )
 
     def get_context_data(self):
         context = super().get_context_data()
@@ -194,7 +214,14 @@ class ModelLogEntry(LogEntry):
     class Meta:
         abstract = True
 
-    def populate(self, frozen=None, model=None, **kwargs):
+    def populate_base(
+        self,
+        actor=None,
+        share_owner=None,
+        tapir_user=None,
+        frozen=None,
+        model=None,
+    ):
         frozen = freeze_for_log(model) if model else frozen
 
         if hasattr(self, "exclude_fields"):
@@ -202,7 +229,9 @@ class ModelLogEntry(LogEntry):
                 del frozen[k]
 
         self.values = frozen
-        return super().populate(**kwargs)
+        return super().populate_base(
+            actor=actor, share_owner=share_owner, tapir_user=tapir_user
+        )
 
     def get_context_data(self):
         context = super().get_context_data()

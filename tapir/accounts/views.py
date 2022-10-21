@@ -44,13 +44,12 @@ class UserUpdateView(PermissionRequiredMixin, UpdateViewLogMixin, generic.Update
 
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
-                log_entry = UpdateTapirUserLogEntry().populate(
+                UpdateTapirUserLogEntry().populate(
                     old_frozen=self.old_object_frozen,
                     new_frozen=new_frozen,
-                    user=form.instance,
+                    tapir_user=form.instance,
                     actor=self.request.user,
-                )
-                log_entry.save()
+                ).save()
 
             return response
 

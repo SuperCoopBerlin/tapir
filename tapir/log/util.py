@@ -2,7 +2,7 @@ from itertools import chain
 
 
 # Taken from https://stackoverflow.com/questions/21925671/convert-django-model-object-to-dict-with-all-of-the-fields-intact
-def freeze_for_log(instance):
+def freeze_for_log(instance) -> dict:
     opts = instance._meta
     data = {}
     for f in chain(opts.concrete_fields, opts.private_fields):

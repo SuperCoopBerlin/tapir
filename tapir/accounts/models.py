@@ -7,7 +7,7 @@ import pyasn1.codec.ber.encoder
 import pyasn1.type.namedtype
 import pyasn1.type.univ
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser, UserManager, User
 from django.db import connections, router, models
 from django.urls import reverse
 from django.utils import translation
@@ -177,6 +177,20 @@ class TapirUser(LdapUser):
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
     template_name = "accounts/log/update_tapir_user_log_entry.html"
     excluded_fields = ["password"]
+
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        tapir_user: TapirUser,
+        actor: User,
+    ):
+        return super().populate_base(
+            actor=actor,
+            tapir_user=tapir_user,
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+        )
 
 
 # The following LDAP-related models were taken from
