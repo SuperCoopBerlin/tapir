@@ -1,5 +1,7 @@
 import datetime
 
+from unidecode import unidecode
+
 from tapir.accounts.models import TapirUser
 from tapir.utils.models import get_country_code
 from tapir.utils.user_utils import UserUtils
@@ -54,7 +56,7 @@ class JsonUser:
         self.num_shares = max(parsed_json["location"]["street"]["number"] % 10, 1)
 
     def get_username(self) -> str:
-        return self.first_name.lower() + "." + self.last_name.lower()
+        return unidecode(self.first_name.lower() + "." + self.last_name.lower())
 
     def get_display_name(self) -> str:
         return UserUtils.build_display_name(self.first_name, self.last_name)

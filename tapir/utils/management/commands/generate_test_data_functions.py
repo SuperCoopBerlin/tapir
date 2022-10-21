@@ -6,7 +6,7 @@ import random
 
 from django.utils import timezone
 
-from tapir.accounts.models import TapirUser
+from tapir.accounts.models import TapirUser, LdapGroup
 from tapir.coop.models import ShareOwner, ShareOwnership, DraftUser
 from tapir.log.models import LogEntry
 from tapir.shifts.models import (
@@ -174,7 +174,7 @@ def generate_test_users():
         is_company = randomizer % 70 == 0
         is_investing = randomizer % 7 == 0 or is_company
 
-        tapir_user = None
+        tapir_user: TapirUser | None = None
         if not is_company and not is_investing:
             tapir_user = TapirUser.objects.create(
                 username=json_user.get_username(),
@@ -185,6 +185,15 @@ def generate_test_users():
             tapir_user.date_joined = json_user.date_joined
             tapir_user.password = tapir_user.username
             tapir_user.save()
+            tapir_user.set_ldap_password(tapir_user.username)
+            if randomizer % 100 == 1:
+                ldap_group = LdapGroup.objects.get(cn="vorstand")
+                ldap_group.members.append(tapir_user.get_ldap().build_dn())
+                ldap_group.save()
+            elif randomizer % 25 == 1:
+                ldap_group = LdapGroup.objects.get(cn="member-office")
+                ldap_group.members.append(tapir_user.get_ldap().build_dn())
+                ldap_group.save()
 
         share_owner = ShareOwner.objects.create(
             is_company=is_company,
