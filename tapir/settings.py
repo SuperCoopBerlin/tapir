@@ -245,5 +245,5 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, "tapir/translations/locale")]
 
 if ENABLE_SILK_PROFILING:
     SILKY_PYTHON_PROFILER = True
-    SILKY_PYTHON_PROFILER_BINARY = True
     SILKY_META = True
+    SILKY_PROFILE_DIR = "silk_profiling"
