@@ -1,7 +1,7 @@
-{% for group in sidebar_link_groups %}
-    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{{ group.name }}</h6>
+{% for group_name, links in sidebar_link_groups.items %}
+    <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">{{ group_name }}</h6>
     <ul class="nav flex-column">
-        {% for link in group.links %}
+        {% for link in links %}
             <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-1 {% if link.is_active %}active{% endif %}" href="{{ link.url }}" {% if link.html_id %}id="{{ link.html_id }}"{% endif %}>
                     {% if link.material_icon %}
