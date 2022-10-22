@@ -82,7 +82,6 @@ class SidebarLinkGroups:
 
     @staticmethod
     def is_link_shown(user, link: SidebarLink):
-        # TODO : optimize by caching the permissions
         for permission in link.required_permissions:
             if not user.has_perm(permission):
                 return False
