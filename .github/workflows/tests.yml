@@ -10,4 +10,4 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Run Test
-        run: docker-compose run web make test
+        run: docker compose run web make test
