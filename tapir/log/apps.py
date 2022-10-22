@@ -14,10 +14,11 @@ class LogConfig(AppConfig):
 
     @staticmethod
     def register_sidebar_link_groups():
-        sidebar_link_groups.add_link(
-            group_name=_("Cooperative"),
+        coop_group = sidebar_link_groups.get_group(_("Cooperative"))
+        coop_group.add_link(
             display_name=_("Logs"),
             material_icon="manage_search",
             url=reverse_lazy("log:log_overview"),
+            ordering=6,
             required_permissions=[PERMISSION_COOP_MANAGE],
         )

@@ -14,49 +14,48 @@ class CoreConfig(AppConfig):
 
     @staticmethod
     def register_sidebar_link_groups():
-        group_name = _("Cooperative")
-
-        sidebar_link_groups.add_link(
-            group_name=group_name,
+        coop_group = sidebar_link_groups.get_group(_("Cooperative"))
+        coop_group.add_link(
             display_name=_("Emails"),
             material_icon="mail",
             url=reverse_lazy("core:email_list"),
+            ordering=5,
             required_permissions=[PERMISSION_COOP_MANAGE],
         )
 
-        misc_group_name = _("Miscellaneous")
+        misc_group = sidebar_link_groups.get_group(_("Miscellaneous"), 4)
 
-        sidebar_link_groups.add_link(
-            group_name=misc_group_name,
+        misc_group.add_link(
             display_name=_("Wiki"),
             material_icon="feed",
             url="https://wiki.supercoop.de",
+            ordering=1,
         )
 
-        sidebar_link_groups.add_link(
-            group_name=misc_group_name,
+        misc_group.add_link(
             display_name=_("Member manual"),
             material_icon="menu_book",
             url="https://wiki.supercoop.de/wiki/Member_Manual",
+            ordering=2,
         )
 
-        sidebar_link_groups.add_link(
-            group_name=misc_group_name,
+        misc_group.add_link(
             display_name=_("Shop opening hours"),
             material_icon="access_time",
             url="https://wiki.supercoop.de/wiki/%C3%96ffnungszeiten",
+            ordering=3,
         )
 
-        sidebar_link_groups.add_link(
-            group_name=misc_group_name,
+        misc_group.add_link(
             display_name=_("Contact the member office"),
             material_icon="email",
             url="mailto:mitglied@supercoop.de",
+            ordering=4,
         )
 
-        sidebar_link_groups.add_link(
-            group_name=misc_group_name,
+        misc_group.add_link(
             display_name=_("About tapir"),
             material_icon="help",
             url=reverse_lazy("coop:about"),
+            ordering=7,
         )
