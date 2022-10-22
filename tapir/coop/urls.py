@@ -156,11 +156,6 @@ urlpatterns = [
         name="welcome_desk_share_owner",
     ),
     path(
-        "financing_campaign/<int:pk>/edit",
-        views.FinancingCampaignUpdateView.as_view(),
-        name="financing_campaign_update",
-    ),
-    path(
         "member_count_evolution_json",
         views.MemberCountEvolutionJsonView.as_view(),
         name="member_count_evolution_json",
