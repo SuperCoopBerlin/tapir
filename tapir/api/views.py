@@ -124,8 +124,6 @@ class ShiftsNeedingHelpView(APIView):
             ):
                 shifts_needing_help.append(shift)
 
-        shifts_needing_help = shifts_needing_help
-
         serializer = ShiftSerializer(
             shifts_needing_help, many=True, context={"request": request}
         )
