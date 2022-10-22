@@ -13,7 +13,6 @@ from tapir.coop.models import (
     ShareOwnership,
     DraftUser,
     ShareOwner,
-    FinancingCampaign,
     IncomingPayment,
 )
 from tapir.shifts.forms import ShareOwnerChoiceField
@@ -205,29 +204,6 @@ class ShareOwnerForm(forms.ModelForm):
                 "phone_number",
             ]:
                 del self.fields[f]
-
-
-class FinancingCampaignForm(forms.ModelForm):
-    class Meta:
-        model = FinancingCampaign
-        fields = [
-            "name",
-            "is_active",
-            "goal",
-        ]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for source in self.instance.sources.all():
-            self.fields[f"financing_source_{source.id}"] = forms.IntegerField(
-                required=True, label=_(source.name), initial=source.raised_amount
-            )
-
-    def save(self, commit=True):
-        for source in self.instance.sources.all():
-            source.raised_amount = self.cleaned_data[f"financing_source_{source.id}"]
-            source.save()
-        return super().save(commit=commit)
 
 
 class IncomingPaymentForm(forms.ModelForm):

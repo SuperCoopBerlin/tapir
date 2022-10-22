@@ -2,7 +2,6 @@ from django import template
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
-from tapir.coop.models import FinancingCampaign
 from tapir.core.config import TAPIR_TABLE_CLASSES
 from tapir.core.models import SidebarLinkGroup
 from tapir.settings import (
@@ -121,19 +120,6 @@ def get_sidebar_link_groups(request):
             material_icon="add_circle_outline",
             url=reverse_lazy("shifts:create_shift"),
         )
-
-    if (
-        request.user.has_perm(PERMISSION_COOP_MANAGE)
-        and FinancingCampaign.objects.exists()
-    ):
-        campaign_group = SidebarLinkGroup(name=_("Financing campaign"))
-        groups.append(campaign_group)
-        for campaign in FinancingCampaign.objects.all():
-            campaign_group.add_link(
-                display_name=_(campaign.name),
-                material_icon="euro",
-                url=campaign.get_absolute_url(),
-            )
 
     misc_group = SidebarLinkGroup(name=_("Miscellaneous"))
     groups.append(misc_group)

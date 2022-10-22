@@ -47,10 +47,6 @@
 
         <div class="collapse multi-collapse navbar-collapse" id="tapirNavbar" style="justify-content: flex-end;">
             <ul class="navbar-nav">
-                <div>
-                    {% shop_extension_progress_bar %}
-                </div>
-
                 {% if perms.coop.manage %}
                     <li class="nav-item">
                         <form class="form-inline" method="get" action="{% url 'coop:shareowner_list' %}">
