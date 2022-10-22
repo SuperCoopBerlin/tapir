@@ -145,7 +145,7 @@ rm $CERT_HOSTNAME.members.supercoop.de.key $CERT_HOSTNAME.members.supercoop.de.c
 ### Django Shell
 
 ```
-docker-compose exec web poetry run python manage.py shell_plus
+docker compose exec web poetry run python manage.py shell_plus
 ```
 
 ### LDAP
@@ -157,13 +157,13 @@ For reading or modifying the LDAP, Apache Directory Studio is pretty handy.
 For running the test should have a clean openldap container with the test data.
 
 ```
-docker-compose up -d openldap
+docker compose up -d openldap
 ```
 
 Then, run the tests.
 
 ```
-docker-compose run --rm web poetry run pytest
+docker compose run --rm web poetry run pytest
 ```
 
 The `--rm` option will delete the temporary containers created to run the tests. Omit it if you want to keep the
@@ -172,10 +172,10 @@ containers.
 To regenerate the test data fixtures:
 
 ```
-docker-compose up --force-recreate
+docker compose up --force-recreate
 docker compose exec web poetry run python manage.py migrate
 docker compose exec web poetry run python manage.py generate_test_data --reset_all
-docker-compose exec web poetry run python manage.py dumpdata accounts.TapirUser shifts.ShiftTemplateGroup shifts.ShiftTemplate shifts.ShiftSlotTemplate shifts.ShiftAttendanceTemplate coop.ShareOwner coop.ShareOwnership > tapir/utils/fixtures/test_data.json
+docker compose exec web poetry run python manage.py dumpdata accounts.TapirUser shifts.ShiftTemplateGroup shifts.ShiftTemplate shifts.ShiftSlotTemplate shifts.ShiftAttendanceTemplate coop.ShareOwner coop.ShareOwnership > tapir/utils/fixtures/test_data.json
 ```
 
 #### Selenium Tests
@@ -188,7 +188,7 @@ secret
 To generate the translation files, first use "makemessages" and specify the language you want to generate:
 
 ```
-docker-compose exec -w /app/tapir web poetry run python ../manage.py makemessages -l de
+docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages -l de
 ```
 
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.

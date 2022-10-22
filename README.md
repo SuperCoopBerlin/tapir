@@ -36,11 +36,11 @@ For local development and testing, set up the test database and load test data
 
 ```
 # Create tables
-docker-compose exec web poetry run python manage.py migrate
+docker compose exec web poetry run python manage.py migrate
 # Load admin (password: admin) account
-docker-compose exec web poetry run python manage.py loaddata admin_account
+docker compose exec web poetry run python manage.py loaddata admin_account
 # Load lots of test users & shifts
-docker-compose exec web poetry run python manage.py generate_test_data --reset_all
+docker compose exec web poetry run python manage.py generate_test_data --reset_all
 ```
 
 You then can find the local instance of Tapir at [http://localhost:8000](http://localhost:8000). Login with username and
