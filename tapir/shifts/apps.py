@@ -15,7 +15,7 @@ class ShiftConfig(AppConfig):
 
     @staticmethod
     def register_sidebar_links():
-        shifts_group = sidebar_link_groups.get_group(_("Shifts"), 3)
+        shifts_group = sidebar_link_groups.get_group(_("Shifts"), 4)
 
         shifts_group.add_link(
             display_name=_("Shift calendar"),
@@ -78,12 +78,11 @@ class ShiftConfig(AppConfig):
             ordering=7,
         )
 
-        misc_group = sidebar_link_groups.get_group(_("Miscellaneous"))
-        misc_group.add_link(
+        shifts_group.add_link(
             display_name=_("Shift statistics"),
             material_icon="calculate",
             url=reverse_lazy("shifts:statistics"),
-            ordering=6,
+            ordering=8,
         )
 
     @staticmethod

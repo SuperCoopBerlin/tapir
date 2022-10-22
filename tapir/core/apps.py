@@ -14,16 +14,15 @@ class CoreConfig(AppConfig):
 
     @staticmethod
     def register_sidebar_link_groups():
-        coop_group = sidebar_link_groups.get_group(_("Cooperative"))
-        coop_group.add_link(
+        sidebar_link_groups.get_group(_("Management"), 2).add_link(
             display_name=_("Emails"),
             material_icon="mail",
             url=reverse_lazy("core:email_list"),
-            ordering=5,
+            ordering=2,
             required_permissions=[PERMISSION_COOP_MANAGE],
         )
 
-        misc_group = sidebar_link_groups.get_group(_("Miscellaneous"), 4)
+        misc_group = sidebar_link_groups.get_group(_("Miscellaneous"), 5)
 
         misc_group.add_link(
             display_name=_("Wiki"),

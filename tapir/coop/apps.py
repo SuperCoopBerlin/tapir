@@ -15,9 +15,9 @@ class CoopConfig(AppConfig):
 
     @staticmethod
     def register_sidebar_link_groups():
-        coop_group = sidebar_link_groups.get_group(_("Cooperative"), 1)
+        members_group = sidebar_link_groups.get_group(_("Members"), 1)
 
-        coop_group.add_link(
+        members_group.add_link(
             display_name=_("Applicants"),
             material_icon="person_outline",
             url=reverse_lazy("coop:draftuser_list"),
@@ -25,7 +25,7 @@ class CoopConfig(AppConfig):
             required_permissions=[PERMISSION_COOP_MANAGE],
         )
 
-        coop_group.add_link(
+        members_group.add_link(
             display_name=_("Members"),
             material_icon="person",
             url=reverse_lazy("coop:shareowner_list"),
@@ -33,23 +33,32 @@ class CoopConfig(AppConfig):
             required_permissions=[PERMISSION_COOP_MANAGE],
         )
 
-        coop_group.add_link(
+        members_group.add_link(
+            display_name=_("Member statistics"),
+            material_icon="calculate",
+            url=reverse_lazy("coop:statistics"),
+            ordering=3,
+        )
+
+        management_group = sidebar_link_groups.get_group(_("Management"), 2)
+
+        management_group.add_link(
             display_name=_("Matching program"),
             material_icon="card_giftcard",
             url=reverse_lazy("coop:matching_program_list"),
-            ordering=3,
-            required_permissions=[PERMISSION_COOP_MANAGE],
-        )
-
-        coop_group.add_link(
-            display_name=_("Incoming payments"),
-            material_icon="euro",
-            url=reverse_lazy("coop:incoming_payment_list"),
             ordering=4,
             required_permissions=[PERMISSION_COOP_MANAGE],
         )
 
-        welcomedesk_group = sidebar_link_groups.get_group(_("Welcome Desk"), 2)
+        management_group.add_link(
+            display_name=_("Incoming payments"),
+            material_icon="euro",
+            url=reverse_lazy("coop:incoming_payment_list"),
+            ordering=3,
+            required_permissions=[PERMISSION_COOP_MANAGE],
+        )
+
+        welcomedesk_group = sidebar_link_groups.get_group(_("Welcome Desk"), 3)
 
         welcomedesk_group.add_link(
             display_name=_("Welcome Desk"),
@@ -58,15 +67,6 @@ class CoopConfig(AppConfig):
             ordering=1,
             required_permissions=[PERMISSION_WELCOMEDESK_VIEW],
             html_id="welcome_desk_link",
-        )
-
-        misc_group = sidebar_link_groups.get_group(_("Miscellaneous"))
-
-        misc_group.add_link(
-            display_name=_("Coop statistics"),
-            material_icon="calculate",
-            url=reverse_lazy("coop:statistics"),
-            ordering=5,
         )
 
     @staticmethod
