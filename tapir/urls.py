@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views import generic
 
-from tapir.settings import ENABLE_SILK_PROFILING
+from tapir.settings import ENABLE_SILK_PROFILING, ENABLE_API
 
 urlpatterns = [
     path("", generic.RedirectView.as_view(pattern_name="accounts:index")),
@@ -34,3 +34,6 @@ urlpatterns = [
 
 if ENABLE_SILK_PROFILING:
     urlpatterns += [url(r"^silk/", include("silk.urls", namespace="silk"))]
+
+if ENABLE_API:
+    urlpatterns += [url(r"^api/v1/", include("tapir.api.urls"))]

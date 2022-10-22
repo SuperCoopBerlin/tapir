@@ -728,6 +728,10 @@ class ShiftAttendance(models.Model):
             "shifts:update_shift_attendance_state_with_form", args=[self.pk, self.state]
         )
 
+    # helper function for less boilerplate in serialization
+    def get_shift(self):
+        return self.slot.shift
+
     def update_shift_account_entry(self, entry_description=""):
         if self.account_entry is not None:
             previous_entry = self.account_entry
