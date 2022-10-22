@@ -1,3 +1,6 @@
+from typing import Callable
+
+
 class SidebarLink:
     url: str
     display_name: str
@@ -6,6 +9,7 @@ class SidebarLink:
     required_permissions: list
     is_active = False
     ordering: int
+    on_render: Callable
 
 
 class SidebarLinkGroup:
@@ -26,6 +30,7 @@ class SidebarLinkGroup:
         ordering: int,
         required_permissions=None,
         html_id=None,
+        on_render=None,
     ):
         if self.links is None:
             self.links = []
@@ -40,6 +45,7 @@ class SidebarLinkGroup:
         link.ordering = ordering
         link.html_id = html_id
         link.required_permissions = required_permissions
+        link.on_render = on_render
 
         self.links.append(link)
 
@@ -74,6 +80,8 @@ class SidebarLinkGroups:
         for visible_group in visible_groups:
             visible_group.links.sort(key=lambda link: link.ordering)
             for link in visible_group.links:
+                if link.on_render:
+                    link.on_render(link)
                 link.is_active = link.url == url
 
         visible_groups.sort(key=lambda group: group.ordering)

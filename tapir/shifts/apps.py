@@ -13,8 +13,8 @@ class ShiftConfig(AppConfig):
         self.register_sidebar_links()
         self.register_emails()
 
-    @staticmethod
-    def register_sidebar_links():
+    @classmethod
+    def register_sidebar_links(cls):
         shifts_group = sidebar_link_groups.get_group(_("Shifts"), 4)
 
         shifts_group.add_link(
@@ -31,19 +31,12 @@ class ShiftConfig(AppConfig):
             ordering=2,
         )
 
-        from tapir.shifts.templatetags.shifts import get_current_week_group
-
-        current_week_group_name = "???"
-        current_week_group = get_current_week_group()
-        if current_week_group is not None:
-            current_week_group_name = current_week_group.name
         shifts_group.add_link(
-            display_name=_(
-                "ABCD annual calendar, current week: {current_week_group_name}"
-            ).format(current_week_group_name=current_week_group_name),
+            display_name="SET ON RENDER",
             material_icon="table_view",
             url=reverse_lazy("shifts:shift_template_group_calendar"),
             ordering=3,
+            on_render=cls.get_link_display_name_abcd_calendar,
         )
 
         shifts_group.add_link(
@@ -84,6 +77,19 @@ class ShiftConfig(AppConfig):
             url=reverse_lazy("shifts:statistics"),
             ordering=8,
         )
+
+    @classmethod
+    def get_link_display_name_abcd_calendar(cls, link):
+        from tapir.shifts.templatetags.shifts import get_current_week_group
+
+        current_week_group_name = "???"
+        current_week_group = get_current_week_group()
+        if current_week_group is not None:
+            current_week_group_name = current_week_group.name
+
+        link.display_name = _(
+            "ABCD annual calendar, current week: {current_week_group_name}"
+        ).format(current_week_group_name=current_week_group_name)
 
     @staticmethod
     def register_emails():
