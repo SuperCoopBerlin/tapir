@@ -17,41 +17,17 @@
                 <div class="col-4 fw-bold text-end">{% translate "Status" %}:</div>
                 <div class="col-8">
                     {{ user.shift_user_data.get_attendance_mode_display }}
-
-                    {% if perms.accounts.manage %}
-                        <form style="display: inline;" method="POST"
-                              action="{% url 'shifts:set_user_attendance_mode_regular' user.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn tapir-btn btn-secondary btn-sm">
-                                {% translate "Set ABCD 🏠️" %}
-                            </button>
-                        </form>
-                    {% endif %}
                 </div>
-
-
             {% else %}
                 <div class="col-4 fw-bold text-end">{% translate "ABCD Shift" %}:</div>
                 <div class="col-8">
                     {% if user.shift_attendance_templates.count > 0 %}
-                        {% comment %}Usually there will only be one {% endcomment %}
                         {% for shift_attendance_template in user.shift_attendance_templates.all %}
                             <span class="repeated-shift">
                                 <a href="{{ shift_attendance_template.slot_template.shift_template.get_absolute_url }}">
                                 {{ shift_attendance_template.slot_template.get_display_name }}
                                 </a>
                             </span>
-
-                            {% if perms.shifts.manage %}
-                                <form class="form-inline" method="POST"
-                                      action="{% url 'shifts:shift_attendance_template_delete' shift_attendance_template.pk %}?next={% url 'accounts:user_detail' user.pk %}">
-                                    {% csrf_token %}
-                                    <button type="submit"
-                                            class="btn tapir-btn btn-secondary btn-sm unregister-repeated-shift-button">
-                                        <span class="material-icons">person_remove</span>{% translate "Unregister" %}
-                                    </button>
-                                </form>
-                            {% endif %}
                             {% if not forloop.last %},{% endif %}
                         {% endfor %}
 
@@ -64,14 +40,6 @@
                                id="find_abcd_shift_button">
                                 <span class="material-icons">search</span>{% translate "Find an ABCD shift" %}
                             </a>
-
-                            <form style="display: inline;" method="POST"
-                                  action="{% url 'shifts:set_user_attendance_mode_flying' user.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn tapir-btn btn-secondary btn-sm">
-                                    {% translate "Set Flying️" %} ✈
-                                </button>
-                            </form>
                         {% endif %}
                     {% endif %}
                 </div>
