@@ -31,20 +31,20 @@
                 <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 {% if perms.shifts.manage %}
                     <span>
-                        <a class="btn tapir-btn btn-outline-secondary"
+                        <a class="{% tapir_button_link %}"
                            href="{% url 'shifts:shift_detail_printable' shift.pk %}">
                             <span class="material-icons">print</span>{% translate 'Get printable version' %}
                         </a>
-                        <a class="btn tapir-btn btn-outline-secondary" href="{% url 'shifts:create_slot' shift.pk %}">
+                        <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:create_slot' shift.pk %}">
                             <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
                         </a>
-                        <a class="btn tapir-btn btn-outline-secondary" href="{% url 'shifts:shift_edit' shift.pk %}"
+                        <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:shift_edit' shift.pk %}"
                            id="shift_edit_button">
                             <span class="material-icons">edit</span>{% translate 'Edit' %}
                         </a>
                         {% if not shift.cancelled %}
-                            <a class="btn tapir-btn btn-outline-secondary" href="{% url 'shifts:cancel_shift' shift.pk %}">
-                                <span class="material-icons">cancel</span>{% translate 'Cancel' %}
+                            <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:cancel_shift' shift.pk %}">
+                                <span class="material-icons">cancel</span>{% translate 'Cancel shift' %}
                             </a>
                         {% endif %}
                     </span>
@@ -118,7 +118,7 @@
                                                   method="post"
                                                   action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance_states.PENDING %}">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm tapir-btn btn-warning"
+                                                <button type="submit" class="{% tapir_button_custom 'warning' %} btn-sm"
                                                         id="cancel_look_for_stand_in" data-bs-toggle="tooltip"
                                                         title="{% translate 'Cancels the search for a stand-in. Use this if you want to attend the shift.' %}">
                                                     <span class="material-icons">cancel</span>
@@ -139,7 +139,7 @@
                                                 <span {% if not slot.can_look_for_stand_in %} data-bs-toggle="tooltip"
                                                                                               title="{{ stand_in_tooltip }}"{% endif %}>
                                             <button type="submit"
-                                                    class="btn btn-sm tapir-btn btn-warning {% if not slot.can_look_for_stand_in %}disabled{% endif %}"
+                                                    class="{% tapir_button_custom 'warning' %} btn-sm {% if not slot.can_look_for_stand_in %}disabled{% endif %}"
                                                     id="self_look_for_stand_in_button">
                                                 <span class="material-icons">sync</span>
                                                 {% translate "Look for a stand-in" %}
@@ -161,7 +161,7 @@
                                                 possible.{% endblocktranslate %}
                                             <span {% if not slot.can_self_unregister %} data-bs-toggle="tooltip"
                                                                                         title="{{ self_unregister_tooltip }}"{% endif %}>
-                                        <button type="submit" class="btn btn-sm tapir-btn btn-danger"
+                                        <button type="submit" class="{% tapir_button_custom 'danger' %} btn-sm"
                                                 id="unregister_self_button"
                                                 {% if not slot.can_self_unregister %}disabled
                                                 style="pointer-events: none;"{% endif %}>
@@ -186,7 +186,7 @@
                                                 data-bs-html="true"
                                                 title="{{ self_register_tooltip }}"{% endif %}>
                                                 <a href="{% url 'shifts:slot_register' slot.pk %}"
-                                                   class="btn tapir-btn btn-outline-secondary register-to-slot-button {% if not slot.can_self_register and not perms.shifts.manage %}disabled{% endif %}">
+                                                   class="{% tapir_button_link_to_action %} register-to-slot-button {% if not slot.can_self_register and not perms.shifts.manage %}disabled{% endif %}">
                                                     <span class="material-icons">person_add</span>
                                                     {% translate "Register" %}
                                                 </a>
@@ -221,7 +221,7 @@
                                                       action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance.State.DONE %}">
                                                     {% csrf_token %}
                                                     <button type="submit"
-                                                            class="btn tapir-btn btn-success button-mark-attended">
+                                                            class="{% tapir_button_custom 'success' %} button-mark-attended">
                                                         <span class="material-icons">thumb_up</span>
                                                         {% translate "Attended" %}
                                                     </button>
@@ -231,7 +231,7 @@
                                                       action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance.State.MISSED %}">
                                                     {% csrf_token %}
                                                     <button type="submit"
-                                                            class="btn tapir-btn btn-danger button-mark-missed">
+                                                            class="{% tapir_button_custom 'danger' %} button-mark-missed">
                                                         <span class="material-icons">thumb_down</span>
                                                         {% translate "Missed" %}
                                                     </button>
@@ -242,7 +242,7 @@
                                                           action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance.State.PENDING %}">
                                                         {% csrf_token %}
                                                         <button type="submit"
-                                                                class="btn tapir-btn btn-warning member-office-look-for-standin-button">
+                                                                class="{% tapir_button_custom 'warning' %} member-office-look-for-standin-button">
                                                             <span class="material-icons">sync</span>
                                                             {% translate "Cancel looking for a stand-in" %}
                                                         </button>
@@ -253,7 +253,7 @@
                                                           action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance.State.LOOKING_FOR_STAND_IN %}">
                                                         {% csrf_token %}
                                                         <button type="submit"
-                                                                class="btn tapir-btn btn-warning member-office-look-for-standin-button">
+                                                                class="{% tapir_button_custom 'warning' %} member-office-look-for-standin-button">
                                                             <span class="material-icons">sync</span>
                                                             {% translate "Looking for a stand-in" %}
                                                         </button>
@@ -261,7 +261,7 @@
                                                 {% endif %}
                                                 <a href="{% url 'shifts:update_shift_attendance_state_with_form' attendance.pk attendance.State.MISSED_EXCUSED %}"
                                                    type="submit"
-                                                   class="btn tapir-btn btn-warning member-office-excused-button">
+                                                   class="{% tapir_button_custom 'warning' %} member-office-excused-button">
                                                     <span class="material-icons">sick</span>
                                                     {% translate "Excused" %}
                                                 </a>
@@ -269,7 +269,7 @@
                                                       method="post"
                                                       action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance.State.CANCELLED %}">
                                                     {% csrf_token %}
-                                                    <button type="submit" class="btn tapir-btn btn-secondary">
+                                                    <button type="submit" class="{% tapir_button_custom 'secondary' %}">
                                                         <span class="material-icons">person_remove</span>
                                                         {% translate "Cancelled" %}
                                                     </button>
@@ -277,7 +277,7 @@
                                             {% endif %}
                                         {% endwith %}
                                     {% endif %}
-                                    <a class="btn tapir-btn btn-outline-secondary"
+                                    <a class="{% tapir_button_link_to_action %}"
                                        href="{% url 'shifts:edit_slot' slot.pk %}">
                                         <span class="material-icons">edit</span>{% translate 'Edit slot' %}
                                     </a>
@@ -288,7 +288,7 @@
                                         <p>
                                             {{ previous_attendance.user.get_display_name }}
                                             ({{ SHIFT_ATTENDANCE_STATES|dictionary_get:previous_attendance.state }})
-                                            <a class="btn btn-sm tapir-btn btn-outline-secondary"
+                                            <a class="{% tapir_button_link_to_action %} btn-sm"
                                                href="{% url 'shifts:update_shift_attendance_state_with_form' previous_attendance.pk previous_attendance.state %}">
                                                 <span class="material-icons">edit</span>
                                             </a>

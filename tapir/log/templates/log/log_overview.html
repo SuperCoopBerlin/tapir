@@ -5,6 +5,7 @@
 {% load coop %}
 {% load static %}
 {% load render_table from django_tables2 %}
+{% load core %}
 
 {% block head %}
     {{ block.super }}
@@ -23,7 +24,9 @@
                 {% if filter %}
                     <form action="" method="get" class="form log-filter-form">
                         {% bootstrap_form filter.form %}
-                        {% bootstrap_button '<span class="material-icons">filter_alt</span>Filter' button_class="filter-button btn tapir-btn btn-primary" %}
+                        <button class="filter-button {% tapir_button_link %}">
+                            <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                        </button>
                     </form>
                 {% endif %}
             </li>
@@ -31,6 +34,5 @@
                 {% render_table table %}
             </li>
         </ul>
-    </div>
     </div>
 {% endblock %}

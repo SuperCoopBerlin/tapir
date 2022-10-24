@@ -12,9 +12,9 @@
                 <a href="{{ user.get_absolute_url }}">{{ user.get_display_name }}</a>
             </span>
             {% if perms.shifts.manage %}
-                <a class="btn tapir-btn btn-outline-primary"
+                <a class="{% tapir_button_link_to_action %}"
                    href="{% url 'shifts:create_shift_account_entry' user.pk %}">
-                    <span class="material-icons">add</span>{% translate 'Add a manual entry' %}
+                    <span class="material-icons">add_circle_outline</span>{% translate 'Add a manual entry' %}
                 </a>
             {% endif %}
         </h5>

@@ -4,6 +4,7 @@
 {% load static %}
 {% load shifts %}
 {% load i18n %}
+{% load core %}
 
 {% block head %}
     {{ block.super }}
@@ -39,13 +40,13 @@
                             {{ day|date:"M d" }}
                             {% if perms.shifts.manage %}
                                 <a href="{% url 'shifts:shift_day_printable' day|date:'d-m-y' %}"
-                                   class="btn tapir-btn btn-outline-secondary">
+                                   class="{% tapir_button_link %}">
                                     <span class="material-icons">print</span>
                                 </a>
                             {% endif %}
                         </h6>
                         {% for shift in shift_infos %}
-                            <!-- a little bit of margin so the boxes don't overlap -->
+                            <!-- a bit of margin so the boxes don't overlap -->
                             <div style="margin: 3px">
                                 <a href="{% url 'shifts:shift_detail' shift.pk %}">
                                     {% shift_block shift True %}

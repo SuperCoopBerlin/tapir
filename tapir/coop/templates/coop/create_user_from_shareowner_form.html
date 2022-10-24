@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load coop %}
 {% load static %}
+{% load core %}
 
 {% block title %}
     {% translate "Create Tapir account" %}: {{ form.instance.get_display_name }}
@@ -25,7 +26,7 @@
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn tapir-btn btn-primary">
+                        <button type="submit" class="{% tapir_button_action %}">
                             <span class="material-icons">person_add</span>
                             {% translate 'Create account' %}
                         </button>

@@ -17,3 +17,23 @@ def sidebar_links(context):
 @register.simple_tag
 def tapir_table_classes():
     return TAPIR_TABLE_CLASSES
+
+
+@register.simple_tag
+def tapir_button_link():
+    return "btn tapir-btn btn-outline-secondary"
+
+
+@register.simple_tag
+def tapir_button_link_to_action():
+    return "btn tapir-btn btn-outline-primary"
+
+
+@register.simple_tag
+def tapir_button_action():
+    return "btn tapir-btn btn-primary"
+
+
+@register.simple_tag
+def tapir_button_custom(bootstrap_color):
+    return f"btn tapir-btn btn-{bootstrap_color}"

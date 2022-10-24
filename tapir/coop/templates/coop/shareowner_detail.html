@@ -5,6 +5,7 @@
 {% load coop %}
 {% load log %}
 {% load accounts %}
+{% load core %}
 
 {% block title %}
     {% translate "Member" %}: {{ object.get_info.get_display_name }}
@@ -17,17 +18,17 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     {% translate "Personal Data" %}
                     {% if object.user is not None %}
-                        <a class="btn tapir-btn btn-outline-primary" href="{% url 'accounts:user_detail' object.user.pk %}">
+                        <a class="{% tapir_button_link %}" href="{% url 'accounts:user_detail' object.user.pk %}">
                             <span class="material-icons">account_circle</span>
                             {% translate "Go to user page" %}
                         </a>
                     {% elif not object.is_company %}
                         <span>
-                        <a class="btn tapir-btn btn-outline-primary" href="{% url 'coop:shareowner_update' object.pk %}" id="edit_share_owner_button">
+                        <a class="{% tapir_button_link_to_action %}" href="{% url 'coop:shareowner_update' object.pk %}" id="edit_share_owner_button">
                             <span class="material-icons">edit</span>
                             {% translate "Edit" %}
                         </a>
-                        <a class="btn tapir-btn btn-primary" href="{% url 'coop:create_user_from_shareowner' object.pk %}" id="create_tapir_user_button">
+                        <a class="{% tapir_button_link_to_action %}" href="{% url 'coop:create_user_from_shareowner' object.pk %}" id="create_tapir_user_button">
                             <span class="material-icons">person_add</span>
                             {% translate "Create Tapir account" %}
                         </a>

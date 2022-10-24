@@ -7,6 +7,7 @@
 {% load coop %}
 {% load log %}
 {% load accounts %}
+{% load core %}
 
 {% block title %}
     {% translate "Welcome Desk" %}: {{ share_owner.get_info.get_display_name }}
@@ -64,28 +65,28 @@
             {% endif %}
 
             {% if not missing_account and user %}
-            <div class="row m-1">
-                <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                <div class="col-8">{{ share_owner.get_info.get_display_name }}</div>
-            </div>
-            <div class="row m-1">
-                <div class="col-4 fw-bold text-end">{% translate "Member ID" %}:</div>
-                <div class="col-8">#{{ share_owner.pk }}</div>
-            </div>
-            <div class="row m-1">
-                <div class="col-4 fw-bold text-end">{% translate "Co-Purchaser" %}:</div>
-                <div class="col-8">{{ share_owner.get_info.co_purchaser }}</div>
-            </div>
-            {% if perms.accounts.manage %}
-            <div class="row m-1 justify-content-sm-end">
-                <a class="col-md-auto col-1 btn tapir-btn btn-outline-secondary"
-                   href="{% url 'accounts:user_update' share_owner.get_info.pk %}"
-                id="tapir_user_edit_button">
-                    <span class="material-icons">edit</span>{% translate 'Edit' %}
-                </a>
+                <div class="row m-1">
+                    <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
+                    <div class="col-8">{{ share_owner.get_info.get_display_name }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-4 fw-bold text-end">{% translate "Member ID" %}:</div>
+                    <div class="col-8">#{{ share_owner.pk }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-4 fw-bold text-end">{% translate "Co-Purchaser" %}:</div>
+                    <div class="col-8">{{ share_owner.get_info.co_purchaser }}</div>
+                </div>
+                {% if perms.accounts.manage %}
+                    <div class="row m-1 justify-content-sm-end">
+                    <a class="col-md-auto col-1 {% tapir_button_link_to_action %}"
+                       href="{% url 'accounts:user_update' share_owner.get_info.pk %}"
+                       id="tapir_user_edit_button">
+                        <span class="material-icons">edit</span>{% translate 'Edit' %}
+                    </a>
+                {% endif %}
             {% endif %}
-            {% endif %}
-        </div>
+            </div>
         </div>
     </div>
 {% endblock %}

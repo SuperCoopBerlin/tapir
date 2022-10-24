@@ -214,7 +214,11 @@ Please check, if applications runs (again).
 ### Buttons
 
 We use a slightly customized version of the boostrap buttons, typically using those HTML
-classes: `btn tapir-btn btn-[BOOTSTRAP COLOR]`.  
+classes: `btn tapir-btn btn-[BOOTSTRAP COLOR]`.
 Each button should have an icon, we use material-icons.  
 We use outlined buttons for links that have no consequences (for example, going to an edit page), and filled buttons
 when there are consequences (for example, a save button, or sending an email).
+Use the following template tags : 
+ - `{% tapir_button_link %}` for buttons that are simple links
+ - `{% tapir_button_link_to_action %}` for buttons that lead to a form
+ - `{% tapir_button_action %}` for actions with permanent consequences (typically, creating or saving a model)

@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
+{% load core %}
 
 {% block title %}
     {% translate 'Shift attendance' %}: {{ object.user.get_display_name }}
@@ -25,7 +26,7 @@
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn tapir-btn btn-primary" id="save_button">
+                        <button type="submit" class="{% tapir_button_action %}" id="save_button">
                             <span class="material-icons">save</span>
                             {% translate 'Save' %}
                         </button>

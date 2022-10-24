@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
+{% load core %}
 
 {% block title %}
     {% translate "Register for shift slot" %}: {{ slot.get_display_name }}
@@ -27,11 +28,7 @@
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ slot.shift.get_absolute_url }}" class="btn tapir-btn btn-outline-secondary">
-                            <span class="material-icons">cancel</span>
-                            {% translate 'Cancel' %}
-                        </a>
-                        <button type="submit" class="btn tapir-btn btn-primary" id="register_button">
+                        <button type="submit" class="{% tapir_button_action %}" id="register_button">
                             <span class="material-icons">person_add</span>
                             {% translate 'Register' %}
                         </button>

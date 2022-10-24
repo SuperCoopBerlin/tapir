@@ -14,10 +14,10 @@
                 {% translate "Email list" %}
             </span>
             <span>
-                <a class="btn tapir-btn btn-outline-secondary" href="{% url "core:email_list" %}?force_language=en">
+                <a class="{% tapir_button_link %}" href="{% url "core:email_list" %}?force_language=en">
                     <span class="material-icons">translate</span>🇬🇧
                 </a>
-                <a class="btn tapir-btn btn-outline-secondary" href="{% url "core:email_list" %}?force_language=de">
+                <a class="{% tapir_button_link %}" href="{% url "core:email_list" %}?force_language=de">
                     <span class="material-icons">translate</span>🇩🇪
                 </a>
             </span>
@@ -48,7 +48,7 @@
                                 <td>
                                     <div class="d-flex flex-column gap-2">
                                         {% with collapse_id=email.html_id %}
-                                            <button class="btn tapir-btn btn-sm btn-outline-secondary collapsed"
+                                            <button class="{% tapir_button_link %} btn-sm collapsed"
                                                     type="button" data-bs-toggle="collapse"
                                                     data-bs-target="#{{ collapse_id }}" aria-expanded="false"
                                                     aria-controls="{{ collapse_id }}">
@@ -62,7 +62,7 @@
                                 </td>
                                 <td>
                                     {% if email.example %}
-                                        <a class="btn tapir-btn btn-sm btn-outline-secondary"
+                                        <a class="{% tapir_button_link %} btn-sm collapsed"
                                            href="{{ email.example }}">
                                             <span class="material-icons">download</span>Download example
                                         </a>

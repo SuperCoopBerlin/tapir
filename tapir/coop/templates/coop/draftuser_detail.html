@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load accounts %}
+{% load core %}
 
 {% block title %}
     {% translate "Applicant" %}: {{ object.get_display_name }}
@@ -82,7 +83,7 @@
                                   method="post"
                                   action="{% url 'coop:mark_draftuser_attended_welcome_session' object.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn tapir-btn btn-success ms-3">
+                                <button type="submit" class="{% tapir_button_action %} ms-3">
                                     <span class="material-icons">check</span>Mark Attended
                                 </button>
                             </form>
@@ -98,7 +99,7 @@
                         {% else %}
                             <span class="text-warning">Pending</span>
                         {% endif %}
-                        <a class="btn tapir-btn btn-outline-secondary ms-3"
+                        <a class="{% tapir_button_link %} ms-3"
                            href="{% url 'coop:draftuser_membership_agreement' object.pk %}">
                             <span class="material-icons">file_present</span>
                             Beteiligungserklärung
@@ -108,9 +109,8 @@
                                   method="post"
                                   action="{% url 'coop:mark_draftuser_signed_membership_agreement' object.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn tapir-btn btn-success ms-3">
-                                    <span id="button_marker_membership_agreement_signed"
-                                          class="material-icons">check</span>
+                                <button type="submit" class="{% tapir_button_action %} ms-3">
+                                    <span class="material-icons">check</span>
                                     Mark Signed
                                 </button>
                             </form>
@@ -131,7 +131,7 @@
                 </div>
                 <div class="d-flex m-1 mt-5">
                     <div class="d-flex flex-row justify-content-end gap-2">
-                        <a class="btn tapir-btn btn-outline-secondary ms-3"
+                        <a class="{% tapir_button_link_to_action %} ms-3"
                            href="{% url 'coop:draftuser_update' object.pk %}">
                             <span class="material-icons">edit</span>
                             {% translate "Edit" %}
@@ -139,7 +139,7 @@
                         <form class="form-inline ms-3" method="POST"
                               action="{% url 'coop:draftuser_delete' object.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn tapir-btn btn-danger">
+                            <button type="submit" class="{% tapir_button_custom 'danger' %}">
                                 <span class="material-icons">delete</span>Delete
                             </button>
                         </form>
@@ -149,7 +149,7 @@
                                     method="post"
                                     action="{% url 'coop:draftuser_create_share_owner' object.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="align-self-right btn tapir-btn btn-primary ms-3"
+                                <button type="submit" class="align-self-right {% tapir_button_action %} ms-3"
                                         id="button_create_share_owner">
                                     <span class="material-icons">person_add</span>
                                     {% translate "Create Member" %}

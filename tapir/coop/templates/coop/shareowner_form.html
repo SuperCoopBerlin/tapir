@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load coop %}
+{% load core %}
 
 {% block title %}
     {% translate "Edit member" %}: {{ object.get_info.get_display_name }}
@@ -20,7 +21,7 @@
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn tapir-btn btn-primary">
+                        <button type="submit" class="{% tapir_button_action %}">
                             <span class="material-icons">save</span>
                             {% translate 'Save' %}
                         </button>

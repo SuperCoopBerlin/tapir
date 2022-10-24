@@ -12,8 +12,8 @@
         <h5 class="card-header d-flex justify-content-between justify-content-between">
             <span>{% translate "Shift exemptions" %}</span>
             {% if shift_user_data %}
-                <a class="btn tapir-btn btn-outline-primary" href="{% url 'shifts:create_shift_exemption' shift_user_data.id %}" id="create_shift_exemption_button">
-                    <span class="material-icons">add</span>
+                <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:create_shift_exemption' shift_user_data.id %}" id="create_shift_exemption_button">
+                    <span class="material-icons">add_circle_outline</span>
                     Create
                 </a>
             {% endif %}
@@ -36,7 +36,7 @@
                         <td class="align-middle">{{ exemption.description }}</td>
                         <td class="align-middle">{{ exemption.is_valid }}</td>
                         <td class="align-middle">
-                            <a class="btn tapir-btn btn-outline-secondary" href="{% url 'shifts:edit_shift_exemption' exemption.pk %}">
+                            <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:edit_shift_exemption' exemption.pk %}">
                                 <span class="material-icons">edit</span>
                             </a>
                         </td>
