@@ -102,7 +102,7 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
     def check_alerts(self, share_owner: ShareOwner, expected_messages):
         self.login_as_member_office_user()
         response = self.client.get(
-            reverse("coop:welcome_desk_share_owner", args=[share_owner.id])
+            reverse("welcomedesk:welcome_desk_share_owner", args=[share_owner.id])
         )
         response_content = response.content.decode()
         for message in self.MESSAGES:

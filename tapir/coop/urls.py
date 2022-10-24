@@ -146,16 +146,6 @@ urlpatterns = [
         name="matching_program_list",
     ),
     path(
-        "welcome_desk_search",
-        views.WelcomeDeskSearchView.as_view(),
-        name="welcome_desk_search",
-    ),
-    path(
-        "welcome_desk_member/<int:pk>",
-        views.WelcomeDeskShareOwnerView.as_view(),
-        name="welcome_desk_share_owner",
-    ),
-    path(
         "member_count_evolution_json",
         views.MemberCountEvolutionJsonView.as_view(),
         name="member_count_evolution_json",
