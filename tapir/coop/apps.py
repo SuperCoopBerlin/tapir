@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from tapir.core.config import sidebar_link_groups
-from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_WELCOMEDESK_VIEW
+from tapir.settings import PERMISSION_COOP_MANAGE
 
 
 class CoopConfig(AppConfig):
@@ -56,17 +56,6 @@ class CoopConfig(AppConfig):
             url=reverse_lazy("coop:incoming_payment_list"),
             ordering=3,
             required_permissions=[PERMISSION_COOP_MANAGE],
-        )
-
-        welcomedesk_group = sidebar_link_groups.get_group(_("Welcome Desk"), 3)
-
-        welcomedesk_group.add_link(
-            display_name=_("Welcome Desk"),
-            material_icon="table_restaurant",
-            url=reverse_lazy("coop:welcome_desk_search"),
-            ordering=1,
-            required_permissions=[PERMISSION_WELCOMEDESK_VIEW],
-            html_id="welcome_desk_link",
         )
 
     @staticmethod
