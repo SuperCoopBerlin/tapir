@@ -12,6 +12,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 class TestWelcomeDeskAccess(TapirFactoryTestBase):
     PERMISSION_WELCOMEDESK_VIEW = "welcomedesk.view"
+    VIEW_NAME_USER_PROFILE = "accounts:user_me"
 
     def test_normal_user_no_access_without_shift(self):
         normal_user = self.login_as_normal_user()
@@ -27,7 +28,7 @@ class TestWelcomeDeskAccess(TapirFactoryTestBase):
         )
         self.register_user_to_shift(normal_user, shift_not_now)
 
-        response = self.client.get(reverse("accounts:user_me"), follow=True)
+        response = self.client.get(reverse(self.VIEW_NAME_USER_PROFILE), follow=True)
         # We check the user from the request because the permission is not part the user,
         # it only gets added by the middleware.
         self.assertFalse(
@@ -51,7 +52,7 @@ class TestWelcomeDeskAccess(TapirFactoryTestBase):
         self.register_user_to_shift(normal_user, shift_now)
 
         self.login_as_user(normal_user)
-        response = self.client.get(reverse("accounts:user_me"), follow=True)
+        response = self.client.get(reverse(self.VIEW_NAME_USER_PROFILE), follow=True)
 
         self.assertTrue(
             response.context["request"].user.has_perm(self.PERMISSION_WELCOMEDESK_VIEW),
@@ -71,7 +72,7 @@ class TestWelcomeDeskAccess(TapirFactoryTestBase):
             "We assume that the user starts without any shift attendance.",
         )
 
-        response = self.client.get(reverse("accounts:user_me"), follow=True)
+        response = self.client.get(reverse(self.VIEW_NAME_USER_PROFILE), follow=True)
 
         self.assertTrue(
             response.context["request"].user.has_perm(self.PERMISSION_WELCOMEDESK_VIEW),
