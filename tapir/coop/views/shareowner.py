@@ -55,6 +55,7 @@ from tapir.coop.models import (
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
+from tapir.core.views import TapirFormMixin
 from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
@@ -81,7 +82,11 @@ class ShareOwnershipViewMixin:
 
 
 class ShareOwnershipUpdateView(
-    PermissionRequiredMixin, UpdateViewLogMixin, ShareOwnershipViewMixin, UpdateView
+    PermissionRequiredMixin,
+    UpdateViewLogMixin,
+    ShareOwnershipViewMixin,
+    TapirFormMixin,
+    UpdateView,
 ):
     permission_required = PERMISSION_COOP_MANAGE
 
@@ -101,19 +106,35 @@ class ShareOwnershipUpdateView(
 
             return response
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        share_ownership: ShareOwnership = self.object
+        context_data["page_title"] = _("Edit share: %(name)s") % {
+            "name": share_ownership.share_owner.get_info().get_display_name()
+        }
+        context_data["card_title"] = _("Edit share: %(name)s") % {
+            "name": share_ownership.share_owner.get_info().get_html_link()
+        }
+        return context_data
 
-class ShareOwnershipCreateMultipleView(PermissionRequiredMixin, FormView):
+
+class ShareOwnershipCreateMultipleView(
+    PermissionRequiredMixin, TapirFormMixin, FormView
+):
     form_class = ShareOwnershipCreateMultipleForm
     permission_required = PERMISSION_COOP_MANAGE
-    template_name = "core/generic_form.html"
 
     def get_share_owner(self) -> ShareOwner:
         return get_object_or_404(ShareOwner, pk=self.kwargs["shareowner_pk"])
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["card_title"] = _(f"Add shares to %(name)s") % {
-            "name": self.get_share_owner().get_info().get_display_name()
+        share_owner = self.get_share_owner()
+        context_data["page_title"] = _("Add shares to %(name)s") % {
+            "name": share_owner.get_info().get_display_name()
+        }
+        context_data["card_title"] = _("Add shares to %(name)s") % {
+            "name": share_owner.get_info().get_html_link()
         }
         return context_data
 
@@ -186,7 +207,7 @@ class ShareOwnerDetailView(PermissionRequiredMixin, generic.DetailView):
 
 
 class ShareOwnerUpdateView(
-    PermissionRequiredMixin, UpdateViewLogMixin, generic.UpdateView
+    PermissionRequiredMixin, UpdateViewLogMixin, TapirFormMixin, generic.UpdateView
 ):
     permission_required = PERMISSION_ACCOUNTS_MANAGE
     model = ShareOwner
@@ -206,6 +227,17 @@ class ShareOwnerUpdateView(
                 ).save()
 
             return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        share_owner: ShareOwner = self.object
+        context["page_title"] = _("Edit member: %(name)s") % {
+            "name": share_owner.get_display_name()
+        }
+        context["card_title"] = _("Edit member: %(name)s") % {
+            "name": share_owner.get_html_link()
+        }
+        return context
 
 
 @require_GET

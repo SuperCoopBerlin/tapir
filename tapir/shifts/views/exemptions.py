@@ -8,6 +8,8 @@ from django.views.generic import (
     ListView,
 )
 
+from tapir.accounts.models import TapirUser
+from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
@@ -24,7 +26,7 @@ from tapir.shifts.models import (
 )
 
 
-class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
+class CreateShiftExemptionView(PermissionRequiredMixin, TapirFormMixin, CreateView):
     model = ShiftExemption
     form_class = ShiftExemptionForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -72,8 +74,21 @@ class CreateShiftExemptionView(PermissionRequiredMixin, CreateView):
     def get_success_url(self):
         return self.get_target_user_data().user.get_absolute_url()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tapir_user = self.get_target_user_data().user
+        context["page_title"] = _("Shift exemption: %(name)s") % {
+            "name": tapir_user.get_display_name()
+        }
+        context["card_title"] = _("Create shift exemption for: %(link)s") % {
+            "link": tapir_user.get_html_link()
+        }
+        return context
 
-class EditShiftExemptionView(PermissionRequiredMixin, UpdateViewLogMixin, UpdateView):
+
+class EditShiftExemptionView(
+    PermissionRequiredMixin, TapirFormMixin, UpdateViewLogMixin, UpdateView
+):
     model = ShiftExemption
     form_class = ShiftExemptionForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -100,6 +115,17 @@ class EditShiftExemptionView(PermissionRequiredMixin, UpdateViewLogMixin, Update
                 ).save()
 
             return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tapir_user: TapirUser = self.object.shift_user_data.user
+        context["page_title"] = _("Shift exemption: %(name)s") % {
+            "name": tapir_user.get_display_name()
+        }
+        context["card_title"] = _("Edit shift exemption for: %(link)s") % {
+            "link": tapir_user.get_html_link()
+        }
+        return context
 
 
 class ShiftExemptionListView(PermissionRequiredMixin, ListView):

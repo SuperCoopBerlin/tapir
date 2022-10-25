@@ -14,6 +14,7 @@ from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
 from tapir.coop.models import IncomingPayment, ShareOwner, CreatePaymentLogEntry
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
+from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_VIEW, PERMISSION_COOP_MANAGE
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
@@ -110,7 +111,9 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
         return context_data
 
 
-class IncomingPaymentCreateView(PermissionRequiredMixin, generic.CreateView):
+class IncomingPaymentCreateView(
+    PermissionRequiredMixin, TapirFormMixin, generic.CreateView
+):
     permission_required = PERMISSION_COOP_MANAGE
     model = IncomingPayment
     form_class = IncomingPaymentForm
@@ -131,3 +134,9 @@ class IncomingPaymentCreateView(PermissionRequiredMixin, generic.CreateView):
                 payment_date=form.cleaned_data["payment_date"],
             ).save()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["page_title"] = _("Register payment")
+        context["card_title"] = _("Register a new incoming payment")
+        return context

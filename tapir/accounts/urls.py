@@ -8,9 +8,9 @@ accounts_urlpatterns = [
     path(
         "", generic.RedirectView.as_view(pattern_name="accounts:user_me"), name="index"
     ),
-    path("user/me/", views.UserMeView.as_view(), name="user_me"),
-    path("user/<int:pk>/", views.UserDetailView.as_view(), name="user_detail"),
-    path("user/<int:pk>/edit", views.UserUpdateView.as_view(), name="user_update"),
+    path("user/me/", views.TapirUserMeView.as_view(), name="user_me"),
+    path("user/<int:pk>/", views.TapirUserDetailView.as_view(), name="user_detail"),
+    path("user/<int:pk>/edit", views.TapirUserUpdateView.as_view(), name="user_update"),
     path(
         "user/<int:pk>/send_welcome_email",
         views.send_user_welcome_email,

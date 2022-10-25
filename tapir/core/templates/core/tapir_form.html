@@ -1,25 +1,27 @@
-{% extends "shifts/base.html" %}
+{% extends "core/base.html" %}
 
 {% load django_bootstrap5 %}
 {% load i18n %}
+{% load static %}
 {% load core %}
 
+{% block head %}
+    {{ block.super }}
+    {{ form.media }}
+{% endblock %}
+
 {% block title %}
-    {% translate 'Shift exemption' %}: {{ object.shift_user_data.user.get_display_name }}
+    {{ page_title }}
 {% endblock %}
 
 {% block content %}
+
     <div class="container">
-        <div class="card mb-2" id="shift_exemption_form">
+        <div class="card m-2">
             <h5 class="card-header">
-                {% if object.pk %}
-                    {% translate "Edit shift exemption for: " %}
-                {% else %}
-                    {% translate "Create shift exemption for:" %}
-                {% endif %}
-                <a href="{{ object.shift_user_data.user.get_absolute_url }}">
-                    {{ object.shift_user_data.user.get_display_name }}
-                </a>
+                {% autoescape off %}
+                    {{ card_title }}
+                {% endautoescape %}
             </h5>
             <div class="card-body">
                 <form role="form" method="post">

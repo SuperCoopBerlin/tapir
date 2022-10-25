@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import (
@@ -12,6 +13,7 @@ from django.views.generic import (
     FormView,
 )
 
+from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.emails.shift_missed_email import ShiftMissedEmail
 from tapir.shifts.emails.stand_in_found_email import StandInFoundEmail
@@ -168,7 +170,9 @@ class UpdateShiftAttendanceStateView(UpdateShiftAttendanceStateBase):
     fields = []
 
 
-class UpdateShiftAttendanceStateWithFormView(UpdateShiftAttendanceStateBase):
+class UpdateShiftAttendanceStateWithFormView(
+    TapirFormMixin, UpdateShiftAttendanceStateBase
+):
     form_class = UpdateShiftAttendanceForm
     get_state_from_kwargs = False
 
@@ -176,6 +180,21 @@ class UpdateShiftAttendanceStateWithFormView(UpdateShiftAttendanceStateBase):
         kwargs = super().get_form_kwargs()
         kwargs.update({"state": self.kwargs["state"]})
         return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        attendance: ShiftAttendance = self.object
+        context["page_title"] = _("Shift attendance: %(name)s") % {
+            "name": attendance.user.get_display_name()
+        }
+        context["card_title"] = _(
+            "Updating shift attendance: %(member_link)s, %(slot_link)s"
+            % {
+                "member_link": attendance.user.get_html_link(),
+                "slot_link": attendance.slot.get_html_link(),
+            }
+        )
+        return context
 
 
 @require_POST

@@ -13,12 +13,13 @@ from django.views.decorators.http import require_POST
 from tapir.accounts.forms import TapirUserForm, PasswordResetForm
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
+from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import PERMISSION_ACCOUNTS_MANAGE
 
 
-class UserDetailView(PermissionRequiredMixin, generic.DetailView):
+class TapirUserDetailView(PermissionRequiredMixin, generic.DetailView):
     model = TapirUser
     template_name = "accounts/user_detail.html"
 
@@ -28,16 +29,17 @@ class UserDetailView(PermissionRequiredMixin, generic.DetailView):
         return [PERMISSION_ACCOUNTS_MANAGE]
 
 
-class UserMeView(LoginRequiredMixin, generic.RedirectView):
+class TapirUserMeView(LoginRequiredMixin, generic.RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         return reverse("accounts:user_detail", args=[self.request.user.pk])
 
 
-class UserUpdateView(PermissionRequiredMixin, UpdateViewLogMixin, generic.UpdateView):
+class TapirUserUpdateView(
+    PermissionRequiredMixin, UpdateViewLogMixin, TapirFormMixin, generic.UpdateView
+):
     permission_required = PERMISSION_ACCOUNTS_MANAGE
     model = TapirUser
     form_class = TapirUserForm
-    template_name = "accounts/user_form.html"
 
     def form_valid(self, form):
         with transaction.atomic():
@@ -53,6 +55,17 @@ class UserUpdateView(PermissionRequiredMixin, UpdateViewLogMixin, generic.Update
                 ).save()
 
             return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        tapir_user: TapirUser = self.object
+        context["page_title"] = _("Edit member: %(name)s") % {
+            "name": tapir_user.get_display_name()
+        }
+        context["card_title"] = _("Edit member: %(name)s") % {
+            "name": tapir_user.get_html_link()
+        }
+        return context
 
 
 class PasswordResetView(auth_views.PasswordResetView):
