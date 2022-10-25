@@ -17,6 +17,7 @@ from tapir.utils.models import (
     CountryField,
     positive_number_validator,
 )
+from tapir.utils.shortcuts import get_html_link
 from tapir.utils.user_utils import UserUtils
 
 
@@ -158,6 +159,9 @@ class ShareOwner(models.Model):
         if self.is_company:
             return self.company_name
         return UserUtils.build_display_name(self.first_name, self.last_name)
+
+    def get_html_link(self):
+        return get_html_link(url=self.get_absolute_url(), text=self.get_display_name())
 
     def get_display_address(self):
         return UserUtils.build_display_address(
@@ -337,12 +341,10 @@ class DraftUser(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
-        return reverse(
-            "coop:draftuser_detail",
-            args=[
-                self.pk,
-            ],
-        )
+        return reverse("coop:draftuser_detail", args=[self.pk])
+
+    def get_html_link(self):
+        return get_html_link(self.get_absolute_url(), self.get_display_name())
 
     def get_initial_amount(self):
         return self.num_shares * COOP_SHARE_PRICE + COOP_ENTRY_AMOUNT

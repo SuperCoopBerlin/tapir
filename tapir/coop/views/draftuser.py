@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.datetime_safe import date
+from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
@@ -30,28 +31,32 @@ from tapir.coop.models import (
     NewMembershipsForAccountingRecap,
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
 
 
-class DraftUserViewMixin:
+class DraftUserListView(PermissionRequiredMixin, generic.ListView):
+    permission_required = PERMISSION_COOP_MANAGE
     model = DraftUser
-    form_class = DraftUserForm
     ordering = ["created_at"]
 
 
-class DraftUserListView(PermissionRequiredMixin, DraftUserViewMixin, generic.ListView):
+class DraftUserCreateView(PermissionRequiredMixin, TapirFormMixin, generic.CreateView):
     permission_required = PERMISSION_COOP_MANAGE
+    model = DraftUser
+    form_class = DraftUserForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["page_title"] = _("Create applicant")
+        context["card_title"] = _("Create applicant")
+        return context
 
 
-class DraftUserCreateView(
-    PermissionRequiredMixin, DraftUserViewMixin, generic.CreateView
-):
-    permission_required = PERMISSION_COOP_MANAGE
-
-
-class DraftUserRegisterView(DraftUserViewMixin, generic.CreateView):
+class DraftUserRegisterView(generic.CreateView):
+    model = DraftUser
     form_class = DraftUserRegisterForm
     success_url = reverse_lazy("coop:draftuser_confirm_registration")
 
@@ -62,27 +67,36 @@ class DraftUserRegisterView(DraftUserViewMixin, generic.CreateView):
         ]
 
 
-class DraftUserConfirmRegistrationView(DraftUserViewMixin, generic.TemplateView):
+class DraftUserConfirmRegistrationView(generic.TemplateView):
     template_name = "coop/draftuser_confirm_registration.html"
 
 
-class DraftUserUpdateView(
-    PermissionRequiredMixin, DraftUserViewMixin, generic.UpdateView
-):
+class DraftUserUpdateView(PermissionRequiredMixin, TapirFormMixin, generic.UpdateView):
     permission_required = PERMISSION_COOP_MANAGE
+    model = DraftUser
+    form_class = DraftUserForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        draft_user: DraftUser = self.object
+        context["page_title"] = _("Edit applicant: %(name)s") % {
+            "name": draft_user.get_display_name()
+        }
+        context["card_title"] = _("Edit applicant: %(name)s") % {
+            "name": draft_user.get_html_link()
+        }
+        return context
 
 
-class DraftUserDetailView(
-    PermissionRequiredMixin, DraftUserViewMixin, generic.DetailView
-):
+class DraftUserDetailView(PermissionRequiredMixin, generic.DetailView):
     permission_required = PERMISSION_COOP_MANAGE
+    model = DraftUser
 
 
-class DraftUserDeleteView(
-    PermissionRequiredMixin, DraftUserViewMixin, generic.DeleteView
-):
+class DraftUserDeleteView(PermissionRequiredMixin, generic.DeleteView):
     permission_required = PERMISSION_COOP_MANAGE
     success_url = reverse_lazy("coop:draftuser_list")
+    model = DraftUser
 
 
 @require_GET

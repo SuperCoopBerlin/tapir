@@ -21,6 +21,7 @@ from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
+from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_SHIFTS_MANAGE
@@ -62,7 +63,9 @@ class SelectedUserViewMixin:
         return context
 
 
-class EditShiftUserDataView(PermissionRequiredMixin, UpdateViewLogMixin, UpdateView):
+class EditShiftUserDataView(
+    PermissionRequiredMixin, UpdateViewLogMixin, TapirFormMixin, UpdateView
+):
     permission_required = PERMISSION_SHIFTS_MANAGE
     model = ShiftUserData
     form_class = ShiftUserDataForm
@@ -84,6 +87,17 @@ class EditShiftUserDataView(PermissionRequiredMixin, UpdateViewLogMixin, UpdateV
                 ).save()
 
             return response
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data()
+        tapir_user: TapirUser = self.object.user
+        context_data["page_title"] = _("Edit user shift data: %(name)s") % {
+            "name": tapir_user.get_display_name()
+        }
+        context_data["card_title"] = _("Edit user shift data: %(name)s") % {
+            "name": tapir_user.get_html_link()
+        }
+        return context_data
 
 
 def get_shift_slot_names():
@@ -155,7 +169,7 @@ class UserShiftAccountLog(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class CreateShiftAccountEntryView(PermissionRequiredMixin, CreateView):
+class CreateShiftAccountEntryView(PermissionRequiredMixin, TapirFormMixin, CreateView):
     model = ShiftAccountEntry
     form_class = CreateShiftAccountEntryForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -168,9 +182,15 @@ class CreateShiftAccountEntryView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        context["user"] = self.get_target_user()
-        return context
+        context_data = super().get_context_data(**kwargs)
+        tapir_user = self.get_target_user()
+        context_data["page_title"] = _("Shift account: %(name)s") % {
+            "name": tapir_user.get_display_name()
+        }
+        context_data["card_title"] = _(
+            "Create manual shift account entry for:  %(link)s"
+        ) % {"link": tapir_user.get_html_link()}
+        return context_data
 
     def get_success_url(self):
         return self.get_target_user().get_absolute_url()

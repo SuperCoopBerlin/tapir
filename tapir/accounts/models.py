@@ -19,6 +19,7 @@ from tapir.accounts import validators
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import PERMISSIONS
 from tapir.utils.models import CountryField
+from tapir.utils.shortcuts import get_html_link
 from tapir.utils.user_utils import UserUtils
 
 log = logging.getLogger(__name__)
@@ -150,6 +151,9 @@ class TapirUser(LdapUser):
 
     def get_display_name(self):
         return UserUtils.build_display_name(self.first_name, self.last_name)
+
+    def get_html_link(self):
+        return get_html_link(url=self.get_absolute_url(), text=self.get_display_name())
 
     def get_display_address(self):
         return UserUtils.build_display_address(

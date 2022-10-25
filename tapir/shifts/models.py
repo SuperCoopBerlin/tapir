@@ -16,6 +16,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
 from tapir.utils.models import DurationModelMixin
+from tapir.utils.shortcuts import get_html_link
 
 
 class ShiftUserCapability:
@@ -559,6 +560,9 @@ class ShiftSlot(models.Model):
         if self.name:
             display_name = "{} {}".format(self.name, display_name)
         return display_name
+
+    def get_html_link(self):
+        return get_html_link(self.shift.get_absolute_url(), self.get_display_name())
 
     def get_valid_attendance(self) -> ShiftAttendance:
         return self.attendances.with_valid_state().first()

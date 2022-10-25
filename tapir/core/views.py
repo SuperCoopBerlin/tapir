@@ -11,6 +11,12 @@ from tapir.log.models import EmailLogEntry
 from tapir.settings import PERMISSION_COOP_MANAGE
 
 
+class TapirFormMixin:
+    @staticmethod
+    def get_template_names():
+        return ["core/tapir_form.html", "core/tapir_form.default.html"]
+
+
 class EmailListView(PermissionRequiredMixin, TemplateView):
     template_name = "core/email_list.html"
 
