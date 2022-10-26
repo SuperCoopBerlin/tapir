@@ -1,5 +1,6 @@
 import datetime
 
+import phonenumbers
 from unidecode import unidecode
 
 from tapir.accounts.models import TapirUser
@@ -29,7 +30,11 @@ class JsonUser:
         self.first_name = parsed_json["name"]["first"]
         self.last_name = parsed_json["name"]["last"]
         self.email = parsed_json["email"]
-        self.phone_number = parsed_json["phone"].replace("-", "")
+
+        phone_number = phonenumbers.parse(parsed_json["phone"].replace("-", ""), "DE")
+        if not phonenumbers.is_valid_number(phone_number):
+            phone_number = "+4930182722720"  # Olaf
+        self.phone_number = phone_number
 
         date_of_birth = parsed_json["dob"]["date"].replace("Z", "")
         self.birthdate = datetime.datetime.fromisoformat(date_of_birth).date()
