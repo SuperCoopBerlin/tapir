@@ -45,8 +45,12 @@ class TapirUserUpdateView(
         with transaction.atomic():
             response = super().form_valid(form)
 
+            # remove password
             new_frozen = freeze_for_log(form.instance)
-            if self.old_object_frozen != new_frozen:
+            new_frozen.pop("password")
+            old_frozen = self.old_object_frozen
+            old_frozen.pop("password")
+            if old_frozen != new_frozen:
                 UpdateTapirUserLogEntry().populate(
                     old_frozen=self.old_object_frozen,
                     new_frozen=new_frozen,
