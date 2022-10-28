@@ -1625,7 +1625,7 @@ test = ["pytest"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "16d261b45ea41bc960719df1b8dd3754a55b4a161d0530a78d49849f789c3537"
+content-hash = "a2263d068f52d4e751399738b75f3e567fb6a24892f322fc24e538aee6de147b"
 
 [metadata.files]
 amqp = [
