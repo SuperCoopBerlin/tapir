@@ -46,5 +46,5 @@ factory-boy = "^3.2.1"
 poetryup = "^0.12.3"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.2.0"]
 build-backend = "poetry.core.masonry.api"
