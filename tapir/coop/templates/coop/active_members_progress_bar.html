@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<a href={% url 'coop:statistics' %}>
+    <span data-bs-toggle="tooltip" title="{% translate 'Click for more statistics.' %}">
+        <span class="progress" style="width: 250px; height:30px;">
+            <span class="progress-bar" role="progressbar" style="width: {{ progress }}%;">
+                <span>{{ active_members_with_account_count }} {% translate 'active members' %}</span>
+            </span>
+        </span>
+        <span class="text-light">{{ target_member_count }}&nbsp;🎉<span class="material-icons"></span></span>
+    </span>
+</a>

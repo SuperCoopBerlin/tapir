@@ -44,7 +44,9 @@
                 aria-controls="tapirNavbar tapirSidebar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
+        <div>
+            {% active_members_progress_bar %}
+        </div>
         <div class="collapse multi-collapse navbar-collapse" id="tapirNavbar" style="justify-content: flex-end;">
             <ul class="navbar-nav">
                 {% if perms.coop.manage %}
