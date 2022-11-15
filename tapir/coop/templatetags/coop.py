@@ -23,7 +23,7 @@ def share_owner_ownership_list(context, share_owner: ShareOwner):
 def active_members_progress_bar(context):
     total_active_members = ShareOwner.objects.with_status(MemberStatus.ACTIVE)
     active_members_on_start_date = ShareOwner.objects.with_status(
-        MemberStatus.ACTIVE, datetime.date(year=2012, month=11, day=15)
+        MemberStatus.ACTIVE, datetime.date(year=2022, month=11, day=15)
     )
 
     member_count_on_start_date = TapirUser.objects.filter(
