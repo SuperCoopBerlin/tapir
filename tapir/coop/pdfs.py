@@ -3,6 +3,7 @@ import datetime
 from django.conf import settings
 from weasyprint import Document
 
+from tapir.coop import config
 from tapir.coop.models import ShareOwner
 from tapir.utils.pdfs import render_pdf
 
@@ -43,8 +44,8 @@ def get_membership_agreement_pdf(share_owner=None, num_shares=1):
         "coop_full_name": settings.COOP_FULL_NAME,
         "coop_street": settings.COOP_STREET,
         "coop_place": settings.COOP_PLACE,
-        "share_price": settings.COOP_SHARE_PRICE,
-        "entry_amount": settings.COOP_ENTRY_AMOUNT,
+        "share_price": config.COOP_SHARE_PRICE,
+        "entry_amount": config.COOP_ENTRY_AMOUNT,
         "num_shares": num_shares,
     }
     return render_pdf(
