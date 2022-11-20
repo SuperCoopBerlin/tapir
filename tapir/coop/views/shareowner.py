@@ -25,7 +25,7 @@ from django_tables2.export import ExportMixin
 from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
-from tapir.coop.config import COOP_SHARE_PRICE
+from tapir.coop.config import COOP_SHARE_PRICE, on_welcome_session_attendance_update
 from tapir.coop.emails.extra_shares_confirmation_email import (
     ExtraSharesConfirmationEmail,
 )
@@ -217,6 +217,9 @@ class ShareOwnerUpdateView(
         with transaction.atomic():
             response = super().form_valid(form)
 
+            for callback in on_welcome_session_attendance_update:
+                callback(form.instance)
+
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
                 UpdateShareOwnerLogEntry().populate(
@@ -260,6 +263,9 @@ def mark_shareowner_attended_welcome_session(request, pk):
     with transaction.atomic():
         share_owner.attended_welcome_session = True
         share_owner.save()
+
+        for callback in on_welcome_session_attendance_update:
+            callback(share_owner)
 
         new_frozen = freeze_for_log(share_owner)
         UpdateShareOwnerLogEntry().populate(
@@ -306,6 +312,9 @@ class CreateUserFromShareOwnerView(PermissionRequiredMixin, generic.CreateView):
             share_owner.user = form.instance
             share_owner.blank_info_fields()
             share_owner.save()
+
+            for callback in on_welcome_session_attendance_update:
+                callback(share_owner)
 
             LogEntry.objects.filter(share_owner=share_owner).update(
                 user=form.instance, share_owner=None

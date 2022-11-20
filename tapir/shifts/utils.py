@@ -3,7 +3,8 @@ from datetime import datetime, timedelta, date
 
 from django.utils.translation import gettext_lazy as _
 
-from tapir.shifts.models import ShiftTemplateGroup
+from tapir.coop.models import ShareOwner
+from tapir.shifts.models import ShiftTemplateGroup, ShiftAccountEntry
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
 
@@ -108,3 +109,28 @@ class ColorHTMLCalendar(HTMLCalendar):
             self.cssclass_month_head,
             s,
         )
+
+
+def update_shift_account_depending_on_welcome_session_status(share_owner: ShareOwner):
+    if share_owner.user is None:
+        return
+    tapir_user = share_owner.user
+
+    account_entry_from_welcome_session = ShiftAccountEntry.objects.filter(
+        user=tapir_user, is_from_welcome_session=True
+    )
+
+    if not share_owner.attended_welcome_session:
+        account_entry_from_welcome_session.delete()
+        return
+
+    if account_entry_from_welcome_session.exists():
+        return
+
+    ShiftAccountEntry.objects.create(
+        is_from_welcome_session=True,
+        user=tapir_user,
+        description="Welcome session / Willkommenstreffen",
+        date=datetime.today(),
+        value=1,
+    )

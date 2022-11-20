@@ -667,6 +667,9 @@ class ShiftAccountEntry(models.Model):
     # Date the transaction is debited, credited
     date = models.DateTimeField(blank=False)
     description = models.CharField(blank=True, max_length=255)
+    is_from_welcome_session = models.BooleanField(
+        blank=False, null=False, default=False
+    )
 
 
 class ShiftAttendance(models.Model):
