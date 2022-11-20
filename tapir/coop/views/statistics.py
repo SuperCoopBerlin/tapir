@@ -72,12 +72,18 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
     def get_extra_shares_context(self):
         context = dict()
         threshold_date = datetime.date(day=1, month=1, year=2022)
+
+        # Théo 20.11.2022 : The "if share_owner..." should not be necessary since members without active shares
+        # should be filtered out by the member status check. But, in prod we still got null errors on the ".id".
+        # I couldn't find out why.
         first_shares = [
             share_owner.get_oldest_active_share_ownership().id
             for share_owner in ShareOwner.objects.exclude(
                 id__in=ShareOwner.objects.with_status(MemberStatus.SOLD)
             )
+            if share_owner.get_oldest_active_share_ownership() is not None
         ]
+
         extra_shares = (
             ShareOwnership.objects.filter(start_date__gte=threshold_date)
             .exclude(id__in=first_shares)
