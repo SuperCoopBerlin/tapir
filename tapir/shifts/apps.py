@@ -2,6 +2,7 @@ from django.apps import AppConfig
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
+from tapir.coop.config import on_welcome_session_attendance_update
 from tapir.core.config import sidebar_link_groups
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 
@@ -12,6 +13,14 @@ class ShiftConfig(AppConfig):
     def ready(self):
         self.register_sidebar_links()
         self.register_emails()
+
+        from tapir.shifts.utils import (
+            update_shift_account_depending_on_welcome_session_status,
+        )
+
+        on_welcome_session_attendance_update.append(
+            update_shift_account_depending_on_welcome_session_status
+        )
 
     @classmethod
     def register_sidebar_links(cls):
