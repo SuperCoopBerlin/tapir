@@ -106,6 +106,15 @@ class TapirEmailBase:
             tapir_user=recipient,
         )
 
+    def to_log(self, email, actor, tapir_user, share_owner):
+        EmailLogEntry().populate(
+            email_id=self.get_unique_id(),
+            email_message=email,
+            actor=actor,
+            tapir_user=tapir_user,
+            share_owner=share_owner,
+        ).save()
+
     def __send(
         self,
         actor: User,
@@ -134,14 +143,9 @@ class TapirEmailBase:
 
         email.content_subtype = "html"
         email.send()
-
-        EmailLogEntry().populate(
-            email_id=self.get_unique_id(),
-            email_message=email,
-            actor=actor,
-            tapir_user=tapir_user,
-            share_owner=share_owner,
-        ).save()
+        self.to_log(
+            email=email, actor=actor, tapir_user=tapir_user, share_owner=share_owner
+        )
 
     @classmethod
     def register_email(cls, mail_class: Type[TapirEmailBase]):
