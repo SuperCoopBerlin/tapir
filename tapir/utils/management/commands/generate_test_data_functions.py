@@ -7,7 +7,14 @@ import random
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser, LdapGroup
-from tapir.coop.models import ShareOwner, ShareOwnership, DraftUser, IncomingPayment
+from tapir.coop.models import (
+    ShareOwner,
+    ShareOwnership,
+    DraftUser,
+    IncomingPayment,
+    NewMembershipsForAccountingRecap,
+    ExtraSharesForAccountingRecap,
+)
 from tapir.log.models import LogEntry
 from tapir.shifts.models import (
     Shift,
@@ -150,9 +157,9 @@ def get_test_users():
     path_to_json_file = os.path.join(
         pathlib.Path(__file__).parent.absolute(), "test_users.json"
     )
-    file = open(path_to_json_file, encoding="UTF-8")
-    json_string = file.read()
-    file.close()
+    json_file = open(path_to_json_file, encoding="UTF-8")
+    json_string = json_file.read()
+    json_file.close()
 
     return json.loads(json_string)["results"]
 
@@ -367,19 +374,25 @@ def generate_test_applicants():
 
 def clear_data():
     print("Clearing data...")
-    LogEntry.objects.all().delete()
-    ShiftAttendance.objects.all().delete()
-    ShiftCycleEntry.objects.all().delete()
-    ShiftAccountEntry.objects.all().delete()
-    Shift.objects.all().delete()
-    ShiftAttendanceTemplate.objects.all().delete()
-    ShiftTemplate.objects.all().delete()
-    ShiftTemplateGroup.objects.all().delete()
-    ShiftUserData.objects.all().delete()
-    ShareOwnership.objects.all().delete()
-    IncomingPayment.objects.all().delete()
-    ShareOwner.objects.all().delete()
-    DraftUser.objects.all().delete()
+    classes = [
+        LogEntry,
+        ShiftAttendance,
+        ShiftCycleEntry,
+        ShiftAccountEntry,
+        Shift,
+        ShiftAttendanceTemplate,
+        ShiftTemplate,
+        ShiftTemplateGroup,
+        ShiftUserData,
+        ShareOwnership,
+        IncomingPayment,
+        NewMembershipsForAccountingRecap,
+        ExtraSharesForAccountingRecap,
+        ShareOwner,
+        DraftUser,
+    ]
+    for cls in classes:
+        cls.objects.all().delete()
     TapirUser.objects.filter(is_staff=False).delete()
     print("Done")
 
