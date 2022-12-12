@@ -2,8 +2,8 @@
 
 <a class="nav-link" href="https://wiki.supercoop.de/wiki/Community_Challenge:_Holt_ein_weiteres_aktives_Mitglied_an_Bord!">
     {% blocktranslate asvar tooltip %}
-        Grey : number of active members on 15.11.2022 <br/>
-        Blue : number of new members since 15.11.2022 <br/>
+        Grey : {{ member_count_on_start_date }} active members on 15.11.2022 <br/>
+        Blue : {{ new_member_count_since_start_date }} new members since 15.11.2022 <br/>
         Click for more statistics
     {% endblocktranslate %}
     <span data-bs-toggle="tooltip" data-bs-html="true" title="{{ tooltip }}">
