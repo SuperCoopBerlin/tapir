@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-06 19:39+0100\n"
+"POT-Creation-Date: 2022-12-12 21:15+0100\n"
 "PO-Revision-Date: 2022-10-25 18:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -544,19 +544,27 @@ msgid "Latest changes"
 msgstr "Letzte Änderungen"
 
 #: coop/templates/coop/active_members_progress_bar.html:4
+#, python-format
 msgid ""
 "\n"
-"        Grey : number of active members on 15.11.2022 <br/>\n"
-"        Blue : number of new members since 15.11.2022 <br/>\n"
+"        Grey : %(member_count_on_start_date)s active members on 15.11.2022 "
+"<br/>\n"
+"        Blue : %(new_member_count_since_start_date)s new members since "
+"15.11.2022 <br/>\n"
 "        Click for more statistics\n"
 "    "
 msgstr ""
+"\n"
+"        Grau : %(member_count_on_start_date)s aktive Mitglieder am "
+"15.11.2022 <br/>\n"
+"        Blau : %(new_member_count_since_start_date)s neue Mitglieder seit "
+"dem 15.11.2022 <br/>\n"
+"        Klicke hier für mehr Statistiken.\n"
+"    "
 
 #: coop/templates/coop/active_members_progress_bar.html:11
-#, fuzzy
-#| msgid "Active with account"
 msgid "Active Members with a Tapir Account"
-msgstr "Aktiv mit Konto"
+msgstr "Aktive Mitglieder mit Tapir-Konto"
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:10
 #: coop/templates/coop/create_user_from_shareowner_form.html:22
