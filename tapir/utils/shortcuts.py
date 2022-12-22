@@ -2,6 +2,7 @@ import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.utils.encoding import iri_to_uri
 from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
@@ -40,3 +41,10 @@ def set_header_for_file_download(response: HttpResponse, filename: str):
 
 def get_html_link(url: str, text: str):
     return format_html("<a href={}>{}</a>", url, text)
+
+
+def get_timezone_aware_datetime(
+    date: datetime.date, time: datetime.time
+) -> datetime.datetime:
+    result = datetime.datetime.combine(date, time)
+    return timezone.make_aware(result)

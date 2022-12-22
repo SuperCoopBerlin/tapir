@@ -5,6 +5,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Sum
 from django.db.models.signals import pre_save
@@ -16,7 +17,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
 from tapir.utils.models import DurationModelMixin
-from tapir.utils.shortcuts import get_html_link
+from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
 
 
 class ShiftUserCapability:
@@ -216,10 +217,8 @@ class ShiftTemplate(models.Model):
                     break
                 shift_date += datetime.timedelta(days=1)
 
-        start_time = datetime.datetime.combine(shift_date, self.start_time)
-        start_time = timezone.make_aware(start_time)
-        end_time = datetime.datetime.combine(shift_date, self.end_time)
-        end_time = timezone.make_aware(end_time)
+        start_time = get_timezone_aware_datetime(shift_date, self.start_time)
+        end_time = get_timezone_aware_datetime(shift_date, self.end_time)
 
         return Shift(
             shift_template=self,
@@ -262,6 +261,17 @@ class ShiftTemplate(models.Model):
         )
         for shift in self.generated_shifts.filter(start_time__gt=timezone.now()):
             slot_template.create_slot_from_template(shift)
+
+    def update_future_generated_shifts_to_fit_this(self):
+        with transaction.atomic():
+            for shift in self.get_future_generated_shifts():
+                shift.update_to_fit_template()
+
+    def clean(self):
+        if self.start_time >= self.end_time:
+            raise ValidationError(
+                f"The shift must end after it starts. Given start time: {self.start_time}. Given end time: {self.end_time}"
+            )
 
 
 class ShiftSlotTemplate(models.Model):
@@ -473,6 +483,26 @@ class Shift(models.Model):
         if self.shift_template:
             return self.shift_template.num_required_attendances
         return self.num_required_attendances
+
+    def clean(self):
+        if self.start_time >= self.end_time:
+            raise ValidationError(
+                "The start of the shift must be before it's end : " + self.__str__()
+            )
+
+    def update_to_fit_template(self):
+        date = get_monday(self.start_time.date()) + datetime.timedelta(
+            days=self.shift_template.weekday
+        )
+        self.start_time = get_timezone_aware_datetime(
+            date, self.shift_template.start_time
+        )
+        self.end_time = get_timezone_aware_datetime(date, self.shift_template.end_time)
+        self.name = self.shift_template.name
+        self.description = self.shift_template.description
+        self.num_required_attendances = self.shift_template.num_required_attendances
+        self.clean()
+        self.save()
 
 
 class ShiftAttendanceLogEntry(ModelLogEntry):

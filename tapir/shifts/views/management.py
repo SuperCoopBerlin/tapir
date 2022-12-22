@@ -4,9 +4,15 @@ from django.shortcuts import get_object_or_404
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, UpdateView
 
+from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
-from tapir.shifts.forms import ShiftCreateForm, ShiftSlotForm, ShiftCancelForm
-from tapir.shifts.models import Shift, ShiftSlot, ShiftAttendance
+from tapir.shifts.forms import (
+    ShiftCreateForm,
+    ShiftSlotForm,
+    ShiftCancelForm,
+    ShiftTemplateForm,
+)
+from tapir.shifts.models import Shift, ShiftSlot, ShiftAttendance, ShiftTemplate
 
 
 class ShiftCreateView(PermissionRequiredMixin, CreateView):
@@ -102,3 +108,21 @@ class EditShiftView(PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["card_title"] = _("Edit shift:") + self.object.get_display_name()
         return context
+
+
+class EditShiftTemplateView(PermissionRequiredMixin, TapirFormMixin, UpdateView):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+    model = ShiftTemplate
+    form_class = ShiftTemplateForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = (
+            _("Edit shift template:") + self.object.get_display_name()
+        )
+        return context
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            self.object.update_future_generated_shifts_to_fit_this()
+        return super().form_valid(form)
