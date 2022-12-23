@@ -357,3 +357,24 @@ class ShiftTemplateForm(forms.ModelForm):
         ),
         required=True,
     )
+
+
+class ShiftSlotTemplateForm(forms.ModelForm):
+    class Meta:
+        model = ShiftSlotTemplate
+        fields = ["name", "required_capabilities", "warnings"]
+        widgets = {
+            "required_capabilities": forms.widgets.CheckboxSelectMultiple(
+                choices=SHIFT_USER_CAPABILITY_CHOICES.items()
+            ),
+            "warnings": forms.widgets.CheckboxSelectMultiple(
+                choices=SHIFT_SLOT_WARNING_CHOICES.items()
+            ),
+        }
+
+    check_update_future_shifts = BooleanField(
+        label=_(
+            "I understand that adding a slot to this ABCD shift will add the slot to all the corresponding future shifts"
+        ),
+        required=True,
+    )

@@ -11,8 +11,15 @@ from tapir.shifts.forms import (
     ShiftSlotForm,
     ShiftCancelForm,
     ShiftTemplateForm,
+    ShiftSlotTemplateForm,
 )
-from tapir.shifts.models import Shift, ShiftSlot, ShiftAttendance, ShiftTemplate
+from tapir.shifts.models import (
+    Shift,
+    ShiftSlot,
+    ShiftAttendance,
+    ShiftTemplate,
+    ShiftSlotTemplate,
+)
 
 
 class ShiftCreateView(PermissionRequiredMixin, CreateView):
@@ -126,3 +133,41 @@ class EditShiftTemplateView(PermissionRequiredMixin, TapirFormMixin, UpdateView)
         with transaction.atomic():
             self.object.update_future_generated_shifts_to_fit_this()
         return super().form_valid(form)
+
+
+class ShiftTemplateCreateView(PermissionRequiredMixin, TapirFormMixin, CreateView):
+    model = ShiftTemplate
+    form_class = ShiftTemplateForm
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = _("Create an ABCD shift")
+        return context
+
+
+class ShiftSlotTemplateCreateView(PermissionRequiredMixin, TapirFormMixin, CreateView):
+    model = ShiftSlotTemplate
+    form_class = ShiftSlotTemplateForm
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    def get_shift_template(self):
+        return ShiftTemplate.objects.get(pk=self.kwargs.get("shift_pk"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context[
+            "card_title"
+        ] = f"Adding a slot to {self.get_shift_template().get_display_name()}"
+        return context
+
+    def form_valid(self, form):
+        shift_template = self.get_shift_template()
+        form.instance.shift_template = shift_template
+        result = super().form_valid(form)
+        for shift in shift_template.get_future_generated_shifts():
+            form.instance.create_slot_from_template(shift)
+        return result
+
+    def get_success_url(self):
+        return self.get_shift_template().get_absolute_url()

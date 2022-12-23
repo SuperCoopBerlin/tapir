@@ -17,10 +17,15 @@
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>{% translate 'ABCD Shift' %}: {{ object.get_display_name }}</span>
             {% if perms.shifts.manage %}
-                <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:shift_template_edit' object.pk %}">
-                    <span class="material-icons button-icon">edit</span>
-                    {% translate "Edit" %}
-                </a>
+                <span>
+                    <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:create_slot_template' object.pk %}">
+                        <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
+                    </a>
+                    <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:shift_template_edit' object.pk %}">
+                        <span class="material-icons button-icon">edit</span>
+                        {% translate "Edit" %}
+                    </a>
+                </span>
             {% endif %}
         </h5>
         <ul class="list-group list-group-flush">
@@ -30,7 +35,8 @@
                 </li>
             {% endif %}
             <li class="list-group-item">
-                <table class="{% tapir_table_classes %}" aria-label="{% translate 'List of slots for this ABCD shifts' %}">
+                <table class="{% tapir_table_classes %}"
+                       aria-label="{% translate 'List of slots for this ABCD shifts' %}">
                     <thead>
                     <tr>
                         <th></th>
@@ -72,7 +78,8 @@
                                     <td>
                                         {% if perms.shifts.manage %}
                                             <a class="{% tapir_button_link_to_action %} abcd_shift_register_button"
-                                               href="{% url 'shifts:slottemplate_register' slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
+                                               href="
+                                                       {% url 'shifts:slottemplate_register' slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
                                                 <span class="material-icons">person_add</span>
                                                 {% translate "Register" %}
                                             </a>

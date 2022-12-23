@@ -81,10 +81,18 @@ class ShiftConfig(AppConfig):
         )
 
         shifts_group.add_link(
+            display_name=_("Add an ABCD shift"),
+            material_icon="add_circle_outline",
+            url=reverse_lazy("shifts:shift_template_create"),
+            required_permissions=[PERMISSION_SHIFTS_MANAGE],
+            ordering=8,
+        )
+
+        shifts_group.add_link(
             display_name=_("Shift statistics"),
             material_icon="calculate",
             url=reverse_lazy("shifts:statistics"),
-            ordering=8,
+            ordering=9,
         )
 
     @classmethod

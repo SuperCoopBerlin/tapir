@@ -8,6 +8,7 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
 )
 from tapir.shifts.tests.factories import ShiftTemplateFactory
+from tapir.utils.shortcuts import get_monday
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -84,3 +85,56 @@ class TestShiftTemplateEdit(TapirFactoryTestBase):
         )
 
         self.assertEqual(response.status_code, 403)
+
+    def test_after_call_past_shifts_are_not_updated(self):
+        self.login_as_member_office_user()
+
+        for name in ["A", "B"]:
+            ShiftTemplateGroup.objects.create(name=name)
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create(
+            name="Name before",
+            description="Description before",
+            start_time=datetime.time(hour=10, minute=0),
+            end_time=datetime.time(hour=13, minute=0),
+            num_required_attendances=3,
+            weekday=0,
+        )
+        shift_template.group = ShiftTemplateGroup.objects.get(name="A")
+        shift_template.save()
+
+        shift = shift_template.create_shift(
+            start_date=get_monday(datetime.date.today() - datetime.timedelta(days=10))
+        )
+
+        response = self.client.post(
+            reverse(self.SHIFT_TEMPLATE_EDIT_VIEW, args=[shift_template.pk]),
+            {
+                "name": "Name after",
+                "description": "Description after",
+                "start_time": datetime.time(hour=11, minute=30),
+                "end_time": datetime.time(hour=13, minute=45),
+                "num_required_attendances": 4,
+                "group": ShiftTemplateGroup.objects.get(name="B").id,
+                "weekday": 1,
+                "check_update_future_shifts": True,
+            },
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        shift_template.refresh_from_db()
+        self.assertEqual("Name after", shift_template.name)
+
+        shift.refresh_from_db()
+        self.assertEqual("Name before", shift.name)
+        self.assertEqual("Description before", shift.description)
+        self.assertEqual(
+            datetime.time(hour=10, minute=0),
+            timezone.localtime(shift.start_time).time(),
+        )
+        self.assertEqual(
+            datetime.time(hour=13, minute=0), timezone.localtime(shift.end_time).time()
+        )
+        self.assertEqual(0, shift.start_time.weekday())
+        self.assertEqual(3, shift.num_required_attendances)
