@@ -500,12 +500,6 @@ class Shift(models.Model):
             return self.shift_template.num_required_attendances
         return self.num_required_attendances
 
-    def clean(self):
-        if self.start_time >= self.end_time:
-            raise ValidationError(
-                "The start of the shift must be before it's end : " + self.__str__()
-            )
-
     def update_to_fit_template(self):
         date = get_monday(self.start_time.date()) + datetime.timedelta(
             days=self.shift_template.weekday
@@ -517,7 +511,6 @@ class Shift(models.Model):
         self.name = self.shift_template.name
         self.description = self.shift_template.description
         self.num_required_attendances = self.shift_template.num_required_attendances
-        self.clean()
         self.save()
 
 
