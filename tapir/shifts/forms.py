@@ -374,7 +374,7 @@ class ShiftSlotTemplateForm(forms.ModelForm):
 
     check_update_future_shifts = BooleanField(
         label=_(
-            "I understand that adding a slot to this ABCD shift will add the slot to all the corresponding future shifts"
+            "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
         ),
         required=True,
     )

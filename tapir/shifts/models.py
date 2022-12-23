@@ -274,7 +274,28 @@ class ShiftTemplate(models.Model):
             )
 
 
-class ShiftSlotTemplate(models.Model):
+class RequiredCapabilitiesMixin:
+    # Théo 23.12.22 the required_capabilities field could be moved to this class, but we'd need to migrate
+    # the data from ShiftSlot and ShiftSlotTemplate to it first
+    def get_required_capabilities_display(self):
+        return ", ".join(
+            [
+                str(SHIFT_USER_CAPABILITY_CHOICES[capability])
+                for capability in self.required_capabilities
+            ]
+        )
+
+    def get_required_capabilities_dict(self):
+        """
+        returns required capabilites as dictionary with corresponding translatiom
+        """
+        return {
+            capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
+            for capability in self.required_capabilities
+        }
+
+
+class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
     name = models.CharField(blank=True, max_length=255)
     shift_template = models.ForeignKey(
         ShiftTemplate,
@@ -301,11 +322,6 @@ class ShiftSlotTemplate(models.Model):
         blank=True,
         null=False,
     )
-
-    def get_required_capabilities_display(self):
-        return ", ".join(
-            [SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.required_capabilities]
-        )
 
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
@@ -538,7 +554,7 @@ class ShiftAttendanceTakenOverLogEntry(ShiftAttendanceLogEntry):
     template_name = "shifts/log/shift_attendance_taken_over_log_entry.html"
 
 
-class ShiftSlot(models.Model):
+class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
     slot_template = models.ForeignKey(
         ShiftSlotTemplate,
         null=True,
@@ -569,23 +585,6 @@ class ShiftSlot(models.Model):
         blank=True,
         null=False,
     )
-
-    def get_required_capabilities_display(self):
-        return ", ".join(
-            [
-                str(SHIFT_USER_CAPABILITY_CHOICES[capability])
-                for capability in self.required_capabilities
-            ]
-        )
-
-    def get_required_capabilities_dict(self):
-        """
-        returns required capabilites as dictionary with corresponding translatiom
-        """
-        return {
-            capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
-            for capability in self.required_capabilities
-        }
 
     def get_display_name(self):
         display_name = self.shift.get_display_name()
@@ -679,6 +678,12 @@ class ShiftSlot(models.Model):
             )
         attendance.state = ShiftAttendance.State.PENDING
         attendance.save()
+
+    def update_slot_from_template(self):
+        self.name = self.slot_template.name
+        self.required_capabilities = self.slot_template.required_capabilities
+        self.warnings = self.slot_template.warnings
+        self.save()
 
 
 class ShiftAccountEntry(models.Model):

@@ -167,4 +167,9 @@ urlpatterns = [
         views.ShiftSlotEditView.as_view(),
         name="edit_slot",
     ),
+    path(
+        "slot_template/<int:pk>/edit",
+        views.ShiftSlotTemplateEditView.as_view(),
+        name="edit_slot_template",
+    ),
 ]

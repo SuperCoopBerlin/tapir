@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, UpdateView
 
@@ -171,3 +172,28 @@ class ShiftSlotTemplateCreateView(PermissionRequiredMixin, TapirFormMixin, Creat
 
     def get_success_url(self):
         return self.get_shift_template().get_absolute_url()
+
+
+class ShiftSlotTemplateEditView(PermissionRequiredMixin, TapirFormMixin, UpdateView):
+    model = ShiftSlotTemplate
+    form_class = ShiftSlotTemplateForm
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    def get_slot_template(self):
+        return ShiftSlotTemplate.objects.get(pk=self.kwargs.get("pk"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = f"Editing {self.get_slot_template().get_display_name()}"
+        return context
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        for slot in self.get_slot_template().generated_slots.filter(
+            shift__start_time__gt=timezone.now()
+        ):
+            slot.update_slot_from_template()
+        return result
+
+    def get_success_url(self):
+        return self.get_slot_template().shift_template.get_absolute_url()
