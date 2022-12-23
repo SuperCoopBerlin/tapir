@@ -26,7 +26,7 @@ class TestShiftReminder(TapirFactoryTestBase, TapirEmailTestBase):
 
         Command.send_shift_reminder_for_user(user.shift_user_data)
 
-        self.assertEquals(
+        self.assertEqual(
             0,
             len(mail.outbox),
             "A shift that is in the past should not get a reminder even if the reminder has never been sent.",
@@ -45,7 +45,7 @@ class TestShiftReminder(TapirFactoryTestBase, TapirEmailTestBase):
 
         Command.send_shift_reminder_for_user(user.shift_user_data)
 
-        self.assertEquals(
+        self.assertEqual(
             0,
             len(mail.outbox),
             "A shift that is too far in the future should not get a reminder.",
@@ -66,7 +66,7 @@ class TestShiftReminder(TapirFactoryTestBase, TapirEmailTestBase):
 
         Command.send_shift_reminder_for_user(user.shift_user_data)
 
-        self.assertEquals(
+        self.assertEqual(
             1,
             len(mail.outbox),
             "A shift that is in the new future should get a reminder.",

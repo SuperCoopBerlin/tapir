@@ -33,6 +33,16 @@ urlpatterns = [
         name="shift_edit",
     ),
     path(
+        "shift_template/<int:pk>/edit",
+        views.EditShiftTemplateView.as_view(),
+        name="shift_template_edit",
+    ),
+    path(
+        "shift_template/create",
+        views.ShiftTemplateCreateView.as_view(),
+        name="shift_template_create",
+    ),
+    path(
         "shift_attendance/<int:pk>/<int:state>",
         views.UpdateShiftAttendanceStateView.as_view(),
         name="update_shift_attendance_state",
@@ -148,8 +158,18 @@ urlpatterns = [
         name="create_slot",
     ),
     path(
+        "shift_template/<int:shift_pk>/slot_template/create",
+        views.ShiftSlotTemplateCreateView.as_view(),
+        name="create_slot_template",
+    ),
+    path(
         "slot/<int:pk>/edit",
         views.ShiftSlotEditView.as_view(),
         name="edit_slot",
+    ),
+    path(
+        "slot_template/<int:pk>/edit",
+        views.ShiftSlotTemplateEditView.as_view(),
+        name="edit_slot_template",
     ),
 ]

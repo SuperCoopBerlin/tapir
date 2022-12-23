@@ -5,6 +5,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
+from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Sum
 from django.db.models.signals import pre_save
@@ -16,7 +17,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
 from tapir.utils.models import DurationModelMixin
-from tapir.utils.shortcuts import get_html_link
+from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
 
 
 class ShiftUserCapability:
@@ -216,10 +217,8 @@ class ShiftTemplate(models.Model):
                     break
                 shift_date += datetime.timedelta(days=1)
 
-        start_time = datetime.datetime.combine(shift_date, self.start_time)
-        start_time = timezone.make_aware(start_time)
-        end_time = datetime.datetime.combine(shift_date, self.end_time)
-        end_time = timezone.make_aware(end_time)
+        start_time = get_timezone_aware_datetime(shift_date, self.start_time)
+        end_time = get_timezone_aware_datetime(shift_date, self.end_time)
 
         return Shift(
             shift_template=self,
@@ -263,8 +262,40 @@ class ShiftTemplate(models.Model):
         for shift in self.generated_shifts.filter(start_time__gt=timezone.now()):
             slot_template.create_slot_from_template(shift)
 
+    def update_future_generated_shifts_to_fit_this(self):
+        with transaction.atomic():
+            for shift in self.get_future_generated_shifts():
+                shift.update_to_fit_template()
 
-class ShiftSlotTemplate(models.Model):
+    def clean(self):
+        if self.start_time >= self.end_time:
+            raise ValidationError(
+                f"The shift must end after it starts. Given start time: {self.start_time}. Given end time: {self.end_time}"
+            )
+
+
+class RequiredCapabilitiesMixin:
+    # Théo 23.12.22 the required_capabilities field could be moved to this class, but we'd need to migrate
+    # the data from ShiftSlot and ShiftSlotTemplate to it first
+    def get_required_capabilities_display(self):
+        return ", ".join(
+            [
+                str(SHIFT_USER_CAPABILITY_CHOICES[capability])
+                for capability in self.required_capabilities
+            ]
+        )
+
+    def get_required_capabilities_dict(self):
+        """
+        returns required capabilites as dictionary with corresponding translatiom
+        """
+        return {
+            capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
+            for capability in self.required_capabilities
+        }
+
+
+class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
     name = models.CharField(blank=True, max_length=255)
     shift_template = models.ForeignKey(
         ShiftTemplate,
@@ -291,11 +322,6 @@ class ShiftSlotTemplate(models.Model):
         blank=True,
         null=False,
     )
-
-    def get_required_capabilities_display(self):
-        return ", ".join(
-            [SHIFT_USER_CAPABILITY_CHOICES[c] for c in self.required_capabilities]
-        )
 
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
@@ -474,6 +500,19 @@ class Shift(models.Model):
             return self.shift_template.num_required_attendances
         return self.num_required_attendances
 
+    def update_to_fit_template(self):
+        date = get_monday(self.start_time.date()) + datetime.timedelta(
+            days=self.shift_template.weekday
+        )
+        self.start_time = get_timezone_aware_datetime(
+            date, self.shift_template.start_time
+        )
+        self.end_time = get_timezone_aware_datetime(date, self.shift_template.end_time)
+        self.name = self.shift_template.name
+        self.description = self.shift_template.description
+        self.num_required_attendances = self.shift_template.num_required_attendances
+        self.save()
+
 
 class ShiftAttendanceLogEntry(ModelLogEntry):
     class Meta:
@@ -508,7 +547,7 @@ class ShiftAttendanceTakenOverLogEntry(ShiftAttendanceLogEntry):
     template_name = "shifts/log/shift_attendance_taken_over_log_entry.html"
 
 
-class ShiftSlot(models.Model):
+class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
     slot_template = models.ForeignKey(
         ShiftSlotTemplate,
         null=True,
@@ -539,23 +578,6 @@ class ShiftSlot(models.Model):
         blank=True,
         null=False,
     )
-
-    def get_required_capabilities_display(self):
-        return ", ".join(
-            [
-                str(SHIFT_USER_CAPABILITY_CHOICES[capability])
-                for capability in self.required_capabilities
-            ]
-        )
-
-    def get_required_capabilities_dict(self):
-        """
-        returns required capabilites as dictionary with corresponding translatiom
-        """
-        return {
-            capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
-            for capability in self.required_capabilities
-        }
 
     def get_display_name(self):
         display_name = self.shift.get_display_name()
@@ -649,6 +671,12 @@ class ShiftSlot(models.Model):
             )
         attendance.state = ShiftAttendance.State.PENDING
         attendance.save()
+
+    def update_slot_from_template(self):
+        self.name = self.slot_template.name
+        self.required_capabilities = self.slot_template.required_capabilities
+        self.warnings = self.slot_template.warnings
+        self.save()
 
 
 class ShiftAccountEntry(models.Model):

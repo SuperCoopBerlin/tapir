@@ -19,6 +19,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
     ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
+    ShiftTemplate,
 )
 from tapir.utils.forms import DateInputTapir
 
@@ -189,7 +190,7 @@ class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
             and user_to_register.pk != self.request_user.pk
         ):
             raise PermissionDenied(
-                _("You need the shifts.manage permission to do this."), code="invalid"
+                _("You need the shifts.manage permission to do this.")
             )
         if self.slot.shift.slots.filter(attendances__user=user_to_register).exists():
             raise ValidationError(
@@ -329,3 +330,51 @@ class ShiftCancelForm(forms.ModelForm):
     class Meta:
         model = Shift
         fields = ["cancelled_reason"]
+
+
+class ShiftTemplateForm(forms.ModelForm):
+    class Meta:
+        model = ShiftTemplate
+        fields = [
+            "name",
+            "description",
+            "group",
+            "num_required_attendances",
+            "weekday",
+            "start_time",
+            "end_time",
+        ]
+        widgets = {
+            "start_time": forms.widgets.TimeInput(
+                attrs={"type": "time"}, format="%H:%M"
+            ),
+            "end_time": forms.widgets.TimeInput(attrs={"type": "time"}, format="%H:%M"),
+        }
+
+    check_update_future_shifts = BooleanField(
+        label=_(
+            "I understand that updating this ABCD shift will update all the corresponding future shifts"
+        ),
+        required=True,
+    )
+
+
+class ShiftSlotTemplateForm(forms.ModelForm):
+    class Meta:
+        model = ShiftSlotTemplate
+        fields = ["name", "required_capabilities", "warnings"]
+        widgets = {
+            "required_capabilities": forms.widgets.CheckboxSelectMultiple(
+                choices=SHIFT_USER_CAPABILITY_CHOICES.items()
+            ),
+            "warnings": forms.widgets.CheckboxSelectMultiple(
+                choices=SHIFT_SLOT_WARNING_CHOICES.items()
+            ),
+        }
+
+    check_update_future_shifts = BooleanField(
+        label=_(
+            "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
+        ),
+        required=True,
+    )
