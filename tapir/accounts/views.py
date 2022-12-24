@@ -85,3 +85,17 @@ def send_user_welcome_email(request, pk):
     messages.info(request, _("Account welcome email sent."))
 
     return redirect(tapir_user.get_absolute_url())
+
+
+class UpdatePurchaseTrackingAllowedView(PermissionRequiredMixin, generic.RedirectView):
+    def has_permission(self):
+        return self.request.user.pk == self.kwargs["pk"]
+
+    def get_redirect_url(self, *args, **kwargs):
+        return get_object_or_404(TapirUser, pk=self.kwargs["pk"]).get_absolute_url()
+
+    def get(self, request, *args, **kwargs):
+        tapir_user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+        tapir_user.allows_purchase_tracking = kwargs["allowed"] > 0
+        tapir_user.save()
+        return super().get(request, args, kwargs)

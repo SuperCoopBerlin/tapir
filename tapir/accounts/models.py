@@ -139,6 +139,9 @@ class TapirUser(LdapUser):
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
     co_purchaser = models.CharField(_("Co-Purchaser"), max_length=150, blank=True)
+    allows_purchase_tracking = models.BooleanField(
+        _("Allow purchase tracking"), blank=False, null=False, default=False
+    )
     excluded_fields_for_logs = ["password"]
 
     preferred_language = models.CharField(

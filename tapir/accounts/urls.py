@@ -16,6 +16,11 @@ accounts_urlpatterns = [
         views.send_user_welcome_email,
         name="send_user_welcome_email",
     ),
+    path(
+        "user/<int:pk>/update_purchase_tracking_allowed/<int:allowed>",
+        views.UpdatePurchaseTrackingAllowedView.as_view(),
+        name="update_purchase_tracking_allowed",
+    ),
 ]
 
 urlpatterns = [
