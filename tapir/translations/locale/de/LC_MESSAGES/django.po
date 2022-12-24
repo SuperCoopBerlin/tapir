@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-23 17:16+0100\n"
+"POT-Creation-Date: 2022-12-24 09:41+0100\n"
 "PO-Revision-Date: 2022-10-25 18:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -286,8 +286,8 @@ msgstr "Schickt mir eine Anleitung!"
 #: accounts/templates/registration/password_update.html:18
 #: coop/templates/coop/draftuser_register_form.default.html:46
 #: coop/templates/coop/draftuser_register_form.html:47
-#: core/templates/core/tapir_form.default.html:33
-#: core/templates/core/tapir_form.html:33
+#: core/templates/core/tapir_form.default.html:39
+#: core/templates/core/tapir_form.html:39
 #: shifts/templates/shifts/shift_form.html:39
 #: shifts/templates/shifts/shiftslot_form.html:38
 msgid "Save"
@@ -2527,6 +2527,12 @@ msgstr "Schiht bearbeiten:"
 #| msgid "Create a shift"
 msgid "Create an ABCD shift"
 msgstr "Schicht erzeugen"
+
+#: shifts/views/management.py:148
+msgid ""
+"Shifts are generated every day at midnight. After you created the ABCD "
+"shift, come back tomorrow to see your shifts!"
+msgstr ""
 
 #: shifts/views/views.py:94 shifts/views/views.py:97
 #, python-format

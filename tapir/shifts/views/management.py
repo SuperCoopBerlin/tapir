@@ -144,6 +144,9 @@ class ShiftTemplateCreateView(PermissionRequiredMixin, TapirFormMixin, CreateVie
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["card_title"] = _("Create an ABCD shift")
+        context["help_text"] = _(
+            "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
+        )
         return context
 
 
