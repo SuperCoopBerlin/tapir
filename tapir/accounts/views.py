@@ -96,6 +96,20 @@ class UpdatePurchaseTrackingAllowedView(PermissionRequiredMixin, generic.Redirec
 
     def get(self, request, *args, **kwargs):
         tapir_user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+
+        old_frozen = freeze_for_log(tapir_user)
         tapir_user.allows_purchase_tracking = kwargs["allowed"] > 0
-        tapir_user.save()
+        new_frozen = freeze_for_log(tapir_user)
+
+        with transaction.atomic():
+            if old_frozen != new_frozen:
+                UpdateTapirUserLogEntry().populate(
+                    old_frozen=old_frozen,
+                    new_frozen=new_frozen,
+                    tapir_user=tapir_user,
+                    actor=request.user,
+                ).save()
+
+            tapir_user.save()
+
         return super().get(request, args, kwargs)
