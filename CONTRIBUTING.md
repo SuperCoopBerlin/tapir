@@ -61,15 +61,11 @@ with your idea how to solve it.
 
 You can start by downloading the IDE of your choice, see our recommendations next chapter.
 
-No code should be added the the main branch directly, if you're not 100% sure about it. Instead, developers use a "
+No code should be added the main branch directly, if you're not 100% sure about it. Instead, developers use a "
 Fork-and-Branch Git Workflow" (see for
 example [here](https://github.com/vicente-gonzalez-ruiz/fork_and_branch_git_workflow)).
 
-After cloning the project from the repository, make sure you [install the pre-commits](CONTRIBUTING.md#pre-commit-hooks)
-.
-
-Then start with [setting up the docker container](README.md#getting-started).
-
+Find instructions on how to start on our [README.md](README.md).
 ##### IDE
 
 We mostly use [PyCharm](https://www.jetbrains.com/pycharm/) for development. You can fully use it for developement.
@@ -78,19 +74,10 @@ Make sure to enable Django support in the project settings so that things like t
 test runner are automagically selected (note that right now this doesn't really work anymore as the tests must be run
 inside docker to have an LDAP server. But PyCharm is still pretty cool).
 
-##### Pre-commit hooks
-
-First thing after checkout, run the following to install auto-formatting using [black](https://github.com/psf/black/):
-
-```
-poetry install && pre-commit install
-```
-
-This will enforce certain criteria are fulfilled before every commit.
 
 ## Style guide/code conventions
 
-We use the the `Black` package, which "can be viewed as a strict subset of PEP 8". When you installed the pre-commit
+We use the `Black` package, which "can be viewed as a strict subset of PEP 8". When you installed the pre-commit
 correctly as mentioned above, the style guide should be enforced automatically with every commit.
 
 # Documentation

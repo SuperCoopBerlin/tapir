@@ -20,11 +20,19 @@ SuperCoop members can access the system at [https://members.supercoop.de](https:
 
 ## Getting started
 
-1. Clone the project
-2. install docker
-3. configure our [pre-commit hooks](CONTRIBUTING.md#pre-commit-hooks)
+### Prerequisites
+- Docker 
+- [Poetry](https://python-poetry.org/docs/)
 
-Then you can start by running
+Please note that while the actual program runs in a Docker container, you're adviced to install packages locally in order to use your IDE properly. For that you need a C Compiler such as gcc for Linux or the Visual C++ Build tools.
+### Install
+
+1. Clone the project.
+2. Configure our pre-commit hooks: `poetry install && pre-commit install`
+
+### Setup
+
+Start by running:
 
 ```
 docker compose up
@@ -45,7 +53,7 @@ docker compose exec web poetry run python manage.py generate_test_data --reset_a
 
 You then can find the local instance of Tapir at [http://localhost:8000](http://localhost:8000). Login with username and
 password `roberto.cortes` to get started.
-For more information, have a look at our [Documentation](CONTRIBUTING.md#documentation).
+For more information, have a look at our [:book: Documentation](CONTRIBUTING.md#documentation).
 
 ## Contributing
 
