@@ -77,15 +77,23 @@ class LdapUser(AbstractUser):
         return self.get_ldap().check_password(raw_password)
 
     def has_perm(self, perm, obj=None):
+        if not hasattr(self, "__cached_perms"):
+            self.__cached_perms = {}
+
+        if perm in self.__cached_perms.keys():
+            return self.__cached_perms[perm]
+
         user_dn = self.get_ldap().build_dn()
         for group_cn in settings.PERMISSIONS.get(perm, []):
             group = LdapGroup.objects.filter(cn=group_cn).first()
             if not group:
                 continue
             if user_dn in group.members:
+                self.__cached_perms[perm] = True
                 return True
 
-        return super().has_perm(perm=perm, obj=obj)
+        self.__cached_perms[perm] = super().has_perm(perm=perm, obj=obj)
+        return self.__cached_perms[perm]
 
 
 class TapirUserQuerySet(models.QuerySet):
