@@ -89,7 +89,7 @@ def send_user_welcome_email(request, pk):
 
 class UpdatePurchaseTrackingAllowedView(PermissionRequiredMixin, generic.RedirectView):
     def has_permission(self):
-        return self.request.user.pk == self.kwargs["pk"]
+        return self.request.user and self.request.user.pk == self.kwargs["pk"]
 
     def get_redirect_url(self, *args, **kwargs):
         return get_object_or_404(TapirUser, pk=self.kwargs["pk"]).get_absolute_url()

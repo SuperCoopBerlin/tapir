@@ -18,6 +18,8 @@ class TapirUserFactory(UserDataFactory):
         nb_shares=factory.Faker("pyint", min_value=1, max_value=20),
     )
 
+    allows_purchase_tracking = factory.Faker("pybool")
+
     @factory.post_generation
     def password(self, create, password, **kwargs):
         if not create:
