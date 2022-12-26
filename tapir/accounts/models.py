@@ -87,6 +87,11 @@ class LdapUser(AbstractUser):
 
         return super().has_perm(perm=perm, obj=obj)
 
+    def is_in_group(self, group_cn: str):
+        group = LdapGroup.objects.get(cn=group_cn)
+        user_dn = self.get_ldap().build_dn()
+        return user_dn in group.members
+
 
 class TapirUserQuerySet(models.QuerySet):
     def with_shift_attendance_mode(self, attendance_mode: str):

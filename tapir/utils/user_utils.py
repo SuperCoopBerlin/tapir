@@ -12,3 +12,9 @@ class UserUtils:
             address += street_2 + ", "
         address += postcode + " " + city
         return address
+
+    @staticmethod
+    def get_full_street(street: str, street_2: str):
+        address = street
+        if street_2 is not None and len(street_2) > 0:
+            address += ", " + street_2
