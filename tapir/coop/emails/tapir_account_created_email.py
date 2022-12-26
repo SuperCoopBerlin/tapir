@@ -60,12 +60,6 @@ class TapirAccountCreatedEmail(TapirEmailBase):
         )
         return mail
 
-    def to_log(self, email, actor, tapir_user, share_owner):
-        email.body = "content of this mail is not saved for data protection reasons"
-        EmailLogEntry().populate(
-            email_id=self.get_unique_id(),
-            email_message=email,
-            actor=actor,
-            tapir_user=tapir_user,
-            share_owner=share_owner,
-        ).save()
+    @staticmethod
+    def include_email_body_in_log_entry():
+        return False
