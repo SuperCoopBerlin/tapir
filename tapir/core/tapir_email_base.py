@@ -71,20 +71,20 @@ class TapirEmailBase:
         return loader.render_to_string(self.get_body_templates(), context)
 
     def get_full_context(
-            self,
-            share_owner: ShareOwner,
-            member_infos,
-            tapir_user: TapirUser,
+        self,
+        share_owner: ShareOwner,
+        member_infos,
+        tapir_user: TapirUser,
     ) -> dict:
         if self.context is None:
             self.context = {
-                               "share_owner": share_owner,
-                               "tapir_user": tapir_user,
-                               "member_infos": member_infos,
-                               "coop_name": settings.COOP_NAME,
-                               "coop_full_name": settings.COOP_FULL_NAME,
-                               "email_unique_id": self.get_unique_id(),
-                           } | self.get_extra_context()  # '|' is the union operator for dictionaries.
+                "share_owner": share_owner,
+                "tapir_user": tapir_user,
+                "member_infos": member_infos,
+                "coop_name": settings.COOP_NAME,
+                "coop_full_name": settings.COOP_FULL_NAME,
+                "email_unique_id": self.get_unique_id(),
+            } | self.get_extra_context()  # '|' is the union operator for dictionaries.
 
         return self.context
 
@@ -124,7 +124,9 @@ class TapirEmailBase:
                 share_owner=share_owner,
             ).save()
         else:
-            email.body = "The content of this mail is not saved for data protection reasons"
+            email.body = (
+                "The content of this mail is not saved for data protection reasons"
+            )
             EmailLogEntry().populate(
                 email_id=self.get_unique_id(),
                 email_message=email,
@@ -134,11 +136,11 @@ class TapirEmailBase:
             ).save()
 
     def __send(
-            self,
-            actor: User,
-            share_owner: ShareOwner,
-            member_infos,
-            tapir_user: TapirUser,
+        self,
+        actor: User,
+        share_owner: ShareOwner,
+        member_infos,
+        tapir_user: TapirUser,
     ):
         context = self.get_full_context(
             share_owner=share_owner, member_infos=member_infos, tapir_user=tapir_user
