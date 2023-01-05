@@ -60,7 +60,7 @@ class Command(BaseCommand):
         os.system('echo "$SSH_KEY_PRIVATE" > ~/.ssh/biooffice_id_rsa')
         os.system("chmod u=rw,g=,o= ~/.ssh/biooffice_id_rsa")
         os.system('echo "$SSH_KEY_PUBLIC" > ~/.ssh/biooffice_id_rsa.pub')
-        os.system("chmod u=rw,g=r,o=r ~/.ssh/biooffice_id_rsa")
+        os.system("chmod u=rw,g=r,o=r ~/.ssh/biooffice_id_rsa.pub")
         os.system(
             'echo "$BIOOFFICE_SERVER_SSH_KEY_FINGERPRINT" > ~/.ssh/biooffice_known_hosts'
         )
