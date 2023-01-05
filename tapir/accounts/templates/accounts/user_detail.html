@@ -77,6 +77,8 @@
                             {% endif %}
                         </div>
                     </div>
+                    {% comment %}
+                    Hidden until we get the legal-compliant text from the Datenschutz team.
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Preferred Language" %}:</div>
                         <div class="col-8">{{ object.get_preferred_language_display }}</div>
@@ -111,7 +113,7 @@
                                 </span>
                             {% endif %}
                         </div>
-                    </div>
+                    </div>{% endcomment %}
 
                     <div class="d-flex justify-content-sm-end m-1 mt-3">
                         {% if perms.accounts.manage %}
