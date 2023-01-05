@@ -1,6 +1,7 @@
 import csv
 import os
 
+import environ
 from django.core.management import BaseCommand
 
 from tapir import settings
@@ -56,13 +57,15 @@ class Command(BaseCommand):
             )
             return
 
+        env = environ.Env()
+
         os.system("mkdir -p ~/.ssh")
-        os.system('echo "$SSH_KEY_PRIVATE" > ~/.ssh/biooffice_id_rsa')
+        os.system(f'echo "{env("TAPIR_SSH_KEY_PRIVATE")}" > ~/.ssh/biooffice_id_rsa')
         os.system("chmod u=rw,g=,o= ~/.ssh/biooffice_id_rsa")
-        os.system('echo "$SSH_KEY_PUBLIC" > ~/.ssh/biooffice_id_rsa.pub')
+        os.system(f'echo "{env("TAPIR_SSH_KEY_PUBLIC")}" > ~/.ssh/biooffice_id_rsa.pub')
         os.system("chmod u=rw,g=r,o=r ~/.ssh/biooffice_id_rsa.pub")
         os.system(
-            'echo "$BIOOFFICE_SERVER_SSH_KEY_FINGERPRINT" > ~/.ssh/biooffice_known_hosts'
+            f'echo "{env("BIOOFFICE_SERVER_SSH_KEY_FINGERPRINT")}" > ~/.ssh/biooffice_known_hosts'
         )
         os.system(
             f"scp -o 'NumberOfPasswordPrompts=0' -o 'UserKnownHostsFile=~/.ssh/biooffice_known_hosts' -i ~/.ssh/biooffice_id_rsa -P 23 {cls.FILE_NAME} u326634-sub4@u326634.your-storagebox.de:./"
