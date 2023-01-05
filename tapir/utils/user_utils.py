@@ -18,3 +18,4 @@ class UserUtils:
         address = street
         if street_2 is not None and len(street_2) > 0:
             address += ", " + street_2
+        return address
