@@ -53,7 +53,7 @@ class Command(BaseCommand):
         if not settings.DEBUG:
             return
 
-        os.system("mkdir ~/.ssh")
+        os.system("mkdir -p ~/.ssh")
         os.system('echo "$SSH_KEY_PRIVATE" > ~/.ssh/biooffice_id_rsa')
         os.system('echo "$SSH_KEY_PUBLIC" > ~/.ssh/biooffice_id_rsa.pub')
         os.system(
