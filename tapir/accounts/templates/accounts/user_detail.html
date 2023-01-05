@@ -24,6 +24,15 @@
             <div class="card mb-2" id="tapir_user_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     {% translate "Personal Data" %}
+                    {% if perms.accounts.manage %}
+                        <div class="ms-1">
+                            <a class="{% tapir_button_link_to_action %}"
+                               href="{% url 'accounts:user_update' object.pk %}"
+                               id="tapir_user_edit_button">
+                                <span class="material-icons">edit</span>{% translate 'Edit' %}
+                            </a>
+                        </div>
+                    {% endif %}
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
@@ -84,6 +93,25 @@
                             {% if object.co_purchaser %}{{ object.co_purchaser }}{% else %}-{% endif %}
                         </div>
                     </div>
+                    <div class="row m-1">
+                        <div class="col-4 fw-bold text-end">{% translate "Allow collection of data relative to purchases" %}:</div>
+                        <div class="col-8 d-flex align-content-center gap-1">
+                            <span>{{ object.allows_purchase_tracking|yesno:_("Yes,No") }}</span>
+                            {% if request.user.pk == object.pk %}
+                                <span>
+                                    {% if object.allows_purchase_tracking %}
+                                        <a href="{% url 'accounts:update_purchase_tracking_allowed' object.pk 0 %}" class="{% tapir_button_action %} btn-sm">
+                                            <span class="material-icons">thumb_down</span>{% translate "Disable" %}
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'accounts:update_purchase_tracking_allowed' object.pk 1 %}" class="{% tapir_button_action %} btn-sm">
+                                            <span class="material-icons">thumb_up</span>{% translate "Enable" %}
+                                        </a>
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
 
                     <div class="d-flex justify-content-sm-end m-1 mt-3">
                         {% if perms.accounts.manage %}
@@ -100,15 +128,6 @@
                             <div class="ms-1">
                                 <a class="{% tapir_button_link_to_action %} ms-1" href="{% url 'password_change' %}"><span
                                         class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
-                            </div>
-                        {% endif %}
-                        {% if perms.accounts.manage %}
-                            <div class="ms-1">
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'accounts:user_update' object.pk %}"
-                                   id="tapir_user_edit_button">
-                                    <span class="material-icons">edit</span>{% translate 'Edit' %}
-                                </a>
                             </div>
                         {% endif %}
                     </div>

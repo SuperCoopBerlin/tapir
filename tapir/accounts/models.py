@@ -95,6 +95,11 @@ class LdapUser(AbstractUser):
         self.__cached_perms[perm] = super().has_perm(perm=perm, obj=obj)
         return self.__cached_perms[perm]
 
+    def is_in_group(self, group_cn: str):
+        group = LdapGroup.objects.get(cn=group_cn)
+        user_dn = self.get_ldap().build_dn()
+        return user_dn in group.members
+
 
 class TapirUserQuerySet(models.QuerySet):
     def with_shift_attendance_mode(self, attendance_mode: str):
@@ -147,6 +152,9 @@ class TapirUser(LdapUser):
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
     co_purchaser = models.CharField(_("Co-Purchaser"), max_length=150, blank=True)
+    allows_purchase_tracking = models.BooleanField(
+        _("Allow purchase tracking"), blank=False, null=False, default=False
+    )
     excluded_fields_for_logs = ["password"]
 
     preferred_language = models.CharField(

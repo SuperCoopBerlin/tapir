@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-24 09:41+0100\n"
+"POT-Creation-Date: 2022-12-24 11:22+0100\n"
 "PO-Revision-Date: 2022-10-25 18:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.1.1\n"
 
-#: accounts/models.py:122 accounts/templates/accounts/user_detail.html:34
+#: accounts/models.py:122 accounts/templates/accounts/user_detail.html:43
 #: coop/templates/coop/draftuser_detail.html:23
 msgid "Username"
 msgstr "Nutzer*innenname"
@@ -33,14 +33,14 @@ msgstr ""
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
-#: accounts/models.py:134 accounts/templates/accounts/user_detail.html:42
+#: accounts/models.py:134 accounts/templates/accounts/user_detail.html:51
 #: coop/models.py:50 coop/models.py:309
 #: coop/templates/coop/draftuser_detail.html:31
 #: coop/templates/coop/shareowner_detail.html:48
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:135 accounts/templates/accounts/user_detail.html:52
+#: accounts/models.py:135 accounts/templates/accounts/user_detail.html:61
 #: coop/models.py:51 coop/models.py:310
 #: coop/templates/coop/draftuser_detail.html:35
 #: coop/templates/coop/shareowner_detail.html:52
@@ -67,18 +67,22 @@ msgstr "Ort"
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:141 accounts/templates/accounts/user_detail.html:82
+#: accounts/models.py:141 accounts/templates/accounts/user_detail.html:91
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:77
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:145 accounts/templates/accounts/user_detail.html:72
+#: accounts/models.py:143
+msgid "Allow purchase tracking"
+msgstr ""
+
+#: accounts/models.py:148 accounts/templates/accounts/user_detail.html:81
 #: coop/models.py:59 coop/models.py:318
 #: coop/templates/coop/shareowner_detail.html:72
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:178
+#: accounts/models.py:181
 msgid "None"
 msgstr "Keine"
 
@@ -94,50 +98,7 @@ msgstr "Mitglied"
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:30
-#: coop/templates/coop/draftuser_detail.html:19
-#: coop/templates/coop/shareowner_detail.html:40
-#: core/templates/core/email_list.html:36
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:69
-msgid "Name"
-msgstr "Name"
-
-#: accounts/templates/accounts/user_detail.html:38
-#: coop/templates/coop/draftuser_detail.html:27
-#: coop/templates/coop/draftuser_list.html:28
-#: coop/templates/coop/shareowner_detail.html:44
-msgid "Email"
-msgstr "E-Mail-Adresse"
-
-#: accounts/templates/accounts/user_detail.html:47
-#: accounts/templates/accounts/user_detail.html:57
-#: accounts/templates/accounts/user_detail.html:67
-#: coop/templates/coop/draftuser_detail.html:49
-#: coop/templates/coop/shareowner_detail.html:57
-#: coop/templates/coop/shareowner_detail.html:67
-#: shifts/templates/shifts/user_shifts_overview_tag.html:36
-msgid "Missing"
-msgstr "Fehlend"
-
-#: accounts/templates/accounts/user_detail.html:62
-#: coop/templates/coop/draftuser_detail.html:44
-#: coop/templates/coop/shareowner_detail.html:62
-msgid "Address"
-msgstr "Adresse"
-
-#: accounts/templates/accounts/user_detail.html:77
-msgid "Permissions"
-msgstr "Berechtigungen"
-
-#: accounts/templates/accounts/user_detail.html:94
-msgid "Resend account activation email"
-msgstr "Konto-Aktivierungs-E-Mail erneut senden"
-
-#: accounts/templates/accounts/user_detail.html:102
-msgid "Change Password"
-msgstr "Passwort ändern"
-
-#: accounts/templates/accounts/user_detail.html:110
+#: accounts/templates/accounts/user_detail.html:32
 #: coop/templates/coop/draftuser_detail.html:137
 #: coop/templates/coop/shareowner_detail.html:29
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:19
@@ -150,6 +111,70 @@ msgstr "Passwort ändern"
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:85
 msgid "Edit"
 msgstr "Bearbeiten"
+
+#: accounts/templates/accounts/user_detail.html:39
+#: coop/templates/coop/draftuser_detail.html:19
+#: coop/templates/coop/shareowner_detail.html:40
+#: core/templates/core/email_list.html:36
+#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:69
+msgid "Name"
+msgstr "Name"
+
+#: accounts/templates/accounts/user_detail.html:47
+#: coop/templates/coop/draftuser_detail.html:27
+#: coop/templates/coop/draftuser_list.html:28
+#: coop/templates/coop/shareowner_detail.html:44
+msgid "Email"
+msgstr "E-Mail-Adresse"
+
+#: accounts/templates/accounts/user_detail.html:56
+#: accounts/templates/accounts/user_detail.html:66
+#: accounts/templates/accounts/user_detail.html:76
+#: coop/templates/coop/draftuser_detail.html:49
+#: coop/templates/coop/shareowner_detail.html:57
+#: coop/templates/coop/shareowner_detail.html:67
+#: shifts/templates/shifts/user_shifts_overview_tag.html:36
+msgid "Missing"
+msgstr "Fehlend"
+
+#: accounts/templates/accounts/user_detail.html:71
+#: coop/templates/coop/draftuser_detail.html:44
+#: coop/templates/coop/shareowner_detail.html:62
+msgid "Address"
+msgstr "Adresse"
+
+#: accounts/templates/accounts/user_detail.html:86
+msgid "Permissions"
+msgstr "Berechtigungen"
+
+#: accounts/templates/accounts/user_detail.html:97
+msgid "Allow collection of data relative to purchases"
+msgstr ""
+
+#: accounts/templates/accounts/user_detail.html:99
+#: coop/templates/coop/draftuser_detail.html:123
+#: coop/templates/coop/draftuser_detail.html:129
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:172
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:177
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:182
+msgid "Yes,No"
+msgstr "Ja,Nein"
+
+#: accounts/templates/accounts/user_detail.html:104
+msgid "Disable"
+msgstr ""
+
+#: accounts/templates/accounts/user_detail.html:108
+msgid "Enable"
+msgstr ""
+
+#: accounts/templates/accounts/user_detail.html:122
+msgid "Resend account activation email"
+msgstr "Konto-Aktivierungs-E-Mail erneut senden"
+
+#: accounts/templates/accounts/user_detail.html:130
+msgid "Change Password"
+msgstr "Passwort ändern"
 
 #: accounts/templates/registration/email/password_reset_email.html:7
 msgid "Password reset"
