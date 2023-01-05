@@ -50,7 +50,10 @@ class Command(BaseCommand):
 
     @classmethod
     def send_file_to_server(cls):
-        if not settings.DEBUG:
+        if settings.DEBUG:
+            print(
+                "Skipping file sync to biooffice server because this is a debug instance."
+            )
             return
 
         os.system("mkdir -p ~/.ssh")
