@@ -13,10 +13,12 @@
                 <span>
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
-                        <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
+                        <span class="material-icons"
+                              aria-hidden="true">file_present</span>{% translate 'Membership confirmation' %}
                     </a>
-                    <a class="{% tapir_button_link_to_action %}" href="{% url 'coop:shareowner_update' share_owner.pk %}" id="share_owner_edit_button">
-                        <span class="material-icons">edit</span>{% translate 'Edit' %}
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'coop:shareowner_update' share_owner.pk %}" id="share_owner_edit_button">
+                        <span class="material-icons" aria-hidden="true">edit</span>{% translate 'Edit' %}
                     </a>
                 </span>
             {% endif %}
@@ -60,7 +62,8 @@
                                   action="{% url 'coop:mark_shareowner_attended_welcome_session' share_owner.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="{% tapir_button_action %} btn-sm ml-3">
-                                    <span class="material-icons">check</span>{% translate "Mark Attended" %}
+                                    <span class="material-icons"
+                                          aria-hidden="true">check</span>{% translate "Mark Attended" %}
                                 </button>
                             </form>
                         {% endif %}
@@ -112,13 +115,13 @@
                                 <td>
                                     <a class="{% tapir_button_link_to_action %} btn-sm"
                                        href="{% url 'coop:share_update' o.pk %}">
-                                        <span class="material-icons">edit</span>
+                                        <span class="material-icons" aria-hidden="true">edit</span>
                                         {% translate "Edit" %}
                                     </a>
                                     <span class="dropdown">
                                         <a class="{% tapir_button_link %} btn-sm dropdown-toggle" href="#"
                                            data-bs-toggle="dropdown">
-                                            <span class="material-icons">more_horiz</span>&nbsp;
+                                            <span class="material-icons" aria-hidden="true">more_horiz</span>&nbsp;
                                         </a>
 
                                         <div class="dropdown-menu dropdown-menu-right" style="min-width: 20rem;">
@@ -150,8 +153,9 @@
                 </table>
                 {% if perms.accounts.manage %}
                     <div class="d-flex justify-content-end">
-                        <a class="ml-auto {% tapir_button_link_to_action %}" href="{% url 'coop:share_create_multiple' share_owner.pk %}">
-                            <span class="material-icons">add_circle_outline</span>
+                        <a class="ml-auto {% tapir_button_link_to_action %}"
+                           href="{% url 'coop:share_create_multiple' share_owner.pk %}">
+                            <span class="material-icons" aria-hidden="true">add_circle_outline</span>
                             {% translate "Add Shares" %}
                         </a>
                     </div>
@@ -160,10 +164,10 @@
 
             <div class="row m-1">
                 <div class="col-5 fw-bold text-end">
-                    <a href="{% url 'coop:incoming_payment_list'  %}?credited_member={{ share_owner.pk }}">{% translate "Payments" %}:</a>
+                    <a href="{% url 'coop:incoming_payment_list' %}?credited_member={{ share_owner.pk }}">{% translate "Payments" %}:</a>
                 </div>
                 <div class="col-7">
-                    <span >{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
+                    <span>{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
                 </div>
             </div>
 
@@ -188,7 +192,8 @@
                           action="{% url 'coop:send_shareowner_membership_confirmation_welcome_email' share_owner.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="{% tapir_button_action %} align-self-right">
-                            <span class="material-icons">send</span>{% translate 'Send membership confirmation email' %}
+                            <span class="material-icons"
+                                  aria-hidden="true">send</span>{% translate 'Send membership confirmation email' %}
                         </button>
                     </form>
                 </div>

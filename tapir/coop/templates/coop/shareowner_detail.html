@@ -19,17 +19,19 @@
                     {% translate "Personal Data" %}
                     {% if object.user is not None %}
                         <a class="{% tapir_button_link %}" href="{% url 'accounts:user_detail' object.user.pk %}">
-                            <span class="material-icons">account_circle</span>
+                            <span class="material-icons" aria-hidden="true">account_circle</span>
                             {% translate "Go to user page" %}
                         </a>
                     {% elif not object.is_company %}
                         <span>
-                        <a class="{% tapir_button_link_to_action %}" href="{% url 'coop:shareowner_update' object.pk %}" id="edit_share_owner_button">
-                            <span class="material-icons">edit</span>
+                        <a class="{% tapir_button_link_to_action %}" href="{% url 'coop:shareowner_update' object.pk %}"
+                           id="edit_share_owner_button">
+                            <span class="material-icons" aria-hidden="true">edit</span>
                             {% translate "Edit" %}
                         </a>
-                        <a class="{% tapir_button_link_to_action %}" href="{% url 'coop:create_user_from_shareowner' object.pk %}" id="create_tapir_user_button">
-                            <span class="material-icons">person_add</span>
+                        <a class="{% tapir_button_link_to_action %}"
+                           href="{% url 'coop:create_user_from_shareowner' object.pk %}" id="create_tapir_user_button">
+                            <span class="material-icons" aria-hidden="true">person_add</span>
                             {% translate "Create Tapir account" %}
                         </a>
                     </span>
@@ -46,7 +48,8 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Phone number" %}:</div>
-                        <div class="col-8" id="share_owner_phone_number">{{ object.get_info.phone_number|format_phone_number }}</div>
+                        <div class="col-8"
+                             id="share_owner_phone_number">{{ object.get_info.phone_number|format_phone_number }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Birthdate" %}:</div>
@@ -70,7 +73,8 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Preferred Language" %}:</div>
-                        <div class="col-8" id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
+                        <div class="col-8"
+                             id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
                     </div>
                 </div>
             </div>

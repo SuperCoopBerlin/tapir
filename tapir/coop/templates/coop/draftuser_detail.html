@@ -84,7 +84,7 @@
                                   action="{% url 'coop:mark_draftuser_attended_welcome_session' object.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="{% tapir_button_action %} ms-3">
-                                    <span class="material-icons">check</span>Mark Attended
+                                    <span class="material-icons" aria-hidden="true">check</span>Mark Attended
                                 </button>
                             </form>
                         {% endif %}
@@ -101,7 +101,7 @@
                         {% endif %}
                         <a class="{% tapir_button_link %} ms-3"
                            href="{% url 'coop:draftuser_membership_agreement' object.pk %}">
-                            <span class="material-icons">file_present</span>
+                            <span class="material-icons" aria-hidden="true">file_present</span>
                             Beteiligungserklärung
                         </a>
                         {% if not object.signed_membership_agreement %}
@@ -110,7 +110,7 @@
                                   action="{% url 'coop:mark_draftuser_signed_membership_agreement' object.pk %}">
                                 {% csrf_token %}
                                 <button type="submit" class="{% tapir_button_action %} ms-3">
-                                    <span class="material-icons">check</span>
+                                    <span class="material-icons" aria-hidden="true">check</span>
                                     Mark Signed
                                 </button>
                             </form>
@@ -133,14 +133,14 @@
                     <div class="d-flex flex-row justify-content-end gap-2">
                         <a class="{% tapir_button_link_to_action %} ms-3"
                            href="{% url 'coop:draftuser_update' object.pk %}">
-                            <span class="material-icons">edit</span>
+                            <span class="material-icons" aria-hidden="true">edit</span>
                             {% translate "Edit" %}
                         </a>
                         <form class="form-inline ms-3" method="POST"
                               action="{% url 'coop:draftuser_delete' object.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="{% tapir_button_custom 'danger' %}">
-                                <span class="material-icons">delete</span>Delete
+                                <span class="material-icons" aria-hidden="true">delete</span>Delete
                             </button>
                         </form>
 
@@ -151,7 +151,7 @@
                                 {% csrf_token %}
                                 <button type="submit" class="align-self-right {% tapir_button_action %} ms-3"
                                         id="button_create_share_owner">
-                                    <span class="material-icons">person_add</span>
+                                    <span class="material-icons" aria-hidden="true">person_add</span>
                                     {% translate "Create Member" %}
                                 </button>
                             </form>

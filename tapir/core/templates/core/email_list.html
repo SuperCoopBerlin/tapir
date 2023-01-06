@@ -15,10 +15,10 @@
             </span>
             <span>
                 <a class="{% tapir_button_link %}" href="{% url "core:email_list" %}?force_language=en">
-                    <span class="material-icons">translate</span>🇬🇧
+                    <span class="material-icons" aria-hidden="true">translate</span>🇬🇧
                 </a>
                 <a class="{% tapir_button_link %}" href="{% url "core:email_list" %}?force_language=de">
-                    <span class="material-icons">translate</span>🇩🇪
+                    <span class="material-icons" aria-hidden="true">translate</span>🇩🇪
                 </a>
             </span>
         </h5>
@@ -52,7 +52,8 @@
                                                     type="button" data-bs-toggle="collapse"
                                                     data-bs-target="#{{ collapse_id }}" aria-expanded="false"
                                                     aria-controls="{{ collapse_id }}">
-                                                <span class="material-icons">visibility</span>Show body
+                                                <span class="material-icons" aria-hidden="true">visibility</span>Show
+                                                body
                                             </button>
                                             <div class="card card-body collapse" id="{{ collapse_id }}">
                                                 {{ email.body }}
@@ -64,7 +65,8 @@
                                     {% if email.example %}
                                         <a class="{% tapir_button_link %} btn-sm collapsed"
                                            href="{{ email.example }}">
-                                            <span class="material-icons">download</span>Download example
+                                            <span class="material-icons" aria-hidden="true">download</span>Download
+                                            example
                                         </a>
                                     {% else %}
                                         No example available

@@ -82,7 +82,7 @@
                     <a class="col-md-auto col-1 {% tapir_button_link_to_action %}"
                        href="{% url 'accounts:user_update' share_owner.get_info.pk %}"
                        id="tapir_user_edit_button">
-                        <span class="material-icons">edit</span>{% translate 'Edit' %}
+                        <span class="material-icons" aria-hidden="true">edit</span>{% translate 'Edit' %}
                     </a>
                 {% endif %}
             {% endif %}

@@ -37,7 +37,8 @@
                             <div class="input-group-append" style="cursor: pointer;">
                                 <span title="{% translate 'Click here to show/hide the password' %}"
                                       class="{% tapir_button_link %}" id="password_toggle" style="height: 100%;">
-                                    <span id="password_toggle_icon" class="material-icons">visibility</span>
+                                    <span id="password_toggle_icon" class="material-icons"
+                                          aria-hidden="true">visibility</span>
                                 </span>
                             </div>
                         </div>
@@ -46,7 +47,7 @@
                         <a href="{% url "password_reset" %}">{% translate "Forgot your password or your username?" %}</a>
                     </p>
                     <button type="submit" class="{% tapir_button_action %} btn-block">
-                        <span class="material-icons">login</span>
+                        <span class="material-icons" aria-hidden="true">login</span>
                         {% translate "Sign in" %}
                     </button>
                 </form>

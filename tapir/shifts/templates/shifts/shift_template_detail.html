@@ -17,7 +17,8 @@
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>{% translate 'ABCD Shift' %}: {{ object.get_display_name }}</span>
             {% if perms.shifts.manage %}
-                <a class="{% tapir_button_link_to_action %}" href="{% url 'admin:shifts_shifttemplate_change' object.pk %}">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'admin:shifts_shifttemplate_change' object.pk %}">
                     <span class="material-icons button-icon">edit</span>
                     {% translate "Edit" %}
                 </a>
@@ -30,7 +31,8 @@
                 </li>
             {% endif %}
             <li class="list-group-item">
-                <table class="{% tapir_table_classes %}" aria-label="{% translate 'List of slots for this ABCD shifts' %}">
+                <table class="{% tapir_table_classes %}"
+                       aria-label="{% translate 'List of slots for this ABCD shifts' %}">
                     <thead>
                     <tr>
                         <th></th>
@@ -62,7 +64,7 @@
                                                   action="{% url 'shifts:shift_attendance_template_delete' attendance.pk %}">
                                                 {% csrf_token %}
                                                 <button type="submit" class="{% tapir_button_action %} ms-2">
-                                                    <span class="material-icons">person_remove</span>
+                                                    <span class="material-icons" aria-hidden="true">person_remove</span>
                                                     {% translate "Unregister" %}
                                                 </button>
                                             </form>
@@ -72,8 +74,9 @@
                                     <td>
                                         {% if perms.shifts.manage %}
                                             <a class="{% tapir_button_link_to_action %} abcd_shift_register_button"
-                                               href="{% url 'shifts:slottemplate_register' slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
-                                                <span class="material-icons">person_add</span>
+                                               href="
+                                                       {% url 'shifts:slottemplate_register' slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
+                                                <span class="material-icons" aria-hidden="true">person_add</span>
                                                 {% translate "Register" %}
                                             </a>
                                         {% endif %}

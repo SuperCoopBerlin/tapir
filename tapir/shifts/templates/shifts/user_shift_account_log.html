@@ -14,7 +14,8 @@
             {% if perms.shifts.manage %}
                 <a class="{% tapir_button_link_to_action %}"
                    href="{% url 'shifts:create_shift_account_entry' user.pk %}">
-                    <span class="material-icons">add_circle_outline</span>{% translate 'Add a manual entry' %}
+                    <span class="material-icons"
+                          aria-hidden="true">add_circle_outline</span>{% translate 'Add a manual entry' %}
                 </a>
             {% endif %}
         </h5>

@@ -45,10 +45,11 @@
                         </div>
                         <div class="member-filter-form-buttons">
                             <button class="filter-button {% tapir_button_link %}">
-                                <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                                <span class="material-icons"
+                                      aria-hidden="true">filter_alt</span>{% translate 'Filter' %}
                             </button>
                             <a class="{% tapir_button_link %}" href="{% url 'coop:shareowner_list' %}">
-                                <span class="material-icons">clear</span>
+                                <span class="material-icons" aria-hidden="true">clear</span>
                                 {% translate "Clear all filters" %}
                             </a>
                             <div class="ms-2">

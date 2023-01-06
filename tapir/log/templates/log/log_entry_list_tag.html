@@ -8,8 +8,8 @@
     <h5 class="card-header d-flex justify-content-between align-items-center">
         {% translate "Last 20 log entries" %}
         <span>
-            <a class="{% tapir_button_link %}" href="{% url 'log:log_overview'  %}?members={{ share_owner_id }}">
-                <span class="material-icons">manage_search</span>
+            <a class="{% tapir_button_link %}" href="{% url 'log:log_overview' %}?members={{ share_owner_id }}">
+                <span class="material-icons" aria-hidden="true">manage_search</span>
                 {% translate 'See all log entries' %}
             </a>
         </span>
@@ -48,7 +48,7 @@
                            placeholder="{% translate 'Notes about this user' %}">
                     <button class="{% tapir_button_action %}" type="submit"
                             id="add_note_button" style="min-width: 100px;">
-                        <span class="material-icons">note</span>{% translate "Add Note" %}
+                        <span class="material-icons" aria-hidden="true">note</span>{% translate "Add Note" %}
                     </button>
                 </div>
             </form>

@@ -11,7 +11,7 @@
 
 {% block content %}
     <div class="container">
-        <div class="card mb-2" >
+        <div class="card mb-2">
             <h5 class="card-header bg-warning">
                 {% translate "Cancel shift:" %} <a href="{{ form.instance.get_absolute_url }}">{{ form.instance }}</a>
             </h5>
@@ -31,7 +31,7 @@
                     {% bootstrap_form form %}
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="{% tapir_button_action %}">
-                            <span class="material-icons">cancel</span>
+                            <span class="material-icons" aria-hidden="true">cancel</span>
                             {% translate 'Confirm cancellation' %}
                         </button>
                     </div>

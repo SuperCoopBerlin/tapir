@@ -28,9 +28,9 @@
         <div class="card mb-2">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 {% if request.user.is_authenticated %}
-                {% translate "Create Applicant" %}
+                    {% translate "Create Applicant" %}
                 {% else %}
-                {% translate "Register" %}
+                    {% translate "Register" %}
                 {% endif %}
             </h5>
             <div class="card-body">
@@ -42,7 +42,7 @@
                     {% bootstrap_form form %}
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="{% tapir_button_action %}">
-                            <span class="material-icons">save</span>
+                            <span class="material-icons" aria-hidden="true">save</span>
                             {% translate 'Save' %}
                         </button>
                     </div>
