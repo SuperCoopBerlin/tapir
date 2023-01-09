@@ -156,7 +156,7 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": celery.schedules.crontab(minute=0, hour=0),
     },
     "update_purchase_tracking_list": {
-        "task": "tapir.shifts.tasks.update_purchase_tracking_list",
+        "task": "tapir.accounts.tasks.update_purchase_tracking_list",
         "schedule": celery.schedules.crontab(minute=0, hour=23),
     },
 }
