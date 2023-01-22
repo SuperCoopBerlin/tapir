@@ -151,5 +151,13 @@
             {% log_entry_list tapir_user=object %}
         </div>
     </div>
+
+    {% if object.share_owner and object.allows_purchase_tracking %}
+        <div class="row">
+            <div class="col-xl-6">
+                {% member_card_barcode share_owner=object.share_owner %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
 

@@ -1165,6 +1165,17 @@ pytest = ">=2.9"
 termcolor = ">=1.1.0"
 
 [[package]]
+name = "python-barcode"
+version = "0.14.0"
+description = "Create standard barcodes with Python. No external modules needed. (optional Pillow support included)."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.extras]
+images = ["pillow"]
+
+[[package]]
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
@@ -1539,7 +1550,7 @@ test = ["pytest"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "a3687a532ee4b26ee00782fec284dea1fcd546ff3b03db0f8c6fa3caa46c1f72"
+content-hash = "798d041ed5708e92baa9f7280a1b62ede8bdf4c5488742cbc80c9b082e2fb766"
 
 [metadata.files]
 amqp = [
@@ -2263,6 +2274,10 @@ pytest-django = [
 pytest-sugar = [
     {file = "pytest-sugar-0.9.6.tar.gz", hash = "sha256:c4793495f3c32e114f0f5416290946c316eb96ad5a3684dcdadda9267e59b2b8"},
     {file = "pytest_sugar-0.9.6-py2.py3-none-any.whl", hash = "sha256:30e5225ed2b3cc988a8a672f8bda0fc37bcd92d62e9273937f061112b3f2186d"},
+]
+python-barcode = [
+    {file = "python-barcode-0.14.0.tar.gz", hash = "sha256:241b34aa5c5cb6a9889882f9409b0182903a2c5d19b4218be3609cdbbd5ffdf9"},
+    {file = "python_barcode-0.14.0-py3-none-any.whl", hash = "sha256:eefbb2583ba7bdb09baba6f8663129883109c61df7e23c9b9b473087521c926f"},
 ]
 python-dateutil = [
     {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},

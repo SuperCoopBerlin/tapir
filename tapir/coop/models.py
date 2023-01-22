@@ -222,6 +222,9 @@ class ShareOwner(models.Model):
             or 0
         )
 
+    def get_id_for_biooffice(self):
+        return "2" + "{:0>11}".format(self.id)
+
 
 class MemberStatus:
     SOLD = "sold"
