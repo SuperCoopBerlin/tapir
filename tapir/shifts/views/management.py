@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -23,7 +23,7 @@ from tapir.shifts.models import (
 )
 
 
-class ShiftCreateView(PermissionRequiredMixin, CreateView):
+class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Shift
     form_class = ShiftCreateForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -34,7 +34,7 @@ class ShiftCreateView(PermissionRequiredMixin, CreateView):
         return context
 
 
-class ShiftSlotCreateView(PermissionRequiredMixin, CreateView):
+class ShiftSlotCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = ShiftSlot
     form_class = ShiftSlotForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -57,7 +57,7 @@ class ShiftSlotCreateView(PermissionRequiredMixin, CreateView):
         return self.get_shift().get_absolute_url()
 
 
-class ShiftSlotEditView(PermissionRequiredMixin, UpdateView):
+class ShiftSlotEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = ShiftSlot
     form_class = ShiftSlotForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -74,7 +74,7 @@ class ShiftSlotEditView(PermissionRequiredMixin, UpdateView):
         return context
 
 
-class CancelShiftView(PermissionRequiredMixin, UpdateView):
+class CancelShiftView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = PERMISSION_SHIFTS_MANAGE
     model = Shift
     form_class = ShiftCancelForm
@@ -107,7 +107,7 @@ class CancelShiftView(PermissionRequiredMixin, UpdateView):
             return response
 
 
-class EditShiftView(PermissionRequiredMixin, UpdateView):
+class EditShiftView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = PERMISSION_SHIFTS_MANAGE
     model = Shift
     form_class = ShiftCreateForm
@@ -118,7 +118,9 @@ class EditShiftView(PermissionRequiredMixin, UpdateView):
         return context
 
 
-class EditShiftTemplateView(PermissionRequiredMixin, TapirFormMixin, UpdateView):
+class EditShiftTemplateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, UpdateView
+):
     permission_required = PERMISSION_SHIFTS_MANAGE
     model = ShiftTemplate
     form_class = ShiftTemplateForm
@@ -136,7 +138,9 @@ class EditShiftTemplateView(PermissionRequiredMixin, TapirFormMixin, UpdateView)
         return super().form_valid(form)
 
 
-class ShiftTemplateCreateView(PermissionRequiredMixin, TapirFormMixin, CreateView):
+class ShiftTemplateCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+):
     model = ShiftTemplate
     form_class = ShiftTemplateForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -150,7 +154,9 @@ class ShiftTemplateCreateView(PermissionRequiredMixin, TapirFormMixin, CreateVie
         return context
 
 
-class ShiftSlotTemplateCreateView(PermissionRequiredMixin, TapirFormMixin, CreateView):
+class ShiftSlotTemplateCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+):
     model = ShiftSlotTemplate
     form_class = ShiftSlotTemplateForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -177,7 +183,9 @@ class ShiftSlotTemplateCreateView(PermissionRequiredMixin, TapirFormMixin, Creat
         return self.get_shift_template().get_absolute_url()
 
 
-class ShiftSlotTemplateEditView(PermissionRequiredMixin, TapirFormMixin, UpdateView):
+class ShiftSlotTemplateEditView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, UpdateView
+):
     model = ShiftSlotTemplate
     form_class = ShiftSlotTemplateForm
     permission_required = PERMISSION_SHIFTS_MANAGE

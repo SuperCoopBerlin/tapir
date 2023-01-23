@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import django_tables2
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
 from django.db.models import Sum
@@ -64,7 +64,11 @@ class SelectedUserViewMixin:
 
 
 class EditShiftUserDataView(
-    PermissionRequiredMixin, UpdateViewLogMixin, TapirFormMixin, UpdateView
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UpdateViewLogMixin,
+    TapirFormMixin,
+    UpdateView,
 ):
     permission_required = PERMISSION_SHIFTS_MANAGE
     model = ShiftUserData
@@ -120,6 +124,7 @@ def dictionary_get(dic, key):
 
 @require_POST
 @csrf_protect
+@login_required
 @permission_required(PERMISSION_SHIFTS_MANAGE)
 def set_user_attendance_mode_flying(request, user_pk):
     return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.FLYING)
@@ -127,6 +132,7 @@ def set_user_attendance_mode_flying(request, user_pk):
 
 @require_POST
 @csrf_protect
+@login_required
 @permission_required(PERMISSION_SHIFTS_MANAGE)
 def set_user_attendance_mode_regular(request, user_pk):
     return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.REGULAR)
@@ -149,7 +155,7 @@ def _set_user_attendance_mode(request, user_pk, attendance_mode):
     return redirect(user)
 
 
-class UserShiftAccountLog(PermissionRequiredMixin, TemplateView):
+class UserShiftAccountLog(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "shifts/user_shift_account_log.html"
 
     def get_target_user(self):
@@ -169,7 +175,9 @@ class UserShiftAccountLog(PermissionRequiredMixin, TemplateView):
         return context
 
 
-class CreateShiftAccountEntryView(PermissionRequiredMixin, TapirFormMixin, CreateView):
+class CreateShiftAccountEntryView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+):
     model = ShiftAccountEntry
     form_class = CreateShiftAccountEntryForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -233,7 +241,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-class ShiftDayPrintableView(PermissionRequiredMixin, TemplateView):
+class ShiftDayPrintableView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "shifts/shift_day_printable.html"
     permission_required = PERMISSION_SHIFTS_MANAGE
 
@@ -282,7 +290,9 @@ class ShiftUserDataTable(django_tables2.Table):
         return record.user.email
 
 
-class MembersOnAlertView(PermissionRequiredMixin, ExportMixin, SingleTableView):
+class MembersOnAlertView(
+    LoginRequiredMixin, PermissionRequiredMixin, ExportMixin, SingleTableView
+):
     table_class = ShiftUserDataTable
     model = ShiftUserData
     template_name = "shifts/members_on_alert_list.html"

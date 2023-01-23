@@ -82,7 +82,9 @@ class ShiftCalendarFutureView(LoginRequiredMixin, ShiftCalendarBaseView):
         ).order_by("start_time")
 
 
-class ShiftCalendarPastView(PermissionRequiredMixin, ShiftCalendarBaseView):
+class ShiftCalendarPastView(
+    LoginRequiredMixin, PermissionRequiredMixin, ShiftCalendarBaseView
+):
     permission_required = PERMISSION_SHIFTS_MANAGE
     template_name = "shifts/shift_calendar_past.html"
 

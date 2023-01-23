@@ -1,5 +1,5 @@
-from django.contrib.auth.decorators import permission_required
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse
@@ -37,13 +37,15 @@ from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
 
 
-class DraftUserListView(PermissionRequiredMixin, generic.ListView):
+class DraftUserListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     permission_required = PERMISSION_COOP_MANAGE
     model = DraftUser
     ordering = ["created_at"]
 
 
-class DraftUserCreateView(PermissionRequiredMixin, TapirFormMixin, generic.CreateView):
+class DraftUserCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, generic.CreateView
+):
     permission_required = PERMISSION_COOP_MANAGE
     model = DraftUser
     form_class = DraftUserForm
@@ -71,7 +73,9 @@ class DraftUserConfirmRegistrationView(generic.TemplateView):
     template_name = "coop/draftuser_confirm_registration.html"
 
 
-class DraftUserUpdateView(PermissionRequiredMixin, TapirFormMixin, generic.UpdateView):
+class DraftUserUpdateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, generic.UpdateView
+):
     permission_required = PERMISSION_COOP_MANAGE
     model = DraftUser
     form_class = DraftUserForm
@@ -88,18 +92,23 @@ class DraftUserUpdateView(PermissionRequiredMixin, TapirFormMixin, generic.Updat
         return context
 
 
-class DraftUserDetailView(PermissionRequiredMixin, generic.DetailView):
+class DraftUserDetailView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
+):
     permission_required = PERMISSION_COOP_MANAGE
     model = DraftUser
 
 
-class DraftUserDeleteView(PermissionRequiredMixin, generic.DeleteView):
+class DraftUserDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView
+):
     permission_required = PERMISSION_COOP_MANAGE
     success_url = reverse_lazy("coop:draftuser_list")
     model = DraftUser
 
 
 @require_GET
+@login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 def draftuser_membership_agreement(request, pk):
     draft_user = get_object_or_404(DraftUser, pk=pk)
@@ -116,6 +125,7 @@ def draftuser_membership_agreement(request, pk):
 
 @require_POST
 @csrf_protect
+@login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 def mark_signed_membership_agreement(request, pk):
     user = DraftUser.objects.get(pk=pk)
@@ -127,6 +137,7 @@ def mark_signed_membership_agreement(request, pk):
 
 @require_POST
 @csrf_protect
+@login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 def mark_attended_welcome_session(request, pk):
     user = DraftUser.objects.get(pk=pk)
@@ -138,6 +149,7 @@ def mark_attended_welcome_session(request, pk):
 
 @require_POST
 @csrf_protect
+@login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 def register_draftuser_payment(request, pk):
     draft = get_object_or_404(DraftUser, pk=pk)
@@ -148,6 +160,7 @@ def register_draftuser_payment(request, pk):
 
 @require_POST
 @csrf_protect
+@login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 def create_share_owner_from_draft_user_view(request, pk):
     draft_user = DraftUser.objects.get(pk=pk)

@@ -2,7 +2,7 @@ import datetime
 
 import django_filters
 import django_tables2
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, QuerySet
 from django.http import HttpResponse, HttpResponseBadRequest
@@ -29,6 +29,7 @@ from tapir.utils.shortcuts import (
 
 
 @require_GET
+@login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 def email_log_entry_content(request, pk):
     log_entry = get_object_or_404(EmailLogEntry, pk=pk)
@@ -51,6 +52,7 @@ class UpdateViewLogMixin:
 
 
 @require_POST
+@login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 def create_text_log_entry(request, **kwargs):
     member_type = kwargs.get("member_type")

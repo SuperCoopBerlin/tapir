@@ -1,5 +1,5 @@
-from django.contrib.auth.decorators import permission_required
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.shortcuts import get_object_or_404
@@ -38,7 +38,7 @@ from tapir.utils.shortcuts import safe_redirect
 
 
 class RegisterUserToShiftSlotTemplateView(
-    PermissionRequiredMixin, SelectedUserViewMixin, CreateView
+    LoginRequiredMixin, PermissionRequiredMixin, SelectedUserViewMixin, CreateView
 ):
     permission_required = PERMISSION_SHIFTS_MANAGE
     model = ShiftAttendanceTemplate
@@ -107,7 +107,9 @@ class RegisterUserToShiftSlotTemplateView(
         return kwargs
 
 
-class UpdateShiftAttendanceStateBase(PermissionRequiredMixin, UpdateView):
+class UpdateShiftAttendanceStateBase(
+    LoginRequiredMixin, PermissionRequiredMixin, UpdateView
+):
     model = ShiftAttendance
     get_state_from_kwargs = True
 
@@ -199,6 +201,7 @@ class UpdateShiftAttendanceStateWithFormView(
 
 @require_POST
 @csrf_protect
+@login_required
 @permission_required(PERMISSION_SHIFTS_MANAGE)
 def shift_attendance_template_delete(request, pk):
     shift_attendance_template = get_object_or_404(ShiftAttendanceTemplate, pk=pk)
@@ -217,7 +220,9 @@ def shift_attendance_template_delete(request, pk):
     return safe_redirect(request.GET.get("next"), slot_template.shift_template, request)
 
 
-class RegisterUserToShiftSlotView(PermissionRequiredMixin, FormView):
+class RegisterUserToShiftSlotView(
+    LoginRequiredMixin, PermissionRequiredMixin, FormView
+):
     template_name = "shifts/register_user_to_shift_slot.html"
     form_class = RegisterUserToShiftSlotForm
 

@@ -19,7 +19,9 @@ from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import PERMISSION_ACCOUNTS_MANAGE
 
 
-class TapirUserDetailView(PermissionRequiredMixin, generic.DetailView):
+class TapirUserDetailView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
+):
     model = TapirUser
     template_name = "accounts/user_detail.html"
 
@@ -35,7 +37,11 @@ class TapirUserMeView(LoginRequiredMixin, generic.RedirectView):
 
 
 class TapirUserUpdateView(
-    PermissionRequiredMixin, UpdateViewLogMixin, TapirFormMixin, generic.UpdateView
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    UpdateViewLogMixin,
+    TapirFormMixin,
+    generic.UpdateView,
 ):
     permission_required = PERMISSION_ACCOUNTS_MANAGE
     model = TapirUser
@@ -87,7 +93,9 @@ def send_user_welcome_email(request, pk):
     return redirect(tapir_user.get_absolute_url())
 
 
-class UpdatePurchaseTrackingAllowedView(PermissionRequiredMixin, generic.RedirectView):
+class UpdatePurchaseTrackingAllowedView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.RedirectView
+):
     def has_permission(self):
         return self.request.user and self.request.user.pk == self.kwargs["pk"]
 

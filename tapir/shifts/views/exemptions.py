@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db import transaction
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -26,7 +26,9 @@ from tapir.shifts.models import (
 )
 
 
-class CreateShiftExemptionView(PermissionRequiredMixin, TapirFormMixin, CreateView):
+class CreateShiftExemptionView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+):
     model = ShiftExemption
     form_class = ShiftExemptionForm
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -87,7 +89,11 @@ class CreateShiftExemptionView(PermissionRequiredMixin, TapirFormMixin, CreateVi
 
 
 class EditShiftExemptionView(
-    PermissionRequiredMixin, TapirFormMixin, UpdateViewLogMixin, UpdateView
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    TapirFormMixin,
+    UpdateViewLogMixin,
+    UpdateView,
 ):
     model = ShiftExemption
     form_class = ShiftExemptionForm
@@ -128,7 +134,7 @@ class EditShiftExemptionView(
         return context
 
 
-class ShiftExemptionListView(PermissionRequiredMixin, ListView):
+class ShiftExemptionListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = [PERMISSION_SHIFTS_MANAGE]
     model = ShiftExemption
 

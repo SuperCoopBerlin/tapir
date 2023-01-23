@@ -112,7 +112,7 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
 
 
 class IncomingPaymentCreateView(
-    PermissionRequiredMixin, TapirFormMixin, generic.CreateView
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, generic.CreateView
 ):
     permission_required = PERMISSION_COOP_MANAGE
     model = IncomingPayment

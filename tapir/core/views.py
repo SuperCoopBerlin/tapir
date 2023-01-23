@@ -1,6 +1,6 @@
 from typing import Type
 
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
@@ -17,7 +17,7 @@ class TapirFormMixin:
         return ["core/tapir_form.html", "core/tapir_form.default.html"]
 
 
-class EmailListView(PermissionRequiredMixin, TemplateView):
+class EmailListView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "core/email_list.html"
 
     permission_required = PERMISSION_COOP_MANAGE
