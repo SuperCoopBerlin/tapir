@@ -38,7 +38,7 @@ class Command(BaseCommand):
             for user in TapirUser.objects.filter(allows_purchase_tracking=True):
                 writer.writerow(
                     [
-                        "2" + "{:0>11}".format(user.share_owner.get_id_for_biooffice()),
+                        user.share_owner.get_id_for_biooffice(),
                         user.last_name,
                         user.first_name,
                         18 if user.is_in_group(GROUP_VORSTAND) else 0,
