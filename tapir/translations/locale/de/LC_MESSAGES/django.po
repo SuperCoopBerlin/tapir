@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-29 17:54+0100\n"
+"POT-Creation-Date: 2023-01-29 18:03+0100\n"
 "PO-Revision-Date: 2022-10-25 18:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1347,10 +1347,16 @@ msgid "New investing members"
 msgstr "Ist investierendes Mitglied"
 
 #: coop/views/statistics.py:274
+#, fuzzy
+#| msgid "Active with account"
+msgid "New active members without account"
+msgstr "Aktive Mitglieder mit Tapir-Konto"
+
+#: coop/views/statistics.py:275
 msgid "Active to investing"
 msgstr ""
 
-#: coop/views/statistics.py:275
+#: coop/views/statistics.py:276
 #, fuzzy
 #| msgid "Investing"
 msgid "Investing to active"

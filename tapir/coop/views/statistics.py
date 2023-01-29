@@ -271,6 +271,7 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
         return [
             _("New active members"),
             _("New investing members"),
+            _("New active members without account"),
             _("Active to investing"),
             _("Investing to active"),
         ]
@@ -279,6 +280,7 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
     def get_data(cls):
         new_active_members_count = []
         new_investing_members_count = []
+        new_active_members_without_account_count = []
         active_to_investing_count = []
         investing_to_active_count = []
 
@@ -287,6 +289,7 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
         for date in cls.get_and_cache_dates_from_last_year_or_first_share_to_today():
             new_active_members_count_at_date = 0
             new_investing_members_count_at_date = 0
+            new_active_members_without_account_count_at_date = 0
             active_to_investing_count_at_date = 0
             investing_to_active_count_at_date = 0
 
@@ -295,7 +298,10 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
                     if cls.did_member_start_as_investing(member_status_updates, member):
                         new_investing_members_count_at_date += 1
                     else:
-                        new_active_members_count_at_date += 1
+                        if member.user is None:
+                            new_active_members_without_account_count_at_date += 1
+                        else:
+                            new_active_members_count_at_date += 1
 
                 member_status_updates_this_month = cls.filter_status_updates_per_month(
                     member_status_updates, date
@@ -314,12 +320,16 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
 
             new_active_members_count.append(new_active_members_count_at_date)
             new_investing_members_count.append(new_investing_members_count_at_date)
+            new_active_members_without_account_count.append(
+                new_active_members_without_account_count_at_date
+            )
             active_to_investing_count.append(active_to_investing_count_at_date)
             investing_to_active_count.append(investing_to_active_count_at_date)
 
         return [
             new_active_members_count,
             new_investing_members_count,
+            new_active_members_without_account_count,
             active_to_investing_count,
             investing_to_active_count,
         ]
@@ -396,6 +406,7 @@ def member_status_updates_json_view(_):
             "Month",
             "new_active_members_count",
             "new_investing_members_count",
+            "new_active_members_without_account_count",
             "active_to_investing_count",
             "investing_to_active_count",
         ]
@@ -413,6 +424,7 @@ def member_status_updates_json_view(_):
                 data[1][index],
                 data[2][index],
                 data[3][index],
+                data[4][index],
             ]
         )
     return response
