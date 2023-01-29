@@ -144,11 +144,11 @@ class MemberCountEvolutionJsonView(BaseLineChartView):
             ).distinct()
             all_members_counts.append(members.count())
 
-            active_members = members.with_status(MemberStatus.ACTIVE)
+            active_members = members.with_status(MemberStatus.ACTIVE, date)
             active_members_counts.append(active_members.count())
 
             active_members_with_account = TapirUser.objects.filter(
-                share_owner__in=active_members
+                share_owner__in=active_members, date_joined__lte=date
             )
             active_members_with_account_counts.append(
                 active_members_with_account.count()
