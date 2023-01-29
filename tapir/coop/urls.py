@@ -170,4 +170,14 @@ urlpatterns = [
         views.IncomingPaymentCreateView.as_view(),
         name="incoming_payment_create",
     ),
+    path(
+        "new_members_json_view",
+        views.MemberStatusUpdatesJsonView.as_view(),
+        name="member_status_updates_json_view",
+    ),
+    path(
+        "new_members_csv_view",
+        views.member_status_updates_json_view,
+        name="member_status_updates_csv_view",
+    ),
 ]

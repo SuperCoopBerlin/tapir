@@ -1,9 +1,11 @@
+import csv
 import datetime
 
 from chartjs.colors import next_color, COLORS
 from chartjs.views.lines import BaseLineChartView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum
+from django.db.models import Sum, Q
+from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
@@ -16,6 +18,7 @@ from tapir.coop.models import (
     MemberStatus,
     DraftUser,
     ShareOwnership,
+    UpdateShareOwnerLogEntry,
 )
 from tapir.settings import PERMISSION_COOP_VIEW
 from tapir.utils.shortcuts import (
@@ -256,3 +259,160 @@ class MemberAgeDistributionJsonView(BaseLineChartView):
 
 class AboutView(TemplateView):
     template_name = "coop/about.html"
+
+
+class MemberStatusUpdatesJsonView(BaseLineChartView):
+    dates_from_first_share_to_today = None
+
+    def get_labels(self):
+        return self.get_and_cache_dates_from_last_year_or_first_share_to_today()
+
+    def get_providers(self):
+        return [
+            _("New active members"),
+            _("New investing members"),
+            _("Active to investing"),
+            _("Investing to active"),
+        ]
+
+    @classmethod
+    def get_data(cls):
+        new_active_members_count = []
+        new_investing_members_count = []
+        active_to_investing_count = []
+        investing_to_active_count = []
+
+        members_per_creation_month = cls.get_members_per_creation_month()
+        member_status_updates = cls.get_member_status_updates()
+        for date in cls.get_and_cache_dates_from_last_year_or_first_share_to_today():
+            new_active_members_count_at_date = 0
+            new_investing_members_count_at_date = 0
+            active_to_investing_count_at_date = 0
+            investing_to_active_count_at_date = 0
+
+            if date in members_per_creation_month.keys():
+                for member in members_per_creation_month[date]:
+                    if cls.did_member_start_as_investing(member_status_updates, member):
+                        new_investing_members_count_at_date += 1
+                    else:
+                        new_active_members_count_at_date += 1
+
+                member_status_updates_this_month = cls.filter_status_updates_per_month(
+                    member_status_updates, date
+                ).order_by("created_date")
+                updated_members = dict()
+                for update in member_status_updates_this_month:
+                    member = update.share_owner or update.user.share_owner
+                    updated_members[member] = (
+                        update.new_values["is_investing"] == "True"
+                    )
+                for is_investing in updated_members.values():
+                    if is_investing:
+                        active_to_investing_count_at_date += 1
+                    else:
+                        investing_to_active_count_at_date += 1
+
+            new_active_members_count.append(new_active_members_count_at_date)
+            new_investing_members_count.append(new_investing_members_count_at_date)
+            active_to_investing_count.append(active_to_investing_count_at_date)
+            investing_to_active_count.append(investing_to_active_count_at_date)
+
+        return [
+            new_active_members_count,
+            new_investing_members_count,
+            active_to_investing_count,
+            investing_to_active_count,
+        ]
+
+    @staticmethod
+    def get_member_status_updates():
+        filters = Q(old_values__is_investing=False) | Q(old_values__is_investing=True)
+        return UpdateShareOwnerLogEntry.objects.filter(filters)
+
+    @staticmethod
+    def filter_status_updates_per_member(updates, member: ShareOwner):
+        filters = Q(share_owner=member)
+        if member.user:
+            filters = filters | Q(user=member.user)
+        return updates.filter(filters)
+
+    @staticmethod
+    def filter_status_updates_per_month(updates, date: datetime.date):
+        return updates.filter(
+            created_date__gte=date, created_date__lt=get_first_of_next_month(date)
+        )
+
+    @classmethod
+    def did_member_start_as_investing(cls, member_status_updates, member):
+        updates = cls.filter_status_updates_per_member(member_status_updates, member)
+
+        if updates.count() == 0:
+            # If the status has never been updated, use current value
+            return member.is_investing
+
+        val = (
+            updates.order_by("created_date").first().old_values["is_investing"]
+            == "True"
+        )  # if the status has been updated at least once, look at the first update to see the value on creation
+
+        return val
+
+    @staticmethod
+    def get_members_per_creation_month():
+        members_per_creation_month = dict()
+        for member in ShareOwner.objects.all():
+            first_share = member.share_ownerships.order_by("start_date").first()
+            creation_month = first_share.start_date.replace(day=1)
+            if creation_month not in members_per_creation_month.keys():
+                members_per_creation_month[creation_month] = []
+            members_per_creation_month[creation_month].append(member)
+        return members_per_creation_month
+
+    @staticmethod
+    def get_graph_start_date():
+        return datetime.date(day=1, month=1, year=timezone.now().year - 1)
+
+    @classmethod
+    def get_and_cache_dates_from_last_year_or_first_share_to_today(cls):
+        if cls.dates_from_first_share_to_today is None:
+            cls.dates_from_first_share_to_today = (
+                ShareCountEvolutionJsonView.get_dates_from_first_share_to_today()
+            )
+        return cls.dates_from_first_share_to_today
+
+
+def member_status_updates_json_view(_):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={
+            "Content-Disposition": 'attachment; filename="members_status_updates.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "Month",
+            "new_active_members_count",
+            "new_investing_members_count",
+            "active_to_investing_count",
+            "investing_to_active_count",
+        ]
+    )
+
+    months = (
+        MemberStatusUpdatesJsonView.get_and_cache_dates_from_last_year_or_first_share_to_today()
+    )
+    data = MemberStatusUpdatesJsonView.get_data()
+    for index in range(len(months)):
+        writer.writerow(
+            [
+                months[index],
+                data[0][index],
+                data[1][index],
+                data[2][index],
+                data[3][index],
+            ]
+        )
+    return response
