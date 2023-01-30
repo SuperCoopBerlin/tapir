@@ -223,7 +223,7 @@ class ShareOwner(models.Model):
         )
 
     def get_id_for_biooffice(self):
-        return "2" + "{:0>11}".format(self.id)
+        return "299" + "{:0>9}".format(self.id)
 
 
 class MemberStatus:
