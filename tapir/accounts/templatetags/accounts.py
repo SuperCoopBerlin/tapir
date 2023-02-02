@@ -27,7 +27,7 @@ def format_phone_number(phone_number):
 
 @register.inclusion_tag("accounts/purchase_tracking_card.html", takes_context=True)
 def purchase_tracking_card(context, tapir_user: TapirUser):
-    if not tapir_user.share_owner:
+    if not hasattr(tapir_user, "share_owner") or not tapir_user.share_owner:
         return context
 
     context["barcode_as_svg"] = UserUtils.get_member_card_barcode_as_svg(
