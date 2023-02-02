@@ -1,22 +1,26 @@
 import django.contrib.auth.views as auth_views
 from django.contrib import messages
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 
+from tapir.accounts import pdfs
 from tapir.accounts.forms import TapirUserForm, PasswordResetForm
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
+from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import PERMISSION_ACCOUNTS_MANAGE
+from tapir.utils.shortcuts import set_header_for_file_download
 
 
 class TapirUserDetailView(
@@ -121,3 +125,27 @@ class UpdatePurchaseTrackingAllowedView(
             tapir_user.save()
 
         return super().get(request, args, kwargs)
+
+
+@require_GET
+@login_required
+def member_card_barcode_pdf(request, pk):
+    tapir_user = get_object_or_404(TapirUser, pk=pk)
+
+    if request.user.pk != tapir_user.pk and not request.user.has_perm(
+        PERMISSION_ACCOUNTS_MANAGE
+    ):
+        return HttpResponseForbidden(
+            _(
+                "You can only look at your own barcode unless you have member office rights"
+            )
+        )
+
+    filename = "Member card barcode %s.pdf" % tapir_user.get_display_name()
+
+    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
+    set_header_for_file_download(response, filename)
+
+    pdf = pdfs.get_member_card_barcode_pdf(tapir_user)
+    response.write(pdf.write_pdf())
+    return response

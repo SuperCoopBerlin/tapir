@@ -21,6 +21,11 @@ accounts_urlpatterns = [
         views.UpdatePurchaseTrackingAllowedView.as_view(),
         name="update_purchase_tracking_allowed",
     ),
+    path(
+        "user/<int:pk>/member_card_barcode_pdf",
+        views.member_card_barcode_pdf,
+        name="member_card_barcode_pdf",
+    ),
 ]
 
 urlpatterns = [

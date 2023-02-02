@@ -5,6 +5,10 @@
     <h5 class="card-header d-flex justify-content-between align-items-center">
         <span>{% translate 'Purchase tracking' %}</span>
         <span>
+            <a class="{% tapir_button_link %}" href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">
+                <span class="material-icons">download</span>
+                {% translate 'Get barcode as PDF' %}
+            </a>
             <a class="{% tapir_button_link %}" href="https://wiki.supercoop.de/wiki/Mitgliederkarte">
                 <span class="material-icons">link</span>
                 {% translate 'More information' %}
@@ -38,7 +42,9 @@
         <div class="row m-3">
             <div class="col d-flex justify-content-center">
                 {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
-                    {{ barcode_as_svg|safe }}
+                    <a href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">
+                        {{ barcode_as_svg|safe }}
+                    </a>
                 {% endif %}
             </div>
         </div>

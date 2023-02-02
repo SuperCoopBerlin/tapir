@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-29 18:03+0100\n"
+"POT-Creation-Date: 2023-02-02 13:38+0100\n"
 "PO-Revision-Date: 2022-10-25 18:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -86,6 +86,53 @@ msgstr "Bevorzugte Sprache"
 msgid "None"
 msgstr "Keine"
 
+#: accounts/templates/accounts/purchase_tracking_card.html:6
+#, fuzzy
+#| msgid "Co-Purchaser"
+msgid "Purchase tracking"
+msgstr "Miteinkäufer*in"
+
+#: accounts/templates/accounts/purchase_tracking_card.html:10
+msgid "Get barcode as PDF"
+msgstr ""
+
+#: accounts/templates/accounts/purchase_tracking_card.html:14
+#, fuzzy
+#| msgid "Membership confirmation"
+msgid "More information"
+msgstr "Mitgliedsbestätigung"
+
+#: accounts/templates/accounts/purchase_tracking_card.html:22
+msgid ""
+"Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei "
+"wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst "
+"wird dagegen, welche konkreten Produkte du gekauft hast. Auch kannst du bei "
+"jedem Einkauf immer noch entscheiden, ob du deine Mitgliedskarte scannen "
+"lassen möchtest oder nicht. Mit deiner generellen Zustimmung hier auf Tapir "
+"gehst du keine Verpflichtung zum Scannen ein. Die Zustimmung kannst du "
+"jederzeit widerrufen, indem du die Checkbox oben deaktivierst. Du hilfst "
+"damit Supercoop, die Einkaufsgewohnheiten der Mitglieder besser zu "
+"verstehen. Das ist wichtig für die Weiterentwicklung unseres Supermarktes. "
+"Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte"
+msgstr ""
+
+#: accounts/templates/accounts/purchase_tracking_card.html:26
+#: coop/templates/coop/draftuser_detail.html:123
+#: coop/templates/coop/draftuser_detail.html:129
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:172
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:177
+#: coop/templates/coop/user_coop_share_ownership_list_tag.html:182
+msgid "Yes,No"
+msgstr ""
+
+#: accounts/templates/accounts/purchase_tracking_card.html:31
+msgid "Disable"
+msgstr ""
+
+#: accounts/templates/accounts/purchase_tracking_card.html:35
+msgid "Enable"
+msgstr ""
+
 #: accounts/templates/accounts/user_detail.html:18
 #: coop/templates/coop/shareowner_detail.html:11 log/views.py:93
 #: log/views.py:130 shifts/templates/shifts/shift_day_printable.html:55
@@ -147,11 +194,11 @@ msgstr "Adresse"
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:125
+#: accounts/templates/accounts/user_detail.html:103
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:133
+#: accounts/templates/accounts/user_detail.html:111
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -305,15 +352,20 @@ msgstr ""
 "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die "
 "Symbole ./-/_ enthalten."
 
-#: accounts/views.py:68 accounts/views.py:71 coop/views/shareowner.py:245
+#: accounts/views.py:72 accounts/views.py:75 coop/views/shareowner.py:245
 #: coop/views/shareowner.py:248
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:91
+#: accounts/views.py:95
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
+
+#: accounts/views.py:140
+msgid ""
+"You can only look at your own barcode unless you have member office rights"
+msgstr ""
 
 #: coop/apps.py:18 coop/apps.py:29 coop/templates/coop/shareowner_list.html:12
 msgid "Members"
@@ -638,14 +690,6 @@ msgstr "Willkommenstreffen"
 #: coop/templates/coop/draftuser_list.html:29
 msgid "Beteiligungserklärung"
 msgstr "Beteiligungserklärung"
-
-#: coop/templates/coop/draftuser_detail.html:123
-#: coop/templates/coop/draftuser_detail.html:129
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:172
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:177
-#: coop/templates/coop/user_coop_share_ownership_list_tag.html:182
-msgid "Yes,No"
-msgstr ""
 
 #: coop/templates/coop/draftuser_detail.html:155
 msgid "Create Member"
@@ -1458,7 +1502,9 @@ msgid "Email sent."
 msgstr "E-Mail gesendet."
 
 #: log/templates/log/log_entry_list_tag.html:9
-msgid "Last 20 log entries"
+#, fuzzy
+#| msgid "Last 20 log entries"
+msgid "Last 5 log entries"
 msgstr "Letzte 20 Log-Einträge"
 
 #: log/templates/log/log_entry_list_tag.html:13
@@ -1478,12 +1524,12 @@ msgstr "Sender*in"
 msgid "Message"
 msgstr "Nachricht"
 
-#: log/templates/log/log_entry_list_tag.html:48
-#: log/templates/log/log_entry_list_tag.html:49
+#: log/templates/log/log_entry_list_tag.html:50
+#: log/templates/log/log_entry_list_tag.html:51
 msgid "Notes about this user"
 msgstr "Notizen über diese*n Benutzer*in"
 
-#: log/templates/log/log_entry_list_tag.html:52
+#: log/templates/log/log_entry_list_tag.html:54
 msgid "Add Note"
 msgstr "Notiz hinzufügen"
 
