@@ -93,27 +93,6 @@
                             {% if object.co_purchaser %}{{ object.co_purchaser }}{% else %}-{% endif %}
                         </div>
                     </div>
-                    {% comment %}
-                    Hidden until we get the legal-compliant text from the Datenschutz team.
-                    <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Allow collection of data relative to purchases" %}:</div>
-                        <div class="col-8 d-flex align-content-center gap-1">
-                            <span>{{ object.allows_purchase_tracking|yesno:_("Yes,No") }}</span>
-                            {% if request.user.pk == object.pk %}
-                                <span>
-                                    {% if object.allows_purchase_tracking %}
-                                        <a href="{% url 'accounts:update_purchase_tracking_allowed' object.pk 0 %}" class="{% tapir_button_action %} btn-sm">
-                                            <span class="material-icons">thumb_down</span>{% translate "Disable" %}
-                                        </a>
-                                    {% else %}
-                                        <a href="{% url 'accounts:update_purchase_tracking_allowed' object.pk 1 %}" class="{% tapir_button_action %} btn-sm">
-                                            <span class="material-icons">thumb_up</span>{% translate "Enable" %}
-                                        </a>
-                                    {% endif %}
-                                </span>
-                            {% endif %}
-                        </div>
-                    </div>{% endcomment %}
 
                     <div class="d-flex justify-content-sm-end m-1 mt-3">
                         {% if perms.accounts.manage %}
@@ -152,12 +131,11 @@
         </div>
     </div>
 
-    {% if object.share_owner and object.allows_purchase_tracking %}
-        <div class="row">
-            <div class="col-xl-6">
-                {% member_card_barcode share_owner=object.share_owner %}
-            </div>
+    <div class="row">
+        <div class="col-xl-6">
+            {% purchase_tracking_card tapir_user=object %}
         </div>
-    {% endif %}
+    </div>
+
 {% endblock %}
 

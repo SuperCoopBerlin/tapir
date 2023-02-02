@@ -33,7 +33,7 @@ def log_entry_list(context, **kwargs):
         )
     log_entries = log_entries.filter(filters).distinct()
 
-    log_entries = log_entries[: min(log_entries.count(), 20)]
+    log_entries = log_entries[: min(log_entries.count(), 5)]
     log_entries = [entry.as_leaf_class() for entry in log_entries]
     context["log_entries"] = log_entries
 

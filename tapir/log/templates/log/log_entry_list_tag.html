@@ -6,7 +6,7 @@
 
 <div class="card mb-2">
     <h5 class="card-header d-flex justify-content-between align-items-center">
-        {% translate "Last 20 log entries" %}
+        {% translate "Last 5 log entries" %}
         <span>
             <a class="{% tapir_button_link %}" href="{% url 'log:log_overview'  %}?members={{ share_owner_id }}">
                 <span class="material-icons">manage_search</span>
@@ -16,7 +16,7 @@
     </h5>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="{% tapir_table_classes %}" aria-label="{% translate 'List of log entries for this member' %}">
+            <table class="{% tapir_table_classes %} table-sm" aria-label="{% translate 'List of log entries for this member' %}">
                 <thead>
                 <tr>
                     <th scope="col">{% translate 'Date' %}</th>
@@ -24,13 +24,15 @@
                     <th scope="col">{% translate 'Message' %}</th>
                 </tr>
                 </thead>
-                {% for o in log_entries %}
-                    <tr>
-                        <td>{{ o.created_date|date:"d.m.Y H:i" }}</td>
-                        <td>{{ o.actor.get_display_name|default_if_none:o.actor }}</td>
-                        <td>{{ o.render }}</td>
-                    </tr>
-                {% endfor %}
+                <tbody>
+                    {% for o in log_entries %}
+                        <tr>
+                            <td>{{ o.created_date|date:"d.m.Y H:i" }}</td>
+                            <td>{{ o.actor.get_display_name|default_if_none:o.actor }}</td>
+                            <td>{{ o.render }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
             </table>
         </div>
 
