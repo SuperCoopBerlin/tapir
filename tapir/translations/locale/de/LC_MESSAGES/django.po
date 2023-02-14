@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-02 13:38+0100\n"
+"POT-Creation-Date: 2023-02-14 15:06+0100\n"
 "PO-Revision-Date: 2022-10-25 18:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -92,17 +92,17 @@ msgstr "Keine"
 msgid "Purchase tracking"
 msgstr "Miteinkäufer*in"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:10
+#: accounts/templates/accounts/purchase_tracking_card.html:11
 msgid "Get barcode as PDF"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:14
+#: accounts/templates/accounts/purchase_tracking_card.html:16
 #, fuzzy
 #| msgid "Membership confirmation"
 msgid "More information"
 msgstr "Mitgliedsbestätigung"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:22
+#: accounts/templates/accounts/purchase_tracking_card.html:24
 msgid ""
 "Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei "
 "wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst "
@@ -116,7 +116,7 @@ msgid ""
 "Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:26
+#: accounts/templates/accounts/purchase_tracking_card.html:28
 #: coop/templates/coop/draftuser_detail.html:123
 #: coop/templates/coop/draftuser_detail.html:129
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:172
@@ -125,11 +125,11 @@ msgstr ""
 msgid "Yes,No"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:31
+#: accounts/templates/accounts/purchase_tracking_card.html:33
 msgid "Disable"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:35
+#: accounts/templates/accounts/purchase_tracking_card.html:37
 msgid "Enable"
 msgstr ""
 
@@ -1972,10 +1972,12 @@ msgstr ""
 #: shifts/templates/shifts/email/shift_reminder.body.default.html:18
 msgid ""
 "In case you can't attend the shift, contact the team leader as soon as "
-"possible."
+"possible. If you can only come late: please come to your shift anyway, every "
+"support is important."
 msgstr ""
 "Wenn du an der Schicht nicht teilnehmen kannst, kontaktiere bitte "
-"schnellstmöglich die Teamleitung."
+"schnellstmöglich die Teamleitung. Falls du nur mit Verspätung kommen kannst: "
+"bitte komm trotzdem zu deiner Schicht, jede Unterstützung ist wichtig."
 
 #: shifts/templates/shifts/email/shift_reminder.subject.default.html:3
 #, python-format
