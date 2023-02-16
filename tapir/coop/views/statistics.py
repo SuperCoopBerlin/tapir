@@ -49,6 +49,10 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
         context["shares"] = self.get_shares_context()
         context["extra_shares"] = self.get_extra_shares_context()
 
+        context["nb_members_with_purchase_tracking_enabled"] = TapirUser.objects.filter(
+            allows_purchase_tracking=True
+        ).count()
+
         return context
 
     @staticmethod
