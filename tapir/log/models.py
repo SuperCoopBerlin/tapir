@@ -235,5 +235,7 @@ class ModelLogEntry(LogEntry):
 
     def get_context_data(self):
         context = super().get_context_data()
-        context["values"] = self.values.items()
+        context["values"] = (
+            self.values.items() if hasattr(self.values, "items") else self.values
+        )
         return context

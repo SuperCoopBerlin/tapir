@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-14 15:06+0100\n"
+"POT-Creation-Date: 2023-02-16 17:07+0100\n"
 "PO-Revision-Date: 2022-10-25 18:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -180,7 +180,7 @@ msgstr "E-Mail-Adresse"
 #: coop/templates/coop/draftuser_detail.html:49
 #: coop/templates/coop/shareowner_detail.html:57
 #: coop/templates/coop/shareowner_detail.html:67
-#: shifts/templates/shifts/user_shifts_overview_tag.html:36
+#: shifts/templates/shifts/user_shifts_overview_tag.html:38
 msgid "Missing"
 msgstr "Fehlend"
 
@@ -1208,7 +1208,7 @@ msgstr "Mitgliedsbestätigung"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:29
 #: coop/views/shareowner.py:598
-#: shifts/templates/shifts/user_shifts_overview_tag.html:18
+#: shifts/templates/shifts/user_shifts_overview_tag.html:17
 msgid "Status"
 msgstr "Status"
 
@@ -1325,7 +1325,7 @@ msgid "Any"
 msgstr "Alle"
 
 #: coop/views/shareowner.py:604
-#: shifts/templates/shifts/user_shifts_overview_tag.html:75
+#: shifts/templates/shifts/user_shifts_overview_tag.html:76
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
@@ -1647,7 +1647,7 @@ msgstr ""
 "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht "
 "registriert."
 
-#: shifts/forms.py:208 shifts/templates/shifts/user_shifts_overview_tag.html:96
+#: shifts/forms.py:208 shifts/templates/shifts/user_shifts_overview_tag.html:98
 msgid "Qualifications"
 msgstr "Befähigungen"
 
@@ -2398,7 +2398,8 @@ msgstr ""
 
 #: shifts/templates/shifts/shift_template_detail.html:8
 #: shifts/templates/shifts/shift_template_detail.html:18
-#: shifts/templates/shifts/user_shifts_overview_tag.html:23
+#: shifts/templates/shifts/user_shifts_overview_tag.html:24
+#: shifts/templates/shifts/user_shifts_overview_tag.html:36
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
@@ -2525,32 +2526,32 @@ msgstr ""
 msgid "Value"
 msgstr "Wert"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:42
+#: shifts/templates/shifts/user_shifts_overview_tag.html:44
 msgid "Find an ABCD shift"
 msgstr "ABCD-Schicht auswählen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:51
+#: shifts/templates/shifts/user_shifts_overview_tag.html:52
 msgid "Upcoming Shift"
 msgstr "Nächste Schicht"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:59
+#: shifts/templates/shifts/user_shifts_overview_tag.html:60
 msgid "Show more"
 msgstr "Mehr anzeigen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:68
+#: shifts/templates/shifts/user_shifts_overview_tag.html:69
 msgctxt "No upcoming shift"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:78
+#: shifts/templates/shifts/user_shifts_overview_tag.html:79
 msgid "OK"
 msgstr "OK"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:81
+#: shifts/templates/shifts/user_shifts_overview_tag.html:82
 msgid "Shift for ongoing cycle pending"
 msgstr "Shift für aktuellen Zyklus ausstehend"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:83
+#: shifts/templates/shifts/user_shifts_overview_tag.html:84
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -2558,40 +2559,40 @@ msgstr "Shift für aktuellen Zyklus ausstehend"
 #| "                "
 msgid ""
 "\n"
-"                            %(num_banked_shifts)s banked shifts\n"
-"                        "
+"                        %(num_banked_shifts)s banked shifts\n"
+"                    "
 msgstr ""
 "\n"
 "                    Mitglied #%(coop_share_owner_id)s\n"
 "                "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:88
+#: shifts/templates/shifts/user_shifts_overview_tag.html:89
 msgid "On alert"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:91
+#: shifts/templates/shifts/user_shifts_overview_tag.html:93
 msgid "log"
 msgstr "Protokoll"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:101
+#: shifts/templates/shifts/user_shifts_overview_tag.html:103
 msgctxt "No qualifications"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:106
+#: shifts/templates/shifts/user_shifts_overview_tag.html:108
 msgid "Exemption"
 msgstr "Befreiung"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:111
+#: shifts/templates/shifts/user_shifts_overview_tag.html:113
 msgid "until"
 msgstr "bis"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:118
+#: shifts/templates/shifts/user_shifts_overview_tag.html:120
 msgctxt "No shift exemption"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:124
+#: shifts/templates/shifts/user_shifts_overview_tag.html:127
 msgid "View all"
 msgstr "Alle ansehen"
 
