@@ -118,23 +118,6 @@ def dictionary_get(dic, key):
     return dic[key] if key in dic else None
 
 
-def _set_user_attendance_mode(request, user_pk, attendance_mode):
-    user = get_object_or_404(TapirUser, pk=user_pk)
-    old_shift_user_data = freeze_for_log(user.shift_user_data)
-
-    with transaction.atomic():
-        user.shift_user_data.attendance_mode = attendance_mode
-        user.shift_user_data.save()
-        UpdateShiftUserDataLogEntry().populate(
-            actor=request.user,
-            tapir_user=user,
-            old_frozen=old_shift_user_data,
-            new_frozen=freeze_for_log(user.shift_user_data),
-        ).save()
-
-    return redirect(user)
-
-
 class UserShiftAccountLog(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "shifts/user_shift_account_log.html"
 
