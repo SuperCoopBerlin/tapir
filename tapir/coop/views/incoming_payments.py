@@ -38,6 +38,8 @@ class IncomingPaymentTable(django_tables2.Table):
         order_by = "-payment_date"
         attrs = {"class": TAPIR_TABLE_CLASSES}
 
+    id = django_tables2.Column(verbose_name=_("Payment ID"))
+
     def before_render(self, request):
         self.request = request
 
@@ -50,7 +52,8 @@ class IncomingPaymentTable(django_tables2.Table):
         ):
             other_member = other_member.get_info()
             return get_html_link(
-                other_member.get_absolute_url(), other_member.get_display_name()
+                other_member.get_absolute_url(),
+                f"{other_member.get_display_name()} #{other_member.id}",
             )
         return _("Other member")
 
