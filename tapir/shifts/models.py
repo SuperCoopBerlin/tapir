@@ -941,6 +941,12 @@ class ShiftUserData(models.Model):
 
         return 1
 
+    def can_shop(self):
+        return (
+            self.is_balance_ok()
+            and self.attendance_mode is not ShiftAttendanceMode.FROZEN
+        )
+
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
     if not hasattr(instance, "shift_user_data"):
