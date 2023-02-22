@@ -848,6 +848,7 @@ class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
 class ShiftAttendanceMode:
     REGULAR = "regular"
     FLYING = "flying"
+    FROZEN = "frozen"
 
 
 class ShiftUserDataQuerySet(models.QuerySet):
@@ -875,6 +876,7 @@ class ShiftUserData(models.Model):
     SHIFT_ATTENDANCE_MODE_CHOICES = [
         (ShiftAttendanceMode.REGULAR, _("🏠 ABCD")),
         (ShiftAttendanceMode.FLYING, _("✈ Flying")),
+        (ShiftAttendanceMode.FROZEN, _("❄ Frozen")),
     ]
     attendance_mode = models.CharField(
         _("Shift system"),

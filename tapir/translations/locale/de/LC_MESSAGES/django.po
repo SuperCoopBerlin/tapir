@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-22 12:24+0100\n"
+"POT-Creation-Date: 2023-02-22 14:50+0100\n"
 "PO-Revision-Date: 2022-10-25 18:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1474,7 +1474,7 @@ msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
 #: core/templates/core/email_list.html:37 shifts/models.py:442
-#: shifts/models.py:955 shifts/templates/shifts/shiftexemption_list.html:27
+#: shifts/models.py:957 shifts/templates/shifts/shiftexemption_list.html:27
 #: shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
@@ -1807,19 +1807,23 @@ msgstr "Abgesagt"
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:876
+#: shifts/models.py:877
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:877
+#: shifts/models.py:878
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:880
+#: shifts/models.py:879
+msgid "❄ Frozen"
+msgstr "❄ Eingefroren"
+
+#: shifts/models.py:882
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1061
+#: shifts/models.py:1063
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -2603,7 +2607,7 @@ msgid "View all"
 msgstr "Alle ansehen"
 
 #: shifts/templatetags/shifts.py:56 shifts/templatetags/shifts.py:159
-#: shifts/views/views.py:116
+#: shifts/views/views.py:112
 msgid "General"
 msgstr "Allgemein"
 
@@ -2666,17 +2670,17 @@ msgid ""
 "shift, come back tomorrow to see your shifts!"
 msgstr ""
 
-#: shifts/views/views.py:98 shifts/views/views.py:101
+#: shifts/views/views.py:94 shifts/views/views.py:97
 #, python-format
 msgid "Edit user shift data: %(name)s"
 msgstr "Bearbeite Nutzer*in-Schichtdaten: %(name)s"
 
-#: shifts/views/views.py:195
+#: shifts/views/views.py:175
 #, python-format
 msgid "Shift account: %(name)s"
 msgstr "Schichtkonto-Protokoll für: %(name)s"
 
-#: shifts/views/views.py:199
+#: shifts/views/views.py:179
 #, python-format
 msgid "Create manual shift account entry for:  %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
