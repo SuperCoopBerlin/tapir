@@ -1,0 +1,19 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+
+{% block body %}
+    {% blocktranslate with first_name=tapir_user.first_name coop_name=coop_name contact_email_address=contact_email_address %}
+        <p>Dear {{ first_name }},</p>
+
+        <p>This is an automated email from {{ coop_name }}.</p>
+
+        <p>
+            Because your shift account balance has reached {{ threshold }} or lower, we had to freeze your account.
+            <br/>
+            Your right to shop has been revoked. <br/>
+            If you would like to be active again, or if you think your account has been frozen by mistake, please
+            contact us at : <a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}
