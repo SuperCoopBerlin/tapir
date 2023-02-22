@@ -17,8 +17,11 @@
                     <h6>Members Statistics</h6>
                     <ul>
                         <li>There are currently <strong>{{ members.active_users_count }} active members</strong> with a
-                            Tapir account.
+                            Tapir account. Out of those active members :
                             <ul>
+                                <li><strong>{{ members.frozen_users_count }}</strong> are currently
+                                    <strong>frozen</strong>.
+                                </li>
                                 <li><strong>{{ members.exempted_users_count }}</strong> are currently
                                     <strong>exempted</strong> from
                                     doing shifts.
