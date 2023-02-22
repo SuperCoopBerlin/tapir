@@ -1,7 +1,6 @@
 from datetime import datetime
 
 import django_tables2
-from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
 from django.db.models import Sum
@@ -9,8 +8,6 @@ from django.shortcuts import redirect, get_object_or_404
 from django.template.defaulttags import register
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_POST
 from django.views.generic import (
     CreateView,
     UpdateView,
@@ -37,7 +34,6 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.models import (
     ShiftSlot,
-    ShiftAttendanceMode,
     UpdateShiftUserDataLogEntry,
     ShiftUserData,
     ShiftAccountEntry,
@@ -120,22 +116,6 @@ def get_shift_slot_names():
 @register.filter
 def dictionary_get(dic, key):
     return dic[key] if key in dic else None
-
-
-@require_POST
-@csrf_protect
-@login_required
-@permission_required(PERMISSION_SHIFTS_MANAGE)
-def set_user_attendance_mode_flying(request, user_pk):
-    return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.FLYING)
-
-
-@require_POST
-@csrf_protect
-@login_required
-@permission_required(PERMISSION_SHIFTS_MANAGE)
-def set_user_attendance_mode_regular(request, user_pk):
-    return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.REGULAR)
 
 
 def _set_user_attendance_mode(request, user_pk, attendance_mode):
