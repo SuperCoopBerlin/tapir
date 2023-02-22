@@ -835,7 +835,7 @@ class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         tapir_user: TapirUser,
-        actor: User,
+        actor: User | None,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
