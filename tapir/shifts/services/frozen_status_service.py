@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import transaction
 from django.utils import timezone
 
@@ -9,27 +11,61 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     UpdateShiftUserDataLogEntry,
     ShiftAttendanceTemplate,
+    ShiftAccountEntry,
     ShiftAttendance,
 )
 
 
 class FrozenStatusService:
-    FREEZE_THRESHOLD = -5
+    FREEZE_THRESHOLD = -4
+    FREEZE_AFTER_DAYS = 10
 
-    def should_freeze_member(
-        self, shift_user_data: ShiftUserData, last_balance_change: int
-    ):
-        # Do this check after applying an account balance change
-        return (
-            last_balance_change < 0
-            and shift_user_data.attendance_mode is not ShiftAttendanceMode.FROZEN
-            and shift_user_data.get_account_balance() <= self.FREEZE_THRESHOLD
+    def should_freeze_member(self, shift_user_data: ShiftUserData) -> bool:
+        if shift_user_data.attendance_mode is ShiftAttendanceMode.FROZEN:
+            return False
+
+        if not self._is_member_below_threshold_since_long_enough(shift_user_data):
+            return False
+
+        if self._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
+            shift_user_data
+        ):
+            return False
+
+        return True
+
+    def _is_member_below_threshold_since_long_enough(
+        self, shift_user_data: ShiftUserData
+    ) -> bool:
+        balance = shift_user_data.get_account_balance()
+        if balance > self.FREEZE_THRESHOLD:
+            return False
+
+        entries = ShiftAccountEntry.objects.filter(user=shift_user_data.user).order_by(
+            "-date"
         )
+        for entry in entries:
+            if (timezone.now().date() - entry.date).days > self.FREEZE_AFTER_DAYS:
+                return True
+            balance -= entry.value
+            if balance > self.FREEZE_THRESHOLD:
+                return False
+
+    def _is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
+        self, shift_user_data: ShiftUserData
+    ) -> bool:
+        upcoming_shifts = ShiftAttendance.objects.filter(
+            user=shift_user_data.user,
+            state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
+            slot__shift__start_time__gt=timezone.now(),
+            slot__shift__start_time__lt=timezone.now() + datetime.timedelta(weeks=8),
+        )
+        return upcoming_shifts.count() >= -shift_user_data.get_account_balance()
 
     def freeze_member(self, shift_user_data: ShiftUserData, actor: TapirUser | None):
         with transaction.atomic():
             self._update_attendance_mode_and_create_log_entry(shift_user_data, actor)
-            self._cancel_future_attendances(shift_user_data)
+            self._cancel_future_attendances_templates(shift_user_data)
             ShiftAttendanceTemplate.objects.filter(user=shift_user_data.user).delete()
             email = MemberFrozenEmail()
         email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
@@ -50,13 +86,9 @@ class FrozenStatusService:
             ).save()
 
     @staticmethod
-    def _cancel_future_attendances(shift_user_data: ShiftUserData):
-        attendances = ShiftAttendance.objects.filter(
-            user=shift_user_data.user,
-            slot__shift__start_time__gte=timezone.now(),
-            state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
-        )
-        for attendance in attendances:
-            attendance.state = ShiftAttendance.State.CANCELLED
-            attendance.excused_reason = f"Shift mode set to frozen at {timezone.now().strftime('%Y-%m-%dT%H:%M')}"
-            attendance.save()
+    def _cancel_future_attendances_templates(shift_user_data: ShiftUserData):
+        for attendance_template in ShiftAttendanceTemplate.objects.filter(
+            user=shift_user_data.user
+        ):
+            attendance_template.cancel_attendances(timezone.now())
+            attendance_template.delete()
