@@ -14,12 +14,11 @@
             <span>{% translate "About Tapir" %}</span>
         </h5>
         <div class="card-body">
-            <p>Tapir has been made with love by SuperCoop Berlin members.</p>
+            <p>Tapir has been made with love by {{ creators_text }}.</p>
             <p>The source code and list of contributors is available on GitHub : <a
-                    href="https://github.com/SuperCoopBerlin/tapir">https://github.com/SuperCoopBerlin/tapir</a></p>
+                    href="{{ github_repo_url }}">{{ github_repo_url }}</a></p>
             <p>We're always very happy to hear your feedback, suggestions, ideas... You can write us in the <a
-                    href="https://supercoopberlin.slack.com/archives/C01SYB5QSTB">#tapir</a> channel of the SuperCoop
-                Slack.</p>
+                    href="{{ chat_url }}">#tapir</a> channel of the {{ chat_system_name }}.</p>
         </div>
     </div>
     <div class="card mb-2">
@@ -27,7 +26,12 @@
             <span>{% translate "Latest changes" %}</span>
         </h5>
         <div class="card-body">
-            <ul
+            <ul>
+                <li>01.03.22
+                    <ul>
+                        <li>Fix some translations and make translations more generic to make Tapir more useful for other coops</li>
+                    </ul>
+                </li>
                 <li>26.07.22
                     <ul>
                         <li>Software license now APGL.</li>
@@ -35,7 +39,7 @@
                         <li>Generalize custom buttons for User, members and dates.</li>
                         <li>Responsive design.</li>
                         <li>Add filter to logs to make it more readable.</li>
-                        <li>Small bugfixes, such as "Fixed some ShareOwner filters outputing the same member several times.".</li>
+                        <li>Small bugfixes, such as "Fixed some ShareOwner filters outputting the same member several times.".</li>
                         <li>Much more, such as more payment-filters for management and improved translations.</li>
                     </ul>
                 </li>

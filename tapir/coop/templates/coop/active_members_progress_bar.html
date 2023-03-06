@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<a class="nav-link" href="https://wiki.supercoop.de/wiki/Community_Challenge:_Holt_ein_weiteres_aktives_Mitglied_an_Bord!">
+<a class="nav-link" href="{{ community_challenge_url }}">
     {% blocktranslate asvar tooltip %}
         Grey : {{ member_count_on_start_date }} active members on 15.11.2022 <br/>
         Blue : {{ new_member_count_since_start_date }} new members since 15.11.2022 <br/>

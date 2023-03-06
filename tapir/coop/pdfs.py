@@ -21,11 +21,6 @@ def get_shareowner_membership_confirmation_pdf(
         "share_owner": share_owner,
         "num_shares": num_shares,
         "date": date,
-        "COOP_NAME": settings.COOP_NAME,
-        "EMAIL_ADDRESS_MEMBER_OFFICE": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-        "COOP_FULL_NAME": settings.COOP_FULL_NAME,
-        "COOP_STREET": settings.COOP_STREET,
-        "COOP_PLACE": settings.COOP_PLACE,
     }
     return render_pdf(
         templates=templates,

@@ -38,7 +38,7 @@
     </div>
     <div style="flex-grow: 1"></div>
     <div style="margin-top: 13mm;">
-        <img src="{% static 'coop/img/supercoop_logo.png' %}" style="width: 60mm;" alt="SuperCoop Logo"/>
+        <img src="{% static logo_base64 %}" style="width: 60mm;" alt="{{ coop_name }} Logo"/>
     </div>
 </div>
 
@@ -74,9 +74,8 @@
         </p>
 
         <p>
-            Cooperative greetings<br/>
-            Your Executive Board<br/>
-            Eugénie, Jessica, Johanna and Marie for the SuperCoop Team<br/>
+            Cooperative greetings,<br/>
+            {{ board_signature_text }}<br/>
         </p>
     {% endblocktranslate %}
 </div>
