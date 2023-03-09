@@ -193,10 +193,14 @@ class ShiftTemplate(models.Model):
         )
 
     def get_future_generated_shifts(self, now=None):
-        return self.generated_shifts.filter(start_time__gt=now or timezone.now())
+        return self.generated_shifts.filter(
+            start_time__gt=now or timezone.now()
+        ).order_by("start_time")
 
     def get_past_generated_shifts(self, now=None):
-        return self.generated_shifts.filter(start_time__lte=now or timezone.now())
+        return self.generated_shifts.filter(
+            start_time__lte=now or timezone.now()
+        ).order_by("-start_time")
 
     def get_display_name(self):
         display_name = "%s %s %s" % (
