@@ -1,0 +1,21 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+
+{% block body %}
+    {% blocktranslate with first_name=tapir_user.first_name coop_name=coop_name contact_email_address=contact_email_address %}
+        <p>Dear {{ first_name }},</p>
+
+        <p>This is an automated email from {{ coop_name }}.</p>
+
+        <p>
+            Because your shift account balance has reached {{ threshold }} or lower, you are at risk of getting your
+            membership frozen.
+            <br/>
+            You are still active and are still allowed to shop and vote as normal. However, if you don't register for
+            enough shifts in the next 10 days, your membership will be frozen automatically. <br/>
+            If you have any question or think that you should not get frozen, please
+            contact us at : <a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}

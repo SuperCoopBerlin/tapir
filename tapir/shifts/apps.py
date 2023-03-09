@@ -123,8 +123,12 @@ class ShiftConfig(AppConfig):
         from tapir.shifts.emails.member_frozen_email import (
             MemberFrozenEmail,
         )
+        from tapir.shifts.emails.freeze_warning_email import (
+            FreezeWarningEmail,
+        )
 
         TapirEmailBase.register_email(ShiftMissedEmail)
         TapirEmailBase.register_email(ShiftReminderEmail)
         TapirEmailBase.register_email(StandInFoundEmail)
         TapirEmailBase.register_email(MemberFrozenEmail)
+        TapirEmailBase.register_email(FreezeWarningEmail)

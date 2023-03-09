@@ -3,9 +3,9 @@ import datetime
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
-    ShiftCycleEntry,
     ShiftExemption,
 )
+from tapir.shifts.services.shift_cycle_service import ShiftCycleService
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -16,21 +16,21 @@ class TestShiftCycle(TapirFactoryTestBase):
     def test_shift_cycle_start(self):
         user = self.get_user_that_joined_before_first_cycle()
 
-        ShiftCycleEntry.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             -1,
             "After once cycle, the user's balance should be -1.",
         )
 
-        ShiftCycleEntry.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             -1,
             "After applying the same cycle, the user's balance should not have changed.",
         )
 
-        ShiftCycleEntry.apply_cycle_start(self.SECOND_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.SECOND_CYCLE_START_DATE)
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             -2,
@@ -41,7 +41,7 @@ class TestShiftCycle(TapirFactoryTestBase):
         user = self.get_user_that_joined_before_first_cycle()
         user.share_owner.is_investing = True
         user.share_owner.save()
-        ShiftCycleEntry.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             0,
@@ -56,14 +56,14 @@ class TestShiftCycle(TapirFactoryTestBase):
             shift_user_data=user.shift_user_data,
         )
 
-        ShiftCycleEntry.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             0,
             "The user is exempted from the first cycle, the account balance should be 0.",
         )
 
-        ShiftCycleEntry.apply_cycle_start(self.SECOND_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.SECOND_CYCLE_START_DATE)
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             -1,
@@ -78,8 +78,8 @@ class TestShiftCycle(TapirFactoryTestBase):
             shift_user_data=user.shift_user_data,
         )
 
-        ShiftCycleEntry.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
-        ShiftCycleEntry.apply_cycle_start(self.SECOND_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.SECOND_CYCLE_START_DATE)
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             0,
@@ -94,8 +94,8 @@ class TestShiftCycle(TapirFactoryTestBase):
             shift_user_data=user.shift_user_data,
         )
 
-        ShiftCycleEntry.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
-        ShiftCycleEntry.apply_cycle_start(self.SECOND_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.SECOND_CYCLE_START_DATE)
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             0,
@@ -108,7 +108,7 @@ class TestShiftCycle(TapirFactoryTestBase):
             date_joined=self.FIRST_CYCLE_START_DATE + datetime.timedelta(days=7),
         )
 
-        ShiftCycleEntry.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
+        ShiftCycleService.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             0,
