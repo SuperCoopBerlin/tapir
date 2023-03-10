@@ -2,11 +2,8 @@ version: "3.9"
 services:
   openldap:
     image: "osixia/openldap"
-    environment:
-      LDAP_ORGANISATION: "SuperCoop Berlin"
-      LDAP_DOMAIN: "supercoop.de"
-      LDAP_ADMIN_PASSWORD: "admin"
-      LDAP_READONLY_USER: "true"
+    env_file:
+      - .env
     ports:
       - "389:389"
     volumes:
@@ -21,9 +18,8 @@ services:
                       poetry run python manage.py runserver_plus 0.0.0.0:80"
     volumes:
       - .:/app
-    environment:
-      VIRTUAL_HOST: localhost
-      DEBUG: 1
+    env_file:
+      - .env
     depends_on:
       - openldap
       - db
@@ -39,16 +35,14 @@ services:
     ports:
       - "8000:80"
       - "8001:443"
-    environment:
-      HTTPS_METHOD: noredirect
-      DEFAULT_HOST: localhost
+    env_file:
+      - .env
+
 
   db:
     image: postgres:14-alpine
-    environment:
-      - POSTGRES_DB=tapir
-      - POSTGRES_PASSWORD=tapir
-      - POSTGRES_USER=tapir
+    env_file:
+      - .env
     ports:
       - '5432:5432'
 
@@ -68,8 +62,8 @@ services:
                       poetry run celery -A tapir worker -l info"
     volumes:
       - .:/app
-    environment:
-      DEBUG: 1
+    env_file:
+      - .env
     depends_on:
       - redis
 
@@ -80,8 +74,8 @@ services:
                       poetry run celery -A tapir beat -l info --schedule /tmp/celerybeat-schedule"
     volumes:
       - .:/app
-    environment:
-      DEBUG: 1
+    env_file:
+      - .env
     depends_on:
       - redis
 
