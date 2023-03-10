@@ -26,14 +26,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env(
-    "TAPIR_SECRET_KEY", default="fl%20e9dbkh4mosi5$i$!5&+f^ic5=7^92hrchl89x+)k0ctsn"
-)
+SECRET_KEY = env("TAPIR_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("TAPIR_DEBUG", cast=bool, default=False)
 
-ALLOWED_HOSTS = env("TAPIR_ALLOWED_HOSTS", cast=list, default=["*"])
+ALLOWED_HOSTS = env("TAPIR_ALLOWED_HOSTS", cast=list)
 
 ENABLE_SILK_PROFILING = False
 ENABLE_API = env("TAPIR_ENABLE_API", cast=bool, default=False)
@@ -126,12 +124,8 @@ WSGI_APPLICATION = "tapir.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
-    "default": env.db(
-        "TAPIR_DATABASE_URL", default="postgresql://tapir:tapir@db:5432/tapir"
-    ),
-    "ldap": env.db_url(
-        "TAPIR_LDAP_URL", default="ldap://cn=admin,dc=supercoop,dc=de:admin@openldap"
-    ),
+    "default": env.db("TAPIR_DATABASE_URL"),
+    "ldap": env.db_url("TAPIR_LDAP_URL"),
 }
 
 DATABASE_ROUTERS = ["ldapdb.router.Router"]
@@ -205,7 +199,7 @@ if EMAIL_ENV == "dev" or EMAIL_ENV == "test":
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 elif EMAIL_ENV == "prod":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = env("TAPIR_EMAIL_HOST", default="smtp-relay.gmail.com")
+    EMAIL_HOST = env("TAPIR_EMAIL_HOST")
     EMAIL_HOST_USER = env("TAPIR_EMAIL_HOST_USER", default=EMAIL_ADDRESS_MEMBER_OFFICE)
     EMAIL_HOST_PASSWORD = env("TAPIR_EMAIL_HOST_PASSWORD")
     EMAIL_PORT = 587
