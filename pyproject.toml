@@ -45,6 +45,7 @@ pytest-sugar = "^0.9.6"
 selenium = "^4.7.2"
 factory-boy = "^3.2.1"
 poetryup = "^0.12.7"
+djlint = "^1.19.16"
 
 [build-system]
 requires = ["poetry-core>=1.2.0"]
