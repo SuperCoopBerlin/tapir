@@ -1,21 +1,14 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load core %}
-
 {% block head %}
     {{ block.super }}
     {{ form.media }}
 {% endblock %}
-
-{% block title %}
-    {{ page_title }}
-{% endblock %}
-
+{% block title %}{{ page_title }}{% endblock %}
 {% block content %}
-
     <div class="container">
         <div class="card m-2">
             <h5 class="card-header">
@@ -24,11 +17,7 @@
                 {% endautoescape %}
             </h5>
             <ul class="list-group list-group-flush">
-                {% if help_text %}
-                    <li class="list-group-item">
-                        {{ help_text }}
-                    </li>
-                {% endif %}
+                {% if help_text %}<li class="list-group-item">{{ help_text }}</li>{% endif %}
                 <li class="list-group-item">
                     <form role="form" method="post">
                         {% csrf_token %}
