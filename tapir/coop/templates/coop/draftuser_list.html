@@ -1,18 +1,16 @@
 {% extends "core/base.html" %}
-
 {% load i18n %}
 {% load core %}
-
 {% block title %}
     {% translate "Applicants" %}
 {% endblock %}
-
 {% block content %}
     <div class="card mb-2">
         <h5 class="card-header d-flex justify-content-between align-items-center">
             {% translate "Applicants" %}
             <span class="align-self-right">
-                <a class="{% tapir_button_link_to_action %}" href="{% url 'coop:draftuser_create' %}">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'coop:draftuser_create' %}">
                     <span class="material-icons">person_add</span>
                     Create
                 </a>
@@ -20,16 +18,17 @@
         </h5>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="{% tapir_table_classes %}" id="applicants_table"
+                <table class="{% tapir_table_classes %}"
+                       id="applicants_table"
                        aria-label="{% translate 'List of applicants' %}">
                     <thead>
-                    <th>{% translate "First name" %}</th>
-                    <th>{% translate "Last name" %}</th>
-                    <th>{% translate "Email" %}</th>
-                    <th>{% translate "Beteiligungserklärung" %}</th>
-                    <th>{% translate "Entrance Fee" %}</th>
-                    <th>{% translate "Date" %}</th>
-                    <th></th>
+                        <th>{% translate "First name" %}</th>
+                        <th>{% translate "Last name" %}</th>
+                        <th>{% translate "Email" %}</th>
+                        <th>{% translate "Beteiligungserklärung" %}</th>
+                        <th>{% translate "Entrance Fee" %}</th>
+                        <th>{% translate "Date" %}</th>
+                        <th></th>
                     </thead>
                     {% for draft_user in object_list %}
                         <tr>

@@ -1,42 +1,52 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
-
 {% block body %}
-
     (English below)
-
     <p>Liebe*r {{ share_owner.get_info.get_display_name }},</p>
-
-    <p>herzlich Willkommen als offizielles Fördermitglied der {{ coop_full_name }}! Mit dem Zeichnen von
-        {% if share_owner.get_active_share_ownerships.count == 1 %}einem Genossenschaftsanteil
-            {% else %}{{ share_owner.get_active_share_ownerships.count }} Anteilen{% endif %}hast du dich dafür entschieden,
-        gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!</p>
-
-    <p>Wir freuen uns sehr, dich als Fördermitglied der {{ coop_full_name }} begrüßen zu dürfen und bestätigen die Aufnahme in
+    <p>
+        herzlich Willkommen als offizielles Fördermitglied der {{ coop_full_name }}! Mit dem Zeichnen von
+        {% if share_owner.get_active_share_ownerships.count == 1 %}
+            einem Genossenschaftsanteil
+        {% else %}
+            {{ share_owner.get_active_share_ownerships.count }} Anteilen
+        {% endif %}
+        hast du dich dafür entschieden,
+        gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!
+    </p>
+    <p>
+        Wir freuen uns sehr, dich als Fördermitglied der {{ coop_full_name }} begrüßen zu dürfen und bestätigen die Aufnahme in
         die Genossenschaft mit der Mitgliedsnummer {{ share_owner.id }}. Deine Mitgliedschaftsbestätigung findest du als PDF
-        im Anhang.</p>
-
+        im Anhang.
+    </p>
     <p>Bei Fragen kannst du dich gerne an mitglied@supercoop.de wenden.</p>
-
-    <p>Kooperative Grüße<br/>
-        Eugénie, Jessica, Johanna und Marie für das SuperCoop Team</p>
-
+    <p>
+        Kooperative Grüße
+        <br/>
+        Eugénie, Jessica, Johanna und Marie für das SuperCoop Team
+    </p>
     <hr/>
-
     <p>Dear {{ share_owner.get_info.get_display_name }},</p>
-
-    <p>Welcome as an official investing member of {{ coop_full_name }}! By subscribing to
-        {% if share_owner.get_active_share_ownerships.count == 1 %}a cooperative share
-            {% else %}{{ share_owner.get_active_share_ownerships.count }} cooperative shares{% endif %}, you have decided to
-        shape the food system together with us and many other coop members!</p>
-
-    <p>We are very happy to confirm your admission to the cooperative with the membership number {{ share_owner.id }}. See the
-        attached PDF for full details.</p>
-
-    <p>Cooperative greetings,<br/>
-        Eugénie, Jessica, Johanna and Marie<br/>
-        Executive Board<br/>
-        {{ coop_full_name }}</p>
-
+    <p>
+        Welcome as an official investing member of {{ coop_full_name }}! By subscribing to
+        {% if share_owner.get_active_share_ownerships.count == 1 %}
+            a cooperative share
+        {% else %}
+            {{ share_owner.get_active_share_ownerships.count }} cooperative shares
+        {% endif %}
+        , you have decided to
+        shape the food system together with us and many other coop members!
+    </p>
+    <p>
+        We are very happy to confirm your admission to the cooperative with the membership number {{ share_owner.id }}. See the
+        attached PDF for full details.
+    </p>
+    <p>
+        Cooperative greetings,
+        <br/>
+        Eugénie, Jessica, Johanna and Marie
+        <br/>
+        Executive Board
+        <br/>
+        {{ coop_full_name }}
+    </p>
 {% endblock body %}

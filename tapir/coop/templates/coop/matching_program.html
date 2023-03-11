@@ -1,21 +1,16 @@
 {% extends "core/base.html" %}
-
 {% load render_table from django_tables2 %}
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
-
 {% block title %}
     {% translate "Matching program" %}
 {% endblock %}
-
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
 {% endblock %}
-
 {% block content %}
-
     <div class="card mb-2">
         <div class="card-header d-flex justify-content-between">
             <h5>{% translate "Matching program members" %}</h5>
@@ -26,9 +21,7 @@
                     The members in this list have expressed that they are willing to pay the share for a potential new member that otherwise couldn't afford it.
                 {% endblocktranslate %}
             </li>
-            <li class="list-group-item">
-                {% render_table table %}
-            </li>
+            <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
 {% endblock %}

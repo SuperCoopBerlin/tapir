@@ -1,15 +1,9 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
-
 {% block body %}
     {% blocktranslate %}
-        <p>
-            Hello Accounting team,
-        </p>
-        <p>
-            This is the Tapir accounting recap for the past week.
-        </p>
+        <p>Hello Accounting team,</p>
+        <p>This is the Tapir accounting recap for the past week.</p>
         <p>
             {{ num_new_members }} new members have been created. For those new members, {{ total_num_shares_new_members }} shares
             have been created.<br/>
@@ -47,5 +41,4 @@
     <p>
         {% translate "This email is send automatically every Sunday. Contact the Tapir team on Slack if you have any question." %}
     </p>
-
 {% endblock body %}

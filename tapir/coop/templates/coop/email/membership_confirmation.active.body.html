@@ -1,14 +1,8 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
-
 {% block body %}
-
     <p>(English below)</p>
-
-    <p>
-        Hallo {{ share_owner.get_info.get_display_name }},
-    </p>
+    <p>Hallo {{ share_owner.get_info.get_display_name }},</p>
     <p>
         herzlich willkommen als offizielles Mitglied unserer SuperCoop Genossenschaft! Im Anhang findest du deine
         Mitgliedschaftsbestätigung. Wir freuen uns sehr, dass du mit an Bord bist und wir SuperCoop gemeinsam
@@ -18,13 +12,10 @@
         In dieser E-Mail wollen wir für dich die wichtigsten Informationen zu SuperCoop kurz und knackig
         zusammenfassen.
     </p>
-
     <h2>1. Mitgliederbüro</h2>
+    <p>Das Mitgliederbüro ist der Knotenpunkt für die Unterstützung der Mitglieder in allen Belangen der SuperCoop.</p>
     <p>
-        Das Mitgliederbüro ist der Knotenpunkt für die Unterstützung der Mitglieder in allen Belangen der SuperCoop.
-    </p>
-    <p>Um dich für deine erste Schicht anzumelden (oder anzugeben, dass du für eine <a
-            href="https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.80s8z1ce6ayn">Ausnahmeregelung</a>
+        Um dich für deine erste Schicht anzumelden (oder anzugeben, dass du für eine <a href="https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.80s8z1ce6ayn">Ausnahmeregelung</a>
         in Frage kommst), besuche bitte das Mitgliederbüro in unserem Laden. Dort wird
         ein Konto für dich auf Tapir, unserem Online-Schichtverwaltungssystem, eingerichtet und du wirst durch die
         Schritte zur Auswahl deiner Schicht und Arbeitsgruppe geführt.
@@ -34,42 +25,40 @@
         (<a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>) oder besuche SuperCoop. Komm
         gerne vorbei und lerne andere SuperCoop’ies persönlich
         kennen! Die Öffnungszeiten sind:
-    <ul>
-        <li>Mittwoch - Freitag von 16:30 - 19:30 Uhr</li>
-        <li>Samstags von 11.00 - 14.00 Uhr</li>
-    </ul>
+        <ul>
+            <li>Mittwoch - Freitag von 16:30 - 19:30 Uhr</li>
+            <li>Samstags von 11.00 - 14.00 Uhr</li>
+        </ul>
     </p>
-
-    <h2>2. <a href="https://members.supercoop.de">Tapir</a></h2>
+    <h2>
+        2. <a href="https://members.supercoop.de">Tapir</a>
+    </h2>
     <p>
         <a href="https://members.supercoop.de">Tapir</a> ist unser Mitglieder- und Schichtverwaltungssystem, das
         komplett
         von den Mitgliedern der IT-Arbeitsgruppe entwickelt wurde. Dort kannst du dich für Schichten anmelden und
-        zusätzliche Informationen über deine Mitgliedschaft einsehen, z.B. wie viele Anteile du besitzt.</p>
+        zusätzliche Informationen über deine Mitgliedschaft einsehen, z.B. wie viele Anteile du besitzt.
+    </p>
     <p>
         Oben auf der Seite findest du außerdem Links zu folgenden Bereichen:
-    <ul>
-        <li>aktuelle Woche im ABCD-Kalender (einschließlich des ABCD-Kalenders für den Rest des Jahres),</li>
-        <li>Wiki,</li>
-        <li>Mitgliederhandbuch,</li>
-        <li>Ladenöffnungszeiten,</li>
-        <li>die E-Mail-Adresse des Mitgliederbüros,</li>
-        <li>sowie Statistiken über Schichten und unsere Genossenschaft im Allgemeinen.</li>
-    </ul>
+        <ul>
+            <li>aktuelle Woche im ABCD-Kalender (einschließlich des ABCD-Kalenders für den Rest des Jahres),</li>
+            <li>Wiki,</li>
+            <li>Mitgliederhandbuch,</li>
+            <li>Ladenöffnungszeiten,</li>
+            <li>die E-Mail-Adresse des Mitgliederbüros,</li>
+            <li>sowie Statistiken über Schichten und unsere Genossenschaft im Allgemeinen.</li>
+        </ul>
     </p>
-    <p>
-        Um ein Profil auf Tapir zu erstellen, besuche bitte das Mitgliederbüro im Laden (siehe Öffnungszeiten oben).
-    </p>
+    <p>Um ein Profil auf Tapir zu erstellen, besuche bitte das Mitgliederbüro im Laden (siehe Öffnungszeiten oben).</p>
     <p>
         Sobald dein Profil erstellt ist, erhältst du eine Bestätigungsemail mit einem Link, über den du ein Passwort
-        einrichten kannst. Mit diesen Zugangsdaten kannst du dich dann auch im <a
-            href="https://wiki.supercoop.de/wiki/Main_Page">SuperCoop Wiki</a> anmelden.
+        einrichten kannst. Mit diesen Zugangsdaten kannst du dich dann auch im <a href="https://wiki.supercoop.de/wiki/Main_Page">SuperCoop Wiki</a> anmelden.
     </p>
     <p>
         <strong>Tipp:</strong>Setze ein Lesezeichen für den <a href="https://members.supercoop.de/">Link zu Tapir</a>,
         damit du ihn in Zukunft leicht finden kannst!
     </p>
-
     <h2>3. Arbeitsgruppen</h2>
     <p>
         Deine <strong>Arbeitsgruppe</strong> gibt vor, <strong>welche Art von Arbeit</strong> du in der Coop machst.
@@ -82,16 +71,22 @@
     <p>
         Mitglieder sollten (von Ausnahmefällen abgesehen) ihre ersten sechs Schichten in einer der folgenden <strong>Kernarbeitsgruppen</strong>
         absolvieren:
-    <ul>
-        <li><strong>Wareneingang und Lagerhaltung</strong> (Annahme von Lieferungen und Auffüllen der Regale und
-            Kühltruhen, Nachfüllen unverpackter Produkte, MHD - Rote Karte nicht erforderlich)
-        </li>
-        <li><strong>Kassierer*in</strong></li>
-        <li><strong>Welcome Desk</strong> (Begrüßung am Eingang der Genossenschaft, Überprüfung der Mitgliedsnummern und
-            Beantwortung von Fragen der Besucher über SuperCoop)
-        </li>
-        <li><strong>Gebäudereinigung</strong> (Reinigung nach Ladenschluss)</li>
-    </ul>
+        <ul>
+            <li>
+                <strong>Wareneingang und Lagerhaltung</strong> (Annahme von Lieferungen und Auffüllen der Regale und
+                Kühltruhen, Nachfüllen unverpackter Produkte, MHD - Rote Karte nicht erforderlich)
+            </li>
+            <li>
+                <strong>Kassierer*in</strong>
+            </li>
+            <li>
+                <strong>Welcome Desk</strong> (Begrüßung am Eingang der Genossenschaft, Überprüfung der Mitgliedsnummern und
+                Beantwortung von Fragen der Besucher über SuperCoop)
+            </li>
+            <li>
+                <strong>Gebäudereinigung</strong> (Reinigung nach Ladenschluss)
+            </li>
+        </ul>
     </p>
     <p>
         Die Arbeitsgruppen und Aufgaben passen sich dynamisch der Entwicklung von SuperCoop an und werden laufend
@@ -100,110 +95,114 @@
     </p>
     <p>
         Du hast viele Möglichkeiten, dich über deine regelmäßige Schicht hinaus bei SuperCoop zu engagieren. Um dir den
-        Einstieg so leicht wie möglich zu machen, haben wir im Wiki alle <a
-            href="https://wiki.supercoop.de/wiki/Working_Groups">zusätzlichen Arbeitsgruppen</a> zusammengefasst.
+        Einstieg so leicht wie möglich zu machen, haben wir im Wiki alle <a href="https://wiki.supercoop.de/wiki/Working_Groups">zusätzlichen Arbeitsgruppen</a> zusammengefasst.
     </p>
-
-    <h2>4. Mitgliederhandbuch</h2>
+    <h2>
+        4. Mitgliederhandbuch
+    </h2>
     <p>
-        Bevor du deine Fragen an das Mitgliederbüro richtest, lies bitte das <a
-            href="https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg">Mitgliederhandbuch</a>.
+        Bevor du deine Fragen an das Mitgliederbüro richtest, lies bitte das <a href="https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg">Mitgliederhandbuch</a>.
         Es enthält alle Informationen, die du über die Mitgliedschaft bei SuperCoop wissen musst: wie du einsteigst, wie
         die Schichtsysteme funktionieren, unsere Strukturen der Entscheidungsfindung und vieles mehr!
     </p>
-
-    <h2>5. SuperCoop Wiki</h2>
+    <h2>
+        5. SuperCoop Wiki
+    </h2>
     <p>
         Eine weitere gute Informationsquelle ist das <a href="https://wiki.supercoop.de/wiki/Main_Page">SuperCoop
         Wiki</a>. Hier findest du alle wichtigen Termine und Links, Informationen zu den Arbeitsgruppen, laufenden
         Projekten und deinen Mitgenoss*innen. Das Wiki ist im Aufbau und wird von uns allen
-        gefüllt und weiterentwickelt. Schau am besten in die <a
-            href="https://wiki.supercoop.de/wiki/Getting_started_on_Wiki_-_Mit_dem_Wiki_arbeiten">Get
+        gefüllt und weiterentwickelt. Schau am besten in die <a href="https://wiki.supercoop.de/wiki/Getting_started_on_Wiki_-_Mit_dem_Wiki_arbeiten">Get
         started-Seite</a> rein und leg deine eigene Profilseite im SuperCoop-Wiki an.
     </p>
-
-    <h2>6. Plenum</h2>
+    <h2>
+        6. Plenum
+    </h2>
     <p>
         Alle Mitglieder sind zu unserem <a href="https://wiki.supercoop.de/wiki/Plenum">Plenum</a> eingeladen, um über
-        Vorschläge abzustimmen und aktuelle Themen zu besprechen. Termine, Links und weitere Details werden <a
-            href="https://wiki.supercoop.de/wiki/Plenum">im Wiki</a> und unserem zweiwöchentlichen Newsletter bekannt
+        Vorschläge abzustimmen und aktuelle Themen zu besprechen. Termine, Links und weitere Details werden <a href="https://wiki.supercoop.de/wiki/Plenum">im Wiki</a> und unserem zweiwöchentlichen Newsletter bekannt
         gegeben.
     </p>
-
-    <h2>7. Newsletter</h2>
+    <h2>
+        7. Newsletter
+    </h2>
     <p>
         Mittwoch ist SuperCoop-Tag! Alle zwei Wochen landen nämlich frische News mit aktuellen Terminen, Infos zu
         Produkten oder Veröffentlichungen in deinem Email-Postfach.
     </p>
-
-    <h2>8. Slack</h2>
-    <p>Als direkten Kommunikationskanal für die Arbeitsgruppen, Projekte und allgemeine Informationen nutzen wir die
+    <h2>
+        8. Slack
+    </h2>
+    <p>
+        Als direkten Kommunikationskanal für die Arbeitsgruppen, Projekte und allgemeine Informationen nutzen wir die
         Chat-App Slack. Du kannst dich kostenlos registrieren und Slack direkt im Browser oder als App verwenden. Melde
-        dich <a
-                href="https://supercoopberlin.slack.com/join/shared_invite/zt-o5mrrdh0-RdsN0dhlz8qyCCl9clLQYA#/shared-invite/email">hier</a>
-        an! Wenn du Hilfe beim Einstieg möchtest, wende dich bitte an das Mitgliederbüro (<a
-                href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>).
+        dich <a href="https://supercoopberlin.slack.com/join/shared_invite/zt-o5mrrdh0-RdsN0dhlz8qyCCl9clLQYA#/shared-invite/email">hier</a>
+        an! Wenn du Hilfe beim Einstieg möchtest, wende dich bitte an das Mitgliederbüro (<a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>).
     </p>
-
-    <h2>9. Direkter Kontakt</h2>
+    <h2>
+        9. Direkter Kontakt
+    </h2>
     <p>
-        Wenn du den Vorstand direkt kontaktieren möchtest, benutze bitte die E-Mail-Adresse <a
-            href="mailto:{{ management_email_address }}">{{ management_email_address }}</a>
+        Wenn du den Vorstand direkt kontaktieren möchtest, benutze bitte die E-Mail-Adresse <a href="mailto:{{ management_email_address }}">{{ management_email_address }}</a>
     </p>
     <p>
-        Um den Aufsichtsrat zu kontaktieren, benutze bitte die Email-Adresse <a
-            href="mailto:{{ supervisors_email_address }}">{{ supervisors_email_address }}</a>. Der Aufsichtsrat kann zu
+        Um den Aufsichtsrat zu kontaktieren, benutze bitte die Email-Adresse <a href="mailto:{{ supervisors_email_address }}">{{ supervisors_email_address }}</a>. Der Aufsichtsrat kann zu
         jedem Thema kontaktiert werden, das für die Interessen der SuperCoop Mitglieder relevant ist.
     </p>
-
-    <h2>10. Social Media-Kanäle</h2>
+    <h2>
+        10. Social Media-Kanäle
+    </h2>
     <p>
-        Oh ja, wir sind auch im <a href="https://supercoop.de">World Wide Web</a> zu finden! Folge uns sehr gerne auf <a
-            href="https://www.facebook.com/SuperCoopBerlin/">Facebook</a>, <a
-            href="https://www.instagram.com/supercoopberlin">Instagram</a>, <a
-            href="https://www.linkedin.com/company/supercoopberlin/">LinkedIn</a> oder <a
-            href="https://nebenan.de/places/organizations/3885">Nebenan.de</a> und verbreite dort die Idee von SuperCoop
+        Oh ja, wir sind auch im <a href="https://supercoop.de">World Wide Web</a> zu finden! Folge uns sehr gerne auf <a href="https://www.facebook.com/SuperCoopBerlin/">Facebook</a>, <a href="https://www.instagram.com/supercoopberlin">Instagram</a>, <a href="https://www.linkedin.com/company/supercoopberlin/">LinkedIn</a> oder <a href="https://nebenan.de/places/organizations/3885">Nebenan.de</a> und verbreite dort die Idee von SuperCoop
         weiter. <a href="https://drive.google.com/drive/folders/1_1J-4okllu1NBCFbvuSc-XBI2eIwfjNN">Spread the word!</a>
     </p>
-
     <p>
         Wie schön, dass du mit dabei bist und wir sehen uns hoffentlich bald im Wiki, auf Slack, im Plenum oder in den
         Osram-Höfen!
     </p>
     <p>
-        Kooperative Grüße,<br/>
+        Kooperative Grüße,
+        <br/>
         Eugénie, Jessica, Johanna und Marie für das {{ coop_full_name }} Team
     </p>
-
     <hr/>
-
-    <p>Hello {{ share_owner.get_info.get_display_name }},</p>
+    <p>
+        Hello {{ share_owner.get_info.get_display_name }},
+    </p>
     <p>
         Welcome as an official member of our cooperative, {{ coop_full_name }}! Please find the details of your
         membership confirmation attached. We are thrilled to welcome you aboard and begin running SuperCoop together
         with you!
     </p>
-    <p>See below for key details to kickstart your SuperCoop membership:</p>
-
-    <h2>1. Member Office</h2>
-    <p>The Member Office is the hub for supporting members in all things SuperCoop!</p>
     <p>
-        Please visit the Member Office to sign up for your first shift (or indicate that you qualify for a <a
-            href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.rjj2v2m92fqa">work
+        See below for key details to kickstart your SuperCoop membership:
+    </p>
+    <h2>
+        1. Member Office
+    </h2>
+    <p>
+        The Member Office is the hub for supporting members in all things SuperCoop!
+    </p>
+    <p>
+        Please visit the Member Office to sign up for your first shift (or indicate that you qualify for a <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.rjj2v2m92fqa">work
         exemption</a>). They will create an account for you on Tapir, our online shift management system, and guide you
         through the steps of choosing your shift and working group.
     </p>
-    <p>For general questions about your membership, please contact the Member Office via email (<a
-            href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>) or by visiting <a
-            href="https://www.google.com/maps/place/SuperCoop+Berlin/@52.553371,13.3585897,15z/data=!4m5!3m4!1s0x0:0x72e80db955fa8d3!8m2!3d52.5533091!4d13.3586012">SuperCoop</a>.
+    <p>
+        For general questions about your membership, please contact the Member Office via email (<a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>) or by visiting <a href="https://www.google.com/maps/place/SuperCoop+Berlin/@52.553371,13.3585897,15z/data=!4m5!3m4!1s0x0:0x72e80db955fa8d3!8m2!3d52.5533091!4d13.3586012">SuperCoop</a>.
         Their opening hours are:
-    <ul>
-        <li>Wednesday - Friday from 4:30 - 7:30 p.m.</li>
-        <li>Saturdays from 11 a.m. - 2 p.m.</li>
-    </ul>
+        <ul>
+            <li>
+                Wednesday - Friday from 4:30 - 7:30 p.m.
+            </li>
+            <li>
+                Saturdays from 11 a.m. - 2 p.m.
+            </li>
+        </ul>
     </p>
-
-    <h2>2. <a href="https://members.supercoop.de/">Tapir</a></h2>
+    <h2>
+        2. <a href="https://members.supercoop.de/">Tapir</a>
+    </h2>
     <p>
         <a href="https://members.supercoop.de/">Tapir</a> is our shift management system created by and for SuperCoop
         members! There you can sign up for shifts and see additional information about your membership, such as how many
@@ -211,29 +210,41 @@
     </p>
     <p>
         Links to the following are also available on Tapir:
-    <ul>
-        <li>The current week in the ABCD calendar (including also the ABCD calendar for the rest of the year),</li>
-        <li>wiki,</li>
-        <li>member manual,</li>
-        <li>opening hours,</li>
-        <li>Member Office contact information</li>
-        <li>as well as statistics about shifts and our cooperative in general.</li>
-    </ul>
+        <ul>
+            <li>
+                The current week in the ABCD calendar (including also the ABCD calendar for the rest of the year),
+            </li>
+            <li>
+                wiki,
+            </li>
+            <li>
+                member manual,
+            </li>
+            <li>
+                opening hours,
+            </li>
+            <li>
+                Member Office contact information
+            </li>
+            <li>
+                as well as statistics about shifts and our cooperative in general.
+            </li>
+        </ul>
     </p>
     <p>
         To create a profile on Tapir, please visit the Member Office in the supermarket (see office hours above).
     </p>
     <p>
         Once your profile has been created, you will receive a confirmation email including a link to create a password.
-        You can then use these same login credentials to log into the <a
-            href="https://wiki.supercoop.de/wiki/Main_Page">SuperCoop Wiki</a>.
+        You can then use these same login credentials to log into the <a href="https://wiki.supercoop.de/wiki/Main_Page">SuperCoop Wiki</a>.
     </p>
     <p>
         <strong>Tip:</strong> Bookmark the <a href="https://members.supercoop.de/">link to Tapir</a> in your browser so
         it’s easy to find in the future!
     </p>
-
-    <h2>3. Working groups</h2>
+    <h2>
+        3. Working groups
+    </h2>
     <p>
         Your <strong>Working Group</strong> tells you <strong>what kind of work you do</strong> in the Coop.
     </p>
@@ -245,86 +256,97 @@
     <p>
         Members (barring any exceptional cases) should complete their first six shifts with one of the following core
         working groups:
-    <ul>
-        <li><strong>Receiving and Stocking</strong> (receiving deliveries, keeping our shelves and coolers stocked, and
-            checking expiration dates - Rote Karte not required)
-        </li>
-        <li><strong>Cashier</strong></li>
-        <li><strong>Welcome Desk</strong> (greeting people at the store entrance, checking member numbers and answering
-            visitors' questions about SuperCoop)
-        </li>
-        <li><strong>Maintenance</strong> (cleaning the coop after closing)</li>
-    </ul>
+        <ul>
+            <li>
+                <strong>Receiving and Stocking</strong> (receiving deliveries, keeping our shelves and coolers stocked, and
+                checking expiration dates - Rote Karte not required)
+            </li>
+            <li>
+                <strong>Cashier</strong>
+            </li>
+            <li>
+                <strong>Welcome Desk</strong> (greeting people at the store entrance, checking member numbers and answering
+                visitors' questions about SuperCoop)
+            </li>
+            <li>
+                <strong>Maintenance</strong> (cleaning the coop after closing)
+            </li>
+        </ul>
     </p>
     <p>
         Please note that working groups and tasks dynamically adapt to the development of SuperCoop and are constantly
         updated. You may change working groups as needed.
     </p>
-    <p>You also have opportunities to get involved at SuperCoop in addition to your regular shift. To make it as easy as
+    <p>
+        You also have opportunities to get involved at SuperCoop in addition to your regular shift. To make it as easy as
         possible for you to get started, we have summarized all <a href="https://wiki.supercoop.de/wiki/Working_Groups">additional
-            working groups</a> in the wiki. Please see the Wiki for further information on how to get involved.</p>
-
-    <h2>4. Member Manual</h2>
-    <p>Before sending your questions to the Member Office, please consult the <a
-            href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw">member manual</a>. It
+        working groups</a> in the wiki. Please see the Wiki for further information on how to get involved.
+    </p>
+    <h2>
+        4. Member Manual
+    </h2>
+    <p>
+        Before sending your questions to the Member Office, please consult the <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw">member manual</a>. It
         contains all your need-to-know information about membership at SuperCoop: how to get started, how the shift
-        systems work, our governance structure and much more!</p>
-
-    <h2>5. SuperCoopWiki</h2>
-    <p>Another good source of information is the <a href="https://wiki.supercoop.de/wiki/Main_Page">SuperCoop Wiki</a>.
+        systems work, our governance structure and much more!
+    </p>
+    <h2>
+        5. SuperCoopWiki
+    </h2>
+    <p>
+        Another good source of information is the <a href="https://wiki.supercoop.de/wiki/Main_Page">SuperCoop Wiki</a>.
         There you will find all the important details on our working groups, member meetings, webshop, your fellow
         co-owners/colleagues and more! It is a "living" tool that we all may edit and
-        add to as our coop grows. Check out the <a
-                href="https://wiki.supercoop.de/wiki/Getting_started_on_Wiki_-_Mit_dem_Wiki_arbeiten">get started</a>
-        page to... well, get started!</p>
-
-    <h2>6. Plenum</h2>
+        add to as our coop grows. Check out the <a href="https://wiki.supercoop.de/wiki/Getting_started_on_Wiki_-_Mit_dem_Wiki_arbeiten">get started</a>
+        page to... well, get started!
+    </p>
+    <h2>
+        6. Plenum
+    </h2>
     <p>
         All members are invited to our <a href="https://wiki.supercoop.de/wiki/Plenum">plenum</a> (currently held online
         when decision-making is required) to vote on proposals and raise topics for discussion. Dates, links and other
         details are announced on the wiki and in our bi-weekly newsletter.
     </p>
-
-    <h2>7. Newsletter</h2>
+    <h2>
+        7. Newsletter
+    </h2>
     <p>
         Wednesday is SuperCoop day! Every two weeks fresh news about current events, information on products or
         publications will land in your email inbox.
     </p>
-
-    <h2>8. Slack</h2>
-    <p>We use the chat app Slack as a direct communication channel for the working groups, projects and general
-        information. You can register for free and use Slack directly in your browser or via the app. <a
-                href="https://join.slack.com/t/supercoopberlin/shared_invite/zt-o5mrrdh0-RdsN0dhlz8qyCCl9clLQYA">Join
-            here!</a> If you want help getting started, please contact the Membership Office (see above).</p>
-
-    <h2>9. Direct Contact</h2>
+    <h2>
+        8. Slack
+    </h2>
     <p>
-        If you wish to contact the Vorstand directly, please use the email <a
-            href="mailto:{{ management_email_address }}">{{ management_email_address }}</a>.
+        We use the chat app Slack as a direct communication channel for the working groups, projects and general
+        information. You can register for free and use Slack directly in your browser or via the app. <a href="https://join.slack.com/t/supercoopberlin/shared_invite/zt-o5mrrdh0-RdsN0dhlz8qyCCl9clLQYA">Join
+        here!</a> If you want help getting started, please contact the Membership Office (see above).
+    </p>
+    <h2>
+        9. Direct Contact
+    </h2>
+    <p>
+        If you wish to contact the Vorstand directly, please use the email <a href="mailto:{{ management_email_address }}">{{ management_email_address }}</a>.
     </p>
     <p>
-        To contact the Aufsichtsrat (advisory board), please use the email address <a
-            href="mailto:{{ supervisors_email_address }}">{{ supervisors_email_address }}</a>. They may be contacted
+        To contact the Aufsichtsrat (advisory board), please use the email address <a href="mailto:{{ supervisors_email_address }}">{{ supervisors_email_address }}</a>. They may be contacted
         regarding any topic which is relevant to the interests of SuperCoop members.
     </p>
-
-    <h2>10. Social Media Channels</h2>
+    <h2>
+        10. Social Media Channels
+    </h2>
     <p>
-        Oh yeah, and we are also on the <a href="https://supercoop.de">Internet</a>! Follow us on <a
-            href="https://www.facebook.com/SuperCoopBerlin/">Facebook</a>, <a
-            href="https://www.instagram.com/supercoopberlin/">Instagram</a>, <a
-            href="https://www.linkedin.com/company/supercoopberlin">LinkedIn</a>
+        Oh yeah, and we are also on the <a href="https://supercoop.de">Internet</a>! Follow us on <a href="https://www.facebook.com/SuperCoopBerlin/">Facebook</a>, <a href="https://www.instagram.com/supercoopberlin/">Instagram</a>, <a href="https://www.linkedin.com/company/supercoopberlin">LinkedIn</a>
         or <a href="https://nebenan.de/places/organizations/3885">Nebenan.de</a> and spread the word about SuperCoop.
     </p>
-
     <p>
         We’re so glad you're joining us and we hope to see you soon whether on the wiki, Slack, at the Plenum or at
         Osram-Höfe!
     </p>
     <p>
-        Cooperative Greetings,<br/>
+        Cooperative Greetings,
+        <br/>
         Eugénie, Jessica, Johanna und Marie for {{ coop_full_name }} Team
     </p>
-
 {% endblock body %}
-

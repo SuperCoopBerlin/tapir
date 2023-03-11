@@ -1,16 +1,12 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load accounts %}
 {% load core %}
-
 {% block title %}
     {% translate "Applicant" %}: {{ object.get_display_name }}
 {% endblock %}
-
 {% block content %}
-
     <div class="container">
         <div class="card mb-2">
             <h5 class="card-header">{% translate "Applicant" %}: {{ object.get_display_name }}</h5>
@@ -38,7 +34,8 @@
                             {{ object.birthdate|date:"d.m.Y" }}
                         {% else %}
                             <span class="text-danger">Missing</span>
-                        {% endif %}</div>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Address" %}:</div>
@@ -50,7 +47,6 @@
                         {% endif %}
                     </div>
                 </div>
-
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Member Type" %}:</div>
                     <div class="col-9" id="draft_user_member_type">
@@ -61,13 +57,16 @@
                         {% endif %}
                     </div>
                 </div>
-
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Ratenzahlung" %}:</div>
-                    <div class="col-9" id="draft_user_ratenzahlung">{% if object.ratenzahlung %}Yes{% else %}
-                        No{% endif %}</div>
+                    <div class="col-9" id="draft_user_ratenzahlung">
+                        {% if object.ratenzahlung %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </div>
                 </div>
-
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Shares requested" %}</div>
                     <div class="col-4" id="draft_user_num_shares">{{ object.num_shares }}</div>
@@ -79,7 +78,7 @@
                             <span class="text-success">Attended</span>
                         {% else %}
                             <span class="text-warning">Pending</span>
-                            <form style="display: inline;"
+                            <form style="display: inline"
                                   method="post"
                                   action="{% url 'coop:mark_draftuser_attended_welcome_session' object.pk %}">
                                 {% csrf_token %}
@@ -93,7 +92,6 @@
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Beteiligungserklärung" %}:</div>
                     <div class="col-9">
-
                         {% if object.signed_membership_agreement %}
                             <span class="text-success">Signed</span>
                         {% else %}
@@ -105,7 +103,7 @@
                             Beteiligungserklärung
                         </a>
                         {% if not object.signed_membership_agreement %}
-                            <form style="display: inline;"
+                            <form style="display: inline"
                                   method="post"
                                   action="{% url 'coop:mark_draftuser_signed_membership_agreement' object.pk %}">
                                 {% csrf_token %}
@@ -118,13 +116,17 @@
                     </div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Paid Entrance Fee" %}:</div>
+                    <div class="col-3 fw-bold text-end">
+                        {% translate "Paid Entrance Fee" %}:
+                    </div>
                     <div class="col-9" id="draft_user_paid_membership_fee">
                         {{ object.paid_membership_fee|yesno:_("Yes,No") }}
                     </div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Paid Shares" %}:</div>
+                    <div class="col-3 fw-bold text-end">
+                        {% translate "Paid Shares" %}:
+                    </div>
                     <div class="col-9" id="draft_user_paid_shares">
                         {{ object.paid_shares|yesno:_("Yes,No") }}
                     </div>
@@ -136,20 +138,20 @@
                             <span class="material-icons">edit</span>
                             {% translate "Edit" %}
                         </a>
-                        <form class="form-inline ms-3" method="POST"
+                        <form class="form-inline ms-3"
+                              method="POST"
                               action="{% url 'coop:draftuser_delete' object.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="{% tapir_button_custom 'danger' %}">
                                 <span class="material-icons">delete</span>Delete
                             </button>
                         </form>
-
                         {% if object.can_create_user %}
-                            <form
-                                    method="post"
-                                    action="{% url 'coop:draftuser_create_share_owner' object.pk %}">
+                            <form method="post"
+                                  action="{% url 'coop:draftuser_create_share_owner' object.pk %}">
                                 {% csrf_token %}
-                                <button type="submit" class="align-self-right {% tapir_button_action %} ms-3"
+                                <button type="submit"
+                                        class="align-self-right {% tapir_button_action %} ms-3"
                                         id="button_create_share_owner">
                                     <span class="material-icons">person_add</span>
                                     {% translate "Create Member" %}

@@ -1,7 +1,5 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
-
 {% block body %}
     {% blocktranslate with user_display_name=member_infos.get_display_name %}
         <p>Dear {{ user_display_name }},</p>
@@ -10,8 +8,7 @@
             book an additional shift if you'd like or mark your shift as “looking for a stand-in” (for example when you go
             on vacation).
         </p>
-    {% endblocktranslate %}
-
+{% endblocktranslate %}
     <p>
         {% if tapir_user.shift_user_data.attendance_mode == "regular" %}
             {% if tapir_user.shift_attendance_templates.first %}
@@ -25,7 +22,6 @@
             {% endblocktranslate %}
         {% endif %}
     </p>
-
     {% url "password_reset_confirm" uidb64=uid token=token as password_reset_confirm_url %}
     {% url "password_reset" as password_reset_request_url %}
     <p>

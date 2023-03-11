@@ -1,6 +1,6 @@
 {% load i18n %}
-
-<a class="nav-link" href="https://wiki.supercoop.de/wiki/Community_Challenge:_Holt_ein_weiteres_aktives_Mitglied_an_Bord!">
+<a class="nav-link"
+   href="https://wiki.supercoop.de/wiki/Community_Challenge:_Holt_ein_weiteres_aktives_Mitglied_an_Bord!">
     {% blocktranslate asvar tooltip %}
         Grey : {{ member_count_on_start_date }} active members on 15.11.2022 <br/>
         Blue : {{ new_member_count_since_start_date }} new members since 15.11.2022 <br/>
@@ -11,10 +11,14 @@
             <span class="text-light">{% translate "Active Members with a Tapir Account" %}</span>
             <span class="d-flex flex-row align-items-center">
                 <span class="progress" style="width: 250px; height:30px;">
-                    <span class="progress-bar bg-secondary" role="progressbar" style="width: {{ progress_on_start_date }}%;">
+                    <span class="progress-bar bg-secondary"
+                          role="progressbar"
+                          style="width: {{ progress_on_start_date }}%">
                         <span>{{ member_count_on_start_date }}</span>
                     </span>
-                    <span class="progress-bar" role="progressbar" style="width: {{ progress_since_start_date }}%;">
+                    <span class="progress-bar"
+                          role="progressbar"
+                          style="width: {{ progress_since_start_date }}%">
                         <span>{{ new_member_count_since_start_date }}</span>
                     </span>
                 </span>
