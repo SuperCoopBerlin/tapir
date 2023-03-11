@@ -7,7 +7,7 @@ authors = ["Leon Handreke <leonh@ndreke.de>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 Django = "~3.2.16"
-django-ldapdb = {version="^1.5.1", markers="sys_platform=='linux' or sys_platform=='darwin'"}
+django-ldapdb = { version = "^1.5.1", markers = "sys_platform=='linux' or sys_platform=='darwin'" }
 django-weasyprint = "^2.2.0"
 django-extensions = "^3.2.1"
 django-bootstrap-datepicker-plus = "^4.0.0"
@@ -46,6 +46,12 @@ selenium = "^4.7.2"
 factory-boy = "^3.2.1"
 poetryup = "^0.12.7"
 djlint = "^1.19.16"
+
+[tool.djlint]
+profile = "django"
+max_line_length = 120
+ignore = "T002"
+use_gitignore = true
 
 [build-system]
 requires = ["poetry-core>=1.2.0"]
