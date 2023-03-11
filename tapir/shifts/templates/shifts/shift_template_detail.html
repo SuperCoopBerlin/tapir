@@ -1,27 +1,23 @@
 {% extends "shifts/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load core %}
-
 {% block title %}
     {% translate 'ABCD Shift' %}: {{ object.get_display_name }}
 {% endblock %}
-
-{% block head %}
-    {{ form.media }}
-{% endblock %}
-
+{% block head %}{{ form.media }}{% endblock %}
 {% block content %}
     <div class="card mb-2" id="shift_detail_card">
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>{% translate 'ABCD Shift' %}: {{ object.get_display_name }}</span>
             {% if perms.shifts.manage %}
                 <span>
-                    <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:create_slot_template' object.pk %}">
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:create_slot_template' object.pk %}">
                         <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
                     </a>
-                    <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:shift_template_edit' object.pk %}">
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:shift_template_edit' object.pk %}">
                         <span class="material-icons button-icon">edit</span>
                         {% translate "Edit" %}
                     </a>
@@ -29,106 +25,90 @@
             {% endif %}
         </h5>
         <ul class="list-group list-group-flush">
-            {% if object.description %}
-                <li class="list-group-item">
-                    {{ object.description }}
-                </li>
-            {% endif %}
+            {% if object.description %}<li class="list-group-item">{{ object.description }}</li>{% endif %}
             <li class="list-group-item">
                 <table class="{% tapir_table_classes %}"
                        aria-label="{% translate 'List of slots for this ABCD shifts' %}">
                     <thead>
-                    <tr>
-                        <th></th>
-                        <th>{% translate 'Details' %}</th>
-                        <th>{% translate 'Requirements' %}</th>
-                        <th>{% translate 'Registered user' %}</th>
-                        {% if perms.shifts.manage %}
-                            <th>{% translate 'Member-Office actions' %}</th>
-                        {% endif %}
-                    </tr>
+                        <tr>
+                            <th></th>
+                            <th>{% translate 'Details' %}</th>
+                            <th>{% translate 'Requirements' %}</th>
+                            <th>{% translate 'Registered user' %}</th>
+                            {% if perms.shifts.manage %}
+                                <th>{% translate 'Member-Office actions' %}</th>
+                            {% endif %}
+                        </tr>
                     </thead>
                     <tbody>
-                    {% for slot in object.slot_templates.all %}
-                        <tr>
-                            <td><h5>#{{ forloop.counter }}</h5></td>
-                            <td>
-                                {{ slot.name }}
-                            </td>
-                            <td>
-                                {{ slot.get_required_capabilities_display }}
-                            </td>
-                            {% with slot.attendance_template as attendance %}
-                                {% if attendance %}
-                                    <td>
-                                        {% if perms.shifts.manage %}
-                                            <a href="{{ attendance.user.get_absolute_url }}">
-                                                {{ attendance.user.get_display_name }}
-                                            </a>
-                                        {% else %}
-                                            <span>{{ attendance.user.first_name }}</span>
-                                        {% endif %}
-
-                                        {% if perms.shifts.manage %}
-                                            <form style="display: inline;"
-                                                  method="post"
-                                                  action="{% url 'shifts:shift_attendance_template_delete' attendance.pk %}">
-                                                {% csrf_token %}
-                                                <button type="submit" class="{% tapir_button_action %} ms-2">
-                                                    <span class="material-icons">person_remove</span>
-                                                    {% translate "Unregister" %}
-                                                </button>
-                                            </form>
-                                        {% endif %}
-                                    </td>
-                                {% else %}
-                                    <td>
-                                        {% if perms.shifts.manage %}
-                                            <a class="{% tapir_button_link_to_action %}"
-                                               href="
-                                                       {% url 'shifts:slottemplate_register' slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
-                                                <span class="material-icons">person_add</span>
-                                                {% translate "Register" %}
-                                            </a>
-                                        {% endif %}
-                                    </td>
-                                {% endif %}
-                            {% endwith %}
-                            <td>
-                                {% if perms.shifts.manage %}
-                                    <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:edit_slot_template' slot.pk %}">
-                                        <span class="material-icons">edit</span>
-                                        {% translate "Edit" %}
-                                    </a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for slot in object.slot_templates.all %}
+                            <tr>
+                                <td>
+                                    <h5>#{{ forloop.counter }}</h5>
+                                </td>
+                                <td>{{ slot.name }}</td>
+                                <td>{{ slot.get_required_capabilities_display }}</td>
+                                {% with slot.attendance_template as attendance %}
+                                    {% if attendance %}
+                                        <td>
+                                            {% if perms.shifts.manage %}
+                                                <a href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a>
+                                            {% else %}
+                                                <span>{{ attendance.user.first_name }}</span>
+                                            {% endif %}
+                                            {% if perms.shifts.manage %}
+                                                <form style="display: inline"
+                                                      method="post"
+                                                      action="{% url 'shifts:shift_attendance_template_delete' attendance.pk %}">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="{% tapir_button_action %} ms-2">
+                                                        <span class="material-icons">person_remove</span>
+                                                        {% translate "Unregister" %}
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            {% if perms.shifts.manage %}
+                                                <a class="{% tapir_button_link_to_action %}"
+                                                   href=" {% url 'shifts:slottemplate_register' slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
+                                                    <span class="material-icons">person_add</span>
+                                                    {% translate "Register" %}
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                {% endwith %}
+                                <td>
+                                    {% if perms.shifts.manage %}
+                                        <a class="{% tapir_button_link_to_action %}"
+                                           href="{% url 'shifts:edit_slot_template' slot.pk %}">
+                                            <span class="material-icons">edit</span>
+                                            {% translate "Edit" %}
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-
                 <div>
                     <h5>{% translate "Future generated Shifts" %}</h5>
                     <ul class="list-group">
                         {% for shift in object.get_future_generated_shifts %}
                             <li class="list-group-item">
-                                <a href="{{ shift.get_absolute_url }}">
-                                    {{ shift.get_display_name }}
-
-                                </a>
+                                <a href="{{ shift.get_absolute_url }}">{{ shift.get_display_name }}</a>
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
-
                 <div>
                     <h5>{% translate "Past generated Shifts" %}</h5>
                     <ul class="list-group">
                         {% for shift in object.get_past_generated_shifts %}
                             <li class="list-group-item">
-                                <a href="{{ shift.get_absolute_url }}">
-                                    {{ shift.get_display_name }}
-                                </a>
+                                <a href="{{ shift.get_absolute_url }}">{{ shift.get_display_name }}</a>
                             </li>
                         {% endfor %}
                     </ul>

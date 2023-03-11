@@ -1,12 +1,13 @@
 {% load i18n %}
 {% load shifts %}
 {% load core %}
-
 <div class="card mb-2">
-    <h5 class="card-header d-flex justify-content-between align-items-center" id="user_shift_card">
+    <h5 class="card-header d-flex justify-content-between align-items-center"
+        id="user_shift_card">
         {% translate "Shifts" %}
         {% if perms.shifts.manage and user.shift_user_data %}
-            <a class="{% tapir_button_link_to_action %}" id="edit_shift_user_data_button"
+            <a class="{% tapir_button_link_to_action %}"
+               id="edit_shift_user_data_button"
                href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
                 <span class="material-icons button-icon">edit</span>{% translate 'Edit' %}
             </a>
@@ -15,9 +16,7 @@
     <div class="card-body">
         <div class="row m-1">
             <div class="col-4 fw-bold text-end">{% translate "Status" %}:</div>
-            <div class="col-8">
-                {{ user.shift_user_data.get_attendance_mode_display }}
-            </div>
+            <div class="col-8">{{ user.shift_user_data.get_attendance_mode_display }}</div>
         </div>
         <div class="row m-1">
             {% if user.shift_attendance_templates.count > 0 %}
@@ -25,10 +24,10 @@
                 <div class="col-8">
                     {% for shift_attendance_template in user.shift_attendance_templates.all %}
                         <span>
-                                <a href="{{ shift_attendance_template.slot_template.shift_template.get_absolute_url }}">
+                            <a href="{{ shift_attendance_template.slot_template.shift_template.get_absolute_url }}">
                                 {{ shift_attendance_template.slot_template.get_display_name }}
-                                </a>
-                            </span>
+                            </a>
+                        </span>
                         {% if not forloop.last %},{% endif %}
                     {% endfor %}
                 </div>
@@ -36,7 +35,6 @@
                 <div class="col-4 fw-bold text-end">{% translate "ABCD Shift" %}:</div>
                 <div class="col-8">
                     <span class="text-danger">{% translate "Missing" %}</span>
-
                     {% if perms.shifts.manage %}
                         <a class="{% tapir_button_link %} btn-sm"
                            href="{% url 'shifts:shift_template_overview' %}?selected_user={{ user.pk|urlencode }}"
@@ -47,16 +45,14 @@
                 </div>
             {% endif %}
         </div>
-
         <div class="row m-1">
             <div class="col-4 fw-bold text-end">{% translate "Upcoming Shift" %}:</div>
             <div class="col-8">
                 {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
                     {% if next_slot %}
-                        <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">
-                            {{ next_slot.get_display_name }}
-                        </a>
-                        (in {{ next_slot.shift.start_time|timeuntil }})<br/>
+                        <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.get_display_name }}</a>
+                        (in {{ next_slot.shift.start_time|timeuntil }})
+                        <br/>
                         <a data-bs-toggle="collapse" href="#upcoming-shifts">{% translate "Show more" %}</a>
                         <div class="collapse" id="upcoming-shifts">
                             {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
@@ -71,29 +67,25 @@
                 {% endwith %}
             </div>
         </div>
-
         <div class="row m-1">
             <div class="col-4 fw-bold text-end">{% translate "Shift Status" %}:</div>
             <div class="col-8" id="user-shift-status">
                 {% if user.shift_user_data.is_balance_ok %}
                     <span class="text-success">{% translate "OK" %}</span>
-
                     {% if user.shift_user_data.get_account_balance < 0 %}
                         ({% translate "Shift for ongoing cycle pending" %})
                     {% elif user.shift_user_data.get_account_balance > 0 %}
                         ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_account_balance %}
                         {{ num_banked_shifts }} banked shifts
-                    {% endblocktranslate %})
+{% endblocktranslate %})
                     {% endif %}
                 {% else %}
                     <span class="text-danger">{% translate "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
                 {% endif %}
                 <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
-                   class="{% tapir_button_link %} btn-sm"><span
-                        class="material-icons">visibility</span>{% translate 'log' %}</a>
+                   class="{% tapir_button_link %} btn-sm"><span class="material-icons">visibility</span>{% translate 'log' %}</a>
             </div>
         </div>
-
         <div class="row m-1">
             <div class="col-4 fw-bold text-end">{% translate "Qualifications" %}:</div>
             <div class="col-8">
@@ -122,7 +114,8 @@
                     {% endwith %}
                 </span>
                 <a href="{% url 'shifts:shift_exemption_list' %}?shift_user_data_id={{ user.shift_user_data.id }}"
-                   class="{% tapir_button_link %} btn-sm" id="shift_exemption_list_button">
+                   class="{% tapir_button_link %} btn-sm"
+                   id="shift_exemption_list_button">
                     <span class="material-icons">visibility</span>
                     {% translate 'View all' %}
                 </a>

@@ -1,5 +1,4 @@
 {% extends "core/base.html" %}
-
 {% load render_table from django_tables2 %}
 {% load django_bootstrap5 %}
 {% load i18n %}
@@ -7,18 +6,16 @@
 {% load querystring from django_tables2 %}
 {% load export_url from django_tables2 %}
 {% load core %}
-
 {% block title %}
     {% translate "Members on alert" %}
 {% endblock %}
-
 {% block content %}
-
     <div class="card mb-2">
         <div class="card-header d-flex justify-content-between">
             <h5>{% translate "Members on alert" %}</h5>
             <div class="btn-group">
-                <button type="button" class="{% tapir_button_link %} btn-sm dropdown-toggle"
+                <button type="button"
+                        class="{% tapir_button_link %} btn-sm dropdown-toggle"
                         data-bs-toggle="dropdown">
                     {% translate "Export" %}
                 </button>
@@ -38,9 +35,7 @@
                     or less.
                 {% endblocktranslate %}
             </li>
-            <li class="list-group-item">
-                {% render_table table %}
-            </li>
+            <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
 {% endblock %}

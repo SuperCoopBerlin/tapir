@@ -1,9 +1,6 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
-
 {% block body %}
-
     {% blocktranslate with first_name=tapir_user.first_name shift_display_name=shift.get_display_name %}
         <p>Hi {{ first_name }},</p>
 

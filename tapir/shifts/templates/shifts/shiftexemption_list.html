@@ -1,42 +1,46 @@
 {% extends "core/base.html" %}
-
 {% load i18n %}
 {% load core %}
-
 {% block title %}
     {% translate "Shift exemptions" %}
 {% endblock %}
-
 {% block content %}
     <div class="card mb-2">
         <h5 class="card-header d-flex justify-content-between justify-content-between">
             <span>{% translate "Shift exemptions" %}</span>
             {% if shift_user_data %}
-                <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:create_shift_exemption' shift_user_data.id %}" id="create_shift_exemption_button">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'shifts:create_shift_exemption' shift_user_data.id %}"
+                   id="create_shift_exemption_button">
                     <span class="material-icons">add_circle_outline</span>
                     Create
                 </a>
             {% endif %}
         </h5>
         <div class="card-body">
-            <table class="{% tapir_table_classes %}" id="shift_exemptions_table" aria-label="{% translate 'List of shift exemptions' %}">
+            <table class="{% tapir_table_classes %}"
+                   id="shift_exemptions_table"
+                   aria-label="{% translate 'List of shift exemptions' %}">
                 <thead>
-                <th>{% translate "User" %}</th>
-                <th>{% translate "Start date" %}</th>
-                <th>{% translate "End date" %}</th>
-                <th>{% translate "Description" %}</th>
-                <th>{% translate "Is active" %}</th>
-                <th></th>
+                    <th>{% translate "User" %}</th>
+                    <th>{% translate "Start date" %}</th>
+                    <th>{% translate "End date" %}</th>
+                    <th>{% translate "Description" %}</th>
+                    <th>{% translate "Is active" %}</th>
+                    <th></th>
                 </thead>
                 {% for exemption in object_list %}
                     <tr>
-                        <td class="align-middle"><a href="{{ exemption.shift_user_data.user.get_absolute_url }}">{{ exemption.shift_user_data.user.get_display_name }}</a></td>
+                        <td class="align-middle">
+                            <a href="{{ exemption.shift_user_data.user.get_absolute_url }}">{{ exemption.shift_user_data.user.get_display_name }}</a>
+                        </td>
                         <td class="align-middle">{{ exemption.start_date|date:"d.m.y" }}</td>
                         <td class="align-middle">{{ exemption.end_date|date:"d.m.y" }}</td>
                         <td class="align-middle">{{ exemption.description }}</td>
                         <td class="align-middle">{{ exemption.is_valid }}</td>
                         <td class="align-middle">
-                            <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:edit_shift_exemption' exemption.pk %}">
+                            <a class="{% tapir_button_link_to_action %}"
+                               href="{% url 'shifts:edit_shift_exemption' exemption.pk %}">
                                 <span class="material-icons">edit</span>
                             </a>
                         </td>

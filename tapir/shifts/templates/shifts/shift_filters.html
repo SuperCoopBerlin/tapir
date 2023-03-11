@@ -1,41 +1,59 @@
 {% load i18n %}
-
 <div class="card">
     <h5 class="card-header">{% translate "Filters" %}</h5>
     <div class="card-body">
         <fieldset>
-            <legend style="font-size:14px">{% translate "Use the buttons below to filter the shifts that are relevant to you." %}</legend>
+            <legend style="font-size:14px">
+                {% translate "Use the buttons below to filter the shifts that are relevant to you." %}
+            </legend>
             <div class="btn-group" id="slot-status-group">
-                <input type="radio" class="btn-check" name="slot_status_options" autocomplete="off"
-                       value="no-filter" id="btn_no_filter">
+                <input type="radio"
+                       class="btn-check"
+                       name="slot_status_options"
+                       autocomplete="off"
+                       value="no-filter"
+                       id="btn_no_filter">
                 <label class="btn btn-outline-dark" for="btn_no_filter">{% translate 'No filter' %}</label>
-                <input type="radio" class="btn-check" name="slot_status_options" autocomplete="off" value="free-slot"
+                <input type="radio"
+                       class="btn-check"
+                       name="slot_status_options"
+                       autocomplete="off"
+                       value="free-slot"
                        id="btn_free_slot">
                 <label class="btn btn-outline-dark" for="btn_free_slot">{% translate 'Has a free slot' %}</label>
-                <input type="radio" class="btn-check active-on-load" name="slot_status_options" autocomplete="off"
-                       value="needs-help" id="btn_most_help">
+                <input type="radio"
+                       class="btn-check active-on-load"
+                       name="slot_status_options"
+                       autocomplete="off"
+                       value="needs-help"
+                       id="btn_most_help">
                 <label class="btn btn-outline-dark" for="btn_most_help">{% translate 'Most help needed' %}</label>
             </div>
         </fieldset>
         <!-- If 'Has a free slot' -->
-        <p>
-
-        </p>
+        <p></p>
         <fieldset>
-            <div class="btn-group-vertical" data-bs-toggle="buttons" id="slot-name-group">
-                <legend style="font-size:14px">{% translate "Filter for type of slot" %}:</legend>
-                <input type="radio" class="btn-check active-on-load" name="slot_name_options" autocomplete="off"
-                       value="any" id="btn_any">
-                <label class="btn btn-outline-dark" for="btn_any">
-                    {% translate "Any" %}
-                </label>
+            <div class="btn-group-vertical"
+                 data-bs-toggle="buttons"
+                 id="slot-name-group">
+                <legend style="font-size:14px">
+                    {% translate "Filter for type of slot" %}:
+                </legend>
+                <input type="radio"
+                       class="btn-check active-on-load"
+                       name="slot_name_options"
+                       autocomplete="off"
+                       value="any"
+                       id="btn_any">
+                <label class="btn btn-outline-dark" for="btn_any">{% translate "Any" %}</label>
                 {% for name in shift_slot_names %}
-                    <input type="radio" class="btn-check" name="slot_name_options" autocomplete="off"
+                    <input type="radio"
+                           class="btn-check"
+                           name="slot_name_options"
+                           autocomplete="off"
                            value="{{ name.0 }}"
                            id="id_{{ name.0 }}">
-                    <label class="btn btn-outline-dark" for="id_{{ name.0 }}">
-                        {{ name.1 }}
-                    </label>
+                    <label class="btn btn-outline-dark" for="id_{{ name.0 }}">{{ name.1 }}</label>
                 {% endfor %}
             </div>
         </fieldset>
@@ -44,22 +62,28 @@
 <div class="card" id="filter-legend">
     <h5 class="card-header">{% translate "Legend" %}</h5>
     <div class="card-body">
-
         <p>
-            <span class="btn shift-filter-legend" style="color: black" id="legend-highlighted">Text set on load</span>
-            <span class="btn shift-filter-legend" style="color: black"
+            <span class="btn shift-filter-legend"
+                  style="color: black"
+                  id="legend-highlighted">Text set on load</span>
+            <span class="btn shift-filter-legend"
+                  style="color: black"
                   id="legend-hidden">{% translate 'Other shifts' context "Filters" %}</span>
-            <span class="btn shift-filter-legend" style="color: black"
+            <span class="btn shift-filter-legend"
+                  style="color: black"
                   id="legend-cancelled">{% translate 'Cancelled' context "Filters" %}</span>
         </p>
-
-        <div><span class="material-icons"
-                   style="font-size: 14px;">radio_button_unchecked</span><span> {% translate 'Free slot' %}</span></div>
-        <div><span class="material-icons"
-                   style="font-size: 14px;">offline_pin</span><span> {% translate 'ABCD attendance' %}</span></div>
-        <div><span class="material-icons"
-                   style="font-size: 14px;">check_circle</span><span> {% translate 'Flying attendance' %}</span></div>
-        <div><span class="material-icons"
-                   style="font-size: 14px;">sync</span><span> {% translate 'Looking for a stand-in' %}</span></div>
+        <div>
+            <span class="material-icons" style="font-size: 14px;">radio_button_unchecked</span><span>{% translate 'Free slot' %}</span>
+        </div>
+        <div>
+            <span class="material-icons" style="font-size: 14px;">offline_pin</span><span>{% translate 'ABCD attendance' %}</span>
+        </div>
+        <div>
+            <span class="material-icons" style="font-size: 14px;">check_circle</span><span>{% translate 'Flying attendance' %}</span>
+        </div>
+        <div>
+            <span class="material-icons" style="font-size: 14px;">sync</span><span>{% translate 'Looking for a stand-in' %}</span>
+        </div>
     </div>
 </div>

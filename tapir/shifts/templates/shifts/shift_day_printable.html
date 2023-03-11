@@ -1,5 +1,4 @@
 {% load i18n %}
-
 <style>
     @page {
         size: A4 portrait;
@@ -7,13 +6,17 @@
     }
 
     @media print {
-        html, body {
+
+        html,
+        body {
             width: 210mm;
             height: 297mm;
         }
     }
 
-    table, th, td {
+    table,
+    th,
+    td {
         border: 2px solid black;
         border-collapse: collapse;
         text-align: center;
@@ -37,57 +40,64 @@
     .small-text {
         font-size: 10px;
     }
-
-
 </style>
-
 <h1>{{ shifts.0.start_time|date:'d.m.y' }}</h1>
 {% for shift in shifts %}
-<p>
-<table>
-    <thead>
-    <tr>
-        <th colspan="6" style="background-color: #ccc;">{{ shift.get_display_name }}</th>
-    </tr>
-    <tr>
-        <th></th>
-        <th>{% translate 'Slot' %}</th>
-        <th>{% translate 'Member' %}</th>
-        <th style="width: 20%;">{% translate 'Attended' %}</th>
-        <th style="width: 20%;">{% translate 'Missed' %}</th>
-        <th style="width: 20%;">{% translate 'Excused' %}</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for slot in shift.slots.all %}
-    <tr>
-        <td><h5>#{{ forloop.counter }}</h5></td>
-        <td>
-            {{ slot.name }}<br/>
-            <span class="small-text">
-                {% if slot.required_capabilities|length > 0 %}
-                    {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
-                {% endif %}
-            </span>
-        </td>
-        <td>
-            {% with slot.get_valid_attendance as attendance %}
-            {% if attendance %}
-            {{ attendance.user.get_display_name }} <br/>
-            {% if attendance.user.shift_user_data.capabilities|length > 0 %}
-            <span class="small-text">
-                {% translate 'Has qualifications: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
-            </span>
-            {% endif %}
-            {% endif %}
-            {% endwith %}
-        </td>
-        <td><!-- Attended --></td>
-        <td><!-- Missed --></td>
-        <td><!-- Excused --></td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-</p>
+    <p>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="6" style="background-color: #ccc;">{{ shift.get_display_name }}</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>{% translate 'Slot' %}</th>
+                    <th>{% translate 'Member' %}</th>
+                    <th style="width: 20%;">{% translate 'Attended' %}</th>
+                    <th style="width: 20%;">{% translate 'Missed' %}</th>
+                    <th style="width: 20%;">{% translate 'Excused' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for slot in shift.slots.all %}
+                    <tr>
+                        <td>
+                            <h5>#{{ forloop.counter }}</h5>
+                        </td>
+                        <td>
+                            {{ slot.name }}
+                            <br/>
+                            <span class="small-text">
+                                {% if slot.required_capabilities|length > 0 %}
+                                    {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
+                                {% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            {% with slot.get_valid_attendance as attendance %}
+                                {% if attendance %}
+                                    {{ attendance.user.get_display_name }}
+                                    <br/>
+                                    {% if attendance.user.shift_user_data.capabilities|length > 0 %}
+                                        <span class="small-text">
+                                            {% translate 'Has qualifications: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
+                                        </span>
+                                    {% endif %}
+                                {% endif %}
+                            {% endwith %}
+                        </td>
+                        <td>
+                            <!-- Attended -->
+                        </td>
+                        <td>
+                            <!-- Missed -->
+                        </td>
+                        <td>
+                            <!-- Excused -->
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </p>
 {% endfor %}

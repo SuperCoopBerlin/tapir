@@ -1,20 +1,16 @@
 {% extends "shifts/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load static %}
 {% load shifts %}
 {% load i18n %}
-
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
     <script src="{% static 'shifts/ShiftFiltersManager.js' %}?version=2" defer></script>
 {% endblock %}
-
 {% block title %}
     {% translate 'ABCD week-plan' %}
 {% endblock %}
-
 {% block content %}
     <div class="card-group mb-2">
         <div class="card">
@@ -34,53 +30,50 @@
         {% shift_filters %}
     </div>
     <div class="card mb-2">
-        <table class="table" id="repeated-shift-overview-table" aria-label="{% translate 'Calendar of ABCD shifts' %}">
+        <table class="table"
+               id="repeated-shift-overview-table"
+               aria-label="{% translate 'Calendar of ABCD shifts' %}">
             <thead>
-            <tr>
-                <th class="text-center">Time</th>
-                {% for group in shift_template_groups %}
-                    <th class="text-center">{% translate 'Week ' %}{{ group }}</th>
-                {% endfor %}
-            </tr>
+                <tr>
+                    <th class="text-center">Time</th>
+                    {% for group in shift_template_groups %}
+                        <th class="text-center">{% translate 'Week ' %}{{ group }}</th>
+                    {% endfor %}
+                </tr>
             </thead>
             <tbody>
-            {% for day, day_group in day_groups.items %}
-                <tr>
-                    <td></td>
-                    <td class="text-center" colspan="{{ shift_template_groups|length }}"><h4
-                            class="fw-bold">{{ day }}</h4></td>
-                </tr>
-                {% for time, time_group in day_group.items %}
+                {% for day, day_group in day_groups.items %}
                     <tr>
-                        <td>{{ time }}</td>
-                        {% for template_group_group in time_group.values %}
-                            <td>
-                                <div class="d-flex flex-column" style="gap: 10px;">
-                                    {% for shift_template in template_group_group.values %}
-                                        {% if shift_template != None %}
-                                            {% block shift_template %}
-                                                <a href="
-
-
-
-                                                        {{ shift_template.get_absolute_url }}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
-                                                    {% shift_template_block shift_template %}
-                                                </a>
-                                            {% endblock %}
-                                        {% else %}
-                                            <div class="shift-template-block-container"></div>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </td>
-                        {% endfor %}
+                        <td></td>
+                        <td class="text-center" colspan="{{ shift_template_groups|length }}">
+                            <h4 class="fw-bold">{{ day }}</h4>
+                        </td>
                     </tr>
+                    {% for time, time_group in day_group.items %}
+                        <tr>
+                            <td>{{ time }}</td>
+                            {% for template_group_group in time_group.values %}
+                                <td>
+                                    <div class="d-flex flex-column" style="gap: 10px;">
+                                        {% for shift_template in template_group_group.values %}
+                                            {% if shift_template != None %}
+                                                {% block shift_template %}
+                                                    <a href="    {{ shift_template.get_absolute_url }}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
+                                                        {% shift_template_block shift_template %}
+                                                    </a>
+                                                {% endblock %}
+                                            {% else %}
+                                                <div class="shift-template-block-container"></div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
             </tbody>
         </table>
     </div>
-    </div>
-
-
+</div>
 {% endblock %}

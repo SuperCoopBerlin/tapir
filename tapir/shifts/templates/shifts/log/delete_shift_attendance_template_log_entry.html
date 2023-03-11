@@ -1,5 +1,4 @@
 {% load i18n %}
-
 {% translate "Unregistered from ABCD Shift" %}:
 <a href="{{ entry.shift_template.get_absolute_url }}">{{ entry.shift_template.get_display_name }}</a>
 {% if entry.slot_template_name %}({{ entry.slot_template_name }}){% endif %}
