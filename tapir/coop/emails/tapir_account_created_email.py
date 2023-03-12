@@ -44,7 +44,7 @@ class TapirAccountCreatedEmail(TapirEmailBase):
     def get_extra_context(self) -> dict:
         return {
             "site_url": settings.SITE_URL,
-            "uid": urlsafe_base64_encode(force_bytes(self.tapir_user)),
+            "uid": urlsafe_base64_encode(force_bytes(self.tapir_user.pk)),
             "token": default_token_generator.make_token(self.tapir_user),
         }
 
