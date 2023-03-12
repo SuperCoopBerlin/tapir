@@ -27,5 +27,7 @@ class Command(BaseCommand):
                 continue
 
             if FrozenStatusService.should_unfreeze_member(shift_user_data):
-                FrozenStatusService.send_unfreeze_notification_email(shift_user_data)
+                FrozenStatusService.unfreeze_and_send_notification_email(
+                    shift_user_data
+                )
                 time.sleep(0.1)

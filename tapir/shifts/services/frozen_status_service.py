@@ -6,7 +6,9 @@ from django.utils import timezone
 from tapir.accounts.models import TapirUser
 from tapir.log.models import EmailLogEntry
 from tapir.log.util import freeze_for_log
+from tapir.shifts.config import FREEZE_THRESHOLD, FREEZE_AFTER_DAYS
 from tapir.shifts.emails.freeze_warning_email import FreezeWarningEmail
+from tapir.shifts.emails.member_frozen_email import MemberFrozenEmail
 from tapir.shifts.emails.unfreeze_notification_email import UnfreezeNotificationEmail
 from tapir.shifts.models import (
     ShiftUserData,
@@ -19,9 +21,6 @@ from tapir.shifts.models import (
 
 
 class FrozenStatusService:
-    FREEZE_THRESHOLD = -4
-    FREEZE_AFTER_DAYS = 10
-
     @classmethod
     def should_freeze_member(cls, shift_user_data: ShiftUserData) -> bool:
         if shift_user_data.attendance_mode is ShiftAttendanceMode.FROZEN:
@@ -42,17 +41,17 @@ class FrozenStatusService:
         cls, shift_user_data: ShiftUserData
     ) -> bool:
         balance = shift_user_data.get_account_balance()
-        if balance > cls.FREEZE_THRESHOLD:
+        if balance > FREEZE_THRESHOLD:
             return False
 
         entries = ShiftAccountEntry.objects.filter(user=shift_user_data.user).order_by(
             "-date"
         )
         for entry in entries:
-            if (timezone.now().date() - entry.date).days > cls.FREEZE_AFTER_DAYS:
+            if (timezone.now().date() - entry.date).days > FREEZE_AFTER_DAYS:
                 return True
             balance -= entry.value
-            if balance > cls.FREEZE_THRESHOLD:
+            if balance > FREEZE_THRESHOLD:
                 return False
 
     @classmethod
@@ -72,21 +71,22 @@ class FrozenStatusService:
         cls, shift_user_data: ShiftUserData, actor: TapirUser | None
     ):
         with transaction.atomic():
-            cls._update_attendance_mode_and_create_log_entry(shift_user_data, actor)
+            cls._update_attendance_mode_and_create_log_entry(
+                shift_user_data, actor, ShiftAttendanceMode.FROZEN
+            )
             cls._cancel_future_attendances_templates(shift_user_data)
             ShiftAttendanceTemplate.objects.filter(user=shift_user_data.user).delete()
-        from tapir.shifts.emails.member_frozen_email import MemberFrozenEmail
-
         email = MemberFrozenEmail()
         email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
 
     @staticmethod
     def _update_attendance_mode_and_create_log_entry(
-        shift_user_data: ShiftUserData, actor: TapirUser | None
+        shift_user_data: ShiftUserData, actor: TapirUser | None, attendance_mode: str
     ):
         old_data = freeze_for_log(shift_user_data)
-        shift_user_data.attendance_mode = ShiftAttendanceMode
+        shift_user_data.attendance_mode = attendance_mode
         new_data = freeze_for_log(shift_user_data)
+        shift_user_data.save()
         if old_data != new_data:
             UpdateShiftUserDataLogEntry().populate(
                 old_frozen=old_data,
@@ -105,7 +105,7 @@ class FrozenStatusService:
 
     @classmethod
     def should_send_freeze_warning(cls, shift_user_data: ShiftUserData):
-        if shift_user_data.get_account_balance() > cls.FREEZE_THRESHOLD:
+        if shift_user_data.get_account_balance() > FREEZE_THRESHOLD:
             return False
 
         last_warning = (
@@ -122,7 +122,7 @@ class FrozenStatusService:
 
         return (
             timezone.now().date() - last_warning.created_date
-        ).days > cls.FREEZE_AFTER_DAYS
+        ).days > FREEZE_AFTER_DAYS
 
     @staticmethod
     def send_freeze_warning_email(shift_user_data: ShiftUserData):
@@ -144,7 +144,34 @@ class FrozenStatusService:
 
         return False
 
-    @staticmethod
-    def send_unfreeze_notification_email(shift_user_data: ShiftUserData):
+    @classmethod
+    def unfreeze_and_send_notification_email(
+        cls, shift_user_data: ShiftUserData, actor: None | TapirUser = None
+    ):
+
+        cls._update_attendance_mode_and_create_log_entry(
+            shift_user_data=shift_user_data,
+            actor=actor,
+            attendance_mode=cls._get_last_attendance_mode_before_frozen(
+                shift_user_data
+            ),
+        )
         email = UnfreezeNotificationEmail()
-        email.send_to_tapir_user(actor=None, recipient=shift_user_data.user)
+        email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
+
+    @staticmethod
+    def _get_last_attendance_mode_before_frozen(shift_user_data: ShiftUserData):
+        last_freeze_log_entry = (
+            UpdateShiftUserDataLogEntry.objects.filter(
+                new_values__attendance_mode=ShiftAttendanceMode.FROZEN,
+                user=shift_user_data.user,
+            )
+            .order_by("-created_date")
+            .first()
+        )
+
+        return (
+            last_freeze_log_entry.old_values["attendance_mode"]
+            if last_freeze_log_entry
+            else ShiftAttendanceMode.FLYING
+        )

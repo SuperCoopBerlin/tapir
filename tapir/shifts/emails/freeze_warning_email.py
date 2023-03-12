@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir import settings
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase
-from tapir.shifts.services.frozen_status_service import FrozenStatusService
+from tapir.shifts.config import FREEZE_THRESHOLD
 
 
 class FreezeWarningEmail(TapirEmailBase):
@@ -20,7 +20,8 @@ class FreezeWarningEmail(TapirEmailBase):
     @classmethod
     def get_description(cls) -> str:
         return _(
-            "Sent to a member when their shift status is not frozen yet but will be set to frozen if they don't register for make-up shifts."
+            "Sent to a member when their shift status is not frozen yet but will "
+            "be set to frozen if they don't register for make-up shifts."
         )
 
     def get_subject_templates(self) -> List:
@@ -39,7 +40,7 @@ class FreezeWarningEmail(TapirEmailBase):
         return {
             "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
             "coop_name": settings.COOP_NAME,
-            "threshold": FrozenStatusService.FREEZE_THRESHOLD,
+            "threshold": FREEZE_THRESHOLD,
         }
 
     @classmethod
