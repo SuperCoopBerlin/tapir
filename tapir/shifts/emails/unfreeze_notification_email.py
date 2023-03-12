@@ -2,45 +2,36 @@ from typing import List
 
 from django.utils.translation import gettext_lazy as _
 
-from tapir import settings
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase
-from tapir.shifts.services.frozen_status_service import FrozenStatusService
 
 
-class FreezeWarningEmail(TapirEmailBase):
+class UnfreezeNotificationEmail(TapirEmailBase):
     @classmethod
     def get_unique_id(cls) -> str:
-        return "tapir.shifts.freeze_warning"
+        return "tapir.shifts.unfreeze_notification"
 
     @classmethod
     def get_name(cls) -> str:
-        return _("Freeze warning")
+        return _("Unfreeze Notification")
 
     @classmethod
     def get_description(cls) -> str:
         return _(
-            "Sent to a member when their shift status is not frozen yet but will be set to frozen if they don't register for make-up shifts."
+            "Sent to a member when their shift status gets set from frozen to flying."
         )
 
     def get_subject_templates(self) -> List:
         return [
-            "shifts/email/freeze_warning.subject.html",
-            "shifts/email/freeze_warning.subject.default.html",
+            "shifts/email/unfreeze_notification.subject.html",
+            "shifts/email/unfreeze_notification.subject.default.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
-            "shifts/email/freeze_warning.body.html",
-            "shifts/email/freeze_warning.body.default.html",
+            "shifts/email/unfreeze_notification.body.html",
+            "shifts/email/unfreeze_notification.body.default.html",
         ]
-
-    def get_extra_context(self) -> dict:
-        return {
-            "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-            "coop_name": settings.COOP_NAME,
-            "threshold": FrozenStatusService.FREEZE_THRESHOLD,
-        }
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase | None:

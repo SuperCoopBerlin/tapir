@@ -1,0 +1,17 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+
+{% block body %}
+    {% blocktranslate with first_name=tapir_user.first_name coop_name=coop_name contact_email_address=contact_email_address %}
+        <p>Dear {{ first_name }},</p>
+
+        <p>This is an automated email from {{ coop_name }}.</p>
+
+        <p>
+            Your Tapir account has been unfrozen. You are again allowed to shop and vote at {{ coop_name }}. <br/>
+            If you have any question, contact us at :
+            <a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}

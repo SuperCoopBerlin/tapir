@@ -4,7 +4,10 @@ from django.db import transaction
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
+from tapir.log.models import EmailLogEntry
 from tapir.log.util import freeze_for_log
+from tapir.shifts.emails.freeze_warning_email import FreezeWarningEmail
+from tapir.shifts.emails.unfreeze_notification_email import UnfreezeNotificationEmail
 from tapir.shifts.models import (
     ShiftUserData,
     ShiftAttendanceMode,
@@ -99,3 +102,49 @@ class FrozenStatusService:
         ):
             attendance_template.cancel_attendances(timezone.now())
             attendance_template.delete()
+
+    @classmethod
+    def should_send_freeze_warning(cls, shift_user_data: ShiftUserData):
+        if shift_user_data.get_account_balance() > cls.FREEZE_THRESHOLD:
+            return False
+
+        last_warning = (
+            EmailLogEntry.objects.filter(
+                email_id=FreezeWarningEmail.get_unique_id(),
+                tapir_user=shift_user_data.user,
+            )
+            .order_by("-created_date")
+            .first()
+        )
+
+        if last_warning is None:
+            return True
+
+        return (
+            timezone.now().date() - last_warning.created_date
+        ).days > cls.FREEZE_AFTER_DAYS
+
+    @staticmethod
+    def send_freeze_warning_email(shift_user_data: ShiftUserData):
+        email = FreezeWarningEmail()
+        email.send_to_tapir_user(actor=None, recipient=shift_user_data.user)
+
+    @classmethod
+    def should_unfreeze_member(cls, shift_user_data: ShiftUserData):
+        if shift_user_data.attendance_mode != ShiftAttendanceMode.FROZEN:
+            return False
+
+        if shift_user_data.get_account_balance() >= 0:
+            return True
+
+        if cls._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
+            shift_user_data
+        ):
+            return True
+
+        return False
+
+    @staticmethod
+    def send_unfreeze_notification_email(shift_user_data: ShiftUserData):
+        email = UnfreezeNotificationEmail()
+        email.send_to_tapir_user(actor=None, recipient=shift_user_data.user)
