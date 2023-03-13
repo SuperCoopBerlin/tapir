@@ -320,8 +320,9 @@ class CreateUserFromShareOwnerView(
     def form_valid(self, form):
         with transaction.atomic():
             response = super().form_valid(form)
+            tapir_user = form.instance
             share_owner = self.get_shareowner()
-            share_owner.user = form.instance
+            share_owner.user = tapir_user
             share_owner.blank_info_fields()
             share_owner.save()
 
@@ -329,13 +330,12 @@ class CreateUserFromShareOwnerView(
                 callback(share_owner)
 
             LogEntry.objects.filter(share_owner=share_owner).update(
-                user=form.instance, share_owner=None
+                user=tapir_user, share_owner=None
             )
-            email = TapirAccountCreatedEmail(tapir_user=share_owner.user)
-            email.send_to_tapir_user(
-                actor=self.request.user, recipient=share_owner.user
-            )
-            return response
+        tapir_user.refresh_from_db()
+        email = TapirAccountCreatedEmail(tapir_user=tapir_user)
+        email.send_to_tapir_user(actor=self.request.user, recipient=tapir_user)
+        return response
 
 
 @require_POST
