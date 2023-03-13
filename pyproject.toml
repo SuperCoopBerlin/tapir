@@ -50,7 +50,7 @@ djlint = "^1.19.16"
 [tool.djlint]
 profile = "django"
 max_line_length = 120
-ignore = "T002"
+ignore = "T002,H006,H021,H025,H030,H031"
 use_gitignore = true
 
 [build-system]
