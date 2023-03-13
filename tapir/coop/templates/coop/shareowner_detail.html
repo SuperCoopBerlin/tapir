@@ -7,7 +7,7 @@
 {% load core %}
 {% block title %}
     {% translate "Member" %}: {{ object.get_info.get_display_name }}
-{% endblock %}
+{% endblock title %}
 {% block content %}
     <div class="row">
         <div class="col-xl-6">
@@ -80,4 +80,4 @@
         <div class="col-xl-6">{% share_owner_ownership_list object %}</div>
         <div class="col-xl">{% log_entry_list share_owner=object %}</div>
     </div>
-{% endblock %}
+{% endblock content %}

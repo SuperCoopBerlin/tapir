@@ -3,7 +3,7 @@
 {% load i18n %}
 {% block title %}
     {% translate "About Tapir" %}
-{% endblock %}
+{% endblock title %}
 {% block content %}
     <div class="container">
         <div class="card mb-2">
@@ -26,7 +26,7 @@
                 <span>{% translate "Latest changes" %}</span>
             </h5>
             <div class="card-body">
-                <ul
+                <ul>
                     <li>
                         26.07.22
                         <ul>
@@ -185,4 +185,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

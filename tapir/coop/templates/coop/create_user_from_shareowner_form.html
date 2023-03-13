@@ -6,11 +6,11 @@
 {% load core %}
 {% block title %}
     {% translate "Create Tapir account" %}: {{ form.instance.get_display_name }}
-{% endblock %}
+{% endblock title %}
 {% block head %}
     {{ block.super }}
     <script src="{% static 'coop/js/draftuser_form.js' %}"></script>
-{% endblock %}
+{% endblock head %}
 {% block content %}
     <div class="container">
         <div class="card mb-2" id="share_owner_to_tapir_user_card">
@@ -31,4 +31,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

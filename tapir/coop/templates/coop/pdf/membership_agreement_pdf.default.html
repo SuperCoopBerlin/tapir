@@ -6,10 +6,10 @@
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" />
         <title>Beteiligungserklärung {{ share_owner.first_name }} {{ share_owner.last_name }}</title>
         <link rel="stylesheet"
-              href="{% static 'coop/css/membership_agreement_pdf.css' %}">
+              href="{% static 'coop/css/membership_agreement_pdf.css' %}"/>
     </head>
     <body>
         <!-- Falzmarken -->
@@ -238,7 +238,6 @@
                 </div>
             </div>
         </div>
-        "
         <div style="border: 1px solid black;
                     margin-top: 10mm;
                     padding: 2mm;
@@ -297,6 +296,5 @@
                 (Ort, Datum, Unterschrift)
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

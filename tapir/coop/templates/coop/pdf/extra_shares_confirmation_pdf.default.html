@@ -5,14 +5,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
+        <meta charset="UTF-8" />
         <title>
             {% blocktranslate with display_name=member_infos.get_display_name %}
             Confirmation acquisition of additional shares in {{ coop_name }} for {{ display_name }}
         {% endblocktranslate %}
         </title>
         <link rel="stylesheet"
-              href="{% static 'coop/css/membership_agreement_pdf.css' %}">
+              href="{% static 'coop/css/membership_agreement_pdf.css' %}"/>
     </head>
     <body>
         <!-- Falzmarken -->

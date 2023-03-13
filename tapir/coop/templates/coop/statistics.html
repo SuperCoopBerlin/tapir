@@ -6,7 +6,7 @@
 {% load core %}
 {% block title %}
     {% translate "Members statistics" %}
-{% endblock %}
+{% endblock title %}
 {% block head %}
     <style>
         .statistics-toggle-card {
@@ -34,7 +34,7 @@
                 });
         }
     </script>
-{% endblock %}
+{% endblock head %}
 {% block content %}
     <div class="row">
         <div class="col-xl-6">
@@ -177,4 +177,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
