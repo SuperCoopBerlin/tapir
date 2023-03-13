@@ -7,20 +7,23 @@
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>
-            {% block title %}Tapir{% endblock %}
+            {% block title %}
+                Tapir
+            {% endblock title %}
         </title>
         <link rel="stylesheet"
-              href="{% static 'core/bootstrap/5.2.2/css/bootstrap.min.css' %}">
+              href="{% static 'core/bootstrap/5.2.2/css/bootstrap.min.css' %}"/>
         <link rel="shortcut icon"
               type="image/png"
               href="{% static 'core/favicon.ico' %}"/>
-        <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'core/css/base.css' %}" />
         <!-- jQuery is required by select2, so load it here at the top -->
         <script src="{% static 'core/jQuery/jquery-3.5.1.min.js' %}"></script>
-        {% block head %}{% endblock %}
+        {% block head %}
+        {% endblock head %}
         <script>
             $(function() {
                 $('[data-bs-toggle="tooltip"]').tooltip();
@@ -62,7 +65,7 @@
                                                type="text"
                                                aria-label="{% translate 'Use this form to search for members' %}"
                                                placeholder="{% translate 'Search Members' %}"
-                                               class="form-control">
+                                               class="form-control"/>
                                     </span>
                                 </form>
                             </li>
@@ -92,12 +95,13 @@
                         <!-- Pushes the links down so that they don't go under the navbar -->
                         {% block sidebar %}
                             {% sidebar_links %}
-                        {% endblock %}
+                        {% endblock sidebar %}
                     </div>
                 </nav>
                 <main role="main" class="col-md-9 ms-sm-auto col-lg-10 p-2 p-md-3 p-lg-4">
                     {% bootstrap_messages %}
-                    {% block content %}{% endblock %}
+                    {% block content %}
+                    {% endblock content %}
                 </main>
             </div>
         </div>
