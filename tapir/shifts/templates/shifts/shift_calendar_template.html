@@ -6,17 +6,19 @@
 {% load core %}
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
+    <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}" />
     <script src="{% static 'shifts/ShiftFiltersManager.js' %}?version=2" defer></script>
-{% endblock %}
+{% endblock head %}
 {% block content %}
     <div class="card-group mb-2">
         <div class="card">
             <h5 class="card-header">
-                {% block card_title %}{% endblock %}
+                {% block card_title %}
+                {% endblock card_title %}
             </h5>
             <div class="card-body">
-                {% block card_helptext %}{% endblock %}
+                {% block card_helptext %}
+                {% endblock card_helptext %}
             </div>
         </div>
         {% shift_filters %}
@@ -53,4 +55,4 @@
             </div>
         </div>
     {% endfor %}
-{% endblock %}
+{% endblock content %}

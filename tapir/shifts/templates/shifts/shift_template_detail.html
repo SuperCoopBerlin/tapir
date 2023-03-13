@@ -4,8 +4,10 @@
 {% load core %}
 {% block title %}
     {% translate 'ABCD Shift' %}: {{ object.get_display_name }}
-{% endblock %}
-{% block head %}{{ form.media }}{% endblock %}
+{% endblock title %}
+{% block head %}
+    {{ form.media }}
+{% endblock head %}
 {% block content %}
     <div class="card mb-2" id="shift_detail_card">
         <h5 class="card-header d-flex justify-content-between align-items-center">
@@ -116,4 +118,4 @@
             </li>
         </ul>
     </div>
-{% endblock %}
+{% endblock content %}

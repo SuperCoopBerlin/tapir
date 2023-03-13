@@ -3,11 +3,13 @@
 {% load i18n %}
 {% load static %}
 {% load core %}
-{% block title %}{{ card_title }}{% endblock %}
+{% block title %}
+    {{ card_title }}
+{% endblock title %}
 {% block head %}
     {{ block.super }}
     {{ form.media }}
-{% endblock %}
+{% endblock head %}
 {% block content %}
     <div class="container">
         <div class="card mb-2" id="shift_form_card">
@@ -38,4 +40,4 @@
             </ul>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

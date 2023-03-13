@@ -4,7 +4,7 @@
 {% load coop %}
 {% block title %}
     {% translate "Shift statistics" %}
-{% endblock %}
+{% endblock title %}
 {% block content %}
     <div class="row">
         <div class="col-xl-6">
@@ -27,136 +27,137 @@
                                         shifts</strong>.
                                     </li>
                                 </ul>
-                                <li>
-                                    Within these <strong>{{ members.users_doing_shifts_count }} members doing shifts</strong>...
-                                    <ul>
-                                        <li>
-                                            <strong>{{ members.members_in_abcd_system_count }}</strong> are in the <strong>ABCD
-                                            system</strong>
-                                        </li>
-                                        <li>
-                                            <strong>{{ members.members_in_flying_system_count }}</strong> are in the <strong>flying
-                                                system</strong>.
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <strong>{{ members.members_in_abcd_system_without_shift_attendance_count }}</strong> members
-                                        in
-                                        the ABCD system and not exempted are <strong>not registered</strong> to a shift.
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="card mb-2">
-                            <h5 class="card-header">
-                                <span>{% translate "Statistics on shifts" %}</span>
-                            </h5>
-                            <div class="card-body">
-                                <h6>ABCD Shift Slots</h6>
+                            </li>
+                            <li>
+                                Within these <strong>{{ members.users_doing_shifts_count }} members doing shifts</strong>...
                                 <ul>
                                     <li>
-                                        There are currently <strong>{{ members.abcd_slots_count }} ABCD shift slots</strong>
+                                        <strong>{{ members.members_in_abcd_system_count }}</strong> are in the <strong>ABCD
+                                        system</strong>
                                     </li>
                                     <li>
-                                        There are <strong>{{ members.extra_abcd_slots_count }} slots</strong> more than users
-                                        expected
-                                        to do shifts.
-                                    </li>
-                                </ul>
-                                <table class="table"
-                                       aria-label="{% translate 'Gives details of the attendance per slot type.' %}">
-                                    <tr>
-                                        <th>Slot Name</th>
-                                        <th>Open Slots</th>
-                                        <th>Members Registered</th>
-                                    </tr>
-                                    {% for slot_name, infos in abcd_slots.items %}
-                                        <tr>
-                                            <td>{{ slot_name }}</td>
-                                            <td>{{ infos.slot_count }}</td>
-                                            <td>{{ infos.registered }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl">
-                        <div class="card mb-2">
-                            <h5 class="card-header">Attendance</h5>
-                            <div class="card-body">
-                                <table class="table"
-                                       aria-label="{% translate 'Gives details of the attendance for the past, current and next week.' %}">
-                                    <tr>
-                                        <th>Week</th>
-                                        <th>Shifts</th>
-                                        <th>Slots</th>
-                                        <th>Occupied slots (including looking for stand-in)</th>
-                                        <th>
-                                            Looking for a stand-in
-                                        </th>
-                                    </tr>
-                                    {% for week, stats in weeks.items %}
-                                        <tr>
-                                            <td>
-                                                {{ week }}
-                                            </td>
-                                            <td>
-                                                {{ stats.shifts_count }}
-                                            </td>
-                                            <td>
-                                                {{ stats.slots_count }}
-                                            </td>
-                                            <td>
-                                                {{ stats.occupied_count }}
-                                            </td>
-                                            <td>
-                                                {{ stats.standin_search_count }}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl">
-                        <div class="card mb-2">
-                            <h5 class="card-header">
-                                <span>{% translate "Shift cycle list" %}</span>
-                            </h5>
-                            <div class="card-body">
-                                <table class="table"
-                                       aria-label="{% translate 'Gives details of the attendance per shift cycle.' %}">
-                                    <tr>
-                                        <th>
-                                            Cycle Date
-                                        </th>
-                                        <th>
-                                            members where expected to do a shift
-                                        </th>
-                                        <th>
-                                            out of members total
-                                        </th>
-                                    </tr>
-                                    {% for cycle in cycles %}
-                                        <tr>
-                                            <td>
-                                                {{ cycle.date|date:"d.m.Y" }}
-                                            </td>
-                                            <td>
-                                                {{ cycle.nb_members_doing_shifts }}
-                                            </td>
-                                            <td>
-                                                {{ cycle.nb_members_total }}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
+                                        <strong>{{ members.members_in_flying_system_count }}</strong> are in the <strong>flying
+                                            system</strong>.
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>{{ members.members_in_abcd_system_without_shift_attendance_count }}</strong> members
+                                    in
+                                    the ABCD system and not exempted are <strong>not registered</strong> to a shift.
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            {% endblock %}
+                <div class="col-xl-6">
+                    <div class="card mb-2">
+                        <h5 class="card-header">
+                            <span>{% translate "Statistics on shifts" %}</span>
+                        </h5>
+                        <div class="card-body">
+                            <h6>ABCD Shift Slots</h6>
+                            <ul>
+                                <li>
+                                    There are currently <strong>{{ members.abcd_slots_count }} ABCD shift slots</strong>
+                                </li>
+                                <li>
+                                    There are <strong>{{ members.extra_abcd_slots_count }} slots</strong> more than users
+                                    expected
+                                    to do shifts.
+                                </li>
+                            </ul>
+                            <table class="table"
+                                   aria-label="{% translate 'Gives details of the attendance per slot type.' %}">
+                                <tr>
+                                    <th>Slot Name</th>
+                                    <th>Open Slots</th>
+                                    <th>Members Registered</th>
+                                </tr>
+                                {% for slot_name, infos in abcd_slots.items %}
+                                    <tr>
+                                        <td>{{ slot_name }}</td>
+                                        <td>{{ infos.slot_count }}</td>
+                                        <td>{{ infos.registered }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl">
+                    <div class="card mb-2">
+                        <h5 class="card-header">Attendance</h5>
+                        <div class="card-body">
+                            <table class="table"
+                                   aria-label="{% translate 'Gives details of the attendance for the past, current and next week.' %}">
+                                <tr>
+                                    <th>Week</th>
+                                    <th>Shifts</th>
+                                    <th>Slots</th>
+                                    <th>Occupied slots (including looking for stand-in)</th>
+                                    <th>
+                                        Looking for a stand-in
+                                    </th>
+                                </tr>
+                                {% for week, stats in weeks.items %}
+                                    <tr>
+                                        <td>
+                                            {{ week }}
+                                        </td>
+                                        <td>
+                                            {{ stats.shifts_count }}
+                                        </td>
+                                        <td>
+                                            {{ stats.slots_count }}
+                                        </td>
+                                        <td>
+                                            {{ stats.occupied_count }}
+                                        </td>
+                                        <td>
+                                            {{ stats.standin_search_count }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl">
+                    <div class="card mb-2">
+                        <h5 class="card-header">
+                            <span>{% translate "Shift cycle list" %}</span>
+                        </h5>
+                        <div class="card-body">
+                            <table class="table"
+                                   aria-label="{% translate 'Gives details of the attendance per shift cycle.' %}">
+                                <tr>
+                                    <th>
+                                        Cycle Date
+                                    </th>
+                                    <th>
+                                        members where expected to do a shift
+                                    </th>
+                                    <th>
+                                        out of members total
+                                    </th>
+                                </tr>
+                                {% for cycle in cycles %}
+                                    <tr>
+                                        <td>
+                                            {{ cycle.date|date:"d.m.Y" }}
+                                        </td>
+                                        <td>
+                                            {{ cycle.nb_members_doing_shifts }}
+                                        </td>
+                                        <td>
+                                            {{ cycle.nb_members_total }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock content %}

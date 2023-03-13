@@ -4,7 +4,7 @@
 {% load core %}
 {% block title %}
     {% translate 'Shift' %}: {{ shift.get_display_name }}
-{% endblock %}
+{% endblock title %}
 {% block head %}
     <style>
         .shift-centered-content {
@@ -19,7 +19,7 @@
             margin-top: 10px;
         }
     </style>
-{% endblock %}
+{% endblock head %}
 {% block content %}
     <div class="card mb-2" id="shift_detail_card">
         <div class="card-header">
@@ -209,7 +209,7 @@
                                             <span class="d-flex align-items-center"><span class="material-icons">close</span><span>{{ value }}</span></span>
                                         {% endif %}
                                     {% empty %}
-                                        <span class="d-flex align-items-center"><span class="material-icons">check</span><span></span></span>
+                                        <span class="d-flex align-items-center"><span class="material-icons">check</span></span>
                                     {% endfor %}
                                 </td>
                                 <!-- Member-Office actions -->
@@ -308,4 +308,4 @@
             </li>
         </ul>
     </div>
-{% endblock %}
+{% endblock content %}

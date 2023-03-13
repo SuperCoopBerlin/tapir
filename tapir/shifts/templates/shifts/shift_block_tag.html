@@ -7,7 +7,7 @@
         <div class="shift-date">
             {% if shift.start_date is not None %}
                 {{ shift.start_date|date:"D d/m/y" }}
-            {%  else %}
+            {% else %}
                 {{ shift.weekday|slice:":3" }}
             {% endif %}
         </div>
