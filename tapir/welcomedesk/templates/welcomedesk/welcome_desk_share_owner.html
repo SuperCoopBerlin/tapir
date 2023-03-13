@@ -9,11 +9,11 @@
 {% load core %}
 {% block title %}
     {% translate "Welcome Desk" %}: {{ share_owner.get_info.get_display_name }}
-{% endblock %}
+{% endblock title %}
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
-{% endblock %}
+    <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}" />
+{% endblock head %}
 {% block content %}
     <div class="card mb-2" id="welcome_desk_share_owner">
         <h5 class="card-header">
@@ -92,4 +92,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
