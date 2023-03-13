@@ -7,9 +7,9 @@
 {% load core %}
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}" />
     {{ filter.form.media }}
-{% endblock %}
+{% endblock head %}
 {% block content %}
     <div class="card m-2">
         <h5 class="card-header d-flex justify-content-between">
@@ -29,4 +29,4 @@
             <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
-{% endblock %}
+{% endblock content %}

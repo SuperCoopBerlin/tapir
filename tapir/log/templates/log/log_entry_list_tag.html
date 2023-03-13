@@ -7,7 +7,7 @@
         {% translate "Last 5 log entries" %}
         <span>
             <a class="{% tapir_button_link %}"
-               href="{% url 'log:log_overview'  %}?members={{ share_owner_id }}">
+               href="{% url 'log:log_overview' %}?members={{ share_owner_id }}">
                 <span class="material-icons">manage_search</span>
                 {% translate 'See all log entries' %}
             </a>
@@ -36,7 +36,7 @@
             </table>
         </div>
         {% if perms.accounts.manage %}
-            <form method="POST" action="{{ create_text_log_entry_action_url }}">
+            <form method="post" action="{{ create_text_log_entry_action_url }}">
                 {% csrf_token %}
                 {% comment %}
                     Ideally we would let the form field render itself here, but it's easier to style as
@@ -47,7 +47,7 @@
                     <input class="form-control m-1"
                            name="text"
                            aria-label="{% translate 'Notes about this user' %}"
-                           placeholder="{% translate 'Notes about this user' %}">
+                           placeholder="{% translate 'Notes about this user' %}"/>
                     <button class="{% tapir_button_action %}"
                             type="submit"
                             id="add_note_button"
