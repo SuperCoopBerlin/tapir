@@ -5,11 +5,11 @@
 {% load core %}
 {% block title %}
     {% translate "Login" %}
-{% endblock %}
+{% endblock title %}
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}">
-{% endblock %}
+    <link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}" />
+{% endblock head %}
 {% block content %}
     <div class="d-flex justify-content-center tapir-authentication">
         <div class="card tapir-login mt-4" id="login-card">
@@ -29,7 +29,7 @@
                                placeholder="Nutzer*innenname"
                                required=""
                                id="id_username"
-                               autocomplete="off">
+                               autocomplete="off"/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="id_password">Passwort</label>
@@ -40,7 +40,7 @@
                                    class="form-control"
                                    placeholder="Passwort"
                                    required=""
-                                   id="id_password">
+                                   id="id_password"/>
                             <div class="input-group-append" style="cursor: pointer;">
                                 <span title="{% translate 'Click here to show/hide the password' %}"
                                       class="{% tapir_button_link %}"
@@ -77,4 +77,4 @@
 
         })
     </script>
-{% endblock %}
+{% endblock content %}
