@@ -33,10 +33,17 @@
             <div class="card mb-2 border-warning">
                 <h5 class="card-header bg-warning">{% translate 'Some shifts are already occupied' %}</h5>
                 <div class="card-body">
-                    {% blocktranslate %}
+                    {% blocktranslate trimmed %}
                         <p>A flying member has already registered to the shifts linked below.</p>
-                        <p>It is still possible to sign someone up for this shift using the ABCD system. This would mean that the member is signing up to work this shift on a recurring 4-week basis (i.e. once per shift cycle).</p>
-                        <p>IMPORTANT: If a flying member had previously signed up for the same shift, the ABCD member will have to sign up for a different shift for that particular cycle.</p>
+                        <p>
+                            It is still possible to sign someone up for this shift using the ABCD system. This would
+                            mean that the member is signing up to work this shift on a recurring 4-week basis (i.e.
+                            once per shift cycle).
+                        </p>
+                        <p>
+                            IMPORTANT: If a flying member had previously signed up for the same shift, the ABCD member
+                            will have to sign up for a different shift for that particular cycle.
+                        </p>
                     {% endblocktranslate %}
                     <div>
                         {% translate 'Already occupied shifts :' %}

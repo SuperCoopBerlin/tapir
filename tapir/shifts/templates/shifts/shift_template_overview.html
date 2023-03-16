@@ -19,10 +19,12 @@
                 {% translate "ABCD schedule overview, current week: " %}{{ group.name }}
             </h5>
             <div class="card-body">
-                {% blocktranslate %}
-                    <p>This is the ABCD shiftplan. It repeats every four weeks. That's why you see only weekdays
+                {% blocktranslate trimmed %}
+                    <p>
+                        This is the ABCD shiftplan. It repeats every four weeks. That's why you see only weekdays
                         (Monday, Tuesday...) and the week (A,B,C or D), instead of specific dates (e.g. 23.8.2021).
-                        To see the date of your next shift, please go to your profile.</p>
+                        To see the date of your next shift, please go to your profile.
+                    </p>
                     <p>If you would like to change your regular ABCD shift, please contact the Member Office.</p>
                 {% endblocktranslate %}
             </div>

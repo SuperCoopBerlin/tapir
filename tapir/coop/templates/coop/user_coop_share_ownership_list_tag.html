@@ -4,7 +4,7 @@
     <h5 class="card-header d-flex justify-content-between align-items-center">
         {% if share_owner %}
             <span>
-                {% blocktranslate with coop_share_owner_id=share_owner.id %}
+                {% blocktranslate trimmed with coop_share_owner_id=share_owner.id %}
                     Member #{{ coop_share_owner_id }}
                 {% endblocktranslate %}
             </span>
@@ -131,13 +131,12 @@
                                                     <span class="text-danger">{% translate "Delete" %}</span>
                                                     <br/>
                                                     <small class="text-muted">
-                                                        {% blocktrans %}
-                                                        Only use this to correct mistakes, i.e. if the share was
-                                                        erroneously
-                                                        entered into the system and the person never actually
-                                                        bought it. If the person simply sold their share back to the
-                                                        coop, please mark the share as sold instead.
-                                                    {% endblocktrans %}
+                                                        {% blocktranslate trimmed %}
+                                                            Only use this to correct mistakes, i.e. if the share was
+                                                            erroneously entered into the system and the person never
+                                                            actually bought it. If the person simply sold their share
+                                                            back to the coop, please mark the share as sold instead.
+                                                        {% endblocktranslate %}
                                                     </small>
                                                 </button>
                                             </form>

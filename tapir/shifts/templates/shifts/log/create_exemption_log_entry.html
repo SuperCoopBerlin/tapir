@@ -1,4 +1,6 @@
 {% load i18n %}
 {% translate "without end date" as fallback_string %}
 {% firstof entry.end_date fallback_string as ending %}
-{% blocktranslate with start_date=entry.start_date %}Added exemption starting {{ start_date }} until {{ ending }}{% endblocktranslate %}
+{% blocktranslate trimmed with start_date=entry.start_date %}
+  Added exemption starting {{ start_date }} until {{ ending }}
+{% endblocktranslate %}

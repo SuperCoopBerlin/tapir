@@ -17,7 +17,7 @@
             <ul class="list-group list-group-flush">
                 {% if not form.instance.pk %}
                     <li class="list-group-item">
-                        {% blocktranslate %}
+                        {% blocktranslate trimmed %}
                             <p>Be careful when creating a shift, as you won't be able to delete it afterwards.</p>
                             <p>Slots can be added to the shift after it has been created.</p>
                         {% endblocktranslate %}

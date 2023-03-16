@@ -75,12 +75,12 @@
                     {% if user.shift_user_data.get_account_balance < 0 %}
                         ({% translate "Shift for ongoing cycle pending" %})
                     {% elif user.shift_user_data.get_account_balance > 0 %}
-                        ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_account_balance %}
-                        {{ num_banked_shifts }} banked shifts
-{% endblocktranslate %})
+                        {% blocktranslate trimmed with num_banked_shifts=user.shift_user_data.get_account_balance %}
+                            ({{ num_banked_shifts }} banked shifts)
+                        {% endblocktranslate %}
                     {% endif %}
                 {% else %}
-                    <span class="text-danger">{% translate "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
+                    <span class="text-danger">{% translate "On alert" context "Shift Status" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
                 {% endif %}
                 <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
                    class="{% tapir_button_link %} btn-sm"><span class="material-icons">visibility</span>{% translate 'log' %}</a>

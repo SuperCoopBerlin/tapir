@@ -1,2 +1,4 @@
 {% load i18n %}
-{% blocktranslate with amount=entry.amount payment_date=entry.payment_date %}New Payment: {{amount}} € on {{payment_date}}{% endblocktranslate %}
+{% blocktranslate trimmed with amount=entry.amount payment_date=entry.payment_date %}
+  New Payment: {{amount}} € on {{payment_date}}
+{% endblocktranslate %}

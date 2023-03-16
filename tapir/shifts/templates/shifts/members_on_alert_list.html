@@ -30,9 +30,9 @@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                {% blocktranslate %}
-                    The members in this list are on alert relative to their shift account : the current balance is -2
-                    or less.
+                {% blocktranslate trimmed %}
+                    The members in this list are on alert relative to their
+                    shift account: the current balance is -2 or less.
                 {% endblocktranslate %}
             </li>
             <li class="list-group-item">{% render_table table %}</li>

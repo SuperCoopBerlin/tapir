@@ -140,12 +140,12 @@
                                                           method="post"
                                                           action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance_states.LOOKING_FOR_STAND_IN %}">
                                                         {% csrf_token %}
-                                                        {% blocktranslate asvar stand_in_tooltip %}You can only look for a
-                                                    stand-in
-                                                    {{ NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN }} days before the shift. If
-                                                    you can't
-                                                    attend, contact your shift leader as soon as
-                                                    possible.{% endblocktranslate %}
+                                                        {% blocktranslate trimmed asvar stand_in_tooltip %}
+                                                            You can only look for a stand-in
+                                                            {{ NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN }} days before the
+                                                            shift. If you can't attend, contact your shift leader as
+                                                            soon as possible.
+                                                        {% endblocktranslate %}
                                                         <span {% if not slot.can_look_for_stand_in %} data-bs-toggle="tooltip" title="{{ stand_in_tooltip }}"{% endif %}>
                                                             <button type="submit"
                                                                     class="{% tapir_button_custom 'warning' %} btn-sm {% if not slot.can_look_for_stand_in %}disabled{% endif %}"
@@ -160,13 +160,12 @@
                                                       method="post"
                                                       action="{% url 'shifts:update_shift_attendance_state' attendance.pk|default:1 attendance_states.CANCELLED %}">
                                                     {% csrf_token %}
-                                                    {% blocktranslate asvar self_unregister_tooltip %}You can only unregister
-                                                yourself
-                                                {{ NB_DAYS_FOR_SELF_UNREGISTER }} days before the shift. Also,
-                                                ABCD-Shifts
-                                                can't be unregistered from. If you can't
-                                                attend, look for a stand-in or contact your shift leader as soon as
-                                                possible.{% endblocktranslate %}
+                                                    {% blocktranslate trimmed  asvar self_unregister_tooltip %}
+                                                        You can only unregister yourself {{ NB_DAYS_FOR_SELF_UNREGISTER }}
+                                                        days before the shift. Also, ABCD-Shifts can't be unregistered
+                                                        from. If you can't attend, look for a stand-in or contact your
+                                                        shift leader as soon as possible.
+                                                    {% endblocktranslate %}
                                                     <span {% if not slot.can_self_unregister %} data-bs-toggle="tooltip" title="{{ self_unregister_tooltip }}"{% endif %}>
                                                         <button type="submit"
                                                                 class="{% tapir_button_custom 'danger' %} btn-sm"
@@ -178,15 +177,14 @@
                                                     </span>
                                                 </form>
                                             {% elif not slot.is_occupied %}
-                                                {% blocktranslate asvar self_register_tooltip %}You can only register
-                                            yourself
-                                            for a shift if:<br/>
-                                            -You are not registered to another slot in that shift<br/>
-                                            -You have the required qualification (if you want to get a
-                                            qualification, contact the member office)<br/>
-                                            -The shift is in the future<br/>
-                                            -The shift is not cancelled (holidays...)<br/>
-                                        {% endblocktranslate %}
+                                                {% blocktranslate trimmed asvar self_register_tooltip %}
+                                                    You can only register yourself for a shift if:<br/>
+                                                    - You are not registered to another slot in that shift<br/>
+                                                    - You have the required qualification (if you want to get a
+                                                    qualification, contact the member office)<br/>
+                                                    - The shift is in the future<br/>
+                                                    - The shift is not cancelled (holidays...)<br/>
+                                                {% endblocktranslate %}
                                                 {% autoescape off %}
                                                     <span {% if not slot.can_self_register and not perms.shifts.manage %} data-bs-toggle="tooltip" data-bs-html="true" title="{{ self_register_tooltip }}"{% endif %}>
                                                         <a href="{% url 'shifts:slot_register' slot.pk %}"

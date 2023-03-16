@@ -7,10 +7,13 @@
     {% translate "Shift calendar" %}
 {% endblock card_title %}
 {% block card_helptext %}
-    {% blocktranslate %}
+    {% blocktranslate trimmed %}
         <p>Below you can find all the upcoming shifts, and who is registered for each shift.</p>
-        <p>You can sign yourself up for any shift that has a free slot here on TAPIR. You may also cancel it yourself if done at least {{ nb_days_for_self_unregister }} days before the shift.<br/>
-            When you sign up for one of these shifts, you only commit to the shift on that specific day.</p>
+        <p>
+            You can sign yourself up for any shift that has a free slot here on TAPIR. You may also cancel it
+            yourself if done at least {{ nb_days_for_self_unregister }} days before the shift.<br/>
+            When you sign up for one of these shifts, you only commit to the shift on that specific day.
+        </p>
         <p>To register for a regular ABCD shift you must contact the Member Office.</p>
     {% endblocktranslate %}
 {% endblock card_helptext %}

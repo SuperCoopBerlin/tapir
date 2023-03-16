@@ -17,9 +17,7 @@
             <ul class="list-group list-group-flush">
                 {% if not form.instance.pk %}
                     <li class="list-group-item">
-                        {% blocktranslate %}
-                            Be careful when creating a shift slot, as you won't be able to delete it afterwards.
-                        {% endblocktranslate %}
+                        {% translate "Be careful when creating a shift slot, as you won't be able to delete it afterwards." %}
                     </li>
                 {% endif %}
                 <li class="list-group-item">

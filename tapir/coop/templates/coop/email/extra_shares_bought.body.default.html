@@ -1,14 +1,14 @@
 {% extends "core/email_base.html" %}
 {% load i18n %}
 {% block body %}
-    {% blocktranslate with first_name=member_infos.first_name num_shares=num_shares %}
+    {% blocktranslate trimmed with first_name=member_infos.first_name num_shares=num_shares %}
         <p>Hello {{ first_name }},</p>
         <p>Please find the confirmation that you have purchased {{ num_shares }} additional shares in the email attachment.</p>
         <p>Thank you sincerely for your continued support!</p>
         <p>
             Cooperative greetings<br />
             Your Executive Board (Vorstand)<br />
-            Eugénie, Jessica, Johanna and Marie for the SuperCoop Team<br />
+            Eugénie, Jessica, Johanna and Marie for the SuperCoop Team
         </p>
     {% endblocktranslate %}
 {% endblock body %}

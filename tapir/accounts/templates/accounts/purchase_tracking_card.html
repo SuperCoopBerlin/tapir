@@ -22,8 +22,8 @@
         <div class="row m-1">
             <div class="col fw-bold text-end"
                  data-bs-toggle="tooltip"
-                 title="{% translate 'Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst wird dagegen, welche konkreten Produkte du gekauft hast. Auch kannst du bei jedem Einkauf immer noch entscheiden, ob du deine Mitgliedskarte scannen lassen möchtest oder nicht. Mit deiner generellen Zustimmung hier auf Tapir gehst du keine Verpflichtung zum Scannen ein. Die Zustimmung kannst du jederzeit widerrufen, indem du die Checkbox oben deaktivierst. Du hilfst damit Supercoop, die Einkaufsgewohnheiten der Mitglieder besser zu verstehen. Das ist wichtig für die Weiterentwicklung unseres Supermarktes. Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte' %}">
-                Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an der Kasse gescannt und somit mein Einkauf erfasst und gespeichert wird:
+                 title="{% translate 'The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. Also, with each purchase you can still decide whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by unchecking the box above. You are helping Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: https://wiki.supercoop.de/wiki/Mitgliederkarte' %}">
+                {% translate "I agree that my membership card will be scanned at the checkout when I make a purchase and that my purchase will thus be recorded and stored:" %}
             </div>
             <div class="col d-flex align-content-center gap-1">
                 <span>{{ tapir_user.allows_purchase_tracking|yesno:_("Yes,No") }}</span>
