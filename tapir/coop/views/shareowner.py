@@ -628,7 +628,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
         label=_("Does not have qualification"),
     )
     has_tapir_account = BooleanFilter(
-        method="has_tapir_account_filter", label="Has a Tapir account"
+        method="has_tapir_account_filter", label=_("Has a Tapir account")
     )
     # Théo 17.09.21 : It would be nicer to get the values from the DB, but that raises exceptions
     # when creating a brand new docker instance, because the corresponding table doesn't exist yet.

@@ -118,7 +118,7 @@ class MissingCapabilitiesWarningMixin(forms.Form):
             ]
             if len(missing_capabilities) > 0:
                 error_msg = _(
-                    f"The selected user is missing the required qualification for this shift : {missing_capabilities}"
+                    f"The selected user is missing the required qualification for this shift: {missing_capabilities}"
                 )
                 self.add_error("user", error_msg)
                 self.fields[

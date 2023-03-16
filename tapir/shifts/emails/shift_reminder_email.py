@@ -24,9 +24,9 @@ class ShiftReminderEmail(TapirEmailBase):
 
     @classmethod
     def get_description(cls) -> str:
-        return _(
-            f"Sent to a member {config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT} days before their shift"
-        )
+        return _("Sent to a member %(days)s days before their shift") % {
+            "days": config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT
+        }
 
     def get_subject_templates(self) -> List:
         return [

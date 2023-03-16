@@ -25,7 +25,7 @@ class StandInFoundEmail(TapirEmailBase):
     @classmethod
     def get_description(cls) -> str:
         return _(
-            "Sent to a member that was looking for a stand-in"
+            "Sent to a member that was looking for a stand-in "
             "when the corresponding slot is taken over by another member."
         )
 
