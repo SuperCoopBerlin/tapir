@@ -110,11 +110,16 @@ class TapirUserQuerySet(models.QuerySet):
             shift_attendance_templates__slot_template__name=slot_name
         ).distinct()
 
-    def registered_to_shift_slot_with_capability(self, capability: str):
+    def registered_to_abcd_shift_slot_with_capability(self, capability: str):
         return self.filter(
             shift_attendance_templates__slot_template__required_capabilities__contains=[
                 capability
             ]
+        ).distinct()
+
+    def registered_to_shift_slot_with_capability(self, capability: str):
+        return self.filter(
+            shift_attendances__slot__required_capabilities__contains=[capability]
         ).distinct()
 
     def has_capability(self, capability: str):

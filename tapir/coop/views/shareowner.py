@@ -603,6 +603,14 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="shift_attendance_mode_filter",
         label=_("Shift Status"),
     )
+    registered_to_abcd_slot_with_capability = ChoiceFilter(
+        choices=[
+            (capability, capability_name)
+            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
+        ],
+        method="registered_to_abcd_slot_with_capability_filter",
+        label=_("Is registered to an ABCD-slot that requires a qualification"),
+    )
     registered_to_slot_with_capability = ChoiceFilter(
         choices=[
             (capability, capability_name)
@@ -666,6 +674,16 @@ class ShareOwnerFilter(django_filters.FilterSet):
     ):
         return queryset.filter(
             user__in=TapirUser.objects.with_shift_attendance_mode(value)
+        ).distinct()
+
+    @staticmethod
+    def registered_to_abcd_slot_with_capability_filter(
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+    ):
+        return queryset.filter(
+            user__in=TapirUser.objects.registered_to_abcd_shift_slot_with_capability(
+                value
+            )
         ).distinct()
 
     @staticmethod
