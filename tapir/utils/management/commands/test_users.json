@@ -518,7 +518,7 @@
         },
         "city": "Oxford",
         "state": "County Londonderry",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "CW15 0BJ",
         "coordinates": {
           "latitude": "-24.8351",
@@ -966,7 +966,7 @@
         },
         "city": "Bangor",
         "state": "West Yorkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "I56 2XZ",
         "coordinates": {
           "latitude": "54.7913",
@@ -1134,7 +1134,7 @@
         },
         "city": "Londonderry",
         "state": "Hertfordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "I93 8JB",
         "coordinates": {
           "latitude": "-76.7825",
@@ -1638,7 +1638,7 @@
         },
         "city": "Stevenage",
         "state": "West Midlands",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "GD58 7XJ",
         "coordinates": {
           "latitude": "-77.1445",
@@ -1918,7 +1918,7 @@
         },
         "city": "Worcester",
         "state": "Mid Glamorgan",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "DR04 0HB",
         "coordinates": {
           "latitude": "-28.3021",
@@ -2142,7 +2142,7 @@
         },
         "city": "Londonderry",
         "state": "Berkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "B14 9BA",
         "coordinates": {
           "latitude": "13.3323",
@@ -2254,7 +2254,7 @@
         },
         "city": "Peterborough",
         "state": "Gwynedd County",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "G3 0YE",
         "coordinates": {
           "latitude": "-71.6769",
@@ -3318,7 +3318,7 @@
         },
         "city": "St Albans",
         "state": "East Sussex",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "G7 3AW",
         "coordinates": {
           "latitude": "-45.4463",
@@ -3934,7 +3934,7 @@
         },
         "city": "Newport",
         "state": "Lancashire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "K4G 6HX",
         "coordinates": {
           "latitude": "-1.6670",
@@ -5894,7 +5894,7 @@
         },
         "city": "Dundee",
         "state": "South Yorkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "ZH91 1QJ",
         "coordinates": {
           "latitude": "55.1234",
@@ -6118,7 +6118,7 @@
         },
         "city": "Lichfield",
         "state": "West Sussex",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "H7 1TA",
         "coordinates": {
           "latitude": "72.6117",
@@ -6286,7 +6286,7 @@
         },
         "city": "Stevenage",
         "state": "Nottinghamshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "D22 0LZ",
         "coordinates": {
           "latitude": "-35.7908",
@@ -6902,7 +6902,7 @@
         },
         "city": "Newport",
         "state": "Isle of Wight",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "JU5U 3FS",
         "coordinates": {
           "latitude": "8.8025",
@@ -7182,7 +7182,7 @@
         },
         "city": "Bath",
         "state": "Buckinghamshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "I5H 1JR",
         "coordinates": {
           "latitude": "37.4914",
@@ -7350,7 +7350,7 @@
         },
         "city": "Sunderland",
         "state": "Wiltshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "SR7L 8HJ",
         "coordinates": {
           "latitude": "51.1438",
@@ -8526,7 +8526,7 @@
         },
         "city": "Inverness",
         "state": "Clwyd",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "IB8 5QE",
         "coordinates": {
           "latitude": "-48.1883",
@@ -8582,7 +8582,7 @@
         },
         "city": "Newry",
         "state": "North Yorkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "PN3 6JX",
         "coordinates": {
           "latitude": "56.7789",
@@ -8918,7 +8918,7 @@
         },
         "city": "Armagh",
         "state": "Leicestershire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "N70 0LZ",
         "coordinates": {
           "latitude": "41.1340",
@@ -9590,7 +9590,7 @@
         },
         "city": "Preston",
         "state": "Northumberland",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "SF60 0YP",
         "coordinates": {
           "latitude": "-36.6385",
@@ -11046,7 +11046,7 @@
         },
         "city": "Bangor",
         "state": "Borders",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "C12 9YN",
         "coordinates": {
           "latitude": "19.4601",
@@ -11102,7 +11102,7 @@
         },
         "city": "Liverpool",
         "state": "Cornwall",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "MX8 6DZ",
         "coordinates": {
           "latitude": "59.2923",
@@ -11774,7 +11774,7 @@
         },
         "city": "Liverpool",
         "state": "Lancashire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "X44 5GR",
         "coordinates": {
           "latitude": "-44.4614",
@@ -11998,7 +11998,7 @@
         },
         "city": "Sunderland",
         "state": "West Sussex",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "VE95 3BD",
         "coordinates": {
           "latitude": "-85.2354",
@@ -12838,7 +12838,7 @@
         },
         "city": "City of London",
         "state": "Derbyshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "C1J 9EN",
         "coordinates": {
           "latitude": "-85.7047",
@@ -13062,7 +13062,7 @@
         },
         "city": "Manchester",
         "state": "Cheshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "OA9S 5YT",
         "coordinates": {
           "latitude": "-14.7349",
@@ -13286,7 +13286,7 @@
         },
         "city": "Worcester",
         "state": "County Down",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "HT91 5FJ",
         "coordinates": {
           "latitude": "81.9571",
@@ -13454,7 +13454,7 @@
         },
         "city": "Exeter",
         "state": "Greater Manchester",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "HG30 5AX",
         "coordinates": {
           "latitude": "10.1696",
@@ -14294,7 +14294,7 @@
         },
         "city": "Aberdeen",
         "state": "Shropshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "MX69 9XL",
         "coordinates": {
           "latitude": "19.0680",
@@ -14518,7 +14518,7 @@
         },
         "city": "St Albans",
         "state": "Gwynedd County",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "N7V 2ZZ",
         "coordinates": {
           "latitude": "70.5583",
@@ -14574,7 +14574,7 @@
         },
         "city": "Londonderry",
         "state": "Hertfordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "A5Z 1XN",
         "coordinates": {
           "latitude": "59.5375",
@@ -15022,7 +15022,7 @@
         },
         "city": "Stirling",
         "state": "Shropshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "UB47 4ZH",
         "coordinates": {
           "latitude": "8.0657",
@@ -15414,7 +15414,7 @@
         },
         "city": "Wells",
         "state": "Herefordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "MS10 4HJ",
         "coordinates": {
           "latitude": "-76.2084",
@@ -16142,7 +16142,7 @@
         },
         "city": "Peterborough",
         "state": "Dyfed",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "O30 4RX",
         "coordinates": {
           "latitude": "-63.5287",
@@ -16310,7 +16310,7 @@
         },
         "city": "Wolverhampton",
         "state": "Merseyside",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "M3 1JJ",
         "coordinates": {
           "latitude": "3.9894",
@@ -16870,7 +16870,7 @@
         },
         "city": "Edinburgh",
         "state": "Cumbria",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "I37 0HG",
         "coordinates": {
           "latitude": "-67.9903",
@@ -17150,7 +17150,7 @@
         },
         "city": "Plymouth",
         "state": "Tayside",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "JS00 3DJ",
         "coordinates": {
           "latitude": "-28.6241",
@@ -18606,7 +18606,7 @@
         },
         "city": "Chichester",
         "state": "South Glamorgan",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "Z70 7NJ",
         "coordinates": {
           "latitude": "83.9101",
@@ -18662,7 +18662,7 @@
         },
         "city": "Londonderry",
         "state": "Lothian",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "EN6C 2AR",
         "coordinates": {
           "latitude": "45.0812",
@@ -18886,7 +18886,7 @@
         },
         "city": "Inverness",
         "state": "Essex",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "SN8 4YS",
         "coordinates": {
           "latitude": "-38.6982",
@@ -19446,7 +19446,7 @@
         },
         "city": "Leeds",
         "state": "County Armagh",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "M68 1UD",
         "coordinates": {
           "latitude": "-30.3076",
@@ -19950,7 +19950,7 @@
         },
         "city": "Aberdeen",
         "state": "Cornwall",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "JM1 9HA",
         "coordinates": {
           "latitude": "-39.5272",
@@ -20846,7 +20846,7 @@
         },
         "city": "Cardiff",
         "state": "Lancashire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "M5U 0RQ",
         "coordinates": {
           "latitude": "-21.6428",
@@ -21798,7 +21798,7 @@
         },
         "city": "Peterborough",
         "state": "Fife",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "G08 4WP",
         "coordinates": {
           "latitude": "-4.9241",
@@ -22022,7 +22022,7 @@
         },
         "city": "Glasgow",
         "state": "Merseyside",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "CB5X 4NW",
         "coordinates": {
           "latitude": "-80.9438",
@@ -22246,7 +22246,7 @@
         },
         "city": "Bristol",
         "state": "Powys",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "WB97 5DS",
         "coordinates": {
           "latitude": "6.5339",
@@ -22638,7 +22638,7 @@
         },
         "city": "Inverness",
         "state": "Buckinghamshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "FI81 0XP",
         "coordinates": {
           "latitude": "6.2429",
@@ -23086,7 +23086,7 @@
         },
         "city": "Bath",
         "state": "West Yorkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "N51 1XR",
         "coordinates": {
           "latitude": "50.0754",
@@ -23758,7 +23758,7 @@
         },
         "city": "Stevenage",
         "state": "North Yorkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "OH59 3EG",
         "coordinates": {
           "latitude": "-23.4161",
@@ -24486,7 +24486,7 @@
         },
         "city": "Westminster",
         "state": "Cambridgeshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "XO09 9NN",
         "coordinates": {
           "latitude": "56.6244",
@@ -24934,7 +24934,7 @@
         },
         "city": "Norwich",
         "state": "Warwickshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "SJ4 3SD",
         "coordinates": {
           "latitude": "-80.9050",
@@ -25102,7 +25102,7 @@
         },
         "city": "Dundee",
         "state": "West Glamorgan",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "R4X 8BW",
         "coordinates": {
           "latitude": "-23.6851",
@@ -25662,7 +25662,7 @@
         },
         "city": "Truro",
         "state": "County Armagh",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "WK24 3WT",
         "coordinates": {
           "latitude": "-60.5860",
@@ -26390,7 +26390,7 @@
         },
         "city": "Peterborough",
         "state": "Wiltshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "A3O 9NZ",
         "coordinates": {
           "latitude": "-71.2442",
@@ -26558,7 +26558,7 @@
         },
         "city": "York",
         "state": "Hampshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "RZ32 6SU",
         "coordinates": {
           "latitude": "76.3616",
@@ -26838,7 +26838,7 @@
         },
         "city": "Preston",
         "state": "South Yorkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "D0 8LW",
         "coordinates": {
           "latitude": "-56.3220",
@@ -27454,7 +27454,7 @@
         },
         "city": "Peterborough",
         "state": "Humberside",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "OL2 4GY",
         "coordinates": {
           "latitude": "-87.0770",
@@ -27790,7 +27790,7 @@
         },
         "city": "Durham",
         "state": "North Yorkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "N68 4QW",
         "coordinates": {
           "latitude": "-34.3107",
@@ -29582,7 +29582,7 @@
         },
         "city": "Cardiff",
         "state": "Gwynedd County",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "BT3 6AS",
         "coordinates": {
           "latitude": "-36.9967",
@@ -29918,7 +29918,7 @@
         },
         "city": "Stevenage",
         "state": "Hertfordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "AD0 8BP",
         "coordinates": {
           "latitude": "-55.1009",
@@ -30310,7 +30310,7 @@
         },
         "city": "Coventry",
         "state": "Isle of Wight",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "B39 0EB",
         "coordinates": {
           "latitude": "-25.9700",
@@ -30702,7 +30702,7 @@
         },
         "city": "Salisbury",
         "state": "Warwickshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "Q4S 8XE",
         "coordinates": {
           "latitude": "-6.7912",
@@ -30758,7 +30758,7 @@
         },
         "city": "Portsmouth",
         "state": "Wiltshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "X9I 5HQ",
         "coordinates": {
           "latitude": "44.0594",
@@ -30814,7 +30814,7 @@
         },
         "city": "Plymouth",
         "state": "Cornwall",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "D3Y 8YD",
         "coordinates": {
           "latitude": "-8.9359",
@@ -31206,7 +31206,7 @@
         },
         "city": "Swansea",
         "state": "Northamptonshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "MB84 3UB",
         "coordinates": {
           "latitude": "-1.0737",
@@ -31710,7 +31710,7 @@
         },
         "city": "Bradford",
         "state": "Oxfordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "VX7Y 5AY",
         "coordinates": {
           "latitude": "-37.4521",
@@ -33334,7 +33334,7 @@
         },
         "city": "Birmingham",
         "state": "Lincolnshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "C1G 2NH",
         "coordinates": {
           "latitude": "88.5541",
@@ -33670,7 +33670,7 @@
         },
         "city": "Stirling",
         "state": "Somerset",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "LN3 4WJ",
         "coordinates": {
           "latitude": "-33.6029",
@@ -33950,7 +33950,7 @@
         },
         "city": "Bath",
         "state": "Staffordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "HQ4T 6RU",
         "coordinates": {
           "latitude": "-36.4965",
@@ -34734,7 +34734,7 @@
         },
         "city": "Inverness",
         "state": "Shropshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "XA1 2LP",
         "coordinates": {
           "latitude": "-37.8778",
@@ -36302,7 +36302,7 @@
         },
         "city": "Lisburn",
         "state": "Nottinghamshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "T3B 3JL",
         "coordinates": {
           "latitude": "19.6587",
@@ -37366,7 +37366,7 @@
         },
         "city": "Brighton and Hove",
         "state": "West Yorkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "J8J 4WF",
         "coordinates": {
           "latitude": "7.7662",
@@ -37926,7 +37926,7 @@
         },
         "city": "Coventry",
         "state": "Gloucestershire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "C7 5RQ",
         "coordinates": {
           "latitude": "-48.2413",
@@ -38766,7 +38766,7 @@
         },
         "city": "Coventry",
         "state": "County Antrim",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "N55 1XT",
         "coordinates": {
           "latitude": "-54.7496",
@@ -38990,7 +38990,7 @@
         },
         "city": "Wells",
         "state": "Cheshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "OP0L 8GZ",
         "coordinates": {
           "latitude": "58.7010",
@@ -39606,7 +39606,7 @@
         },
         "city": "Wolverhampton",
         "state": "Merseyside",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "NT05 0UP",
         "coordinates": {
           "latitude": "-86.3350",
@@ -39718,7 +39718,7 @@
         },
         "city": "Birmingham",
         "state": "Dumfries and Galloway",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "CE3 5RW",
         "coordinates": {
           "latitude": "-59.4670",
@@ -40166,7 +40166,7 @@
         },
         "city": "Edinburgh",
         "state": "Avon",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "P87 8SF",
         "coordinates": {
           "latitude": "-15.4233",
@@ -40278,7 +40278,7 @@
         },
         "city": "Wells",
         "state": "Bedfordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "A8M 1EJ",
         "coordinates": {
           "latitude": "59.7550",
@@ -40670,7 +40670,7 @@
         },
         "city": "Nottingham",
         "state": "Herefordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "GZ38 1NW",
         "coordinates": {
           "latitude": "31.4333",
@@ -40838,7 +40838,7 @@
         },
         "city": "Stevenage",
         "state": "Strathclyde",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "O23 7PL",
         "coordinates": {
           "latitude": "-63.7760",
@@ -41342,7 +41342,7 @@
         },
         "city": "Belfast",
         "state": "County Antrim",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "Y98 8FU",
         "coordinates": {
           "latitude": "27.7636",
@@ -41622,7 +41622,7 @@
         },
         "city": "Armagh",
         "state": "Dumfries and Galloway",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "Q7 0WF",
         "coordinates": {
           "latitude": "50.3650",
@@ -42238,7 +42238,7 @@
         },
         "city": "St Albans",
         "state": "Oxfordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "IE3 3LJ",
         "coordinates": {
           "latitude": "-86.3089",
@@ -43134,7 +43134,7 @@
         },
         "city": "Edinburgh",
         "state": "County Armagh",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "H0Z 5LZ",
         "coordinates": {
           "latitude": "-12.1553",
@@ -43358,7 +43358,7 @@
         },
         "city": "Stirling",
         "state": "Avon",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "TD2W 5XF",
         "coordinates": {
           "latitude": "-75.6403",
@@ -43582,7 +43582,7 @@
         },
         "city": "Stevenage",
         "state": "Staffordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "CP46 3TS",
         "coordinates": {
           "latitude": "-11.0472",
@@ -45038,7 +45038,7 @@
         },
         "city": "Salford",
         "state": "Cambridgeshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "J4 7FW",
         "coordinates": {
           "latitude": "32.8850",
@@ -45150,7 +45150,7 @@
         },
         "city": "Nottingham",
         "state": "Merseyside",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "VR6 8RW",
         "coordinates": {
           "latitude": "-78.2181",
@@ -45430,7 +45430,7 @@
         },
         "city": "Swansea",
         "state": "Northumberland",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "ZE42 4RZ",
         "coordinates": {
           "latitude": "39.1303",
@@ -45654,7 +45654,7 @@
         },
         "city": "Lincoln",
         "state": "Herefordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "BM94 1TG",
         "coordinates": {
           "latitude": "22.2491",
@@ -47558,7 +47558,7 @@
         },
         "city": "Bristol",
         "state": "Oxfordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "UD81 0RH",
         "coordinates": {
           "latitude": "-82.6201",
@@ -47894,7 +47894,7 @@
         },
         "city": "Ripon",
         "state": "West Midlands",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "ZC0W 4EU",
         "coordinates": {
           "latitude": "-77.3737",
@@ -48174,7 +48174,7 @@
         },
         "city": "St Albans",
         "state": "Durham",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "D7 8YG",
         "coordinates": {
           "latitude": "81.7028",
@@ -48398,7 +48398,7 @@
         },
         "city": "Armagh",
         "state": "Clwyd",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "OU67 0SN",
         "coordinates": {
           "latitude": "87.6837",
@@ -48958,7 +48958,7 @@
         },
         "city": "Armagh",
         "state": "Cornwall",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "CZ6D 6BX",
         "coordinates": {
           "latitude": "24.6192",
@@ -49518,7 +49518,7 @@
         },
         "city": "Lichfield",
         "state": "County Tyrone",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "PH8 9UJ",
         "coordinates": {
           "latitude": "87.4526",
@@ -49686,7 +49686,7 @@
         },
         "city": "Westminster",
         "state": "Clwyd",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "KS5 0BA",
         "coordinates": {
           "latitude": "-38.9556",
@@ -50806,7 +50806,7 @@
         },
         "city": "Derby",
         "state": "Tayside",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "T06 7FP",
         "coordinates": {
           "latitude": "-29.0046",
@@ -51142,7 +51142,7 @@
         },
         "city": "Salisbury",
         "state": "Powys",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "IC30 5ZG",
         "coordinates": {
           "latitude": "-27.4935",
@@ -51254,7 +51254,7 @@
         },
         "city": "Birmingham",
         "state": "Gloucestershire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "Z21 6LZ",
         "coordinates": {
           "latitude": "69.7943",
@@ -51534,7 +51534,7 @@
         },
         "city": "Bath",
         "state": "Tayside",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "DD8 6ES",
         "coordinates": {
           "latitude": "1.6601",
@@ -52598,7 +52598,7 @@
         },
         "city": "Plymouth",
         "state": "Rutland",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "E7 0RU",
         "coordinates": {
           "latitude": "-60.3024",
@@ -53326,7 +53326,7 @@
         },
         "city": "Derby",
         "state": "Herefordshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "IJ0X 4WX",
         "coordinates": {
           "latitude": "70.3626",
@@ -53438,7 +53438,7 @@
         },
         "city": "Stoke-on-Trent",
         "state": "Leicestershire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "R6E 4TR",
         "coordinates": {
           "latitude": "82.8138",
@@ -53606,7 +53606,7 @@
         },
         "city": "Oxford",
         "state": "Dorset",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "WG19 4PF",
         "coordinates": {
           "latitude": "-66.7137",
@@ -53942,7 +53942,7 @@
         },
         "city": "Winchester",
         "state": "Dorset",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "LJ7P 8LN",
         "coordinates": {
           "latitude": "-5.6750",
@@ -55118,7 +55118,7 @@
         },
         "city": "Lisburn",
         "state": "West Yorkshire",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "D58 2PN",
         "coordinates": {
           "latitude": "25.1077",
@@ -55734,7 +55734,7 @@
         },
         "city": "Lichfield",
         "state": "West Midlands",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "R2 5WB",
         "coordinates": {
           "latitude": "71.8312",
@@ -55902,7 +55902,7 @@
         },
         "city": "Derby",
         "state": "Northumberland",
-        "country": "United Kingdom",
+        "country": "United Kingdom (Great Britain)",
         "postcode": "OJ5 6TQ",
         "coordinates": {
           "latitude": "-1.1052",

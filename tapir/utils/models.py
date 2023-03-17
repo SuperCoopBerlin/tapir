@@ -8,7 +8,6 @@ from django.db import models
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
-from tapir.utils.expection_utils import TapirException
 
 # http://xml.coverpages.org/country3166.html
 COUNTRIES = (
@@ -365,11 +364,11 @@ class DurationModelMixin(models.Model):
 
 
 def get_country_code(full_country_name: str) -> str:
-    for pair in COUNTRIES:
-        if full_country_name in pair[1]:
-            return pair[0]
+    for code, name in COUNTRIES:
+        if (_(full_country_name).lower()) == name.lower():
+            return code
 
-    raise TapirException("Country code not found for " + full_country_name)
+    raise ValueError(f"Country code not found for {full_country_name}")
 
 
 def copy_user_info(source, target):
