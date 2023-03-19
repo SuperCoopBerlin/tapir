@@ -17,10 +17,16 @@ from pathlib import Path
 import celery.schedules
 import environ
 
-env = environ.Env()
+env = environ.Env(
+    # Set casting and default value
+    DEBUG=(bool, False)
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -29,7 +35,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("TAPIR_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("TAPIR_DEBUG", cast=bool, default=False)
+# False by default if not in os.environ because of casting above
+DEBUG = env("TAPIR_DEBUG")
 
 ALLOWED_HOSTS = env("TAPIR_ALLOWED_HOSTS", cast=list)
 
