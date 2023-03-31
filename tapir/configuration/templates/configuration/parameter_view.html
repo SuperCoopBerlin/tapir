@@ -1,0 +1,49 @@
+{% extends "core/base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<div style="margin-top: 1em; margin-bottom: 1em" class="container">
+    <form id="form" method="post">
+        {% csrf_token %}
+
+        <div class="card" style="max-height: calc(100vh - 7em)">
+            <div class="card-header" style="display: flex">
+                <div>
+                    <h4 style="padding-right: 0.8em">{% translate "Konfiguration" %}</h4>
+                </div>
+                <div>
+                    <button class="btn tapir-btn btn-primary" type="submit">Save</button>
+                </div>
+                <div style="margin-left:auto" id="search-input">
+                    <input type="text" class="form-control" placeholder="Search..."/>
+                </div>
+
+            </div>
+            <div class="card-body" style="overflow-y: scroll">
+                {% for category in form.categories %}
+                <div class="parameter-category">
+                    <h5>{% translate category %}</h5>
+
+                    {% for field in form.visible_fields %}
+
+                    {% if field.category == category %}
+                    <div class="single-parameter">
+                        {% bootstrap_field field %}
+                    </div>
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="{% static 'configuration/js/search.js' %}"></script>
+{% endblock %}
+

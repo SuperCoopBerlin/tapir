@@ -95,6 +95,13 @@ class ShiftConfig(AppConfig):
             ordering=9,
         )
 
+        shifts_group.add_link(
+            display_name=_("Settings"),
+            material_icon="settings",
+            url=reverse_lazy("configuration:parameters"),
+            ordering=10,
+        )
+
     @classmethod
     def get_link_display_name_abcd_calendar(cls, link):
         from tapir.shifts.templatetags.shifts import get_current_week_group

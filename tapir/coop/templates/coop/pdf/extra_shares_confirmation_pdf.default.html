@@ -2,6 +2,7 @@
 {% load django_bootstrap5 %}
 {% load accounts %}
 {% load i18n %}
+{% load configuration %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +14,9 @@
         {% endblocktranslate %}
     </title>
     <link rel="stylesheet" href="{% static 'coop/css/membership_agreement_pdf.css' %}">
+    <style>
+        {{ 'tapir.coop.pdf_css' | parameter }}
+    </style>
 </head>
 
 <body>

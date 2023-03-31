@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.postgres",
     "django_bootstrap5",
+    "tapir.configuration",
     "tapir.core",
     "tapir.log",
     "tapir.shifts",

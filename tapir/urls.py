@@ -30,6 +30,7 @@ urlpatterns = [
     path("coop/", include("tapir.coop.urls")),
     path("log/", include("tapir.log.urls")),
     path("core/", include("tapir.core.urls")),
+    path("configuration/", include("tapir.configuration.urls")),
     path("welcomedesk/", include("tapir.welcomedesk.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

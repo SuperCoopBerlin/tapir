@@ -2,6 +2,7 @@
 {% load django_bootstrap5 %}
 {% load accounts %}
 {% load i18n %}
+{% load configuration %}
 
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
@@ -10,6 +11,9 @@
     <meta charset="UTF-8">
     <title>Beteiligungserklärung {{ share_owner.first_name }} {{ share_owner.last_name }}</title>
     <link rel="stylesheet" href="{% static 'coop/css/membership_agreement_pdf.css' %}">
+    <style>
+        {{ 'tapir.coop.pdf_css' | parameter }}
+    </style>
 </head>
 <body>
 
@@ -38,7 +42,7 @@
     </div>
     <div style="flex-grow: 1"></div>
     <div style="margin-top: 13mm;">
-        <img src="{{ logo_base64 }}" style="width: 60mm;" alt="{{ coop_name }} Logo"/>
+        <img alt="{{ 'tapir.coop.name' | parameter }} Logo" style="width: 60mm;" src="{{ 'tapir.coop.logo_base64' | parameter }}">
     </div>
 </div>
 
