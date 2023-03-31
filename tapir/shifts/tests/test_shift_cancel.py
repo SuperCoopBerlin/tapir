@@ -16,7 +16,7 @@ from tapir.shifts.tests.utils import (
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
-class TestMemberSelfRegisters(TapirFactoryTestBase):
+class TestShiftCancel(TapirFactoryTestBase):
     VIEW_NAME_CANCEL_SHIFT = "shifts:cancel_shift"
     A_CANCELLATION_REASON = "A cancellation reason"
 
