@@ -109,7 +109,7 @@ class EmailLogEntry(LogEntry):
         max_length=128, null=False, blank=False, default="unknown"
     )
     subject = models.CharField(max_length=128, null=True, blank=True)
-    email_content = models.BinaryField()
+    email_content = models.BinaryField(null=True)
 
     def populate(
         self,
@@ -120,8 +120,9 @@ class EmailLogEntry(LogEntry):
         share_owner=None,
     ):
         self.email_id = email_id
-        self.subject = email_message.subject
-        self.email_content = email_message.message().as_bytes()
+        if email_message is not None:
+            self.subject = email_message.subject
+            self.email_content = email_message.message().as_bytes()
         return super().populate_base(
             actor=actor, tapir_user=tapir_user, share_owner=share_owner
         )

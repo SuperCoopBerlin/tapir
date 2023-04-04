@@ -115,25 +115,15 @@ class TapirEmailBase:
         return True
 
     def create_log_entry(self, email, actor, tapir_user, share_owner):
-        if self.include_email_body_in_log_entry():
-            EmailLogEntry().populate(
-                email_id=self.get_unique_id(),
-                email_message=email,
-                actor=actor,
-                tapir_user=tapir_user,
-                share_owner=share_owner,
-            ).save()
-        else:
-            email.body = (
-                "The content of this mail is not saved for data protection reasons"
-            )
-            EmailLogEntry().populate(
-                email_id=self.get_unique_id(),
-                email_message=email,
-                actor=actor,
-                tapir_user=tapir_user,
-                share_owner=share_owner,
-            ).save()
+        if not self.include_email_body_in_log_entry():
+            email = None
+        EmailLogEntry().populate(
+            email_id=self.get_unique_id(),
+            email_message=email,
+            actor=actor,
+            tapir_user=tapir_user,
+            share_owner=share_owner,
+        ).save()
 
     def __send(
         self,
