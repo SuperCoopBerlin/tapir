@@ -241,6 +241,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             shift_user_data, actor, ShiftAttendanceMode.FROZEN
         )
 
+        self.assertEqual(ShiftAttendanceMode.FROZEN, shift_user_data.attendance_mode)
         shift_user_data.save.assert_called_once()
         self.assertEqual(2, mock_freeze_for_log.call_count)
         mock_update_shift_user_data_log_entry_class.assert_called_once()
@@ -430,4 +431,39 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data.get_account_balance.assert_called_once_with()
         mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.assert_called_once_with(
             shift_user_data
+        )
+
+    @patch("tapir.shifts.services.frozen_status_service.UnfreezeNotificationEmail")
+    @patch.object(
+        FrozenStatusService,
+        "_get_last_attendance_mode_before_frozen",
+    )
+    @patch.object(
+        FrozenStatusService,
+        "_update_attendance_mode_and_create_log_entry",
+    )
+    def test_unfreezeAndSendNotificationEmail(
+        self,
+        mock_update_attendance_mode_and_create_log_entry: Mock,
+        mock_get_last_attendance_mode_before_frozen: Mock,
+        mock_unfreeze_notification_email_class: Mock,
+    ):
+        shift_user_data = ShiftUserData()
+        shift_user_data.user = TapirUser()
+        actor = TapirUser()
+        mock_get_last_attendance_mode_before_frozen.return_value = (
+            ShiftAttendanceMode.REGULAR
+        )
+
+        FrozenStatusService.unfreeze_and_send_notification_email(shift_user_data, actor)
+
+        mock_update_attendance_mode_and_create_log_entry.assert_called_once_with(
+            shift_user_data=shift_user_data,
+            actor=actor,
+            attendance_mode=ShiftAttendanceMode.REGULAR,
+        )
+        mock_unfreeze_notification_email_class.assert_called_once_with()
+        mock_email = mock_unfreeze_notification_email_class.return_value
+        mock_email.send_to_tapir_user.assert_called_once_with(
+            actor=actor, recipient=shift_user_data.user
         )
