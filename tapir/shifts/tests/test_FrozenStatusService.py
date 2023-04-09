@@ -1,5 +1,5 @@
 import datetime
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch, MagicMock, Mock
 
 from django.utils import timezone
 
@@ -246,3 +246,22 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             old_frozen=1, new_frozen=2, tapir_user=shift_user_data.user, actor=actor
         )
         mock_entry.populate.return_value.save.assert_called_once()
+
+    @patch("tapir.shifts.services.frozen_status_service.timezone.now")
+    @patch(
+        "tapir.shifts.services.frozen_status_service.ShiftAttendanceTemplate.objects.filter"
+    )
+    def test_cancelFutureAttendancesTemplates(self, mock_filter, mock_now):
+        shift_user_data = ShiftUserData()
+        shift_user_data.user = TapirUser()
+        mock_attendance_templates = [Mock(), Mock()]
+        mock_filter.return_value = mock_attendance_templates
+
+        FrozenStatusService._cancel_future_attendances_templates(shift_user_data)
+
+        mock_filter.assert_called_once_with(user=shift_user_data.user)
+        for mock_attendance_template in mock_attendance_templates:
+            mock_attendance_template.cancel_attendances.assert_called_once_with(
+                mock_now.return_value
+            )
+            mock_attendance_template.delete.assert_called_once_with()
