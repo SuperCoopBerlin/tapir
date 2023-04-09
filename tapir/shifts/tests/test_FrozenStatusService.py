@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 from django.utils import timezone
 
+from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftAttendanceMode,
@@ -10,9 +11,11 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
     Shift,
     ShiftAttendance,
+    ShiftAttendanceTemplate,
+    ShiftTemplate,
 )
 from tapir.shifts.services.frozen_status_service import FrozenStatusService
-from tapir.shifts.tests.factories import ShiftFactory
+from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -183,4 +186,36 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             FrozenStatusService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
                 tapir_user.shift_user_data
             )
+        )
+
+    @patch("tapir.shifts.services.frozen_status_service.MemberFrozenEmail")
+    @patch.object(FrozenStatusService, "_cancel_future_attendances_templates")
+    @patch.object(FrozenStatusService, "_update_attendance_mode_and_create_log_entry")
+    def test_freezeMemberAndSendMail(
+        self,
+        mock_update_attendance_mode_and_create_log_entry,
+        mock_cancel_future_attendances_templates,
+        mock_member_frozen_email_class,
+    ):
+        tapir_user = TapirUserFactory.create()
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create()
+        ShiftAttendanceTemplate.objects.create(
+            slot_template=shift_template.slot_templates.first(), user=tapir_user
+        )
+        actor = TapirUser()
+
+        FrozenStatusService.freeze_member_and_send_email(
+            tapir_user.shift_user_data, actor
+        )
+
+        mock_update_attendance_mode_and_create_log_entry.assert_called_once_with(
+            tapir_user.shift_user_data, actor, ShiftAttendanceMode.FROZEN
+        )
+        mock_cancel_future_attendances_templates.assert_called_once_with(
+            tapir_user.shift_user_data
+        )
+        self.assertEqual(0, ShiftAttendanceTemplate.objects.all().count())
+        mock_member_frozen_email_class.assert_called_once()
+        mock_member_frozen_email_class.return_value.send_to_tapir_user.assert_called_once_with(
+            actor=actor, recipient=tapir_user
         )
