@@ -1,5 +1,5 @@
 import datetime
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 
 from django.utils import timezone
 
@@ -219,3 +219,30 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_member_frozen_email_class.return_value.send_to_tapir_user.assert_called_once_with(
             actor=actor, recipient=tapir_user
         )
+
+    @patch("tapir.shifts.services.frozen_status_service.UpdateShiftUserDataLogEntry")
+    @patch("tapir.shifts.services.frozen_status_service.freeze_for_log")
+    def test_updateAttendanceModeAndCreateLogEntry(
+        self, mock_freeze_for_log, mock_update_shift_user_data_log_entry_class
+    ):
+        shift_user_data = ShiftUserData()
+        shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
+        shift_user_data.save = MagicMock()
+        shift_user_data.user = TapirUser()
+        actor = TapirUser()
+        mock_freeze_for_log.side_effect = (
+            lambda data: 1 if data.attendance_mode == ShiftAttendanceMode.FLYING else 2
+        )
+
+        FrozenStatusService._update_attendance_mode_and_create_log_entry(
+            shift_user_data, actor, ShiftAttendanceMode.FROZEN
+        )
+
+        shift_user_data.save.assert_called_once()
+        self.assertEqual(2, mock_freeze_for_log.call_count)
+        mock_update_shift_user_data_log_entry_class.assert_called_once()
+        mock_entry = mock_update_shift_user_data_log_entry_class.return_value
+        mock_entry.populate.assert_called_once_with(
+            old_frozen=1, new_frozen=2, tapir_user=shift_user_data.user, actor=actor
+        )
+        mock_entry.populate.return_value.save.assert_called_once()
