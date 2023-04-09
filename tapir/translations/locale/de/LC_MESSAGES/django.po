@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-02-22 16:32+0100\n"
-"PO-Revision-Date: 2023-02-22 16:32+0100\n"
+"POT-Creation-Date: 2023-04-09 18:29+0200\n"
+"PO-Revision-Date: 2023-04-09 18:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -1207,14 +1207,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:54
-#: shifts/models.py:818 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:822 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:226
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:56
-#: shifts/models.py:817
+#: shifts/models.py:821
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -1453,8 +1453,8 @@ msgstr ""
 msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
-#: core/templates/core/email_list.html:37 shifts/models.py:442
-#: shifts/models.py:963 shifts/templates/shifts/shiftexemption_list.html:27
+#: core/templates/core/email_list.html:37 shifts/models.py:446
+#: shifts/models.py:952 shifts/templates/shifts/shiftexemption_list.html:27
 #: shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
@@ -1563,6 +1563,16 @@ msgstr ""
 "ABCD-Jahreskalender\n"
 "Aktuelle Woche: {current_week_group_name}"
 
+#: shifts/emails/freeze_warning_email.py:18
+msgid "Freeze warning"
+msgstr ""
+
+#: shifts/emails/freeze_warning_email.py:23
+msgid ""
+"Sent to a member when their shift status is not frozen yet but will be set "
+"to frozen if they don't register for make-up shifts."
+msgstr ""
+
 #: shifts/emails/member_frozen_email.py:18
 msgid "Shift status set to frozen"
 msgstr ""
@@ -1600,6 +1610,15 @@ msgstr "Vertretung gefunden"
 msgid ""
 "Sent to a member that was looking for a stand-inwhen the corresponding slot "
 "is taken over by another member."
+msgstr ""
+
+#: shifts/emails/unfreeze_notification_email.py:16
+msgid "Unfreeze Notification"
+msgstr ""
+
+#: shifts/emails/unfreeze_notification_email.py:21
+msgid ""
+"Sent to a member when their shift status gets set from frozen to flying."
 msgstr ""
 
 #: shifts/forms.py:49
@@ -1757,59 +1776,59 @@ msgstr ""
 "Mir ist klar, dass ich möglicherweise in großer Höhe arbeiten muss, zum "
 "Beispiel auf einer Leiter. Ich leide nicht unter Höhenangst."
 
-#: shifts/models.py:432
+#: shifts/models.py:436
 msgid "Number of required attendances"
 msgstr "Anzahl notwendiger Teilnehmender"
 
-#: shifts/models.py:434
+#: shifts/models.py:438
 msgid ""
 "If there are less members registered to a shift than that number, it will be "
 "highlighted in the shift calendar."
 msgstr ""
 
-#: shifts/models.py:443
+#: shifts/models.py:447
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:819 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:823 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:236
 #: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:820 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:824 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:266
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:821 shifts/templates/shifts/shift_detail.html:274
+#: shifts/models.py:825 shifts/templates/shifts/shift_detail.html:274
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:822 shifts/templates/shifts/shift_detail.html:258
+#: shifts/models.py:826 shifts/templates/shifts/shift_detail.html:258
 #: shifts/templates/shifts/shift_detail_printable.html:70
 #: shifts/templates/shifts/shift_filters.html:63
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:877
+#: shifts/models.py:881
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:878
+#: shifts/models.py:882
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:879
+#: shifts/models.py:883
 msgid "❄ Frozen"
 msgstr "❄ Eingefroren"
 
-#: shifts/models.py:882
+#: shifts/models.py:886
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1069
+#: shifts/models.py:1058
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -1837,6 +1856,38 @@ msgstr ""
 #: shifts/templates/shifts/cancel_shift.html:35
 msgid "Confirm cancellation"
 msgstr "Absage bestätigen"
+
+#: shifts/templates/shifts/email/freeze_warning.body.default.html:6
+#, python-format
+msgid ""
+"\n"
+"        <p>Dear %(first_name)s,</p>\n"
+"\n"
+"        <p>This is an automated email from %(coop_name)s.</p>\n"
+"\n"
+"        <p>\n"
+"            Because your shift account balance has reached %(threshold)s or "
+"lower, you are at risk of getting your\n"
+"            membership frozen.\n"
+"            <br/>\n"
+"            You are still active and are still allowed to shop and vote as "
+"normal. However, if you don't register for\n"
+"            enough shifts in the next 10 days, your membership will be "
+"frozen automatically. <br/>\n"
+"            If you have any question or think that you should not get "
+"frozen, please\n"
+"            contact us at : <a href=\"mailto:%(contact_email_address)s\">"
+"%(contact_email_address)s</a>\n"
+"        </p>\n"
+"    "
+msgstr ""
+
+#: shifts/templates/shifts/email/freeze_warning.subject.default.html:3
+#, python-format
+msgid ""
+"\n"
+"    Your access to %(coop_name)s may get frozen!\n"
+msgstr ""
 
 #: shifts/templates/shifts/email/member_frozen.body.default.html:6
 #, python-format
@@ -2053,6 +2104,31 @@ msgid ""
 msgstr ""
 "\n"
 "Vertretung gefunden!\n"
+
+#: shifts/templates/shifts/email/unfreeze_notification.body.default.html:6
+#, python-format
+msgid ""
+"\n"
+"        <p>Dear %(first_name)s,</p>\n"
+"\n"
+"        <p>This is an automated email from %(coop_name)s.</p>\n"
+"\n"
+"        <p>\n"
+"            Your Tapir account has been unfrozen. You are again allowed to "
+"shop and vote at %(coop_name)s. <br/>\n"
+"            If you have any question, contact us at :\n"
+"            <a href=\"mailto:%(contact_email_address)s\">"
+"%(contact_email_address)s</a>\n"
+"        </p>\n"
+"    "
+msgstr ""
+
+#: shifts/templates/shifts/email/unfreeze_notification.subject.default.html:3
+#, python-format
+msgid ""
+"\n"
+"    Your access to %(coop_name)s has been unfrozen.\n"
+msgstr ""
 
 #: shifts/templates/shifts/log/create_exemption_log_entry.html:3
 msgid "without end date"
