@@ -279,75 +279,96 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data.get_account_balance.assert_called_once()
 
     @patch.object(EmailLogEntry, "objects")
-    def test_shouldSendFreezeWarning_warningNeverSent_returnsTrue(self, mock_queryset):
-        shift_user_data = Mock()
-        shift_user_data.user = Mock()
-        shift_user_data.get_account_balance.return_value = -5
-        mock_queryset.filter.return_value.order_by.return_value.first.return_value = (
+    def test_shouldSendFreezeWarning_warningNeverSent_returnsTrue(
+        self, mock_email_log_queryset
+    ):
+        mock_shift_user_data = Mock()
+        mock_shift_user_data.user = Mock()
+        mock_shift_user_data.get_account_balance.return_value = -5
+        mock_email_log_queryset.filter.return_value.order_by.return_value.first.return_value = (
             None
         )
 
-        self.assertTrue(FrozenStatusService.should_send_freeze_warning(shift_user_data))
-
-        shift_user_data.get_account_balance.assert_called_once()
-        mock_queryset.filter.assert_called_once_with(
-            email_id=self.FREEZE_WARNING_EMAIL_ID, tapir_user=shift_user_data.user
+        self.assertTrue(
+            FrozenStatusService.should_send_freeze_warning(mock_shift_user_data)
         )
-        order_by = mock_queryset.filter.return_value.order_by
-        order_by.assert_called_once_with("-created_date")
-        first = order_by.return_value.first
-        first.assert_called_once_with()
+
+        mock_shift_user_data.get_account_balance.assert_called_once()
+        mock_email_log_queryset.filter.assert_called_once_with(
+            email_id=self.FREEZE_WARNING_EMAIL_ID, tapir_user=mock_shift_user_data.user
+        )
+        mock_order_by = mock_email_log_queryset.filter.return_value.order_by
+        mock_order_by.assert_called_once_with("-created_date")
+        mock_first = mock_order_by.return_value.first
+        mock_first.assert_called_once_with()
 
     @patch("tapir.shifts.services.frozen_status_service.timezone.now")
     @patch.object(EmailLogEntry, "objects")
     def test_shouldSendFreezeWarning_warningSentLongAgo_returnsTrue(
-        self, mock_queryset, mock_now
+        self, mock_email_log_queryset, mock_now
     ):
-        shift_user_data = Mock()
-        shift_user_data.user = Mock()
-        shift_user_data.get_account_balance.return_value = -5
+        mock_shift_user_data = Mock()
+        mock_shift_user_data.user = Mock()
+        mock_shift_user_data.get_account_balance.return_value = -5
         mock_now.return_value = datetime.datetime(year=2020, month=1, day=30)
-        last_warning = Mock()
-        last_warning.created_date = datetime.datetime(year=2020, month=1, day=10)
-        mock_queryset.filter.return_value.order_by.return_value.first.return_value = (
-            last_warning
+        mock_last_warning = Mock()
+        mock_last_warning.created_date = datetime.datetime(year=2020, month=1, day=10)
+        mock_email_log_queryset.filter.return_value.order_by.return_value.first.return_value = (
+            mock_last_warning
         )
 
-        self.assertTrue(FrozenStatusService.should_send_freeze_warning(shift_user_data))
-
-        shift_user_data.get_account_balance.assert_called_once()
-        mock_queryset.filter.assert_called_once_with(
-            email_id=self.FREEZE_WARNING_EMAIL_ID, tapir_user=shift_user_data.user
+        self.assertTrue(
+            FrozenStatusService.should_send_freeze_warning(mock_shift_user_data)
         )
-        order_by = mock_queryset.filter.return_value.order_by
-        order_by.assert_called_once_with("-created_date")
-        first = order_by.return_value.first
-        first.assert_called_once_with()
+
+        mock_shift_user_data.get_account_balance.assert_called_once()
+        mock_email_log_queryset.filter.assert_called_once_with(
+            email_id=self.FREEZE_WARNING_EMAIL_ID, tapir_user=mock_shift_user_data.user
+        )
+        mock_order_by = mock_email_log_queryset.filter.return_value.order_by
+        mock_order_by.assert_called_once_with("-created_date")
+        mock_first = mock_order_by.return_value.first
+        mock_first.assert_called_once_with()
 
     @patch("tapir.shifts.services.frozen_status_service.timezone.now")
     @patch.object(EmailLogEntry, "objects")
     def test_shouldSendFreezeWarning_warningSentInTheLast10Days_returnsFalse(
-        self, mock_queryset, mock_now
+        self, mock_email_log_queryset, mock_now
     ):
-        shift_user_data = Mock()
-        shift_user_data.user = Mock()
-        shift_user_data.get_account_balance.return_value = -5
+        mock_shift_user_data = Mock()
+        mock_shift_user_data.user = Mock()
+        mock_shift_user_data.get_account_balance.return_value = -5
         mock_now.return_value = datetime.datetime(year=2020, month=1, day=15)
-        last_warning = Mock()
-        last_warning.created_date = datetime.datetime(year=2020, month=1, day=10)
-        mock_queryset.filter.return_value.order_by.return_value.first.return_value = (
-            last_warning
+        mock_last_warning = Mock()
+        mock_last_warning.created_date = datetime.datetime(year=2020, month=1, day=10)
+        mock_email_log_queryset.filter.return_value.order_by.return_value.first.return_value = (
+            mock_last_warning
         )
 
         self.assertFalse(
-            FrozenStatusService.should_send_freeze_warning(shift_user_data)
+            FrozenStatusService.should_send_freeze_warning(mock_shift_user_data)
         )
 
-        shift_user_data.get_account_balance.assert_called_once()
-        mock_queryset.filter.assert_called_once_with(
-            email_id="tapir.shifts.freeze_warning", tapir_user=shift_user_data.user
+        mock_shift_user_data.get_account_balance.assert_called_once()
+        mock_email_log_queryset.filter.assert_called_once_with(
+            email_id=self.FREEZE_WARNING_EMAIL_ID, tapir_user=mock_shift_user_data.user
         )
-        order_by = mock_queryset.filter.return_value.order_by
-        order_by.assert_called_once_with("-created_date")
-        first = order_by.return_value.first
-        first.assert_called_once_with()
+        mock_order_by = mock_email_log_queryset.filter.return_value.order_by
+        mock_order_by.assert_called_once_with("-created_date")
+        mock_first = mock_order_by.return_value.first
+        mock_first.assert_called_once_with()
+
+    @patch("tapir.shifts.services.frozen_status_service.FreezeWarningEmail")
+    def test_send_freeze_warning_email(self, mock_freeze_warning_email_class):
+        shift_user_data = ShiftUserData()
+        shift_user_data.user = TapirUser()
+
+        FrozenStatusService.send_freeze_warning_email(shift_user_data)
+
+        mock_freeze_warning_email_class.assert_called_once_with()
+        mock_send_to_tapir_user = (
+            mock_freeze_warning_email_class.return_value.send_to_tapir_user
+        )
+        mock_send_to_tapir_user.assert_called_once_with(
+            actor=None, recipient=shift_user_data.user
+        )
