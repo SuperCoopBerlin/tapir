@@ -1,6 +1,10 @@
+import datetime
 from unittest.mock import patch
 
-from tapir.shifts.models import ShiftAttendanceMode, ShiftUserData
+from django.utils import timezone
+
+from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.models import ShiftAttendanceMode, ShiftUserData, ShiftAccountEntry
 from tapir.shifts.services.frozen_status_service import FrozenStatusService
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -69,4 +73,55 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         )
         mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.assert_called_once_with(
             shift_user_data
+        )
+
+    def test_isMemberBelowThresholdSinceLongEnough_memberIsAboveThreshold_returnsFalse(
+        self,
+    ):
+        tapir_user = TapirUserFactory.create()
+        self.assertEqual(0, tapir_user.shift_user_data.get_account_balance())
+        self.assertFalse(
+            FrozenStatusService._is_member_below_threshold_since_long_enough(
+                tapir_user.shift_user_data
+            )
+        )
+
+    def test_isMemberBelowThresholdSinceLongEnough_memberIsBelowThresholdSinceLessDaysThanThreshold_returnsFalse(
+        self,
+    ):
+        tapir_user = TapirUserFactory.create()
+        ShiftAccountEntry.objects.create(
+            user=tapir_user,
+            value=-2,
+            date=timezone.now() - datetime.timedelta(days=20),
+        )
+        ShiftAccountEntry.objects.create(
+            user=tapir_user,
+            value=-2,
+            date=timezone.now() - datetime.timedelta(days=5),
+        )
+        self.assertFalse(
+            FrozenStatusService._is_member_below_threshold_since_long_enough(
+                tapir_user.shift_user_data
+            )
+        )
+
+    def test_isMemberBelowThresholdSinceLongEnough_memberIsBelowThresholdSinceMoreDaysThanThreshold_returnsTrue(
+        self,
+    ):
+        tapir_user = TapirUserFactory.create()
+        ShiftAccountEntry.objects.create(
+            user=tapir_user,
+            value=-2,
+            date=timezone.now() - datetime.timedelta(days=20),
+        )
+        ShiftAccountEntry.objects.create(
+            user=tapir_user,
+            value=-2,
+            date=timezone.now() - datetime.timedelta(days=15),
+        )
+        self.assertTrue(
+            FrozenStatusService._is_member_below_threshold_since_long_enough(
+                tapir_user.shift_user_data
+            )
         )

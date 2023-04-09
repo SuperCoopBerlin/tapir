@@ -48,7 +48,7 @@ class FrozenStatusService:
             "-date"
         )
         for entry in entries:
-            if (timezone.now().date() - entry.date).days > FREEZE_AFTER_DAYS:
+            if (timezone.now().date() - entry.date.date()).days > FREEZE_AFTER_DAYS:
                 return True
             balance -= entry.value
             if balance > FREEZE_THRESHOLD:
