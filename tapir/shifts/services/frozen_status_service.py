@@ -121,7 +121,7 @@ class FrozenStatusService:
             return True
 
         return (
-            timezone.now().date() - last_warning.created_date
+            timezone.now().date() - last_warning.created_date.date()
         ).days > FREEZE_AFTER_DAYS
 
     @staticmethod
