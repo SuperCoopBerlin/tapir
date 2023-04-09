@@ -372,3 +372,62 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_send_to_tapir_user.assert_called_once_with(
             actor=None, recipient=shift_user_data.user
         )
+
+    def test_shouldUnfreezeMember_memberIsNotFrozen_returnsFalse(self):
+        shift_user_data = ShiftUserData()
+        shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
+
+        self.assertFalse(FrozenStatusService.should_unfreeze_member(shift_user_data))
+
+    def test_shouldUnfreezeMember_memberBalanceIsPositive_returnsTrue(self):
+        shift_user_data = Mock()
+        shift_user_data.attendance_mode = ShiftAttendanceMode.FROZEN
+        shift_user_data.get_account_balance.return_value = 0
+
+        self.assertTrue(FrozenStatusService.should_unfreeze_member(shift_user_data))
+
+        shift_user_data.get_account_balance.assert_called_once_with()
+
+    @patch.object(
+        FrozenStatusService,
+        "_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account",
+    )
+    def test_shouldUnfreezeMember_memberRegisteredToEnoughShifts_returnsTrue(
+        self,
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account,
+    ):
+        shift_user_data = Mock()
+        shift_user_data.attendance_mode = ShiftAttendanceMode.FROZEN
+        shift_user_data.get_account_balance.return_value = -5
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.return_value = (
+            True
+        )
+
+        self.assertTrue(FrozenStatusService.should_unfreeze_member(shift_user_data))
+
+        shift_user_data.get_account_balance.assert_called_once_with()
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.assert_called_once_with(
+            shift_user_data
+        )
+
+    @patch.object(
+        FrozenStatusService,
+        "_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account",
+    )
+    def test_shouldUnfreezeMember_memberNotRegisteredToEnoughShifts_returnsFalse(
+        self,
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account,
+    ):
+        shift_user_data = Mock()
+        shift_user_data.attendance_mode = ShiftAttendanceMode.FROZEN
+        shift_user_data.get_account_balance.return_value = -5
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.return_value = (
+            False
+        )
+
+        self.assertFalse(FrozenStatusService.should_unfreeze_member(shift_user_data))
+
+        shift_user_data.get_account_balance.assert_called_once_with()
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.assert_called_once_with(
+            shift_user_data
+        )

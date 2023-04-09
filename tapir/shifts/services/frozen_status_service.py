@@ -137,12 +137,9 @@ class FrozenStatusService:
         if shift_user_data.get_account_balance() >= 0:
             return True
 
-        if cls._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
+        return cls._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
             shift_user_data
-        ):
-            return True
-
-        return False
+        )
 
     @classmethod
     def unfreeze_and_send_notification_email(
