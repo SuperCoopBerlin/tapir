@@ -16,6 +16,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils
 from tapir.accounts import validators
+from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import PERMISSIONS
 from tapir.utils.models import CountryField
@@ -110,12 +111,16 @@ class TapirUserQuerySet(models.QuerySet):
             shift_attendance_templates__slot_template__name=slot_name
         ).distinct()
 
-    def registered_to_shift_slot_with_capability(self, capability: str):
+    def registered_to_abcd_shift_slot_with_capability(self, capability: str):
         return self.filter(
             shift_attendance_templates__slot_template__required_capabilities__contains=[
                 capability
             ]
         ).distinct()
+
+    def registered_to_shift_slot_with_capability(self, capability: str):
+        user_ids = get_ids_of_users_registered_to_a_shift_with_capability[0](capability)
+        return self.filter(id__in=user_ids).distinct()
 
     def has_capability(self, capability: str):
         return self.filter(

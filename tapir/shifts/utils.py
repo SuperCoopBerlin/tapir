@@ -4,7 +4,12 @@ from datetime import datetime, timedelta, date
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
-from tapir.shifts.models import ShiftTemplateGroup, ShiftAccountEntry
+from tapir.shifts.models import (
+    ShiftTemplateGroup,
+    ShiftAccountEntry,
+    ShiftAttendance,
+    ShiftUserCapability,
+)
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
 
@@ -133,4 +138,17 @@ def update_shift_account_depending_on_welcome_session_status(share_owner: ShareO
         description="Welcome session / Willkommenstreffen",
         date=datetime.today(),
         value=1,
+    )
+
+
+def get_ids_of_users_registered_to_a_shift_with_capability(
+    capability: ShiftUserCapability,
+):
+    return (
+        ShiftAttendance.objects.filter(
+            slot__required_capabilities__contains=[capability],
+            state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
+        )
+        .distinct()
+        .values_list("user__id", flat=True)
     )
