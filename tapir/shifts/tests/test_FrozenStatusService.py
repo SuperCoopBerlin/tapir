@@ -30,7 +30,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
     @patch.object(FrozenStatusService, "_is_member_below_threshold_since_long_enough")
     def test_shouldFreezeMember_memberNotBelowThreshold_returnsFalse(
-        self, mock_is_member_below_threshold_since_long_enough
+        self, mock_is_member_below_threshold_since_long_enough: Mock
     ):
         shift_user_data = ShiftUserData()
         shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
@@ -47,8 +47,8 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     @patch.object(FrozenStatusService, "_is_member_below_threshold_since_long_enough")
     def test_shouldFreezeMember_memberRegisteredToEnoughShifts_returnsFalse(
         self,
-        mock_is_member_below_threshold_since_long_enough,
-        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account,
+        mock_is_member_below_threshold_since_long_enough: Mock,
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account: Mock,
     ):
         shift_user_data = ShiftUserData()
         shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
@@ -71,8 +71,8 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     @patch.object(FrozenStatusService, "_is_member_below_threshold_since_long_enough")
     def test_shouldFreezeMember_shouldGetFrozen_returnsTrue(
         self,
-        mock_is_member_below_threshold_since_long_enough,
-        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account,
+        mock_is_member_below_threshold_since_long_enough: Mock,
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account: Mock,
     ):
         shift_user_data = ShiftUserData()
         shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
@@ -196,9 +196,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     @patch.object(FrozenStatusService, "_update_attendance_mode_and_create_log_entry")
     def test_freezeMemberAndSendMail(
         self,
-        mock_update_attendance_mode_and_create_log_entry,
-        mock_cancel_future_attendances_templates,
-        mock_member_frozen_email_class,
+        mock_update_attendance_mode_and_create_log_entry: Mock,
+        mock_cancel_future_attendances_templates: Mock,
+        mock_member_frozen_email_class: Mock,
     ):
         tapir_user = TapirUserFactory.create()
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
@@ -226,7 +226,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     @patch("tapir.shifts.services.frozen_status_service.UpdateShiftUserDataLogEntry")
     @patch("tapir.shifts.services.frozen_status_service.freeze_for_log")
     def test_updateAttendanceModeAndCreateLogEntry(
-        self, mock_freeze_for_log, mock_update_shift_user_data_log_entry_class
+        self,
+        mock_freeze_for_log: Mock,
+        mock_update_shift_user_data_log_entry_class: Mock,
     ):
         shift_user_data = ShiftUserData()
         shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
@@ -255,7 +257,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     @patch(
         "tapir.shifts.services.frozen_status_service.ShiftAttendanceTemplate.objects.filter"
     )
-    def test_cancelFutureAttendancesTemplates(self, mock_filter, mock_now):
+    def test_cancelFutureAttendancesTemplates(self, mock_filter: Mock, mock_now: Mock):
         shift_user_data = ShiftUserData()
         shift_user_data.user = TapirUser()
         mock_attendance_templates = [Mock(), Mock()]
@@ -281,7 +283,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
     @patch.object(EmailLogEntry, "objects")
     def test_shouldSendFreezeWarning_warningNeverSent_returnsTrue(
-        self, mock_email_log_queryset
+        self, mock_email_log_queryset: Mock
     ):
         mock_shift_user_data = Mock()
         mock_shift_user_data.user = Mock()
@@ -306,7 +308,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     @patch("tapir.shifts.services.frozen_status_service.timezone.now")
     @patch.object(EmailLogEntry, "objects")
     def test_shouldSendFreezeWarning_warningSentLongAgo_returnsTrue(
-        self, mock_email_log_queryset, mock_now
+        self, mock_email_log_queryset: Mock, mock_now: Mock
     ):
         mock_shift_user_data = Mock()
         mock_shift_user_data.user = Mock()
@@ -334,7 +336,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     @patch("tapir.shifts.services.frozen_status_service.timezone.now")
     @patch.object(EmailLogEntry, "objects")
     def test_shouldSendFreezeWarning_warningSentInTheLast10Days_returnsFalse(
-        self, mock_email_log_queryset, mock_now
+        self, mock_email_log_queryset: Mock, mock_now: Mock
     ):
         mock_shift_user_data = Mock()
         mock_shift_user_data.user = Mock()
@@ -360,7 +362,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_first.assert_called_once_with()
 
     @patch("tapir.shifts.services.frozen_status_service.FreezeWarningEmail")
-    def test_send_freeze_warning_email(self, mock_freeze_warning_email_class):
+    def test_send_freeze_warning_email(self, mock_freeze_warning_email_class: Mock):
         shift_user_data = ShiftUserData()
         shift_user_data.user = TapirUser()
 
@@ -395,7 +397,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     )
     def test_shouldUnfreezeMember_memberRegisteredToEnoughShifts_returnsTrue(
         self,
-        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account,
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account: Mock,
     ):
         shift_user_data = Mock()
         shift_user_data.attendance_mode = ShiftAttendanceMode.FROZEN
@@ -417,7 +419,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     )
     def test_shouldUnfreezeMember_memberNotRegisteredToEnoughShifts_returnsFalse(
         self,
-        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account,
+        mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account: Mock,
     ):
         shift_user_data = Mock()
         shift_user_data.attendance_mode = ShiftAttendanceMode.FROZEN
