@@ -467,3 +467,59 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_email.send_to_tapir_user.assert_called_once_with(
             actor=actor, recipient=shift_user_data.user
         )
+
+    @patch(
+        "tapir.shifts.services.frozen_status_service.UpdateShiftUserDataLogEntry.objects.filter"
+    )
+    def test_getLastAttendanceModeBeforeFrozen_noLogEntryFound_returnsFlying(
+        self, mock_filter: Mock
+    ):
+        shift_user_data = ShiftUserData()
+        shift_user_data.user = TapirUser()
+        mock_order_by = mock_filter.return_value.order_by
+        mock_first = mock_order_by.return_value.first
+        mock_first.return_value = None
+
+        self.assertEqual(
+            ShiftAttendanceMode.FLYING,
+            FrozenStatusService._get_last_attendance_mode_before_frozen(
+                shift_user_data
+            ),
+        )
+
+        mock_filter.assert_called_once_with(
+            new_values__attendance_mode=ShiftAttendanceMode.FROZEN,
+            user=shift_user_data.user,
+        )
+        mock_order_by.assert_called_once_with("-created_date")
+        mock_first.assert_called_once_with()
+
+    @patch(
+        "tapir.shifts.services.frozen_status_service.UpdateShiftUserDataLogEntry.objects.filter"
+    )
+    def test_getLastAttendanceModeBeforeFrozen_default_returnsLastMode(
+        self, mock_filter: Mock
+    ):
+        shift_user_data = ShiftUserData()
+        shift_user_data.user = TapirUser()
+        mock_order_by = mock_filter.return_value.order_by
+        mock_first = mock_order_by.return_value.first
+        mock_first.return_value = Mock()
+        mock_first.return_value.old_values = dict()
+        mock_first.return_value.old_values[
+            "attendance_mode"
+        ] = ShiftAttendanceMode.REGULAR
+
+        self.assertEqual(
+            ShiftAttendanceMode.REGULAR,
+            FrozenStatusService._get_last_attendance_mode_before_frozen(
+                shift_user_data
+            ),
+        )
+
+        mock_filter.assert_called_once_with(
+            new_values__attendance_mode=ShiftAttendanceMode.FROZEN,
+            user=shift_user_data.user,
+        )
+        mock_order_by.assert_called_once_with("-created_date")
+        mock_first.assert_called_once_with()
