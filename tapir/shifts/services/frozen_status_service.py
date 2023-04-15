@@ -111,7 +111,7 @@ class FrozenStatusService:
         last_warning = (
             EmailLogEntry.objects.filter(
                 email_id=FreezeWarningEmail.get_unique_id(),
-                tapir_user=shift_user_data.user,
+                user=shift_user_data.user,
             )
             .order_by("-created_date")
             .first()

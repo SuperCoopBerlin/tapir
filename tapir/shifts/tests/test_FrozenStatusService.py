@@ -298,7 +298,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
         mock_shift_user_data.get_account_balance.assert_called_once()
         mock_email_log_queryset.filter.assert_called_once_with(
-            email_id=self.FREEZE_WARNING_EMAIL_ID, tapir_user=mock_shift_user_data.user
+            email_id=self.FREEZE_WARNING_EMAIL_ID, user=mock_shift_user_data.user
         )
         mock_order_by = mock_email_log_queryset.filter.return_value.order_by
         mock_order_by.assert_called_once_with("-created_date")
@@ -326,7 +326,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
         mock_shift_user_data.get_account_balance.assert_called_once()
         mock_email_log_queryset.filter.assert_called_once_with(
-            email_id=self.FREEZE_WARNING_EMAIL_ID, tapir_user=mock_shift_user_data.user
+            email_id=self.FREEZE_WARNING_EMAIL_ID, user=mock_shift_user_data.user
         )
         mock_order_by = mock_email_log_queryset.filter.return_value.order_by
         mock_order_by.assert_called_once_with("-created_date")
@@ -354,7 +354,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
         mock_shift_user_data.get_account_balance.assert_called_once()
         mock_email_log_queryset.filter.assert_called_once_with(
-            email_id=self.FREEZE_WARNING_EMAIL_ID, tapir_user=mock_shift_user_data.user
+            email_id=self.FREEZE_WARNING_EMAIL_ID, user=mock_shift_user_data.user
         )
         mock_order_by = mock_email_log_queryset.filter.return_value.order_by
         mock_order_by.assert_called_once_with("-created_date")
