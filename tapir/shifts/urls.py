@@ -162,4 +162,14 @@ urlpatterns = [
         views.ShiftSlotTemplateEditView.as_view(),
         name="edit_slot_template",
     ),
+    path(
+        "management",
+        views.ShiftManagementView.as_view(),
+        name="shift_management",
+    ),
+    path(
+        "run_freeze_checks_manually",
+        views.RunFreezeChecksManuallyView.as_view(),
+        name="run_freeze_checks_manually",
+    ),
 ]

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-09 18:44+0200\n"
-"PO-Revision-Date: 2023-04-09 18:43+0200\n"
+"POT-Creation-Date: 2023-04-15 17:37+0200\n"
+"PO-Revision-Date: 2023-04-15 17:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -1538,29 +1538,15 @@ msgstr "ABCD-Schicht-Wochenplan"
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/apps.py:69 shifts/templates/shifts/shiftexemption_list.html:7
-#: shifts/templates/shifts/shiftexemption_list.html:13
-msgid "Shift exemptions"
-msgstr "Schicht-Befreiungen"
-
-#: shifts/apps.py:77 shifts/templates/shifts/members_on_alert_list.html:12
-#: shifts/templates/shifts/members_on_alert_list.html:19
-msgid "Members on alert"
-msgstr "Mitglieder mit Verwarnung"
-
-#: shifts/apps.py:85
-msgid "Add a shift"
-msgstr "Schicht hinzufügen"
-
-#: shifts/apps.py:93
-msgid "Add an ABCD shift"
-msgstr "ABCD-Schicht hinzufügen"
-
-#: shifts/apps.py:101 shifts/templates/shifts/statistics.html:8
+#: shifts/apps.py:69 shifts/templates/shifts/statistics.html:8
 msgid "Shift statistics"
 msgstr "Schicht-Statistiken"
 
-#: shifts/apps.py:117
+#: shifts/apps.py:76 shifts/templates/shifts/shift_management.html:9
+msgid "Shift management"
+msgstr "Schicht-Verwaltung"
+
+#: shifts/apps.py:92
 #, python-brace-format
 msgid "ABCD annual calendar, current week: {current_week_group_name}"
 msgstr ""
@@ -2172,6 +2158,12 @@ msgstr "Ändere den Schichtstatus zu"
 msgid "Update Shift User Data"
 msgstr "Nutzer*innendaten der Schicht aktualisieren"
 
+#: shifts/templates/shifts/members_on_alert_list.html:12
+#: shifts/templates/shifts/members_on_alert_list.html:19
+#: shifts/templates/shifts/shift_management.html:39
+msgid "Members on alert"
+msgstr "Mitglieder mit Verwarnung"
+
 #: shifts/templates/shifts/members_on_alert_list.html:36
 msgid ""
 "\n"
@@ -2488,6 +2480,46 @@ msgid ""
 "                        "
 msgstr ""
 
+#: shifts/templates/shifts/shift_management.html:21
+msgid "Add shifts"
+msgstr "Schichten hinzufügen"
+
+#: shifts/templates/shifts/shift_management.html:25
+msgid "Add a shift"
+msgstr "Schicht hinzufügen"
+
+#: shifts/templates/shifts/shift_management.html:28
+msgid "Add an ABCD shift"
+msgstr "ABCD-Schicht hinzufügen"
+
+#: shifts/templates/shifts/shift_management.html:35
+msgid "Lists"
+msgstr "Listen"
+
+#: shifts/templates/shifts/shift_management.html:42
+#: shifts/templates/shifts/shiftexemption_list.html:7
+#: shifts/templates/shifts/shiftexemption_list.html:13
+msgid "Shift exemptions"
+msgstr "Schicht-Befreiungen"
+
+#: shifts/templates/shifts/shift_management.html:49
+#: shifts/templates/shifts/shift_management.html:59
+msgid "Update frozen statuses"
+msgstr ""
+
+#: shifts/templates/shifts/shift_management.html:52
+msgid ""
+"\n"
+"                    <p>For every member, checks if they should get the "
+"frozen status, if they should get unfrozen, or if\n"
+"                        they should get the warning that they will be frozen "
+"soon.</p>\n"
+"                    <p>This command is run automatically once per day. You "
+"can trigger it here manually for test\n"
+"                        purposes or to accelerate a status update.</p>\n"
+"                "
+msgstr ""
+
 #: shifts/templates/shifts/shift_template_detail.html:8
 #: shifts/templates/shifts/shift_template_detail.html:18
 #: shifts/templates/shifts/user_shifts_overview_tag.html:24
@@ -2682,7 +2714,7 @@ msgid "View all"
 msgstr "Alle ansehen"
 
 #: shifts/templatetags/shifts.py:56 shifts/templatetags/shifts.py:159
-#: shifts/views/views.py:112
+#: shifts/views/views.py:116
 msgid "General"
 msgstr "Allgemein"
 
@@ -2741,20 +2773,24 @@ msgid ""
 "shift, come back tomorrow to see your shifts!"
 msgstr ""
 
-#: shifts/views/views.py:94 shifts/views/views.py:97
+#: shifts/views/views.py:98 shifts/views/views.py:101
 #, python-format
 msgid "Edit user shift data: %(name)s"
 msgstr "Bearbeite Nutzer*in-Schichtdaten: %(name)s"
 
-#: shifts/views/views.py:158
+#: shifts/views/views.py:162
 #, python-format
 msgid "Shift account: %(name)s"
 msgstr "Schichtkonto-Protokoll für: %(name)s"
 
-#: shifts/views/views.py:162
+#: shifts/views/views.py:166
 #, python-format
 msgid "Create manual shift account entry for:  %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
+
+#: shifts/views/views.py:296
+msgid "Frozen statuses updated."
+msgstr ""
 
 #: utils/forms.py:26
 msgid ""

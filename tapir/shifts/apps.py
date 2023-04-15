@@ -66,42 +66,17 @@ class ShiftConfig(AppConfig):
         )
 
         shifts_group.add_link(
-            display_name=_("Shift exemptions"),
-            material_icon="beach_access",
-            url=reverse_lazy("shifts:shift_exemption_list"),
-            required_permissions=[PERMISSION_SHIFTS_MANAGE],
+            display_name=_("Shift statistics"),
+            material_icon="calculate",
+            url=reverse_lazy("shifts:statistics"),
             ordering=5,
         )
 
         shifts_group.add_link(
-            display_name=_("Members on alert"),
-            material_icon="priority_high",
-            url=reverse_lazy("shifts:members_on_alert"),
-            required_permissions=[PERMISSION_SHIFTS_MANAGE],
+            display_name=_("Shift management"),
+            material_icon="settings",
+            url=reverse_lazy("shifts:shift_management"),
             ordering=6,
-        )
-
-        shifts_group.add_link(
-            display_name=_("Add a shift"),
-            material_icon="add_circle_outline",
-            url=reverse_lazy("shifts:create_shift"),
-            required_permissions=[PERMISSION_SHIFTS_MANAGE],
-            ordering=7,
-        )
-
-        shifts_group.add_link(
-            display_name=_("Add an ABCD shift"),
-            material_icon="add_circle_outline",
-            url=reverse_lazy("shifts:shift_template_create"),
-            required_permissions=[PERMISSION_SHIFTS_MANAGE],
-            ordering=8,
-        )
-
-        shifts_group.add_link(
-            display_name=_("Shift statistics"),
-            material_icon="calculate",
-            url=reverse_lazy("shifts:statistics"),
-            ordering=9,
         )
 
     @classmethod
