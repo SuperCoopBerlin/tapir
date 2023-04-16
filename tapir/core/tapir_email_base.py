@@ -106,6 +106,25 @@ class TapirEmailBase:
             tapir_user=recipient,
         )
 
+    @staticmethod
+    def include_email_body_in_log_entry():
+        """
+        Overwrite this in your subclass with 'return False', if you don't want the mail body to be in your log-entry,
+        for example if it contains sensitive data.
+        """
+        return True
+
+    def create_log_entry(self, email, actor, tapir_user, share_owner):
+        if not self.include_email_body_in_log_entry():
+            email = None
+        EmailLogEntry().populate(
+            email_id=self.get_unique_id(),
+            email_message=email,
+            actor=actor,
+            tapir_user=tapir_user,
+            share_owner=share_owner,
+        ).save()
+
     def __send(
         self,
         actor: User,
@@ -134,14 +153,9 @@ class TapirEmailBase:
 
         email.content_subtype = "html"
         email.send()
-
-        EmailLogEntry().populate(
-            email_id=self.get_unique_id(),
-            email_message=email,
-            actor=actor,
-            tapir_user=tapir_user,
-            share_owner=share_owner,
-        ).save()
+        self.create_log_entry(
+            email=email, actor=actor, tapir_user=tapir_user, share_owner=share_owner
+        )
 
     @classmethod
     def register_email(cls, mail_class: Type[TapirEmailBase]):
