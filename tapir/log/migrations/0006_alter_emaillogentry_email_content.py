@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('log', '0005_auto_20220821_0924'),
+        ("log", "0005_auto_20220821_0924"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='emaillogentry',
-            name='email_content',
+            model_name="emaillogentry",
+            name="email_content",
             field=models.BinaryField(null=True),
         ),
     ]
