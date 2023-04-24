@@ -37,3 +37,10 @@ objectClass: groupOfNames
 objectClass: top
 cn: member-office
 member: uid=admin,ou=people,dc=supercoop,dc=de
+
+dn: cn=accounting,ou=groups,dc=supercoop,dc=de
+changetype: add
+objectClass: groupOfNames
+objectClass: top
+cn: accounting
+member: uid=admin,ou=people,dc=supercoop,dc=de

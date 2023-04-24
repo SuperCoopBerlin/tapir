@@ -31,10 +31,26 @@ class TapirUserFactory(UserDataFactory):
         if not create:
             return
 
-        group_cn = settings.GROUP_MEMBER_OFFICE
+        TapirUserFactory._set_group_membership(
+            self, settings.GROUP_MEMBER_OFFICE, is_in_member_office
+        )
+
+    @factory.post_generation
+    def is_in_accounting_team(self, create, is_in_accounting_team, **kwargs):
+        if not create:
+            return
+
+        TapirUserFactory._set_group_membership(
+            self, settings.GROUP_ACCOUNTING, is_in_accounting_team
+        )
+
+    @staticmethod
+    def _set_group_membership(
+        tapir_user: TapirUser, group_cn: str, is_member_of_group: bool
+    ):
         group = LdapGroup.objects.get(cn=group_cn)
-        user_dn = self.get_ldap().build_dn()
-        if is_in_member_office:
+        user_dn = tapir_user.get_ldap().build_dn()
+        if is_member_of_group:
             group.members.append(user_dn)
             group.save()
         elif user_dn in group.members:
