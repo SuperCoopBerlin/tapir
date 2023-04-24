@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from tapir.core.config import sidebar_link_groups
-from tapir.settings import PERMISSION_COOP_MANAGE
+from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_ACCOUNTING_VIEW
 
 
 class CoopConfig(AppConfig):
@@ -55,7 +55,7 @@ class CoopConfig(AppConfig):
             material_icon="euro",
             url=reverse_lazy("coop:incoming_payment_list"),
             ordering=3,
-            required_permissions=[PERMISSION_COOP_MANAGE],
+            required_permissions=[PERMISSION_ACCOUNTING_VIEW],
         )
 
     @staticmethod

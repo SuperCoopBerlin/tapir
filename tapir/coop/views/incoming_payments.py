@@ -15,7 +15,11 @@ from tapir.coop.forms import IncomingPaymentForm
 from tapir.coop.models import IncomingPayment, ShareOwner, CreatePaymentLogEntry
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
-from tapir.settings import PERMISSION_COOP_VIEW, PERMISSION_COOP_MANAGE
+from tapir.settings import (
+    PERMISSION_COOP_VIEW,
+    PERMISSION_ACCOUNTING_MANAGE,
+    PERMISSION_ACCOUNTING_VIEW,
+)
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
 from tapir.utils.shortcuts import get_html_link
@@ -99,7 +103,7 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
 
     def get_queryset(self):
         queryset = IncomingPayment.objects.all()
-        if not self.request.user.has_perm(PERMISSION_COOP_VIEW):
+        if not self.request.user.has_perm(PERMISSION_ACCOUNTING_VIEW):
             tapir_user: TapirUser = self.request.user
             logged_in_share_owner = tapir_user.share_owner
             return queryset.filter(
@@ -117,7 +121,7 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
 class IncomingPaymentCreateView(
     LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, generic.CreateView
 ):
-    permission_required = PERMISSION_COOP_MANAGE
+    permission_required = PERMISSION_ACCOUNTING_MANAGE
     model = IncomingPayment
     form_class = IncomingPaymentForm
 
