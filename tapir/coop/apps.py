@@ -3,7 +3,11 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from tapir.core.config import sidebar_link_groups
-from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_ACCOUNTING_VIEW
+from tapir.settings import (
+    PERMISSION_COOP_MANAGE,
+    PERMISSION_ACCOUNTING_VIEW,
+    PERMISSION_COOP_VIEW,
+)
 
 
 class CoopConfig(AppConfig):
@@ -30,7 +34,7 @@ class CoopConfig(AppConfig):
             material_icon="person",
             url=reverse_lazy("coop:shareowner_list"),
             ordering=2,
-            required_permissions=[PERMISSION_COOP_MANAGE],
+            required_permissions=[PERMISSION_COOP_VIEW],
         )
 
         members_group.add_link(

@@ -19,7 +19,7 @@ from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import PERMISSION_ACCOUNTS_MANAGE
+from tapir.settings import PERMISSION_ACCOUNTS_MANAGE, PERMISSION_ACCOUNTS_VIEW
 from tapir.utils.shortcuts import set_header_for_file_download
 
 
@@ -32,7 +32,7 @@ class TapirUserDetailView(
     def get_permission_required(self):
         if self.request.user.pk == self.kwargs["pk"]:
             return []
-        return [PERMISSION_ACCOUNTS_MANAGE]
+        return [PERMISSION_ACCOUNTS_VIEW]
 
 
 class TapirUserMeView(LoginRequiredMixin, generic.RedirectView):

@@ -46,7 +46,7 @@
         </button>
         <div class="collapse multi-collapse navbar-collapse" id="tapirNavbar" style="justify-content: flex-end;">
             <ul class="navbar-nav">
-                {% if perms.coop.manage %}
+                {% if perms.coop.view %}
                     <li class="nav-item">
                         <form class="form-inline" method="get" action="{% url 'coop:shareowner_list' %}">
                         <span class="mr-5">
