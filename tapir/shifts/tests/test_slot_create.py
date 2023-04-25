@@ -14,9 +14,15 @@ class TestSlotCreate(TapirFactoryTestBase):
     SLOT_CREATE_VIEW = "shifts:create_slot"
     SLOT_NAME = "Slot name"
 
-    def test_success(self):
+    def test_member_office_can_create_slot(self):
         self.login_as_member_office_user()
+        self._assert_can_create_slot()
 
+    def test_shift_manager_can_create_slot(self):
+        self.login_as_shift_manager()
+        self._assert_can_create_slot()
+
+    def _assert_can_create_slot(self):
         shift: Shift = ShiftFactory.create(nb_slots=0)
         self.assertEqual(shift.slots.count(), 0)
 

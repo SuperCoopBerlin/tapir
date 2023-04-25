@@ -44,6 +44,15 @@ class TapirUserFactory(UserDataFactory):
             self, settings.GROUP_ACCOUNTING, is_in_accounting_team
         )
 
+    @factory.post_generation
+    def is_shift_manager(self, create, is_shift_manager, **kwargs):
+        if not create:
+            return
+
+        TapirUserFactory._set_group_membership(
+            self, settings.GROUP_SHIFT_MANAGER, is_shift_manager
+        )
+
     @staticmethod
     def _set_group_membership(
         tapir_user: TapirUser, group_cn: str, is_member_of_group: bool

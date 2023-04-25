@@ -256,6 +256,7 @@ GROUP_VORSTAND = "vorstand"
 GROUP_MEMBER_OFFICE = "member-office"
 GROUP_SHIFT_MANAGER = "shift-manager"
 GROUP_ACCOUNTING = "accounting"
+
 PERMISSIONS = {
     PERMISSION_SHIFTS_MANAGE: [
         GROUP_VORSTAND,

@@ -45,7 +45,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
         super().setUpClass()
         cls.host = socket.gethostbyname(socket.gethostname())
         cls.selenium = webdriver.Remote(
-            command_executor=f"http://selenium:4444/wd/hub",
+            command_executor="http://selenium:4444/wd/hub",
             desired_capabilities=DesiredCapabilities.FIREFOX,
         )
         cls.selenium.maximize_window()
@@ -217,6 +217,11 @@ class TapirFactoryTestBase(LdapEnabledTestCase):
 
     def login_as_normal_user(self) -> TapirUser:
         user = TapirUserFactory.create(is_in_member_office=False)
+        self.login_as_user(user)
+        return user
+
+    def login_as_shift_manager(self) -> TapirUser:
+        user = TapirUserFactory.create(is_shift_manager=True)
         self.login_as_user(user)
         return user
 
