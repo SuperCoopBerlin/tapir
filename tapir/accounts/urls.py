@@ -31,6 +31,11 @@ accounts_urlpatterns = [
         views.EditUserLdapGroupsView.as_view(),
         name="edit_user_ldap_groups",
     ),
+    path(
+        "ldap_groups",
+        views.LdapGroupListView.as_view(),
+        name="ldap_group_list",
+    ),
 ]
 
 urlpatterns = [

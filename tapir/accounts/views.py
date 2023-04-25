@@ -18,7 +18,12 @@ from tapir.accounts.forms import (
     PasswordResetForm,
     EditUserLdapGroupsForm,
 )
-from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry, LdapGroup
+from tapir.accounts.models import (
+    TapirUser,
+    UpdateTapirUserLogEntry,
+    LdapGroup,
+    LdapPerson,
+)
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.views import TapirFormMixin
@@ -209,3 +214,32 @@ class EditUserLdapGroupsView(
             "name": self.get_tapir_user().get_html_link()
         }
         return context
+
+
+class LdapGroupListView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.TemplateView
+):
+    permission_required = PERMISSION_COOP_ADMIN
+
+    def get_template_names(self):
+        return [
+            "accounts/ldap_group_list.html",
+            "accounts/ldap_group_list.default.html",
+        ]
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+
+        groups_data = {}
+        for group_cn in settings.LDAP_GROUPS:
+            group_members = []
+            for member_dn in LdapGroup.objects.get(cn=group_cn).members:
+                user_set = TapirUser.objects.filter(
+                    username=LdapPerson.objects.get(dn=member_dn).uid
+                )
+                if user_set.exists():
+                    group_members.append(user_set.first())
+            groups_data[group_cn] = group_members
+
+        context_data["groups"] = groups_data
+        return context_data
