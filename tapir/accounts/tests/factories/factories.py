@@ -27,6 +27,15 @@ class TapirUserFactory(UserDataFactory):
         self.set_password(password or self.username)
 
     @factory.post_generation
+    def is_in_vorstand(self, create, is_in_vorstand, **kwargs):
+        if not create:
+            return
+
+        TapirUserFactory._set_group_membership(
+            self, settings.GROUP_VORSTAND, is_in_vorstand
+        )
+
+    @factory.post_generation
     def is_in_member_office(self, create, is_in_member_office, **kwargs):
         if not create:
             return

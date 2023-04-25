@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth import forms as auth_forms
 from django.forms import TextInput
 
-from tapir.accounts.models import TapirUser
+from tapir import settings
+from tapir.accounts.models import TapirUser, LdapGroup
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
@@ -53,3 +54,16 @@ class PasswordResetForm(auth_forms.PasswordResetForm):
             # if u.has_usable_password() and
             if auth_forms._unicode_ci_compare(email, getattr(u, email_field_name))
         )
+
+
+class EditUserLdapGroupsForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        tapir_user: TapirUser = kwargs.pop("tapir_user", None)
+        super().__init__(*args, **kwargs)
+        user_dn = tapir_user.get_ldap().build_dn()
+        for group_cn in settings.LDAP_GROUPS:
+            self.fields[group_cn] = forms.BooleanField(
+                required=False,
+                label=group_cn,
+                initial=user_dn in LdapGroup.objects.get(cn=group_cn).members,
+            )

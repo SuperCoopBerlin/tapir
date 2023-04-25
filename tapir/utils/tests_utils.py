@@ -210,6 +210,11 @@ class TapirFactoryTestBase(LdapEnabledTestCase):
         success = self.client.login(username=user.username, password=user.username)
         self.assertTrue(success, f"User {user.username} should be able to log in.")
 
+    def login_as_vorstand(self) -> TapirUser:
+        user = TapirUserFactory.create(is_in_vorstand=True)
+        self.login_as_user(user)
+        return user
+
     def login_as_member_office_user(self) -> TapirUser:
         user = TapirUserFactory.create(is_in_member_office=True)
         self.login_as_user(user)

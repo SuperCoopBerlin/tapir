@@ -23,16 +23,26 @@
         <div class="col-xl-6">
             <div class="card mb-2" id="tapir_user_detail_card">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
-                    {% translate "Personal Data" %}
-                    {% if perms.accounts.manage %}
-                        <div class="ms-1">
-                            <a class="{% tapir_button_link_to_action %}"
-                               href="{% url 'accounts:user_update' object.pk %}"
-                               id="tapir_user_edit_button">
-                                <span class="material-icons">edit</span>{% translate 'Edit' %}
-                            </a>
-                        </div>
-                    {% endif %}
+                    <span>{% translate "Personal Data" %}</span>
+                    <span class="d-flex">
+                        {% if perms.coop.admin %}
+                            <div class="ms-1">
+                                <a class="{% tapir_button_link_to_action %}"
+                                   href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
+                                    <span class="material-icons">badge</span>{% translate 'Edit groups' %}
+                                </a>
+                            </div>
+                        {% endif %}
+                        {% if perms.accounts.manage %}
+                            <div class="ms-1">
+                                <a class="{% tapir_button_link_to_action %}"
+                                   href="{% url 'accounts:user_update' object.pk %}"
+                                   id="tapir_user_edit_button">
+                                    <span class="material-icons">edit</span>{% translate 'Edit' %}
+                                </a>
+                            </div>
+                        {% endif %}
+                    </span>
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
@@ -111,7 +121,8 @@
                         {% endif %}
                         {% if object.pk == request.user.pk %}
                             <div class="ms-1">
-                                <a class="{% tapir_button_link_to_action %} ms-1" href="{% url 'password_change' %}"><span
+                                <a class="{% tapir_button_link_to_action %} ms-1"
+                                   href="{% url 'password_change' %}"><span
                                         class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
                             </div>
                         {% endif %}

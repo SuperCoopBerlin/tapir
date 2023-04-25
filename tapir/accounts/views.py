@@ -11,15 +11,24 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 
+from tapir import settings
 from tapir.accounts import pdfs
-from tapir.accounts.forms import TapirUserForm, PasswordResetForm
-from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
+from tapir.accounts.forms import (
+    TapirUserForm,
+    PasswordResetForm,
+    EditUserLdapGroupsForm,
+)
+from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry, LdapGroup
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import PERMISSION_ACCOUNTS_MANAGE, PERMISSION_ACCOUNTS_VIEW
+from tapir.settings import (
+    PERMISSION_ACCOUNTS_MANAGE,
+    PERMISSION_ACCOUNTS_VIEW,
+    PERMISSION_COOP_ADMIN,
+)
 from tapir.utils.shortcuts import set_header_for_file_download
 
 
@@ -149,3 +158,54 @@ def member_card_barcode_pdf(request, pk):
     pdf = pdfs.get_member_card_barcode_pdf(tapir_user)
     response.write(pdf.write_pdf())
     return response
+
+
+class EditUserLdapGroupsView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    TapirFormMixin,
+    generic.FormView,
+):
+    form_class = EditUserLdapGroupsForm
+
+    permission_required = PERMISSION_COOP_ADMIN
+
+    def get_tapir_user(self) -> TapirUser:
+        return get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+
+    def get_success_url(self):
+        return self.get_tapir_user().get_absolute_url()
+
+    def form_valid(self, form):
+        user_dn = self.get_tapir_user().get_ldap().build_dn()
+        for group_cn in settings.LDAP_GROUPS:
+            group = LdapGroup.objects.get(cn=group_cn)
+
+            if form.cleaned_data[group.cn] and user_dn not in group.members:
+                group.members.append(user_dn)
+                group.save()
+
+            if not form.cleaned_data[group.cn] and user_dn in group.members:
+                group.members.remove(user_dn)
+                group.save()
+
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update(
+            {
+                "tapir_user": self.get_tapir_user(),
+            }
+        )
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["page_title"] = _("Edit member groups: %(name)s") % {
+            "name": self.get_tapir_user().get_display_name()
+        }
+        context["card_title"] = _("Edit member groups: %(name)s") % {
+            "name": self.get_tapir_user().get_html_link()
+        }
+        return context

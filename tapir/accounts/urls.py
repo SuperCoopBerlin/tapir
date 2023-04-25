@@ -26,6 +26,11 @@ accounts_urlpatterns = [
         views.member_card_barcode_pdf,
         name="member_card_barcode_pdf",
     ),
+    path(
+        "user/<int:pk>/edit_ldap_groups",
+        views.EditUserLdapGroupsView.as_view(),
+        name="edit_user_ldap_groups",
+    ),
 ]
 
 urlpatterns = [
