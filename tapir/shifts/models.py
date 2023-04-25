@@ -30,6 +30,7 @@ class ShiftUserCapability:
     WELCOME_SESSION = "welcome_session"
     HANDLING_CHEESE = "handling_cheese"
     TRAIN_CHEESE_HANDLERS = "train_cheese_handlers"
+    INVENTORY = "inventory"
 
 
 SHIFT_USER_CAPABILITY_CHOICES = {
@@ -42,6 +43,7 @@ SHIFT_USER_CAPABILITY_CHOICES = {
     ShiftUserCapability.WELCOME_SESSION: _("Welcome Session"),
     ShiftUserCapability.HANDLING_CHEESE: _("Handling Cheese"),
     ShiftUserCapability.TRAIN_CHEESE_HANDLERS: _("Train cheese handlers"),
+    ShiftUserCapability.INVENTORY: _("Inventory"),
 }
 
 
