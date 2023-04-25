@@ -81,7 +81,11 @@
                         <div class="col-4 fw-bold text-end">{% translate "Preferred Language" %}:</div>
                         <div class="col-8">{{ object.get_preferred_language_display }}</div>
                     </div>
-                    {% if perms.accounts.manage %}
+                    {% if perms.accounts.view %}
+                        <div class="row m-1">
+                            <div class="col-4 fw-bold text-end">{% translate "Groups" %}:</div>
+                            <div class="col-8">{{ object.get_groups_display }}</div>
+                        </div>
                         <div class="row m-1">
                             <div class="col-4 fw-bold text-end">{% translate "Permissions" %}:</div>
                             <div class="col-8">{{ object.get_permissions_display }}</div>
