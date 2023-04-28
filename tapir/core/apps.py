@@ -46,15 +46,22 @@ class CoreConfig(AppConfig):
         )
 
         misc_group.add_link(
+            display_name=_("Slack chat"),
+            material_icon="question_answer",
+            url="https://supercoopberlin.slack.com",
+            ordering=4,
+        )
+
+        misc_group.add_link(
             display_name=_("Contact the member office"),
             material_icon="email",
             url="mailto:mitglied@supercoop.de",
-            ordering=4,
+            ordering=5,
         )
 
         misc_group.add_link(
             display_name=_("About tapir"),
             material_icon="help",
             url=reverse_lazy("coop:about"),
-            ordering=7,
+            ordering=6,
         )

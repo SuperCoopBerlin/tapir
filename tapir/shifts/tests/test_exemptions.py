@@ -21,6 +21,7 @@ class TestExemptions(TapirFactoryTestBase):
     SECOND_CYCLE_START_DATE = datetime.date(day=15, month=2, year=2021)
 
     VIEW_NAME_EDIT_SHIFT_EXEMPTION = "shifts:edit_shift_exemption"
+    VIEW_NAME_SHIFT_EXEMPTION_LIST = "shifts:shift_exemption_list"
 
     def test_no_exemption(self):
         user = TapirUserFactory.create()
@@ -296,6 +297,12 @@ class TestExemptions(TapirFactoryTestBase):
             "end_date": timezone.now().date() + datetime.timedelta(days=365),
             "description": "A test exemption",
         }
+        self._assert_no_access_to_exemption_creation(exemption, post_data)
+
+        self.login_as_shift_manager()
+        self._assert_no_access_to_exemption_creation(exemption, post_data)
+
+    def _assert_no_access_to_exemption_creation(self, exemption, post_data):
         response = self.client.post(
             reverse(self.VIEW_NAME_EDIT_SHIFT_EXEMPTION, args=[exemption.pk]),
             post_data,
@@ -305,7 +312,7 @@ class TestExemptions(TapirFactoryTestBase):
         self.assertEqual(
             response.status_code,
             403,
-            "A user that is not in the member should not have access to shift slot creation.",
+            "A user that is not in the member office should not have access to shift slot creation.",
         )
 
     def test_edit_exemption_cancels_abcd_shift(self):
@@ -424,3 +431,16 @@ class TestExemptions(TapirFactoryTestBase):
                 state=ShiftAttendance.State.LOOKING_FOR_STAND_IN
             ).count(),
         )
+
+    def test_exemption_list_is_only_accessible_to_member_office(self):
+        self.login_as_normal_user()
+        response = self.client.get(reverse(self.VIEW_NAME_SHIFT_EXEMPTION_LIST))
+        self.assertEqual(403, response.status_code)
+
+        self.login_as_shift_manager()
+        response = self.client.get(reverse(self.VIEW_NAME_SHIFT_EXEMPTION_LIST))
+        self.assertEqual(403, response.status_code)
+
+        self.login_as_member_office_user()
+        response = self.client.get(reverse(self.VIEW_NAME_SHIFT_EXEMPTION_LIST))
+        self.assertEqual(200, response.status_code)

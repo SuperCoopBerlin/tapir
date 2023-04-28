@@ -84,9 +84,9 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Purchased</th>
-                        <th scope="col">Sold</th>
-                        <th scope="col">Status</th>
+                        <th scope="col">{% translate "Starts at" %}</th>
+                        <th scope="col">{% translate "Ends at" %}</th>
+                        <th scope="col">{% translate "Status" %}</th>
                         {% if perms.coop.manage %}
                             <th scope="col">{% translate 'Edit' %}</th>
                         {% endif %}
@@ -99,11 +99,7 @@
                             <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
                             <td>
                                 {% if o.is_active %}
-                                    {% if o.is_fully_paid %}
-                                        <span class="text-success">{% translate "Paid" %}</span>
-                                    {% else %}
-                                        <span class="text-warning">{% translate "Waiting payment" %} ({{ o.amount_paid }}€)</span>
-                                    {% endif %}
+                                    <span class="text-success">{% translate "Active" %}</span>
                                 {% else %}
                                     <span class="text-danger">{% translate "Sold or future" %}</span>
                                 {% endif %}
@@ -165,11 +161,6 @@
                 <div class="col-7">
                     <span >{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
                 </div>
-            </div>
-
-            <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Paid Entrance Fee" %}:</div>
-                <div class="col-7">{{ share_owner.paid_membership_fee|yesno:_("Yes,No") }}</div>
             </div>
 
             <div class="row m-1">

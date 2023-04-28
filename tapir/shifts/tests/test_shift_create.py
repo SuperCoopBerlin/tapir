@@ -23,9 +23,15 @@ class TestShiftCreate(TapirFactoryTestBase):
     SHIFT_REQUIRED_ATTENDANCES = 3
     SHIFT_DESCRIPTION = "A test description."
 
-    def test_success(self):
+    def test_member_office_can_create_shifts(self):
         self.login_as_member_office_user()
+        self._assert_can_create_shifts()
 
+    def test_shift_manager_can_create_shifts(self):
+        self.login_as_shift_manager()
+        self._assert_can_create_shifts()
+
+    def _assert_can_create_shifts(self):
         end_time = self.SHIFT_START_TIME + datetime.timedelta(hours=3)
         response = self.client.post(
             reverse(self.SHIFT_CREATE_VIEW, args=[]),

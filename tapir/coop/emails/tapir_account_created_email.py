@@ -9,6 +9,7 @@ from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.log.models import EmailLogEntry
 
 
 class TapirAccountCreatedEmail(TapirEmailBase):
@@ -58,3 +59,7 @@ class TapirAccountCreatedEmail(TapirEmailBase):
             tapir_user=share_owner.user,
         )
         return mail
+
+    @staticmethod
+    def include_email_body_in_log_entry():
+        return False

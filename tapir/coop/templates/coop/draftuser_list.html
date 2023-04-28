@@ -27,7 +27,6 @@
                     <th>{% translate "Last name" %}</th>
                     <th>{% translate "Email" %}</th>
                     <th>{% translate "Beteiligungserklärung" %}</th>
-                    <th>{% translate "Entrance Fee" %}</th>
                     <th>{% translate "Date" %}</th>
                     <th></th>
                     </thead>
@@ -39,11 +38,6 @@
                             <td class="align-middle">
                                 {% if draft_user.signed_membership_agreement %}
                                     <span class="text-success">{% translate "Signed" %}</span>
-                                {% endif %}
-                            </td>
-                            <td class="align-middle">
-                                {% if draft_user.paid_membership_fee %}
-                                    <span class="text-success">{% translate "Paid" %}</span>
                                 {% endif %}
                             </td>
                             <td class="align-middle">{{ draft_user.created_at|date:"d.m.Y" }}</td>

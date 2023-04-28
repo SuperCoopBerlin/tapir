@@ -27,14 +27,48 @@ class TapirUserFactory(UserDataFactory):
         self.set_password(password or self.username)
 
     @factory.post_generation
+    def is_in_vorstand(self, create, is_in_vorstand, **kwargs):
+        if not create:
+            return
+
+        TapirUserFactory._set_group_membership(
+            self, settings.GROUP_VORSTAND, is_in_vorstand
+        )
+
+    @factory.post_generation
     def is_in_member_office(self, create, is_in_member_office, **kwargs):
         if not create:
             return
 
-        group_cn = settings.GROUP_MEMBER_OFFICE
+        TapirUserFactory._set_group_membership(
+            self, settings.GROUP_MEMBER_OFFICE, is_in_member_office
+        )
+
+    @factory.post_generation
+    def is_in_accounting_team(self, create, is_in_accounting_team, **kwargs):
+        if not create:
+            return
+
+        TapirUserFactory._set_group_membership(
+            self, settings.GROUP_ACCOUNTING, is_in_accounting_team
+        )
+
+    @factory.post_generation
+    def is_shift_manager(self, create, is_shift_manager, **kwargs):
+        if not create:
+            return
+
+        TapirUserFactory._set_group_membership(
+            self, settings.GROUP_SHIFT_MANAGER, is_shift_manager
+        )
+
+    @staticmethod
+    def _set_group_membership(
+        tapir_user: TapirUser, group_cn: str, is_member_of_group: bool
+    ):
         group = LdapGroup.objects.get(cn=group_cn)
-        user_dn = self.get_ldap().build_dn()
-        if is_in_member_office:
+        user_dn = tapir_user.get_ldap().build_dn()
+        if is_member_of_group:
             group.members.append(user_dn)
             group.save()
         elif user_dn in group.members:

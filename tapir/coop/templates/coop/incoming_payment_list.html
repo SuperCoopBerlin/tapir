@@ -22,7 +22,7 @@
     <div class="card m-2">
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>{% translate "Incoming payments" %}</span>
-            {% if perms.coop.manage %}
+            {% if perms.accounting.manage %}
                 <a class="{% tapir_button_link_to_action %}" href="{% url "coop:incoming_payment_create" %}">
                     <span class="material-icons">add_circle_outline</span>
                     {% translate "Register a new payment" %}

@@ -63,6 +63,7 @@ from tapir.settings import (
     PERMISSION_COOP_MANAGE,
     PERMISSION_COOP_ADMIN,
     PERMISSION_ACCOUNTS_MANAGE,
+    PERMISSION_COOP_VIEW,
 )
 from tapir.shifts.models import (
     ShiftUserData,
@@ -201,7 +202,7 @@ class ShareOwnerDetailView(
     LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
 ):
     model = ShareOwner
-    permission_required = PERMISSION_COOP_MANAGE
+    permission_required = PERMISSION_COOP_VIEW
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -751,7 +752,7 @@ class ShareOwnerListView(
     table_class = ShareOwnerTable
     model = ShareOwner
     template_name = "coop/shareowner_list.html"
-    permission_required = PERMISSION_COOP_MANAGE
+    permission_required = PERMISSION_COOP_VIEW
 
     filterset_class = ShareOwnerFilter
 

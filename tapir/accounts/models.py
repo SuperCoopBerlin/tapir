@@ -199,6 +199,15 @@ class TapirUser(LdapUser):
             return _("None")
         return ", ".join(user_perms)
 
+    def get_groups_display(self):
+        user_dn = self.get_ldap().build_dn()
+        user_groups = [
+            group.cn for group in LdapGroup.objects.all() if user_dn in group.members
+        ]
+        if len(user_groups) == 0:
+            return _("None")
+        return ", ".join(user_groups)
+
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
     template_name = "accounts/log/update_tapir_user_log_entry.html"

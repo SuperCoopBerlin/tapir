@@ -376,6 +376,8 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
         members_per_creation_month = dict()
         for member in ShareOwner.objects.all():
             first_share = member.share_ownerships.order_by("start_date").first()
+            if not first_share:
+                continue
             creation_month = first_share.start_date.replace(day=1)
             if creation_month not in members_per_creation_month.keys():
                 members_per_creation_month[creation_month] = []
