@@ -149,7 +149,7 @@ secret
 To generate the translation files, first use "makemessages" and specify the language you want to generate:
 
 ```
-docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages -l de
+docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages --no-wrap -l de
 ```
 
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
