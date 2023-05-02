@@ -43,7 +43,8 @@
                             <span class="material-icons">edit</span>{% translate 'Edit' %}
                         </a>
                         {% if not shift.cancelled %}
-                            <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:cancel_shift' shift.pk %}">
+                            <a class="{% tapir_button_link_to_action %}"
+                               href="{% url 'shifts:cancel_shift' shift.pk %}">
                                 <span class="material-icons">cancel</span>{% translate 'Cancel shift' %}
                             </a>
                         {% endif %}
@@ -70,7 +71,8 @@
                 </li>
             {% endif %}
             <li class="list-group-item">
-                <table class="{% tapir_table_classes %}" id="attendance_table" aria-label="{% translate 'List of slots for this shift' %}">
+                <table class="{% tapir_table_classes %}" id="attendance_table"
+                       aria-label="{% translate 'List of slots for this shift' %}">
                     <thead>
                     <tr>
                         <th>{% translate "Slot" %}-{% translate 'Number' %}</th>
@@ -104,6 +106,12 @@
                                         {{ attendance.get_state_display }}
                                         {% if attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
                                             {% translate 'since' %} {{ attendance.last_state_update|date:"d.m.Y H:i" }}
+                                        {% endif %}
+                                        {% if attendance.state == attendance_states.DONE %}
+                                            <a class="{% tapir_button_link_to_action %} btn-sm"
+                                               href="{% url 'shifts:update_shift_attendance_state_with_form' attendance.pk attendance.state %}">
+                                                <span class="material-icons">edit</span>
+                                            </a>
                                         {% endif %}
                                     </span></td>
                                 {% else %}
