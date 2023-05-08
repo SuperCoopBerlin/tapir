@@ -46,6 +46,8 @@ class ShareOwner(models.Model):
     # There can also be investing members that do not have a user account
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
+    usage_name = models.CharField(_("Usage name"), max_length=150, blank=True)
+    pronouns = models.CharField(_("Pronouns"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
     phone_number = PhoneNumberField(_("Phone number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
@@ -122,6 +124,8 @@ class ShareOwner(models.Model):
         """Used after a ShareOwner is linked to a user, which is used as the source for user info instead."""
         self.first_name = ""
         self.last_name = ""
+        self.usage_name = ""
+        self.pronouns = ""
         self.email = ""
         self.birthdate = None
         self.street = ""
@@ -308,6 +312,8 @@ class DeleteShareOwnershipLogEntry(ModelLogEntry):
 class DraftUser(models.Model):
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
+    usage_name = models.CharField(_("Usage name"), max_length=150, blank=True)
+    pronouns = models.CharField(_("Pronouns"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
     phone_number = PhoneNumberField(_("Phone number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)

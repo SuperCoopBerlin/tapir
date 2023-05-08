@@ -149,6 +149,8 @@ class TapirUser(LdapUser):
         },
     )
 
+    usage_name = models.CharField(_("Usage name"), max_length=150, blank=True)
+    pronouns = models.CharField(_("Pronouns"), max_length=150, blank=True)
     phone_number = PhoneNumberField(_("Phone number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
     street = models.CharField(_("Street and house number"), max_length=150, blank=True)
