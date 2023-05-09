@@ -15,6 +15,8 @@ class TapirUserForm(forms.ModelForm):
         fields = [
             "first_name",
             "last_name",
+            "usage_name",
+            "pronouns",
             "username",
             "phone_number",
             "email",
