@@ -17,6 +17,7 @@ from tapir.accounts.forms import (
     TapirUserForm,
     PasswordResetForm,
     EditUserLdapGroupsForm,
+    TapirUserSelfUpdateForm,
 )
 from tapir.accounts.models import (
     TapirUser,
@@ -54,16 +55,13 @@ class TapirUserMeView(LoginRequiredMixin, generic.RedirectView):
         return reverse("accounts:user_detail", args=[self.request.user.pk])
 
 
-class TapirUserUpdateView(
+class TapirUserUpdateBaseView(
     LoginRequiredMixin,
-    PermissionRequiredMixin,
     UpdateViewLogMixin,
     TapirFormMixin,
     generic.UpdateView,
 ):
-    permission_required = PERMISSION_ACCOUNTS_MANAGE
     model = TapirUser
-    form_class = TapirUserForm
 
     def form_valid(self, form):
         with transaction.atomic():
@@ -90,6 +88,22 @@ class TapirUserUpdateView(
             "name": tapir_user.get_html_link()
         }
         return context
+
+
+class TapirUserUpdateAdminView(TapirUserUpdateBaseView, PermissionRequiredMixin):
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
+    form_class = TapirUserForm
+
+
+class TapirUserUpdateSelfView(TapirUserUpdateBaseView, PermissionRequiredMixin):
+    form_class = TapirUserSelfUpdateForm
+
+    def get_permission_required(self):
+        print(self.request.user.pk)
+        print(self.kwargs["pk"])
+        if self.request.user.pk == self.kwargs["pk"]:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
 
 
 class PasswordResetView(auth_views.PasswordResetView):

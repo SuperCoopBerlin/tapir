@@ -34,6 +34,15 @@ class TapirUserForm(forms.ModelForm):
         }
 
 
+class TapirUserSelfUpdateForm(forms.ModelForm):
+    class Meta:
+        model = TapirUser
+        fields = [
+            "usage_name",
+            "pronouns",
+        ]
+
+
 class PasswordResetForm(auth_forms.PasswordResetForm):
     def get_users(self, email):
         """Given an email, return matching user(s) who should receive a reset.
