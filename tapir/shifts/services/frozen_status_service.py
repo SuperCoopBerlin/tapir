@@ -23,7 +23,7 @@ from tapir.shifts.models import (
 class FrozenStatusService:
     @classmethod
     def should_freeze_member(cls, shift_user_data: ShiftUserData) -> bool:
-        if shift_user_data.attendance_mode is ShiftAttendanceMode.FROZEN:
+        if shift_user_data.attendance_mode == ShiftAttendanceMode.FROZEN:
             return False
 
         if not cls._is_member_below_threshold_since_long_enough(shift_user_data):

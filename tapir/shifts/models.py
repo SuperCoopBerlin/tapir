@@ -933,10 +933,7 @@ class ShiftUserData(models.Model):
         return self.get_current_shift_exemption(date) is not None
 
     def can_shop(self):
-        return (
-            self.is_balance_ok()
-            and self.attendance_mode is not ShiftAttendanceMode.FROZEN
-        )
+        return self.attendance_mode != ShiftAttendanceMode.FROZEN
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):

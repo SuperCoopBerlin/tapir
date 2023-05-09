@@ -44,13 +44,6 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
             [self.Messages.NO_ACCOUNT],
         )
 
-    def test_shift_balance_not_ok(self):
-        user = self.get_no_warnings_user()
-        ShiftAccountEntry.objects.create(
-            user=user, value=-5, date=datetime.datetime.now()
-        )
-        self.check_alerts(user.share_owner, [self.Messages.SHIFT_BALANCE_NOT_OK])
-
     def test_is_investing(self):
         user = self.get_no_warnings_user()
         user.share_owner.is_investing = True
