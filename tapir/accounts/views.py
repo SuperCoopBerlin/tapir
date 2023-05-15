@@ -36,6 +36,7 @@ from tapir.settings import (
     PERMISSION_COOP_ADMIN,
 )
 from tapir.utils.shortcuts import set_header_for_file_download
+from tapir.utils.user_utils import UserUtils
 
 
 class TapirUserDetailView(
@@ -169,7 +170,9 @@ def member_card_barcode_pdf(request, pk):
             )
         )
 
-    filename = "Member card barcode %s.pdf" % tapir_user.get_display_name()
+    filename = "Member card barcode %s.pdf" % UserUtils.build_display_name_for_viewer(
+        tapir_user, request.user
+    )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     set_header_for_file_download(response, filename)
@@ -222,10 +225,14 @@ class EditUserLdapGroupsView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context["page_title"] = _("Edit member groups: %(name)s") % {
-            "name": self.get_tapir_user().get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                self.get_tapir_user(), self.request.user
+            )
         }
         context["card_title"] = _("Edit member groups: %(name)s") % {
-            "name": self.get_tapir_user().get_html_link()
+            "name": UserUtils.build_html_link_for_viewer(
+                self.get_tapir_user(), self.request.user
+            )
         }
         return context
 
@@ -254,7 +261,10 @@ class LdapGroupListView(
                 if tapir_user_set.exists():
                     group_members.append(tapir_user_set.first())
             group_members = sorted(
-                group_members, key=lambda tapir_user: tapir_user.get_display_name()
+                group_members,
+                key=lambda tapir_user: UserUtils.build_display_name_for_viewer(
+                    tapir_user, self.request.user
+                ),
             )
             groups_data[group_cn] = group_members
 

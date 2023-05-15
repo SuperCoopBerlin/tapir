@@ -8,6 +8,7 @@
 {% load log %}
 {% load accounts %}
 {% load core %}
+{% load utils %}
 
 {% block head %}
     {{ block.super }}
@@ -15,7 +16,7 @@
 {% endblock %}
 
 {% block title %}
-    {% translate 'Member' %}: {{ object.get_display_name }}
+    {% translate 'Member' %}: {% get_display_name object request.user %}
 {% endblock %}
 
 {% block content %}
@@ -54,7 +55,7 @@
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                        <div class="col-8" id="tapir_user_display_name">{{ object.get_display_name }}</div>
+                        <div class="col-8" id="tapir_user_display_name">{% get_display_name object request.user %}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Username" %}:</div>

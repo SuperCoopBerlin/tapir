@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load static %}
 {% load i18n %}
+{% load utils %}
 
 {% block title %}
     {% translate 'Groups' %}
@@ -16,7 +17,7 @@
             <div class="card-body">
                 <ul>
                     {% for member in members %}
-                        <li>{{ member.get_html_link }}</li>
+                        <li>{% get_html_link member request.user %}</li>
                     {% endfor %}
                 </ul>
             </div>
