@@ -164,8 +164,16 @@ class ShareOwner(models.Model):
             return self.company_name
         return UserUtils.build_display_name(self.first_name, self.last_name)
 
+    def get_display_name_2(self, display_type):
+        return UserUtils.build_display_name_2(self, display_type)
+
     def get_html_link(self):
         return get_html_link(url=self.get_absolute_url(), text=self.get_display_name())
+
+    def get_html_link_2(self, display_type):
+        return get_html_link(
+            url=self.get_absolute_url(), text=self.get_display_name_2(display_type)
+        )
 
     def get_display_address(self):
         return UserUtils.build_display_address(
@@ -228,6 +236,9 @@ class ShareOwner(models.Model):
 
     def get_id_for_biooffice(self):
         return "299" + "{:0>9}".format(self.id)
+
+    def get_member_number(self):
+        return self.id
 
 
 class MemberStatus:
@@ -381,6 +392,10 @@ class DraftUser(models.Model):
         to allow identical treatment in templates.
         """
         return self
+
+    @staticmethod
+    def get_member_number():
+        return None
 
 
 class IncomingPayment(models.Model):

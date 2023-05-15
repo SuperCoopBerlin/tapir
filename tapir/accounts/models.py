@@ -176,8 +176,16 @@ class TapirUser(LdapUser):
     def get_display_name(self):
         return UserUtils.build_display_name(self.first_name, self.last_name)
 
+    def get_display_name_2(self, display_type):
+        return UserUtils.build_display_name_2(self, display_type)
+
     def get_html_link(self):
         return get_html_link(url=self.get_absolute_url(), text=self.get_display_name())
+
+    def get_html_link_2(self, display_type):
+        return get_html_link(
+            url=self.get_absolute_url(), text=self.get_display_name_2(display_type)
+        )
 
     def get_display_address(self):
         return UserUtils.build_display_address(
@@ -209,6 +217,12 @@ class TapirUser(LdapUser):
         if len(user_groups) == 0:
             return _("None")
         return ", ".join(user_groups)
+
+    def get_member_number(self):
+        if not hasattr(self, "share_owner") or not self.share_owner:
+            return None
+
+        return self.share_owner.get_member_number()
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
