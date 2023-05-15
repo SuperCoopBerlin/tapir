@@ -41,6 +41,13 @@
                                     <span class="material-icons">edit</span>{% translate 'Edit' %}
                                 </a>
                             </div>
+                        {% else %}
+                            <div class="ms-1">
+                                <a class="{% tapir_button_link_to_action %}"
+                                   href="{% url 'accounts:user_update_self' object.pk %}">
+                                    <span class="material-icons">edit</span>{% translate 'Edit' %}
+                                </a>
+                            </div>
                         {% endif %}
                     </span>
                 </h5>
