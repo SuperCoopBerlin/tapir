@@ -135,6 +135,8 @@ class DraftUserRegisterForm(forms.ModelForm):
         fields = [
             "first_name",
             "last_name",
+            "usage_name",
+            "pronouns",
             "email",
             "phone_number",
             "birthdate",
