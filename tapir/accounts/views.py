@@ -83,10 +83,12 @@ class TapirUserUpdateBaseView(
         context = super().get_context_data()
         tapir_user: TapirUser = self.object
         context["page_title"] = _("Edit member: %(name)s") % {
-            "name": tapir_user.get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                tapir_user, self.request.user
+            )
         }
         context["card_title"] = _("Edit member: %(name)s") % {
-            "name": tapir_user.get_html_link()
+            "name": UserUtils.build_html_link_for_viewer(tapir_user, self.request.user)
         }
         return context
 

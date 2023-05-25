@@ -224,6 +224,15 @@ class TapirUser(LdapUser):
 
         return self.share_owner.get_member_number()
 
+    def get_info(self):
+        return self
+
+    def get_is_company(self):
+        if not hasattr(self, "share_owner") or not self.share_owner:
+            return False
+
+        return self.share_owner.get_is_company()
+
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
     template_name = "accounts/log/update_tapir_user_log_entry.html"
