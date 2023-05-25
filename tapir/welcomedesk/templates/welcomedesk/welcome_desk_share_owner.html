@@ -8,9 +8,10 @@
 {% load log %}
 {% load accounts %}
 {% load core %}
+{% load utils %}
 
 {% block title %}
-    {% translate "Welcome Desk" %}: {{ share_owner.get_info.get_display_name }}
+    {% translate "Welcome Desk" %}: {% get_display_name_full share_owner %}
 {% endblock %}
 
 {% block head %}
@@ -21,7 +22,7 @@
 {% block content %}
     <div class="card mb-2" id="welcome_desk_share_owner">
         <h5 class="card-header">
-            <span>{{ share_owner.get_info.get_display_name }}</span>
+            <span>{% get_display_name_full share_owner %}</span>
         </h5>
         <div class="card-body">
             {% if can_shop %}
@@ -67,7 +68,7 @@
             {% if not missing_account and user %}
                 <div class="row m-1">
                     <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                    <div class="col-8">{{ share_owner.get_info.get_display_name }}</div>
+                    <div class="col-8">{% get_display_name_full share_owner %}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-4 fw-bold text-end">{% translate "Member ID" %}:</div>
