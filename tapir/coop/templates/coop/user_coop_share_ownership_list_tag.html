@@ -111,33 +111,35 @@
                                         <span class="material-icons">edit</span>
                                         {% translate "Edit" %}
                                     </a>
-                                    <span class="dropdown">
-                                        <a class="{% tapir_button_link %} btn-sm dropdown-toggle" href="#"
-                                           data-bs-toggle="dropdown">
-                                            <span class="material-icons">more_horiz</span>&nbsp;
-                                        </a>
+                                    {% if perms.coop.admin %}
+                                        <span class="dropdown">
+                                            <a class="{% tapir_button_link %} btn-sm dropdown-toggle" href="#"
+                                               data-bs-toggle="dropdown">
+                                                <span class="material-icons">more_horiz</span>&nbsp;
+                                            </a>
 
-                                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 20rem;">
-                                        <!-- white-space: normal; to make the long text wrap -->
-                                        <form class="form-inline" method="post"
-                                              action="{% url 'coop:shareownership_delete' o.pk %}">
-                                        {% csrf_token %}
-                                            <button type="submit" class="dropdown-item " style="white-space: normal;"
-                                                    href="#">
-                                                <span class="text-danger">{% translate "Delete" %}</span><br/>
-                                                <small class="text-muted">
-                                                    {% blocktrans %}
-                                                        Only use this to correct mistakes, i.e. if the share was
-                                                        erroneously
-                                                        entered into the system and the person never actually
-                                                        bought it. If the person simply sold their share back to the
-                                                        coop, please mark the share as sold instead.
-                                                    {% endblocktrans %}
-                                                </small>
-                                            </button>
-                                        </form>
-                                        </div>
-                                    </span>
+                                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 20rem;">
+                                            <!-- white-space: normal; to make the long text wrap -->
+                                            <form class="form-inline" method="post"
+                                                  action="{% url 'coop:shareownership_delete' o.pk %}">
+                                            {% csrf_token %}
+                                                <button type="submit" class="dropdown-item " style="white-space: normal;"
+                                                        href="#">
+                                                    <span class="text-danger">{% translate "Delete" %}</span><br/>
+                                                    <small class="text-muted">
+                                                        {% blocktrans %}
+                                                            Only use this to correct mistakes, i.e. if the share was
+                                                            erroneously
+                                                            entered into the system and the person never actually
+                                                            bought it. If the person simply sold their share back to the
+                                                            coop, please mark the share as sold instead.
+                                                        {% endblocktrans %}
+                                                    </small>
+                                                </button>
+                                            </form>
+                                            </div>
+                                        </span>
+                                    {% endif %}
 
                                 </td>
                             {% endif %}
