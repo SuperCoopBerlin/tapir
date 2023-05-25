@@ -7,8 +7,18 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_display_name(person, request_user: TapirUser):
+def get_display_name_for_viewer(person, request_user: TapirUser):
     return UserUtils.build_display_name_for_viewer(person, request_user)
+
+
+@register.simple_tag
+def get_display_name_full(person):
+    return UserUtils.build_display_name_2(person, UserUtils.DISPLAY_NAME_TYPE_FULL)
+
+
+@register.simple_tag
+def get_display_name_short(person):
+    return UserUtils.build_display_name_2(person, UserUtils.DISPLAY_NAME_TYPE_SHORT)
 
 
 @register.simple_tag

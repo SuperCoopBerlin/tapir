@@ -14,7 +14,12 @@ class UserUtils:
         return first_name + " " + last_name
 
     @classmethod
+    def build_company_name(cls):
+        pass
+
+    @classmethod
     def build_display_name_2(cls, person, display_type: str):
+        person = person.get_info()
         display_name = person.usage_name if person.usage_name else person.first_name
 
         if display_type == cls.DISPLAY_NAME_TYPE_FULL:
