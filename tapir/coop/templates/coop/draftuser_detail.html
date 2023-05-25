@@ -4,20 +4,21 @@
 {% load i18n %}
 {% load accounts %}
 {% load core %}
+{% load utils %}
 
 {% block title %}
-    {% translate "Applicant" %}: {{ object.get_display_name }}
+    {% translate "Applicant" %}: {% get_display_name_for_viewer object request.user %}
 {% endblock %}
 
 {% block content %}
 
     <div class="container">
         <div class="card mb-2">
-            <h5 class="card-header">{% translate "Applicant" %}: {{ object.get_display_name }}</h5>
+            <h5 class="card-header">{% translate "Applicant" %}: {% get_display_name_for_viewer object request.user %}</h5>
             <div class="card-body" id="draft_user_detail_card">
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Name" %}:</div>
-                    <div class="col-9" id="draft_user_display_name">{{ object.get_display_name }}</div>
+                    <div class="col-9" id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Username" %}:</div>

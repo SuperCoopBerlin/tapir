@@ -240,6 +240,9 @@ class ShareOwner(models.Model):
     def get_member_number(self):
         return self.id
 
+    def get_is_company(self):
+        return self.is_company
+
 
 class MemberStatus:
     SOLD = "sold"
@@ -396,6 +399,9 @@ class DraftUser(models.Model):
     @staticmethod
     def get_member_number():
         return None
+
+    def get_is_company(self):
+        return False
 
 
 class IncomingPayment(models.Model):

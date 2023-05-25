@@ -1,9 +1,11 @@
 {% extends "core/email_base.html" %}
 
 {% load i18n %}
+{% load utils %}
 
 {% block body %}
-    {% blocktranslate with user_display_name=member_infos.get_display_name %}
+    {% get_display_name_short member_infos as display_name %}
+    {% blocktranslate with user_display_name=display_name %}
         <p>Dear {{ user_display_name }},</p>
         <p>
             we've just created an account for you in our {{ coop_name }} member system. Here you can view your upcoming shifts,

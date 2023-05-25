@@ -71,6 +71,7 @@ from tapir.shifts.models import (
 )
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download, get_html_link
+from tapir.utils.user_utils import UserUtils
 
 
 class ShareOwnershipViewMixin:
@@ -112,10 +113,14 @@ class ShareOwnershipUpdateView(
         context_data = super().get_context_data(**kwargs)
         share_ownership: ShareOwnership = self.object
         context_data["page_title"] = _("Edit share: %(name)s") % {
-            "name": share_ownership.share_owner.get_info().get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                share_ownership.share_owner, self.request.user
+            )
         }
         context_data["card_title"] = _("Edit share: %(name)s") % {
-            "name": share_ownership.share_owner.get_info().get_html_link()
+            "name": UserUtils.build_html_link_for_viewer(
+                share_ownership.share_owner, self.request.user
+            )
         }
         return context_data
 
@@ -133,10 +138,12 @@ class ShareOwnershipCreateMultipleView(
         context_data = super().get_context_data(**kwargs)
         share_owner = self.get_share_owner()
         context_data["page_title"] = _("Add shares to %(name)s") % {
-            "name": share_owner.get_info().get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                share_owner, self.request.user
+            )
         }
         context_data["card_title"] = _("Add shares to %(name)s") % {
-            "name": share_owner.get_info().get_html_link()
+            "name": UserUtils.build_html_link_for_viewer(share_owner, self.request.user)
         }
         return context_data
 
@@ -244,10 +251,12 @@ class ShareOwnerUpdateView(
         context = super().get_context_data()
         share_owner: ShareOwner = self.object
         context["page_title"] = _("Edit member: %(name)s") % {
-            "name": share_owner.get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                share_owner, self.request.user
+            )
         }
         context["card_title"] = _("Edit member: %(name)s") % {
-            "name": share_owner.get_html_link()
+            "name": UserUtils.build_html_link_for_viewer(share_owner, self.request.user)
         }
         return context
 
@@ -364,7 +373,8 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
 def shareowner_membership_confirmation(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     filename = (
-        "Mitgliedschaftsbestätigung %s.pdf" % share_owner.get_info().get_display_name()
+        "Mitgliedschaftsbestätigung %s.pdf"
+        % share_owner.get_info().get_display_name_for_viewer()
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
@@ -396,7 +406,8 @@ def shareowner_membership_confirmation(request, pk):
 def shareowner_extra_shares_confirmation(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     filename = (
-        "Bestätigung Erwerb Anteile %s.pdf" % share_owner.get_info().get_display_name()
+        "Bestätigung Erwerb Anteile %s.pdf"
+        % share_owner.get_info().get_display_name_for_viewer()
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
@@ -424,7 +435,9 @@ def shareowner_extra_shares_confirmation(request, pk):
 @permission_required(PERMISSION_COOP_MANAGE)
 def shareowner_membership_agreement(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = "Beteiligungserklärung %s.pdf" % share_owner.get_display_name()
+    filename = "Beteiligungserklärung %s.pdf" % UserUtils.build_display_name_for_viewer(
+        share_owner, request.user
+    )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     set_header_for_file_download(response, filename)
@@ -492,14 +505,14 @@ class ShareOwnerTable(django_tables2.Table):
     num_shares = django_tables2.Column(empty_values=(), orderable=False, visible=False)
     join_date = django_tables2.Column(empty_values=(), orderable=False, visible=False)
 
-    @staticmethod
-    def render_display_name(value, record: ShareOwner):
-        member = record.get_info()
-        return get_html_link(member.get_absolute_url(), member.get_display_name())
+    def before_render(self, request):
+        self.request = request
 
-    @staticmethod
-    def value_display_name(value, record: ShareOwner):
-        return record.get_info().get_display_name()
+    def render_display_name(self, value, record: ShareOwner):
+        return UserUtils.build_html_link_for_viewer(record, self.request.user)
+
+    def value_display_name(self, value, record: ShareOwner):
+        return UserUtils.build_display_name_2(record, self.request.user)
 
     @staticmethod
     def value_first_name(value, record: ShareOwner):
@@ -851,7 +864,9 @@ class MatchingProgramTable(django_tables2.Table):
     @staticmethod
     def render_display_name(value, record: ShareOwner):
         member = record.get_info()
-        return get_html_link(member.get_absolute_url(), member.get_display_name())
+        return get_html_link(
+            member.get_absolute_url(), member.get_display_name_for_viewer()
+        )
 
     @staticmethod
     def render_willing_to_gift_a_share(value, record: ShareOwner):

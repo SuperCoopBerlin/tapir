@@ -5,9 +5,10 @@
 {% load coop %}
 {% load static %}
 {% load core %}
+{% load utils %}
 
 {% block title %}
-    {% translate "Create Tapir account" %}: {{ form.instance.get_display_name }}
+    {% translate "Create Tapir account" %}: {% get_display_name_for_viewer form.instance request.user %}
 {% endblock %}
 
 {% block head %}

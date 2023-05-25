@@ -22,7 +22,7 @@ from tapir.settings import (
 )
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
-from tapir.utils.shortcuts import get_html_link
+from tapir.utils.user_utils import UserUtils
 
 
 class IncomingPaymentTable(django_tables2.Table):
@@ -55,10 +55,7 @@ class IncomingPaymentTable(django_tables2.Table):
             PERMISSION_ACCOUNTING_VIEW
         ):
             other_member = other_member.get_info()
-            return get_html_link(
-                other_member.get_absolute_url(),
-                f"{other_member.get_display_name()} #{other_member.id}",
-            )
+            return UserUtils.build_html_link_for_viewer(other_member, logged_in_member)
         return _("Other member")
 
     def render_paying_member(self, value, record: IncomingPayment):
