@@ -283,7 +283,7 @@ class ShiftExemptionForm(forms.ModelForm):
             if covered_attendances.count() > 0:
                 attendances_display = ", ".join(
                     [
-                        attendance.slot.get_display_name()
+                        attendance.slot.get_display_name_for_viewer()
                         for attendance in covered_attendances
                     ]
                 )
@@ -308,7 +308,7 @@ class ShiftExemptionForm(forms.ModelForm):
             if attendance_templates.exists():
                 attendances_display = ", ".join(
                     [
-                        attendance.slot_template.get_display_name()
+                        attendance.slot_template.get_display_name_for_viewer()
                         for attendance in attendance_templates
                     ]
                 )

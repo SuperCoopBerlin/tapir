@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load core %}
+{% load utils %}
 
 {% block title %}
     {% translate 'ABCD Shift' %}: {{ object.get_display_name }}
@@ -63,10 +64,10 @@
                                     <td>
                                         {% if perms.shifts.manage %}
                                             <a href="{{ attendance.user.get_absolute_url }}">
-                                                {{ attendance.user.get_display_name }}
+                                                {% get_display_name_for_viewer attendance.user request.user %}
                                             </a>
                                         {% else %}
-                                            <span>{{ attendance.user.first_name }}</span>
+                                            <span>{% get_display_name_for_viewer attendance.user request.user %}</span>
                                         {% endif %}
 
                                         {% if perms.shifts.manage %}

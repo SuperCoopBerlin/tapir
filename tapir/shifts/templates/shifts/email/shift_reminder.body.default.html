@@ -1,10 +1,11 @@
 {% extends "core/email_base.html" %}
 
 {% load i18n %}
+{% load utils %}
 
 {% block body %}
-
-    {% blocktranslate with first_name=tapir_user.first_name shift_display_name=shift.get_display_name %}
+    {% get_display_name_short member_infos as first_name %}
+    {% blocktranslate with first_name=first_name shift_display_name=shift.get_display_name %}
         <p>Hi {{ first_name }},</p>
 
         <p>This is an automated email from {{ coop_name }}.</p>

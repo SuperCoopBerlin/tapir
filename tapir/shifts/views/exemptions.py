@@ -24,6 +24,7 @@ from tapir.shifts.models import (
     CreateExemptionLogEntry,
     UpdateExemptionLogEntry,
 )
+from tapir.utils.user_utils import UserUtils
 
 
 class CreateShiftExemptionView(
@@ -80,10 +81,12 @@ class CreateShiftExemptionView(
         context = super().get_context_data(**kwargs)
         tapir_user = self.get_target_user_data().user
         context["page_title"] = _("Shift exemption: %(name)s") % {
-            "name": tapir_user.get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                tapir_user, self.request.user
+            )
         }
         context["card_title"] = _("Create shift exemption for: %(link)s") % {
-            "link": tapir_user.get_html_link()
+            "link": UserUtils.build_html_link_for_viewer(tapir_user, self.request.user)
         }
         return context
 
@@ -126,10 +129,12 @@ class EditShiftExemptionView(
         context = super().get_context_data(**kwargs)
         tapir_user: TapirUser = self.object.shift_user_data.user
         context["page_title"] = _("Shift exemption: %(name)s") % {
-            "name": tapir_user.get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                tapir_user, self.request.user
+            )
         }
         context["card_title"] = _("Edit shift exemption for: %(link)s") % {
-            "link": tapir_user.get_html_link()
+            "link": UserUtils.build_html_link_for_viewer(tapir_user, self.request.user)
         }
         return context
 
