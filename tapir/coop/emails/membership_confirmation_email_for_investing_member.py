@@ -45,7 +45,7 @@ class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
         return [
             (
                 "Mitgliedschaftsbestätigung %s.pdf"
-                % UserUtils.build_display_name_2(
+                % UserUtils.build_display_name(
                     self.share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
                 ),
                 pdfs.get_shareowner_membership_confirmation_pdf(

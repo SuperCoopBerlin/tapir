@@ -78,7 +78,7 @@ class TapirUserChoiceField(ModelChoiceField):
         super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: TapirUser):
-        return UserUtils.build_display_name_2(obj, UserUtils.DISPLAY_NAME_TYPE_FULL)
+        return UserUtils.build_display_name(obj, UserUtils.DISPLAY_NAME_TYPE_FULL)
 
 
 class ShareOwnerChoiceField(ModelChoiceField):
@@ -89,7 +89,7 @@ class ShareOwnerChoiceField(ModelChoiceField):
         super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: ShareOwner):
-        return UserUtils.build_display_name_2(obj, UserUtils.DISPLAY_NAME_TYPE_FULL)
+        return UserUtils.build_display_name(obj, UserUtils.DISPLAY_NAME_TYPE_FULL)
 
 
 class MissingCapabilitiesWarningMixin(forms.Form):

@@ -40,7 +40,7 @@ class Command(BaseCommand):
                     [
                         user.share_owner.get_id_for_biooffice(),
                         user.last_name,
-                        UserUtils.build_display_name_2(
+                        UserUtils.build_display_name(
                             user, UserUtils.DISPLAY_NAME_TYPE_SHORT
                         ),
                         18 if user.is_in_group(GROUP_VORSTAND) else 0,

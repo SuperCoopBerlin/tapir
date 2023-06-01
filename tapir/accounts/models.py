@@ -54,7 +54,7 @@ class LdapUser(AbstractUser):
             ldap_user = LdapPerson(uid=self.username)
 
         ldap_user.sn = self.last_name or self.username
-        ldap_user.cn = UserUtils.build_display_name_2(
+        ldap_user.cn = UserUtils.build_display_name(
             self, UserUtils.DISPLAY_NAME_TYPE_FULL
         )
         ldap_user.mail = self.email
@@ -174,12 +174,12 @@ class TapirUser(LdapUser):
 
     objects = TapirUserManager()
 
-    def get_display_name_2(self, display_type):
-        return UserUtils.build_display_name_2(self, display_type)
+    def get_display_name(self, display_type):
+        return UserUtils.build_display_name(self, display_type)
 
-    def get_html_link_2(self, display_type):
+    def get_html_link(self, display_type):
         return get_html_link(
-            url=self.get_absolute_url(), text=self.get_display_name_2(display_type)
+            url=self.get_absolute_url(), text=self.get_display_name(display_type)
         )
 
     def get_display_address(self):

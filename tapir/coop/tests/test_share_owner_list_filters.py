@@ -252,12 +252,12 @@ class TestShareOwnerList(TapirFactoryTestBase):
             self.assertIn(
                 share_owner,
                 response.context["table"].rows.data,
-                f"{UserUtils.build_display_name_2(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} should show up in the list filtered by {query_dictionary.urlencode()}.",
+                f"{UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} should show up in the list filtered by {query_dictionary.urlencode()}.",
             )
         for share_owner in must_be_out:
             self.assertNotIn(
                 share_owner,
                 response.context["table"].rows.data,
-                f"{UserUtils.build_display_name_2(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} should not show up in the list filtered by {query_dictionary.urlencode()}.",
+                f"{UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} should not show up in the list filtered by {query_dictionary.urlencode()}.",
             )
         return response

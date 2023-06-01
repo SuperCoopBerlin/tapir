@@ -38,7 +38,7 @@ class ShareOwnerTableWelcomeDesk(django_tables2.Table):
     def render_display_name(value, record: ShareOwner):
         return get_html_link(
             reverse("welcomedesk:welcome_desk_share_owner", args=[record.pk]),
-            UserUtils.build_display_name_2(record, UserUtils.DISPLAY_NAME_TYPE_FULL),
+            UserUtils.build_display_name(record, UserUtils.DISPLAY_NAME_TYPE_FULL),
         )
 
 

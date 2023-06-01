@@ -53,7 +53,7 @@ class ExtraSharesConfirmationEmail(TapirEmailBase):
         return [
             (
                 "Bestätigung Erwerb Anteile %s.pdf"
-                % UserUtils.build_display_name_2(
+                % UserUtils.build_display_name(
                     self.share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
                 ),
                 pdfs.get_confirmation_extra_shares_pdf(

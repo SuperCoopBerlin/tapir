@@ -17,7 +17,7 @@ class UserUtils:
         return display_name
 
     @classmethod
-    def build_display_name_2(cls, person, display_type: str):
+    def build_display_name(cls, person, display_type: str):
         if person.get_is_company() and person.company_name:
             return cls.build_company_name(person, display_type)
 
@@ -39,7 +39,7 @@ class UserUtils:
             or viewer.has_perm(settings.PERMISSION_ACCOUNTS_VIEW)
         ):
             display_type = cls.DISPLAY_NAME_TYPE_FULL
-        return cls.build_display_name_2(person, display_type)
+        return cls.build_display_name(person, display_type)
 
     @classmethod
     def build_display_name_legal(cls, person):
@@ -54,10 +54,10 @@ class UserUtils:
         )
 
     @classmethod
-    def build_html_link_2(cls, person, display_type: str):
+    def build_html_link(cls, person, display_type: str):
         return get_html_link(
             url=person.get_absolute_url(),
-            text=cls.build_display_name_2(person, display_type),
+            text=cls.build_display_name(person, display_type),
         )
 
     @staticmethod

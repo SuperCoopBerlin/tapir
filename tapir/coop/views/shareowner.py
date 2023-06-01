@@ -512,7 +512,7 @@ class ShareOwnerTable(django_tables2.Table):
         return UserUtils.build_html_link_for_viewer(record, self.request.user)
 
     def value_display_name(self, value, record: ShareOwner):
-        return UserUtils.build_display_name_2(record, self.request.user)
+        return UserUtils.build_display_name(record, self.request.user)
 
     @staticmethod
     def value_first_name(value, record: ShareOwner):
