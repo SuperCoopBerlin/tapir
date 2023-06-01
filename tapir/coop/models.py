@@ -85,7 +85,9 @@ class ShareOwner(models.Model):
                 word_filter = (
                     Q(last_name__unaccent__icontains=search)
                     | Q(first_name__unaccent__icontains=search)
+                    | Q(usage_name__unaccent__icontains=search)
                     | Q(user__first_name__unaccent__icontains=search)
+                    | Q(user__usage_name__unaccent__icontains=search)
                     | Q(user__last_name__unaccent__icontains=search)
                     | Q(company_name__unaccent__icontains=search)
                 )
