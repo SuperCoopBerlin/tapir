@@ -1,12 +1,15 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% load accounts %}
+{% load utils %}
+
+{% get_display_name_legal share_owner as display_name_legal %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Beteiligungserklärung {{ share_owner.first_name }} {{ share_owner.last_name }}</title>
+    <title>Beteiligungserklärung {{ display_name_legal }}</title>
     <link rel="stylesheet" href="{% static 'coop/css/membership_agreement_pdf.css' %}">
 </head>
 <body>
@@ -20,7 +23,7 @@
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
         {% if share_owner %}
         <span style="font-size: 6pt;">
-            {{ share_owner.first_name }} {{ share_owner.last_name }},
+            {{ display_name_legal }},
             {% if share_owner.street and share_owner.city %}
                 {% if share_owner.street_2 %} {{ share_owner.street_2 }},{% endif %}
                 {{ share_owner.street }},
@@ -49,7 +52,7 @@
         <div style="display: flex; flex-direction: row;">
             <div style="margin-right: 3mm;">Vorname und Name:</div>
             <div style="border-bottom: 2px solid black; flex: 1; vertical-align: bottom;">
-                <span style="margin-left: 5mm;">{{ share_owner.first_name }} {{ share_owner.last_name }}</span>
+                <span style="margin-left: 5mm;">{{ display_name_legal }}</span>
             </div>
 
             <div style="margin-right: 3mm; margin-left: 3mm;">geboren am:</div>
@@ -199,7 +202,7 @@
                 Kontoinhaber: {{ coop_full_name }}<br />
                 IBAN: <span style="font-family: monospace">DE98 4306 0967 1121 3790 00</span><br />
                 BIC: <span style="font-family: monospace">GENODEM1GLS</span><br />
-                Betreff: Anteil und Eintrittsgeld {{ share_owner.first_name }} {{ share_owner.last_name }}
+                Betreff: Anteil und Eintrittsgeld {{ display_name_legal }}
             </div>
         </div>
     </div>

@@ -76,6 +76,7 @@
             {% if attendance %}
                 {% get_display_name_short attendance.user %}
                 {% if attendance.user.pronouns %} ({{ attendance.user.pronouns }}){% endif %}
+                #{{ attendance.user.share_owner.id }}
                 {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
                     ({% translate "Looking for a stand-in" %})
                 {% endif %}<br/><br/><br/>

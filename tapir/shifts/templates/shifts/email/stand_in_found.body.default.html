@@ -4,9 +4,9 @@
 {% load utils %}
 
 {% block body %}
-    {% get_display_name_short member_infos as first_name %}
-    {% blocktranslate with first_name=first_name shift_display_name=shift.get_display_name %}
-        <p>Dear {{ first_name }},</p>
+    {% get_display_name_short member_infos as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
+        <p>Dear {{ display_name_short }},</p>
 
         <p>This is an automated email from {{ coop_name }}.</p>
 

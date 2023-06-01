@@ -23,7 +23,7 @@
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
         <span style="font-size: 6pt;">Organisation, Straße 1, 12345 Stadt</span>
         <div style="margin-top: 2mm;">
-            {% get_display_name_full share_owner %}<br/>
+            {% get_display_name_legal share_owner %}<br/>
             {% if share_owner.get_info.street_2 %} {{ share_owner.get_info.street_2 }}<br/>{% endif %}
             {{ share_owner.get_info.street }}<br/>
             {{ share_owner.get_info.postcode }} {{ share_owner.get_info.city }}

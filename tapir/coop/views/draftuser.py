@@ -115,9 +115,8 @@ class DraftUserDeleteView(
 @permission_required(PERMISSION_COOP_MANAGE)
 def draftuser_membership_agreement(request, pk):
     draft_user = get_object_or_404(DraftUser, pk=pk)
-    filename = "Beteiligungserklärung %s %s.pdf" % (
-        draft_user.first_name,
-        draft_user.last_name,
+    filename = "Beteiligungserklärung %s.pdf" % (
+        UserUtils.build_display_name_for_viewer(draft_user, request.user)
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)

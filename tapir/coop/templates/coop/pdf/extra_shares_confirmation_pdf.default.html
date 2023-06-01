@@ -51,8 +51,8 @@
 <div style="margin-top: 10mm; line-height: 1.8rem;">
     <div style="display: flex; justify-content: flex-end">Berlin, {{ date|date:"j. F Y" }}</div>
     {% get_display_name_short member_infos as display_name_short %}
-    {% blocktranslate with first_name=display_name_short %}
-        <p>Dear {{ first_name }},</p>
+    {% blocktranslate with display_name_short=display_name_short %}
+        <p>Dear {{ display_name_short }},</p>
 
         <p>
             Thank you for your support!<br/>

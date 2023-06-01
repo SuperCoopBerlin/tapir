@@ -70,7 +70,7 @@ from tapir.shifts.models import (
     SHIFT_USER_CAPABILITY_CHOICES,
 )
 from tapir.utils.models import copy_user_info
-from tapir.utils.shortcuts import set_header_for_file_download, get_html_link
+from tapir.utils.shortcuts import set_header_for_file_download
 from tapir.utils.user_utils import UserUtils
 
 
@@ -304,7 +304,7 @@ class CreateUserFromShareOwnerView(
     model = TapirUser
     template_name = "coop/create_user_from_shareowner_form.html"
     permission_required = PERMISSION_COOP_MANAGE
-    fields = ["first_name", "last_name", "username"]
+    fields = ["usage_name", "first_name", "last_name", "username"]
 
     def get_shareowner(self):
         return get_object_or_404(ShareOwner, pk=self.kwargs["shareowner_pk"])
@@ -374,7 +374,7 @@ def shareowner_membership_confirmation(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     filename = (
         "Mitgliedschaftsbestätigung %s.pdf"
-        % share_owner.get_info().get_display_name_for_viewer()
+        % UserUtils.build_display_name_for_viewer(share_owner, request.user)
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
@@ -407,7 +407,7 @@ def shareowner_extra_shares_confirmation(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     filename = (
         "Bestätigung Erwerb Anteile %s.pdf"
-        % share_owner.get_info().get_display_name_for_viewer()
+        % UserUtils.build_display_name_for_viewer(share_owner, request.user)
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
@@ -861,12 +861,12 @@ class MatchingProgramTable(django_tables2.Table):
         empty_values=(), verbose_name="Name", orderable=False
     )
 
-    @staticmethod
-    def render_display_name(value, record: ShareOwner):
+    def before_render(self, request):
+        self.request = request
+
+    def render_display_name(self, value, record: ShareOwner):
         member = record.get_info()
-        return get_html_link(
-            member.get_absolute_url(), member.get_display_name_for_viewer()
-        )
+        return UserUtils.build_html_link_for_viewer(member, self.request.user)
 
     @staticmethod
     def render_willing_to_gift_a_share(value, record: ShareOwner):

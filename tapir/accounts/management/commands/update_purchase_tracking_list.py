@@ -40,7 +40,9 @@ class Command(BaseCommand):
                     [
                         user.share_owner.get_id_for_biooffice(),
                         user.last_name,
-                        user.first_name,
+                        UserUtils.build_display_name_2(
+                            user, UserUtils.DISPLAY_NAME_TYPE_SHORT
+                        ),
                         18 if user.is_in_group(GROUP_VORSTAND) else 0,
                         UserUtils.get_full_street(user.street, user.street_2),
                         user.postcode,

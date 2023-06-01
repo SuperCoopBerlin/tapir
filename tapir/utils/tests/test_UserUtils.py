@@ -108,3 +108,15 @@ class TestUserUtilsBuildDisplayName(TapirFactoryTestBase):
             share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
         )
         self.assertEqual("SuperCoop #22", display_name)
+
+    def test_legalName_displayIsCorrect(self):
+        share_owner = ShareOwnerFactory.build(
+            first_name=self.FIRST_NAME,
+            usage_name=self.USAGE_NAME,
+            last_name=self.LAST_NAME,
+            company_name="SuperCoop",
+            is_company=True,
+            id=22,
+        )
+        display_name = UserUtils.build_display_name_legal(share_owner)
+        self.assertEqual("John Doe", display_name)

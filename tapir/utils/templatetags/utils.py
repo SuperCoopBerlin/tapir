@@ -22,5 +22,10 @@ def get_display_name_short(person):
 
 
 @register.simple_tag
+def get_display_name_legal(person):
+    return UserUtils.build_display_name_legal(person)
+
+
+@register.simple_tag
 def get_html_link(person, request_user: TapirUser):
     return UserUtils.build_html_link_for_viewer(person, request_user)

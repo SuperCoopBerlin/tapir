@@ -42,6 +42,11 @@ class UserUtils:
         return cls.build_display_name_2(person, display_type)
 
     @classmethod
+    def build_display_name_legal(cls, person):
+        person = person.get_info()
+        return f"{person.first_name} {person.last_name}"
+
+    @classmethod
     def build_html_link_for_viewer(cls, person, viewer):
         return get_html_link(
             url=person.get_absolute_url(),

@@ -22,6 +22,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
 )
 from tapir.utils.forms import DateInputTapir
+from tapir.utils.user_utils import UserUtils
 
 
 class ShiftCreateForm(forms.ModelForm):
@@ -77,8 +78,7 @@ class TapirUserChoiceField(ModelChoiceField):
         super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: TapirUser):
-        share_owner_id = obj.share_owner.id if hasattr(obj, "share_owner") else ""
-        return f"{obj.first_name} {obj.last_name} ({share_owner_id})"
+        return UserUtils.build_display_name_2(obj, UserUtils.DISPLAY_NAME_TYPE_FULL)
 
 
 class ShareOwnerChoiceField(ModelChoiceField):
@@ -89,7 +89,7 @@ class ShareOwnerChoiceField(ModelChoiceField):
         super().__init__(queryset=queryset, **kwargs)
 
     def label_from_instance(self, obj: ShareOwner):
-        return f"{obj.get_info().first_name} {obj.get_info().last_name} ({obj.id})"
+        return UserUtils.build_display_name_2(obj, UserUtils.DISPLAY_NAME_TYPE_FULL)
 
 
 class MissingCapabilitiesWarningMixin(forms.Form):
