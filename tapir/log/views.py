@@ -24,7 +24,6 @@ from tapir.utils.filters import TapirUserModelChoiceFilter, ShareOwnerModelChoic
 from tapir.utils.shortcuts import (
     safe_redirect,
     set_header_for_file_download,
-    get_html_link,
 )
 from tapir.utils.user_utils import UserUtils
 
@@ -104,10 +103,8 @@ class LogTable(django_tables2.Table):
 
     def render_member(self, record):
         # show user or share_owner, depending on what is available
-        value = record.user or record.share_owner.get_info()
-        return get_html_link(
-            value.get_absolute_url(), value.get_display_name_for_viewer()
-        )
+        person = record.user or record.share_owner.get_info()
+        return UserUtils.build_html_link_for_viewer(person, self.request.user)
 
     def render_actor(self, value: TapirUser):
         return UserUtils.build_html_link_for_viewer(value, self.request.user)

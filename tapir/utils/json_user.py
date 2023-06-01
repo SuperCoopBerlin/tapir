@@ -68,9 +68,6 @@ class JsonUser:
     def get_username(self) -> str:
         return unidecode(self.first_name.lower() + "." + self.last_name.lower())
 
-    def get_display_name(self) -> str:
-        return UserUtils.build_display_name(self.first_name, self.last_name)
-
     def get_date_of_birth_str_for_input_field(self) -> str:
         return self.birthdate.strftime("%Y-%m-%d")
 

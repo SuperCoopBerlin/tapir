@@ -29,7 +29,13 @@
                     {% for o in log_entries %}
                         <tr>
                             <td>{{ o.created_date|date:"d.m.Y H:i" }}</td>
-                            <td>{% get_display_name_for_viewer o.actor request.user %}</td>
+                            <td>
+                                {% if o.actor %}
+                                    {% get_display_name_for_viewer o.actor request.user %}
+                                {% else %}
+                                     -
+                                {% endif %}
+                            </td>
                             <td>{{ o.render }}</td>
                         </tr>
                     {% endfor %}

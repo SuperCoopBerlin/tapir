@@ -173,14 +173,8 @@ class TapirUser(LdapUser):
 
     objects = TapirUserManager()
 
-    def get_display_name(self):
-        return UserUtils.build_display_name(self.first_name, self.last_name)
-
     def get_display_name_2(self, display_type):
         return UserUtils.build_display_name_2(self, display_type)
-
-    def get_html_link(self):
-        return get_html_link(url=self.get_absolute_url(), text=self.get_display_name())
 
     def get_html_link_2(self, display_type):
         return get_html_link(

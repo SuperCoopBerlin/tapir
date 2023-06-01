@@ -9,16 +9,18 @@ class UserUtils:
     DISPLAY_NAME_TYPE_FULL = "full"
     DISPLAY_NAME_TYPE_SHORT = "short"
 
-    @staticmethod
-    def build_display_name(first_name: str, last_name: str) -> str:
-        return first_name + " " + last_name
-
     @classmethod
-    def build_company_name(cls):
-        pass
+    def build_company_name(cls, company, display_type: str):
+        display_name = company.company_name
+        if display_type == cls.DISPLAY_NAME_TYPE_FULL:
+            display_name = f"{display_name} #{company.get_member_number()}"
+        return display_name
 
     @classmethod
     def build_display_name_2(cls, person, display_type: str):
+        if person.get_is_company() and person.company_name:
+            return cls.build_company_name(person, display_type)
+
         person = person.get_info()
         display_name = person.usage_name if person.usage_name else person.first_name
 
@@ -44,6 +46,13 @@ class UserUtils:
         return get_html_link(
             url=person.get_absolute_url(),
             text=cls.build_display_name_for_viewer(person, viewer),
+        )
+
+    @classmethod
+    def build_html_link_2(cls, person, display_type: str):
+        return get_html_link(
+            url=person.get_absolute_url(),
+            text=cls.build_display_name_2(person, display_type),
         )
 
     @staticmethod

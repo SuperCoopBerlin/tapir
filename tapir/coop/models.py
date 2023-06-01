@@ -159,16 +159,8 @@ class ShareOwner(models.Model):
             )
         return r
 
-    def get_display_name(self):
-        if self.is_company:
-            return self.company_name
-        return UserUtils.build_display_name(self.first_name, self.last_name)
-
     def get_display_name_2(self, display_type):
         return UserUtils.build_display_name_2(self, display_type)
-
-    def get_html_link(self):
-        return get_html_link(url=self.get_absolute_url(), text=self.get_display_name())
 
     def get_html_link_2(self, display_type):
         return get_html_link(
@@ -366,14 +358,8 @@ class DraftUser(models.Model):
     def get_absolute_url(self):
         return reverse("coop:draftuser_detail", args=[self.pk])
 
-    def get_html_link(self):
-        return get_html_link(self.get_absolute_url(), self.get_display_name())
-
     def get_initial_amount(self):
         return self.num_shares * COOP_SHARE_PRICE + COOP_ENTRY_AMOUNT
-
-    def get_display_name(self):
-        return UserUtils.build_display_name(self.first_name, self.last_name)
 
     def get_display_address(self):
         return UserUtils.build_display_address(

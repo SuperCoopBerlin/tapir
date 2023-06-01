@@ -81,3 +81,30 @@ class TestUserUtilsBuildDisplayName(TapirFactoryTestBase):
             draft_user, UserUtils.DISPLAY_NAME_TYPE_FULL
         )
         self.assertEqual("Jane Doe", display_name)
+
+    def test_shortCompanyName_companyNameIsUsed(self):
+        share_owner = ShareOwnerFactory.build(
+            first_name=self.FIRST_NAME,
+            usage_name=self.USAGE_NAME,
+            last_name=self.LAST_NAME,
+            company_name="SuperCoop",
+            is_company=True,
+        )
+        display_name = UserUtils.build_display_name_2(
+            share_owner, UserUtils.DISPLAY_NAME_TYPE_SHORT
+        )
+        self.assertEqual("SuperCoop", display_name)
+
+    def test_fullCompanyName_companyNameIsUsed(self):
+        share_owner = ShareOwnerFactory.build(
+            first_name=self.FIRST_NAME,
+            usage_name=self.USAGE_NAME,
+            last_name=self.LAST_NAME,
+            company_name="SuperCoop",
+            is_company=True,
+            id=22,
+        )
+        display_name = UserUtils.build_display_name_2(
+            share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
+        )
+        self.assertEqual("SuperCoop #22", display_name)
