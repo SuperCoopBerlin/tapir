@@ -45,6 +45,11 @@ accounts_urlpatterns = [
         views.LdapGroupListView.as_view(),
         name="ldap_group_list",
     ),
+    path(
+        "user/<int:pk>/edit_username",
+        views.EditUsernameView.as_view(),
+        name="edit_username",
+    ),
 ]
 
 urlpatterns = [

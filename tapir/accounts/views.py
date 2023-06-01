@@ -18,6 +18,7 @@ from tapir.accounts.forms import (
     PasswordResetForm,
     EditUserLdapGroupsForm,
     TapirUserSelfUpdateForm,
+    EditUsernameForm,
 )
 from tapir.accounts.models import (
     TapirUser,
@@ -274,3 +275,40 @@ class LdapGroupListView(
 
         context_data["groups"] = groups_data
         return context_data
+
+
+class EditUsernameView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
+    form_class = EditUsernameForm
+    model = TapirUser
+
+    def get_target_user(self) -> TapirUser:
+        return TapirUser.objects.get(pk=self.kwargs["pk"])
+
+    def get_permission_required(self):
+        if self.request.user.pk == self.get_target_user().pk:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
+
+    def get_template_names(self):
+        return ["accounts/edit_username.html", "accounts/edit_username.default.html"]
+
+    def form_valid(self, form):
+        tapir_user_before = self.get_target_user()
+        tapir_user_after: TapirUser = form.instance
+        ldap_person = tapir_user_before.get_ldap()
+        ldap_person.uid = tapir_user_after.username
+        ldap_person.save()
+
+        response = super().form_valid(form)
+
+        old_frozen = freeze_for_log(tapir_user_before)
+        new_frozen = freeze_for_log(tapir_user_after)
+        if old_frozen != new_frozen:
+            UpdateTapirUserLogEntry().populate(
+                old_frozen=old_frozen,
+                new_frozen=new_frozen,
+                tapir_user=tapir_user_after,
+                actor=self.request.user,
+            ).save()
+
+        return response

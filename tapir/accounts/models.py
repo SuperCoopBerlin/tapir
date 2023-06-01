@@ -34,8 +34,7 @@ class LdapUser(AbstractUser):
         return LdapPerson.objects.get(uid=self.get_username())
 
     def has_ldap(self):
-        result = LdapPerson.objects.filter(uid=self.get_username())
-        return len(result) == 1
+        return LdapPerson.objects.filter(uid=self.get_username()).count() == 1
 
     def create_ldap(self):
         username = self.username
@@ -55,7 +54,9 @@ class LdapUser(AbstractUser):
             ldap_user = LdapPerson(uid=self.username)
 
         ldap_user.sn = self.last_name or self.username
-        ldap_user.cn = self.get_full_name() or self.username
+        ldap_user.cn = UserUtils.build_display_name_2(
+            self, UserUtils.DISPLAY_NAME_TYPE_FULL
+        )
         ldap_user.mail = self.email
         ldap_user.save()
 

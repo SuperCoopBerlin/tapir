@@ -10,9 +10,6 @@
 {% load core %}
 {% load utils %}
 
-{% get_display_name_full share_owner as display_name_full %}
-{% get_display_name_short share_owner as display_name_short %}
-
 {% block title %}
     {% translate "Welcome Desk" %}: {% get_display_name_full share_owner %}
 {% endblock %}
@@ -24,6 +21,9 @@
 
 
 {% block content %}
+    {% get_display_name_full share_owner as display_name_full %}
+    {% get_display_name_short share_owner as display_name_short %}
+
     <div class="card mb-2" id="welcome_desk_share_owner">
         <h5 class="card-header">
             <span>{% get_display_name_full share_owner %}</span>
@@ -31,7 +31,7 @@
         <div class="card-body">
             {% if can_shop %}
                 <div class="alert alert-success" role="alert" id="welcome_desk_can_shop">
-                    {% blocktranslate with name=display_name_short %}{{ name }}  can shop
+                    {% blocktranslate with name=display_name_short %}{{ name }} can shop
                         :){% endblocktranslate %}
                 </div>
             {% else %}

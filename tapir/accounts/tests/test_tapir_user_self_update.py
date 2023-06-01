@@ -7,7 +7,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 class TestTapirUserSelfUpdate(TapirFactoryTestBase):
     def test_normal_user_can_self_update(self):
-        actor: TapirUser = TapirUserFactory()
+        actor: TapirUser = TapirUserFactory.create()
 
         response = self.try_update(actor=actor, target=actor)
         self.assertEqual(200, response.status_code)
@@ -17,8 +17,8 @@ class TestTapirUserSelfUpdate(TapirFactoryTestBase):
         self.assertEqual("new pronouns", actor.pronouns)
 
     def test_normal_user_cannot_edit_other_user(self):
-        target: TapirUser = TapirUserFactory()
-        actor: TapirUser = TapirUserFactory()
+        target: TapirUser = TapirUserFactory.create()
+        actor: TapirUser = TapirUserFactory.create()
 
         response = self.try_update(actor=actor, target=target)
         self.assertEqual(403, response.status_code)
