@@ -1,11 +1,13 @@
 {% load static %}
 {% load django_bootstrap5 %}
+{% load utils %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>
-        Mitgliedschaftsbestätigung {{ share_owner.get_info.get_display_name }}
+        Mitgliedschaftsbestätigung {% get_display_name_full share_owner %}
     </title>
     <link rel="stylesheet" href="{% static 'coop/css/membership_agreement_pdf.css' %}">
 </head>
@@ -20,7 +22,7 @@
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
         <span style="font-size: 6pt;">{{ COOP_FULL_NAME }}, {{ COOP_STREET }}, {{ COOP_PLACE }}</span>
         <div style="margin-top: 2mm;">
-            {{ share_owner.get_info.get_display_name }}<br/>
+            {% get_display_name_legal share_owner %}<br/>
             {% if share_owner.get_info.street_2 %} {{ share_owner.get_info.street_2 }}<br/>{% endif %}
             {{ share_owner.get_info.street }}<br/>
             {{ share_owner.get_info.postcode }} {{ share_owner.get_info.city }}
@@ -37,7 +39,7 @@
     <div style="margin-top: 8mm; font-weight: bold">Bestätigung der {% if share_owner.is_investing %}
         Fördermitgliedschaft{% else %}Mitgliedschaft{% endif %} bei {{ COOP_FULL_NAME }}</div>
 
-    <p>Liebe*r {{ share_owner.get_info.get_display_name }},</p>
+    <p>Liebe*r {% get_display_name_short share_owner %},</p>
 
     <p>herzlich Willkommen als offizielles Mitglied der {{ COOP_FULL_NAME }}!</p>
 

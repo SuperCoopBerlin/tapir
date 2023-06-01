@@ -1,10 +1,12 @@
 {% extends "core/email_base.html" %}
 
 {% load i18n %}
+{% load utils %}
 
 {% block body %}
-    {% blocktranslate with first_name=member_infos.first_name num_shares=num_shares %}
-        <p>Hello {{ first_name }},</p>
+    {% get_display_name_short member_infos as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short num_shares=num_shares %}
+        <p>Hello {{ display_name_short }},</p>
         <p>Please find the confirmation that you have purchased {{ num_shares }} additional shares in the email attachment. </p>
         <p>Thank you sincerely for your continued support!</p>
         <p>

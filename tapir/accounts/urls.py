@@ -10,7 +10,16 @@ accounts_urlpatterns = [
     ),
     path("user/me/", views.TapirUserMeView.as_view(), name="user_me"),
     path("user/<int:pk>/", views.TapirUserDetailView.as_view(), name="user_detail"),
-    path("user/<int:pk>/edit", views.TapirUserUpdateView.as_view(), name="user_update"),
+    path(
+        "user/<int:pk>/edit",
+        views.TapirUserUpdateAdminView.as_view(),
+        name="user_update",
+    ),
+    path(
+        "user/<int:pk>/edit_self",
+        views.TapirUserUpdateSelfView.as_view(),
+        name="user_update_self",
+    ),
     path(
         "user/<int:pk>/send_welcome_email",
         views.send_user_welcome_email,
@@ -35,6 +44,11 @@ accounts_urlpatterns = [
         "ldap_groups",
         views.LdapGroupListView.as_view(),
         name="ldap_group_list",
+    ),
+    path(
+        "user/<int:pk>/edit_username",
+        views.EditUsernameView.as_view(),
+        name="edit_username",
     ),
 ]
 

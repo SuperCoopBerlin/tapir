@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load coop %}
 {% load core %}
+{% load utils %}
 
 <!doctype html>
 {% get_current_language as LANGUAGE_CODE %}
@@ -62,7 +63,7 @@
                 {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         <a class="text-light nav-link"
-                           href="{% url 'accounts:user_me' %}">{{ request.user.first_name }} {{ request.user.last_name }}</a>
+                           href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
                     </li>
                     <li class="nav-item">
                         <a class="text-light nav-link" href="{% url 'logout' %}" id="logout">Logout</a>

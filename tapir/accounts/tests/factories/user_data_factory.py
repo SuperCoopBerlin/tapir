@@ -36,6 +36,8 @@ class UserDataFactory(factory.django.DjangoModelFactory):
     ATTRIBUTES = [
         "first_name",
         "last_name",
+        "usage_name",
+        "pronouns",
         "email",
         "phone_number",
         "birthdate",
@@ -49,6 +51,8 @@ class UserDataFactory(factory.django.DjangoModelFactory):
 
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
+    usage_name = factory.Faker("first_name")
+    pronouns = factory.Iterator(["he/him", "she/her", "they/them"])
     email = factory.Faker("email")
     phone_number = factory.LazyAttribute(lambda _: fake.phone_number())
     street = factory.Faker("street_address")

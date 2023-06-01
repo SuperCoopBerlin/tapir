@@ -35,6 +35,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.views.views import SelectedUserViewMixin
 from tapir.utils.shortcuts import safe_redirect
+from tapir.utils.user_utils import UserUtils
 
 
 class RegisterUserToShiftSlotTemplateView(
@@ -187,12 +188,16 @@ class UpdateShiftAttendanceStateWithFormView(
         context = super().get_context_data()
         attendance: ShiftAttendance = self.object
         context["page_title"] = _("Shift attendance: %(name)s") % {
-            "name": attendance.user.get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                attendance.user, self.request.user
+            )
         }
         context["card_title"] = _(
             "Updating shift attendance: %(member_link)s, %(slot_link)s"
             % {
-                "member_link": attendance.user.get_html_link(),
+                "member_link": UserUtils.build_html_link_for_viewer(
+                    attendance.user, self.request.user
+                ),
                 "slot_link": attendance.slot.get_html_link(),
             }
         )

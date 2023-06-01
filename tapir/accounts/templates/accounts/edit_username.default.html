@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+{% load utils %}
+
+{% block head %}
+    {{ block.super }}
+    {{ form.media }}
+{% endblock %}
+
+{% block title %}
+    {% get_display_name_full object as display_name_full %}
+    {% blocktranslate with display_name_full=display_name_full %}
+        Edit username: {{ display_name_full }}
+    {% endblocktranslate %}
+{% endblock %}
+
+{% block content %}
+    {% get_display_name_full object as display_name_full %}
+    <div class="container">
+        <div class="card m-2">
+            <h5 class="card-header">
+                {% blocktranslate with display_name_full=display_name_full %}
+                    Edit username: {{ display_name_full }}
+                {% endblocktranslate %}
+            </h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {% blocktranslate with old_username=object.username %}
+                        <p>Your old username is {{ old_username }}.</p>
+                        <p>If you ever updated the wiki, please contact the Wiki team on Slack <a
+                                href="https://supercoopberlin.slack.com/archives/C01UCL82XMF">#wiki</a> to keep your
+                            member's page there and the history of your changes.</p>
+                    {% endblocktranslate %}
+                </li>
+                <li class="list-group-item">
+                    <form role="form" method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="{% tapir_button_action %}">
+                                <span class="material-icons">save</span>
+                                {% translate 'Save' %}
+                            </button>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

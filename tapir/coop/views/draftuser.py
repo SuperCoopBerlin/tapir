@@ -35,6 +35,7 @@ from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
+from tapir.utils.user_utils import UserUtils
 
 
 class DraftUserListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
@@ -84,10 +85,12 @@ class DraftUserUpdateView(
         context = super().get_context_data()
         draft_user: DraftUser = self.object
         context["page_title"] = _("Edit applicant: %(name)s") % {
-            "name": draft_user.get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                draft_user, self.request.user
+            )
         }
         context["card_title"] = _("Edit applicant: %(name)s") % {
-            "name": draft_user.get_html_link()
+            "name": UserUtils.build_html_link_for_viewer(draft_user, self.request.user)
         }
         return context
 
@@ -112,9 +115,8 @@ class DraftUserDeleteView(
 @permission_required(PERMISSION_COOP_MANAGE)
 def draftuser_membership_agreement(request, pk):
     draft_user = get_object_or_404(DraftUser, pk=pk)
-    filename = "Beteiligungserklärung %s %s.pdf" % (
-        draft_user.first_name,
-        draft_user.last_name,
+    filename = "Beteiligungserklärung %s.pdf" % (
+        UserUtils.build_display_name_for_viewer(draft_user, request.user)
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)

@@ -1,11 +1,64 @@
 from barcode import EAN13
 from barcode.writer import SVGWriter
 
+from tapir import settings
+from tapir.utils.shortcuts import get_html_link
+
 
 class UserUtils:
-    @staticmethod
-    def build_display_name(first_name: str, last_name: str) -> str:
-        return first_name + " " + last_name
+    DISPLAY_NAME_TYPE_FULL = "full"
+    DISPLAY_NAME_TYPE_SHORT = "short"
+
+    @classmethod
+    def build_company_name(cls, company, display_type: str):
+        display_name = company.company_name
+        if display_type == cls.DISPLAY_NAME_TYPE_FULL:
+            display_name = f"{display_name} #{company.get_member_number()}"
+        return display_name
+
+    @classmethod
+    def build_display_name(cls, person, display_type: str):
+        if person.get_is_company() and person.company_name:
+            return cls.build_company_name(person, display_type)
+
+        person = person.get_info()
+        display_name = person.usage_name if person.usage_name else person.first_name
+
+        if display_type == cls.DISPLAY_NAME_TYPE_FULL:
+            display_name = f"{display_name} {person.last_name}"
+            if person.get_member_number():
+                display_name = f"{display_name} #{person.get_member_number()}"
+
+        return display_name
+
+    @classmethod
+    def build_display_name_for_viewer(cls, person, viewer):
+        display_type = cls.DISPLAY_NAME_TYPE_SHORT
+        if viewer and (
+            viewer.has_perm(settings.PERMISSION_COOP_VIEW)
+            or viewer.has_perm(settings.PERMISSION_ACCOUNTS_VIEW)
+        ):
+            display_type = cls.DISPLAY_NAME_TYPE_FULL
+        return cls.build_display_name(person, display_type)
+
+    @classmethod
+    def build_display_name_legal(cls, person):
+        person = person.get_info()
+        return f"{person.first_name} {person.last_name}"
+
+    @classmethod
+    def build_html_link_for_viewer(cls, person, viewer):
+        return get_html_link(
+            url=person.get_absolute_url(),
+            text=cls.build_display_name_for_viewer(person, viewer),
+        )
+
+    @classmethod
+    def build_html_link(cls, person, display_type: str):
+        return get_html_link(
+            url=person.get_absolute_url(),
+            text=cls.build_display_name(person, display_type),
+        )
 
     @staticmethod
     def build_display_address(

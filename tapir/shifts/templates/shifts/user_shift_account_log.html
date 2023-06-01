@@ -3,13 +3,14 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load core %}
+{% load utils %}
 
 {% block content %}
     <div class="card mb-2" id="user_shift_account_log">
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>
                 {% translate 'Shift account log for: ' %}
-                <a href="{{ user.get_absolute_url }}">{{ user.get_display_name }}</a>
+                <a href="{{ user.get_absolute_url }}">{% get_display_name_for_viewer user request.user %}</a>
             </span>
             {% if perms.shifts.manage %}
                 <a class="{% tapir_button_link_to_action %}"

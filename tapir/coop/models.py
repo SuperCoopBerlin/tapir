@@ -46,6 +46,8 @@ class ShareOwner(models.Model):
     # There can also be investing members that do not have a user account
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
+    usage_name = models.CharField(_("Usage name"), max_length=150, blank=True)
+    pronouns = models.CharField(_("Pronouns"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
     phone_number = PhoneNumberField(_("Phone number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
@@ -83,7 +85,9 @@ class ShareOwner(models.Model):
                 word_filter = (
                     Q(last_name__unaccent__icontains=search)
                     | Q(first_name__unaccent__icontains=search)
+                    | Q(usage_name__unaccent__icontains=search)
                     | Q(user__first_name__unaccent__icontains=search)
+                    | Q(user__usage_name__unaccent__icontains=search)
                     | Q(user__last_name__unaccent__icontains=search)
                     | Q(company_name__unaccent__icontains=search)
                 )
@@ -122,6 +126,8 @@ class ShareOwner(models.Model):
         """Used after a ShareOwner is linked to a user, which is used as the source for user info instead."""
         self.first_name = ""
         self.last_name = ""
+        self.usage_name = ""
+        self.pronouns = ""
         self.email = ""
         self.birthdate = None
         self.street = ""
@@ -155,13 +161,13 @@ class ShareOwner(models.Model):
             )
         return r
 
-    def get_display_name(self):
-        if self.is_company:
-            return self.company_name
-        return UserUtils.build_display_name(self.first_name, self.last_name)
+    def get_display_name(self, display_type):
+        return UserUtils.build_display_name(self, display_type)
 
-    def get_html_link(self):
-        return get_html_link(url=self.get_absolute_url(), text=self.get_display_name())
+    def get_html_link(self, display_type):
+        return get_html_link(
+            url=self.get_absolute_url(), text=self.get_display_name(display_type)
+        )
 
     def get_display_address(self):
         return UserUtils.build_display_address(
@@ -224,6 +230,12 @@ class ShareOwner(models.Model):
 
     def get_id_for_biooffice(self):
         return "299" + "{:0>9}".format(self.id)
+
+    def get_member_number(self):
+        return self.id
+
+    def get_is_company(self):
+        return self.is_company
 
 
 class MemberStatus:
@@ -308,6 +320,8 @@ class DeleteShareOwnershipLogEntry(ModelLogEntry):
 class DraftUser(models.Model):
     first_name = models.CharField(_("First name"), max_length=150, blank=True)
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
+    usage_name = models.CharField(_("Usage name"), max_length=150, blank=True)
+    pronouns = models.CharField(_("Pronouns"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
     phone_number = PhoneNumberField(_("Phone number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
@@ -346,14 +360,8 @@ class DraftUser(models.Model):
     def get_absolute_url(self):
         return reverse("coop:draftuser_detail", args=[self.pk])
 
-    def get_html_link(self):
-        return get_html_link(self.get_absolute_url(), self.get_display_name())
-
     def get_initial_amount(self):
         return self.num_shares * COOP_SHARE_PRICE + COOP_ENTRY_AMOUNT
-
-    def get_display_name(self):
-        return UserUtils.build_display_name(self.first_name, self.last_name)
 
     def get_display_address(self):
         return UserUtils.build_display_address(
@@ -375,6 +383,13 @@ class DraftUser(models.Model):
         to allow identical treatment in templates.
         """
         return self
+
+    @staticmethod
+    def get_member_number():
+        return None
+
+    def get_is_company(self):
+        return False
 
 
 class IncomingPayment(models.Model):

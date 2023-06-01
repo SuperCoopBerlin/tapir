@@ -8,9 +8,10 @@
 {% load log %}
 {% load accounts %}
 {% load core %}
+{% load utils %}
 
 {% block title %}
-    {% translate "Welcome Desk" %}: {{ share_owner.get_info.get_display_name }}
+    {% translate "Welcome Desk" %}: {% get_display_name_full share_owner %}
 {% endblock %}
 
 {% block head %}
@@ -18,34 +19,38 @@
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
 {% endblock %}
 
+
 {% block content %}
+    {% get_display_name_full share_owner as display_name_full %}
+    {% get_display_name_short share_owner as display_name_short %}
+
     <div class="card mb-2" id="welcome_desk_share_owner">
         <h5 class="card-header">
-            <span>{{ share_owner.get_info.get_display_name }}</span>
+            <span>{% get_display_name_full share_owner %}</span>
         </h5>
         <div class="card-body">
             {% if can_shop %}
                 <div class="alert alert-success" role="alert" id="welcome_desk_can_shop">
-                    {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }}  can shop
+                    {% blocktranslate with name=display_name_short %}{{ name }} can shop
                         :){% endblocktranslate %}
                 </div>
             {% else %}
                 {% if missing_account %}
                     <div class="alert alert-danger" role="alert" id="welcome_desk_no_account">
-                        {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }} does not have a Tapir
+                        {% blocktranslate with name=display_name_short %}{{ name }} does not have a Tapir
                             account. Contact a member of the management team.{% endblocktranslate %}
                     </div>
                 {% endif %}
                 {% if shift_balance_not_ok %}
                     <div class="alert alert-danger" role="alert" id="welcome_desk_shift_balance_not_ok">
-                        {% blocktranslate with name=share_owner.get_info.first_name balance=share_owner.user.shift_user_data.get_account_balance %}
+                        {% blocktranslate with name=display_name_short balance=share_owner.user.shift_user_data.get_account_balance %}
                             {{ name }} has a negative shift balance ({{ balance }}). Contact a member of the management
                             team.{% endblocktranslate %}
                     </div>
                 {% endif %}
                 {% if share_owner.is_investing %}
                     <div class="alert alert-danger" role="alert" id="welcome_desk_is_investing">
-                        {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }} is an investing member.
+                        {% blocktranslate with name=display_name_short %}{{ name }} is an investing member.
                             If they want to shop, they have to become an active member. Contact a member of the
                             management team.{% endblocktranslate %}
                     </div>
@@ -53,13 +58,13 @@
             {% endif %}
             {% if must_register_to_a_shift %}
                 <div class="alert alert-warning" role="alert" id="welcome_desk_no_abcd_shift">
-                    {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }} is not registered to an
+                    {% blocktranslate with name=display_name_short %}{{ name }} is not registered to an
                         ABCD shift yet. Make sure they plan to do it!{% endblocktranslate %}
                 </div>
             {% endif %}
             {% if not share_owner.attended_welcome_session %}
                 <div class="alert alert-warning" role="alert" id="welcome_desk_no_welcome_session">
-                    {% blocktranslate with name=share_owner.get_info.first_name %}{{ name }} has not attended a welcome
+                    {% blocktranslate with name=display_name_short %}{{ name }} has not attended a welcome
                         session yet. Make sure they plan to do it!{% endblocktranslate %}
                 </div>
             {% endif %}
@@ -67,7 +72,7 @@
             {% if not missing_account and user %}
                 <div class="row m-1">
                     <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                    <div class="col-8">{{ share_owner.get_info.get_display_name }}</div>
+                    <div class="col-8">{% get_display_name_full share_owner %}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-4 fw-bold text-end">{% translate "Member ID" %}:</div>

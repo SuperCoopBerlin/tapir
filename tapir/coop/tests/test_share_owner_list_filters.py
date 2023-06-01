@@ -16,6 +16,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.user_utils import UserUtils
 
 
 class TestShareOwnerList(TapirFactoryTestBase):
@@ -251,12 +252,12 @@ class TestShareOwnerList(TapirFactoryTestBase):
             self.assertIn(
                 share_owner,
                 response.context["table"].rows.data,
-                f"{share_owner.get_display_name()} should show up in the list filtered by {query_dictionary.urlencode()}.",
+                f"{UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} should show up in the list filtered by {query_dictionary.urlencode()}.",
             )
         for share_owner in must_be_out:
             self.assertNotIn(
                 share_owner,
                 response.context["table"].rows.data,
-                f"{share_owner.get_display_name()} should not show up in the list filtered by {query_dictionary.urlencode()}.",
+                f"{UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} should not show up in the list filtered by {query_dictionary.urlencode()}.",
             )
         return response

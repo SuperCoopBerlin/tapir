@@ -2,13 +2,15 @@
 {% load django_bootstrap5 %}
 {% load accounts %}
 {% load i18n %}
+{% load utils %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>
-        {% blocktranslate with display_name=member_infos.get_display_name %}
+        {% get_display_name_full member_infos as display_name_full %}
+        {% blocktranslate with display_name=display_name_full %}
             Confirmation acquisition of additional shares in {{ coop_name }} for {{ display_name }}
         {% endblocktranslate %}
     </title>
@@ -25,7 +27,7 @@
 <div style="display: flex">
     <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
         <span style="font-size: 6pt;">
-            {{ member_infos.get_display_name }},<br/>
+            {{ display_name_full }},<br/>
             {{ member_infos.street }},<br/>
             {% if member_infos.street_2 %} {{ member_infos.street_2 }},<br/>{% endif %}
             {{ member_infos.postcode }} {{ member_infos.city }}
@@ -48,8 +50,9 @@
 
 <div style="margin-top: 10mm; line-height: 1.8rem;">
     <div style="display: flex; justify-content: flex-end">Berlin, {{ date|date:"j. F Y" }}</div>
-    {% blocktranslate with first_name=member_infos.first_name %}
-        <p>Dear {{ first_name }},</p>
+    {% get_display_name_short member_infos as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short %}
+        <p>Dear {{ display_name_short }},</p>
 
         <p>
             Thank you for your support!<br/>

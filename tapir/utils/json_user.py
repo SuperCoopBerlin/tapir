@@ -1,4 +1,5 @@
 import datetime
+import random
 
 import phonenumbers
 from unidecode import unidecode
@@ -14,6 +15,8 @@ from tapir.utils.user_utils import UserUtils
 class JsonUser:
     first_name: str
     last_name: str
+    usage_name: str
+    pronouns: str
     email: str
     phone_number: str
     birthdate: datetime.date
@@ -29,6 +32,8 @@ class JsonUser:
     def __init__(self, parsed_json):
         self.first_name = parsed_json["name"]["first"]
         self.last_name = parsed_json["name"]["last"]
+        self.usage_name = ""
+        self.pronouns = random.choice(["he/him", "she/her", "they/them"])
         self.email = parsed_json["email"]
 
         phone_number = phonenumbers.parse(parsed_json["phone"].replace("-", ""), "DE")
@@ -62,9 +67,6 @@ class JsonUser:
 
     def get_username(self) -> str:
         return unidecode(self.first_name.lower() + "." + self.last_name.lower())
-
-    def get_display_name(self) -> str:
-        return UserUtils.build_display_name(self.first_name, self.last_name)
 
     def get_date_of_birth_str_for_input_field(self) -> str:
         return self.birthdate.strftime("%Y-%m-%d")

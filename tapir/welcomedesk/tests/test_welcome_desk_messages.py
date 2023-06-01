@@ -13,6 +13,7 @@ from tapir.shifts.models import (
     ShiftExemption,
 )
 from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.user_utils import UserUtils
 
 
 class TestWelcomeDeskMessages(TapirFactoryTestBase):
@@ -110,13 +111,13 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
                 self.assertIn(
                     message,
                     response_content,
-                    f"Message {message} should be showing for user {share_owner.get_info().get_display_name()}",
+                    f"Message {message} should be showing for user {UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)}",
                 )
             else:
                 self.assertNotIn(
                     message,
                     response_content,
-                    f"Message {message} should not be showing for user {share_owner.get_info().get_display_name()}",
+                    f"Message {message} should not be showing for user {UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)}",
                 )
 
     @staticmethod

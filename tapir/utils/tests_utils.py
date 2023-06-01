@@ -22,7 +22,6 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
 from tapir.accounts.models import TapirUser
-from tapir.accounts.templatetags.accounts import format_phone_number
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_base import TapirEmailBase
@@ -156,42 +155,6 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
             f"document.getElementById('{element_id}').value = '"
             + date.strftime("%Y-%m-%d")
             + "';"
-        )
-
-
-class TapirUserTestBase(TapirSeleniumTestBase):
-    def check_tapir_user_details(self, user: JsonUser):
-        self.assertEqual(
-            self.selenium.find_element(By.ID, "tapir_user_display_name").text,
-            user.get_display_name(),
-        )
-        self.assertEqual(
-            self.selenium.find_element(By.ID, "tapir_user_username").text,
-            user.get_username(),
-        )
-        self.assertEqual(
-            self.selenium.find_element(By.ID, "tapir_user_email").text,
-            user.email,
-        )
-        self.assertEqual(
-            self.selenium.find_element(By.ID, "tapir_user_phone_number").text,
-            format_phone_number(user.phone_number),
-        )
-        self.assertEqual(
-            self.selenium.find_element(By.ID, "tapir_user_birthdate").text,
-            user.get_birthdate_display(),
-        )
-        self.assertEqual(
-            self.selenium.find_element(By.ID, "tapir_user_address").text,
-            user.get_display_address(),
-        )
-        self.assertEqual(
-            self.selenium.find_element(By.ID, "share_owner_status").text,
-            "Active",
-        )
-        self.assertEqual(
-            self.selenium.find_element(By.ID, "share_owner_num_shares").text,
-            str(user.num_shares),
         )
 
 

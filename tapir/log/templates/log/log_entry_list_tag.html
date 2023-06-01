@@ -3,6 +3,7 @@
 
 {% load log %}
 {% load core %}
+{% load utils %}
 
 <div class="card mb-2">
     <h5 class="card-header d-flex justify-content-between align-items-center">
@@ -28,7 +29,13 @@
                     {% for o in log_entries %}
                         <tr>
                             <td>{{ o.created_date|date:"d.m.Y H:i" }}</td>
-                            <td>{{ o.actor.get_display_name|default_if_none:o.actor }}</td>
+                            <td>
+                                {% if o.actor %}
+                                    {% get_display_name_for_viewer o.actor request.user %}
+                                {% else %}
+                                     -
+                                {% endif %}
+                            </td>
                             <td>{{ o.render }}</td>
                         </tr>
                     {% endfor %}
