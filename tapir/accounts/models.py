@@ -67,7 +67,8 @@ class LdapUser(AbstractUser):
         self.set_unusable_password()
 
     def delete(self):
-        self.get_ldap().delete()
+        if self.has_ldap():
+            self.get_ldap().delete()
         super(LdapUser, self).delete()
 
     def set_password(self, raw_password):
