@@ -201,7 +201,9 @@ class CreateShiftAccountEntryView(
         }
         context_data["card_title"] = _(
             "Create manual shift account entry for:  %(link)s"
-        ) % UserUtils.build_html_link_for_viewer(tapir_user, self.request.user)
+        ) % {
+            "link": UserUtils.build_html_link_for_viewer(tapir_user, self.request.user)
+        }
         return context_data
 
     def get_success_url(self):
