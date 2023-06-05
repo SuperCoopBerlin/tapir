@@ -95,8 +95,6 @@ class EditUsernameForm(forms.ModelForm):
 
     def clean_username(self):
         if TapirUser.objects.filter(username=self.cleaned_data["username"]).exists():
-            raise ValidationError(
-                _("This username is already used by another account.")
-            )
+            raise ValidationError(_("This username is not available."))
 
         return self.cleaned_data["username"]

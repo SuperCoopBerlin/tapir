@@ -17,6 +17,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts import validators
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
+from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import PERMISSIONS
 from tapir.utils.models import CountryField
@@ -150,7 +151,12 @@ class TapirUser(LdapUser):
         },
     )
 
-    usage_name = models.CharField(_("Usage name"), max_length=150, blank=True)
+    usage_name = models.CharField(
+        _("Displayed name"),
+        max_length=150,
+        blank=True,
+        help_text=_(help_text_displayed_name),
+    )
     pronouns = models.CharField(_("Pronouns"), max_length=150, blank=True)
     phone_number = PhoneNumberField(_("Phone number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)

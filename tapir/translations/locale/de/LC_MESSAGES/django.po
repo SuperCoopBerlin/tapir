@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-01 20:14+0200\n"
-"PO-Revision-Date: 2023-06-01 20:17+0200\n"
+"POT-Creation-Date: 2023-06-05 09:55+0200\n"
+"PO-Revision-Date: 2023-06-05 10:10+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -24,86 +24,84 @@ msgid "Members"
 msgstr "Mitglieder"
 
 #: accounts/apps.py:18 accounts/templates/accounts/ldap_group_list.html:9
-#: accounts/templates/accounts/user_detail.html:112
+#: accounts/templates/accounts/user_detail.html:110
 msgid "Groups"
 msgstr ""
 
-#: accounts/forms.py:99
-#, fuzzy
-#| msgid "This user is already registered to another slot in this shift."
-msgid "This username is already used by another account."
-msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht registriert."
+#: accounts/forms.py:98
+msgid "This username is not available."
+msgstr ""
 
-#: accounts/models.py:141 accounts/templates/accounts/user_detail.html:69
+#: accounts/models.py:142 accounts/templates/accounts/user_detail.html:67
 #: coop/templates/coop/draftuser_detail.html:24
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/models.py:145
+#: accounts/models.py:146
 msgid "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
 msgstr ""
 "Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen oder ./-/_ "
 "verwenden."
 
-#: accounts/models.py:149
+#: accounts/models.py:150
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
-#: accounts/models.py:153 coop/models.py:49 coop/models.py:323
-msgid "Usage name"
+#: accounts/models.py:155
+msgid "Displayed name"
 msgstr "Angezeigte Name"
 
-#: accounts/models.py:154 coop/models.py:50 coop/models.py:324
+#: accounts/models.py:160 coop/models.py:58 coop/models.py:339
 msgid "Pronouns"
-msgstr ""
+msgstr "Pronomen"
 
-#: accounts/models.py:155 accounts/templates/accounts/user_detail.html:77 coop/models.py:52
-#: coop/models.py:326 coop/templates/coop/draftuser_detail.html:32
+#: accounts/models.py:161 accounts/templates/accounts/user_detail.html:75 coop/models.py:60
+#: coop/models.py:341 coop/templates/coop/draftuser_detail.html:32
 #: coop/templates/coop/shareowner_detail.html:49
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:156 accounts/templates/accounts/user_detail.html:87 coop/models.py:53
-#: coop/models.py:327 coop/templates/coop/draftuser_detail.html:36
+#: accounts/models.py:162 accounts/templates/accounts/user_detail.html:85 coop/models.py:61
+#: coop/models.py:342 coop/templates/coop/draftuser_detail.html:36
 #: coop/templates/coop/shareowner_detail.html:53
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:157 coop/models.py:54 coop/models.py:328
+#: accounts/models.py:163 coop/models.py:62 coop/models.py:343
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:158 coop/models.py:55 coop/models.py:329
+#: accounts/models.py:164 coop/models.py:63 coop/models.py:344
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:159 coop/models.py:56 coop/models.py:330
+#: accounts/models.py:165 coop/models.py:64 coop/models.py:345
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:160 coop/models.py:57 coop/models.py:331
+#: accounts/models.py:166 coop/models.py:65 coop/models.py:346
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:161 coop/models.py:58 coop/models.py:332
+#: accounts/models.py:167 coop/models.py:66 coop/models.py:347
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:162 accounts/templates/accounts/user_detail.html:121
+#: accounts/models.py:168 accounts/templates/accounts/user_detail.html:119
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:82
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:164
+#: accounts/models.py:170
 msgid "Allow purchase tracking"
 msgstr ""
 
-#: accounts/models.py:169 accounts/templates/accounts/user_detail.html:107 coop/models.py:61
-#: coop/models.py:335 coop/templates/coop/shareowner_detail.html:73
+#: accounts/models.py:175 accounts/templates/accounts/user_detail.html:105 coop/models.py:69
+#: coop/models.py:350 coop/templates/coop/shareowner_detail.html:73
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:204 accounts/models.py:213
+#: accounts/models.py:210 accounts/models.py:219
 msgid "None"
 msgstr "Keine"
 
@@ -202,7 +200,6 @@ msgid "Edit groups"
 msgstr "Gruppen bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:42
-#: accounts/templates/accounts/user_detail.html:49
 #: coop/templates/coop/draftuser_detail.html:132
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:19
@@ -216,42 +213,50 @@ msgstr "Gruppen bearbeiten"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:65
+#: accounts/templates/accounts/user_detail.html:49
+msgid "Edit name and pronouns"
+msgstr "Name und Pronomen bearbeiten"
+
+#: accounts/templates/accounts/user_detail.html:56
+msgid "Edit username"
+msgstr "Benutzername bearbeiten"
+
+#: accounts/templates/accounts/user_detail.html:63
 #: coop/templates/coop/draftuser_detail.html:20 coop/templates/coop/draftuser_list.html:27
 #: coop/templates/coop/shareowner_detail.html:41 core/templates/core/email_list.html:36
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:74
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:73
+#: accounts/templates/accounts/user_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:28 coop/templates/coop/draftuser_list.html:28
 #: coop/templates/coop/shareowner_detail.html:45
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:82
-#: accounts/templates/accounts/user_detail.html:92
-#: accounts/templates/accounts/user_detail.html:102
+#: accounts/templates/accounts/user_detail.html:80
+#: accounts/templates/accounts/user_detail.html:90
+#: accounts/templates/accounts/user_detail.html:100
 #: coop/templates/coop/draftuser_detail.html:50 coop/templates/coop/shareowner_detail.html:58
 #: coop/templates/coop/shareowner_detail.html:68
 #: shifts/templates/shifts/user_shifts_overview_tag.html:38
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:97
+#: accounts/templates/accounts/user_detail.html:95
 #: coop/templates/coop/draftuser_detail.html:45 coop/templates/coop/shareowner_detail.html:63
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:116
+#: accounts/templates/accounts/user_detail.html:114
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:133
+#: accounts/templates/accounts/user_detail.html:131
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:142
+#: accounts/templates/accounts/user_detail.html:140
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -485,7 +490,7 @@ msgstr "Anzahl zu erstellender Anteile"
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:104 coop/models.py:341
+#: coop/forms.py:104 coop/models.py:356
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
@@ -515,110 +520,114 @@ msgid ""
 "another person a share through the matching program, then the fields can be different."
 msgstr ""
 
-#: coop/models.py:41
+#: coop/models.py:42
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:47 coop/models.py:321
-msgid "First name"
-msgstr "Vorname"
+#: coop/models.py:49 coop/models.py:330
+msgid "Administrative first name"
+msgstr "Amtliche Vorname"
 
-#: coop/models.py:48 coop/models.py:322
+#: coop/models.py:51 coop/models.py:332
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:51 coop/models.py:325
+#: coop/models.py:53 coop/models.py:334
+msgid "Usage name"
+msgstr "Angezeigte Name"
+
+#: coop/models.py:59 coop/models.py:340
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: coop/models.py:68
+#: coop/models.py:76
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:70 coop/models.py:356 coop/templates/coop/draftuser_detail.html:67
+#: coop/models.py:78 coop/models.py:371 coop/templates/coop/draftuser_detail.html:67
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:45
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:169
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:72 coop/models.py:348
+#: coop/models.py:80 coop/models.py:363
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:74 coop/models.py:353
+#: coop/models.py:82 coop/models.py:368
 msgid "Paid Entrance Fee"
 msgstr "Eintrittsgeld bezahlt"
 
-#: coop/models.py:76
+#: coop/models.py:84
 msgid "Is willing to gift a share"
 msgstr "Ist bereit Anteile zu verschenken"
 
-#: coop/models.py:144
+#: coop/models.py:152
 msgid "Cannot be a company and have a Tapir account"
 msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
-#: coop/models.py:160
+#: coop/models.py:168
 msgid "User info should be stored in associated Tapir account"
 msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 
-#: coop/models.py:248
+#: coop/models.py:256
 msgid "Sold"
 msgstr "Verkauft"
 
-#: coop/models.py:249 coop/templates/coop/draftuser_detail.html:59
+#: coop/models.py:257 coop/templates/coop/draftuser_detail.html:59
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:32
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:250 coop/templates/coop/draftuser_detail.html:61
+#: coop/models.py:258 coop/templates/coop/draftuser_detail.html:61
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:35
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:102
 #: coop/views/statistics.py:140
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:303
+#: coop/models.py:311
 msgid "Amount paid for a share can't be negative"
 msgstr "Der Betrag kann nicht negative sein"
 
-#: coop/models.py:307
+#: coop/models.py:315
 #, python-brace-format
 msgid "Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
 msgstr "Der Betrag kann nicht mehr als {COOP_SHARE_PRICE} sein"
 
-#: coop/models.py:344
+#: coop/models.py:359
 msgid "Investing member"
 msgstr "Investierendes Mitglied"
 
-#: coop/models.py:351
+#: coop/models.py:366
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:354 coop/templates/coop/draftuser_detail.html:122
+#: coop/models.py:369 coop/templates/coop/draftuser_detail.html:122
 msgid "Paid Shares"
 msgstr "Anteil(e) bezahlt"
 
-#: coop/models.py:398
+#: coop/models.py:413
 msgid "Paying member"
 msgstr "Zahlendes Mitglied"
 
-#: coop/models.py:406
+#: coop/models.py:421
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:413
+#: coop/models.py:428
 msgid "Amount"
 msgstr "Betrag"
 
-#: coop/models.py:419
+#: coop/models.py:434
 msgid "Payment date"
 msgstr "Zahldatum"
 
-#: coop/models.py:422
+#: coop/models.py:437
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
-#: coop/models.py:427
+#: coop/models.py:442
 msgid "Created by"
 msgstr "Erstellt durch"
 
@@ -3671,9 +3680,13 @@ msgid "Member ID"
 msgstr "Mitglieds-ID"
 
 #, fuzzy
-#~| msgid "Edit share owner"
-#~ msgid "Edit username"
-#~ msgstr "Mitglied bearbeiten"
+#~| msgid "This user is already registered to another slot in this shift."
+#~ msgid "This username is already used by another account."
+#~ msgstr ""
+#~ "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht registriert."
+
+#~ msgid "First name"
+#~ msgstr "Vorname"
 
 #, fuzzy
 #~| msgid "Last name"

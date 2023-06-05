@@ -11,6 +11,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
+from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.utils.models import (
     DurationModelMixin,
@@ -44,9 +45,16 @@ class ShareOwner(models.Model):
 
     # In the case that this is a company, this is the contact data for the company representative
     # There can also be investing members that do not have a user account
-    first_name = models.CharField(_("First name"), max_length=150, blank=True)
+    first_name = models.CharField(
+        _("Administrative first name"), max_length=150, blank=True
+    )
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
-    usage_name = models.CharField(_("Usage name"), max_length=150, blank=True)
+    usage_name = models.CharField(
+        _("Usage name"),
+        max_length=150,
+        blank=True,
+        help_text=_(help_text_displayed_name),
+    )
     pronouns = models.CharField(_("Pronouns"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
     phone_number = PhoneNumberField(_("Phone number"), blank=True)
@@ -318,9 +326,16 @@ class DeleteShareOwnershipLogEntry(ModelLogEntry):
 
 
 class DraftUser(models.Model):
-    first_name = models.CharField(_("First name"), max_length=150, blank=True)
+    first_name = models.CharField(
+        _("Administrative first name"), max_length=150, blank=True
+    )
     last_name = models.CharField(_("Last name"), max_length=150, blank=True)
-    usage_name = models.CharField(_("Usage name"), max_length=150, blank=True)
+    usage_name = models.CharField(
+        _("Usage name"),
+        max_length=150,
+        blank=True,
+        help_text=_(help_text_displayed_name),
+    )
     pronouns = models.CharField(_("Pronouns"), max_length=150, blank=True)
     email = models.EmailField(_("Email address"), blank=True)
     phone_number = PhoneNumberField(_("Phone number"), blank=True)

@@ -69,7 +69,7 @@
                                         {% else %}
                                             <span>{% get_display_name_for_viewer attendance.user request.user %}</span>
                                         {% endif %}
-
+                                        <span>({{ attendance.user.pronouns }})</span>
                                         {% if perms.shifts.manage %}
                                             <form style="display: inline;"
                                                   method="post"
