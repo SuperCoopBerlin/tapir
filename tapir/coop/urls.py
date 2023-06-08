@@ -177,7 +177,12 @@ urlpatterns = [
     ),
     path(
         "new_members_csv_view",
-        views.member_status_updates_json_view,
+        views.member_status_updates_csv_view,
         name="member_status_updates_csv_view",
+    ),
+    path(
+        "active_members_with_account_at_end_of_month_csv_view",
+        views.active_members_with_account_at_end_of_month_csv_view,
+        name="active_members_with_account_at_end_of_month_csv_view",
     ),
 ]

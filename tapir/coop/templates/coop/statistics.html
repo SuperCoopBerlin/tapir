@@ -46,8 +46,12 @@
     <div class="row">
         <div class="col-xl-6">
             <div class="card mb-2">
-                <h5 class="card-header">
+                <h5 class="card-header d-flex justify-content-between align-items-center">
                     <span>{% translate "Statistics on members" %}</span>
+                    <a class="{% tapir_button_link %}" href="{% url 'coop:active_members_with_account_at_end_of_month_csv_view' %}">
+                        <span class="material-icons">file_present</span>
+                        {% translate "Active members with account at end of month as CSV" %}
+                    </a>
                 </h5>
                 <div class="card-body">
                     <ul>
