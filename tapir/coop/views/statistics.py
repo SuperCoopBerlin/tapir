@@ -397,8 +397,7 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
         return cls.dates_from_first_share_to_today
 
 
-def member_status_updates_json_view(_):
-    # Create the HttpResponse object with the appropriate CSV header.
+def member_status_updates_csv_view(_):
     response = HttpResponse(
         content_type="text/csv",
         headers={
@@ -433,4 +432,38 @@ def member_status_updates_json_view(_):
                 data[4][index],
             ]
         )
+    return response
+
+
+def active_members_with_account_at_end_of_month_csv_view(_):
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={
+            "Content-Disposition": 'attachment; filename="active_members_with_account_at_end_of_month.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "month",
+            "number_of_active_members_with_account",
+        ]
+    )
+
+    months = (
+        MemberStatusUpdatesJsonView.get_and_cache_dates_from_last_year_or_first_share_to_today()
+    )
+    for month in months:
+        # Vorstand specified that they want end-of-month stats for this one.
+        month -= datetime.timedelta(days=1)
+        writer.writerow(
+            [
+                month,
+                ShareOwner.objects.with_status(MemberStatus.ACTIVE, month)
+                .filter(user__isnull=False)
+                .count(),
+            ]
+        )
+
     return response
