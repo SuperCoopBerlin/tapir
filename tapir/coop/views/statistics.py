@@ -460,7 +460,6 @@ def active_members_with_account_at_end_of_month_csv_view(_):
     )
     for month in months:
         # Vorstand specified that they want end-of-month stats for this one.
-        month -= datetime.timedelta(days=1)
         writer.writerow(
             [
                 month,
