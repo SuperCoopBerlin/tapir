@@ -461,7 +461,7 @@ def active_members_with_account_at_end_of_month_csv_view(_):
             [
                 month,
                 ShareOwner.objects.with_status(MemberStatus.ACTIVE, month)
-                .filter(user__isnull=False)
+                .filter(user__isnull=False, user__date_joined__lte=month)
                 .count(),
             ]
         )
