@@ -6,7 +6,7 @@
 {% block body %}
     {% blocktranslate %}
         <p>
-            Hello Accounting team,
+            Hello Accounting team, hello member office,
         </p>
         <p>
             This is the Tapir accounting recap for the past week.
@@ -32,7 +32,7 @@
                 </ul>
             </li>
             <li>
-                {% translate "New shares for existing members" %}
+                {% translate "New shares for existing members upload only after approval in Duo" %}
                 <ul>
                     {% for entry in extra_shares_recap_entries %}
                         <li>
