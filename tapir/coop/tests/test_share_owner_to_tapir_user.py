@@ -115,6 +115,7 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase, TapirEmailTestBase):
             reverse("coop:create_user_from_shareowner", args=[share_owner.pk]),
             {
                 "first_name": share_owner.get_info().first_name,
+                "usage_name": share_owner.get_info().usage_name,
                 "last_name": share_owner.get_info().last_name,
                 "username": f"{share_owner.get_info().first_name.lower()}.{share_owner.get_info().last_name.lower()}",
             },

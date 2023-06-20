@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms
+from django.core.exceptions import ValidationError
 from django.forms import TextInput
+from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.accounts.models import TapirUser, LdapGroup
@@ -15,6 +17,8 @@ class TapirUserForm(forms.ModelForm):
         fields = [
             "first_name",
             "last_name",
+            "usage_name",
+            "pronouns",
             "username",
             "phone_number",
             "email",
@@ -30,6 +34,15 @@ class TapirUserForm(forms.ModelForm):
             "birthdate": DateInputTapir(),
             "username": TextInput(attrs={"readonly": True}),
         }
+
+
+class TapirUserSelfUpdateForm(forms.ModelForm):
+    class Meta:
+        model = TapirUser
+        fields = [
+            "usage_name",
+            "pronouns",
+        ]
 
 
 class PasswordResetForm(auth_forms.PasswordResetForm):
@@ -67,3 +80,21 @@ class EditUserLdapGroupsForm(forms.Form):
                 label=group_cn,
                 initial=user_dn in LdapGroup.objects.get(cn=group_cn).members,
             )
+
+
+class EditUsernameForm(forms.ModelForm):
+    class Meta:
+        model = TapirUser
+        fields = ["username"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field_name in self.Meta.fields:
+            self.fields[field_name].required = True
+
+    def clean_username(self):
+        if TapirUser.objects.filter(username=self.cleaned_data["username"]).exists():
+            raise ValidationError(_("This username is not available."))
+
+        return self.cleaned_data["username"]

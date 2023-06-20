@@ -6,9 +6,10 @@
 {% load log %}
 {% load accounts %}
 {% load core %}
+{% load utils %}
 
 {% block title %}
-    {% translate "Member" %}: {{ object.get_info.get_display_name }}
+    {% translate "Member" %}: {% get_display_name_for_viewer object request.user %}
 {% endblock %}
 
 {% block content %}
@@ -38,7 +39,7 @@
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                        <div class="col-8" id="share_owner_display_name">{{ object.get_info.get_display_name }}</div>
+                        <div class="col-8" id="share_owner_display_name">{% get_display_name_for_viewer object request.user %}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Email" %}:</div>

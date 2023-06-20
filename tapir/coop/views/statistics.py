@@ -212,8 +212,11 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
         end_date = datetime.date.today()
         dates = []
         while current_date < end_date:
-            dates.append(current_date)
+            dates.append(current_date - datetime.timedelta(days=1))
             current_date = get_first_of_next_month(current_date)
+
+        if len(dates) > 0 and dates[-1] != end_date:
+            dates.append(end_date)
 
         return dates
 
@@ -297,8 +300,8 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
             active_to_investing_count_at_date = 0
             investing_to_active_count_at_date = 0
 
-            if date in members_per_creation_month.keys():
-                for member in members_per_creation_month[date]:
+            if date.replace(day=1) in members_per_creation_month.keys():
+                for member in members_per_creation_month[date.replace(day=1)]:
                     if cls.did_member_start_as_investing(member_status_updates, member):
                         new_investing_members_count_at_date += 1
                     else:
@@ -353,7 +356,8 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
     @staticmethod
     def filter_status_updates_per_month(updates, date: datetime.date):
         return updates.filter(
-            created_date__gte=date, created_date__lt=get_first_of_next_month(date)
+            created_date__gte=date.replace(day=1),
+            created_date__lt=get_first_of_next_month(date),
         )
 
     @classmethod
@@ -397,8 +401,7 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
         return cls.dates_from_first_share_to_today
 
 
-def member_status_updates_json_view(_):
-    # Create the HttpResponse object with the appropriate CSV header.
+def member_status_updates_csv_view(_):
     response = HttpResponse(
         content_type="text/csv",
         headers={
@@ -433,4 +436,37 @@ def member_status_updates_json_view(_):
                 data[4][index],
             ]
         )
+    return response
+
+
+def active_members_with_account_at_end_of_month_csv_view(_):
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={
+            "Content-Disposition": 'attachment; filename="active_members_with_account_at_end_of_month.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "month",
+            "number_of_active_members_with_account",
+        ]
+    )
+
+    months = (
+        MemberStatusUpdatesJsonView.get_and_cache_dates_from_last_year_or_first_share_to_today()
+    )
+    for month in months:
+        # Vorstand specified that they want end-of-month stats for this one.
+        writer.writerow(
+            [
+                month,
+                ShareOwner.objects.with_status(MemberStatus.ACTIVE, month)
+                .filter(user__isnull=False, user__date_joined__lte=month)
+                .count(),
+            ]
+        )
+
     return response

@@ -1,11 +1,12 @@
 {% extends "core/email_base.html" %}
 
 {% load i18n %}
+{% load utils %}
 
 {% block body %}
     {% blocktranslate %}
         <p>
-            Hello Accounting team,
+            Hello Accounting team, hello member office,
         </p>
         <p>
             This is the Tapir accounting recap for the past week.
@@ -24,19 +25,19 @@
                     {% for entry in new_member_recap_entries %}
                         <li>
                             <a href="{{ site_url }}{% url 'coop:shareowner_membership_confirmation' entry.member.id %}?num_shares={{ entry.number_of_shares }}&date={{ entry.date|date:"d.m.Y" }}">
-                                {{ entry.member.get_info.get_display_name }}, {{ entry.number_of_shares }} {% translate "share(s)" %}, {{ entry.date|date:"d.m.Y" }}
+                                {% get_display_name_full entry.member %}, {{ entry.number_of_shares }} {% translate "share(s)" %}, {{ entry.date|date:"d.m.Y" }}
                             </a>
                         </li>
                     {% endfor %}
                 </ul>
             </li>
             <li>
-                {% translate "New shares for existing members" %}
+                {% translate "New shares for existing members upload only after approval in Duo" %}
                 <ul>
                     {% for entry in extra_shares_recap_entries %}
                         <li>
                             <a href="{{ site_url }}{% url 'coop:shareowner_membership_confirmation' entry.member.id %}?num_shares={{ entry.number_of_shares }}&date={{ entry.date|date:"d.m.Y" }}">
-                                {{ entry.member.get_info.get_display_name }}, {{ entry.number_of_shares }} {% translate "share(s)" %}, {{ entry.date|date:"d.m.Y" }}
+                                {% get_display_name_full entry.member %}, {{ entry.number_of_shares }} {% translate "share(s)" %}, {{ entry.date|date:"d.m.Y" }}
                             </a>
                         </li>
                     {% endfor %}

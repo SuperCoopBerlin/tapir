@@ -8,6 +8,7 @@ from tapir.coop import pdfs
 from tapir.coop.models import ShareOwner
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.utils.user_utils import UserUtils
 
 
 class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
@@ -44,7 +45,9 @@ class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
         return [
             (
                 "Mitgliedschaftsbestätigung %s.pdf"
-                % self.share_owner.get_info().get_display_name(),
+                % UserUtils.build_display_name(
+                    self.share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
+                ),
                 pdfs.get_shareowner_membership_confirmation_pdf(
                     self.share_owner,
                     num_shares=self.share_owner.get_active_share_ownerships().count(),

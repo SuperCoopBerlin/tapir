@@ -1,8 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const usagenameField = document.getElementById("id_usage_name");
     const firstnameField = document.getElementById("id_first_name");
     const lastnameField = document.getElementById("id_last_name");
     const usernameField = document.getElementById("id_username");
 
+    usagenameField.addEventListener("change", updateUsername);
+    usagenameField.addEventListener("input", updateUsername);
     firstnameField.addEventListener("change", updateUsername);
     firstnameField.addEventListener("input", updateUsername);
     lastnameField.addEventListener("change", updateUsername);
@@ -53,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function updateUsername() {
-        let firstName = firstnameField.value
+        let firstName = usagenameField.value || firstnameField.value
         let lastName = lastnameField.value
 
         // str.strip()

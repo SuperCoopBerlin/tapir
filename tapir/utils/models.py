@@ -375,6 +375,8 @@ def get_country_code(full_country_name: str) -> str:
 def copy_user_info(source, target):
     target.first_name = source.first_name
     target.last_name = source.last_name
+    target.usage_name = source.usage_name
+    target.pronouns = source.pronouns
     target.email = source.email
     target.phone_number = source.phone_number
     target.birthdate = source.birthdate

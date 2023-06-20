@@ -17,6 +17,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts import validators
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
+from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import PERMISSIONS
 from tapir.utils.models import CountryField
@@ -34,8 +35,7 @@ class LdapUser(AbstractUser):
         return LdapPerson.objects.get(uid=self.get_username())
 
     def has_ldap(self):
-        result = LdapPerson.objects.filter(uid=self.get_username())
-        return len(result) == 1
+        return LdapPerson.objects.filter(uid=self.get_username()).count() == 1
 
     def create_ldap(self):
         username = self.username
@@ -55,7 +55,9 @@ class LdapUser(AbstractUser):
             ldap_user = LdapPerson(uid=self.username)
 
         ldap_user.sn = self.last_name or self.username
-        ldap_user.cn = self.get_full_name() or self.username
+        ldap_user.cn = UserUtils.build_display_name(
+            self, UserUtils.DISPLAY_NAME_TYPE_FULL
+        )
         ldap_user.mail = self.email
         ldap_user.save()
 
@@ -65,7 +67,8 @@ class LdapUser(AbstractUser):
         self.set_unusable_password()
 
     def delete(self):
-        self.get_ldap().delete()
+        if self.has_ldap():
+            self.get_ldap().delete()
         super(LdapUser, self).delete()
 
     def set_password(self, raw_password):
@@ -149,6 +152,13 @@ class TapirUser(LdapUser):
         },
     )
 
+    usage_name = models.CharField(
+        _("Displayed name"),
+        max_length=150,
+        blank=True,
+        help_text=_(help_text_displayed_name),
+    )
+    pronouns = models.CharField(_("Pronouns"), max_length=150, blank=True)
     phone_number = PhoneNumberField(_("Phone number"), blank=True)
     birthdate = models.DateField(_("Birthdate"), blank=True, null=True)
     street = models.CharField(_("Street and house number"), max_length=150, blank=True)
@@ -171,11 +181,13 @@ class TapirUser(LdapUser):
 
     objects = TapirUserManager()
 
-    def get_display_name(self):
-        return UserUtils.build_display_name(self.first_name, self.last_name)
+    def get_display_name(self, display_type):
+        return UserUtils.build_display_name(self, display_type)
 
-    def get_html_link(self):
-        return get_html_link(url=self.get_absolute_url(), text=self.get_display_name())
+    def get_html_link(self, display_type):
+        return get_html_link(
+            url=self.get_absolute_url(), text=self.get_display_name(display_type)
+        )
 
     def get_display_address(self):
         return UserUtils.build_display_address(
@@ -207,6 +219,21 @@ class TapirUser(LdapUser):
         if len(user_groups) == 0:
             return _("None")
         return ", ".join(user_groups)
+
+    def get_member_number(self):
+        if not hasattr(self, "share_owner") or not self.share_owner:
+            return None
+
+        return self.share_owner.get_member_number()
+
+    def get_info(self):
+        return self
+
+    def get_is_company(self):
+        if not hasattr(self, "share_owner") or not self.share_owner:
+            return False
+
+        return self.share_owner.get_is_company()
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):

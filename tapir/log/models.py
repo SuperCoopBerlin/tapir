@@ -121,7 +121,7 @@ class EmailLogEntry(LogEntry):
     ):
         self.email_id = email_id
         if email_message is not None:
-            self.subject = email_message.subject
+            self.subject = email_message.subject[:128]
             self.email_content = email_message.message().as_bytes()
         return super().populate_base(
             actor=actor, tapir_user=tapir_user, share_owner=share_owner

@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load core %}
+{% load utils %}
 
 {% block title %}
     {% translate 'Shift' %}: {{ shift.get_display_name }}
@@ -97,10 +98,11 @@
                                     <td><span class="shift-centered-content">
                                         {% if perms.shifts.manage %}
                                             <a class="shift-user"
-                                               href="{{ attendance.user.get_absolute_url }}">{{ attendance.user.get_display_name }}</a>
+                                               href="{{ attendance.user.get_absolute_url }}">{% get_display_name_for_viewer attendance.user request.user %}</a>
                                         {% else %}
-                                            <span class="shift-user">{{ attendance.user.first_name }}</span>
+                                            <span class="shift-user">{% get_display_name_for_viewer attendance.user request.user %}</span>
                                         {% endif %}
+                                        {% if attendance.user.pronouns %} ({{ attendance.user.pronouns }}){% endif %}
                                     </span></td>
                                     <td><span class="shift-centered-content">
                                         {{ attendance.get_state_display }}
@@ -294,7 +296,7 @@
                                 <td><span class="shift-centered-content">
                                     {% for previous_attendance in slot.previous_attendances %}
                                         <p>
-                                            {{ previous_attendance.user.get_display_name }}
+                                            {% get_display_name_for_viewer previous_attendance.user request.user %}
                                             ({{ SHIFT_ATTENDANCE_STATES|dictionary_get:previous_attendance.state }})
                                             <a class="{% tapir_button_link_to_action %} btn-sm"
                                                href="{% url 'shifts:update_shift_attendance_state_with_form' previous_attendance.pk previous_attendance.state %}">

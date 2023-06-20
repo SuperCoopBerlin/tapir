@@ -8,6 +8,7 @@
 {% load log %}
 {% load accounts %}
 {% load core %}
+{% load utils %}
 
 {% block head %}
     {{ block.super }}
@@ -15,7 +16,7 @@
 {% endblock %}
 
 {% block title %}
-    {% translate 'Member' %}: {{ object.get_display_name }}
+    {% translate 'Member' %}: {% get_display_name_for_viewer object request.user %}
 {% endblock %}
 
 {% block content %}
@@ -41,13 +42,26 @@
                                     <span class="material-icons">edit</span>{% translate 'Edit' %}
                                 </a>
                             </div>
+                        {% else %}
+                            <div class="ms-1">
+                                <a class="{% tapir_button_link_to_action %}"
+                                   href="{% url 'accounts:user_update_self' object.pk %}">
+                                    <span class="material-icons">edit</span>{% translate 'Edit name and pronouns' %}
+                                </a>
+                            </div>
                         {% endif %}
+                        <div class="ms-1">
+                            <a class="{% tapir_button_link_to_action %}"
+                               href="{% url 'accounts:edit_username' object.pk %}">
+                                <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
+                            </a>
+                        </div>
                     </span>
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                        <div class="col-8" id="tapir_user_display_name">{{ object.get_display_name }}</div>
+                        <div class="col-8" id="tapir_user_display_name">{% get_display_name_full object %}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Username" %}:</div>

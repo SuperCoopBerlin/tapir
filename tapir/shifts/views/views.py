@@ -43,7 +43,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
-from tapir.utils.shortcuts import get_html_link
+from tapir.utils.user_utils import UserUtils
 
 
 class SelectedUserViewMixin:
@@ -96,10 +96,12 @@ class EditShiftUserDataView(
         context_data = super().get_context_data()
         tapir_user: TapirUser = self.object.user
         context_data["page_title"] = _("Edit user shift data: %(name)s") % {
-            "name": tapir_user.get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                tapir_user, self.request.user
+            )
         }
         context_data["card_title"] = _("Edit user shift data: %(name)s") % {
-            "name": tapir_user.get_html_link()
+            "name": UserUtils.build_html_link_for_viewer(tapir_user, self.request.user)
         }
         return context_data
 
@@ -160,11 +162,15 @@ class CreateShiftAccountEntryView(
         context_data = super().get_context_data(**kwargs)
         tapir_user = self.get_target_user()
         context_data["page_title"] = _("Shift account: %(name)s") % {
-            "name": tapir_user.get_display_name()
+            "name": UserUtils.build_display_name_for_viewer(
+                tapir_user, self.request.user
+            )
         }
         context_data["card_title"] = _(
             "Create manual shift account entry for:  %(link)s"
-        ) % {"link": tapir_user.get_html_link()}
+        ) % {
+            "link": UserUtils.build_html_link_for_viewer(tapir_user, self.request.user)
+        }
         return context_data
 
     def get_success_url(self):
@@ -245,13 +251,14 @@ class ShiftUserDataTable(django_tables2.Table):
     )
     email = django_tables2.Column(empty_values=(), orderable=False, visible=False)
 
+    def before_render(self, request):
+        self.request = request
+
     def render_display_name(self, value, record: ShiftUserData):
-        return get_html_link(
-            record.user.get_absolute_url(), record.user.get_display_name()
-        )
+        return UserUtils.build_html_link_for_viewer(record.user, self.request.user)
 
     def value_display_name(self, value, record: ShiftUserData):
-        return record.user.get_display_name()
+        return UserUtils.build_display_name_for_viewer(record.user, self.request.user)
 
     def value_email(self, value, record: ShiftUserData):
         return record.user.email

@@ -56,6 +56,7 @@ class Command(BaseCommand):
             subject="".join(subject.splitlines()),
             body=body,
             to=[settings.EMAIL_ADDRESS_ACCOUNTING],
+            cc=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
             from_email=settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         )
         email.content_subtype = "html"

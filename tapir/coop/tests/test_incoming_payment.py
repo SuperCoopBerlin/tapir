@@ -30,26 +30,31 @@ class TestIncomingPayments(TapirFactoryTestBase):
             is_in_accounting_team=True,
             is_in_member_office=False,
             first_name=self.ACCOUNTING_TEAM_MEMBER_NAME,
+            usage_name="",
         )
         self.member_office_member = TapirUserFactory.create(
             is_in_accounting_team=False,
             is_in_member_office=True,
             first_name=self.MEMBER_OFFICE_MEMBER_NAME,
+            usage_name="",
         )
         self.normal_member_1 = TapirUserFactory.create(
             is_in_accounting_team=False,
             is_in_member_office=False,
             first_name=self.NORMAL_MEMBER_1_NAME,
+            usage_name="",
         )
         self.normal_member_2 = TapirUserFactory.create(
             is_in_accounting_team=False,
             is_in_member_office=False,
             first_name=self.NORMAL_MEMBER_2_NAME,
+            usage_name="",
         )
         self.normal_member_3 = TapirUserFactory.create(
             is_in_accounting_team=False,
             is_in_member_office=False,
             first_name=self.NORMAL_MEMBER_3_NAME,
+            usage_name="",
         )
 
     def test_normal_member_doesnt_see_other_peoples_payments(self):

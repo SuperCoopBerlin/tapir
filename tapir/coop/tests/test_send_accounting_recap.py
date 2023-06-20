@@ -52,28 +52,28 @@ class TestSendAccountingRecap(TapirFactoryTestBase, TapirEmailTestBase):
         sent_mail = mail.outbox[0]
         self.assertEqual([settings.EMAIL_ADDRESS_ACCOUNTING], sent_mail.to)
 
-        self.assertIn(member_1.get_info().first_name, sent_mail.body)
+        self.assertIn(member_1.get_info().usage_name, sent_mail.body)
         url_member_1 = (
             reverse(self.VIEW_NAME, args=[member_1.pk])
             + "?num_shares=3&date=12.01.2020"
         )
         self.assertIn(url_member_1, sent_mail.body)
 
-        self.assertIn(member_2.get_info().first_name, sent_mail.body)
+        self.assertIn(member_2.get_info().usage_name, sent_mail.body)
         url_member_2 = (
             reverse(self.VIEW_NAME, args=[member_2.pk])
             + "?num_shares=2&date=15.04.2021"
         )
         self.assertIn(url_member_2, sent_mail.body)
 
-        self.assertIn(member_3.get_info().first_name, sent_mail.body)
+        self.assertIn(member_3.get_info().usage_name, sent_mail.body)
         url_member_3 = (
             reverse(self.VIEW_NAME, args=[member_3.pk])
             + "?num_shares=5&date=12.03.2022"
         )
         self.assertIn(url_member_3, sent_mail.body)
 
-        self.assertIn(member_4.get_info().first_name, sent_mail.body)
+        self.assertIn(member_4.get_info().usage_name, sent_mail.body)
         url_member_4 = (
             reverse(self.VIEW_NAME, args=[member_4.pk])
             + "?num_shares=4&date=16.10.2023"

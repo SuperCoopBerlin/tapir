@@ -1,10 +1,11 @@
 {% extends "core/email_base.html" %}
 
 {% load i18n %}
+{% load utils %}
 
 {% block body %}
     <p>
-        Hello {{ share_owner.get_info.get_display_name }},
+        Hello {% get_display_name_short share_owner %},
     </p>
     <p>
         Welcome as a full member! Please find attached your membership confirmation. We are very happy that you are on

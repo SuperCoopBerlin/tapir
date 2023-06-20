@@ -13,6 +13,7 @@ from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.settings import PERMISSION_WELCOMEDESK_VIEW
 from tapir.shifts.models import ShiftAttendanceMode, ShiftAttendanceTemplate
 from tapir.utils.shortcuts import get_html_link
+from tapir.utils.user_utils import UserUtils
 
 
 class ShareOwnerTableWelcomeDesk(django_tables2.Table):
@@ -37,7 +38,7 @@ class ShareOwnerTableWelcomeDesk(django_tables2.Table):
     def render_display_name(value, record: ShareOwner):
         return get_html_link(
             reverse("welcomedesk:welcome_desk_share_owner", args=[record.pk]),
-            record.get_info().get_display_name(),
+            UserUtils.build_display_name(record, UserUtils.DISPLAY_NAME_TYPE_FULL),
         )
 
 
