@@ -368,7 +368,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
         FrozenStatusService.send_freeze_warning_email(shift_user_data)
 
-        mock_freeze_warning_email_class.assert_called_once_with()
+        mock_freeze_warning_email_class.assert_called_once_with(shift_user_data)
         mock_send_to_tapir_user = (
             mock_freeze_warning_email_class.return_value.send_to_tapir_user
         )
