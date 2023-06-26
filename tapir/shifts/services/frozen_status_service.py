@@ -6,7 +6,11 @@ from django.utils import timezone
 from tapir.accounts.models import TapirUser
 from tapir.log.models import EmailLogEntry
 from tapir.log.util import freeze_for_log
-from tapir.shifts.config import FREEZE_THRESHOLD, FREEZE_AFTER_DAYS
+from tapir.shifts.config import (
+    FREEZE_THRESHOLD,
+    FREEZE_AFTER_DAYS,
+    NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS,
+)
 from tapir.shifts.emails.freeze_warning_email import FreezeWarningEmail
 from tapir.shifts.emails.member_frozen_email import MemberFrozenEmail
 from tapir.shifts.emails.unfreeze_notification_email import UnfreezeNotificationEmail
@@ -62,7 +66,8 @@ class FrozenStatusService:
             user=shift_user_data.user,
             state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
             slot__shift__start_time__gt=timezone.now(),
-            slot__shift__start_time__lt=timezone.now() + datetime.timedelta(weeks=8),
+            slot__shift__start_time__lt=timezone.now()
+            + datetime.timedelta(weeks=NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS),
         )
         return upcoming_shifts.count() >= -shift_user_data.get_account_balance()
 
@@ -126,7 +131,7 @@ class FrozenStatusService:
 
     @staticmethod
     def send_freeze_warning_email(shift_user_data: ShiftUserData):
-        email = FreezeWarningEmail()
+        email = FreezeWarningEmail(shift_user_data)
         email.send_to_tapir_user(actor=None, recipient=shift_user_data.user)
 
     @classmethod
