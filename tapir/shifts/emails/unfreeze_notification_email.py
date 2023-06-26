@@ -2,6 +2,7 @@ from typing import List
 
 from django.utils.translation import gettext_lazy as _
 
+from tapir.coop.config import URL_MEMBER_MANUAL
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase
 
@@ -32,6 +33,11 @@ class UnfreezeNotificationEmail(TapirEmailBase):
             "shifts/email/unfreeze_notification.body.html",
             "shifts/email/unfreeze_notification.body.default.html",
         ]
+
+    def get_extra_context(self) -> dict:
+        return {
+            "url_member_manual": URL_MEMBER_MANUAL,
+        }
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase | None:

@@ -1,17 +1,29 @@
 {% extends "core/email_base.html" %}
 
 {% load i18n %}
+{% load utils %}
 
 {% block body %}
-    {% blocktranslate with first_name=tapir_user.first_name coop_name=coop_name contact_email_address=contact_email_address %}
-        <p>Dear {{ first_name }},</p>
-
-        <p>This is an automated email from {{ coop_name }}.</p>
-
+    {% get_display_name_short tapir_user as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short coop_name=coop_name url_member_manual=url_member_manual %}
+        <p>Hi {{ display_name_short }},</p>
         <p>
-            Your Tapir account has been unfrozen. You are again allowed to shop and vote at {{ coop_name }}. <br/>
-            If you have any question, contact us at :
-            <a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>
+            This is an automatic email from {{ coop_name }}. This is to inform you that your Tapir account at {{ coop_name }}
+            has been reactivated.
+        </p>
+        <p>
+            Your shopping and voting rights have been reactivated and you can now shop at {{ coop_name }} and vote at
+            general meetings again.
+        </p>
+        <p>
+            In the future, please make sure to catch up on your missed shifts in a timely manner.
+        </p>
+        <p>
+            For more information on the shift system, please see the <a href="{{ url_member_manual }}">Member Manual</a>.
+        </p>
+        <p>
+            Cooperative Greetings<br />
+            The member office
         </p>
     {% endblocktranslate %}
 {% endblock body %}
