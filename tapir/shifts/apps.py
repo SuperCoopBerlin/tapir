@@ -76,6 +76,7 @@ class ShiftConfig(AppConfig):
             display_name=_("Shift management"),
             material_icon="settings",
             url=reverse_lazy("shifts:shift_management"),
+            required_permissions=[PERMISSION_SHIFTS_MANAGE],
             ordering=6,
         )
 

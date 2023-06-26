@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-06-26 10:42+0200\n"
-"PO-Revision-Date: 2023-06-26 10:46+0200\n"
+"PO-Revision-Date: 2023-06-26 10:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -3659,18 +3659,14 @@ msgid ""
 msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss es ein aktives Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
 
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:53
-#, fuzzy, python-format
-#| msgid ""
-#| "%(name)s is an investing member.\n"
-#| "                            If they want to shop, they have to become an active member. Contact a member of the\n"
-#| "                            management team."
+#, python-format
 msgid ""
 "\n"
 "                            %(name)s has been frozen because they missed too many shifts. <br/>\n"
 "                            If they want to shop, they must first be re-activated. <br/>\n"
 "                            Contact a member of the management team.\n"
 "                        "
-msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss es ein aktives Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
+msgstr ""
 
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:63
 #, python-format
