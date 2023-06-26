@@ -3,9 +3,14 @@ from typing import List
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
+from tapir.coop.config import URL_MEMBER_MANUAL
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase
-from tapir.shifts.config import FREEZE_THRESHOLD
+from tapir.shifts.config import (
+    FREEZE_THRESHOLD,
+    FREEZE_AFTER_DAYS,
+    NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS,
+)
 
 
 class MemberFrozenEmail(TapirEmailBase):
@@ -37,9 +42,11 @@ class MemberFrozenEmail(TapirEmailBase):
 
     def get_extra_context(self) -> dict:
         return {
-            "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+            "url_member_manual": URL_MEMBER_MANUAL,
             "coop_name": settings.COOP_NAME,
-            "threshold": FREEZE_THRESHOLD,
+            "freeze_threshold": FREEZE_THRESHOLD,
+            "freeze_after_days": FREEZE_AFTER_DAYS,
+            "nb_weeks_in_the_future_for_make_up_shifts": NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS,
         }
 
     @classmethod
