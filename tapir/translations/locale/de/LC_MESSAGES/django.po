@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-20 18:34+0200\n"
-"PO-Revision-Date: 2023-06-05 10:10+0200\n"
+"POT-Creation-Date: 2023-06-26 09:37+0200\n"
+"PO-Revision-Date: 2023-06-26 09:42+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -1070,10 +1070,8 @@ msgid "Statistics on members"
 msgstr "Mitglieder-Statistiken"
 
 #: coop/templates/coop/statistics.html:53
-#, fuzzy
-#| msgid "Active Members with a Tapir Account"
 msgid "Active members with account at end of month as CSV"
-msgstr "Aktive Mitglieder mit Tapir-Konto"
+msgstr ""
 
 #: coop/templates/coop/statistics.html:97
 msgid "Statistics on shares"
@@ -1450,10 +1448,8 @@ msgid "Shift statistics"
 msgstr "Schicht-Statistiken"
 
 #: shifts/apps.py:76 shifts/templates/shifts/shift_management.html:9
-#, fuzzy
-#| msgid "Management"
 msgid "Shift management"
-msgstr "Verwaltung"
+msgstr "Schicht-Verwaltung"
 
 #: shifts/apps.py:92
 #, python-brace-format
@@ -1728,8 +1724,44 @@ msgid ""
 "            So please sign up for your outstanding shifts as soon as possible. For more information on the shift system,\n"
 "            please see the <a href=\"%(url_member_manual)s\">Member Manual</a>.\n"
 "        </p>\n"
+"        <p>\n"
+"            Thank you!\n"
+"        </p>\n"
+"        <p>\n"
+"            Cooperative greetings, <br/>\n"
+"            The member office\n"
+"        </p>\n"
 "    "
 msgstr ""
+"\n"
+"        <p>\n"
+"            Hallo %(display_name_short)s,\n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"            dies ist eine automatisch versendete E-Mail von %(coop_name)s. Hiermit möchten wir dich freundlich darüber informieren, dass dein Schichtprotokoll %(account_balance)s Schichten erreicht hat.\n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"            Du hast nun %(freeze_after_days)sTage Zeit, dich für ausstehende Schichten als Nachholschichten anzumelden. Diese Schichten müssen innerhalb der nächsten %(nb_weeks_in_the_future)s Wochen liegen.\n"
+"        </p>\n"
+"        <p>\n"
+"            Bitte beachte: Falls du dich nicht innerhalb der nächsten %(freeze_after_days)s Tage für deine Nachholschichten einträgst, wird dein Konto eingefroren. Das bedeutet, dass du weder einkaufen noch in Generalversammlungen abstimmen kannst. Um dein Konto wieder freizugeben, musst du dich für deine ausstehenden Schichten anmelden.\n"
+"        </p>\n"
+"        <p>\n"
+"            Wenn du ein ABCD-Mitglied bist und weder deine Nachholschichten, noch deine regulären Schichten absolvierst, wirst du aus deiner ABCD-Schicht entfernt.\n"
+"        </p>\n"
+"        <p>\n"
+"            Also melde dich bitte so bald wie möglich zu deinen ausstehenden Schichten an. Weitere Informationen zum Schichtsystem findest du im <a href=\"%(url_member_manual)s\">Mitgliederhandbuch</a>.\n"
+"        </p>\n"
+"        <p>\n"
+"            Vielen Dank!\n"
+"        </p>\n"
+"        <p>\n"
+"            Kooperative Grüße<br/>\n"
+"            Das Mitgliederbüro\n"
+"        </p>\n"
+"    "
 
 #: shifts/templates/shifts/email/freeze_warning.subject.default.html:3
 #, python-format
@@ -2292,10 +2324,8 @@ msgid ""
 msgstr ""
 
 #: shifts/templates/shifts/shift_management.html:21
-#, fuzzy
-#| msgid "Add a shift"
 msgid "Add shifts"
-msgstr "Schicht hinzufügen"
+msgstr "Schichten hinzufügen"
 
 #: shifts/templates/shifts/shift_management.html:25
 msgid "Add a shift"
