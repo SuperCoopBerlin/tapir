@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import TemplateView
 
-from tapir.accounts.models import TapirUser
+from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.models import (
     ShareOwner,
@@ -209,7 +209,8 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
             return []
 
         current_date = first_share_ownership.start_date.replace(day=1)
-        end_date = datetime.date.today()
+        current_date = datetime.date(year=2023, month=1, day=1)
+        end_date = datetime.date.today() + datetime.timedelta(days=1)
         dates = []
         while current_date < end_date:
             dates.append(current_date - datetime.timedelta(days=1))
@@ -470,3 +471,63 @@ def active_members_with_account_at_end_of_month_csv_view(_):
         )
 
     return response
+
+
+class NumberOfCoPurchasersJsonView(BaseLineChartView):
+    dates_from_first_share_to_today = None
+    number_of_co_purchasers_per_month = None
+
+    def get_labels(self):
+        return list(self.get_number_of_co_purchasers_per_month().keys())
+
+    def get_providers(self):
+        return [_("Number of members with a co-purchaser (X-axis) by month (Y-axis)")]
+
+    def get_data(self):
+        return [list(self.get_number_of_co_purchasers_per_month().values())]
+
+    def get_colors(self):
+        return next_color(COLORS[1:])
+
+    @classmethod
+    def get_and_cache_dates_from_first_share_to_today(cls):
+        if cls.dates_from_first_share_to_today is None:
+            cls.dates_from_first_share_to_today = (
+                ShareCountEvolutionJsonView.get_dates_from_first_share_to_today()
+            )
+        return cls.dates_from_first_share_to_today
+
+    def get_number_of_co_purchasers_per_month(self) -> dict:
+        if self.number_of_co_purchasers_per_month is not None:
+            return self.number_of_co_purchasers_per_month
+
+        self.number_of_co_purchasers_per_month = {}
+        all_tapir_users = TapirUser.objects.all()
+        co_purchaser_updates = UpdateTapirUserLogEntry.objects.filter(
+            new_values__co_purchaser__isnull=False
+        ).order_by("created_date")
+        for month in self.get_and_cache_dates_from_first_share_to_today():
+            self.number_of_co_purchasers_per_month[month] = 0
+            for tapir_user in all_tapir_users:
+                oldest_update_that_is_after_month = co_purchaser_updates.filter(
+                    user=tapir_user,
+                    created_date__gt=month,
+                ).first()
+
+                if oldest_update_that_is_after_month is None:
+                    has_co_purchaser = tapir_user.co_purchaser != ""
+                else:
+                    old_values = oldest_update_that_is_after_month.old_values
+                    has_co_purchaser = (
+                        "co_purchaser" in old_values.keys()
+                        and old_values["co_purchaser"] != ""
+                    )
+
+                if has_co_purchaser:
+                    self.number_of_co_purchasers_per_month[month] += 1
+
+        self.number_of_co_purchasers_per_month = dict(
+            sorted(self.number_of_co_purchasers_per_month.items())
+        )
+
+        return self.number_of_co_purchasers_per_month

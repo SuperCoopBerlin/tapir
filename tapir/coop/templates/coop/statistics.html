@@ -191,5 +191,27 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                    <span>{% translate "Number of co-purchasers per month" %}</span>
+                    <a class="{% tapir_button_link %}" href="{% url 'coop:member_status_updates_csv_view' %}">
+                        <span class="material-icons">file_present</span>
+                        {% translate "Get as CSV" %}
+                    </a>
+                </h5>
+                <div class="card-body">
+                    <canvas id="number_of_co_purchasers_canvas"></canvas>
+
+                    <script type="text/javascript">
+                        stats_chart(
+                            '{% url "coop:number_of_co_purchasers_json_view" %}',
+                            'number_of_co_purchasers_canvas',
+                            'line',
+                        )
+                    </script>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
