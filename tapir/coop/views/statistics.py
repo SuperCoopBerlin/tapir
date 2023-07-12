@@ -502,19 +502,35 @@ class NumberOfCoPurchasersJsonView(BaseLineChartView):
     def get_number_of_co_purchasers_per_month(cls) -> dict:
         cls.number_of_co_purchasers_per_month = {}
         all_tapir_users = TapirUser.objects.all()
-        for month in cls.get_and_cache_dates_from_first_share_to_today():
-            cls.number_of_co_purchasers_per_month[month] = 0
-            updates_after_this_month = (
-                UpdateTapirUserLogEntry.objects.filter(
-                    new_values__co_purchaser__isnull=False,
-                    created_date__gt=month,
-                )
-                .order_by("created_date")
-                .prefetch_related("user")
+        first_update = (
+            UpdateTapirUserLogEntry.objects.filter(
+                new_values__co_purchaser__isnull=False,
             )
+            .order_by("created_date")
+            .first()
+        )
+        if first_update:
+            starting_month = first_update.created_date.date()
+            starting_month = starting_month.replace(day=1) - datetime.timedelta(days=1)
+        else:
+            starting_month = None
+
+        co_purchaser_updates = (
+            UpdateTapirUserLogEntry.objects.filter(
+                new_values__co_purchaser__isnull=False,
+            )
+            .order_by("created_date")
+            .prefetch_related("user")
+        )
+        for month in cls.get_and_cache_dates_from_first_share_to_today():
+            if starting_month and starting_month > month:
+                continue
+            cls.number_of_co_purchasers_per_month[month] = 0
             for tapir_user in all_tapir_users:
                 has_co_purchaser = None
-                for update in updates_after_this_month:
+                for update in co_purchaser_updates:
+                    if update.created_date.date() < month:
+                        continue
                     if update.user == tapir_user:
                         old_values = update.old_values
                         has_co_purchaser = (
