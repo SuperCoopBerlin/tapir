@@ -28,10 +28,14 @@
             document.getElementById(card_id).style.display = "flex";
         }
 
-        function stats_chart(url, canvas_id, type) {
+        function show_stats_chart(button, url, canvas_id, type) {
+            button.getElementsByClassName("button-text")[0].innerText = "{% translate "Loading..." %}"
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
+                    button.style.display = "none";
+                    let canvas = document.getElementById(canvas_id);
+                    canvas.style.display = null;
                     const context = document.getElementById(canvas_id).getContext("2d");
                     new Chart(context, {
                         type: type, data: data
@@ -48,7 +52,8 @@
             <div class="card mb-2">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     <span>{% translate "Statistics on members" %}</span>
-                    <a class="{% tapir_button_link %}" href="{% url 'coop:active_members_with_account_at_end_of_month_csv_view' %}">
+                    <a class="{% tapir_button_link %}"
+                       href="{% url 'coop:active_members_with_account_at_end_of_month_csv_view' %}">
                         <span class="material-icons">file_present</span>
                         {% translate "Active members with account at end of month as CSV" %}
                     </a>
@@ -68,25 +73,27 @@
                         <li>{{ applicants_count }} applicants are waiting to become members.</li>
                         <li>{{ nb_members_with_purchase_tracking_enabled }} members have enabled purchase tracking.</li>
                     </ul>
-                    <canvas id="member_count_evolution_canvas"></canvas>
-
-                    <script type="text/javascript">
-                        stats_chart(
+                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
+                            this,
                             '{% url "coop:member_count_evolution_json" %}',
                             'member_count_evolution_canvas',
                             'line',
-                        )
-                    </script>
+                            )">
+                        <span class="material-icons">leaderboard</span>
+                        <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of member count" %}</span>
+                    </span>
+                    <canvas id="member_count_evolution_canvas" style="display: none;"></canvas>
 
-                    <canvas id="member_age_distribution_canvas"></canvas>
-
-                    <script type="text/javascript">
-                        stats_chart(
+                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
+                            this,
                             '{% url "coop:member_age_distribution_json" %}',
                             'member_age_distribution_canvas',
-                            'bar',
-                        )
-                    </script>
+                            'line',
+                            )">
+                        <span class="material-icons">leaderboard</span>
+                        <span class="button-text">{% translate "Show graph: " %}{% translate "Member age distribution" %}</span>
+                    </span>
+                    <canvas id="member_age_distribution_canvas" style="display: none;"></canvas>
                 </div>
             </div>
         </div>
@@ -137,15 +144,16 @@
 
                         </li>
                     </ul>
-                    <canvas id="share_count_evolution_canvas"></canvas>
-
-                    <script type="text/javascript">
-                        stats_chart(
+                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
+                            this,
                             '{% url "coop:share_count_evolution_json" %}',
                             'share_count_evolution_canvas',
                             'line',
-                        )
-                    </script>
+                            )">
+                        <span class="button-text"><span class="material-icons">leaderboard</span></span>
+                        {% translate "Show graph: " %}{% translate "Evolution of the number of shares" %}
+                    </span>
+                    <canvas id="share_count_evolution_canvas" style="display: none;"></canvas>
                 </div>
             </div>
         </div>
@@ -179,15 +187,39 @@
                     </a>
                 </h5>
                 <div class="card-body">
-                    <canvas id="new_members_canvas"></canvas>
-
-                    <script type="text/javascript">
-                        stats_chart(
+                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
+                            this,
                             '{% url "coop:member_status_updates_json_view" %}',
                             'new_members_canvas',
                             'line',
-                        )
-                    </script>
+                            )">
+                        <span class="material-icons">leaderboard</span>
+                        <span class="button-text">{% translate "Show graph: " %}{% translate "Member status updates" %}</span>
+                    </span>
+                    <canvas id="new_members_canvas" style="display: none;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                    <span>{% translate "Number of co-purchasers per month" %}</span>
+                    <a class="{% tapir_button_link %}" href="{% url 'coop:number_of_co_purchasers_csv_view' %}">
+                        <span class="material-icons">file_present</span>
+                        {% translate "Get as CSV" %}
+                    </a>
+                </h5>
+                <div class="card-body">
+                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
+                            this,
+                            '{% url "coop:number_of_co_purchasers_json_view" %}',
+                            'number_of_co_purchasers_canvas',
+                            'line',
+                            )">
+                        <span class="material-icons">leaderboard</span>
+                        <span class="button-text">{% translate "Show graph: " %}{% translate "Number of co-purchasers per month" %}</span>
+                    </span>
+                    <canvas id="number_of_co_purchasers_canvas" style="display: none;"></canvas>
                 </div>
             </div>
         </div>
