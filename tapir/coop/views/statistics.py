@@ -500,30 +500,25 @@ class NumberOfCoPurchasersJsonView(BaseLineChartView):
 
     @classmethod
     def get_number_of_co_purchasers_per_month(cls) -> dict:
-        if cls.number_of_co_purchasers_per_month is not None:
-            return cls.number_of_co_purchasers_per_month
-
         cls.number_of_co_purchasers_per_month = {}
         all_tapir_users = TapirUser.objects.all()
-        co_purchaser_updates = UpdateTapirUserLogEntry.objects.filter(
-            new_values__co_purchaser__isnull=False
-        ).order_by("created_date")
         for month in cls.get_and_cache_dates_from_first_share_to_today():
             cls.number_of_co_purchasers_per_month[month] = 0
+            updates_this_month = UpdateTapirUserLogEntry.objects.filter(
+                new_values__co_purchaser__isnull=False,
+                created_date__gt=month,
+            ).order_by("created_date")
             for tapir_user in all_tapir_users:
-                oldest_update_that_is_after_month = co_purchaser_updates.filter(
-                    user=tapir_user,
-                    created_date__gt=month,
-                ).first()
-
-                if oldest_update_that_is_after_month is None:
+                has_co_purchaser = None
+                for update in updates_this_month:
+                    if update.user == tapir_user:
+                        old_values = update.old_values
+                        has_co_purchaser = (
+                            "co_purchaser" in old_values.keys()
+                            and old_values["co_purchaser"] != ""
+                        )
+                if has_co_purchaser is None:
                     has_co_purchaser = tapir_user.co_purchaser != ""
-                else:
-                    old_values = oldest_update_that_is_after_month.old_values
-                    has_co_purchaser = (
-                        "co_purchaser" in old_values.keys()
-                        and old_values["co_purchaser"] != ""
-                    )
 
                 if has_co_purchaser:
                     cls.number_of_co_purchasers_per_month[month] += 1
