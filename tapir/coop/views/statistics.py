@@ -25,6 +25,8 @@ from tapir.utils.shortcuts import (
     get_first_of_next_month,
 )
 
+CONTENT_TYPE_CSV = "text/csv"
+
 
 class StatisticsView(LoginRequiredMixin, generic.TemplateView):
     template_name = "coop/statistics.html"
@@ -209,7 +211,6 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
             return []
 
         current_date = first_share_ownership.start_date.replace(day=1)
-        current_date = datetime.date(year=2023, month=1, day=1)
         end_date = datetime.date.today() + datetime.timedelta(days=1)
         dates = []
         while current_date < end_date:
@@ -404,7 +405,7 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
 
 def member_status_updates_csv_view(_):
     response = HttpResponse(
-        content_type="text/csv",
+        content_type=CONTENT_TYPE_CSV,
         headers={
             "Content-Disposition": 'attachment; filename="members_status_updates.csv"'
         },
@@ -442,7 +443,7 @@ def member_status_updates_csv_view(_):
 
 def active_members_with_account_at_end_of_month_csv_view(_):
     response = HttpResponse(
-        content_type="text/csv",
+        content_type=CONTENT_TYPE_CSV,
         headers={
             "Content-Disposition": 'attachment; filename="active_members_with_account_at_end_of_month.csv"'
         },
@@ -497,17 +498,18 @@ class NumberOfCoPurchasersJsonView(BaseLineChartView):
             )
         return cls.dates_from_first_share_to_today
 
-    def get_number_of_co_purchasers_per_month(self) -> dict:
-        if self.number_of_co_purchasers_per_month is not None:
-            return self.number_of_co_purchasers_per_month
+    @classmethod
+    def get_number_of_co_purchasers_per_month(cls) -> dict:
+        if cls.number_of_co_purchasers_per_month is not None:
+            return cls.number_of_co_purchasers_per_month
 
-        self.number_of_co_purchasers_per_month = {}
+        cls.number_of_co_purchasers_per_month = {}
         all_tapir_users = TapirUser.objects.all()
         co_purchaser_updates = UpdateTapirUserLogEntry.objects.filter(
             new_values__co_purchaser__isnull=False
         ).order_by("created_date")
-        for month in self.get_and_cache_dates_from_first_share_to_today():
-            self.number_of_co_purchasers_per_month[month] = 0
+        for month in cls.get_and_cache_dates_from_first_share_to_today():
+            cls.number_of_co_purchasers_per_month[month] = 0
             for tapir_user in all_tapir_users:
                 oldest_update_that_is_after_month = co_purchaser_updates.filter(
                     user=tapir_user,
@@ -524,10 +526,33 @@ class NumberOfCoPurchasersJsonView(BaseLineChartView):
                     )
 
                 if has_co_purchaser:
-                    self.number_of_co_purchasers_per_month[month] += 1
+                    cls.number_of_co_purchasers_per_month[month] += 1
 
-        self.number_of_co_purchasers_per_month = dict(
-            sorted(self.number_of_co_purchasers_per_month.items())
+        cls.number_of_co_purchasers_per_month = dict(
+            sorted(cls.number_of_co_purchasers_per_month.items())
         )
 
-        return self.number_of_co_purchasers_per_month
+        return cls.number_of_co_purchasers_per_month
+
+
+def number_of_co_purchasers_csv_view(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={
+            "Content-Disposition": 'attachment; filename="number_of_co_purchasers_per_month.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "month",
+            "number_of_co_purchasers",
+        ]
+    )
+
+    data = NumberOfCoPurchasersJsonView.get_number_of_co_purchasers_per_month()
+    for month in data.keys():
+        writer.writerow([month, data[month]])
+
+    return response
