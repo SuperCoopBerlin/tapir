@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load coop %}
+{% load core %}
 
 {% block title %}
     {% translate "Shift statistics" %}
@@ -78,7 +79,17 @@
         </div>
         <div class="col-xl">
             <div class="card mb-2">
-                <h5 class="card-header">Attendance</h5>
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                    <span>Attendance</span>
+                    {% if perms.shifts.manage %}
+                    <a
+                            class="{% tapir_button_link %}"
+                            href="{% url 'shifts:slot_data_csv' %}">
+                        <span class="material-icons">file_present</span>
+                        {% translate "Attendance data" %}
+                    </a>
+                    {% endif %}
+                </h5>
                 <div class="card-body">
                     <table class="table"
                            aria-label="{% translate 'Gives details of the attendance for the past, current and next week.' %}">

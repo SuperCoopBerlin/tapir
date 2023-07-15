@@ -1,8 +1,11 @@
+import csv
 import datetime
 from datetime import timedelta
 
+from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
+from django.http import HttpResponse
 from django.utils import timezone
 from django.views.generic import (
     TemplateView,
@@ -10,6 +13,8 @@ from django.views.generic import (
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner, MemberStatus
+from tapir.coop.views import CONTENT_TYPE_CSV
+from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -147,3 +152,65 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
             cycles.append(cycle)
 
         return cycles
+
+
+class ShiftAttendanceStatistics:
+    # Théo 15.07.23 I intend to extend this with more attendance stats
+    @classmethod
+    def get_all_shift_slot_data(cls):
+        return (
+            ShiftSlot.objects.all()
+            .prefetch_related("shift")
+            .prefetch_related("shift__shift_template")
+            .prefetch_related("attendances")
+            .order_by("shift__start_time")
+        )
+
+
+@permission_required(PERMISSION_SHIFTS_MANAGE)
+def slot_data_csv_view(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={
+            "Content-Disposition": 'attachment; filename="shift_attendance_data.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "shift_date",
+            "shift_start_time",
+            "shift_end_time",
+            "shift_was_attended",
+            "required_qualifications",
+            "is_from_an_abcd_shift",
+        ]
+    )
+
+    for slot in ShiftAttendanceStatistics.get_all_shift_slot_data():
+        slot: ShiftSlot = slot
+
+        writer.writerow(
+            [
+                slot.shift.start_time.date(),  # shift_date
+                timezone.localtime(slot.shift.start_time).strftime(
+                    "%H:%M"
+                ),  # shift_start_time
+                timezone.localtime(slot.shift.end_time).strftime(
+                    "%H:%M"
+                ),  # shift_end_time
+                len(
+                    [
+                        attendance
+                        for attendance in slot.attendances.all()
+                        if attendance.state == ShiftAttendance.State.DONE
+                    ]
+                )
+                > 0,  # shift_was_attended
+                ",".join(slot.required_capabilities),  # required_qualifications
+                slot.shift.shift_template is not None,  # is_from_an_abcd_shift
+            ],
+        )
+
+    return response
