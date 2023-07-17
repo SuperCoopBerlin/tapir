@@ -189,8 +189,6 @@ def slot_data_csv_view(_):
     )
 
     for slot in ShiftAttendanceStatistics.get_all_shift_slot_data():
-        slot: ShiftSlot = slot
-
         writer.writerow(
             [
                 slot.shift.start_time.date(),  # shift_date
