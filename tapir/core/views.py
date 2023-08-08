@@ -4,11 +4,12 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, UpdateView
 
+from tapir.core.models import FeatureFlag
 from tapir.core.tapir_email_base import all_emails, TapirEmailBase
 from tapir.log.models import EmailLogEntry
-from tapir.settings import PERMISSION_COOP_MANAGE
+from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_ADMIN
 
 
 class TapirFormMixin:
@@ -60,3 +61,29 @@ class EmailListView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
 
         view_context["emails"] = emails_for_template
         return view_context
+
+
+class FeatureFlagListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    template_name = "core/featureflag_list.html"
+    model = FeatureFlag
+    permission_required = PERMISSION_COOP_ADMIN
+
+
+class FeatureFlagUpdateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, UpdateView
+):
+    model = FeatureFlag
+    fields = ["flag_value"]
+    permission_required = [PERMISSION_COOP_ADMIN]
+
+    def get_success_url(self):
+        return reverse("core:featureflag_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        feature_flag: FeatureFlag = self.object
+        context["page_title"] = _("Feature: %(name)s") % {
+            "name": feature_flag.flag_name
+        }
+        context["card_title"] = context["page_title"]
+        return context

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 09:37+0200\n"
-"PO-Revision-Date: 2023-08-08 09:39+0200\n"
+"POT-Creation-Date: 2023-08-08 10:48+0200\n"
+"PO-Revision-Date: 2023-08-08 10:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -197,6 +197,7 @@ msgstr "Gruppen bearbeiten"
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:19
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:91
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:112
+#: core/templates/core/featureflag_list.html:33
 #: shifts/templates/shifts/shift_detail.html:44
 #: shifts/templates/shifts/shift_template_detail.html:27
 #: shifts/templates/shifts/shift_template_detail.html:102
@@ -218,6 +219,7 @@ msgstr "Benutzername bearbeiten"
 #: coop/templates/coop/draftuser_list.html:27
 #: coop/templates/coop/shareowner_detail.html:41
 #: core/templates/core/email_list.html:36
+#: core/templates/core/featureflag_list.html:22
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:75
 msgid "Name"
 msgstr "Name"
@@ -1337,35 +1339,39 @@ msgstr ""
 msgid "Number of members with a co-purchaser (X-axis) by month (Y-axis)"
 msgstr ""
 
-#: core/apps.py:18
+#: core/apps.py:19
 msgid "Emails"
 msgstr "E-Mails"
 
-#: core/apps.py:25
+#: core/apps.py:26 core/templates/core/featureflag_list.html:7
+msgid "Features"
+msgstr ""
+
+#: core/apps.py:33
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
-#: core/apps.py:28
+#: core/apps.py:36
 msgid "Wiki"
 msgstr "Wiki"
 
-#: core/apps.py:35
+#: core/apps.py:43
 msgid "Member manual"
 msgstr "Mitgliederhandbuch"
 
-#: core/apps.py:42
+#: core/apps.py:50
 msgid "Shop opening hours"
 msgstr "Öffnungszeiten"
 
-#: core/apps.py:49
+#: core/apps.py:57
 msgid "Slack chat"
 msgstr ""
 
-#: core/apps.py:56
+#: core/apps.py:64
 msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
 
-#: core/apps.py:63
+#: core/apps.py:71
 msgid "About tapir"
 msgstr "Über Tapir"
 
@@ -1423,8 +1429,25 @@ msgstr ""
 msgid "Last sent example"
 msgstr ""
 
-#: core/views.py:46 core/views.py:48 log/models.py:136
+#: core/templates/core/featureflag_list.html:14
+msgid "Enable or disable features"
+msgstr ""
+
+#: core/templates/core/featureflag_list.html:19
+msgid "List of all feature flags"
+msgstr ""
+
+#: core/templates/core/featureflag_list.html:23
+msgid "Current value"
+msgstr ""
+
+#: core/views.py:47 core/views.py:49 log/models.py:136
 msgid "Not available"
+msgstr ""
+
+#: core/views.py:85
+#, python-format
+msgid "Feature: %(name)s"
 msgstr ""
 
 #: log/apps.py:18 log/templates/log/log_overview.html:20
@@ -2413,19 +2436,20 @@ msgstr ""
 msgid "Shift exemptions"
 msgstr "Schicht-Befreiungen"
 
-#: shifts/templates/shifts/shift_management.html:49
-#: shifts/templates/shifts/shift_management.html:60
+#: shifts/templates/shifts/shift_management.html:51
+#: shifts/templates/shifts/shift_management.html:63
 msgid "Update frozen statuses"
 msgstr ""
 
-#: shifts/templates/shifts/shift_management.html:53
+#: shifts/templates/shifts/shift_management.html:55
 msgid ""
 "\n"
-"                        <p>For every member, checks if they should get the frozen status, if they should get unfrozen, or if\n"
-"                            they should get the warning that they will be frozen soon.</p>\n"
-"                        <p>This command is run automatically once per day. You can trigger it here manually for test\n"
-"                            purposes or to accelerate a status update.</p>\n"
-"                    "
+"                            <p>For every member, checks if they should get the frozen status, if they should get\n"
+"                                unfrozen, or if\n"
+"                                they should get the warning that they will be frozen soon.</p>\n"
+"                            <p>This command is run automatically once per day. You can trigger it here manually for test\n"
+"                                purposes or to accelerate a status update.</p>\n"
+"                        "
 msgstr ""
 
 #: shifts/templates/shifts/shift_template_detail.html:9
@@ -2521,10 +2545,8 @@ msgid "Gives details of the attendance per slot type."
 msgstr ""
 
 #: shifts/templates/shifts/statistics.html:92
-#, fuzzy
-#| msgid "Attendance"
 msgid "Attendance data"
-msgstr "Anwesenheit"
+msgstr "Anwesenheitsdaten"
 
 #: shifts/templates/shifts/statistics.html:98
 msgid "Gives details of the attendance for the past, current and next week."
@@ -2618,7 +2640,7 @@ msgid "View all"
 msgstr "Alle ansehen"
 
 #: shifts/templatetags/shifts.py:56 shifts/templatetags/shifts.py:159
-#: shifts/views/views.py:118
+#: shifts/views/views.py:119
 msgid "General"
 msgstr "Allgemein"
 
@@ -2675,22 +2697,22 @@ msgstr "ABCD-Schicht erzeugen"
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
 msgstr ""
 
-#: shifts/views/views.py:98 shifts/views/views.py:103
+#: shifts/views/views.py:99 shifts/views/views.py:104
 #, python-format
 msgid "Edit user shift data: %(name)s"
 msgstr "Bearbeite Nutzer*in-Schichtdaten: %(name)s"
 
-#: shifts/views/views.py:164
+#: shifts/views/views.py:165
 #, python-format
 msgid "Shift account: %(name)s"
 msgstr "Schichtkonto-Protokoll für: %(name)s"
 
-#: shifts/views/views.py:170
+#: shifts/views/views.py:171
 #, python-format
 msgid "Create manual shift account entry for:  %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:303
+#: shifts/views/views.py:309
 msgid "Frozen statuses updated."
 msgstr ""
 
@@ -3880,9 +3902,6 @@ msgstr "Mitglieds-ID"
 
 #~ msgid "Set Flying️"
 #~ msgstr "Als fliegend markieren"
-
-#~ msgid "Currently active"
-#~ msgstr "Gerade aktiv"
 
 #~ msgid "Goal"
 #~ msgstr "Ziel"

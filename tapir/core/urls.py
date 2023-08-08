@@ -9,4 +9,14 @@ urlpatterns = [
         views.EmailListView.as_view(),
         name="email_list",
     ),
+    path(
+        "featureflag_list",
+        views.FeatureFlagListView.as_view(),
+        name="featureflag_list",
+    ),
+    path(
+        "featureflag/<int:pk>/update",
+        views.FeatureFlagUpdateView.as_view(),
+        name="featureflag_update",
+    ),
 ]

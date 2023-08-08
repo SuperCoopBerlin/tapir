@@ -26,6 +26,7 @@ from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_SHIFTS_MANAGE
+from tapir.shifts.config import FEATURE_FLAG_NAME_FROZEN_MEMBERS
 from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
@@ -288,6 +289,11 @@ class MembersOnAlertView(
 class ShiftManagementView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "shifts/shift_management.html"
     permission_required = PERMISSION_SHIFTS_MANAGE
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["feature_flag_frozen_members"] = FEATURE_FLAG_NAME_FROZEN_MEMBERS
+        return context
 
 
 class RunFreezeChecksManuallyView(
