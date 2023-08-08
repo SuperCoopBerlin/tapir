@@ -1,19 +1,20 @@
 from datetime import datetime
 
 import django_tables2
-from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Sum
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.template.defaulttags import register
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_POST
 from django.views.generic import (
     CreateView,
     UpdateView,
+    RedirectView,
 )
 from django.views.generic import DetailView, TemplateView
 from django_tables2 import SingleTableView
@@ -25,6 +26,7 @@ from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_SHIFTS_MANAGE
+from tapir.shifts.config import FEATURE_FLAG_NAME_FROZEN_MEMBERS
 from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
@@ -37,7 +39,6 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.models import (
     ShiftSlot,
-    ShiftAttendanceMode,
     UpdateShiftUserDataLogEntry,
     ShiftUserData,
     ShiftAccountEntry,
@@ -122,39 +123,6 @@ def get_shift_slot_names():
 @register.filter
 def dictionary_get(dic, key):
     return dic[key] if key in dic else None
-
-
-@require_POST
-@csrf_protect
-@login_required
-@permission_required(PERMISSION_SHIFTS_MANAGE)
-def set_user_attendance_mode_flying(request, user_pk):
-    return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.FLYING)
-
-
-@require_POST
-@csrf_protect
-@login_required
-@permission_required(PERMISSION_SHIFTS_MANAGE)
-def set_user_attendance_mode_regular(request, user_pk):
-    return _set_user_attendance_mode(request, user_pk, ShiftAttendanceMode.REGULAR)
-
-
-def _set_user_attendance_mode(request, user_pk, attendance_mode):
-    user = get_object_or_404(TapirUser, pk=user_pk)
-    old_shift_user_data = freeze_for_log(user.shift_user_data)
-
-    with transaction.atomic():
-        user.shift_user_data.attendance_mode = attendance_mode
-        user.shift_user_data.save()
-        UpdateShiftUserDataLogEntry().populate(
-            actor=request.user,
-            tapir_user=user,
-            old_frozen=old_shift_user_data,
-            new_frozen=freeze_for_log(user.shift_user_data),
-        ).save()
-
-    return redirect(user)
 
 
 class UserShiftAccountLog(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
@@ -316,3 +284,27 @@ class MembersOnAlertView(
             .filter(account_balance__lt=-1)
             .order_by("user__date_joined")
         )
+
+
+class ShiftManagementView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+    template_name = "shifts/shift_management.html"
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["feature_flag_frozen_members"] = FEATURE_FLAG_NAME_FROZEN_MEMBERS
+        return context
+
+
+class RunFreezeChecksManuallyView(
+    LoginRequiredMixin, PermissionRequiredMixin, RedirectView
+):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("shifts:shift_management")
+
+    def get(self, request, *args, **kwargs):
+        call_command("run_freeze_checks")
+        messages.info(request, _("Frozen statuses updated."))
+        return super().get(request, args, kwargs)

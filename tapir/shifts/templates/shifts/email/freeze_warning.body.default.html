@@ -1,0 +1,44 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+{% load utils %}
+
+{% block body %}
+    {% get_display_name_short tapir_user as display_name_short %}
+
+    {% blocktranslate with display_name_short=display_name_short coop_name=coop_name contact_email_address=contact_email_address account_balance=account_balance freeze_after_days=freeze_after_days nb_weeks_in_the_future=nb_weeks_in_the_future url_member_manual=url_member_manual %}
+        <p>
+            Hi {{ display_name_short }},
+        </p>
+
+        <p>
+            This is an automated email from {{ coop_name }}. This is to kindly inform you that your shift log has
+            reached {{ account_balance }}.
+        </p>
+
+        <p>
+            You now have {{ freeze_after_days }} days to register for the outstanding shifts as make-up shifts. These shifts
+            must be within the next {{ nb_weeks_in_the_future }} weeks.
+        </p>
+        <p>
+            Please note: If you do not sign up for your catch-up shifts within the next {{ freeze_after_days }} days,
+            your account will be frozen. This means you will not be able to shop or vote in general meetings. To
+            unfreeze your account, you will need to sign up for your outstanding shifts.
+        </p>
+        <p>
+            If you are an ABCD member and do not complete your catch-up shifts, nor your regular shifts, you will be
+            removed from your ABCD shift.
+        </p>
+        <p>
+            So please sign up for your outstanding shifts as soon as possible. For more information on the shift system,
+            please see the <a href="{{ url_member_manual }}">Member Manual</a>.
+        </p>
+        <p>
+            Thank you!
+        </p>
+        <p>
+            Cooperative greetings, <br/>
+            The member office
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}

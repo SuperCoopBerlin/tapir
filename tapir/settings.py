@@ -159,6 +159,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.accounts.tasks.update_purchase_tracking_list",
         "schedule": celery.schedules.crontab(minute=0, hour=23),
     },
+    "run_freeze_checks": {
+        "task": "tapir.shifts.tasks.run_freeze_checks",
+        "schedule": celery.schedules.crontab(minute=0, hour=1),
+    },
 }
 
 # Password validation

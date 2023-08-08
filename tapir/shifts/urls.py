@@ -4,16 +4,6 @@ from tapir.shifts import views
 
 app_name = "shifts"
 urlpatterns = [
-    path(
-        "user/<int:user_pk>/set_user_attendance_mode_flying",
-        views.set_user_attendance_mode_flying,
-        name="set_user_attendance_mode_flying",
-    ),
-    path(
-        "user/<int:user_pk>/set_user_attendance_mode_regular",
-        views.set_user_attendance_mode_regular,
-        name="set_user_attendance_mode_regular",
-    ),
     path("shift/<int:pk>/", views.ShiftDetailView.as_view(), name="shift_detail"),
     path(
         "shift/<int:pk>/printable",
@@ -176,5 +166,15 @@ urlpatterns = [
         "statistics/slot_data_csv",
         views.slot_data_csv_view,
         name="slot_data_csv",
+    ),
+    path(
+        "management",
+        views.ShiftManagementView.as_view(),
+        name="shift_management",
+    ),
+    path(
+        "run_freeze_checks_manually",
+        views.RunFreezeChecksManuallyView.as_view(),
+        name="run_freeze_checks_manually",
     ),
 ]

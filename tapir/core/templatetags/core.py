@@ -1,6 +1,7 @@
 from django import template
 
 from tapir.core.config import TAPIR_TABLE_CLASSES, sidebar_link_groups
+from tapir.core.models import FeatureFlag
 
 register = template.Library()
 
@@ -37,3 +38,8 @@ def tapir_button_action():
 @register.simple_tag
 def tapir_button_custom(bootstrap_color):
     return f"btn tapir-btn btn-{bootstrap_color}"
+
+
+@register.simple_tag
+def feature_flag_enabled(flag_name: str):
+    return FeatureFlag.get_flag_value(flag_name)

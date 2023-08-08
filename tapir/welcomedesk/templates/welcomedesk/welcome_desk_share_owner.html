@@ -41,18 +41,20 @@
                             account. Contact a member of the management team.{% endblocktranslate %}
                     </div>
                 {% endif %}
-                {% if shift_balance_not_ok %}
-                    <div class="alert alert-danger" role="alert" id="welcome_desk_shift_balance_not_ok">
-                        {% blocktranslate with name=display_name_short balance=share_owner.user.shift_user_data.get_account_balance %}
-                            {{ name }} has a negative shift balance ({{ balance }}). Contact a member of the management
-                            team.{% endblocktranslate %}
-                    </div>
-                {% endif %}
                 {% if share_owner.is_investing %}
                     <div class="alert alert-danger" role="alert" id="welcome_desk_is_investing">
                         {% blocktranslate with name=display_name_short %}{{ name }} is an investing member.
                             If they want to shop, they have to become an active member. Contact a member of the
                             management team.{% endblocktranslate %}
+                    </div>
+                {% endif %}
+                {% if is_frozen %}
+                    <div class="alert alert-danger" role="alert" id="welcome_desk_is_investing">
+                        {% blocktranslate with name=share_owner.get_info.first_name %}
+                            {{ name }} has been frozen because they missed too many shifts. <br/>
+                            If they want to shop, they must first be re-activated. <br/>
+                            Contact a member of the management team.
+                        {% endblocktranslate %}
                     </div>
                 {% endif %}
             {% endif %}
@@ -68,7 +70,6 @@
                         session yet. Make sure they plan to do it!{% endblocktranslate %}
                 </div>
             {% endif %}
-
             {% if not missing_account and user %}
                 <div class="row m-1">
                     <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>

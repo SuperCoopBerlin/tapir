@@ -841,7 +841,7 @@ class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         tapir_user: TapirUser,
-        actor: User,
+        actor: User | None,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -854,6 +854,7 @@ class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
 class ShiftAttendanceMode:
     REGULAR = "regular"
     FLYING = "flying"
+    FROZEN = "frozen"
 
 
 class ShiftUserDataQuerySet(models.QuerySet):
@@ -881,6 +882,7 @@ class ShiftUserData(models.Model):
     SHIFT_ATTENDANCE_MODE_CHOICES = [
         (ShiftAttendanceMode.REGULAR, _("🏠 ABCD")),
         (ShiftAttendanceMode.FLYING, _("✈ Flying")),
+        (ShiftAttendanceMode.FROZEN, _("❄ Frozen")),
     ]
     attendance_mode = models.CharField(
         _("Shift system"),
@@ -930,20 +932,8 @@ class ShiftUserData(models.Model):
     def is_currently_exempted_from_shifts(self, date=None):
         return self.get_current_shift_exemption(date) is not None
 
-    def get_credit_requirement_for_cycle(self, cycle_start_date: datetime.date):
-        if not hasattr(self.user, "share_owner") or self.user.share_owner is None:
-            return 0
-
-        if not self.user.share_owner.is_active():
-            return 0
-
-        if self.user.date_joined.date() > cycle_start_date:
-            return 0
-
-        if self.is_currently_exempted_from_shifts(cycle_start_date):
-            return 0
-
-        return 1
+    def can_shop(self):
+        return self.attendance_mode != ShiftAttendanceMode.FROZEN
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
@@ -1071,35 +1061,3 @@ class ShiftCycleEntry(models.Model):
         on_delete=models.PROTECT,
         null=True,
     )
-
-    @staticmethod
-    def apply_cycle_start(cycle_start_date: datetime.date, shift_user_datas=None):
-        if shift_user_datas is None:
-            shift_user_datas = ShiftUserData.objects.all()
-
-        for shift_user_data in shift_user_datas:
-            if ShiftCycleEntry.objects.filter(
-                shift_user_data=shift_user_data, cycle_start_date=cycle_start_date
-            ).exists():
-                continue
-
-            with transaction.atomic():
-                shift_cycle_log = ShiftCycleEntry.objects.create(
-                    shift_user_data=shift_user_data, cycle_start_date=cycle_start_date
-                )
-
-                credit_requirement = shift_user_data.get_credit_requirement_for_cycle(
-                    cycle_start_date
-                )
-                if credit_requirement <= 0:
-                    continue
-
-                shift_account_entry = ShiftAccountEntry.objects.create(
-                    user=shift_user_data.user,
-                    value=-credit_requirement,
-                    date=cycle_start_date,
-                    description="Shift cycle starting the "
-                    + cycle_start_date.strftime("%d.%m.%y"),
-                )
-                shift_cycle_log.shift_account_entry = shift_account_entry
-                shift_cycle_log.save()

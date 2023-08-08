@@ -85,9 +85,10 @@ class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
         if context_data["missing_account"]:
             return context_data
 
-        context_data[
-            "shift_balance_not_ok"
-        ] = not share_owner.user.shift_user_data.is_balance_ok()
+        context_data["is_frozen"] = (
+            share_owner.user.shift_user_data.attendance_mode
+            == ShiftAttendanceMode.FROZEN
+        )
 
         context_data["must_register_to_a_shift"] = (
             share_owner.user.shift_user_data.attendance_mode

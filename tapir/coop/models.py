@@ -218,8 +218,8 @@ class ShareOwner(models.Model):
     def can_shop(self):
         return (
             self.user is not None
-            and self.user.shift_user_data.is_balance_ok()
             and self.is_active()
+            and self.user.shift_user_data.can_shop()
         )
 
     def is_active(self) -> bool:

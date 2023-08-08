@@ -66,42 +66,18 @@ class ShiftConfig(AppConfig):
         )
 
         shifts_group.add_link(
-            display_name=_("Shift exemptions"),
-            material_icon="beach_access",
-            url=reverse_lazy("shifts:shift_exemption_list"),
-            required_permissions=[PERMISSION_SHIFTS_MANAGE],
+            display_name=_("Shift statistics"),
+            material_icon="calculate",
+            url=reverse_lazy("shifts:statistics"),
             ordering=5,
         )
 
         shifts_group.add_link(
-            display_name=_("Members on alert"),
-            material_icon="priority_high",
-            url=reverse_lazy("shifts:members_on_alert"),
+            display_name=_("Shift management"),
+            material_icon="settings",
+            url=reverse_lazy("shifts:shift_management"),
             required_permissions=[PERMISSION_SHIFTS_MANAGE],
             ordering=6,
-        )
-
-        shifts_group.add_link(
-            display_name=_("Add a shift"),
-            material_icon="add_circle_outline",
-            url=reverse_lazy("shifts:create_shift"),
-            required_permissions=[PERMISSION_SHIFTS_MANAGE],
-            ordering=7,
-        )
-
-        shifts_group.add_link(
-            display_name=_("Add an ABCD shift"),
-            material_icon="add_circle_outline",
-            url=reverse_lazy("shifts:shift_template_create"),
-            required_permissions=[PERMISSION_SHIFTS_MANAGE],
-            ordering=8,
-        )
-
-        shifts_group.add_link(
-            display_name=_("Shift statistics"),
-            material_icon="calculate",
-            url=reverse_lazy("shifts:statistics"),
-            ordering=9,
         )
 
     @classmethod
@@ -129,7 +105,19 @@ class ShiftConfig(AppConfig):
         from tapir.shifts.emails.stand_in_found_email import (
             StandInFoundEmail,
         )
+        from tapir.shifts.emails.member_frozen_email import (
+            MemberFrozenEmail,
+        )
+        from tapir.shifts.emails.freeze_warning_email import (
+            FreezeWarningEmail,
+        )
+        from tapir.shifts.emails.unfreeze_notification_email import (
+            UnfreezeNotificationEmail,
+        )
 
         TapirEmailBase.register_email(ShiftMissedEmail)
         TapirEmailBase.register_email(ShiftReminderEmail)
         TapirEmailBase.register_email(StandInFoundEmail)
+        TapirEmailBase.register_email(MemberFrozenEmail)
+        TapirEmailBase.register_email(FreezeWarningEmail)
+        TapirEmailBase.register_email(UnfreezeNotificationEmail)

@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from tapir.core.config import sidebar_link_groups
-from tapir.settings import PERMISSION_COOP_MANAGE
+from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_ADMIN
 
 
 class CoreConfig(AppConfig):
@@ -14,12 +14,20 @@ class CoreConfig(AppConfig):
 
     @staticmethod
     def register_sidebar_link_groups():
-        sidebar_link_groups.get_group(_("Management"), 2).add_link(
+        management_group = sidebar_link_groups.get_group(_("Management"), 2)
+        management_group.add_link(
             display_name=_("Emails"),
             material_icon="mail",
             url=reverse_lazy("core:email_list"),
             ordering=2,
             required_permissions=[PERMISSION_COOP_MANAGE],
+        )
+        management_group.add_link(
+            display_name=_("Features"),
+            material_icon="toggle_on",
+            url=reverse_lazy("core:featureflag_list"),
+            ordering=5,
+            required_permissions=[PERMISSION_COOP_ADMIN],
         )
 
         misc_group = sidebar_link_groups.get_group(_("Miscellaneous"), 5)

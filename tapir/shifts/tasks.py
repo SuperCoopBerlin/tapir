@@ -15,3 +15,8 @@ def apply_shift_cycle_start():
 @shared_task
 def generate_shifts():
     call_command("generate_shifts")
+
+
+@shared_task
+def run_freeze_checks():
+    call_command("run_freeze_checks")

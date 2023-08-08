@@ -47,11 +47,18 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
         active_members = ShareOwner.objects.with_status(MemberStatus.ACTIVE)
         active_users = TapirUser.objects.filter(share_owner__in=active_members)
         context["active_users_count"] = active_users.count()
+
+        context["frozen_users_count"] = active_users.with_shift_attendance_mode(
+            ShiftAttendanceMode.FROZEN
+        ).count()
+
         exempted_users = ShiftUserData.objects.filter(
             user__in=active_users
         ).is_covered_by_exemption()
         context["exempted_users_count"] = exempted_users.count()
-        users_doing_shifts = active_users.exclude(shift_user_data__in=exempted_users)
+        users_doing_shifts = active_users.exclude(
+            shift_user_data__in=exempted_users
+        ).exclude(shift_user_data__attendance_mode=ShiftAttendanceMode.FROZEN)
         context["users_doing_shifts_count"] = users_doing_shifts.count()
 
         context["abcd_slots_count"] = ShiftSlotTemplate.objects.count()

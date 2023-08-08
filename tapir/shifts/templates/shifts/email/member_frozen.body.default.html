@@ -1,0 +1,35 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+{% load utils %}
+
+
+{% block body %}
+    {% get_display_name_short tapir_user as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short coop_name=coop_name url_member_manual=url_member_manual freeze_threshold=freeze_threshold freeze_after_days=freeze_after_days nb_weeks_in_the_future_for_make_up_shifts=nb_weeks_in_the_future_for_make_up_shifts %}
+        <p>Hi {{ display_name_short }},</p>
+        <p>
+            This is an automated email from {{ coop_name }}. This is to kindly inform you that your Tapir account at
+            SuperCoop has been temporarily frozen. Unfortunately, your shift log has been below {{ freeze_threshold }}
+            shifts for more than {{ freeze_after_days }} days.
+        </p>
+        <p>
+            While your account is frozen, you cannot shop or vote in the General Assembly.
+        </p>
+        <p>
+            To unfreeze your account, simply sign up for your outstanding shifts as catch-up shifts. Please note that
+            these shifts must be within the next {{ nb_weeks_in_the_future_for_make_up_shifts }} weeks.
+        </p>
+        <p>
+            So please sign up for your outstanding shifts as soon as possible. For more information on the shift system,
+            please see the <a href="{{ url_member_manual }}">Member Manual</a>.
+        </p>
+        <p>
+            Thank you very much!
+        </p>
+        <p>
+            Cooperative greetings<br />
+            The Member Office
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}
