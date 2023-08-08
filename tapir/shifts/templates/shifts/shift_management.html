@@ -48,17 +48,19 @@
             <h5 class="card-header">
                 {% translate "Update frozen statuses" %}
             </h5>
-            <div class="card-body">
-                {% blocktranslate %}
-                    <p>For every member, checks if they should get the frozen status, if they should get unfrozen, or if
-                        they should get the warning that they will be frozen soon.</p>
-                    <p>This command is run automatically once per day. You can trigger it here manually for test
-                        purposes or to accelerate a status update.</p>
-                {% endblocktranslate %}
-                <a class="{% tapir_button_action %}" href="{% url 'shifts:run_freeze_checks_manually' %}">
-                    <span class="material-icons button-icon">ac_unit</span>{% translate 'Update frozen statuses' %}
-                </a>
-            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {% blocktranslate %}
+                        <p>For every member, checks if they should get the frozen status, if they should get unfrozen, or if
+                            they should get the warning that they will be frozen soon.</p>
+                        <p>This command is run automatically once per day. You can trigger it here manually for test
+                            purposes or to accelerate a status update.</p>
+                    {% endblocktranslate %}
+                    <a class="{% tapir_button_action %}" href="{% url 'shifts:run_freeze_checks_manually' %}">
+                        <span class="material-icons button-icon">ac_unit</span>{% translate 'Update frozen statuses' %}
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 {% endblock %}
