@@ -1231,19 +1231,19 @@ msgstr "Schichtstatus"
 
 #: coop/views/shareowner.py:626
 msgid "Is registered to an ABCD-slot that requires a qualification"
-msgstr "Ist für eine ABCD-Schicht eingetragen, die Befähigung erfordert"
+msgstr "Ist für eine ABCD-Schicht eingetragen, die Qualifikation erfordert"
 
 #: coop/views/shareowner.py:634
 msgid "Is registered to a slot that requires a qualification"
-msgstr "Ist für eine Schicht eingetragen, die Befähigung erfordert"
+msgstr "Ist für eine Schicht eingetragen, die Qualifikation erfordert"
 
 #: coop/views/shareowner.py:642
 msgid "Has qualification"
-msgstr "Hat Befähigung"
+msgstr "Hat Qualifikation"
 
 #: coop/views/shareowner.py:650
 msgid "Does not have qualification"
-msgstr "Hat die Befähigung nicht"
+msgstr "Hat die Qualifikation nicht"
 
 #: coop/views/shareowner.py:660
 msgid "ABCD Week"
@@ -1513,12 +1513,12 @@ msgstr "Die Schicht muss nach ihrem Start enden."
 
 #: shifts/forms.py:98
 msgid "I have read the warning about the missing qualification and confirm that the user should get registered to the shift"
-msgstr "Ich habe die Warnung über die fehlende Befähigung gelesen und bestätige, dass Benutzer*in für die Schicht registriert werden sollte"
+msgstr "Ich habe die Warnung über die fehlende Qualifikation gelesen und bestätige, dass Benutzer*in für die Schicht registriert werden sollte"
 
 #: shifts/forms.py:121
 #, python-brace-format
 msgid "The selected user is missing the required qualification for this shift : {missing_capabilities}"
-msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Befähigung für diese Schicht: {missing_capabilities}"
+msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Qualifikation für diese Schicht: {missing_capabilities}"
 
 #: shifts/forms.py:155
 msgid "This user is already registered to another slot in this ABCD shift."
@@ -1534,7 +1534,7 @@ msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht
 
 #: shifts/forms.py:208 shifts/templates/shifts/user_shifts_overview_tag.html:98
 msgid "Qualifications"
-msgstr "Befähigungen"
+msgstr "Qualifikationen "
 
 #: shifts/forms.py:251
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
@@ -2148,12 +2148,12 @@ msgstr "Platz"
 #: shifts/templates/shifts/shift_day_printable.html:70
 #: shifts/templates/shifts/shift_detail_printable.html:63
 msgid "Required qualifications: "
-msgstr "Erforderliche Befähigung: "
+msgstr "Erforderliche Qualifikation: "
 
 #: shifts/templates/shifts/shift_day_printable.html:85
 #: shifts/templates/shifts/shift_detail_printable.html:79
 msgid "Has qualifications: "
-msgstr "Hat Befähigungen: "
+msgstr "Hat Qualifikation: "
 
 #: shifts/templates/shifts/shift_detail.html:9
 #: shifts/templates/shifts/shift_detail.html:32
