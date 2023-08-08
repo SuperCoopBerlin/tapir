@@ -163,6 +163,11 @@ urlpatterns = [
         name="edit_slot_template",
     ),
     path(
+        "statistics/slot_data_csv",
+        views.slot_data_csv_view,
+        name="slot_data_csv",
+    ),
+    path(
         "management",
         views.ShiftManagementView.as_view(),
         name="shift_management",

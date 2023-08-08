@@ -432,15 +432,66 @@ class TestExemptions(TapirFactoryTestBase):
             ).count(),
         )
 
-    def test_exemption_list_is_only_accessible_to_member_office(self):
-        self.login_as_normal_user()
-        response = self.client.get(reverse(self.VIEW_NAME_SHIFT_EXEMPTION_LIST))
-        self.assertEqual(403, response.status_code)
+    def test_normal_member_can_only_see_own_exemptions(self):
+        other_user = TapirUserFactory.create()
+        ShiftExemption.objects.create(
+            shift_user_data=other_user.shift_user_data,
+            start_date=datetime.date(day=1, month=1, year=2020),
+            end_date=datetime.date(day=12, month=3, year=2022),
+        )
 
-        self.login_as_shift_manager()
+        logged_in_user = self.login_as_normal_user()
+        ShiftExemption.objects.create(
+            shift_user_data=other_user.shift_user_data,
+            start_date=datetime.date(day=1, month=1, year=2020),
+            end_date=datetime.date(day=12, month=3, year=2022),
+        )
+
         response = self.client.get(reverse(self.VIEW_NAME_SHIFT_EXEMPTION_LIST))
-        self.assertEqual(403, response.status_code)
+        self.assertEqual(200, response.status_code)
+        response_content = response.content.decode()
+        self.assertNotIn(other_user.last_name, response_content)
+        self.assertIn(logged_in_user.last_name, response_content)
+
+    def test_shift_manager_can_only_see_own_exemptions(self):
+        other_user = TapirUserFactory.create()
+        ShiftExemption.objects.create(
+            shift_user_data=other_user.shift_user_data,
+            start_date=datetime.date(day=1, month=1, year=2020),
+            end_date=datetime.date(day=12, month=3, year=2022),
+        )
+
+        logged_in_user = self.login_as_shift_manager()
+        ShiftExemption.objects.create(
+            shift_user_data=other_user.shift_user_data,
+            start_date=datetime.date(day=1, month=1, year=2020),
+            end_date=datetime.date(day=12, month=3, year=2022),
+        )
+
+        response = self.client.get(reverse(self.VIEW_NAME_SHIFT_EXEMPTION_LIST))
+        self.assertEqual(200, response.status_code)
+        response_content = response.content.decode()
+        self.assertNotIn(other_user.last_name, response_content)
+        self.assertIn(logged_in_user.last_name, response_content)
+
+    def test_member_office_can_see_all_exemptions(self):
+        other_user_1 = TapirUserFactory.create()
+        ShiftExemption.objects.create(
+            shift_user_data=other_user_1.shift_user_data,
+            start_date=datetime.date(day=1, month=1, year=2020),
+            end_date=datetime.date(day=12, month=3, year=2022),
+        )
+
+        other_user_2 = TapirUserFactory.create()
+        ShiftExemption.objects.create(
+            shift_user_data=other_user_2.shift_user_data,
+            start_date=datetime.date(day=1, month=1, year=2020),
+            end_date=datetime.date(day=12, month=3, year=2022),
+        )
 
         self.login_as_member_office_user()
         response = self.client.get(reverse(self.VIEW_NAME_SHIFT_EXEMPTION_LIST))
         self.assertEqual(200, response.status_code)
+        response_content = response.content.decode()
+        self.assertIn(other_user_1.last_name, response_content)
+        self.assertIn(other_user_2.last_name, response_content)

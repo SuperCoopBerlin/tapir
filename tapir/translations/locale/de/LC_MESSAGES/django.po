@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-26 10:42+0200\n"
-"PO-Revision-Date: 2023-06-26 10:48+0200\n"
+"POT-Creation-Date: 2023-06-26 11:17+0200\n"
+"PO-Revision-Date: 2023-06-26 11:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -2153,7 +2153,7 @@ msgstr "Erforderliche Qualifikation: "
 #: shifts/templates/shifts/shift_day_printable.html:85
 #: shifts/templates/shifts/shift_detail_printable.html:79
 msgid "Has qualifications: "
-msgstr "Hat Qualifikation: "
+msgstr "Hat Qualifikationen : "
 
 #: shifts/templates/shifts/shift_detail.html:9
 #: shifts/templates/shifts/shift_detail.html:32

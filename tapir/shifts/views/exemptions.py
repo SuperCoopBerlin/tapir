@@ -139,12 +139,15 @@ class EditShiftExemptionView(
         return context
 
 
-class ShiftExemptionListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
-    permission_required = [PERMISSION_SHIFTS_EXEMPTIONS]
+class ShiftExemptionListView(LoginRequiredMixin, ListView):
     model = ShiftExemption
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        if not self.request.user.has_perm(PERMISSION_SHIFTS_EXEMPTIONS):
+            queryset = queryset.filter(
+                shift_user_data__id=self.request.user.shift_user_data.id
+            )
         shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
         if shift_user_data_id is not None:
             queryset = queryset.filter(shift_user_data__id=shift_user_data_id)

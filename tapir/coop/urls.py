@@ -185,4 +185,14 @@ urlpatterns = [
         views.active_members_with_account_at_end_of_month_csv_view,
         name="active_members_with_account_at_end_of_month_csv_view",
     ),
+    path(
+        "number_of_co_purchasers_json_view",
+        views.NumberOfCoPurchasersJsonView.as_view(),
+        name="number_of_co_purchasers_json_view",
+    ),
+    path(
+        "number_of_co_purchasers_csv_view",
+        views.number_of_co_purchasers_csv_view,
+        name="number_of_co_purchasers_csv_view",
+    ),
 ]
