@@ -31,6 +31,7 @@ class ShiftUserCapability:
     HANDLING_CHEESE = "handling_cheese"
     TRAIN_CHEESE_HANDLERS = "train_cheese_handlers"
     INVENTORY = "inventory"
+    NEBENAN_DE_SUPPORT = "nebenan_de_support"
 
 
 SHIFT_USER_CAPABILITY_CHOICES = {
@@ -44,6 +45,7 @@ SHIFT_USER_CAPABILITY_CHOICES = {
     ShiftUserCapability.HANDLING_CHEESE: _("Handling Cheese"),
     ShiftUserCapability.TRAIN_CHEESE_HANDLERS: _("Train cheese handlers"),
     ShiftUserCapability.INVENTORY: _("Inventory"),
+    ShiftUserCapability.NEBENAN_DE_SUPPORT: _("Nebenan.de-Support"),
 }
 
 

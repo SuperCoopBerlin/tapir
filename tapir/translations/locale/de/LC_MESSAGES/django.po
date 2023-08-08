@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 10:48+0200\n"
-"PO-Revision-Date: 2023-08-08 10:50+0200\n"
+"POT-Creation-Date: 2023-08-08 12:38+0200\n"
+"PO-Revision-Date: 2023-08-08 12:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -669,7 +669,7 @@ msgstr "Angeforderte Anteile"
 
 #: coop/templates/coop/draftuser_detail.html:77
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:51
-#: shifts/models.py:43
+#: shifts/models.py:44
 msgid "Welcome Session"
 msgstr "Willkommenstreffen"
 
@@ -1149,14 +1149,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:54
-#: shifts/models.py:824 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:826 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:236
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:56
-#: shifts/models.py:823
+#: shifts/models.py:825
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -1411,8 +1411,8 @@ msgstr ""
 msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
-#: core/templates/core/email_list.html:37 shifts/models.py:448
-#: shifts/models.py:951 shifts/templates/shifts/shiftexemption_list.html:28
+#: core/templates/core/email_list.html:37 shifts/models.py:450
+#: shifts/models.py:953 shifts/templates/shifts/shiftexemption_list.html:28
 #: shifts/templates/shifts/user_shift_account_log.html:30
 msgid "Description"
 msgstr "Beschreibung"
@@ -1628,114 +1628,118 @@ msgstr ""
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/models.py:37
+#: shifts/models.py:38
 msgid "Teamleader"
 msgstr "Teamleiter*in"
 
-#: shifts/models.py:38
+#: shifts/models.py:39
 msgid "Cashier"
 msgstr "Kasse"
 
-#: shifts/models.py:39
+#: shifts/models.py:40
 msgid "Member Office"
 msgstr "Mitgliederbüro"
 
-#: shifts/models.py:40
+#: shifts/models.py:41
 msgid "Bread Delivery"
 msgstr "Brotlieferung"
 
-#: shifts/models.py:41
+#: shifts/models.py:42
 msgid "Red Card"
 msgstr "Rote Karte Lebensmittel"
 
-#: shifts/models.py:42
+#: shifts/models.py:43
 msgid "First Aid"
 msgstr "Erste Hilfe"
 
-#: shifts/models.py:44
+#: shifts/models.py:45
 msgid "Handling Cheese"
 msgstr "Käse bearbeiten"
 
-#: shifts/models.py:45
+#: shifts/models.py:46
 msgid "Train cheese handlers"
 msgstr "Käse-Bearbeiten Training"
 
-#: shifts/models.py:46
+#: shifts/models.py:47
 msgid "Inventory"
 msgstr "Inventur"
 
-#: shifts/models.py:60
+#: shifts/models.py:48
+msgid "Nebenan.de-Support"
+msgstr "Nebenan.de-Betreuung"
+
+#: shifts/models.py:62
 msgid "I understand that all working groups help the Warenannahme & Lager working group until the shop opens."
 msgstr "Ich bestätige, dass alle Arbeitsgruppen die Arbeitsgruppe Warenannahme & Lagerhaltung bis zur Eröffnung des Ladens unterstützen."
 
-#: shifts/models.py:63
+#: shifts/models.py:65
 msgid "I understand that all working groups help the Reinigung & Aufräumen working group after the shop closes."
 msgstr ""
 
-#: shifts/models.py:66
+#: shifts/models.py:68
 msgid "I understand that I need my own vehicle in order to pick up the bread. A cargo bike can be borrowed, more infos in Slack in the #cargobike channel"
 msgstr ""
 
-#: shifts/models.py:69
+#: shifts/models.py:71
 msgid "I understand that I may need to carry heavy weights for this shift."
 msgstr "Mir ist klar, dass ich bei dieser Schicht möglicherweise schwere Gewichte heben muss."
 
-#: shifts/models.py:72
+#: shifts/models.py:74
 msgid "I understand that I may need to work high, for example up a ladder. I do not suffer from fear of heights."
 msgstr "Mir ist klar, dass ich möglicherweise in großer Höhe arbeiten muss, zum Beispiel auf einer Leiter. Ich leide nicht unter Höhenangst."
 
-#: shifts/models.py:438
+#: shifts/models.py:440
 msgid "Number of required attendances"
 msgstr "Anzahl notwendiger Teilnehmender"
 
-#: shifts/models.py:440
+#: shifts/models.py:442
 msgid "If there are less members registered to a shift than that number, it will be highlighted in the shift calendar."
 msgstr ""
 
-#: shifts/models.py:449
+#: shifts/models.py:451
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:825 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:827 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:246
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:826 shifts/templates/shifts/shift_day_printable.html:59
+#: shifts/models.py:828 shifts/templates/shifts/shift_day_printable.html:59
 #: shifts/templates/shifts/shift_detail.html:276
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:827 shifts/templates/shifts/shift_detail.html:284
+#: shifts/models.py:829 shifts/templates/shifts/shift_detail.html:284
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:828 shifts/templates/shifts/shift_day_printable.html:81
+#: shifts/models.py:830 shifts/templates/shifts/shift_day_printable.html:81
 #: shifts/templates/shifts/shift_detail.html:268
 #: shifts/templates/shifts/shift_detail_printable.html:75
 #: shifts/templates/shifts/shift_filters.html:63
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:883
+#: shifts/models.py:885
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:884
+#: shifts/models.py:886
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:885
+#: shifts/models.py:887
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:888
+#: shifts/models.py:890
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1057
+#: shifts/models.py:1059
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
