@@ -13,7 +13,6 @@ from django.test import TestCase, override_settings, Client
 from django.urls import reverse
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.webdriver import WebDriver
@@ -45,7 +44,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
         cls.host = socket.gethostbyname(socket.gethostname())
         cls.selenium = webdriver.Remote(
             command_executor="http://selenium:4444/wd/hub",
-            desired_capabilities=DesiredCapabilities.FIREFOX,
+            options=webdriver.FirefoxOptions(),
         )
         cls.selenium.maximize_window()
         cls.selenium.implicitly_wait(cls.DEFAULT_TIMEOUT)
