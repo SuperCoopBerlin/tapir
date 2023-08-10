@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("coop", "0033_rename_owner_shareownership_share_owner"),
     ]

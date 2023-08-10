@@ -18,7 +18,6 @@ class DateInputTapir(forms.DateInput):
 
 
 class TapirPhoneNumberField(PhoneNumberField):
-
     widget = PhoneNumberInternationalFallbackWidget
 
     def __init__(self, *args, **kwargs):

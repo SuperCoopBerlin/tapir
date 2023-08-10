@@ -15,7 +15,6 @@ from tapir.utils.management.commands.generate_test_data_functions import (
 
 
 class Command(BaseCommand):
-
     help = "A list of helper function to fill the database with test data"
 
     def add_arguments(self, parser):

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("coop", "0011_draftuser_startnext_welcome_email_sent"),
     ]

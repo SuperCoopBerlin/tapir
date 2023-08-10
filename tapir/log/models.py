@@ -155,7 +155,6 @@ class TextLogEntry(LogEntry):
 
 
 class UpdateModelLogEntry(LogEntry):
-
     old_values = HStoreField()
     new_values = HStoreField()
 

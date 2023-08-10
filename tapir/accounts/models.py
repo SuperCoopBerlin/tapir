@@ -48,7 +48,6 @@ class LdapUser(AbstractUser):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
-
         if self.has_ldap():
             ldap_user = self.get_ldap()
         else:

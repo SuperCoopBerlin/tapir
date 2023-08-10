@@ -102,7 +102,8 @@ class ShiftNames:
 class ShiftTemplateGroup(models.Model):
     """ShiftTemplateGroup represents a collection of ShiftTemplates that are usually instantiated together.
 
-    Normally, this will be a week of shifts in the ABCD system, so one ShiftTemplateGroup might be "Week A"."""
+    Normally, this will be a week of shifts in the ABCD system, so one ShiftTemplateGroup might be "Week A".
+    """
 
     name = models.CharField(blank=False, max_length=255)
     NAME_INT_PAIRS = [
@@ -657,7 +658,8 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         generated can be updated to reflect this change.
 
         For users leaving, the update has to be done in the view, as we can't know whether the user currently attending
-        the slot just unregistered from the regular slot or wants to attend this slot one-time only."""
+        the slot just unregistered from the regular slot or wants to attend this slot one-time only.
+        """
 
         if not self.slot_template:
             return

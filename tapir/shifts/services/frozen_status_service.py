@@ -150,7 +150,6 @@ class FrozenStatusService:
     def unfreeze_and_send_notification_email(
         cls, shift_user_data: ShiftUserData, actor: None | TapirUser = None
     ):
-
         cls._update_attendance_mode_and_create_log_entry(
             shift_user_data=shift_user_data,
             actor=actor,

@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("coop", "0021_shareowner_willing_to_gift_a_share"),
     ]
