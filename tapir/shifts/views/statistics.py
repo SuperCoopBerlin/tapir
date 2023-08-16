@@ -227,7 +227,9 @@ def slot_data_csv_view(_):
         is_from_an_abcd_attendance = False
         if done_or_last_updated_attendance is not None:
             is_from_an_abcd_attendance = (
-                slot.slot_template.attendance_template.user
+                slot.slot_template
+                and slot.slot_template.attendance_template
+                and slot.slot_template.attendance_template.user
                 == done_or_last_updated_attendance.user
             )
         writer.writerow(
