@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
+from django.db.models import Count, Prefetch
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views.generic import (
@@ -23,7 +23,9 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftUserData,
     ShiftCycleEntry,
+    SHIFT_ATTENDANCE_STATES,
 )
+from tapir.shifts.utils import get_attendance_mode_display
 from tapir.utils.shortcuts import get_monday
 
 
@@ -169,7 +171,14 @@ class ShiftAttendanceStatistics:
             ShiftSlot.objects.all()
             .prefetch_related("shift")
             .prefetch_related("shift__shift_template")
-            .prefetch_related("attendances")
+            .prefetch_related(
+                Prefetch(
+                    "attendances",
+                    queryset=ShiftAttendance.objects.order_by("-last_state_update"),
+                )
+            )
+            .prefetch_related("slot_template__attendance_template__user")
+            .prefetch_related("attendances__user__shift_user_data")
             .order_by("shift__start_time")
         )
 
@@ -192,10 +201,35 @@ def slot_data_csv_view(_):
             "shift_was_attended",
             "required_qualifications",
             "is_from_an_abcd_shift",
+            "is_from_an_abcd_attendance",
+            "attendee_shift_status",
+            "attendance_status",
         ]
     )
-
     for slot in ShiftAttendanceStatistics.get_all_shift_slot_data():
+        slot: ShiftSlot
+        done_or_last_updated_attendance: ShiftAttendance | None = None
+
+        slot_attendances_as_list = [a for a in slot.attendances.all()]
+        if slot_attendances_as_list:
+            done_attendances = [
+                a
+                for a in slot_attendances_as_list
+                if a.state == ShiftAttendance.State.DONE
+            ]
+            done_or_last_updated_attendance = (
+                done_attendances[0] if done_attendances else None
+            )
+            if done_or_last_updated_attendance is None:
+                # this gives the last updated attendance because they have already been sorted in the prefetch
+                done_or_last_updated_attendance = slot_attendances_as_list[0]
+
+        is_from_an_abcd_attendance = False
+        if done_or_last_updated_attendance is not None:
+            is_from_an_abcd_attendance = (
+                slot.slot_template.attendance_template.user
+                == done_or_last_updated_attendance.user
+            )
         writer.writerow(
             [
                 slot.shift.start_time.date(),  # shift_date
@@ -215,6 +249,15 @@ def slot_data_csv_view(_):
                 > 0,  # shift_was_attended
                 ",".join(slot.required_capabilities),  # required_qualifications
                 slot.shift.shift_template is not None,  # is_from_an_abcd_shift
+                is_from_an_abcd_attendance,  # is_from_an_abcd_attendance
+                get_attendance_mode_display(
+                    done_or_last_updated_attendance.user.shift_user_data.attendance_mode
+                )
+                if done_or_last_updated_attendance
+                else "None",  # attendee_shift_status
+                SHIFT_ATTENDANCE_STATES[done_or_last_updated_attendance.state]
+                if done_or_last_updated_attendance
+                else "None",  # attendance_status
             ],
         )
 
