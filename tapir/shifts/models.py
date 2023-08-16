@@ -179,7 +179,7 @@ class ShiftTemplate(models.Model):
     start_time = models.TimeField(blank=False)
     end_time = models.TimeField(blank=False)
     start_date = models.DateField(
-        blank=False,
+        blank=True,
         null=True,
         help_text=_(
             "This determines from which date shifts should be generated from this ABCD shift."
