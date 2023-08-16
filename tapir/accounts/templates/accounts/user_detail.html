@@ -34,6 +34,12 @@
                                 </a>
                             </div>
                         {% endif %}
+                        <div class="ms-1">
+                            <a class="{% tapir_button_link_to_action %}"
+                               href="{% url 'accounts:edit_username' object.pk %}">
+                                <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
+                            </a>
+                        </div>
                         {% if perms.accounts.manage %}
                             <div class="ms-1">
                                 <a class="{% tapir_button_link_to_action %}"
@@ -50,12 +56,6 @@
                                 </a>
                             </div>
                         {% endif %}
-                        <div class="ms-1">
-                            <a class="{% tapir_button_link_to_action %}"
-                               href="{% url 'accounts:edit_username' object.pk %}">
-                                <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
-                            </a>
-                        </div>
                     </span>
                 </h5>
                 <div class="card-body">
