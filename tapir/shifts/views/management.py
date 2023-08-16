@@ -1,9 +1,12 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.core.management import call_command
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, RedirectView
 
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
@@ -128,7 +131,7 @@ class EditShiftTemplateView(
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["card_title"] = (
-            _("Edit shift template:") + self.object.get_display_name()
+            _("Edit shift template: ") + self.object.get_display_name()
         )
         return context
 
@@ -208,3 +211,17 @@ class ShiftSlotTemplateEditView(
 
     def get_success_url(self):
         return self.get_slot_template().shift_template.get_absolute_url()
+
+
+class GenerateShiftsManuallyView(
+    LoginRequiredMixin, PermissionRequiredMixin, RedirectView
+):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("shifts:shift_management")
+
+    def get(self, request, *args, **kwargs):
+        call_command("generate_shifts")
+        messages.info(request, _("Shifts generated."))
+        return super().get(request, args, kwargs)

@@ -51,7 +51,8 @@ class ShiftTemplateFactory(factory.django.DjangoModelFactory):
             nb_slots = 1
         for _ in range(nb_slots):
             ShiftSlotTemplateFactory.create(shift_template=self)
-        self.num_required_attendances = math.ceil(nb_slots / 2)
+        if not self.num_required_attendances:
+            self.num_required_attendances = math.ceil(nb_slots / 2)
         self.save()
 
 

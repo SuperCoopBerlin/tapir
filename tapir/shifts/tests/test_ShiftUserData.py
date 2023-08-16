@@ -1,7 +1,5 @@
-from django.utils import timezone
-
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.models import ShiftAccountEntry, ShiftAttendanceMode
+from tapir.shifts.models import ShiftAttendanceMode
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

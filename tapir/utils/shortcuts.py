@@ -47,4 +47,4 @@ def get_timezone_aware_datetime(
     date: datetime.date, time: datetime.time
 ) -> datetime.datetime:
     result = datetime.datetime.combine(date, time)
-    return timezone.make_aware(result)
+    return timezone.make_aware(result) if timezone.is_naive(result) else result

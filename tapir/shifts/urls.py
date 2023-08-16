@@ -177,4 +177,9 @@ urlpatterns = [
         views.RunFreezeChecksManuallyView.as_view(),
         name="run_freeze_checks_manually",
     ),
+    path(
+        "generate_shifts_manually",
+        views.GenerateShiftsManuallyView.as_view(),
+        name="generate_shifts_manually",
+    ),
 ]

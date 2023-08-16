@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -119,10 +119,14 @@ class ShiftTemplateGroup(models.Model):
     def create_shifts(self, start_date: datetime.date):
         if start_date.weekday() != 0:
             raise ValueError("Start date for shift generation must be a Monday")
-
+        start_date_in_the_past_or_null = Q(start_date__lte=start_date) | Q(
+            start_date__isnull=True
+        )
         return [
             shift_template.create_shift(start_date=start_date)
-            for shift_template in self.shift_templates.all()
+            for shift_template in self.shift_templates.filter(
+                start_date_in_the_past_or_null
+            )
         ]
 
     def get_group_index(self) -> int | None:
@@ -171,11 +175,16 @@ class ShiftTemplate(models.Model):
     num_required_attendances = models.PositiveIntegerField(
         null=False, blank=False, default=3
     )
-
     weekday = models.IntegerField(blank=True, null=True, choices=WEEKDAY_CHOICES)
-
     start_time = models.TimeField(blank=False)
     end_time = models.TimeField(blank=False)
+    start_date = models.DateField(
+        blank=False,
+        null=True,
+        help_text=_(
+            "This determines from which date shifts should be generated from this ABCD shift."
+        ),
+    )
 
     def __str__(self):
         display_name = "%s: %s %s %s-%s" % (
@@ -235,6 +244,7 @@ class ShiftTemplate(models.Model):
             start_time=start_time,
             end_time=end_time,
             description=self.description,
+            num_required_attendances=self.num_required_attendances,
         )
 
     @transaction.atomic

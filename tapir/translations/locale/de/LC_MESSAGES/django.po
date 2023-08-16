@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-08 12:38+0200\n"
+"POT-Creation-Date: 2023-08-16 10:56+0200\n"
 "PO-Revision-Date: 2023-08-08 12:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -32,77 +32,77 @@ msgstr ""
 msgid "This username is not available."
 msgstr ""
 
-#: accounts/models.py:143 accounts/templates/accounts/user_detail.html:67
+#: accounts/models.py:142 accounts/templates/accounts/user_detail.html:67
 #: coop/templates/coop/draftuser_detail.html:24
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/models.py:147
+#: accounts/models.py:146
 msgid "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
 msgstr "Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen oder ./-/_ verwenden."
 
-#: accounts/models.py:151
+#: accounts/models.py:150
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
-#: accounts/models.py:156
+#: accounts/models.py:155
 msgid "Displayed name"
 msgstr "Angezeigte Name"
 
-#: accounts/models.py:161 coop/models.py:58 coop/models.py:339
+#: accounts/models.py:160 coop/models.py:58 coop/models.py:339
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:162 accounts/templates/accounts/user_detail.html:75
+#: accounts/models.py:161 accounts/templates/accounts/user_detail.html:75
 #: coop/models.py:60 coop/models.py:341
 #: coop/templates/coop/draftuser_detail.html:32
 #: coop/templates/coop/shareowner_detail.html:49
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:163 accounts/templates/accounts/user_detail.html:85
+#: accounts/models.py:162 accounts/templates/accounts/user_detail.html:85
 #: coop/models.py:61 coop/models.py:342
 #: coop/templates/coop/draftuser_detail.html:36
 #: coop/templates/coop/shareowner_detail.html:53
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:164 coop/models.py:62 coop/models.py:343
+#: accounts/models.py:163 coop/models.py:62 coop/models.py:343
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:165 coop/models.py:63 coop/models.py:344
+#: accounts/models.py:164 coop/models.py:63 coop/models.py:344
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:166 coop/models.py:64 coop/models.py:345
+#: accounts/models.py:165 coop/models.py:64 coop/models.py:345
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:167 coop/models.py:65 coop/models.py:346
+#: accounts/models.py:166 coop/models.py:65 coop/models.py:346
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:168 coop/models.py:66 coop/models.py:347
+#: accounts/models.py:167 coop/models.py:66 coop/models.py:347
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:169 accounts/templates/accounts/user_detail.html:119
+#: accounts/models.py:168 accounts/templates/accounts/user_detail.html:119
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:83
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:171
+#: accounts/models.py:170
 msgid "Allow purchase tracking"
 msgstr ""
 
-#: accounts/models.py:176 accounts/templates/accounts/user_detail.html:105
+#: accounts/models.py:175 accounts/templates/accounts/user_detail.html:105
 #: coop/models.py:69 coop/models.py:350
 #: coop/templates/coop/shareowner_detail.html:73
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:211 accounts/models.py:220
+#: accounts/models.py:210 accounts/models.py:219
 msgid "None"
 msgstr "Keine"
 
@@ -1149,14 +1149,14 @@ msgid "Inactive"
 msgstr "Inaktiv"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:54
-#: shifts/models.py:826 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:838 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:236
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:56
-#: shifts/models.py:825
+#: shifts/models.py:837
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -1411,8 +1411,8 @@ msgstr ""
 msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
-#: core/templates/core/email_list.html:37 shifts/models.py:450
-#: shifts/models.py:953 shifts/templates/shifts/shiftexemption_list.html:28
+#: core/templates/core/email_list.html:37 shifts/models.py:461
+#: shifts/models.py:965 shifts/templates/shifts/shiftexemption_list.html:28
 #: shifts/templates/shifts/user_shift_account_log.html:30
 msgid "Description"
 msgstr "Beschreibung"
@@ -1620,11 +1620,11 @@ msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerha
 msgid "The user will be unregistered from the following ABCD shifts because the exemption is longer than %(number_of_cycles)s cycles: %(attendances_display)s "
 msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s "
 
-#: shifts/forms.py:356
+#: shifts/forms.py:358
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:377
+#: shifts/forms.py:379
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
@@ -1688,58 +1688,62 @@ msgstr "Mir ist klar, dass ich bei dieser Schicht möglicherweise schwere Gewich
 msgid "I understand that I may need to work high, for example up a ladder. I do not suffer from fear of heights."
 msgstr "Mir ist klar, dass ich möglicherweise in großer Höhe arbeiten muss, zum Beispiel auf einer Leiter. Ich leide nicht unter Höhenangst."
 
-#: shifts/models.py:440
-msgid "Number of required attendances"
-msgstr "Anzahl notwendiger Teilnehmender"
-
-#: shifts/models.py:442
-msgid "If there are less members registered to a shift than that number, it will be highlighted in the shift calendar."
+#: shifts/models.py:185
+msgid "This determines from which date shifts should be generated from this ABCD shift."
 msgstr ""
 
 #: shifts/models.py:451
+msgid "Number of required attendances"
+msgstr "Anzahl notwendiger Teilnehmender"
+
+#: shifts/models.py:453
+msgid "If there are less members registered to a shift than that number, it will be highlighted in the shift calendar."
+msgstr ""
+
+#: shifts/models.py:462
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:827 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:839 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:246
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:828 shifts/templates/shifts/shift_day_printable.html:59
+#: shifts/models.py:840 shifts/templates/shifts/shift_day_printable.html:59
 #: shifts/templates/shifts/shift_detail.html:276
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:829 shifts/templates/shifts/shift_detail.html:284
+#: shifts/models.py:841 shifts/templates/shifts/shift_detail.html:284
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:830 shifts/templates/shifts/shift_day_printable.html:81
+#: shifts/models.py:842 shifts/templates/shifts/shift_day_printable.html:81
 #: shifts/templates/shifts/shift_detail.html:268
 #: shifts/templates/shifts/shift_detail_printable.html:75
 #: shifts/templates/shifts/shift_filters.html:63
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:885
+#: shifts/models.py:897
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:886
+#: shifts/models.py:898
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:887
+#: shifts/models.py:899
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:890
+#: shifts/models.py:902
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1059
+#: shifts/models.py:1071
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -2456,6 +2460,26 @@ msgid ""
 "                        "
 msgstr ""
 
+#: shifts/templates/shifts/shift_management.html:72
+#, fuzzy
+#| msgid "Unregistered from ABCD Shift"
+msgid "Generate shifts from ABCD shifts"
+msgstr "Abgemeldet von ABCD-Schicht"
+
+#: shifts/templates/shifts/shift_management.html:76
+msgid ""
+"\n"
+"                        <p>This generates shifts for the coming 200 days according to the ABCD-shift-calendar.</p>\n"
+"                        <p>This command is run automatically once per day. You can trigger it manually to see results faster.</p>\n"
+"                    "
+msgstr ""
+
+#: shifts/templates/shifts/shift_management.html:81
+#, fuzzy
+#| msgid "Past generated Shifts"
+msgid "Generate shifts"
+msgstr "Vergangene Schichten"
+
 #: shifts/templates/shifts/shift_template_detail.html:9
 #: shifts/templates/shifts/shift_template_detail.html:19
 #: shifts/templates/shifts/user_shifts_overview_tag.html:24
@@ -2677,29 +2701,37 @@ msgstr "Erzeuge Schicht-Befreiung für: %(link)s"
 msgid "Edit shift exemption for: %(link)s"
 msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 
-#: shifts/views/management.py:33
+#: shifts/views/management.py:36
 msgid "Create a shift"
 msgstr "Schicht erzeugen"
 
-#: shifts/views/management.py:73
+#: shifts/views/management.py:76
 msgid "Edit slot: "
 msgstr "Slot bearbeiten: "
 
-#: shifts/views/management.py:117
+#: shifts/views/management.py:120
 msgid "Edit shift:"
 msgstr "Schiht bearbeiten:"
 
-#: shifts/views/management.py:131
-msgid "Edit shift template:"
-msgstr ""
+#: shifts/views/management.py:134
+#, fuzzy
+#| msgid "Edit shift:"
+msgid "Edit shift template: "
+msgstr "Schiht bearbeiten:"
 
-#: shifts/views/management.py:150
+#: shifts/views/management.py:153
 msgid "Create an ABCD shift"
 msgstr "ABCD-Schicht erzeugen"
 
-#: shifts/views/management.py:152
+#: shifts/views/management.py:155
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
 msgstr ""
+
+#: shifts/views/management.py:226
+#, fuzzy
+#| msgid "Shift reminder"
+msgid "Shifts generated."
+msgstr "Schicht-Erinnerung"
 
 #: shifts/views/views.py:99 shifts/views/views.py:104
 #, python-format
@@ -2720,7 +2752,7 @@ msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 msgid "Frozen statuses updated."
 msgstr ""
 
-#: utils/forms.py:26
+#: utils/forms.py:25
 msgid "German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. +12125552368)"
 msgstr "Innerstädtische und Mobilfunk-Verbindungen benötigen keine Vorwahlnummer (z.B. 01736160646), internationale Verbindungen benötigen die Landesvorwahlnummer für Mobilfunk, für Festnetz die Landes- und Ortsvorwahlnummer"
 

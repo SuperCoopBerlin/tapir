@@ -343,12 +343,14 @@ class ShiftTemplateForm(forms.ModelForm):
             "weekday",
             "start_time",
             "end_time",
+            "start_date",
         ]
         widgets = {
             "start_time": forms.widgets.TimeInput(
                 attrs={"type": "time"}, format="%H:%M"
             ),
             "end_time": forms.widgets.TimeInput(attrs={"type": "time"}, format="%H:%M"),
+            "start_date": DateInputTapir(),
         }
 
     check_update_future_shifts = BooleanField(
