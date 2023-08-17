@@ -150,7 +150,7 @@ class FrozenStatusService:
         if shift_user_data.attendance_mode != ShiftAttendanceMode.FROZEN:
             return False
 
-        if shift_user_data.get_account_balance() >= 0:
+        if shift_user_data.get_account_balance() > FREEZE_THRESHOLD:
             return True
 
         return cls._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(

@@ -447,10 +447,10 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
         self.assertFalse(FrozenStatusService.should_unfreeze_member(shift_user_data))
 
-    def test_shouldUnfreezeMember_memberBalanceIsPositive_returnsTrue(self):
+    def test_shouldUnfreezeMember_memberBalanceIsAboveThreshold_returnsTrue(self):
         shift_user_data = Mock()
         shift_user_data.attendance_mode = ShiftAttendanceMode.FROZEN
-        shift_user_data.get_account_balance.return_value = 0
+        shift_user_data.get_account_balance.return_value = -3
 
         self.assertTrue(FrozenStatusService.should_unfreeze_member(shift_user_data))
 
