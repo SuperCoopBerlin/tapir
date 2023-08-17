@@ -22,12 +22,18 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
     ShiftAttendance,
 )
+from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 
 
 class FrozenStatusService:
     @classmethod
     def should_freeze_member(cls, shift_user_data: ShiftUserData) -> bool:
         if shift_user_data.attendance_mode == ShiftAttendanceMode.FROZEN:
+            return False
+
+        if not ShiftExpectationService.is_member_expected_to_do_shifts(
+            shift_user_data, timezone.now().date()
+        ):
             return False
 
         if not cls._is_member_below_threshold_since_long_enough(shift_user_data):
@@ -111,6 +117,11 @@ class FrozenStatusService:
     @classmethod
     def should_send_freeze_warning(cls, shift_user_data: ShiftUserData):
         if shift_user_data.get_account_balance() > FREEZE_THRESHOLD:
+            return False
+
+        if not ShiftExpectationService.is_member_expected_to_do_shifts(
+            shift_user_data, timezone.now().date()
+        ):
             return False
 
         last_warning = (

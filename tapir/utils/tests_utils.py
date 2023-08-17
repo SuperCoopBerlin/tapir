@@ -4,6 +4,7 @@ import os
 import pathlib
 import socket
 from typing import Type
+from unittest.mock import patch
 
 import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -211,3 +212,10 @@ class TapirEmailTestBase(TestCase):
         self.assertEqual(".pdf", attachment_name[-4:])
         attachment_type = attachment[2]
         self.assertEqual(CONTENT_TYPE_PDF, attachment_type)
+
+
+def mock_timezone_now(test: TestCase, now: datetime.datetime) -> None:
+    patcher = patch("django.utils.timezone.now")
+    test.mock_now = patcher.start()
+    test.addCleanup(patcher.stop)
+    test.mock_now.return_value = now
