@@ -11,17 +11,34 @@
         <p>This is an automated email from SuperCoop.</p>
 
         <p>
-            It has been registered in the Tapir system that you didn't attend the following shift which you had registered for:
-            {{ shift_display_name }} <br/>
-            If it's a mistake, or you think that you should be excused from this shift, please contact the member office: mitglied@supercoop.de .<br/>
-            As stated in the Member Manual, a missed shift must be compensated for by completing 2 make-up shifts within four weeks of your missed shift. You can schedule your make-up shifts directly on <a href="https://members.supercoop.de/shifts/timetable">Tapir</a>.<br/>
-            Please keep in mind that if you do not complete your make-up shifts your shopping and voting rights will be suspended. For more information please see the <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.lk042ux0tm9c.">Member Manual</a>
-            (Section III.F).
+            It has been registered into Tapir that you did not show up for the following shift even though you were
+            registered for it: {{ shift_display_name }}
         </p>
-
         <p>
-            Cooperatively yours, <br/>
-            Your {{ coop_name }} member office.
+            If this is an error, such as you were excused for the shift, please contact the Member Office as soon as
+            possible by simply replying to this email.
+        </p>
+        <p>
+            In order for the shift system to work in case of absences, the stand-in system (an internal substitution
+            system) has been set up. This is to relieve both you and your team members. You can find out exactly how the
+            substitution system works in the
+            <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.lk042ux0tm9c.">Member
+                Manual</a>. Please note that it is your responsibility to actively look for a shift substitute, this
+            includes an entry in Tapir as well as actively searching for a substitute e.g. via Slack.
+        </p>
+        <p>
+            As a general rule, a member is required to work two make-up shifts for each missed shift for which a
+            replacement could not be found. Your Tapir account now contains a note to that effect.
+        </p>
+        <p>
+            We ask that you sign up for your make-up shifts in Tapir within the next four weeks to balance your account. Failure to do so can result in the pausing of your purchasing and voting rights until you begin actively working again (see <a
+                href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.lk042ux0tm9c">Member
+            Manual (Section III.F)</a>
+        </p>
+        <p>Thank you for your understanding.</p>
+        <p>
+            Cooperative Greetings<br/>
+            The Membership Office
         </p>
     {% endblocktranslate %}
 {% endblock body %}

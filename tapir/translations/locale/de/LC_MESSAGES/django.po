@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-16 10:56+0200\n"
-"PO-Revision-Date: 2023-08-08 12:38+0200\n"
+"POT-Creation-Date: 2023-08-22 11:48+0200\n"
+"PO-Revision-Date: 2023-08-22 11:44+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -191,7 +191,11 @@ msgstr "Persönliche Daten"
 msgid "Edit groups"
 msgstr "Gruppen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:42
+#: accounts/templates/accounts/user_detail.html:40
+msgid "Edit username"
+msgstr "Benutzername bearbeiten"
+
+#: accounts/templates/accounts/user_detail.html:48
 #: coop/templates/coop/draftuser_detail.html:132
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:19
@@ -206,13 +210,9 @@ msgstr "Gruppen bearbeiten"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:49
+#: accounts/templates/accounts/user_detail.html:55
 msgid "Edit name and pronouns"
 msgstr "Name und Pronomen bearbeiten"
-
-#: accounts/templates/accounts/user_detail.html:56
-msgid "Edit username"
-msgstr "Benutzername bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:63
 #: coop/templates/coop/draftuser_detail.html:20
@@ -1942,37 +1942,63 @@ msgid ""
 "        <p>This is an automated email from SuperCoop.</p>\n"
 "\n"
 "        <p>\n"
-"            It has been registered in the Tapir system that you didn't attend the following shift which you had registered for:\n"
-"            %(shift_display_name)s <br/>\n"
-"            If it's a mistake, or you think that you should be excused from this shift, please contact the member office: mitglied@supercoop.de .<br/>\n"
-"            As stated in the Member Manual, a missed shift must be compensated for by completing 2 make-up shifts within four weeks of your missed shift. You can schedule your make-up shifts directly on <a href=\"https://members.supercoop.de/shifts/timetable\">Tapir</a>.<br/>\n"
-"            Please keep in mind that if you do not complete your make-up shifts your shopping and voting rights will be suspended. For more information please see the <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.lk042ux0tm9c.\">Member Manual</a>\n"
-"            (Section III.F).\n"
+"            It has been registered into Tapir that you did not show up for the following shift even though you were\n"
+"            registered for it: %(shift_display_name)s\n"
 "        </p>\n"
-"\n"
 "        <p>\n"
-"            Cooperatively yours, <br/>\n"
-"            Your %(coop_name)s member office.\n"
+"            If this is an error, such as you were excused for the shift, please contact the Member Office as soon as\n"
+"            possible by simply replying to this email.\n"
+"        </p>\n"
+"        <p>\n"
+"            In order for the shift system to work in case of absences, the stand-in system (an internal substitution\n"
+"            system) has been set up. This is to relieve both you and your team members. You can find out exactly how the\n"
+"            substitution system works in the\n"
+"            <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.lk042ux0tm9c.\">Member\n"
+"                Manual</a>. Please note that it is your responsibility to actively look for a shift substitute, this\n"
+"            includes an entry in Tapir as well as actively searching for a substitute e.g. via Slack.\n"
+"        </p>\n"
+"        <p>\n"
+"            As a general rule, a member is required to work two make-up shifts for each missed shift for which a\n"
+"            replacement could not be found. Your Tapir account now contains a note to that effect.\n"
+"        </p>\n"
+"        <p>\n"
+"            We ask that you sign up for your make-up shifts in Tapir within the next four weeks to balance your account. Failure to do so can result in the pausing of your purchasing and voting rights until you begin actively working again (see <a\n"
+"                href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.lk042ux0tm9c\">Member\n"
+"            Manual (Section III.F)</a>\n"
+"        </p>\n"
+"        <p>Thank you for your understanding.</p>\n"
+"        <p>\n"
+"            Cooperative Greetings<br/>\n"
+"            The Membership Office\n"
 "        </p>\n"
 "    "
 msgstr ""
 "\n"
-"    <p>Hallo %(display_name_short)s,</p>\n"
+"        <p>Hallo %(display_name_short)s,</p>\n"
 "\n"
-"    <p>Dies ist eine automatische E-Mail von der SuperCoop.</p>\n"
+"        <p>dies ist eine automatisierte E-Mail der SuperCoop.</p>\n"
 "\n"
-"    <p>\n"
-"       Es ist gerade im Tapir-System eingetragen worden, dass du an folgender Schicht nicht teilgenommen hast, obwohl du angemeldet warst :\n"
-"        %(shift_display_name)s <br/>\n"
-"        Wenn dies ein Fehler ist, oder du für di Schicht entschuldigt sein solltest, kontaktiere bitte das Mitgliederbüro: mitglied@supercoop.de .<br/>\n"
-"        Im Mitgliederhandbuch steht: Wenn ein Mitglied eine Schicht versäumt, muss das Mitglied innerhalb von vier Wochen nach der versäumten Schicht an zwei Nachholschichten teilnehmen, um sie auszugleichen. Du kannst dich für die Nachholschichten selbst in <a href=\"https://members.supercoop.de/shifts/timetable\">Tapir</a> eintragen.<br/>\n"
-"        Wenn du deine Nachholschichten nicht machst, können deine Einkaufs- und Wahl-Rechte ausgesetzt werden. Für mehr Information siehe <a href=\"https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.594fbvgmke0z\">Mitgliederhandbuch</a> III.F\n"
-"    </p>\n"
-"\n"
-"    <p>\n"
-"         Kooperative Grüße, <br/>\n"
-"         Dein %(coop_name)s Mitgliedsbüro\n"
-"    </p> "
+"        <p>\n"
+"            Es ist gerade im Tapir-System eingetragen worden, dass du zu folgender Schicht nicht erschienen bist, obwohl du für sie angemeldet warst: %(shift_display_name)s\n"
+"        </p>\n"
+"        <p>\n"
+"            Sollte es sich hierbei um einen Fehler handeln, weil du z. B. für die Schicht entschuldigt warst, so kontaktiere bitte umgehend das Mitgliederbüro, indem du einfach auf diese E-Mail antwortest.\n"
+"        </p>\n"
+"        <p>\n"
+"            Damit das Schichtsystem auch bei Ausfällen funktionieren kann, wurde ein internes Vertretungssystem eingerichtet. Dies soll sowohl dich als auch deine Teammitglieder entlasten. Wie genau das Vertretungssystem funktioniert, findest du im <a href=\"https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.ibmcsczg5lek\">Mitgliederhandbuch</a>. Bitte beachte, dass es in deiner Verantwortung liegt, dich aktiv um einen Schichtersatz zu bemühen, dazu zählt ein Eintrag in Tapir genauso wie die aktive Suche nach einer Vertretung z. B. per Slack.\n"
+"        </p>\n"
+"        <p>\n"
+"            Generell gilt, dass ein Mitglied für jede versäumte Schicht, für die kein Ersatz gefunden werden konnte, zwei Nachholschichten zu leisten hat. Dein Tapir-Konto enthält jetzt einen entsprechenden Vermerk.\n"
+"        </p>\n"
+"        <p>\n"
+"            Wir möchten dich bitten, dich innerhalb der nächsten vier Wochen für deine Nachholschichten in <a href=\"https://members.supercoop.de/shifts/timetable\">Tapir</a> anzumelden, um dein Konto auszugleichen. Andernfalls können deine Einkaufs- und Mitbestimmungsrechte eingeschränkt werden (siehe <a href=\"https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.594fbvgmke0z\">Mitgliederhandbuch III.F</a>).\n"
+"        </p>\n"
+"        <p>Vielen Dank für dein Verständnis.</p>\n"
+"        <p>\n"
+"            Kooperative Grüße<br/>\n"
+"            Das Mitgliederbüro\n"
+"        </p>\n"
+"    "
 
 #: shifts/templates/shifts/email/shift_missed.subject.default.html:3
 msgid ""
@@ -2461,10 +2487,8 @@ msgid ""
 msgstr ""
 
 #: shifts/templates/shifts/shift_management.html:72
-#, fuzzy
-#| msgid "Unregistered from ABCD Shift"
 msgid "Generate shifts from ABCD shifts"
-msgstr "Abgemeldet von ABCD-Schicht"
+msgstr ""
 
 #: shifts/templates/shifts/shift_management.html:76
 msgid ""
@@ -2475,10 +2499,8 @@ msgid ""
 msgstr ""
 
 #: shifts/templates/shifts/shift_management.html:81
-#, fuzzy
-#| msgid "Past generated Shifts"
 msgid "Generate shifts"
-msgstr "Vergangene Schichten"
+msgstr ""
 
 #: shifts/templates/shifts/shift_template_detail.html:9
 #: shifts/templates/shifts/shift_template_detail.html:19
@@ -2672,6 +2694,11 @@ msgstr "Alle ansehen"
 msgid "General"
 msgstr "Allgemein"
 
+#: shifts/utils.py:166
+#, python-brace-format
+msgid "Unknown mode {attendance_mode}"
+msgstr ""
+
 #: shifts/views/attendance.py:190
 #, python-format
 msgid "Shift attendance: %(name)s"
@@ -2714,10 +2741,8 @@ msgid "Edit shift:"
 msgstr "Schiht bearbeiten:"
 
 #: shifts/views/management.py:134
-#, fuzzy
-#| msgid "Edit shift:"
 msgid "Edit shift template: "
-msgstr "Schiht bearbeiten:"
+msgstr "ABCD-Schicht bearbeiten: "
 
 #: shifts/views/management.py:153
 msgid "Create an ABCD shift"
@@ -2728,10 +2753,8 @@ msgid "Shifts are generated every day at midnight. After you created the ABCD sh
 msgstr ""
 
 #: shifts/views/management.py:226
-#, fuzzy
-#| msgid "Shift reminder"
 msgid "Shifts generated."
-msgstr "Schicht-Erinnerung"
+msgstr ""
 
 #: shifts/views/views.py:99 shifts/views/views.py:104
 #, python-format
@@ -3792,6 +3815,46 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:79
 msgid "Member ID"
 msgstr "Mitglieds-ID"
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "        <p>Hi %(display_name_short)s,</p>\n"
+#~ "\n"
+#~ "        <p>This is an automated email from SuperCoop.</p>\n"
+#~ "\n"
+#~ "        <p>\n"
+#~ "            It has been registered in the Tapir system that you didn't attend the following shift which you had registered for:\n"
+#~ "            %(shift_display_name)s <br/>\n"
+#~ "            If it's a mistake, or you think that you should be excused from this shift, please contact the member office: mitglied@supercoop.de .<br/>\n"
+#~ "            As stated in the Member Manual, a missed shift must be compensated for by completing 2 make-up shifts within four weeks of your missed shift. You can schedule your make-up shifts directly on <a href=\"https://members.supercoop.de/shifts/timetable\">Tapir</a>.<br/>\n"
+#~ "            Please keep in mind that if you do not complete your make-up shifts your shopping and voting rights will be suspended. For more information please see the <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.lk042ux0tm9c.\">Member Manual</a>\n"
+#~ "            (Section III.F).\n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>\n"
+#~ "            Cooperatively yours, <br/>\n"
+#~ "            Your %(coop_name)s member office.\n"
+#~ "        </p>\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "    <p>Hallo %(display_name_short)s,</p>\n"
+#~ "\n"
+#~ "    <p>Dies ist eine automatische E-Mail von der SuperCoop.</p>\n"
+#~ "\n"
+#~ "    <p>\n"
+#~ "       Es ist gerade im Tapir-System eingetragen worden, dass du an folgender Schicht nicht teilgenommen hast, obwohl du angemeldet warst :\n"
+#~ "        %(shift_display_name)s <br/>\n"
+#~ "        Wenn dies ein Fehler ist, oder du für di Schicht entschuldigt sein solltest, kontaktiere bitte das Mitgliederbüro: mitglied@supercoop.de .<br/>\n"
+#~ "        Im Mitgliederhandbuch steht: Wenn ein Mitglied eine Schicht versäumt, muss das Mitglied innerhalb von vier Wochen nach der versäumten Schicht an zwei Nachholschichten teilnehmen, um sie auszugleichen. Du kannst dich für die Nachholschichten selbst in <a href=\"https://members.supercoop.de/shifts/timetable\">Tapir</a> eintragen.<br/>\n"
+#~ "        Wenn du deine Nachholschichten nicht machst, können deine Einkaufs- und Wahl-Rechte ausgesetzt werden. Für mehr Information siehe <a href=\"https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.594fbvgmke0z\">Mitgliederhandbuch</a> III.F\n"
+#~ "    </p>\n"
+#~ "\n"
+#~ "    <p>\n"
+#~ "         Kooperative Grüße, <br/>\n"
+#~ "         Dein %(coop_name)s Mitgliedsbüro\n"
+#~ "    </p> "
 
 #, fuzzy, python-format
 #~| msgid ""
