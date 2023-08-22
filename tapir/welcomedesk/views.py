@@ -34,11 +34,18 @@ class ShareOwnerTableWelcomeDesk(django_tables2.Table):
         empty_values=(), verbose_name="Name", orderable=False
     )
 
-    @staticmethod
-    def render_display_name(value, record: ShareOwner):
+    def before_render(self, request):
+        self.request = request
+
+    def render_display_name(self, value, record: ShareOwner):
+        display_type = UserUtils.should_viewer_see_short_or_long_display_type(
+            self.request.user
+        )
+        if display_type == UserUtils.DISPLAY_NAME_TYPE_SHORT:
+            display_type = UserUtils.DISPLAY_NAME_TYPE_WELCOME_DESK
         return get_html_link(
             reverse("welcomedesk:welcome_desk_share_owner", args=[record.pk]),
-            UserUtils.build_display_name(record, UserUtils.DISPLAY_NAME_TYPE_FULL),
+            UserUtils.build_display_name(record, display_type),
         )
 
 

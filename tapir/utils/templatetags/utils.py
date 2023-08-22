@@ -22,6 +22,13 @@ def get_display_name_short(person):
 
 
 @register.simple_tag
+def get_display_name_welcome_desk(person):
+    return UserUtils.build_display_name(
+        person, UserUtils.DISPLAY_NAME_TYPE_WELCOME_DESK
+    )
+
+
+@register.simple_tag
 def get_display_name_legal(person):
     return UserUtils.build_display_name_legal(person)
 

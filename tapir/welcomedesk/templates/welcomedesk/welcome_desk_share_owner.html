@@ -26,7 +26,7 @@
 
     <div class="card mb-2" id="welcome_desk_share_owner">
         <h5 class="card-header">
-            <span>{% get_display_name_full share_owner %}</span>
+            <span>{% get_display_name_welcome_desk share_owner %}</span>
         </h5>
         <div class="card-body">
             {% if can_shop %}
@@ -73,7 +73,7 @@
             {% if not missing_account and user %}
                 <div class="row m-1">
                     <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                    <div class="col-8">{% get_display_name_full share_owner %}</div>
+                    <div class="col-8">{% get_display_name_welcome_desk share_owner %}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-4 fw-bold text-end">{% translate "Member ID" %}:</div>
