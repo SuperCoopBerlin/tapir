@@ -163,11 +163,6 @@ urlpatterns = [
         name="edit_slot_template",
     ),
     path(
-        "statistics/slot_data_csv",
-        views.slot_data_csv_view,
-        name="slot_data_csv",
-    ),
-    path(
         "management",
         views.ShiftManagementView.as_view(),
         name="shift_management",
@@ -181,5 +176,50 @@ urlpatterns = [
         "generate_shifts_manually",
         views.GenerateShiftsManuallyView.as_view(),
         name="generate_shifts_manually",
+    ),
+    path(
+        "statistics/slot_data_csv",
+        views.slot_data_csv_view,
+        name="slot_data_csv",
+    ),
+    path(
+        "statistics/shift_template_data_csv_export",
+        views.shift_template_data_csv_export,
+        name="shift_template_data_csv_export",
+    ),
+    path(
+        "statistics/shift_slot_template_data_csv_export",
+        views.shift_slot_template_data_csv_export,
+        name="shift_slot_template_data_csv_export",
+    ),
+    path(
+        "statistics/shift_data_csv_export",
+        views.shift_data_csv_export,
+        name="shift_data_csv_export",
+    ),
+    path(
+        "statistics/shift_slot_data_csv_export",
+        views.shift_slot_data_csv_export,
+        name="shift_slot_data_csv_export",
+    ),
+    path(
+        "statistics/attendance_template_data_csv_export",
+        views.attendance_template_data_csv_export,
+        name="attendance_template_data_csv_export",
+    ),
+    path(
+        "statistics/attendance_data_csv_export",
+        views.attendance_data_csv_export,
+        name="attendance_data_csv_export",
+    ),
+    path(
+        "statistics/attendance_update_data_csv_export",
+        views.attendance_update_data_csv_export,
+        name="attendance_update_data_csv_export",
+    ),
+    path(
+        "statistics/attendance_takeover_data_csv_export",
+        views.attendance_takeover_data_csv_export,
+        name="attendance_takeover_data_csv_export",
     ),
 ]

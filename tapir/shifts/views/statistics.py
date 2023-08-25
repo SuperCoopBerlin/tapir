@@ -24,6 +24,10 @@ from tapir.shifts.models import (
     ShiftUserData,
     ShiftCycleEntry,
     SHIFT_ATTENDANCE_STATES,
+    ShiftTemplate,
+    ShiftAttendanceTemplate,
+    UpdateShiftAttendanceStateLogEntry,
+    ShiftAttendanceTakenOverLogEntry,
 )
 from tapir.shifts.utils import get_attendance_mode_display
 from tapir.utils.shortcuts import get_monday
@@ -179,6 +183,8 @@ class ShiftAttendanceStatistics:
             )
             .prefetch_related("slot_template__attendance_template__user")
             .prefetch_related("attendances__user__shift_user_data")
+            .prefetch_related("attendances__user")
+            .prefetch_related("attendances__account_entry")
             .order_by("shift__start_time")
         )
 
@@ -195,6 +201,10 @@ def slot_data_csv_view(_):
     writer = csv.writer(response)
     writer.writerow(
         [
+            "slot_id",
+            "shift_id",
+            "attendance_id",
+            "member_id",
             "shift_date",
             "shift_start_time",
             "shift_end_time",
@@ -204,6 +214,8 @@ def slot_data_csv_view(_):
             "is_from_an_abcd_attendance",
             "attendee_shift_status",
             "attendance_status",
+            "excused_reason",
+            "previous_statuses",
         ]
     )
     for slot in ShiftAttendanceStatistics.get_all_shift_slot_data():
@@ -234,6 +246,14 @@ def slot_data_csv_view(_):
             )
         writer.writerow(
             [
+                slot.id,  # slot_id
+                slot.shift.id,  # shift_id
+                done_or_last_updated_attendance.id
+                if done_or_last_updated_attendance
+                else "None",  # attendance_id,
+                done_or_last_updated_attendance.user.id
+                if done_or_last_updated_attendance
+                else "None",
                 slot.shift.start_time.date(),  # shift_date
                 timezone.localtime(slot.shift.start_time).strftime(
                     "%H:%M"
@@ -260,6 +280,311 @@ def slot_data_csv_view(_):
                 SHIFT_ATTENDANCE_STATES[done_or_last_updated_attendance.state]
                 if done_or_last_updated_attendance
                 else "None",  # attendance_status
+                done_or_last_updated_attendance.account_entry.description.replace(
+                    done_or_last_updated_attendance.slot.get_display_name(), ""
+                )
+                if done_or_last_updated_attendance
+                and done_or_last_updated_attendance.account_entry
+                else "None",
+            ],
+        )
+
+    return response
+
+
+@permission_required(PERMISSION_SHIFTS_MANAGE)
+def shift_template_data_csv_export(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={"Content-Disposition": 'attachment; filename="abcd_shift_data.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "abcd_shift_id",
+            "group_name",
+            "name",
+            "start_time",
+            "end_time",
+            "weekday (monday=0)",
+        ]
+    )
+    for shift_template in (
+        ShiftTemplate.objects.all().prefetch_related("group").order_by("id")
+    ):
+        shift_template: ShiftTemplate
+        writer.writerow(
+            [
+                shift_template.id,
+                shift_template.group.name,
+                shift_template.name,
+                shift_template.start_time,
+                shift_template.end_time,
+                shift_template.weekday,
+            ],
+        )
+
+    return response
+
+
+@permission_required(PERMISSION_SHIFTS_MANAGE)
+def shift_slot_template_data_csv_export(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={
+            "Content-Disposition": 'attachment; filename="abcd_shift_slot_data.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "abcd_shift_slot_id",
+            "name",
+            "abcd_shift_id",
+            "required_capabilities",
+        ]
+    )
+    for shift_slot_template in (
+        ShiftSlotTemplate.objects.all()
+        .prefetch_related("shift_template")
+        .order_by("id")
+    ):
+        shift_slot_template: ShiftSlotTemplate
+        writer.writerow(
+            [
+                shift_slot_template.id,
+                shift_slot_template.name,
+                shift_slot_template.shift_template.id,
+                shift_slot_template.get_required_capabilities_display(),
+            ],
+        )
+
+    return response
+
+
+@permission_required(PERMISSION_SHIFTS_MANAGE)
+def shift_data_csv_export(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={"Content-Disposition": 'attachment; filename="shift_data.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "shift_id",
+            "date",
+            "start_time",
+            "end_time",
+            "name",
+            "cancelled_reason",
+            "template_id",
+        ]
+    )
+    for shift in Shift.objects.all().prefetch_related("shift_template").order_by("id"):
+        writer.writerow(
+            [
+                shift.id,
+                shift.start_time.date(),
+                timezone.localtime(shift.start_time).strftime("%H:%M"),
+                timezone.localtime(shift.end_time).strftime("%H:%M"),
+                shift.name,
+                shift.cancelled_reason if shift.cancelled else "Not cancelled",
+                shift.shift_template.id,
+            ],
+        )
+
+    return response
+
+
+@permission_required(PERMISSION_SHIFTS_MANAGE)
+def shift_slot_data_csv_export(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={"Content-Disposition": 'attachment; filename="shift_slot_data.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        ["shift_slot_id", "name", "shift_id", "abcd_slot_id", "required_capabilities"]
+    )
+    for shift_slot in (
+        ShiftSlot.objects.all()
+        .prefetch_related("slot_template")
+        .prefetch_related("shift")
+        .order_by("id")
+    ):
+        shift_slot: ShiftSlot
+        writer.writerow(
+            [
+                shift_slot.id,
+                shift_slot.name,
+                shift_slot.shift.id,
+                shift_slot.slot_template.id,
+                shift_slot.get_required_capabilities_display(),
+            ],
+        )
+
+    return response
+
+
+@permission_required(PERMISSION_SHIFTS_MANAGE)
+def attendance_template_data_csv_export(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={
+            "Content-Disposition": 'attachment; filename="abcd_attendance_data.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(["abcd_attendance_id", "user_id", "abcd_slot_id"])
+    for attendance_template in (
+        ShiftAttendanceTemplate.objects.all()
+        .prefetch_related("user")
+        .prefetch_related("slot_template")
+        .order_by("id")
+    ):
+        attendance_template: ShiftAttendanceTemplate
+        writer.writerow(
+            [
+                attendance_template.id,
+                attendance_template.user.id,
+                attendance_template.slot_template.id,
+            ],
+        )
+
+    return response
+
+
+@permission_required(PERMISSION_SHIFTS_MANAGE)
+def attendance_data_csv_export(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={"Content-Disposition": 'attachment; filename="attendance_data.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "attendance_id",
+            "slot_id",
+            "shift_id",
+            "user_id",
+            "attendance_template_id",
+            "state",
+            "excused_reason",
+            "member_shift_mode_at_time_of_shift",
+        ]
+    )
+    for attendance in (
+        ShiftAttendance.objects.all()
+        .prefetch_related("slot")
+        .prefetch_related("slot__shift")
+        .prefetch_related("user")
+        .prefetch_related("slot__slot_template__attendance_template__user")
+        .order_by("id")
+    ):
+        attendance: ShiftAttendance
+        attendance_template_id = "None"
+        is_from_an_abcd_attendance = (
+            hasattr(attendance.slot, "slot_template")
+            and hasattr(attendance.slot.slot_template, "attendance_template")
+            and attendance.slot.slot_template.attendance_template.user
+            == attendance.user
+        )
+        if is_from_an_abcd_attendance:
+            attendance_template_id = (
+                attendance.slot.slot_template.attendance_template.id
+            )
+        writer.writerow(
+            [
+                attendance.id,
+                attendance.slot.id,
+                attendance.slot.shift.id,
+                attendance.user.id,
+                attendance_template_id,
+                SHIFT_ATTENDANCE_STATES[attendance.state],
+                attendance.excused_reason if attendance.excused_reason else "None",
+                "TODO",
+            ],
+        )
+
+    return response
+
+
+@permission_required(PERMISSION_SHIFTS_MANAGE)
+def attendance_update_data_csv_export(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={
+            "Content-Disposition": 'attachment; filename="attendance_updates_data.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "shift_attendance_update_id",
+            "date",
+            "state",
+            "shift_id",
+            "update",
+        ]
+    )
+    for log_entry in (
+        UpdateShiftAttendanceStateLogEntry.objects.all()
+        .prefetch_related("shift")
+        .order_by("id")
+    ):
+        log_entry: UpdateShiftAttendanceStateLogEntry
+        writer.writerow(
+            [
+                log_entry.id,
+                log_entry.created_date,
+                log_entry.state,
+                log_entry.shift.id,
+                log_entry.values,
+            ],
+        )
+
+    return response
+
+
+@permission_required(PERMISSION_SHIFTS_MANAGE)
+def attendance_takeover_data_csv_export(_):
+    response = HttpResponse(
+        content_type=CONTENT_TYPE_CSV,
+        headers={
+            "Content-Disposition": 'attachment; filename="attendance_takeover_data.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "shift_attendance_takeover_id",
+            "date",
+            "state",
+            "shift_id",
+            "update",
+        ]
+    )
+    for log_entry in (
+        ShiftAttendanceTakenOverLogEntry.objects.all()
+        .prefetch_related("shift")
+        .order_by("id")
+    ):
+        log_entry: ShiftAttendanceTakenOverLogEntry
+        writer.writerow(
+            [
+                log_entry.id,
+                log_entry.created_date,
+                log_entry.state,
+                log_entry.shift.id,
+                log_entry.values,
             ],
         )
 

@@ -84,14 +84,6 @@
             <div class="card mb-2">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     <span>Attendance</span>
-                    {% if perms.shifts.manage %}
-                    <a
-                            class="{% tapir_button_link %}"
-                            href="{% url 'shifts:slot_data_csv' %}">
-                        <span class="material-icons">file_present</span>
-                        {% translate "Attendance data" %}
-                    </a>
-                    {% endif %}
                 </h5>
                 <div class="card-body">
                     <table class="table"
@@ -140,5 +132,70 @@
                 </div>
             </div>
         </div>
+        {% if perms.shifts.manage %}
+            <div class="col-xl">
+                <div class="card mb-2">
+                    <h5 class="card-header">
+                        <span>{% translate "Data exports" %}</span>
+                    </h5>
+                    <div class="card-body">
+                        <a
+                                class="{% tapir_button_link %}"
+                                href="{% url 'shifts:slot_data_csv' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "Slot data" %}
+                        </a>
+                        <a
+                                class="{% tapir_button_link %}"
+                                href="{% url 'shifts:shift_template_data_csv_export' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "ABCD shift data" %}
+                        </a>
+                        <a
+                                class="{% tapir_button_link %}"
+                                href="{% url 'shifts:shift_slot_template_data_csv_export' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "ABCD shift slot data" %}
+                        </a>
+                        <a
+                                class="{% tapir_button_link %}"
+                                href="{% url 'shifts:shift_data_csv_export' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "Shift data" %}
+                        </a>
+                        <a
+                                class="{% tapir_button_link %}"
+                                href="{% url 'shifts:shift_slot_data_csv_export' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "Shift slot data" %}
+                        </a>
+                        <a
+                                class="{% tapir_button_link %}"
+                                href="{% url 'shifts:attendance_template_data_csv_export' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "ABCD attendance data" %}
+                        </a>
+                        <a
+                                class="{% tapir_button_link %}"
+                                href="{% url 'shifts:attendance_data_csv_export' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "Attendance data" %}
+                        </a>
+                        <a
+                                class="{% tapir_button_link %}"
+                                href="{% url 'shifts:attendance_update_data_csv_export' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "Attendance updates data" %}
+                        </a>
+                        <a
+                                class="{% tapir_button_link %}"
+                                href="{% url 'shifts:attendance_takeover_data_csv_export' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "Attendance takeover data" %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
