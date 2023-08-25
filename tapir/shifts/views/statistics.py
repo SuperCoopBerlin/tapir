@@ -392,7 +392,9 @@ def shift_data_csv_export(_):
                 timezone.localtime(shift.end_time).strftime("%H:%M"),
                 shift.name,
                 shift.cancelled_reason if shift.cancelled else "Not cancelled",
-                shift.shift_template.id,
+                shift.shift_template.id
+                if hasattr(shift, "shift_template") and shift.shift_template
+                else "None",
             ],
         )
 
@@ -422,7 +424,9 @@ def shift_slot_data_csv_export(_):
                 shift_slot.id,
                 shift_slot.name,
                 shift_slot.shift.id,
-                shift_slot.slot_template.id,
+                shift_slot.slot_template.id
+                if hasattr(shift_slot, "slot_template") and shift_slot.slot_template
+                else "None",
                 shift_slot.get_required_capabilities_display(),
             ],
         )
