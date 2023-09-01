@@ -447,13 +447,25 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
         self.assertFalse(FrozenStatusService.should_unfreeze_member(shift_user_data))
 
+    def test_shouldUnfreezeMember_memberIsInactive_returnsFalse(self):
+        shift_user_data = Mock()
+        shift_user_data.attendance_mode = ShiftAttendanceMode.FROZEN
+        shift_user_data.get_account_balance.return_value = 10
+        shift_user_data.user.share_owner.is_active.return_value = False
+
+        self.assertFalse(FrozenStatusService.should_unfreeze_member(shift_user_data))
+
+        shift_user_data.user.share_owner.is_active.assert_called_once_with()
+
     def test_shouldUnfreezeMember_memberBalanceIsAboveThreshold_returnsTrue(self):
         shift_user_data = Mock()
         shift_user_data.attendance_mode = ShiftAttendanceMode.FROZEN
         shift_user_data.get_account_balance.return_value = -3
+        shift_user_data.user.share_owner.is_active.return_value = True
 
         self.assertTrue(FrozenStatusService.should_unfreeze_member(shift_user_data))
 
+        shift_user_data.user.share_owner.is_active.assert_called_once_with()
         shift_user_data.get_account_balance.assert_called_once_with()
 
     @patch.object(
@@ -470,9 +482,11 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.return_value = (
             True
         )
+        shift_user_data.user.share_owner.is_active.return_value = True
 
         self.assertTrue(FrozenStatusService.should_unfreeze_member(shift_user_data))
 
+        shift_user_data.user.share_owner.is_active.assert_called_once_with()
         shift_user_data.get_account_balance.assert_called_once_with()
         mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.assert_called_once_with(
             shift_user_data
@@ -492,9 +506,11 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.return_value = (
             False
         )
+        shift_user_data.user.share_owner.is_active.return_value = True
 
         self.assertFalse(FrozenStatusService.should_unfreeze_member(shift_user_data))
 
+        shift_user_data.user.share_owner.is_active.assert_called_once_with()
         shift_user_data.get_account_balance.assert_called_once_with()
         mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.assert_called_once_with(
             shift_user_data

@@ -150,6 +150,9 @@ class FrozenStatusService:
         if shift_user_data.attendance_mode != ShiftAttendanceMode.FROZEN:
             return False
 
+        if not shift_user_data.user.share_owner.is_active():
+            return False
+
         if shift_user_data.get_account_balance() > FREEZE_THRESHOLD:
             return True
 
