@@ -184,6 +184,7 @@ class ShiftAttendanceStatistics:
             .prefetch_related("slot_template__attendance_template__user")
             .prefetch_related("attendances__user__shift_user_data")
             .prefetch_related("attendances__user")
+            .prefetch_related("attendances__user__share_owner")
             .prefetch_related("attendances__account_entry")
             .order_by("shift__start_time")
         )
@@ -251,7 +252,7 @@ def slot_data_csv_view(_):
                 done_or_last_updated_attendance.id
                 if done_or_last_updated_attendance
                 else "None",  # attendance_id,
-                done_or_last_updated_attendance.user.id
+                done_or_last_updated_attendance.user.get_member_number()
                 if done_or_last_updated_attendance
                 else "None",
                 slot.shift.start_time.date(),  # shift_date
@@ -444,10 +445,11 @@ def attendance_template_data_csv_export(_):
     )
 
     writer = csv.writer(response)
-    writer.writerow(["abcd_attendance_id", "user_id", "abcd_slot_id"])
+    writer.writerow(["abcd_attendance_id", "member_id", "abcd_slot_id"])
     for attendance_template in (
         ShiftAttendanceTemplate.objects.all()
         .prefetch_related("user")
+        .prefetch_related("user__share_owner")
         .prefetch_related("slot_template")
         .order_by("id")
     ):
@@ -455,7 +457,7 @@ def attendance_template_data_csv_export(_):
         writer.writerow(
             [
                 attendance_template.id,
-                attendance_template.user.id,
+                attendance_template.user.get_member_number(),
                 attendance_template.slot_template.id,
             ],
         )
@@ -476,7 +478,7 @@ def attendance_data_csv_export(_):
             "attendance_id",
             "slot_id",
             "shift_id",
-            "user_id",
+            "member_id",
             "user_postcode",
             "attendance_template_id",
             "state",
@@ -489,6 +491,7 @@ def attendance_data_csv_export(_):
         .prefetch_related("slot")
         .prefetch_related("slot__shift")
         .prefetch_related("user")
+        .prefetch_related("user__share_owner")
         .prefetch_related("slot__slot_template__attendance_template__user")
         .order_by("id")
     ):
@@ -509,7 +512,7 @@ def attendance_data_csv_export(_):
                 attendance.id,
                 attendance.slot.id,
                 attendance.slot.shift.id,
-                attendance.user.id,
+                attendance.user.get_member_number(),
                 attendance.user.postcode,
                 attendance_template_id,
                 SHIFT_ATTENDANCE_STATES[attendance.state],
