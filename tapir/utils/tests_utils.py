@@ -219,3 +219,23 @@ def mock_timezone_now(test: TestCase, now: datetime.datetime) -> None:
     test.mock_now = patcher.start()
     test.addCleanup(patcher.stop)
     test.mock_now.return_value = now
+
+
+class FeatureFlagTestMixin(TestCase):
+    def __init__(self, methodName="runTest"):
+        super().__init__(methodName=methodName)
+        self._enabled_feature_flags = []
+
+    def setUp(self) -> None:
+        patcher = patch("tapir.core.models.FeatureFlag.get_flag_value")
+        self.mock_get_flag_value = patcher.start()
+        self.addCleanup(patcher.stop)
+        self.mock_get_flag_value.side_effect = (
+            lambda flag_name: flag_name in self._enabled_feature_flags
+        )
+
+    def given_feature_flag_value(self, flag_name: str, flag_value: bool):
+        if flag_value and flag_name not in self._enabled_feature_flags:
+            self._enabled_feature_flags.append(flag_name)
+        elif not flag_value and flag_name in self._enabled_feature_flags:
+            self._enabled_feature_flags.remove(flag_name)

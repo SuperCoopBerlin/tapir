@@ -20,3 +20,9 @@ class FeatureFlag(models.Model):
         flag = cls.objects.get(flag_name=flag_name)
         flag.flag_value = flag_value
         flag.save()
+
+    @classmethod
+    def ensure_flag_exists(cls, flag_name):
+        if cls.objects.filter(flag_name=flag_name).exists():
+            return
+        cls.objects.create(flag_name=flag_name)

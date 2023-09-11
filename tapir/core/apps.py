@@ -36,40 +36,40 @@ class CoreConfig(AppConfig):
             display_name=_("Wiki"),
             material_icon="feed",
             url="https://wiki.supercoop.de",
-            ordering=1,
+            ordering=2,
         )
 
         misc_group.add_link(
             display_name=_("Member manual"),
             material_icon="menu_book",
             url="https://wiki.supercoop.de/wiki/Member_Manual",
-            ordering=2,
+            ordering=3,
         )
 
         misc_group.add_link(
             display_name=_("Shop opening hours"),
             material_icon="access_time",
             url="https://wiki.supercoop.de/wiki/%C3%96ffnungszeiten",
-            ordering=3,
+            ordering=4,
         )
 
         misc_group.add_link(
             display_name=_("Slack chat"),
             material_icon="question_answer",
             url="https://supercoopberlin.slack.com",
-            ordering=4,
+            ordering=5,
         )
 
         misc_group.add_link(
             display_name=_("Contact the member office"),
             material_icon="email",
             url="mailto:mitglied@supercoop.de",
-            ordering=5,
+            ordering=6,
         )
 
         misc_group.add_link(
             display_name=_("About tapir"),
             material_icon="help",
             url=reverse_lazy("coop:about"),
-            ordering=6,
+            ordering=7,
         )

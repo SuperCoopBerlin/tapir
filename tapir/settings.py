@@ -35,7 +35,7 @@ DEBUG = env("DEBUG", cast=bool, default=False)
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
 
-ENABLE_SILK_PROFILING = False
+ENABLE_SILK_PROFILING = True
 ENABLE_API = env("ENABLE_API", cast=bool, default=False)
 
 # Application definition
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "tapir.utils",
     "tapir.coop",
     "tapir.welcomedesk",
+    "tapir.statistics",
     "django_tables2",
     "django_filters",
     "django_select2",  # For autocompletion in form fields

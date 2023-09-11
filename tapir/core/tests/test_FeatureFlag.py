@@ -43,3 +43,29 @@ class TestFeatureFlag(TapirFactoryTestBase):
         mock_feature_flag_objects.get.assert_called_once_with(flag_name=self.FLAG_NAME)
         self.assertEqual(flag_value, mock_feature_flag.flag_value)
         mock_feature_flag.save.assert_called_once_with()
+
+    @patch.object(FeatureFlag, "objects")
+    def test_ensureFeatureFlagExists_flagExists_noFlagCreated(
+        self, mock_feature_flag_objects: Mock
+    ):
+        mock_feature_flag_objects.filter.return_value.exists.return_value = True
+        FeatureFlag.ensure_flag_exists(flag_name=self.FLAG_NAME)
+        mock_feature_flag_objects.filter.assert_called_once_with(
+            flag_name=self.FLAG_NAME
+        )
+        mock_feature_flag_objects.filter.return_value.exists.assert_called_once_with()
+        mock_feature_flag_objects.create.assert_not_called()
+
+    @patch.object(FeatureFlag, "objects")
+    def test_ensureFeatureFlagExists_flagDoesNotExist_flagCreated(
+        self, mock_feature_flag_objects: Mock
+    ):
+        mock_feature_flag_objects.filter.return_value.exists.return_value = False
+        FeatureFlag.ensure_flag_exists(flag_name=self.FLAG_NAME)
+        mock_feature_flag_objects.filter.assert_called_once_with(
+            flag_name=self.FLAG_NAME
+        )
+        mock_feature_flag_objects.filter.return_value.exists.assert_called_once_with()
+        mock_feature_flag_objects.create.assert_called_once_with(
+            flag_name=self.FLAG_NAME
+        )

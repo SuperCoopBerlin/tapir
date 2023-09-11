@@ -8,12 +8,17 @@ from tapir.coop.config import (
 )
 from tapir.core.config import sidebar_link_groups
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
+from tapir.shifts import config
 
 
 class ShiftConfig(AppConfig):
     name = "tapir.shifts"
 
     def ready(self):
+        from tapir.core.models import FeatureFlag
+
+        FeatureFlag.ensure_flag_exists(config.FEATURE_FLAG_NAME_FROZEN_MEMBERS)
+
         self.register_sidebar_links()
         self.register_emails()
 
@@ -65,12 +70,18 @@ class ShiftConfig(AppConfig):
             ordering=4,
         )
 
-        shifts_group.add_link(
-            display_name=_("Shift statistics"),
-            material_icon="calculate",
-            url=reverse_lazy("shifts:statistics"),
-            ordering=5,
-        )
+        from tapir import statistics
+        from tapir.core.models import FeatureFlag
+
+        if not FeatureFlag.get_flag_value(
+            statistics.config.FEATURE_FLAG_NAME_UPDATED_STATS_PAGE_09_23
+        ):
+            shifts_group.add_link(
+                display_name=_("Shift statistics"),
+                material_icon="calculate",
+                url=reverse_lazy("shifts:statistics"),
+                ordering=5,
+            )
 
         shifts_group.add_link(
             display_name=_("Shift management"),

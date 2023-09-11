@@ -1,0 +1,95 @@
+{% extends "core/base.html" %}
+
+{% load core %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% load i18n %}
+{% load utils %}
+
+{% block title %}
+    {% translate 'Main statistics' %}
+{% endblock %}
+
+{% block head %}
+    <script src="{% static 'statistics/chart_4.4.0.js' %}"></script>
+    <script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
+{% endblock head %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header">{% translate "Total number of members" %}</h5>
+                <div class="card-body">
+                    <p>
+                        {% blocktranslate with number_of_members_now=number_of_members_now %}
+                            The total number of members as of today and regardless of their active/investing/... status
+                            is
+                            {{ number_of_members_now }}.
+                        {% endblocktranslate %}
+                    </p>
+                    <p>
+                <span class="{% tapir_button_link %}"
+                      onclick="chartManager.show_stats_chart(
+                              this,
+                              '{% url "statistics:member_count_evolution_json" %}',
+                              'member_count_evolution_canvas',
+                              )">
+                    <span class="material-icons">leaderboard</span>
+                    <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of member count" %}</span>
+                </span>
+                        <span class="{% tapir_button_link %}"
+                              onclick="chartManager.show_stats_chart(
+                                      this,
+                                      '{% url "statistics:new_members_per_month_json" %}',
+                                      'new_members_per_month_canvas',
+                                      )
+                                      ">
+                    <span class="material-icons">leaderboard</span>
+                    <span class="button-text">{% translate "Show graph: " %}{% translate "New members per month" %}</span>
+                </span>
+                        <canvas id="member_count_evolution_canvas" style="display: none;"></canvas>
+                        <canvas id="new_members_per_month_canvas" style="display: none;"></canvas>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header">{% translate "Targets for break-even" %}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        {% blocktranslate with target_basket=220 %}
+                            The current target food basket value per member and per month to reach the break-even is
+                            {{ target_basket }}€.
+                        {% endblocktranslate %}
+                    </li>
+                </ul>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <p>
+                            {% blocktranslate with target_number_of_purchasing_members=1140 %}
+                                We also need {{ target_number_of_purchasing_members }} purchasing members to reach the
+                                break-even. A purchasing member is an active member (neither investing nor frozen). The
+                                current numbers on the following charts are currently an approximation, we are working
+                                on getting exact numbers.
+                            {% endblocktranslate %}
+                        </p>
+                        <p>
+                            <span class="{% tapir_button_link %}"
+                                  onclick="chartManager.show_stats_chart(this,
+                                          '{% url "statistics:purchasing_members_json" %}',
+                                          'purchasing_members_canvas')">
+                            <span class="material-icons">leaderboard</span>
+                            <span class="button-text">{% translate "Show graph: " %}{% translate "Purchasing members" %}</span>
+                        </span>
+                        </p>
+                        <p>
+                            <canvas id="purchasing_members_canvas" style="display: none;"></canvas>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
