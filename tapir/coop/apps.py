@@ -37,18 +37,12 @@ class CoopConfig(AppConfig):
             required_permissions=[PERMISSION_COOP_VIEW],
         )
 
-        from tapir import statistics
-        from tapir.core.models import FeatureFlag
-
-        if not FeatureFlag.get_flag_value(
-            statistics.config.FEATURE_FLAG_NAME_UPDATED_STATS_PAGE_09_23
-        ):
-            members_group.add_link(
-                display_name=_("Member statistics"),
-                material_icon="calculate",
-                url=reverse_lazy("coop:statistics"),
-                ordering=3,
-            )
+        members_group.add_link(
+            display_name=_("Member statistics"),
+            material_icon="calculate",
+            url=reverse_lazy("coop:statistics"),
+            ordering=3,
+        )
 
         management_group = sidebar_link_groups.get_group(_("Management"), 2)
 

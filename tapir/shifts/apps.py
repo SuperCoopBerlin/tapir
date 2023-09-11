@@ -70,18 +70,12 @@ class ShiftConfig(AppConfig):
             ordering=4,
         )
 
-        from tapir import statistics
-        from tapir.core.models import FeatureFlag
-
-        if not FeatureFlag.get_flag_value(
-            statistics.config.FEATURE_FLAG_NAME_UPDATED_STATS_PAGE_09_23
-        ):
-            shifts_group.add_link(
-                display_name=_("Shift statistics"),
-                material_icon="calculate",
-                url=reverse_lazy("shifts:statistics"),
-                ordering=5,
-            )
+        shifts_group.add_link(
+            display_name=_("Shift statistics"),
+            material_icon="calculate",
+            url=reverse_lazy("shifts:statistics"),
+            ordering=5,
+        )
 
         shifts_group.add_link(
             display_name=_("Shift management"),
