@@ -10,6 +10,8 @@ from tapir import settings
 from tapir.coop.models import ShareOwnership, ShareOwner
 from tapir.coop.views import ShareCountEvolutionJsonView
 from tapir.core.models import FeatureFlag
+from tapir.shifts.models import ShiftExemption, ShiftUserData, ShiftSlotTemplate
+from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.statistics import config
 
 
@@ -35,6 +37,8 @@ class MainStatisticsView(
         ] = MemberCountEvolutionJsonView.get_number_of_members_at_date(
             timezone.now().date()
         )
+
+        context_data["number_of_abcd_slots"] = ShiftSlotTemplate.objects.count()
 
         return context_data
 
@@ -127,23 +131,65 @@ class PurchasingMembersJsonView(JSONView):
                 if share_owner.can_shop()
             ]
         )
-        context_data = {
-            "type": "pie",
-            "data": {
-                "labels": [
-                    _("Current number of purchasing members"),
-                    _("Missing number of purchasing members"),
-                ],
-                "datasets": [
-                    {
-                        "label": " ",
-                        "data": [
-                            number_of_purchasing_members,
-                            self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
-                            - number_of_purchasing_members,
-                        ],
-                    },
-                ],
-            },
-        }
-        return context_data
+
+        # rough estimate, TODO update when the paused status arrives
+        members_that_should_be_paused_instead_of_exempted = (
+            ShiftExemption.objects.active_temporal().count() / 2
+        )
+        number_of_purchasing_members -= (
+            members_that_should_be_paused_instead_of_exempted
+        )
+
+        return build_pie_chart_data(
+            labels=[
+                _("Current number of purchasing members"),
+                _("Missing number of purchasing members"),
+            ],
+            data=[
+                number_of_purchasing_members,
+                self.TARGET_NUMBER_OF_PURCHASING_MEMBERS - number_of_purchasing_members,
+            ],
+        )
+
+
+class WorkingMembersJsonView(JSONView):
+    def get_context_data(self, **kwargs):
+        number_of_working_members = len(
+            [
+                shift_user_data
+                for shift_user_data in ShiftUserData.objects.all()
+                .prefetch_related("user")
+                .prefetch_related("user__share_owner")
+                .prefetch_related("user__share_owner__share_ownerships")
+                .prefetch_related("shift_exemptions")
+                if ShiftExpectationService.is_member_expected_to_do_shifts(
+                    shift_user_data
+                )
+            ]
+        )
+
+        return build_pie_chart_data(
+            labels=[
+                _("Current number of working members"),
+                _("Missing number of working members"),
+            ],
+            data=[
+                number_of_working_members,
+                ShiftSlotTemplate.objects.count() - number_of_working_members,
+            ],
+        )
+
+
+def build_pie_chart_data(labels: list, data: list):
+    return {
+        "type": "pie",
+        "data": {
+            "labels": labels,
+            "datasets": [
+                {
+                    "label": " ",
+                    "data": data,
+                },
+            ],
+        },
+    }

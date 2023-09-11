@@ -937,11 +937,13 @@ class ShiftUserData(models.Model):
         return self.get_account_balance() > 1
 
     def get_current_shift_exemption(self, date=None):
-        return (
-            ShiftExemption.objects.filter(shift_user_data=self)
-            .active_temporal(date)
-            .first()
-        )
+        if not hasattr(self, "shift_exemptions") or self.shift_exemptions is None:
+            return None
+
+        for exemption in self.shift_exemptions.all():
+            if exemption.is_active(date):
+                return exemption
+        return None
 
     def is_currently_exempted_from_shifts(self, date=None):
         return self.get_current_shift_exemption(date) is not None

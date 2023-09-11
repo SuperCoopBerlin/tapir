@@ -92,4 +92,35 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header">{% translate "Working members" %}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        {% blocktranslate with number_of_abcd_slots=number_of_abcd_slots %}
+                            Our regular shifts have {{ number_of_abcd_slots }} slots. That's how many working members we
+                            would need to have the shop completely taken care of at all times.
+                        {% endblocktranslate %}
+                    </li>
+                </ul>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <p>
+                            <span class="{% tapir_button_link %}"
+                                  onclick="chartManager.show_stats_chart(this,
+                                          '{% url "statistics:working_members_json" %}',
+                                          'working_members_canvas')">
+                            <span class="material-icons">leaderboard</span>
+                            <span class="button-text">{% translate "Show graph: " %}{% translate "Working members" %}</span>
+                        </span>
+                        </p>
+                        <p>
+                            <canvas id="working_members_canvas" style="display: none;"></canvas>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

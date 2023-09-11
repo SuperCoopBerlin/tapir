@@ -1,5 +1,7 @@
 import datetime
 
+from django.utils import timezone
+
 from tapir.shifts.models import ShiftUserData, ShiftAttendanceMode
 
 
@@ -8,6 +10,9 @@ class ShiftExpectationService:
     def is_member_expected_to_do_shifts(
         shift_user_data: ShiftUserData, date: datetime.date | None = None
     ) -> bool:
+        if date is None:
+            date = timezone.now().date()
+
         if (
             not hasattr(shift_user_data.user, "share_owner")
             or shift_user_data.user.share_owner is None
