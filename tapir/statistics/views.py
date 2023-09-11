@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 
 from tapir import settings
+from tapir.accounts.models import UpdateTapirUserLogEntry
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
 from tapir.coop.views import ShareCountEvolutionJsonView
 from tapir.core.models import FeatureFlag
@@ -18,6 +19,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.statistics import config
+from tapir.statistics.utils import build_pie_chart_data, build_line_chart_data
 
 
 class MainStatisticsView(
@@ -65,19 +67,11 @@ class CacheDatesFromFirstShareToTodayMixin:
 
 class MemberCountEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
     def get_context_data(self, **kwargs):
-        context_data = {
-            "type": "line",
-            "data": {
-                "labels": self.get_and_cache_dates_from_first_share_to_today(),
-                "datasets": [
-                    {
-                        "label": _("Total number of members"),
-                        "data": self.get_number_of_members_per_month(),
-                    }
-                ],
-            },
-        }
-        return context_data
+        return build_line_chart_data(
+            x_axis_values=self.get_and_cache_dates_from_first_share_to_today(),
+            y_axis_values=self.get_number_of_members_per_month(),
+            data_label=_("Total number of members"),
+        )
 
     @staticmethod
     def get_number_of_members_at_date(date: datetime.date):
@@ -207,16 +201,90 @@ class FrozenMembersJsonView(JSONView):
         )
 
 
-def build_pie_chart_data(labels: list, data: list):
-    return {
-        "type": "pie",
-        "data": {
-            "labels": labels,
-            "datasets": [
-                {
-                    "label": " ",
-                    "data": data,
-                },
-            ],
-        },
-    }
+class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
+    def get_context_data(self, **kwargs):
+        return build_line_chart_data(
+            x_axis_values=self.get_dates(),
+            y_axis_values=[self.get_percentage_of_co_purchasers_per_month()],
+            data_label=_(
+                "Percentage of members with a co-purchaser relative to the number of active members"
+            ),
+        )
+
+    def get_dates(self):
+        first_update = (
+            UpdateTapirUserLogEntry.objects.filter(
+                new_values__co_purchaser__isnull=False,
+            )
+            .order_by("created_date")
+            .first()
+        )
+        if first_update:
+            starting_month = first_update.created_date.date()
+            starting_month = starting_month.replace(day=1) - datetime.timedelta(days=1)
+        else:
+            starting_month = None
+
+        return [
+            date
+            for date in self.get_and_cache_dates_from_first_share_to_today()
+            if not starting_month or date >= starting_month
+        ]
+
+    def get_percentage_of_co_purchasers_per_month(self):
+        percentage_of_co_purchasers_per_month = []
+
+        co_purchaser_updates = (
+            UpdateTapirUserLogEntry.objects.filter(
+                new_values__co_purchaser__isnull=False,
+            )
+            .order_by("created_date")
+            .prefetch_related("user")
+        )
+
+        for date in self.get_dates():
+            relevant_members = (
+                ShareOwner.objects.with_status(MemberStatus.ACTIVE, date)
+                .prefetch_related("user")
+                .filter(user__isnull=False)
+                .filter(user__date_joined__lte=date)
+            )
+
+            number_of_co_purchasers_at_date = len(
+                [
+                    member
+                    for member in relevant_members
+                    if self.does_member_have_a_co_purchaser_at_date(
+                        member=member,
+                        date=date,
+                        co_purchaser_updates=co_purchaser_updates,
+                    )
+                ]
+            )
+
+            percentage_of_co_purchasers_per_month.append(
+                number_of_co_purchasers_at_date / relevant_members.count() * 100
+                if relevant_members.count() > 0
+                else 0
+            )
+
+        return percentage_of_co_purchasers_per_month
+
+    @staticmethod
+    def does_member_have_a_co_purchaser_at_date(
+        member: ShareOwner, date: datetime.date, co_purchaser_updates
+    ):
+        has_co_purchaser = None
+        for update in co_purchaser_updates:
+            if update.created_date.date() < date:
+                continue
+            if update.user == member.user:
+                old_values = update.old_values
+                has_co_purchaser = (
+                    "co_purchaser" in old_values.keys()
+                    and old_values["co_purchaser"] != ""
+                )
+                break
+        if has_co_purchaser is None:
+            has_co_purchaser = member.user.co_purchaser != ""
+        return has_co_purchaser

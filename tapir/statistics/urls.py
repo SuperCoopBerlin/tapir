@@ -34,4 +34,9 @@ urlpatterns = [
         views.FrozenMembersJsonView.as_view(),
         name="frozen_members_json",
     ),
+    path(
+        "co_purchasers_json",
+        views.CoPurchasersJsonView.as_view(),
+        name="co_purchasers_json",
+    ),
 ]
