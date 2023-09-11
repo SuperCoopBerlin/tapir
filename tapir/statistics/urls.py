@@ -29,4 +29,9 @@ urlpatterns = [
         views.WorkingMembersJsonView.as_view(),
         name="working_members_json",
     ),
+    path(
+        "frozen_members_json",
+        views.FrozenMembersJsonView.as_view(),
+        name="frozen_members_json",
+    ),
 ]

@@ -122,5 +122,35 @@
                 </ul>
             </div>
         </div>
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header">{% translate "Frozen members" %}</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        {% blocktranslate with active_members_for_frozen_stats=active_members_for_frozen_stats %}
+                            We have {{ active_members_for_frozen_stats }} active members. Some of them are frozen : they have
+                            missed too many shifts and have lost their right to shop and vote. One of our way to reach
+                            the break-even is to find ways to re-activate them.
+                        {% endblocktranslate %}
+                    </li>
+                </ul>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <p>
+                            <span class="{% tapir_button_link %}"
+                                  onclick="chartManager.show_stats_chart(this,
+                                          '{% url "statistics:frozen_members_json" %}',
+                                          'frozen_members_canvas')">
+                            <span class="material-icons">leaderboard</span>
+                            <span class="button-text">{% translate "Show graph: " %}{% translate "Frozen members" %}</span>
+                        </span>
+                        </p>
+                        <p>
+                            <canvas id="frozen_members_canvas" style="display: none;"></canvas>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 {% endblock content %}

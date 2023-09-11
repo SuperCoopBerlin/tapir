@@ -7,10 +7,15 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 
 from tapir import settings
-from tapir.coop.models import ShareOwnership, ShareOwner
+from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
 from tapir.coop.views import ShareCountEvolutionJsonView
 from tapir.core.models import FeatureFlag
-from tapir.shifts.models import ShiftExemption, ShiftUserData, ShiftSlotTemplate
+from tapir.shifts.models import (
+    ShiftExemption,
+    ShiftUserData,
+    ShiftSlotTemplate,
+    ShiftAttendanceMode,
+)
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.statistics import config
 
@@ -37,8 +42,10 @@ class MainStatisticsView(
         ] = MemberCountEvolutionJsonView.get_number_of_members_at_date(
             timezone.now().date()
         )
-
         context_data["number_of_abcd_slots"] = ShiftSlotTemplate.objects.count()
+        context_data[
+            "active_members_for_frozen_stats"
+        ] = FrozenMembersJsonView.get_relevant_members().count()
 
         return context_data
 
@@ -177,6 +184,26 @@ class WorkingMembersJsonView(JSONView):
                 number_of_working_members,
                 ShiftSlotTemplate.objects.count() - number_of_working_members,
             ],
+        )
+
+
+class FrozenMembersJsonView(JSONView):
+    def get_context_data(self, **kwargs):
+        relevant_members = self.get_relevant_members()
+        frozen_members_count = relevant_members.filter(
+            user__shift_user_data__attendance_mode=ShiftAttendanceMode.FROZEN
+        ).count()
+        not_frozen_members_count = relevant_members.count() - frozen_members_count
+
+        return build_pie_chart_data(
+            labels=[_("Active members"), _("Frozen members")],
+            data=[not_frozen_members_count, frozen_members_count],
+        )
+
+    @staticmethod
+    def get_relevant_members():
+        return ShareOwner.objects.with_status(MemberStatus.ACTIVE).filter(
+            user__isnull=False
         )
 
 
