@@ -23,7 +23,7 @@ class MainStatisticsView(
             config.FEATURE_FLAG_NAME_UPDATED_STATS_PAGE_09_23
         ):
             return []
-        if self.request.user.get_member_number() == 1199:
+        if self.request.user.get_member_number() in [78, 1199]:  # Théo & Uya
             return []
         return [settings.PERMISSION_COOP_ADMIN]
 
