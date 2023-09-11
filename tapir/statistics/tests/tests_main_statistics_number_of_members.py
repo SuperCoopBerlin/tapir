@@ -2,7 +2,7 @@ import datetime
 
 from tapir.coop.models import ShareOwner, ShareOwnership
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.statistics.views import MainStatisticsView
+from tapir.statistics.views import MemberCountEvolutionJsonView
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
@@ -30,7 +30,9 @@ class TestMainStatisticsViewData(TapirFactoryTestBase):
             end_date=datetime.date(year=2023, month=12, day=1),
         )
 
-        self.assertEqual(1, MainStatisticsView.get_number_of_members_at_date(self.NOW))
+        self.assertEqual(
+            1, MemberCountEvolutionJsonView.get_number_of_members_at_date(self.NOW)
+        )
 
     @staticmethod
     def create_share_owner_with_share_validity_dates(start_date, end_date):
