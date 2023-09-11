@@ -8,17 +8,12 @@ from tapir.coop.config import (
 )
 from tapir.core.config import sidebar_link_groups
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
-from tapir.shifts import config
 
 
 class ShiftConfig(AppConfig):
     name = "tapir.shifts"
 
     def ready(self):
-        from tapir.core.models import FeatureFlag
-
-        FeatureFlag.ensure_flag_exists(config.FEATURE_FLAG_NAME_FROZEN_MEMBERS)
-
         self.register_sidebar_links()
         self.register_emails()
 
