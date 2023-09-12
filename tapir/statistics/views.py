@@ -205,7 +205,7 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
     def get_context_data(self, **kwargs):
         return build_line_chart_data(
             x_axis_values=self.get_dates(),
-            y_axis_values=[self.get_percentage_of_co_purchasers_per_month()],
+            y_axis_values=self.get_percentage_of_co_purchasers_per_month(),
             data_label=_(
                 "Percentage of members with a co-purchaser relative to the number of active members"
             ),
