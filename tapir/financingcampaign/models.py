@@ -12,6 +12,11 @@ class FinancingCampaign(DurationModelMixin, models.Model):
     def __str__(self):
         return f"{self.name} #{self.id}"
 
+    def get_current_sum(self):
+        return sum(
+            [source.get_current_value() for source in self.financingsource_set.all()]
+        )
+
 
 class FinancingSource(models.Model):
     name = models.CharField(blank=False, null=False, max_length=200)
@@ -21,6 +26,10 @@ class FinancingSource(models.Model):
 
     def __str__(self):
         return f"{self.campaign}: {self.name} #{self.id}"
+
+    def get_current_value(self):
+        last_datapoint = self.financingsourcedatapoint_set.order_by("-date").first()
+        return last_datapoint.value if last_datapoint else 0
 
 
 class FinancingSourceDatapoint(models.Model):

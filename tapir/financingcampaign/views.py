@@ -134,7 +134,7 @@ class FinancingSourceDatapointEditView(
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data["page_title"] = _("Edit financing source datapoint: %(name)s") % {
-            "name": self.object.name
+            "name": self.object
         }
         context_data["card_title"] = context_data["page_title"]
         return context_data

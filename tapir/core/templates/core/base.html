@@ -47,6 +47,12 @@
         </button>
         <div class="collapse multi-collapse navbar-collapse" id="tapirNavbar" style="justify-content: flex-end;">
             <ul class="navbar-nav">
+                {% feature_flag_enabled "feature_flags.statistics.updated_stats_page_09_23" as is_enabled %}
+                {% if is_enabled %}
+                    <div>
+                        {% campaign_progress_bar %}
+                    </div>
+                {% endif %}
                 {% if perms.coop.view %}
                     <li class="nav-item">
                         <form class="form-inline" method="get" action="{% url 'coop:shareowner_list' %}">

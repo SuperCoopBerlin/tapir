@@ -1,0 +1,16 @@
+{% load i18n %}
+{% if campaign %}
+
+    <div>
+        <a class="nav-link" href="{% url "statistics:main_statistics" %}">
+            <span data-bs-toggle="tooltip"
+                  title="{% translate 'Click this link to learn more.' %}">
+                <span>{{ campaign.name }}</span>
+                <span class="progress" style="width: 400px; height:30px;">
+                    <span class="progress-bar" role="progressbar" style="width: {{ progress }}%;"></span>
+                </span>
+            </span>
+        </a>
+    </div>
+
+{% endif %}

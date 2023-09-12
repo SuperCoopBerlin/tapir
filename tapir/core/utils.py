@@ -10,6 +10,7 @@ class SidebarLink:
     is_active = False
     ordering: int
     on_render: Callable
+    required_feature_flag: str | None
 
 
 class SidebarLinkGroup:
@@ -29,6 +30,7 @@ class SidebarLinkGroup:
         url: str,
         ordering: int,
         required_permissions=None,
+        required_feature_flag=None,
         html_id=None,
         on_render=None,
     ):
@@ -46,6 +48,7 @@ class SidebarLinkGroup:
         link.html_id = html_id
         link.required_permissions = required_permissions
         link.on_render = on_render
+        link.required_feature_flag = required_feature_flag
 
         self.links.append(link)
 
@@ -90,6 +93,12 @@ class SidebarLinkGroups:
 
     @staticmethod
     def is_link_shown(user, link: SidebarLink):
+        from tapir.core.models import FeatureFlag
+
+        if link.required_feature_flag and not FeatureFlag.get_flag_value(
+            link.required_feature_flag
+        ):
+            return False
         for permission in link.required_permissions:
             if not user.has_perm(permission):
                 return False

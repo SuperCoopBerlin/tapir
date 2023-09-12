@@ -2,6 +2,7 @@ from django import template
 
 from tapir.core.config import TAPIR_TABLE_CLASSES, sidebar_link_groups
 from tapir.core.models import FeatureFlag
+from tapir.financingcampaign.models import FinancingCampaign
 
 register = template.Library()
 
@@ -43,3 +44,15 @@ def tapir_button_custom(bootstrap_color):
 @register.simple_tag
 def feature_flag_enabled(flag_name: str):
     return FeatureFlag.get_flag_value(flag_name)
+
+
+@register.inclusion_tag("core/tags/financing_campaign_progress_bar.html")
+def campaign_progress_bar():
+    campaign = FinancingCampaign.objects.order_by("-start_date").first()
+    if not campaign:
+        return
+
+    return {
+        "campaign": campaign,
+        "progress": round(campaign.get_current_sum() * 100 / campaign.goal),
+    }
