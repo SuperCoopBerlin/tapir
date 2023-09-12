@@ -32,6 +32,7 @@ urlpatterns = [
     path("core/", include("tapir.core.urls")),
     path("statistics/", include("tapir.statistics.urls")),
     path("welcomedesk/", include("tapir.welcomedesk.urls")),
+    path("financingcampaign/", include("tapir.financingcampaign.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if ENABLE_SILK_PROFILING:
