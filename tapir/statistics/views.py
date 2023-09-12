@@ -55,7 +55,25 @@ class MainStatisticsView(
         ] = FrozenMembersJsonView.get_relevant_members().count()
         context_data["campaigns"] = FinancingCampaign.objects.active_temporal()
 
+        context_data["extra_shares"] = self.get_extra_shares_count()
+
         return context_data
+
+    @staticmethod
+    def get_extra_shares_count():
+        threshold_date = datetime.date(day=12, month=9, year=2023)
+        first_shares = [
+            share_owner.get_oldest_active_share_ownership().id
+            for share_owner in ShareOwner.objects.all()
+            if share_owner.get_oldest_active_share_ownership() is not None
+        ]
+
+        return (
+            ShareOwnership.objects.filter(start_date__gte=threshold_date)
+            .exclude(id__in=first_shares)
+            .active_temporal()
+            .count()
+        )
 
 
 class CacheDatesFromFirstShareToTodayMixin:

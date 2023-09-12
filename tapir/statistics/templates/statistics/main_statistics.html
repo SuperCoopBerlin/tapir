@@ -183,8 +183,18 @@
                 <div class="col-xl-6">
                     <div class="card mb-2">
                         <h5 class="card-header">{{ campaigns.0.name }}</h5>
-                        {% for campaign in campaigns %}
-                            <ul class="list-group list-group-flush">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <p>
+                                    {% blocktranslate with extra_shares=extra_shares %}
+                                        Since the 12.09.23, {{ extra_shares }} extra shares have been bought. An extra
+                                        share is any share that is bought beyond the first compulsory share,
+                                        independently of whether the person became a member before or after the
+                                        12.09.2023.
+                                    {% endblocktranslate %}
+                                </p>
+                            </li>
+                            {% for campaign in campaigns %}
                                 <li class="list-group-item">
                                     <p>
                                     <span class="{% tapir_button_link %}"
@@ -200,8 +210,8 @@
                                                 style="display: none;"></canvas>
                                     </p>
                                 </li>
-                            </ul>
-                        {% endfor %}
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             {% endif %}
