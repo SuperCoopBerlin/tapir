@@ -209,6 +209,7 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
             data_label=_(
                 "Percentage of members with a co-purchaser relative to the number of active members"
             ),
+            y_axis_max=100,
         )
 
     def get_dates(self):

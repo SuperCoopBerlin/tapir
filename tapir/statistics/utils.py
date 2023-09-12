@@ -13,8 +13,13 @@ def build_pie_chart_data(labels: list, data: list):
     }
 
 
-def build_line_chart_data(x_axis_values: list, y_axis_values: list, data_label: str):
-    return {
+def build_line_chart_data(
+    x_axis_values: list,
+    y_axis_values: list,
+    data_label: str,
+    y_axis_max: float | None = None,
+):
+    data = {
         "type": "line",
         "data": {
             "labels": x_axis_values,
@@ -26,3 +31,6 @@ def build_line_chart_data(x_axis_values: list, y_axis_values: list, data_label: 
             ],
         },
     }
+    if y_axis_max:
+        data["options"] = {"scales": {"y": {"max": y_axis_max}}}
+    return data
