@@ -48,3 +48,22 @@ def build_line_chart_data(
         )
 
     return data
+
+
+def build_bar_chart_data(labels: list, data: list):
+    return {
+        "type": "bar",
+        "data": {
+            "labels": labels,
+            "datasets": [
+                {
+                    "label": " ",
+                    "data": data,
+                    "backgroundColor": [
+                        "rgba(54, 162, 235, 0.2)",
+                        "rgba(255, 99, 132, 0.2)",
+                    ],
+                },
+            ],
+        },
+    }

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-12 14:59+0200\n"
-"PO-Revision-Date: 2023-09-12 15:09+0200\n"
+"POT-Creation-Date: 2023-09-12 17:51+0200\n"
+"PO-Revision-Date: 2023-09-12 17:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -740,7 +740,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:23
-#: statistics/views.py:119
+#: statistics/views.py:140
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -1094,18 +1094,18 @@ msgstr ""
 #: coop/templates/coop/statistics.html:220
 #: statistics/templates/statistics/main_statistics.html:37
 #: statistics/templates/statistics/main_statistics.html:47
-#: statistics/templates/statistics/main_statistics.html:84
-#: statistics/templates/statistics/main_statistics.html:116
-#: statistics/templates/statistics/main_statistics.html:144
-#: statistics/templates/statistics/main_statistics.html:172
-#: statistics/templates/statistics/main_statistics.html:195
+#: statistics/templates/statistics/main_statistics.html:90
+#: statistics/templates/statistics/main_statistics.html:121
+#: statistics/templates/statistics/main_statistics.html:149
+#: statistics/templates/statistics/main_statistics.html:177
+#: statistics/templates/statistics/main_statistics.html:210
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
 
 #: coop/templates/coop/statistics.html:83
 #: statistics/templates/statistics/main_statistics.html:37
 msgid "Evolution of member count"
-msgstr ""
+msgstr "Entwicklung der Mitgliederzahl"
 
 #: coop/templates/coop/statistics.html:94
 msgid "Member age distribution"
@@ -1364,7 +1364,7 @@ msgstr "E-Mails"
 msgid "Features"
 msgstr ""
 
-#: core/apps.py:33
+#: core/apps.py:33 statistics/apps.py:16
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
@@ -1400,11 +1400,11 @@ msgstr ""
 msgid "Flag value"
 msgstr ""
 
-#: core/templates/core/base.html:55
+#: core/templates/core/base.html:61
 msgid "Use this form to search for members"
 msgstr "Benutze dieses Formular, um nach Mitgliedern zu suchen"
 
-#: core/templates/core/base.html:56
+#: core/templates/core/base.html:62
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
@@ -1457,6 +1457,10 @@ msgstr ""
 #: core/templates/core/featureflag_list.html:23
 msgid "Current value"
 msgstr ""
+
+#: core/templates/core/tags/financing_campaign_progress_bar.html:7
+msgid "Click this link to learn more."
+msgstr "Klicke hier um mehr zu erfahren."
 
 #: core/views.py:47 core/views.py:49 log/models.py:136
 msgid "Not available"
@@ -2920,12 +2924,18 @@ msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 msgid "Frozen statuses updated."
 msgstr ""
 
+#: statistics/apps.py:19
+#, fuzzy
+#| msgid "Shift statistics"
+msgid "Statistics"
+msgstr "Schicht-Statistiken"
+
 #: statistics/templates/statistics/main_statistics.html:10
 msgid "Main statistics"
 msgstr "Hauptstatistik"
 
 #: statistics/templates/statistics/main_statistics.html:22
-#: statistics/views.py:80
+#: statistics/views.py:101
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
@@ -2946,11 +2956,11 @@ msgstr "Neue Mitglieder*innen pro Monat"
 
 #: statistics/templates/statistics/main_statistics.html:57
 msgid "Targets for break-even"
-msgstr ""
+msgstr "Ziele für den Break-Even"
 
 #: statistics/templates/statistics/main_statistics.html:60
-msgid "Food basket"
-msgstr ""
+msgid "Shopping basket"
+msgstr "Warenkorb"
 
 #: statistics/templates/statistics/main_statistics.html:61
 #, python-format
@@ -2960,9 +2970,13 @@ msgid ""
 "                            %(target_basket)s€.\n"
 "                        "
 msgstr ""
+"\n"
+"                            Der derzeitige Zielwert des Warenkorbs pro Mitglied und Monat  um den Break-Even zu erreichen ist\n"
+"                            %(target_basket)s€.\n"
+"                        "
 
 #: statistics/templates/statistics/main_statistics.html:69
-#: statistics/templates/statistics/main_statistics.html:84
+#: statistics/templates/statistics/main_statistics.html:90
 msgid "Members eligible to purchase"
 msgstr "Einkaufsberechtigte Mitglieder"
 
@@ -2970,43 +2984,52 @@ msgstr "Einkaufsberechtigte Mitglieder"
 #, python-format
 msgid ""
 "\n"
-"                                All working members and all members who have an exemption (such as parental leave,\n"
-"                                over 70, etc.). Members who are frozen (and have not yet signed up for their catch-up\n"
-"                                shifts) or on break (3 shift cycles or longer away) are not eligible to purchase. Target\n"
-"                                number of purchasing members for break-even: %(target_number_of_purchasing_members)s.\n"
+"                                <p>\n"
+"                                    All working members and all members who have an exemption (such as parental leave,\n"
+"                                    over 70, etc.). Members who are frozen (and have not yet signed up for their\n"
+"                                    catch-up shifts) or on break (3 shift cycles or longer away) are not eligible to\n"
+"                                    purchase.\n"
+"                                </p>\n"
+"                                <p>\n"
+"                                    Target number of purchasing members for\n"
+"                                    break-even: %(target_number_of_purchasing_members)s.\n"
+"                                </p>\n"
 "                            "
 msgstr ""
 "\n"
-"Alle mitarbeitenden Mitglieder sowie alle Mitglieder, die eine Befreiung haben (wie Elternzeit, über 70 Jahre, etc.). Mitglieder, die eingefroren sind (und sich noch nicht für ihre Nachholschichten angemeldet haben) oder pausieren (3 Schichtzyklen oder länger nicht da sind) sind nicht einkaufsberechtigt. Zielanzahl der kaufenden Mitglieder für den Break-even: %(target_number_of_purchasing_members)s.\n"
+"<p>Alle mitarbeitenden Mitglieder sowie alle Mitglieder, die eine Befreiung haben (wie Elternzeit, über 70 Jahre, etc.). Mitglieder, die eingefroren sind (und sich noch nicht für ihre Nachholschichten angemeldet haben) oder pausieren (3 Schichtzyklen oder länger nicht da sind) sind nicht einkaufsberechtigt.</p>\n"
+"<p>Zielanzahl der kaufenden Mitglieder für den Break-even: %(target_number_of_purchasing_members)s.</p>\n"
+"\n"
 "                            "
 
-#: statistics/templates/statistics/main_statistics.html:98
-#: statistics/templates/statistics/main_statistics.html:116
+#: statistics/templates/statistics/main_statistics.html:104
+#: statistics/templates/statistics/main_statistics.html:121
 msgid "Working members"
 msgstr "Mitarbeitende Mitglieder"
 
-#: statistics/templates/statistics/main_statistics.html:102
+#: statistics/templates/statistics/main_statistics.html:108
+#, python-format
 msgid ""
 "\n"
 "                                Working members are active members who do not have an exemption. Exemptions are, for\n"
 "                                example, one year of parental leave, prolonged illness or members over 70 years of age.\n"
-"                                The\n"
-"                                number of working members is compared with the number of jobs to be filled each shift\n"
-"                                cycle.\n"
+"                                The number of working members is compared with the number of jobs to be filled each\n"
+"                                shift cycle : %(number_of_abcd_slots)s.\n"
 "                            "
 msgstr ""
 "\n"
 "Alle aktiven Mitglieder, die keine Befreiung haben. Befreiungen sind bspw. ein Jahr Elternzeit, längere Krankheit oder Mitglieder über 70 Jahre.\n"
+" Die Anzahl an mitarbeitenden Mitglieder wird vergliechen mit der Anzahl an Schicht-Platzen die jeden Schicht-Zyklus erfüllt werden müssen : %(number_of_abcd_slots)s.\n"
 "\n"
 " "
 
-#: statistics/templates/statistics/main_statistics.html:128
-#: statistics/templates/statistics/main_statistics.html:144
-#: statistics/views.py:200
+#: statistics/templates/statistics/main_statistics.html:133
+#: statistics/templates/statistics/main_statistics.html:149
+#: statistics/views.py:274
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
-#: statistics/templates/statistics/main_statistics.html:132
+#: statistics/templates/statistics/main_statistics.html:137
 msgid ""
 "\n"
 "                                Any member who is registered as an active member but is 4 or more shifts short and\n"
@@ -3019,11 +3042,11 @@ msgstr ""
 "\n"
 " "
 
-#: statistics/templates/statistics/main_statistics.html:157
+#: statistics/templates/statistics/main_statistics.html:162
 msgid "Co-purchasers"
 msgstr "Miteinkäufer*innen"
 
-#: statistics/templates/statistics/main_statistics.html:161
+#: statistics/templates/statistics/main_statistics.html:166
 msgid ""
 "\n"
 "                                    Each member can designate one person (whether in their own household or not) to shop\n"
@@ -3033,31 +3056,48 @@ msgstr ""
 "\n"
 "Jedes Mitglied kann eine Person (egal, ob im eigenen Haushalt oder nicht) bestimmen, die unter der gleichen Mitgliedsnummer einkaufen kann. Das können investierende Mitglieder oder Nichtmitglieder sein. "
 
-#: statistics/templates/statistics/main_statistics.html:172
+#: statistics/templates/statistics/main_statistics.html:177
 msgid "Co-Purchasers"
 msgstr "Miteinkäufer*innen"
 
-#: statistics/views.py:153
+#: statistics/templates/statistics/main_statistics.html:194
+#, python-format
+msgid ""
+"\n"
+"                                        Since the 12.09.23, %(extra_shares)s extra shares have been bought. An extra\n"
+"                                        share is any share that is bought beyond the first compulsory share,\n"
+"                                        independently of whether the person became a member before or after the\n"
+"                                        12.09.2023.\n"
+"                                    "
+msgstr ""
+
+#: statistics/views.py:174 statistics/views.py:229
+#, fuzzy
+#| msgid "Total number of members"
+msgid "Number of members"
+msgstr "Gesamte Mitgliederzahl"
+
+#: statistics/views.py:177
 msgid "Current number of purchasing members"
-msgstr ""
+msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
 
-#: statistics/views.py:154
-msgid "Missing number of purchasing members"
-msgstr ""
+#: statistics/views.py:185
+msgid "Required number of purchasing members to reach break-even"
+msgstr "Erforderliche Anzahl von einkaufsberechtigten Mitglieder*innen, um den Break-Even zu erreichen"
 
-#: statistics/views.py:181
+#: statistics/views.py:232
 msgid "Current number of working members"
 msgstr ""
 
-#: statistics/views.py:182
-msgid "Missing number of working members"
-msgstr ""
+#: statistics/views.py:240
+msgid "Required number of working members to reach break-even"
+msgstr "Erforderliche Anzahl von mitarbeitende Mitgliedern*innen, um den Break-Even zu erreichen"
 
-#: statistics/views.py:200
-msgid "Active members"
-msgstr "Aktive Mitglieder"
+#: statistics/views.py:274
+msgid "Purchasing members"
+msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views.py:218
+#: statistics/views.py:292
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr ""
 
@@ -4102,6 +4142,9 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 msgid "Member ID"
 msgstr "Mitglieds-ID"
 
+#~ msgid "Active members"
+#~ msgstr "Aktive Mitglieder"
+
 #, python-format
 #~ msgid ""
 #~ "\n"
@@ -4249,11 +4292,6 @@ msgstr "Mitglieds-ID"
 #~ msgstr "Bezahlung ausstehend"
 
 #, fuzzy
-#~| msgid "Shift statistics"
-#~ msgid "Statistics"
-#~ msgstr "Schicht-Statistiken"
-
-#, fuzzy
 #~| msgid "Shift exemptions"
 #~ msgid "Shift Template"
 #~ msgstr "Schicht-Befreiungen"
@@ -4285,9 +4323,6 @@ msgstr "Mitglieds-ID"
 
 #~ msgid "Raised amount"
 #~ msgstr "Erreichter Betrag"
-
-#~ msgid "Click this link to learn more."
-#~ msgstr "Klicke hier um mehr zu erfahren."
 
 #~ msgid "Time"
 #~ msgstr "Uhrzeit"

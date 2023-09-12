@@ -57,8 +57,8 @@
                 <h5 class="card-header">{% translate "Targets for break-even" %}</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <h5>{% translate 'Food basket' %}</h5>
-                        {% blocktranslate with target_basket=220 %}
+                        <h5>{% translate 'Shopping basket' %}</h5>
+                        {% blocktranslate with target_basket=225 %}
                             The current target food basket value per member and per month to reach the break-even is
                             {{ target_basket }}€.
                         {% endblocktranslate %}
@@ -69,10 +69,16 @@
                         <h5>{% translate 'Members eligible to purchase' %}</h5>
                         <p>
                             {% blocktranslate with target_number_of_purchasing_members=1140 %}
-                                All working members and all members who have an exemption (such as parental leave,
-                                over 70, etc.). Members who are frozen (and have not yet signed up for their catch-up
-                                shifts) or on break (3 shift cycles or longer away) are not eligible to purchase. Target
-                                number of purchasing members for break-even: {{ target_number_of_purchasing_members }}.
+                                <p>
+                                    All working members and all members who have an exemption (such as parental leave,
+                                    over 70, etc.). Members who are frozen (and have not yet signed up for their
+                                    catch-up shifts) or on break (3 shift cycles or longer away) are not eligible to
+                                    purchase.
+                                </p>
+                                <p>
+                                    Target number of purchasing members for
+                                    break-even: {{ target_number_of_purchasing_members }}.
+                                </p>
                             {% endblocktranslate %}
                         </p>
                         <p>
@@ -102,9 +108,8 @@
                             {% blocktranslate with number_of_abcd_slots=number_of_abcd_slots %}
                                 Working members are active members who do not have an exemption. Exemptions are, for
                                 example, one year of parental leave, prolonged illness or members over 70 years of age.
-                                The
-                                number of working members is compared with the number of jobs to be filled each shift
-                                cycle.
+                                The number of working members is compared with the number of jobs to be filled each
+                                shift cycle : {{ number_of_abcd_slots }}.
                             {% endblocktranslate %}
                         </p>
                         <p>

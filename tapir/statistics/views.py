@@ -24,7 +24,10 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.statistics import config
-from tapir.statistics.utils import build_pie_chart_data, build_line_chart_data
+from tapir.statistics.utils import (
+    build_pie_chart_data,
+    build_line_chart_data,
+)
 
 
 class MainStatisticsView(
@@ -164,17 +167,43 @@ class PurchasingMembersJsonView(JSONView):
         number_of_purchasing_members -= (
             members_that_should_be_paused_instead_of_exempted
         )
-
-        return build_pie_chart_data(
-            labels=[
-                _("Current number of purchasing members"),
-                _("Missing number of purchasing members"),
-            ],
-            data=[
-                number_of_purchasing_members,
-                self.TARGET_NUMBER_OF_PURCHASING_MEMBERS - number_of_purchasing_members,
-            ],
-        )
+        return {
+            "type": "bar",
+            "data": {
+                "labels": [_("Number of members")],
+                "datasets": [
+                    {
+                        "label": _("Current number of purchasing members"),
+                        "data": [number_of_purchasing_members],
+                        "backgroundColor": [
+                            "rgba(54, 162, 235)",
+                        ],
+                    },
+                    {
+                        "label": _(
+                            "Required number of purchasing members to reach break-even"
+                        ),
+                        "data": [
+                            self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
+                            - number_of_purchasing_members
+                        ],
+                        "backgroundColor": [
+                            "rgba(255, 99, 132)",
+                        ],
+                    },
+                ],
+            },
+            "options": {
+                "scales": {
+                    "x": {
+                        "stacked": True,
+                    },
+                    "y": {
+                        "stacked": True,
+                    },
+                }
+            },
+        }
 
 
 class WorkingMembersJsonView(JSONView):
@@ -193,16 +222,43 @@ class WorkingMembersJsonView(JSONView):
             ]
         )
 
-        return build_pie_chart_data(
-            labels=[
-                _("Current number of working members"),
-                _("Missing number of working members"),
-            ],
-            data=[
-                number_of_working_members,
-                ShiftSlotTemplate.objects.count() - number_of_working_members,
-            ],
-        )
+        return {
+            "type": "bar",
+            "data": {
+                "labels": [_("Number of members")],
+                "datasets": [
+                    {
+                        "label": _("Current number of working members"),
+                        "data": [number_of_working_members],
+                        "backgroundColor": [
+                            "rgba(54, 162, 235)",
+                        ],
+                    },
+                    {
+                        "label": _(
+                            "Required number of working members to reach break-even"
+                        ),
+                        "data": [
+                            ShiftSlotTemplate.objects.count()
+                            - number_of_working_members
+                        ],
+                        "backgroundColor": [
+                            "rgba(255, 99, 132)",
+                        ],
+                    },
+                ],
+            },
+            "options": {
+                "scales": {
+                    "x": {
+                        "stacked": True,
+                    },
+                    "y": {
+                        "stacked": True,
+                    },
+                }
+            },
+        }
 
 
 class FrozenMembersJsonView(JSONView):
@@ -214,7 +270,7 @@ class FrozenMembersJsonView(JSONView):
         not_frozen_members_count = relevant_members.count() - frozen_members_count
 
         return build_pie_chart_data(
-            labels=[_("Active members"), _("Frozen members")],
+            labels=[_("Purchasing members"), _("Frozen members")],
             data=[not_frozen_members_count, frozen_members_count],
         )
 
