@@ -7,7 +7,7 @@ from tapir.coop.config import (
     get_ids_of_users_registered_to_a_shift_with_capability,
 )
 from tapir.core.config import sidebar_link_groups
-from tapir.settings import PERMISSION_SHIFTS_MANAGE
+from tapir.settings import PERMISSION_SHIFTS_MANAGE, PERMISSION_COOP_ADMIN
 
 
 class ShiftConfig(AppConfig):
@@ -70,6 +70,7 @@ class ShiftConfig(AppConfig):
             material_icon="calculate",
             url=reverse_lazy("shifts:statistics"),
             ordering=5,
+            required_permissions=[PERMISSION_COOP_ADMIN],
         )
 
         shifts_group.add_link(

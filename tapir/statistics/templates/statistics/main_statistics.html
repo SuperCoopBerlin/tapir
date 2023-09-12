@@ -191,13 +191,18 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <p>
-                                    {% blocktranslate with extra_shares=extra_shares %}
-                                        Since the 12.09.23, {{ extra_shares }} extra shares have been bought. An extra
-                                        share is any share that is bought beyond the first compulsory share,
-                                        independently of whether the person became a member before or after the
-                                        12.09.2023.
+                                    {% blocktranslate %}
+                                        Here you can follow the progress of the funding campaign. Both additional shares
+                                        (all shares that are subscribed to over and above the compulsory share) and
+                                        subordinated loans are counted. The period runs from 12.09.2023 - 09.12.2023.
+                                        What one person can't achieve, many can!
                                     {% endblocktranslate %}
                                 </p>
+                                {% if perms.coop.admin %}
+                                    <p>
+                                        (Visible only to the Vorstand) the current number of extra shares is {{ extra_shares }}.
+                                    </p>
+                                {% endif %}
                             </li>
                             {% for campaign in campaigns %}
                                 <li class="list-group-item">

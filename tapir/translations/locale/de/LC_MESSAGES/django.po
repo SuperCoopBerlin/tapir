@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-12 17:51+0200\n"
-"PO-Revision-Date: 2023-09-12 17:54+0200\n"
+"POT-Creation-Date: 2023-09-12 18:21+0200\n"
+"PO-Revision-Date: 2023-09-12 18:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.3.2\n"
 
-#: accounts/apps.py:17 coop/apps.py:22 coop/apps.py:33
+#: accounts/apps.py:17 coop/apps.py:23 coop/apps.py:34
 #: coop/templates/coop/shareowner_list.html:12
 msgid "Members"
 msgstr "Mitglieder"
@@ -395,26 +395,26 @@ msgstr ""
 msgid "Edit member groups: %(name)s"
 msgstr ""
 
-#: coop/apps.py:25 coop/templates/coop/draftuser_list.html:8
+#: coop/apps.py:26 coop/templates/coop/draftuser_list.html:8
 #: coop/templates/coop/draftuser_list.html:14
 #: coop/templates/coop/draftuser_register_form.default.html:14
 #: coop/templates/coop/draftuser_register_form.html:14
 msgid "Applicants"
 msgstr "Bewerber*innen"
 
-#: coop/apps.py:41
+#: coop/apps.py:42
 msgid "Member statistics"
 msgstr "Mitglieder-Statistik"
 
-#: coop/apps.py:47 core/apps.py:17 financingcampaign/apps.py:14 log/apps.py:17
+#: coop/apps.py:49 core/apps.py:17 financingcampaign/apps.py:14 log/apps.py:17
 msgid "Management"
 msgstr "Verwaltung"
 
-#: coop/apps.py:50 coop/templates/coop/matching_program.html:9
+#: coop/apps.py:52 coop/templates/coop/matching_program.html:9
 msgid "Matching program"
 msgstr "Matching-Programm"
 
-#: coop/apps.py:58 coop/templates/coop/incoming_payment_list.html:24
+#: coop/apps.py:60 coop/templates/coop/incoming_payment_list.html:24
 msgid "Incoming payments"
 msgstr "Eingehende Zahlungen"
 
@@ -740,7 +740,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:23
-#: statistics/views.py:140
+#: statistics/views.py:139
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -1098,7 +1098,7 @@ msgstr ""
 #: statistics/templates/statistics/main_statistics.html:121
 #: statistics/templates/statistics/main_statistics.html:149
 #: statistics/templates/statistics/main_statistics.html:177
-#: statistics/templates/statistics/main_statistics.html:210
+#: statistics/templates/statistics/main_statistics.html:215
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
 
@@ -1634,11 +1634,11 @@ msgstr "Vergangene Schichten"
 msgid "Shift statistics"
 msgstr "Schicht-Statistiken"
 
-#: shifts/apps.py:76 shifts/templates/shifts/shift_management.html:9
+#: shifts/apps.py:77 shifts/templates/shifts/shift_management.html:9
 msgid "Shift management"
 msgstr "Schicht-Verwaltung"
 
-#: shifts/apps.py:93
+#: shifts/apps.py:94
 #, python-brace-format
 msgid "ABCD annual calendar, current week: {current_week_group_name}"
 msgstr ""
@@ -2935,7 +2935,7 @@ msgid "Main statistics"
 msgstr "Hauptstatistik"
 
 #: statistics/templates/statistics/main_statistics.html:22
-#: statistics/views.py:101
+#: statistics/views.py:100
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
@@ -3025,7 +3025,7 @@ msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:133
 #: statistics/templates/statistics/main_statistics.html:149
-#: statistics/views.py:274
+#: statistics/views.py:273
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
@@ -3061,43 +3061,45 @@ msgid "Co-Purchasers"
 msgstr "Miteinkäufer*innen"
 
 #: statistics/templates/statistics/main_statistics.html:194
-#, python-format
 msgid ""
 "\n"
-"                                        Since the 12.09.23, %(extra_shares)s extra shares have been bought. An extra\n"
-"                                        share is any share that is bought beyond the first compulsory share,\n"
-"                                        independently of whether the person became a member before or after the\n"
-"                                        12.09.2023.\n"
+"                                        Here you can follow the progress of the funding campaign. Both additional shares\n"
+"                                        (all shares that are subscribed to over and above the compulsory share) and\n"
+"                                        subordinated loans are counted. The period runs from 12.09.2023 - 09.12.2023.\n"
+"                                        What one person can't achieve, many can!\n"
 "                                    "
 msgstr ""
+"\n"
+"Hier könnt ihr den Fortschritt der Finanzierungskampagne verfolgen. Es werden sowohl weitere Anteile gezählt (alle Anteile, die über den Pflichtanteil hinaus gezeichnet werden) als auch Nachrangdarlehen. Der Zeitraum läuft vom 12.09.2023 - 09.12.2023. Was eine:r nicht schafft, schaffen viele!\n"
+"                                    "
 
-#: statistics/views.py:174 statistics/views.py:229
+#: statistics/views.py:173 statistics/views.py:228
 #, fuzzy
 #| msgid "Total number of members"
 msgid "Number of members"
 msgstr "Gesamte Mitgliederzahl"
 
-#: statistics/views.py:177
+#: statistics/views.py:176
 msgid "Current number of purchasing members"
 msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
 
-#: statistics/views.py:185
+#: statistics/views.py:184
 msgid "Required number of purchasing members to reach break-even"
 msgstr "Erforderliche Anzahl von einkaufsberechtigten Mitglieder*innen, um den Break-Even zu erreichen"
 
-#: statistics/views.py:232
+#: statistics/views.py:231
 msgid "Current number of working members"
 msgstr ""
 
-#: statistics/views.py:240
+#: statistics/views.py:239
 msgid "Required number of working members to reach break-even"
 msgstr "Erforderliche Anzahl von mitarbeitende Mitgliedern*innen, um den Break-Even zu erreichen"
 
-#: statistics/views.py:274
+#: statistics/views.py:273
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views.py:292
+#: statistics/views.py:291
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr ""
 

@@ -7,6 +7,7 @@ from tapir.settings import (
     PERMISSION_COOP_MANAGE,
     PERMISSION_ACCOUNTING_VIEW,
     PERMISSION_COOP_VIEW,
+    PERMISSION_COOP_ADMIN,
 )
 
 
@@ -42,6 +43,7 @@ class CoopConfig(AppConfig):
             material_icon="calculate",
             url=reverse_lazy("coop:statistics"),
             ordering=3,
+            required_permissions=[PERMISSION_COOP_ADMIN],
         )
 
         management_group = sidebar_link_groups.get_group(_("Management"), 2)
