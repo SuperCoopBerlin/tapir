@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-22 11:48+0200\n"
-"PO-Revision-Date: 2023-08-22 11:44+0200\n"
+"POT-Creation-Date: 2023-09-12 14:59+0200\n"
+"PO-Revision-Date: 2023-09-12 15:09+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -220,6 +220,8 @@ msgstr "Name und Pronomen bearbeiten"
 #: coop/templates/coop/shareowner_detail.html:41
 #: core/templates/core/email_list.html:36
 #: core/templates/core/featureflag_list.html:22
+#: financingcampaign/templates/financingcampaign/general.html:28
+#: financingcampaign/templates/financingcampaign/general.html:73
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:75
 msgid "Name"
 msgstr "Name"
@@ -404,7 +406,7 @@ msgstr "Bewerber*innen"
 msgid "Member statistics"
 msgstr "Mitglieder-Statistik"
 
-#: coop/apps.py:47 core/apps.py:17 log/apps.py:17
+#: coop/apps.py:47 core/apps.py:17 financingcampaign/apps.py:14 log/apps.py:17
 msgid "Management"
 msgstr "Verwaltung"
 
@@ -440,7 +442,9 @@ msgstr "Tapir-Konto erstellt"
 msgid "Sent to a member when the accounts gets created."
 msgstr ""
 
-#: coop/forms.py:38 shifts/templates/shifts/shiftexemption_list.html:26
+#: coop/forms.py:38
+#: financingcampaign/templates/financingcampaign/general.html:30
+#: shifts/templates/shifts/shiftexemption_list.html:26
 msgid "Start date"
 msgstr "Anfangsdatum"
 
@@ -448,7 +452,9 @@ msgstr "Anfangsdatum"
 msgid "Usually, the date on the membership agreement, or today. In the case of sold or gifted shares, can be set in the future."
 msgstr ""
 
-#: coop/forms.py:47 shifts/templates/shifts/shiftexemption_list.html:27
+#: coop/forms.py:47
+#: financingcampaign/templates/financingcampaign/general.html:31
+#: shifts/templates/shifts/shiftexemption_list.html:27
 msgid "End date"
 msgstr "Enddatum"
 
@@ -687,6 +693,7 @@ msgid "List of applicants"
 msgstr "Liste der Bewerber*innen"
 
 #: coop/templates/coop/draftuser_list.html:30
+#: financingcampaign/templates/financingcampaign/general.html:114
 #: log/templates/log/log_entry_list_tag.html:23
 #: shifts/templates/shifts/user_shift_account_log.html:28
 msgid "Date"
@@ -733,6 +740,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:23
+#: statistics/views.py:119
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -1084,10 +1092,18 @@ msgstr ""
 #: coop/templates/coop/statistics.html:154
 #: coop/templates/coop/statistics.html:197
 #: coop/templates/coop/statistics.html:220
+#: statistics/templates/statistics/main_statistics.html:37
+#: statistics/templates/statistics/main_statistics.html:47
+#: statistics/templates/statistics/main_statistics.html:84
+#: statistics/templates/statistics/main_statistics.html:116
+#: statistics/templates/statistics/main_statistics.html:144
+#: statistics/templates/statistics/main_statistics.html:172
+#: statistics/templates/statistics/main_statistics.html:195
 msgid "Show graph: "
-msgstr ""
+msgstr "Grafik anzeigen: "
 
 #: coop/templates/coop/statistics.html:83
+#: statistics/templates/statistics/main_statistics.html:37
 msgid "Evolution of member count"
 msgstr ""
 
@@ -1185,6 +1201,7 @@ msgid "Sold or future"
 msgstr ""
 
 #: coop/templates/coop/user_coop_share_ownership_list_tag.html:128
+#: financingcampaign/templates/financingcampaign/confirm_delete.html:24
 msgid "Delete"
 msgstr "Löschen"
 
@@ -1290,7 +1307,7 @@ msgstr "Hat unbezahlte Anteile"
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:669 welcomedesk/views.py:47
+#: coop/views/shareowner.py:669 welcomedesk/views.py:54
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
@@ -1412,7 +1429,7 @@ msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
 #: core/templates/core/email_list.html:37 shifts/models.py:461
-#: shifts/models.py:965 shifts/templates/shifts/shiftexemption_list.html:28
+#: shifts/models.py:967 shifts/templates/shifts/shiftexemption_list.html:28
 #: shifts/templates/shifts/user_shift_account_log.html:30
 msgid "Description"
 msgstr "Beschreibung"
@@ -1448,6 +1465,106 @@ msgstr ""
 #: core/views.py:85
 #, python-format
 msgid "Feature: %(name)s"
+msgstr ""
+
+#: financingcampaign/apps.py:16
+msgid "Financing campaigns"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/confirm_delete.html:8
+#: financingcampaign/templates/financingcampaign/confirm_delete.html:15
+msgid "Confirm delete"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:8
+msgid "Financing campaigns overview"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:15
+msgid "Campaigns"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:19
+msgid "Create campaign"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:25
+msgid "The list of all financing campaigns"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:29
+msgid "Goal"
+msgstr "Ziel"
+
+#: financingcampaign/templates/financingcampaign/general.html:32
+#: financingcampaign/templates/financingcampaign/general.html:75
+#: financingcampaign/templates/financingcampaign/general.html:117
+#: shifts/templates/shifts/shift_detail.html:83
+msgid "Actions"
+msgstr "Aktionen"
+
+#: financingcampaign/templates/financingcampaign/general.html:60
+msgid "Sources"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:64
+msgid "Create source"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:70
+msgid "The list of all financing sources"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:74
+msgid "Linked campaign"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:101
+msgid "Datapoints"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:105
+msgid "Create datapoint"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:111
+msgid "The list of all datapoints"
+msgstr ""
+
+#: financingcampaign/templates/financingcampaign/general.html:115
+#: shifts/templates/shifts/user_shift_account_log.html:29
+msgid "Value"
+msgstr "Wert"
+
+#: financingcampaign/templates/financingcampaign/general.html:116
+msgid "Linked source"
+msgstr ""
+
+#: financingcampaign/views.py:65
+msgid "Create a new financing campaign"
+msgstr ""
+
+#: financingcampaign/views.py:76
+#, python-format
+msgid "Edit financing campaign: %(name)s"
+msgstr ""
+
+#: financingcampaign/views.py:93
+msgid "Create a new financing source"
+msgstr ""
+
+#: financingcampaign/views.py:104
+#, python-format
+msgid "Edit financing source: %(name)s"
+msgstr ""
+
+#: financingcampaign/views.py:123
+msgid "Create a new financing source datapoint"
+msgstr ""
+
+#: financingcampaign/views.py:136
+#, python-format
+msgid "Edit financing source datapoint: %(name)s"
 msgstr ""
 
 #: log/apps.py:18 log/templates/log/log_overview.html:20
@@ -1743,7 +1860,7 @@ msgstr ""
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1071
+#: shifts/models.py:1073
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -2303,10 +2420,6 @@ msgstr "Angemeldete*r Nutzer*in"
 msgid "Attendance"
 msgstr "Anwesenheit"
 
-#: shifts/templates/shifts/shift_detail.html:83
-msgid "Actions"
-msgstr "Aktionen"
-
 #: shifts/templates/shifts/shift_detail.html:84
 msgid "Do you meet the requirements?"
 msgstr "Erfüllst du die Voraussetzungen?"
@@ -2594,20 +2707,56 @@ msgstr "Schicht-Statistik"
 msgid "Gives details of the attendance per slot type."
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:92
-msgid "Attendance data"
-msgstr "Anwesenheitsdaten"
-
-#: shifts/templates/shifts/statistics.html:98
+#: shifts/templates/shifts/statistics.html:90
 msgid "Gives details of the attendance for the past, current and next week."
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:122
+#: shifts/templates/shifts/statistics.html:114
 msgid "Shift cycle list"
 msgstr "Schicht-Zyklus-Liste"
 
-#: shifts/templates/shifts/statistics.html:126
+#: shifts/templates/shifts/statistics.html:118
 msgid "Gives details of the attendance per shift cycle."
+msgstr ""
+
+#: shifts/templates/shifts/statistics.html:139
+msgid "Data exports"
+msgstr ""
+
+#: shifts/templates/shifts/statistics.html:146
+msgid "Slot data"
+msgstr ""
+
+#: shifts/templates/shifts/statistics.html:152
+msgid "ABCD shift data"
+msgstr "ABCD-Schichtsdaten"
+
+#: shifts/templates/shifts/statistics.html:158
+msgid "ABCD shift slot data"
+msgstr ""
+
+#: shifts/templates/shifts/statistics.html:164
+msgid "Shift data"
+msgstr ""
+
+#: shifts/templates/shifts/statistics.html:170
+msgid "Shift slot data"
+msgstr ""
+
+#: shifts/templates/shifts/statistics.html:176
+msgid "ABCD attendance data"
+msgstr "ABCD Anwesenheitsdaten"
+
+#: shifts/templates/shifts/statistics.html:182
+msgid "Attendance data"
+msgstr "Anwesenheitsdaten"
+
+#: shifts/templates/shifts/statistics.html:188
+msgid "Attendance updates data"
+msgstr ""
+
+#: shifts/templates/shifts/statistics.html:194
+msgid "Attendance takeover data"
 msgstr ""
 
 #: shifts/templates/shifts/user_shift_account_log.html:12
@@ -2621,10 +2770,6 @@ msgstr "Füge per Hand einen Eintrag hinzu"
 #: shifts/templates/shifts/user_shift_account_log.html:25
 msgid "List of changes to this members shift account "
 msgstr ""
-
-#: shifts/templates/shifts/user_shift_account_log.html:29
-msgid "Value"
-msgstr "Wert"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:44
 msgid "Find an ABCD shift"
@@ -2773,6 +2918,147 @@ msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
 #: shifts/views/views.py:309
 msgid "Frozen statuses updated."
+msgstr ""
+
+#: statistics/templates/statistics/main_statistics.html:10
+msgid "Main statistics"
+msgstr "Hauptstatistik"
+
+#: statistics/templates/statistics/main_statistics.html:22
+#: statistics/views.py:80
+msgid "Total number of members"
+msgstr "Gesamte Mitgliederzahl"
+
+#: statistics/templates/statistics/main_statistics.html:25
+#, python-format
+msgid ""
+"\n"
+"                            All members of the cooperative - whether investing or active: %(number_of_members_now)s.\n"
+"                        "
+msgstr ""
+"\n"
+"                            Alle Mitglieder der Genossenschaft - egal, ob investierend oder aktiv.: %(number_of_members_now)s.\n"
+"                        "
+
+#: statistics/templates/statistics/main_statistics.html:47
+msgid "New members per month"
+msgstr "Neue Mitglieder*innen pro Monat"
+
+#: statistics/templates/statistics/main_statistics.html:57
+msgid "Targets for break-even"
+msgstr ""
+
+#: statistics/templates/statistics/main_statistics.html:60
+msgid "Food basket"
+msgstr ""
+
+#: statistics/templates/statistics/main_statistics.html:61
+#, python-format
+msgid ""
+"\n"
+"                            The current target food basket value per member and per month to reach the break-even is\n"
+"                            %(target_basket)s€.\n"
+"                        "
+msgstr ""
+
+#: statistics/templates/statistics/main_statistics.html:69
+#: statistics/templates/statistics/main_statistics.html:84
+msgid "Members eligible to purchase"
+msgstr "Einkaufsberechtigte Mitglieder"
+
+#: statistics/templates/statistics/main_statistics.html:71
+#, python-format
+msgid ""
+"\n"
+"                                All working members and all members who have an exemption (such as parental leave,\n"
+"                                over 70, etc.). Members who are frozen (and have not yet signed up for their catch-up\n"
+"                                shifts) or on break (3 shift cycles or longer away) are not eligible to purchase. Target\n"
+"                                number of purchasing members for break-even: %(target_number_of_purchasing_members)s.\n"
+"                            "
+msgstr ""
+"\n"
+"Alle mitarbeitenden Mitglieder sowie alle Mitglieder, die eine Befreiung haben (wie Elternzeit, über 70 Jahre, etc.). Mitglieder, die eingefroren sind (und sich noch nicht für ihre Nachholschichten angemeldet haben) oder pausieren (3 Schichtzyklen oder länger nicht da sind) sind nicht einkaufsberechtigt. Zielanzahl der kaufenden Mitglieder für den Break-even: %(target_number_of_purchasing_members)s.\n"
+"                            "
+
+#: statistics/templates/statistics/main_statistics.html:98
+#: statistics/templates/statistics/main_statistics.html:116
+msgid "Working members"
+msgstr "Mitarbeitende Mitglieder"
+
+#: statistics/templates/statistics/main_statistics.html:102
+msgid ""
+"\n"
+"                                Working members are active members who do not have an exemption. Exemptions are, for\n"
+"                                example, one year of parental leave, prolonged illness or members over 70 years of age.\n"
+"                                The\n"
+"                                number of working members is compared with the number of jobs to be filled each shift\n"
+"                                cycle.\n"
+"                            "
+msgstr ""
+"\n"
+"Alle aktiven Mitglieder, die keine Befreiung haben. Befreiungen sind bspw. ein Jahr Elternzeit, längere Krankheit oder Mitglieder über 70 Jahre.\n"
+"\n"
+" "
+
+#: statistics/templates/statistics/main_statistics.html:128
+#: statistics/templates/statistics/main_statistics.html:144
+#: statistics/views.py:200
+msgid "Frozen members"
+msgstr "Eingefrorene Mitglieder"
+
+#: statistics/templates/statistics/main_statistics.html:132
+msgid ""
+"\n"
+"                                Any member who is registered as an active member but is 4 or more shifts short and\n"
+"                                therefore\n"
+"                                not eligible to purchase again until they sign up for the appropriate make-up shifts.\n"
+"                            "
+msgstr ""
+"\n"
+"Alle Mitglieder, die als aktives Mitglied eingetragen sind, aber 4 oder mehr Schichten im Minus sind und deshalb erst wieder einkaufsberechtigt sind, wenn sie sich für die entsprechenden Nachholschichten eintragen.\n"
+"\n"
+" "
+
+#: statistics/templates/statistics/main_statistics.html:157
+msgid "Co-purchasers"
+msgstr "Miteinkäufer*innen"
+
+#: statistics/templates/statistics/main_statistics.html:161
+msgid ""
+"\n"
+"                                    Each member can designate one person (whether in their own household or not) to shop\n"
+"                                    under the same membership number. This can be investing members or non-members.\n"
+"                                "
+msgstr ""
+"\n"
+"Jedes Mitglied kann eine Person (egal, ob im eigenen Haushalt oder nicht) bestimmen, die unter der gleichen Mitgliedsnummer einkaufen kann. Das können investierende Mitglieder oder Nichtmitglieder sein. "
+
+#: statistics/templates/statistics/main_statistics.html:172
+msgid "Co-Purchasers"
+msgstr "Miteinkäufer*innen"
+
+#: statistics/views.py:153
+msgid "Current number of purchasing members"
+msgstr ""
+
+#: statistics/views.py:154
+msgid "Missing number of purchasing members"
+msgstr ""
+
+#: statistics/views.py:181
+msgid "Current number of working members"
+msgstr ""
+
+#: statistics/views.py:182
+msgid "Missing number of working members"
+msgstr ""
+
+#: statistics/views.py:200
+msgid "Active members"
+msgstr "Aktive Mitglieder"
+
+#: statistics/views.py:218
+msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr ""
 
 #: utils/forms.py:25
@@ -3968,11 +4254,6 @@ msgstr "Mitglieds-ID"
 #~ msgstr "Schicht-Statistiken"
 
 #, fuzzy
-#~| msgid "ABCD Shift"
-#~ msgid "ABCD shift"
-#~ msgstr "ABCD-Schicht"
-
-#, fuzzy
 #~| msgid "Shift exemptions"
 #~ msgid "Shift Template"
 #~ msgstr "Schicht-Befreiungen"
@@ -4002,20 +4283,11 @@ msgstr "Mitglieds-ID"
 #~ msgid "Set Flying️"
 #~ msgstr "Als fliegend markieren"
 
-#~ msgid "Goal"
-#~ msgstr "Ziel"
-
 #~ msgid "Raised amount"
 #~ msgstr "Erreichter Betrag"
 
-#~ msgid "Edit financing campaign"
-#~ msgstr "Finanzierungskampagne editieren"
-
 #~ msgid "Click this link to learn more."
 #~ msgstr "Klicke hier um mehr zu erfahren."
-
-#~ msgid "Financing campaign"
-#~ msgstr "Finanzierungskampagne"
 
 #~ msgid "Time"
 #~ msgstr "Uhrzeit"

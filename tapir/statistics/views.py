@@ -2,6 +2,7 @@ import datetime
 
 from chartjs.views import JSONView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
@@ -11,6 +12,10 @@ from tapir.accounts.models import UpdateTapirUserLogEntry
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
 from tapir.coop.views import ShareCountEvolutionJsonView
 from tapir.core.models import FeatureFlag
+from tapir.financingcampaign.models import (
+    FinancingCampaign,
+    FinancingSourceDatapoint,
+)
 from tapir.shifts.models import (
     ShiftExemption,
     ShiftUserData,
@@ -48,6 +53,7 @@ class MainStatisticsView(
         context_data[
             "active_members_for_frozen_stats"
         ] = FrozenMembersJsonView.get_relevant_members().count()
+        context_data["campaigns"] = FinancingCampaign.objects.active_temporal()
 
         return context_data
 
@@ -69,8 +75,8 @@ class MemberCountEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONVie
     def get_context_data(self, **kwargs):
         return build_line_chart_data(
             x_axis_values=self.get_and_cache_dates_from_first_share_to_today(),
-            y_axis_values=self.get_number_of_members_per_month(),
-            data_label=_("Total number of members"),
+            y_axis_values=[self.get_number_of_members_per_month()],
+            data_labels=[_("Total number of members")],
         )
 
     @staticmethod
@@ -134,7 +140,7 @@ class PurchasingMembersJsonView(JSONView):
         )
 
         # rough estimate, TODO update when the paused status arrives
-        members_that_should_be_paused_instead_of_exempted = (
+        members_that_should_be_paused_instead_of_exempted = round(
             ShiftExemption.objects.active_temporal().count() / 2
         )
         number_of_purchasing_members -= (
@@ -205,10 +211,12 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
     def get_context_data(self, **kwargs):
         return build_line_chart_data(
             x_axis_values=self.get_dates(),
-            y_axis_values=self.get_percentage_of_co_purchasers_per_month(),
-            data_label=_(
-                "Percentage of members with a co-purchaser relative to the number of active members"
-            ),
+            y_axis_values=[self.get_percentage_of_co_purchasers_per_month()],
+            data_labels=[
+                _(
+                    "Percentage of members with a co-purchaser relative to the number of active members"
+                )
+            ],
             y_axis_max=100,
         )
 
@@ -289,3 +297,43 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
         if has_co_purchaser is None:
             has_co_purchaser = member.user.co_purchaser != ""
         return has_co_purchaser
+
+
+class FinancingCampaignJsonView(JSONView):
+    def get_campaign(self):
+        return get_object_or_404(FinancingCampaign, pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        return build_line_chart_data(
+            x_axis_values=[date for date in self.get_dates()],
+            y_axis_values=self.get_data(),
+            data_labels=[
+                source.name
+                for source in self.get_campaign().financingsource_set.order_by("name")
+            ],
+            y_axis_min=0,
+            y_axis_max=self.get_campaign().goal,
+            stacked=True,
+        )
+
+    def get_dates(self):
+        return FinancingSourceDatapoint.objects.filter(
+            source__campaign=self.get_campaign()
+        ).dates("date", "day")
+
+    def get_data(self):
+        return [
+            self.get_source_data(source)
+            for source in self.get_campaign().financingsource_set.order_by("name")
+        ]
+
+    def get_source_data(self, source):
+        values = []
+        for date in self.get_dates():
+            datapoint = (
+                FinancingSourceDatapoint.objects.filter(source=source, date__lte=date)
+                .order_by("-date")
+                .first()
+            )
+            values.append(datapoint.value if datapoint else 0)
+        return values

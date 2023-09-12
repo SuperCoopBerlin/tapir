@@ -16,21 +16,35 @@ def build_pie_chart_data(labels: list, data: list):
 def build_line_chart_data(
     x_axis_values: list,
     y_axis_values: list,
-    data_label: str,
+    data_labels: list,
+    y_axis_min: float | None = None,
     y_axis_max: float | None = None,
+    stacked=False,
 ):
     data = {
         "type": "line",
         "data": {
             "labels": x_axis_values,
-            "datasets": [
-                {
-                    "label": data_label,
-                    "data": y_axis_values,
+            "datasets": [],
+        },
+        "options": {
+            "scales": {
+                "y": {
+                    "min": y_axis_min,
+                    "max": y_axis_max,
+                    "stacked": stacked,
                 }
-            ],
+            }
         },
     }
-    if y_axis_max:
-        data["options"] = {"scales": {"y": {"max": y_axis_max}}}
+
+    for index, values in enumerate(y_axis_values):
+        data["data"]["datasets"].append(
+            {
+                "label": data_labels[index],
+                "data": values,
+                "fill": stacked,
+            }
+        )
+
     return data

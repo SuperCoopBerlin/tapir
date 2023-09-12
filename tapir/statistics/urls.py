@@ -39,4 +39,9 @@ urlpatterns = [
         views.CoPurchasersJsonView.as_view(),
         name="co_purchasers_json",
     ),
+    path(
+        "financing_campaign_json/<int:pk>",
+        views.FinancingCampaignJsonView.as_view(),
+        name="financing_campaign_json",
+    ),
 ]

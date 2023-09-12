@@ -23,9 +23,7 @@
                 <div class="card-body">
                     <p>
                         {% blocktranslate with number_of_members_now=number_of_members_now %}
-                            The total number of members as of today and regardless of their active/investing/... status
-                            is
-                            {{ number_of_members_now }}.
+                            All members of the cooperative - whether investing or active: {{ number_of_members_now }}.
                         {% endblocktranslate %}
                     </p>
                     <p>
@@ -59,6 +57,7 @@
                 <h5 class="card-header">{% translate "Targets for break-even" %}</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
+                        <h5>{% translate 'Food basket' %}</h5>
                         {% blocktranslate with target_basket=220 %}
                             The current target food basket value per member and per month to reach the break-even is
                             {{ target_basket }}€.
@@ -67,12 +66,13 @@
                 </ul>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
+                        <h5>{% translate 'Members eligible to purchase' %}</h5>
                         <p>
                             {% blocktranslate with target_number_of_purchasing_members=1140 %}
-                                We also need {{ target_number_of_purchasing_members }} purchasing members to reach the
-                                break-even. A purchasing member is an active member (neither investing nor frozen). The
-                                current numbers on the following charts are currently an approximation, we are working
-                                on getting exact numbers.
+                                All working members and all members who have an exemption (such as parental leave,
+                                over 70, etc.). Members who are frozen (and have not yet signed up for their catch-up
+                                shifts) or on break (3 shift cycles or longer away) are not eligible to purchase. Target
+                                number of purchasing members for break-even: {{ target_number_of_purchasing_members }}.
                             {% endblocktranslate %}
                         </p>
                         <p>
@@ -81,7 +81,7 @@
                                           '{% url "statistics:purchasing_members_json" %}',
                                           'purchasing_members_canvas')">
                             <span class="material-icons">leaderboard</span>
-                            <span class="button-text">{% translate "Show graph: " %}{% translate "Purchasing members" %}</span>
+                            <span class="button-text">{% translate "Show graph: " %}{% translate "Members eligible to purchase" %}</span>
                         </span>
                         </p>
                         <p>
@@ -98,14 +98,15 @@
                 <h5 class="card-header">{% translate "Working members" %}</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        {% blocktranslate with number_of_abcd_slots=number_of_abcd_slots %}
-                            Our regular shifts have {{ number_of_abcd_slots }} slots. That's how many working members we
-                            would need to have the shop completely taken care of at all times.
-                        {% endblocktranslate %}
-                    </li>
-                </ul>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                        <p>
+                            {% blocktranslate with number_of_abcd_slots=number_of_abcd_slots %}
+                                Working members are active members who do not have an exemption. Exemptions are, for
+                                example, one year of parental leave, prolonged illness or members over 70 years of age.
+                                The
+                                number of working members is compared with the number of jobs to be filled each shift
+                                cycle.
+                            {% endblocktranslate %}
+                        </p>
                         <p>
                             <span class="{% tapir_button_link %}"
                                   onclick="chartManager.show_stats_chart(this,
@@ -127,16 +128,13 @@
                 <h5 class="card-header">{% translate "Frozen members" %}</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        {% blocktranslate with active_members_for_frozen_stats=active_members_for_frozen_stats %}
-                            We have {{ active_members_for_frozen_stats }} active members. Some of them are frozen : they
-                            have
-                            missed too many shifts and have lost their right to shop and vote. One of our way to reach
-                            the break-even is to find ways to re-activate them.
-                        {% endblocktranslate %}
-                    </li>
-                </ul>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
+                        <p>
+                            {% blocktranslate %}
+                                Any member who is registered as an active member but is 4 or more shifts short and
+                                therefore
+                                not eligible to purchase again until they sign up for the appropriate make-up shifts.
+                            {% endblocktranslate %}
+                        </p>
                         <p>
                             <span class="{% tapir_button_link %}"
                                   onclick="chartManager.show_stats_chart(this,
@@ -159,21 +157,20 @@
                     <h5 class="card-header">{% translate "Co-purchasers" %}</h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            {% blocktranslate %}
-                                Co-purchasers are a good way for us to increase our turnover.
-                            {% endblocktranslate %}
-                        </li>
-                    </ul>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
+                            <p>
+                                {% blocktranslate %}
+                                    Each member can designate one person (whether in their own household or not) to shop
+                                    under the same membership number. This can be investing members or non-members.
+                                {% endblocktranslate %}
+                            </p>
                             <p>
                             <span class="{% tapir_button_link %}"
                                   onclick="chartManager.show_stats_chart(this,
                                           '{% url "statistics:co_purchasers_json" %}',
                                           'co_purchasers_canvas')">
-                            <span class="material-icons">leaderboard</span>
-                            <span class="button-text">{% translate "Show graph: " %}{% translate "Co-Purchasers" %}</span>
-                        </span>
+                                <span class="material-icons">leaderboard</span>
+                                <span class="button-text">{% translate "Show graph: " %}{% translate "Co-Purchasers" %}</span>
+                            </span>
                             </p>
                             <p>
                                 <canvas id="co_purchasers_canvas" style="display: none;"></canvas>
@@ -182,6 +179,32 @@
                     </ul>
                 </div>
             </div>
+            {% if campaigns.exists %}
+                <div class="col-xl-6">
+                    <div class="card mb-2">
+                        <h5 class="card-header">{{ campaigns.0.name }}</h5>
+                        {% for campaign in campaigns %}
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <p>
+                                    <span class="{% tapir_button_link %}"
+                                          onclick="chartManager.show_stats_chart(this,
+                                                  '{% url "statistics:financing_campaign_json" campaign.id %}',
+                                                  'financing_campaign_canvas_{{ campaign.id }}')">
+                                        <span class="material-icons">leaderboard</span>
+                                        <span class="button-text">{% translate "Show graph: " %}{{ campaign.name }}</span>
+                                    </span>
+                                    </p>
+                                    <p>
+                                        <canvas id="financing_campaign_canvas_{{ campaign.id }}"
+                                                style="display: none;"></canvas>
+                                    </p>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock content %}
