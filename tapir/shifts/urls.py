@@ -69,13 +69,8 @@ urlpatterns = [
     ),
     path(
         "calendar",
-        views.ShiftCalendarFutureView.as_view(),
-        name="calendar_future",
-    ),
-    path(
-        "calendar_past",
-        views.ShiftCalendarPastView.as_view(),
-        name="calendar_past",
+        views.ShiftCalendarView.as_view(),
+        name="calendar",
     ),
     path(
         "shift_user_data/<int:pk>",

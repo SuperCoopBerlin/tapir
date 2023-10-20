@@ -2,7 +2,7 @@ import datetime
 from calendar import MONDAY
 from collections import OrderedDict
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
@@ -10,7 +10,6 @@ from django.views.generic import TemplateView
 from weasyprint import HTML
 
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
-from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.models import (
     Shift,
     WEEKDAY_CHOICES,
@@ -24,15 +23,33 @@ from tapir.utils.shortcuts import get_monday, set_header_for_file_download
 
 
 class ShiftCalendarBaseView(TemplateView):
+    DATE_FORMAT = "%Y-%m-%d"
+
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(**kwargs)
+
+        date_from = (
+            datetime.datetime.strptime(
+                self.request.GET["date_from"], self.DATE_FORMAT
+            ).date()
+            if "date_from" in self.request.GET.keys()
+            else get_monday(timezone.now())
+        )
+        date_to = (
+            datetime.datetime.strptime(
+                self.request.GET["date_to"], self.DATE_FORMAT
+            ).date()
+            if "date_to" in self.request.GET.keys()
+            else date_from + datetime.timedelta(days=60)
+        )
+        context_data["date_from"] = date_from.strftime(self.DATE_FORMAT)
+        context_data["date_to"] = date_to.strftime(self.DATE_FORMAT)
 
         context_data["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
         # Because the shift views show a lot of shifts,
         # we preload all related objects to avoid doing many database requests.
-        upcoming_shifts = (
-            self.get_queryset()
-            .prefetch_related("slots")
+        shifts = (
+            Shift.objects.prefetch_related("slots")
             .prefetch_related("slots__attendances")
             .prefetch_related("slots__attendances__user")
             .prefetch_related("slots__slot_template")
@@ -40,13 +57,17 @@ class ShiftCalendarBaseView(TemplateView):
             .prefetch_related("slots__slot_template__attendance_template__user")
             .prefetch_related("shift_template")
             .prefetch_related("shift_template__group")
+            .filter(
+                start_time__gte=date_from,
+                start_time__lt=date_to + datetime.timedelta(days=1),
+            )
         )
 
         # A nested dict containing weeks (indexed by the Monday of the week), then days, then a list of shifts
         # OrderedDict[OrderedDict[list]]
         shifts_by_weeks_and_days = OrderedDict()
         week_to_group = {}
-        for shift in upcoming_shifts:
+        for shift in shifts:
             shift_day = shift.start_time.date()
             shift_week_monday = shift_day - datetime.timedelta(days=shift_day.weekday())
 
@@ -66,7 +87,7 @@ class ShiftCalendarBaseView(TemplateView):
         return context_data
 
 
-class ShiftCalendarFutureView(LoginRequiredMixin, ShiftCalendarBaseView):
+class ShiftCalendarView(LoginRequiredMixin, ShiftCalendarBaseView):
     template_name = "shifts/shift_calendar_future.html"
 
     def get_queryset(self):
@@ -80,27 +101,6 @@ class ShiftCalendarFutureView(LoginRequiredMixin, ShiftCalendarBaseView):
             start_time__gte=monday_this_week,
             end_time__lt=monday_this_week + datetime.timedelta(days=365),
         ).order_by("start_time")
-
-
-class ShiftCalendarPastView(
-    LoginRequiredMixin, PermissionRequiredMixin, ShiftCalendarBaseView
-):
-    permission_required = PERMISSION_SHIFTS_MANAGE
-    template_name = "shifts/shift_calendar_past.html"
-
-    def get_queryset(self):
-        return Shift.objects.filter(
-            start_time__gte=datetime.date.today() - datetime.timedelta(days=8 * 7),
-            end_time__lt=datetime.date.today(),
-        ).order_by("start_time")
-
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data(*args, **kwargs)
-        # We order by start time to get proper day and time ordering, but want to display weeks in reverse
-        context["shifts_by_weeks_and_days"] = OrderedDict(
-            reversed(context["shifts_by_weeks_and_days"].items())
-        )
-        return context
 
 
 class ShiftTemplateOverview(LoginRequiredMixin, SelectedUserViewMixin, TemplateView):

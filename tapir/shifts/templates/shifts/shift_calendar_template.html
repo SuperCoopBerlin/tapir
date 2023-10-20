@@ -26,6 +26,30 @@
         </div>
         {% shift_filters %}
     </div>
+    <div class="card mb-2">
+        <h5 class="card-header">
+            {% translate "Date range" %}
+        </h5>
+        <div class="card-body d-flex gap-4">
+            <script>
+                function onFilter() {
+                    let url = "{% url "shifts:calendar" %}";
+                    url += "?date_from=" + document.getElementById("date-from").value;
+                    url += "&date_to=" + document.getElementById("date-to").value;
+                    window.location = url;
+                }
+            </script>
+            <div class="d-flex align-items-baseline gap-2">
+                <label for="date-from" class="form-label">{% translate "From" %}</label>
+                <input id="date-from" type="date" value="{{ date_from }}" class="form-control" style="max-width: 160px"/>
+            </div>
+            <div class="d-flex align-items-baseline gap-2">
+                <label for="date-to" class="form-label">{% translate "To" %}</label>
+                <input id="date-to" type="date" value="{{ date_to }}" class="form-control" style="max-width: 160px"/>
+            </div>
+            <button class="{% tapir_button_link %}" onclick="onFilter()">{% translate "Filter" %}</button>
+        </div>
+    </div>
     {% for week, shifts_by_day in shifts_by_weeks_and_days.items %}
         <div class="card mb-2">
             {% with week_group=week_to_group|dictionary_get:week %}

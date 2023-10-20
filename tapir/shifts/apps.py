@@ -38,7 +38,7 @@ class ShiftConfig(AppConfig):
         shifts_group.add_link(
             display_name=_("Shift calendar"),
             material_icon="calendar_today",
-            url=reverse_lazy("shifts:calendar_future"),
+            url=reverse_lazy("shifts:calendar"),
             ordering=1,
         )
 
@@ -55,14 +55,6 @@ class ShiftConfig(AppConfig):
             url=reverse_lazy("shifts:shift_template_group_calendar"),
             ordering=3,
             on_render=cls.get_link_display_name_abcd_calendar,
-        )
-
-        shifts_group.add_link(
-            display_name=_("Past shifts"),
-            material_icon="history",
-            url=reverse_lazy("shifts:calendar_past"),
-            required_permissions=[PERMISSION_SHIFTS_MANAGE],
-            ordering=4,
         )
 
         shifts_group.add_link(
