@@ -918,12 +918,12 @@ class ShiftUserData(models.Model):
             slot__shift__start_time__gt=timezone.localtime()
         ).with_valid_state()
 
-    def get_account_balance(self):
+    def get_account_balance(self, at_date: datetime.datetime | None = None):
+        entries = self.user.shift_account_entries
+        if at_date:
+            entries = entries.filter(date__lte=at_date)
         # Might return None if no objects, so "or 0"
-        return (
-            self.user.shift_account_entries.aggregate(balance=Sum("value"))["balance"]
-            or 0
-        )
+        return entries.aggregate(balance=Sum("value"))["balance"] or 0
 
     def is_balance_ok(self):
         balance = self.get_account_balance()

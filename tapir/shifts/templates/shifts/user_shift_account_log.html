@@ -27,15 +27,17 @@
                 <tr>
                     <th>{% translate 'Date' %}</th>
                     <th>{% translate 'Value' %}</th>
+                    <th>{% translate 'Balance at date' %}</th>
                     <th>{% translate 'Description' %}</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for entry in entries %}
+                {% for entry_data in entries_data %}
                     <tr>
-                        <td>{{ entry.date }}</td>
-                        <td>{{ entry.value }}</td>
-                        <td class="description">{{ entry.description }}</td>
+                        <td>{{ entry_data.entry.date|date:"d.m.Y H:i" }}</td>
+                        <td>{{ entry_data.entry.value }}</td>
+                        <td>{{ entry_data.balance_at_date }}</td>
+                        <td class="description">{{ entry_data.entry.description }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

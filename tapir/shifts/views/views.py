@@ -128,7 +128,7 @@ def dictionary_get(dic, key):
 class UserShiftAccountLog(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "shifts/user_shift_account_log.html"
 
-    def get_target_user(self):
+    def get_target_user(self) -> TapirUser:
         return TapirUser.objects.get(pk=self.kwargs["user_pk"])
 
     def get_permission_required(self):
@@ -138,10 +138,17 @@ class UserShiftAccountLog(LoginRequiredMixin, PermissionRequiredMixin, TemplateV
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        context["user"] = self.get_target_user()
-        context["entries"] = ShiftAccountEntry.objects.filter(
-            user=self.get_target_user()
-        ).order_by("-date")
+        user = self.get_target_user()
+        context["user"] = user
+        context["entries_data"] = [
+            {
+                "entry": entry,
+                "balance_at_date": user.shift_user_data.get_account_balance(
+                    at_date=entry.date
+                ),
+            }
+            for entry in ShiftAccountEntry.objects.filter(user=user).order_by("-date")
+        ]
         return context
 
 
