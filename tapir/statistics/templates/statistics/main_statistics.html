@@ -69,7 +69,10 @@
                         <li class="list-group-item text-bg-warning">
                             <h5>WIP, visible for member office only</h5>
                             <p>
-                                <a class="{% tapir_button_action %}">Update purchase data from BioOffice</a>
+                                <a class="{% tapir_button_action %}"
+                                   href="{% url "statistics:update_purchase_data_manually" %}">
+                                    Update purchase data from BioOffice
+                                </a>
                             </p>
                             <p>
                                 {% blocktranslate with average_basket=current_average_monthly_basket %}

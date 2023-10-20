@@ -1,12 +1,16 @@
 import datetime
 
 from chartjs.views import JSONView
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.management import call_command
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
+from django.views.generic import RedirectView
 
 from tapir import settings
 from tapir.accounts.models import UpdateTapirUserLogEntry
@@ -17,6 +21,7 @@ from tapir.financingcampaign.models import (
     FinancingCampaign,
     FinancingSourceDatapoint,
 )
+from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.shifts.models import (
     ShiftExemption,
     ShiftUserData,
@@ -449,3 +454,20 @@ class FinancingCampaignJsonView(JSONView):
             )
             values.append(datapoint.value if datapoint else 0)
         return values
+
+
+class UpdatePurchaseDataManuallyView(
+    LoginRequiredMixin, PermissionRequiredMixin, RedirectView
+):
+    permission_required = PERMISSION_COOP_MANAGE
+
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("statistics:main_statistics")
+
+    def get(self, request, *args, **kwargs):
+        try:
+            call_command("process_purchase_files")
+            messages.info(request, _("Purchase data updated"))
+        except:
+            messages.error(request, "Error updating purchase data")
+        return super().get(request, args, kwargs)

@@ -44,4 +44,9 @@ urlpatterns = [
         views.FinancingCampaignJsonView.as_view(),
         name="financing_campaign_json",
     ),
+    path(
+        "update_purchase_data_manually",
+        views.UpdatePurchaseDataManuallyView.as_view(),
+        name="update_purchase_data_manually",
+    ),
 ]
