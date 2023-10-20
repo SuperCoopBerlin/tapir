@@ -58,13 +58,33 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <h5>{% translate 'Shopping basket' %}</h5>
-                        {% blocktranslate with target_basket=225 %}
-                            The current target food basket value per member and per month to reach the break-even is
-                            {{ target_basket }}€.
-                        {% endblocktranslate %}
+                        <p>
+                            {% blocktranslate with target_basket=target_average_monthly_basket %}
+                                The current target food basket value per member and per month to reach the break-even is
+                                {{ target_basket }}€.
+                            {% endblocktranslate %}
+                        </p>
                     </li>
-                </ul>
-                <ul class="list-group list-group-flush">
+                    {% if perms.coop.manage %}
+                        <li class="list-group-item text-bg-warning">
+                            <h5>WIP, visible for member office only</h5>
+                            <p>
+                                <a class="{% tapir_button_action %}">Update purchase data from BioOffice</a>
+                            </p>
+                            <p>
+                                {% blocktranslate with average_basket=current_average_monthly_basket %}
+                                    The current average food basket value per member and per month is
+                                    {{ current_average_monthly_basket }}€.
+                                {% endblocktranslate %}
+
+                            </p>
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar" role="progressbar"
+                                     style="width: {{ progress_monthly_basket }}%; ">{{ current_average_monthly_basket }}€
+                                </div>
+                            </div>
+                        </li>
+                    {% endif %}
                     <li class="list-group-item">
                         <h5>{% translate 'Members eligible to purchase' %}</h5>
                         <p>
@@ -200,7 +220,8 @@
                                 </p>
                                 {% if perms.coop.admin %}
                                     <p>
-                                        (Visible only to the Vorstand) the current number of extra shares is {{ extra_shares }}.
+                                        (Visible only to the Vorstand) the current number of extra shares
+                                        is {{ extra_shares }}.
                                     </p>
                                 {% endif %}
                             </li>
