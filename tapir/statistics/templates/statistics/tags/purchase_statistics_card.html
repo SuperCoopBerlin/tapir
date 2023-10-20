@@ -1,0 +1,34 @@
+{% load i18n %}
+{% load shifts %}
+{% load core %}
+
+<div class="card mb-2">
+    <h5 class="card-header d-flex justify-content-between align-items-center">
+        {% translate "Purchases" %}
+    </h5>
+    <ul class="list-group  list-group-flush">
+        <li class="list-group-item">
+            {% blocktranslate with average=average_basket_per_month %}
+                Your average basket per month is {{ average }}€.
+            {% endblocktranslate %}
+        </li>
+        <li class="list-group-item">
+            <table class="{% tapir_table_classes %}" aria-label="{% translate 'List of the last purchases' %}">
+                <thead>
+                <tr>
+                    <th>{% translate 'Date' %}</th>
+                    <th>{% translate 'Gross amount' %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for purchase in last_purchases %}
+                    <tr>
+                        <td>{{ purchase.purchase_date|date:"d.m.Y H:i" }}</td>
+                        <td>{{ purchase.gross_amount }}€</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </li>
+    </ul>
+</div>

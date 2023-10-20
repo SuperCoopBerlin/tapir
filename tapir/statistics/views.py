@@ -2,6 +2,7 @@ import datetime
 
 from chartjs.views import JSONView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -24,6 +25,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.statistics import config
+from tapir.statistics.models import PurchaseBasket
 from tapir.statistics.utils import (
     build_pie_chart_data,
     build_line_chart_data,
@@ -60,6 +62,22 @@ class MainStatisticsView(
 
         context_data["extra_shares"] = self.get_extra_shares_count()
 
+        current_average_monthly_basket = (
+            get_average_monthly_basket(PurchaseBasket.objects.all())
+            / PurchasingMembersJsonView.get_number_of_purchasing_members()
+        )
+        context_data["current_average_monthly_basket"] = "{:.2f}".format(
+            current_average_monthly_basket
+        )
+        context_data["target_average_monthly_basket"] = 225
+        context_data["progress_monthly_basket"] = round(
+            (
+                current_average_monthly_basket
+                / context_data["target_average_monthly_basket"]
+            )
+            * 100
+        )
+
         return context_data
 
     @staticmethod
@@ -77,6 +95,22 @@ class MainStatisticsView(
             .active_temporal()
             .count()
         )
+
+
+def get_average_monthly_basket(baskets):
+    baskets = baskets.order_by("purchase_date")
+    if not baskets.first():
+        return 0
+
+    days_since_first_purchase = (
+        timezone.now().date() - baskets.first().purchase_date.date()
+    ).days
+    average_days_per_month = 365.25 / 12
+    months_since_first_purchase = days_since_first_purchase / average_days_per_month
+    return (
+        baskets.aggregate(total_paid=Sum("gross_amount"))["total_paid"]
+        / months_since_first_purchase
+    )
 
 
 class CacheDatesFromFirstShareToTodayMixin:
@@ -148,8 +182,9 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView)
 class PurchasingMembersJsonView(JSONView):
     TARGET_NUMBER_OF_PURCHASING_MEMBERS = 1140
 
-    def get_context_data(self, **kwargs):
-        number_of_purchasing_members = len(
+    @staticmethod
+    def get_number_of_purchasing_members():
+        return len(
             [
                 share_owner
                 for share_owner in ShareOwner.objects.all()
@@ -159,6 +194,9 @@ class PurchasingMembersJsonView(JSONView):
                 if share_owner.can_shop()
             ]
         )
+
+    def get_context_data(self, **kwargs):
+        number_of_purchasing_members = self.get_number_of_purchasing_members()
 
         # rough estimate, TODO update when the paused status arrives
         members_that_should_be_paused_instead_of_exempted = round(
