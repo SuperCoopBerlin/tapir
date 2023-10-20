@@ -21,7 +21,6 @@ class Command(BaseCommand):
     help = "If a new cycle has started, remove one shift point from all active members."
 
     def handle(self, *args, **options):
-        ProcessedPurchaseFiles.objects.all().delete()
         env = environ.Env()
         private_key = paramiko.RSAKey.from_private_key(
             io.StringIO(env("TAPIR_SSH_KEY_PRIVATE"))
