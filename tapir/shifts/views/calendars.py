@@ -22,7 +22,8 @@ from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
 from tapir.utils.shortcuts import get_monday, set_header_for_file_download
 
 
-class ShiftCalendarBaseView(TemplateView):
+class ShiftCalendarView(LoginRequiredMixin, TemplateView):
+    template_name = "shifts/shift_calendar_future.html"
     DATE_FORMAT = "%Y-%m-%d"
 
     def get_context_data(self, *args, **kwargs):
@@ -61,6 +62,7 @@ class ShiftCalendarBaseView(TemplateView):
                 start_time__gte=date_from,
                 start_time__lt=date_to + datetime.timedelta(days=1),
             )
+            .order_by("start_time")
         )
 
         # A nested dict containing weeks (indexed by the Monday of the week), then days, then a list of shifts
@@ -85,22 +87,6 @@ class ShiftCalendarBaseView(TemplateView):
         context_data["week_to_group"] = week_to_group
 
         return context_data
-
-
-class ShiftCalendarView(LoginRequiredMixin, ShiftCalendarBaseView):
-    template_name = "shifts/shift_calendar_future.html"
-
-    def get_queryset(self):
-        monday_this_week = datetime.datetime.combine(
-            datetime.date.today()
-            - datetime.timedelta(days=datetime.date.today().weekday()),
-            datetime.time(),
-            timezone.now().tzinfo,
-        )
-        return Shift.objects.filter(
-            start_time__gte=monday_this_week,
-            end_time__lt=monday_this_week + datetime.timedelta(days=365),
-        ).order_by("start_time")
 
 
 class ShiftTemplateOverview(LoginRequiredMixin, SelectedUserViewMixin, TemplateView):
