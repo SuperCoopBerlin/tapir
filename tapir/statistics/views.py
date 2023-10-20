@@ -469,5 +469,5 @@ class UpdatePurchaseDataManuallyView(
             call_command("process_purchase_files")
             messages.info(request, _("Purchase data updated"))
         except Exception as e:
-            messages.error(request, e)
+            messages.error(request, "Failed to update purchase data.")
         return super().get(request, args, kwargs)
