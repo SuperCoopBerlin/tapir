@@ -1,8 +1,11 @@
 import csv
 import datetime
 import fnmatch
+import io
 from typing import Dict
 
+import environ
+import paramiko
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.utils import timezone
@@ -18,10 +21,14 @@ class Command(BaseCommand):
     help = "If a new cycle has started, remove one shift point from all active members."
 
     def handle(self, *args, **options):
+        env = environ.Env()
+        private_key = paramiko.RSAKey.from_private_key(
+            io.StringIO(env("TAPIR_SSH_KEY_PRIVATE"))
+        )
         connection = Connection(
             host="u326634-sub6.your-storagebox.de",
             user="u326634-sub6",
-            connect_kwargs={"password": ""},
+            connect_kwargs={"pkey": private_key},
         )
         sftp_client = connection.sftp()
         ProcessedPurchaseFiles.objects.all().delete()
