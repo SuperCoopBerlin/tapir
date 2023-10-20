@@ -1,5 +1,7 @@
 import datetime
+import os
 
+import environ
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils import timezone
@@ -48,3 +50,20 @@ def get_timezone_aware_datetime(
 ) -> datetime.datetime:
     result = datetime.datetime.combine(date, time)
     return timezone.make_aware(result) if timezone.is_naive(result) else result
+
+
+def setup_ssh_for_biooffice_storage():
+    env = environ.Env()
+
+    os.system("mkdir -p ~/.ssh")
+    os.system(
+        f'bash -c \'echo -e "{env("TAPIR_SSH_KEY_PRIVATE")}" > ~/.ssh/biooffice_id_rsa\''
+    )
+    os.system("chmod u=rw,g=,o= ~/.ssh/biooffice_id_rsa")
+    os.system(
+        f'bash -c \'echo -e "{env("TAPIR_SSH_KEY_PUBLIC")}" > ~/.ssh/biooffice_id_rsa.pub\''
+    )
+    os.system("chmod u=rw,g=r,o=r ~/.ssh/biooffice_id_rsa.pub")
+    os.system(
+        f'bash -c \'echo -e "{env("BIOOFFICE_SERVER_SSH_KEY_FINGERPRINT")}" > ~/.ssh/biooffice_known_hosts\''
+    )
