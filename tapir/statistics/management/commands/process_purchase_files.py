@@ -31,7 +31,6 @@ class Command(BaseCommand):
             connect_kwargs={"pkey": private_key},
         )
         sftp_client = connection.sftp()
-        ProcessedPurchaseFiles.objects.all().delete()
         for file_name in fnmatch.filter(
             sftp_client.listdir(), "Statistics_Members_*.csv"
         ):
