@@ -55,4 +55,5 @@ def campaign_progress_bar():
     return {
         "campaign": campaign,
         "progress": round(campaign.get_current_sum() * 100 / campaign.goal),
+        "current_sum": round(campaign.get_current_sum()),
     }
