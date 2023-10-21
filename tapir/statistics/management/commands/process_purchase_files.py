@@ -56,7 +56,9 @@ class Command(BaseCommand):
 
             tapir_user = (
                 TapirUser.objects.filter(share_owner__id=int(row["Kunde"][3:])).first()
-                if row["Kunde"].isnumeric() and len(row["Kunde"]) > 3
+                if row["Kunde"].startswith("299")
+                and row["Kunde"].isnumeric()
+                and len(row["Kunde"]) > 3
                 else None
             )
             PurchaseBasket.objects.create(
