@@ -385,10 +385,10 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
 
 class ShiftAttendanceTemplate(models.Model):
     user = models.ForeignKey(
-        TapirUser, related_name="shift_attendance_templates", on_delete=models.PROTECT
+        TapirUser, related_name="shift_attendance_templates", on_delete=models.CASCADE
     )
     slot_template = models.OneToOneField(
-        ShiftSlotTemplate, related_name="attendance_template", on_delete=models.PROTECT
+        ShiftSlotTemplate, related_name="attendance_template", on_delete=models.CASCADE()
     )
 
     def save(self, *args, **kwargs):
@@ -413,7 +413,7 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
 
     # Don't link directly to the slot because it may be less stable than the shift
     slot_template_name = models.CharField(blank=True, max_length=255)
-    shift_template = models.ForeignKey(ShiftTemplate, on_delete=models.PROTECT)
+    shift_template = models.ForeignKey(ShiftTemplate, on_delete=models.CASCADE)
 
     def populate(
         self,
@@ -443,7 +443,7 @@ class Shift(models.Model):
         null=True,
         blank=True,
         related_name="generated_shifts",
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
     )
 
     name = models.CharField(blank=False, max_length=255)
@@ -540,7 +540,7 @@ class ShiftAttendanceLogEntry(ModelLogEntry):
     exclude_fields = ["slot"]
 
     slot_name = models.CharField(blank=True, max_length=255)
-    shift = models.ForeignKey(Shift, on_delete=models.PROTECT)
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     state = models.IntegerField(null=True)
 
     def get_context_data(self):
@@ -572,7 +572,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         null=True,
         blank=True,
         related_name="generated_slots",
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
     )
 
     name = models.CharField(blank=True, max_length=255)
@@ -709,7 +709,7 @@ class ShiftAccountEntry(models.Model):
     """
 
     user = models.ForeignKey(
-        TapirUser, related_name="shift_account_entries", on_delete=models.PROTECT
+        TapirUser, related_name="shift_account_entries", on_delete=models.CASCADE
     )
 
     # Value of the transaction, may be negative (for example for missed shifts)
@@ -734,10 +734,10 @@ class ShiftAttendance(models.Model):
     objects = ShiftAttendanceQuerySet.as_manager()
 
     user = models.ForeignKey(
-        TapirUser, related_name="shift_attendances", on_delete=models.PROTECT
+        TapirUser, related_name="shift_attendances", on_delete=models.CASCADE
     )
     slot = models.ForeignKey(
-        ShiftSlot, related_name="attendances", on_delete=models.PROTECT
+        ShiftSlot, related_name="attendances", on_delete=models.CASCADE
     )
     reminder_email_sent = models.BooleanField(default=False)
 
@@ -770,7 +770,7 @@ class ShiftAttendance(models.Model):
         ShiftAccountEntry,
         null=True,
         blank=True,
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
         related_name="shift_attendance",
     )
 
@@ -883,7 +883,7 @@ class ShiftUserData(models.Model):
     # below). For this reason, we assume TapirUser.shift_user_data to exist in all places in the code. Note that
     # signals do not get triggered by loaddata, so test fixtures need to include ShiftUserData.
     user = models.OneToOneField(
-        TapirUser, null=False, on_delete=models.PROTECT, related_name="shift_user_data"
+        TapirUser, null=False, on_delete=models.CASCADE, related_name="shift_user_data"
     )
 
     capabilities = ArrayField(
@@ -1074,6 +1074,6 @@ class ShiftCycleEntry(models.Model):
     shift_account_entry = models.OneToOneField(
         ShiftAccountEntry,
         related_name="shift_cycle_log",
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
         null=True,
     )
