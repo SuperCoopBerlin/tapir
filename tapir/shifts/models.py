@@ -388,7 +388,7 @@ class ShiftAttendanceTemplate(models.Model):
         TapirUser, related_name="shift_attendance_templates", on_delete=models.CASCADE
     )
     slot_template = models.OneToOneField(
-        ShiftSlotTemplate, related_name="attendance_template", on_delete=models.CASCADE()
+        ShiftSlotTemplate, related_name="attendance_template", on_delete=models.CASCADE
     )
 
     def save(self, *args, **kwargs):
