@@ -30,7 +30,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.statistics import config
-from tapir.statistics.models import PurchaseBasket
+from tapir.statistics.models import PurchaseBasket, ProcessedPurchaseFiles
 from tapir.statistics.utils import (
     build_pie_chart_data,
     build_line_chart_data,
@@ -466,8 +466,9 @@ class UpdatePurchaseDataManuallyView(
 
     def get(self, request, *args, **kwargs):
         try:
+            ProcessedPurchaseFiles.objects.all().delete()
             call_command("process_purchase_files")
             messages.info(request, _("Purchase data updated"))
-        except Exception as e:
+        except Exception:
             messages.error(request, "Failed to update purchase data.")
         return super().get(request, args, kwargs)

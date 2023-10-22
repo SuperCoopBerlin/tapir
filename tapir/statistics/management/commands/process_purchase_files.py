@@ -31,11 +31,17 @@ class Command(BaseCommand):
             connect_kwargs={"pkey": private_key},
         )
         sftp_client = connection.sftp()
-        for file_name in fnmatch.filter(
+        already_processed_files = ProcessedPurchaseFiles.objects.all().values_list(
+            "file_name", flat=True
+        )
+        files_on_server = fnmatch.filter(
             sftp_client.listdir(), "Statistics_Members_*.csv"
-        ):
-            if ProcessedPurchaseFiles.objects.filter(file_name=file_name).exists():
-                continue
+        )
+        for file_name in [
+            file_name
+            for file_name in files_on_server
+            if file_name not in already_processed_files
+        ]:
             self.process_file(sftp_client.open(file_name), file_name)
 
     @classmethod
@@ -47,6 +53,8 @@ class Command(BaseCommand):
         )
         for row in csv.DictReader(file, delimiter=",", quotechar='"'):
             row: Dict
+            if not row["Kunde"].startswith("299"):
+                continue
             purchase_date = get_timezone_aware_datetime(
                 date=datetime.datetime.strptime(
                     row['\ufeff"Datum"'], "%Y-%m-%d"
@@ -56,9 +64,7 @@ class Command(BaseCommand):
 
             tapir_user = (
                 TapirUser.objects.filter(share_owner__id=int(row["Kunde"][3:])).first()
-                if row["Kunde"].startswith("299")
-                and row["Kunde"].isnumeric()
-                and len(row["Kunde"]) > 3
+                if row["Kunde"].isnumeric() and len(row["Kunde"]) > 3
                 else None
             )
             PurchaseBasket.objects.create(
