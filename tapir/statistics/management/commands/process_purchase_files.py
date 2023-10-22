@@ -53,7 +53,7 @@ class Command(BaseCommand):
         )
         for row in csv.DictReader(file, delimiter=",", quotechar='"'):
             row: Dict
-            if not row["Kunde"].startswith("299"):
+            if row["Kunde"].isnumeric() and not row["Kunde"].startswith("299"):
                 continue
             purchase_date = get_timezone_aware_datetime(
                 date=datetime.datetime.strptime(
