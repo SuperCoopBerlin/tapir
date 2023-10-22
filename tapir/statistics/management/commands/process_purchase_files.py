@@ -47,6 +47,7 @@ class Command(BaseCommand):
     @classmethod
     @transaction.atomic
     def process_file(cls, file: SFTPFile, file_name: str):
+        file.prefetch()
         source_file = ProcessedPurchaseFiles.objects.create(
             file_name=file_name[: ProcessedPurchaseFiles.MAX_FILE_NAME_LENGTH],
             processed_on=timezone.now(),
