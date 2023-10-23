@@ -1,6 +1,7 @@
 import django_filters
 import django_tables2
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db import transaction
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.utils.html import format_html
@@ -12,10 +13,16 @@ from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import MembershipPauseForm
-from tapir.coop.models import MembershipPause
+from tapir.coop.models import (
+    MembershipPause,
+    MembershipPauseUpdatedLogEntry,
+    MembershipPauseCreatedLogEntry,
+)
 from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.core.templatetags.core import tapir_button_link_to_action
 from tapir.core.views import TapirFormMixin
+from tapir.log.util import freeze_for_log
+from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.user_utils import UserUtils
 
@@ -131,9 +138,23 @@ class MembershipPauseCreateView(
         context_data["card_title"] = context_data["page_title"]
         return context_data
 
+    def form_valid(self, form):
+        with transaction.atomic():
+            result = super().form_valid(form)
+            MembershipPauseCreatedLogEntry().populate(
+                pause=form.instance,
+                actor=self.request.user,
+            ).save()
+
+        return result
+
 
 class MembershipPauseEditView(
-    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, UpdateView
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    TapirFormMixin,
+    UpdateViewLogMixin,
+    UpdateView,
 ):
     model = MembershipPause
     permission_required = PERMISSION_COOP_MANAGE
@@ -153,3 +174,17 @@ class MembershipPauseEditView(
             )
         }
         return context_data
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            result = super().form_valid(form)
+            new_frozen = freeze_for_log(form.instance)
+            if self.old_object_frozen != new_frozen:
+                MembershipPauseUpdatedLogEntry().populate(
+                    old_frozen=self.old_object_frozen,
+                    new_frozen=new_frozen,
+                    pause=form.instance,
+                    actor=self.request.user,
+                ).save()
+
+        return result

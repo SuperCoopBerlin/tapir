@@ -549,20 +549,31 @@ class MembershipPauseCreatedLogEntry(ModelLogEntry):
             actor=actor, share_owner=pause.share_owner, model=pause
         )
 
+    def get_context_data(self):
+        context_data = super().get_context_data()
+        context_data["start_date"] = datetime.datetime.strptime(
+            self.values["start_date"], "%Y-%m-%d"
+        ).date()
+        return context_data
+
+    def render(self):
+        print(self.values)
+        return super().render()
+
 
 class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
-    template_name = "coop/log/create_membership_pause_log_entry.html"
+    template_name = "coop/log/update_membership_pause_log_entry.html"
 
     def populate(
         self,
         old_frozen: dict,
         new_frozen: dict,
-        tapir_user: TapirUser,
+        pause: MembershipPause,
         actor: User,
     ):
         return super().populate_base(
             actor=actor,
-            tapir_user=tapir_user,
+            share_owner=pause.share_owner,
             old_frozen=old_frozen,
             new_frozen=new_frozen,
         )
