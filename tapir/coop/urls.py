@@ -195,4 +195,19 @@ urlpatterns = [
         views.number_of_co_purchasers_csv_view,
         name="number_of_co_purchasers_csv_view",
     ),
+    path(
+        "membership_pauses",
+        views.MembershipPauseListView.as_view(),
+        name="membership_pauses",
+    ),
+    path(
+        "membership_pause/new",
+        views.MembershipPauseCreateView.as_view(),
+        name="membership_pause_create",
+    ),
+    path(
+        "membership_pause/edit/<int:pk>",
+        views.MembershipPauseEditView.as_view(),
+        name="membership_pause_edit",
+    ),
 ]

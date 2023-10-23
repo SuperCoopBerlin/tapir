@@ -1,0 +1,8 @@
+{% load utils %}
+{% load i18n %}
+
+{% get_display_name_for_viewer membership.share_owner request.user as display_name %}
+{% blocktranslate with membership=membership name=display_name %}
+    New membership pause starting {{ membership.start_date|date:"d.m.Y" }}
+    {% if membership.end_date %}ending {{ membership.end_date|date:"d.m.Y" }}{% endif %}.
+{% endblocktranslate %}

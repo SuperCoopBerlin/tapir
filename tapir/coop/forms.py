@@ -14,6 +14,7 @@ from tapir.coop.models import (
     DraftUser,
     ShareOwner,
     IncomingPayment,
+    MembershipPause,
 )
 from tapir.shifts.forms import ShareOwnerChoiceField
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
@@ -237,3 +238,15 @@ class IncomingPaymentForm(forms.ModelForm):
             "then the fields can be different."
         )
     )
+
+
+class MembershipPauseForm(forms.ModelForm):
+    class Meta:
+        model = MembershipPause
+        fields = ["share_owner", "description", "start_date", "end_date"]
+        widgets = {
+            "start_date": DateInputTapir(),
+            "end_date": DateInputTapir(),
+        }
+
+    share_owner = ShareOwnerChoiceField()

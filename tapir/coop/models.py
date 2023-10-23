@@ -528,3 +528,41 @@ class ExtraSharesForAccountingRecap(models.Model):
     )
     number_of_shares = models.PositiveIntegerField(null=False, blank=False)
     date = models.DateField(null=False, blank=False)
+
+
+class MembershipPause(DurationModelMixin, models.Model):
+    share_owner = models.ForeignKey(
+        ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Member")
+    )
+    description = models.CharField(max_length=1000)
+
+
+class MembershipPauseCreatedLogEntry(ModelLogEntry):
+    template_name = "coop/log/create_membership_pause_log_entry.html"
+
+    def populate(
+        self,
+        actor: User,
+        pause: MembershipPause,
+    ):
+        return super().populate_base(
+            actor=actor, share_owner=pause.share_owner, model=pause
+        )
+
+
+class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
+    template_name = "coop/log/create_membership_pause_log_entry.html"
+
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        tapir_user: TapirUser,
+        actor: User,
+    ):
+        return super().populate_base(
+            actor=actor,
+            tapir_user=tapir_user,
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+        )

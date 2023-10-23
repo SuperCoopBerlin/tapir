@@ -64,6 +64,14 @@ class CoopConfig(AppConfig):
             required_permissions=[PERMISSION_ACCOUNTING_VIEW],
         )
 
+        management_group.add_link(
+            display_name=_("Membership pauses"),
+            material_icon="pause",
+            url=reverse_lazy("coop:membership_pauses"),
+            ordering=7,
+            required_permissions=[PERMISSION_COOP_MANAGE],
+        )
+
     @staticmethod
     def register_emails():
         from tapir.core.tapir_email_base import TapirEmailBase
