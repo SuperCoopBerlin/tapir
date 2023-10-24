@@ -25,10 +25,10 @@ class ShareOwnerFactory(UserDataFactory):
     is_investing = factory.Faker("pybool")
 
     @factory.post_generation
-    def nb_shares(self, create, nb_shares, **kwargs):
+    def nb_shares(self, create, nb_shares=None, **kwargs):
         if not create:
             return
-        for _ in range(nb_shares or 1):
+        for _ in range(nb_shares if nb_shares is not None else 1):
             ShareOwnershipFactory.create(share_owner=self)
 
 

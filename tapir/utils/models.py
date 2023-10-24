@@ -6,6 +6,7 @@ from datetime import date
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from tapir.utils.expection_utils import TapirException
@@ -322,7 +323,7 @@ class DurationModelMixin(models.Model):
     def is_active(self, effective_date=None) -> bool:
         if not effective_date:
             # if no effective date was given, use today as the default
-            effective_date = date.today()
+            effective_date = timezone.now().date()
         # check if the start date is in the future
         if self.start_date > effective_date:
             # if the start is in the future, the model is not active

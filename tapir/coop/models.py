@@ -13,6 +13,7 @@ from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
+from tapir.utils.expection_utils import TapirException
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
@@ -108,11 +109,29 @@ class ShareOwner(models.Model):
 
             if status == MemberStatus.SOLD:
                 return self.exclude(share_ownerships__in=active_ownerships).distinct()
-            else:
-                return self.filter(
-                    share_ownerships__in=active_ownerships,
-                    is_investing=(status == MemberStatus.INVESTING),
-                ).distinct()
+
+            members_with_valid_shares = self.filter(
+                share_ownerships__in=active_ownerships,
+            ).distinct()
+
+            if status == MemberStatus.INVESTING:
+                return members_with_valid_shares.filter(is_investing=True)
+
+            member_with_shares_and_not_investing = members_with_valid_shares.filter(
+                is_investing=False
+            )
+            active_pauses = MembershipPause.objects.active_temporal(date)
+            if status == MemberStatus.PAUSED:
+                return member_with_shares_and_not_investing.filter(
+                    membershippause__in=active_pauses
+                )
+
+            if status == MemberStatus.ACTIVE:
+                return member_with_shares_and_not_investing.exclude(
+                    membershippause__in=active_pauses
+                )
+
+            raise TapirException(f"Invalid status : {status}")
 
         def with_fully_paid(self, fully_paid: bool):
             annotated = self.annotate(
@@ -213,6 +232,9 @@ class ShareOwner(models.Model):
         if self.is_investing:
             return MemberStatus.INVESTING
 
+        if MembershipPause.objects.filter(share_owner=self).active_temporal().exists():
+            return MemberStatus.PAUSED
+
         return MemberStatus.ACTIVE
 
     def can_shop(self):
@@ -250,12 +272,14 @@ class MemberStatus:
     SOLD = "sold"
     INVESTING = "investing"
     ACTIVE = "active"
+    PAUSED = "paused"
 
 
 MEMBER_STATUS_CHOICES = (
     (MemberStatus.SOLD, _("Sold")),
     (MemberStatus.INVESTING, _("Investing")),
     (MemberStatus.ACTIVE, _("Active")),
+    (MemberStatus.PAUSED, _("Paused")),
 )
 
 
