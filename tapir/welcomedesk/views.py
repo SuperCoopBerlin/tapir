@@ -8,7 +8,7 @@ from django_filters import CharFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 
-from tapir.coop.models import ShareOwner
+from tapir.coop.models import ShareOwner, MembershipPause
 from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.settings import PERMISSION_WELCOMEDESK_VIEW
 from tapir.shifts.models import ShiftAttendanceMode, ShiftAttendanceTemplate
@@ -104,6 +104,12 @@ class WelcomeDeskShareOwnerView(PermissionRequiredMixin, generic.DetailView):
                 user=share_owner.user
             ).exists()
             and not share_owner.user.shift_user_data.is_currently_exempted_from_shifts()
+        )
+
+        context_data["is_paused"] = (
+            MembershipPause.objects.filter(share_owner=share_owner)
+            .active_temporal()
+            .exists()
         )
 
         return context_data

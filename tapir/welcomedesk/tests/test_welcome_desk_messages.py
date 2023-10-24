@@ -5,14 +5,14 @@ from django.urls import reverse
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import ShareOwner
-from tapir.coop.tests.factories import ShareOwnerFactory
+from tapir.coop.tests.factories import ShareOwnerFactory, MembershipPauseFactory
 from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftAccountEntry,
     ShiftAttendanceTemplate,
     ShiftExemption,
 )
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 from tapir.utils.user_utils import UserUtils
 
 
@@ -24,6 +24,7 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
         IS_INVESTING = "welcome_desk_is_investing"
         NO_ABCD_SHIFT = "welcome_desk_no_abcd_shift"
         NO_WELCOME_SESSION = "welcome_desk_no_welcome_session"
+        IS_PAUSED = "welcome_desk_is_paused"
 
     MESSAGES = [
         Messages.CAN_SHOP,
@@ -32,6 +33,7 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
         Messages.IS_INVESTING,
         Messages.NO_ABCD_SHIFT,
         Messages.NO_WELCOME_SESSION,
+        Messages.IS_PAUSED,
     ]
 
     def test_no_warnings(self):
@@ -50,6 +52,16 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
         user.share_owner.is_investing = True
         user.share_owner.save()
         self.check_alerts(user.share_owner, [self.Messages.IS_INVESTING])
+
+    def test_is_paused(self):
+        user = self.get_no_warnings_user()
+        MembershipPauseFactory.create(
+            share_owner=user.share_owner,
+            start_date=datetime.date(year=2022, month=1, day=1),
+            end_date=datetime.date(year=2024, month=1, day=1),
+        )
+        mock_timezone_now(self, datetime.datetime(year=2024, month=1, day=1))
+        self.check_alerts(user.share_owner, [self.Messages.IS_PAUSED])
 
     def test_no_abcd_shift(self):
         user = self.get_no_warnings_user()
