@@ -3,8 +3,9 @@ import datetime
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q, Sum, Count, F, PositiveIntegerField
+from django.db.models import Q, Sum, Count, F, PositiveIntegerField, Max, Min
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -267,6 +268,35 @@ class ShareOwner(models.Model):
     def get_is_company(self):
         return self.is_company
 
+    def get_membership_end_date(self):
+        if self.get_member_status() == MemberStatus.SOLD:
+            return None
+
+        if not self.share_ownerships.exists():
+            return None
+
+        if self.share_ownerships.filter(end_date__isnull=True).exists():
+            return None
+
+        return self.share_ownerships.aggregate(Max("end_date"))["end_date__max"]
+
+    def get_membership_start_date(self):
+        if self.get_member_status() != MemberStatus.SOLD:
+            return None
+
+        if not self.share_ownerships.exists():
+            return None
+
+        shares_starting_in_the_future = self.share_ownerships.filter(
+            start_date__gt=timezone.now().date()
+        )
+        if not shares_starting_in_the_future.exists():
+            return None
+
+        return shares_starting_in_the_future.aggregate(Min("start_date"))[
+            "start_date__min"
+        ]
+
 
 class MemberStatus:
     SOLD = "sold"
@@ -274,9 +304,24 @@ class MemberStatus:
     ACTIVE = "active"
     PAUSED = "paused"
 
+    @classmethod
+    def get_status_color(cls, status: str):
+        # Should correspond to the standard bootstrap color classes
+        match status:
+            case cls.SOLD:
+                return "danger"
+            case cls.INVESTING:
+                return "primary"
+            case cls.ACTIVE:
+                return "success"
+            case cls.PAUSED:
+                return "secondary"
+            case _:
+                raise TapirException(f"Unknown member status : {status}")
+
 
 MEMBER_STATUS_CHOICES = (
-    (MemberStatus.SOLD, _("Sold")),
+    (MemberStatus.SOLD, _("Not a member")),
     (MemberStatus.INVESTING, _("Investing")),
     (MemberStatus.ACTIVE, _("Active")),
     (MemberStatus.PAUSED, _("Paused")),

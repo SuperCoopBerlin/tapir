@@ -1,3 +1,4 @@
+{% load coop %}
 {% load i18n %}
 {% load core %}
 
@@ -15,7 +16,8 @@
                        href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
                         <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
                     </a>
-                    <a class="{% tapir_button_link_to_action %}" href="{% url 'coop:shareowner_update' share_owner.pk %}" id="share_owner_edit_button">
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'coop:shareowner_update' share_owner.pk %}" id="share_owner_edit_button">
                         <span class="material-icons">edit</span>{% translate 'Edit' %}
                     </a>
                 </span>
@@ -28,14 +30,16 @@
             <div class="row m-1">
                 <div class="col-5 fw-bold text-end">{% translate "Status" %}:</div>
                 <div class="col-7" id="share_owner_status">
-                    {% if share_owner.is_investing %}
-                        <span style="color: blue;">{% translate "Investing" %}</span>
-                    {% else %}
-                        {% if share_owner.get_active_share_ownerships.count > 0 %}
-                            <span style="color: green;">{% translate "Active" %}</span>
-                        {% else %}
-                            <span style="color: red;">{% translate "Inactive" %}</span>
-                        {% endif %}
+                    {% member_status_colored_text share_owner %}
+                    {% if share_owner.get_membership_start_date %}
+                        {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" %}
+                            (membership starting {{ start_date }})
+                        {% endblocktranslate %}
+                    {% endif %}
+                    {% if share_owner.get_membership_end_date %}
+                        {% blocktranslate with end_date=share_owner.get_membership_end_date|date:"d.m.Y" %}
+                            (membership ending {{ end_date }})
+                        {% endblocktranslate %}
                     {% endif %}
                 </div>
             </div>
@@ -123,7 +127,8 @@
                                             <form class="form-inline" method="post"
                                                   action="{% url 'coop:shareownership_delete' o.pk %}">
                                             {% csrf_token %}
-                                                <button type="submit" class="dropdown-item " style="white-space: normal;"
+                                                <button type="submit" class="dropdown-item "
+                                                        style="white-space: normal;"
                                                         href="#">
                                                     <span class="text-danger">{% translate "Delete" %}</span><br/>
                                                     <small class="text-muted">
@@ -148,7 +153,8 @@
                 </table>
                 {% if perms.accounts.manage %}
                     <div class="d-flex justify-content-end">
-                        <a class="ml-auto {% tapir_button_link_to_action %}" href="{% url 'coop:share_create_multiple' share_owner.pk %}">
+                        <a class="ml-auto {% tapir_button_link_to_action %}"
+                           href="{% url 'coop:share_create_multiple' share_owner.pk %}">
                             <span class="material-icons">add_circle_outline</span>
                             {% translate "Add Shares" %}
                         </a>
@@ -158,10 +164,10 @@
 
             <div class="row m-1">
                 <div class="col-5 fw-bold text-end">
-                    <a href="{% url 'coop:incoming_payment_list'  %}?credited_member={{ share_owner.pk }}">{% translate "Payments" %}:</a>
+                    <a href="{% url 'coop:incoming_payment_list' %}?credited_member={{ share_owner.pk }}">{% translate "Payments" %}:</a>
                 </div>
                 <div class="col-7">
-                    <span >{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
+                    <span>{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
                 </div>
             </div>
 
