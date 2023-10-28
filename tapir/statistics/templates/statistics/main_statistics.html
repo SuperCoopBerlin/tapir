@@ -65,29 +65,6 @@
                             {% endblocktranslate %}
                         </p>
                     </li>
-                    {% if perms.coop.manage %}
-                        <li class="list-group-item text-bg-warning">
-                            <h5>WIP, visible for member office only</h5>
-                            <p>
-                                <a class="{% tapir_button_action %}"
-                                   href="{% url "statistics:update_purchase_data_manually" %}">
-                                    Update purchase data from BioOffice
-                                </a>
-                            </p>
-                            <p>
-                                {% blocktranslate with average_basket=current_average_monthly_basket %}
-                                    The current average food basket value per member and per month is
-                                    {{ current_average_monthly_basket }}€.
-                                {% endblocktranslate %}
-
-                            </p>
-                            <div class="progress" style="height: 25px;">
-                                <div class="progress-bar" role="progressbar"
-                                     style="width: {{ progress_monthly_basket }}%; ">{{ current_average_monthly_basket }}€
-                                </div>
-                            </div>
-                        </li>
-                    {% endif %}
                     <li class="list-group-item">
                         <h5>{% translate 'Members eligible to purchase' %}</h5>
                         <p>

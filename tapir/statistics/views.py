@@ -30,7 +30,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.statistics import config
-from tapir.statistics.models import PurchaseBasket, ProcessedPurchaseFiles
+from tapir.statistics.models import ProcessedPurchaseFiles
 from tapir.statistics.utils import (
     build_pie_chart_data,
     build_line_chart_data,
@@ -66,22 +66,6 @@ class MainStatisticsView(
         context_data["campaigns"] = FinancingCampaign.objects.active_temporal()
 
         context_data["extra_shares"] = self.get_extra_shares_count()
-
-        current_average_monthly_basket = (
-            get_average_monthly_basket(PurchaseBasket.objects.all())
-            / PurchasingMembersJsonView.get_number_of_purchasing_members()
-        )
-        context_data["current_average_monthly_basket"] = "{:.2f}".format(
-            current_average_monthly_basket
-        )
-        context_data["target_average_monthly_basket"] = 225
-        context_data["progress_monthly_basket"] = round(
-            (
-                current_average_monthly_basket
-                / context_data["target_average_monthly_basket"]
-            )
-            * 100
-        )
 
         return context_data
 
