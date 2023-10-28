@@ -46,15 +46,10 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         ] = MemberCountEvolutionJsonView.get_number_of_members_at_date(
             timezone.now().date()
         )
-        context_data["number_of_abcd_slots"] = ShiftSlotTemplate.objects.count()
-        context_data[
-            "active_members_for_frozen_stats"
-        ] = FrozenMembersJsonView.get_relevant_members().count()
         context_data["campaigns"] = FinancingCampaign.objects.active_temporal()
-
         context_data["extra_shares"] = self.get_extra_shares_count()
-
         context_data["purchasing_members"] = self.get_purchasing_members_context()
+        context_data["working_members"] = self.get_working_members_context()
 
         return context_data
 
@@ -84,6 +79,32 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         )
         context["missing_progress"] = 100 - context["progress"]
 
+        return context
+
+    @staticmethod
+    def get_working_members_context():
+        current_number_of_working_members = len(
+            [
+                shift_user_data
+                for shift_user_data in ShiftUserData.objects.all()
+                .prefetch_related("user")
+                .prefetch_related("user__share_owner")
+                .prefetch_related("user__share_owner__share_ownerships")
+                .prefetch_related("shift_exemptions")
+                if ShiftExpectationService.is_member_expected_to_do_shifts(
+                    shift_user_data
+                )
+            ]
+        )
+
+        context = dict()
+        context["target_count"] = ShiftSlotTemplate.objects.count()
+        context["current_count"] = current_number_of_working_members
+        context["missing_count"] = context["target_count"] - context["current_count"]
+        context["progress"] = round(
+            100 * context["current_count"] / context["target_count"]
+        )
+        context["missing_progress"] = 100 - context["progress"]
         return context
 
     @staticmethod
@@ -183,61 +204,6 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView)
             },
         }
         return context_data
-
-
-class WorkingMembersJsonView(JSONView):
-    def get_context_data(self, **kwargs):
-        number_of_working_members = len(
-            [
-                shift_user_data
-                for shift_user_data in ShiftUserData.objects.all()
-                .prefetch_related("user")
-                .prefetch_related("user__share_owner")
-                .prefetch_related("user__share_owner__share_ownerships")
-                .prefetch_related("shift_exemptions")
-                if ShiftExpectationService.is_member_expected_to_do_shifts(
-                    shift_user_data
-                )
-            ]
-        )
-
-        return {
-            "type": "bar",
-            "data": {
-                "labels": [_("Number of members")],
-                "datasets": [
-                    {
-                        "label": _("Current number of working members"),
-                        "data": [number_of_working_members],
-                        "backgroundColor": [
-                            "rgba(54, 162, 235)",
-                        ],
-                    },
-                    {
-                        "label": _(
-                            "Required number of working members to reach break-even"
-                        ),
-                        "data": [
-                            ShiftSlotTemplate.objects.count()
-                            - number_of_working_members
-                        ],
-                        "backgroundColor": [
-                            "rgba(255, 99, 132)",
-                        ],
-                    },
-                ],
-            },
-            "options": {
-                "scales": {
-                    "x": {
-                        "stacked": True,
-                    },
-                    "y": {
-                        "stacked": True,
-                    },
-                }
-            },
-        }
 
 
 class FrozenMembersJsonView(JSONView):
