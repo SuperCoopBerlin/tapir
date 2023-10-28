@@ -61,14 +61,15 @@
                         <p>
                             {% blocktranslate with target_basket=target_average_monthly_basket %}
                                 The current target food basket value per member and per month to reach the break-even is
-                                {{ target_basket }}€.
+                                {{ target_basket }}€. If you have enabled purchase tracking, you can see your average
+                                basket value on your profile page.
                             {% endblocktranslate %}
                         </p>
                     </li>
                     <li class="list-group-item">
                         <h5>{% translate 'Members eligible to purchase' %}</h5>
                         <p>
-                            {% blocktranslate with target_number_of_purchasing_members=1140 %}
+                            {% blocktranslate with target_count=purchasing_members.target_count current_count=purchasing_members.current_count %}
                                 <p>
                                     All working members and all members who have an exemption (such as parental leave,
                                     over 70, etc.). Members who are frozen (and have not yet signed up for their
@@ -76,22 +77,19 @@
                                     purchase.
                                 </p>
                                 <p>
-                                    Target number of purchasing members for
-                                    break-even: {{ target_number_of_purchasing_members }}.
+                                    Target number of purchasing members for break-even: {{ target_count }}.
                                 </p>
                             {% endblocktranslate %}
                         </p>
-                        <p>
-                            <span class="{% tapir_button_link %}"
-                                  onclick="chartManager.show_stats_chart(this,
-                                          '{% url "statistics:purchasing_members_json" %}',
-                                          'purchasing_members_canvas')">
-                            <span class="material-icons">leaderboard</span>
-                            <span class="button-text">{% translate "Show graph: " %}{% translate "Members eligible to purchase" %}</span>
-                        </span>
-                        </p>
-                        <p>
-                            <canvas id="purchasing_members_canvas" style="display: none;"></canvas>
+                        <p class="d-flex flex-row">
+                            <span class="progress" style="width: 400px; height:30px;">
+                                <span class="progress-bar bg-primary" role="progressbar" style="width: {{ purchasing_members.progress }}%;">
+                                    {% translate "Current:" %}{{ purchasing_members.current_count }}
+                                </span>
+                                <span class="progress-bar bg-secondary" role="progressbar" style="width: {{ purchasing_members.missing_progress }}%;">
+                                    {% translate "Missing:" %}{{ purchasing_members.missing_count }}
+                                </span>
+                            </span>
                         </p>
                     </li>
                 </ul>

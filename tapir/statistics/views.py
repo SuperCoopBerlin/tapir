@@ -12,24 +12,20 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import RedirectView
 
-from tapir import settings
 from tapir.accounts.models import UpdateTapirUserLogEntry
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
 from tapir.coop.views import ShareCountEvolutionJsonView
-from tapir.core.models import FeatureFlag
 from tapir.financingcampaign.models import (
     FinancingCampaign,
     FinancingSourceDatapoint,
 )
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.shifts.models import (
-    ShiftExemption,
     ShiftUserData,
     ShiftSlotTemplate,
     ShiftAttendanceMode,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
-from tapir.statistics import config
 from tapir.statistics.models import ProcessedPurchaseFiles
 from tapir.statistics.utils import (
     build_pie_chart_data,
@@ -37,19 +33,10 @@ from tapir.statistics.utils import (
 )
 
 
-class MainStatisticsView(
-    LoginRequiredMixin, PermissionRequiredMixin, generic.TemplateView
-):
+class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
     template_name = "statistics/main_statistics.html"
 
-    def get_permission_required(self):
-        if FeatureFlag.get_flag_value(
-            config.FEATURE_FLAG_NAME_UPDATED_STATS_PAGE_09_23
-        ):
-            return []
-        if self.request.user.get_member_number() in [78, 1199]:  # Théo & Uya
-            return []
-        return [settings.PERMISSION_COOP_ADMIN]
+    TARGET_NUMBER_OF_PURCHASING_MEMBERS = 1140
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -67,7 +54,37 @@ class MainStatisticsView(
 
         context_data["extra_shares"] = self.get_extra_shares_count()
 
+        context_data["purchasing_members"] = self.get_purchasing_members_context()
+
         return context_data
+
+    def get_purchasing_members_context(self):
+        current_number_of_purchasing_members = len(
+            [
+                share_owner
+                for share_owner in ShareOwner.objects.all()
+                .prefetch_related("user")
+                .prefetch_related("user__shift_user_data")
+                .prefetch_related("share_ownerships")
+                if share_owner.can_shop()
+            ]
+        )
+
+        context = dict()
+        context["target_count"] = self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
+        context["current_count"] = current_number_of_purchasing_members
+        context["missing_count"] = (
+            self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
+            - current_number_of_purchasing_members
+        )
+        context["progress"] = round(
+            100
+            * current_number_of_purchasing_members
+            / self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
+        )
+        context["missing_progress"] = 100 - context["progress"]
+
+        return context
 
     @staticmethod
     def get_extra_shares_count():
@@ -166,71 +183,6 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView)
             },
         }
         return context_data
-
-
-class PurchasingMembersJsonView(JSONView):
-    TARGET_NUMBER_OF_PURCHASING_MEMBERS = 1140
-
-    @staticmethod
-    def get_number_of_purchasing_members():
-        return len(
-            [
-                share_owner
-                for share_owner in ShareOwner.objects.all()
-                .prefetch_related("user")
-                .prefetch_related("user__shift_user_data")
-                .prefetch_related("share_ownerships")
-                if share_owner.can_shop()
-            ]
-        )
-
-    def get_context_data(self, **kwargs):
-        number_of_purchasing_members = self.get_number_of_purchasing_members()
-
-        # rough estimate, TODO update when the paused status arrives
-        members_that_should_be_paused_instead_of_exempted = round(
-            ShiftExemption.objects.active_temporal().count() / 2
-        )
-        number_of_purchasing_members -= (
-            members_that_should_be_paused_instead_of_exempted
-        )
-        return {
-            "type": "bar",
-            "data": {
-                "labels": [_("Number of members")],
-                "datasets": [
-                    {
-                        "label": _("Current number of purchasing members"),
-                        "data": [number_of_purchasing_members],
-                        "backgroundColor": [
-                            "rgba(54, 162, 235)",
-                        ],
-                    },
-                    {
-                        "label": _(
-                            "Required number of purchasing members to reach break-even"
-                        ),
-                        "data": [
-                            self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
-                            - number_of_purchasing_members
-                        ],
-                        "backgroundColor": [
-                            "rgba(255, 99, 132)",
-                        ],
-                    },
-                ],
-            },
-            "options": {
-                "scales": {
-                    "x": {
-                        "stacked": True,
-                    },
-                    "y": {
-                        "stacked": True,
-                    },
-                }
-            },
-        }
 
 
 class WorkingMembersJsonView(JSONView):

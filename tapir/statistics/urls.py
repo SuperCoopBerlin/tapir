@@ -20,11 +20,6 @@ urlpatterns = [
         name="new_members_per_month_json",
     ),
     path(
-        "purchasing_members_json",
-        views.PurchasingMembersJsonView.as_view(),
-        name="purchasing_members_json",
-    ),
-    path(
         "working_members_json",
         views.WorkingMembersJsonView.as_view(),
         name="working_members_json",
