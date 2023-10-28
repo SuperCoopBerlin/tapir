@@ -1,0 +1,50 @@
+{% extends "core/base.html" %}
+{% load utils %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+
+{% block head %}
+    {{ block.super }}
+    {{ form.media }}
+{% endblock %}
+
+{% block title %}
+    {% translate "Convert exemption to pause" %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="card m-2">
+            <h5 class="card-header">
+                {% translate "Convert exemption to pause" %}: {% get_html_link exemption.shift_user_data.user request.user %}
+            </h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {% blocktranslate with start_date=exemption.start_date end_date=exemption.end_date description=exemption.description %}
+                        <ul>
+                            <li>Start date: {{ start_date }}</li>
+                            <li>End date: {{ end_date }}</li>
+                            <li>Description: {{ description }}</li>
+                        </ul>
+                    {% endblocktranslate %}
+                </li>
+                <li class="list-group-item">
+                    <form role="form" method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="{% tapir_button_action %}">
+                                <span class="material-icons">save</span>
+                                {% translate 'Save' %}
+                            </button>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

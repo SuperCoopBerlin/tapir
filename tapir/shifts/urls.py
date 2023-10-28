@@ -217,4 +217,9 @@ urlpatterns = [
         views.attendance_takeover_data_csv_export,
         name="attendance_takeover_data_csv_export",
     ),
+    path(
+        "convert_shift_exemption_to_membership_pause/<int:pk>",
+        views.ConvertShiftExemptionToMembershipPauseView.as_view(),
+        name="convert_shift_exemption_to_membership_pause",
+    ),
 ]

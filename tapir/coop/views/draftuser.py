@@ -165,7 +165,7 @@ def register_draftuser_payment(request, pk):
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 def create_share_owner_from_draft_user_view(request, pk):
-    draft_user = DraftUser.objects.get(pk=pk)
+    draft_user = get_object_or_404(DraftUser, pk=pk)
 
     if not draft_user.can_create_user():
         raise ValidationError(

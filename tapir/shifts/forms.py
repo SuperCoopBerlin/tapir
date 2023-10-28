@@ -380,3 +380,12 @@ class ShiftSlotTemplateForm(forms.ModelForm):
         ),
         required=True,
     )
+
+
+class ConvertShiftExemptionToMembershipPauseForm(forms.Form):
+    confirm = BooleanField(
+        label=_(
+            "I understand that this will delete the shift exemption and create a membership pause"
+        ),
+        required=True,
+    )
