@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-28 18:07+0200\n"
+"POT-Creation-Date: 2023-10-30 12:09+0100\n"
 "PO-Revision-Date: 2023-09-12 18:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,16 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.3.2\n"
-
-#: accounts/apps.py:17 coop/apps.py:23 coop/apps.py:34
-#: coop/templates/coop/shareowner_list.html:12
-msgid "Members"
-msgstr "Mitglieder"
-
-#: accounts/apps.py:18 accounts/templates/accounts/ldap_group_list.html:9
-#: accounts/templates/accounts/user_detail.html:111
-msgid "Groups"
-msgstr ""
 
 #: accounts/forms.py:98
 msgid "This username is not available."
@@ -103,7 +93,7 @@ msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
 #: accounts/models.py:210 accounts/models.py:219
-#: coop/views/membership_pause.py:73 shifts/views/exemptions.py:198
+#: coop/views/membership_pause.py:74 shifts/views/exemptions.py:198
 msgid "None"
 msgstr "Keine"
 
@@ -145,6 +135,11 @@ msgstr ""
 #: shifts/templates/shifts/shiftslot_form.html:38
 msgid "Save"
 msgstr "Speichern"
+
+#: accounts/templates/accounts/ldap_group_list.html:9
+#: accounts/templates/accounts/user_detail.html:111
+msgid "Groups"
+msgstr ""
 
 #: accounts/templates/accounts/purchase_tracking_card.html:6
 msgid "Purchase tracking"
@@ -397,36 +392,30 @@ msgstr ""
 msgid "Edit member groups: %(name)s"
 msgstr ""
 
-#: coop/apps.py:26 coop/templates/coop/draftuser_list.html:8
+#: coop/apps.py:22 coop/apps.py:33 coop/templates/coop/shareowner_list.html:12
+msgid "Members"
+msgstr "Mitglieder"
+
+#: coop/apps.py:25 coop/templates/coop/draftuser_list.html:8
 #: coop/templates/coop/draftuser_list.html:14
 #: coop/templates/coop/draftuser_register_form.default.html:14
 #: coop/templates/coop/draftuser_register_form.html:14
 msgid "Applicants"
 msgstr "Bewerber*innen"
 
-#: coop/apps.py:42
-msgid "Member statistics"
-msgstr "Mitglieder-Statistik"
+#: coop/apps.py:41
+#, fuzzy
+#| msgid "Management"
+msgid "Member management"
+msgstr "Verwaltung"
 
-#: coop/apps.py:49 core/apps.py:17 financingcampaign/apps.py:14 log/apps.py:17
+#: coop/apps.py:48 core/apps.py:17 financingcampaign/apps.py:14 log/apps.py:17
 msgid "Management"
 msgstr "Verwaltung"
 
-#: coop/apps.py:52 coop/templates/coop/matching_program.html:9
-msgid "Matching program"
-msgstr "Matching-Programm"
-
-#: coop/apps.py:60 coop/templates/coop/incoming_payment_list.html:24
+#: coop/apps.py:51 coop/templates/coop/incoming_payment_list.html:24
 msgid "Incoming payments"
 msgstr "Eingehende Zahlungen"
-
-#: coop/apps.py:68
-#: coop/templates/coop/membership_pause/membership_pause_list.html:12
-#: coop/templates/coop/membership_pause/membership_pause_list.html:24
-#, fuzzy
-#| msgid "Member Type"
-msgid "Membership pauses"
-msgstr "Art der Mitgliedschaft"
 
 #: coop/emails/extra_shares_confirmation_email.py:28
 msgid "Extra shares bought"
@@ -988,6 +977,11 @@ msgstr "Mitglied bearbeiten:"
 msgid "Update Member:"
 msgstr "Mitglied bearbeiten:"
 
+#: coop/templates/coop/matching_program.html:9
+#: coop/templates/coop/member_management.html:31
+msgid "Matching program"
+msgstr "Matching-Programm"
+
 #: coop/templates/coop/matching_program.html:21
 msgid "Matching program members"
 msgstr "Teilnehmende des Matching-Programms"
@@ -998,6 +992,57 @@ msgid ""
 "                    The members in this list have expressed that they are willing to pay the share for a potential new member that otherwise couldn't afford it.\n"
 "                "
 msgstr ""
+
+#: coop/templates/coop/member_management.html:9 shifts/apps.py:61
+#: shifts/templates/shifts/shift_management.html:9
+msgid "Shift management"
+msgstr "Schicht-Verwaltung"
+
+#: coop/templates/coop/member_management.html:21
+#: shifts/templates/shifts/shift_management.html:35
+msgid "Lists"
+msgstr ""
+
+#: coop/templates/coop/member_management.html:25
+#, fuzzy
+#| msgid "Edit groups"
+msgid "Access right groups"
+msgstr "Gruppen bearbeiten"
+
+#: coop/templates/coop/member_management.html:28
+#: coop/templates/coop/membership_pause/membership_pause_list.html:12
+#: coop/templates/coop/membership_pause/membership_pause_list.html:24
+#, fuzzy
+#| msgid "Member Type"
+msgid "Membership pauses"
+msgstr "Art der Mitgliedschaft"
+
+#: coop/templates/coop/member_management.html:38
+#: coop/templates/coop/member_management.html:48
+#, fuzzy
+#| msgid "Member statistics"
+msgid "Old member statistics"
+msgstr "Mitglieder-Statistik"
+
+#: coop/templates/coop/member_management.html:42
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                                Any member who is registered as an active member but is 4 or more shifts short and\n"
+#| "                                therefore\n"
+#| "                                not eligible to purchase again until they sign up for the appropriate make-up shifts.\n"
+#| "                            "
+msgid ""
+"\n"
+"                        <p>This statistics have been hidden from members in order to focus on the more important\n"
+"                            ones.</p>\n"
+"                        <p>They may not be relevant or well presented.</p>\n"
+"                    "
+msgstr ""
+"\n"
+"Alle Mitglieder, die als aktives Mitglied eingetragen sind, aber 4 oder mehr Schichten im Minus sind und deshalb erst wieder einkaufsberechtigt sind, wenn sie sich für die entsprechenden Nachholschichten eintragen.\n"
+"\n"
+" "
 
 #: coop/templates/coop/membership_pause/membership_pause_list.html:29
 #: coop/templates/coop/shareowner_list.html:28
@@ -1245,14 +1290,14 @@ msgstr ""
 "                    "
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
-#: shifts/models.py:838 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:841 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:236
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:60
-#: shifts/models.py:837
+#: shifts/models.py:840
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -1336,11 +1381,11 @@ msgstr "Zahlung registrieren"
 msgid "Register a new incoming payment"
 msgstr "Eingehende Zahlung registrieren"
 
-#: coop/views/membership_pause.py:137
+#: coop/views/membership_pause.py:138
 msgid "Create a new membership pause"
 msgstr ""
 
-#: coop/views/membership_pause.py:166 coop/views/membership_pause.py:171
+#: coop/views/membership_pause.py:170 coop/views/membership_pause.py:175
 #, fuzzy, python-format
 #| msgid "Edit member: %(name)s"
 msgid "Edit membership pause: %(name)s"
@@ -1519,7 +1564,7 @@ msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
 #: core/templates/core/email_list.html:37 shifts/models.py:461
-#: shifts/models.py:967 shifts/templates/shifts/user_shift_account_log.html:31
+#: shifts/models.py:970 shifts/templates/shifts/user_shift_account_log.html:31
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -1725,15 +1770,7 @@ msgstr "Schicht-Kalender"
 msgid "ABCD-shifts week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
-#: shifts/apps.py:61 shifts/templates/shifts/statistics.html:9
-msgid "Shift statistics"
-msgstr "Schicht-Statistiken"
-
-#: shifts/apps.py:69 shifts/templates/shifts/shift_management.html:9
-msgid "Shift management"
-msgstr "Schicht-Verwaltung"
-
-#: shifts/apps.py:86
+#: shifts/apps.py:78
 #, python-brace-format
 msgid "ABCD annual calendar, current week: {current_week_group_name}"
 msgstr ""
@@ -1924,46 +1961,46 @@ msgstr ""
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:839 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:842 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:246
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:840 shifts/templates/shifts/shift_day_printable.html:59
+#: shifts/models.py:843 shifts/templates/shifts/shift_day_printable.html:59
 #: shifts/templates/shifts/shift_detail.html:276
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:841 shifts/templates/shifts/shift_detail.html:284
+#: shifts/models.py:844 shifts/templates/shifts/shift_detail.html:284
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:842 shifts/templates/shifts/shift_day_printable.html:81
+#: shifts/models.py:845 shifts/templates/shifts/shift_day_printable.html:81
 #: shifts/templates/shifts/shift_detail.html:268
 #: shifts/templates/shifts/shift_detail_printable.html:75
 #: shifts/templates/shifts/shift_filters.html:63
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:897
+#: shifts/models.py:900
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:898
+#: shifts/models.py:901
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:899
+#: shifts/models.py:902
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:902
+#: shifts/models.py:905
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1073
+#: shifts/models.py:1076
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -2711,10 +2748,6 @@ msgstr "Schicht hinzufügen"
 msgid "Add an ABCD shift"
 msgstr "ABCD-Schicht hinfügen"
 
-#: shifts/templates/shifts/shift_management.html:35
-msgid "Lists"
-msgstr ""
-
 #: shifts/templates/shifts/shift_management.html:42
 #: shifts/templates/shifts/shiftexemption_list.html:12
 #: shifts/templates/shifts/shiftexemption_list.html:24
@@ -2745,12 +2778,28 @@ msgstr ""
 msgid ""
 "\n"
 "                        <p>This generates shifts for the coming 200 days according to the ABCD-shift-calendar.</p>\n"
-"                        <p>This command is run automatically once per day. You can trigger it manually to see results faster.</p>\n"
+"                        <p>This command is run automatically once per day. You can trigger it manually to see results\n"
+"                            faster.</p>\n"
 "                    "
 msgstr ""
 
-#: shifts/templates/shifts/shift_management.html:81
+#: shifts/templates/shifts/shift_management.html:82
 msgid "Generate shifts"
+msgstr ""
+
+#: shifts/templates/shifts/shift_management.html:90
+#: shifts/templates/shifts/shift_management.html:99
+#, fuzzy
+#| msgid "Shift statistics"
+msgid "Old shift statistics"
+msgstr "Schicht-Statistiken"
+
+#: shifts/templates/shifts/shift_management.html:94
+msgid ""
+"\n"
+"                        <p>This statistics have been hidden from members in order to focus on the more important ones.</p>\n"
+"                        <p>They may not be relevant or well presented.</p>\n"
+"                    "
 msgstr ""
 
 #: shifts/templates/shifts/shift_template_detail.html:9
@@ -2845,6 +2894,10 @@ msgstr ""
 "\n"
 "Sei vorsichtig, wenn du ein Schicht-Slot anlegst, weil du es nachträglich nicht löschen kannst.\n"
 " "
+
+#: shifts/templates/shifts/statistics.html:9
+msgid "Shift statistics"
+msgstr "Schicht-Statistiken"
 
 #: shifts/templates/shifts/statistics.html:55
 msgid "Statistics on shifts"

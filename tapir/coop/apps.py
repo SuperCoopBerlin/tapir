@@ -7,7 +7,6 @@ from tapir.settings import (
     PERMISSION_COOP_MANAGE,
     PERMISSION_ACCOUNTING_VIEW,
     PERMISSION_COOP_VIEW,
-    PERMISSION_COOP_ADMIN,
 )
 
 
@@ -39,22 +38,14 @@ class CoopConfig(AppConfig):
         )
 
         members_group.add_link(
-            display_name=_("Member statistics"),
-            material_icon="calculate",
-            url=reverse_lazy("coop:statistics"),
+            display_name=_("Member management"),
+            material_icon="settings",
+            url=reverse_lazy("coop:management"),
             ordering=3,
-            required_permissions=[PERMISSION_COOP_ADMIN],
+            required_permissions=[PERMISSION_COOP_MANAGE],
         )
 
         management_group = sidebar_link_groups.get_group(_("Management"), 2)
-
-        management_group.add_link(
-            display_name=_("Matching program"),
-            material_icon="card_giftcard",
-            url=reverse_lazy("coop:matching_program_list"),
-            ordering=4,
-            required_permissions=[PERMISSION_COOP_MANAGE],
-        )
 
         management_group.add_link(
             display_name=_("Incoming payments"),
@@ -62,14 +53,6 @@ class CoopConfig(AppConfig):
             url=reverse_lazy("coop:incoming_payment_list"),
             ordering=3,
             required_permissions=[PERMISSION_ACCOUNTING_VIEW],
-        )
-
-        management_group.add_link(
-            display_name=_("Membership pauses"),
-            material_icon="pause",
-            url=reverse_lazy("coop:membership_pauses"),
-            ordering=7,
-            required_permissions=[PERMISSION_COOP_MANAGE],
         )
 
     @staticmethod

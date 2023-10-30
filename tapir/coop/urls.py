@@ -210,4 +210,9 @@ urlpatterns = [
         views.MembershipPauseEditView.as_view(),
         name="membership_pause_edit",
     ),
+    path(
+        "management",
+        views.MemberManagementView.as_view(),
+        name="management",
+    ),
 ]

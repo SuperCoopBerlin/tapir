@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+
+{% block title %}
+    {% translate "Shift management" %}
+{% endblock %}
+
+{% block head %}
+    {{ block.super }}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card mb-2">
+            <h5 class="card-header">
+                {% translate "Lists" %}
+            </h5>
+            <div class="card-body">
+                <a class="{% tapir_button_link %}" href="{% url 'accounts:ldap_group_list' %}">
+                    <span class="material-icons button-icon">badge</span>{% translate 'Access right groups' %}
+                </a>
+                <a class="{% tapir_button_link %}" href="{% url 'coop:membership_pauses' %}">
+                    <span class="material-icons button-icon">pause</span>{% translate 'Membership pauses' %}
+                </a>
+                <a class="{% tapir_button_link %}" href="{% url 'coop:matching_program_list' %}">
+                    <span class="material-icons button-icon">card_giftcard</span>{% translate 'Matching program' %}
+                </a>
+            </div>
+        </div>
+
+        <div class="card mb-2">
+            <h5 class="card-header">
+                {% translate "Old member statistics" %}
+            </h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {% blocktranslate %}
+                        <p>This statistics have been hidden from members in order to focus on the more important
+                            ones.</p>
+                        <p>They may not be relevant or well presented.</p>
+                    {% endblocktranslate %}
+                    <a class="{% tapir_button_link %}" href="{% url 'coop:statistics' %}">
+                        <span class="material-icons button-icon">calculate</span>{% translate 'Old member statistics' %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
