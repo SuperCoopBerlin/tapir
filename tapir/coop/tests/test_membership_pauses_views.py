@@ -150,12 +150,7 @@ class TestMembershipPauseViews(TapirFactoryTestBase):
 
     def test_editPause_default_shiftAttendancesDuringThePauseGetCancelled(self):
         tapir_user = self.login_as_member_office_user()
-        pause = MembershipPause.objects.create(
-            share_owner=tapir_user.share_owner,
-            start_date=datetime.date(year=2019, month=1, day=1),
-            end_date=datetime.date(year=2019, month=2, day=1),
-            description="Test description",
-        )
+        pause = MembershipPauseFactory.create(share_owner=tapir_user.share_owner)
 
         attendance_before_pause = self.create_attendance(
             tapir_user, datetime.datetime(year=2020, month=5, day=1)
