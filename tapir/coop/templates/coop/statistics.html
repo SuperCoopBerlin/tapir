@@ -167,7 +167,7 @@
                     <ul>
                         {% for share_owner in extra_shares.members %}
                             <li>
-                                <a href="{{ share_owner.get_info.get_absolute_url }}">{% get_display_name_for_viewer share_owner request.user %}</a>
+                                {% get_html_link share_owner request.user %}
                             </li>
                         {% endfor %}
                     </ul>

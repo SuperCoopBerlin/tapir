@@ -1,31 +1,34 @@
+import datetime
+
 import factory
 
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.config import COOP_SHARE_PRICE
-from tapir.coop.models import ShareOwnership, ShareOwner, DraftUser
+from tapir.coop.models import ShareOwnership, ShareOwner, DraftUser, MembershipPause
 
 
 class ShareOwnershipFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = ShareOwnership
 
-    start_date = factory.Faker("date")
+    start_date = factory.Faker("date_object")
     amount_paid = factory.Faker("pydecimal", min_value=0, max_value=COOP_SHARE_PRICE)
 
 
 class ShareOwnerFactory(UserDataFactory):
     class Meta:
         model = ShareOwner
+        skip_postgeneration_save = True
 
     ATTRIBUTES = UserDataFactory.ATTRIBUTES + ["is_investing"]
 
     is_investing = factory.Faker("pybool")
 
     @factory.post_generation
-    def nb_shares(self, create, nb_shares, **kwargs):
+    def nb_shares(self, create, nb_shares=None, **kwargs):
         if not create:
             return
-        for _ in range(nb_shares or 1):
+        for _ in range(nb_shares if nb_shares is not None else 1):
             ShareOwnershipFactory.create(share_owner=self)
 
 
@@ -50,3 +53,17 @@ class DraftUserFactory(UserDataFactory):
     ratenzahlung = factory.Faker("pybool")
     paid_membership_fee = factory.Faker("pybool")
     signed_membership_agreement = factory.Faker("pybool")
+
+
+class MembershipPauseFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = MembershipPause
+        exclude = "pause_duration"
+
+    start_date = factory.Faker("date_object")
+    pause_duration = factory.Faker("pyint", max_value=1000)
+    end_date = factory.LazyAttribute(
+        lambda pause: pause.start_date + datetime.timedelta(days=pause.pause_duration)
+    )
+    description = factory.Faker("bs")
+    share_owner = factory.SubFactory(ShareOwnerFactory)

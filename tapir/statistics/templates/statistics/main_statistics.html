@@ -61,37 +61,15 @@
                         <p>
                             {% blocktranslate with target_basket=target_average_monthly_basket %}
                                 The current target food basket value per member and per month to reach the break-even is
-                                {{ target_basket }}€.
+                                {{ target_basket }}€. If you have enabled purchase tracking, you can see your average
+                                basket value on your profile page.
                             {% endblocktranslate %}
                         </p>
                     </li>
-                    {% if perms.coop.manage %}
-                        <li class="list-group-item text-bg-warning">
-                            <h5>WIP, visible for member office only</h5>
-                            <p>
-                                <a class="{% tapir_button_action %}"
-                                   href="{% url "statistics:update_purchase_data_manually" %}">
-                                    Update purchase data from BioOffice
-                                </a>
-                            </p>
-                            <p>
-                                {% blocktranslate with average_basket=current_average_monthly_basket %}
-                                    The current average food basket value per member and per month is
-                                    {{ current_average_monthly_basket }}€.
-                                {% endblocktranslate %}
-
-                            </p>
-                            <div class="progress" style="height: 25px;">
-                                <div class="progress-bar" role="progressbar"
-                                     style="width: {{ progress_monthly_basket }}%; ">{{ current_average_monthly_basket }}€
-                                </div>
-                            </div>
-                        </li>
-                    {% endif %}
                     <li class="list-group-item">
                         <h5>{% translate 'Members eligible to purchase' %}</h5>
                         <p>
-                            {% blocktranslate with target_number_of_purchasing_members=1140 %}
+                            {% blocktranslate with target_count=purchasing_members.target_count current_count=purchasing_members.current_count %}
                                 <p>
                                     All working members and all members who have an exemption (such as parental leave,
                                     over 70, etc.). Members who are frozen (and have not yet signed up for their
@@ -99,22 +77,19 @@
                                     purchase.
                                 </p>
                                 <p>
-                                    Target number of purchasing members for
-                                    break-even: {{ target_number_of_purchasing_members }}.
+                                    Target number of purchasing members for break-even: {{ target_count }}.
                                 </p>
                             {% endblocktranslate %}
                         </p>
                         <p>
-                            <span class="{% tapir_button_link %}"
-                                  onclick="chartManager.show_stats_chart(this,
-                                          '{% url "statistics:purchasing_members_json" %}',
-                                          'purchasing_members_canvas')">
-                            <span class="material-icons">leaderboard</span>
-                            <span class="button-text">{% translate "Show graph: " %}{% translate "Members eligible to purchase" %}</span>
-                        </span>
-                        </p>
-                        <p>
-                            <canvas id="purchasing_members_canvas" style="display: none;"></canvas>
+                            <span class="progress" style="width: 400px; height:30px;">
+                                <span class="progress-bar bg-primary" role="progressbar" style="width: {{ purchasing_members.progress }}%;">
+                                    {% translate "Current:" %}{{ purchasing_members.current_count }}
+                                </span>
+                                <span class="progress-bar bg-secondary" role="progressbar" style="width: {{ purchasing_members.missing_progress }}%;">
+                                    {% translate "Missing:" %}{{ purchasing_members.missing_count }}
+                                </span>
+                            </span>
                         </p>
                     </li>
                 </ul>
@@ -128,24 +103,22 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <p>
-                            {% blocktranslate with number_of_abcd_slots=number_of_abcd_slots %}
+                            {% blocktranslate with target_count=working_members.target_count %}
                                 Working members are active members who do not have an exemption. Exemptions are, for
                                 example, one year of parental leave, prolonged illness or members over 70 years of age.
                                 The number of working members is compared with the number of jobs to be filled each
-                                shift cycle : {{ number_of_abcd_slots }}.
+                                shift cycle : {{ target_count }}.
                             {% endblocktranslate %}
                         </p>
                         <p>
-                            <span class="{% tapir_button_link %}"
-                                  onclick="chartManager.show_stats_chart(this,
-                                          '{% url "statistics:working_members_json" %}',
-                                          'working_members_canvas')">
-                            <span class="material-icons">leaderboard</span>
-                            <span class="button-text">{% translate "Show graph: " %}{% translate "Working members" %}</span>
-                        </span>
-                        </p>
-                        <p>
-                            <canvas id="working_members_canvas" style="display: none;"></canvas>
+                            <span class="progress" style="width: 400px; height:30px;">
+                                <span class="progress-bar bg-primary" role="progressbar" style="width: {{ working_members.progress }}%;">
+                                    {% translate "Current:" %}{{ working_members.current_count }}
+                                </span>
+                                <span class="progress-bar bg-secondary" role="progressbar" style="width: {{ working_members.missing_progress }}%;">
+                                    {% translate "Missing:" %}{{ working_members.missing_count }}
+                                </span>
+                            </span>
                         </p>
                     </li>
                 </ul>

@@ -9,6 +9,7 @@ from tapir.coop.tests.factories import ShareOwnerFactory
 class TapirUserFactory(UserDataFactory):
     class Meta:
         model = TapirUser
+        skip_postgeneration_save = True
 
     username = factory.LazyAttribute(lambda o: f"{o.usage_name}.{o.last_name}")
 

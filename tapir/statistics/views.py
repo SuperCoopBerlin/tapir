@@ -12,44 +12,31 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import RedirectView
 
-from tapir import settings
 from tapir.accounts.models import UpdateTapirUserLogEntry
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
 from tapir.coop.views import ShareCountEvolutionJsonView
-from tapir.core.models import FeatureFlag
 from tapir.financingcampaign.models import (
     FinancingCampaign,
     FinancingSourceDatapoint,
 )
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.shifts.models import (
-    ShiftExemption,
     ShiftUserData,
     ShiftSlotTemplate,
     ShiftAttendanceMode,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
-from tapir.statistics import config
-from tapir.statistics.models import PurchaseBasket, ProcessedPurchaseFiles
+from tapir.statistics.models import ProcessedPurchaseFiles
 from tapir.statistics.utils import (
     build_pie_chart_data,
     build_line_chart_data,
 )
 
 
-class MainStatisticsView(
-    LoginRequiredMixin, PermissionRequiredMixin, generic.TemplateView
-):
+class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
     template_name = "statistics/main_statistics.html"
 
-    def get_permission_required(self):
-        if FeatureFlag.get_flag_value(
-            config.FEATURE_FLAG_NAME_UPDATED_STATS_PAGE_09_23
-        ):
-            return []
-        if self.request.user.get_member_number() in [78, 1199]:  # Théo & Uya
-            return []
-        return [settings.PERMISSION_COOP_ADMIN]
+    TARGET_NUMBER_OF_PURCHASING_MEMBERS = 1140
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -59,31 +46,66 @@ class MainStatisticsView(
         ] = MemberCountEvolutionJsonView.get_number_of_members_at_date(
             timezone.now().date()
         )
-        context_data["number_of_abcd_slots"] = ShiftSlotTemplate.objects.count()
-        context_data[
-            "active_members_for_frozen_stats"
-        ] = FrozenMembersJsonView.get_relevant_members().count()
         context_data["campaigns"] = FinancingCampaign.objects.active_temporal()
-
         context_data["extra_shares"] = self.get_extra_shares_count()
-
-        current_average_monthly_basket = (
-            get_average_monthly_basket(PurchaseBasket.objects.all())
-            / PurchasingMembersJsonView.get_number_of_purchasing_members()
-        )
-        context_data["current_average_monthly_basket"] = "{:.2f}".format(
-            current_average_monthly_basket
-        )
-        context_data["target_average_monthly_basket"] = 225
-        context_data["progress_monthly_basket"] = round(
-            (
-                current_average_monthly_basket
-                / context_data["target_average_monthly_basket"]
-            )
-            * 100
-        )
+        context_data["purchasing_members"] = self.get_purchasing_members_context()
+        context_data["working_members"] = self.get_working_members_context()
 
         return context_data
+
+    def get_purchasing_members_context(self):
+        current_number_of_purchasing_members = len(
+            [
+                share_owner
+                for share_owner in ShareOwner.objects.all()
+                .prefetch_related("user")
+                .prefetch_related("user__shift_user_data")
+                .prefetch_related("share_ownerships")
+                if share_owner.can_shop()
+            ]
+        )
+
+        context = dict()
+        context["target_count"] = self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
+        context["current_count"] = current_number_of_purchasing_members
+        context["missing_count"] = (
+            self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
+            - current_number_of_purchasing_members
+        )
+        context["progress"] = round(
+            100
+            * current_number_of_purchasing_members
+            / self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
+        )
+        context["missing_progress"] = 100 - context["progress"]
+
+        return context
+
+    @staticmethod
+    def get_working_members_context():
+        current_number_of_working_members = len(
+            [
+                shift_user_data
+                for shift_user_data in ShiftUserData.objects.all()
+                .prefetch_related("user")
+                .prefetch_related("user__share_owner")
+                .prefetch_related("user__share_owner__share_ownerships")
+                .prefetch_related("shift_exemptions")
+                if ShiftExpectationService.is_member_expected_to_do_shifts(
+                    shift_user_data
+                )
+            ]
+        )
+
+        context = dict()
+        context["target_count"] = ShiftSlotTemplate.objects.count()
+        context["current_count"] = current_number_of_working_members
+        context["missing_count"] = context["target_count"] - context["current_count"]
+        context["progress"] = round(
+            100 * context["current_count"] / context["target_count"]
+        )
+        context["missing_progress"] = 100 - context["progress"]
+        return context
 
     @staticmethod
     def get_extra_shares_count():
@@ -182,126 +204,6 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView)
             },
         }
         return context_data
-
-
-class PurchasingMembersJsonView(JSONView):
-    TARGET_NUMBER_OF_PURCHASING_MEMBERS = 1140
-
-    @staticmethod
-    def get_number_of_purchasing_members():
-        return len(
-            [
-                share_owner
-                for share_owner in ShareOwner.objects.all()
-                .prefetch_related("user")
-                .prefetch_related("user__shift_user_data")
-                .prefetch_related("share_ownerships")
-                if share_owner.can_shop()
-            ]
-        )
-
-    def get_context_data(self, **kwargs):
-        number_of_purchasing_members = self.get_number_of_purchasing_members()
-
-        # rough estimate, TODO update when the paused status arrives
-        members_that_should_be_paused_instead_of_exempted = round(
-            ShiftExemption.objects.active_temporal().count() / 2
-        )
-        number_of_purchasing_members -= (
-            members_that_should_be_paused_instead_of_exempted
-        )
-        return {
-            "type": "bar",
-            "data": {
-                "labels": [_("Number of members")],
-                "datasets": [
-                    {
-                        "label": _("Current number of purchasing members"),
-                        "data": [number_of_purchasing_members],
-                        "backgroundColor": [
-                            "rgba(54, 162, 235)",
-                        ],
-                    },
-                    {
-                        "label": _(
-                            "Required number of purchasing members to reach break-even"
-                        ),
-                        "data": [
-                            self.TARGET_NUMBER_OF_PURCHASING_MEMBERS
-                            - number_of_purchasing_members
-                        ],
-                        "backgroundColor": [
-                            "rgba(255, 99, 132)",
-                        ],
-                    },
-                ],
-            },
-            "options": {
-                "scales": {
-                    "x": {
-                        "stacked": True,
-                    },
-                    "y": {
-                        "stacked": True,
-                    },
-                }
-            },
-        }
-
-
-class WorkingMembersJsonView(JSONView):
-    def get_context_data(self, **kwargs):
-        number_of_working_members = len(
-            [
-                shift_user_data
-                for shift_user_data in ShiftUserData.objects.all()
-                .prefetch_related("user")
-                .prefetch_related("user__share_owner")
-                .prefetch_related("user__share_owner__share_ownerships")
-                .prefetch_related("shift_exemptions")
-                if ShiftExpectationService.is_member_expected_to_do_shifts(
-                    shift_user_data
-                )
-            ]
-        )
-
-        return {
-            "type": "bar",
-            "data": {
-                "labels": [_("Number of members")],
-                "datasets": [
-                    {
-                        "label": _("Current number of working members"),
-                        "data": [number_of_working_members],
-                        "backgroundColor": [
-                            "rgba(54, 162, 235)",
-                        ],
-                    },
-                    {
-                        "label": _(
-                            "Required number of working members to reach break-even"
-                        ),
-                        "data": [
-                            ShiftSlotTemplate.objects.count()
-                            - number_of_working_members
-                        ],
-                        "backgroundColor": [
-                            "rgba(255, 99, 132)",
-                        ],
-                    },
-                ],
-            },
-            "options": {
-                "scales": {
-                    "x": {
-                        "stacked": True,
-                    },
-                    "y": {
-                        "stacked": True,
-                    },
-                }
-            },
-        }
 
 
 class FrozenMembersJsonView(JSONView):

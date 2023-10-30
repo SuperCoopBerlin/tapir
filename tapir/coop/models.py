@@ -3,8 +3,9 @@ import datetime
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q, Sum, Count, F, PositiveIntegerField
+from django.db.models import Q, Sum, Count, F, PositiveIntegerField, Max, Min
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -13,6 +14,7 @@ from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
+from tapir.utils.expection_utils import TapirException
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
@@ -108,11 +110,29 @@ class ShareOwner(models.Model):
 
             if status == MemberStatus.SOLD:
                 return self.exclude(share_ownerships__in=active_ownerships).distinct()
-            else:
-                return self.filter(
-                    share_ownerships__in=active_ownerships,
-                    is_investing=(status == MemberStatus.INVESTING),
-                ).distinct()
+
+            members_with_valid_shares = self.filter(
+                share_ownerships__in=active_ownerships,
+            ).distinct()
+
+            if status == MemberStatus.INVESTING:
+                return members_with_valid_shares.filter(is_investing=True)
+
+            member_with_shares_and_not_investing = members_with_valid_shares.filter(
+                is_investing=False
+            )
+            active_pauses = MembershipPause.objects.active_temporal(date)
+            if status == MemberStatus.PAUSED:
+                return member_with_shares_and_not_investing.filter(
+                    membershippause__in=active_pauses
+                )
+
+            if status == MemberStatus.ACTIVE:
+                return member_with_shares_and_not_investing.exclude(
+                    membershippause__in=active_pauses
+                )
+
+            raise TapirException(f"Invalid status : {status}")
 
         def with_fully_paid(self, fully_paid: bool):
             annotated = self.annotate(
@@ -213,6 +233,9 @@ class ShareOwner(models.Model):
         if self.is_investing:
             return MemberStatus.INVESTING
 
+        if MembershipPause.objects.filter(share_owner=self).active_temporal().exists():
+            return MemberStatus.PAUSED
+
         return MemberStatus.ACTIVE
 
     def can_shop(self):
@@ -245,17 +268,63 @@ class ShareOwner(models.Model):
     def get_is_company(self):
         return self.is_company
 
+    def get_membership_end_date(self):
+        if self.get_member_status() == MemberStatus.SOLD:
+            return None
+
+        if not self.share_ownerships.exists():
+            return None
+
+        if self.share_ownerships.filter(end_date__isnull=True).exists():
+            return None
+
+        return self.share_ownerships.aggregate(Max("end_date"))["end_date__max"]
+
+    def get_membership_start_date(self):
+        if self.get_member_status() != MemberStatus.SOLD:
+            return None
+
+        if not self.share_ownerships.exists():
+            return None
+
+        shares_starting_in_the_future = self.share_ownerships.filter(
+            start_date__gt=timezone.now().date()
+        )
+        if not shares_starting_in_the_future.exists():
+            return None
+
+        return shares_starting_in_the_future.aggregate(Min("start_date"))[
+            "start_date__min"
+        ]
+
 
 class MemberStatus:
     SOLD = "sold"
     INVESTING = "investing"
     ACTIVE = "active"
+    PAUSED = "paused"
+
+    @classmethod
+    def get_status_color(cls, status: str):
+        # Should correspond to the standard bootstrap color classes
+        match status:
+            case cls.SOLD:
+                return "danger"
+            case cls.INVESTING:
+                return "primary"
+            case cls.ACTIVE:
+                return "success"
+            case cls.PAUSED:
+                return "secondary"
+            case _:
+                raise TapirException(f"Unknown member status : {status}")
 
 
 MEMBER_STATUS_CHOICES = (
-    (MemberStatus.SOLD, _("Sold")),
+    (MemberStatus.SOLD, _("Not a member")),
     (MemberStatus.INVESTING, _("Investing")),
     (MemberStatus.ACTIVE, _("Active")),
+    (MemberStatus.PAUSED, _("Paused")),
 )
 
 
@@ -528,3 +597,52 @@ class ExtraSharesForAccountingRecap(models.Model):
     )
     number_of_shares = models.PositiveIntegerField(null=False, blank=False)
     date = models.DateField(null=False, blank=False)
+
+
+class MembershipPause(DurationModelMixin, models.Model):
+    share_owner = models.ForeignKey(
+        ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Member")
+    )
+    description = models.CharField(max_length=1000)
+
+
+class MembershipPauseCreatedLogEntry(ModelLogEntry):
+    template_name = "coop/log/create_membership_pause_log_entry.html"
+
+    def populate(
+        self,
+        actor: User,
+        pause: MembershipPause,
+    ):
+        return super().populate_base(
+            actor=actor, share_owner=pause.share_owner, model=pause
+        )
+
+    def get_context_data(self):
+        context_data = super().get_context_data()
+        context_data["start_date"] = datetime.datetime.strptime(
+            self.values["start_date"], "%Y-%m-%d"
+        ).date()
+        return context_data
+
+    def render(self):
+        print(self.values)
+        return super().render()
+
+
+class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
+    template_name = "coop/log/update_membership_pause_log_entry.html"
+
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        pause: MembershipPause,
+        actor: User,
+    ):
+        return super().populate_base(
+            actor=actor,
+            share_owner=pause.share_owner,
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+        )

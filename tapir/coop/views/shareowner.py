@@ -10,8 +10,8 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
+from django.template import Template, Context
 from django.utils import timezone
-from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
@@ -47,8 +47,6 @@ from tapir.coop.models import (
     UpdateShareOwnerLogEntry,
     DeleteShareOwnershipLogEntry,
     MEMBER_STATUS_CHOICES,
-    MemberStatus,
-    get_member_status_translation,
     CreateShareOwnershipsLogEntry,
     UpdateShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
@@ -556,19 +554,9 @@ class ShareOwnerTable(django_tables2.Table):
 
     @staticmethod
     def render_status(value, record: ShareOwner):
-        status = record.get_member_status()
-        if status == MemberStatus.SOLD:
-            color = "orange"
-        elif status == MemberStatus.ACTIVE:
-            color = "green"
-        else:
-            color = "blue"
-
-        return format_html(
-            '<span style="color: {1};">{0}</span>',
-            get_member_status_translation(status),
-            color,
-        )
+        template_string = "{% load coop %}{% member_status_colored_text share_owner %}"
+        template_context = {"share_owner": record}
+        return Template(template_string).render(Context(template_context))
 
     @staticmethod
     def value_status(value, record: ShareOwner):

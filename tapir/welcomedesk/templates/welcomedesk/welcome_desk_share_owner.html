@@ -49,11 +49,18 @@
                     </div>
                 {% endif %}
                 {% if is_frozen %}
-                    <div class="alert alert-danger" role="alert" id="welcome_desk_is_investing">
+                    <div class="alert alert-danger" role="alert" id="welcome_desk_is_frozen">
                         {% blocktranslate with name=share_owner.get_info.first_name %}
                             {{ name }} has been frozen because they missed too many shifts. <br/>
                             If they want to shop, they must first be re-activated. <br/>
                             Contact a member of the management team.
+                        {% endblocktranslate %}
+                    </div>
+                {% endif %}
+                {% if is_paused %}
+                    <div class="alert alert-danger" role="alert" id="welcome_desk_is_paused">
+                        {% blocktranslate with name=share_owner.get_info.first_name %}
+                            {{ name }} has paused their membership. Contact a member of the management team.
                         {% endblocktranslate %}
                     </div>
                 {% endif %}
