@@ -18,6 +18,7 @@ from tapir.coop.models import (
     MembershipPauseUpdatedLogEntry,
     MembershipPauseCreatedLogEntry,
 )
+from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.core.templatetags.core import tapir_button_link_to_action
 from tapir.core.views import TapirFormMixin
@@ -141,6 +142,9 @@ class MembershipPauseCreateView(
     def form_valid(self, form):
         with transaction.atomic():
             result = super().form_valid(form)
+
+            MembershipPauseService.on_pause_created_or_updated(form.instance)
+
             MembershipPauseCreatedLogEntry().populate(
                 pause=form.instance,
                 actor=self.request.user,
@@ -178,6 +182,9 @@ class MembershipPauseEditView(
     def form_valid(self, form):
         with transaction.atomic():
             result = super().form_valid(form)
+
+            MembershipPauseService.on_pause_created_or_updated(form.instance)
+
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
                 MembershipPauseUpdatedLogEntry().populate(
