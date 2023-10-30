@@ -75,10 +75,28 @@
                 <li class="list-group-item">
                     {% blocktranslate %}
                         <p>This generates shifts for the coming 200 days according to the ABCD-shift-calendar.</p>
-                        <p>This command is run automatically once per day. You can trigger it manually to see results faster.</p>
+                        <p>This command is run automatically once per day. You can trigger it manually to see results
+                            faster.</p>
                     {% endblocktranslate %}
                     <a class="{% tapir_button_action %}" href="{% url 'shifts:generate_shifts_manually' %}">
                         <span class="material-icons button-icon">date_range</span>{% translate 'Generate shifts' %}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card mb-2">
+            <h5 class="card-header">
+                {% translate "Old shift statistics" %}
+            </h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {% blocktranslate %}
+                        <p>This statistics have been hidden from members in order to focus on the more important ones.</p>
+                        <p>They may not be relevant or well presented.</p>
+                    {% endblocktranslate %}
+                    <a class="{% tapir_button_link %}" href="{% url 'shifts:statistics' %}">
+                        <span class="material-icons button-icon">calculate</span>{% translate 'Old shift statistics' %}
                     </a>
                 </li>
             </ul>
