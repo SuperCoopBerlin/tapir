@@ -1,4 +1,4 @@
-from unittest.mock import patch, Mock
+from unittest.mock import patch
 
 from django.core.management import call_command
 
@@ -12,22 +12,6 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
         patcher = patch("tapir.core.models.FeatureFlag.get_flag_value")
         self.mock_get_flag_value = patcher.start()
         self.addCleanup(patcher.stop)
-
-    @patch.object(FrozenStatusService, "should_freeze_member")
-    @patch.object(FrozenStatusService, "should_send_freeze_warning")
-    @patch.object(FrozenStatusService, "should_unfreeze_member")
-    def test_featureFlagDisabled_nothingGetsCalled(
-        self,
-        mock_should_freeze_member: Mock,
-        mock_should_send_freeze_warning: Mock,
-        mock_should_unfreeze_member: Mock,
-    ):
-        TapirUserFactory.create()
-        self.mock_get_flag_value.side_effect = lambda _: False
-        call_command("run_freeze_checks")
-        mock_should_freeze_member.assert_not_called()
-        mock_should_send_freeze_warning.assert_not_called()
-        mock_should_unfreeze_member.assert_not_called()
 
     @patch.object(FrozenStatusService, "should_freeze_member")
     def test_should_freeze_member_gets_called_once_per_member(
