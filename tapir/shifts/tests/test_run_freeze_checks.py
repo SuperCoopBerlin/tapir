@@ -3,7 +3,6 @@ from unittest.mock import patch, Mock
 from django.core.management import call_command
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.config import FEATURE_FLAG_NAME_FROZEN_MEMBERS
 from tapir.shifts.services.frozen_status_service import FrozenStatusService
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -13,9 +12,6 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
         patcher = patch("tapir.core.models.FeatureFlag.get_flag_value")
         self.mock_get_flag_value = patcher.start()
         self.addCleanup(patcher.stop)
-        self.mock_get_flag_value.side_effect = (
-            lambda flag_name: flag_name == FEATURE_FLAG_NAME_FROZEN_MEMBERS
-        )
 
     @patch.object(FrozenStatusService, "should_freeze_member")
     @patch.object(FrozenStatusService, "should_send_freeze_warning")

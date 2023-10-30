@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from tapir.core.config import sidebar_link_groups
-from tapir.statistics import config
 
 
 class StatsConfig(AppConfig):
@@ -20,5 +19,4 @@ class StatsConfig(AppConfig):
             material_icon="calculate",
             url=reverse("statistics:main_statistics"),
             ordering=1,
-            required_feature_flag=config.FEATURE_FLAG_NAME_UPDATED_STATS_PAGE_09_23,
         )
