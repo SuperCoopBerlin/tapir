@@ -16,8 +16,12 @@ class MembershipPauseService:
         pause_start_as_datetime = get_timezone_aware_datetime(
             pause.start_date, datetime.time()
         )
-        pause_end_as_datetime = get_timezone_aware_datetime(
-            pause.start_date, datetime.time(hour=23, minute=59)
+        pause_end_as_datetime = (
+            get_timezone_aware_datetime(
+                pause.end_date, datetime.time(hour=23, minute=59)
+            )
+            if pause.end_date
+            else None
         )
 
         for attendance_template in ShiftAttendanceTemplate.objects.filter(
@@ -26,11 +30,16 @@ class MembershipPauseService:
             attendance_template.cancel_attendances(pause_start_as_datetime)
             attendance_template.delete()
 
-        for attendance in ShiftAttendance.objects.filter(
+        attendances = ShiftAttendance.objects.filter(
             user=tapir_user,
             slot__shift__start_time__gte=pause_start_as_datetime,
-            slot__shift__end_time__lte=pause_end_as_datetime,
             state=ShiftAttendance.State.PENDING,
-        ):
+        )
+        if pause_end_as_datetime:
+            attendances = attendances.filter(
+                slot__shift__end_time__lte=pause_end_as_datetime,
+            )
+
+        for attendance in attendances:
             attendance.state = ShiftAttendance.State.CANCELLED
             attendance.save()

@@ -774,6 +774,9 @@ class ShiftAttendance(models.Model):
         related_name="shift_attendance",
     )
 
+    def __str__(self):
+        return f"Sate:{self.get_state_display()} Slot:{self.slot.get_display_name()}"
+
     def get_state_display(self):
         return SHIFT_ATTENDANCE_STATES[self.state]
 
