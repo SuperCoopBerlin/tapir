@@ -21,9 +21,11 @@
                 {% translate "Lists" %}
             </h5>
             <div class="card-body">
-                <a class="{% tapir_button_link %}" href="{% url 'accounts:ldap_group_list' %}">
-                    <span class="material-icons button-icon">badge</span>{% translate 'Access right groups' %}
-                </a>
+                {% if perms.coop.admin %}
+                    <a class="{% tapir_button_link %}" href="{% url 'accounts:ldap_group_list' %}">
+                        <span class="material-icons button-icon">badge</span>{% translate 'Access right groups' %}
+                    </a>
+                {% endif %}
                 <a class="{% tapir_button_link %}" href="{% url 'coop:membership_pauses' %}">
                     <span class="material-icons button-icon">pause</span>{% translate 'Membership pauses' %}
                 </a>
