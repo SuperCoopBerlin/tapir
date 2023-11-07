@@ -32,6 +32,7 @@ from tapir.shifts.models import (
     CreateShiftAttendanceLogEntry,
     UpdateShiftAttendanceStateLogEntry,
     ShiftAttendanceTakenOverLogEntry,
+    SolidarityShift,
 )
 from tapir.shifts.views.views import SelectedUserViewMixin
 from tapir.utils.shortcuts import safe_redirect
@@ -285,11 +286,14 @@ class RegisterUserToShiftSlotView(
         response = super().form_valid(form)
         slot = self.get_slot()
         user_to_register = form.cleaned_data["user"]
+        is_solidarity = form.cleaned_data["is_solidarity"]
 
         with transaction.atomic():
             attendance = ShiftAttendance.objects.create(
-                user=user_to_register, slot=slot
+                user=user_to_register, slot=slot, is_solidarity=is_solidarity
             )
+            if attendance.is_solidarity:
+                SolidarityShift.objects.create(shiftAttendance=attendance)
             self.mark_stand_in_found_if_relevant(slot, self.request.user)
             CreateShiftAttendanceLogEntry().populate(
                 actor=self.request.user,

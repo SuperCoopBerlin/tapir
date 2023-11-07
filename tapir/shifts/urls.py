@@ -222,4 +222,29 @@ urlpatterns = [
         views.ConvertShiftExemptionToMembershipPauseView.as_view(),
         name="convert_shift_exemption_to_membership_pause",
     ),
+    path(
+        "solidarity_shift_used/<int:pk>",
+        views.SolidarityShiftUsed.as_view(),
+        name="solidarity_shift_used",
+    ),
+    path(
+        "solidarity_shift_given/<int:pk>",
+        views.SolidarityShiftGiven.as_view(),
+        name="solidarity_shift_given",
+    ),
+    path(
+        "solidarity_shifts",
+        views.SolidarityShiftsView.as_view(),
+        name="solidarity_shifts",
+    ),
+    path(
+        "solidarity_shifts/gifted_solidarity_shifts_json",
+        views.GiftedSolidarityShiftsJsonView.as_view(),
+        name="gifted_solidarity_shifts_json",
+    ),
+    path(
+        "solidarity_shifts/used_solidarity_shifts_json",
+        views.UsedSolidarityShiftsJsonView.as_view(),
+        name="used_solidarity_shifts_json",
+    ),
 ]

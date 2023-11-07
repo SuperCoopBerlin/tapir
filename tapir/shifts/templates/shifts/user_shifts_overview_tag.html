@@ -74,7 +74,7 @@
 
         <div class="row m-1">
             <div class="col-4 fw-bold text-end">{% translate "Shift Status" %}:</div>
-            <div class="col-8" id="user-shift-status">
+            <div class="col-8 d-flex gap-2" id="user-shift-status">
                 {% if user.shift_user_data.is_balance_ok %}
                     <span class="text-success">{% translate "OK" %}</span>
 
@@ -126,6 +126,33 @@
                     <span class="material-icons">visibility</span>
                     {% translate 'View all' %}
                 </a>
+            </div>
+        </div>
+        <div class="row m-1">
+            <div class="col-4 fw-bold text-end">{% translate "Solidarity" %}:</div>
+            <div class="col-8 d-flex gap-1">
+                {% if user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
+                    <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_action %} btn-sm"><span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}</button>
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_action %} btn-sm" disabled><span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}</button>
+                    </form>
+                {% endif %}
+                {% if user.shift_user_data.is_balance_positive %}
+                    <form method="post" action="{% url 'shifts:solidarity_shift_given' object.pk%}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_action %} btn-sm"><span class="material-icons">favorite</span>{% translate "Give Solidarity" %}</button>
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'shifts:solidarity_shift_given' object.pk%}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_action %} btn-sm" disabled><span class="material-icons">favorite</span>{% translate "Give Solidarity" %}</button>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </div>
