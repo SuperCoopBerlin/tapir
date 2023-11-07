@@ -91,6 +91,9 @@
                 <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
                    class="{% tapir_button_link %} btn-sm"><span
                         class="material-icons">visibility</span>{% translate 'log' %}</a>
+                {% if user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
+                    <button class="{% tapir_button_action %} btn-sm"><span class="material-icons">favorite</span>{% translate 'Solidarity' %}</button>
+                {% endif %}
             </div>
         </div>
 

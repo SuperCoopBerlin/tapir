@@ -58,6 +58,13 @@ class ShiftConfig(AppConfig):
         )
 
         shifts_group.add_link(
+            display_name="Solidarity Shifts",
+            material_icon="favorite",
+            url=reverse_lazy("shifts:calendar"),
+            ordering=4,
+        )
+
+        shifts_group.add_link(
             display_name=_("Shift management"),
             material_icon="settings",
             url=reverse_lazy("shifts:shift_management"),

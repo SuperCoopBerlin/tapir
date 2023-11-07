@@ -740,6 +740,7 @@ class ShiftAttendance(models.Model):
         ShiftSlot, related_name="attendances", on_delete=models.CASCADE
     )
     reminder_email_sent = models.BooleanField(default=False)
+    is_solidarity = models.BooleanField(default=False)
 
     class State(models.IntegerChoices):
         PENDING = 1
@@ -802,11 +803,20 @@ class ShiftAttendance(models.Model):
         entry_value = None
         if self.state == ShiftAttendance.State.MISSED:
             entry_value = -1
+        elif (
+            self.state
+            in [
+                ShiftAttendance.State.DONE,
+                ShiftAttendance.State.MISSED_EXCUSED,
+            ]
+            and self.is_solidarity
+        ):
+            entry_value = 0
         elif self.state in [
             ShiftAttendance.State.DONE,
             ShiftAttendance.State.MISSED_EXCUSED,
         ]:
-            entry_value = 1
+            entry_value = 0
 
         if entry_value is None:
             return
@@ -938,6 +948,9 @@ class ShiftUserData(models.Model):
 
     def is_balance_positive(self):
         return self.get_account_balance() > 1
+
+    def get_available_solidarity_shifts(self):
+        return SolidarityShift.objects.filter(is_used_up=False).count()
 
     def get_current_shift_exemption(self, date=None):
         if not hasattr(self, "shift_exemptions") or self.shift_exemptions is None:
@@ -1080,3 +1093,12 @@ class ShiftCycleEntry(models.Model):
         on_delete=models.SET_NULL,
         null=True,
     )
+
+
+class SolidarityShift(models.Model):
+    shiftAttendance = models.OneToOneField(
+        ShiftAttendance,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+    is_used_up = models.BooleanField(default=False)
