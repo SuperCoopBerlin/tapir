@@ -6,11 +6,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Sum
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.http import require_POST
 from django.views.generic import (
     CreateView,
     UpdateView,
@@ -35,6 +37,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     SHIFT_ATTENDANCE_STATES,
     ShiftTemplate,
+    SolidarityShift,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -44,6 +47,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
 from tapir.utils.user_utils import UserUtils
+from tapir.utils.shortcuts import safe_redirect
 
 
 class SelectedUserViewMixin:
@@ -309,3 +313,24 @@ class RunFreezeChecksManuallyView(
         call_command("run_freeze_checks")
         messages.info(request, _("Frozen statuses updated."))
         return super().get(request, args, kwargs)
+
+
+@require_POST
+@csrf_protect
+def solidarity_shift_used(request, pk):
+    tapir_user = get_object_or_404(TapirUser, pk=pk)
+    solidarity_shift = SolidarityShift.objects.filter(is_used_up=False)[0]
+    solidarity_shift.is_used_up = True
+    solidarity_shift.save()
+
+    ShiftAccountEntry(
+        user=tapir_user,
+        value=1,
+        date=datetime.now(),
+        description="Solidarity shift",
+        is_from_welcome_session=False,
+    ).save()
+
+    messages.info(request, _("Solidarity Shift used. Account Balance increased by 1."))
+
+    return redirect(tapir_user.get_absolute_url())

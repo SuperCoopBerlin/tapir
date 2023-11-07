@@ -222,4 +222,9 @@ urlpatterns = [
         views.ConvertShiftExemptionToMembershipPauseView.as_view(),
         name="convert_shift_exemption_to_membership_pause",
     ),
+    path(
+        "solidarity_shift_used/<int:pk>",
+        views.solidarity_shift_used,
+        name="solidarity_shift_used",
+    ),
 ]

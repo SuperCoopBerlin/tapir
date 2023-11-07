@@ -92,7 +92,10 @@
                    class="{% tapir_button_link %} btn-sm"><span
                         class="material-icons">visibility</span>{% translate 'log' %}</a>
                 {% if user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
-                    <button class="{% tapir_button_action %} btn-sm"><span class="material-icons">favorite</span>{% translate 'Solidarity' %}</button>
+                    <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_action %} btn-sm"><span class="material-icons">favorite</span>{% translate 'Solidarity' %}</button>
+                    </form>
                 {% endif %}
             </div>
         </div>
