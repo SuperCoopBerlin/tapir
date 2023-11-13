@@ -167,7 +167,7 @@ class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
     user = TapirUserChoiceField()
     request_user: TapirUser
     slot: ShiftSlot
-    is_solidarity = BooleanField()
+    is_solidarity = BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):
         self.slot = kwargs.pop("slot", None)

@@ -816,7 +816,7 @@ class ShiftAttendance(models.Model):
             ShiftAttendance.State.DONE,
             ShiftAttendance.State.MISSED_EXCUSED,
         ]:
-            entry_value = 0
+            entry_value = 1
 
         if entry_value is None:
             return

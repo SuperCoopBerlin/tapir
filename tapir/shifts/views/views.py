@@ -2,6 +2,7 @@ from datetime import datetime
 
 import django_tables2
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
@@ -317,6 +318,7 @@ class RunFreezeChecksManuallyView(
 
 @require_POST
 @csrf_protect
+@login_required
 def solidarity_shift_used(request, pk):
     tapir_user = get_object_or_404(TapirUser, pk=pk)
     solidarity_shift = SolidarityShift.objects.filter(is_used_up=False)[0]

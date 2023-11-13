@@ -74,7 +74,7 @@
 
         <div class="row m-1">
             <div class="col-4 fw-bold text-end">{% translate "Shift Status" %}:</div>
-            <div class="col-8" id="user-shift-status">
+            <div class="col-8 d-flex gap-2" id="user-shift-status">
                 {% if user.shift_user_data.is_balance_ok %}
                     <span class="text-success">{% translate "OK" %}</span>
 
@@ -95,6 +95,11 @@
                     <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
                         {% csrf_token %}
                         <button type="submit" class="{% tapir_button_action %} btn-sm"><span class="material-icons">favorite</span>{% translate 'Solidarity' %}</button>
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_action %} btn-sm" disabled><span class="material-icons">favorite</span>{% translate 'Solidarity' %}</button>
                     </form>
                 {% endif %}
             </div>
