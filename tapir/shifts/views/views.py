@@ -329,10 +329,56 @@ def solidarity_shift_used(request, pk):
         user=tapir_user,
         value=1,
         date=datetime.now(),
-        description="Solidarity shift",
+        description="Solidarity shift received",
         is_from_welcome_session=False,
     ).save()
 
-    messages.info(request, _("Solidarity Shift used. Account Balance increased by 1."))
+    messages.info(
+        request, _("Solidarity Shift received. Account Balance increased by 1.")
+    )
 
     return redirect(tapir_user.get_absolute_url())
+
+
+@require_POST
+@csrf_protect
+@login_required
+def solidarity_shift_given(request, pk):
+    tapir_user = get_object_or_404(TapirUser, pk=pk)
+    shift_attendance = tapir_user.shift_attendances.filter(
+        is_solidarity=False, state=2
+    )[0]
+
+    SolidarityShift.objects.create(shiftAttendance=shift_attendance)
+
+    shift_attendance.is_solidarity = True
+    shift_attendance.save()
+
+    ShiftAccountEntry(
+        user=tapir_user,
+        value=-1,
+        date=datetime.now(),
+        description="Solidarity shift given",
+        is_from_welcome_session=False,
+    ).save()
+
+    messages.info(
+        request, _("Solidarity Shift given. Account Balance debited with -1.")
+    )
+
+    return redirect(tapir_user.get_absolute_url())
+
+
+class SolidarityShiftsView(LoginRequiredMixin, TemplateView):
+    template_name = "shifts/solidarity_shifts_overview.html"
+    model = SolidarityShift
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["available_solidarity_shifts"] = SolidarityShift.objects.filter(
+            is_used_up=False
+        ).count()
+        context["used_solidarity_shifts_total"] = SolidarityShift.objects.filter(
+            is_used_up=True
+        ).count()
+        return context

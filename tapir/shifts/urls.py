@@ -227,4 +227,14 @@ urlpatterns = [
         views.solidarity_shift_used,
         name="solidarity_shift_used",
     ),
+    path(
+        "solidarity_shift_given/<int:pk>",
+        views.solidarity_shift_given,
+        name="solidarity_shift_given",
+    ),
+    path(
+        "solidarity_shifts",
+        views.SolidarityShiftsView.as_view(),
+        name="solidarity_shifts",
+    ),
 ]

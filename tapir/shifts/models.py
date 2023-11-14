@@ -947,7 +947,7 @@ class ShiftUserData(models.Model):
         return self.get_account_balance() < -1
 
     def is_balance_positive(self):
-        return self.get_account_balance() > 1
+        return self.get_account_balance() > 0
 
     def get_available_solidarity_shifts(self):
         return SolidarityShift.objects.filter(is_used_up=False).count()
