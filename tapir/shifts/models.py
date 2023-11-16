@@ -1102,3 +1102,5 @@ class SolidarityShift(models.Model):
         primary_key=True,
     )
     is_used_up = models.BooleanField(default=False)
+    date_gifted = models.DateField(auto_now_add=True)
+    date_used = models.DateField(null=True)

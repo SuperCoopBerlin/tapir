@@ -237,4 +237,19 @@ urlpatterns = [
         views.SolidarityShiftsView.as_view(),
         name="solidarity_shifts",
     ),
+    path(
+        "solidarity_shifts/available_solidarity_shifts_json",
+        views.AvailableSolidarityShiftsJsonView.as_view(),
+        name="available_solidarity_shifts_json",
+    ),
+    path(
+        "solidarity_shifts/gifted_solidarity_shifts_json",
+        views.GiftedSolidarityShiftsJsonView.as_view(),
+        name="gifted_solidarity_shifts_json",
+    ),
+    path(
+        "solidarity_shifts/used_solidarity_shifts_json",
+        views.UsedSolidarityShiftsJsonView.as_view(),
+        name="used_solidarity_shifts_json",
+    ),
 ]

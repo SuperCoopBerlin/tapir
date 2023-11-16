@@ -1,6 +1,77 @@
 {% extends "shifts/base.html" %}
 
+{% load i18n %}
+{% load core %}
+{% load static %}
+
+{% block head %}
+    <script src="{% static 'statistics/chart_4.4.0.js' %}"></script>
+    <script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
+{% endblock head %}
+
 {% block content %}
-    <p>Solidarity Shifts available: {{ available_solidarity_shifts }}</p>
-    <p>Solidarity Shifts used (total): {{ used_solidarity_shifts_total }}</p>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                    {% translate "Available" %}
+                </h5>
+                <div class="card-body">
+                    <p>There are {{ available_solidarity_shifts }} solidarity shifts available at the moment</p>
+                    <span class="{% tapir_button_link %}"
+                      onclick="chartManager.show_stats_chart(
+                              this,
+                              '{% url "statistics:member_count_evolution_json" %}',
+                              'member_count_evolution_canvas',
+                              )">
+                        <span class="material-icons">leaderboard</span>
+                        <span class="button-text">{% translate "Show graph: " %}{% translate "Available solidarity shifts" %}</span>
+                    </span>
+                    <canvas id="available_solidarity_shifts_canvas" style="display: none;"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                    {% translate "Used" %}
+                </h5>
+                <div class="card-body">
+                    <p>{{ used_solidarity_shifts_total }} solidarity shifts have been used in total</p>
+                    <span class="{% tapir_button_link %}"
+                      onclick="chartManager.show_stats_chart(
+                              this,
+                              '{% url "shifts:used_solidarity_shifts_json" %}',
+                              'used_solidarity_shifts_canvas',
+                              )">
+                        <span class="material-icons">leaderboard</span>
+                        <span class="button-text">{% translate "Show graph: " %}{% translate "Solidarity shifts used" %}</span>
+                    </span>
+                    <canvas id="used_solidarity_shifts_canvas" style="display: none;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                    {% translate "Gifted" %}
+                </h5>
+                <div class="card-body">
+                    <p>{{ gifted_solidarity_shifts_total }} solidarity shifts have been gifted in total</p>
+                    <span class="{% tapir_button_link %}"
+                      onclick="chartManager.show_stats_chart(
+                              this,
+                              '{% url "shifts:gifted_solidarity_shifts_json" %}',
+                              'gifted_solidarity_shifts_canvas',
+                              )">
+                        <span class="material-icons">leaderboard</span>
+                        <span class="button-text">{% translate "Show graph: " %}{% translate "Solidarity shifts gifted" %}</span>
+                    </span>
+                    <canvas id="gifted_solidarity_shifts_canvas" style="display: none;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

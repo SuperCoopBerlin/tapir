@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import django_tables2
+from chartjs.views import JSONView
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -47,6 +48,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
+from tapir.statistics.views import CacheDatesFromFirstShareToTodayMixin
 from tapir.utils.user_utils import UserUtils
 from tapir.utils.shortcuts import safe_redirect
 
@@ -320,15 +322,17 @@ class RunFreezeChecksManuallyView(
 @csrf_protect
 @login_required
 def solidarity_shift_used(request, pk):
+    date = datetime.now()
     tapir_user = get_object_or_404(TapirUser, pk=pk)
     solidarity_shift = SolidarityShift.objects.filter(is_used_up=False)[0]
     solidarity_shift.is_used_up = True
+    solidarity_shift.date_used = date
     solidarity_shift.save()
 
     ShiftAccountEntry(
         user=tapir_user,
         value=1,
-        date=datetime.now(),
+        date=date,
         description="Solidarity shift received",
         is_from_welcome_session=False,
     ).save()
@@ -381,4 +385,149 @@ class SolidarityShiftsView(LoginRequiredMixin, TemplateView):
         context["used_solidarity_shifts_total"] = SolidarityShift.objects.filter(
             is_used_up=True
         ).count()
+        context["gifted_solidarity_shifts_total"] = SolidarityShift.objects.count()
         return context
+
+
+class CacheMonthsFirstSolidarityToTodayMixin:
+    def __init__(self):
+        super().__init__()
+        self.dates_first_solidarity_to_today = None
+
+    def get_months_from_first_solidarity_to_today(self):
+        first_solidarity = SolidarityShift.objects.order_by("date_gifted").first()
+        if not first_solidarity:
+            return []
+
+        start_year = 2023
+        current_year = int(datetime.now().strftime("%Y"))
+        current_month = first_solidarity.date_gifted.strftime("%b")
+        months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ]
+        months_since_first_solidarity = []
+
+        if start_year == current_year:
+            for month in months:
+                # Only append months starting from the month when the first solidarity shift was gifted
+                if month != current_month:
+                    continue
+                months_since_first_solidarity.append(f"{month} {start_year}")
+        elif start_year != current_year:
+            for year in range(start_year, current_year + 1):
+                for month in months:
+                    # Only append months starting from the month when the first solidarity shift was gifted
+                    if year == start_year and month != current_month:
+                        continue
+                    # Break the months off at the current month
+                    elif year == current_year and month == current_month:
+                        break
+                    months_since_first_solidarity.append(f"{month} {year}")
+
+        return months_since_first_solidarity
+
+
+class AvailableSolidarityShiftsJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
+    def get_context_data(self, **kwargs):
+        dates = self.get_and_cache_dates_from_first_share_to_today()
+
+
+class GiftedSolidarityShiftsJsonView(CacheMonthsFirstSolidarityToTodayMixin, JSONView):
+    def get_context_data(self, **kwargs):
+        data = []
+        # .get_months_from_first_solidarity_to_today returns a list containing strings of the format "month year", for
+        # example "Nov 2023"
+        months = self.get_months_from_first_solidarity_to_today()
+        months_map = {
+            "Jan": 1,
+            "Feb": 2,
+            "Mar": 3,
+            "Apr": 4,
+            "May": 5,
+            "Jun": 6,
+            "Jul": 7,
+            "Aug": 8,
+            "Sep": 9,
+            "Oct": 10,
+            "Nov": 11,
+            "Dec": 12,
+        }
+
+        for month in months:
+            month_num = months_map[month.split()[0]]
+            year = month.split()[1]
+            data.append(
+                SolidarityShift.objects.filter(
+                    date_gifted__month=month_num, date_gifted__year=year
+                ).count()
+            )
+
+        context_data = {
+            "type": "bar",
+            "data": {
+                "labels": months,
+                "datasets": [
+                    {
+                        "label": _("Solidarity shifts gifted"),
+                        "data": data,
+                    }
+                ],
+            },
+        }
+        return context_data
+
+
+class UsedSolidarityShiftsJsonView(CacheMonthsFirstSolidarityToTodayMixin, JSONView):
+    def get_context_data(self, **kwargs):
+        data = []
+        # .get_months_from_first_solidarity_to_today returns a list containing strings of the format "month year", for
+        # example "Nov 2023"
+        months = self.get_months_from_first_solidarity_to_today()
+        months_map = {
+            "Jan": 1,
+            "Feb": 2,
+            "Mar": 3,
+            "Apr": 4,
+            "May": 5,
+            "Jun": 6,
+            "Jul": 7,
+            "Aug": 8,
+            "Sep": 9,
+            "Oct": 10,
+            "Nov": 11,
+            "Dec": 12,
+        }
+
+        for month in months:
+            month_num = months_map[month.split()[0]]
+            year = month.split()[1]
+            data.append(
+                SolidarityShift.objects.filter(
+                    date_used__month=month_num, date_used__year=year
+                ).count()
+            )
+
+        context_data = {
+            "type": "bar",
+            "data": {
+                "labels": months,
+                "datasets": [
+                    {
+                        "label": _("Solidarity shifts used"),
+                        "data": data,
+                    }
+                ],
+            },
+        }
+        return context_data
