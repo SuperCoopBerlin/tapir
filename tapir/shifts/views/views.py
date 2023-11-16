@@ -400,6 +400,7 @@ class CacheMonthsFirstSolidarityToTodayMixin:
             return []
 
         start_year = 2023
+        start_month = "Nov"
         current_year = int(datetime.now().strftime("%Y"))
         current_month = first_solidarity.date_gifted.strftime("%b")
         months = [
@@ -420,15 +421,15 @@ class CacheMonthsFirstSolidarityToTodayMixin:
 
         if start_year == current_year:
             for month in months:
-                # Only append months starting from the month when the first solidarity shift was gifted
-                if month != current_month:
+                # Only append months starting from the month when the Solidarity Shift feature was introduced
+                if month != start_month:
                     continue
                 months_since_first_solidarity.append(f"{month} {start_year}")
         elif start_year != current_year:
             for year in range(start_year, current_year + 1):
                 for month in months:
-                    # Only append months starting from the month when the first solidarity shift was gifted
-                    if year == start_year and month != current_month:
+                    # Only append months starting from the month when the Solidarity Shift feature was introduced
+                    if year == start_year and month != start_month:
                         continue
                     # Break the months off at the current month
                     elif year == current_year and month == current_month:
