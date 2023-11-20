@@ -48,6 +48,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
+from tapir.statistics.utils import build_line_chart_data
 from tapir.statistics.views import CacheDatesFromFirstShareToTodayMixin
 from tapir.utils.user_utils import UserUtils
 from tapir.utils.shortcuts import safe_redirect
@@ -437,11 +438,6 @@ class CacheMonthsFirstSolidarityToTodayMixin:
                     months_since_first_solidarity.append(f"{month} {year}")
 
         return months_since_first_solidarity
-
-
-class AvailableSolidarityShiftsJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
-    def get_context_data(self, **kwargs):
-        dates = self.get_and_cache_dates_from_first_share_to_today()
 
 
 class GiftedSolidarityShiftsJsonView(CacheMonthsFirstSolidarityToTodayMixin, JSONView):

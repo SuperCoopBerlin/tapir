@@ -17,17 +17,11 @@
                     {% translate "Available" %}
                 </h5>
                 <div class="card-body">
-                    <p>There are {{ available_solidarity_shifts }} solidarity shifts available at the moment</p>
-                    <span class="{% tapir_button_link %}"
-                      onclick="chartManager.show_stats_chart(
-                              this,
-                              '{% url "statistics:member_count_evolution_json" %}',
-                              'member_count_evolution_canvas',
-                              )">
-                        <span class="material-icons">leaderboard</span>
-                        <span class="button-text">{% translate "Show graph: " %}{% translate "Available solidarity shifts" %}</span>
-                    </span>
-                    <canvas id="available_solidarity_shifts_canvas" style="display: none;"></canvas>
+                    {% if available_solidarity_shifts == 1 %}
+                        <p>There is {{ available_solidarity_shifts }} solidarity shift available at the moment</p>
+                    {% else %}
+                        <p>There are {{ available_solidarity_shifts }} solidarity shifts available at the moment</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -37,7 +31,11 @@
                     {% translate "Used" %}
                 </h5>
                 <div class="card-body">
-                    <p>{{ used_solidarity_shifts_total }} solidarity shifts have been used in total</p>
+                    {% if used_solidarity_shifts_total == 1 %}
+                        <p>{{ used_solidarity_shifts_total }} solidarity shift has been used in total</p>
+                    {% else %}
+                        <p>{{ used_solidarity_shifts_total }} solidarity shifts have been used in total</p>
+                    {% endif %}
                     <span class="{% tapir_button_link %}"
                       onclick="chartManager.show_stats_chart(
                               this,
@@ -59,7 +57,11 @@
                     {% translate "Gifted" %}
                 </h5>
                 <div class="card-body">
-                    <p>{{ gifted_solidarity_shifts_total }} solidarity shifts have been gifted in total</p>
+                    {% if gifted_solidarity_shifts_total == 1 %}
+                        <p>{{ gifted_solidarity_shifts_total }} solidarity shift has been gifted in total</p>
+                    {% else %}
+                        <p>{{ gifted_solidarity_shifts_total }} solidarity shifts have been gifted in total</p>
+                    {% endif %}
                     <span class="{% tapir_button_link %}"
                       onclick="chartManager.show_stats_chart(
                               this,

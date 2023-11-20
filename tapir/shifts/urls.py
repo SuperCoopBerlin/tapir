@@ -238,11 +238,6 @@ urlpatterns = [
         name="solidarity_shifts",
     ),
     path(
-        "solidarity_shifts/available_solidarity_shifts_json",
-        views.AvailableSolidarityShiftsJsonView.as_view(),
-        name="available_solidarity_shifts_json",
-    ),
-    path(
         "solidarity_shifts/gifted_solidarity_shifts_json",
         views.GiftedSolidarityShiftsJsonView.as_view(),
         name="gifted_solidarity_shifts_json",
