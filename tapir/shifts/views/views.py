@@ -3,7 +3,6 @@ from datetime import datetime
 import django_tables2
 from chartjs.views import JSONView
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
@@ -13,8 +12,6 @@ from django.template.defaulttags import register
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_POST
 from django.views.generic import (
     CreateView,
     UpdateView,
@@ -319,59 +316,55 @@ class RunFreezeChecksManuallyView(
         return super().get(request, args, kwargs)
 
 
-@require_POST
-@csrf_protect
-@login_required
-def solidarity_shift_used(request, pk):
-    date = datetime.now()
-    tapir_user = get_object_or_404(TapirUser, pk=pk)
-    solidarity_shift = SolidarityShift.objects.filter(is_used_up=False)[0]
-    solidarity_shift.is_used_up = True
-    solidarity_shift.date_used = date
-    solidarity_shift.save()
+class SolidarityShiftUsed(LoginRequiredMixin, RedirectView):
+    def post(self, request, *args, **kwargs):
+        date = datetime.now()
+        tapir_user = get_object_or_404(TapirUser, pk=kwargs["pk"])
+        solidarity_shift = SolidarityShift.objects.filter(is_used_up=False)[0]
+        solidarity_shift.is_used_up = True
+        solidarity_shift.date_used = date
+        solidarity_shift.save()
 
-    ShiftAccountEntry(
-        user=tapir_user,
-        value=1,
-        date=date,
-        description="Solidarity shift received",
-        is_from_welcome_session=False,
-    ).save()
+        ShiftAccountEntry(
+            user=tapir_user,
+            value=1,
+            date=date,
+            description="Solidarity shift received",
+            is_from_welcome_session=False,
+        ).save()
 
-    messages.info(
-        request, _("Solidarity Shift received. Account Balance increased by 1.")
-    )
+        messages.info(
+            request, _("Solidarity Shift received. Account Balance increased by 1.")
+        )
 
-    return redirect(tapir_user.get_absolute_url())
+        return redirect(tapir_user.get_absolute_url())
 
 
-@require_POST
-@csrf_protect
-@login_required
-def solidarity_shift_given(request, pk):
-    tapir_user = get_object_or_404(TapirUser, pk=pk)
-    shift_attendance = tapir_user.shift_attendances.filter(
-        is_solidarity=False, state=2
-    )[0]
+class SolidarityShiftGiven(LoginRequiredMixin, RedirectView):
+    def post(self, request, *args, **kwargs):
+        tapir_user = get_object_or_404(TapirUser, pk=kwargs["pk"])
+        shift_attendance = tapir_user.shift_attendances.filter(
+            is_solidarity=False, state=2
+        )[0]
 
-    SolidarityShift.objects.create(shiftAttendance=shift_attendance)
+        SolidarityShift.objects.create(shiftAttendance=shift_attendance)
 
-    shift_attendance.is_solidarity = True
-    shift_attendance.save()
+        shift_attendance.is_solidarity = True
+        shift_attendance.save()
 
-    ShiftAccountEntry(
-        user=tapir_user,
-        value=-1,
-        date=datetime.now(),
-        description="Solidarity shift given",
-        is_from_welcome_session=False,
-    ).save()
+        ShiftAccountEntry(
+            user=tapir_user,
+            value=-1,
+            date=datetime.now(),
+            description="Solidarity shift given",
+            is_from_welcome_session=False,
+        ).save()
 
-    messages.info(
-        request, _("Solidarity Shift given. Account Balance debited with -1.")
-    )
+        messages.info(
+            request, _("Solidarity Shift given. Account Balance debited with -1.")
+        )
 
-    return redirect(tapir_user.get_absolute_url())
+        return redirect(tapir_user.get_absolute_url())
 
 
 class SolidarityShiftsView(LoginRequiredMixin, TemplateView):

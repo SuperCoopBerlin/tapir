@@ -803,25 +803,21 @@ class ShiftAttendance(models.Model):
         entry_value = None
         if self.state == ShiftAttendance.State.MISSED:
             entry_value = -1
-        elif (
-            self.state
-            in [
-                ShiftAttendance.State.DONE,
-                ShiftAttendance.State.MISSED_EXCUSED,
-            ]
-            and self.is_solidarity
-        ):
-            entry_value = 0
         elif self.state in [
             ShiftAttendance.State.DONE,
             ShiftAttendance.State.MISSED_EXCUSED,
         ]:
-            entry_value = 1
+            if self.is_solidarity:
+                entry_value = 0
+            else:
+                entry_value = 1
 
         if entry_value is None:
             return
 
-        description = f"Shift {SHIFT_ATTENDANCE_STATES[self.state]} {self.slot.get_display_name()} {entry_description}"
+        is_solidarity_str = "Solidarity" if self.is_solidarity else ""
+
+        description = f"{is_solidarity_str} Shift {SHIFT_ATTENDANCE_STATES[self.state]} {self.slot.get_display_name()} {entry_description}"
 
         entry = ShiftAccountEntry.objects.create(
             user=self.user,
