@@ -36,3 +36,20 @@ def get_display_name_legal(person):
 @register.simple_tag
 def get_html_link(person, request_user: TapirUser):
     return UserUtils.build_html_link_for_viewer(person, request_user)
+
+
+@register.simple_tag
+def disabled_if_user_cant_receive_solidarity(user):
+    if (
+        user.shift_user_data.get_available_solidarity_shifts()
+        and user.shift_user_data.get_account_balance() < 0
+    ):
+        return ""
+    return "disabled"
+
+
+@register.simple_tag
+def disabled_if_user_cant_give_solidarity(user):
+    if user.shift_user_data.is_balance_positive():
+        return ""
+    return "disabled"
