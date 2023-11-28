@@ -3230,14 +3230,12 @@ msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:87
 #: statistics/templates/statistics/main_statistics.html:116
-msgid "Current:"
-msgstr ""
+msgid "Current"
+msgstr "Aktuelle"
 
 #: statistics/templates/statistics/main_statistics.html:90
 #: statistics/templates/statistics/main_statistics.html:119
-#, fuzzy
-#| msgid "Missing"
-msgid "Missing:"
+msgid "Missing"
 msgstr "Fehlend"
 
 #: statistics/templates/statistics/main_statistics.html:102
