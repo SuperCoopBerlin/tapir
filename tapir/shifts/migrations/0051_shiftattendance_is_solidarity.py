@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("shifts", "0050_remove_shiftattendance_is_solidarity"),
     ]

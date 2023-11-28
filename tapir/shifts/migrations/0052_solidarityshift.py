@@ -5,7 +5,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("shifts", "0051_shiftattendance_is_solidarity"),
     ]
