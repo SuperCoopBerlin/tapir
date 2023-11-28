@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 import django_tables2
 from chartjs.views import JSONView
@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Sum
+from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse
@@ -45,10 +46,8 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
-from tapir.statistics.utils import build_line_chart_data
-from tapir.statistics.views import CacheDatesFromFirstShareToTodayMixin
+from tapir.utils.shortcuts import get_first_of_next_month
 from tapir.utils.user_utils import UserUtils
-from tapir.utils.shortcuts import safe_redirect
 
 
 class SelectedUserViewMixin:
@@ -318,9 +317,22 @@ class RunFreezeChecksManuallyView(
 
 class SolidarityShiftUsed(LoginRequiredMixin, RedirectView):
     def post(self, request, *args, **kwargs):
-        date = datetime.now()
+        date = timezone.now()
         tapir_user = get_object_or_404(TapirUser, pk=kwargs["pk"])
+
+        if not (
+            request.user.pk == tapir_user.pk
+            or request.user.has_perm(PERMISSION_SHIFTS_MANAGE)
+        ):
+            return HttpResponseForbidden(
+                "You don't have permission to use Solidarity Shifts on behalf of another user."
+            )
+
         solidarity_shift = SolidarityShift.objects.filter(is_used_up=False)[0]
+
+        if not solidarity_shift:
+            return HttpResponseBadRequest("There are no available Solidarity Shifts")
+
         solidarity_shift.is_used_up = True
         solidarity_shift.date_used = date
         solidarity_shift.save()
@@ -330,7 +342,6 @@ class SolidarityShiftUsed(LoginRequiredMixin, RedirectView):
             value=1,
             date=date,
             description="Solidarity shift received",
-            is_from_welcome_session=False,
         ).save()
 
         messages.info(
@@ -344,7 +355,7 @@ class SolidarityShiftGiven(LoginRequiredMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         tapir_user = get_object_or_404(TapirUser, pk=kwargs["pk"])
         shift_attendance = tapir_user.shift_attendances.filter(
-            is_solidarity=False, state=2
+            is_solidarity=False, state=ShiftAttendance.State.DONE
         )[0]
 
         SolidarityShift.objects.create(shiftAttendance=shift_attendance)
@@ -355,7 +366,7 @@ class SolidarityShiftGiven(LoginRequiredMixin, RedirectView):
         ShiftAccountEntry(
             user=tapir_user,
             value=-1,
-            date=datetime.now(),
+            date=timezone.now(),
             description="Solidarity shift given",
             is_from_welcome_session=False,
         ).save()
@@ -383,80 +394,33 @@ class SolidarityShiftsView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class CacheMonthsFirstSolidarityToTodayMixin:
+class CacheDatesFirstSolidarityToTodayMixin:
     def __init__(self):
         super().__init__()
-        self.dates_first_solidarity_to_today = None
 
-    def get_months_from_first_solidarity_to_today(self):
+    def get_dates_from_first_solidarity_to_today(self):
         first_solidarity = SolidarityShift.objects.order_by("date_gifted").first()
         if not first_solidarity:
             return []
 
-        start_year = 2023
-        start_month = "Nov"
-        current_year = int(datetime.now().strftime("%Y"))
-        current_month = first_solidarity.date_gifted.strftime("%b")
-        months = [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-        ]
-        months_since_first_solidarity = []
+        current_date = first_solidarity.date_gifted.replace(day=1)
+        end_date = datetime.date.today()
+        dates = []
+        while current_date < end_date:
+            dates.append(current_date)
+            current_date = get_first_of_next_month(current_date)
 
-        if start_year == current_year:
-            for month in months:
-                # Only append months starting from the month when the Solidarity Shift feature was introduced
-                if month != start_month:
-                    continue
-                months_since_first_solidarity.append(f"{month} {start_year}")
-        elif start_year != current_year:
-            for year in range(start_year, current_year + 1):
-                for month in months:
-                    # Only append months starting from the month when the Solidarity Shift feature was introduced
-                    if year == start_year and month != start_month:
-                        continue
-                    # Break the months off at the current month
-                    elif year == current_year and month == current_month:
-                        break
-                    months_since_first_solidarity.append(f"{month} {year}")
-
-        return months_since_first_solidarity
+        return dates
 
 
-class GiftedSolidarityShiftsJsonView(CacheMonthsFirstSolidarityToTodayMixin, JSONView):
+class GiftedSolidarityShiftsJsonView(CacheDatesFirstSolidarityToTodayMixin, JSONView):
     def get_context_data(self, **kwargs):
         data = []
-        # .get_months_from_first_solidarity_to_today returns a list containing strings of the format "month year", for
-        # example "Nov 2023"
-        months = self.get_months_from_first_solidarity_to_today()
-        months_map = {
-            "Jan": 1,
-            "Feb": 2,
-            "Mar": 3,
-            "Apr": 4,
-            "May": 5,
-            "Jun": 6,
-            "Jul": 7,
-            "Aug": 8,
-            "Sep": 9,
-            "Oct": 10,
-            "Nov": 11,
-            "Dec": 12,
-        }
+        dates = self.get_dates_from_first_solidarity_to_today()
 
-        for month in months:
-            month_num = months_map[month.split()[0]]
-            year = month.split()[1]
+        for date in dates:
+            month_num = int(date.strftime("%m"))
+            year = int(date.strftime("%Y"))
             data.append(
                 SolidarityShift.objects.filter(
                     date_gifted__month=month_num, date_gifted__year=year
@@ -466,7 +430,7 @@ class GiftedSolidarityShiftsJsonView(CacheMonthsFirstSolidarityToTodayMixin, JSO
         context_data = {
             "type": "bar",
             "data": {
-                "labels": months,
+                "labels": [date.strftime("%b %Y") for date in dates],
                 "datasets": [
                     {
                         "label": _("Solidarity shifts gifted"),
@@ -478,30 +442,14 @@ class GiftedSolidarityShiftsJsonView(CacheMonthsFirstSolidarityToTodayMixin, JSO
         return context_data
 
 
-class UsedSolidarityShiftsJsonView(CacheMonthsFirstSolidarityToTodayMixin, JSONView):
+class UsedSolidarityShiftsJsonView(CacheDatesFirstSolidarityToTodayMixin, JSONView):
     def get_context_data(self, **kwargs):
         data = []
-        # .get_months_from_first_solidarity_to_today returns a list containing strings of the format "month year", for
-        # example "Nov 2023"
-        months = self.get_months_from_first_solidarity_to_today()
-        months_map = {
-            "Jan": 1,
-            "Feb": 2,
-            "Mar": 3,
-            "Apr": 4,
-            "May": 5,
-            "Jun": 6,
-            "Jul": 7,
-            "Aug": 8,
-            "Sep": 9,
-            "Oct": 10,
-            "Nov": 11,
-            "Dec": 12,
-        }
+        dates = self.get_dates_from_first_solidarity_to_today()
 
-        for month in months:
-            month_num = months_map[month.split()[0]]
-            year = month.split()[1]
+        for date in dates:
+            month_num = int(date.strftime("%m"))
+            year = int(date.strftime("%Y"))
             data.append(
                 SolidarityShift.objects.filter(
                     date_used__month=month_num, date_used__year=year
@@ -511,7 +459,7 @@ class UsedSolidarityShiftsJsonView(CacheMonthsFirstSolidarityToTodayMixin, JSONV
         context_data = {
             "type": "bar",
             "data": {
-                "labels": months,
+                "labels": [date.strftime("%b %Y") for date in dates],
                 "datasets": [
                     {
                         "label": _("Solidarity shifts used"),

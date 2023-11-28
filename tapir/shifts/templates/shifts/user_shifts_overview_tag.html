@@ -1,3 +1,4 @@
+{% load utils %}
 {% load i18n %}
 {% load shifts %}
 {% load core %}
@@ -131,28 +132,14 @@
         <div class="row m-1">
             <div class="col-4 fw-bold text-end">{% translate "Solidarity" %}:</div>
             <div class="col-8 d-flex gap-1">
-                {% if user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
-                    <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
-                        {% csrf_token %}
-                        <button type="submit" class="{% tapir_button_action %} btn-sm"><span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}</button>
-                    </form>
-                {% else %}
-                    <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
-                        {% csrf_token %}
-                        <button type="submit" class="{% tapir_button_action %} btn-sm" disabled><span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}</button>
-                    </form>
-                {% endif %}
-                {% if user.shift_user_data.is_balance_positive %}
-                    <form method="post" action="{% url 'shifts:solidarity_shift_given' object.pk%}">
-                        {% csrf_token %}
-                        <button type="submit" class="{% tapir_button_action %} btn-sm"><span class="material-icons">favorite</span>{% translate "Give Solidarity" %}</button>
-                    </form>
-                {% else %}
-                    <form method="post" action="{% url 'shifts:solidarity_shift_given' object.pk%}">
-                        {% csrf_token %}
-                        <button type="submit" class="{% tapir_button_action %} btn-sm" disabled><span class="material-icons">favorite</span>{% translate "Give Solidarity" %}</button>
-                    </form>
-                {% endif %}
+                <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
+                    {% csrf_token %}
+                    <button type="submit" class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_receive_solidarity user %}"><span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}</button>
+                </form>
+                <form method="post" action="{% url 'shifts:solidarity_shift_given' object.pk%}">
+                    {% csrf_token %}
+                    <button type="submit" class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}"><span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}</button>
+                </form>
             </div>
         </div>
     </div>
