@@ -11,7 +11,9 @@ class TapirUserFactory(UserDataFactory):
         model = TapirUser
         skip_postgeneration_save = True
 
-    username = factory.LazyAttribute(lambda o: f"{o.usage_name}.{o.last_name}")
+    username = factory.LazyAttribute(
+        lambda o: f"{o.usage_name if o.usage_name else o.first_name}.{o.last_name}"
+    )
 
     share_owner = factory.RelatedFactory(
         ShareOwnerFactory,
