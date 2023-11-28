@@ -332,7 +332,6 @@ class SolidarityShiftUsed(LoginRequiredMixin, RedirectView):
 
         if not solidarity_shift:
             return HttpResponseBadRequest("There are no available Solidarity Shifts")
-
         solidarity_shift.is_used_up = True
         solidarity_shift.date_used = date
         solidarity_shift.save()
