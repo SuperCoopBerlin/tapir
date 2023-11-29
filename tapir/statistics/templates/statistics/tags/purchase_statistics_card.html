@@ -31,4 +31,18 @@
             </table>
         </li>
     </ul>
+    <div class="card-body">
+        <p>
+                <span class="{% tapir_button_link %}"
+                      onclick="chartManager.show_stats_chart(
+                              this,
+                              '{% url "statistics:average_basket_evolution_json" tapir_user.pk %}',
+                              'average_basket_evolution_canvas',
+                )">
+            <span class="material-icons">leaderboard</span>
+            <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of average basket price" %}</span>
+            </span>
+            <canvas id="average_basket_evolution_canvas" style="display: none;"></canvas>
+        </p>
+    </div>
 </div>
