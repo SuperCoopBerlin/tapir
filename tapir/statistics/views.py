@@ -1,21 +1,17 @@
 import datetime
 
-from dateutil.relativedelta import relativedelta
-
 from chartjs.views import JSONView
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
-from django.db.models import Avg, Sum
+from django.db.models import Sum
 from django.db.models.functions import TruncMonth
-from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import RedirectView
-from pytz import utc
 
 from tapir.accounts.models import (
     TapirUser,
@@ -27,7 +23,7 @@ from tapir.financingcampaign.models import (
     FinancingCampaign,
     FinancingSourceDatapoint,
 )
-from tapir.settings import PERMISSION_COOP_MANAGE
+from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_ACCOUNTS_VIEW
 from tapir.shifts.models import (
     ShiftUserData,
     ShiftSlotTemplate,
@@ -42,6 +38,7 @@ from tapir.statistics.utils import (
     build_pie_chart_data,
     build_line_chart_data,
 )
+from tapir.utils.shortcuts import get_first_of_next_month
 
 
 class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
@@ -217,20 +214,20 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView)
         return context_data
 
 
-class AverageBasketEvolutionJsonView(LoginRequiredMixin, JSONView):
+class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, JSONView):
+    def get_permission_required(self):
+        if self.request.user.pk == self.kwargs["pk"]:
+            return []
+        return [PERMISSION_ACCOUNTS_VIEW]
+
     def get_context_data(self, **kwargs):
         tapir_user = get_object_or_404(TapirUser, pk=(self.kwargs["pk"]))
-        logged_user = self.request.user
-        if tapir_user.pk != logged_user.pk and not logged_user.has_perm(
-            PERMISSION_COOP_MANAGE
-        ):
-            return HttpResponseForbidden("Access forbidden")
 
         user_purchases = (
             PurchaseBasket.objects.filter(tapir_user=tapir_user)
             .annotate(month=TruncMonth("purchase_date"))
             .values("month")
-            .annotate(average_gross_amount=Avg("gross_amount"))
+            .annotate(average_gross_amount=Sum("gross_amount"))
             .order_by("month")
         )
 
@@ -238,37 +235,39 @@ class AverageBasketEvolutionJsonView(LoginRequiredMixin, JSONView):
 
         return build_line_chart_data(
             x_axis_values=months,
-            y_axis_values=[self.get_avg_price_per_month(user_purchases, months)],
-            data_labels=[_("Price of average basket")],
+            y_axis_values=[self.get_sums_per_month(user_purchases, months)],
+            data_labels=[_("Total spends per month")],
         )
 
     @staticmethod
     def get_months(user_purchases):
+        if len(user_purchases) == 0:
+            return []
+
         months = []
-        if len(user_purchases) > 0:
-            now = datetime.datetime.now().replace(
-                day=1, hour=0, minute=0, second=0, microsecond=0, tzinfo=utc
-            )
+        now = timezone.now().date().replace(day=1)
 
-            month = user_purchases[0]["month"].replace(tzinfo=utc)
+        month = user_purchases[0]["month"].date()
+        months.append(month.strftime("%Y-%m"))
+
+        while month < now:
+            month = get_first_of_next_month(month)
             months.append(month.strftime("%Y-%m"))
-
-            while month != now:
-                month = month + relativedelta(months=1)
-                months.append(month.strftime("%Y-%m"))
 
         return months
 
     @staticmethod
-    def get_avg_price_per_month(purchases_query_set, months):
+    def get_sums_per_month(purchases_query_set, months):
+        if len(purchases_query_set) == 0:
+            return []
+
         prices = []
-        if len(purchases_query_set) > 0:
-            purchases_dict = {
-                entry["month"].strftime("%Y-%m"): entry["average_gross_amount"]
-                for entry in purchases_query_set
-            }
-            for month in months:
-                prices.append(purchases_dict.get(month, 0))
+        purchases_dict = {
+            entry["month"].strftime("%Y-%m"): entry["average_gross_amount"]
+            for entry in purchases_query_set
+        }
+        for month in months:
+            prices.append(purchases_dict.get(month, 0))
 
         return prices
 

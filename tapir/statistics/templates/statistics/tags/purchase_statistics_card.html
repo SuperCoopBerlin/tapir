@@ -36,13 +36,13 @@
                 <span class="{% tapir_button_link %}"
                       onclick="chartManager.show_stats_chart(
                               this,
-                              '{% url "statistics:average_basket_evolution_json" tapir_user.pk %}',
-                              'average_basket_evolution_canvas',
+                              '{% url "statistics:basket_sum_evolution_json" tapir_user.pk %}',
+                              'basket_sum_evolution_canvas',
                 )">
             <span class="material-icons">leaderboard</span>
-            <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of average basket price" %}</span>
+            <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of total spends per month" %}</span>
             </span>
-            <canvas id="average_basket_evolution_canvas" style="display: none;"></canvas>
+            <canvas id="basket_sum_evolution_canvas" style="display: none;"></canvas>
         </p>
     </div>
 </div>
