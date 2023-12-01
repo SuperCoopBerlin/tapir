@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
 from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
@@ -12,25 +13,32 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import RedirectView
 
-from tapir.accounts.models import UpdateTapirUserLogEntry
+from tapir.accounts.models import (
+    TapirUser,
+    UpdateTapirUserLogEntry,
+)
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
 from tapir.coop.views import ShareCountEvolutionJsonView
 from tapir.financingcampaign.models import (
     FinancingCampaign,
     FinancingSourceDatapoint,
 )
-from tapir.settings import PERMISSION_COOP_MANAGE
+from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_ACCOUNTS_VIEW
 from tapir.shifts.models import (
     ShiftUserData,
     ShiftSlotTemplate,
     ShiftAttendanceMode,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
-from tapir.statistics.models import ProcessedPurchaseFiles
+from tapir.statistics.models import (
+    PurchaseBasket,
+    ProcessedPurchaseFiles,
+)
 from tapir.statistics.utils import (
     build_pie_chart_data,
     build_line_chart_data,
 )
+from tapir.utils.shortcuts import get_first_of_next_month
 
 
 class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
@@ -204,6 +212,64 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView)
             },
         }
         return context_data
+
+
+class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, JSONView):
+    def get_permission_required(self):
+        if self.request.user.pk == self.kwargs["pk"]:
+            return []
+        return [PERMISSION_ACCOUNTS_VIEW]
+
+    def get_context_data(self, **kwargs):
+        tapir_user = get_object_or_404(TapirUser, pk=(self.kwargs["pk"]))
+
+        user_purchases = (
+            PurchaseBasket.objects.filter(tapir_user=tapir_user)
+            .annotate(month=TruncMonth("purchase_date"))
+            .values("month")
+            .annotate(average_gross_amount=Sum("gross_amount"))
+            .order_by("month")
+        )
+
+        months = self.get_months(user_purchases)
+
+        return build_line_chart_data(
+            x_axis_values=months,
+            y_axis_values=[self.get_sums_per_month(user_purchases, months)],
+            data_labels=[_("Total spends per month")],
+        )
+
+    @staticmethod
+    def get_months(user_purchases):
+        if len(user_purchases) == 0:
+            return []
+
+        months = []
+        now = timezone.now().date().replace(day=1)
+
+        month = user_purchases[0]["month"].date()
+        months.append(month.strftime("%Y-%m"))
+
+        while month < now:
+            month = get_first_of_next_month(month)
+            months.append(month.strftime("%Y-%m"))
+
+        return months
+
+    @staticmethod
+    def get_sums_per_month(purchases_query_set, months):
+        if len(purchases_query_set) == 0:
+            return []
+
+        prices = []
+        purchases_dict = {
+            entry["month"].strftime("%Y-%m"): entry["average_gross_amount"]
+            for entry in purchases_query_set
+        }
+        for month in months:
+            prices.append(purchases_dict.get(month, 0))
+
+        return prices
 
 
 class FrozenMembersJsonView(JSONView):

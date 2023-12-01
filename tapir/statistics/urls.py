@@ -39,4 +39,9 @@ urlpatterns = [
         views.UpdatePurchaseDataManuallyView.as_view(),
         name="update_purchase_data_manually",
     ),
+    path(
+        "user/<int:pk>/basket_sum_evolution_json",
+        views.BasketSumEvolutionJsonView.as_view(),
+        name="basket_sum_evolution_json",
+    ),
 ]
