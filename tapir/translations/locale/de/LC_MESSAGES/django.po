@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-28 15:26+0100\n"
+"POT-Creation-Date: 2023-12-02 14:49+0100\n"
 "PO-Revision-Date: 2023-09-12 18:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "This username is not available."
 msgstr ""
 
-#: accounts/models.py:142 accounts/templates/accounts/user_detail.html:68
+#: accounts/models.py:142 accounts/templates/accounts/user_detail.html:70
 #: coop/templates/coop/draftuser_detail.html:24
 msgid "Username"
 msgstr "Nutzer*innenname"
@@ -43,14 +43,14 @@ msgstr "Angezeigte Name"
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:161 accounts/templates/accounts/user_detail.html:76
+#: accounts/models.py:161 accounts/templates/accounts/user_detail.html:78
 #: coop/models.py:62 coop/models.py:423
 #: coop/templates/coop/draftuser_detail.html:32
 #: coop/templates/coop/shareowner_detail.html:49
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:162 accounts/templates/accounts/user_detail.html:86
+#: accounts/models.py:162 accounts/templates/accounts/user_detail.html:88
 #: coop/models.py:63 coop/models.py:424
 #: coop/templates/coop/draftuser_detail.html:36
 #: coop/templates/coop/shareowner_detail.html:53
@@ -77,7 +77,7 @@ msgstr "Ort"
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:168 accounts/templates/accounts/user_detail.html:120
+#: accounts/models.py:168 accounts/templates/accounts/user_detail.html:122
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:90
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
@@ -86,7 +86,7 @@ msgstr "Miteinkäufer*in"
 msgid "Allow purchase tracking"
 msgstr ""
 
-#: accounts/models.py:175 accounts/templates/accounts/user_detail.html:106
+#: accounts/models.py:175 accounts/templates/accounts/user_detail.html:108
 #: coop/models.py:71 coop/models.py:432
 #: coop/templates/coop/shareowner_detail.html:73
 msgid "Preferred Language"
@@ -137,7 +137,7 @@ msgid "Save"
 msgstr "Speichern"
 
 #: accounts/templates/accounts/ldap_group_list.html:9
-#: accounts/templates/accounts/user_detail.html:111
+#: accounts/templates/accounts/user_detail.html:113
 msgid "Groups"
 msgstr ""
 
@@ -172,27 +172,27 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: accounts/templates/accounts/user_detail.html:20 coop/models.py:617
+#: accounts/templates/accounts/user_detail.html:22 coop/models.py:617
 #: coop/templates/coop/shareowner_detail.html:12 log/views.py:93
 #: log/views.py:133 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Member"
 msgstr "Mitglied"
 
-#: accounts/templates/accounts/user_detail.html:28
+#: accounts/templates/accounts/user_detail.html:30
 #: coop/templates/coop/shareowner_detail.html:20
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:34
+#: accounts/templates/accounts/user_detail.html:36
 msgid "Edit groups"
 msgstr "Gruppen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:41
+#: accounts/templates/accounts/user_detail.html:43
 msgid "Edit username"
 msgstr "Benutzername bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:49
+#: accounts/templates/accounts/user_detail.html:51
 #: coop/templates/coop/draftuser_detail.html:132
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:21
@@ -207,11 +207,11 @@ msgstr "Benutzername bearbeiten"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:56
+#: accounts/templates/accounts/user_detail.html:58
 msgid "Edit name and pronouns"
 msgstr "Name und Pronomen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:64
+#: accounts/templates/accounts/user_detail.html:66
 #: coop/templates/coop/draftuser_detail.html:20
 #: coop/templates/coop/draftuser_list.html:27
 #: coop/templates/coop/shareowner_detail.html:41
@@ -223,16 +223,16 @@ msgstr "Name und Pronomen bearbeiten"
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:72
+#: accounts/templates/accounts/user_detail.html:74
 #: coop/templates/coop/draftuser_detail.html:28
 #: coop/templates/coop/draftuser_list.html:28
 #: coop/templates/coop/shareowner_detail.html:45
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:81
-#: accounts/templates/accounts/user_detail.html:91
-#: accounts/templates/accounts/user_detail.html:101
+#: accounts/templates/accounts/user_detail.html:83
+#: accounts/templates/accounts/user_detail.html:93
+#: accounts/templates/accounts/user_detail.html:103
 #: coop/templates/coop/draftuser_detail.html:50
 #: coop/templates/coop/shareowner_detail.html:58
 #: coop/templates/coop/shareowner_detail.html:68
@@ -242,21 +242,21 @@ msgstr "E-Mail-Adresse"
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:96
+#: accounts/templates/accounts/user_detail.html:98
 #: coop/templates/coop/draftuser_detail.html:45
 #: coop/templates/coop/shareowner_detail.html:63
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:115
+#: accounts/templates/accounts/user_detail.html:117
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:132
+#: accounts/templates/accounts/user_detail.html:134
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:141
+#: accounts/templates/accounts/user_detail.html:143
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -746,7 +746,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:23
-#: statistics/views.py:200
+#: statistics/views.py:209
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -1202,6 +1202,7 @@ msgstr ""
 #: statistics/templates/statistics/main_statistics.html:145
 #: statistics/templates/statistics/main_statistics.html:173
 #: statistics/templates/statistics/main_statistics.html:212
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:43
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
 
@@ -1294,14 +1295,14 @@ msgstr ""
 "                    "
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
-#: shifts/models.py:863 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:847 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:236
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:60
-#: shifts/models.py:862
+#: shifts/models.py:846
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -1568,7 +1569,7 @@ msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
 #: core/templates/core/email_list.html:37 shifts/models.py:461
-#: shifts/models.py:995 shifts/templates/shifts/user_shift_account_log.html:31
+#: shifts/models.py:979 shifts/templates/shifts/user_shift_account_log.html:31
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -1965,46 +1966,46 @@ msgstr ""
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:864 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:848 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:246
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:865 shifts/templates/shifts/shift_day_printable.html:59
+#: shifts/models.py:849 shifts/templates/shifts/shift_day_printable.html:59
 #: shifts/templates/shifts/shift_detail.html:276
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:866 shifts/templates/shifts/shift_detail.html:284
+#: shifts/models.py:850 shifts/templates/shifts/shift_detail.html:284
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:867 shifts/templates/shifts/shift_day_printable.html:81
+#: shifts/models.py:851 shifts/templates/shifts/shift_day_printable.html:81
 #: shifts/templates/shifts/shift_detail.html:268
 #: shifts/templates/shifts/shift_detail_printable.html:75
 #: shifts/templates/shifts/shift_filters.html:63
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:922
+#: shifts/models.py:906
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:923
+#: shifts/models.py:907
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:924
+#: shifts/models.py:908
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:927
+#: shifts/models.py:911
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1101
+#: shifts/models.py:1085
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -3190,7 +3191,7 @@ msgid "Main statistics"
 msgstr "Hauptstatistik"
 
 #: statistics/templates/statistics/main_statistics.html:22
-#: statistics/views.py:161
+#: statistics/views.py:170
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
@@ -3308,7 +3309,7 @@ msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:129
 #: statistics/templates/statistics/main_statistics.html:145
-#: statistics/views.py:218
+#: statistics/views.py:285
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
@@ -3380,15 +3381,27 @@ msgstr ""
 msgid "Gross amount"
 msgstr "Erreichter Betrag"
 
-#: statistics/views.py:218
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:43
+#, fuzzy
+#| msgid "Evolution of member count"
+msgid "Evolution of total spends per month"
+msgstr "Entwicklung der Mitgliederzahl"
+
+#: statistics/views.py:240
+#, fuzzy
+#| msgid "New members per month"
+msgid "Total spends per month"
+msgstr "Neue Mitglieder*innen pro Monat"
+
+#: statistics/views.py:285
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views.py:236
+#: statistics/views.py:303
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr ""
 
-#: statistics/views.py:373
+#: statistics/views.py:440
 msgid "Purchase data updated"
 msgstr ""
 

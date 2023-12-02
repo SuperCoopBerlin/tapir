@@ -58,6 +58,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         context_data["extra_shares"] = self.get_extra_shares_count()
         context_data["purchasing_members"] = self.get_purchasing_members_context()
         context_data["working_members"] = self.get_working_members_context()
+        context_data["target_average_monthly_basket"] = 225
 
         return context_data
 
