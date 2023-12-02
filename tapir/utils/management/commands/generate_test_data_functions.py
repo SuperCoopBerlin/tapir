@@ -14,6 +14,7 @@ from tapir.coop.models import (
     IncomingPayment,
     NewMembershipsForAccountingRecap,
     ExtraSharesForAccountingRecap,
+    MemberStatus,
 )
 from tapir.log.models import LogEntry
 from tapir.shifts.models import (
@@ -29,6 +30,7 @@ from tapir.shifts.models import (
     ShiftUserCapability,
     ShiftCycleEntry,
 )
+from tapir.statistics.models import ProcessedPurchaseFiles, PurchaseBasket
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import get_monday
@@ -390,11 +392,44 @@ def clear_data():
         ExtraSharesForAccountingRecap,
         ShareOwner,
         DraftUser,
+        ProcessedPurchaseFiles,
+        PurchaseBasket,
     ]
     for cls in classes:
         cls.objects.all().delete()
     TapirUser.objects.filter(is_staff=False).delete()
     print("Done")
+
+
+def generate_purchase_baskets():
+    current_date = ShareOwnership.objects.order_by("start_date").first().start_date
+    today = timezone.now().date()
+    while current_date < today:
+        source_file = ProcessedPurchaseFiles.objects.create(
+            file_name=f"test_basket_file{current_date.strftime('%d.%m.%Y')}",
+            processed_on=current_date + datetime.timedelta(hours=random.randint(0, 23)),
+        )
+        for share_owner in ShareOwner.objects.with_status(
+            status=MemberStatus.ACTIVE, date=current_date
+        ):
+            if not share_owner.user:
+                continue
+            PurchaseBasket.objects.create(
+                source_file=source_file,
+                purchase_date=current_date
+                - datetime.timedelta(
+                    days=random.randint(0, 6), hours=random.randint(0, 23)
+                ),
+                cashier=random.randint(0, 10),
+                purchase_counter=random.randint(0, 10),
+                tapir_user=share_owner.user,
+                gross_amount=random.randrange(1, 100),
+                first_net_amount=0,
+                second_net_amount=0,
+                discount=0,
+            )
+
+        current_date += datetime.timedelta(days=7)
 
 
 def reset_all_test_data():
@@ -405,3 +440,4 @@ def reset_all_test_data():
     generate_shifts(True)
     generate_test_users()
     generate_test_applicants()
+    generate_purchase_baskets()
