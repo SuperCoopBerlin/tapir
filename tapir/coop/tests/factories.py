@@ -5,6 +5,7 @@ import factory
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.models import ShareOwnership, ShareOwner, DraftUser, MembershipPause
+from tapir.statistics.models import PurchaseBasket
 
 
 class ShareOwnershipFactory(factory.django.DjangoModelFactory):
@@ -67,3 +68,14 @@ class MembershipPauseFactory(factory.django.DjangoModelFactory):
     )
     description = factory.Faker("bs")
     share_owner = factory.SubFactory(ShareOwnerFactory)
+
+
+class PurchaseBasketFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = PurchaseBasket
+
+    cashier = 1
+    purchase_counter = 1
+    first_net_amount = 0
+    second_net_amount = 0
+    discount = 0
