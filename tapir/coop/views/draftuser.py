@@ -1,12 +1,13 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.datetime_safe import date
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
@@ -42,6 +43,9 @@ class DraftUserListView(LoginRequiredMixin, PermissionRequiredMixin, generic.Lis
     permission_required = PERMISSION_COOP_MANAGE
     model = DraftUser
     ordering = ["created_at"]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(share_owner__isnull=True)
 
 
 class DraftUserCreateView(
@@ -160,36 +164,52 @@ def register_draftuser_payment(request, pk):
     return redirect(draft.get_absolute_url())
 
 
-@require_POST
-@csrf_protect
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def create_share_owner_from_draft_user_view(request, pk):
-    draft_user = get_object_or_404(DraftUser, pk=pk)
+class CreateShareOwnerFromDraftUserView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.RedirectView
+):
+    permission_required = [PERMISSION_COOP_MANAGE]
 
-    if not draft_user.can_create_user():
-        raise ValidationError(
-            "DraftUser is not ready (could be missing information or invalid amount of shares)"
+    def get_redirect_url(self, *args, **kwargs):
+        draft_user = get_object_or_404(DraftUser, pk=self.kwargs["pk"])
+        return (
+            draft_user.share_owner.get_absolute_url()
+            if draft_user.share_owner
+            else draft_user.get_absolute_url()
         )
 
-    with transaction.atomic():
-        share_owner = create_share_owner_and_shares_from_draft_user(draft_user)
-        draft_user.delete()
+    def get(self, request, *args, **kwargs):
+        draft_user = get_object_or_404(DraftUser, pk=self.kwargs["pk"])
 
-        NewMembershipsForAccountingRecap.objects.create(
-            member=share_owner,
-            number_of_shares=share_owner.get_active_share_ownerships().count(),
-            date=timezone.now().date(),
-        )
+        if not draft_user.can_create_user():
+            messages.error(
+                request,
+                mark_safe(
+                    _("Can't create member: ")
+                    + "<br />"
+                    + draft_user.must_solve_before_creating_share_owner_display()
+                ),
+            )
+            return super().get(request, args, kwargs)
 
-        email = (
-            MembershipConfirmationForInvestingMemberEmail
-            if share_owner.is_investing
-            else MembershipConfirmationForActiveMemberEmail
-        )(share_owner=share_owner)
-        email.send_to_share_owner(actor=request.user, recipient=share_owner)
+        with transaction.atomic():
+            share_owner = create_share_owner_and_shares_from_draft_user(draft_user)
+            draft_user.share_owner = share_owner
+            draft_user.save()
 
-    return redirect(share_owner.get_absolute_url())
+            NewMembershipsForAccountingRecap.objects.create(
+                member=share_owner,
+                number_of_shares=share_owner.get_active_share_ownerships().count(),
+                date=timezone.now().date(),
+            )
+
+            email = (
+                MembershipConfirmationForInvestingMemberEmail
+                if share_owner.is_investing
+                else MembershipConfirmationForActiveMemberEmail
+            )(share_owner=share_owner)
+            email.send_to_share_owner(actor=request.user, recipient=share_owner)
+
+        return super().get(request, args, kwargs)
 
 
 def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> ShareOwner:

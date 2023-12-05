@@ -24,16 +24,17 @@
                 <table class="{% tapir_table_classes %}" id="applicants_table"
                        aria-label="{% translate 'List of applicants' %}">
                     <thead>
-                    <th>{% translate "Name" %}</th>
-                    <th>{% translate "Email" %}</th>
-                    <th>{% translate "Beteiligungserklärung" %}</th>
-                    <th>{% translate "Date" %}</th>
-                    <th></th>
+                    <tr>
+                        <th>{% translate "Name" %}</th>
+                        <th>{% translate "Email" %}</th>
+                        <th>{% translate "Beteiligungserklärung" %}</th>
+                        <th>{% translate "Created on" %}</th>
+                        <th></th>
+                    </tr>
                     </thead>
                     {% for draft_user in object_list %}
                         <tr>
                             <td class="align-middle">{% get_display_name_for_viewer draft_user request.user %}</td>
-                            <td class="align-middle">{{ draft_user.last_name }}</td>
                             <td class="align-middle">{{ draft_user.email }}</td>
                             <td class="align-middle">
                                 {% if draft_user.signed_membership_agreement %}
