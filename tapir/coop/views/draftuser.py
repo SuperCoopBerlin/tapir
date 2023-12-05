@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db import transaction
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -102,6 +102,17 @@ class DraftUserDetailView(
 ):
     permission_required = PERMISSION_COOP_MANAGE
     model = DraftUser
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        draft_user: DraftUser = self.object
+        context_data["similar_members"] = ShareOwner.objects.filter(
+            Q(last_name=draft_user.last_name)
+            | Q(phone_number=draft_user.phone_number)
+            | Q(street=draft_user.street)
+            | Q(email=draft_user.email)
+        )
+        return context_data
 
 
 class DraftUserDeleteView(
