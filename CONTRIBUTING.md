@@ -105,7 +105,7 @@ The class name is the convention for the word in texts, followed by how to write
 
 ### Django Shell
 
-```
+```sh
 docker compose exec web poetry run python manage.py shell_plus
 ```
 
@@ -117,13 +117,13 @@ For reading or modifying the LDAP, Apache Directory Studio is pretty handy.
 
 For running the test should have a clean openldap container with the test data.
 
-```
+```sh
 docker compose up -d openldap
 ```
 
 Then, run the tests.
 
-```
+```sh
 docker compose run --rm web poetry run pytest
 ```
 
@@ -132,7 +132,7 @@ containers.
 
 To regenerate the test data fixtures:
 
-```
+```sh
 docker compose up --force-recreate
 docker compose exec web poetry run python manage.py migrate
 docker compose exec web poetry run python manage.py generate_test_data --reset_all
@@ -148,7 +148,7 @@ secret
 
 To generate the translation files, first use "makemessages" and specify the language you want to generate:
 
-```
+```sh
 docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages --no-wrap -l de
 ```
 
@@ -182,7 +182,7 @@ This is quite easy by adding the property to the model class. See this page as r
 All changes must be done in the docker container. Since our development environment is included to the
 docker container, you must run djangos makemigrations on docker. You can do this with this command:
 
-```
+```sh
 docker compose exec web poetry run python manage.py makemigrations
 ```
 
@@ -192,7 +192,7 @@ Please check the migration script. It might contain unwished changes. There seem
 
 Last step is to update the database. this is done with this command:
 
-```
+```sh
 docker compose exec web poetry run python manage.py migrate
 ```
 
