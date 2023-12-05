@@ -1,7 +1,10 @@
+import django_filters
+import django_tables2
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db import transaction
+from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -12,6 +15,9 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
+from django_filters.views import FilterView
+from django_tables2 import SingleTableView
+from django_tables2.export import ExportMixin
 
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
@@ -32,20 +38,12 @@ from tapir.coop.models import (
     NewMembershipsForAccountingRecap,
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
 from tapir.utils.user_utils import UserUtils
-
-
-class DraftUserListView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
-    permission_required = PERMISSION_COOP_MANAGE
-    model = DraftUser
-    ordering = ["created_at"]
-
-    def get_queryset(self):
-        return super().get_queryset().filter(share_owner__isnull=True)
 
 
 class DraftUserCreateView(
@@ -232,3 +230,98 @@ def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> Shar
         )
 
     return share_owner
+
+
+class DraftUserTable(django_tables2.Table):
+    class Meta:
+        model = DraftUser
+        template_name = TAPIR_TABLE_TEMPLATE
+        fields = [
+            "created_at",
+        ]
+        sequence = (
+            "display_name",
+            "share_owner_can_be_created",
+            "created_at",
+        )
+        order_by = "-created_at"
+        attrs = {"class": TAPIR_TABLE_CLASSES}
+
+    display_name = django_tables2.Column(
+        empty_values=(),
+        verbose_name=_("Name"),
+        orderable=False,
+    )
+    share_owner_can_be_created = django_tables2.Column(
+        empty_values=(),
+        verbose_name=_("Member can be created"),
+        orderable=False,
+        exclude_from_export=True,
+    )
+
+    def before_render(self, request):
+        self.request = request
+
+    def render_share_owner_can_be_created(self, value, record: DraftUser):
+        return _("Yes") if record.can_create_user() else _("No")
+
+    def value_display_name(self, value, record: DraftUser):
+        return UserUtils.build_display_name_for_viewer(record, self.request.user)
+
+    def render_display_name(self, value, record: DraftUser):
+        return UserUtils.build_html_link_for_viewer(record, self.request.user)
+
+    def render_created_at(self, value, record: DraftUser):
+        return record.created_at.strftime("%d.%m.%Y %H:%M")
+
+
+class DraftUserFilter(django_filters.FilterSet):
+    class Meta:
+        model = DraftUser
+        fields = [
+            "is_investing",
+            "attended_welcome_session",
+            "signed_membership_agreement",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(DraftUserFilter, self).__init__(*args, **kwargs)
+
+    share_owner_can_be_created = django_filters.BooleanFilter(
+        method="share_owner_can_be_created_filter", label=_("Member can be created")
+    )
+
+    @staticmethod
+    def share_owner_can_be_created_filter(
+        queryset: QuerySet, name, can_be_created: bool
+    ):
+        draft_user_ids = [
+            draft_user.id
+            for draft_user in queryset
+            if draft_user.can_create_user() == can_be_created
+        ]
+        return queryset.filter(id__in=draft_user_ids)
+
+
+class DraftUserListView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    FilterView,
+    ExportMixin,
+    SingleTableView,
+):
+    table_class = DraftUserTable
+    model = DraftUser
+    template_name = "coop/draftuser_list.html"
+    filterset_class = DraftUserFilter
+    export_formats = ["csv", "json"]
+    permission_required = [PERMISSION_COOP_MANAGE]
+
+    def get_queryset(self):
+        return super().get_queryset().filter(share_owner__isnull=True)
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["filtered_draftuser_count"] = self.object_list.count()
+        context_data["total_draftuser_count"] = DraftUser.objects.count()
+        return context_data

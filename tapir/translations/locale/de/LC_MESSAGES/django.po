@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-05 16:09+0100\n"
+"POT-Creation-Date: 2023-12-05 17:07+0100\n"
 "PO-Revision-Date: 2023-09-12 18:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -213,8 +213,7 @@ msgstr "Name und Pronomen bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:66
 #: coop/templates/coop/draftuser_detail.html:20
-#: coop/templates/coop/draftuser_list.html:28
-#: coop/templates/coop/shareowner_detail.html:41
+#: coop/templates/coop/shareowner_detail.html:41 coop/views/draftuser.py:252
 #: core/templates/core/email_list.html:36
 #: core/templates/core/featureflag_list.html:22
 #: financingcampaign/templates/financingcampaign/general.html:28
@@ -225,7 +224,6 @@ msgstr "Name"
 
 #: accounts/templates/accounts/user_detail.html:74
 #: coop/templates/coop/draftuser_detail.html:29
-#: coop/templates/coop/draftuser_list.html:29
 #: coop/templates/coop/shareowner_detail.html:45
 msgid "Email"
 msgstr "E-Mail-Adresse"
@@ -398,8 +396,8 @@ msgstr ""
 msgid "Members"
 msgstr "Mitglieder"
 
-#: coop/apps.py:25 coop/templates/coop/draftuser_list.html:8
-#: coop/templates/coop/draftuser_list.html:14
+#: coop/apps.py:25 coop/templates/coop/draftuser_list.html:11
+#: coop/templates/coop/draftuser_list.html:22
 #: coop/templates/coop/draftuser_register_form.default.html:14
 #: coop/templates/coop/draftuser_register_form.html:14
 msgid "Applicants"
@@ -719,7 +717,6 @@ msgid "Welcome Session"
 msgstr "Willkommenstreffen"
 
 #: coop/templates/coop/draftuser_detail.html:96
-#: coop/templates/coop/draftuser_list.html:30
 msgid "Beteiligungserklärung"
 msgstr "Beteiligungserklärung"
 
@@ -727,19 +724,46 @@ msgstr "Beteiligungserklärung"
 msgid "Create Member"
 msgstr "Mitglied anlegen"
 
-#: coop/templates/coop/draftuser_list.html:25
-msgid "List of applicants"
-msgstr "Liste der Bewerber*innen"
+#: coop/templates/coop/draftuser_list.html:27
+#: coop/templates/coop/membership_pause/membership_pause_list.html:29
+#: coop/templates/coop/shareowner_list.html:28
+#: shifts/templates/shifts/members_on_alert_list.html:23
+#: shifts/templates/shifts/shiftexemption_list.html:29
+msgid "Export"
+msgstr "Exportieren"
 
-#: coop/templates/coop/draftuser_list.html:31
-#, fuzzy
-#| msgid "Created by"
-msgid "Created on"
-msgstr "Erstellt durch"
+#: coop/templates/coop/draftuser_list.html:52
+#: coop/templates/coop/incoming_payment_list.html:41
+#: coop/templates/coop/membership_pause/membership_pause_list.html:55
+#: coop/templates/coop/shareowner_list.html:48
+#: log/templates/log/log_overview.html:28
+#: shifts/templates/shifts/shift_calendar_template.html:50
+#: shifts/templates/shifts/shiftexemption_list.html:57
+msgid "Filter"
+msgstr "Filter"
 
-#: coop/templates/coop/draftuser_list.html:41
-msgid "Signed"
-msgstr "Unterschrieben"
+#: coop/templates/coop/draftuser_list.html:56
+#: coop/templates/coop/incoming_payment_list.html:46
+#: coop/templates/coop/membership_pause/membership_pause_list.html:59
+#: coop/templates/coop/shareowner_list.html:52
+#: shifts/templates/shifts/shiftexemption_list.html:61
+msgid "Clear all filters"
+msgstr "Alle Filter entfernen"
+
+#: coop/templates/coop/draftuser_list.html:59
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "                                    Filtered %(filtered_member_count)s of %(total_member_count)s\n"
+#| "                                "
+msgid ""
+"\n"
+"                                    Filtered %(filtered)s of %(total)s\n"
+"                                "
+msgstr ""
+"\n"
+"                            %(filtered_member_count)s aus %(total_member_count)s gefilterte Mitglieder\n"
+"                            "
 
 #: coop/templates/coop/draftuser_register_form.default.html:31
 msgid "Create Applicant"
@@ -755,7 +779,7 @@ msgid "Register"
 msgstr "Anmelden"
 
 #: coop/templates/coop/draftuser_register_form.html:31
-#: coop/views/draftuser.py:60 coop/views/draftuser.py:61
+#: coop/views/draftuser.py:58 coop/views/draftuser.py:59
 msgid "Create applicant"
 msgstr "Bewerber*in erstellen"
 
@@ -973,22 +997,6 @@ msgstr "Zahlungen"
 msgid "Register a new payment"
 msgstr "Zahlung registrieren"
 
-#: coop/templates/coop/incoming_payment_list.html:41
-#: coop/templates/coop/membership_pause/membership_pause_list.html:55
-#: coop/templates/coop/shareowner_list.html:48
-#: log/templates/log/log_overview.html:28
-#: shifts/templates/shifts/shift_calendar_template.html:50
-#: shifts/templates/shifts/shiftexemption_list.html:57
-msgid "Filter"
-msgstr "Filter"
-
-#: coop/templates/coop/incoming_payment_list.html:46
-#: coop/templates/coop/membership_pause/membership_pause_list.html:59
-#: coop/templates/coop/shareowner_list.html:52
-#: shifts/templates/shifts/shiftexemption_list.html:61
-msgid "Clear all filters"
-msgstr "Alle Filter entfernen"
-
 #: coop/templates/coop/log/create_membership_pause_log_entry.html:4
 #, python-format
 msgid ""
@@ -1077,13 +1085,6 @@ msgstr ""
 "Alle Mitglieder, die als aktives Mitglied eingetragen sind, aber 4 oder mehr Schichten im Minus sind und deshalb erst wieder einkaufsberechtigt sind, wenn sie sich für die entsprechenden Nachholschichten eintragen.\n"
 "\n"
 " "
-
-#: coop/templates/coop/membership_pause/membership_pause_list.html:29
-#: coop/templates/coop/shareowner_list.html:28
-#: shifts/templates/shifts/members_on_alert_list.html:23
-#: shifts/templates/shifts/shiftexemption_list.html:29
-msgid "Export"
-msgstr "Exportieren"
 
 #: coop/templates/coop/membership_pause/membership_pause_list.html:41
 #, fuzzy
@@ -1397,16 +1398,33 @@ msgstr "Mitgliedsbestätigung per Mail senden"
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
-#: coop/views/draftuser.py:91 coop/views/draftuser.py:96
+#: coop/views/draftuser.py:89 coop/views/draftuser.py:94
 #, python-format
 msgid "Edit applicant: %(name)s"
 msgstr "Bewerber*innen bearbeiten: %(name)s"
 
-#: coop/views/draftuser.py:187
+#: coop/views/draftuser.py:185
 #, fuzzy
 #| msgid "Create Member"
 msgid "Can't create member: "
 msgstr "Mitglied anlegen"
+
+#: coop/views/draftuser.py:257 coop/views/draftuser.py:291
+#, fuzzy
+#| msgid "Members on alert"
+msgid "Member can be created"
+msgstr "Mitglieder mit Verwarnung"
+
+#: coop/views/draftuser.py:266
+msgid "Yes"
+msgstr ""
+
+#: coop/views/draftuser.py:266
+#, fuzzy
+#| msgctxt "Willing to give a share"
+#| msgid "No"
+msgid "No"
+msgstr "Nein"
 
 #: coop/views/incoming_payments.py:45
 msgid "Payment ID"
@@ -4430,6 +4448,10 @@ msgstr "Anfangsdatum muss vor Enddatum sein"
 msgid "Must be a positive number."
 msgstr "Muss eine positive Zahl sein."
 
+#: utils/user_utils.py:42
+msgid "NO NAME AVAILABLE"
+msgstr ""
+
 #: welcomedesk/apps.py:17 welcomedesk/apps.py:20
 #: welcomedesk/templates/welcomedesk/welcome_desk_search.html:16
 #: welcomedesk/templates/welcomedesk/welcome_desk_search.html:23
@@ -4504,6 +4526,17 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:86
 msgid "Member ID"
 msgstr "Mitglieds-ID"
+
+#~ msgid "List of applicants"
+#~ msgstr "Liste der Bewerber*innen"
+
+#, fuzzy
+#~| msgid "Created by"
+#~ msgid "Created on"
+#~ msgstr "Erstellt durch"
+
+#~ msgid "Signed"
+#~ msgstr "Unterschrieben"
 
 #~ msgid "Sold"
 #~ msgstr "Verkauft"
