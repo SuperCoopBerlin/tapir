@@ -1,5 +1,5 @@
+from django.contrib.messages import get_messages
 from django.core import mail
-from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils import timezone
 
@@ -11,10 +11,10 @@ from tapir.coop.emails.membership_confirmation_email_for_investing_member import
     MembershipConfirmationForInvestingMemberEmail,
 )
 from tapir.coop.models import (
-    DraftUser,
     ShareOwner,
     ShareOwnership,
     NewMembershipsForAccountingRecap,
+    DraftUser,
 )
 from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
@@ -27,13 +27,13 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
     def test_requires_permissions(self):
         self.login_as_normal_user()
         draft_user = DraftUserFactory.create(signed_membership_agreement=True)
-        response = self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        response = self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
 
-        self.assertIn(
-            reverse("login"),
-            response.url,
-            "The user should be redirected to the login page because they don't have the right permissions",
-        )  # Can't use self.assertRedirects because the response's URL contains the get parameters
+        self.assertEqual(
+            403,
+            response.status_code,
+            "A normal user should not have access to this call",
+        )
         self.assertFalse(
             ShareOwner.objects.filter(
                 first_name=draft_user.first_name, last_name=draft_user.last_name
@@ -45,7 +45,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
         self.login_as_member_office_user()
 
         draft_user = DraftUserFactory.create(signed_membership_agreement=True)
-        response = self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        response = self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
         share_owners = ShareOwner.objects.filter(
             first_name=draft_user.first_name, last_name=draft_user.last_name
         )
@@ -59,11 +59,11 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
             share_owner.get_absolute_url(),
             msg_prefix="The user should be redirected to the new member's page",
         )
-        self.assertFalse(
-            DraftUser.objects.filter(
-                first_name=draft_user.first_name, last_name=draft_user.last_name
-            ).exists(),
-            "After creating the shareowner, the draft user should have been destroyed",
+        draft_user.refresh_from_db()
+        self.assertEqual(
+            share_owner,
+            draft_user.share_owner,
+            "After creating the share_owner, the corresponding field on DraftUser should be set to the correct value",
         )
 
         for attribute in ShareOwnerFactory.ATTRIBUTES:
@@ -81,10 +81,22 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
 
     def test_share_owner_creation_needs_signed_membership_agreement(self):
         self.login_as_member_office_user()
+        draft_user: DraftUser = DraftUserFactory.create(
+            signed_membership_agreement=False
+        )
 
-        draft_user = DraftUserFactory.create(signed_membership_agreement=False)
-        with self.assertRaises(ValidationError):
-            self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        response = self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.assertRedirects(
+            response,
+            draft_user.get_absolute_url(),
+            msg_prefix="The user should be redirect to the draft_user's page.",
+        )
+        messages = get_messages(response.wsgi_request)
+        self.assertEqual(
+            1,
+            len(messages),
+            "An error message should be shown on the draft_user's page.",
+        )
 
     def test_paid_shares(self):
         self.login_as_member_office_user()
@@ -93,7 +105,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
             draft_user = DraftUserFactory.create(
                 signed_membership_agreement=True, paid_shares=paid_shares
             )
-            self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+            self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
             share_owner = ShareOwner.objects.get(
                 first_name=draft_user.first_name, last_name=draft_user.last_name
             )
@@ -117,7 +129,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
             email=self.USER_EMAIL_ADDRESS,
         )
         self.assertEqual(0, len(mail.outbox))
-        self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
         self.assertEqual(1, len(mail.outbox))
         self.assertEmailOfClass_GotSentTo(
             MembershipConfirmationForActiveMemberEmail,
@@ -136,7 +148,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
             email=self.USER_EMAIL_ADDRESS,
         )
         self.assertEqual(0, len(mail.outbox))
-        self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
         self.assertEqual(1, len(mail.outbox))
         self.assertEmailOfClass_GotSentTo(
             MembershipConfirmationForInvestingMemberEmail,
@@ -151,7 +163,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
         )
 
         self.assertEqual(0, NewMembershipsForAccountingRecap.objects.count())
-        self.client.post(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
         self.assertEqual(1, NewMembershipsForAccountingRecap.objects.count())
         recap_entry = NewMembershipsForAccountingRecap.objects.all()[0]
         self.assertEqual(draft_user.first_name, recap_entry.member.first_name)
