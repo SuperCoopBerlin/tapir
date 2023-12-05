@@ -37,6 +37,7 @@ from tapir.statistics.models import (
 from tapir.statistics.utils import (
     build_pie_chart_data,
     build_line_chart_data,
+    build_bar_chart_data,
 )
 from tapir.utils.shortcuts import get_first_of_next_month
 
@@ -234,10 +235,10 @@ class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, JS
 
         months = self.get_months(user_purchases)
 
-        return build_line_chart_data(
-            x_axis_values=months,
-            y_axis_values=[self.get_sums_per_month(user_purchases, months)],
-            data_labels=[_("Total spends per month")],
+        return build_bar_chart_data(
+            data=self.get_sums_per_month(user_purchases, months),
+            labels=months,
+            label=_("Total spends per month"),
         )
 
     @staticmethod
