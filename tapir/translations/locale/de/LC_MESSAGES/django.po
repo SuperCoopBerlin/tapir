@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-02 14:49+0100\n"
+"POT-Creation-Date: 2023-12-05 19:40+0100\n"
 "PO-Revision-Date: 2023-09-12 18:21+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -746,7 +746,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:23
-#: statistics/views.py:209
+#: statistics/views.py:210
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -1208,6 +1208,8 @@ msgstr "Grafik anzeigen: "
 
 #: coop/templates/coop/statistics.html:83
 #: statistics/templates/statistics/main_statistics.html:37
+#, fuzzy
+#| msgid "Evolution of member count"
 msgid "Evolution of member count"
 msgstr "Entwicklung der Mitgliederzahl"
 
@@ -3191,7 +3193,7 @@ msgid "Main statistics"
 msgstr "Hauptstatistik"
 
 #: statistics/templates/statistics/main_statistics.html:22
-#: statistics/views.py:170
+#: statistics/views.py:171
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
@@ -3309,7 +3311,7 @@ msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:129
 #: statistics/templates/statistics/main_statistics.html:145
-#: statistics/views.py:285
+#: statistics/views.py:286
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
@@ -3382,28 +3384,26 @@ msgid "Gross amount"
 msgstr "Erreichter Betrag"
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:43
-#, fuzzy
-#| msgid "Evolution of member count"
 msgid "Evolution of total spends per month"
-msgstr "Entwicklung der Mitgliederzahl"
+msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
-#: statistics/views.py:240
+#: statistics/views.py:241
 #, fuzzy
-#| msgid "New members per month"
+#| msgid "Evolution of total spends per month"
 msgid "Total spends per month"
-msgstr "Neue Mitglieder*innen pro Monat"
+msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
-#: statistics/views.py:285
+#: statistics/views.py:286
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views.py:303
+#: statistics/views.py:304
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
-msgstr ""
+msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views.py:440
+#: statistics/views.py:441
 msgid "Purchase data updated"
-msgstr ""
+msgstr "Kaufdaten aktualisiert"
 
 #: utils/forms.py:25
 msgid "German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. +12125552368)"
