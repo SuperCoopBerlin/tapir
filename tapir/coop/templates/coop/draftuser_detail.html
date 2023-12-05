@@ -11,6 +11,31 @@
 {% endblock %}
 
 {% block content %}
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="confirmDeleteModalLabel">
+                        {% translate "Confirm delete" %}: {% get_display_name_for_viewer object request.user %}
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        {% translate "Cancel" %}
+                    </button>
+                    <form class="form-inline ms-3" method="POST"
+                          action="{% url 'coop:draftuser_delete' object.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_custom 'danger' %}">
+                            <span class="material-icons">delete</span>Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <div class="card mb-2">
@@ -125,39 +150,32 @@
                         {{ object.paid_shares|yesno:_("Yes,No") }}
                     </div>
                 </div>
-                <div class="d-flex m-1 mt-5">
-                    <div class="d-flex flex-row justify-content-end gap-2">
-                        <a class="{% tapir_button_link_to_action %} ms-3"
-                           href="{% url 'coop:draftuser_update' object.pk %}">
-                            <span class="material-icons">edit</span>
-                            {% translate "Edit" %}
-                        </a>
-                        <form class="form-inline ms-3" method="POST"
-                              action="{% url 'coop:draftuser_delete' object.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="{% tapir_button_custom 'danger' %}">
-                                <span class="material-icons">delete</span>Delete
-                            </button>
-                        </form>
-
-
-                        <span
-                                {% if not object.can_create_user %}
-                                    data-bs-toggle="tooltip"
-                                    data-bs-html="true"
-                                    title="{{ object.must_solve_before_creating_share_owner_display }}"
-                                {% endif %}
-                        >
-                            <a
-                                    class="align-self-right {% tapir_button_action %} ms-3 {% if not object.can_create_user %}disabled{% endif %}"
-                                    href="{% url 'coop:draftuser_create_share_owner' object.pk %}"
-                                    id="button_create_share_owner">
-                                <span class="material-icons">person_add</span>
-                                {% translate "Create Member" %}
-                            </a>
-                        </span>
-                    </div>
-                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'coop:draftuser_update' object.pk %}">
+                    <span class="material-icons">edit</span>
+                    {% translate "Edit" %}
+                </a>
+                <span class="{% tapir_button_custom 'danger' %}" data-bs-toggle="modal"
+                      data-bs-target="#confirmDeleteModal">
+                    <span class="material-icons">delete</span>Delete
+                </span>
+                <span
+                        {% if not object.can_create_user %}
+                            data-bs-toggle="tooltip"
+                            data-bs-html="true"
+                            title="{{ object.must_solve_before_creating_share_owner_display }}"
+                        {% endif %}
+                >
+                    <a
+                            class="align-self-right {% tapir_button_action %} {% if not object.can_create_user %}disabled{% endif %}"
+                            href="{% url 'coop:draftuser_create_share_owner' object.pk %}"
+                            id="button_create_share_owner">
+                        <span class="material-icons">person_add</span>
+                        {% translate "Create Member" %}
+                    </a>
+                </span>
             </div>
         </div>
     </div>
