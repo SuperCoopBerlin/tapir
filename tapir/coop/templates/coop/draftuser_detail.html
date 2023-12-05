@@ -37,6 +37,33 @@
         </div>
     </div>
 
+    <div class="modal fade" id="confirmMemberCreationModal" tabindex="-1"
+         aria-labelledby="confirmMemberCreationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="confirmMemberCreationModalLabel">
+                        {% translate "Confirm member creation" %}: {% get_display_name_for_viewer object request.user %}
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        {% translate "Cancel" %}
+                    </button>
+                    <a
+                            class="align-self-right {% tapir_button_action %} {% if not object.can_create_user %}disabled{% endif %}"
+                            href="{% url 'coop:draftuser_create_share_owner' object.pk %}"
+                            id="button_create_share_owner">
+                        <span class="material-icons">person_add</span>
+                        {% translate "Create Member" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="card mb-2">
             <h5 class="card-header">{% translate "Applicant" %}: {% get_display_name_for_viewer object request.user %}</h5>
@@ -168,13 +195,13 @@
                             title="{{ object.must_solve_before_creating_share_owner_display }}"
                         {% endif %}
                 >
-                    <a
-                            class="align-self-right {% tapir_button_action %} {% if not object.can_create_user %}disabled{% endif %}"
-                            href="{% url 'coop:draftuser_create_share_owner' object.pk %}"
-                            id="button_create_share_owner">
+                    <span
+                            class="{% tapir_button_action %} {% if not object.can_create_user %}disabled{% endif %}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirmMemberCreationModal">
                         <span class="material-icons">person_add</span>
                         {% translate "Create Member" %}
-                    </a>
+                    </span>
                 </span>
             </div>
         </div>
