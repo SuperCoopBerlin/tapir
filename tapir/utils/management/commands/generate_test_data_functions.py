@@ -33,7 +33,7 @@ from tapir.shifts.models import (
 from tapir.statistics.models import ProcessedPurchaseFiles, PurchaseBasket
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
-from tapir.utils.shortcuts import get_monday
+from tapir.utils.shortcuts import get_monday, get_timezone_aware_datetime
 
 SHIFT_NAME_CASHIER_MORNING = "Cashier morning"
 SHIFT_NAME_CASHIER_AFTERNOON = "Cashier afternoon"
@@ -403,22 +403,39 @@ def clear_data():
 
 def generate_purchase_baskets():
     current_date = ShareOwnership.objects.order_by("start_date").first().start_date
+    # starting not too long ago to avoid taking too much time
+    current_date: datetime.date = max(
+        current_date, datetime.date(year=2023, month=1, day=1)
+    )
     today = timezone.now().date()
+    current_month = -1
     while current_date < today:
+        if current_date.month != current_month:
+            current_month = current_date.month
+            print(
+                f"Generating purchase baskets for {current_date.strftime('%d.%m.%Y')}"
+            )
+
         source_file = ProcessedPurchaseFiles.objects.create(
             file_name=f"test_basket_file{current_date.strftime('%d.%m.%Y')}",
-            processed_on=current_date + datetime.timedelta(hours=random.randint(0, 23)),
+            processed_on=get_timezone_aware_datetime(
+                current_date, datetime.time(hour=random.randint(0, 23))
+            ),
         )
-        for share_owner in ShareOwner.objects.with_status(
-            status=MemberStatus.ACTIVE, date=current_date
-        ):
-            if not share_owner.user:
-                continue
-            PurchaseBasket.objects.create(
+
+        purchasing_users = [
+            share_owner
+            for share_owner in ShareOwner.objects.with_status(
+                status=MemberStatus.ACTIVE, date=current_date
+            )
+            if share_owner.user
+        ]
+        baskets = [
+            PurchaseBasket(
                 source_file=source_file,
-                purchase_date=current_date
-                - datetime.timedelta(
-                    days=random.randint(0, 6), hours=random.randint(0, 23)
+                purchase_date=get_timezone_aware_datetime(
+                    current_date - datetime.timedelta(days=random.randint(0, 6)),
+                    datetime.time(hour=random.randint(0, 23)),
                 ),
                 cashier=random.randint(0, 10),
                 purchase_counter=random.randint(0, 10),
@@ -428,6 +445,9 @@ def generate_purchase_baskets():
                 second_net_amount=0,
                 discount=0,
             )
+            for share_owner in purchasing_users
+        ]
+        PurchaseBasket.objects.bulk_create(baskets)
 
         current_date += datetime.timedelta(days=7)
 
