@@ -19,10 +19,12 @@
             <span>{% translate 'ABCD Shift' %}: {{ object.get_display_name }}</span>
             {% if perms.shifts.manage %}
                 <span>
-                    <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:create_slot_template' object.pk %}">
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:create_slot_template' object.pk %}">
                         <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
                     </a>
-                    <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:shift_template_edit' object.pk %}">
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:shift_template_edit' object.pk %}">
                         <span class="material-icons button-icon">edit</span>
                         {% translate "Edit" %}
                     </a>
@@ -69,7 +71,9 @@
                                         {% else %}
                                             <span>{% get_display_name_for_viewer attendance.user request.user %}</span>
                                         {% endif %}
-                                        <span>({{ attendance.user.pronouns }})</span>
+                                        {% if attendance.user.pronouns %}
+                                            <span>({{ attendance.user.pronouns }})</span>
+                                        {% endif %}
                                         {% if perms.shifts.manage %}
                                             <form style="display: inline;"
                                                   method="post"
@@ -87,6 +91,7 @@
                                         {% if perms.shifts.manage %}
                                             <a class="{% tapir_button_link_to_action %}"
                                                href="
+
                                                        {% url 'shifts:slottemplate_register' slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
                                                 <span class="material-icons">person_add</span>
                                                 {% translate "Register" %}
@@ -97,7 +102,8 @@
                             {% endwith %}
                             <td>
                                 {% if perms.shifts.manage %}
-                                    <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:edit_slot_template' slot.pk %}">
+                                    <a class="{% tapir_button_link_to_action %}"
+                                       href="{% url 'shifts:edit_slot_template' slot.pk %}">
                                         <span class="material-icons">edit</span>
                                         {% translate "Edit" %}
                                     </a>
