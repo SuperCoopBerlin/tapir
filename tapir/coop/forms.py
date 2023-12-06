@@ -197,8 +197,6 @@ class ShareOwnerForm(forms.ModelForm):
 
         if self.instance.user:
             for f in [
-                "is_company",
-                "company_name",
                 "first_name",
                 "last_name",
                 "usage_name",
