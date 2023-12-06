@@ -15,7 +15,7 @@ class LogEntry(models.Model):
     )
 
     actor = models.ForeignKey(
-        "accounts.TapirUser", null=True, on_delete=models.CASCADE, related_name="+"
+        "accounts.TapirUser", null=True, on_delete=models.SET_NULL, related_name="+"
     )
 
     # User or ShareOwner that this log entry is associated with. Exactly one should be filled
@@ -23,13 +23,13 @@ class LogEntry(models.Model):
         "accounts.TapirUser",
         related_name="log_entries",
         null=True,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
     share_owner = models.ForeignKey(
         "coop.ShareOwner",
         related_name="log_entries",
         null=True,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
 
     log_class_type = models.ForeignKey(

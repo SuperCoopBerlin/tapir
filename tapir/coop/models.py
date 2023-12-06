@@ -373,7 +373,7 @@ class ShareOwnership(DurationModelMixin, models.Model):
         related_name="share_ownerships",
         blank=False,
         null=False,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
 
     amount_paid = models.DecimalField(
