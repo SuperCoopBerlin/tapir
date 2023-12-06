@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-06 16:17+0100\n"
-"PO-Revision-Date: 2023-12-06 16:22+0100\n"
+"PO-Revision-Date: 2023-12-06 16:27+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -404,10 +404,8 @@ msgid "Applicants"
 msgstr "Bewerber*innen"
 
 #: coop/apps.py:41
-#, fuzzy
-#| msgid "Management"
 msgid "Member management"
-msgstr "Verwaltung"
+msgstr "Mitgliederverwaltung"
 
 #: coop/apps.py:48 core/apps.py:17 financingcampaign/apps.py:14 log/apps.py:17
 msgid "Management"
@@ -540,10 +538,8 @@ msgid "User info should be stored in associated Tapir account"
 msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 
 #: coop/models.py:337
-#, fuzzy
-#| msgid "New members"
 msgid "Not a member"
-msgstr "Neue Mitglieder"
+msgstr ""
 
 #: coop/models.py:338 coop/templates/coop/draftuser_detail.html:60
 msgid "Investing"
@@ -556,10 +552,8 @@ msgid "Active"
 msgstr "Aktiv"
 
 #: coop/models.py:340
-#, fuzzy
-#| msgid "Excused"
 msgid "Paused"
-msgstr "Entschuldigt"
+msgstr ""
 
 #: coop/models.py:393
 msgid "Amount paid for a share can't be negative"
@@ -583,38 +577,28 @@ msgid "Paid Shares"
 msgstr "Anteil(e) bezahlt"
 
 #: coop/models.py:516
-#, fuzzy
-#| msgid "Email address"
 msgid "Email address must be set."
-msgstr "E-Mail-Adresse"
+msgstr ""
 
 #: coop/models.py:518
-#, fuzzy
-#| msgid "start date must be set"
 msgid "First name must be set."
-msgstr "Anfangsdatum muss gesetzt sein"
+msgstr "Vorname muss gesetzt sein."
 
 #: coop/models.py:520
-#, fuzzy
-#| msgid "start date must be set"
 msgid "Last name must be set."
-msgstr "Anfangsdatum muss gesetzt sein"
+msgstr "Nachname muss gesetzt sein."
 
 #: coop/models.py:522
-#, fuzzy
-#| msgid "Member Type"
 msgid "Membership agreement must be signed."
-msgstr "Art der Mitgliedschaft"
+msgstr ""
 
 #: coop/models.py:524
 msgid "Amount of requested shares must be positive."
 msgstr ""
 
 #: coop/models.py:526
-#, fuzzy
-#| msgid "Members on alert"
 msgid "Member already created."
-msgstr "Mitglieder mit Verwarnung"
+msgstr ""
 
 #: coop/models.py:552
 msgid "Paying member"
@@ -1003,10 +987,8 @@ msgid "New Payment: %(amount)s € on %(payment_date)s"
 msgstr ""
 
 #: coop/templates/coop/log/update_membership_pause_log_entry.html:2
-#, fuzzy
-#| msgid "Update Member:"
 msgid "Updated membership pause:"
-msgstr "Mitglied bearbeiten:"
+msgstr ""
 
 #: coop/templates/coop/log/update_share_owner_log_entry.html:3
 msgid "Update Member:"
@@ -1039,34 +1021,21 @@ msgid "Lists"
 msgstr ""
 
 #: coop/templates/coop/member_management.html:26
-#, fuzzy
-#| msgid "Edit groups"
 msgid "Access right groups"
-msgstr "Gruppen bearbeiten"
+msgstr ""
 
 #: coop/templates/coop/member_management.html:30
 #: coop/templates/coop/membership_pause/membership_pause_list.html:12
 #: coop/templates/coop/membership_pause/membership_pause_list.html:24
-#, fuzzy
-#| msgid "Member Type"
 msgid "Membership pauses"
-msgstr "Art der Mitgliedschaft"
+msgstr ""
 
 #: coop/templates/coop/member_management.html:40
 #: coop/templates/coop/member_management.html:50
-#, fuzzy
-#| msgid "Member statistics"
 msgid "Old member statistics"
-msgstr "Mitglieder-Statistik"
+msgstr ""
 
 #: coop/templates/coop/member_management.html:44
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                                Any member who is registered as an active member but is 4 or more shifts short and\n"
-#| "                                therefore\n"
-#| "                                not eligible to purchase again until they sign up for the appropriate make-up shifts.\n"
-#| "                            "
 msgid ""
 "\n"
 "                        <p>This statistics have been hidden from members in order to focus on the more important\n"
@@ -1074,16 +1043,10 @@ msgid ""
 "                        <p>They may not be relevant or well presented.</p>\n"
 "                    "
 msgstr ""
-"\n"
-"Alle Mitglieder, die als aktives Mitglied eingetragen sind, aber 4 oder mehr Schichten im Minus sind und deshalb erst wieder einkaufsberechtigt sind, wenn sie sich für die entsprechenden Nachholschichten eintragen.\n"
-"\n"
-" "
 
 #: coop/templates/coop/membership_pause/membership_pause_list.html:41
-#, fuzzy
-#| msgid "Set a new password"
 msgid "Create a new pause"
-msgstr "Neues Passwort festlegen"
+msgstr ""
 
 #: coop/templates/coop/membership_pause/membership_pause_list.html:62
 #, python-format
@@ -1227,8 +1190,6 @@ msgstr "Grafik anzeigen: "
 
 #: coop/templates/coop/statistics.html:83
 #: statistics/templates/statistics/main_statistics.html:37
-#, fuzzy
-#| msgid "Evolution of member count"
 msgid "Evolution of member count"
 msgstr "Entwicklung der Mitgliederzahl"
 
@@ -1286,34 +1247,20 @@ msgid "Status"
 msgstr "Status"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:35
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                        %(num_banked_shifts)s banked shifts\n"
-#| "                    "
+#, python-format
 msgid ""
 "\n"
 "                            (membership starting %(start_date)s)\n"
 "                        "
 msgstr ""
-"\n"
-"                        %(num_banked_shifts)s Schicht(en) gut geschrieben\n"
-"                    "
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                        %(num_banked_shifts)s banked shifts\n"
-#| "                    "
+#, python-format
 msgid ""
 "\n"
 "                            (membership ending %(end_date)s)\n"
 "                        "
 msgstr ""
-"\n"
-"                        %(num_banked_shifts)s Schicht(en) gut geschrieben\n"
-"                    "
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
 #: shifts/models.py:847 shifts/templates/shifts/shift_day_printable.html:57
@@ -1392,25 +1339,18 @@ msgid "Edit applicant: %(name)s"
 msgstr "Bewerber*innen bearbeiten: %(name)s"
 
 #: coop/views/draftuser.py:185
-#, fuzzy
-#| msgid "Create Member"
 msgid "Can't create member: "
-msgstr "Mitglied anlegen"
+msgstr ""
 
 #: coop/views/draftuser.py:257 coop/views/draftuser.py:291
-#, fuzzy
-#| msgid "Members on alert"
 msgid "Member can be created"
-msgstr "Mitglieder mit Verwarnung"
+msgstr ""
 
 #: coop/views/draftuser.py:266
 msgid "Yes"
 msgstr ""
 
 #: coop/views/draftuser.py:266
-#, fuzzy
-#| msgctxt "Willing to give a share"
-#| msgid "No"
 msgid "No"
 msgstr "Nein"
 
@@ -1435,10 +1375,9 @@ msgid "Create a new membership pause"
 msgstr ""
 
 #: coop/views/membership_pause.py:170 coop/views/membership_pause.py:175
-#, fuzzy, python-format
-#| msgid "Edit member: %(name)s"
+#, python-format
 msgid "Edit membership pause: %(name)s"
-msgstr "Mitglied bearbeiten: %(name)s"
+msgstr ""
 
 #: coop/views/shareowner.py:113 coop/views/shareowner.py:118
 #, python-format
@@ -1650,10 +1589,8 @@ msgid "Click this link to learn more."
 msgstr "Klicke hier um mehr zu erfahren."
 
 #: core/templates/core/tags/financing_campaign_progress_bar.html:12
-#, fuzzy
-#| msgid "Goal"
 msgid "Goal: "
-msgstr "Ziel"
+msgstr "Ziel: "
 
 #: core/views.py:47 core/views.py:49 log/models.py:136
 msgid "Not available"
@@ -2565,10 +2502,8 @@ msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
 #: shifts/templates/shifts/shift_calendar_template.html:31
-#, fuzzy
-#| msgid "Latest changes"
 msgid "Date range"
-msgstr "Letzte Änderungen"
+msgstr ""
 
 #: shifts/templates/shifts/shift_calendar_template.html:43
 msgid "From"
@@ -2845,10 +2780,8 @@ msgstr ""
 
 #: shifts/templates/shifts/shift_management.html:90
 #: shifts/templates/shifts/shift_management.html:99
-#, fuzzy
-#| msgid "Shift statistics"
 msgid "Old shift statistics"
-msgstr "Schicht-Statistiken"
+msgstr ""
 
 #: shifts/templates/shifts/shift_management.html:94
 msgid ""
@@ -2921,10 +2854,8 @@ msgid "Calendar of ABCD shifts"
 msgstr "Kalender der ABCD-Schichten"
 
 #: shifts/templates/shifts/shiftexemption_list.html:42
-#, fuzzy
-#| msgid "Create shift exemption for: %(link)s"
 msgid "Create shift exemption"
-msgstr "Erzeuge Schicht-Befreiung für: %(link)s"
+msgstr "Schicht-Befreiung erzeugen"
 
 #: shifts/templates/shifts/shiftexemption_list.html:64
 #, python-format
@@ -3043,10 +2974,8 @@ msgid "List of changes to this members shift account "
 msgstr ""
 
 #: shifts/templates/shifts/user_shift_account_log.html:30
-#, fuzzy
-#| msgid "Cycle start date"
 msgid "Balance at date"
-msgstr "Anfangsdatum"
+msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:45
 msgid "Find an ABCD shift"
@@ -3225,10 +3154,8 @@ msgid "Solidarity Shift given. Account Balance debited with -1."
 msgstr ""
 
 #: statistics/apps.py:18
-#, fuzzy
-#| msgid "Shift statistics"
 msgid "Statistics"
-msgstr "Schicht-Statistiken"
+msgstr "Statistiken"
 
 #: statistics/templates/statistics/main_statistics.html:10
 msgid "Main statistics"
@@ -3286,20 +3213,7 @@ msgid "Members eligible to purchase"
 msgstr "Einkaufsberechtigte Mitglieder"
 
 #: statistics/templates/statistics/main_statistics.html:72
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                <p>\n"
-#| "                                    All working members and all members who have an exemption (such as parental leave,\n"
-#| "                                    over 70, etc.). Members who are frozen (and have not yet signed up for their\n"
-#| "                                    catch-up shifts) or on break (3 shift cycles or longer away) are not eligible to\n"
-#| "                                    purchase.\n"
-#| "                                </p>\n"
-#| "                                <p>\n"
-#| "                                    Target number of purchasing members for\n"
-#| "                                    break-even: %(target_number_of_purchasing_members)s.\n"
-#| "                                </p>\n"
-#| "                            "
+#, python-format
 msgid ""
 "\n"
 "                                <p>\n"
@@ -3315,7 +3229,7 @@ msgid ""
 msgstr ""
 "\n"
 "<p>Alle mitarbeitenden Mitglieder sowie alle Mitglieder, die eine Befreiung haben (wie Elternzeit, über 70 Jahre, etc.). Mitglieder, die eingefroren sind (und sich noch nicht für ihre Nachholschichten angemeldet haben) oder pausieren (3 Schichtzyklen oder länger nicht da sind) sind nicht einkaufsberechtigt.</p>\n"
-"<p>Zielanzahl der kaufenden Mitglieder für den Break-even: %(target_number_of_purchasing_members)s.</p>\n"
+"<p>Zielanzahl der kaufenden Mitglieder für den Break-even: %(target_count)s</p>\n"
 "\n"
 "                            "
 
@@ -3329,14 +3243,7 @@ msgid "Working members"
 msgstr "Mitarbeitende Mitglieder"
 
 #: statistics/templates/statistics/main_statistics.html:106
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                Working members are active members who do not have an exemption. Exemptions are, for\n"
-#| "                                example, one year of parental leave, prolonged illness or members over 70 years of age.\n"
-#| "                                The number of working members is compared with the number of jobs to be filled each\n"
-#| "                                shift cycle : %(number_of_abcd_slots)s.\n"
-#| "                            "
+#, python-format
 msgid ""
 "\n"
 "                                Working members are active members who do not have an exemption. Exemptions are, for\n"
@@ -3347,7 +3254,7 @@ msgid ""
 msgstr ""
 "\n"
 "Alle aktiven Mitglieder, die keine Befreiung haben. Befreiungen sind bspw. ein Jahr Elternzeit, längere Krankheit oder Mitglieder über 70 Jahre.\n"
-" Die Anzahl an mitarbeitenden Mitglieder wird vergliechen mit der Anzahl an Schicht-Platzen die jeden Schicht-Zyklus erfüllt werden müssen : %(number_of_abcd_slots)s.\n"
+" Die Anzahl an mitarbeitenden Mitglieder wird vergliechen mit der Anzahl an Schicht-Platzen die jeden Schicht-Zyklus erfüllt werden müssen : %(target_count)s.\n"
 "\n"
 " "
 
@@ -3402,10 +3309,8 @@ msgstr ""
 "                                    "
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:7
-#, fuzzy
-#| msgid "Co-Purchasers"
 msgid "Purchases"
-msgstr "Miteinkäufer*innen"
+msgstr ""
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:11
 #, python-format
@@ -3420,20 +3325,16 @@ msgid "List of the last purchases"
 msgstr ""
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:20
-#, fuzzy
-#| msgid "Raised amount"
 msgid "Gross amount"
-msgstr "Erreichter Betrag"
+msgstr ""
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:43
 msgid "Evolution of total spends per month"
 msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
 #: statistics/views.py:241
-#, fuzzy
-#| msgid "Evolution of total spends per month"
 msgid "Total spends per month"
-msgstr "Entwicklung der Gesamtausgaben pro Monat"
+msgstr ""
 
 #: statistics/views.py:286
 msgid "Purchasing members"
@@ -4475,18 +4376,12 @@ msgid ""
 msgstr ""
 
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:62
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            %(name)s has a negative shift balance (%(balance)s). Contact a member of the management\n"
-#| "                            team."
+#, python-format
 msgid ""
 "\n"
 "                            %(name)s has paused their membership. Contact a member of the management team.\n"
 "                        "
 msgstr ""
-"\n"
-"%(name)s hat ein negatives Schicht-Score (%(balance)s). Kontaktiere eine Person aus dem Vorstand."
 
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:70
 #, python-format
