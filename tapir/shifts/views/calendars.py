@@ -34,7 +34,7 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
                 self.request.GET["date_from"], self.DATE_FORMAT
             ).date()
             if "date_from" in self.request.GET.keys()
-            else get_monday(timezone.now())
+            else get_monday(timezone.now().date())
         )
         date_to = (
             datetime.datetime.strptime(
