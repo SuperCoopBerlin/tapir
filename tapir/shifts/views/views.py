@@ -23,7 +23,12 @@ from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
-from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
+from tapir.core.config import (
+    TAPIR_TABLE_CLASSES,
+    TAPIR_TABLE_TEMPLATE,
+    feature_flag_solidarity_shifts,
+)
+from tapir.core.models import FeatureFlag
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
@@ -327,6 +332,10 @@ class SolidarityShiftUsed(LoginRequiredMixin, RedirectView):
             return HttpResponseForbidden(
                 "You don't have permission to use Solidarity Shifts on behalf of another user."
             )
+        elif not FeatureFlag.get_flag_value(feature_flag_solidarity_shifts):
+            return HttpResponseBadRequest(
+                "The Solidarity Shift feature is not enabled."
+            )
 
         solidarity_shift = SolidarityShift.objects.filter(is_used_up=False)[0]
 
@@ -358,6 +367,10 @@ class SolidarityShiftUsed(LoginRequiredMixin, RedirectView):
 
 class SolidarityShiftGiven(LoginRequiredMixin, RedirectView):
     def post(self, request, *args, **kwargs):
+        if not FeatureFlag.get_flag_value(feature_flag_solidarity_shifts):
+            return HttpResponseBadRequest(
+                "The Solidarity Shift feature is not enabled."
+            )
         tapir_user = get_object_or_404(TapirUser, pk=kwargs["pk"])
         shift_attendance = tapir_user.shift_attendances.filter(
             is_solidarity=False, state=ShiftAttendance.State.DONE

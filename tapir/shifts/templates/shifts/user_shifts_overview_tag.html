@@ -129,7 +129,7 @@
                 </a>
             </div>
         </div>
-        {% feature_flag_enabled "feature_flag_solidarity_shifts" as solidarity_shifts_enabled %}
+        {% feature_flag_enabled "Enable Solidarity Shifts" as solidarity_shifts_enabled %}
         {% if solidarity_shifts_enabled %}
             <div class="row m-1">
                 <div class="col-4 fw-bold text-end">{% translate "Solidarity" %}:</div>
@@ -147,12 +147,19 @@
             <div class="row m-1">
                 <div class="col-4 fw-bold text-end">{% translate "Solidarity Status" %}:</div>
                 <div class="col-8 d-flex">
-                    {% if user.shift_user_data.get_used_solidarity_shifts_current_year >= 2 %}
-                        <p>You already used {{ user.shift_user_data.get_used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
-                    {% elif user.shift_user_data.get_used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
-                        <p>There are Solidarity Shifts available for you to use. You used {{ user.shift_user_data.get_used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
+                    {% get_used_solidarity_shifts_current_year user.shift_user_data as used_solidarity_shifts_current_year %}
+                    {% if used_solidarity_shifts_current_year >= 2 %}
+                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
+                            <p>You already used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
+                        {% endblocktranslate %}
+                    {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
+                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
+                            <p>There are Solidarity Shifts available for you to use. You used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
+                        {% endblocktranslate %}
                     {% elif not user.shift_user_data.get_available_solidarity_shifts %}
-                        <p>There are no Solidarity Shifts available at the moment</p>
+                        {% blocktranslate %}
+                            <p>There are no Solidarity Shifts available at the moment</p>
+                        {% endblocktranslate %}
                     {% endif %}
                 </div>
             </div>

@@ -6,7 +6,7 @@ from tapir.coop.config import (
     on_welcome_session_attendance_update,
     get_ids_of_users_registered_to_a_shift_with_capability,
 )
-from tapir.core.config import sidebar_link_groups
+from tapir.core.config import sidebar_link_groups, feature_flag_solidarity_shifts
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 
 
@@ -61,7 +61,7 @@ class ShiftConfig(AppConfig):
             display_name="Solidarity Shifts",
             material_icon="favorite",
             url=reverse_lazy("shifts:solidarity_shifts"),
-            required_feature_flag="feature_flag_solidarity_shifts",
+            required_feature_flag=feature_flag_solidarity_shifts,
             ordering=4,
         )
 
