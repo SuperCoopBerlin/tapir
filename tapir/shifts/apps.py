@@ -61,6 +61,7 @@ class ShiftConfig(AppConfig):
             display_name="Solidarity Shifts",
             material_icon="favorite",
             url=reverse_lazy("shifts:solidarity_shifts"),
+            required_feature_flag="feature_flag_solidarity_shifts",
             ordering=4,
         )
 

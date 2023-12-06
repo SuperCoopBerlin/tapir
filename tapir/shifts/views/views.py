@@ -332,6 +332,11 @@ class SolidarityShiftUsed(LoginRequiredMixin, RedirectView):
 
         if not solidarity_shift:
             return HttpResponseBadRequest("There are no available Solidarity Shifts")
+        if tapir_user.shift_user_data.get_used_solidarity_shifts_current_year() >= 2:
+            return HttpResponseBadRequest(
+                "You already used 2 Solidarity Shifts this year"
+            )
+
         solidarity_shift.is_used_up = True
         solidarity_shift.date_used = date
         solidarity_shift.save()
@@ -339,6 +344,7 @@ class SolidarityShiftUsed(LoginRequiredMixin, RedirectView):
         ShiftAccountEntry(
             user=tapir_user,
             value=1,
+            is_solidarity_used=True,
             date=date,
             description="Solidarity shift received",
         ).save()
