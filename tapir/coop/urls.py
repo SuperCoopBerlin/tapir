@@ -82,7 +82,7 @@ urlpatterns = [
     ),
     path(
         "user/draft/<int:pk>/draftuser_create_share_owner",
-        views.create_share_owner_from_draft_user_view,
+        views.CreateShareOwnerFromDraftUserView.as_view(),
         name="draftuser_create_share_owner",
     ),
     path(

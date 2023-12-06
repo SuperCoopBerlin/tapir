@@ -408,6 +408,14 @@ class DeleteShareOwnershipLogEntry(ModelLogEntry):
 
 
 class DraftUser(models.Model):
+    class MustSolveBeforeCreatingShareOwner:
+        NO_EMAIL = "no_email"
+        NO_FIRST_NAME = "no_first_name"
+        NO_LAST_NAME = "no_last_name"
+        MEMBERSHIP_AGREEMENT_NOT_SIGNED = "membership_agreement_not_signed"
+        SHARE_COUNT_NOT_POSITIVE = "share_count_not_positive"
+        SHARE_OWNER_ALREADY_CREATED = "share_owner_already_created"
+
     first_name = models.CharField(
         _("Administrative first name"), max_length=150, blank=True
     )
@@ -453,6 +461,12 @@ class DraftUser(models.Model):
     ratenzahlung = models.BooleanField(verbose_name=_("Ratenzahlung"), default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
+    share_owner = models.OneToOneField(
+        ShareOwner,
+        related_name="draft_user",
+        null=True,
+        on_delete=models.CASCADE,
+    )
 
     def get_absolute_url(self):
         return reverse("coop:draftuser_detail", args=[self.pk])
@@ -466,13 +480,56 @@ class DraftUser(models.Model):
         )
 
     def can_create_user(self):
-        return (
-            self.email
-            and self.first_name
-            and self.last_name
-            and self.signed_membership_agreement
-            and self.num_shares > 0
-        )
+        return len(self.must_solve_before_creating_share_owner()) == 0
+
+    def must_solve_before_creating_share_owner(self):
+        to_solve = []
+
+        if not self.email:
+            to_solve.append(self.MustSolveBeforeCreatingShareOwner.NO_EMAIL)
+        if not self.first_name:
+            to_solve.append(self.MustSolveBeforeCreatingShareOwner.NO_FIRST_NAME)
+        if not self.last_name:
+            to_solve.append(self.MustSolveBeforeCreatingShareOwner.NO_LAST_NAME)
+        if not self.signed_membership_agreement:
+            to_solve.append(
+                self.MustSolveBeforeCreatingShareOwner.MEMBERSHIP_AGREEMENT_NOT_SIGNED
+            )
+        if not self.num_shares > 0:
+            to_solve.append(
+                self.MustSolveBeforeCreatingShareOwner.SHARE_COUNT_NOT_POSITIVE
+            )
+        if self.share_owner:
+            to_solve.append(
+                self.MustSolveBeforeCreatingShareOwner.SHARE_OWNER_ALREADY_CREATED
+            )
+
+        return to_solve
+
+    def must_solve_before_creating_share_owner_display(self):
+        result = ""
+        for to_solve in self.must_solve_before_creating_share_owner():
+            if result != "":
+                result += "<br />"
+            match to_solve:
+                case self.MustSolveBeforeCreatingShareOwner.NO_EMAIL:
+                    message = _("Email address must be set.")
+                case self.MustSolveBeforeCreatingShareOwner.NO_FIRST_NAME:
+                    message = _("First name must be set.")
+                case self.MustSolveBeforeCreatingShareOwner.NO_LAST_NAME:
+                    message = _("Last name must be set.")
+                case self.MustSolveBeforeCreatingShareOwner.MEMBERSHIP_AGREEMENT_NOT_SIGNED:
+                    message = _("Membership agreement must be signed.")
+                case self.MustSolveBeforeCreatingShareOwner.SHARE_COUNT_NOT_POSITIVE:
+                    message = _("Amount of requested shares must be positive.")
+                case self.MustSolveBeforeCreatingShareOwner.SHARE_OWNER_ALREADY_CREATED:
+                    message = _("Member already created.")
+                case _:
+                    raise TapirException(
+                        f"Unknown MustSolveBeforeCreatingShareOwner value : {to_solve}"
+                    )
+            result += message
+        return result
 
     def get_info(self):
         """

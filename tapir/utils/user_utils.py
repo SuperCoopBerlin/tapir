@@ -1,5 +1,6 @@
 from barcode import EAN13
 from barcode.writer import SVGWriter
+from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.utils.shortcuts import get_html_link
@@ -37,6 +38,8 @@ class UserUtils:
             if person.get_member_number():
                 display_name = f"{display_name} #{person.get_member_number()}"
 
+        if display_name.strip() == "":
+            display_name = _("NO NAME AVAILABLE")
         return display_name
 
     @classmethod

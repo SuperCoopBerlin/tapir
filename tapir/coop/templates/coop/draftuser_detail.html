@@ -18,7 +18,8 @@
             <div class="card-body" id="draft_user_detail_card">
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Name" %}:</div>
-                    <div class="col-9" id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
+                    <div class="col-9"
+                         id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Username" %}:</div>
@@ -139,18 +140,22 @@
                             </button>
                         </form>
 
-                        {% if object.can_create_user %}
-                            <form
-                                    method="post"
-                                    action="{% url 'coop:draftuser_create_share_owner' object.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="align-self-right {% tapir_button_action %} ms-3"
-                                        id="button_create_share_owner">
-                                    <span class="material-icons">person_add</span>
-                                    {% translate "Create Member" %}
-                                </button>
-                            </form>
-                        {% endif %}
+
+                        <span
+                                {% if not object.can_create_user %}
+                                    data-bs-toggle="tooltip"
+                                    data-bs-html="true"
+                                    title="{{ object.must_solve_before_creating_share_owner_display }}"
+                                {% endif %}
+                        >
+                            <a
+                                    class="align-self-right {% tapir_button_action %} ms-3 {% if not object.can_create_user %}disabled{% endif %}"
+                                    href="{% url 'coop:draftuser_create_share_owner' object.pk %}"
+                                    id="button_create_share_owner">
+                                <span class="material-icons">person_add</span>
+                                {% translate "Create Member" %}
+                            </a>
+                        </span>
                     </div>
                 </div>
             </div>
