@@ -26,6 +26,7 @@ from tapir.accounts.models import (
     LdapGroup,
     LdapPerson,
 )
+from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.views import TapirFormMixin
@@ -77,6 +78,12 @@ class TapirUserUpdateBaseView(
                     tapir_user=form.instance,
                     actor=self.request.user,
                 ).save()
+            new_co_purchaser = new_frozen.get("co_purchaser", None)
+            old_co_purchaser = self.old_object_frozen.get("co_purchaser", None)
+            if new_co_purchaser and new_co_purchaser != old_co_purchaser:
+                CoPurchaserUpdatedMail(tapir_user=form.instance).send_to_tapir_user(
+                    actor=self.request.user, recipient=form.instance
+                )
 
             return response
 

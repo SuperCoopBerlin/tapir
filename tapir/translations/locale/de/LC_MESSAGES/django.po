@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-07 10:49+0100\n"
-"PO-Revision-Date: 2023-12-07 10:48+0100\n"
+"POT-Creation-Date: 2023-12-07 11:19+0100\n"
+"PO-Revision-Date: 2023-12-07 11:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -415,27 +415,37 @@ msgstr "Verwaltung"
 msgid "Incoming payments"
 msgstr "Eingehende Zahlungen"
 
-#: coop/emails/extra_shares_confirmation_email.py:28
+#: coop/emails/co_purchaser_updated_mail.py:21
+#, fuzzy
+#| msgid "Purchase data updated"
+msgid "Co-purchaser updated"
+msgstr "Kaufdaten aktualisiert"
+
+#: coop/emails/co_purchaser_updated_mail.py:26
+msgid "Sent to a member when their new co-purchaser gets registered on their profile."
+msgstr ""
+
+#: coop/emails/extra_shares_confirmation_email.py:26
 msgid "Extra shares bought"
 msgstr ""
 
-#: coop/emails/extra_shares_confirmation_email.py:32
+#: coop/emails/extra_shares_confirmation_email.py:30
 msgid "Sent when someone who is already a member buys more shares"
 msgstr ""
 
-#: coop/emails/membership_confirmation_email_for_active_member.py:26
+#: coop/emails/membership_confirmation_email_for_active_member.py:25
 msgid "Membership confirmation for active users"
 msgstr "Mitgliedsbestätigung für aktive Mitglieder"
 
-#: coop/emails/membership_confirmation_email_for_investing_member.py:26
+#: coop/emails/membership_confirmation_email_for_investing_member.py:25
 msgid "Membership confirmation for investing users"
 msgstr "Mitgliedsbestätigung für investierende Mitglieder"
 
-#: coop/emails/tapir_account_created_email.py:27
+#: coop/emails/tapir_account_created_email.py:25
 msgid "Tapir account created"
 msgstr "Tapir-Konto erstellt"
 
-#: coop/emails/tapir_account_created_email.py:31
+#: coop/emails/tapir_account_created_email.py:29
 msgid "Sent to a member when the accounts gets created."
 msgstr ""
 
@@ -801,6 +811,50 @@ msgid ""
 "\n"
 "    Accounting recap\n"
 msgstr ""
+
+#: coop/templates/coop/email/co_purchaser_updated.body.default.html:8
+#, python-format
+msgid ""
+"\n"
+"        <p>Hello %(display_name_short)s,</p>\n"
+"        <p>\n"
+"            This is an automatic e-mail from SuperCoop. We would like to inform you that a co-shopper has just been\n"
+"            added to your Tapir account.\n"
+"        </p>\n"
+"        <p>\n"
+"            From now on %(co_purchaser_name)s can shop in the store using your membership number.\n"
+"        </p>\n"
+"        <p>\n"
+"            If this is an error and does not correspond to your request, please send a short\n"
+"            <a href=\"mailto:mitglied@supercoop.de\">email to the Member Office</a> to let us know.\n"
+"        </p>\n"
+"        <p>\n"
+"            Cooperative greetings,<br/>\n"
+"            The Member Office\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
+"        <p>Hallo %(display_name_short)s,</p>\n"
+"        <p>\n"
+"            dies ist eine automatisch versendete E-Mail von SuperCoop. Hiermit möchten wir dich darauf hinweisen, dass ein*e Miteinkäufer*in soeben in deinem Tapir-Konto hinterlegt wurde.\n"
+"        </p>\n"
+"        <p>\n"
+"            Ab sofort kann %(co_purchaser_name)s unter Angabe deiner Mitgliedsnummer im Laden einkaufen.\n"
+"        </p>\n"
+"        <p>\n"
+"            Sollte es sich hierbei um einen Irrtum handeln und nicht deinem Wunsch entsprechen, so bitten wir um eine kurze <a href=\"mailto:mitglied@supercoop.de\">E-Mail an das Mitgliederbüro</a>.\n"
+"        <p>\n"
+"            Kooperative Grüße<br />\n"
+"            Das Mitgliederbüro\n"
+"        </p>\n"
+"    "
+
+#: coop/templates/coop/email/co_purchaser_updated.subject.default.html:2
+#, fuzzy
+#| msgid "Co-purchasers"
+msgid "Co-purchaser registered"
+msgstr "Miteinkäufer*innen"
 
 #: coop/templates/coop/email/extra_shares_bought.body.default.html:8
 #, python-format
@@ -1770,11 +1824,11 @@ msgstr ""
 "ABCD-Jahreskalender\n"
 "Aktuelle Woche: {current_week_group_name}"
 
-#: shifts/emails/freeze_warning_email.py:27
+#: shifts/emails/freeze_warning_email.py:28
 msgid "Freeze warning"
 msgstr ""
 
-#: shifts/emails/freeze_warning_email.py:32
+#: shifts/emails/freeze_warning_email.py:33
 msgid "Sent to a member when their shift status is not frozen yet but will be set to frozen if they don't register for make-up shifts."
 msgstr ""
 
@@ -1786,28 +1840,28 @@ msgstr ""
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
 msgstr ""
 
-#: shifts/emails/shift_missed_email.py:23
+#: shifts/emails/shift_missed_email.py:22
 msgid "Shift missed"
 msgstr "Schicht versäumt"
 
-#: shifts/emails/shift_missed_email.py:27
+#: shifts/emails/shift_missed_email.py:26
 msgid "Sent to a member when the member office marks the shift as missed"
 msgstr ""
 
-#: shifts/emails/shift_reminder_email.py:23
+#: shifts/emails/shift_reminder_email.py:22
 msgid "Shift reminder"
 msgstr "Schicht-Erinnerung"
 
-#: shifts/emails/shift_reminder_email.py:28
+#: shifts/emails/shift_reminder_email.py:27
 #, python-brace-format
 msgid "Sent to a member {config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT} days before their shift"
 msgstr ""
 
-#: shifts/emails/stand_in_found_email.py:23
+#: shifts/emails/stand_in_found_email.py:22
 msgid "Stand-in found"
 msgstr "Vertretung gefunden"
 
-#: shifts/emails/stand_in_found_email.py:28
+#: shifts/emails/stand_in_found_email.py:27
 msgid "Sent to a member that was looking for a stand-inwhen the corresponding slot is taken over by another member."
 msgstr ""
 
