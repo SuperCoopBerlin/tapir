@@ -9,9 +9,8 @@ from tapir.shifts.models import Shift
 
 
 class StandInFoundEmail(TapirEmailBase):
-    shift = None
-
     def __init__(self, shift):
+        super().__init__()
         self.shift = shift
 
     @classmethod
