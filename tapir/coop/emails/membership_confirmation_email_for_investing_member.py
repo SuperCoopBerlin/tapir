@@ -12,9 +12,8 @@ from tapir.utils.user_utils import UserUtils
 
 
 class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
-    share_owner = None
-
     def __init__(self, share_owner: ShareOwner):
+        super().__init__()
         self.share_owner = share_owner
 
     @classmethod

@@ -16,6 +16,7 @@ from tapir.shifts.models import ShiftUserData
 
 class FreezeWarningEmail(TapirEmailBase):
     def __init__(self, shift_user_data: ShiftUserData):
+        super().__init__()
         self.shift_user_data = shift_user_data
 
     @classmethod

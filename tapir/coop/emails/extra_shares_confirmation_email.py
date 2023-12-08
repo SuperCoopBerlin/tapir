@@ -12,10 +12,8 @@ from tapir.utils.user_utils import UserUtils
 
 
 class ExtraSharesConfirmationEmail(TapirEmailBase):
-    num_shares = None
-    share_owner = None
-
     def __init__(self, num_shares: int, share_owner: ShareOwner):
+        super().__init__()
         self.num_shares = num_shares
         self.share_owner = share_owner
 

@@ -43,6 +43,7 @@ def disabled_if_user_cant_receive_solidarity(user):
     if (
         user.shift_user_data.get_available_solidarity_shifts()
         and user.shift_user_data.get_account_balance() < 0
+        and user.shift_user_data.get_used_solidarity_shifts_current_year() < 2
     ):
         return ""
     return "disabled"
