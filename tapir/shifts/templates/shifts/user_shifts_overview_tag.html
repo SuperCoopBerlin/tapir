@@ -129,18 +129,40 @@
                 </a>
             </div>
         </div>
-        <div class="row m-1">
-            <div class="col-4 fw-bold text-end">{% translate "Solidarity" %}:</div>
-            <div class="col-8 d-flex gap-1">
-                <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
-                    {% csrf_token %}
-                    <button type="submit" class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_receive_solidarity user %}"><span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}</button>
-                </form>
-                <form method="post" action="{% url 'shifts:solidarity_shift_given' object.pk%}">
-                    {% csrf_token %}
-                    <button type="submit" class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}"><span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}</button>
-                </form>
+        {% feature_flag_enabled "Enable Solidarity Shifts" as solidarity_shifts_enabled %}
+        {% if solidarity_shifts_enabled %}
+            <div class="row m-1">
+                <div class="col-4 fw-bold text-end">{% translate "Solidarity" %}:</div>
+                <div class="col-8 d-flex gap-1">
+                    <form method="post" action="{% url 'shifts:solidarity_shift_used' object.pk%}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_receive_solidarity user %}"><span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}</button>
+                    </form>
+                    <form method="post" action="{% url 'shifts:solidarity_shift_given' object.pk%}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}"><span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}</button>
+                    </form>
+                </div>
             </div>
-        </div>
+            <div class="row m-1">
+                <div class="col-4 fw-bold text-end">{% translate "Solidarity Status" %}:</div>
+                <div class="col-8 d-flex">
+                    {% get_used_solidarity_shifts_current_year user.shift_user_data as used_solidarity_shifts_current_year %}
+                    {% if used_solidarity_shifts_current_year >= 2 %}
+                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
+                            <p>You already used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
+                        {% endblocktranslate %}
+                    {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
+                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
+                            <p>There are Solidarity Shifts available for you to use. You used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
+                        {% endblocktranslate %}
+                    {% elif not user.shift_user_data.get_available_solidarity_shifts %}
+                        {% blocktranslate %}
+                            <p>There are no Solidarity Shifts available at the moment</p>
+                        {% endblocktranslate %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
     </div>
 </div>

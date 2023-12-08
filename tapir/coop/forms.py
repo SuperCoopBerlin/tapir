@@ -184,7 +184,6 @@ class ShareOwnerForm(forms.ModelForm):
             "is_investing",
             "ratenzahlung",
             "attended_welcome_session",
-            "paid_membership_fee",
             "willing_to_gift_a_share",
         ]
         widgets = {
@@ -197,8 +196,6 @@ class ShareOwnerForm(forms.ModelForm):
 
         if self.instance.user:
             for f in [
-                "is_company",
-                "company_name",
                 "first_name",
                 "last_name",
                 "usage_name",

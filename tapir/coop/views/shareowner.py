@@ -591,7 +591,6 @@ class ShareOwnerFilter(django_filters.FilterSet):
             "attended_welcome_session",
             "ratenzahlung",
             "is_company",
-            "paid_membership_fee",
         ]
 
     status = ChoiceFilter(

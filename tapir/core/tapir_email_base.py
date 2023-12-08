@@ -19,7 +19,8 @@ class TapirEmailBase:
     class Meta:
         abstract = True
 
-    context = None
+    def __init__(self):
+        self.context = None
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -58,7 +59,8 @@ class TapirEmailBase:
     def get_extra_context(self) -> dict:
         return {}
 
-    def get_from_email(self) -> str:
+    @staticmethod
+    def get_from_email() -> str:
         return settings.EMAIL_ADDRESS_MEMBER_OFFICE
 
     def get_attachments(self) -> List:

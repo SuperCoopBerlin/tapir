@@ -105,7 +105,9 @@ class ShareOwner(models.Model):
 
             return self.filter(combined_filters)
 
-        def with_status(self, status: str, date=datetime.date.today()):
+        def with_status(self, status: str, date=None):
+            if date is None:
+                date = datetime.date.today()
             active_ownerships = ShareOwnership.objects.active_temporal(date)
 
             if status == MemberStatus.SOLD:
@@ -373,7 +375,7 @@ class ShareOwnership(DurationModelMixin, models.Model):
         related_name="share_ownerships",
         blank=False,
         null=False,
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
 
     amount_paid = models.DecimalField(

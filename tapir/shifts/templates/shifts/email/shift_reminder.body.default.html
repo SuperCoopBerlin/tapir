@@ -8,14 +8,45 @@
     {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
         <p>Hi {{ display_name_short }},</p>
 
-        <p>This is an automated email from {{ coop_name }}.</p>
+        <p>This is an automatically sent email from SuperCoop to kindly remind you about your next shift.</p>
 
-        <p>
-            Your next shift at {{ coop_name }} is: <br/>
-            <strong>{{ shift_display_name }}</strong>
-        </p>
+        <p>You are registered for the shift: {{ shift_display_name }}</p>
     {% endblocktranslate %}
     <p>
-        {% translate "In case you can't attend the shift, contact the team leader as soon as possible. If you can only come late: please come to your shift anyway, every support is important." %}
+        {% blocktranslate %}
+            Before you start your next shift, we would like to ask you to check the wiki for the latest information
+            about your shift. You can find all the latest updates on our
+            <a href="https://wiki.supercoop.de/wiki/Schicht-News">shift news wiki page.</a>
+        {% endblocktranslate %}
+    </p>
+
+    {% blocktranslate %}
+        <p>
+            If you are unable to complete your shift, please contact your team leader as soon as possible. If you do not
+            have a team leader, please contact the Member Office by replying to this email.
+        </p>
+        <p>
+            If you have already contacted your team leader and/or the Member Office regarding this matter, please feel
+            free to ignore this message.
+        </p>
+        <p>
+            If you can only come late: please still come to your shift, every support is important!
+        </p>
+    {% endblocktranslate %}
+
+    <p>
+        {% blocktranslate %}
+            Please note that it is your responsibility as a member to make every effort to find a replacement if needed.
+            To learn more about the replacement (stand-in) system, please see the
+            <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.vxvgxkgmyf1w">
+                Member Manual</a>.
+        {% endblocktranslate %}
+    </p>
+
+    <p>
+        {% blocktranslate %}
+            Cooperative Greetings, <br/>
+            The Member Office
+        {% endblocktranslate %}
     </p>
 {% endblock body %}

@@ -9,13 +9,11 @@ from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase
-from tapir.log.models import EmailLogEntry
 
 
 class TapirAccountCreatedEmail(TapirEmailBase):
-    tapir_user = None
-
     def __init__(self, tapir_user: TapirUser):
+        super().__init__()
         self.tapir_user = tapir_user
 
     @classmethod

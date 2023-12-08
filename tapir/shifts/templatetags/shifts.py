@@ -12,6 +12,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftTemplateGroup,
     ShiftSlot,
+    ShiftUserData,
 )
 from tapir.utils.shortcuts import get_monday
 
@@ -239,3 +240,8 @@ def get_week_group(target_date, cycle_start_dates=None) -> ShiftTemplateGroup | 
 @register.simple_tag
 def get_current_week_group() -> ShiftTemplateGroup:
     return get_week_group(timezone.now())
+
+
+@register.simple_tag
+def get_used_solidarity_shifts_current_year(shift_user_data):
+    return ShiftUserData.get_used_solidarity_shifts_current_year(shift_user_data)

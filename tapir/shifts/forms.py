@@ -84,7 +84,9 @@ class TapirUserChoiceField(ModelChoiceField):
 class ShareOwnerChoiceField(ModelChoiceField):
     widget = Select2Widget()
 
-    def __init__(self, queryset=ShareOwner.objects.all(), **kwargs):
+    def __init__(self, queryset=None, **kwargs):
+        if queryset is None:
+            queryset = ShareOwner.objects.all()
         queryset = queryset.prefetch_related("user")
         super().__init__(queryset=queryset, **kwargs)
 

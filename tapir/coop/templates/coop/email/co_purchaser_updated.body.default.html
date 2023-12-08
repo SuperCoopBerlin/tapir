@@ -1,0 +1,26 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+{% load utils %}
+
+{% block body %}
+    {% get_display_name_short member_infos as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short co_purchaser_name=tapir_user.co_purchaser email_address_member_office=EMAIL_ADDRESS_MEMBER_OFFICE %}
+        <p>Hello {{ display_name_short }},</p>
+        <p>
+            This is an automatic e-mail from SuperCoop. We would like to inform you that a co-shopper has just been
+            added to your Tapir account.
+        </p>
+        <p>
+            From now on {{ co_purchaser_name }} can shop in the store using your membership number.
+        </p>
+        <p>
+            If this is an error and does not correspond to your request, please send a short
+            <a href="mailto:{{ email_address_member_office }}">email to the Member Office</a> to let us know.
+        </p>
+        <p>
+            Cooperative greetings,<br/>
+            The Member Office
+        </p>
+    {% endblocktranslate %}
+{% endblock %}
