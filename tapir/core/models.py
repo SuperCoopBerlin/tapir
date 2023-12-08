@@ -12,8 +12,9 @@ class FeatureFlag(models.Model):
 
     @classmethod
     def get_flag_value(cls, flag_name: str) -> bool:
-        flag = cls.objects.filter(flag_name=flag_name).first()
-        return flag.flag_value if flag else False
+        return cls.objects.get_or_create(
+            flag_name=flag_name, defaults={"flag_value": False}
+        )[0].flag_value
 
     @classmethod
     def set_flag_value(cls, flag_name: str, flag_value: bool):
