@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.template import Template, Context
@@ -66,6 +67,7 @@ from tapir.settings import (
 from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
+    ShiftExemption,
 )
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
@@ -655,6 +657,10 @@ class ShareOwnerFilter(django_filters.FilterSet):
     display_name = CharFilter(
         method="display_name_filter", label=_("Name or member ID")
     )
+    is_currently_exempted_from_shifts = BooleanFilter(
+        method="is_currently_exempted_from_shifts_filter",
+        label=_("Is currently exempted from shifts"),
+    )
 
     @staticmethod
     def display_name_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
@@ -736,10 +742,22 @@ class ShareOwnerFilter(django_filters.FilterSet):
         else:
             return queryset.exclude(share_ownerships__in=unpaid_shares).distinct()
 
+    @staticmethod
     def is_fully_paid_filter(
-        self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
     ):
         return queryset.with_fully_paid(value)
+
+    @staticmethod
+    def is_currently_exempted_from_shifts_filter(
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+    ):
+        exemption_filter = Q(
+            user__shift_user_data__shift_exemptions__in=ShiftExemption.objects.active_temporal()
+        )
+        if not value:
+            exemption_filter = ~exemption_filter
+        return queryset.filter(exemption_filter).distinct()
 
 
 class ShareOwnerListView(
