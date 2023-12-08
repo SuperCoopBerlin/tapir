@@ -11,6 +11,116 @@
 {% endblock %}
 
 {% block content %}
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="confirmDeleteModalLabel">
+                        {% translate "Confirm delete" %}: {% get_display_name_for_viewer object request.user %}
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <form class="form-inline ms-3" method="POST"
+                          action="{% url 'coop:draftuser_delete' object.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_custom 'danger' %}">
+                            <span class="material-icons">delete</span>Delete
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="confirmMemberCreationModal" tabindex="-1"
+         aria-labelledby="confirmMemberCreationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="confirmMemberCreationModalLabel">
+                        {% translate "Confirm member creation" %}: {% get_display_name_for_viewer object request.user %}
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {% if similar_members %}
+                    <div class="modal-body">
+                        {% blocktranslate %}
+                            <p>
+                                Members with similar information as the person you are trying to create have been found.
+                                Please double-check that this is not a duplicate.
+                            </p>
+                        {% endblocktranslate %}
+                        <div class="table-responsive">
+                            <table class="{% tapir_table_classes %}"
+                                   aria-label="{% translate 'List of similar members' %}">
+                                <thead>
+                                <tr>
+                                    <th>{% translate "Status" %}</th>
+                                    <th>{% translate "Name" %}</th>
+                                    <th>{% translate "Phone number" %}</th>
+                                    <th>{% translate "Address" %}</th>
+                                    <th>{% translate "Email" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>{% translate "Applicant" %}</td>
+                                    <td>{% get_display_name_for_viewer object request.user %}</td>
+                                    <td>{{ object.phone_number }}</td>
+                                    <td>{{ object.get_display_address }}</td>
+                                    <td>{{ object.email }}</td>
+                                </tr>
+                                {% for member in similar_members %}
+                                    <tr>
+                                        <td>{% translate "Member" %}</td>
+                                        <td {% if member.last_name == object.last_name %}class="table-warning"{% endif %}>
+                                            {% get_display_name_for_viewer member request.user %}
+                                        </td>
+                                        <td {% if member.phone_number == object.phone_number %}class="table-warning"{% endif %}>
+                                            {{ member.phone_number }}
+                                        </td>
+                                        <td {% if member.street == object.street %}class="table-warning"{% endif %}>
+                                            {{ member.get_display_address }}
+                                        </td>
+                                        <td {% if member.email == object.email %}class="table-warning"{% endif %}>
+                                            {{ member.email }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" id="confirm_similar_members" class="form-check-input"/>
+                            <label for="confirm_similar_members" class="form-check-label">
+                                {% translate "I confirm that I have checked that this is not a duplicate." %}
+                            </label>
+                            <script>
+                                document.getElementById("confirm_similar_members").addEventListener("change", (event) => {
+                                    if (event.target.checked)
+                                        document.getElementById("button_create_share_owner").classList.remove("disabled");
+                                    else
+                                        document.getElementById("button_create_share_owner").classList.add("disabled");
+                                })
+                            </script>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="modal-footer">
+                    <a
+                            class="align-self-right {% tapir_button_action %} {% if similar_members %}disabled{% endif %}"
+                            href="{% url 'coop:draftuser_create_share_owner' object.pk %}"
+                            id="button_create_share_owner">
+                        <span class="material-icons">person_add</span>
+                        {% translate "Create Member" %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <div class="card mb-2">
@@ -125,39 +235,32 @@
                         {{ object.paid_shares|yesno:_("Yes,No") }}
                     </div>
                 </div>
-                <div class="d-flex m-1 mt-5">
-                    <div class="d-flex flex-row justify-content-end gap-2">
-                        <a class="{% tapir_button_link_to_action %} ms-3"
-                           href="{% url 'coop:draftuser_update' object.pk %}">
-                            <span class="material-icons">edit</span>
-                            {% translate "Edit" %}
-                        </a>
-                        <form class="form-inline ms-3" method="POST"
-                              action="{% url 'coop:draftuser_delete' object.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="{% tapir_button_custom 'danger' %}">
-                                <span class="material-icons">delete</span>Delete
-                            </button>
-                        </form>
-
-
-                        <span
-                                {% if not object.can_create_user %}
-                                    data-bs-toggle="tooltip"
-                                    data-bs-html="true"
-                                    title="{{ object.must_solve_before_creating_share_owner_display }}"
-                                {% endif %}
-                        >
-                            <a
-                                    class="align-self-right {% tapir_button_action %} ms-3 {% if not object.can_create_user %}disabled{% endif %}"
-                                    href="{% url 'coop:draftuser_create_share_owner' object.pk %}"
-                                    id="button_create_share_owner">
-                                <span class="material-icons">person_add</span>
-                                {% translate "Create Member" %}
-                            </a>
-                        </span>
-                    </div>
-                </div>
+            </div>
+            <div class="card-footer d-flex justify-content-end gap-2">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'coop:draftuser_update' object.pk %}">
+                    <span class="material-icons">edit</span>
+                    {% translate "Edit" %}
+                </a>
+                <span class="{% tapir_button_custom 'danger' %}" data-bs-toggle="modal"
+                      data-bs-target="#confirmDeleteModal">
+                    <span class="material-icons">delete</span>Delete
+                </span>
+                <span
+                        {% if not object.can_create_user %}
+                            data-bs-toggle="tooltip"
+                            data-bs-html="true"
+                            title="{{ object.must_solve_before_creating_share_owner_display }}"
+                        {% endif %}
+                >
+                    <span
+                            class="{% tapir_button_action %} {% if not object.can_create_user %}disabled{% endif %}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirmMemberCreationModal">
+                        <span class="material-icons">person_add</span>
+                        {% translate "Create Member" %}
+                    </span>
+                </span>
             </div>
         </div>
     </div>
