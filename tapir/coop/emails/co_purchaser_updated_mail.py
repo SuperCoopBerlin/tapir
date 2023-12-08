@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.settings import EMAIL_ADDRESS_MEMBER_OFFICE
 
 
 class CoPurchaserUpdatedMail(TapirEmailBase):
@@ -37,6 +38,9 @@ class CoPurchaserUpdatedMail(TapirEmailBase):
             "coop/email/co_purchaser_updated.body.html",
             "coop/email/co_purchaser_updated.body.default.html",
         ]
+
+    def get_extra_context(self) -> dict:
+        return {"EMAIL_ADDRESS_MEMBER_OFFICE": EMAIL_ADDRESS_MEMBER_OFFICE}
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase | None:
