@@ -4,7 +4,7 @@ from typing import Type, Callable
 
 import environ
 from django.db import models
-from django.db.models import Q
+from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils import timezone
@@ -79,7 +79,7 @@ def setup_ssh_for_biooffice_storage():
 
 
 def get_models_with_attribute_value_at_date(
-    model_class: Type[models.Model],
+    entries: QuerySet,
     log_class: Type[UpdateModelLogEntry],
     attribute_name: str,
     attribute_value: any,
@@ -90,26 +90,33 @@ def get_models_with_attribute_value_at_date(
     if not entry_to_user and not entry_to_share_owner:
         raise ValueError("Must specify either entry_to_user or entry_to_share_owner")
 
-    entries = model_class.objects.all()
-    logs = log_class.objects.filter(
-        created_date__gte=get_timezone_aware_datetime(
-            date, datetime.time(hour=0, minute=0)
-        ),
-        old_values__has_key=attribute_name,
-    )
+    logs = (
+        log_class.objects.filter(
+            created_date__gte=get_timezone_aware_datetime(
+                date, datetime.time(hour=0, minute=0)
+            ),
+            old_values__has_key=attribute_name,
+        )
+        .order_by("user", "created_date")
+        .select_related("user", "share_owner")
+    )  # ordering by user then calling distinct("user") will give us the oldest entry for each user
+
+    if entry_to_user:
+        logs = logs.distinct("user")
+        logs = {log.user.id: log for log in logs}
+    else:
+        logs = logs.distinct("share_owner")
+        logs = {log.share_owner.id: log for log in logs}
+
     result = []
     for entry in entries:
         if entry_to_user:
-            log_filter = Q(user=entry_to_user(entry))
+            log = logs.get(entry_to_user(entry).id, None)
         else:
-            log_filter = Q(share_owner=entry_to_share_owner(entry))
+            log = logs.get(entry_to_share_owner(entry).id, None)
 
-        entry_logs = logs.filter(log_filter)
-        if entry_logs.exists():
-            if (
-                logs.order_by("created_date").first().old_values[attribute_name]
-                == attribute_value
-            ):
+        if log:
+            if log.old_values[attribute_name] == attribute_value:
                 result.append(entry)
             continue
 

@@ -649,7 +649,7 @@ class ShiftStatusEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONVie
     ):
         return len(
             get_models_with_attribute_value_at_date(
-                ShiftUserData,
+                ShiftUserData.objects.all().select_related("user"),
                 UpdateShiftUserDataLogEntry,
                 "attendance_mode",
                 mode,
