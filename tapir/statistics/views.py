@@ -155,10 +155,14 @@ class CacheDatesFromFirstShareToTodayMixin:
         super().__init__()
         self.dates_from_first_share_to_today = None
 
-    def get_and_cache_dates_from_first_share_to_today(self):
+    def get_and_cache_dates_from_first_share_to_today(
+        self, min_date: datetime.date | None = None
+    ):
         if self.dates_from_first_share_to_today is None:
             self.dates_from_first_share_to_today = (
-                ShareCountEvolutionJsonView.get_dates_from_first_share_to_today()
+                ShareCountEvolutionJsonView.get_dates_from_first_share_to_today(
+                    min_date
+                )
             )
         return self.dates_from_first_share_to_today
 

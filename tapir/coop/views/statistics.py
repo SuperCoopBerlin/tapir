@@ -205,12 +205,14 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
         return self.dates_from_first_share_to_today
 
     @staticmethod
-    def get_dates_from_first_share_to_today():
+    def get_dates_from_first_share_to_today(min_date: datetime.date | None = None):
         first_share_ownership = ShareOwnership.objects.order_by("start_date").first()
         if not first_share_ownership:
             return []
 
         current_date = first_share_ownership.start_date.replace(day=1)
+        if min_date:
+            current_date = max(current_date, min_date)
         end_date = datetime.date.today() + datetime.timedelta(days=1)
         dates = []
         while current_date < end_date:

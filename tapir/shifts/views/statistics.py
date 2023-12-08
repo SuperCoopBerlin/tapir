@@ -607,10 +607,7 @@ def attendance_takeover_data_csv_export(_):
 class ShiftStatusEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
     def get_context_data(self, **kwargs):
         return build_line_chart_data(
-            x_axis_values=[
-                date.strftime("%Y-%m")
-                for date in self.get_and_cache_dates_from_first_share_to_today()
-            ],
+            x_axis_values=[date.strftime("%Y-%m") for date in self.get_dates()],
             y_axis_values=self.get_data(),
             data_labels=[
                 choice[1] for choice in ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES
@@ -626,7 +623,7 @@ class ShiftStatusEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONVie
         for mode in ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES:
             result[mode[0]] = []
 
-        for date in self.get_and_cache_dates_from_first_share_to_today():
+        for date in self.get_dates():
             result_at_date = {}
             for mode in ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES:
                 result_at_date[
@@ -642,6 +639,11 @@ class ShiftStatusEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONVie
                 )
 
         return result.values()
+
+    def get_dates(self):
+        return self.get_and_cache_dates_from_first_share_to_today(
+            min_date=datetime.date(year=2022, month=1, day=1)
+        )
 
     @staticmethod
     def get_number_of_members_with_attendance_mode_at_date(
