@@ -13,6 +13,13 @@ def build_pie_chart_data(labels: list, data: list):
     }
 
 
+FORMAT_TICKS_PERCENTAGE = {
+    "style": "percent",
+    "minimumFractionDigits": 0,
+    "maximumFractionDigits": 0,
+}
+
+
 def build_line_chart_data(
     x_axis_values: list,
     y_axis_values: list,
@@ -20,6 +27,7 @@ def build_line_chart_data(
     y_axis_min: float | None = None,
     y_axis_max: float | None = None,
     stacked=False,
+    format_ticks: dict | None = None,
 ):
     data = {
         "type": "line",
@@ -33,6 +41,9 @@ def build_line_chart_data(
                     "min": y_axis_min,
                     "max": y_axis_max,
                     "stacked": stacked,
+                    "ticks": {
+                        "format": format_ticks,
+                    },
                 }
             }
         },

@@ -247,4 +247,9 @@ urlpatterns = [
         views.UsedSolidarityShiftsJsonView.as_view(),
         name="used_solidarity_shifts_json",
     ),
+    path(
+        "statistics/shift_status_evolution_json",
+        views.ShiftStatusEvolutionJsonView.as_view(),
+        name="shift_status_evolution_json",
+    ),
 ]

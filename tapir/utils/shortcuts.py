@@ -1,13 +1,18 @@
 import datetime
 import os
+from typing import Type, Callable
 
 import environ
+from django.db import models
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.utils.encoding import iri_to_uri
 from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
+
+from tapir.log.models import UpdateModelLogEntry
 
 
 def safe_redirect(redirect_url, default, request):
@@ -71,3 +76,43 @@ def setup_ssh_for_biooffice_storage():
     os.system(
         f'bash -c \'echo -e "{env("BIOOFFICE_SERVER_SSH_KEY_FINGERPRINT")}" > ~/.ssh/biooffice_known_hosts\''
     )
+
+
+def get_models_with_attribute_value_at_date(
+    model_class: Type[models.Model],
+    log_class: Type[UpdateModelLogEntry],
+    attribute_name: str,
+    attribute_value: any,
+    date: datetime.date,
+    entry_to_user: Callable[[models.Model], models.Model] | None = None,
+    entry_to_share_owner: Callable[[models.Model], models.Model] | None = None,
+):
+    if not entry_to_user and not entry_to_share_owner:
+        raise ValueError("Must specify either entry_to_user or entry_to_share_owner")
+
+    entries = model_class.objects.all()
+    logs = log_class.objects.filter(
+        created_date__gte=get_timezone_aware_datetime(
+            date, datetime.time(hour=0, minute=0)
+        ),
+        old_values__has_key=attribute_name,
+    )
+    result = []
+    for entry in entries:
+        if entry_to_user:
+            log_filter = Q(user=entry_to_user(entry))
+        else:
+            log_filter = Q(share_owner=entry_to_share_owner(entry))
+
+        entry_logs = logs.filter(log_filter)
+        if entry_logs.exists():
+            if (
+                logs.order_by("created_date").first().old_values[attribute_name]
+                == attribute_value
+            ):
+                result.append(entry)
+            continue
+
+        if getattr(entry, attribute_name) == attribute_value:
+            result.append(entry)
+    return result

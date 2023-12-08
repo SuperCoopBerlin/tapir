@@ -2,6 +2,7 @@ import csv
 import datetime
 from datetime import timedelta
 
+from chartjs.views import JSONView
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Prefetch
@@ -28,9 +29,12 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     UpdateShiftAttendanceStateLogEntry,
     ShiftAttendanceTakenOverLogEntry,
+    UpdateShiftUserDataLogEntry,
 )
 from tapir.shifts.utils import get_attendance_mode_display
-from tapir.utils.shortcuts import get_monday
+from tapir.statistics.utils import build_line_chart_data, FORMAT_TICKS_PERCENTAGE
+from tapir.statistics.views import CacheDatesFromFirstShareToTodayMixin
+from tapir.utils.shortcuts import get_monday, get_models_with_attribute_value_at_date
 
 
 class StatisticsView(LoginRequiredMixin, TemplateView):
@@ -598,3 +602,58 @@ def attendance_takeover_data_csv_export(_):
         )
 
     return response
+
+
+class ShiftStatusEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
+    def get_context_data(self, **kwargs):
+        return build_line_chart_data(
+            x_axis_values=[
+                date.strftime("%Y-%m")
+                for date in self.get_and_cache_dates_from_first_share_to_today()
+            ],
+            y_axis_values=self.get_data(),
+            data_labels=[
+                choice[1] for choice in ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES
+            ],
+            y_axis_min=0,
+            y_axis_max=1,
+            stacked=True,
+            format_ticks=FORMAT_TICKS_PERCENTAGE,
+        )
+
+    def get_data(self):
+        result = {}
+        for mode in ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES:
+            result[mode[0]] = []
+
+        for date in self.get_and_cache_dates_from_first_share_to_today():
+            result_at_date = {}
+            for mode in ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES:
+                result_at_date[
+                    mode[0]
+                ] = self.get_number_of_members_with_attendance_mode_at_date(
+                    mode[0], date
+                )
+            total = sum(result_at_date.values())
+
+            for mode in ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES:
+                result[mode[0]].append(
+                    (result_at_date[mode[0]] / total) if total else 0
+                )
+
+        return result.values()
+
+    @staticmethod
+    def get_number_of_members_with_attendance_mode_at_date(
+        mode: str, date: datetime.datetime
+    ):
+        return len(
+            get_models_with_attribute_value_at_date(
+                ShiftUserData,
+                UpdateShiftUserDataLogEntry,
+                "attendance_mode",
+                mode,
+                date,
+                lambda shift_user_data: shift_user_data.user,
+            )
+        )
