@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-07 10:49+0100\n"
-"PO-Revision-Date: 2023-12-07 10:48+0100\n"
+"POT-Creation-Date: 2023-12-08 10:40+0100\n"
+"PO-Revision-Date: 2023-12-08 10:41+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -373,21 +373,21 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:86 accounts/views.py:91 coop/views/shareowner.py:251
+#: accounts/views.py:93 accounts/views.py:98 coop/views/shareowner.py:251
 #: coop/views/shareowner.py:256
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:129
+#: accounts/views.py:136
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:174
+#: accounts/views.py:181
 msgid "You can only look at your own barcode unless you have member office rights"
 msgstr ""
 
-#: accounts/views.py:232 accounts/views.py:237
+#: accounts/views.py:239 accounts/views.py:244
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr ""
@@ -414,6 +414,16 @@ msgstr "Verwaltung"
 #: coop/apps.py:51 coop/templates/coop/incoming_payment_list.html:24
 msgid "Incoming payments"
 msgstr "Eingehende Zahlungen"
+
+#: coop/emails/co_purchaser_updated_mail.py:22
+#, fuzzy
+#| msgid "Purchase data updated"
+msgid "Co-purchaser updated"
+msgstr "Kaufdaten aktualisiert"
+
+#: coop/emails/co_purchaser_updated_mail.py:27
+msgid "Sent to a member when their new co-purchaser gets registered on their profile."
+msgstr ""
 
 #: coop/emails/extra_shares_confirmation_email.py:28
 msgid "Extra shares bought"
@@ -801,6 +811,50 @@ msgid ""
 "\n"
 "    Accounting recap\n"
 msgstr ""
+
+#: coop/templates/coop/email/co_purchaser_updated.body.default.html:8
+#, python-format
+msgid ""
+"\n"
+"        <p>Hello %(display_name_short)s,</p>\n"
+"        <p>\n"
+"            This is an automatic e-mail from SuperCoop. We would like to inform you that a co-shopper has just been\n"
+"            added to your Tapir account.\n"
+"        </p>\n"
+"        <p>\n"
+"            From now on %(co_purchaser_name)s can shop in the store using your membership number.\n"
+"        </p>\n"
+"        <p>\n"
+"            If this is an error and does not correspond to your request, please send a short\n"
+"            <a href=\"mailto:%(email_address_member_office)s\">email to the Member Office</a> to let us know.\n"
+"        </p>\n"
+"        <p>\n"
+"            Cooperative greetings,<br/>\n"
+"            The Member Office\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
+"        <p>Hallo %(display_name_short)s,</p>\n"
+"        <p>\n"
+"            dies ist eine automatisch versendete E-Mail von SuperCoop. Hiermit möchten wir dich darauf hinweisen, dass ein*e Miteinkäufer*in soeben in deinem Tapir-Konto hinterlegt wurde.\n"
+"        </p>\n"
+"        <p>\n"
+"            Ab sofort kann %(co_purchaser_name)s unter Angabe deiner Mitgliedsnummer im Laden einkaufen.\n"
+"        </p>\n"
+"        <p>\n"
+"            Sollte es sich hierbei um einen Irrtum handeln und nicht deinem Wunsch entsprechen, so bitten wir um eine kurze <a href=\"mailto:%(email_address_member_office)s\">E-Mail an das Mitgliederbüro</a>.\n"
+"        <p>\n"
+"            Kooperative Grüße<br />\n"
+"            Das Mitgliederbüro\n"
+"        </p>\n"
+"    "
+
+#: coop/templates/coop/email/co_purchaser_updated.subject.default.html:2
+#, fuzzy
+#| msgid "Co-purchasers"
+msgid "Co-purchaser registered"
+msgstr "Miteinkäufer*innen"
 
 #: coop/templates/coop/email/extra_shares_bought.body.default.html:8
 #, python-format
