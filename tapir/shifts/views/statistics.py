@@ -649,9 +649,18 @@ class ShiftStatusEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONVie
     def get_number_of_members_with_attendance_mode_at_date(
         mode: str, date: datetime.datetime
     ):
+        entries = (
+            ShiftUserData.objects.all()
+            .filter(
+                user__share_owner__in=ShareOwner.objects.with_status(
+                    MemberStatus.ACTIVE, date
+                )
+            )
+            .select_related("user")
+        )
         return len(
             get_models_with_attribute_value_at_date(
-                ShiftUserData.objects.all().select_related("user"),
+                entries,
                 UpdateShiftUserDataLogEntry,
                 "attendance_mode",
                 mode,
