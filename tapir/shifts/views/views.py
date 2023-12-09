@@ -236,7 +236,7 @@ class ShiftDayPrintableView(LoginRequiredMixin, PermissionRequiredMixin, Templat
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        day = datetime.strptime(kwargs["day"], "%d-%m-%y").date()
+        day = datetime.datetime.strptime(kwargs["day"], "%d-%m-%y").date()
         context["shifts"] = Shift.objects.filter(start_time__date=day)
         return context
 
