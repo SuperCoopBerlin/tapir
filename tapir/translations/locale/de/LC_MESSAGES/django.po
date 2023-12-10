@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-08 10:56+0100\n"
-"PO-Revision-Date: 2023-12-08 10:41+0100\n"
+"PO-Revision-Date: 2023-12-09 10:55+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -3496,7 +3496,7 @@ msgstr ""
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:7
 msgid "Purchases"
-msgstr ""
+msgstr "Einkäufe"
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:11
 #, python-format
@@ -3505,10 +3505,13 @@ msgid ""
 "                Your average basket per month is %(average)s€.\n"
 "            "
 msgstr ""
+"\n"
+"                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
+"            "
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:16
 msgid "List of the last purchases"
-msgstr ""
+msgstr "Liste der letzten Einkäufe"
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:20
 msgid "Gross amount"
@@ -3520,7 +3523,7 @@ msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
 #: statistics/views.py:241
 msgid "Total spends per month"
-msgstr ""
+msgstr "Gesamtausgaben pro Monat"
 
 #: statistics/views.py:286
 msgid "Purchasing members"
