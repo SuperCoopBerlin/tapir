@@ -106,12 +106,14 @@ class DraftUserDetailView(
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         draft_user: DraftUser = self.object
-        context_data["similar_members"] = ShareOwner.objects.filter(
-            Q(last_name=draft_user.last_name)
-            | Q(phone_number=draft_user.phone_number)
-            | Q(street=draft_user.street)
-            | Q(email=draft_user.email)
-        )
+
+        filters = Q(last_name=draft_user.last_name) | Q(email=draft_user.email)
+        if draft_user.phone_number:
+            filters |= Q(phone_number=draft_user.phone_number)
+        if draft_user.street:
+            filters |= Q(street=draft_user.street)
+        context_data["similar_members"] = ShareOwner.objects.filter(filters)
+
         return context_data
 
 
