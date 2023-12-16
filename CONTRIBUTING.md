@@ -66,6 +66,7 @@ Fork-and-Branch Git Workflow" (see for
 example [here](https://github.com/vicente-gonzalez-ruiz/fork_and_branch_git_workflow)).
 
 Find instructions on how to start on our [README.md](README.md).
+
 ##### IDE
 
 We mostly use [PyCharm](https://www.jetbrains.com/pycharm/) for development. You can fully use it for developement.
@@ -73,7 +74,6 @@ However, we are not fully happy with it since it needs the Professional License 
 Make sure to enable Django support in the project settings so that things like the template language and the
 test runner are automagically selected (note that right now this doesn't really work anymore as the tests must be run
 inside docker to have an LDAP server. But PyCharm is still pretty cool).
-
 
 ## Style guide/code conventions
 
@@ -111,7 +111,25 @@ docker compose exec web poetry run python manage.py shell_plus
 
 ### LDAP
 
-For reading or modifying the LDAP, Apache Directory Studio is pretty handy.
+For reading or modifying the LDAP, [Apache Directory Studio](https://directory.apache.org/studio/downloads.html) is
+pretty handy.
+Alteratniveely, you can add
+
+```
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "openldap"
+      PHPLDAPADMIN_HTTPS: "false"
+    ports:
+      - "8080:80"
+    depends_on:
+      - openldap
+```
+
+to docker-compose.yaml and access [http://localhost:8080](http://localhost:8080) with user `cn=admin,dc=supercoop,dc=de`
+and password `admin`.
 
 ### Running tests
 
@@ -162,7 +180,7 @@ again after saving from PoEdit.
 
 ### Pre-existing accounts
 
-After running `manage.py generate_test_data --reset_all`, 400 members are created. 
+After running `manage.py generate_test_data --reset_all`, 400 members are created.
 You can log in as any of them, in each case, the password is the username. Here are a few examples:
 
 - admin (not a member, just an account with admin rights)
@@ -205,7 +223,8 @@ classes: `btn tapir-btn btn-[BOOTSTRAP COLOR]`.
 Each button should have an icon, we use material-icons.  
 We use outlined buttons for links that have no consequences (for example, going to an edit page), and filled buttons
 when there are consequences (for example, a save button, or sending an email).
-Use the following template tags : 
- - `{% tapir_button_link %}` for buttons that are simple links
- - `{% tapir_button_link_to_action %}` for buttons that lead to a form
- - `{% tapir_button_action %}` for actions with permanent consequences (typically, creating or saving a model)
+Use the following template tags :
+
+- `{% tapir_button_link %}` for buttons that are simple links
+- `{% tapir_button_link_to_action %}` for buttons that lead to a form
+- `{% tapir_button_action %}` for actions with permanent consequences (typically, creating or saving a model)
