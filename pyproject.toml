@@ -34,11 +34,11 @@ unidecode = "^1.3.7"
 python-barcode = "^0.15.1"
 fabric = "^3.2.2"
 icecream = "^2.1.3"
-python-ldap = [
-    { platform = "linux", version = "^3.4.4" },
-    { platform = "darwin", version = "^3.4.4" },
-    { platform = "win32", url = "https://github.com/cgohlke/python-ldap-build/releases/download/v3.4.4/python_ldap-3.4.4-cp311-cp311-win32.whl"}
-]
+#python-ldap = [
+#    { platform = "linux", version = "^3.4.4" },
+#    { platform = "darwin", version = "^3.4.4" },
+#    { platform = "win32", url = "https://github.com/cgohlke/python-ldap-build/releases/download/v3.4.4/python_ldap-3.4.4-cp311-cp311-win32.whl"}
+#]
 django-auth-ldap = "^4.6.0"
 
 [tool.poetry.group.dev.dependencies]
