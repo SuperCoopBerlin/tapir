@@ -34,7 +34,7 @@ Please note that while the actual program runs in a Docker container, you're adv
 
 Start by running:
 
-```sh
+```shell
 docker compose up
 ```
 
@@ -42,7 +42,7 @@ This starts a container with an LDAP server and automatically loads the test dat
 
 For local development and testing, set up the test database and load test data
 
-```sh
+```shell
 # Create tables
 docker compose exec web poetry run python manage.py migrate
 # Load admin (password: admin) account

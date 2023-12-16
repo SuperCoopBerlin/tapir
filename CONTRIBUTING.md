@@ -66,7 +66,6 @@ Fork-and-Branch Git Workflow" (see for
 example [here](https://github.com/vicente-gonzalez-ruiz/fork_and_branch_git_workflow)).
 
 Find instructions on how to start on our [README.md](README.md).
-
 ##### IDE
 
 We mostly use [PyCharm](https://www.jetbrains.com/pycharm/) for development. You can fully use it for developement.
@@ -74,6 +73,7 @@ However, we are not fully happy with it since it needs the Professional License 
 Make sure to enable Django support in the project settings so that things like the template language and the
 test runner are automagically selected (note that right now this doesn't really work anymore as the tests must be run
 inside docker to have an LDAP server. But PyCharm is still pretty cool).
+
 
 ## Style guide/code conventions
 
@@ -105,7 +105,7 @@ The class name is the convention for the word in texts, followed by how to write
 
 ### Django Shell
 
-```sh
+```shell
 docker compose exec web poetry run python manage.py shell_plus
 ```
 
@@ -135,13 +135,13 @@ and password `admin`.
 
 For running the test should have a clean openldap container with the test data.
 
-```sh
+```shell
 docker compose up -d openldap
 ```
 
 Then, run the tests.
 
-```sh
+```shell
 docker compose run --rm web poetry run pytest
 ```
 
@@ -150,7 +150,7 @@ containers.
 
 To regenerate the test data fixtures:
 
-```sh
+```shell
 docker compose up --force-recreate
 docker compose exec web poetry run python manage.py migrate
 docker compose exec web poetry run python manage.py generate_test_data --reset_all
@@ -166,8 +166,8 @@ secret
 
 To generate the translation files, first use "makemessages" and specify the language you want to generate:
 
-```sh
-docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages --no-wrap -l de
+```shell
+docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages -l de
 ```
 
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
@@ -180,7 +180,7 @@ again after saving from PoEdit.
 
 ### Pre-existing accounts
 
-After running `manage.py generate_test_data --reset_all`, 400 members are created.
+After running `manage.py generate_test_data --reset_all`, 400 members are created. 
 You can log in as any of them, in each case, the password is the username. Here are a few examples:
 
 - admin (not a member, just an account with admin rights)
@@ -200,7 +200,7 @@ This is quite easy by adding the property to the model class. See this page as r
 All changes must be done in the docker container. Since our development environment is included to the
 docker container, you must run djangos makemigrations on docker. You can do this with this command:
 
-```sh
+```shell
 docker compose exec web poetry run python manage.py makemigrations
 ```
 
@@ -210,7 +210,7 @@ Please check the migration script. It might contain unwished changes. There seem
 
 Last step is to update the database. this is done with this command:
 
-```sh
+```shell
 docker compose exec web poetry run python manage.py migrate
 ```
 
@@ -223,8 +223,7 @@ classes: `btn tapir-btn btn-[BOOTSTRAP COLOR]`.
 Each button should have an icon, we use material-icons.  
 We use outlined buttons for links that have no consequences (for example, going to an edit page), and filled buttons
 when there are consequences (for example, a save button, or sending an email).
-Use the following template tags :
-
-- `{% tapir_button_link %}` for buttons that are simple links
-- `{% tapir_button_link_to_action %}` for buttons that lead to a form
-- `{% tapir_button_action %}` for actions with permanent consequences (typically, creating or saving a model)
+Use the following template tags : 
+ - `{% tapir_button_link %}` for buttons that are simple links
+ - `{% tapir_button_link_to_action %}` for buttons that lead to a form
+ - `{% tapir_button_action %}` for actions with permanent consequences (typically, creating or saving a model)
