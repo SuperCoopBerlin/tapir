@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     "tapir.core",
     "tapir.log",
     "tapir.shifts",
-    "tapir.accounts",
     "tapir.utils",
     "tapir.coop",
     "tapir.welcomedesk",

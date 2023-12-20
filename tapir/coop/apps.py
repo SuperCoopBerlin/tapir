@@ -73,9 +73,13 @@ class CoopConfig(AppConfig):
         from tapir.coop.emails.co_purchaser_updated_mail import (
             CoPurchaserUpdatedMail,
         )
+        from tapir.accounts.emails.create_account_reminder_email import (
+            CreateAccountReminderEmail,
+        )
 
         TapirEmailBase.register_email(ExtraSharesConfirmationEmail)
         TapirEmailBase.register_email(MembershipConfirmationForActiveMemberEmail)
         TapirEmailBase.register_email(MembershipConfirmationForInvestingMemberEmail)
         TapirEmailBase.register_email(TapirAccountCreatedEmail)
         TapirEmailBase.register_email(CoPurchaserUpdatedMail)
+        TapirEmailBase.register_email(CreateAccountReminderEmail)
