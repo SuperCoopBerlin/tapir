@@ -1,19 +1,15 @@
 from typing import List
 
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import gettext_lazy as _
 
-from tapir import settings
-from tapir.coop.models import ShareOwner, DraftUser
+from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase
 
 
 class CreateAccountReminderEmail(TapirEmailBase):
-    def __init__(self, tapir_user: DraftUser):
+    def __init__(self, share_owner: ShareOwner):
         super().__init__()
-        self.draft_user = tapir_user
+        self.draft_user = share_owner
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -43,9 +39,10 @@ class CreateAccountReminderEmail(TapirEmailBase):
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase | None:
-        # TODO fix it
-        share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
-        mail = cls(tapir_user=share_owner.user)
+        share_owner = ShareOwner.objects.filter(user__isnull=True).order_by("?").first()
+        if not share_owner:
+            return None
+        mail = cls(share_owner=share_owner)
         mail.get_full_context(
             share_owner=share_owner,
             member_infos=share_owner.get_info(),
