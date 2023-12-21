@@ -1,0 +1,47 @@
+{% extends "core/email_base.html" %}
+
+{% load i18n %}
+{% load utils %}
+
+{% block body %}
+    {% get_display_name_short member_infos as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short %}
+        <p>Hello {{ display_name_short }},</p>
+
+        <p>We noticed that you have been a member of SuperCoop for a month now and have not created a Tapir account to sign up for your first shift.</p>
+    {% endblocktranslate %}
+    <p>
+        {% blocktranslate %}
+        As a reminder: Please visit the Member Office to sign up for your first shift (or indicate that you qualify for a
+        <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.rjj2v2m92fqa">work exemption</a>).
+        They will create an account for you on Tapir, our online shift management system, and guide you through the steps
+        of choosing your shift and working group.
+        {% endblocktranslate %}
+    </p>
+
+    {% blocktranslate %}
+        <p>
+            For general questions about your membership, please contact the Member Office via email (mitglied@supercoop.de)
+            or by visiting <a href="https://www.google.com/maps/place/SuperCoop+Berlin/@52.553371,13.3585897,15z/data=!4m5!3m4!1s0x0:0x72e80db955fa8d3!8m2!3d52.5533091!4d13.3586012">SuperCoop</a>.
+            Come by and get to know some of your fellow SuperCoopers! The opening hours are:
+        <ul>
+            <li>Wednesday - Friday from 16:30 - 19:30 Uhr</li>
+            <li>Saturdays from 11.00 - 14.00 Uhr</li>
+        </ul>
+        </p>
+        <p>
+            Where can you find SuperCoop?
+        </p>
+        <p>
+            You can find our store at Oudenarder Straße 16, 13347 Berlin, at the corner of Seestraße.
+            There is also a back entrance that you can access through the Osramhöfe. This entrance is wheelchair accessible.
+        </p>
+    {% endblocktranslate %}
+
+    <p>
+        {% blocktranslate %}
+            Cooperative Greetings, <br/>
+            The Member Office
+        {% endblocktranslate %}
+    </p>
+{% endblock body %}

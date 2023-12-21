@@ -143,7 +143,7 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.send_shift_reminders",
         "schedule": celery.schedules.crontab(
             hour="*/2", minute=5
-        ),  # Every two hours five after the hour
+        ),  # Every two hours five minutes after the hour
     },
     "apply_shift_cycle_start": {
         "task": "tapir.shifts.tasks.apply_shift_cycle_start",
@@ -168,6 +168,10 @@ CELERY_BEAT_SCHEDULE = {
     "process_purchase_files": {
         "task": "tapir.statistics.tasks.process_purchase_files",
         "schedule": celery.schedules.crontab(minute=0, hour=2),
+    },
+    "send_create_account_reminder": {
+        "task": "tapir.accounts.tasks.send_create_account_reminder",
+        "schedule": celery.schedules.crontab(minute=0, hour=12),
     },
 }
 
