@@ -9,7 +9,7 @@ from tapir.core.tapir_email_base import TapirEmailBase
 class CreateAccountReminderEmail(TapirEmailBase):
     def __init__(self, share_owner: ShareOwner):
         super().__init__()
-        self.draft_user = share_owner
+        self.share_owner = share_owner
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -52,4 +52,4 @@ class CreateAccountReminderEmail(TapirEmailBase):
 
     @staticmethod
     def include_email_body_in_log_entry():
-        return False
+        return True
