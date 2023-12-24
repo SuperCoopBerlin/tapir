@@ -34,6 +34,7 @@ unidecode = "^1.3.7"
 python-barcode = "^0.15.1"
 fabric = "^3.2.2"
 icecream = "^2.1.3"
+faker = "^21.0.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.11.0"
