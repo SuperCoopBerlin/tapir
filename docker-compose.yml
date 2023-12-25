@@ -62,8 +62,7 @@ services:
 
   celery:
     build: .
-    command: bash -c "poetry install &&
-                      poetry run celery -A tapir worker -l info"
+    command: bash -c "celery -A tapir worker -l info"
     volumes:
       - .:/app
     environment:
@@ -74,8 +73,7 @@ services:
   celery-beat:
     build: .
     # --schedule to avoid polluting the app directory
-    command: bash -c "poetry install &&
-                      poetry run celery -A tapir beat -l info --schedule /tmp/celerybeat-schedule"
+    command: bash -c "celery -A tapir beat -l info --schedule /tmp/celerybeat-schedule"
     volumes:
       - .:/app
     environment:
