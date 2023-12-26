@@ -128,24 +128,29 @@ class LogFilter(django_filters.FilterSet):
             .values_list("actor", flat=True)
             .distinct()
         )
+        # Second Method
+        self.filters["log_class_type__model"].extra.update(
+            {
+                "choices": tuple(
+                    [
+                        (
+                            item.model,
+                            item.model_class().verbose_log_name(),
+                        )
+                        for item in ContentType.objects.filter(
+                            id__in=LogEntry.objects.values_list(
+                                "log_class_type", flat=True
+                            ).distinct()
+                        )
+                    ]
+                )
+            }
+        )
 
     time = DateRangeFilter(field_name="created_date")
     actor = TapirUserModelChoiceFilter(label=_("Actor"))
     members = ShareOwnerModelChoiceFilter(method="member_filter", label=_("Member"))
-    log_class_type__model = django_filters.ChoiceFilter(
-        choices=tuple(
-            [
-                (
-                    item.model,
-                    item.model_class().verbose_log_name(),
-                )
-                for item in ContentType.objects.filter(
-                    id__in=LogEntry.objects.values_list("log_class_type").distinct()
-                )
-            ]
-        ),
-        label=_("Log Type"),
-    )
+    log_class_type__model = django_filters.ChoiceFilter(label=_("Log Type"))
 
     def member_filter(self, queryset: QuerySet, name, value: ShareOwner):
         # check if value is either in user or share_owner (can only be in one)
