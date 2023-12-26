@@ -133,12 +133,18 @@ class LogFilter(django_filters.FilterSet):
     actor = TapirUserModelChoiceFilter(label=_("Actor"))
     members = ShareOwnerModelChoiceFilter(method="member_filter", label=_("Member"))
     log_class_type__model = django_filters.ChoiceFilter(
-        choices=[
-            (item.model, item)
-            for item in ContentType.objects.filter(
-                id__in=LogEntry.objects.values_list("log_class_type").distinct()
-            )
-        ], label=_("Log Type")
+        choices=tuple(
+            [
+                (
+                    item.model,
+                    item.model_class().verbose_log_name(),
+                )
+                for item in ContentType.objects.filter(
+                    id__in=LogEntry.objects.values_list("log_class_type").distinct()
+                )
+            ]
+        ),
+        label=_("Log Type"),
     )
 
     def member_filter(self, queryset: QuerySet, name, value: ShareOwner):

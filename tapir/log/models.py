@@ -99,6 +99,10 @@ class LogEntry(models.Model):
         """Render this LogEntry"""
         return render_to_string(self.template_name, self.get_context_data())
 
+    @classmethod
+    def verbose_log_name(cls):
+        return cls._meta.verbose_name.title()
+
 
 class EmailLogEntry(LogEntry):
     """EmailLogEntry logs a sent email message."""
