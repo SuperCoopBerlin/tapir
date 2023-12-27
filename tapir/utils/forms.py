@@ -33,7 +33,7 @@ class DateRangeWidgetTapir(DateRangeWidget):
     suffixes = ["start", "end"]
 
     def __init__(self, attrs=None):
-        start = DateInputTapir(attrs={"aria_label": "end date"})
+        start = DateInputTapir(attrs={"aria_label": "start date"})
         end = DateInputTapir(attrs={"aria_label": "end date"})
         widgets = (start, end)
         super(SuffixedMultiWidget, self).__init__(widgets, attrs)
