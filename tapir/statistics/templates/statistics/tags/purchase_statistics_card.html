@@ -1,11 +1,8 @@
 {% load i18n %}
 {% load shifts %}
 {% load core %}
-
 <div class="card mb-2">
-    <h5 class="card-header d-flex justify-content-between align-items-center">
-        {% translate "Purchases" %}
-    </h5>
+    <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Purchases" %}</h5>
     <ul class="list-group  list-group-flush">
         <li class="list-group-item">
             {% blocktranslate with average=average_basket_per_month %}
@@ -13,34 +10,31 @@
             {% endblocktranslate %}
         </li>
         <li class="list-group-item">
-            <table class="{% tapir_table_classes %}" aria-label="{% translate 'List of the last purchases' %}">
+            <table class="{% tapir_table_classes %}"
+                   aria-label="{% translate 'List of the last purchases' %}">
                 <thead>
-                <tr>
-                    <th>{% translate 'Date' %}</th>
-                    <th>{% translate 'Gross amount' %}</th>
-                </tr>
+                    <tr>
+                        <th>{% translate 'Date' %}</th>
+                        <th>{% translate 'Gross amount' %}</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {% for purchase in last_purchases %}
-                    <tr>
-                        <td>{{ purchase.purchase_date|date:"d.m.Y H:i" }}</td>
-                        <td>{{ purchase.gross_amount }}€</td>
-                    </tr>
-                {% endfor %}
+                    {% for purchase in last_purchases %}
+                        <tr>
+                            <td>{{ purchase.purchase_date|date:"d.m.Y H:i" }}</td>
+                            <td>{{ purchase.gross_amount }}€</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </li>
     </ul>
     <div class="card-body">
         <p>
-                <span class="{% tapir_button_link %}"
-                      onclick="chartManager.show_stats_chart(
-                              this,
-                              '{% url "statistics:basket_sum_evolution_json" tapir_user.pk %}',
-                              'basket_sum_evolution_canvas',
-                )">
-            <span class="material-icons">leaderboard</span>
-            <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of total spends per month" %}</span>
+            <span class="{% tapir_button_link %}"
+                  onclick="chartManager.show_stats_chart( this, '{% url "statistics:basket_sum_evolution_json" tapir_user.pk %}', 'basket_sum_evolution_canvas', )">
+                <span class="material-icons">leaderboard</span>
+                <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of total spends per month" %}</span>
             </span>
             <canvas id="basket_sum_evolution_canvas" style="display: none;"></canvas>
         </p>

@@ -2,30 +2,25 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% load django_tables2 %}
-
 {% load i18n %}
 {% load core %}
 {% load utils %}
-
 {% block title %}
     {% translate "Applicants" %}
 {% endblock %}
-
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
 {% endblock %}
-
 {% block content %}
     <div class="card mb-2">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5>{% translate "Applicants" %}</h5>
             <div>
                 <div class="btn-group">
-                    <button type="button" class="{% tapir_button_link %} btn dropdown-toggle"
-                            data-bs-toggle="dropdown">
-                        {% translate "Export" %}
-                    </button>
+                    <button type="button"
+                            class="{% tapir_button_link %} btn dropdown-toggle"
+                            data-bs-toggle="dropdown">{% translate "Export" %}</button>
                     <div class="dropdown-menu dropdown-menu-right">
                         {% for format in view.export_formats %}
                             <a class="dropdown-item" href="{% export_url format %}">
@@ -34,7 +29,8 @@
                         {% endfor %}
                     </div>
                 </div>
-                <a class="{% tapir_button_link_to_action %}" href="{% url 'coop:draftuser_create' %}">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'coop:draftuser_create' %}">
                     <span class="material-icons">person_add</span>
                     Create
                 </a>
@@ -44,14 +40,13 @@
             {% if filter %}
                 <li class="list-group-item">
                     <form action="" method="get" class="form member-filter-form">
-                        <div class="member-filter-form-filters">
-                            {% bootstrap_form filter.form %}
-                        </div>
+                        <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
                         <div class="member-filter-form-buttons">
                             <button class="filter-button {% tapir_button_link %}">
                                 <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
                             </button>
-                            <a class="{% tapir_button_link %}" href="{% url 'coop:draftuser_list' %}">
+                            <a class="{% tapir_button_link %}"
+                               href="{% url 'coop:draftuser_list' %}">
                                 <span class="material-icons">clear</span>
                                 {% translate "Clear all filters" %}
                             </a>
@@ -64,9 +59,7 @@
                     </form>
                 </li>
             {% endif %}
-            <li class="list-group-item">
-                {% render_table table %}
-            </li>
+            <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
 {% endblock %}

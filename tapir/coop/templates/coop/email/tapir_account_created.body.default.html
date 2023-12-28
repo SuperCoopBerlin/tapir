@@ -1,8 +1,6 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% get_display_name_short member_infos as display_name %}
     {% blocktranslate with user_display_name=display_name %}
@@ -13,7 +11,6 @@
             on vacation).
         </p>
     {% endblocktranslate %}
-
     <p>
         {% if tapir_user.shift_user_data.attendance_mode == "regular" %}
             {% if tapir_user.shift_attendance_templates.first %}
@@ -27,7 +24,6 @@
             {% endblocktranslate %}
         {% endif %}
     </p>
-
     {% url "password_reset_confirm" uidb64=uid token=token as password_reset_confirm_url %}
     {% url "password_reset" as password_reset_request_url %}
     <p>

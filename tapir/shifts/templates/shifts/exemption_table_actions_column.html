@@ -1,10 +1,12 @@
 {% load core %}
 <span class="d-flex flex-row gap-2">
-    <a href='{% url "shifts:edit_shift_exemption" pk=record.pk %}' class='{% tapir_button_link_to_action %}'>
+    <a href='{% url "shifts:edit_shift_exemption" pk=record.pk %}'
+       class='{% tapir_button_link_to_action %}'>
         <span class='material-icons'>edit</span>
         <span>Edit</span>
     </a>
-    <a href='{% url "shifts:convert_shift_exemption_to_membership_pause" pk=record.pk %}' class='{% tapir_button_action %}'>
+    <a href='{% url "shifts:convert_shift_exemption_to_membership_pause" pk=record.pk %}'
+       class='{% tapir_button_action %}'>
         <span class='material-icons'>pause</span>
         <span>Convert to membership pause</span>
     </a>

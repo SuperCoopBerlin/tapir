@@ -1,15 +1,14 @@
 {% load i18n %}
 {% load django_bootstrap5 %}
-
 {% load log %}
 {% load core %}
 {% load utils %}
-
 <div class="card mb-2">
     <h5 class="card-header d-flex justify-content-between align-items-center">
         {% translate "Last 5 log entries" %}
         <span>
-            <a class="{% tapir_button_link %}" href="{% url 'log:log_overview'  %}?members={{ share_owner_id }}">
+            <a class="{% tapir_button_link %}"
+               href="{% url 'log:log_overview' %}?members={{ share_owner_id }}">
                 <span class="material-icons">manage_search</span>
                 {% translate 'See all log entries' %}
             </a>
@@ -17,13 +16,14 @@
     </h5>
     <div class="card-body">
         <div class="table-responsive">
-            <table class="{% tapir_table_classes %} table-sm" aria-label="{% translate 'List of log entries for this member' %}">
+            <table class="{% tapir_table_classes %} table-sm"
+                   aria-label="{% translate 'List of log entries for this member' %}">
                 <thead>
-                <tr>
-                    <th scope="col">{% translate 'Date' %}</th>
-                    <th scope="col">{% translate 'Actor' %}</th>
-                    <th scope="col">{% translate 'Message' %}</th>
-                </tr>
+                    <tr>
+                        <th scope="col">{% translate 'Date' %}</th>
+                        <th scope="col">{% translate 'Actor' %}</th>
+                        <th scope="col">{% translate 'Message' %}</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {% for o in log_entries %}
@@ -33,7 +33,7 @@
                                 {% if o.actor %}
                                     {% get_display_name_for_viewer o.actor request.user %}
                                 {% else %}
-                                     -
+                                    -
                                 {% endif %}
                             </td>
                             <td>{{ o.render }}</td>
@@ -42,7 +42,6 @@
                 </tbody>
             </table>
         </div>
-
         {% if perms.accounts.manage %}
             <form method="POST" action="{{ create_text_log_entry_action_url }}">
                 {% csrf_token %}
@@ -52,11 +51,14 @@
                     this way.
                 {% endcomment %}
                 <div class="d-flex flex-wrap justify-content-end">
-                    <input class="form-control m-1" name="text"
+                    <input class="form-control m-1"
+                           name="text"
                            aria-label="{% translate 'Notes about this user' %}"
                            placeholder="{% translate 'Notes about this user' %}">
-                    <button class="{% tapir_button_action %}" type="submit"
-                            id="add_note_button" style="min-width: 100px;">
+                    <button class="{% tapir_button_action %}"
+                            type="submit"
+                            id="add_note_button"
+                            style="min-width: 100px">
                         <span class="material-icons">note</span>{% translate "Add Note" %}
                     </button>
                 </div>

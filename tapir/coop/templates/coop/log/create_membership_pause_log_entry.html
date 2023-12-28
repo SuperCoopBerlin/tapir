@@ -1,6 +1,5 @@
 {% load utils %}
 {% load i18n %}
-
 {% blocktranslate with start_date=start_date|date:"d.m.Y" description=entry.values.description%}
     New membership pause starting {{ start_date }}: {{ description }}.
 {% endblocktranslate %}

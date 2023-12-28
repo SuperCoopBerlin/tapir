@@ -1,35 +1,32 @@
 {% extends "core/base.html" %}
-
 {% load i18n %}
 {% load core %}
-
 {% block title %}
     {% translate "Features" %}
 {% endblock %}
-
 {% block content %}
     <div class="card mb-2">
         <h5 class="card-header d-flex justify-content-between align-items-center">
-            <span>
-                {% translate "Enable or disable features" %}
-            </span>
+            <span>{% translate "Enable or disable features" %}</span>
         </h5>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="{% tapir_table_classes %}" aria-label="{% translate 'List of all feature flags' %}">
+                <table class="{% tapir_table_classes %}"
+                       aria-label="{% translate 'List of all feature flags' %}">
                     <thead>
-                    <tr>
-                        <th>{% translate "Name" %}</th>
-                        <th>{% translate "Current value" %}</th>
-                        <th></th>
-                    </tr>
+                        <tr>
+                            <th>{% translate "Name" %}</th>
+                            <th>{% translate "Current value" %}</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     {% for feature_flag in object_list %}
                         <tr>
                             <td>{{ feature_flag.flag_name }}</td>
                             <td>{{ feature_flag.flag_value }}</td>
                             <td>
-                                <a class="{% tapir_button_link_to_action %}" href="{% url 'core:featureflag_update' feature_flag.id %}">
+                                <a class="{% tapir_button_link_to_action %}"
+                                   href="{% url 'core:featureflag_update' feature_flag.id %}">
                                     <span class="material-icons">edit</span>{% translate 'Edit' %}
                                 </a>
                             </td>

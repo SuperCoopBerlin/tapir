@@ -1,1 +1,6 @@
-Added {{ entry.num_shares }} shares starting {{ entry.start_date }} {% if entry.end_date %} ending {{ entry.end_date }} {% else %} without end date {% endif %}
+Added {{ entry.num_shares }} shares starting {{ entry.start_date }}
+{% if entry.end_date %}
+    ending {{ entry.end_date }}
+{% else %}
+    without end date
+{% endif %}

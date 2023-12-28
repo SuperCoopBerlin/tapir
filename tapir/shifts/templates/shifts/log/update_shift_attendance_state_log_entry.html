@@ -1,5 +1,4 @@
 {% load i18n %}
-
 {% translate "Set shift attendance to" %} {{ state_name }}
 <a href="{{ entry.shift.get_absolute_url }}">{{ entry.shift.get_display_name }}</a>
 {% if entry.slot_name %}({{ entry.slot_name }}){% endif %}

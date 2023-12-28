@@ -1,8 +1,6 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% get_display_name_short member_infos as display_name_short %}
     {% blocktranslate with display_name_short=display_name_short co_purchaser_name=tapir_user.co_purchaser email_address_member_office=EMAIL_ADDRESS_MEMBER_OFFICE %}
@@ -19,7 +17,7 @@
             <a href="mailto:{{ email_address_member_office }}">email to the Member Office</a> to let us know.
         </p>
         <p>
-            Cooperative greetings,<br/>
+            Cooperative greetings,<br />
             The Member Office
         </p>
     {% endblocktranslate %}

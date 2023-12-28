@@ -1,20 +1,16 @@
 {% extends "shifts/base.html" %}
 {% load static %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load coop %}
 {% load core %}
-
 {% block title %}
     {% translate "Shift statistics" %}
 {% endblock %}
-
 {% block head %}
     <script src="{% static 'statistics/chart_4.4.0.js' %}"></script>
     <script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
 {% endblock head %}
-
 {% block content %}
     <div class="row">
         <div class="col-xl-6">
@@ -23,211 +19,211 @@
                 <div class="card-body">
                     <h6>Members Statistics</h6>
                     <ul>
-                        <li>There are currently <strong>{{ members.active_users_count }} active members</strong> with a
+                        <li>
+                            There are currently <strong>{{ members.active_users_count }} active members</strong> with a
                             Tapir account. Out of those active members :
                             <ul>
-                                <li><strong>{{ members.frozen_users_count }}</strong> are currently
+                                <li>
+                                    <strong>{{ members.frozen_users_count }}</strong> are currently
                                     <strong>frozen</strong>.
                                 </li>
-                                <li><strong>{{ members.exempted_users_count }}</strong> are currently
+                                <li>
+                                    <strong>{{ members.exempted_users_count }}</strong> are currently
                                     <strong>exempted</strong> from
                                     doing shifts.
                                 </li>
-                                <li><strong>{{ members.users_doing_shifts_count }}</strong> are expected to <strong>do
-                                    shifts</strong>.
-                                </li>
-                            </ul>
-                        <li>Within these <strong>{{ members.users_doing_shifts_count }} members doing shifts</strong>...
-                            <ul>
-                                <li><strong>{{ members.members_in_abcd_system_count }}</strong> are in the <strong>ABCD
-                                    system</strong></li>
-                                <li><strong>{{ members.members_in_flying_system_count }}</strong> are in the <strong>flying
-                                    system</strong>.
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <strong>{{ members.members_in_abcd_system_without_shift_attendance_count }}</strong> members
-                            in
-                            the ABCD system and not exempted are <strong>not registered</strong> to a shift.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-6">
-            <div class="card mb-2">
-                <h5 class="card-header">
-                    <span>{% translate "Statistics on shifts" %}</span>
-                </h5>
-                <div class="card-body">
-                    <h6>ABCD Shift Slots</h6>
-                    <ul>
-                        <li>There are currently <strong>{{ members.abcd_slots_count }} ABCD shift slots</strong></li>
-                        <li>There are <strong>{{ members.extra_abcd_slots_count }} slots</strong> more than users
-                            expected
-                            to do shifts.
-                        </li>
-                    </ul>
-                    <table class="table" aria-label="{% translate 'Gives details of the attendance per slot type.' %}">
-                        <tr>
-                            <th>Slot Name</th>
-                            <th>Open Slots</th>
-                            <th>Members Registered</th>
-                        </tr>
-                        {% for slot_name, infos in abcd_slots.items %}
-                            <tr>
-                                <td>{{ slot_name }}</td>
-                                <td>{{ infos.slot_count }}</td>
-                                <td>{{ infos.registered }} </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xl">
-            <div class="card mb-2">
-                <h5 class="card-header d-flex justify-content-between align-items-center">
-                    <span>Attendance</span>
-                </h5>
-                <div class="card-body">
-                    <table class="table"
-                           aria-label="{% translate 'Gives details of the attendance for the past, current and next week.' %}">
-                        <tr>
-                            <th>Week</th>
-                            <th>Shifts</th>
-                            <th>Slots</th>
-                            <th>Occupied slots (including looking for stand-in)</th>
-                            <th>Looking for a stand-in</th>
-                        </tr>
-                        {% for week, stats in weeks.items %}
-                            <tr>
-                                <td>{{ week }}</td>
-                                <td>{{ stats.shifts_count }}</td>
-                                <td>{{ stats.slots_count }}</td>
-                                <td>{{ stats.occupied_count }}</td>
-                                <td>{{ stats.standin_search_count }}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl">
-            <div class="card mb-2">
-                <h5 class="card-header">
-                    <span>{% translate "Shift cycle list" %}</span>
-                </h5>
-                <div class="card-body">
-                    <table class="table"
-                           aria-label="{% translate 'Gives details of the attendance per shift cycle.' %}">
-                        <tr>
-                            <th>Cycle Date</th>
-                            <th>members where expected to do a shift</th>
-                            <th>out of members total</th>
-                        </tr>
-                        {% for cycle in cycles %}
-                            <tr>
-                                <td>{{ cycle.date|date:"d.m.Y" }}</td>
-                                <td>{{ cycle.nb_members_doing_shifts }} </td>
-                                <td>{{ cycle.nb_members_total }}</td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {% if perms.shifts.manage %}
-        <div class="row">
-            <div class="col-xl">
-                <div class="card mb-2">
-                    <h5 class="card-header">
-                        <span>{% translate "Data exports" %}</span>
-                    </h5>
-                    <div class="card-body">
-                        <a
-                                class="{% tapir_button_link %}"
-                                href="{% url 'shifts:slot_data_csv' %}">
-                            <span class="material-icons">file_present</span>
-                            {% translate "Slot data" %}
-                        </a>
-                        <a
-                                class="{% tapir_button_link %}"
-                                href="{% url 'shifts:shift_template_data_csv_export' %}">
-                            <span class="material-icons">file_present</span>
-                            {% translate "ABCD shift data" %}
-                        </a>
-                        <a
-                                class="{% tapir_button_link %}"
-                                href="{% url 'shifts:shift_slot_template_data_csv_export' %}">
-                            <span class="material-icons">file_present</span>
-                            {% translate "ABCD shift slot data" %}
-                        </a>
-                        <a
-                                class="{% tapir_button_link %}"
-                                href="{% url 'shifts:shift_data_csv_export' %}">
-                            <span class="material-icons">file_present</span>
-                            {% translate "Shift data" %}
-                        </a>
-                        <a
-                                class="{% tapir_button_link %}"
-                                href="{% url 'shifts:shift_slot_data_csv_export' %}">
-                            <span class="material-icons">file_present</span>
-                            {% translate "Shift slot data" %}
-                        </a>
-                        <a
-                                class="{% tapir_button_link %}"
-                                href="{% url 'shifts:attendance_template_data_csv_export' %}">
-                            <span class="material-icons">file_present</span>
-                            {% translate "ABCD attendance data" %}
-                        </a>
-                        <a
-                                class="{% tapir_button_link %}"
-                                href="{% url 'shifts:attendance_data_csv_export' %}">
-                            <span class="material-icons">file_present</span>
-                            {% translate "Attendance data" %}
-                        </a>
-                        <a
-                                class="{% tapir_button_link %}"
-                                href="{% url 'shifts:attendance_update_data_csv_export' %}">
-                            <span class="material-icons">file_present</span>
-                            {% translate "Attendance updates data" %}
-                        </a>
-                        <a
-                                class="{% tapir_button_link %}"
-                                href="{% url 'shifts:attendance_takeover_data_csv_export' %}">
-                            <span class="material-icons">file_present</span>
-                            {% translate "Attendance takeover data" %}
-                        </a>
+                                <li>
+                                    <strong>{{ members.users_doing_shifts_count }}</strong> are expected to <strong>do
+                                        shifts</strong>.
+                                    </li>
+                                </ul>
+                                <li>
+                                    Within these <strong>{{ members.users_doing_shifts_count }} members doing shifts</strong>...
+                                    <ul>
+                                        <li>
+                                            <strong>{{ members.members_in_abcd_system_count }}</strong> are in the <strong>ABCD
+                                            system</strong>
+                                        </li>
+                                        <li>
+                                            <strong>{{ members.members_in_flying_system_count }}</strong> are in the <strong>flying
+                                                system</strong>.
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <strong>{{ members.members_in_abcd_system_without_shift_attendance_count }}</strong> members
+                                        in
+                                        the ABCD system and not exempted are <strong>not registered</strong> to a shift.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card mb-2">
+                            <h5 class="card-header">
+                                <span>{% translate "Statistics on shifts" %}</span>
+                            </h5>
+                            <div class="card-body">
+                                <h6>ABCD Shift Slots</h6>
+                                <ul>
+                                    <li>
+                                        There are currently <strong>{{ members.abcd_slots_count }} ABCD shift slots</strong>
+                                    </li>
+                                    <li>
+                                        There are <strong>{{ members.extra_abcd_slots_count }} slots</strong> more than users
+                                        expected
+                                        to do shifts.
+                                    </li>
+                                </ul>
+                                <table class="table"
+                                       aria-label="{% translate 'Gives details of the attendance per slot type.' %}">
+                                    <tr>
+                                        <th>Slot Name</th>
+                                        <th>Open Slots</th>
+                                        <th>Members Registered</th>
+                                    </tr>
+                                    {% for slot_name, infos in abcd_slots.items %}
+                                        <tr>
+                                            <td>{{ slot_name }}</td>
+                                            <td>{{ infos.slot_count }}</td>
+                                            <td>{{ infos.registered }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-xl">
-                <div class="card mb-2">
-                    <h5 class="card-header">
-                        <span>{% translate "Evolution of shift status" %}</span>
-                    </h5>
-                    <div class="card-body">
-                        <p>
-                            <span class="{% tapir_button_link %}"
-                                  onclick="chartManager.show_stats_chart(this,
-                                          '{% url "shifts:shift_status_evolution_json" %}',
-                                          'shift_status_evolution_json_canvas')">
-                                <span class="material-icons">leaderboard</span>
-                                <span class="button-text">{% translate "Show graph: " %}{% translate "Shift status evolution" %}</span>
-                            </span>
-                        </p>
-                        <p>
-                            <canvas id="shift_status_evolution_json_canvas" style="display: none;"></canvas>
-                        </p>
+                <div class="row">
+                    <div class="col-xl">
+                        <div class="card mb-2">
+                            <h5 class="card-header d-flex justify-content-between align-items-center">
+                                <span>Attendance</span>
+                            </h5>
+                            <div class="card-body">
+                                <table class="table"
+                                       aria-label="{% translate 'Gives details of the attendance for the past, current and next week.' %}">
+                                    <tr>
+                                        <th>Week</th>
+                                        <th>Shifts</th>
+                                        <th>Slots</th>
+                                        <th>Occupied slots (including looking for stand-in)</th>
+                                        <th>Looking for a stand-in</th>
+                                    </tr>
+                                    {% for week, stats in weeks.items %}
+                                        <tr>
+                                            <td>{{ week }}</td>
+                                            <td>{{ stats.shifts_count }}</td>
+                                            <td>{{ stats.slots_count }}</td>
+                                            <td>{{ stats.occupied_count }}</td>
+                                            <td>{{ stats.standin_search_count }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl">
+                        <div class="card mb-2">
+                            <h5 class="card-header">
+                                <span>{% translate "Shift cycle list" %}</span>
+                            </h5>
+                            <div class="card-body">
+                                <table class="table"
+                                       aria-label="{% translate 'Gives details of the attendance per shift cycle.' %}">
+                                    <tr>
+                                        <th>Cycle Date</th>
+                                        <th>members where expected to do a shift</th>
+                                        <th>out of members total</th>
+                                    </tr>
+                                    {% for cycle in cycles %}
+                                        <tr>
+                                            <td>{{ cycle.date|date:"d.m.Y" }}</td>
+                                            <td>{{ cycle.nb_members_doing_shifts }}</td>
+                                            <td>{{ cycle.nb_members_total }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    {% endif %}
-{% endblock %}
+                {% if perms.shifts.manage %}
+                    <div class="row">
+                        <div class="col-xl">
+                            <div class="card mb-2">
+                                <h5 class="card-header">
+                                    <span>{% translate "Data exports" %}</span>
+                                </h5>
+                                <div class="card-body">
+                                    <a class="{% tapir_button_link %}"
+                                       href="{% url 'shifts:slot_data_csv' %}">
+                                        <span class="material-icons">file_present</span>
+                                        {% translate "Slot data" %}
+                                    </a>
+                                    <a class="{% tapir_button_link %}"
+                                       href="{% url 'shifts:shift_template_data_csv_export' %}">
+                                        <span class="material-icons">file_present</span>
+                                        {% translate "ABCD shift data" %}
+                                    </a>
+                                    <a class="{% tapir_button_link %}"
+                                       href="{% url 'shifts:shift_slot_template_data_csv_export' %}">
+                                        <span class="material-icons">file_present</span>
+                                        {% translate "ABCD shift slot data" %}
+                                    </a>
+                                    <a class="{% tapir_button_link %}"
+                                       href="{% url 'shifts:shift_data_csv_export' %}">
+                                        <span class="material-icons">file_present</span>
+                                        {% translate "Shift data" %}
+                                    </a>
+                                    <a class="{% tapir_button_link %}"
+                                       href="{% url 'shifts:shift_slot_data_csv_export' %}">
+                                        <span class="material-icons">file_present</span>
+                                        {% translate "Shift slot data" %}
+                                    </a>
+                                    <a class="{% tapir_button_link %}"
+                                       href="{% url 'shifts:attendance_template_data_csv_export' %}">
+                                        <span class="material-icons">file_present</span>
+                                        {% translate "ABCD attendance data" %}
+                                    </a>
+                                    <a class="{% tapir_button_link %}"
+                                       href="{% url 'shifts:attendance_data_csv_export' %}">
+                                        <span class="material-icons">file_present</span>
+                                        {% translate "Attendance data" %}
+                                    </a>
+                                    <a class="{% tapir_button_link %}"
+                                       href="{% url 'shifts:attendance_update_data_csv_export' %}">
+                                        <span class="material-icons">file_present</span>
+                                        {% translate "Attendance updates data" %}
+                                    </a>
+                                    <a class="{% tapir_button_link %}"
+                                       href="{% url 'shifts:attendance_takeover_data_csv_export' %}">
+                                        <span class="material-icons">file_present</span>
+                                        {% translate "Attendance takeover data" %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl">
+                            <div class="card mb-2">
+                                <h5 class="card-header">
+                                    <span>{% translate "Evolution of shift status" %}</span>
+                                </h5>
+                                <div class="card-body">
+                                    <p>
+                                        <span class="{% tapir_button_link %}"
+                                              onclick="chartManager.show_stats_chart(this, '{% url "shifts:shift_status_evolution_json" %}', 'shift_status_evolution_json_canvas')">
+                                            <span class="material-icons">leaderboard</span>
+                                            <span class="button-text">{% translate "Show graph: " %}{% translate "Shift status evolution" %}</span>
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <canvas id="shift_status_evolution_json_canvas" style="display: none;"></canvas>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endblock %}

@@ -2,66 +2,85 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load utils %}
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>
-        Mitgliedschaftsbestätigung {% get_display_name_full share_owner %}
-    </title>
-    <link rel="stylesheet" href="{% static 'coop/css/membership_agreement_pdf.css' %}">
-</head>
-<body>
-
-<!-- Falzmarken -->
-<span style="border-top: 1px solid grey; width: 5mm; position: fixed; left: -15mm; top: 60mm;"></span>
-<span style="border-top: 1px solid grey; width: 5mm; position: fixed; left: -15mm; top: 165mm;"></span>
-
-<!-- A DIN 5008 Letter has 2,7cm of top margin -->
-<div style="display: flex">
-    <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
-        <span style="font-size: 6pt;">Organisation, Straße 1, 12345 Stadt</span>
-        <div style="margin-top: 2mm;">
-            {% get_display_name_legal share_owner %}<br/>
-            {% if share_owner.get_info.street_2 %} {{ share_owner.get_info.street_2 }}<br/>{% endif %}
-            {{ share_owner.get_info.street }}<br/>
-            {{ share_owner.get_info.postcode }} {{ share_owner.get_info.city }}
+    <head>
+        <meta charset="UTF-8">
+        <title>Mitgliedschaftsbestätigung {% get_display_name_full share_owner %}</title>
+        <link rel="stylesheet"
+              href="{% static 'coop/css/membership_agreement_pdf.css' %}">
+    </head>
+    <body>
+        <!-- Falzmarken -->
+        <span style="border-top: 1px solid grey;
+                     width: 5mm;
+                     position: fixed;
+                     left: -15mm;
+                     top: 60mm"></span>
+        <span style="border-top: 1px solid grey;
+                     width: 5mm;
+                     position: fixed;
+                     left: -15mm;
+                     top: 165mm"></span>
+        <!-- A DIN 5008 Letter has 2,7cm of top margin -->
+        <div style="display: flex">
+            <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
+                <span style="font-size: 6pt;">Organisation, Straße 1, 12345 Stadt</span>
+                <div style="margin-top: 2mm;">
+                    {% get_display_name_legal share_owner %}
+                    <br />
+                    {% if share_owner.get_info.street_2 %}
+                        {{ share_owner.get_info.street_2 }}
+                        <br />
+                    {% endif %}
+                    {{ share_owner.get_info.street }}
+                    <br />
+                    {{ share_owner.get_info.postcode }} {{ share_owner.get_info.city }}
+                </div>
+            </div>
+            <div style="flex-grow: 1"></div>
+            <div style="margin-top: 13mm;">
+                <img src="{% static '../static/images/Logo_dark.svg' %}"
+                     style="width: 60mm"
+                     alt="{% translate 'Organisation logo' %}" />
+            </div>
         </div>
-    </div>
-    <div style="flex-grow: 1"></div>
-    <div style="margin-top: 13mm;">
-        <img src="{% static '../static/images/Logo_dark.svg' %}" style="width: 60mm;"
-             alt="{% translate 'Organisation logo' %}"/>
-    </div>
-</div>
-
-<div style="margin-top: 10mm; line-height: 1.8rem;">
-    <div style="display: flex; justify-content: flex-end">Stadt, {{ date|date:"j. F Y" }}</div>
-    <div style="margin-top: 8mm; font-weight: bold">Bestätigung der {% if share_owner.is_investing %}
-        Fördermitgliedschaft{% else %}Mitgliedschaft{% endif %} bei <strong>Organisation</strong></div>
-
-    <p>Liebe*r {% get_display_name_short share_owner %},</p>
-
-    <p>herzlich Willkommen als offizielles Mitglied der <strong>Organisation</strong>!</p>
-
-    <p>Mit dem Zeichnen von <strong>{{ num_shares }} Anteil(en)</strong> hast du dich dafür
-        entschieden,
-        gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!</p>
-
-    <p>Wir freuen uns sehr, dich als Mitglied der <strong>Organisation</strong> begrüßen zu dürfen und bestätigen die
-        Aufnahme in die
-        Genossenschaft mit der <strong>Mitgliedsnummer {{ share_owner.id }}</strong>. Über diese Nummer wird auch die Ausübung
-        deiner Rechte und
-        Pflichten als Mitglied erfolgen. Bitte merke oder notiere dir deine Nummer deshalb.</p>
-
-    <p>Du möchtest anderen von unserer Vision und Idee erzählen? Auf unserer Webseite findest du alle Infos über
-        das Modell und die Mitgliedschaft: <a href="https://wirmarkt.de">https://wirmarkt.de</a></p>
-
-    <p>Bei Fragen kannst du dich gerne an <a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>
-        wenden und wir
-        antworten dir so schnell wie möglich. Wir freuen uns, dass du dabei bist!</p>
-</div>
-
-</body>
+        <div style="margin-top: 10mm; line-height: 1.8rem;">
+            <div style="display: flex; justify-content: flex-end">Stadt, {{ date|date:"j. F Y" }}</div>
+            <div style="margin-top: 8mm; font-weight: bold">
+                Bestätigung der
+                {% if share_owner.is_investing %}
+                    Fördermitgliedschaft
+                {% else %}
+                    Mitgliedschaft
+                {% endif %}
+                bei <strong>Organisation</strong>
+            </div>
+            <p>Liebe*r {% get_display_name_short share_owner %},</p>
+            <p>
+                herzlich Willkommen als offizielles Mitglied der <strong>Organisation</strong>!
+            </p>
+            <p>
+                Mit dem Zeichnen von <strong>{{ num_shares }} Anteil(en)</strong> hast du dich dafür
+                entschieden,
+                gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!
+            </p>
+            <p>
+                Wir freuen uns sehr, dich als Mitglied der <strong>Organisation</strong> begrüßen zu dürfen und bestätigen die
+                Aufnahme in die
+                Genossenschaft mit der <strong>Mitgliedsnummer {{ share_owner.id }}</strong>. Über diese Nummer wird auch die Ausübung
+                deiner Rechte und
+                Pflichten als Mitglied erfolgen. Bitte merke oder notiere dir deine Nummer deshalb.
+            </p>
+            <p>
+                Du möchtest anderen von unserer Vision und Idee erzählen? Auf unserer Webseite findest du alle Infos über
+                das Modell und die Mitgliedschaft: <a href="https://wirmarkt.de">https://wirmarkt.de</a>
+            </p>
+            <p>
+                Bei Fragen kannst du dich gerne an <a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>
+                wenden und wir
+                antworten dir so schnell wie möglich. Wir freuen uns, dass du dabei bist!
+            </p>
+        </div>
+    </body>
 </html>

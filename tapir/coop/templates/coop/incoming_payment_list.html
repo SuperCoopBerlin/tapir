@@ -1,29 +1,25 @@
 {% extends "core/base.html" %}
-
 {% load render_table from django_tables2 %}
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load querystring from django_tables2 %}
 {% load core %}
-
 {% block title %}
     {% translate "Payments" %}
 {% endblock %}
-
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
     {{ filter.form.media }}
 {% endblock %}
-
 {% block content %}
-
     <div class="card m-2">
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>{% translate "Incoming payments" %}</span>
             {% if perms.accounting.manage %}
-                <a class="{% tapir_button_link_to_action %}" href="{% url "coop:incoming_payment_create" %}">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url "coop:incoming_payment_create" %}">
                     <span class="material-icons">add_circle_outline</span>
                     {% translate "Register a new payment" %}
                 </a>
@@ -33,13 +29,11 @@
             {% if enable_filter %}
                 <li class="list-group-item">
                     <form action="" method="get" class="form member-filter-form">
-                        <div class="member-filter-form-filters">
-                            {% bootstrap_form filter.form %}
-                        </div>
+                        <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
                         <div class="member-filter-form-buttons">
                             <button class="filter-button {% tapir_button_link %}">
-                            <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
-                        </button>
+                                <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                            </button>
                             <a class="{% tapir_button_link %}"
                                href="{% url "coop:incoming_payment_list" %}">
                                 <span class="material-icons">clear</span>
@@ -49,9 +43,7 @@
                     </form>
                 </li>
             {% endif %}
-            <li class="list-group-item">
-                {% render_table table %}
-            </li>
+            <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
 {% endblock %}

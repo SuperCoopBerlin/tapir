@@ -1,22 +1,18 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load coop %}
 {% load static %}
 {% load render_table from django_tables2 %}
 {% load core %}
-
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
     {{ filter.form.media }}
 {% endblock %}
-
 {% block content %}
     <div class="card m-2">
         <h5 class="card-header d-flex justify-content-between">
-
             <span>{% translate "Logs" %}</span>
         </h5>
         <ul class="list-group list-group-flush">
@@ -30,9 +26,7 @@
                     </form>
                 {% endif %}
             </li>
-            <li class="list-group-item">
-                {% render_table table %}
-            </li>
+            <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
 {% endblock %}
