@@ -16,6 +16,8 @@ from pathlib import Path
 
 import celery.schedules
 import environ
+import ldap
+from django_auth_ldap.config import LDAPSearch
 
 env = environ.Env()
 
@@ -124,17 +126,34 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "tapir.wsgi.application"
 
-
+ldap_db =  env.db_url("LDAP_URL", default="ldap://cn=admin,dc=supercoop,dc=de:admin@openldap"    )
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
-    "default": env.db(default="postgresql://tapir:tapir@db:5432/tapir"),
-    "ldap": env.db_url(
-        "LDAP_URL", default="ldap://cn=admin,dc=supercoop,dc=de:admin@openldap"
-    ),
+    "default": env.db_url(default="postgresql://tapir:tapir@db:5432/tapir"),
 }
-
-DATABASE_ROUTERS = ["ldapdb.router.Router"]
+# TODO test with dynamic example
+AUTH_LDAP_SERVER_URI = ldap_db["NAME"]
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",  # for django users
+    "django_auth_ldap.backend.LDAPBackend",  # for ldap users
+]
+# To ensure user object is updated each time on login
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
+AUTH_USER_MODEL = "tapir.LdapUser"
+AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=supercoop,dc=de"
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "django_auth_ldap: {levelname} {message}",
+            "style": "{",
+        }
+    },
+    "handlers": {"console": {"class": "logging.StreamHandler", "formatter": "simple"}},
+    "loggers": {"django_auth_ldap": {"level": "DEBUG", "handlers": ["console"]}},
+}
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"

@@ -105,25 +105,43 @@ The class name is the convention for the word in texts, followed by how to write
 
 ### Django Shell
 
-```sh
+```shell
 docker compose exec web poetry run python manage.py shell_plus
 ```
 
 ### LDAP
 
-For reading or modifying the LDAP, Apache Directory Studio is pretty handy.
+For reading or modifying the LDAP, [Apache Directory Studio](https://directory.apache.org/studio/downloads.html) is
+pretty handy.
+Alteratniveely, you can add
+
+```
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "openldap"
+      PHPLDAPADMIN_HTTPS: "false"
+    ports:
+      - "8080:80"
+    depends_on:
+      - openldap
+```
+
+to docker-compose.yaml and access [http://localhost:8080](http://localhost:8080) with user `cn=admin,dc=supercoop,dc=de`
+and password `admin`.
 
 ### Running tests
 
 For running the test should have a clean openldap container with the test data.
 
-```sh
+```shell
 docker compose up -d openldap
 ```
 
 Then, run the tests.
 
-```sh
+```shell
 docker compose run --rm web poetry run pytest
 ```
 
@@ -132,7 +150,7 @@ containers.
 
 To regenerate the test data fixtures:
 
-```sh
+```shell
 docker compose up --force-recreate
 docker compose exec web poetry run python manage.py migrate
 docker compose exec web poetry run python manage.py generate_test_data --reset_all
@@ -148,8 +166,8 @@ secret
 
 To generate the translation files, first use "makemessages" and specify the language you want to generate:
 
-```sh
-docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages --no-wrap -l de
+```shell
+docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages -l de
 ```
 
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
@@ -182,7 +200,7 @@ This is quite easy by adding the property to the model class. See this page as r
 All changes must be done in the docker container. Since our development environment is included to the
 docker container, you must run djangos makemigrations on docker. You can do this with this command:
 
-```sh
+```shell
 docker compose exec web poetry run python manage.py makemigrations
 ```
 
@@ -192,7 +210,7 @@ Please check the migration script. It might contain unwished changes. There seem
 
 Last step is to update the database. this is done with this command:
 
-```sh
+```shell
 docker compose exec web poetry run python manage.py migrate
 ```
 
