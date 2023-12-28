@@ -6,7 +6,7 @@
 {% load utils %}
 {% block title %}
     {% translate "Applicant" %}: {% get_display_name_for_viewer object request.user %}
-{% endblock %}
+{% endblock title %}
 {% block content %}
     <div class="modal fade"
          id="confirmDeleteModal"
@@ -257,4 +257,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

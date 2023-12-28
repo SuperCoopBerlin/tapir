@@ -5,7 +5,7 @@
 {% load utils %}
 {% block title %}
     {% translate 'Groups' %}
-{% endblock %}
+{% endblock title %}
 {% block content %}
     {% for group_name, members in groups.items %}
         <div class="card mb-2">

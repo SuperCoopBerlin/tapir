@@ -14,10 +14,10 @@
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
     <script src="{% static 'statistics/chart_4.4.0.js' %}"></script>
     <script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
-{% endblock %}
+{% endblock head %}
 {% block title %}
     {% translate 'Member' %}: {% get_display_name_for_viewer object request.user %}
-{% endblock %}
+{% endblock title %}
 {% block content %}
     <div class="row">
         <div class="col-xl-6">
@@ -158,4 +158,4 @@
             <div class="col-xl-6">{% purchase_statistics_card tapir_user=object %}</div>
         {% endif %}
     </div>
-{% endblock %}
+{% endblock content %}

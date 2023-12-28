@@ -7,10 +7,10 @@
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
     <script src="{% static 'shifts/ShiftFiltersManager.js' %}?version=2" defer></script>
-{% endblock %}
+{% endblock head %}
 {% block title %}
     {% translate 'ABCD week-plan' %}
-{% endblock %}
+{% endblock title%}
 {% block content %}
     <div class="card-group mb-2">
         <div class="card">
@@ -61,7 +61,7 @@
                                                     <a href="    {{ shift_template.get_absolute_url }}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
                                                         {% shift_template_block shift_template %}
                                                     </a>
-                                                {% endblock %}
+                                                {% endblock shift_template %}
                                             {% else %}
                                                 <div class="shift-template-block-container"></div>
                                             {% endif %}
@@ -76,4 +76,4 @@
         </table>
     </div>
 </div>
-{% endblock %}
+{% endblock content %}

@@ -7,10 +7,10 @@
 {% block head %}
     {{ block.super }}
     {{ form.media }}
-{% endblock %}
+{% endblock head %}
 {% block title %}
     {% translate "Convert exemption to pause" %}
-{% endblock %}
+{% endblock title %}
 {% block content %}
     <div class="container">
         <div class="card m-2">
@@ -42,4 +42,4 @@
             </ul>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

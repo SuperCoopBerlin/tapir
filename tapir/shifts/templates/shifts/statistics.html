@@ -6,7 +6,7 @@
 {% load core %}
 {% block title %}
     {% translate "Shift statistics" %}
-{% endblock %}
+{% endblock title %}
 {% block head %}
     <script src="{% static 'statistics/chart_4.4.0.js' %}"></script>
     <script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
@@ -226,4 +226,4 @@
                         </div>
                     </div>
                 {% endif %}
-            {% endblock %}
+            {% endblock content %}

@@ -7,13 +7,13 @@
 {% block head %}
     {{ block.super }}
     {{ form.media }}
-{% endblock %}
+{% endblock head %}
 {% block title %}
     {% get_display_name_full object as display_name_full %}
     {% blocktranslate with display_name_full=display_name_full %}
         Edit username: {{ display_name_full }}
     {% endblocktranslate %}
-{% endblock %}
+{% endblock title %}
 {% block content %}
     {% get_display_name_full object as display_name_full %}
     <div class="container">
@@ -46,4 +46,4 @@
             </ul>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

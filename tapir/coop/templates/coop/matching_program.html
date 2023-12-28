@@ -5,11 +5,11 @@
 {% load static %}
 {% block title %}
     {% translate "Matching program" %}
-{% endblock %}
+{% endblock title %}
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
-{% endblock %}
+{% endblock head %}
 {% block content %}
     <div class="card mb-2">
         <div class="card-header d-flex justify-content-between">
@@ -24,4 +24,4 @@
             <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
-{% endblock %}
+{% endblock content %}

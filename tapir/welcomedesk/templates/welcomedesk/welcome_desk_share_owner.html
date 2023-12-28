@@ -10,11 +10,11 @@
 {% load utils %}
 {% block title %}
     {% translate "Welcome Desk" %}: {% get_display_name_full share_owner %}
-{% endblock %}
+{% endblock title %}
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
-{% endblock %}
+{% endblock head %}
 {% block content %}
     {% get_display_name_full share_owner as display_name_full %}
     {% get_display_name_short share_owner as display_name_short %}
@@ -102,4 +102,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

@@ -5,11 +5,11 @@
 {% load core %}
 {% block title %}
     {% translate "Login" %}
-{% endblock %}
+{% endblock title %}
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}">
-{% endblock %}
+{% endblock head %}
 {% block content %}
     <div class="d-flex justify-content-center tapir-authentication">
         <div class="card tapir-login mt-4" id="login-card">
@@ -77,4 +77,4 @@
 
         })
     </script>
-{% endblock %}
+{% endblock content %}

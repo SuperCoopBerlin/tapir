@@ -8,10 +8,10 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
-{% endblock %}
+{% endblock head %}
 {% block title %}
     {% translate "Welcome Desk" %}
-{% endblock %}
+{% endblock title %}
 {% block content %}
     <div class="card mb-2">
         <h5 class="card-header d-flex">{% translate "Welcome Desk" %}</h5>
@@ -31,4 +31,4 @@
             <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
-{% endblock %}
+{% endblock content %}
