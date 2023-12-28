@@ -2,11 +2,13 @@ import datetime
 from calendar import MONDAY
 from collections import OrderedDict
 
+import django_filters
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.views.generic import TemplateView
+from django_filters.views import FilterView
 from weasyprint import HTML
 
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
@@ -19,32 +21,32 @@ from tapir.shifts.models import (
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.shifts.utils import ColorHTMLCalendar
 from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
+from tapir.utils.forms import DateFromToRangeFilterTapir
 from tapir.utils.shortcuts import get_monday, set_header_for_file_download
 
 
-class ShiftCalendarView(LoginRequiredMixin, TemplateView):
-    template_name = "shifts/shift_calendar_future.html"
+class ShiftFilter(django_filters.FilterSet):
+    class Meta:
+        model = Shift
+        fields = ["start_time"]
+
+    start_time = DateFromToRangeFilterTapir(field_name="start_time", label="Shift date")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form.initial["start_time"] = [
+            timezone.now().date().today(),
+            timezone.now().date().today() + datetime.timedelta(days=7),
+        ]
+
+
+class ShiftCalendarView(LoginRequiredMixin, FilterView):
+    template_name = "shifts/shift_calendar_template.html"
     DATE_FORMAT = "%Y-%m-%d"
+    filterset_class = ShiftFilter
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(**kwargs)
-
-        date_from = (
-            datetime.datetime.strptime(
-                self.request.GET["date_from"], self.DATE_FORMAT
-            ).date()
-            if "date_from" in self.request.GET.keys()
-            else get_monday(timezone.now().date())
-        )
-        date_to = (
-            datetime.datetime.strptime(
-                self.request.GET["date_to"], self.DATE_FORMAT
-            ).date()
-            if "date_to" in self.request.GET.keys()
-            else date_from + datetime.timedelta(days=60)
-        )
-        context_data["date_from"] = date_from.strftime(self.DATE_FORMAT)
-        context_data["date_to"] = date_to.strftime(self.DATE_FORMAT)
 
         context_data["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
         # Because the shift views show a lot of shifts,
@@ -58,18 +60,15 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
             .prefetch_related("slots__slot_template__attendance_template__user")
             .prefetch_related("shift_template")
             .prefetch_related("shift_template__group")
-            .filter(
-                start_time__gte=date_from,
-                start_time__lt=date_to + datetime.timedelta(days=1),
-            )
             .order_by("start_time")
         )
+        shifts_filtered = ShiftFilter(self.request.GET, queryset=shifts).qs
 
         # A nested dict containing weeks (indexed by the Monday of the week), then days, then a list of shifts
         # OrderedDict[OrderedDict[list]]
         shifts_by_weeks_and_days = OrderedDict()
         week_to_group = {}
-        for shift in shifts:
+        for shift in shifts_filtered:
             shift_day = shift.start_time.date()
             shift_week_monday = shift_day - datetime.timedelta(days=shift_day.weekday())
 

@@ -1959,8 +1959,8 @@ msgstr "Notiz hinzufügen"
 msgid "Shifts"
 msgstr "Schichten"
 
-#: shifts/apps.py:39 shifts/templates/shifts/shift_calendar_future.html:6
-#: shifts/templates/shifts/shift_calendar_future.html:10
+#: shifts/apps.py:39 shifts/templates/shifts/shift_calendar_template.html:6
+#: shifts/templates/shifts/shift_calendar_template.html:10
 msgid "Shift calendar"
 msgstr "Schicht-Kalender"
 
@@ -2730,7 +2730,7 @@ msgstr ""
 msgid "Already occupied shifts :"
 msgstr "Schon besetzte Schichten:"
 
-#: shifts/templates/shifts/shift_calendar_future.html:14
+#: shifts/templates/shifts/shift_calendar_template.html:14
 #, python-format
 msgid ""
 "\n"

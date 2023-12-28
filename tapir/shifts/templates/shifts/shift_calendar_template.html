@@ -1,15 +1,20 @@
 {% extends "shifts/base.html" %}
+{% load i18n %}
 
 {% load django_bootstrap5 %}
 {% load static %}
 {% load shifts %}
-{% load i18n %}
 {% load core %}
-
+{% block title %}
+    {% translate 'Shift calendar' %}
+{% endblock %}
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
     <script src="{% static 'shifts/ShiftFiltersManager.js' %}?version=2" defer></script>
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+    {{ filter.form.media }}
 {% endblock %}
 
 {% block content %}
@@ -17,10 +22,20 @@
         <div class="card">
             <h5 class="card-header">
                 {% block card_title %}
+                    {% translate "Shift calendar" %}
                 {% endblock %}
             </h5>
             <div class="card-body">
                 {% block card_helptext %}
+                    {% blocktranslate %}
+                        <p>Below you can find all the upcoming shifts, and who is registered for each shift.</p>
+                        <p>You can sign yourself up for any shift that has a free slot here on TAPIR. You may also
+                            cancel it yourself if
+                            done at least {{ nb_days_for_self_unregister }} days before the shift.<br/>
+                            When you sign up for one of these shifts, you only commit to the shift on that specific day.
+                        </p>
+                        <p>To register for a regular ABCD shift you must contact the Member Office.</p>
+                    {% endblocktranslate %}
                 {% endblock %}
             </div>
         </div>
@@ -31,23 +46,19 @@
             {% translate "Date range" %}
         </h5>
         <div class="card-body d-flex gap-4">
-            <script>
-                function onFilter() {
-                    let url = "{% url "shifts:calendar" %}";
-                    url += "?date_from=" + document.getElementById("date-from").value;
-                    url += "&date_to=" + document.getElementById("date-to").value;
-                    window.location = url;
-                }
-            </script>
-            <div class="d-flex align-items-baseline gap-2">
-                <label for="date-from" class="form-label">{% translate "From" %}</label>
-                <input id="date-from" type="date" value="{{ date_from }}" class="form-control" style="max-width: 160px"/>
-            </div>
-            <div class="d-flex align-items-baseline gap-2">
-                <label for="date-to" class="form-label">{% translate "To" %}</label>
-                <input id="date-to" type="date" value="{{ date_to }}" class="form-control" style="max-width: 160px"/>
-            </div>
-            <button class="{% tapir_button_link %}" onclick="onFilter()">{% translate "Filter" %}</button>
+            <li class="list-group-item">
+                <form action="" method="get" class="form member-filter-form">
+                    <div class="member-filter-form-filters">
+                        {% bootstrap_form filter.form %}
+                    </div>
+                    <div>
+                        <button class="filter-button {% tapir_button_link %}">
+                            <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                        </button>
+                    </div>
+                </form>
+            </li>
+
         </div>
     </div>
     {% for week, shifts_by_day in shifts_by_weeks_and_days.items %}
