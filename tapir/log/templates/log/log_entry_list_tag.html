@@ -43,7 +43,7 @@
             </table>
         </div>
         {% if perms.accounts.manage %}
-            <form method="POST" action="{{ create_text_log_entry_action_url }}">
+            <form method="post" action="{{ create_text_log_entry_action_url }}">
                 {% csrf_token %}
                 {% comment %}
                     Ideally we would let the form field render itself here, but it's easier to style as

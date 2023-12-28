@@ -70,7 +70,7 @@
             </div>
             <div class="row m-1">
                 <div class="col-5 fw-bold text-end">
-                    <a class="" data-bs-toggle="collapse" href="#shares-table">{% translate "Owned shares" %}:</a>
+                    <a data-bs-toggle="collapse" href="#shares-table">{% translate "Owned shares" %}:</a>
                 </div>
                 <div class="col-7">
                     <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
@@ -178,7 +178,7 @@
             {% if perms.accounts.manage %}
                 <div class="row m-1 mt-4 justify-content-end">
                     <form class="d-flex justify-content-end"
-                          method="POST"
+                          method="post"
                           action="{% url 'coop:send_shareowner_membership_confirmation_welcome_email' share_owner.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="{% tapir_button_action %} align-self-right">
