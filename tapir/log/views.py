@@ -4,6 +4,7 @@ import django_filters
 import django_tables2
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q, QuerySet
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
@@ -127,10 +128,29 @@ class LogFilter(django_filters.FilterSet):
             .values_list("actor", flat=True)
             .distinct()
         )
+        # Second Method
+        self.filters["log_class_type__model"].extra.update(
+            {
+                "choices": tuple(
+                    [
+                        (
+                            item.model,
+                            item.model_class().verbose_log_name(),
+                        )
+                        for item in ContentType.objects.filter(
+                            id__in=LogEntry.objects.values_list(
+                                "log_class_type", flat=True
+                            ).distinct()
+                        )
+                    ]
+                )
+            }
+        )
 
     time = DateRangeFilter(field_name="created_date")
     actor = TapirUserModelChoiceFilter(label=_("Actor"))
     members = ShareOwnerModelChoiceFilter(method="member_filter", label=_("Member"))
+    log_class_type__model = django_filters.ChoiceFilter(label=_("Log Type"))
 
     def member_filter(self, queryset: QuerySet, name, value: ShareOwner):
         # check if value is either in user or share_owner (can only be in one)
@@ -140,7 +160,7 @@ class LogFilter(django_filters.FilterSet):
 
     class Meta:
         model = LogEntry
-        fields = ["time", "actor", "members"]
+        fields = []
 
 
 class LogTableView(LoginRequiredMixin, FilterView, SingleTableView):
