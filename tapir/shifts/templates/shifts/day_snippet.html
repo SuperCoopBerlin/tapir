@@ -1,23 +1,28 @@
-<div style="width: 80%; margin-left: auto; margin-right: auto; height: 50px;">
-    {%  for shift in shifts %}
+<div style="width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px">
+    {% for shift in shifts %}
         <a class="text-reset" href="{{ shift.obj.get_absolute_url }}">
-        <div class="shift-block" style="left: {{ shift.position_left }}%; width: {{ shift.width }}%; background-color: {{ shift.block_color }};">
-            <div>{{ shift.title }}</div>
-            <div>{{ shift.obj.start_time|time:"H:i" }} - {{ shift.obj.end_time|time:"H:i" }}</div>
-            <div style="display: flex">
-                {% for _ in shift.free_slots %}
-                    <div class="material-icons" style="font-size: 12px;">radio_button_unchecked</div>
-                {% endfor %}
-                {% for attendance in shift.attendances %}
-                    {% if attendance.state == attendance.State.PENDING %}
-                        <div class="material-icons" style="font-size: 12px;">radio_button_checked</div>
-                    {% else %}
-                        <div class="material-icons" style="font-size: 12px;">account_circle</div>
-                    {% endif %}
-                {% endfor %}
+            <div class="shift-block"
+                 style="left: {{ shift.position_left }}%;
+                        width: {{ shift.width }}%;
+                        background-color: {{ shift.block_color }}">
+                <div>{{ shift.title }}</div>
+                <div>{{ shift.obj.start_time|time:"H:i" }} - {{ shift.obj.end_time|time:"H:i" }}</div>
+                <div style="display: flex">
+                    {% for _ in shift.free_slots %}
+                        <div class="material-icons" style="font-size: 12px;">radio_button_unchecked</div>
+                    {% endfor %}
+                    {% for attendance in shift.attendances %}
+                        {% if attendance.state == attendance.State.PENDING %}
+                            <div class="material-icons" style="font-size: 12px;">radio_button_checked</div>
+                        {% else %}
+                            <div class="material-icons" style="font-size: 12px;">account_circle</div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
-
-        </div>
         </a>
     {% endfor %}
 </div>

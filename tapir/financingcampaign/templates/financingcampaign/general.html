@@ -1,13 +1,10 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load core %}
-
 {% block title %}
     {% translate "Financing campaigns overview" %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
     <div class="container">
         <div class="card mb-2">
@@ -24,33 +21,33 @@
                 <table class="{% tapir_table_classes %}"
                        aria-label="{% translate 'The list of all financing campaigns' %}">
                     <thead>
-                    <tr>
-                        <th>{% translate 'Name' %}</th>
-                        <th>{% translate 'Goal' %}</th>
-                        <th>{% translate 'Start date' %}</th>
-                        <th>{% translate 'End date' %}</th>
-                        <th>{% translate 'Actions' %}</th>
-                    </tr>
+                        <tr>
+                            <th>{% translate 'Name' %}</th>
+                            <th>{% translate 'Goal' %}</th>
+                            <th>{% translate 'Start date' %}</th>
+                            <th>{% translate 'End date' %}</th>
+                            <th>{% translate 'Actions' %}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {% for campaign in campaigns %}
-                        <tr>
-                            <td>{{ campaign }}</td>
-                            <td>{{ campaign.goal }}€</td>
-                            <td>{{ campaign.start_date|date:"d.m.Y" }}</td>
-                            <td>{{ campaign.end_date|date:"d.m.Y" }}</td>
-                            <td>
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'financingcampaign:edit_campaign' campaign.id %}">
-                                    <span class="material-icons">edit</span>
-                                </a>
-                                <a class="{% tapir_button_action %}"
-                                   href="{% url 'financingcampaign:delete_campaign' campaign.id %}">
-                                    <span class="material-icons">delete</span>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for campaign in campaigns %}
+                            <tr>
+                                <td>{{ campaign }}</td>
+                                <td>{{ campaign.goal }}€</td>
+                                <td>{{ campaign.start_date|date:"d.m.Y" }}</td>
+                                <td>{{ campaign.end_date|date:"d.m.Y" }}</td>
+                                <td>
+                                    <a class="{% tapir_button_link_to_action %}"
+                                       href="{% url 'financingcampaign:edit_campaign' campaign.id %}">
+                                        <span class="material-icons">edit</span>
+                                    </a>
+                                    <a class="{% tapir_button_action %}"
+                                       href="{% url 'financingcampaign:delete_campaign' campaign.id %}">
+                                        <span class="material-icons">delete</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -69,29 +66,29 @@
                 <table class="{% tapir_table_classes %}"
                        aria-label="{% translate 'The list of all financing sources' %}">
                     <thead>
-                    <tr>
-                        <th>{% translate 'Name' %}</th>
-                        <th>{% translate 'Linked campaign' %}</th>
-                        <th>{% translate 'Actions' %}</th>
-                    </tr>
+                        <tr>
+                            <th>{% translate 'Name' %}</th>
+                            <th>{% translate 'Linked campaign' %}</th>
+                            <th>{% translate 'Actions' %}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {% for source in sources %}
-                        <tr>
-                            <td>{{ source.name }}</td>
-                            <td>{{ source.campaign }}</td>
-                            <td>
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'financingcampaign:edit_source' source.id %}">
-                                    <span class="material-icons">edit</span>
-                                </a>
-                                <a class="{% tapir_button_action %}"
-                                   href="{% url 'financingcampaign:delete_source' source.id %}">
-                                    <span class="material-icons">delete</span>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for source in sources %}
+                            <tr>
+                                <td>{{ source.name }}</td>
+                                <td>{{ source.campaign }}</td>
+                                <td>
+                                    <a class="{% tapir_button_link_to_action %}"
+                                       href="{% url 'financingcampaign:edit_source' source.id %}">
+                                        <span class="material-icons">edit</span>
+                                    </a>
+                                    <a class="{% tapir_button_action %}"
+                                       href="{% url 'financingcampaign:delete_source' source.id %}">
+                                        <span class="material-icons">delete</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -110,34 +107,34 @@
                 <table class="{% tapir_table_classes %}"
                        aria-label="{% translate 'The list of all datapoints' %}">
                     <thead>
-                    <tr>
-                        <th>{% translate 'Date' %}</th>
-                        <th>{% translate 'Value' %}</th>
-                        <th>{% translate 'Linked source' %}</th>
-                        <th>{% translate 'Actions' %}</th>
-                    </tr>
+                        <tr>
+                            <th>{% translate 'Date' %}</th>
+                            <th>{% translate 'Value' %}</th>
+                            <th>{% translate 'Linked source' %}</th>
+                            <th>{% translate 'Actions' %}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {% for datapoint in datapoints %}
-                        <tr>
-                            <td>{{ datapoint.date|date:'d.m.Y' }}</td>
-                            <td>{{ datapoint.value }}</td>
-                            <td>{{ datapoint.source }}</td>
-                            <td>
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'financingcampaign:edit_source_datapoint' datapoint.id %}">
-                                    <span class="material-icons">edit</span>
-                                </a>
-                                <a class="{% tapir_button_action %}"
-                                   href="{% url 'financingcampaign:delete_source_datapoint' datapoint.id %}">
-                                    <span class="material-icons">delete</span>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                        {% for datapoint in datapoints %}
+                            <tr>
+                                <td>{{ datapoint.date|date:'d.m.Y' }}</td>
+                                <td>{{ datapoint.value }}</td>
+                                <td>{{ datapoint.source }}</td>
+                                <td>
+                                    <a class="{% tapir_button_link_to_action %}"
+                                       href="{% url 'financingcampaign:edit_source_datapoint' datapoint.id %}">
+                                        <span class="material-icons">edit</span>
+                                    </a>
+                                    <a class="{% tapir_button_action %}"
+                                       href="{% url 'financingcampaign:delete_source_datapoint' datapoint.id %}">
+                                        <span class="material-icons">delete</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

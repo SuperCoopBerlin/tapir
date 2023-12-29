@@ -1,8 +1,6 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% get_display_name_short member_infos as display_name_short %}
     {% blocktranslate with display_name_short=display_name_short %}
@@ -18,7 +16,6 @@
         of choosing your shift and working group.
         {% endblocktranslate %}
     </p>
-
     {% blocktranslate %}
         <p>
             For general questions about your membership, please contact the Member Office via email (mitglied@supercoop.de)
@@ -37,10 +34,9 @@
             There is also a back entrance that you can access through the Osramhöfe. This entrance is wheelchair accessible.
         </p>
     {% endblocktranslate %}
-
     <p>
         {% blocktranslate %}
-            Cooperative Greetings, <br/>
+            Cooperative Greetings, <br />
             The Member Office
         {% endblocktranslate %}
     </p>

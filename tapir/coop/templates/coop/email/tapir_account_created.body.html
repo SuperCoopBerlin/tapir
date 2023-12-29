@@ -1,16 +1,13 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% get_display_name_short member_infos as display_name %}
     {% blocktranslate with user_display_name=display_name %}
         <p>Dear {{ user_display_name }},</p>
-        <p>we just created an account for you in our SuperCoop member system. Here you can view your upcoming shifts, book an additional shift if you'd like or mark your shift as “looking for a stand-in” (for example when you go on vacation). <br/>
+        <p>we just created an account for you in our SuperCoop member system. Here you can view your upcoming shifts, book an additional shift if you'd like or mark your shift as “looking for a stand-in” (for example when you go on vacation). <br />
             Please see the <a href="https://wiki.supercoop.de/wiki/Member_Manual">Member Manual</a> section III for more information on the Stand-in System.</p>
     {% endblocktranslate %}
-
     <p>
         {% if tapir_user.shift_user_data.attendance_mode == "regular" %}
             {% if tapir_user.shift_attendance_templates.first %}
@@ -24,7 +21,6 @@
             {% endblocktranslate %}
         {% endif %}
     </p>
-
     {% url "password_reset_confirm" uidb64=uid token=token as password_reset_confirm_url %}
     {% url "password_reset" as password_reset_request_url %}
     <p>

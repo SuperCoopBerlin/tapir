@@ -1,12 +1,9 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load core %}
-
 {% block content %}
-
     {% if request.user.is_authenticated %}
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -23,14 +20,13 @@
             </ol>
         </nav>
     {% endif %}
-
     <div class="container">
         <div class="card mb-2">
             <h5 class="card-header d-flex justify-content-between align-items-center">
                 {% if request.user.is_authenticated %}
-                {% translate "Create Applicant" %}
+                    {% translate "Create Applicant" %}
                 {% else %}
-                {% translate "Register" %}
+                    {% translate "Register" %}
                 {% endif %}
             </h5>
             <div class="card-body">
@@ -50,4 +46,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

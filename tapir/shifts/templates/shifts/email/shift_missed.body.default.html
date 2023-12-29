@@ -1,8 +1,6 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% get_display_name_short member_infos as display_name_short %}
     {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name contact_email_address=contact_email_address %}
@@ -12,8 +10,8 @@
 
         <p>
             It has been registered in the {{ coop_name }} shift system that you didn't attend the following shift which you had registered for:
-            {{ shift_display_name }} <br/>
-            If it's a mistake, or you think that you should be excused from this shift, please contact the member office: {{ contact_email_address }} .<br/>
+            {{ shift_display_name }} <br />
+            If it's a mistake, or you think that you should be excused from this shift, please contact the member office: {{ contact_email_address }} .<br />
         </p>
     {% endblocktranslate %}
 {% endblock body %}

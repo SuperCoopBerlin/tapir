@@ -1,8 +1,6 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% get_display_name_short tapir_user as display_name_short %}
     {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
@@ -31,13 +29,12 @@
             replacement could not be found. Your Tapir account now contains a note to that effect.
         </p>
         <p>
-            We ask that you sign up for your make-up shifts in Tapir within the next four weeks to balance your account. Failure to do so can result in the pausing of your purchasing and voting rights until you begin actively working again (see <a
-                href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.lk042ux0tm9c">Member
+            We ask that you sign up for your make-up shifts in Tapir within the next four weeks to balance your account. Failure to do so can result in the pausing of your purchasing and voting rights until you begin actively working again (see <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.lk042ux0tm9c">Member
             Manual (Section III.F)</a>
         </p>
         <p>Thank you for your understanding.</p>
         <p>
-            Cooperative Greetings<br/>
+            Cooperative Greetings<br />
             The Membership Office
         </p>
     {% endblocktranslate %}

@@ -1,6 +1,7 @@
 {% load i18n %}
-
-{% translate "Update Shift User Data" %}:<br />
+{% translate "Update Shift User Data" %}:
+<br />
 {% for change in changes %}
-    <strong>{{ change.0 }}</strong>: {{ change.1 }} → {{ change.2 }}<br />
+    <strong>{{ change.0 }}</strong>: {{ change.1 }} → {{ change.2 }}
+    <br />
 {% endfor %}

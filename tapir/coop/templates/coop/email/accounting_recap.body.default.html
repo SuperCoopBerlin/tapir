@@ -1,8 +1,6 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% blocktranslate %}
         <p>
@@ -13,7 +11,7 @@
         </p>
         <p>
             {{ num_new_members }} new members have been created. For those new members, {{ total_num_shares_new_members }} shares
-            have been created.<br/>
+            have been created.<br />
             Additionally, {{ total_num_shares_existing_members }} shares have been created for existing members.
         </p>
     {% endblocktranslate %}
@@ -48,5 +46,4 @@
     <p>
         {% translate "This email is send automatically every Sunday. Contact the Tapir team on Slack if you have any question." %}
     </p>
-
 {% endblock body %}

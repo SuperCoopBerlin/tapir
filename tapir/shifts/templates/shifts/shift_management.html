@@ -1,55 +1,47 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load core %}
-
 {% block title %}
     {% translate "Shift management" %}
-{% endblock %}
-
+{% endblock title %}
 {% block head %}
     {{ block.super }}
     {{ form.media }}
-{% endblock %}
-
+{% endblock head %}
 {% block content %}
     <div class="container">
         <div class="card mb-2">
-            <h5 class="card-header">
-                {% translate "Add shifts" %}
-            </h5>
+            <h5 class="card-header">{% translate "Add shifts" %}</h5>
             <div class="card-body">
-                <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:create_shift' %}">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'shifts:create_shift' %}">
                     <span class="material-icons button-icon">add_circle_outline</span>{% translate 'Add a shift' %}
                 </a>
-                <a class="{% tapir_button_link_to_action %}" href="{% url 'shifts:shift_template_create' %}">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'shifts:shift_template_create' %}">
                     <span class="material-icons button-icon">add_circle_outline</span>{% translate 'Add an ABCD shift' %}
                 </a>
             </div>
         </div>
-
         <div class="card mb-2">
-            <h5 class="card-header">
-                {% translate "Lists" %}
-            </h5>
+            <h5 class="card-header">{% translate "Lists" %}</h5>
             <div class="card-body">
-                <a class="{% tapir_button_link %}" href="{% url 'shifts:members_on_alert' %}">
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'shifts:members_on_alert' %}">
                     <span class="material-icons button-icon">priority_high</span>{% translate 'Members on alert' %}
                 </a>
-                <a class="{% tapir_button_link %}" href="{% url 'shifts:shift_exemption_list' %}">
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'shifts:shift_exemption_list' %}">
                     <span class="material-icons button-icon">beach_access</span>{% translate 'Shift exemptions' %}
                 </a>
             </div>
         </div>
-
         {% feature_flag_enabled feature_flag_frozen_members as is_enabled %}
         {% if is_enabled %}
             <div class="card mb-2">
-                <h5 class="card-header">
-                    {% translate "Update frozen statuses" %}
-                </h5>
+                <h5 class="card-header">{% translate "Update frozen statuses" %}</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         {% blocktranslate %}
@@ -59,18 +51,16 @@
                             <p>This command is run automatically once per day. You can trigger it here manually for test
                                 purposes or to accelerate a status update.</p>
                         {% endblocktranslate %}
-                        <a class="{% tapir_button_action %}" href="{% url 'shifts:run_freeze_checks_manually' %}">
+                        <a class="{% tapir_button_action %}"
+                           href="{% url 'shifts:run_freeze_checks_manually' %}">
                             <span class="material-icons button-icon">ac_unit</span>{% translate 'Update frozen statuses' %}
                         </a>
                     </li>
                 </ul>
             </div>
         {% endif %}
-
         <div class="card mb-2">
-            <h5 class="card-header">
-                {% translate "Generate shifts from ABCD shifts" %}
-            </h5>
+            <h5 class="card-header">{% translate "Generate shifts from ABCD shifts" %}</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     {% blocktranslate %}
@@ -78,17 +68,15 @@
                         <p>This command is run automatically once per day. You can trigger it manually to see results
                             faster.</p>
                     {% endblocktranslate %}
-                    <a class="{% tapir_button_action %}" href="{% url 'shifts:generate_shifts_manually' %}">
+                    <a class="{% tapir_button_action %}"
+                       href="{% url 'shifts:generate_shifts_manually' %}">
                         <span class="material-icons button-icon">date_range</span>{% translate 'Generate shifts' %}
                     </a>
                 </li>
             </ul>
         </div>
-
         <div class="card mb-2">
-            <h5 class="card-header">
-                {% translate "Old shift statistics" %}
-            </h5>
+            <h5 class="card-header">{% translate "Old shift statistics" %}</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     {% blocktranslate %}
@@ -102,4 +90,4 @@
             </ul>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

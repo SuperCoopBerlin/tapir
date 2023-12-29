@@ -1,8 +1,6 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% get_display_name_short member_infos as display_name_short %}
     {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
@@ -19,7 +17,6 @@
             <a href="https://wiki.supercoop.de/wiki/Schicht-News">shift news wiki page.</a>
         {% endblocktranslate %}
     </p>
-
     {% blocktranslate %}
         <p>
             If you are unable to complete your shift, please contact your team leader as soon as possible. If you do not
@@ -33,7 +30,6 @@
             If you can only come late: please still come to your shift, every support is important!
         </p>
     {% endblocktranslate %}
-
     <p>
         {% blocktranslate %}
             Please note that it is your responsibility as a member to make every effort to find a replacement if needed.
@@ -42,10 +38,9 @@
                 Member Manual</a>.
         {% endblocktranslate %}
     </p>
-
     <p>
         {% blocktranslate %}
-            Cooperative Greetings, <br/>
+            Cooperative Greetings, <br />
             The Member Office
         {% endblocktranslate %}
     </p>

@@ -4,25 +4,25 @@
 {% load coop %}
 {% load core %}
 {% load utils %}
-
-<!doctype html>
+<!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>{% block title %}Tapir{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'core/bootstrap/5.2.2/css/bootstrap.min.css' %}">
-    <link rel="shortcut icon" type="image/png" href="{% static 'core/favicon.ico' %}"/>
-    <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
-
-    <!-- jQuery is required by select2, so load it here at the top -->
-    <script src="{% static 'core/jQuery/jquery-3.5.1.min.js' %}"></script>
-
-    {% block head %}{% endblock %}
-    <script>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>
+            {% block title %}Tapir{% endblock title %}
+        </title>
+        <link rel="stylesheet"
+              href="{% static 'core/bootstrap/5.2.2/css/bootstrap.min.css' %}">
+        <link rel="shortcut icon"
+              type="image/png"
+              href="{% static 'core/favicon.ico' %}" />
+        <link rel="stylesheet" href="{% static 'core/css/base.css' %}">
+        <!-- jQuery is required by select2, so load it here at the top -->
+        <script src="{% static 'core/jQuery/jquery-3.5.1.min.js' %}"></script>
+        {% block head %}{% endblock head %}
+        <script>
         $(function () {
             $('[data-bs-toggle="tooltip"]').tooltip();
             $('[data-bs-toggle="tooltip"]').each(function () {
@@ -31,78 +31,81 @@
                 tooltip_element.classList.add("tapir-tooltip-item");
             })
         })
-    </script>
-</head>
-
-<body>
-
-<header class="navbar navbar-expand-md navbar-dark bg-dark sticky-top shadow px-3">
-    <div class="container-fluid">
-        <span class="navbar-brand">
-            <img alt="SuperCoop Berlin Logo" height=30" src="{% static 'core/images/Logo_white.png' %}">
-        </span>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse"
-                aria-controls="tapirNavbar tapirSidebar" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse multi-collapse navbar-collapse" id="tapirNavbar" style="justify-content: flex-end;">
-            <ul class="navbar-nav">
-                {% feature_flag_enabled "feature_flags.statistics.updated_stats_page_09_23" as is_enabled %}
-                {% if is_enabled %}
-                    <div>
-                        {% campaign_progress_bar %}
-                    </div>
-                {% endif %}
-                {% if perms.coop.view %}
-                    <li class="nav-item">
-                        <form class="form-inline" method="get" action="{% url 'coop:shareowner_list' %}">
-                        <span class="mr-5">
-                        <input id="member_search" name="display_name" type="text"
-                               aria-label="{% translate 'Use this form to search for members' %}"
-                               placeholder="{% translate 'Search Members' %}"
-                               class="form-control">
-                        </span>
-                        </form>
-                    </li>
-                {% endif %}
-
-                {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="text-light nav-link"
-                           href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="text-light nav-link" href="{% url 'logout' %}" id="logout">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="text-light nav-link" href="{% url 'login' %}">Login</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</header>
-
-<div class="container-fluid">
-    <div class="row">
-        <nav id="tapirSidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse multi-collapse">
-            <div class="sidebar-sticky">
-                <div class="d-md-none" style="height: 120px;"></div>
-                <!-- Pushes the links down so that they don't go under the navbar -->
-                {% block sidebar %}
-                    {% sidebar_links %}
-                {% endblock %}
+        </script>
+    </head>
+    <body>
+        <header class="navbar navbar-expand-md navbar-dark bg-dark sticky-top shadow px-3">
+            <div class="container-fluid">
+                <span class="navbar-brand">
+                    <img alt="SuperCoop Berlin Logo" height=30" src="{% static 'core/images/Logo_white.png' %}">
+                </span>
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target=".multi-collapse"
+                        aria-controls="tapirNavbar tapirSidebar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse multi-collapse navbar-collapse"
+                     id="tapirNavbar"
+                     style="justify-content: flex-end">
+                    <ul class="navbar-nav">
+                        {% feature_flag_enabled "feature_flags.statistics.updated_stats_page_09_23" as is_enabled %}
+                        {% if is_enabled %}
+                            <div>{% campaign_progress_bar %}</div>
+                        {% endif %}
+                        {% if perms.coop.view %}
+                            <li class="nav-item">
+                                <form class="form-inline"
+                                      method="get"
+                                      action="{% url 'coop:shareowner_list' %}">
+                                    <span class="mr-5">
+                                        <input id="member_search"
+                                               name="display_name"
+                                               type="text"
+                                               aria-label="{% translate 'Use this form to search for members' %}"
+                                               placeholder="{% translate 'Search Members' %}"
+                                               class="form-control">
+                                    </span>
+                                </form>
+                            </li>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="text-light nav-link" href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="text-light nav-link" href="{% url 'logout' %}" id="logout">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="text-light nav-link" href="{% url 'login' %}">Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </div>
-        </nav>
-
-        <main role="main" class="col-md-9 ms-sm-auto col-lg-10 p-2 p-md-3 p-lg-4">
-            {% bootstrap_messages %}
-            {% block content %}{% endblock %}
-        </main>
-    </div>
-</div>
-</body>
-
-<script src="{% static 'core/bootstrap/5.2.2/js/bootstrap.bundle.min.js' %}"></script>
+        </header>
+        <div class="container-fluid">
+            <div class="row">
+                <nav id="tapirSidebar"
+                     class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse multi-collapse">
+                    <div class="sidebar-sticky">
+                        <div class="d-md-none" style="height: 120px;"></div>
+                        <!-- Pushes the links down so that they don't go under the navbar -->
+                        {% block sidebar %}
+                            {% sidebar_links %}
+                        {% endblock sidebar %}
+                    </div>
+                </nav>
+                <main role="main" class="col-md-9 ms-sm-auto col-lg-10 p-2 p-md-3 p-lg-4">
+                    {% bootstrap_messages %}
+                    {% block content %}{% endblock content %}
+                </main>
+            </div>
+        </div>
+    </body>
+    <script src="{% static 'core/bootstrap/5.2.2/js/bootstrap.bundle.min.js' %}"></script>
 </html>

@@ -1,25 +1,20 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load coop %}
 {% load static %}
 {% load core %}
 {% load utils %}
-
 {% block title %}
     {% translate "Members statistics" %}
-{% endblock %}
-
+{% endblock title %}
 {% block head %}
     <style>
         .statistics-toggle-card {
             display: none;
         }
     </style>
-
     <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
-
     <script>
         function show_card(card_id) {
             for (let other_card of document.getElementsByClassName("statistics-toggle-card")) {
@@ -43,10 +38,8 @@
                 });
         }
     </script>
-{% endblock %}
-
+{% endblock head %}
 {% block content %}
-
     <div class="row">
         <div class="col-xl-6">
             <div class="card mb-2">
@@ -60,36 +53,29 @@
                 </h5>
                 <div class="card-body">
                     <ul>
-                        <li>There are currently {{ members_count }} members in total.
+                        <li>
+                            There are currently {{ members_count }} members in total.
                             <ul>
                                 <li>{{ active_members_count }} active members.</li>
                                 <li>{{ investing_members_count }} investing members.</li>
                             </ul>
                         </li>
-                        <li>Out of {{ active_members_count }} active members, {{ active_users_count }} members have a
+                        <li>
+                            Out of {{ active_members_count }} active members, {{ active_users_count }} members have a
                             Tapir
                             account. {{ members_missing_accounts_count }} users are missing an account.
                         </li>
                         <li>{{ applicants_count }} applicants are waiting to become members.</li>
                         <li>{{ nb_members_with_purchase_tracking_enabled }} members have enabled purchase tracking.</li>
                     </ul>
-                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
-                            this,
-                            '{% url "coop:member_count_evolution_json" %}',
-                            'member_count_evolution_canvas',
-                            'line',
-                            )">
+                    <span class="{% tapir_button_link %}"
+                          onclick="show_stats_chart( this, '{% url "coop:member_count_evolution_json" %}', 'member_count_evolution_canvas', 'line', )">
                         <span class="material-icons">leaderboard</span>
                         <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of member count" %}</span>
                     </span>
                     <canvas id="member_count_evolution_canvas" style="display: none;"></canvas>
-
-                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
-                            this,
-                            '{% url "coop:member_age_distribution_json" %}',
-                            'member_age_distribution_canvas',
-                            'line',
-                            )">
+                    <span class="{% tapir_button_link %}"
+                          onclick="show_stats_chart( this, '{% url "coop:member_age_distribution_json" %}', 'member_age_distribution_canvas', 'line', )">
                         <span class="material-icons">leaderboard</span>
                         <span class="button-text">{% translate "Show graph: " %}{% translate "Member age distribution" %}</span>
                     </span>
@@ -97,7 +83,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xl-6">
             <div class="card mb-2">
                 <h5 class="card-header">
@@ -105,15 +90,19 @@
                 </h5>
                 <div class="card-body">
                     <ul>
-                        <li>There are currently
+                        <li>
+                            There are currently
                             {{ shares.nb_share_ownerships_now }} shares.
                             <ul>
-                                <li>This means on average {{ shares.average_shares_per_month }} new shares per month
+                                <li>
+                                    This means on average {{ shares.average_shares_per_month }} new shares per month
                                     since
-                                    the {{ shares.start_date|date:"d.m.Y" }}</li>
+                                    the {{ shares.start_date|date:"d.m.Y" }}
+                                </li>
                             </ul>
                         </li>
-                        <li>Extra shares since the {{ extra_shares.threshold_date|date:"d.m.Y" }} :
+                        <li>
+                            Extra shares since the {{ extra_shares.threshold_date|date:"d.m.Y" }} :
                             <ul>
                                 <li>
                                     An extra share is any share that is bought beyond the first compulsory share,
@@ -123,9 +112,7 @@
                                 <li>
                                     Since the {{ extra_shares.threshold_date|date:"d.m.Y" }},
                                     {% if perms.coop.view %}
-                                        <a href="#" onclick="show_card('extra_share_owners')">
-                                            {{ extra_shares.share_count }} extra shares
-                                        </a>
+                                        <a href="#" onclick="show_card('extra_share_owners')">{{ extra_shares.share_count }} extra shares</a>
                                     {% else %}
                                         {{ extra_shares.share_count }} extra shares
                                     {% endif %}
@@ -141,15 +128,10 @@
                                     total cost of {{ extra_shares.total_cost }}€, or {{ extra_shares.paid_percentage }}.
                                 </li>
                             </ul>
-
                         </li>
                     </ul>
-                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
-                            this,
-                            '{% url "coop:share_count_evolution_json" %}',
-                            'share_count_evolution_canvas',
-                            'line',
-                            )">
+                    <span class="{% tapir_button_link %}"
+                          onclick="show_stats_chart( this, '{% url "coop:share_count_evolution_json" %}', 'share_count_evolution_canvas', 'line', )">
                         <span class="material-icons">leaderboard</span>
                         <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of the number of shares" %}</span>
                     </span>
@@ -157,7 +139,6 @@
                 </div>
             </div>
         </div>
-
         {% if perms.coop.view %}
             <div class="card mb-2 statistics-toggle-card" id="extra_share_owners">
                 <h5 class="card-header">
@@ -166,33 +147,27 @@
                 <div class="card-body">
                     <ul>
                         {% for share_owner in extra_shares.members %}
-                            <li>
-                                {% get_html_link share_owner request.user %}
-                            </li>
+                            <li>{% get_html_link share_owner request.user %}</li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
         {% endif %}
     </div>
-
     <div class="row">
         <div class="col-xl-6">
             <div class="card mb-2">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     <span>{% translate "Member status updates" %}</span>
-                    <a class="{% tapir_button_link %}" href="{% url 'coop:member_status_updates_csv_view' %}">
+                    <a class="{% tapir_button_link %}"
+                       href="{% url 'coop:member_status_updates_csv_view' %}">
                         <span class="material-icons">file_present</span>
                         {% translate "Get as CSV" %}
                     </a>
                 </h5>
                 <div class="card-body">
-                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
-                            this,
-                            '{% url "coop:member_status_updates_json_view" %}',
-                            'new_members_canvas',
-                            'line',
-                            )">
+                    <span class="{% tapir_button_link %}"
+                          onclick="show_stats_chart( this, '{% url "coop:member_status_updates_json_view" %}', 'new_members_canvas', 'line', )">
                         <span class="material-icons">leaderboard</span>
                         <span class="button-text">{% translate "Show graph: " %}{% translate "Member status updates" %}</span>
                     </span>
@@ -204,18 +179,15 @@
             <div class="card mb-2">
                 <h5 class="card-header d-flex justify-content-between align-items-center">
                     <span>{% translate "Number of co-purchasers per month" %}</span>
-                    <a class="{% tapir_button_link %}" href="{% url 'coop:number_of_co_purchasers_csv_view' %}">
+                    <a class="{% tapir_button_link %}"
+                       href="{% url 'coop:number_of_co_purchasers_csv_view' %}">
                         <span class="material-icons">file_present</span>
                         {% translate "Get as CSV" %}
                     </a>
                 </h5>
                 <div class="card-body">
-                    <span class="{% tapir_button_link %}" onclick="show_stats_chart(
-                            this,
-                            '{% url "coop:number_of_co_purchasers_json_view" %}',
-                            'number_of_co_purchasers_canvas',
-                            'line',
-                            )">
+                    <span class="{% tapir_button_link %}"
+                          onclick="show_stats_chart( this, '{% url "coop:number_of_co_purchasers_json_view" %}', 'number_of_co_purchasers_canvas', 'line', )">
                         <span class="material-icons">leaderboard</span>
                         <span class="button-text">{% translate "Show graph: " %}{% translate "Number of co-purchasers per month" %}</span>
                     </span>
@@ -224,4 +196,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

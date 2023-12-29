@@ -1,138 +1,158 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
-
 {% block title %}
     {% translate "About Tapir" %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
-<div class="container">
-    <div class="card mb-2">
-        <h5 class="card-header">
-            <span>{% translate "About Tapir" %}</span>
-        </h5>
-        <div class="card-body">
-            <p>Tapir has been made with love by SuperCoop Berlin members.</p>
-            <p>The source code and list of contributors is available on GitHub : <a
-                    href="https://github.com/SuperCoopBerlin/tapir">https://github.com/SuperCoopBerlin/tapir</a></p>
-            <p>We're always very happy to hear your feedback, suggestions, ideas... You can write us in the <a
-                    href="https://supercoopberlin.slack.com/archives/C01SYB5QSTB">#tapir</a> channel of the SuperCoop
-                Slack.</p>
+    <div class="container">
+        <div class="card mb-2">
+            <h5 class="card-header">
+                <span>{% translate "About Tapir" %}</span>
+            </h5>
+            <div class="card-body">
+                <p>Tapir has been made with love by SuperCoop Berlin members.</p>
+                <p>
+                    The source code and list of contributors is available on GitHub : <a href="https://github.com/SuperCoopBerlin/tapir">https://github.com/SuperCoopBerlin/tapir</a>
+                </p>
+                <p>
+                    We're always very happy to hear your feedback, suggestions, ideas... You can write us in the <a href="https://supercoopberlin.slack.com/archives/C01SYB5QSTB">#tapir</a> channel of the SuperCoop
+                    Slack.
+                </p>
+            </div>
+        </div>
+        <div class="card mb-2">
+            <h5 class="card-header">
+                <span>{% translate "Latest changes" %}</span>
+            </h5>
+            <div class="card-body">
+                <ul
+                    <li>
+                        26.07.22
+                        <ul>
+                            <li>Software license now APGL.</li>
+                            <li>Shift statistic page for all members.</li>
+                            <li>Generalize custom buttons for User, members and dates.</li>
+                            <li>Responsive design.</li>
+                            <li>Add filter to logs to make it more readable.</li>
+                            <li>Small bugfixes, such as "Fixed some ShareOwner filters outputing the same member several times.".</li>
+                            <li>Much more, such as more payment-filters for management and improved translations.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        08.06.22
+                        <ul>
+                            <li>Capabilities shown in shift view with qualification icon.</li>
+                            <li>Accouting gets copy of membership confirmation emails.</li>
+                            <li>Handling cheese.</li>
+                            <li>Shiftmanagement and custom capabilities by others than admin.</li>
+                            <li>Track incoming payments.</li>
+                            <li>Package dependencies updated, small bugixes such as avoid negative attendencies.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        30.04.22
+                        <ul>
+                            <li>Now it's allowed to have a Co-shopper.</li>
+                            <li>The calendar is dynamic and printable and has a new look</li>
+                            <li>Financing campaign.</li>
+                            <li>A lot of changes in backend and to check on members and their shifts.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        09.12.21
+                        <ul>
+                            <li>On the shift page, next to each slot, show cancelled and excused attendances.</li>
+                            <li>Allow editing of shift attendances after they have been set.</li>
+                            <li>Allow members to mark themselves as looking for a stand-in up to 2 days before the shift.</li>
+                            <li>On the shift page, next to members looking for a stand-in, show when they started looking for one.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        21.11.21
+                        <ul>
+                            <li>Updated shift filters in the shift calendar page.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        13.11.21
+                        <ul>
+                            <li>Send reminder emails on sundays for members that have a shift in the following week.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        09.11.21
+                        <ul>
+                            <li>Added a special member search for the welcome desk that only shows the relevant information.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        15.10.21
+                        <ul>
+                            <li>Track payments in members (was previously only tracked for applicants).</li>
+                            <li>When creating a member from an applicant, allow giving them more than one share.</li>
+                            <li>Show user permissions on the user detail page.</li>
+                            <li>Added matching program.</li>
+                            <li>Added shift exemptions.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        09.10.21
+                        <ul>
+                            <li>
+                                When a member misses a shift, they get an automated email informing them that they should contact the member office and do 2 make-up shifts.
+                            </li>
+                            <li>
+                                When a member looks for a stand-in for their shift and another member takes over, the member that was looking for a stand-in gets an automated email.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        03.10.21
+                        <ul>
+                            <li>Updated translations.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        26.09.21
+                        <ul>
+                            <li>Added the "Excused" option for shift attendance.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        19.09.21
+                        <ul>
+                            <li>The shift overview and ABCD shift overview page now load faster.</li>
+                            <li>Added filters to the shift overview pages.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        17.09.21
+                        <ul>
+                            <li>Added an info symbol on all elements that show a tooltip on hover.</li>
+                            <li>Added a new filter to the member list page to filter by ABCD week the user is registered to.</li>
+                            <li>
+                                Added a page with the list of all changes to a user's shift account. On that page is also a button to change that shift account manually.
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        16.09.21
+                        <ul>
+                            <li>Added the stand-in system. Slightly updated the shift page design.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        14.09.21
+                        <ul>
+                            <li>
+                                Added a button for each day in the "upcoming shifts" page that gives a printable version of
+                                all shifts in that day.
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
-    <div class="card mb-2">
-        <h5 class="card-header">
-            <span>{% translate "Latest changes" %}</span>
-        </h5>
-        <div class="card-body">
-            <ul
-                <li>26.07.22
-                    <ul>
-                        <li>Software license now APGL.</li>
-                        <li>Shift statistic page for all members.</li>
-                        <li>Generalize custom buttons for User, members and dates.</li>
-                        <li>Responsive design.</li>
-                        <li>Add filter to logs to make it more readable.</li>
-                        <li>Small bugfixes, such as "Fixed some ShareOwner filters outputing the same member several times.".</li>
-                        <li>Much more, such as more payment-filters for management and improved translations.</li>
-                    </ul>
-                </li>
-                <li>08.06.22
-                    <ul>
-                        <li>Capabilities shown in shift view with qualification icon.</li>
-                        <li>Accouting gets copy of membership confirmation emails.</li>
-                        <li>Handling cheese.</li>
-                        <li>Shiftmanagement and custom capabilities by others than admin.</li>
-                        <li>Track incoming payments.</li>
-                        <li>Package dependencies updated, small bugixes such as avoid negative attendencies.</li>
-                    </ul>
-                </li>
-                <li>30.04.22
-                    <ul>
-                        <li>Now it's allowed to have a Co-shopper.</li>
-                        <li>The calendar is dynamic and printable and has a new look</li>
-                        <li>Financing campaign.</li>
-                        <li>A lot of changes in backend and to check on members and their shifts.</li>
-                    </ul>
-                </li>
-                <li>09.12.21
-                    <ul>
-                        <li>On the shift page, next to each slot, show cancelled and excused attendances.</li>
-                        <li>Allow editing of shift attendances after they have been set.</li>
-                        <li>Allow members to mark themselves as looking for a stand-in up to 2 days before the shift.</li>
-                        <li>On the shift page, next to members looking for a stand-in, show when they started looking for one.</li>
-                    </ul>
-                </li>
-                <li>21.11.21
-                    <ul>
-                        <li>Updated shift filters in the shift calendar page.</li>
-                    </ul>
-                </li>
-                <li>13.11.21
-                    <ul>
-                        <li>Send reminder emails on sundays for members that have a shift in the following week.</li>
-                    </ul>
-                </li>
-                <li>09.11.21
-                    <ul>
-                        <li>Added a special member search for the welcome desk that only shows the relevant information.</li>
-                    </ul>
-                </li>
-                <li>15.10.21
-                    <ul>
-                        <li>Track payments in members (was previously only tracked for applicants).</li>
-                        <li>When creating a member from an applicant, allow giving them more than one share.</li>
-                        <li>Show user permissions on the user detail page.</li>
-                        <li>Added matching program.</li>
-                        <li>Added shift exemptions.</li>
-                    </ul>
-                </li>
-                <li>09.10.21
-                    <ul>
-                        <li>When a member misses a shift, they get an automated email informing them that they should contact the member office and do 2 make-up shifts.</li>
-                        <li>When a member looks for a stand-in for their shift and another member takes over, the member that was looking for a stand-in gets an automated email.</li>
-                    </ul>
-                </li>
-                <li>03.10.21
-                    <ul>
-                        <li>Updated translations.</li>
-                    </ul>
-                </li>
-                <li>26.09.21
-                    <ul>
-                        <li>Added the "Excused" option for shift attendance.</li>
-                    </ul>
-                </li>
-                <li>19.09.21
-                    <ul>
-                        <li>The shift overview and ABCD shift overview page now load faster.</li>
-                        <li>Added filters to the shift overview pages.</li>
-                    </ul>
-                </li>
-                <li>17.09.21
-                    <ul>
-                        <li>Added an info symbol on all elements that show a tooltip on hover.</li>
-                        <li>Added a new filter to the member list page to filter by ABCD week the user is registered to.</li>
-                        <li>Added a page with the list of all changes to a user's shift account. On that page is also a button to change that shift account manually.</li>
-                    </ul>
-                </li>
-                <li>16.09.21
-                    <ul>
-                        <li>Added the stand-in system. Slightly updated the shift page design.
-                        </li>
-                    </ul>
-                </li>
-                <li>14.09.21
-                    <ul>
-                        <li>Added a button for each day in the "upcoming shifts" page that gives a printable version of
-                            all shifts in that day.
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-{% endblock %}
+{% endblock content %}

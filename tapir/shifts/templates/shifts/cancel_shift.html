@@ -1,17 +1,14 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load core %}
-
 {% block title %}
     {% translate "Cancel shift:" %} {{ form.instance }}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
     <div class="container">
-        <div class="card mb-2" >
+        <div class="card mb-2">
             <h5 class="card-header bg-warning">
                 {% translate "Cancel shift:" %} <a href="{{ form.instance.get_absolute_url }}">{{ form.instance }}</a>
             </h5>
@@ -39,4 +36,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

@@ -1,7 +1,6 @@
 {% load i18n %}
 {% load shifts %}
 {% load utils %}
-
 <style>
     @page {
         size: A4 landscape;
@@ -44,50 +43,60 @@
 <h1>{{ shift.get_display_name }}</h1>
 <table>
     <thead>
-    <tr>
-        <th></th>
-        <th>{% translate 'Slot' %}</th>
-        <th>{% translate 'Member' %}</th>
-        <th style="width: 20%;">{% translate 'Attended' %}</th>
-        <th style="width: 20%;">{% translate 'Missed' %}</th>
-        <th style="width: 20%;">{% translate 'Excused' %}</th>
-    </tr>
+        <tr>
+            <th></th>
+            <th>{% translate 'Slot' %}</th>
+            <th>{% translate 'Member' %}</th>
+            <th style="width: 20%;">{% translate 'Attended' %}</th>
+            <th style="width: 20%;">{% translate 'Missed' %}</th>
+            <th style="width: 20%;">{% translate 'Excused' %}</th>
+        </tr>
     </thead>
     <tbody>
-    {% for slot in slots %}
-        <tr>
-            <td><h5>#{{ forloop.counter }}</h5></td>
-            <td>
-                {{ slot.name }}<br/><br/>
-                <span class="small-text">
-                    {% if slot.required_capabilities|length > 0 %}
-                        {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
-                    {% endif %}
-                </span>
-            </td>
-            <td>
-                {% with slot.get_valid_attendance as attendance %}
-                    {% if attendance %}
-                        {% get_display_name_short attendance.user %}
-                        {% if attendance.user.pronouns %} ({{ attendance.user.pronouns }}){% endif %}
-                        #{{ attendance.user.share_owner.id }}
-                        {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
-                             ({% translate "Looking for a stand-in" %})
+        {% for slot in slots %}
+            <tr>
+                <td>
+                    <h5>#{{ forloop.counter }}</h5>
+                </td>
+                <td>
+                    {{ slot.name }}
+                    <br />
+                    <br />
+                    <span class="small-text">
+                        {% if slot.required_capabilities|length > 0 %}
+                            {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
                         {% endif %}
-                        <br/><br/>
-                        {% if attendance.user.shift_user_data.capabilities|length > 0 %}
-                            <span class="small-text">
-                                {% translate 'Has qualifications: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
+                    </span>
+                </td>
+                <td>
+                    {% with slot.get_valid_attendance as attendance %}
+                        {% if attendance %}
+                            {% get_display_name_short attendance.user %}
+                            {% if attendance.user.pronouns %}({{ attendance.user.pronouns }}){% endif %}
+                            #{{ attendance.user.share_owner.id }}
+                            {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
+                                ({% translate "Looking for a stand-in" %})
+                            {% endif %}
+                            <br />
+                            <br />
+                            {% if attendance.user.shift_user_data.capabilities|length > 0 %}
+                                <span class="small-text">
+                                    {% translate 'Has qualifications: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
                                 </span>
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                {% endwith %}
-            </td>
-            <td><!-- Attended --></td>
-            <td><!-- Missed --></td>
-            <td><!-- Excused --></td>
-        </tr>
-    {% endfor %}
+                    {% endwith %}
+                </td>
+                <td>
+                    <!-- Attended -->
+                </td>
+                <td>
+                    <!-- Missed -->
+                </td>
+                <td>
+                    <!-- Excused -->
+                </td>
+            </tr>
+        {% endfor %}
     </tbody>
-
 </table>

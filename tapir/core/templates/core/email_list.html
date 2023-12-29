@@ -1,23 +1,20 @@
 {% extends "core/base.html" %}
-
 {% load i18n %}
 {% load core %}
-
 {% block title %}
     {% translate "Email list" %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
     <div class="card mb-2">
         <h5 class="card-header d-flex justify-content-between align-items-center">
+            <span>{% translate "Email list" %}</span>
             <span>
-                {% translate "Email list" %}
-            </span>
-            <span>
-                <a class="{% tapir_button_link %}" href="{% url "core:email_list" %}?force_language=en">
+                <a class="{% tapir_button_link %}"
+                   href="{% url "core:email_list" %}?force_language=en">
                     <span class="material-icons">translate</span>🇬🇧
                 </a>
-                <a class="{% tapir_button_link %}" href="{% url "core:email_list" %}?force_language=de">
+                <a class="{% tapir_button_link %}"
+                   href="{% url "core:email_list" %}?force_language=de">
                     <span class="material-icons">translate</span>🇩🇪
                 </a>
             </span>
@@ -25,20 +22,25 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
                 <p>{% translate "This is the list of all emails that can get sent by Tapir." %}</p>
-                <p>{% translate 'The previews in the "Subject" and "Body" columns are fake : they show what the email would look like if it was sent to a random user, using random data.' %}</p>
-                <p>{% translate 'The files in the "Last sent example" column are real : they have been sent to a user exactly as shown. They can therefore contain private information.' %}</p>
+                <p>
+                    {% translate 'The previews in the "Subject" and "Body" columns are fake : they show what the email would look like if it was sent to a random user, using random data.' %}
+                </p>
+                <p>
+                    {% translate 'The files in the "Last sent example" column are real : they have been sent to a user exactly as shown. They can therefore contain private information.' %}
+                </p>
             </li>
             <li class="list-group-item">
                 <div class="table-responsive">
-                    <table class="{% tapir_table_classes %}" aria-label="{% translate 'List of all emails' %}">
+                    <table class="{% tapir_table_classes %}"
+                           aria-label="{% translate 'List of all emails' %}">
                         <thead>
-                        <tr>
-                            <th>{% translate "Name" %}</th>
-                            <th>{% translate "Description" %}</th>
-                            <th>{% translate "Subject" %}</th>
-                            <th>{% translate "Body" %}</th>
-                            <th>{% translate "Last sent example" %}</th>
-                        </tr>
+                            <tr>
+                                <th>{% translate "Name" %}</th>
+                                <th>{% translate "Description" %}</th>
+                                <th>{% translate "Subject" %}</th>
+                                <th>{% translate "Body" %}</th>
+                                <th>{% translate "Last sent example" %}</th>
+                            </tr>
                         </thead>
                         {% for email in emails %}
                             <tr>
@@ -49,14 +51,14 @@
                                     <div class="d-flex flex-column gap-2">
                                         {% with collapse_id=email.html_id %}
                                             <button class="{% tapir_button_link %} btn-sm collapsed"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#{{ collapse_id }}" aria-expanded="false"
+                                                    type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#{{ collapse_id }}"
+                                                    aria-expanded="false"
                                                     aria-controls="{{ collapse_id }}">
                                                 <span class="material-icons">visibility</span>Show body
                                             </button>
-                                            <div class="card card-body collapse" id="{{ collapse_id }}">
-                                                {{ email.body }}
-                                            </div>
+                                            <div class="card card-body collapse" id="{{ collapse_id }}">{{ email.body }}</div>
                                         {% endwith %}
                                     </div>
                                 </td>
@@ -77,4 +79,4 @@
             </li>
         </ul>
     </div>
-{% endblock %}
+{% endblock content %}

@@ -1,13 +1,10 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load core %}
-
 {% block title %}
     {% translate "Confirm delete" %} {{ object }}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
     <div class="container">
         <div class="card mb-2">
@@ -15,8 +12,11 @@
                 <span>{% translate "Confirm delete" %}</span>
             </h5>
             <div class="card-body">
-                <form method="post">{% csrf_token %}
-                    <p>Are you sure you want to delete <b>{{ object }}</b>?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <p>
+                        Are you sure you want to delete <b>{{ object }}</b>?
+                    </p>
                     {{ form }}
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="btn tapir-btn btn-danger">
@@ -28,4 +28,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

@@ -1,17 +1,17 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load accounts %}
 {% load core %}
 {% load utils %}
-
 {% block title %}
     {% translate "Applicant" %}: {% get_display_name_for_viewer object request.user %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
-    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+    <div class="modal fade"
+         id="confirmDeleteModal"
+         tabindex="-1"
+         aria-labelledby="confirmDeleteModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -19,10 +19,14 @@
                     <h1 class="modal-title fs-5" id="confirmDeleteModalLabel">
                         {% translate "Confirm delete" %}: {% get_display_name_for_viewer object request.user %}
                     </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 <div class="modal-footer">
-                    <form class="form-inline ms-3" method="POST"
+                    <form class="form-inline ms-3"
+                          method="post"
                           action="{% url 'coop:draftuser_delete' object.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="{% tapir_button_custom 'danger' %}">
@@ -33,8 +37,9 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="confirmMemberCreationModal" tabindex="-1"
+    <div class="modal fade"
+         id="confirmMemberCreationModal"
+         tabindex="-1"
          aria-labelledby="confirmMemberCreationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -43,7 +48,10 @@
                     <h1 class="modal-title fs-5" id="confirmMemberCreationModalLabel">
                         {% translate "Confirm member creation" %}: {% get_display_name_for_viewer object request.user %}
                     </h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                 </div>
                 {% if similar_members %}
                     <div class="modal-body">
@@ -57,44 +65,38 @@
                             <table class="{% tapir_table_classes %}"
                                    aria-label="{% translate 'List of similar members' %}">
                                 <thead>
-                                <tr>
-                                    <th>{% translate "Status" %}</th>
-                                    <th>{% translate "Name" %}</th>
-                                    <th>{% translate "Phone number" %}</th>
-                                    <th>{% translate "Address" %}</th>
-                                    <th>{% translate "Email" %}</th>
-                                </tr>
+                                    <tr>
+                                        <th>{% translate "Status" %}</th>
+                                        <th>{% translate "Name" %}</th>
+                                        <th>{% translate "Phone number" %}</th>
+                                        <th>{% translate "Address" %}</th>
+                                        <th>{% translate "Email" %}</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>{% translate "Applicant" %}</td>
-                                    <td>{% get_display_name_for_viewer object request.user %}</td>
-                                    <td>{{ object.phone_number }}</td>
-                                    <td>{{ object.get_display_address }}</td>
-                                    <td>{{ object.email }}</td>
-                                </tr>
-                                {% for member in similar_members %}
                                     <tr>
-                                        <td>{% translate "Member" %}</td>
-                                        <td {% if member.last_name == object.last_name %}class="table-warning"{% endif %}>
-                                            {% get_display_name_for_viewer member request.user %}
-                                        </td>
-                                        <td {% if member.phone_number == object.phone_number %}class="table-warning"{% endif %}>
-                                            {{ member.phone_number }}
-                                        </td>
-                                        <td {% if member.street == object.street %}class="table-warning"{% endif %}>
-                                            {{ member.get_display_address }}
-                                        </td>
-                                        <td {% if member.email == object.email %}class="table-warning"{% endif %}>
-                                            {{ member.email }}
-                                        </td>
+                                        <td>{% translate "Applicant" %}</td>
+                                        <td>{% get_display_name_for_viewer object request.user %}</td>
+                                        <td>{{ object.phone_number }}</td>
+                                        <td>{{ object.get_display_address }}</td>
+                                        <td>{{ object.email }}</td>
                                     </tr>
-                                {% endfor %}
+                                    {% for member in similar_members %}
+                                        <tr>
+                                            <td>{% translate "Member" %}</td>
+                                            <td {% if member.last_name == object.last_name %}class="table-warning"{% endif %}>
+                                                {% get_display_name_for_viewer member request.user %}
+                                            </td>
+                                            <td {% if member.phone_number == object.phone_number %}class="table-warning"{% endif %}>{{ member.phone_number }}</td>
+                                            <td {% if member.street == object.street %}class="table-warning"{% endif %}>{{ member.get_display_address }}</td>
+                                            <td {% if member.email == object.email %}class="table-warning"{% endif %}>{{ member.email }}</td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" id="confirm_similar_members" class="form-check-input"/>
+                            <input type="checkbox" id="confirm_similar_members" class="form-check-input" />
                             <label for="confirm_similar_members" class="form-check-label">
                                 {% translate "I confirm that I have checked that this is not a duplicate." %}
                             </label>
@@ -110,10 +112,9 @@
                     </div>
                 {% endif %}
                 <div class="modal-footer">
-                    <a
-                            class="align-self-right {% tapir_button_action %} {% if similar_members %}disabled{% endif %}"
-                            href="{% url 'coop:draftuser_create_share_owner' object.pk %}"
-                            id="button_create_share_owner">
+                    <a class="align-self-right {% tapir_button_action %} {% if similar_members %}disabled{% endif %}"
+                       href="{% url 'coop:draftuser_create_share_owner' object.pk %}"
+                       id="button_create_share_owner">
                         <span class="material-icons">person_add</span>
                         {% translate "Create Member" %}
                     </a>
@@ -121,15 +122,13 @@
             </div>
         </div>
     </div>
-
     <div class="container">
         <div class="card mb-2">
             <h5 class="card-header">{% translate "Applicant" %}: {% get_display_name_for_viewer object request.user %}</h5>
             <div class="card-body" id="draft_user_detail_card">
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Name" %}:</div>
-                    <div class="col-9"
-                         id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
+                    <div class="col-9" id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Username" %}:</div>
@@ -150,7 +149,8 @@
                             {{ object.birthdate|date:"d.m.Y" }}
                         {% else %}
                             <span class="text-danger">Missing</span>
-                        {% endif %}</div>
+                        {% endif %}
+                    </div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Address" %}:</div>
@@ -162,7 +162,6 @@
                         {% endif %}
                     </div>
                 </div>
-
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Member Type" %}:</div>
                     <div class="col-9" id="draft_user_member_type">
@@ -173,13 +172,16 @@
                         {% endif %}
                     </div>
                 </div>
-
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Ratenzahlung" %}:</div>
-                    <div class="col-9" id="draft_user_ratenzahlung">{% if object.ratenzahlung %}Yes{% else %}
-                        No{% endif %}</div>
+                    <div class="col-9" id="draft_user_ratenzahlung">
+                        {% if object.ratenzahlung %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </div>
                 </div>
-
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Shares requested" %}</div>
                     <div class="col-4" id="draft_user_num_shares">{{ object.num_shares }}</div>
@@ -191,7 +193,7 @@
                             <span class="text-success">Attended</span>
                         {% else %}
                             <span class="text-warning">Pending</span>
-                            <form style="display: inline;"
+                            <form style="display: inline"
                                   method="post"
                                   action="{% url 'coop:mark_draftuser_attended_welcome_session' object.pk %}">
                                 {% csrf_token %}
@@ -205,7 +207,6 @@
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Beteiligungserklärung" %}:</div>
                     <div class="col-9">
-
                         {% if object.signed_membership_agreement %}
                             <span class="text-success">Signed</span>
                         {% else %}
@@ -217,7 +218,7 @@
                             Beteiligungserklärung
                         </a>
                         {% if not object.signed_membership_agreement %}
-                            <form style="display: inline;"
+                            <form style="display: inline"
                                   method="post"
                                   action="{% url 'coop:mark_draftuser_signed_membership_agreement' object.pk %}">
                                 {% csrf_token %}
@@ -231,9 +232,7 @@
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Paid Shares" %}:</div>
-                    <div class="col-9" id="draft_user_paid_shares">
-                        {{ object.paid_shares|yesno:_("Yes,No") }}
-                    </div>
+                    <div class="col-9" id="draft_user_paid_shares">{{ object.paid_shares|yesno:_("Yes,No") }}</div>
                 </div>
             </div>
             <div class="card-footer d-flex justify-content-end gap-2">
@@ -242,21 +241,15 @@
                     <span class="material-icons">edit</span>
                     {% translate "Edit" %}
                 </a>
-                <span class="{% tapir_button_custom 'danger' %}" data-bs-toggle="modal"
+                <span class="{% tapir_button_custom 'danger' %}"
+                      data-bs-toggle="modal"
                       data-bs-target="#confirmDeleteModal">
                     <span class="material-icons">delete</span>Delete
                 </span>
-                <span
-                        {% if not object.can_create_user %}
-                            data-bs-toggle="tooltip"
-                            data-bs-html="true"
-                            title="{{ object.must_solve_before_creating_share_owner_display }}"
-                        {% endif %}
-                >
-                    <span
-                            class="{% tapir_button_action %} {% if not object.can_create_user %}disabled{% endif %}"
-                            data-bs-toggle="modal"
-                            data-bs-target="#confirmMemberCreationModal">
+                <span {% if not object.can_create_user %} data-bs-toggle="tooltip" data-bs-html="true" title="{{ object.must_solve_before_creating_share_owner_display }}" {% endif %}>
+                    <span class="{% tapir_button_action %} {% if not object.can_create_user %}disabled{% endif %}"
+                          data-bs-toggle="modal"
+                          data-bs-target="#confirmMemberCreationModal">
                         <span class="material-icons">person_add</span>
                         {% translate "Create Member" %}
                     </span>
@@ -264,4 +257,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

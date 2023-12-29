@@ -34,6 +34,7 @@ unidecode = "^1.3.7"
 python-barcode = "^0.15.1"
 fabric = "^3.2.2"
 icecream = "^2.1.3"
+djlint = "^1.34.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.11.0"
@@ -46,7 +47,14 @@ pytest-django = "^4.7.0"
 pytest-sugar = "^0.9.7"
 selenium = "^4.15.2"
 factory-boy = "^3.3.0"
+djlint = "^1.34.1"
 
 [build-system]
 requires = ["poetry-core>=1.2.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.djlint]
+profile = "django"
+max_line_length = 120
+ignore = "T002,H006,H021,H025,H030,H031"
+use_gitignore = true

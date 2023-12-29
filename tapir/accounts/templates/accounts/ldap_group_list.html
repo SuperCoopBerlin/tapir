@@ -1,19 +1,15 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load static %}
 {% load i18n %}
 {% load utils %}
-
 {% block title %}
     {% translate 'Groups' %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
     {% for group_name, members in groups.items %}
         <div class="card mb-2">
-            <h5 class="card-header"> {{ group_name }} </h5>
-
+            <h5 class="card-header">{{ group_name }}</h5>
             <div class="card-body">
                 <ul>
                     {% for member in members %}
