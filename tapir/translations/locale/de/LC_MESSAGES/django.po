@@ -1644,7 +1644,13 @@ msgstr "Name oder Mitgliedsnummer"
 msgid "Is currently exempted from shifts"
 msgstr "Ist derzeit von der Schichtarbeit befreit"
 
-#: coop/views/shareowner.py:881
+#: tapir/coop/views/shareowner.py:680
+#, fuzzy
+#| msgid "Shift exemptions"
+msgid "Shift Type"
+msgstr "Schicht-Typ"
+
+#: tapir/coop/views/shareowner.py:906
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"

@@ -118,6 +118,40 @@ class TestShareOwnerList(TapirFactoryTestBase):
             created_by=TapirUserFactory.create(is_in_member_office=True),
         )
 
+    def test_filter_for_shift_type(self):
+        user_shiftname_dict = {}
+        for _ in range(2):
+            shift_template = ShiftTemplateFactory.create(nb_slots=0)
+            for shift_slot_name in ["ShiftSlotTest1", "ShiftSlotTest2"]:
+                # Create slots for that shift
+                shift_slot_template = ShiftSlotTemplate.objects.create(
+                    name=shift_slot_name,
+                    shift_template=shift_template,
+                )
+                user = TapirUserFactory.create()
+                ShiftAttendanceTemplate.objects.create(
+                    user=user,
+                    slot_template=shift_slot_template,
+                )
+                user_shiftname_dict[user.share_owner] = shift_slot_name
+
+        first_shift_slot_name = user_shiftname_dict[next(iter(user_shiftname_dict))]
+        all_users_of_with_same_shift_slot = [
+            key
+            for key, value in user_shiftname_dict.items()
+            if value == first_shift_slot_name
+        ]
+        all_users_of_other_same_shift_slot = [
+            key
+            for key, value in user_shiftname_dict.items()
+            if value != first_shift_slot_name
+        ]
+        self.visit_view(
+            {"shift_slot_name": first_shift_slot_name},
+            must_be_in=all_users_of_with_same_shift_slot,
+            must_be_out=all_users_of_other_same_shift_slot,
+        )
+
     def test_abcd_week(self):
         for name in ["A", "B"]:
             ShiftTemplateGroup.objects.create(name=name)
@@ -236,7 +270,9 @@ class TestShareOwnerList(TapirFactoryTestBase):
             must_be_out=owners_who_did_not_attend,
         )
 
-    def visit_view(self, params: dict, must_be_in, must_be_out):
+    def visit_view(
+        self, params: dict, must_be_in: list[ShareOwner], must_be_out: list[ShareOwner]
+    ):
         self.login_as_member_office_user()
 
         query_dictionary = QueryDict("", mutable=True)
