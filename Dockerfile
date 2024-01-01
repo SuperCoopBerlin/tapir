@@ -27,7 +27,6 @@ WORKDIR /app
 COPY . .
 
 RUN python manage.py compilemessages --ignore \".venv\"
-RUN python manage.py runserver_plus 0.0.0.0:80
 
 # ---------------------------------------------------------------------------------------
 # BUILD
@@ -61,4 +60,3 @@ WORKDIR /app
 COPY . .
 
 RUN python manage.py compilemessages --ignore \".venv\"
-RUN python manage.py runserver 0.0.0.0:80
