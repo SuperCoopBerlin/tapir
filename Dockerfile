@@ -1,43 +1,64 @@
 # ---------------------------------------------------------------------------------------
-# BUILD
+# BASE
 # ---------------------------------------------------------------------------------------
-FROM python:3.11-buster as builder
-ENV POETRY_VERSION=1.7.0
-
-
-RUN pip install "poetry==$POETRY_VERSION"
-
+FROM python:3.11-buster as base
 ENV POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1 \
     POETRY_CACHE_DIR=/tmp/poetry_cache
 
+ENV PATH="/.venv/bin:$PATH"
+ENV POETRY_VERSION=1.7.0
+
+# ---------------------------------------------------------------------------------------
+# TESTING
+# ---------------------------------------------------------------------------------------
+FROM base as testing
+
+RUN pip install "poetry==$POETRY_VERSION"
+
+COPY pyproject.toml poetry.lock ./
+# weasyprint: libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0
+# psycopg2: libpq5
+RUN apt update -y && apt install -y libldap2-dev libsasl2-dev libpq5 gettext libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0
+RUN poetry install --with dev
+
+WORKDIR /app
+COPY . .
+
+RUN python manage.py compilemessages --ignore \".venv\"
+RUN python manage.py runserver_plus 0.0.0.0:80
+
+# ---------------------------------------------------------------------------------------
+# BUILD
+# ---------------------------------------------------------------------------------------
+FROM base as builder
+
+RUN pip install "poetry==$POETRY_VERSION"
 
 COPY pyproject.toml poetry.lock ./
 
-RUN apt update -y && apt install -y libldap2-dev libsasl2-dev gettext  # this is mainly necessary for building python-ldap
+RUN apt update -y && apt install -y libldap2-dev libsasl2-dev gettext
 RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
+
 # ---------------------------------------------------------------------------------------
-# RUN
+# RUN/PRODUCTION
 # ---------------------------------------------------------------------------------------
 # The runtime image, used to just run the code provided its virtual environment
-FROM python:3.11-slim-buster as runtime
+FROM base as runtime
 
-# pangotools: for weasyprint
-# libpq5: for psycopg2
-RUN apt update -y && apt upgrade -y && apt install -y libpq5 gettext pango1.0-tools && rm -rf /var/lib/apt/lists/*
+# weasyprint: libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0
+# psycopg2: libpq5
+RUN apt update -y && apt upgrade -y && apt install -y libpq5 gettext libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0 &&  \
+    rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONUNBUFFERED=1
 
 COPY --from=builder /.venv /.venv
-ENV PATH="/.venv/bin:$PATH"
+
 WORKDIR /app
 COPY . .
 
-RUN python manage.py compilemessages
-#RUN python manage.py runserver_plus 0.0.0.0:80
-
-
-# Before 1.54GB
-# After  313MB
+RUN python manage.py compilemessages --ignore \".venv\"
+RUN python manage.py runserver 0.0.0.0:80
