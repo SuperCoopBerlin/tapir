@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-20 22:00+0100\n"
+"POT-Creation-Date: 2024-01-06 14:39+0100\n"
 "PO-Revision-Date: 2023-12-20 21:04+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -521,14 +521,13 @@ msgid "Incoming payments"
 msgstr "Eingehende Zahlungen"
 
 #: coop/emails/co_purchaser_updated_mail.py:22
-#, fuzzy
-#| msgid "Purchase data updated"
+#: coop/templates/coop/email/co_purchaser_updated.subject.default.html:2
 msgid "Co-purchaser updated"
-msgstr "Kaufdaten aktualisiert"
+msgstr "Mitkäufer*in aktualisiert"
 
 #: coop/emails/co_purchaser_updated_mail.py:27
 msgid "Sent to a member when their new co-purchaser gets registered on their profile."
-msgstr ""
+msgstr "Wird an ein Mitglied gesendet, wenn sein neuer Mitkäufer*in in seinem Profil registriert wird."
 
 #: coop/emails/extra_shares_confirmation_email.py:26
 msgid "Extra shares bought"
@@ -1006,6 +1005,11 @@ msgstr ""
 "        </p>\n"
 "        <p>\n"
 "            Sollte es sich hierbei um einen Irrtum handeln und nicht deinem Wunsch entsprechen, so bitten wir um eine kurze <a href=\"mailto:%(email_address_member_office)s\">E-Mail an das Mitgliederbüro</a>.\n"
+"        </p>\n"
+"        <p>\n"
+"            Kooperative Grüße<br/>\n"
+"            Das Mitgliederbüro\n"
+"        </p>\n"
 "    "
 
 #: coop/templates/coop/email/co_purchaser_updated.subject.default.html:2
