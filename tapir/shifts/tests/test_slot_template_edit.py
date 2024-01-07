@@ -87,7 +87,7 @@ class TestSlotTemplateEdit(TapirFactoryTestBase):
         self.assertEqual("Name before", slot.name)
 
         response = self.client.post(
-            reverse(self.SLOT_TEMPLATE_EDIT_VIEW, args=[shift_template.id]),
+            reverse(self.SLOT_TEMPLATE_EDIT_VIEW, args=[slot_template.id]),
             {
                 "name": "Name after",
                 "check_update_future_shifts": True,
