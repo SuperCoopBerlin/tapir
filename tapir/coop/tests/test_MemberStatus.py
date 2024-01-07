@@ -11,7 +11,6 @@ from tapir.coop.models import (
 )
 from tapir.coop.tests.factories import ShareOwnerFactory, MembershipPauseFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
-from tapir.utils.tests_utils import mock_timezone_now
 
 
 class ShareOwnerStatusBaseTestClass(ABC):
@@ -36,7 +35,6 @@ class ShareOwnerStatusBaseTestClass(ABC):
         share.start_date = datetime.date(year=2020, month=1, day=1)
         share.end_date = datetime.date(year=2022, month=1, day=1)
         share.save()
-        mock_timezone_now(self, datetime.datetime(year=2023, month=1, day=1))
         self.assertMemberStatus(share_owner, MemberStatus.SOLD)
 
     def test_hasFutureShares_returnsSold(self):
@@ -44,9 +42,8 @@ class ShareOwnerStatusBaseTestClass(ABC):
             nb_shares=1, is_investing=False
         )
         share: ShareOwnership = share_owner.share_ownerships.first()
-        share.start_date = datetime.date(year=2024, month=1, day=1)
+        share.start_date = datetime.date(year=3024, month=1, day=1)
         share.save()
-        mock_timezone_now(self, datetime.datetime(year=2023, month=1, day=1))
         self.assertMemberStatus(share_owner, MemberStatus.SOLD)
 
     def test_hasNoSharesAndIsInvesting_returnsSold(self):
@@ -70,7 +67,6 @@ class ShareOwnerStatusBaseTestClass(ABC):
             start_date=datetime.date(year=2022, month=1, day=1),
             end_date=datetime.date(year=2024, month=1, day=1),
         )
-        mock_timezone_now(self, datetime.datetime(year=2023, month=1, day=1))
         self.assertMemberStatus(share_owner, MemberStatus.INVESTING)
 
     def test_isPaused_returnsPaused(self):
@@ -80,9 +76,8 @@ class ShareOwnerStatusBaseTestClass(ABC):
         MembershipPauseFactory.create(
             share_owner=share_owner,
             start_date=datetime.date(year=2022, month=1, day=1),
-            end_date=datetime.date(year=2024, month=1, day=1),
+            end_date=datetime.date(year=2124, month=1, day=1),
         )
-        mock_timezone_now(self, datetime.datetime(year=2023, month=1, day=1))
         self.assertMemberStatus(share_owner, MemberStatus.PAUSED)
 
     def test_hasInvactivePause_returnsActive(self):
@@ -94,7 +89,6 @@ class ShareOwnerStatusBaseTestClass(ABC):
             start_date=datetime.date(year=2020, month=1, day=1),
             end_date=datetime.date(year=2022, month=1, day=1),
         )
-        mock_timezone_now(self, datetime.datetime(year=2023, month=1, day=1))
         self.assertMemberStatus(share_owner, MemberStatus.ACTIVE)
 
     def test_default_returnsActive(self):
