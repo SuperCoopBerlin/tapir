@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------------------
 # BASE
 # ---------------------------------------------------------------------------------------
-FROM python:3.11-buster as base
+FROM python:3.11-slim-bookworm as base
 ENV POETRY_NO_INTERACTION=1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1 \
