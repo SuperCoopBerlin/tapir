@@ -1,18 +1,12 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load core %}
-
 {% block title %}
     {% translate "Register for shift slot" %}: {{ slot.get_display_name }}
-{% endblock %}
-
-{% block head %}
-    {{ form.media }}
-{% endblock %}
-
+{% endblock title %}
+{% block head %}{{ form.media }}{% endblock head %}
 {% block content %}
     <div class="container">
         <div class="card mb-2" id="register_to_shift_slot_card">
@@ -21,9 +15,7 @@
                 <a href="{{ slot.shift.get_absolute_url }}">{{ slot.get_display_name }}</a>
             </h5>
             <div class="card-body">
-                {% if slot.shift.description %}
-                    <p>{{ slot.shift.description }}</p>
-                {% endif %}
+                {% if slot.shift.description %}<p>{{ slot.shift.description }}</p>{% endif %}
                 <form role="form" method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
@@ -37,4 +29,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

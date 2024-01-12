@@ -85,6 +85,7 @@ class ShareOwner(models.Model):
     willing_to_gift_a_share = models.DateField(
         _("Is willing to gift a share"), null=True, blank=True
     )
+    create_account_reminder_email_sent = models.BooleanField(default=False)
 
     class ShareOwnerQuerySet(models.QuerySet):
         def with_name(self, search_string: str):

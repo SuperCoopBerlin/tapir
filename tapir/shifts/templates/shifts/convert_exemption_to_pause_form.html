@@ -1,22 +1,17 @@
 {% extends "core/base.html" %}
 {% load utils %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load core %}
-
 {% block head %}
     {{ block.super }}
     {{ form.media }}
-{% endblock %}
-
+{% endblock head %}
 {% block title %}
     {% translate "Convert exemption to pause" %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
-
     <div class="container">
         <div class="card m-2">
             <h5 class="card-header">
@@ -47,4 +42,4 @@
             </ul>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

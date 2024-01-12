@@ -3,10 +3,10 @@
     <ul class="nav flex-column">
         {% for link in group.links %}
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-1 {% if link.is_active %}active{% endif %}" href="{{ link.url }}" {% if link.html_id %}id="{{ link.html_id }}"{% endif %}>
-                    {% if link.material_icon %}
-                        <span class="material-icons">{{ link.material_icon }}</span>
-                    {% endif %}
+                <a class="nav-link d-flex align-items-center gap-1 {% if link.is_active %}active{% endif %}"
+                   href="{{ link.url }}"
+                   {% if link.html_id %}id="{{ link.html_id }}"{% endif %}>
+                    {% if link.material_icon %}<span class="material-icons">{{ link.material_icon }}</span>{% endif %}
                     <span>{{ link.display_name }}</span>
                 </a>
             </li>

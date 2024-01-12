@@ -1,27 +1,21 @@
 {% extends "shifts/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load shifts %}
 {% load coop %}
 {% load core %}
-
 {% block title %}
     {% translate 'ABCD weeks calendar' %}
-{% endblock %}
-
+{% endblock title %}
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/calendar.css' %}">
-{% endblock %}
-
+{% endblock head %}
 {% block content %}
     <div class="card mb-2">
         <h5 class="card-header d-flex justify-content-between align-items-center">
-            <span>
-                {% translate 'ABCD weeks calendar' %}
-            </span>
+            <span>{% translate 'ABCD weeks calendar' %}</span>
             <span>
                 <a class="{% tapir_button_link %} ms-3"
                    href="{% url 'shifts:shift_template_group_calendar' displayed_year|add:-1 %}">
@@ -38,8 +32,6 @@
                 </a>
             </span>
         </h5>
-        <div class="card-body">
-            {{ rendered_calendar }}
-        </div>
+        <div class="card-body">{{ rendered_calendar }}</div>
     </div>
-{% endblock %}
+{% endblock content %}

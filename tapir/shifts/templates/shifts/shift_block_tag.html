@@ -1,12 +1,20 @@
 {% load i18n %}
-
 <div class="shift-block-container" style="{{ shift.style }}">
-    <div id="{% if shift.is_template %}template{% else %}shift{% endif %}_{{ shift.id }}" class="shift-block btn btn-outline-dark {% for class in shift.filter_classes %}{{ class }} {% endfor %}" style="height:{{ shift.height }}px;">
+    <div id="{% if shift.is_template %}template{% else %}shift{% endif %}_{{ shift.id }}"
+         class="shift-block btn btn-outline-dark {% for class in shift.filter_classes %}{{ class }}{% endfor %}"
+         style="height:{{ shift.height }}px">
         <div class="shift-time shift-block-title">{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
-        <div class="shift-date">{% if shift.start_date is not None %}{{ shift.start_date|date:"D d/m/y" }}{%  else %}{{ shift.weekday|slice:":3" }}{% endif %}</div>
+        <div class="shift-date">
+            {% if shift.start_date is not None %}
+                {{ shift.start_date|date:"D d/m/y" }}
+            {% else %}
+                {{ shift.weekday|slice:":3" }}
+            {% endif %}
+        </div>
         <div style="display: flex; flex-direction: column">
             {% for slot_name, attendances in shift.attendances.items %}
-                <div>{{ slot_name }}:
+                <div>
+                    {{ slot_name }}:
                     {% for state in attendances %}
                         {% if state == "regular" %}
                             <div class="material-icons">offline_pin</div>
@@ -21,8 +29,6 @@
                 </div>
             {% endfor %}
         </div>
-    {% if shift.template_group %}
-        <div class="shift-group">{{ shift.template_group }}</div>
-    {% endif %}
+        {% if shift.template_group %}<div class="shift-group">{{ shift.template_group }}</div>{% endif %}
     </div>
 </div>

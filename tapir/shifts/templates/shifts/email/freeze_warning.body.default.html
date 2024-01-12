@@ -1,11 +1,8 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% get_display_name_short tapir_user as display_name_short %}
-
     {% blocktranslate with display_name_short=display_name_short coop_name=coop_name contact_email_address=contact_email_address account_balance=account_balance freeze_after_days=freeze_after_days nb_weeks_in_the_future=nb_weeks_in_the_future url_member_manual=url_member_manual %}
         <p>
             Hi {{ display_name_short }},
@@ -37,7 +34,7 @@
             Thank you!
         </p>
         <p>
-            Cooperative greetings, <br/>
+            Cooperative greetings, <br />
             The member office
         </p>
     {% endblocktranslate %}

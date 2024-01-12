@@ -68,6 +68,8 @@ from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
     ShiftExemption,
+    ShiftTemplateGroup,
+    ShiftSlotTemplate,
 )
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
@@ -595,6 +597,20 @@ class ShareOwnerFilter(django_filters.FilterSet):
             "is_company",
         ]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # initiate after database has been initiated
+        self.filters["abcd_week"].extra.update(
+            {"choices": list(ShiftTemplateGroup.objects.values_list("name", "name"))}
+        )
+        self.filters["shift_slot_name"].extra.update(
+            {
+                "choices": list(
+                    ShiftSlotTemplate.objects.values_list("name", "name").distinct()
+                )
+            }
+        )
+
     status = ChoiceFilter(
         choices=MEMBER_STATUS_CHOICES,
         method="status_filter",
@@ -641,10 +657,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     has_tapir_account = BooleanFilter(
         method="has_tapir_account_filter", label="Has a Tapir account"
     )
-    # Théo 17.09.21 : It would be nicer to get the values from the DB, but that raises exceptions
-    # when creating a brand new docker instance, because the corresponding table doesn't exist yet.
     abcd_week = ChoiceFilter(
-        choices=[("A", "A"), ("B", "B"), ("C", "C"), ("D", "D")],
         method="abcd_week_filter",
         label=_("ABCD Week"),
     )
@@ -661,6 +674,18 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="is_currently_exempted_from_shifts_filter",
         label=_("Is currently exempted from shifts"),
     )
+    shift_slot_name = ChoiceFilter(
+        choices=[],
+        method="shift_slot_filter",
+        label=_("Shift Type"),
+    )
+
+    @staticmethod
+    def shift_slot_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
+        return queryset.filter(
+            # Find all Tapir-Users currently enrolled in that shift-name "value"
+            user__in=TapirUser.objects.registered_to_shift_slot_name(value)
+        ).distinct()
 
     @staticmethod
     def display_name_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):

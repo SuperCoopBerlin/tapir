@@ -90,7 +90,7 @@ class TapirEmailBase:
 
         return self.context
 
-    def send_to_share_owner(self, actor: User, recipient: ShareOwner):
+    def send_to_share_owner(self, actor: User | None, recipient: ShareOwner):
         self.__send(
             actor=actor,
             share_owner=recipient,

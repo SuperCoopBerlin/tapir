@@ -1,10 +1,13 @@
 {% load i18n %}
 {% load core %}
-
-{% translate "Email sent." %}<br />
-Name : {{ entry.get_name }}<br />
-Subject : {{ entry.subject }}<br />
-<a class="{% tapir_button_link %} btn-sm" href="{% url 'log:email_log_entry_content' entry.pk %}">
+{% translate "Email sent." %}
+<br />
+Name : {{ entry.get_name }}
+<br />
+Subject : {{ entry.subject }}
+<br />
+<a class="{% tapir_button_link %} btn-sm"
+   href="{% url 'log:email_log_entry_content' entry.pk %}">
     <span class="material-icons">download</span>
     Download
 </a>

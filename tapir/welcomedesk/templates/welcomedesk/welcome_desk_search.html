@@ -1,27 +1,20 @@
 {% extends "core/base.html" %}
-
 {% load render_table from django_tables2 %}
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load querystring from django_tables2 %}
 {% load core %}
-
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
-{% endblock %}
-
+{% endblock head %}
 {% block title %}
     {% translate "Welcome Desk" %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
-
     <div class="card mb-2">
-        <h5 class="card-header d-flex">
-            {% translate "Welcome Desk" %}
-        </h5>
+        <h5 class="card-header d-flex">{% translate "Welcome Desk" %}</h5>
         <ul class="list-group list-group-flush" id="welcome_desk_table">
             {% if filter %}
                 <li class="list-group-item">
@@ -35,9 +28,7 @@
                     </form>
                 </li>
             {% endif %}
-            <li class="list-group-item">
-                {% render_table table %}
-            </li>
+            <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
-{% endblock %}
+{% endblock content %}

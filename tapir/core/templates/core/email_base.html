@@ -1,15 +1,13 @@
 {% load i18n %}
-
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="email_id" content="{{ email_unique_id }}" />
-
-    <title>{{ subject }}</title>
-</head>
-<body>
-    {% block body %}{% endblock %}
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="email_id" content="{{ email_unique_id }}" />
+        <title>{{ subject }}</title>
+    </head>
+    <body>
+        {% block body %}{% endblock body %}
+    </body>
 </html>

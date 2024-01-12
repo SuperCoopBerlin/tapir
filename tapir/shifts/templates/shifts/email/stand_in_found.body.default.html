@@ -1,8 +1,6 @@
 {% extends "core/email_base.html" %}
-
 {% load i18n %}
 {% load utils %}
-
 {% block body %}
     {% get_display_name_short member_infos as display_name_short %}
     {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
@@ -11,7 +9,7 @@
         <p>This is an automated email from {{ coop_name }}.</p>
 
         <p>
-            You were looking for a stand-in for the following shift: {{ shift_display_name }}.<br/>
+            You were looking for a stand-in for the following shift: {{ shift_display_name }}.<br />
             Another member has taken over your slot for that shift.
         </p>
 

@@ -1,5 +1,4 @@
 {% extends "accounts/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load static %}
 {% load i18n %}
@@ -10,18 +9,15 @@
 {% load core %}
 {% load utils %}
 {% load statistics %}
-
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
-<script src="{% static 'statistics/chart_4.4.0.js' %}"></script>
-<script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
-{% endblock %}
-
+    <script src="{% static 'statistics/chart_4.4.0.js' %}"></script>
+    <script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
+{% endblock head %}
 {% block title %}
     {% translate 'Member' %}: {% get_display_name_for_viewer object request.user %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
     <div class="row">
         <div class="col-xl-6">
@@ -121,14 +117,18 @@
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Co-Purchaser" %}:</div>
                         <div class="col-8">
-                            {% if object.co_purchaser %}{{ object.co_purchaser }}{% else %}-{% endif %}
+                            {% if object.co_purchaser %}
+                                {{ object.co_purchaser }}
+                            {% else %}
+                                -
+                            {% endif %}
                         </div>
                     </div>
-
                     <div class="d-flex justify-content-sm-end m-1 mt-3">
                         {% if perms.accounts.manage %}
                             <div class="ms-1">
-                                <form method="post" action="{% url 'accounts:send_user_welcome_email' object.pk %}">
+                                <form method="post"
+                                      action="{% url 'accounts:send_user_welcome_email' object.pk %}">
                                     {% csrf_token %}
                                     <button type="submit" class="{% tapir_button_action %} ms-3">
                                         <span class="material-icons">send</span>{% translate "Resend account activation email" %}
@@ -139,41 +139,23 @@
                         {% if object.pk == request.user.pk %}
                             <div class="ms-1">
                                 <a class="{% tapir_button_link_to_action %} ms-1"
-                                   href="{% url 'password_change' %}"><span
-                                        class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
+                                   href="{% url 'password_change' %}"><span class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
                             </div>
                         {% endif %}
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-xl-6">
-            {% share_owner_ownership_list object.share_owner %}
-        </div>
+        <div class="col-xl-6">{% share_owner_ownership_list object.share_owner %}</div>
     </div>
-
     <div class="row">
-        <div class="col-xl-6">
-            {% user_shifts_overview object %}
-        </div>
-
-        <div class="col-xl-6">
-            {% log_entry_list tapir_user=object %}
-        </div>
+        <div class="col-xl-6">{% user_shifts_overview object %}</div>
+        <div class="col-xl-6">{% log_entry_list tapir_user=object %}</div>
     </div>
-
     <div class="row">
-        <div class="col-xl-6">
-            {% purchase_tracking_card tapir_user=object %}
-        </div>
-
+        <div class="col-xl-6">{% purchase_tracking_card tapir_user=object %}</div>
         {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
-            <div class="col-xl-6">
-                {% purchase_statistics_card tapir_user=object %}
-            </div>
+            <div class="col-xl-6">{% purchase_statistics_card tapir_user=object %}</div>
         {% endif %}
     </div>
-
-{% endblock %}
-
+{% endblock content %}

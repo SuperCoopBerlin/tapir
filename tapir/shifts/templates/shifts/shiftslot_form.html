@@ -1,25 +1,17 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load core %}
-
-{% block title %}
-    {{ card_title }}
-{% endblock %}
-
+{% block title %}{{ card_title }}{% endblock title %}
 {% block head %}
     {{ block.super }}
     {{ form.media }}
-{% endblock %}
-
+{% endblock head %}
 {% block content %}
     <div class="container">
         <div class="card mb-2" id="shift_form_card">
-            <h5 class="card-header d-flex justify-content-between align-items-center">
-                {{ card_title }}
-            </h5>
+            <h5 class="card-header d-flex justify-content-between align-items-center">{{ card_title }}</h5>
             <ul class="list-group list-group-flush">
                 {% if not form.instance.pk %}
                     <li class="list-group-item">
@@ -43,4 +35,4 @@
             </ul>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}

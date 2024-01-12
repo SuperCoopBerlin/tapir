@@ -1,23 +1,19 @@
 {% extends "core/base.html" %}
-
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
 {% load core %}
 {% load utils %}
-
 {% block head %}
     {{ block.super }}
     {{ form.media }}
-{% endblock %}
-
+{% endblock head %}
 {% block title %}
     {% get_display_name_full object as display_name_full %}
     {% blocktranslate with display_name_full=display_name_full %}
         Edit username: {{ display_name_full }}
     {% endblocktranslate %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
     {% get_display_name_full object as display_name_full %}
     <div class="container">
@@ -31,8 +27,7 @@
                 <li class="list-group-item">
                     {% blocktranslate with old_username=object.username %}
                         <p>Your old username is {{ old_username }}.</p>
-                        <p>If you ever updated the wiki, please contact the Wiki team on Slack <a
-                                href="https://supercoopberlin.slack.com/archives/C01UCL82XMF">#wiki</a> to keep your
+                        <p>If you ever updated the wiki, please contact the Wiki team on Slack <a href="https://supercoopberlin.slack.com/archives/C01UCL82XMF">#wiki</a> to keep your
                             member's page there and the history of your changes.</p>
                     {% endblocktranslate %}
                 </li>
@@ -51,4 +46,4 @@
             </ul>
         </div>
     </div>
-{% endblock %}
+{% endblock content %}
