@@ -19,8 +19,9 @@ RUN pip install "poetry==$POETRY_VERSION"
 
 COPY pyproject.toml poetry.lock ./
 # weasyprint: libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0
-# psycopg2: libpq5
-RUN apt update -y && apt install -y libldap2-dev libsasl2-dev libpq5 gettext libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0
+# psycopg2: libpq5 libpq-dev
+RUN apt update -y && apt install -y gcc  \
+    libldap2-dev libsasl2-dev libpq5 gettext libpango-1.0-0 libharfbuzz0b libpangoft2-1.0-0 libpq-dev
 RUN poetry install --with dev
 
 WORKDIR /app
