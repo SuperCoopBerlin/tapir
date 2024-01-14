@@ -422,7 +422,7 @@ class CacheDatesFirstSolidarityToTodayMixin:
             return []
 
         current_date = first_solidarity.date_gifted.replace(day=1)
-        end_date = datetime.date.today()
+        end_date = timezone.now().today()
         dates = []
         while current_date < end_date:
             dates.append(current_date)

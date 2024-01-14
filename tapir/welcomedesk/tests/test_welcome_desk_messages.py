@@ -85,7 +85,7 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
         user.shift_user_data.save()
         ShiftExemption.objects.create(
             shift_user_data=user.shift_user_data,
-            start_date=datetime.date.today() - datetime.timedelta(days=3),
+            start_date=timezone.now().today() - datetime.timedelta(days=3),
         )
         self.assertTrue(
             user.shift_user_data.is_currently_exempted_from_shifts(),
