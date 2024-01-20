@@ -950,9 +950,12 @@ class ShiftUserData(models.Model):
         return SolidarityShift.objects.filter(is_used_up=False).count()
 
     def get_used_solidarity_shifts_current_year(self):
-        return self.user.shift_account_entries.filter(
-            is_solidarity_used=True, date__year=timezone.now().strftime("%Y")
-        ).aggregate(Sum("value"))["value__sum"]
+        return (
+            self.user.shift_account_entries.filter(
+                is_solidarity_used=True, date__year=timezone.now().strftime("%Y")
+            ).aggregate(Sum("value"))["value__sum"]
+            or 0
+        )
 
     def get_current_shift_exemption(self, date=None):
         if not hasattr(self, "shift_exemptions") or self.shift_exemptions is None:
