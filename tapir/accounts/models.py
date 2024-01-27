@@ -108,10 +108,8 @@ class TapirUserQuerySet(models.QuerySet):
     def with_shift_attendance_mode(self, attendance_mode: str):
         return self.filter(shift_user_data__attendance_mode=attendance_mode)
 
-    def registered_to_shift_slot_name(self, slot_name: str):
-        return self.filter(
-            shift_attendance_templates__slot_template__name=slot_name
-        ).distinct()
+    def registered_to_abcd_shift_slot_name(self, slot_name: str):
+        return self.filter(shift_attendance__slot_template__name=slot_name).distinct()
 
     def registered_to_abcd_shift_slot_with_capability(self, capability: str):
         return self.filter(
