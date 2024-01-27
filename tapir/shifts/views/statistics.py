@@ -106,7 +106,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
             abcd_slots[displayed_name] = {}
             abcd_slots[displayed_name][
                 "registered"
-            ] = TapirUser.objects.registered_to_abcd_shift_slot_name(
+            ] = TapirUser.objects.registered_to_shift_slot_name(
                 slot_type["name"]
             ).count()
             abcd_slots[displayed_name]["slot_count"] = ShiftSlotTemplate.objects.filter(
