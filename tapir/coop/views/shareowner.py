@@ -677,7 +677,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     shift_slot_name = ChoiceFilter(
         choices=[],
         method="shift_slot_filter",
-        label=_("Shift Type"),
+        label=_("Shift Name"),
     )
 
     @staticmethod
