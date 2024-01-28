@@ -14,6 +14,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftUserCapability,
     ShiftAttendance,
+    ShiftSlot,
 )
 from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
@@ -120,33 +121,25 @@ class TestShareOwnerList(TapirFactoryTestBase):
         )
 
     def test_filter_for_shift_type(self):
-        # date_mock = datetime.datetime(year=2024, month=1, day=1)
-        # mock_timezone_now(self, date_mock)
-        # start_time = date_mock + datetime.timedelta(
-        #     days=1
-        # )
-        user_shiftname_dict = {}
-        for _ in range(2):
+        shiftname_user_dict = {}
+        for slot_name in ["cheese making", "coffee brewing"]:
             shift = ShiftFactory.create(
-                nb_slots=2, start_time=timezone.now() + datetime.timedelta(days=1)
+                nb_slots=0, start_time=timezone.now() + datetime.timedelta(days=1)
             )
-            for slot in shift.slots.all():
+            slot_users = []
+            for _ in range(2):
+                slot = ShiftSlot.objects.create(shift=shift, name=slot_name)
                 user = TapirUserFactory.create()
 
                 ShiftAttendance.objects.create(user=user, slot=slot)
-                user_shiftname_dict[user.share_owner] = slot.name
+                slot_users.append(user.share_owner)
+            shiftname_user_dict[slot_name] = slot_users
 
-        first_shift_slot_name = user_shiftname_dict[next(iter(user_shiftname_dict))]
-        users_with_same_shift_slot = [
-            key
-            for key, value in user_shiftname_dict.items()
-            if value == first_shift_slot_name
-        ]
-        users_with_other_shift_slot = [
-            key
-            for key, value in user_shiftname_dict.items()
-            if value != first_shift_slot_name
-        ]
+        (
+            first_shift_slot_name,
+            users_with_same_shift_slot,
+        ) = shiftname_user_dict.popitem()
+        _, users_with_other_shift_slot = shiftname_user_dict.popitem()
         self.visit_view(
             {"shift_slot_name": first_shift_slot_name},
             must_be_in=users_with_same_shift_slot,
