@@ -11,7 +11,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftExemption,
 )
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 from tapir.utils.user_utils import UserUtils
 
 
@@ -57,8 +57,9 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
         MembershipPauseFactory.create(
             share_owner=user.share_owner,
             start_date=datetime.date(year=2022, month=1, day=1),
-            end_date=datetime.date(year=3024, month=1, day=1),
+            end_date=datetime.date(year=2024, month=1, day=1),
         )
+        mock_timezone_now(self, datetime.datetime(year=2024, month=1, day=1))
         self.check_alerts(user.share_owner, [self.Messages.IS_PAUSED])
 
     def test_no_abcd_shift(self):
