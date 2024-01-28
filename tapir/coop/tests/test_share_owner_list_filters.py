@@ -146,6 +146,28 @@ class TestShareOwnerList(TapirFactoryTestBase):
             must_be_out=users_with_other_shift_slot,
         )
 
+    def test_filter_for_shift_type_no_historic(self):
+        # shift_slot_name should not find historic slots with same slot name
+        shiftname_user_dict = {}
+        slot_name = "cheese making"
+        for delta in [datetime.timedelta(days=-5), datetime.timedelta(days=+5)]:
+            shift = ShiftFactory.create(nb_slots=0, start_time=timezone.now() + delta)
+            slot_users = []
+            for _ in range(2):
+                slot = ShiftSlot.objects.create(shift=shift, name=slot_name)
+                user = TapirUserFactory.create()
+                ShiftAttendance.objects.create(user=user, slot=slot)
+                slot_users.append(user.share_owner)
+            shiftname_user_dict[delta] = slot_users
+
+        _, users_with_same_shift_slot = shiftname_user_dict.popitem()
+        _, users_with_other_shift_slot = shiftname_user_dict.popitem()
+        self.visit_view(
+            {"shift_slot_name": slot_name},
+            must_be_in=users_with_same_shift_slot,
+            must_be_out=users_with_other_shift_slot,
+        )
+
     def test_abcd_week(self):
         for name in ["A", "B"]:
             ShiftTemplateGroup.objects.create(name=name)
