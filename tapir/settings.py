@@ -17,26 +17,31 @@ from pathlib import Path
 import celery.schedules
 import environ
 
-env = environ.Env()
+env = environ.Env(
+    # Set casting and default value
+    DEBUG=(bool, False)
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env(
-    "SECRET_KEY", default="fl%20e9dbkh4mosi5$i$!5&+f^ic5=7^92hrchl89x+)k0ctsn"
-)
+SECRET_KEY = env("TAPIR_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG", cast=bool, default=False)
+# False by default if not in os.environ because of casting above
+DEBUG = env("TAPIR_DEBUG")
 
-ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
+ALLOWED_HOSTS = env("TAPIR_ALLOWED_HOSTS", cast=list)
 
 ENABLE_SILK_PROFILING = False
-ENABLE_API = env("ENABLE_API", cast=bool, default=False)
+ENABLE_API = env("TAPIR_ENABLE_API", cast=bool, default=False)
 
 # Application definition
 INSTALLED_APPS = [
@@ -128,10 +133,8 @@ WSGI_APPLICATION = "tapir.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
-    "default": env.db(default="postgresql://tapir:tapir@db:5432/tapir"),
-    "ldap": env.db_url(
-        "LDAP_URL", default="ldap://cn=admin,dc=supercoop,dc=de:admin@openldap"
-    ),
+    "default": env.db("TAPIR_DATABASE_URL"),
+    "ldap": env.db_url("TAPIR_LDAP_URL"),
 }
 
 DATABASE_ROUTERS = ["ldapdb.router.Router"]
@@ -206,37 +209,39 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
-EMAIL_ADDRESS_ACCOUNTING = "accounting@supercoop.de"
-EMAIL_ADDRESS_MANAGEMENT = "contact@supercoop.de"
-EMAIL_ADDRESS_SUPERVISORS = "aufsichtsrat@supercoop.de"
+EMAIL_ADDRESS_MEMBER_OFFICE = env("TAPIR_EMAIL_ADDRESS_MEMBER_OFFICE")
+EMAIL_ADDRESS_ACCOUNTING = env("TAPIR_EMAIL_ADDRESS_ACCOUNTING")
+EMAIL_ADDRESS_MANAGEMENT = env("TAPIR_EMAIL_ADDRESS_MANAGEMENT")
+EMAIL_ADDRESS_SUPERVISORS = env("TAPIR_EMAIL_ADDRESS_SUPERVISORS")
 
 # django-environ EMAIL_URL mechanism is a bit hairy with passwords with slashes in them, so use this instead
-EMAIL_ENV = env("EMAIL_ENV", default="dev")
+EMAIL_ENV = env("TAPIR_EMAIL_ENV", default="dev")
 if EMAIL_ENV == "dev" or EMAIL_ENV == "test":
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 elif EMAIL_ENV == "prod":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = env("EMAIL_HOST", default="smtp-relay.gmail.com")
-    EMAIL_HOST_USER = env("EMAIL_HOST_USER", default=EMAIL_ADDRESS_MEMBER_OFFICE)
-    EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+    EMAIL_HOST = env("TAPIR_EMAIL_HOST")
+    EMAIL_HOST_USER = env("TAPIR_EMAIL_HOST_USER", default=EMAIL_ADDRESS_MEMBER_OFFICE)
+    EMAIL_HOST_PASSWORD = env("TAPIR_EMAIL_HOST_PASSWORD")
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
 
 
-COOP_NAME = "SuperCoop Berlin"
-COOP_FULL_NAME = "SuperCoop Berlin eG"
-COOP_STREET = "Oudenarder Straße 16"
-COOP_PLACE = "13347 Berlin"
+COOP_NAME = env("TAPIR_COOP_NAME")
+COOP_FULL_NAME = env("TAPIR_COOP_FULL_NAME")
+COOP_STREET = env("TAPIR_COOP_STREET")
+COOP_PLACE = env("TAPIR_COOP_PLACE")
 FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 
 
 # DJANGO_ADMINS="Blake <blake@cyb.org>, Alice Judge <alice@cyb.org>"
-ADMINS = tuple(email.utils.parseaddr(x) for x in env.list("DJANGO_ADMINS", default=[]))
+ADMINS = tuple(
+    email.utils.parseaddr(x) for x in env.list("TAPIR_DJANGO_ADMINS", default=[])
+)
 # Crash emails will come from this address.
 # NOTE(Leon Handreke): I don't know if our Google SMTP will reject other senders, so play it safe.
-SERVER_EMAIL = env("SERVER_EMAIL", default=EMAIL_ADDRESS_MEMBER_OFFICE)
+SERVER_EMAIL = env("TAPIR_SERVER_EMAIL", default=EMAIL_ADDRESS_MEMBER_OFFICE)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
@@ -307,7 +312,7 @@ CLIENT_PERMISSIONS = {
 AUTH_USER_MODEL = "accounts.TapirUser"
 LOGIN_REDIRECT_URL = "accounts:user_me"
 
-SITE_URL = env("SITE_URL", default="http://127.0.0.1:8000")
+SITE_URL = env("TAPIR_SITE_URL", default="http://127.0.0.1:8000")
 
 PHONENUMBER_DEFAULT_REGION = "DE"
 

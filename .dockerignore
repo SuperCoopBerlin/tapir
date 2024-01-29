@@ -1,5 +1,9 @@
-/venv
-/.venv
 /.pytest_cache
 /.idea
 /.github
+
+# Environments
+.env*
+!.env.example
+/venv
+/.venv
