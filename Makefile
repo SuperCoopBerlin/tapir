@@ -1,8 +1,8 @@
 lint:
-	poetry run black .
+    black .
 
 test-lint:
-	poetry run black --check .
+	black --check .
 
 test:
-	poetry run pytest --cov-report xml:coverage.xml
+	pytest --cov-report xml:coverage.xml

@@ -106,7 +106,7 @@ The class name is the convention for the word in texts, followed by how to write
 ### Django Shell
 
 ```sh
-docker compose exec web poetry run python manage.py shell_plus
+docker compose exec web python manage.py shell_plus
 ```
 
 ### LDAP
@@ -124,7 +124,7 @@ docker compose up -d openldap
 Then, run the tests.
 
 ```sh
-docker compose run --rm web poetry run pytest
+docker compose run --rm web pytest
 ```
 
 The `--rm` option will delete the temporary containers created to run the tests. Omit it if you want to keep the
@@ -134,9 +134,9 @@ To regenerate the test data fixtures:
 
 ```sh
 docker compose up --force-recreate
-docker compose exec web poetry run python manage.py migrate
-docker compose exec web poetry run python manage.py generate_test_data --reset_all
-docker compose exec web poetry run python manage.py dumpdata accounts.TapirUser shifts.ShiftTemplateGroup shifts.ShiftTemplate shifts.ShiftSlotTemplate shifts.ShiftAttendanceTemplate coop.ShareOwner coop.ShareOwnership > tapir/utils/fixtures/test_data.json
+docker compose exec web python manage.py migrate
+docker compose exec web python manage.py generate_test_data --reset_all
+docker compose exec web python manage.py dumpdata accounts.TapirUser shifts.ShiftTemplateGroup shifts.ShiftTemplate shifts.ShiftSlotTemplate shifts.ShiftAttendanceTemplate coop.ShareOwner coop.ShareOwnership > tapir/utils/fixtures/test_data.json
 ```
 
 #### Selenium Tests
@@ -149,7 +149,7 @@ secret
 To generate the translation files, first use "makemessages" and specify the language you want to generate:
 
 ```sh
-docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages --no-wrap -l de
+docker compose exec web python manage.py makemessages --no-wrap -l de
 ```
 
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
@@ -183,7 +183,7 @@ All changes must be done in the docker container. Since our development environm
 docker container, you must run djangos makemigrations on docker. You can do this with this command:
 
 ```sh
-docker compose exec web poetry run python manage.py makemigrations
+docker compose exec web python manage.py makemigrations
 ```
 
 Please check the migration script. It might contain unwished changes. There seems to be a bug in ldpa migrations.
@@ -193,7 +193,7 @@ Please check the migration script. It might contain unwished changes. There seem
 Last step is to update the database. this is done with this command:
 
 ```sh
-docker compose exec web poetry run python manage.py migrate
+docker compose exec web python manage.py migrate
 ```
 
 Please check, if applications runs (again).
