@@ -64,6 +64,10 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_extensions",
     "chartjs",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.openid_connect",
 ]
 
 if ENABLE_SILK_PROFILING:
@@ -87,6 +91,7 @@ MIDDLEWARE = [
     "tapir.accounts.models.language_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 if ENABLE_SILK_PROFILING:
@@ -129,12 +134,7 @@ WSGI_APPLICATION = "tapir.wsgi.application"
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
     "default": env.db(default="postgresql://tapir:tapir@db:5432/tapir"),
-    "ldap": env.db_url(
-        "LDAP_URL", default="ldap://cn=admin,dc=supercoop,dc=de:admin@openldap"
-    ),
 }
-
-DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
@@ -334,3 +334,26 @@ if ENABLE_API:
         "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
         "REFRESH_TOKEN_LIFETIME": timedelta(weeks=12),
     }
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "openid_connect": {
+        "APPS": [
+            {
+                "provider_id": "keycloak",
+                "name": "Keycloak",
+                "client_id": "tapir-django",
+                "secret": "VnMWN5V6vfzTW3JAJfBvdLYb4pGydL1R",
+                "settings": {
+                    "server_url": "http://host.docker.internal:8080/realms/tapir/.well-known/openid-configuration",
+                },
+            }
+        ]
+    }
+}
+
+SOCIALACCOUNT_ADAPTER = "tapir.core.socialadapter.TapirSocialAccountAdapter"

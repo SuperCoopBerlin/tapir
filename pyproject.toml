@@ -7,7 +7,6 @@ authors = ["Leon Handreke <leonh@ndreke.de>"]
 [tool.poetry.dependencies]
 python = "^3.11"
 Django = "~3.2.23"
-django-ldapdb = {version="^1.5.1", markers="sys_platform=='linux' or sys_platform=='darwin'"}
 django-weasyprint = "^2.2.1"
 django-extensions = "^3.2.3"
 django-bootstrap-datepicker-plus = "^5.0.4"
@@ -35,6 +34,7 @@ python-barcode = "^0.15.1"
 fabric = "^3.2.2"
 icecream = "^2.1.3"
 djlint = "^1.34.1"
+django-allauth = "^0.60.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.11.0"

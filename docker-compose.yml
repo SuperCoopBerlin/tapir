@@ -52,6 +52,23 @@ services:
     ports:
       - '5432:5432'
 
+  auth:
+    image: quay.io/keycloak/keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    command:
+      - start-dev
+      - --import-realm
+    depends_on:
+      - openldap
+    healthcheck:
+      test: "curl -f http://localhost:8080/health/ready || exit 1"
+    volumes:
+      - ./keycloak-realm.json:/opt/keycloak/data/import/keycloak-realm.json
+
   selenium:
     image: selenium/standalone-firefox-debug:latest
     shm_size: '2gb'

@@ -1,14 +1,14 @@
 import datetime
 
-import tapir
+from django.test import TestCase
+
 from tapir.shifts.models import (
     ShiftTemplateGroup,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
-from tapir.utils.tests_utils import LdapEnabledTestCase
 
 
-class TestExemptions(LdapEnabledTestCase):
+class TestExemptions(TestCase):
     CYCLE_START_DATES = [
         datetime.date(year=2022, month=4, day=11),
         datetime.date(year=2023, month=5, day=22),

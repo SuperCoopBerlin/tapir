@@ -25,6 +25,7 @@ from tapir.settings import ENABLE_SILK_PROFILING, ENABLE_API
 urlpatterns = [
     path("", generic.RedirectView.as_view(pattern_name="accounts:index")),
     path("admin/", admin.site.urls),
+    path("allauth/", include("allauth.urls")),
     path("accounts/", include("tapir.accounts.urls")),
     path("shifts/", include("tapir.shifts.urls")),
     path("coop/", include("tapir.coop.urls")),

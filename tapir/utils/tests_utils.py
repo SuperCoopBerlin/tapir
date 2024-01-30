@@ -9,7 +9,6 @@ from unittest.mock import patch
 import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.mail import EmailMessage
-from django.db import DEFAULT_DB_ALIAS
 from django.test import TestCase, override_settings, Client
 from django.urls import reverse
 from selenium import webdriver
@@ -158,11 +157,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
         )
 
 
-class LdapEnabledTestCase(TestCase):
-    databases = {"ldap", DEFAULT_DB_ALIAS}
-
-
-class TapirFactoryTestBase(LdapEnabledTestCase):
+class TapirFactoryTestBase(TestCase):
     client: Client
 
     def setUp(self) -> None:

@@ -1,7 +1,7 @@
 import factory
 
 from tapir import settings
-from tapir.accounts.models import TapirUser, LdapGroup
+from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.tests.factories import ShareOwnerFactory
 

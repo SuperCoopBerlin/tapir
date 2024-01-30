@@ -5,7 +5,7 @@ from django.forms import TextInput
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
-from tapir.accounts.models import TapirUser, LdapGroup
+from tapir.accounts.models import TapirUser
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 

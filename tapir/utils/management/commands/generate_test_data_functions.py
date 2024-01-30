@@ -6,7 +6,7 @@ import random
 
 from django.utils import timezone
 
-from tapir.accounts.models import TapirUser, LdapGroup
+from tapir.accounts.models import TapirUser
 from tapir.coop.models import (
     ShareOwner,
     ShareOwnership,

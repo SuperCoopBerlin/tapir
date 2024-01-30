@@ -1,6 +1,5 @@
 from django.urls import reverse
 
-from tapir.accounts.models import LdapGroup
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 

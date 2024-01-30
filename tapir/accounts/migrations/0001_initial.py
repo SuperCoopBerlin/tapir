@@ -3,7 +3,6 @@
 import django.contrib.auth.models
 import django.contrib.auth.validators
 import django.utils.timezone
-import ldapdb.models.fields
 from django.db import migrations, models
 
 
@@ -17,27 +16,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.CreateModel(
             name="LdapGroup",
-            fields=[
-                (
-                    "dn",
-                    ldapdb.models.fields.CharField(
-                        max_length=200, primary_key=True, serialize=False
-                    ),
-                ),
-                (
-                    "cn",
-                    ldapdb.models.fields.CharField(
-                        db_column="cn", max_length=200, unique=True
-                    ),
-                ),
-                (
-                    "description",
-                    ldapdb.models.fields.CharField(
-                        db_column="description", max_length=200
-                    ),
-                ),
-                ("members", ldapdb.models.fields.ListField(db_column="member")),
-            ],
+            fields=[],
             options={
                 "verbose_name": "LDAP group",
                 "verbose_name_plural": "LDAP groups",
@@ -45,26 +24,7 @@ class Migration(migrations.Migration):
         ),
         migrations.CreateModel(
             name="LdapPerson",
-            fields=[
-                (
-                    "dn",
-                    ldapdb.models.fields.CharField(
-                        max_length=200, primary_key=True, serialize=False
-                    ),
-                ),
-                (
-                    "uid",
-                    ldapdb.models.fields.CharField(
-                        db_column="uid", max_length=200, unique=True
-                    ),
-                ),
-                ("cn", ldapdb.models.fields.CharField(db_column="cn", max_length=200)),
-                ("sn", ldapdb.models.fields.CharField(db_column="sn", max_length=200)),
-                (
-                    "mail",
-                    ldapdb.models.fields.CharField(db_column="mail", max_length=200),
-                ),
-            ],
+            fields=[],
             options={
                 "verbose_name": "LDAP person",
                 "verbose_name_plural": "LDAP people",

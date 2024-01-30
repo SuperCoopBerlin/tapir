@@ -1,11 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from django.test import Client
-
-from tapir.utils.tests_utils import LdapEnabledTestCase
+from django.test import Client, TestCase
 
 
-class TestProject(LdapEnabledTestCase):
+class TestProject(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_superuser(
             username="admin", email="admin@admin.de", password="admin"
