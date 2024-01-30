@@ -108,7 +108,7 @@ class ShareOwner(models.Model):
 
         def with_status(self, status: str, date=None):
             if date is None:
-                date = timezone.now().today()
+                date = timezone.now()
             active_ownerships = ShareOwnership.objects.active_temporal(date)
 
             if status == MemberStatus.SOLD:

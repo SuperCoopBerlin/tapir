@@ -8,7 +8,6 @@ from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory, MembershipPauseFactory
 from tapir.shifts.models import (
     ShiftAttendanceMode,
-    ShiftAccountEntry,
     ShiftAttendanceTemplate,
     ShiftExemption,
 )

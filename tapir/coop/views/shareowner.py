@@ -69,7 +69,7 @@ from tapir.shifts.models import (
     SHIFT_USER_CAPABILITY_CHOICES,
     ShiftExemption,
     ShiftTemplateGroup,
-    ShiftSlotTemplate,
+    Shift,
 )
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
@@ -606,7 +606,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
         self.filters["shift_slot_name"].extra.update(
             {
                 "choices": list(
-                    ShiftSlotTemplate.objects.values_list("name", "name").distinct()
+                    Shift.objects.values_list("slots__name", "slots__name").distinct()
                 )
             }
         )
@@ -677,14 +677,16 @@ class ShareOwnerFilter(django_filters.FilterSet):
     shift_slot_name = ChoiceFilter(
         choices=[],
         method="shift_slot_filter",
-        label=_("Shift Type"),
+        label=_("Shift Name"),
     )
 
     @staticmethod
     def shift_slot_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         return queryset.filter(
             # Find all Tapir-Users currently enrolled in that shift-name "value"
-            user__in=TapirUser.objects.registered_to_shift_slot_name(value)
+            user__in=Shift.objects.filter(
+                start_time__gt=timezone.now(), slots__name=value
+            ).values("slots__attendances__user")
         ).distinct()
 
     @staticmethod
