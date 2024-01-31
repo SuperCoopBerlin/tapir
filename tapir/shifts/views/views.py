@@ -32,7 +32,11 @@ from tapir.core.models import FeatureFlag
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_SHIFTS_MANAGE
+from tapir.settings import (
+    PERMISSION_COOP_MANAGE,
+    PERMISSION_SHIFTS_MANAGE,
+    PERMISSION_WELCOMEDESK_VIEW,
+)
 from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
@@ -232,7 +236,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
 
 class ShiftDayPrintableView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     template_name = "shifts/shift_day_printable.html"
-    permission_required = PERMISSION_SHIFTS_MANAGE
+    permission_required = PERMISSION_WELCOMEDESK_VIEW
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
