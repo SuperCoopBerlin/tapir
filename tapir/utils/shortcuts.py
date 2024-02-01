@@ -12,6 +12,7 @@ from django.utils.encoding import iri_to_uri
 from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
 
+from tapir import settings
 from tapir.log.models import UpdateModelLogEntry
 
 
@@ -75,6 +76,19 @@ def setup_ssh_for_biooffice_storage():
     os.system("chmod u=rw,g=r,o=r ~/.ssh/biooffice_id_rsa.pub")
     os.system(
         f'bash -c \'echo -e "{env("BIOOFFICE_SERVER_SSH_KEY_FINGERPRINT")}" > ~/.ssh/biooffice_known_hosts\''
+    )
+
+
+def send_file_to_storage_server(filename: str, username: str):
+    if settings.DEBUG:
+        print(
+            f"File '{filename}' won't be sent to the storage server because this is a debug instance."
+        )
+        return
+
+    setup_ssh_for_biooffice_storage()
+    os.system(
+        f"scp -o 'NumberOfPasswordPrompts=0' -o 'UserKnownHostsFile=~/.ssh/biooffice_known_hosts' -i ~/.ssh/biooffice_id_rsa -P 23 {filename} {username}@u326634.your-storagebox.de:./"
     )
 
 

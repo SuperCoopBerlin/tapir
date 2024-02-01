@@ -173,6 +173,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.accounts.tasks.send_create_account_reminder",
         "schedule": celery.schedules.crontab(minute=0, hour=12),
     },
+    "metabase_export": {
+        "task": "tapir.core.tasks.metabase_export",
+        "schedule": celery.schedules.crontab(minute=0, hour=3),
+    },
 }
 
 # Password validation
