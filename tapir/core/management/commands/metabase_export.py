@@ -58,7 +58,7 @@ class Command(BaseCommand):
         env = environ.Env()
         password = env.db(default="postgresql://tapir:tapir@db:5432/tapir")["PASSWORD"]
         os.system(
-            f"PGPASSWORD='{password}' pg_dump --file='{FILENAME}' --no-owner --host=db --username=tapir tapir "
+            f"PGPASSWORD='{password}' pg_dump --file='{FILENAME}' --no-owner --format=custom --host=db --username=tapir tapir "
             + " ".join([f"-t {table_name}" for table_name in self.exported_tables])
         )
         send_file_to_storage_server(FILENAME, "u326634-sub7")
