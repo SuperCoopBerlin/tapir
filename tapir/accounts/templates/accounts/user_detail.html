@@ -22,38 +22,30 @@
     <div class="row">
         <div class="col-xl-6">
             <div class="card mb-2" id="tapir_user_detail_card">
-                <h5 class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <span>{% translate "Personal Data" %}</span>
-                    <span class="d-flex">
+                    <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
                         {% if perms.coop.admin %}
-                            <div class="ms-1">
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
-                                    <span class="material-icons">badge</span>{% translate 'Edit groups' %}
-                                </a>
-                            </div>
-                        {% endif %}
-                        <div class="ms-1">
                             <a class="{% tapir_button_link_to_action %}"
-                               href="{% url 'accounts:edit_username' object.pk %}">
-                                <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
+                                href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
+                                <span class="material-icons">badge</span>{% translate 'Edit groups' %}
                             </a>
-                        </div>
+                        {% endif %}
+                        <a class="{% tapir_button_link_to_action %}"
+                            href="{% url 'accounts:edit_username' object.pk %}">
+                            <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
+                        </a>
                         {% if perms.accounts.manage %}
-                            <div class="ms-1">
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'accounts:user_update' object.pk %}"
-                                   id="tapir_user_edit_button">
-                                    <span class="material-icons">edit</span>{% translate 'Edit' %}
-                                </a>
-                            </div>
+                            <a class="{% tapir_button_link_to_action %}"
+                                href="{% url 'accounts:user_update' object.pk %}"
+                                id="tapir_user_edit_button">
+                                <span class="material-icons">edit</span>{% translate 'Edit' %}
+                            </a>
                         {% else %}
-                            <div class="ms-1">
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'accounts:user_update_self' object.pk %}">
-                                    <span class="material-icons">edit</span>{% translate 'Edit name and pronouns' %}
-                                </a>
-                            </div>
+                            <a class="{% tapir_button_link_to_action %}"
+                                href="{% url 'accounts:user_update_self' object.pk %}">
+                                <span class="material-icons">edit</span>{% translate 'Edit name and pronouns' %}
+                            </a>
                         {% endif %}
                     </span>
                 </h5>
