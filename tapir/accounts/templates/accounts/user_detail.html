@@ -51,20 +51,20 @@
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                        <div class="col-8" id="tapir_user_display_name">{% get_display_name_full object %}</div>
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Name" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_display_name">{% get_display_name_full object %}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Username" %}:</div>
-                        <div class="col-8" id="tapir_user_username">{{ object.username }}</div>
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Username" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_username">{{ object.username }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Email" %}:</div>
-                        <div class="col-8" id="tapir_user_email">{{ object.email }}</div>
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Email" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_email">{{ object.email }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Phone number" %}:</div>
-                        <div class="col-8" id="tapir_user_phone_number">
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Phone number" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_phone_number">
                             {% if object.phone_number %}
                                 {{ object.phone_number|format_phone_number }}
                             {% else %}
@@ -73,8 +73,8 @@
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Birthdate" %}:</div>
-                        <div class="col-8" id="tapir_user_birthdate">
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Birthdate" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_birthdate">
                             {% if object.birthdate %}
                                 {{ object.birthdate|date:"d.m.Y" }}
                             {% else %}
@@ -83,8 +83,8 @@
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Address" %}:</div>
-                        <div class="col-8" id="tapir_user_address">
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Address" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_address">
                             {% if object.street and object.city %}
                                 {{ object.get_display_address }}
                             {% else %}
@@ -93,22 +93,22 @@
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Preferred Language" %}:</div>
-                        <div class="col-8">{{ object.get_preferred_language_display }}</div>
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Preferred Language" %}:</div>
+                        <div class="col-12 col-sm-8">{{ object.get_preferred_language_display }}</div>
                     </div>
                     {% if perms.accounts.view %}
                         <div class="row m-1">
-                            <div class="col-4 fw-bold text-end">{% translate "Groups" %}:</div>
-                            <div class="col-8">{{ object.get_groups_display }}</div>
+                            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Groups" %}:</div>
+                            <div class="col-12 col-sm-8">{{ object.get_groups_display }}</div>
                         </div>
                         <div class="row m-1">
-                            <div class="col-4 fw-bold text-end">{% translate "Permissions" %}:</div>
-                            <div class="col-8">{{ object.get_permissions_display }}</div>
+                            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Permissions" %}:</div>
+                            <div class="col-12 col-sm-8">{{ object.get_permissions_display }}</div>
                         </div>
                     {% endif %}
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Co-Purchaser" %}:</div>
-                        <div class="col-8">
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Co-Purchaser" %}:</div>
+                        <div class="col-12 col-sm-8">
                             {% if object.co_purchaser %}
                                 {{ object.co_purchaser }}
                             {% else %}
