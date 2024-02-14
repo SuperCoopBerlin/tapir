@@ -138,10 +138,27 @@
                     <form method="post"
                           action="{% url 'shifts:solidarity_shift_given' object.pk %}">
                         {% csrf_token %}
-                        <button type="submit"
-                                class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}">
-                            <span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}
-                        </button>
+                        <button type="button" class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}" data-bs-toggle="modal" data-bs-target="#modalSubmitGiveSolidarity"><span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}</button>
+                        <div class="modal fade" id="modalSubmitGiveSolidarity" tabindex="-1" aria-labelledby="submitGiveSolidarityModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="submitGiveSolidarityModalLabel">Give Solidarity Shift</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% translate 'One of your banked shifts will be donated as a solidarity shift. Do you want to continue?' %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="{% tapir_button_link %} btn-sm" data-bs-dismiss="modal">{% translate 'Cancel' %}</button>
+                                            <button type="submit"
+                                                    class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}">
+                                                    {% translate 'Confirm' %}
+                                            </button>
+                                        </div>
+                                    </div>
+                              </div>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -157,6 +174,11 @@
                         {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
                             <p>There are Solidarity Shifts available for you to use. You used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
                         {% endblocktranslate %}
+                    {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance <= 0 %}
+                        {% blocktranslate %}
+                            <p>You cannot receive a Solidarity Shift at the moment</p>
+                        {% endblocktranslate %}
+
                     {% elif not user.shift_user_data.get_available_solidarity_shifts %}
                         {% blocktranslate %}
                             <p>There are no Solidarity Shifts available at the moment</p>
