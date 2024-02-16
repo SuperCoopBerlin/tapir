@@ -13,9 +13,13 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Available" %}</h5>
                 <div class="card-body">
                     {% if available_solidarity_shifts == 1 %}
+                        {% blocktranslate %}
                         <p>There is {{ available_solidarity_shifts }} solidarity shift available at the moment</p>
+                        {% endblocktranslate %}
                     {% else %}
+                        {% blocktranslate %}
                         <p>There are {{ available_solidarity_shifts }} solidarity shifts available at the moment</p>
+                        {% endblocktranslate %}
                     {% endif %}
                 </div>
             </div>
@@ -25,9 +29,13 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Used" %}</h5>
                 <div class="card-body">
                     {% if used_solidarity_shifts_total == 1 %}
+                        {% blocktranslate %}
                         <p>{{ used_solidarity_shifts_total }} solidarity shift has been used in total</p>
+                        {% endblocktranslate %}
                     {% else %}
+                        {% blocktranslate %}
                         <p>{{ used_solidarity_shifts_total }} solidarity shifts have been used in total</p>
+                        {% endblocktranslate %}
                     {% endif %}
                     <span class="{% tapir_button_link %}"
                           onclick="chartManager.show_stats_chart( this, '{% url "shifts:used_solidarity_shifts_json" %}', 'used_solidarity_shifts_canvas', )">
@@ -45,9 +53,13 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Gifted" %}</h5>
                 <div class="card-body">
                     {% if gifted_solidarity_shifts_total == 1 %}
+                        {% blocktranslate %}
                         <p>{{ gifted_solidarity_shifts_total }} solidarity shift has been gifted in total</p>
+                        {% endblocktranslate %}
                     {% else %}
+                        {% blocktranslate %}
                         <p>{{ gifted_solidarity_shifts_total }} solidarity shifts have been gifted in total</p>
+                        {% endblocktranslate %}
                     {% endif %}
                     <span class="{% tapir_button_link %}"
                           onclick="chartManager.show_stats_chart( this, '{% url "shifts:gifted_solidarity_shifts_json" %}', 'gifted_solidarity_shifts_canvas', )">

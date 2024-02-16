@@ -176,7 +176,7 @@
                         {% endblocktranslate %}
                     {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance <= 0 %}
                         {% blocktranslate %}
-                            <p>You cannot receive a Solidarity Shift at the moment</p>
+                            <p data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Solidarity Shifts can only be received while having a negative balance">You cannot receive a Solidarity Shift at the moment</p>
                         {% endblocktranslate %}
 
                     {% elif not user.shift_user_data.get_available_solidarity_shifts %}
