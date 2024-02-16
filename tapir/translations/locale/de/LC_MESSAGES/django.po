@@ -45,7 +45,7 @@ msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
 #: accounts/models.py:155
 msgid "Displayed name"
-msgstr "Angezeigte Name"
+msgstr "Angezeigter Name"
 
 #: accounts/models.py:160 coop/models.py:60 coop/models.py:431
 msgid "Pronouns"
@@ -606,7 +606,7 @@ msgstr "Ist eine Firma"
 
 #: coop/models.py:51 coop/models.py:422
 msgid "Administrative first name"
-msgstr "Amtliche Vorname"
+msgstr "Amtlicher Vorname"
 
 #: coop/models.py:53 coop/models.py:424
 msgid "Last name"
@@ -614,7 +614,7 @@ msgstr "Nachname"
 
 #: coop/models.py:55 coop/models.py:426
 msgid "Usage name"
-msgstr "Angezeigte Name"
+msgstr "Angezeigter Name"
 
 #: coop/models.py:61 coop/models.py:432
 msgid "Email address"
@@ -667,7 +667,7 @@ msgstr "Aktiv"
 
 #: coop/models.py:342
 msgid "Paused"
-msgstr ""
+msgstr "Pausiert"
 
 #: coop/models.py:395
 msgid "Amount paid for a share can't be negative"
@@ -692,7 +692,7 @@ msgstr "Anteil(e) bezahlt"
 
 #: coop/models.py:518
 msgid "Email address must be set."
-msgstr ""
+msgstr "Email-Adresse muss gesetzt sein."
 
 #: coop/models.py:520
 msgid "First name must be set."
@@ -704,15 +704,15 @@ msgstr "Nachname muss gesetzt sein."
 
 #: coop/models.py:524
 msgid "Membership agreement must be signed."
-msgstr ""
+msgstr "Mitgliedsantrag muss unterschrieben sein."
 
 #: coop/models.py:526
 msgid "Amount of requested shares must be positive."
-msgstr ""
+msgstr "Die Anzahl der erwünschten Anteile muss positiv sein."
 
 #: coop/models.py:528
 msgid "Member already created."
-msgstr ""
+msgstr "Mitglied schon vorhanden."
 
 #: coop/models.py:554
 msgid "Paying member"
