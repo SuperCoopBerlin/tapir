@@ -958,6 +958,7 @@ class ShiftUserData(models.Model):
         )
 
     def get_current_shift_exemption(self, date=None):
+        LOGGER.warning('get_current_shift_exemption')
         if not hasattr(self, "shift_exemptions") or self.shift_exemptions is None:
             return None
 
@@ -967,7 +968,9 @@ class ShiftUserData(models.Model):
         return None
 
     def is_currently_exempted_from_shifts(self, date=None):
-        return self.get_current_shift_exemption(date) is not None
+        LOGGER.warning('is_currently_exempted_from_shifts')
+        current_shift_exemption: ShiftExemption = self.get_current_shift_exemption(date)
+        return current_shift_exemption is not None and not current_shift_exemption.continue_abcd_shift
 
     def can_shop(self):
         return self.attendance_mode != ShiftAttendanceMode.FROZEN
@@ -986,6 +989,9 @@ class ShiftExemption(DurationModelMixin, models.Model):
         ShiftUserData, related_name="shift_exemptions", on_delete=models.CASCADE
     )
     description = models.TextField(_("Description"), null=False, blank=False)
+    continue_abcd_shift = models.BooleanField(
+        _("User continues their ABCD shift even with an active exemption"), blank=False, null=False, default=False
+    )
 
     THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT = 6
 
@@ -1109,3 +1115,7 @@ class SolidarityShift(models.Model):
     is_used_up = models.BooleanField(default=False)
     date_gifted = models.DateField(auto_now_add=True)
     date_used = models.DateField(null=True)
+
+import logging
+
+LOGGER = logging.getLogger(__name__)

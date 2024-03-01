@@ -139,6 +139,28 @@ docker compose exec web poetry run python manage.py generate_test_data --reset_a
 docker compose exec web poetry run python manage.py dumpdata accounts.TapirUser shifts.ShiftTemplateGroup shifts.ShiftTemplate shifts.ShiftSlotTemplate shifts.ShiftAttendanceTemplate coop.ShareOwner coop.ShareOwnership > tapir/utils/fixtures/test_data.json
 ```
 
+To select only certain tests, you can use [custom markers](https://docs.pytest.org/en/latest/example/markers.html#using-k-expr-to-select-tests-based-on-their-name) with `-k` option, like this:
+
+```
+-k "register and exemption"
+```
+
+To see output logging records as they are emitted directly into the console use [Live Logs](https://docs.pytest.org/en/latest/how-to/logging.html#live-logs):
+
+```
+-o log_cli=true
+```
+
+And add some logs using:
+
+```python
+import logging
+
+LOGGER = logging.getLogger(__name__)
+
+LOGGER.warning('Your message goes here.')
+```
+
 #### Selenium Tests
 
 You can connect to the selenium container via VNC for debugging purpose. The address is localhost:5900, password :

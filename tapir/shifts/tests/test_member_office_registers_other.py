@@ -1,4 +1,5 @@
 import datetime
+from pprint import pprint
 
 from django.urls import reverse
 
@@ -221,13 +222,53 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
 
         self.assertTrue(
             ShiftAttendance.objects.filter(user=user, slot__shift=shift_1).exists(),
-            "There first shift is before the exemption, it should have an attendance.",
+            "The first shift is before the exemption, it should have an attendance.",
         )
         self.assertFalse(
             ShiftAttendance.objects.filter(user=user, slot__shift=shift_2).exists(),
-            "There second shift is during the exemption, it should not have an attendance.",
+            "The second shift is during the exemption, it should not have an attendance.",
         )
         self.assertTrue(
             ShiftAttendance.objects.filter(user=user, slot__shift=shift_3).exists(),
-            "There third shift is after the exemption, it should have an attendance.",
+            "The third shift is after the exemption, it should have an attendance.",
         )
+
+    def test_register_user_to_abcd_during_exemption_with_forced_abcd_continuation(self):
+        user: TapirUser = TapirUserFactory.create()
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create()
+        shift_1 = shift_template.create_shift(
+            start_date=datetime.date.today() + datetime.timedelta(days=10)
+        )
+        shift_2 = shift_template.create_shift(
+            start_date=datetime.date.today() + datetime.timedelta(days=30)
+        )
+        shift_3 = shift_template.create_shift(
+            start_date=datetime.date.today() + datetime.timedelta(days=50)
+        )
+
+        ShiftExemption.objects.create(
+            shift_user_data=user.shift_user_data,
+            start_date=datetime.date.today() + datetime.timedelta(days=20),
+            end_date=datetime.date.today() + datetime.timedelta(days=40),
+            continue_abcd_shift=True,
+        )
+        self.login_as_member_office_user()
+        register_user_to_shift_template(self.client, user, shift_template)
+
+        self.assertTrue(
+            ShiftAttendance.objects.filter(user=user, slot__shift=shift_1).exists(),
+            "The first shift is before the exemption, it should have an attendance.",
+        )
+        self.assertTrue(
+            ShiftAttendance.objects.filter(user=user, slot__shift=shift_2).exists(),
+            "The second shift is during the exemption, "
+            "but because of the forced continuation it should have an attendance.",
+        )
+        self.assertTrue(
+            ShiftAttendance.objects.filter(user=user, slot__shift=shift_3).exists(),
+            "The third shift is after the exemption, it should have an attendance.",
+        )
+
+import logging
+
+LOGGER = logging.getLogger(__name__)
