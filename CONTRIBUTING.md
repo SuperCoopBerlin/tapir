@@ -66,6 +66,7 @@ Fork-and-Branch Git Workflow" (see for
 example [here](https://github.com/vicente-gonzalez-ruiz/fork_and_branch_git_workflow)).
 
 Find instructions on how to start on our [README.md](README.md).
+
 ##### IDE
 
 We mostly use [PyCharm](https://www.jetbrains.com/pycharm/) for development. You can fully use it for developement.

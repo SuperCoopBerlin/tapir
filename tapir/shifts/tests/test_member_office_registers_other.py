@@ -269,6 +269,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
             "The third shift is after the exemption, it should have an attendance.",
         )
 
+
 import logging
 
 LOGGER = logging.getLogger(__name__)

@@ -4,15 +4,17 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('shifts', '0056_shiftaccountentry_is_solidarity_used'),
+        ("shifts", "0056_shiftaccountentry_is_solidarity_used"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='shiftexemption',
-            name='continue_abcd_shift',
-            field=models.BooleanField(default=False, verbose_name='User continues their ABCD shift even with an active exemption'),
+            model_name="shiftexemption",
+            name="continue_abcd_shift",
+            field=models.BooleanField(
+                default=False,
+                verbose_name="User continues their ABCD shift even with an active exemption",
+            ),
         ),
     ]

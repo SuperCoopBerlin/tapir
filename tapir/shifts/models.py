@@ -678,7 +678,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         if (
             not attendance_template
             or self.get_valid_attendance()
-            or attendance_template.user.shift_user_data.is_currently_exempted_from_shifts(
+            or attendance_template.user.shift_user_data.is_skipping_abcd_shifts(
                 self.shift.start_time.date()
             )
         ):
@@ -958,7 +958,7 @@ class ShiftUserData(models.Model):
         )
 
     def get_current_shift_exemption(self, date=None):
-        LOGGER.warning('get_current_shift_exemption')
+        LOGGER.warning("get_current_shift_exemption")
         if not hasattr(self, "shift_exemptions") or self.shift_exemptions is None:
             return None
 
@@ -968,9 +968,16 @@ class ShiftUserData(models.Model):
         return None
 
     def is_currently_exempted_from_shifts(self, date=None):
-        LOGGER.warning('is_currently_exempted_from_shifts')
+        LOGGER.warning("is_currently_exempted_from_shifts")
+        return self.get_current_shift_exemption(date) is not None
+
+    def is_skipping_abcd_shifts(self, date=None):
+        LOGGER.warning("is_attending_abcd_shifts")
         current_shift_exemption: ShiftExemption = self.get_current_shift_exemption(date)
-        return current_shift_exemption is not None and not current_shift_exemption.continue_abcd_shift
+        return (
+            current_shift_exemption is not None
+            and not current_shift_exemption.continue_abcd_shift
+        )
 
     def can_shop(self):
         return self.attendance_mode != ShiftAttendanceMode.FROZEN
@@ -990,7 +997,10 @@ class ShiftExemption(DurationModelMixin, models.Model):
     )
     description = models.TextField(_("Description"), null=False, blank=False)
     continue_abcd_shift = models.BooleanField(
-        _("User continues their ABCD shift even with an active exemption"), blank=False, null=False, default=False
+        _("User continues their ABCD shift even with an active exemption"),
+        blank=False,
+        null=False,
+        default=False,
     )
 
     THRESHOLD_NB_CYCLES_UNREGISTER_FROM_ABCD_SHIFT = 6
@@ -1115,6 +1125,7 @@ class SolidarityShift(models.Model):
     is_used_up = models.BooleanField(default=False)
     date_gifted = models.DateField(auto_now_add=True)
     date_used = models.DateField(null=True)
+
 
 import logging
 
