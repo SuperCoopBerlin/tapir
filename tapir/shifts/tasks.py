@@ -20,3 +20,8 @@ def generate_shifts():
 @shared_task
 def run_freeze_checks():
     call_command("run_freeze_checks")
+
+
+@shared_task
+def send_create_account_reminder():
+    call_command("send_create_account_reminder")
