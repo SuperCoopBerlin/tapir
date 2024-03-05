@@ -24,7 +24,7 @@ class TestSlotTemplateEdit(TapirFactoryTestBase):
         slot_template.warnings = []
         slot_template.save()
         shift = shift_template.create_shift(
-            datetime.date.today() + datetime.timedelta(days=10)
+            timezone.now().today() + datetime.timedelta(days=10)
         )
         slot = shift.slots.first()
         self.assertEqual([], slot.required_capabilities)
@@ -81,7 +81,7 @@ class TestSlotTemplateEdit(TapirFactoryTestBase):
         slot_template.name = "Name before"
         slot_template.save()
         shift = shift_template.create_shift(
-            datetime.date.today() - datetime.timedelta(days=10)
+            timezone.now().today() - datetime.timedelta(days=10)
         )
         slot = shift.slots.first()
         self.assertEqual("Name before", slot.name)

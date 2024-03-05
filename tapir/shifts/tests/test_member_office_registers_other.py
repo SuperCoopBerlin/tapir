@@ -63,7 +63,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         shift_template = ShiftTemplateFactory.create()
         shift_1 = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=1)
+            start_date=timezone.now().today() + datetime.timedelta(days=1)
         )
 
         self.login_as_member_office_user()
@@ -72,7 +72,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         check_registration_successful_template(self, response, user, shift_template)
 
         shift_2 = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=2)
+            start_date=timezone.now().today() + datetime.timedelta(days=2)
         )
 
         self.assertEqual(
@@ -120,10 +120,10 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         shift_template = ShiftTemplateFactory.create()
 
         shift_free = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=1)
+            start_date=timezone.now().today() + datetime.timedelta(days=1)
         )
         shift_occupied = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=8)
+            start_date=timezone.now().today() + datetime.timedelta(days=8)
         )
 
         ShiftAttendance.objects.create(
@@ -167,7 +167,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         shift_template = ShiftTemplateFactory.create()
         shift = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=1)
+            start_date=timezone.now().today() + datetime.timedelta(days=1)
         )
 
         self.login_as_member_office_user()
@@ -202,19 +202,19 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         user: TapirUser = TapirUserFactory.create()
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
         shift_1 = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=10)
+            start_date=timezone.now().today() + datetime.timedelta(days=10)
         )
         shift_2 = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=30)
+            start_date=timezone.now().today() + datetime.timedelta(days=30)
         )
         shift_3 = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=50)
+            start_date=timezone.now().today() + datetime.timedelta(days=50)
         )
 
         ShiftExemption.objects.create(
             shift_user_data=user.shift_user_data,
-            start_date=datetime.date.today() + datetime.timedelta(days=20),
-            end_date=datetime.date.today() + datetime.timedelta(days=40),
+            start_date=timezone.now().today() + datetime.timedelta(days=20),
+            end_date=timezone.now().today() + datetime.timedelta(days=40),
         )
         self.login_as_member_office_user()
         register_user_to_shift_template(self.client, user, shift_template)

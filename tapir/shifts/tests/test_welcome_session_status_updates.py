@@ -100,7 +100,7 @@ class TestWelcomeSessionStatusUpdates(TapirFactoryTestBase):
             is_from_welcome_session=True,
             user=tapir_user,
             description="Welcome session / Willkommenstreffen",
-            date=datetime.date.today(),
+            date=timezone.now().today(),
             value=1,
         )
 
@@ -131,7 +131,7 @@ class TestWelcomeSessionStatusUpdates(TapirFactoryTestBase):
             is_from_welcome_session=True,
             user=tapir_user,
             description="Welcome session / Willkommenstreffen",
-            date=datetime.date.today(),
+            date=timezone.now().today(),
             value=1,
         )
 
