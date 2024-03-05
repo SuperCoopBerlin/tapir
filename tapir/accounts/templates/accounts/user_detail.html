@@ -22,57 +22,49 @@
     <div class="row">
         <div class="col-xl-6">
             <div class="card mb-2" id="tapir_user_detail_card">
-                <h5 class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <span>{% translate "Personal Data" %}</span>
-                    <span class="d-flex">
+                    <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
                         {% if perms.coop.admin %}
-                            <div class="ms-1">
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
-                                    <span class="material-icons">badge</span>{% translate 'Edit groups' %}
-                                </a>
-                            </div>
-                        {% endif %}
-                        <div class="ms-1">
                             <a class="{% tapir_button_link_to_action %}"
-                               href="{% url 'accounts:edit_username' object.pk %}">
-                                <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
+                                href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
+                                <span class="material-icons">badge</span>{% translate 'Edit groups' %}
                             </a>
-                        </div>
+                        {% endif %}
+                        <a class="{% tapir_button_link_to_action %}"
+                            href="{% url 'accounts:edit_username' object.pk %}">
+                            <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
+                        </a>
                         {% if perms.accounts.manage %}
-                            <div class="ms-1">
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'accounts:user_update' object.pk %}"
-                                   id="tapir_user_edit_button">
-                                    <span class="material-icons">edit</span>{% translate 'Edit' %}
-                                </a>
-                            </div>
+                            <a class="{% tapir_button_link_to_action %}"
+                                href="{% url 'accounts:user_update' object.pk %}"
+                                id="tapir_user_edit_button">
+                                <span class="material-icons">edit</span>{% translate 'Edit' %}
+                            </a>
                         {% else %}
-                            <div class="ms-1">
-                                <a class="{% tapir_button_link_to_action %}"
-                                   href="{% url 'accounts:user_update_self' object.pk %}">
-                                    <span class="material-icons">edit</span>{% translate 'Edit name and pronouns' %}
-                                </a>
-                            </div>
+                            <a class="{% tapir_button_link_to_action %}"
+                                href="{% url 'accounts:user_update_self' object.pk %}">
+                                <span class="material-icons">edit</span>{% translate 'Edit name and pronouns' %}
+                            </a>
                         {% endif %}
                     </span>
                 </h5>
                 <div class="card-body">
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                        <div class="col-8" id="tapir_user_display_name">{% get_display_name_full object %}</div>
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Name" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_display_name">{% get_display_name_full object %}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Username" %}:</div>
-                        <div class="col-8" id="tapir_user_username">{{ object.username }}</div>
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Username" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_username">{{ object.username }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Email" %}:</div>
-                        <div class="col-8" id="tapir_user_email">{{ object.email }}</div>
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Email" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_email">{{ object.email }}</div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Phone number" %}:</div>
-                        <div class="col-8" id="tapir_user_phone_number">
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Phone number" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_phone_number">
                             {% if object.phone_number %}
                                 {{ object.phone_number|format_phone_number }}
                             {% else %}
@@ -81,8 +73,8 @@
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Birthdate" %}:</div>
-                        <div class="col-8" id="tapir_user_birthdate">
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Birthdate" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_birthdate">
                             {% if object.birthdate %}
                                 {{ object.birthdate|date:"d.m.Y" }}
                             {% else %}
@@ -91,8 +83,8 @@
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Address" %}:</div>
-                        <div class="col-8" id="tapir_user_address">
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Address" %}:</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_address">
                             {% if object.street and object.city %}
                                 {{ object.get_display_address }}
                             {% else %}
@@ -101,22 +93,22 @@
                         </div>
                     </div>
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Preferred Language" %}:</div>
-                        <div class="col-8">{{ object.get_preferred_language_display }}</div>
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Preferred Language" %}:</div>
+                        <div class="col-12 col-sm-8">{{ object.get_preferred_language_display }}</div>
                     </div>
                     {% if perms.accounts.view %}
                         <div class="row m-1">
-                            <div class="col-4 fw-bold text-end">{% translate "Groups" %}:</div>
-                            <div class="col-8">{{ object.get_groups_display }}</div>
+                            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Groups" %}:</div>
+                            <div class="col-12 col-sm-8">{{ object.get_groups_display }}</div>
                         </div>
                         <div class="row m-1">
-                            <div class="col-4 fw-bold text-end">{% translate "Permissions" %}:</div>
-                            <div class="col-8">{{ object.get_permissions_display }}</div>
+                            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Permissions" %}:</div>
+                            <div class="col-12 col-sm-8">{{ object.get_permissions_display }}</div>
                         </div>
                     {% endif %}
                     <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Co-Purchaser" %}:</div>
-                        <div class="col-8">
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Co-Purchaser" %}:</div>
+                        <div class="col-12 col-sm-8">
                             {% if object.co_purchaser %}
                                 {{ object.co_purchaser }}
                             {% else %}
@@ -124,7 +116,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="d-flex justify-content-sm-end m-1 mt-3">
+                    <div class="d-flex justify-content-end flex-fill flex-wrap gap-2 m-1 mt-3">
                         {% if perms.accounts.manage %}
                             <div class="ms-1">
                                 <form method="post"
