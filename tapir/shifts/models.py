@@ -474,6 +474,9 @@ class Shift(models.Model):
     cancelled = models.BooleanField(default=False)
     cancelled_reason = models.CharField(null=True, max_length=1000)
 
+    warning_time = models.DurationField(default=datetime.timedelta(days=2))
+    has_been_warned = models.BooleanField(default=False)
+
     NB_DAYS_FOR_SELF_UNREGISTER = 7
     NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
 

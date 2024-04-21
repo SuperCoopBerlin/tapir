@@ -127,6 +127,10 @@ CELERY_BEAT_SCHEDULE = {
             hour="*/2", minute=5
         ),  # Every two hours five minutes after the hour
     },
+    "send_shift_understaffed_warnings": {
+        "task": "tapir.shifts.tasks.send_shift_understaffed_warnings",
+        "schedule": celery.schedules.crontab(hour="*/2", minute="5"),
+    },
     "apply_shift_cycle_start": {
         "task": "tapir.shifts.tasks.apply_shift_cycle_start",
         "schedule": celery.schedules.crontab(hour="*/2", minute=20),

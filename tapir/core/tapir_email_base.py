@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Type
+from typing import List, Type, TYPE_CHECKING, Dict
 
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
@@ -8,11 +8,21 @@ from django.template import loader
 from django.utils import translation
 
 from tapir import settings
-from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner
+
+if TYPE_CHECKING:
+    # ignore at runtime to avoid circular import
+    from tapir.accounts.models import TapirUser
+    from tapir.coop.models import ShareOwner
 from tapir.log.models import EmailLogEntry
 
-all_emails = {}
+all_emails: Dict[str, Type[TapirEmailBase]] = {}
+
+
+def get_all_emails() -> List[str]:
+    return [key for key, value in all_emails.items()]
+
+
+EMAIL_CHOICES = [("tapir.shifts.shift_understaffed_mail", "Schicht mit Personalmangel")]
 
 
 class TapirEmailBase:
