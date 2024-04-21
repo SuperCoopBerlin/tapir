@@ -24,14 +24,19 @@ class Command(BaseCommand):
             start_time__gte=timezone.now(),
             has_been_warned=False,
         )
+        understaffed_shifts = [
+            shift
+            for shift in shifts
+            if shift.get_num_required_attendances() > len(shift.get_valid_attendances())
+        ]
         for user in TapirUser.objects.filter(
             wanted_emails__contains=["tapir.shifts.shift_understaffed_mail"]
         ):
             with transaction.atomic():
-                mail = ShiftUnderstaffedEmail(shifts=shifts)
+                mail = ShiftUnderstaffedEmail(shifts=understaffed_shifts)
                 mail.send_to_tapir_user(actor=None, recipient=user)
                 time.sleep(0.1)
-        for shift in shifts:
+        for shift in understaffed_shifts:
             shift.has_been_warned = True
             shift.save()
             time.sleep(0.1)
