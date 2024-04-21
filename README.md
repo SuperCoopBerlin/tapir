@@ -1,10 +1,17 @@
 # Tapir Member & Shift Management System
 
+[![Code style: djLint](https://img.shields.io/badge/html%20style-djLint-blue.svg)](https://github.com/djlint/djlint)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 Tapir is a member and shift management system of the food cooperative [SuperCoop Berlin](https://supercoop.de).
 Our Vorstand and member office uses Tapir to manage shifts and members, for example their personal data, capabilities,
 payments and shift statuses. It is also used for automatic mails and evaluate new applicants.
 Members can use Tapir to register or unregister for shifts, search for a stand-in and see their shift status as well as
 upcoming shifts.
+
+
+
+[:book: Documentation for Developers](CONTRIBUTING.md#documentation).
 
 <img src="https://user-images.githubusercontent.com/18083323/179391686-4cfa724f-4847-4859-aba4-f074722d69ca.png" width="68%"/> <img src="https://user-images.githubusercontent.com/18083323/179391799-96f4e204-9bd2-4739-b8f9-3bc25a70f717.JPG" width="22.6%"/>
 
