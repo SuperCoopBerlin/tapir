@@ -1,24 +1,45 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms
 from django.core.exceptions import ValidationError
-from django.forms import TextInput
+from django.forms import TextInput, CheckboxSelectMultiple
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.accounts.models import TapirUser, LdapGroup
+from tapir.core.tapir_email_base import EMAIL_CHOICES
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
-class TapirUserForm(forms.ModelForm):
-    phone_number = TapirPhoneNumberField(required=False)
+class TapirUserSelfUpdateForm(forms.ModelForm):
+    wanted_emails = forms.MultipleChoiceField(
+        required=False,
+        # Frederik: why can't choices pick it from the model
+        choices=EMAIL_CHOICES,
+        widget=CheckboxSelectMultiple(
+            attrs={
+                "readonly": [
+                    "tapir.accounts.create_account_reminder",
+                    "tapir.shifts.shift_missed",
+                ]
+            }
+        ),
+        label=_("Wanted Emails"),
+    )
 
     class Meta:
         model = TapirUser
+        fields = ["usage_name", "pronouns", "wanted_emails"]
+        widgets = {}
+
+
+class TapirUserForm(TapirUserSelfUpdateForm):
+    phone_number = TapirPhoneNumberField(required=False)
+
+    class Meta(TapirUserSelfUpdateForm.Meta):
+        # model = TapirUser
         fields = [
             "first_name",
             "last_name",
-            "usage_name",
-            "pronouns",
             "username",
             "phone_number",
             "email",
@@ -29,20 +50,12 @@ class TapirUserForm(forms.ModelForm):
             "city",
             "preferred_language",
             "co_purchaser",
-        ]
-        widgets = {
+        ] + TapirUserSelfUpdateForm.Meta.fields
+
+        widgets = TapirUserSelfUpdateForm.Meta.widgets | {
             "birthdate": DateInputTapir(),
             "username": TextInput(attrs={"readonly": True}),
         }
-
-
-class TapirUserSelfUpdateForm(forms.ModelForm):
-    class Meta:
-        model = TapirUser
-        fields = [
-            "usage_name",
-            "pronouns",
-        ]
 
 
 class PasswordResetForm(auth_forms.PasswordResetForm):

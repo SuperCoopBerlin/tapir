@@ -50,6 +50,8 @@
                     </span>
                 {% endif %}
             </h5>
+            <span>{% translate "Understaffed-warning time is" %}  {{ shift.warning_time }} ahead.</span>
+
             {% if shift.shift_template %}
                 <span>{% translate "Generated from" %}:
                     <a href="{{ shift.shift_template.get_absolute_url }}">{{ shift.shift_template.get_display_name }}</a>

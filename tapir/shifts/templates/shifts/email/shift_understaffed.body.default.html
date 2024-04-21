@@ -1,0 +1,31 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    {% get_display_name_short member_infos as display_name_short %}
+    {% blocktranslate %}
+        <p>Hi {{ display_name_short }},</p>
+
+        <p>This is an automatically sent email from SuperCoop to inform you about one or more upcoming understaffed shifts:</p>
+    {% endblocktranslate %}
+        {% for shift in shifts %}
+            <li>{{ shift|safe }}</li>
+        {% endfor %}
+
+    <p>
+        {% blocktranslate %}
+           You have received this mail because you subscribed to the respective mail in your settings.
+        {% endblocktranslate %}
+        {% blocktranslate %}
+            Before you start your next shift, we would like to ask you to check the wiki for the latest information
+            about the shift system. You can find all the latest updates on our
+            <a href="https://wiki.supercoop.de/wiki/Schicht-News">shift news wiki page.</a>
+        {% endblocktranslate %}
+    </p>
+    <p>
+        {% blocktranslate %}
+            Cooperative Greetings, <br />
+            The Member Office
+        {% endblocktranslate %}
+    </p>
+{% endblock body %}

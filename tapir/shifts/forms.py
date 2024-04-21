@@ -34,6 +34,7 @@ class ShiftCreateForm(forms.ModelForm):
             "end_time",
             "num_required_attendances",
             "description",
+            "warning_time",
         ]
         widgets = {
             "start_time": forms.widgets.DateTimeInput(
