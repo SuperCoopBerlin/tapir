@@ -4,11 +4,13 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_base import TapirEmailBase
-
 from tapir.shifts.models import Shift
 
 
 class ShiftUnderstaffedEmail(TapirEmailBase):
+    default = False
+    mandatory = False
+
     def __init__(self, shifts: List[Shift]):
         super().__init__()
         self.shifts = shifts

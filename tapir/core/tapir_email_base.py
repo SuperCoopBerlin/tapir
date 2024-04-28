@@ -18,14 +18,47 @@ from tapir.log.models import EmailLogEntry
 all_emails: Dict[str, Type[TapirEmailBase]] = {}
 
 
-def get_all_emails() -> List[str]:
-    return [key for key, value in all_emails.items()]
+def get_all_emails(default=True) -> List[str]:
+    if default is None:
+        return get_all_default_emails()
+    else:
+        return [key for key, value in all_emails.items()]
 
 
-EMAIL_CHOICES = [("tapir.shifts.shift_understaffed_mail", "Schicht mit Personalmangel")]
+def get_all_default_emails() -> List[str]:
+    return [key for key, value in all_emails.items() if value.default is True]
+
+
+EMAIL_CHOICES = [
+    ("tapir.accounts.create_account_reminder", "Konto erstellen Erinnerung"),
+    ("tapir.shifts.shift_missed", "Schicht versäumt"),
+    ("tapir.shifts.shift_reminder", "Schicht-Erinnerung"),
+    ("tapir.shifts.stand_in_found", "Vertretung gefunden"),
+    ("tapir.shifts.member_frozen", "Shift status set to frozen"),
+    ("tapir.shifts.freeze_warning", "Freeze warning"),
+    ("tapir.shifts.unfreeze_notification", "Unfreeze Notification"),
+    ("tapir.coop.extra_shares_confirmation", "Extra shares bought"),
+    (
+        "tapir.coop.membership_confirmation.active",
+        "Mitgliedsbestätigung für aktive Mitglieder",
+    ),
+    (
+        "tapir.coop.membership_confirmation.investing",
+        "Mitgliedsbestätigung für investierende Mitglieder",
+    ),
+    ("tapir.accounts.tapir_account_created", "Tapir-Konto erstellt"),
+    ("tapir.coop.co_purchaser_updated_mail", "Mitkäufer*in aktualisiert"),
+    (
+        "tapir.shifts.shift_understaffed_mail",
+        "Schicht mit Personalmangel (automatische Warnung)",
+    ),
+]
 
 
 class TapirEmailBase:
+    default = True
+    mandatory = True
+
     class Meta:
         abstract = True
 
