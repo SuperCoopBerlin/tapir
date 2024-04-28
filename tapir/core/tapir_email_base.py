@@ -18,15 +18,15 @@ from tapir.log.models import EmailLogEntry
 all_emails: Dict[str, Type[TapirEmailBase]] = {}
 
 
-def get_all_emails(default=True) -> List[str]:
-    if default is None:
-        return get_all_default_emails()
+def get_all_emails(default: bool | None = True) -> List[str]:
+    if default is not None:
+        return [
+            mail.get_unique_id()
+            for mail in TapirEmailBase.__subclasses__()
+            if mail.default is default
+        ]
     else:
-        return [key for key, value in all_emails.items()]
-
-
-def get_all_default_emails() -> List[str]:
-    return [key for key, value in all_emails.items() if value.default is True]
+        return [mail.get_unique_id() for mail in TapirEmailBase.__subclasses__()]
 
 
 EMAIL_CHOICES = [
