@@ -6,21 +6,33 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.accounts.models import TapirUser, LdapGroup
-from tapir.core.tapir_email_base import mails_not_mandatory
+from tapir.core.tapir_email_base import mails_not_mandatory, mails_mandatory
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
 class TapirUserSelfUpdateForm(forms.ModelForm):
-    wanted_emails = forms.MultipleChoiceField(
+    additional_mails = forms.MultipleChoiceField(
         required=False,
-        choices=mails_not_mandatory,
+        choices=mails_not_mandatory(default=None),
         widget=CheckboxSelectMultiple(),
-        label=_("Wanted Emails"),
+        label=_("Additional Emails"),
     )
+
+    mandatory_mails = forms.MultipleChoiceField(
+        required=False,
+        choices=mails_mandatory(default=None),
+        label=_("Mandatory Emails"),
+        widget=CheckboxSelectMultiple(),
+        initial=[m[0] for m in mails_mandatory(default=None)],
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["mandatory_mails"].disabled = True
 
     class Meta:
         model = TapirUser
-        fields = ["usage_name", "pronouns", "wanted_emails"]
+        fields = ["usage_name", "pronouns", "additional_mails"]
         widgets = {}
 
 

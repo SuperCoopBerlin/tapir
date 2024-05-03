@@ -19,7 +19,7 @@ from tapir import utils
 from tapir.accounts import validators
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
-from tapir.core.tapir_email_base import get_all_emails
+from tapir.core.tapir_email_base import mails_not_mandatory
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import PERMISSIONS
 from tapir.utils.models import CountryField
@@ -171,12 +171,12 @@ class TapirUser(LdapUser):
     allows_purchase_tracking = models.BooleanField(
         _("Allow purchase tracking"), blank=False, null=False, default=False
     )
-    wanted_emails = ArrayField(
+    additional_mails = ArrayField(
         models.CharField(
             max_length=128,
             blank=False,
         ),
-        default=get_all_emails,
+        default=mails_not_mandatory,
         blank=True,
         null=False,
         # verbose_name="List of wanted mails by that user",
