@@ -6,23 +6,15 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.accounts.models import TapirUser, LdapGroup
-from tapir.core.tapir_email_base import EMAIL_CHOICES
+from tapir.core.tapir_email_base import mails_not_mandatory
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
 class TapirUserSelfUpdateForm(forms.ModelForm):
     wanted_emails = forms.MultipleChoiceField(
         required=False,
-        # Frederik: why can't choices pick it from the model
-        choices=EMAIL_CHOICES,
-        widget=CheckboxSelectMultiple(
-            attrs={
-                "readonly": [
-                    "tapir.accounts.create_account_reminder",
-                    "tapir.shifts.shift_missed",
-                ]
-            }
-        ),
+        choices=mails_not_mandatory,
+        widget=CheckboxSelectMultiple(),
         label=_("Wanted Emails"),
     )
 

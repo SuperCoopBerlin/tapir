@@ -19,7 +19,7 @@ from tapir import utils
 from tapir.accounts import validators
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
-from tapir.core.tapir_email_base import EMAIL_CHOICES, get_all_emails
+from tapir.core.tapir_email_base import get_all_emails
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import PERMISSIONS
 from tapir.utils.models import CountryField
@@ -174,8 +174,6 @@ class TapirUser(LdapUser):
     wanted_emails = ArrayField(
         models.CharField(
             max_length=128,
-            # TODO Django 5.0 accepts callables as choices - redo when Tapir is updated!
-            choices=EMAIL_CHOICES,
             blank=False,
         ),
         default=get_all_emails,

@@ -21,7 +21,7 @@ class ShiftUnderstaffedEmail(TapirEmailBase):
 
     @classmethod
     def get_name(cls) -> str:
-        return _("Shift warning")
+        return _("Shift is understaffed warning")
 
     @classmethod
     def get_description(cls) -> str:
