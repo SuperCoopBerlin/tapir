@@ -18,22 +18,28 @@ from tapir.log.models import EmailLogEntry
 all_emails: Dict[str, Type[TapirEmailBase]] = {}
 
 
-def get_all_emails(default: bool | None = True) -> List[str]:
+def get_all_emails(default: bool | None = True) -> list[Type[TapirEmailBase]]:
     if default is not None:
         return [
-            mail.get_unique_id()
-            for mail in TapirEmailBase.__subclasses__()
-            if mail.default is default
+            mail for mail in TapirEmailBase.__subclasses__() if mail.default is default
         ]
     else:
-        return [mail.get_unique_id() for mail in TapirEmailBase.__subclasses__()]
+        return [mail for mail in TapirEmailBase.__subclasses__()]
 
 
-def mails_not_mandatory() -> List[Tuple[str, str]]:
+def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
     return [
         (mail.get_unique_id(), mail.get_name())
-        for mail in TapirEmailBase.__subclasses__()
+        for mail in get_all_emails(default=default)
         if mail.mandatory is False
+    ]
+
+
+def mails_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
+    return [
+        (mail.get_unique_id(), mail.get_name())
+        for mail in get_all_emails(default=default)
+        if mail.mandatory is True
     ]
 
 

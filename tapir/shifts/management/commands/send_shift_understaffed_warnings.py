@@ -29,7 +29,7 @@ class Command(BaseCommand):
             if shift.get_num_required_attendances() > len(shift.get_valid_attendances())
         ]
         for user in TapirUser.objects.filter(
-            wanted_emails__contains=["tapir.shifts.shift_understaffed_mail"]
+            additional_mails__contains=["tapir.shifts.shift_understaffed_mail"]
         ):
             with transaction.atomic():
                 mail = ShiftUnderstaffedEmail(shifts=understaffed_shifts)
