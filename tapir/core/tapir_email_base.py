@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Type, TYPE_CHECKING, Dict
+from typing import List, Type, TYPE_CHECKING, Dict, Tuple
 
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
@@ -29,30 +29,12 @@ def get_all_emails(default: bool | None = True) -> List[str]:
         return [mail.get_unique_id() for mail in TapirEmailBase.__subclasses__()]
 
 
-EMAIL_CHOICES = [
-    ("tapir.accounts.create_account_reminder", "Konto erstellen Erinnerung"),
-    ("tapir.shifts.shift_missed", "Schicht versäumt"),
-    ("tapir.shifts.shift_reminder", "Schicht-Erinnerung"),
-    ("tapir.shifts.stand_in_found", "Vertretung gefunden"),
-    ("tapir.shifts.member_frozen", "Shift status set to frozen"),
-    ("tapir.shifts.freeze_warning", "Freeze warning"),
-    ("tapir.shifts.unfreeze_notification", "Unfreeze Notification"),
-    ("tapir.coop.extra_shares_confirmation", "Extra shares bought"),
-    (
-        "tapir.coop.membership_confirmation.active",
-        "Mitgliedsbestätigung für aktive Mitglieder",
-    ),
-    (
-        "tapir.coop.membership_confirmation.investing",
-        "Mitgliedsbestätigung für investierende Mitglieder",
-    ),
-    ("tapir.accounts.tapir_account_created", "Tapir-Konto erstellt"),
-    ("tapir.coop.co_purchaser_updated_mail", "Mitkäufer*in aktualisiert"),
-    (
-        "tapir.shifts.shift_understaffed_mail",
-        "Schicht mit Personalmangel (automatische Warnung)",
-    ),
-]
+def mails_not_mandatory() -> List[Tuple[str, str]]:
+    return [
+        (mail.get_unique_id(), mail.get_name())
+        for mail in TapirEmailBase.__subclasses__()
+        if mail.mandatory is False
+    ]
 
 
 class TapirEmailBase:
