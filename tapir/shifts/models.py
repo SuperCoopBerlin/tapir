@@ -474,7 +474,12 @@ class Shift(models.Model):
     cancelled = models.BooleanField(default=False)
     cancelled_reason = models.CharField(null=True, max_length=1000)
 
-    warning_time = models.DurationField(default=datetime.timedelta(days=2))
+    warning_time = models.DurationField(
+        default=datetime.timedelta(days=-1),
+        help_text=_(
+            "Negative values deactivate function.\n The format is Day Hour:Minute:Second"
+        ),
+    )
     has_been_warned = models.BooleanField(default=False)
 
     NB_DAYS_FOR_SELF_UNREGISTER = 7

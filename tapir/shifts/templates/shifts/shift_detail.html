@@ -1,8 +1,10 @@
 {% extends "shifts/base.html" %}
+{% load negative_deactivated %}
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load core %}
 {% load utils %}
+{% load shifts %}
 {% block title %}
     {% translate 'Shift' %}: {{ shift.get_display_name }}
 {% endblock title %}
@@ -50,8 +52,9 @@
                     </span>
                 {% endif %}
             </h5>
-            <span>{% blocktranslate with warning_time=shift.warning_time %}Understaffed-warning time is
-                {{ warning_time }} ahead.{% endblocktranslate %}
+            <span>{% blocktranslate with warning_time=shift.warning_time|negative_deactivated %}
+                Understaffed-warning time is {{ warning_time }} ahead.
+            {% endblocktranslate %}
 
                 {% if shift.shift_template %}
                     <span>{% translate "Generated from" %}:

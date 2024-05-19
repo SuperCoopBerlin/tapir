@@ -19,6 +19,7 @@ class Command(BaseCommand):
     @staticmethod
     def send_shift_understaffed_warnings_for_user():
         shifts = Shift.objects.filter(
+            warning_time__gt=0,
             start_time__lte=timezone.now() + F("warning_time"),
             start_time__gte=timezone.now(),
             has_been_warned=False,
