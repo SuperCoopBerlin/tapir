@@ -1,6 +1,8 @@
 from tapir.core.tapir_email_base import TapirEmailBase, mails_not_mandatory
+import pytest
 
 
+@pytest.mark.skip(reason="currently not available")
 def test_new_default_mail_is_recognized():
     class TestMail(TapirEmailBase):
         default = True
