@@ -1,0 +1,1 @@
+# TODO 1. Test dass negative DurationField nicht gesendet wird
