@@ -6,6 +6,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator
 from django.db import models, transaction
 from django.db.models import Sum, Q
 from django.db.models.signals import pre_save
@@ -436,6 +437,14 @@ class DeleteShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
     template_name = "shifts/log/delete_shift_attendance_template_log_entry.html"
 
 
+def validate_duration_minimum(value):
+    if datetime.timedelta(minutes=0) < value < datetime.timedelta(minutes=15):
+        raise ValidationError(
+            _("%(value)s has to be negative or more than 15 minutes"),
+            params={"value": value},
+        )
+
+
 class Shift(models.Model):
     # ShiftTemplate that this shift was generated from, may be null for manually-created shifts
     shift_template = models.ForeignKey(
@@ -476,6 +485,10 @@ class Shift(models.Model):
         help_text=_(
             "Negative values deactivate function.\n The format is Day Hour:Minute:Second"
         ),
+        validators=[
+            validate_duration_minimum,
+            MaxValueValidator(limit_value=datetime.timedelta(days=7)),
+        ],
     )
     has_been_warned = models.BooleanField(default=False)
 
