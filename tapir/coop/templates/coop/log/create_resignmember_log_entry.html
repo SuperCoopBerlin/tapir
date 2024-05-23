@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktranslate with member=entry.values.share_owner cancellation_reason=entry.values.cancellation_reason %}
+Member resigned for reason: {{ cancellation_reason }}
+{% endblocktranslate %}

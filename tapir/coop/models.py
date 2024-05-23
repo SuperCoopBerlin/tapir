@@ -23,7 +23,6 @@ from tapir.utils.models import (
 from tapir.utils.shortcuts import get_html_link
 from tapir.utils.user_utils import UserUtils
 
-
 class ShareOwner(models.Model):
     """ShareOwner represents a share_owner of a ShareOwnership.
 
@@ -386,7 +385,7 @@ class ShareOwnership(DurationModelMixin, models.Model):
         max_digits=10,
         decimal_places=2,
     )
-
+    
     def is_fully_paid(self):
         return self.amount_paid >= COOP_SHARE_PRICE
 
@@ -716,6 +715,73 @@ class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
         return super().populate_base(
             actor=actor,
             share_owner=pause.share_owner,
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+        )
+
+class ResignedMembership(models.Model):
+    share_owner = models.ForeignKey(
+        ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Shareowner")
+    )
+    cancellation_date = models.DateField(
+        default=timezone.now(),
+        blank=True,
+        null=True,
+        )
+    pay_out_day = models.DateField(null=True)
+    cancellation_reason = models.CharField(max_length = 1000)
+    coop_buys_shares_back = models.BooleanField()
+    willing_to_gift_shares_to_coop = models.BooleanField()
+    transfering_shares_to = models.ForeignKey(
+        TapirUser, on_delete=models.deletion.CASCADE, verbose_name=_("TapirUser"), null=True,
+    )
+    paid_out = models.BooleanField(default=False)
+
+    class ResignedMemberQuerySet(models.QuerySet):
+        def with_term(self, search_string: str):
+            searches = [s for s in search_string.split(" ") if s != ""]
+
+            for search in searches:
+                word_filter = (
+                    Q(share_owner__user__usage_name__unaccent__icontains=search)
+                    | Q(share_owner__user__first_name__unaccent__icontains=search)
+                    | Q(share_owner__user__last_name__unaccent__icontains=search)
+                    | Q(share_owner__id__icontains=search)
+                )
+            return self.filter(word_filter)
+
+    objects = ResignedMemberQuerySet.as_manager()
+
+class ResignMembershipCreateLogEntry(ModelLogEntry):
+    template_name = "coop/log/create_resignmember_log_entry.html"
+
+    def populate(
+        self,
+        actor: User,
+        model: ResignedMembership,
+    ):
+        return super().populate_base(
+            actor=actor, share_owner=model.share_owner, model=model
+        )
+    
+    # def get_context_data(self, **kwargs):
+    #     context_data = super().get_context_data()
+    #     context_data["cancellation_reason"] = ResignedMembership.objects.get(pk=self.model.pk).cancellation_reason
+    #     return context_data
+
+class ResignMembershipUpdateLogEntry(UpdateModelLogEntry):
+    template_name = "coop/log/update_resignmember_log_entry.html"
+
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        model: ResignedMembership,
+        actor: User,
+    ):
+        return super().populate_base(
+            actor=actor,
+            share_owner=model.share_owner,
             old_frozen=old_frozen,
             new_frozen=new_frozen,
         )
