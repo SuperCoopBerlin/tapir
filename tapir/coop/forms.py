@@ -251,10 +251,8 @@ class MembershipPauseForm(forms.ModelForm):
     share_owner = ShareOwnerChoiceField()
 
 class MembershipCancelForm(forms.ModelForm):
-    now = timezone.now()
-    already_resigned = ResignedMembership.objects.all()
+    already_resigned = ResignedMembership.objects.values("share_owner")
     in_three_years = _(f"Coop buys back share(s)")
-                        # at 31/12/{int(now.strftime("%Y"))+3}')
     cancellation_reason = forms.CharField(max_length=1000, widget=forms.Textarea(
         attrs={"rows": 2, "placeholder": _("Please not more than 1000 characters.")}
         ))
@@ -285,8 +283,8 @@ class MembershipCancelForm(forms.ModelForm):
         errmsg = _("Please take only one choice.")
 
         if self.instance.pk is None:
-            for owner in self.already_resigned:
-                if owner.share_owner == share_owner:
+            for alreadyResignedMember in self.already_resigned.values("share_owner"):
+                if alreadyResignedMember['share_owner'] == share_owner.id:
                     self.add_error("share_owner", ValidationError(
                     _("This member is already resigned.")
                     ))

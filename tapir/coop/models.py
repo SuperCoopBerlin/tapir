@@ -726,7 +726,6 @@ class ResignedMembership(models.Model):
     cancellation_date = models.DateField(
         default=timezone.now(),
         blank=True,
-        null=True,
         )
     pay_out_day = models.DateField(null=True)
     cancellation_reason = models.CharField(max_length = 1000)
@@ -751,7 +750,7 @@ class ResignedMembership(models.Model):
             return self.filter(word_filter)
 
     objects = ResignedMemberQuerySet.as_manager()
-
+    
 class ResignMembershipCreateLogEntry(ModelLogEntry):
     template_name = "coop/log/create_resignmember_log_entry.html"
 
@@ -763,12 +762,6 @@ class ResignMembershipCreateLogEntry(ModelLogEntry):
         return super().populate_base(
             actor=actor, share_owner=model.share_owner, model=model
         )
-    
-    # def get_context_data(self, **kwargs):
-    #     context_data = super().get_context_data()
-    #     context_data["cancellation_reason"] = ResignedMembership.objects.get(pk=self.model.pk).cancellation_reason
-    #     return context_data
-
 class ResignMembershipUpdateLogEntry(UpdateModelLogEntry):
     template_name = "coop/log/update_resignmember_log_entry.html"
 

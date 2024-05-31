@@ -77,6 +77,9 @@ class ResignedShareOwnerTable(django_tables2.Table):
     def render_cancellation_reason(self, record: ResignedMembership):
         return f"{record.cancellation_reason}"
     
+    def render_cancellation_date(self, record: ResignedMembership):
+        return record.cancellation_date.strftime("%d/%m/%Y")
+    
     def render_pay_out_day(self, record: ResignedMembership):
         if record.willing_to_gift_shares_to_coop:
             return "Gifted " + chr(8594) + " coop"
@@ -133,7 +136,6 @@ class ResignedShareOwnersList(
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data["total_of_resigned_members"] = ResignedMembership.objects.count()
-        # context_data["resigned_member"] = ResignedMembership.objects.filter(id=self.kwargs["pk"])
         return context_data
 
 class ResignShareOwnerEditView(LoginRequiredMixin, 
@@ -146,12 +148,6 @@ class ResignShareOwnerEditView(LoginRequiredMixin,
     form_class = MembershipCancelForm
     permission_required = PERMISSION_COOP_MANAGE
     success_url = reverse_lazy("coop:resigned_members_list")
-
-    # def get_form_kwargs(self):
-    #     share_owner = super().get_share_owner() 
-    #     kwargs = super(MembershipCancelForm, self).get_form_kwargs()
-    #     kwargs.update({'share_owner': share_owner})
-    #     return kwargs
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)    
