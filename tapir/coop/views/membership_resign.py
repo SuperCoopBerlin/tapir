@@ -23,8 +23,6 @@ from tapir.log.views import UpdateViewLogMixin
 from tapir.log.util import freeze_for_log
 
 from django.db import transaction
-
-
 class ResignedShareOwnerTable(django_tables2.Table):
     class Meta: 
         model = ResignedMembership
@@ -90,17 +88,9 @@ class ResignedShareOwnerTable(django_tables2.Table):
     def render_add_buttons(self, value, record: ResignedMembership):
         return format_html(
             "<a href='{}' class='{}'>{}</a>",
-            # <form action='{}' method='{}'>{}</form>",
             reverse_lazy("coop:resignedmember_detail", args=[record.pk]),
             tapir_button_link_to_action(),
             format_html("<span class='material-icons'>edit</span>"),
-            # reverse_lazy('coop:resign_member_remove', kwargs={'pk': record.pk}),
-            # "POST",
-            # format_html("<input type='hidden' name='csrfmiddlewaretoken' value='{}' />",
-            #             csrf(html_request)['csrf_token']),
-            # format_html("<button class='{}'><span class='material-icons'>cancel</span></button>",
-            #             tapir_button_link_to_action(),
-            #             ),
         )
 
 class ResignedMemberFilter(django_filters.FilterSet):
@@ -114,8 +104,6 @@ class ResignedMemberFilter(django_filters.FilterSet):
 
     @staticmethod
     def display_name_filter(queryset: ResignedMembership.ResignedMemberQuerySet, name, value: str):
-        # if value.isdigit():
-        #     return queryset.filter(id=int(value))
         return queryset.with_term(value).distinct()
 
 
@@ -151,7 +139,6 @@ class ResignShareOwnerEditView(LoginRequiredMixin,
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)    
-        # share_owner = super().get_share_owner()    
         context_data["page_title"] = _("Cancel membership of %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
                 person=self.object.share_owner, viewer=self.request.user
@@ -226,4 +213,3 @@ class ResignedShareOwnerRemoveFromListView(
         self.object.delete()
         response = redirect(self.success_url)
         return response
-        
