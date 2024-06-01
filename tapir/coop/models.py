@@ -724,7 +724,7 @@ class ResignedMembership(models.Model):
         ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Shareowner")
     )
     cancellation_date = models.DateField(
-        default=timezone.now(),
+        default=timezone.now,
         blank=True,
         )
     pay_out_day = models.DateField(null=True)

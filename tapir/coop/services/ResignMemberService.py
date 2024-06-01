@@ -15,8 +15,8 @@ class ResignMemberService:
             return
         
         new_end_date = member.cancellation_date
-        new_end_date = new_end_date.replace(day=31)
         new_end_date = new_end_date.replace(month=12)
+        new_end_date = new_end_date.replace(day=31)
         new_end_date = new_end_date.replace(year=new_end_date.year + 3)
         ShareOwnership.objects.filter(share_owner=member.share_owner).update(end_date=new_end_date)
 
