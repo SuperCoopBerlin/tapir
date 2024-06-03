@@ -50,7 +50,7 @@
             </div>                
             <div class="row m-1">
                 <div class="col-3 fw-bold text-end">{% translate "Cancellation date" %}:</div>
-                <div class="col-9" id="resigendmember_cancellation_date">{{ object.cancellation_date }}</div>
+                <div class="col-9" id="resigendmember_cancellation_date">{{ object.cancellation_date|date:"d.m.Y" }}</div>
             </div>   
             {% if object.coop_buys_shares_back %}
                 <div class="row m-1">
