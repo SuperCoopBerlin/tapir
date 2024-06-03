@@ -205,6 +205,7 @@ def share_ownership_delete(request, pk):
         share_ownership.delete()
 
     return redirect(share_owner)
+
 class ShareOwnerDetailView(
     LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
 ):
