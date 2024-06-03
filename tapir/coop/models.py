@@ -385,7 +385,7 @@ class ShareOwnership(DurationModelMixin, models.Model):
         max_digits=10,
         decimal_places=2,
     )
-    
+
     def is_fully_paid(self):
         return self.amount_paid >= COOP_SHARE_PRICE
 
