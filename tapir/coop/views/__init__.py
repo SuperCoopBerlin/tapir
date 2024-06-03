@@ -4,3 +4,4 @@ from .management import *
 from .membership_pause import *
 from .shareowner import *
 from .statistics import *
+from .membership_resign import *

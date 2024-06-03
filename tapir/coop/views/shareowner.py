@@ -206,7 +206,6 @@ def share_ownership_delete(request, pk):
 
     return redirect(share_owner)
 
-
 class ShareOwnerDetailView(
     LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
 ):
@@ -692,7 +691,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     @staticmethod
     def display_name_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         # This is an ugly hack to enable searching by Mitgliedsnummer from the
-        # one-stop search box in the top right
+        # one-stop search box in the t  op right
         if value.isdigit():
             return queryset.filter(id=int(value))
 
