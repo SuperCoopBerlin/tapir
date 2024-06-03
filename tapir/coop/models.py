@@ -206,7 +206,7 @@ class ShareOwner(models.Model):
 
     def get_display_name(self, display_type):
         return UserUtils.build_display_name(self, display_type)
-
+    
     def get_html_link(self, display_type):
         return get_html_link(
             url=self.get_absolute_url(), text=self.get_display_name(display_type)
