@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load core %}
 <div class="card mb-2" id="user_coop_info_card">
-    <h5 class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         {% if share_owner %}
             <span>
                 {% blocktranslate with coop_share_owner_id=share_owner.id %}
@@ -10,7 +10,7 @@
                 {% endblocktranslate %}
             </span>
             {% if perms.accounts.manage %}
-                <span>
+                <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
                         <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
@@ -27,8 +27,8 @@
     <div class="card-body">
         {% if share_owner %}
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Status" %}:</div>
-                <div class="col-7" id="share_owner_status">
+                <div class="col-12 col-sm-5 fw-bold text-sm-end">{% translate "Status" %}:</div>
+                <div class="col-12 col-sm-7" id="share_owner_status">
                     {% member_status_colored_text share_owner %}
                     {% if share_owner.get_membership_start_date %}
                         {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" %}
@@ -44,13 +44,13 @@
             </div>
             {% if object.ratenzahlung %}
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Ratenzahlung" %}:</div>
-                    <div class="col-9" id="share_owner_email">Yes</div>
+                    <div class="col-12 col-sm-3 fw-bold text-sm-end">{% translate "Ratenzahlung" %}:</div>
+                    <div class="col-12 col-sm-9" id="share_owner_email">Yes</div>
                 </div>
             {% endif %}
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Welcome Session" %}:</div>
-                <div class="col-7">
+                <div class="col-12 col-sm-5 fw-bold text-sm-end">{% translate "Welcome Session" %}:</div>
+                <div class="col-12 col-sm-7">
                     {% if share_owner.attended_welcome_session %}
                         <span class="text-success">{% translate "Attended" %}</span>
                     {% else %}
@@ -69,10 +69,10 @@
                 </div>
             </div>
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">
+                <div class="col-12 col-sm-5 fw-bold text-sm-end">
                     <a data-bs-toggle="collapse" href="#shares-table">{% translate "Owned shares" %}:</a>
                 </div>
-                <div class="col-7">
+                <div class="col-12 col-sm-7">
                     <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
                 </div>
             </div>
@@ -160,20 +160,20 @@
                 {% endif %}
             </div>
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">
+                <div class="col-12 col-sm-5 fw-bold text-sm-end">
                     <a href="{% url 'coop:incoming_payment_list' %}?credited_member={{ share_owner.pk }}">{% translate "Payments" %}:</a>
                 </div>
-                <div class="col-7">
+                <div class="col-12 col-sm-7">
                     <span>{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
                 </div>
             </div>
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Ratenzahlung" %}:</div>
-                <div class="col-7">{{ share_owner.ratenzahlung|yesno:_("Yes,No") }}</div>
+                <div class="col-12 col-sm-5 fw-bold text-sm-end">{% translate "Ratenzahlung" %}:</div>
+                <div class="col-12 col-sm-7">{{ share_owner.ratenzahlung|yesno:_("Yes,No") }}</div>
             </div>
             <div class="row m-1">
-                <div class="col-5 fw-bold text-end">{% translate "Willing to gift a share" %}:</div>
-                <div class="col-7">{{ share_owner.willing_to_gift_a_share|yesno:_("Yes,No") }}</div>
+                <div class="col-12 col-sm-5 fw-bold text-sm-end">{% translate "Willing to gift a share" %}:</div>
+                <div class="col-12 col-sm-7">{{ share_owner.willing_to_gift_a_share|yesno:_("Yes,No") }}</div>
             </div>
             {% if perms.accounts.manage %}
                 <div class="d-flex align-items-end flex-column-reverse">
