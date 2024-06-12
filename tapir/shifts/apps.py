@@ -95,6 +95,7 @@ class ShiftConfig(AppConfig):
         from tapir.shifts.emails.shift_reminder_email import (
             ShiftReminderEmail,
         )
+        from tapir.shifts.emails.shift_understaffed_mail import ShiftUnderstaffedEmail
         from tapir.shifts.emails.stand_in_found_email import (
             StandInFoundEmail,
         )
@@ -110,6 +111,7 @@ class ShiftConfig(AppConfig):
 
         TapirEmailBase.register_email(ShiftMissedEmail)
         TapirEmailBase.register_email(ShiftReminderEmail)
+        TapirEmailBase.register_email(ShiftUnderstaffedEmail)
         TapirEmailBase.register_email(StandInFoundEmail)
         TapirEmailBase.register_email(MemberFrozenEmail)
         TapirEmailBase.register_email(FreezeWarningEmail)

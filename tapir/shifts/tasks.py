@@ -8,6 +8,11 @@ def send_shift_reminders():
 
 
 @shared_task
+def send_shift_understaffed_warnings():
+    call_command("send_shift_understaffed_warnings")
+
+
+@shared_task
 def apply_shift_cycle_start():
     call_command("apply_shift_cycle_start")
 

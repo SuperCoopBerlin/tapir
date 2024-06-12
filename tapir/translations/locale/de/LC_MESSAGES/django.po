@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-16 17:13+0100\n"
+"POT-Creation-Date: 2024-05-03 13:48+0200\n"
 "PO-Revision-Date: 2024-02-16 17:12+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,95 +18,112 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.4.2\n"
 
-#: accounts/emails/create_account_reminder_email.py:20
+#: tapir/accounts/emails/create_account_reminder_email.py:20
 msgid "Create account reminder"
 msgstr "Konto erstellen Erinnerung"
 
-#: accounts/emails/create_account_reminder_email.py:25
+#: tapir/accounts/emails/create_account_reminder_email.py:25
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
 msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt noch kein Konto erstellt haben."
 
-#: accounts/forms.py:98
+#: tapir/accounts/forms.py:18
+#, fuzzy
+#| msgid "Emails"
+msgid "Additional Emails"
+msgstr "Zusätzliche E-Mails"
+
+#: tapir/accounts/forms.py:103
 msgid "This username is not available."
 msgstr ""
 
-#: accounts/models.py:142 accounts/templates/accounts/user_detail.html:66
-#: coop/templates/coop/draftuser_detail.html:134
+#: tapir/accounts/models.py:144
+#: tapir/accounts/templates/accounts/user_detail.html:66
+#: tapir/coop/templates/coop/draftuser_detail.html:134
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/models.py:146
+#: tapir/accounts/models.py:148
 msgid "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
 msgstr "Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen oder ./-/_ verwenden."
 
-#: accounts/models.py:150
+#: tapir/accounts/models.py:152
 msgid "A user with that username already exists."
 msgstr "Es gibt bereits eine Nutzer*in mit diesem Namen."
 
-#: accounts/models.py:155
+#: tapir/accounts/models.py:157
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:160 coop/models.py:60 coop/models.py:432
+#: tapir/accounts/models.py:162 tapir/coop/models.py:60
+#: tapir/coop/models.py:432
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:161 accounts/templates/accounts/user_detail.html:74
-#: coop/models.py:62 coop/models.py:434
-#: coop/templates/coop/draftuser_detail.html:71
-#: coop/templates/coop/draftuser_detail.html:142
-#: coop/templates/coop/shareowner_detail.html:51
+#: tapir/accounts/models.py:163
+#: tapir/accounts/templates/accounts/user_detail.html:74
+#: tapir/coop/models.py:62 tapir/coop/models.py:434
+#: tapir/coop/templates/coop/draftuser_detail.html:71
+#: tapir/coop/templates/coop/draftuser_detail.html:142
+#: tapir/coop/templates/coop/shareowner_detail.html:51
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:162 accounts/templates/accounts/user_detail.html:84
-#: coop/models.py:63 coop/models.py:435
-#: coop/templates/coop/draftuser_detail.html:146
-#: coop/templates/coop/shareowner_detail.html:55
+#: tapir/accounts/models.py:164
+#: tapir/accounts/templates/accounts/user_detail.html:84
+#: tapir/coop/models.py:63 tapir/coop/models.py:435
+#: tapir/coop/templates/coop/draftuser_detail.html:146
+#: tapir/coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:163 coop/models.py:64 coop/models.py:436
+#: tapir/accounts/models.py:165 tapir/coop/models.py:64
+#: tapir/coop/models.py:436
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:164 coop/models.py:65 coop/models.py:437
+#: tapir/accounts/models.py:166 tapir/coop/models.py:65
+#: tapir/coop/models.py:437
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:165 coop/models.py:66 coop/models.py:438
+#: tapir/accounts/models.py:167 tapir/coop/models.py:66
+#: tapir/coop/models.py:438
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:166 coop/models.py:67 coop/models.py:439
+#: tapir/accounts/models.py:168 tapir/coop/models.py:67
+#: tapir/coop/models.py:439
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:167 coop/models.py:68 coop/models.py:440
+#: tapir/accounts/models.py:169 tapir/coop/models.py:68
+#: tapir/coop/models.py:440
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:168 accounts/templates/accounts/user_detail.html:118
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:90
+#: tapir/accounts/models.py:170
+#: tapir/accounts/templates/accounts/user_detail.html:118
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:90
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:170
+#: tapir/accounts/models.py:172
 msgid "Allow purchase tracking"
 msgstr ""
 
-#: accounts/models.py:175 accounts/templates/accounts/user_detail.html:104
-#: coop/models.py:71 coop/models.py:443
-#: coop/templates/coop/shareowner_detail.html:75
+#: tapir/accounts/models.py:187
+#: tapir/accounts/templates/accounts/user_detail.html:104
+#: tapir/coop/models.py:71 tapir/coop/models.py:443
+#: tapir/coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:210 accounts/models.py:219
-#: coop/views/membership_pause.py:74 shifts/views/exemptions.py:198
+#: tapir/accounts/models.py:222 tapir/accounts/models.py:231
+#: tapir/coop/views/membership_pause.py:74 tapir/shifts/views/exemptions.py:198
 msgid "None"
 msgstr "Keine"
 
-#: accounts/templates/accounts/edit_username.default.html:13
+#: tapir/accounts/templates/accounts/edit_username.default.html:13
 #, python-format
 msgid ""
 "\n"
@@ -114,7 +131,7 @@ msgid ""
 "    "
 msgstr ""
 
-#: accounts/templates/accounts/edit_username.default.html:22
+#: tapir/accounts/templates/accounts/edit_username.default.html:22
 #, python-format
 msgid ""
 "\n"
@@ -122,7 +139,7 @@ msgid ""
 "                "
 msgstr ""
 
-#: accounts/templates/accounts/edit_username.default.html:28
+#: tapir/accounts/templates/accounts/edit_username.default.html:28
 #, python-format
 msgid ""
 "\n"
@@ -132,19 +149,19 @@ msgid ""
 "                    "
 msgstr ""
 
-#: accounts/templates/accounts/edit_username.default.html:41
-#: accounts/templates/registration/password_update.html:16
-#: coop/templates/coop/draftuser_register_form.default.html:42
-#: coop/templates/coop/draftuser_register_form.html:45
-#: core/templates/core/tapir_form.default.html:28
-#: core/templates/core/tapir_form.html:28
-#: shifts/templates/shifts/convert_exemption_to_pause_form.html:37
-#: shifts/templates/shifts/shift_form.html:33
-#: shifts/templates/shifts/shiftslot_form.html:30
+#: tapir/accounts/templates/accounts/edit_username.default.html:41
+#: tapir/accounts/templates/registration/password_update.html:16
+#: tapir/coop/templates/coop/draftuser_register_form.default.html:42
+#: tapir/coop/templates/coop/draftuser_register_form.html:45
+#: tapir/core/templates/core/tapir_form.default.html:28
+#: tapir/core/templates/core/tapir_form.html:28
+#: tapir/shifts/templates/shifts/convert_exemption_to_pause_form.html:37
+#: tapir/shifts/templates/shifts/shift_form.html:33
+#: tapir/shifts/templates/shifts/shiftslot_form.html:30
 msgid "Save"
 msgstr "Speichern"
 
-#: accounts/templates/accounts/email/create_account_reminder.body.default.html:6
+#: tapir/accounts/templates/accounts/email/create_account_reminder.body.default.html:6
 #, python-format
 msgid ""
 "\n"
@@ -159,7 +176,7 @@ msgstr ""
 "        <p>wir haben festgestellt, dass du bereits seit einem Monat/einer Woche Mitglied bei SuperCoop bist, aber noch kein Tapir Konto eingerichtet hast, um dich für deine erste Schicht anzumelden.</p>\n"
 "    "
 
-#: accounts/templates/accounts/email/create_account_reminder.body.default.html:12
+#: tapir/accounts/templates/accounts/email/create_account_reminder.body.default.html:12
 msgid ""
 "\n"
 "        As a reminder: Please visit the Member Office to sign up for your first shift (or indicate that you qualify for a\n"
@@ -175,7 +192,7 @@ msgstr ""
 "        eingerichtet und du wirst durch die Schritte zur Auswahl deiner Schicht und Arbeitsgruppe geführt.\n"
 "        "
 
-#: accounts/templates/accounts/email/create_account_reminder.body.default.html:19
+#: tapir/accounts/templates/accounts/email/create_account_reminder.body.default.html:19
 msgid ""
 "\n"
 "        <p>\n"
@@ -215,8 +232,9 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: accounts/templates/accounts/email/create_account_reminder.body.default.html:38
-#: shifts/templates/shifts/email/shift_reminder.body.default.html:42
+#: tapir/accounts/templates/accounts/email/create_account_reminder.body.default.html:38
+#: tapir/shifts/templates/shifts/email/shift_reminder.body.default.html:42
+#: tapir/shifts/templates/shifts/email/shift_understaffed.body.default.html:26
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -234,7 +252,7 @@ msgstr ""
 "Das Mitgliederbüro \n"
 " "
 
-#: accounts/templates/accounts/email/create_account_reminder.subject.default.html:2
+#: tapir/accounts/templates/accounts/email/create_account_reminder.subject.default.html:2
 msgid ""
 "\n"
 "    Don't forget to sign up for your first shift at SuperCoop!\n"
@@ -242,137 +260,139 @@ msgstr ""
 "\n"
 "    Vergiss nicht, dich für deine erste Schicht bei SuperCoop anzumelden!\n"
 
-#: accounts/templates/accounts/ldap_group_list.html:7
-#: accounts/templates/accounts/user_detail.html:109
+#: tapir/accounts/templates/accounts/ldap_group_list.html:7
+#: tapir/accounts/templates/accounts/user_detail.html:109
 msgid "Groups"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:5
+#: tapir/accounts/templates/accounts/purchase_tracking_card.html:5
 msgid "Purchase tracking"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:11
+#: tapir/accounts/templates/accounts/purchase_tracking_card.html:11
 msgid "Get barcode as PDF"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:17
+#: tapir/accounts/templates/accounts/purchase_tracking_card.html:17
 msgid "More information"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:25
+#: tapir/accounts/templates/accounts/purchase_tracking_card.html:25
 msgid "Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst wird dagegen, welche konkreten Produkte du gekauft hast. Auch kannst du bei jedem Einkauf immer noch entscheiden, ob du deine Mitgliedskarte scannen lassen möchtest oder nicht. Mit deiner generellen Zustimmung hier auf Tapir gehst du keine Verpflichtung zum Scannen ein. Die Zustimmung kannst du jederzeit widerrufen, indem du die Checkbox oben deaktivierst. Du hilfst damit Supercoop, die Einkaufsgewohnheiten der Mitglieder besser zu verstehen. Das ist wichtig für die Weiterentwicklung unseres Supermarktes. Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:29
-#: coop/templates/coop/draftuser_detail.html:235
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:176
+#: tapir/accounts/templates/accounts/purchase_tracking_card.html:29
+#: tapir/coop/templates/coop/draftuser_detail.html:235
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:176
 msgid "Yes,No"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:35
+#: tapir/accounts/templates/accounts/purchase_tracking_card.html:35
 msgid "Disable"
 msgstr ""
 
-#: accounts/templates/accounts/purchase_tracking_card.html:40
+#: tapir/accounts/templates/accounts/purchase_tracking_card.html:40
 msgid "Enable"
 msgstr ""
 
-#: accounts/templates/accounts/user_detail.html:19 coop/models.py:677
-#: coop/templates/coop/draftuser_detail.html:86
-#: coop/templates/coop/shareowner_detail.html:10 log/views.py:94
-#: log/views.py:152 shifts/templates/shifts/shift_day_printable.html:54
-#: shifts/templates/shifts/shift_detail_printable.html:49
+#: tapir/accounts/templates/accounts/user_detail.html:19
+#: tapir/coop/models.py:677 tapir/coop/templates/coop/draftuser_detail.html:86
+#: tapir/coop/templates/coop/shareowner_detail.html:10 tapir/log/views.py:94
+#: tapir/log/views.py:152
+#: tapir/shifts/templates/shifts/shift_day_printable.html:54
+#: tapir/shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Member"
 msgstr "Mitglied"
 
-#: accounts/templates/accounts/user_detail.html:26
-#: coop/templates/coop/shareowner_detail.html:17
+#: tapir/accounts/templates/accounts/user_detail.html:26
+#: tapir/coop/templates/coop/shareowner_detail.html:17
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:32
+#: tapir/accounts/templates/accounts/user_detail.html:32
 msgid "Edit groups"
 msgstr "Gruppen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:39
+#: tapir/accounts/templates/accounts/user_detail.html:39
 msgid "Edit username"
 msgstr "Benutzername bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:47
-#: coop/templates/coop/draftuser_detail.html:242
-#: coop/templates/coop/shareowner_detail.html:30
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:21
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:89
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:112
-#: core/templates/core/featureflag_list.html:30
-#: shifts/templates/shifts/shift_detail.html:42
-#: shifts/templates/shifts/shift_template_detail.html:23
-#: shifts/templates/shifts/shift_template_detail.html:90
-#: shifts/templates/shifts/user_shifts_overview_tag.html:13
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:98
+#: tapir/accounts/templates/accounts/user_detail.html:47
+#: tapir/coop/templates/coop/draftuser_detail.html:242
+#: tapir/coop/templates/coop/shareowner_detail.html:30
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:21
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:89
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:112
+#: tapir/core/templates/core/featureflag_list.html:30
+#: tapir/shifts/templates/shifts/shift_detail.html:42
+#: tapir/shifts/templates/shifts/shift_template_detail.html:23
+#: tapir/shifts/templates/shifts/shift_template_detail.html:90
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:13
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:98
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:54
+#: tapir/accounts/templates/accounts/user_detail.html:54
 msgid "Edit name and pronouns"
 msgstr "Name und Pronomen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:62
-#: coop/templates/coop/draftuser_detail.html:70
-#: coop/templates/coop/draftuser_detail.html:130
-#: coop/templates/coop/shareowner_detail.html:43 coop/views/draftuser.py:265
-#: core/templates/core/email_list.html:38
-#: core/templates/core/featureflag_list.html:18
-#: financingcampaign/templates/financingcampaign/general.html:25
-#: financingcampaign/templates/financingcampaign/general.html:70
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:82
+#: tapir/accounts/templates/accounts/user_detail.html:62
+#: tapir/coop/templates/coop/draftuser_detail.html:70
+#: tapir/coop/templates/coop/draftuser_detail.html:130
+#: tapir/coop/templates/coop/shareowner_detail.html:43
+#: tapir/coop/views/draftuser.py:265
+#: tapir/core/templates/core/email_list.html:38
+#: tapir/core/templates/core/featureflag_list.html:18
+#: tapir/financingcampaign/templates/financingcampaign/general.html:25
+#: tapir/financingcampaign/templates/financingcampaign/general.html:70
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:82
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:70
-#: coop/templates/coop/draftuser_detail.html:73
-#: coop/templates/coop/draftuser_detail.html:138
-#: coop/templates/coop/shareowner_detail.html:47
+#: tapir/accounts/templates/accounts/user_detail.html:70
+#: tapir/coop/templates/coop/draftuser_detail.html:73
+#: tapir/coop/templates/coop/draftuser_detail.html:138
+#: tapir/coop/templates/coop/shareowner_detail.html:47
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:79
-#: accounts/templates/accounts/user_detail.html:89
-#: accounts/templates/accounts/user_detail.html:99
-#: coop/templates/coop/draftuser_detail.html:161
-#: coop/templates/coop/shareowner_detail.html:60
-#: coop/templates/coop/shareowner_detail.html:70
-#: shifts/templates/shifts/user_shifts_overview_tag.html:38
-#: statistics/templates/statistics/main_statistics.html:81
-#: statistics/templates/statistics/main_statistics.html:113
+#: tapir/accounts/templates/accounts/user_detail.html:79
+#: tapir/accounts/templates/accounts/user_detail.html:89
+#: tapir/accounts/templates/accounts/user_detail.html:99
+#: tapir/coop/templates/coop/draftuser_detail.html:161
+#: tapir/coop/templates/coop/shareowner_detail.html:60
+#: tapir/coop/templates/coop/shareowner_detail.html:70
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:38
+#: tapir/statistics/templates/statistics/main_statistics.html:81
+#: tapir/statistics/templates/statistics/main_statistics.html:113
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:94
-#: coop/templates/coop/draftuser_detail.html:72
-#: coop/templates/coop/draftuser_detail.html:156
-#: coop/templates/coop/shareowner_detail.html:65
+#: tapir/accounts/templates/accounts/user_detail.html:94
+#: tapir/coop/templates/coop/draftuser_detail.html:72
+#: tapir/coop/templates/coop/draftuser_detail.html:156
+#: tapir/coop/templates/coop/shareowner_detail.html:65
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:113
+#: tapir/accounts/templates/accounts/user_detail.html:113
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:134
+#: tapir/accounts/templates/accounts/user_detail.html:134
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:142
+#: tapir/accounts/templates/accounts/user_detail.html:142
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: accounts/templates/registration/email/password_reset_email.html:7
+#: tapir/accounts/templates/registration/email/password_reset_email.html:7
 msgid "Password reset"
 msgstr "Passwort zurückgesetzt"
 
-#: accounts/templates/registration/email/password_reset_email.html:13
+#: tapir/accounts/templates/registration/email/password_reset_email.html:13
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -405,7 +425,7 @@ msgstr ""
 "    </p>\n"
 " "
 
-#: accounts/templates/registration/email/password_reset_subject.html:2
+#: tapir/accounts/templates/registration/email/password_reset_subject.html:2
 msgid ""
 "\n"
 "    Reset your password\n"
@@ -413,67 +433,67 @@ msgstr ""
 "\n"
 "Passwort zurücksetzen\n"
 
-#: accounts/templates/registration/login.html:7
+#: tapir/accounts/templates/registration/login.html:7
 msgid "Login"
 msgstr ""
 
-#: accounts/templates/registration/login.html:16
-#: accounts/templates/registration/login.html:59
+#: tapir/accounts/templates/registration/login.html:16
+#: tapir/accounts/templates/registration/login.html:59
 msgid "Sign in"
 msgstr "Einloggen"
 
-#: accounts/templates/registration/login.html:45
+#: tapir/accounts/templates/registration/login.html:45
 msgid "Click here to show/hide the password"
 msgstr "Hier klicken, um das Passwort ein-/auszublenden"
 
-#: accounts/templates/registration/login.html:55
+#: tapir/accounts/templates/registration/login.html:55
 msgid "Forgot your password or your username?"
 msgstr "Passwort oder Benutzername vergessen?"
 
-#: accounts/templates/registration/password_reset_complete.html:7
+#: tapir/accounts/templates/registration/password_reset_complete.html:7
 msgid "Password set"
 msgstr "Passwort gesetzt"
 
-#: accounts/templates/registration/password_reset_complete.html:9
+#: tapir/accounts/templates/registration/password_reset_complete.html:9
 msgid "Your password has been set. You may go ahead and sign in now."
 msgstr "Dein Passwort wurde gesetzt. Du kannst dich jetzt einloggen."
 
-#: accounts/templates/registration/password_reset_complete.html:11
+#: tapir/accounts/templates/registration/password_reset_complete.html:11
 msgid "Go to login page"
 msgstr "Zur Anmeldeseite wechseln"
 
-#: accounts/templates/registration/password_reset_confirm.html:9
-#: accounts/templates/registration/password_update.html:8
+#: tapir/accounts/templates/registration/password_reset_confirm.html:9
+#: tapir/accounts/templates/registration/password_update.html:8
 msgid "Set a new password"
 msgstr "Neues Passwort festlegen"
 
-#: accounts/templates/registration/password_reset_confirm.html:11
+#: tapir/accounts/templates/registration/password_reset_confirm.html:11
 msgid "Please enter a new password"
 msgstr "Bitte gib ein neues Passwort ein"
 
-#: accounts/templates/registration/password_reset_confirm.html:15
+#: tapir/accounts/templates/registration/password_reset_confirm.html:15
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: accounts/templates/registration/password_reset_confirm.html:21
+#: tapir/accounts/templates/registration/password_reset_confirm.html:21
 msgid "The password reset link was invalid, possibly because it has already been used. Please request a new password reset."
 msgstr "Der Link zum Zurücksetzen des Passworts ist ungültig. Eventuell wurde er bereits genutzt. Bitte fordere einen neuen Link an."
 
-#: accounts/templates/registration/password_reset_done.html:7
+#: tapir/accounts/templates/registration/password_reset_done.html:7
 msgid "Password reset instructions have been sent."
 msgstr "Anleitung zum Passwort zurücksetzen wurde gesendet."
 
-#: accounts/templates/registration/password_reset_done.html:9
+#: tapir/accounts/templates/registration/password_reset_done.html:9
 #, fuzzy
 #| msgid "We've emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly. If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder."
 msgid "We have emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly. If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder."
 msgstr "Wir haben dir eine Anleitung geschickt, wie du ein neues Passwort für dein Konto festlegen kannst. Du solltest sie in Kürze erhalten. Wenn nicht, dann prüfe bitte, ob du auch die E-Mail-Adresse angegeben hast, mit der du dich registriert hast, und schau auch in deinem Spam-Ordner nach."
 
-#: accounts/templates/registration/password_reset_form.html:10
+#: tapir/accounts/templates/registration/password_reset_form.html:10
 msgid "Problems with logging in?"
 msgstr "Probleme beim Anmelden?"
 
-#: accounts/templates/registration/password_reset_form.html:16
+#: tapir/accounts/templates/registration/password_reset_form.html:16
 #, python-format
 msgid ""
 "\n"
@@ -483,287 +503,291 @@ msgid ""
 "                        "
 msgstr ""
 
-#: accounts/templates/registration/password_reset_form.html:24
+#: tapir/accounts/templates/registration/password_reset_form.html:24
 msgid "Back to login form"
 msgstr "Zurück zum Login"
 
-#: accounts/templates/registration/password_reset_form.html:26
+#: tapir/accounts/templates/registration/password_reset_form.html:26
 msgid "Send me instructions!"
 msgstr "Schickt mir eine Anleitung!"
 
-#: accounts/validators.py:11
+#: tapir/accounts/validators.py:11
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:93 accounts/views.py:98 coop/views/shareowner.py:255
-#: coop/views/shareowner.py:260
+#: tapir/accounts/views.py:93 tapir/accounts/views.py:98
+#: tapir/coop/views/shareowner.py:255 tapir/coop/views/shareowner.py:260
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:136
+#: tapir/accounts/views.py:136
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:181
+#: tapir/accounts/views.py:181
 msgid "You can only look at your own barcode unless you have member office rights"
 msgstr ""
 
-#: accounts/views.py:239 accounts/views.py:244
+#: tapir/accounts/views.py:239 tapir/accounts/views.py:244
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr ""
 
-#: coop/apps.py:22 coop/apps.py:33 coop/templates/coop/shareowner_list.html:10
+#: tapir/coop/apps.py:22 tapir/coop/apps.py:33
+#: tapir/coop/templates/coop/shareowner_list.html:10
 msgid "Members"
 msgstr "Mitglieder"
 
-#: coop/apps.py:25 coop/templates/coop/draftuser_list.html:9
-#: coop/templates/coop/draftuser_list.html:18
-#: coop/templates/coop/draftuser_register_form.default.html:11
-#: coop/templates/coop/draftuser_register_form.html:11
+#: tapir/coop/apps.py:25 tapir/coop/templates/coop/draftuser_list.html:9
+#: tapir/coop/templates/coop/draftuser_list.html:18
+#: tapir/coop/templates/coop/draftuser_register_form.default.html:11
+#: tapir/coop/templates/coop/draftuser_register_form.html:11
 msgid "Applicants"
 msgstr "Bewerber*innen"
 
-#: coop/apps.py:41
+#: tapir/coop/apps.py:41
 msgid "Member management"
 msgstr "Mitgliederverwaltung"
 
-#: coop/apps.py:48 core/apps.py:17 financingcampaign/apps.py:14 log/apps.py:17
+#: tapir/coop/apps.py:48 tapir/core/apps.py:17
+#: tapir/financingcampaign/apps.py:14 tapir/log/apps.py:17
 msgid "Management"
 msgstr "Verwaltung"
 
-#: coop/apps.py:51 coop/templates/coop/incoming_payment_list.html:19
+#: tapir/coop/apps.py:51
+#: tapir/coop/templates/coop/incoming_payment_list.html:19
 msgid "Incoming payments"
 msgstr "Eingehende Zahlungen"
 
-#: coop/emails/co_purchaser_updated_mail.py:22
-#: coop/templates/coop/email/co_purchaser_updated.subject.default.html:2
+#: tapir/coop/emails/co_purchaser_updated_mail.py:22
+#: tapir/coop/templates/coop/email/co_purchaser_updated.subject.default.html:2
 msgid "Co-purchaser updated"
 msgstr "Mitkäufer*in aktualisiert"
 
-#: coop/emails/co_purchaser_updated_mail.py:27
+#: tapir/coop/emails/co_purchaser_updated_mail.py:27
 msgid "Sent to a member when their new co-purchaser gets registered on their profile."
 msgstr "Wird an ein Mitglied gesendet, wenn sein neuer Mitkäufer*in in seinem Profil registriert wird."
 
-#: coop/emails/extra_shares_confirmation_email.py:26
+#: tapir/coop/emails/extra_shares_confirmation_email.py:26
 msgid "Extra shares bought"
 msgstr ""
 
-#: coop/emails/extra_shares_confirmation_email.py:30
+#: tapir/coop/emails/extra_shares_confirmation_email.py:30
 msgid "Sent when someone who is already a member buys more shares"
 msgstr ""
 
-#: coop/emails/membership_confirmation_email_for_active_member.py:25
+#: tapir/coop/emails/membership_confirmation_email_for_active_member.py:25
 msgid "Membership confirmation for active users"
 msgstr "Mitgliedsbestätigung für aktive Mitglieder"
 
-#: coop/emails/membership_confirmation_email_for_investing_member.py:25
+#: tapir/coop/emails/membership_confirmation_email_for_investing_member.py:25
 msgid "Membership confirmation for investing users"
 msgstr "Mitgliedsbestätigung für investierende Mitglieder"
 
-#: coop/emails/tapir_account_created_email.py:25
+#: tapir/coop/emails/tapir_account_created_email.py:25
 msgid "Tapir account created"
 msgstr "Tapir-Konto erstellt"
 
-#: coop/emails/tapir_account_created_email.py:29
+#: tapir/coop/emails/tapir_account_created_email.py:29
 msgid "Sent to a member when the accounts gets created."
 msgstr ""
 
-#: coop/forms.py:39
-#: financingcampaign/templates/financingcampaign/general.html:27
+#: tapir/coop/forms.py:39
+#: tapir/financingcampaign/templates/financingcampaign/general.html:27
 msgid "Start date"
 msgstr "Anfangsdatum"
 
-#: coop/forms.py:43
+#: tapir/coop/forms.py:43
 msgid "Usually, the date on the membership agreement, or today. In the case of sold or gifted shares, can be set in the future."
 msgstr ""
 
-#: coop/forms.py:48
-#: financingcampaign/templates/financingcampaign/general.html:28
+#: tapir/coop/forms.py:48
+#: tapir/financingcampaign/templates/financingcampaign/general.html:28
 msgid "End date"
 msgstr "Enddatum"
 
-#: coop/forms.py:52
+#: tapir/coop/forms.py:52
 msgid "Usually left empty. Can be set to a point in the future if it is already known that the shares will be transferred to another member in the future."
 msgstr ""
 
-#: coop/forms.py:58
+#: tapir/coop/forms.py:58
 msgid "Number of shares to create"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/forms.py:66
+#: tapir/coop/forms.py:66
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:105 coop/models.py:449
+#: tapir/coop/forms.py:105 tapir/coop/models.py:449
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
-#: coop/forms.py:110
+#: tapir/coop/forms.py:110
 #, python-format
 msgid "Number of shares you would like to purchase. The price of one share is EUR %(share_price)s. You need to purchase at least one share to become member of the cooperative. To support our cooperative even more, you may voluntarily purchase more shares."
 msgstr ""
 
-#: coop/forms.py:120
+#: tapir/coop/forms.py:120
 msgid "I would like to join the membership list as an investing member (= sponsoring member)"
 msgstr ""
 
-#: coop/forms.py:123
+#: tapir/coop/forms.py:123
 msgid "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
 msgstr ""
 
-#: coop/forms.py:233
+#: tapir/coop/forms.py:233
 msgid "Usually, the credited member is the same as the paying member. Only if a person if gifting another person a share through the matching program, then the fields can be different."
 msgstr ""
 
-#: coop/models.py:44
+#: tapir/coop/models.py:44
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:51 coop/models.py:423
+#: tapir/coop/models.py:51 tapir/coop/models.py:423
 msgid "Administrative first name"
 msgstr "Amtlicher Vorname"
 
-#: coop/models.py:53 coop/models.py:425
+#: tapir/coop/models.py:53 tapir/coop/models.py:425
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:55 coop/models.py:427
+#: tapir/coop/models.py:55 tapir/coop/models.py:427
 msgid "Usage name"
 msgstr "Angezeigter Name"
 
-#: coop/models.py:61 coop/models.py:433
+#: tapir/coop/models.py:61 tapir/coop/models.py:433
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: coop/models.py:78
+#: tapir/coop/models.py:78
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:80 coop/models.py:464
-#: coop/templates/coop/draftuser_detail.html:176
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:47
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:171
+#: tapir/coop/models.py:80 tapir/coop/models.py:464
+#: tapir/coop/templates/coop/draftuser_detail.html:176
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:47
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:171
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:82 coop/models.py:456
+#: tapir/coop/models.py:82 tapir/coop/models.py:456
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:84 coop/models.py:461
+#: tapir/coop/models.py:84 tapir/coop/models.py:461
 msgid "Paid Entrance Fee"
 msgstr "Eintrittsgeld bezahlt"
 
-#: coop/models.py:86
+#: tapir/coop/models.py:86
 msgid "Is willing to gift a share"
 msgstr "Ist bereit Anteile zu verschenken"
 
-#: coop/models.py:188
+#: tapir/coop/models.py:188
 msgid "Cannot be a company and have a Tapir account"
 msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
-#: coop/models.py:204
+#: tapir/coop/models.py:204
 msgid "User info should be stored in associated Tapir account"
 msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 
-#: coop/models.py:340
+#: tapir/coop/models.py:340
 msgid "Not a member"
 msgstr ""
 
-#: coop/models.py:341 coop/templates/coop/draftuser_detail.html:169
+#: tapir/coop/models.py:341 tapir/coop/templates/coop/draftuser_detail.html:169
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:342 coop/templates/coop/draftuser_detail.html:171
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
-#: coop/views/statistics.py:142
+#: tapir/coop/models.py:342 tapir/coop/templates/coop/draftuser_detail.html:171
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
+#: tapir/coop/views/statistics.py:142
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:343
+#: tapir/coop/models.py:343
 msgid "Paused"
 msgstr "Pausiert"
 
-#: coop/models.py:396
+#: tapir/coop/models.py:396
 msgid "Amount paid for a share can't be negative"
 msgstr "Der Betrag kann nicht negative sein"
 
-#: coop/models.py:400
+#: tapir/coop/models.py:400
 #, python-brace-format
 msgid "Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
 msgstr "Der Betrag kann nicht mehr als {COOP_SHARE_PRICE} sein"
 
-#: coop/models.py:452
+#: tapir/coop/models.py:452
 msgid "Investing member"
 msgstr "Investierendes Mitglied"
 
-#: coop/models.py:459
+#: tapir/coop/models.py:459
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:462 coop/templates/coop/draftuser_detail.html:234
+#: tapir/coop/models.py:462 tapir/coop/templates/coop/draftuser_detail.html:234
 msgid "Paid Shares"
 msgstr "Anteil(e) bezahlt"
 
-#: coop/models.py:519
+#: tapir/coop/models.py:519
 msgid "Email address must be set."
 msgstr "Email-Adresse muss gesetzt sein."
 
-#: coop/models.py:521
+#: tapir/coop/models.py:521
 msgid "First name must be set."
 msgstr "Vorname muss gesetzt sein."
 
-#: coop/models.py:523
+#: tapir/coop/models.py:523
 msgid "Last name must be set."
 msgstr "Nachname muss gesetzt sein."
 
-#: coop/models.py:525
+#: tapir/coop/models.py:525
 msgid "Membership agreement must be signed."
 msgstr "Mitgliedsantrag muss unterschrieben sein."
 
-#: coop/models.py:527
+#: tapir/coop/models.py:527
 msgid "Amount of requested shares must be positive."
 msgstr "Die Anzahl der erwünschten Anteile muss positiv sein."
 
-#: coop/models.py:529
+#: tapir/coop/models.py:529
 msgid "Member already created."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/models.py:555
+#: tapir/coop/models.py:555
 msgid "Paying member"
 msgstr "Zahlendes Mitglied"
 
-#: coop/models.py:563
+#: tapir/coop/models.py:563
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:570
+#: tapir/coop/models.py:570
 msgid "Amount"
 msgstr "Betrag"
 
-#: coop/models.py:576
+#: tapir/coop/models.py:576
 msgid "Payment date"
 msgstr "Zahldatum"
 
-#: coop/models.py:579
+#: tapir/coop/models.py:579
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
-#: coop/models.py:584
+#: tapir/coop/models.py:584
 msgid "Created by"
 msgstr "Erstellt durch"
 
-#: coop/templates/coop/about.html:5 coop/templates/coop/about.html:11
+#: tapir/coop/templates/coop/about.html:5
+#: tapir/coop/templates/coop/about.html:11
 msgid "About Tapir"
 msgstr "Über Tapir"
 
-#: coop/templates/coop/about.html:26
+#: tapir/coop/templates/coop/about.html:26
 msgid "Latest changes"
 msgstr "Letzte Änderungen"
 
-#: coop/templates/coop/active_members_progress_bar.html:4
+#: tapir/coop/templates/coop/active_members_progress_bar.html:4
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -784,25 +808,25 @@ msgstr ""
 "        Klicke hier für mehr Statistiken.\n"
 "    "
 
-#: coop/templates/coop/active_members_progress_bar.html:11
+#: tapir/coop/templates/coop/active_members_progress_bar.html:11
 msgid "Active Members with a Tapir Account"
 msgstr "Aktive Mitglieder mit Tapir-Konto"
 
-#: coop/templates/coop/create_user_from_shareowner_form.html:9
-#: coop/templates/coop/create_user_from_shareowner_form.html:19
-#: coop/templates/coop/shareowner_detail.html:36
+#: tapir/coop/templates/coop/create_user_from_shareowner_form.html:9
+#: tapir/coop/templates/coop/create_user_from_shareowner_form.html:19
+#: tapir/coop/templates/coop/shareowner_detail.html:36
 msgid "Create Tapir account"
 msgstr "Tapir-Konto erstellen"
 
-#: coop/templates/coop/create_user_from_shareowner_form.html:28
+#: tapir/coop/templates/coop/create_user_from_shareowner_form.html:28
 msgid "Create account"
 msgstr "Konto erstellen"
 
-#: coop/templates/coop/draftuser_confirm_registration.html:6
+#: tapir/coop/templates/coop/draftuser_confirm_registration.html:6
 msgid "Registration confirmed"
 msgstr "Anmeldung bestätigt"
 
-#: coop/templates/coop/draftuser_confirm_registration.html:8
+#: tapir/coop/templates/coop/draftuser_confirm_registration.html:8
 msgid ""
 "\n"
 "            <p>Registration successful! Congratulations!</p>\n"
@@ -818,25 +842,25 @@ msgstr ""
 "            <p>We will also create for you an account for this website and for the wiki.</p>\n"
 "            "
 
-#: coop/templates/coop/draftuser_detail.html:8
-#: coop/templates/coop/draftuser_detail.html:78
-#: coop/templates/coop/draftuser_detail.html:127
+#: tapir/coop/templates/coop/draftuser_detail.html:8
+#: tapir/coop/templates/coop/draftuser_detail.html:78
+#: tapir/coop/templates/coop/draftuser_detail.html:127
 msgid "Applicant"
 msgstr "Bewerber*innen"
 
-#: coop/templates/coop/draftuser_detail.html:20
-#: financingcampaign/templates/financingcampaign/confirm_delete.html:6
-#: financingcampaign/templates/financingcampaign/confirm_delete.html:12
+#: tapir/coop/templates/coop/draftuser_detail.html:20
+#: tapir/financingcampaign/templates/financingcampaign/confirm_delete.html:6
+#: tapir/financingcampaign/templates/financingcampaign/confirm_delete.html:12
 msgid "Confirm delete"
 msgstr ""
 
-#: coop/templates/coop/draftuser_detail.html:49
+#: tapir/coop/templates/coop/draftuser_detail.html:49
 #, fuzzy
 #| msgid "Confirm cancellation"
 msgid "Confirm member creation"
 msgstr "Absage bestätigen"
 
-#: coop/templates/coop/draftuser_detail.html:58
+#: tapir/coop/templates/coop/draftuser_detail.html:58
 msgid ""
 "\n"
 "                            <p>\n"
@@ -846,74 +870,74 @@ msgid ""
 "                        "
 msgstr ""
 
-#: coop/templates/coop/draftuser_detail.html:66
+#: tapir/coop/templates/coop/draftuser_detail.html:66
 #, fuzzy
 #| msgid "List of all emails"
 msgid "List of similar members"
 msgstr "Liste alle E-Mails"
 
-#: coop/templates/coop/draftuser_detail.html:69
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:30
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:87
-#: coop/views/shareowner.py:617
-#: shifts/templates/shifts/user_shifts_overview_tag.html:19
+#: tapir/coop/templates/coop/draftuser_detail.html:69
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:30
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:87
+#: tapir/coop/views/shareowner.py:617
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:19
 msgid "Status"
 msgstr "Status"
 
-#: coop/templates/coop/draftuser_detail.html:101
+#: tapir/coop/templates/coop/draftuser_detail.html:101
 msgid "I confirm that I have checked that this is not a duplicate."
 msgstr ""
 
-#: coop/templates/coop/draftuser_detail.html:119
-#: coop/templates/coop/draftuser_detail.html:254
+#: tapir/coop/templates/coop/draftuser_detail.html:119
+#: tapir/coop/templates/coop/draftuser_detail.html:254
 msgid "Create Member"
 msgstr "Mitglied anlegen"
 
-#: coop/templates/coop/draftuser_detail.html:166
+#: tapir/coop/templates/coop/draftuser_detail.html:166
 msgid "Member Type"
 msgstr "Art der Mitgliedschaft"
 
-#: coop/templates/coop/draftuser_detail.html:186
+#: tapir/coop/templates/coop/draftuser_detail.html:186
 msgid "Shares requested"
 msgstr "Angeforderte Anteile"
 
-#: coop/templates/coop/draftuser_detail.html:190
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:52
-#: shifts/models.py:44
+#: tapir/coop/templates/coop/draftuser_detail.html:190
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:52
+#: tapir/shifts/models.py:44
 msgid "Welcome Session"
 msgstr "Willkommenstreffen"
 
-#: coop/templates/coop/draftuser_detail.html:208
+#: tapir/coop/templates/coop/draftuser_detail.html:208
 msgid "Beteiligungserklärung"
 msgstr "Beteiligungserklärung"
 
-#: coop/templates/coop/draftuser_list.html:23
-#: coop/templates/coop/membership_pause/membership_pause_list.html:24
-#: coop/templates/coop/shareowner_list.html:23
-#: shifts/templates/shifts/members_on_alert_list.html:19
-#: shifts/templates/shifts/shiftexemption_list.html:24
+#: tapir/coop/templates/coop/draftuser_list.html:23
+#: tapir/coop/templates/coop/membership_pause/membership_pause_list.html:24
+#: tapir/coop/templates/coop/shareowner_list.html:23
+#: tapir/shifts/templates/shifts/members_on_alert_list.html:19
+#: tapir/shifts/templates/shifts/shiftexemption_list.html:24
 msgid "Export"
 msgstr "Exportieren"
 
-#: coop/templates/coop/draftuser_list.html:46
-#: coop/templates/coop/incoming_payment_list.html:35
-#: coop/templates/coop/membership_pause/membership_pause_list.html:47
-#: coop/templates/coop/shareowner_list.html:40
-#: log/templates/log/log_overview.html:24
-#: shifts/templates/shifts/shift_calendar_template.html:51
-#: shifts/templates/shifts/shiftexemption_list.html:50
+#: tapir/coop/templates/coop/draftuser_list.html:46
+#: tapir/coop/templates/coop/incoming_payment_list.html:35
+#: tapir/coop/templates/coop/membership_pause/membership_pause_list.html:47
+#: tapir/coop/templates/coop/shareowner_list.html:40
+#: tapir/log/templates/log/log_overview.html:24
+#: tapir/shifts/templates/shifts/shift_calendar_template.html:51
+#: tapir/shifts/templates/shifts/shiftexemption_list.html:50
 msgid "Filter"
 msgstr "Filter"
 
-#: coop/templates/coop/draftuser_list.html:51
-#: coop/templates/coop/incoming_payment_list.html:40
-#: coop/templates/coop/membership_pause/membership_pause_list.html:52
-#: coop/templates/coop/shareowner_list.html:45
-#: shifts/templates/shifts/shiftexemption_list.html:55
+#: tapir/coop/templates/coop/draftuser_list.html:51
+#: tapir/coop/templates/coop/incoming_payment_list.html:40
+#: tapir/coop/templates/coop/membership_pause/membership_pause_list.html:52
+#: tapir/coop/templates/coop/shareowner_list.html:45
+#: tapir/shifts/templates/shifts/shiftexemption_list.html:55
 msgid "Clear all filters"
 msgstr "Alle Filter entfernen"
 
-#: coop/templates/coop/draftuser_list.html:54
+#: tapir/coop/templates/coop/draftuser_list.html:54
 #, python-format
 msgid ""
 "\n"
@@ -921,25 +945,25 @@ msgid ""
 "                                "
 msgstr ""
 
-#: coop/templates/coop/draftuser_register_form.default.html:27
+#: tapir/coop/templates/coop/draftuser_register_form.default.html:27
 msgid "Create Applicant"
 msgstr "Bewerber*in erzeugen"
 
-#: coop/templates/coop/draftuser_register_form.default.html:29
-#: coop/templates/coop/draftuser_register_form.html:29
-#: shifts/templates/shifts/register_user_to_shift_slot.html:25
-#: shifts/templates/shifts/register_user_to_shift_slot_template.html:24
-#: shifts/templates/shifts/shift_detail.html:203
-#: shifts/templates/shifts/shift_template_detail.html:79
+#: tapir/coop/templates/coop/draftuser_register_form.default.html:29
+#: tapir/coop/templates/coop/draftuser_register_form.html:29
+#: tapir/shifts/templates/shifts/register_user_to_shift_slot.html:25
+#: tapir/shifts/templates/shifts/register_user_to_shift_slot_template.html:24
+#: tapir/shifts/templates/shifts/shift_detail.html:220
+#: tapir/shifts/templates/shifts/shift_template_detail.html:79
 msgid "Register"
 msgstr "Anmelden"
 
-#: coop/templates/coop/draftuser_register_form.html:27
-#: coop/views/draftuser.py:58 coop/views/draftuser.py:59
+#: tapir/coop/templates/coop/draftuser_register_form.html:27
+#: tapir/coop/views/draftuser.py:58 tapir/coop/views/draftuser.py:59
 msgid "Create applicant"
 msgstr "Bewerber*in erstellen"
 
-#: coop/templates/coop/email/accounting_recap.body.default.html:5
+#: tapir/coop/templates/coop/email/accounting_recap.body.default.html:5
 #, python-format
 msgid ""
 "\n"
@@ -957,31 +981,31 @@ msgid ""
 "    "
 msgstr ""
 
-#: coop/templates/coop/email/accounting_recap.body.default.html:21
-#: statistics/views.py:214
+#: tapir/coop/templates/coop/email/accounting_recap.body.default.html:21
+#: tapir/statistics/views.py:214
 msgid "New members"
 msgstr "Neue Mitglieder"
 
-#: coop/templates/coop/email/accounting_recap.body.default.html:26
-#: coop/templates/coop/email/accounting_recap.body.default.html:38
+#: tapir/coop/templates/coop/email/accounting_recap.body.default.html:26
+#: tapir/coop/templates/coop/email/accounting_recap.body.default.html:38
 msgid "share(s)"
 msgstr "Anteile"
 
-#: coop/templates/coop/email/accounting_recap.body.default.html:33
+#: tapir/coop/templates/coop/email/accounting_recap.body.default.html:33
 msgid "New shares for existing members upload only after approval in Duo"
 msgstr "Neue Anteile von existierenden Mitglieder erst nach Freigabe in Duo hochladen"
 
-#: coop/templates/coop/email/accounting_recap.body.default.html:47
+#: tapir/coop/templates/coop/email/accounting_recap.body.default.html:47
 msgid "This email is send automatically every Sunday. Contact the Tapir team on Slack if you have any question."
 msgstr ""
 
-#: coop/templates/coop/email/accounting_recap.subject.default.html:2
+#: tapir/coop/templates/coop/email/accounting_recap.subject.default.html:2
 msgid ""
 "\n"
 "    Accounting recap\n"
 msgstr ""
 
-#: coop/templates/coop/email/co_purchaser_updated.body.default.html:6
+#: tapir/coop/templates/coop/email/co_purchaser_updated.body.default.html:6
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -1035,7 +1059,7 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: coop/templates/coop/email/extra_shares_bought.body.default.html:6
+#: tapir/coop/templates/coop/email/extra_shares_bought.body.default.html:6
 #, python-format
 msgid ""
 "\n"
@@ -1060,7 +1084,7 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: coop/templates/coop/email/extra_shares_bought.subject.default.html:2
+#: tapir/coop/templates/coop/email/extra_shares_bought.subject.default.html:2
 #, python-format
 msgid ""
 "\n"
@@ -1069,7 +1093,7 @@ msgstr ""
 "\n"
 "    Bestätigung zum Erwerb zusätzlicher Anteile bei %(coop_name)s\n"
 
-#: coop/templates/coop/email/membership_confirmation.active.subject.default.html:2
+#: tapir/coop/templates/coop/email/membership_confirmation.active.subject.default.html:2
 #, python-format
 msgid ""
 "\n"
@@ -1078,7 +1102,7 @@ msgstr ""
 "\n"
 "Willkommen in der %(organization_name)s!\n"
 
-#: coop/templates/coop/email/membership_confirmation.investing.subject.default.html:2
+#: tapir/coop/templates/coop/email/membership_confirmation.investing.subject.default.html:2
 #, python-format
 msgid ""
 "\n"
@@ -1087,7 +1111,7 @@ msgstr ""
 "\n"
 "Bestätigung der Fördermitgliedschaft bei %(organization_name)s!\n"
 
-#: coop/templates/coop/email/tapir_account_created.body.default.html:6
+#: tapir/coop/templates/coop/email/tapir_account_created.body.default.html:6
 #, python-format
 msgid ""
 "\n"
@@ -1103,8 +1127,8 @@ msgstr ""
 "<p> Liebe:r %(user_display_name)s,</p>\n"
 "<p>soeben haben wir für dich ein Konto in unserer %(coop_name)s-Mitgliederverwaltung angelegt. Hier kannst du deine kommenden Schichten einsehen, dir nach Lust und Laune eine zusätzliche Schicht buchen oder eine deiner eigenen Schichten zur Neubesetzung freigeben, beispielsweise wenn du in den Urlaub fährst.</p> "
 
-#: coop/templates/coop/email/tapir_account_created.body.default.html:17
-#: coop/templates/coop/email/tapir_account_created.body.html:14
+#: tapir/coop/templates/coop/email/tapir_account_created.body.default.html:17
+#: tapir/coop/templates/coop/email/tapir_account_created.body.html:14
 #, python-format
 msgid ""
 "\n"
@@ -1115,7 +1139,7 @@ msgstr ""
 "Deine regelmäßige ABCD-Schicht ist: %(slot_display_name)s. Vor deiner ersten Schicht wirst du nochmal eine Erinnerungsmail erhalten.\n"
 " "
 
-#: coop/templates/coop/email/tapir_account_created.body.default.html:22
+#: tapir/coop/templates/coop/email/tapir_account_created.body.default.html:22
 msgid ""
 "\n"
 "                Flying members: Please keep in mind that you must have at least one shift “banked” for each shift cycle.\n"
@@ -1125,7 +1149,7 @@ msgstr ""
 "Fliegende Mitglieder: Bitte achtet darauf, zu jedem Schicht-Zyklus-Ende mindestens ein Schichtguthaben auf eurem Schichtkonto zu haben.\n"
 " "
 
-#: coop/templates/coop/email/tapir_account_created.body.default.html:30
+#: tapir/coop/templates/coop/email/tapir_account_created.body.default.html:30
 #, python-format
 msgid ""
 "\n"
@@ -1140,7 +1164,7 @@ msgstr ""
 "<p>Alternativ, und auch bei allen anderen Fragen, kannst du dich jederzeit an das <a href=\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Mitgliederbüro</a> wenden.</p>\n"
 " "
 
-#: coop/templates/coop/email/tapir_account_created.body.html:6
+#: tapir/coop/templates/coop/email/tapir_account_created.body.html:6
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -1160,7 +1184,7 @@ msgstr ""
 "<p>soeben haben wir für dich ein Konto in unserem SuperCoop Mitgliedersystem angelegt. Hier kannst du deine kommenden Schichten einsehen, dir nach Lust und Laune eine zusätzliche Schicht buchen oder eine deiner eigenen Schichten zur Neubesetzung freigeben, beispielsweise wenn du in den Urlaub fährst.<br />\n"
 "Mehr über Informationen über das Vertretungssystem findest du im <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>.</p> "
 
-#: coop/templates/coop/email/tapir_account_created.body.html:19
+#: tapir/coop/templates/coop/email/tapir_account_created.body.html:19
 msgid ""
 "\n"
 "                Flying members: Please keep in mind that you must have at least one shift “banked” for each shift cycle. For more information please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member Manual</a> .\n"
@@ -1170,7 +1194,7 @@ msgstr ""
 "Fliegende Mitglieder: Bitte achtet darauf, zu jedem Zyklus-Ende mindestens ein Schichtguthaben auf eurem Schichtkonto zu haben. Mehr Infos findet ihr im <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>.\n"
 " "
 
-#: coop/templates/coop/email/tapir_account_created.body.html:27
+#: tapir/coop/templates/coop/email/tapir_account_created.body.html:27
 #, python-format
 msgid ""
 "\n"
@@ -1187,7 +1211,7 @@ msgstr ""
 "<p>Alternativ, und auch bei allen anderen Fragen, kannst du dich jederzeit an das <a href=\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Mitgliederbüro</a> wenden.</p>\n"
 " "
 
-#: coop/templates/coop/email/tapir_account_created.body.html:35
+#: tapir/coop/templates/coop/email/tapir_account_created.body.html:35
 msgid ""
 "\n"
 "            Cooperative regards, <br />\n"
@@ -1199,82 +1223,82 @@ msgstr ""
 "dein Team vom Mitgliederbüro SuperCoop Berlin.\n"
 " "
 
-#: coop/templates/coop/email/tapir_account_created.subject.default.html:2
+#: tapir/coop/templates/coop/email/tapir_account_created.subject.default.html:2
 #, python-format
 msgid "Your account in Tapir, %(coop_name)s's member system"
 msgstr "Dein Konto in Tapir, das Mitgliedersystem von %(coop_name)s"
 
-#: coop/templates/coop/incoming_payment_list.html:9
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:164
+#: tapir/coop/templates/coop/incoming_payment_list.html:9
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:164
 msgid "Payments"
 msgstr "Zahlungen"
 
-#: coop/templates/coop/incoming_payment_list.html:24
+#: tapir/coop/templates/coop/incoming_payment_list.html:24
 msgid "Register a new payment"
 msgstr "Zahlung registrieren"
 
-#: coop/templates/coop/log/create_membership_pause_log_entry.html:3
+#: tapir/coop/templates/coop/log/create_membership_pause_log_entry.html:3
 #, python-format
 msgid ""
 "\n"
 "    New membership pause starting %(start_date)s: %(description)s.\n"
 msgstr ""
 
-#: coop/templates/coop/log/create_payment_log_entry.html:2
+#: tapir/coop/templates/coop/log/create_payment_log_entry.html:2
 #, python-format
 msgid "New Payment: %(amount)s € on %(payment_date)s"
 msgstr ""
 
-#: coop/templates/coop/log/update_membership_pause_log_entry.html:2
+#: tapir/coop/templates/coop/log/update_membership_pause_log_entry.html:2
 msgid "Updated membership pause:"
 msgstr ""
 
-#: coop/templates/coop/log/update_share_owner_log_entry.html:2
+#: tapir/coop/templates/coop/log/update_share_owner_log_entry.html:2
 msgid "Update Member:"
 msgstr "Mitglied bearbeiten:"
 
-#: coop/templates/coop/matching_program.html:7
-#: coop/templates/coop/member_management.html:30
+#: tapir/coop/templates/coop/matching_program.html:7
+#: tapir/coop/templates/coop/member_management.html:30
 msgid "Matching program"
 msgstr "Matching-Programm"
 
-#: coop/templates/coop/matching_program.html:16
+#: tapir/coop/templates/coop/matching_program.html:16
 msgid "Matching program members"
 msgstr "Teilnehmende des Matching-Programms"
 
-#: coop/templates/coop/matching_program.html:20
+#: tapir/coop/templates/coop/matching_program.html:20
 msgid ""
 "\n"
 "                    The members in this list have expressed that they are willing to pay the share for a potential new member that otherwise couldn't afford it.\n"
 "                "
 msgstr ""
 
-#: coop/templates/coop/member_management.html:7 shifts/apps.py:69
-#: shifts/templates/shifts/shift_management.html:7
+#: tapir/coop/templates/coop/member_management.html:7 tapir/shifts/apps.py:69
+#: tapir/shifts/templates/shifts/shift_management.html:7
 msgid "Shift management"
 msgstr "Schicht-Verwaltung"
 
-#: coop/templates/coop/member_management.html:16
-#: shifts/templates/shifts/shift_management.html:29
+#: tapir/coop/templates/coop/member_management.html:16
+#: tapir/shifts/templates/shifts/shift_management.html:29
 msgid "Lists"
 msgstr ""
 
-#: coop/templates/coop/member_management.html:21
+#: tapir/coop/templates/coop/member_management.html:21
 msgid "Access right groups"
 msgstr ""
 
-#: coop/templates/coop/member_management.html:26
-#: coop/templates/coop/membership_pause/membership_pause_list.html:10
-#: coop/templates/coop/membership_pause/membership_pause_list.html:19
+#: tapir/coop/templates/coop/member_management.html:26
+#: tapir/coop/templates/coop/membership_pause/membership_pause_list.html:10
+#: tapir/coop/templates/coop/membership_pause/membership_pause_list.html:19
 msgid "Membership pauses"
 msgstr ""
 
-#: coop/templates/coop/member_management.html:35
-#: coop/templates/coop/member_management.html:44
+#: tapir/coop/templates/coop/member_management.html:35
+#: tapir/coop/templates/coop/member_management.html:44
 msgid "Old member statistics"
 msgstr ""
 
-#: coop/templates/coop/member_management.html:38
+#: tapir/coop/templates/coop/member_management.html:38
 msgid ""
 "\n"
 "                        <p>This statistics have been hidden from members in order to focus on the more important\n"
@@ -1283,11 +1307,11 @@ msgid ""
 "                    "
 msgstr ""
 
-#: coop/templates/coop/membership_pause/membership_pause_list.html:36
+#: tapir/coop/templates/coop/membership_pause/membership_pause_list.html:36
 msgid "Create a new pause"
 msgstr ""
 
-#: coop/templates/coop/membership_pause/membership_pause_list.html:55
+#: tapir/coop/templates/coop/membership_pause/membership_pause_list.html:55
 #, python-format
 msgid ""
 "\n"
@@ -1295,7 +1319,7 @@ msgid ""
 "                                "
 msgstr ""
 
-#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:12
+#: tapir/coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:12
 #, python-format
 msgid ""
 "\n"
@@ -1306,12 +1330,12 @@ msgstr ""
 "    Bestätigung Erwerb zusätzlicher Anteile bei %(coop_name)s für %(display_name)s\n"
 "    "
 
-#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:61
+#: tapir/coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:61
 #, python-format
 msgid "Confirmation acquisition of additional shares in %(coop_full_name)s"
 msgstr "Bestätigung Erwerb zusätzlicher Anteile bei %(coop_full_name)s"
 
-#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:66
+#: tapir/coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:66
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -1403,20 +1427,20 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: coop/templates/coop/pdf/membership_agreement_pdf.default.html:53
-#: coop/templates/coop/pdf/membership_confirmation_pdf.default.html:45
+#: tapir/coop/templates/coop/pdf/membership_agreement_pdf.default.html:53
+#: tapir/coop/templates/coop/pdf/membership_confirmation_pdf.default.html:45
 msgid "Organisation logo"
 msgstr ""
 
-#: coop/templates/coop/shareowner_detail.html:22
+#: tapir/coop/templates/coop/shareowner_detail.html:22
 msgid "Go to user page"
 msgstr "Zur Nutzer*innen-Seite"
 
-#: coop/templates/coop/shareowner_list.html:19
+#: tapir/coop/templates/coop/shareowner_list.html:19
 msgid "Cooperative Members"
 msgstr "Genossenschaftsmitglieder"
 
-#: coop/templates/coop/shareowner_list.html:48
+#: tapir/coop/templates/coop/shareowner_list.html:48
 #, python-format
 msgid ""
 "\n"
@@ -1427,76 +1451,76 @@ msgstr ""
 "                            %(filtered_member_count)s aus %(total_member_count)s gefilterte Mitglieder\n"
 "                            "
 
-#: coop/templates/coop/statistics.html:9
+#: tapir/coop/templates/coop/statistics.html:9
 msgid "Members statistics"
 msgstr "Mitglieder-Statistik"
 
-#: coop/templates/coop/statistics.html:27
+#: tapir/coop/templates/coop/statistics.html:27
 msgid "Loading..."
 msgstr ""
 
-#: coop/templates/coop/statistics.html:47
+#: tapir/coop/templates/coop/statistics.html:47
 msgid "Statistics on members"
 msgstr "Mitglieder-Statistiken"
 
-#: coop/templates/coop/statistics.html:51
+#: tapir/coop/templates/coop/statistics.html:51
 msgid "Active members with account at end of month as CSV"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:74
-#: coop/templates/coop/statistics.html:80
-#: coop/templates/coop/statistics.html:136
-#: coop/templates/coop/statistics.html:172
-#: coop/templates/coop/statistics.html:192
-#: shifts/templates/shifts/solidarity_shifts_overview.html:43
-#: shifts/templates/shifts/solidarity_shifts_overview.html:67
-#: shifts/templates/shifts/statistics.html:218
-#: statistics/templates/statistics/main_statistics.html:29
-#: statistics/templates/statistics/main_statistics.html:34
-#: statistics/templates/statistics/main_statistics.html:137
-#: statistics/templates/statistics/main_statistics.html:163
-#: statistics/templates/statistics/main_statistics.html:200
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:37
+#: tapir/coop/templates/coop/statistics.html:74
+#: tapir/coop/templates/coop/statistics.html:80
+#: tapir/coop/templates/coop/statistics.html:136
+#: tapir/coop/templates/coop/statistics.html:172
+#: tapir/coop/templates/coop/statistics.html:192
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:43
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:67
+#: tapir/shifts/templates/shifts/statistics.html:218
+#: tapir/statistics/templates/statistics/main_statistics.html:29
+#: tapir/statistics/templates/statistics/main_statistics.html:34
+#: tapir/statistics/templates/statistics/main_statistics.html:137
+#: tapir/statistics/templates/statistics/main_statistics.html:163
+#: tapir/statistics/templates/statistics/main_statistics.html:200
+#: tapir/statistics/templates/statistics/tags/purchase_statistics_card.html:37
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
 
-#: coop/templates/coop/statistics.html:74
-#: statistics/templates/statistics/main_statistics.html:29
+#: tapir/coop/templates/coop/statistics.html:74
+#: tapir/statistics/templates/statistics/main_statistics.html:29
 msgid "Evolution of member count"
 msgstr "Entwicklung der Mitgliederzahl"
 
-#: coop/templates/coop/statistics.html:80
+#: tapir/coop/templates/coop/statistics.html:80
 msgid "Member age distribution"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:89
+#: tapir/coop/templates/coop/statistics.html:89
 msgid "Statistics on shares"
 msgstr "Anteile-Statistiken"
 
-#: coop/templates/coop/statistics.html:136
+#: tapir/coop/templates/coop/statistics.html:136
 msgid "Evolution of the number of shares"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:145
+#: tapir/coop/templates/coop/statistics.html:145
 msgid "Members who bought extra shares"
 msgstr "Mitglieder die weitere Anteile übernommen haben"
 
-#: coop/templates/coop/statistics.html:161
-#: coop/templates/coop/statistics.html:172
+#: tapir/coop/templates/coop/statistics.html:161
+#: tapir/coop/templates/coop/statistics.html:172
 msgid "Member status updates"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:165
-#: coop/templates/coop/statistics.html:185
+#: tapir/coop/templates/coop/statistics.html:165
+#: tapir/coop/templates/coop/statistics.html:185
 msgid "Get as CSV"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:181
-#: coop/templates/coop/statistics.html:192
+#: tapir/coop/templates/coop/statistics.html:181
+#: tapir/coop/templates/coop/statistics.html:192
 msgid "Number of co-purchasers per month"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:8
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:8
 #, python-format
 msgid ""
 "\n"
@@ -1507,11 +1531,11 @@ msgstr ""
 "                    Mitglied #%(coop_share_owner_id)s\n"
 "                "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:16
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:16
 msgid "Membership confirmation"
 msgstr "Mitgliedsbestätigung"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:34
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:34
 #, python-format
 msgid ""
 "\n"
@@ -1519,7 +1543,7 @@ msgid ""
 "                        "
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:39
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:39
 #, python-format
 msgid ""
 "\n"
@@ -1527,48 +1551,49 @@ msgid ""
 "                        "
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:55
-#: shifts/models.py:848 shifts/templates/shifts/shift_day_printable.html:55
-#: shifts/templates/shifts/shift_detail.html:237
-#: shifts/templates/shifts/shift_detail_printable.html:50
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:55
+#: tapir/shifts/models.py:851
+#: tapir/shifts/templates/shifts/shift_day_printable.html:55
+#: tapir/shifts/templates/shifts/shift_detail.html:257
+#: tapir/shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Attended"
 msgstr "Teilgenommen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:57
-#: shifts/models.py:847
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:57
+#: tapir/shifts/models.py:850
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:64
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:64
 msgid "Mark Attended"
 msgstr "Als teilgenommen markieren"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:73
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:73
 msgid "Owned shares"
 msgstr "Anteile"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:81
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:81
 msgid "List of shares owned by this member"
 msgstr "Liste der Anteile die dieses Mitglied gehören"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:85
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:85
 msgid "Starts at"
 msgstr "Anfangsdatum"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:86
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:86
 msgid "Ends at"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:104
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:104
 msgid "Sold or future"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:131
-#: financingcampaign/templates/financingcampaign/confirm_delete.html:24
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:131
+#: tapir/financingcampaign/templates/financingcampaign/confirm_delete.html:24
 msgid "Delete"
 msgstr "Löschen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:134
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:134
 msgid ""
 "\n"
 "                                                            Only use this to correct mistakes, i.e. if the share was\n"
@@ -1582,701 +1607,720 @@ msgstr ""
 "Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als 'verkauft'.\n"
 " "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:157
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:157
 msgid "Add Shares"
 msgstr "Anteile hinzufügen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:175
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:175
 msgid "Willing to gift a share"
 msgstr "Bereit Anteile zu schenken"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:185
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:185
 msgid "Send membership confirmation email"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:191
+#: tapir/coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:191
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
-#: coop/views/draftuser.py:89 coop/views/draftuser.py:94
+#: tapir/coop/views/draftuser.py:89 tapir/coop/views/draftuser.py:94
 #, python-format
 msgid "Edit applicant: %(name)s"
 msgstr "Bewerber*innen bearbeiten: %(name)s"
 
-#: coop/views/draftuser.py:198
+#: tapir/coop/views/draftuser.py:198
 msgid "Can't create member: "
 msgstr ""
 
-#: coop/views/draftuser.py:270 coop/views/draftuser.py:304
+#: tapir/coop/views/draftuser.py:270 tapir/coop/views/draftuser.py:304
 msgid "Member can be created"
 msgstr ""
 
-#: coop/views/draftuser.py:279
+#: tapir/coop/views/draftuser.py:279
 msgid "Yes"
 msgstr "Ja"
 
-#: coop/views/draftuser.py:279
+#: tapir/coop/views/draftuser.py:279
 msgid "No"
 msgstr "Nein"
 
-#: coop/views/incoming_payments.py:45
+#: tapir/coop/views/incoming_payments.py:45
 msgid "Payment ID"
 msgstr ""
 
-#: coop/views/incoming_payments.py:59
+#: tapir/coop/views/incoming_payments.py:59
 msgid "Other member"
 msgstr "Anderes Mitglied"
 
-#: coop/views/incoming_payments.py:144
+#: tapir/coop/views/incoming_payments.py:144
 msgid "Register payment"
 msgstr "Zahlung registrieren"
 
-#: coop/views/incoming_payments.py:145
+#: tapir/coop/views/incoming_payments.py:145
 msgid "Register a new incoming payment"
 msgstr "Eingehende Zahlung registrieren"
 
-#: coop/views/membership_pause.py:138
+#: tapir/coop/views/membership_pause.py:138
 msgid "Create a new membership pause"
 msgstr ""
 
-#: coop/views/membership_pause.py:170 coop/views/membership_pause.py:175
+#: tapir/coop/views/membership_pause.py:170
+#: tapir/coop/views/membership_pause.py:175
 #, python-format
 msgid "Edit membership pause: %(name)s"
 msgstr ""
 
-#: coop/views/shareowner.py:117 coop/views/shareowner.py:122
+#: tapir/coop/views/shareowner.py:117 tapir/coop/views/shareowner.py:122
 #, python-format
 msgid "Edit share: %(name)s"
 msgstr "Anteil bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:142 coop/views/shareowner.py:147
+#: tapir/coop/views/shareowner.py:142 tapir/coop/views/shareowner.py:147
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:367
+#: tapir/coop/views/shareowner.py:367
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:618 shifts/templates/shifts/shift_filters.html:45
+#: tapir/coop/views/shareowner.py:618
+#: tapir/shifts/templates/shifts/shift_filters.html:45
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:623
-#: shifts/templates/shifts/user_shifts_overview_tag.html:72
+#: tapir/coop/views/shareowner.py:623
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:72
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:631
+#: tapir/coop/views/shareowner.py:631
 msgid "Is registered to an ABCD-slot that requires a qualification"
 msgstr "Ist für eine ABCD-Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:639
+#: tapir/coop/views/shareowner.py:639
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:647
+#: tapir/coop/views/shareowner.py:647
 msgid "Has qualification"
 msgstr "Hat Qualifikation"
 
-#: coop/views/shareowner.py:655
+#: tapir/coop/views/shareowner.py:655
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:662
+#: tapir/coop/views/shareowner.py:662
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:665
+#: tapir/coop/views/shareowner.py:665
 msgid "Has unpaid shares"
 msgstr "Hat unbezahlte Anteile"
 
-#: coop/views/shareowner.py:668
+#: tapir/coop/views/shareowner.py:668
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:671 welcomedesk/views.py:54
+#: tapir/coop/views/shareowner.py:671 tapir/welcomedesk/views.py:54
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:675
+#: tapir/coop/views/shareowner.py:675
 msgid "Is currently exempted from shifts"
 msgstr "Ist derzeit von der Schichtarbeit befreit"
 
-#: coop/views/shareowner.py:680
+#: tapir/coop/views/shareowner.py:680
 #, fuzzy
 #| msgid "Shift missed"
 msgid "Shift Name"
 msgstr "Schicht versäumt"
 
-#: coop/views/shareowner.py:908
+#: tapir/coop/views/shareowner.py:908
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
 
-#: coop/views/statistics.py:142
+#: tapir/coop/views/statistics.py:142
 msgid "All members"
 msgstr "Alle Mitglieder"
 
-#: coop/views/statistics.py:142
+#: tapir/coop/views/statistics.py:142
 msgid "Active with account"
 msgstr "Aktiv mit Konto"
 
-#: coop/views/statistics.py:187
+#: tapir/coop/views/statistics.py:187
 msgid "Number of shares"
 msgstr "Anzahl an Anteilen"
 
-#: coop/views/statistics.py:235
+#: tapir/coop/views/statistics.py:235
 msgid "Number of members (X-axis) by age (Y-axis)"
 msgstr "Anzahl an Mitglieder (X-Achse) pro Alter (Y-Achse)"
 
-#: coop/views/statistics.py:283
+#: tapir/coop/views/statistics.py:283
 msgid "New active members"
 msgstr ""
 
-#: coop/views/statistics.py:284
+#: tapir/coop/views/statistics.py:284
 msgid "New investing members"
 msgstr ""
 
-#: coop/views/statistics.py:285
+#: tapir/coop/views/statistics.py:285
 msgid "New active members without account"
 msgstr ""
 
-#: coop/views/statistics.py:286
+#: tapir/coop/views/statistics.py:286
 msgid "Active to investing"
 msgstr ""
 
-#: coop/views/statistics.py:287
+#: tapir/coop/views/statistics.py:287
 msgid "Investing to active"
 msgstr ""
 
-#: coop/views/statistics.py:487
+#: tapir/coop/views/statistics.py:487
 msgid "Number of members with a co-purchaser (X-axis) by month (Y-axis)"
 msgstr ""
 
-#: core/apps.py:19
+#: tapir/core/apps.py:19
 msgid "Emails"
 msgstr "E-Mails"
 
-#: core/apps.py:26 core/templates/core/featureflag_list.html:5
+#: tapir/core/apps.py:26 tapir/core/templates/core/featureflag_list.html:5
 msgid "Features"
 msgstr ""
 
-#: core/apps.py:33 statistics/apps.py:15
+#: tapir/core/apps.py:33 tapir/statistics/apps.py:15
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
-#: core/apps.py:36
+#: tapir/core/apps.py:36
 msgid "Wiki"
 msgstr "Wiki"
 
-#: core/apps.py:43
+#: tapir/core/apps.py:43
 msgid "Member manual"
 msgstr "Mitgliederhandbuch"
 
-#: core/apps.py:50
+#: tapir/core/apps.py:50
 msgid "Shop opening hours"
 msgstr "Öffnungszeiten"
 
-#: core/apps.py:57
+#: tapir/core/apps.py:57
 msgid "Slack chat"
 msgstr ""
 
-#: core/apps.py:64
+#: tapir/core/apps.py:64
 msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
 
-#: core/apps.py:71
+#: tapir/core/apps.py:71
 msgid "About tapir"
 msgstr "Über Tapir"
 
-#: core/models.py:7
+#: tapir/core/models.py:7
 msgid "Flag name"
 msgstr ""
 
-#: core/models.py:10
+#: tapir/core/models.py:10
 msgid "Flag value"
 msgstr ""
 
-#: core/templates/core/base.html:68
+#: tapir/core/templates/core/base.html:68
 msgid "Use this form to search for members"
 msgstr "Benutze dieses Formular, um nach Mitgliedern zu suchen"
 
-#: core/templates/core/base.html:69
+#: tapir/core/templates/core/base.html:69
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
-#: core/templates/core/email_list.html:5 core/templates/core/email_list.html:10
+#: tapir/core/templates/core/email_list.html:5
+#: tapir/core/templates/core/email_list.html:10
 msgid "Email list"
 msgstr "E-Mail-Liste"
 
-#: core/templates/core/email_list.html:24
+#: tapir/core/templates/core/email_list.html:24
 msgid "This is the list of all emails that can get sent by Tapir."
 msgstr ""
 
-#: core/templates/core/email_list.html:26
+#: tapir/core/templates/core/email_list.html:26
 msgid "The previews in the \"Subject\" and \"Body\" columns are fake : they show what the email would look like if it was sent to a random user, using random data."
 msgstr ""
 
-#: core/templates/core/email_list.html:29
+#: tapir/core/templates/core/email_list.html:29
 msgid "The files in the \"Last sent example\" column are real : they have been sent to a user exactly as shown. They can therefore contain private information."
 msgstr ""
 
-#: core/templates/core/email_list.html:35
+#: tapir/core/templates/core/email_list.html:35
 msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
-#: core/templates/core/email_list.html:39 shifts/models.py:461
-#: shifts/models.py:988 shifts/templates/shifts/user_shift_account_log.html:29
+#: tapir/core/templates/core/email_list.html:39 tapir/shifts/models.py:461
+#: tapir/shifts/models.py:991
+#: tapir/shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
-#: core/templates/core/email_list.html:40
+#: tapir/core/templates/core/email_list.html:40
 msgid "Subject"
 msgstr ""
 
-#: core/templates/core/email_list.html:41
+#: tapir/core/templates/core/email_list.html:41
 msgid "Body"
 msgstr ""
 
-#: core/templates/core/email_list.html:42
+#: tapir/core/templates/core/email_list.html:42
 msgid "Last sent example"
 msgstr ""
 
-#: core/templates/core/featureflag_list.html:10
+#: tapir/core/templates/core/featureflag_list.html:10
 msgid "Enable or disable features"
 msgstr ""
 
-#: core/templates/core/featureflag_list.html:15
+#: tapir/core/templates/core/featureflag_list.html:15
 msgid "List of all feature flags"
 msgstr ""
 
-#: core/templates/core/featureflag_list.html:19
+#: tapir/core/templates/core/featureflag_list.html:19
 msgid "Current value"
 msgstr ""
 
-#: core/templates/core/tags/financing_campaign_progress_bar.html:6
+#: tapir/core/templates/core/tags/financing_campaign_progress_bar.html:6
 msgid "Current: "
 msgstr ""
 
-#: core/templates/core/tags/financing_campaign_progress_bar.html:6
+#: tapir/core/templates/core/tags/financing_campaign_progress_bar.html:6
 msgid "Click this link to learn more."
 msgstr "Klicke hier um mehr zu erfahren."
 
-#: core/templates/core/tags/financing_campaign_progress_bar.html:13
+#: tapir/core/templates/core/tags/financing_campaign_progress_bar.html:13
 msgid "Goal: "
 msgstr "Ziel: "
 
-#: core/views.py:47 core/views.py:49 log/models.py:140
+#: tapir/core/views.py:47 tapir/core/views.py:49 tapir/log/models.py:140
 msgid "Not available"
 msgstr ""
 
-#: core/views.py:85
+#: tapir/core/views.py:85
 #, python-format
 msgid "Feature: %(name)s"
 msgstr ""
 
-#: financingcampaign/apps.py:16
+#: tapir/financingcampaign/apps.py:16
 msgid "Financing campaigns"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:6
+#: tapir/financingcampaign/templates/financingcampaign/general.html:6
 msgid "Financing campaigns overview"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:12
+#: tapir/financingcampaign/templates/financingcampaign/general.html:12
 msgid "Campaigns"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:16
+#: tapir/financingcampaign/templates/financingcampaign/general.html:16
 msgid "Create campaign"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:22
+#: tapir/financingcampaign/templates/financingcampaign/general.html:22
 msgid "The list of all financing campaigns"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:26
+#: tapir/financingcampaign/templates/financingcampaign/general.html:26
 msgid "Goal"
 msgstr "Ziel"
 
-#: financingcampaign/templates/financingcampaign/general.html:29
-#: financingcampaign/templates/financingcampaign/general.html:72
-#: financingcampaign/templates/financingcampaign/general.html:114
-#: shifts/templates/shifts/shift_detail.html:77
+#: tapir/financingcampaign/templates/financingcampaign/general.html:29
+#: tapir/financingcampaign/templates/financingcampaign/general.html:72
+#: tapir/financingcampaign/templates/financingcampaign/general.html:114
+#: tapir/shifts/templates/shifts/shift_detail.html:81
 msgid "Actions"
 msgstr "Aktionen"
 
-#: financingcampaign/templates/financingcampaign/general.html:57
+#: tapir/financingcampaign/templates/financingcampaign/general.html:57
 msgid "Sources"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:61
+#: tapir/financingcampaign/templates/financingcampaign/general.html:61
 msgid "Create source"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:67
+#: tapir/financingcampaign/templates/financingcampaign/general.html:67
 msgid "The list of all financing sources"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:71
+#: tapir/financingcampaign/templates/financingcampaign/general.html:71
 msgid "Linked campaign"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:98
+#: tapir/financingcampaign/templates/financingcampaign/general.html:98
 msgid "Datapoints"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:102
+#: tapir/financingcampaign/templates/financingcampaign/general.html:102
 msgid "Create datapoint"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:108
+#: tapir/financingcampaign/templates/financingcampaign/general.html:108
 msgid "The list of all datapoints"
 msgstr ""
 
-#: financingcampaign/templates/financingcampaign/general.html:111
-#: log/templates/log/log_entry_list_tag.html:23
-#: shifts/templates/shifts/user_shift_account_log.html:26
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:17
+#: tapir/financingcampaign/templates/financingcampaign/general.html:111
+#: tapir/log/templates/log/log_entry_list_tag.html:23
+#: tapir/shifts/templates/shifts/user_shift_account_log.html:26
+#: tapir/statistics/templates/statistics/tags/purchase_statistics_card.html:17
 msgid "Date"
 msgstr "Datum"
 
-#: financingcampaign/templates/financingcampaign/general.html:112
-#: shifts/templates/shifts/user_shift_account_log.html:27
+#: tapir/financingcampaign/templates/financingcampaign/general.html:112
+#: tapir/shifts/templates/shifts/user_shift_account_log.html:27
 msgid "Value"
 msgstr "Wert"
 
-#: financingcampaign/templates/financingcampaign/general.html:113
+#: tapir/financingcampaign/templates/financingcampaign/general.html:113
 msgid "Linked source"
 msgstr ""
 
-#: financingcampaign/views.py:65
+#: tapir/financingcampaign/views.py:65
 msgid "Create a new financing campaign"
 msgstr ""
 
-#: financingcampaign/views.py:76
+#: tapir/financingcampaign/views.py:76
 #, python-format
 msgid "Edit financing campaign: %(name)s"
 msgstr ""
 
-#: financingcampaign/views.py:93
+#: tapir/financingcampaign/views.py:93
 msgid "Create a new financing source"
 msgstr ""
 
-#: financingcampaign/views.py:104
+#: tapir/financingcampaign/views.py:104
 #, python-format
 msgid "Edit financing source: %(name)s"
 msgstr ""
 
-#: financingcampaign/views.py:123
+#: tapir/financingcampaign/views.py:123
 msgid "Create a new financing source datapoint"
 msgstr ""
 
-#: financingcampaign/views.py:136
+#: tapir/financingcampaign/views.py:136
 #, python-format
 msgid "Edit financing source datapoint: %(name)s"
 msgstr ""
 
-#: log/apps.py:18 log/templates/log/log_overview.html:16
+#: tapir/log/apps.py:18 tapir/log/templates/log/log_overview.html:16
 msgid "Logs"
 msgstr ""
 
-#: log/models.py:14
+#: tapir/log/models.py:14
 msgid "Creation Date"
 msgstr "Erstellungsdatum"
 
-#: log/templates/log/email_log_entry.html:3
+#: tapir/log/templates/log/email_log_entry.html:3
 msgid "Email sent."
 msgstr "E-Mail gesendet."
 
-#: log/templates/log/log_entry_list_tag.html:8
+#: tapir/log/templates/log/log_entry_list_tag.html:8
 msgid "Last 5 log entries"
 msgstr "Letzte 5 Log-Einträge"
 
-#: log/templates/log/log_entry_list_tag.html:13
+#: tapir/log/templates/log/log_entry_list_tag.html:13
 msgid "See all log entries"
 msgstr "Alle Log-Einträge einsehen"
 
-#: log/templates/log/log_entry_list_tag.html:20
+#: tapir/log/templates/log/log_entry_list_tag.html:20
 msgid "List of log entries for this member"
 msgstr "Liste der Protokoll-Einträge für dieses Mitglied"
 
-#: log/templates/log/log_entry_list_tag.html:24 log/views.py:97
-#: log/views.py:151
+#: tapir/log/templates/log/log_entry_list_tag.html:24 tapir/log/views.py:97
+#: tapir/log/views.py:151
 msgid "Actor"
 msgstr "Sender*in"
 
-#: log/templates/log/log_entry_list_tag.html:25 log/views.py:90
+#: tapir/log/templates/log/log_entry_list_tag.html:25 tapir/log/views.py:90
 msgid "Message"
 msgstr "Nachricht"
 
-#: log/templates/log/log_entry_list_tag.html:57
-#: log/templates/log/log_entry_list_tag.html:58
+#: tapir/log/templates/log/log_entry_list_tag.html:57
+#: tapir/log/templates/log/log_entry_list_tag.html:58
 msgid "Notes about this user"
 msgstr "Notizen über diese*n Benutzer*in"
 
-#: log/templates/log/log_entry_list_tag.html:63
+#: tapir/log/templates/log/log_entry_list_tag.html:63
 msgid "Add Note"
 msgstr "Notiz hinzufügen"
 
-#: log/views.py:153
+#: tapir/log/views.py:153
 msgid "Log Type"
 msgstr ""
 
-#: shifts/apps.py:36 shifts/templates/shifts/user_shifts_overview_tag.html:8
+#: tapir/shifts/apps.py:36
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:8
 msgid "Shifts"
 msgstr "Schichten"
 
-#: shifts/apps.py:39 shifts/templates/shifts/shift_calendar_future.html:4
-#: shifts/templates/shifts/shift_calendar_future.html:7
+#: tapir/shifts/apps.py:39
+#: tapir/shifts/templates/shifts/shift_calendar_future.html:4
+#: tapir/shifts/templates/shifts/shift_calendar_future.html:7
 msgid "Shift calendar"
 msgstr "Schicht-Kalender"
 
-#: shifts/apps.py:46
+#: tapir/shifts/apps.py:46
 msgid "ABCD-shifts week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
-#: shifts/apps.py:86
+#: tapir/shifts/apps.py:86
 #, python-brace-format
 msgid "ABCD annual calendar, current week: {current_week_group_name}"
 msgstr ""
 "ABCD-Jahreskalender\n"
 "Aktuelle Woche: {current_week_group_name}"
 
-#: shifts/emails/freeze_warning_email.py:28
+#: tapir/shifts/emails/freeze_warning_email.py:28
 msgid "Freeze warning"
 msgstr ""
 
-#: shifts/emails/freeze_warning_email.py:33
+#: tapir/shifts/emails/freeze_warning_email.py:33
 msgid "Sent to a member when their shift status is not frozen yet but will be set to frozen if they don't register for make-up shifts."
 msgstr ""
 
-#: shifts/emails/member_frozen_email.py:23
+#: tapir/shifts/emails/member_frozen_email.py:23
 msgid "Shift status set to frozen"
 msgstr ""
 
-#: shifts/emails/member_frozen_email.py:28
+#: tapir/shifts/emails/member_frozen_email.py:28
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
 msgstr ""
 
-#: shifts/emails/shift_missed_email.py:22
+#: tapir/shifts/emails/shift_missed_email.py:22
 msgid "Shift missed"
 msgstr "Schicht versäumt"
 
-#: shifts/emails/shift_missed_email.py:26
+#: tapir/shifts/emails/shift_missed_email.py:26
 msgid "Sent to a member when the member office marks the shift as missed"
 msgstr ""
 
-#: shifts/emails/shift_reminder_email.py:22
+#: tapir/shifts/emails/shift_reminder_email.py:22
 msgid "Shift reminder"
 msgstr "Schicht-Erinnerung"
 
-#: shifts/emails/shift_reminder_email.py:27
+#: tapir/shifts/emails/shift_reminder_email.py:27
 #, python-brace-format
 msgid "Sent to a member {config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT} days before their shift"
 msgstr ""
 
-#: shifts/emails/stand_in_found_email.py:22
+#: tapir/shifts/emails/shift_understaffed_mail.py:24
+msgid "Shift is understaffed warning"
+msgstr "Warnung, dass eine Schicht unterbesetzt ist"
+
+#: tapir/shifts/emails/shift_understaffed_mail.py:29
+msgid "Sent to all members, if a shift is understaffed. Time span is defined shift-wise"
+msgstr "Wird an Mitglieder gesendet, falls eine Schicht unterbesetzt ist. Die Zeitspanne für die Warnung wird je Schicht definiert."
+
+#: tapir/shifts/emails/stand_in_found_email.py:22
 msgid "Stand-in found"
 msgstr "Vertretung gefunden"
 
-#: shifts/emails/stand_in_found_email.py:27
+#: tapir/shifts/emails/stand_in_found_email.py:27
 msgid "Sent to a member that was looking for a stand-inwhen the corresponding slot is taken over by another member."
 msgstr ""
 
-#: shifts/emails/unfreeze_notification_email.py:17
+#: tapir/shifts/emails/unfreeze_notification_email.py:17
 msgid "Unfreeze Notification"
 msgstr ""
 
-#: shifts/emails/unfreeze_notification_email.py:22
+#: tapir/shifts/emails/unfreeze_notification_email.py:22
 msgid "Sent to a member when their shift status gets set from frozen to flying."
 msgstr ""
 
-#: shifts/forms.py:50
+#: tapir/shifts/forms.py:51
 msgid "The shift must end after it starts."
 msgstr "Die Schicht muss nach ihrem Start enden."
 
-#: shifts/forms.py:100
+#: tapir/shifts/forms.py:101
 msgid "I have read the warning about the missing qualification and confirm that the user should get registered to the shift"
 msgstr "Ich habe die Warnung über die fehlende Qualifikation gelesen und bestätige, dass Benutzer*in für die Schicht registriert werden sollte"
 
-#: shifts/forms.py:123
+#: tapir/shifts/forms.py:124
 #, python-brace-format
 msgid "The selected user is missing the required qualification for this shift : {missing_capabilities}"
 msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Qualifikation für diese Schicht: {missing_capabilities}"
 
-#: shifts/forms.py:157
+#: tapir/shifts/forms.py:158
 msgid "This user is already registered to another slot in this ABCD shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser ABCD-Schicht registriert."
 
-#: shifts/forms.py:196
+#: tapir/shifts/forms.py:197
 msgid "You need the shifts.manage permission to do this."
 msgstr ""
 
-#: shifts/forms.py:200
+#: tapir/shifts/forms.py:201
 msgid "This user is already registered to another slot in this shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht registriert."
 
-#: shifts/forms.py:211 shifts/templates/shifts/user_shifts_overview_tag.html:91
+#: tapir/shifts/forms.py:212
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:91
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
-#: shifts/forms.py:254
+#: tapir/shifts/forms.py:255
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:261
+#: tapir/shifts/forms.py:262
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:294
+#: tapir/shifts/forms.py:295
 #, python-brace-format
 msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
 msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerhalb der Befreiung sind : {attendances_display}"
 
-#: shifts/forms.py:319
+#: tapir/shifts/forms.py:320
 #, python-format
 msgid "The user will be unregistered from the following ABCD shifts because the exemption is longer than %(number_of_cycles)s cycles: %(attendances_display)s "
 msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s "
 
-#: shifts/forms.py:361
+#: tapir/shifts/forms.py:362
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:382
+#: tapir/shifts/forms.py:383
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:391
+#: tapir/shifts/forms.py:392
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/models.py:38
+#: tapir/shifts/models.py:38
 msgid "Teamleader"
 msgstr "Teamleiter*in"
 
-#: shifts/models.py:39
+#: tapir/shifts/models.py:39
 msgid "Cashier"
 msgstr "Kasse"
 
-#: shifts/models.py:40
+#: tapir/shifts/models.py:40
 msgid "Member Office"
 msgstr "Mitgliederbüro"
 
-#: shifts/models.py:41
+#: tapir/shifts/models.py:41
 msgid "Bread Delivery"
 msgstr "Brotlieferung"
 
-#: shifts/models.py:42
+#: tapir/shifts/models.py:42
 msgid "Red Card"
 msgstr "Rote Karte Lebensmittel"
 
-#: shifts/models.py:43
+#: tapir/shifts/models.py:43
 msgid "First Aid"
 msgstr "Erste Hilfe"
 
-#: shifts/models.py:45
+#: tapir/shifts/models.py:45
 msgid "Handling Cheese"
 msgstr "Käse bearbeiten"
 
-#: shifts/models.py:46
+#: tapir/shifts/models.py:46
 msgid "Train cheese handlers"
 msgstr "Käse-Bearbeiten Training"
 
-#: shifts/models.py:47
+#: tapir/shifts/models.py:47
 msgid "Inventory"
 msgstr "Inventur"
 
-#: shifts/models.py:48
+#: tapir/shifts/models.py:48
 msgid "Nebenan.de-Support"
 msgstr "Nebenan.de-Betreuung"
 
-#: shifts/models.py:62
+#: tapir/shifts/models.py:62
 msgid "I understand that all working groups help the Warenannahme & Lager working group until the shop opens."
 msgstr "Ich bestätige, dass alle Arbeitsgruppen die Arbeitsgruppe Warenannahme & Lagerhaltung bis zur Eröffnung des Ladens unterstützen."
 
-#: shifts/models.py:65
+#: tapir/shifts/models.py:65
 msgid "I understand that all working groups help the Reinigung & Aufräumen working group after the shop closes."
 msgstr ""
 
-#: shifts/models.py:68
+#: tapir/shifts/models.py:68
 msgid "I understand that I need my own vehicle in order to pick up the bread. A cargo bike can be borrowed, more infos in Slack in the #cargobike channel"
 msgstr ""
 
-#: shifts/models.py:71
+#: tapir/shifts/models.py:71
 msgid "I understand that I may need to carry heavy weights for this shift."
 msgstr "Mir ist klar, dass ich bei dieser Schicht möglicherweise schwere Gewichte heben muss."
 
-#: shifts/models.py:74
+#: tapir/shifts/models.py:74
 msgid "I understand that I may need to work high, for example up a ladder. I do not suffer from fear of heights."
 msgstr "Mir ist klar, dass ich möglicherweise in großer Höhe arbeiten muss, zum Beispiel auf einer Leiter. Ich leide nicht unter Höhenangst."
 
-#: shifts/models.py:185
+#: tapir/shifts/models.py:185
 msgid "This determines from which date shifts should be generated from this ABCD shift."
 msgstr ""
 
-#: shifts/models.py:451
+#: tapir/shifts/models.py:451
 msgid "Number of required attendances"
 msgstr "Anzahl notwendiger Teilnehmender"
 
-#: shifts/models.py:453
+#: tapir/shifts/models.py:453
 msgid "If there are less members registered to a shift than that number, it will be highlighted in the shift calendar."
 msgstr ""
 
-#: shifts/models.py:462
+#: tapir/shifts/models.py:462
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:849 shifts/templates/shifts/shift_day_printable.html:56
-#: shifts/templates/shifts/shift_detail.html:247
-#: shifts/templates/shifts/shift_detail_printable.html:51
+#: tapir/shifts/models.py:852
+#: tapir/shifts/templates/shifts/shift_day_printable.html:56
+#: tapir/shifts/templates/shifts/shift_detail.html:267
+#: tapir/shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:850 shifts/templates/shifts/shift_day_printable.html:57
-#: shifts/templates/shifts/shift_detail.html:277
-#: shifts/templates/shifts/shift_detail_printable.html:52
+#: tapir/shifts/models.py:853
+#: tapir/shifts/templates/shifts/shift_day_printable.html:57
+#: tapir/shifts/templates/shifts/shift_detail.html:297
+#: tapir/shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:851 shifts/templates/shifts/shift_detail.html:285
+#: tapir/shifts/models.py:854
+#: tapir/shifts/templates/shifts/shift_detail.html:306
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:852 shifts/templates/shifts/shift_day_printable.html:82
-#: shifts/templates/shifts/shift_detail.html:269
-#: shifts/templates/shifts/shift_detail_printable.html:78
-#: shifts/templates/shifts/shift_filters.html:83
+#: tapir/shifts/models.py:855
+#: tapir/shifts/templates/shifts/shift_day_printable.html:82
+#: tapir/shifts/templates/shifts/shift_detail.html:289
+#: tapir/shifts/templates/shifts/shift_detail_printable.html:78
+#: tapir/shifts/templates/shifts/shift_filters.html:83
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:907
+#: tapir/shifts/models.py:910
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:908
+#: tapir/shifts/models.py:911
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:909
+#: tapir/shifts/models.py:912
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:912
+#: tapir/shifts/models.py:915
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1094
+#: tapir/shifts/models.py:1097
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
-#: shifts/templates/shifts/cancel_shift.html:7
-#: shifts/templates/shifts/cancel_shift.html:13
+#: tapir/shifts/templates/shifts/cancel_shift.html:7
+#: tapir/shifts/templates/shifts/cancel_shift.html:13
 msgid "Cancel shift:"
 msgstr "Schicht absagen:"
 
-#: shifts/templates/shifts/cancel_shift.html:17
+#: tapir/shifts/templates/shifts/cancel_shift.html:17
 msgid ""
 "\n"
 "                        Cancelling a shift is used for example for holidays. It has the following consequences :\n"
@@ -2288,16 +2332,16 @@ msgid ""
 "                    "
 msgstr ""
 
-#: shifts/templates/shifts/cancel_shift.html:32
+#: tapir/shifts/templates/shifts/cancel_shift.html:32
 msgid "Confirm cancellation"
 msgstr "Absage bestätigen"
 
-#: shifts/templates/shifts/convert_exemption_to_pause_form.html:12
-#: shifts/templates/shifts/convert_exemption_to_pause_form.html:18
+#: tapir/shifts/templates/shifts/convert_exemption_to_pause_form.html:12
+#: tapir/shifts/templates/shifts/convert_exemption_to_pause_form.html:18
 msgid "Convert exemption to pause"
 msgstr ""
 
-#: shifts/templates/shifts/convert_exemption_to_pause_form.html:22
+#: tapir/shifts/templates/shifts/convert_exemption_to_pause_form.html:22
 #, python-format
 msgid ""
 "\n"
@@ -2309,7 +2353,7 @@ msgid ""
 "                    "
 msgstr ""
 
-#: shifts/templates/shifts/email/freeze_warning.body.default.html:6
+#: tapir/shifts/templates/shifts/email/freeze_warning.body.default.html:6
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -2414,7 +2458,7 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: shifts/templates/shifts/email/freeze_warning.subject.default.html:2
+#: tapir/shifts/templates/shifts/email/freeze_warning.subject.default.html:2
 #, python-format
 msgid ""
 "\n"
@@ -2423,7 +2467,7 @@ msgstr ""
 "\n"
 "    Dein Schichtprotokoll hat %(account_balance)s Schichten erreicht\n"
 
-#: shifts/templates/shifts/email/member_frozen.body.default.html:6
+#: tapir/shifts/templates/shifts/email/member_frozen.body.default.html:6
 #, python-format
 msgid ""
 "\n"
@@ -2476,7 +2520,7 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: shifts/templates/shifts/email/member_frozen.subject.default.html:2
+#: tapir/shifts/templates/shifts/email/member_frozen.subject.default.html:2
 msgid ""
 "\n"
 "    Your Tapir account has been frozen\n"
@@ -2484,7 +2528,7 @@ msgstr ""
 "\n"
 "    Dein Tapir-Konto wurde eingefroren\n"
 
-#: shifts/templates/shifts/email/shift_missed.body.default.html:6
+#: tapir/shifts/templates/shifts/email/shift_missed.body.default.html:6
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -2522,7 +2566,7 @@ msgstr ""
 "        Wenn es sich um einen Fehler handelt oder du der Meinung bist, dass du von dieser Schicht befreit werden solltest, wende dich bitte an das Mitgliederbüro: %(contact_email_address)s .<br/>\n"
 "    </p> "
 
-#: shifts/templates/shifts/email/shift_missed.body.html:6
+#: tapir/shifts/templates/shifts/email/shift_missed.body.html:6
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -2625,7 +2669,7 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: shifts/templates/shifts/email/shift_missed.subject.default.html:2
+#: tapir/shifts/templates/shifts/email/shift_missed.subject.default.html:2
 msgid ""
 "\n"
 "    You missed your shift!\n"
@@ -2633,7 +2677,7 @@ msgstr ""
 "\n"
 "Du hast deine Schicht versäumt!\n"
 
-#: shifts/templates/shifts/email/shift_reminder.body.default.html:6
+#: tapir/shifts/templates/shifts/email/shift_reminder.body.default.html:6
 #, python-format
 msgid ""
 "\n"
@@ -2651,7 +2695,7 @@ msgstr ""
 "\n"
 "    <p>Du bist angemeldet für die Schicht: %(shift_display_name)s</p> "
 
-#: shifts/templates/shifts/email/shift_reminder.body.default.html:14
+#: tapir/shifts/templates/shifts/email/shift_reminder.body.default.html:14
 msgid ""
 "\n"
 "            Before you start your next shift, we would like to ask you to check the wiki for the latest information\n"
@@ -2662,7 +2706,7 @@ msgstr ""
 "\n"
 "Bevor du deine nächste Schicht antrittst, möchten wir dich bitten, dich zuvor im Wiki über Neuerungen zu deiner Schicht zu informieren. Aktuelle Informationen kannst du den <a href=\"https://wiki.supercoop.de/wiki/Schicht-News\">Schicht-News im Wiki</a> entnehmen. "
 
-#: shifts/templates/shifts/email/shift_reminder.body.default.html:20
+#: tapir/shifts/templates/shifts/email/shift_reminder.body.default.html:20
 msgid ""
 "\n"
 "        <p>\n"
@@ -2689,7 +2733,7 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: shifts/templates/shifts/email/shift_reminder.body.default.html:34
+#: tapir/shifts/templates/shifts/email/shift_reminder.body.default.html:34
 msgid ""
 "\n"
 "            Please note that it is your responsibility as a member to make every effort to find a replacement if needed.\n"
@@ -2703,7 +2747,7 @@ msgstr ""
 "                Mitgliederhandbuch</a>.\n"
 "        "
 
-#: shifts/templates/shifts/email/shift_reminder.subject.default.html:2
+#: tapir/shifts/templates/shifts/email/shift_reminder.subject.default.html:2
 #, python-format
 msgid ""
 "\n"
@@ -2712,7 +2756,69 @@ msgstr ""
 "\n"
 "Deine nächste %(coop_name)s Schicht: %(shift_name)s\n"
 
-#: shifts/templates/shifts/email/stand_in_found.body.default.html:6
+#: tapir/shifts/templates/shifts/email/shift_understaffed.body.default.html:6
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        <p>Hi %(display_name_short)s,</p>\n"
+#| "\n"
+#| "        <p>This is an automatically sent email from SuperCoop to kindly remind you about your next shift.</p>\n"
+#| "\n"
+#| "        <p>You are registered for the shift: %(shift_display_name)s</p>\n"
+#| "    "
+msgid ""
+"\n"
+"        <p>Hi %(display_name_short)s,</p>\n"
+"\n"
+"        <p>This is an automatically sent email from SuperCoop to inform you about one or more upcoming understaffed shifts:</p>\n"
+"    "
+msgstr ""
+"\n"
+"    <p>Hallo %(display_name_short)s,</p>\n"
+"\n"
+"    <p>dies ist eine automatisch versendete E-Mail von SuperCoop. In nächster Zeit gibt es eine oder mehrere unterbesetzte Schichten:</p>\n"
+
+
+#: tapir/shifts/templates/shifts/email/shift_understaffed.body.default.html:16
+msgid ""
+"\n"
+"           You have received this mail because you subscribed to the respective mail in your settings.\n"
+"        "
+msgstr ""
+"\n"
+"           Du erhältst diese Nachricht da du in deinen Einstellungen der Benachrichtigung von unterbesetzten Schichten zugestimmt hast.\n"
+"        "
+#: tapir/shifts/templates/shifts/email/shift_understaffed.body.default.html:19
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "            Before you start your next shift, we would like to ask you to check the wiki for the latest information\n"
+#| "            about your shift. You can find all the latest updates on our\n"
+#| "            <a href=\"https://wiki.supercoop.de/wiki/Schicht-News\">shift news wiki page.</a>\n"
+#| "        "
+msgid ""
+"\n"
+"            Before you start your next shift, we would like to ask you to check the wiki for the latest information\n"
+"            about the shift system. You can find all the latest updates on our\n"
+"            <a href=\"https://wiki.supercoop.de/wiki/Schicht-News\">shift news wiki page.</a>\n"
+"        "
+msgstr ""
+"\n"
+"Bevor du deine nächste Schicht antrittst, möchten wir dich bitten, dich zuvor im Wiki über Neuerungen zu deiner Schicht zu informieren. Aktuelle Informationen kannst du den <a href=\"https://wiki.supercoop.de/wiki/Schicht-News\">Schicht-News im Wiki</a> entnehmen. "
+
+#: tapir/shifts/templates/shifts/email/shift_understaffed.subject.default.html:2
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "    Your upcoming %(coop_name)s shift: %(shift_name)s\n"
+msgid ""
+"\n"
+"    Understaffed %(coop_name)s shifts\n"
+msgstr ""
+"\n"
+"Unterbesetzte %(coop_name)s Schichten\n"
+
+#: tapir/shifts/templates/shifts/email/stand_in_found.body.default.html:6
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -2755,7 +2861,7 @@ msgstr ""
 "\n"
 "    <p>Kooperative Grüße,</p> "
 
-#: shifts/templates/shifts/email/stand_in_found.subject.default.html:2
+#: tapir/shifts/templates/shifts/email/stand_in_found.subject.default.html:2
 msgid ""
 "\n"
 "    You found a stand-in!\n"
@@ -2763,7 +2869,7 @@ msgstr ""
 "\n"
 "Vertretung gefunden!\n"
 
-#: shifts/templates/shifts/email/unfreeze_notification.body.default.html:6
+#: tapir/shifts/templates/shifts/email/unfreeze_notification.body.default.html:6
 #, python-format
 msgid ""
 "\n"
@@ -2808,7 +2914,7 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: shifts/templates/shifts/email/unfreeze_notification.subject.default.html:2
+#: tapir/shifts/templates/shifts/email/unfreeze_notification.subject.default.html:2
 msgid ""
 "\n"
 "    Your Tapir account has been unfrozen.\n"
@@ -2816,50 +2922,50 @@ msgstr ""
 "\n"
 "    Dein Tapir-Konto ist wieder freigegeben\n"
 
-#: shifts/templates/shifts/log/create_exemption_log_entry.html:2
+#: tapir/shifts/templates/shifts/log/create_exemption_log_entry.html:2
 msgid "without end date"
 msgstr "ohne Endddatum"
 
-#: shifts/templates/shifts/log/create_exemption_log_entry.html:4
+#: tapir/shifts/templates/shifts/log/create_exemption_log_entry.html:4
 #, python-format
 msgid "Added exemption starting %(start_date)s until %(ending)s"
 msgstr "Schicht-Befreiung hinzugefügt von %(start_date)s bis %(ending)s"
 
-#: shifts/templates/shifts/log/create_shift_attendance_log_entry.html:2
+#: tapir/shifts/templates/shifts/log/create_shift_attendance_log_entry.html:2
 msgid "Registered for Shift"
 msgstr "Für Schicht angemeldet"
 
-#: shifts/templates/shifts/log/create_shift_attendance_template_log_entry.html:2
+#: tapir/shifts/templates/shifts/log/create_shift_attendance_template_log_entry.html:2
 msgid "Registered for ABCD Shift"
 msgstr "Angemeldet zu ABCD-Schicht"
 
-#: shifts/templates/shifts/log/delete_shift_attendance_template_log_entry.html:2
+#: tapir/shifts/templates/shifts/log/delete_shift_attendance_template_log_entry.html:2
 msgid "Unregistered from ABCD Shift"
 msgstr "Abgemeldet von ABCD-Schicht"
 
-#: shifts/templates/shifts/log/shift_attendance_taken_over_log_entry.html:2
+#: tapir/shifts/templates/shifts/log/shift_attendance_taken_over_log_entry.html:2
 msgid "Someone took over your shift"
 msgstr "Jemand hat deine Schicht übernommen"
 
-#: shifts/templates/shifts/log/update_exemption_log_entry.html:2
+#: tapir/shifts/templates/shifts/log/update_exemption_log_entry.html:2
 msgid "Update Exemption"
 msgstr "Schicht-Befreiung aktualisiert"
 
-#: shifts/templates/shifts/log/update_shift_attendance_state_log_entry.html:2
+#: tapir/shifts/templates/shifts/log/update_shift_attendance_state_log_entry.html:2
 msgid "Set shift attendance to"
 msgstr "Ändere den Schichtstatus zu"
 
-#: shifts/templates/shifts/log/update_shift_user_data_log_entry.html:2
+#: tapir/shifts/templates/shifts/log/update_shift_user_data_log_entry.html:2
 msgid "Update Shift User Data"
 msgstr "Nutzer*innendaten der Schicht aktualisieren"
 
-#: shifts/templates/shifts/members_on_alert_list.html:10
-#: shifts/templates/shifts/members_on_alert_list.html:15
-#: shifts/templates/shifts/shift_management.html:33
+#: tapir/shifts/templates/shifts/members_on_alert_list.html:10
+#: tapir/shifts/templates/shifts/members_on_alert_list.html:15
+#: tapir/shifts/templates/shifts/shift_management.html:33
 msgid "Members on alert"
 msgstr "Mitglieder mit Verwarnung"
 
-#: shifts/templates/shifts/members_on_alert_list.html:31
+#: tapir/shifts/templates/shifts/members_on_alert_list.html:31
 msgid ""
 "\n"
 "                    The members in this list are on alert relative to their shift account : the current balance is -2\n"
@@ -2867,21 +2973,21 @@ msgid ""
 "                "
 msgstr ""
 
-#: shifts/templates/shifts/register_user_to_shift_slot.html:7
-#: shifts/templates/shifts/register_user_to_shift_slot.html:14
-#: shifts/templates/shifts/register_user_to_shift_slot_template.html:7
+#: tapir/shifts/templates/shifts/register_user_to_shift_slot.html:7
+#: tapir/shifts/templates/shifts/register_user_to_shift_slot.html:14
+#: tapir/shifts/templates/shifts/register_user_to_shift_slot_template.html:7
 msgid "Register for shift slot"
 msgstr "Für eine Schicht anmelden"
 
-#: shifts/templates/shifts/register_user_to_shift_slot_template.html:14
+#: tapir/shifts/templates/shifts/register_user_to_shift_slot_template.html:14
 msgid "Register for ABCD Shift"
 msgstr "Für eine ABCD-Schicht anmelden"
 
-#: shifts/templates/shifts/register_user_to_shift_slot_template.html:32
+#: tapir/shifts/templates/shifts/register_user_to_shift_slot_template.html:32
 msgid "Some shifts are already occupied"
 msgstr "Manche Schichten sind bereits besetzt"
 
-#: shifts/templates/shifts/register_user_to_shift_slot_template.html:34
+#: tapir/shifts/templates/shifts/register_user_to_shift_slot_template.html:34
 msgid ""
 "\n"
 "                        <p>A flying member has already registered to the shifts linked below.</p>\n"
@@ -2892,11 +2998,11 @@ msgstr ""
 "\n"
 "<p>Ein fliegendes Mitglied hat sich bereits für die unten verlinkten Schichten angemeldet.</p><p>Es ist immer noch möglich, jemanden für diese Schicht über das ABCD-System anzumelden. Dies würde bedeuten, dass sich das Mitglied für diese Schicht auf einer wiederkehrenden 4-Wochen-Basis (d.h. einmal pro Schichtzyklus) anmeldet.</p><p>WICHTIG: Wenn sich ein fliegendes Mitglied zuvor für dieselbe Schicht angemeldet hat, muss sich das ABCD-Mitglied für eine andere Schicht für diesen bestimmten Zyklus anmelden.</p> "
 
-#: shifts/templates/shifts/register_user_to_shift_slot_template.html:40
+#: tapir/shifts/templates/shifts/register_user_to_shift_slot_template.html:40
 msgid "Already occupied shifts :"
 msgstr "Schon besetzte Schichten:"
 
-#: shifts/templates/shifts/shift_calendar_future.html:10
+#: tapir/shifts/templates/shifts/shift_calendar_future.html:10
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -2916,157 +3022,185 @@ msgstr ""
 "\n"
 "<p>Unten findest du alle anstehenden Schichten und wer für die einzelnen Schichten angemeldet ist.</p></p> Du kannst dich für jede Schicht, die einen freien Platz hat, hier auf TAPIR anmelden. Du kannst dich auch selbst abmelden, wenn du dies mindestens %(nb_days_for_self_unregister)s Tage vor der Schicht tust. </p></p>Wenn du dich für eine dieser Schichten anmeldest, verpflichtest du dich nur für die Schicht an diesem bestimmten Tag.</p><p> Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das Mitgliederbüro kontaktieren.</p> "
 
-#: shifts/templates/shifts/shift_calendar_past.html:4
+#: tapir/shifts/templates/shifts/shift_calendar_past.html:4
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/templates/shifts/shift_calendar_template.html:25
+#: tapir/shifts/templates/shifts/shift_calendar_template.html:25
 msgid "Date range"
 msgstr ""
 
-#: shifts/templates/shifts/shift_calendar_template.html:36
+#: tapir/shifts/templates/shifts/shift_calendar_template.html:36
 msgid "From"
 msgstr ""
 
-#: shifts/templates/shifts/shift_calendar_template.html:44
+#: tapir/shifts/templates/shifts/shift_calendar_template.html:44
 msgid "To"
 msgstr ""
 
-#: shifts/templates/shifts/shift_calendar_template.html:58
+#: tapir/shifts/templates/shifts/shift_calendar_template.html:58
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_calendar_template.html:59
-#: shifts/templates/shifts/shift_template_overview.html:40
+#: tapir/shifts/templates/shifts/shift_calendar_template.html:59
+#: tapir/shifts/templates/shifts/shift_template_overview.html:40
 msgid "Week "
 msgstr "Woche "
 
-#: shifts/templates/shifts/shift_day_printable.html:53
-#: shifts/templates/shifts/shift_detail.html:73
-#: shifts/templates/shifts/shift_detail_printable.html:48
+#: tapir/shifts/templates/shifts/shift_day_printable.html:53
+#: tapir/shifts/templates/shifts/shift_detail.html:77
+#: tapir/shifts/templates/shifts/shift_detail_printable.html:48
 msgid "Slot"
 msgstr "Platz"
 
-#: shifts/templates/shifts/shift_day_printable.html:71
-#: shifts/templates/shifts/shift_detail_printable.html:67
+#: tapir/shifts/templates/shifts/shift_day_printable.html:71
+#: tapir/shifts/templates/shifts/shift_detail_printable.html:67
 msgid "Required qualifications: "
 msgstr "Erforderliche Qualifikation: "
 
-#: shifts/templates/shifts/shift_day_printable.html:89
-#: shifts/templates/shifts/shift_detail_printable.html:84
+#: tapir/shifts/templates/shifts/shift_day_printable.html:89
+#: tapir/shifts/templates/shifts/shift_detail_printable.html:84
 msgid "Has qualifications: "
 msgstr "Hat Qualifikationen : "
 
-#: shifts/templates/shifts/shift_detail.html:7
-#: shifts/templates/shifts/shift_detail.html:28
+#: tapir/shifts/templates/shifts/shift_detail.html:7
+#: tapir/shifts/templates/shifts/shift_detail.html:28
 msgid "Shift"
 msgstr "Schicht"
 
-#: shifts/templates/shifts/shift_detail.html:33
+#: tapir/shifts/templates/shifts/shift_detail.html:33
 msgid "Get printable version"
 msgstr "Druckversion erhalten"
 
-#: shifts/templates/shifts/shift_detail.html:37
-#: shifts/templates/shifts/shift_template_detail.html:18
+#: tapir/shifts/templates/shifts/shift_detail.html:37
+#: tapir/shifts/templates/shifts/shift_template_detail.html:18
 msgid "Add a slot"
 msgstr "Slot hinzufügen"
 
-#: shifts/templates/shifts/shift_detail.html:47
+#: tapir/shifts/templates/shifts/shift_detail.html:47
 msgid "Cancel shift"
 msgstr "Schicht absagen"
 
-#: shifts/templates/shifts/shift_detail.html:54
+#: tapir/shifts/templates/shifts/shift_detail.html:53
+#, python-format
+msgid ""
+"Understaffed-warning time is\n"
+"                %(warning_time)s ahead."
+msgstr ""
+"Die Warnzeit im Falle, dass die Schicht unterbesetzt ist, beträgt\n"
+"                %(warning_time)s vorher."
+
+#: tapir/shifts/templates/shifts/shift_detail.html:57
 msgid "Generated from"
 msgstr "Erzeugt von"
 
-#: shifts/templates/shifts/shift_detail.html:63
+#: tapir/shifts/templates/shifts/shift_detail.html:67
 msgid "This shift has been cancelled: "
 msgstr ""
 
-#: shifts/templates/shifts/shift_detail.html:70
+#: tapir/shifts/templates/shifts/shift_detail.html:74
 msgid "List of slots for this shift"
 msgstr "Liste der Slots für diese Schicht"
 
-#: shifts/templates/shifts/shift_detail.html:73
+#: tapir/shifts/templates/shifts/shift_detail.html:77
 msgid "Number"
 msgstr "Nummer"
 
-#: shifts/templates/shifts/shift_detail.html:74
-#: shifts/templates/shifts/shift_template_detail.html:36
+#: tapir/shifts/templates/shifts/shift_detail.html:78
+#: tapir/shifts/templates/shifts/shift_template_detail.html:36
 msgid "Details"
 msgstr "Details"
 
-#: shifts/templates/shifts/shift_detail.html:75
-#: shifts/templates/shifts/shift_template_detail.html:38
+#: tapir/shifts/templates/shifts/shift_detail.html:79
+#: tapir/shifts/templates/shifts/shift_template_detail.html:38
 msgid "Registered user"
 msgstr "Angemeldete*r Nutzer*in"
 
-#: shifts/templates/shifts/shift_detail.html:76
+#: tapir/shifts/templates/shifts/shift_detail.html:80
 msgid "Attendance"
 msgstr "Anwesenheit"
 
-#: shifts/templates/shifts/shift_detail.html:78
+#: tapir/shifts/templates/shifts/shift_detail.html:82
 msgid "Do you meet the requirements?"
 msgstr "Erfüllst du die Voraussetzungen?"
 
-#: shifts/templates/shifts/shift_detail.html:80
-#: shifts/templates/shifts/shift_template_detail.html:40
+#: tapir/shifts/templates/shifts/shift_detail.html:84
+#: tapir/shifts/templates/shifts/shift_template_detail.html:40
 msgid "Member-Office actions"
 msgstr "Mitgliederbüro Aktionen"
 
-#: shifts/templates/shifts/shift_detail.html:81
+#: tapir/shifts/templates/shifts/shift_detail.html:85
 msgid "Previous attendances"
 msgstr "Vorherige Anwesenheiten"
 
-#: shifts/templates/shifts/shift_detail.html:112
+#: tapir/shifts/templates/shifts/shift_detail.html:118
 msgid "since"
 msgstr "seit"
 
-#: shifts/templates/shifts/shift_detail.html:124
+#: tapir/shifts/templates/shifts/shift_detail.html:131
 msgid "Vacant"
 msgstr "Frei"
 
-#: shifts/templates/shifts/shift_detail.html:141
+#: tapir/shifts/templates/shifts/shift_detail.html:148
 msgid "Cancels the search for a stand-in. Use this if you want to attend the shift."
 msgstr "Beendet die Suche nach Vertretung. Benutze dies, wenn du die Schicht wahrnehmen möchtest."
 
-#: shifts/templates/shifts/shift_detail.html:143
-#: shifts/templates/shifts/shift_detail.html:258
+#: tapir/shifts/templates/shifts/shift_detail.html:150
+#: tapir/shifts/templates/shifts/shift_detail.html:278
 msgid "Cancel looking for a stand-in"
 msgstr "Beende die Suche nach Vertretung"
 
-#: shifts/templates/shifts/shift_detail.html:151
-#, python-format
+#: tapir/shifts/templates/shifts/shift_detail.html:158
+#, fuzzy, python-format
+#| msgid ""
+#| "You can only look for a\n"
+#| "                                                    stand-in\n"
+#| "                                                    %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s days before the shift. If\n"
+#| "                                                    you can't\n"
+#| "                                                    attend, contact your shift leader as soon as\n"
+#| "                                                    possible."
 msgid ""
-"You can only look for a\n"
-"                                                    stand-in\n"
-"                                                    %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s days before the shift. If\n"
-"                                                    you can't\n"
-"                                                    attend, contact your shift leader as soon as\n"
-"                                                    possible."
+"You can only look for\n"
+"                                                            a\n"
+"                                                            stand-in\n"
+"                                                            %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s days before the\n"
+"                                                            shift. If\n"
+"                                                            you can't\n"
+"                                                            attend, contact your shift leader as soon as\n"
+"                                                            possible."
 msgstr "Du kannst nur bis %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s Tage vor der Schicht nach einer Vertretung suchen. Wenn du die Schicht nicht wahrnehmen kannst, wende dich bitte schnellstmöglich an die Teamleitung."
 
-#: shifts/templates/shifts/shift_detail.html:162
+#: tapir/shifts/templates/shifts/shift_detail.html:172
 msgid "Look for a stand-in"
 msgstr "Suche nach Vertretung"
 
-#: shifts/templates/shifts/shift_detail.html:171
-#, python-format
+#: tapir/shifts/templates/shifts/shift_detail.html:181
+#, fuzzy, python-format
+#| msgid ""
+#| "You can only unregister\n"
+#| "                                                yourself\n"
+#| "                                                %(NB_DAYS_FOR_SELF_UNREGISTER)s days before the shift. Also,\n"
+#| "                                                ABCD-Shifts\n"
+#| "                                                can't be unregistered from. If you can't\n"
+#| "                                                attend, look for a stand-in or contact your shift leader as soon as\n"
+#| "                                                possible."
 msgid ""
-"You can only unregister\n"
-"                                                yourself\n"
-"                                                %(NB_DAYS_FOR_SELF_UNREGISTER)s days before the shift. Also,\n"
-"                                                ABCD-Shifts\n"
-"                                                can't be unregistered from. If you can't\n"
-"                                                attend, look for a stand-in or contact your shift leader as soon as\n"
-"                                                possible."
+"You can only\n"
+"                                                        unregister\n"
+"                                                        yourself\n"
+"                                                        %(NB_DAYS_FOR_SELF_UNREGISTER)s days before the shift. Also,\n"
+"                                                        ABCD-Shifts\n"
+"                                                        can't be unregistered from. If you can't\n"
+"                                                        attend, look for a stand-in or contact your shift leader as soon\n"
+"                                                        as\n"
+"                                                        possible."
 msgstr "Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner Schicht abmelden. Von ABCD-Schichten kannst du dich überhaupt nicht abmelden. Wenn du die Schicht nicht wahrnehmen kannst, suche bitte eine Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung."
 
-#: shifts/templates/shifts/shift_detail.html:184
+#: tapir/shifts/templates/shifts/shift_detail.html:198
 msgid "Unregister myself"
 msgstr "Melde mich ab"
 
-#: shifts/templates/shifts/shift_detail.html:189
+#: tapir/shifts/templates/shifts/shift_detail.html:203
 #, fuzzy
 #| msgid ""
 #| "You can only register\n"
@@ -3080,14 +3214,14 @@ msgstr "Melde mich ab"
 #| "                                        "
 msgid ""
 "You can only register\n"
-"                                            yourself\n"
-"                                            for a shift if:<br />\n"
-"                                            -You are not registered to another slot in that shift<br />\n"
-"                                            -You have the required qualification (if you want to get a\n"
-"                                            qualification, contact the member office)<br />\n"
-"                                            -The shift is in the future<br />\n"
-"                                            -The shift is not cancelled (holidays...)<br />\n"
-"                                        "
+"                                                    yourself\n"
+"                                                    for a shift if:<br/>\n"
+"                                                    -You are not registered to another slot in that shift<br/>\n"
+"                                                    -You have the required qualification (if you want to get a\n"
+"                                                    qualification, contact the member office)<br/>\n"
+"                                                    -The shift is in the future<br/>\n"
+"                                                    -The shift is not cancelled (holidays...)<br/>\n"
+"                                                "
 msgstr ""
 "Du kannst dich nur für eine Schicht anmelden, wenn\n"
 "- du keinen anderen Platz in derselben Schicht gebucht hast\n"
@@ -3095,61 +3229,61 @@ msgstr ""
 "- die Schicht in der Zukunft liegt\n"
 " "
 
-#: shifts/templates/shifts/shift_detail.html:293
+#: tapir/shifts/templates/shifts/shift_detail.html:314
 msgid "Edit slot"
 msgstr "Slot bearbeiten"
 
-#: shifts/templates/shifts/shift_filters.html:3
+#: tapir/shifts/templates/shifts/shift_filters.html:3
 msgid "Filters"
 msgstr "Filter"
 
-#: shifts/templates/shifts/shift_filters.html:7
+#: tapir/shifts/templates/shifts/shift_filters.html:7
 msgid "Use the buttons below to filter the shifts that are relevant to you."
 msgstr "Bitte wähle unten den gewünschten Filter für dich aus."
 
-#: shifts/templates/shifts/shift_filters.html:16
+#: tapir/shifts/templates/shifts/shift_filters.html:16
 msgid "No filter"
 msgstr "Kein Filter"
 
-#: shifts/templates/shifts/shift_filters.html:23
+#: tapir/shifts/templates/shifts/shift_filters.html:23
 msgid "Has a free slot"
 msgstr "Hat einen freien Platz"
 
-#: shifts/templates/shifts/shift_filters.html:30
+#: tapir/shifts/templates/shifts/shift_filters.html:30
 msgid "Most help needed"
 msgstr "Hilfe am meisten gebraucht"
 
-#: shifts/templates/shifts/shift_filters.html:38
+#: tapir/shifts/templates/shifts/shift_filters.html:38
 msgid "Filter for type of slot"
 msgstr "Nach dem Schicht-Typ filtern"
 
-#: shifts/templates/shifts/shift_filters.html:60
+#: tapir/shifts/templates/shifts/shift_filters.html:60
 msgid "Legend"
 msgstr "Legende"
 
-#: shifts/templates/shifts/shift_filters.html:68
+#: tapir/shifts/templates/shifts/shift_filters.html:68
 msgctxt "Filters"
 msgid "Other shifts"
 msgstr "Andere Schichten"
 
-#: shifts/templates/shifts/shift_filters.html:71
+#: tapir/shifts/templates/shifts/shift_filters.html:71
 msgctxt "Filters"
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/templates/shifts/shift_filters.html:74
+#: tapir/shifts/templates/shifts/shift_filters.html:74
 msgid "Free slot"
 msgstr "Freier Platz"
 
-#: shifts/templates/shifts/shift_filters.html:77
+#: tapir/shifts/templates/shifts/shift_filters.html:77
 msgid "ABCD attendance"
 msgstr "ABCD Anwesenheit"
 
-#: shifts/templates/shifts/shift_filters.html:80
+#: tapir/shifts/templates/shifts/shift_filters.html:80
 msgid "Flying attendance"
 msgstr "Fliegende Anwesenheit"
 
-#: shifts/templates/shifts/shift_form.html:18
+#: tapir/shifts/templates/shifts/shift_form.html:18
 msgid ""
 "\n"
 "                            <p>Be careful when creating a shift, as you won't be able to delete it afterwards.</p>\n"
@@ -3157,30 +3291,30 @@ msgid ""
 "                        "
 msgstr ""
 
-#: shifts/templates/shifts/shift_management.html:16
+#: tapir/shifts/templates/shifts/shift_management.html:16
 msgid "Add shifts"
 msgstr "Schichten hinzufügen"
 
-#: shifts/templates/shifts/shift_management.html:20
+#: tapir/shifts/templates/shifts/shift_management.html:20
 msgid "Add a shift"
 msgstr "Schicht hinzufügen"
 
-#: shifts/templates/shifts/shift_management.html:24
+#: tapir/shifts/templates/shifts/shift_management.html:24
 msgid "Add an ABCD shift"
 msgstr "ABCD-Schicht hinfügen"
 
-#: shifts/templates/shifts/shift_management.html:37
-#: shifts/templates/shifts/shiftexemption_list.html:10
-#: shifts/templates/shifts/shiftexemption_list.html:19
+#: tapir/shifts/templates/shifts/shift_management.html:37
+#: tapir/shifts/templates/shifts/shiftexemption_list.html:10
+#: tapir/shifts/templates/shifts/shiftexemption_list.html:19
 msgid "Shift exemptions"
 msgstr "Schicht-Befreiungen"
 
-#: shifts/templates/shifts/shift_management.html:44
-#: shifts/templates/shifts/shift_management.html:56
+#: tapir/shifts/templates/shifts/shift_management.html:44
+#: tapir/shifts/templates/shifts/shift_management.html:56
 msgid "Update frozen statuses"
 msgstr ""
 
-#: shifts/templates/shifts/shift_management.html:47
+#: tapir/shifts/templates/shifts/shift_management.html:47
 msgid ""
 "\n"
 "                            <p>For every member, checks if they should get the frozen status, if they should get\n"
@@ -3191,11 +3325,11 @@ msgid ""
 "                        "
 msgstr ""
 
-#: shifts/templates/shifts/shift_management.html:63
+#: tapir/shifts/templates/shifts/shift_management.html:63
 msgid "Generate shifts from ABCD shifts"
 msgstr ""
 
-#: shifts/templates/shifts/shift_management.html:66
+#: tapir/shifts/templates/shifts/shift_management.html:66
 msgid ""
 "\n"
 "                        <p>This generates shifts for the coming 200 days according to the ABCD-shift-calendar.</p>\n"
@@ -3204,16 +3338,16 @@ msgid ""
 "                    "
 msgstr ""
 
-#: shifts/templates/shifts/shift_management.html:73
+#: tapir/shifts/templates/shifts/shift_management.html:73
 msgid "Generate shifts"
 msgstr ""
 
-#: shifts/templates/shifts/shift_management.html:79
-#: shifts/templates/shifts/shift_management.html:87
+#: tapir/shifts/templates/shifts/shift_management.html:79
+#: tapir/shifts/templates/shifts/shift_management.html:87
 msgid "Old shift statistics"
 msgstr ""
 
-#: shifts/templates/shifts/shift_management.html:82
+#: tapir/shifts/templates/shifts/shift_management.html:82
 msgid ""
 "\n"
 "                        <p>This statistics have been hidden from members in order to focus on the more important ones.</p>\n"
@@ -3221,51 +3355,51 @@ msgid ""
 "                    "
 msgstr ""
 
-#: shifts/templates/shifts/shift_template_detail.html:7
-#: shifts/templates/shifts/shift_template_detail.html:13
-#: shifts/templates/shifts/user_shifts_overview_tag.html:24
-#: shifts/templates/shifts/user_shifts_overview_tag.html:36
+#: tapir/shifts/templates/shifts/shift_template_detail.html:7
+#: tapir/shifts/templates/shifts/shift_template_detail.html:13
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:24
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:36
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
-#: shifts/templates/shifts/shift_template_detail.html:32
+#: tapir/shifts/templates/shifts/shift_template_detail.html:32
 msgid "List of slots for this ABCD shifts"
 msgstr "Liste des Slots für diese ABCD-Schicht"
 
-#: shifts/templates/shifts/shift_template_detail.html:37
+#: tapir/shifts/templates/shifts/shift_template_detail.html:37
 msgid "Requirements"
 msgstr ""
 
-#: shifts/templates/shifts/shift_template_detail.html:68
+#: tapir/shifts/templates/shifts/shift_template_detail.html:68
 msgid "Unregister"
 msgstr "Abmelden"
 
-#: shifts/templates/shifts/shift_template_detail.html:99
+#: tapir/shifts/templates/shifts/shift_template_detail.html:99
 msgid "Future generated Shifts"
 msgstr "Zukünftige erstellte Schichten"
 
-#: shifts/templates/shifts/shift_template_detail.html:109
+#: tapir/shifts/templates/shifts/shift_template_detail.html:109
 msgid "Past generated Shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/templates/shifts/shift_template_group_calendar.html:9
-#: shifts/templates/shifts/shift_template_group_calendar.html:18
+#: tapir/shifts/templates/shifts/shift_template_group_calendar.html:9
+#: tapir/shifts/templates/shifts/shift_template_group_calendar.html:18
 msgid "ABCD weeks calendar"
 msgstr "ABCD-Wochenkalender"
 
-#: shifts/templates/shifts/shift_template_group_calendar.html:27
+#: tapir/shifts/templates/shifts/shift_template_group_calendar.html:27
 msgid "as pdf"
 msgstr "als pdf"
 
-#: shifts/templates/shifts/shift_template_overview.html:12
+#: tapir/shifts/templates/shifts/shift_template_overview.html:12
 msgid "ABCD week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
-#: shifts/templates/shifts/shift_template_overview.html:19
+#: tapir/shifts/templates/shifts/shift_template_overview.html:19
 msgid "ABCD schedule overview, current week: "
 msgstr "ABCD-Zeitplan Übersicht, laufende Woche: "
 
-#: shifts/templates/shifts/shift_template_overview.html:22
+#: tapir/shifts/templates/shifts/shift_template_overview.html:22
 msgid ""
 "\n"
 "                    <p>This is the ABCD shiftplan. It repeats every four weeks. That's why you see only weekdays\n"
@@ -3279,15 +3413,15 @@ msgstr ""
 "<p>Wenn du deine regelmäßige ABCD-Schicht ändern möchtest, wende dich bitte ans Mitgliederbüro.</p>\n"
 " "
 
-#: shifts/templates/shifts/shift_template_overview.html:35
+#: tapir/shifts/templates/shifts/shift_template_overview.html:35
 msgid "Calendar of ABCD shifts"
 msgstr "Kalender der ABCD-Schichten"
 
-#: shifts/templates/shifts/shiftexemption_list.html:38
+#: tapir/shifts/templates/shifts/shiftexemption_list.html:38
 msgid "Create shift exemption"
 msgstr "Schicht-Befreiung erzeugen"
 
-#: shifts/templates/shifts/shiftexemption_list.html:58
+#: tapir/shifts/templates/shifts/shiftexemption_list.html:58
 #, python-format
 msgid ""
 "\n"
@@ -3295,7 +3429,7 @@ msgid ""
 "                                "
 msgstr ""
 
-#: shifts/templates/shifts/shiftslot_form.html:18
+#: tapir/shifts/templates/shifts/shiftslot_form.html:18
 msgid ""
 "\n"
 "                            Be careful when creating a shift slot, as you won't be able to delete it afterwards.\n"
@@ -3305,11 +3439,11 @@ msgstr ""
 "Sei vorsichtig, wenn du ein Schicht-Slot anlegst, weil du es nachträglich nicht löschen kannst.\n"
 " "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:13
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:13
 msgid "Available"
 msgstr "Verfügbar"
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:16
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:16
 #, python-format
 msgid ""
 "\n"
@@ -3320,7 +3454,7 @@ msgstr ""
 "                        <p>Es ist zurzeit %(available_solidarity_shifts)s Solidaritäts-Schicht verfügbar</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:20
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:20
 #, python-format
 msgid ""
 "\n"
@@ -3331,11 +3465,11 @@ msgstr ""
 "                        <p>Es sind zurzeit %(available_solidarity_shifts)s Solidaritäts-Schichten verfügbar</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:29
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:29
 msgid "Used"
 msgstr "Bisher genutzt"
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:32
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:32
 #, python-format
 msgid ""
 "\n"
@@ -3346,7 +3480,7 @@ msgstr ""
 "                        <p>%(used_solidarity_shifts_total)s Solidaritäts-Schicht wurde bisher genutzt</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:36
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:36
 #, python-format
 msgid ""
 "\n"
@@ -3357,16 +3491,16 @@ msgstr ""
 "                        <p>%(used_solidarity_shifts_total)s Solidaritäts-Schichten wurden bisher genutzt</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:43
-#: shifts/views/views.py:487
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:43
+#: tapir/shifts/views/views.py:487
 msgid "Solidarity shifts used"
 msgstr "Genutzte Solidaritäts-Schichten"
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:53
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:53
 msgid "Gifted"
 msgstr "Bisher gespendet"
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:56
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:56
 #, python-format
 msgid ""
 "\n"
@@ -3377,7 +3511,7 @@ msgstr ""
 "                        <p>%(gifted_solidarity_shifts_total)s Solidaritäts-Schicht wurde bisher gespendet</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:60
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:60
 #, python-format
 msgid ""
 "\n"
@@ -3388,129 +3522,129 @@ msgstr ""
 "                        <p>%(gifted_solidarity_shifts_total)s Solidaritäts-Schichten wurden bisher gespendet</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:67
-#: shifts/views/views.py:458
+#: tapir/shifts/templates/shifts/solidarity_shifts_overview.html:67
+#: tapir/shifts/views/views.py:458
 msgid "Solidarity shifts gifted"
 msgstr "Gespendete Solidaritäts-Schichten"
 
-#: shifts/templates/shifts/statistics.html:8
+#: tapir/shifts/templates/shifts/statistics.html:8
 msgid "Shift statistics"
 msgstr "Schicht-Statistiken"
 
-#: shifts/templates/shifts/statistics.html:65
+#: tapir/shifts/templates/shifts/statistics.html:65
 msgid "Statistics on shifts"
 msgstr "Schicht-Statistik"
 
-#: shifts/templates/shifts/statistics.html:80
+#: tapir/shifts/templates/shifts/statistics.html:80
 msgid "Gives details of the attendance per slot type."
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:106
+#: tapir/shifts/templates/shifts/statistics.html:106
 msgid "Gives details of the attendance for the past, current and next week."
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:130
+#: tapir/shifts/templates/shifts/statistics.html:130
 msgid "Shift cycle list"
 msgstr "Schicht-Zyklus-Liste"
 
-#: shifts/templates/shifts/statistics.html:134
+#: tapir/shifts/templates/shifts/statistics.html:134
 msgid "Gives details of the attendance per shift cycle."
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:157
+#: tapir/shifts/templates/shifts/statistics.html:157
 msgid "Data exports"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:163
+#: tapir/shifts/templates/shifts/statistics.html:163
 msgid "Slot data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:168
+#: tapir/shifts/templates/shifts/statistics.html:168
 msgid "ABCD shift data"
 msgstr "ABCD-Schichtsdaten"
 
-#: shifts/templates/shifts/statistics.html:173
+#: tapir/shifts/templates/shifts/statistics.html:173
 msgid "ABCD shift slot data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:178
+#: tapir/shifts/templates/shifts/statistics.html:178
 msgid "Shift data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:183
+#: tapir/shifts/templates/shifts/statistics.html:183
 msgid "Shift slot data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:188
+#: tapir/shifts/templates/shifts/statistics.html:188
 msgid "ABCD attendance data"
 msgstr "ABCD Anwesenheitsdaten"
 
-#: shifts/templates/shifts/statistics.html:193
+#: tapir/shifts/templates/shifts/statistics.html:193
 msgid "Attendance data"
 msgstr "Anwesenheitsdaten"
 
-#: shifts/templates/shifts/statistics.html:198
+#: tapir/shifts/templates/shifts/statistics.html:198
 msgid "Attendance updates data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:203
+#: tapir/shifts/templates/shifts/statistics.html:203
 msgid "Attendance takeover data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:211
+#: tapir/shifts/templates/shifts/statistics.html:211
 #, fuzzy
 #| msgid "Evolution of member count"
 msgid "Evolution of shift status"
 msgstr "Entwicklung der Mitgliederzahl"
 
-#: shifts/templates/shifts/statistics.html:218
+#: tapir/shifts/templates/shifts/statistics.html:218
 #, fuzzy
 #| msgid "Shift statistics"
 msgid "Shift status evolution"
 msgstr "Schicht-Statistiken"
 
-#: shifts/templates/shifts/user_shift_account_log.html:10
+#: tapir/shifts/templates/shifts/user_shift_account_log.html:10
 msgid "Shift account log for: "
 msgstr "Schichtkonto-Protokoll für: "
 
-#: shifts/templates/shifts/user_shift_account_log.html:16
+#: tapir/shifts/templates/shifts/user_shift_account_log.html:16
 msgid "Add a manual entry"
 msgstr "Füge per Hand einen Eintrag hinzu"
 
-#: shifts/templates/shifts/user_shift_account_log.html:23
+#: tapir/shifts/templates/shifts/user_shift_account_log.html:23
 msgid "List of changes to this members shift account "
 msgstr ""
 
-#: shifts/templates/shifts/user_shift_account_log.html:28
+#: tapir/shifts/templates/shifts/user_shift_account_log.html:28
 msgid "Balance at date"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:43
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:43
 msgid "Find an ABCD shift"
 msgstr "ABCD-Schicht auswählen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:50
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:50
 msgid "Upcoming Shift"
 msgstr "Nächste Schicht"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:57
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:57
 msgid "Show more"
 msgstr "Mehr anzeigen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:66
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:66
 msgctxt "No upcoming shift"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:75
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:75
 msgid "OK"
 msgstr "OK"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:77
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:77
 msgid "Shift for ongoing cycle pending"
 msgstr "Shift für aktuellen Zyklus ausstehend"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:79
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:79
 #, python-format
 msgid ""
 "\n"
@@ -3521,65 +3655,65 @@ msgstr ""
 "                        %(num_banked_shifts)s Schicht(en) gut geschrieben\n"
 "                    "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:84
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:84
 msgid "On alert"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:87
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:87
 msgid "log"
 msgstr "Protokoll"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:96
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:96
 msgctxt "No qualifications"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:101
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:101
 msgid "Exemption"
 msgstr "Befreiung"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:106
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:106
 msgid "until"
 msgstr "bis"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:113
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:113
 msgctxt "No shift exemption"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:121
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:121
 msgid "View all"
 msgstr "Alle ansehen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:128
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:128
 msgid "Solidarity"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:135
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:135
 msgid "Receive Solidarity"
 msgstr "Solidaritäts-Schicht nutzen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:141
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:141
 msgid "Give Solidarity"
 msgstr "Solidaritäts-Schicht spenden"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:150
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:150
 msgid "One of your banked shifts will be donated as a solidarity shift. Do you want to continue?"
 msgstr "Eine deiner gearbeiteten Schichten wird als Solidaritäts-Schicht gespendet. Möchtest du fortfahren?"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:153
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:153
 msgid "Cancel"
 msgstr "Abmelden"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:156
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:156
 msgid "Confirm"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:166
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:166
 msgid "Solidarity Status"
 msgstr "Status Solidaritäts-Schichten"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:170
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:170
 #, python-format
 msgid ""
 "\n"
@@ -3590,7 +3724,7 @@ msgstr ""
 "                            <p>Du hast dieses Jahr bereits %(used_solidarity_shifts_current_year)s von 2 Solidaritäts-Schichten genutzt</p>\n"
 "                        "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:174
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:174
 #, python-format
 msgid ""
 "\n"
@@ -3601,7 +3735,7 @@ msgstr ""
 "                            <p>Es sind Solidaritäts-Schichten verfügbar. Du hast dieses Jahr bisher %(used_solidarity_shifts_current_year)s von 2 Solidaritäts-Schichten genutzt</p>\n"
 "                        "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:178
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:178
 msgid ""
 "\n"
 "                            <p data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"Solidarity Shifts can only be received while having a negative balance\">You cannot receive a Solidarity Shift at the moment</p>\n"
@@ -3611,7 +3745,7 @@ msgstr ""
 "                            <p data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"Solidaritäts-Schichten können nur bei einem negativen Schichtkonto genutzt werden\">Du kannst im Moment keine Solidaritäts-Schicht nutzen</p>\n"
 "                        "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:183
+#: tapir/shifts/templates/shifts/user_shifts_overview_tag.html:183
 msgid ""
 "\n"
 "                            <p>There are no Solidarity Shifts available at the moment</p>\n"
@@ -3621,118 +3755,118 @@ msgstr ""
 "                            <p>Zurzeit sind keine Solidaritäts-Schichten verfügbar</p>\n"
 "                        "
 
-#: shifts/templatetags/shifts.py:57 shifts/templatetags/shifts.py:160
-#: shifts/views/views.py:131
+#: tapir/shifts/templatetags/shifts.py:57
+#: tapir/shifts/templatetags/shifts.py:160 tapir/shifts/views/views.py:131
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/utils.py:166
+#: tapir/shifts/utils.py:166
 #, python-brace-format
 msgid "Unknown mode {attendance_mode}"
 msgstr ""
 
-#: shifts/views/attendance.py:191
+#: tapir/shifts/views/attendance.py:191
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:197
+#: tapir/shifts/views/attendance.py:197
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/exemptions.py:79
+#: tapir/shifts/views/exemptions.py:79
 msgid "Is covered by shift exemption: "
 msgstr "Ist durch Schicht-Befreiung abgedeckt: "
 
-#: shifts/views/exemptions.py:94 shifts/views/exemptions.py:142
+#: tapir/shifts/views/exemptions.py:94 tapir/shifts/views/exemptions.py:142
 #, python-format
 msgid "Shift exemption: %(name)s"
 msgstr "Schicht-Befreiung: %(name)s"
 
-#: shifts/views/exemptions.py:99
+#: tapir/shifts/views/exemptions.py:99
 #, python-format
 msgid "Create shift exemption for: %(link)s"
 msgstr "Erzeuge Schicht-Befreiung für: %(link)s"
 
-#: shifts/views/exemptions.py:147
+#: tapir/shifts/views/exemptions.py:147
 #, python-format
 msgid "Edit shift exemption for: %(link)s"
 msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 
-#: shifts/views/exemptions.py:278
+#: tapir/shifts/views/exemptions.py:278
 msgid "Shift exemption converted to membership pause."
 msgstr ""
 
-#: shifts/views/management.py:36
+#: tapir/shifts/views/management.py:36
 msgid "Create a shift"
 msgstr "Schicht erzeugen"
 
-#: shifts/views/management.py:76
+#: tapir/shifts/views/management.py:76
 msgid "Edit slot: "
 msgstr "Slot bearbeiten: "
 
-#: shifts/views/management.py:120
+#: tapir/shifts/views/management.py:120
 msgid "Edit shift:"
 msgstr "Schiht bearbeiten:"
 
-#: shifts/views/management.py:134
+#: tapir/shifts/views/management.py:134
 msgid "Edit shift template: "
 msgstr "ABCD-Schicht bearbeiten: "
 
-#: shifts/views/management.py:153
+#: tapir/shifts/views/management.py:153
 msgid "Create an ABCD shift"
 msgstr "ABCD-Schicht erzeugen"
 
-#: shifts/views/management.py:155
+#: tapir/shifts/views/management.py:155
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
 msgstr ""
 
-#: shifts/views/management.py:226
+#: tapir/shifts/views/management.py:226
 msgid "Shifts generated."
 msgstr ""
 
-#: shifts/views/views.py:111 shifts/views/views.py:116
+#: tapir/shifts/views/views.py:111 tapir/shifts/views/views.py:116
 #, python-format
 msgid "Edit user shift data: %(name)s"
 msgstr "Bearbeite Nutzer*in-Schichtdaten: %(name)s"
 
-#: shifts/views/views.py:184
+#: tapir/shifts/views/views.py:184
 #, python-format
 msgid "Shift account: %(name)s"
 msgstr "Schichtkonto-Protokoll für: %(name)s"
 
-#: shifts/views/views.py:190
+#: tapir/shifts/views/views.py:190
 #, python-format
 msgid "Create manual shift account entry for:  %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:323
+#: tapir/shifts/views/views.py:323
 msgid "Frozen statuses updated."
 msgstr ""
 
-#: shifts/views/views.py:366
+#: tapir/shifts/views/views.py:366
 msgid "Solidarity Shift received. Account Balance increased by 1."
 msgstr ""
 
-#: shifts/views/views.py:397
+#: tapir/shifts/views/views.py:397
 msgid "Solidarity Shift given. Account Balance debited with -1."
 msgstr ""
 
-#: statistics/apps.py:18
+#: tapir/statistics/apps.py:18
 msgid "Statistics"
 msgstr "Statistiken"
 
-#: statistics/templates/statistics/main_statistics.html:8
+#: tapir/statistics/templates/statistics/main_statistics.html:8
 msgid "Main statistics"
 msgstr "Hauptstatistik"
 
-#: statistics/templates/statistics/main_statistics.html:18
-#: statistics/views.py:175
+#: tapir/statistics/templates/statistics/main_statistics.html:18
+#: tapir/statistics/views.py:175
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
-#: statistics/templates/statistics/main_statistics.html:21
+#: tapir/statistics/templates/statistics/main_statistics.html:21
 #, python-format
 msgid ""
 "\n"
@@ -3743,19 +3877,19 @@ msgstr ""
 "                            Alle Mitglieder der Genossenschaft - egal, ob investierend oder aktiv.: %(number_of_members_now)s.\n"
 "                        "
 
-#: statistics/templates/statistics/main_statistics.html:34
+#: tapir/statistics/templates/statistics/main_statistics.html:34
 msgid "New members per month"
 msgstr "Neue Mitglieder*innen pro Monat"
 
-#: statistics/templates/statistics/main_statistics.html:44
+#: tapir/statistics/templates/statistics/main_statistics.html:44
 msgid "Targets for break-even"
 msgstr "Ziele für den Break-Even"
 
-#: statistics/templates/statistics/main_statistics.html:47
+#: tapir/statistics/templates/statistics/main_statistics.html:47
 msgid "Shopping basket"
 msgstr "Warenkorb"
 
-#: statistics/templates/statistics/main_statistics.html:49
+#: tapir/statistics/templates/statistics/main_statistics.html:49
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -3774,11 +3908,11 @@ msgstr ""
 "                            %(target_basket)s€.\n"
 "                        "
 
-#: statistics/templates/statistics/main_statistics.html:57
+#: tapir/statistics/templates/statistics/main_statistics.html:57
 msgid "Members eligible to purchase"
 msgstr "Einkaufsberechtigte Mitglieder"
 
-#: statistics/templates/statistics/main_statistics.html:59
+#: tapir/statistics/templates/statistics/main_statistics.html:59
 #, python-format
 msgid ""
 "\n"
@@ -3799,16 +3933,16 @@ msgstr ""
 "\n"
 "                            "
 
-#: statistics/templates/statistics/main_statistics.html:76
-#: statistics/templates/statistics/main_statistics.html:108
+#: tapir/statistics/templates/statistics/main_statistics.html:76
+#: tapir/statistics/templates/statistics/main_statistics.html:108
 msgid "Current"
 msgstr "Aktuelle"
 
-#: statistics/templates/statistics/main_statistics.html:93
+#: tapir/statistics/templates/statistics/main_statistics.html:93
 msgid "Working members"
 msgstr "Mitarbeitende Mitglieder"
 
-#: statistics/templates/statistics/main_statistics.html:97
+#: tapir/statistics/templates/statistics/main_statistics.html:97
 #, python-format
 msgid ""
 "\n"
@@ -3823,13 +3957,13 @@ msgstr ""
 "\n"
 " "
 
-#: statistics/templates/statistics/main_statistics.html:123
-#: statistics/templates/statistics/main_statistics.html:137
-#: statistics/views.py:290
+#: tapir/statistics/templates/statistics/main_statistics.html:123
+#: tapir/statistics/templates/statistics/main_statistics.html:137
+#: tapir/statistics/views.py:290
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
-#: statistics/templates/statistics/main_statistics.html:127
+#: tapir/statistics/templates/statistics/main_statistics.html:127
 msgid ""
 "\n"
 "                                Any member who is registered as an active member but is 4 or more shifts short and\n"
@@ -3842,11 +3976,11 @@ msgstr ""
 "\n"
 " "
 
-#: statistics/templates/statistics/main_statistics.html:150
+#: tapir/statistics/templates/statistics/main_statistics.html:150
 msgid "Co-purchasers"
 msgstr "Miteinkäufer*innen"
 
-#: statistics/templates/statistics/main_statistics.html:154
+#: tapir/statistics/templates/statistics/main_statistics.html:154
 msgid ""
 "\n"
 "                                    Each member can designate one person (whether in their own household or not) to shop\n"
@@ -3856,11 +3990,11 @@ msgstr ""
 "\n"
 "Jedes Mitglied kann eine Person (egal, ob im eigenen Haushalt oder nicht) bestimmen, die unter der gleichen Mitgliedsnummer einkaufen kann. Das können investierende Mitglieder oder Nichtmitglieder sein. "
 
-#: statistics/templates/statistics/main_statistics.html:163
+#: tapir/statistics/templates/statistics/main_statistics.html:163
 msgid "Co-Purchasers"
 msgstr "Miteinkäufer*innen"
 
-#: statistics/templates/statistics/main_statistics.html:180
+#: tapir/statistics/templates/statistics/main_statistics.html:180
 msgid ""
 "\n"
 "                                        Here you can follow the progress of the funding campaign. Both additional shares\n"
@@ -3873,11 +4007,11 @@ msgstr ""
 "Hier könnt ihr den Fortschritt der Finanzierungskampagne verfolgen. Es werden sowohl weitere Anteile gezählt (alle Anteile, die über den Pflichtanteil hinaus gezeichnet werden) als auch Nachrangdarlehen. Der Zeitraum läuft vom 12.09.2023 - 09.12.2023. Was eine:r nicht schafft, schaffen viele!\n"
 "                                    "
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:5
+#: tapir/statistics/templates/statistics/tags/purchase_statistics_card.html:5
 msgid "Purchases"
 msgstr "Einkäufe"
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:8
+#: tapir/statistics/templates/statistics/tags/purchase_statistics_card.html:8
 #, python-format
 msgid ""
 "\n"
@@ -3888,1044 +4022,1044 @@ msgstr ""
 "                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
 "            "
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:14
+#: tapir/statistics/templates/statistics/tags/purchase_statistics_card.html:14
 msgid "List of the last purchases"
 msgstr "Liste der letzten Einkäufe"
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:18
+#: tapir/statistics/templates/statistics/tags/purchase_statistics_card.html:18
 msgid "Gross amount"
 msgstr ""
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:37
+#: tapir/statistics/templates/statistics/tags/purchase_statistics_card.html:37
 msgid "Evolution of total spends per month"
 msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
-#: statistics/views.py:245
+#: tapir/statistics/views.py:245
 msgid "Total spends per month"
 msgstr "Gesamtausgaben pro Monat"
 
-#: statistics/views.py:290
+#: tapir/statistics/views.py:290
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views.py:308
+#: tapir/statistics/views.py:308
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views.py:445
+#: tapir/statistics/views.py:445
 msgid "Purchase data updated"
 msgstr "Kaufdaten aktualisiert"
 
-#: utils/forms.py:25
+#: tapir/utils/forms.py:25
 msgid "German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. +12125552368)"
 msgstr "Innerstädtische und Mobilfunk-Verbindungen benötigen keine Vorwahlnummer (z.B. 01736160646), internationale Verbindungen benötigen die Landesvorwahlnummer für Mobilfunk, für Festnetz die Landes- und Ortsvorwahlnummer"
 
-#: utils/models.py:16
+#: tapir/utils/models.py:16
 msgid "Andorra"
 msgstr ""
 
-#: utils/models.py:17
+#: tapir/utils/models.py:17
 msgid "United Arab Emirates"
 msgstr ""
 
-#: utils/models.py:18
+#: tapir/utils/models.py:18
 msgid "Afghanistan"
 msgstr ""
 
-#: utils/models.py:19
+#: tapir/utils/models.py:19
 msgid "Antigua & Barbuda"
 msgstr ""
 
-#: utils/models.py:20
+#: tapir/utils/models.py:20
 msgid "Anguilla"
 msgstr ""
 
-#: utils/models.py:21
+#: tapir/utils/models.py:21
 msgid "Albania"
 msgstr ""
 
-#: utils/models.py:22
+#: tapir/utils/models.py:22
 msgid "Armenia"
 msgstr ""
 
-#: utils/models.py:23
+#: tapir/utils/models.py:23
 msgid "Netherlands Antilles"
 msgstr ""
 
-#: utils/models.py:24
+#: tapir/utils/models.py:24
 msgid "Angola"
 msgstr ""
 
-#: utils/models.py:25
+#: tapir/utils/models.py:25
 msgid "Antarctica"
 msgstr ""
 
-#: utils/models.py:26
+#: tapir/utils/models.py:26
 msgid "Argentina"
 msgstr ""
 
-#: utils/models.py:27
+#: tapir/utils/models.py:27
 msgid "American Samoa"
 msgstr ""
 
-#: utils/models.py:28
+#: tapir/utils/models.py:28
 msgid "Austria"
 msgstr ""
 
-#: utils/models.py:29
+#: tapir/utils/models.py:29
 msgid "Australia"
 msgstr ""
 
-#: utils/models.py:30
+#: tapir/utils/models.py:30
 msgid "Aruba"
 msgstr ""
 
-#: utils/models.py:31
+#: tapir/utils/models.py:31
 msgid "Azerbaijan"
 msgstr ""
 
-#: utils/models.py:32
+#: tapir/utils/models.py:32
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-#: utils/models.py:33
+#: tapir/utils/models.py:33
 msgid "Barbados"
 msgstr ""
 
-#: utils/models.py:34
+#: tapir/utils/models.py:34
 msgid "Bangladesh"
 msgstr ""
 
-#: utils/models.py:35
+#: tapir/utils/models.py:35
 msgid "Belgium"
 msgstr ""
 
-#: utils/models.py:36
+#: tapir/utils/models.py:36
 msgid "Burkina Faso"
 msgstr ""
 
-#: utils/models.py:37
+#: tapir/utils/models.py:37
 msgid "Bulgaria"
 msgstr ""
 
-#: utils/models.py:38
+#: tapir/utils/models.py:38
 msgid "Bahrain"
 msgstr ""
 
-#: utils/models.py:39
+#: tapir/utils/models.py:39
 msgid "Burundi"
 msgstr ""
 
-#: utils/models.py:40
+#: tapir/utils/models.py:40
 msgid "Benin"
 msgstr ""
 
-#: utils/models.py:41
+#: tapir/utils/models.py:41
 msgid "Bermuda"
 msgstr ""
 
-#: utils/models.py:42
+#: tapir/utils/models.py:42
 msgid "Brunei Darussalam"
 msgstr ""
 
-#: utils/models.py:43
+#: tapir/utils/models.py:43
 msgid "Bolivia"
 msgstr ""
 
-#: utils/models.py:44
+#: tapir/utils/models.py:44
 msgid "Brazil"
 msgstr ""
 
-#: utils/models.py:45
+#: tapir/utils/models.py:45
 msgid "Bahama"
 msgstr ""
 
-#: utils/models.py:46
+#: tapir/utils/models.py:46
 msgid "Bhutan"
 msgstr ""
 
-#: utils/models.py:47
+#: tapir/utils/models.py:47
 msgid "Bouvet Island"
 msgstr ""
 
-#: utils/models.py:48
+#: tapir/utils/models.py:48
 msgid "Botswana"
 msgstr ""
 
-#: utils/models.py:49
+#: tapir/utils/models.py:49
 msgid "Belarus"
 msgstr ""
 
-#: utils/models.py:50
+#: tapir/utils/models.py:50
 msgid "Belize"
 msgstr ""
 
-#: utils/models.py:51
+#: tapir/utils/models.py:51
 msgid "Canada"
 msgstr ""
 
-#: utils/models.py:52
+#: tapir/utils/models.py:52
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: utils/models.py:53
+#: tapir/utils/models.py:53
 msgid "Central African Republic"
 msgstr ""
 
-#: utils/models.py:54
+#: tapir/utils/models.py:54
 msgid "Congo"
 msgstr ""
 
-#: utils/models.py:55
+#: tapir/utils/models.py:55
 msgid "Switzerland"
 msgstr ""
 
-#: utils/models.py:56
+#: tapir/utils/models.py:56
 msgid "Ivory Coast"
 msgstr ""
 
-#: utils/models.py:57
+#: tapir/utils/models.py:57
 msgid "Cook Iislands"
 msgstr ""
 
-#: utils/models.py:58
+#: tapir/utils/models.py:58
 msgid "Chile"
 msgstr ""
 
-#: utils/models.py:59
+#: tapir/utils/models.py:59
 msgid "Cameroon"
 msgstr ""
 
-#: utils/models.py:60
+#: tapir/utils/models.py:60
 msgid "China"
 msgstr ""
 
-#: utils/models.py:61
+#: tapir/utils/models.py:61
 msgid "Colombia"
 msgstr ""
 
-#: utils/models.py:62
+#: tapir/utils/models.py:62
 msgid "Costa Rica"
 msgstr ""
 
-#: utils/models.py:63
+#: tapir/utils/models.py:63
 msgid "Cuba"
 msgstr ""
 
-#: utils/models.py:64
+#: tapir/utils/models.py:64
 msgid "Cape Verde"
 msgstr ""
 
-#: utils/models.py:65
+#: tapir/utils/models.py:65
 msgid "Christmas Island"
 msgstr ""
 
-#: utils/models.py:66
+#: tapir/utils/models.py:66
 msgid "Cyprus"
 msgstr ""
 
-#: utils/models.py:67
+#: tapir/utils/models.py:67
 msgid "Czech Republic"
 msgstr ""
 
-#: utils/models.py:68
+#: tapir/utils/models.py:68
 msgid "Germany"
 msgstr ""
 
-#: utils/models.py:69
+#: tapir/utils/models.py:69
 msgid "Djibouti"
 msgstr ""
 
-#: utils/models.py:70
+#: tapir/utils/models.py:70
 msgid "Denmark"
 msgstr ""
 
-#: utils/models.py:71
+#: tapir/utils/models.py:71
 msgid "Dominica"
 msgstr ""
 
-#: utils/models.py:72
+#: tapir/utils/models.py:72
 msgid "Dominican Republic"
 msgstr ""
 
-#: utils/models.py:73
+#: tapir/utils/models.py:73
 msgid "Algeria"
 msgstr ""
 
-#: utils/models.py:74
+#: tapir/utils/models.py:74
 msgid "Ecuador"
 msgstr ""
 
-#: utils/models.py:75
+#: tapir/utils/models.py:75
 msgid "Estonia"
 msgstr ""
 
-#: utils/models.py:76
+#: tapir/utils/models.py:76
 msgid "Egypt"
 msgstr ""
 
-#: utils/models.py:77
+#: tapir/utils/models.py:77
 msgid "Western Sahara"
 msgstr ""
 
-#: utils/models.py:78
+#: tapir/utils/models.py:78
 msgid "Eritrea"
 msgstr ""
 
-#: utils/models.py:79
+#: tapir/utils/models.py:79
 msgid "Spain"
 msgstr ""
 
-#: utils/models.py:80
+#: tapir/utils/models.py:80
 msgid "Ethiopia"
 msgstr ""
 
-#: utils/models.py:81
+#: tapir/utils/models.py:81
 msgid "Finland"
 msgstr ""
 
-#: utils/models.py:82
+#: tapir/utils/models.py:82
 msgid "Fiji"
 msgstr ""
 
-#: utils/models.py:83
+#: tapir/utils/models.py:83
 msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
-#: utils/models.py:84
+#: tapir/utils/models.py:84
 msgid "Micronesia"
 msgstr ""
 
-#: utils/models.py:85
+#: tapir/utils/models.py:85
 msgid "Faroe Islands"
 msgstr ""
 
-#: utils/models.py:86
+#: tapir/utils/models.py:86
 msgid "France"
 msgstr ""
 
-#: utils/models.py:87
+#: tapir/utils/models.py:87
 msgid "France, Metropolitan"
 msgstr ""
 
-#: utils/models.py:88
+#: tapir/utils/models.py:88
 msgid "Gabon"
 msgstr ""
 
-#: utils/models.py:89
+#: tapir/utils/models.py:89
 msgid "United Kingdom (Great Britain)"
 msgstr ""
 
-#: utils/models.py:90
+#: tapir/utils/models.py:90
 msgid "Grenada"
 msgstr ""
 
-#: utils/models.py:91
+#: tapir/utils/models.py:91
 msgid "Georgia"
 msgstr ""
 
-#: utils/models.py:92
+#: tapir/utils/models.py:92
 msgid "French Guiana"
 msgstr ""
 
-#: utils/models.py:93
+#: tapir/utils/models.py:93
 msgid "Ghana"
 msgstr ""
 
-#: utils/models.py:94
+#: tapir/utils/models.py:94
 msgid "Gibraltar"
 msgstr ""
 
-#: utils/models.py:95
+#: tapir/utils/models.py:95
 msgid "Greenland"
 msgstr ""
 
-#: utils/models.py:96
+#: tapir/utils/models.py:96
 msgid "Gambia"
 msgstr ""
 
-#: utils/models.py:97
+#: tapir/utils/models.py:97
 msgid "Guinea"
 msgstr ""
 
-#: utils/models.py:98
+#: tapir/utils/models.py:98
 msgid "Guadeloupe"
 msgstr ""
 
-#: utils/models.py:99
+#: tapir/utils/models.py:99
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: utils/models.py:100
+#: tapir/utils/models.py:100
 msgid "Greece"
 msgstr ""
 
-#: utils/models.py:101
+#: tapir/utils/models.py:101
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
-#: utils/models.py:102
+#: tapir/utils/models.py:102
 msgid "Guatemala"
 msgstr ""
 
-#: utils/models.py:103
+#: tapir/utils/models.py:103
 msgid "Guam"
 msgstr ""
 
-#: utils/models.py:104
+#: tapir/utils/models.py:104
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: utils/models.py:105
+#: tapir/utils/models.py:105
 msgid "Guyana"
 msgstr ""
 
-#: utils/models.py:106
+#: tapir/utils/models.py:106
 msgid "Hong Kong"
 msgstr ""
 
-#: utils/models.py:107
+#: tapir/utils/models.py:107
 msgid "Heard & McDonald Islands"
 msgstr ""
 
-#: utils/models.py:108
+#: tapir/utils/models.py:108
 msgid "Honduras"
 msgstr ""
 
-#: utils/models.py:109
+#: tapir/utils/models.py:109
 msgid "Croatia"
 msgstr ""
 
-#: utils/models.py:110
+#: tapir/utils/models.py:110
 msgid "Haiti"
 msgstr ""
 
-#: utils/models.py:111
+#: tapir/utils/models.py:111
 msgid "Hungary"
 msgstr ""
 
-#: utils/models.py:112
+#: tapir/utils/models.py:112
 msgid "Indonesia"
 msgstr ""
 
-#: utils/models.py:113
+#: tapir/utils/models.py:113
 msgid "Ireland"
 msgstr ""
 
-#: utils/models.py:114
+#: tapir/utils/models.py:114
 msgid "Israel"
 msgstr ""
 
-#: utils/models.py:115
+#: tapir/utils/models.py:115
 msgid "India"
 msgstr ""
 
-#: utils/models.py:116
+#: tapir/utils/models.py:116
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: utils/models.py:117
+#: tapir/utils/models.py:117
 msgid "Iraq"
 msgstr ""
 
-#: utils/models.py:118
+#: tapir/utils/models.py:118
 msgid "Islamic Republic of Iran"
 msgstr ""
 
-#: utils/models.py:119
+#: tapir/utils/models.py:119
 msgid "Iceland"
 msgstr ""
 
-#: utils/models.py:120
+#: tapir/utils/models.py:120
 msgid "Italy"
 msgstr ""
 
-#: utils/models.py:121
+#: tapir/utils/models.py:121
 msgid "Jamaica"
 msgstr ""
 
-#: utils/models.py:122
+#: tapir/utils/models.py:122
 msgid "Jordan"
 msgstr ""
 
-#: utils/models.py:123
+#: tapir/utils/models.py:123
 msgid "Japan"
 msgstr ""
 
-#: utils/models.py:124
+#: tapir/utils/models.py:124
 msgid "Kenya"
 msgstr ""
 
-#: utils/models.py:125
+#: tapir/utils/models.py:125
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: utils/models.py:126
+#: tapir/utils/models.py:126
 msgid "Cambodia"
 msgstr ""
 
-#: utils/models.py:127
+#: tapir/utils/models.py:127
 msgid "Kiribati"
 msgstr ""
 
-#: utils/models.py:128
+#: tapir/utils/models.py:128
 msgid "Comoros"
 msgstr ""
 
-#: utils/models.py:129
+#: tapir/utils/models.py:129
 msgid "St. Kitts and Nevis"
 msgstr ""
 
-#: utils/models.py:130
+#: tapir/utils/models.py:130
 msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
-#: utils/models.py:131
+#: tapir/utils/models.py:131
 msgid "Korea, Republic of"
 msgstr ""
 
-#: utils/models.py:132
+#: tapir/utils/models.py:132
 msgid "Kuwait"
 msgstr ""
 
-#: utils/models.py:133
+#: tapir/utils/models.py:133
 msgid "Cayman Islands"
 msgstr ""
 
-#: utils/models.py:134
+#: tapir/utils/models.py:134
 msgid "Kazakhstan"
 msgstr ""
 
-#: utils/models.py:135
+#: tapir/utils/models.py:135
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: utils/models.py:136
+#: tapir/utils/models.py:136
 msgid "Lebanon"
 msgstr ""
 
-#: utils/models.py:137
+#: tapir/utils/models.py:137
 msgid "Saint Lucia"
 msgstr ""
 
-#: utils/models.py:138
+#: tapir/utils/models.py:138
 msgid "Liechtenstein"
 msgstr ""
 
-#: utils/models.py:139
+#: tapir/utils/models.py:139
 msgid "Sri Lanka"
 msgstr ""
 
-#: utils/models.py:140
+#: tapir/utils/models.py:140
 msgid "Liberia"
 msgstr ""
 
-#: utils/models.py:141
+#: tapir/utils/models.py:141
 msgid "Lesotho"
 msgstr ""
 
-#: utils/models.py:142
+#: tapir/utils/models.py:142
 msgid "Lithuania"
 msgstr ""
 
-#: utils/models.py:143
+#: tapir/utils/models.py:143
 msgid "Luxembourg"
 msgstr ""
 
-#: utils/models.py:144
+#: tapir/utils/models.py:144
 msgid "Latvia"
 msgstr ""
 
-#: utils/models.py:145
+#: tapir/utils/models.py:145
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
-#: utils/models.py:146
+#: tapir/utils/models.py:146
 msgid "Morocco"
 msgstr ""
 
-#: utils/models.py:147
+#: tapir/utils/models.py:147
 msgid "Monaco"
 msgstr ""
 
-#: utils/models.py:148
+#: tapir/utils/models.py:148
 msgid "Moldova, Republic of"
 msgstr ""
 
-#: utils/models.py:149
+#: tapir/utils/models.py:149
 msgid "Madagascar"
 msgstr ""
 
-#: utils/models.py:150
+#: tapir/utils/models.py:150
 msgid "Marshall Islands"
 msgstr ""
 
-#: utils/models.py:151
+#: tapir/utils/models.py:151
 msgid "Mali"
 msgstr ""
 
-#: utils/models.py:152
+#: tapir/utils/models.py:152
 msgid "Mongolia"
 msgstr ""
 
-#: utils/models.py:153
+#: tapir/utils/models.py:153
 msgid "Myanmar"
 msgstr ""
 
-#: utils/models.py:154
+#: tapir/utils/models.py:154
 msgid "Macau"
 msgstr ""
 
-#: utils/models.py:155
+#: tapir/utils/models.py:155
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: utils/models.py:156
+#: tapir/utils/models.py:156
 msgid "Martinique"
 msgstr ""
 
-#: utils/models.py:157
+#: tapir/utils/models.py:157
 msgid "Mauritania"
 msgstr ""
 
-#: utils/models.py:158
+#: tapir/utils/models.py:158
 msgid "Monserrat"
 msgstr ""
 
-#: utils/models.py:159
+#: tapir/utils/models.py:159
 msgid "Malta"
 msgstr ""
 
-#: utils/models.py:160
+#: tapir/utils/models.py:160
 msgid "Mauritius"
 msgstr ""
 
-#: utils/models.py:161
+#: tapir/utils/models.py:161
 msgid "Maldives"
 msgstr ""
 
-#: utils/models.py:162
+#: tapir/utils/models.py:162
 msgid "Malawi"
 msgstr ""
 
-#: utils/models.py:163
+#: tapir/utils/models.py:163
 msgid "Mexico"
 msgstr ""
 
-#: utils/models.py:164
+#: tapir/utils/models.py:164
 msgid "Malaysia"
 msgstr ""
 
-#: utils/models.py:165
+#: tapir/utils/models.py:165
 msgid "Mozambique"
 msgstr ""
 
-#: utils/models.py:166
+#: tapir/utils/models.py:166
 msgid "Namibia"
 msgstr ""
 
-#: utils/models.py:167
+#: tapir/utils/models.py:167
 msgid "New Caledonia"
 msgstr ""
 
-#: utils/models.py:168
+#: tapir/utils/models.py:168
 msgid "Niger"
 msgstr ""
 
-#: utils/models.py:169
+#: tapir/utils/models.py:169
 msgid "Norfolk Island"
 msgstr ""
 
-#: utils/models.py:170
+#: tapir/utils/models.py:170
 msgid "Nigeria"
 msgstr ""
 
-#: utils/models.py:171
+#: tapir/utils/models.py:171
 msgid "Nicaragua"
 msgstr ""
 
-#: utils/models.py:172
+#: tapir/utils/models.py:172
 msgid "Netherlands"
 msgstr ""
 
-#: utils/models.py:173
+#: tapir/utils/models.py:173
 msgid "Norway"
 msgstr ""
 
-#: utils/models.py:174
+#: tapir/utils/models.py:174
 msgid "Nepal"
 msgstr ""
 
-#: utils/models.py:175
+#: tapir/utils/models.py:175
 msgid "Nauru"
 msgstr ""
 
-#: utils/models.py:176
+#: tapir/utils/models.py:176
 msgid "Niue"
 msgstr ""
 
-#: utils/models.py:177
+#: tapir/utils/models.py:177
 msgid "New Zealand"
 msgstr ""
 
-#: utils/models.py:178
+#: tapir/utils/models.py:178
 msgid "Oman"
 msgstr ""
 
-#: utils/models.py:179
+#: tapir/utils/models.py:179
 msgid "Panama"
 msgstr ""
 
-#: utils/models.py:180
+#: tapir/utils/models.py:180
 msgid "Peru"
 msgstr ""
 
-#: utils/models.py:181
+#: tapir/utils/models.py:181
 msgid "French Polynesia"
 msgstr ""
 
-#: utils/models.py:182
+#: tapir/utils/models.py:182
 msgid "Papua New Guinea"
 msgstr ""
 
-#: utils/models.py:183
+#: tapir/utils/models.py:183
 msgid "Philippines"
 msgstr ""
 
-#: utils/models.py:184
+#: tapir/utils/models.py:184
 msgid "Pakistan"
 msgstr ""
 
-#: utils/models.py:185
+#: tapir/utils/models.py:185
 msgid "Poland"
 msgstr ""
 
-#: utils/models.py:186
+#: tapir/utils/models.py:186
 msgid "St. Pierre & Miquelon"
 msgstr ""
 
-#: utils/models.py:187
+#: tapir/utils/models.py:187
 msgid "Pitcairn"
 msgstr ""
 
-#: utils/models.py:188
+#: tapir/utils/models.py:188
 msgid "Puerto Rico"
 msgstr ""
 
-#: utils/models.py:189
+#: tapir/utils/models.py:189
 msgid "Portugal"
 msgstr ""
 
-#: utils/models.py:190
+#: tapir/utils/models.py:190
 msgid "Palau"
 msgstr ""
 
-#: utils/models.py:191
+#: tapir/utils/models.py:191
 msgid "Paraguay"
 msgstr ""
 
-#: utils/models.py:192
+#: tapir/utils/models.py:192
 msgid "Qatar"
 msgstr ""
 
-#: utils/models.py:193
+#: tapir/utils/models.py:193
 msgid "Reunion"
 msgstr ""
 
-#: utils/models.py:194
+#: tapir/utils/models.py:194
 msgid "Romania"
 msgstr ""
 
-#: utils/models.py:195
+#: tapir/utils/models.py:195
 msgid "Russian Federation"
 msgstr ""
 
-#: utils/models.py:196
+#: tapir/utils/models.py:196
 msgid "Rwanda"
 msgstr ""
 
-#: utils/models.py:197
+#: tapir/utils/models.py:197
 msgid "Saudi Arabia"
 msgstr ""
 
-#: utils/models.py:198
+#: tapir/utils/models.py:198
 msgid "Solomon Islands"
 msgstr ""
 
-#: utils/models.py:199
+#: tapir/utils/models.py:199
 msgid "Seychelles"
 msgstr ""
 
-#: utils/models.py:200
+#: tapir/utils/models.py:200
 msgid "Sudan"
 msgstr ""
 
-#: utils/models.py:201
+#: tapir/utils/models.py:201
 msgid "Sweden"
 msgstr ""
 
-#: utils/models.py:202
+#: tapir/utils/models.py:202
 msgid "Singapore"
 msgstr ""
 
-#: utils/models.py:203
+#: tapir/utils/models.py:203
 msgid "St. Helena"
 msgstr ""
 
-#: utils/models.py:204
+#: tapir/utils/models.py:204
 msgid "Slovenia"
 msgstr ""
 
-#: utils/models.py:205
+#: tapir/utils/models.py:205
 msgid "Svalbard & Jan Mayen Islands"
 msgstr ""
 
-#: utils/models.py:206
+#: tapir/utils/models.py:206
 msgid "Slovakia"
 msgstr ""
 
-#: utils/models.py:207
+#: tapir/utils/models.py:207
 msgid "Sierra Leone"
 msgstr ""
 
-#: utils/models.py:208
+#: tapir/utils/models.py:208
 msgid "San Marino"
 msgstr ""
 
-#: utils/models.py:209
+#: tapir/utils/models.py:209
 msgid "Senegal"
 msgstr ""
 
-#: utils/models.py:210
+#: tapir/utils/models.py:210
 msgid "Somalia"
 msgstr ""
 
-#: utils/models.py:211
+#: tapir/utils/models.py:211
 msgid "Suriname"
 msgstr ""
 
-#: utils/models.py:212
+#: tapir/utils/models.py:212
 msgid "Sao Tome & Principe"
 msgstr ""
 
-#: utils/models.py:213
+#: tapir/utils/models.py:213
 msgid "El Salvador"
 msgstr ""
 
-#: utils/models.py:214
+#: tapir/utils/models.py:214
 msgid "Syrian Arab Republic"
 msgstr ""
 
-#: utils/models.py:215
+#: tapir/utils/models.py:215
 msgid "Swaziland"
 msgstr ""
 
-#: utils/models.py:216
+#: tapir/utils/models.py:216
 msgid "Turks & Caicos Islands"
 msgstr ""
 
-#: utils/models.py:217
+#: tapir/utils/models.py:217
 msgid "Chad"
 msgstr ""
 
-#: utils/models.py:218
+#: tapir/utils/models.py:218
 msgid "French Southern Territories"
 msgstr ""
 
-#: utils/models.py:219
+#: tapir/utils/models.py:219
 msgid "Togo"
 msgstr ""
 
-#: utils/models.py:220
+#: tapir/utils/models.py:220
 msgid "Thailand"
 msgstr ""
 
-#: utils/models.py:221
+#: tapir/utils/models.py:221
 msgid "Tajikistan"
 msgstr ""
 
-#: utils/models.py:222
+#: tapir/utils/models.py:222
 msgid "Tokelau"
 msgstr ""
 
-#: utils/models.py:223
+#: tapir/utils/models.py:223
 msgid "Turkmenistan"
 msgstr ""
 
-#: utils/models.py:224
+#: tapir/utils/models.py:224
 msgid "Tunisia"
 msgstr ""
 
-#: utils/models.py:225
+#: tapir/utils/models.py:225
 msgid "Tonga"
 msgstr ""
 
-#: utils/models.py:226
+#: tapir/utils/models.py:226
 msgid "East Timor"
 msgstr ""
 
-#: utils/models.py:227
+#: tapir/utils/models.py:227
 msgid "Turkey"
 msgstr ""
 
-#: utils/models.py:228
+#: tapir/utils/models.py:228
 msgid "Trinidad & Tobago"
 msgstr ""
 
-#: utils/models.py:229
+#: tapir/utils/models.py:229
 msgid "Tuvalu"
 msgstr ""
 
-#: utils/models.py:230
+#: tapir/utils/models.py:230
 msgid "Taiwan, Province of China"
 msgstr ""
 
-#: utils/models.py:231
+#: tapir/utils/models.py:231
 msgid "Tanzania, United Republic of"
 msgstr ""
 
-#: utils/models.py:232
+#: tapir/utils/models.py:232
 msgid "Ukraine"
 msgstr ""
 
-#: utils/models.py:233
+#: tapir/utils/models.py:233
 msgid "Uganda"
 msgstr ""
 
-#: utils/models.py:234
+#: tapir/utils/models.py:234
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
-#: utils/models.py:235
+#: tapir/utils/models.py:235
 msgid "United States of America"
 msgstr ""
 
-#: utils/models.py:236
+#: tapir/utils/models.py:236
 msgid "Uruguay"
 msgstr ""
 
-#: utils/models.py:237
+#: tapir/utils/models.py:237
 msgid "Uzbekistan"
 msgstr ""
 
-#: utils/models.py:238
+#: tapir/utils/models.py:238
 msgid "Vatican City State (Holy See)"
 msgstr ""
 
-#: utils/models.py:239
+#: tapir/utils/models.py:239
 msgid "St. Vincent & the Grenadines"
 msgstr ""
 
-#: utils/models.py:240
+#: tapir/utils/models.py:240
 msgid "Venezuela"
 msgstr ""
 
-#: utils/models.py:241
+#: tapir/utils/models.py:241
 msgid "British Virgin Islands"
 msgstr ""
 
-#: utils/models.py:242
+#: tapir/utils/models.py:242
 msgid "United States Virgin Islands"
 msgstr ""
 
-#: utils/models.py:243
+#: tapir/utils/models.py:243
 msgid "Viet Nam"
 msgstr ""
 
-#: utils/models.py:244
+#: tapir/utils/models.py:244
 msgid "Vanuatu"
 msgstr ""
 
-#: utils/models.py:245
+#: tapir/utils/models.py:245
 msgid "Wallis & Futuna Islands"
 msgstr ""
 
-#: utils/models.py:246
+#: tapir/utils/models.py:246
 msgid "Samoa"
 msgstr ""
 
-#: utils/models.py:247
+#: tapir/utils/models.py:247
 msgid "Yemen"
 msgstr ""
 
-#: utils/models.py:248
+#: tapir/utils/models.py:248
 msgid "Mayotte"
 msgstr ""
 
-#: utils/models.py:249
+#: tapir/utils/models.py:249
 msgid "Yugoslavia"
 msgstr ""
 
-#: utils/models.py:250
+#: tapir/utils/models.py:250
 msgid "South Africa"
 msgstr ""
 
-#: utils/models.py:251
+#: tapir/utils/models.py:251
 msgid "Zambia"
 msgstr ""
 
-#: utils/models.py:252
+#: tapir/utils/models.py:252
 msgid "Zaire"
 msgstr ""
 
-#: utils/models.py:253
+#: tapir/utils/models.py:253
 msgid "Zimbabwe"
 msgstr ""
 
-#: utils/models.py:254
+#: tapir/utils/models.py:254
 msgid "Unknown or unspecified country"
 msgstr ""
 
-#: utils/models.py:258
+#: tapir/utils/models.py:258
 msgid "🇩🇪 Deutsch"
 msgstr "🇩🇪 Deutsch"
 
-#: utils/models.py:259
+#: tapir/utils/models.py:259
 msgid "🇬🇧 English"
 msgstr "🇬🇧 English"
 
-#: utils/models.py:362
+#: tapir/utils/models.py:362
 msgid "start date must be set"
 msgstr "Anfangsdatum muss gesetzt sein"
 
-#: utils/models.py:365
+#: tapir/utils/models.py:365
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Enddatum sein"
 
-#: utils/models.py:395
+#: tapir/utils/models.py:395
 msgid "Must be a positive number."
 msgstr "Muss eine positive Zahl sein."
 
-#: utils/user_utils.py:42
+#: tapir/utils/user_utils.py:42
 msgid "NO NAME AVAILABLE"
 msgstr ""
 
-#: welcomedesk/apps.py:17 welcomedesk/apps.py:20
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:13
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:17
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:12
+#: tapir/welcomedesk/apps.py:17 tapir/welcomedesk/apps.py:20
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_search.html:13
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_search.html:17
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:12
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:25
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_search.html:25
 msgid "Search"
 msgstr "Suchen"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:28
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:28
 #, python-format
 msgid ""
 "%(name)s can shop\n"
 "                        :)"
 msgstr "%(name)s kann einkaufen :)"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:34
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:34
 #, python-format
 msgid ""
 "%(name)s does not have a Tapir\n"
 "                            account. Contact a member of the management team."
 msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:42
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:42
 #, python-format
 msgid ""
 "%(name)s is an investing member.\n"
@@ -4933,7 +5067,7 @@ msgid ""
 "                            management team."
 msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss es ein aktives Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:49
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:49
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -4953,7 +5087,7 @@ msgstr ""
 "\n"
 " "
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:58
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:58
 #, python-format
 msgid ""
 "\n"
@@ -4961,21 +5095,21 @@ msgid ""
 "                        "
 msgstr ""
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:68
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:68
 #, python-format
 msgid ""
 "%(name)s is not registered to an\n"
 "                        ABCD shift yet. Make sure they plan to do it!"
 msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass er*sie es entsprechend einplant!"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:76
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:76
 #, python-format
 msgid ""
 "%(name)s has not attended a welcome\n"
 "                        session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:86
+#: tapir/welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:86
 msgid "Member ID"
 msgstr "Mitglieds-ID"
 

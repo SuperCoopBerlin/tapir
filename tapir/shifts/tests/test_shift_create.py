@@ -41,6 +41,7 @@ class TestShiftCreate(TapirFactoryTestBase):
                 "end_time": end_time,
                 "num_required_attendances": self.SHIFT_REQUIRED_ATTENDANCES,
                 "description": self.SHIFT_DESCRIPTION,
+                "warning_time": datetime.timedelta(days=-1),
             },
             follow=True,
         )
