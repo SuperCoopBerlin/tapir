@@ -36,7 +36,6 @@ DEBUG = env("DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
 
 ENABLE_SILK_PROFILING = False
-ENABLE_API = env("ENABLE_API", cast=bool, default=False)
 
 # Application definition
 INSTALLED_APPS = [
@@ -69,14 +68,6 @@ INSTALLED_APPS = [
 if ENABLE_SILK_PROFILING:
     INSTALLED_APPS.append("silk")
 
-if ENABLE_API:
-    INSTALLED_APPS.append("rest_framework")
-    INSTALLED_APPS.append("rest_framework_simplejwt")
-    INSTALLED_APPS.append("tapir.api")
-
-if DEBUG and ENABLE_API:
-    INSTALLED_APPS.append("corsheaders")
-
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -91,16 +82,6 @@ MIDDLEWARE = [
 
 if ENABLE_SILK_PROFILING:
     MIDDLEWARE = ["silk.middleware.SilkyMiddleware"] + MIDDLEWARE
-
-if DEBUG and ENABLE_API:
-    MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE
-
-    CORS_ORIGIN_ALLOW_ALL = False
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^http://localhost.*$",
-        r"^http://127.0.0.1.*$",
-    ]
-    CORS_URLS_REGEX = r"^/api/.*$"
 
 ROOT_URLCONF = "tapir.urls"
 
@@ -321,20 +302,3 @@ if ENABLE_SILK_PROFILING:
     SILKY_PYTHON_PROFILER = True
     SILKY_META = True
     SILKY_PROFILE_DIR = "silk_profiling"
-
-if ENABLE_API:
-    REST_FRAMEWORK = {
-        # Use Django's standard `django.contrib.auth` permissions,
-        # or allow read-only access for unauthenticated users.
-        "DEFAULT_PERMISSION_CLASSES": [
-            "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
-        ],
-        "DEFAULT_AUTHENTICATION_CLASSES": (
-            "rest_framework_simplejwt.authentication.JWTAuthentication",
-        ),
-    }
-
-    SIMPLE_JWT = {
-        "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
-        "REFRESH_TOKEN_LIFETIME": timedelta(weeks=12),
-    }
