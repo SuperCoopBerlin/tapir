@@ -23,6 +23,7 @@ from tapir.utils.models import (
 from tapir.utils.shortcuts import get_html_link
 from tapir.utils.user_utils import UserUtils
 
+
 class ShareOwner(models.Model):
     """ShareOwner represents a share_owner of a ShareOwnership.
 
@@ -206,7 +207,7 @@ class ShareOwner(models.Model):
 
     def get_display_name(self, display_type):
         return UserUtils.build_display_name(self, display_type)
-    
+
     def get_html_link(self, display_type):
         return get_html_link(
             url=self.get_absolute_url(), text=self.get_display_name(display_type)
@@ -719,6 +720,7 @@ class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
             new_frozen=new_frozen,
         )
 
+
 class ResignedMembership(models.Model):
     share_owner = models.ForeignKey(
         ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Shareowner")
@@ -726,13 +728,16 @@ class ResignedMembership(models.Model):
     cancellation_date = models.DateField(
         default=timezone.now,
         blank=True,
-        )
+    )
     pay_out_day = models.DateField(null=True)
-    cancellation_reason = models.CharField(max_length = 1000)
+    cancellation_reason = models.CharField(max_length=1000)
     coop_buys_shares_back = models.BooleanField()
     willing_to_gift_shares_to_coop = models.BooleanField()
     transfering_shares_to = models.ForeignKey(
-        TapirUser, on_delete=models.deletion.CASCADE, verbose_name=_("TapirUser"), null=True,
+        TapirUser,
+        on_delete=models.deletion.CASCADE,
+        verbose_name=_("TapirUser"),
+        null=True,
     )
     paid_out = models.BooleanField(default=False)
 
@@ -750,7 +755,8 @@ class ResignedMembership(models.Model):
             return self.filter(word_filter)
 
     objects = ResignedMemberQuerySet.as_manager()
-    
+
+
 class ResignMembershipCreateLogEntry(ModelLogEntry):
     template_name = "coop/log/create_resignmember_log_entry.html"
 
@@ -762,6 +768,8 @@ class ResignMembershipCreateLogEntry(ModelLogEntry):
         return super().populate_base(
             actor=actor, share_owner=model.share_owner, model=model
         )
+
+
 class ResignMembershipUpdateLogEntry(UpdateModelLogEntry):
     template_name = "coop/log/update_resignmember_log_entry.html"
 

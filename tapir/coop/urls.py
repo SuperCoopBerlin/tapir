@@ -86,9 +86,9 @@ urlpatterns = [
         name="resign_member_edit",
     ),
     path(
-      "resign_member/<int:pk>/detail",
-      views.ResignedShareOwnerDetailView.as_view(),
-      name="resignedmember_detail",  
+        "resign_member/<int:pk>/detail",
+        views.ResignedShareOwnerDetailView.as_view(),
+        name="resignedmember_detail",
     ),
     path(
         "resign_member/<int:pk>/delete",
