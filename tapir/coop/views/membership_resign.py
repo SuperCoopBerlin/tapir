@@ -17,14 +17,24 @@ from django_tables2.export import ExportMixin
 
 from tapir.coop.forms import MembershipCancelForm
 from tapir.core.views import TapirFormMixin
-from tapir.coop.models import ResignedMembership, ResignMembershipCreateLogEntry, ResignMembershipUpdateLogEntry
+from tapir.coop.models import (
+    ResignedMembership,
+    ResignMembershipCreateLogEntry,
+    ResignMembershipUpdateLogEntry,
+)
 from tapir.coop.services.ResignMemberService import ResignMemberService
 from tapir.log.views import UpdateViewLogMixin
 from tapir.log.util import freeze_for_log
 
+from tapir.coop.emails.resignedmembership_confirmation_email import (
+    ResignedMembershipConfirmation,
+)
+
 from django.db import transaction
+
+
 class ResignedShareOwnerTable(django_tables2.Table):
-    class Meta: 
+    class Meta:
         model = ResignedMembership
         template_name = TAPIR_TABLE_TEMPLATE
         fields = [
@@ -33,37 +43,35 @@ class ResignedShareOwnerTable(django_tables2.Table):
             "cancellation_reason",
             "paid_out",
             "pay_out_day",
-            ]
+        ]
         sequence = [
             "share_owner",
             "cancellation_reason",
             "cancellation_date",
             "pay_out_day",
-            "paid_out",            
+            "paid_out",
             "add_buttons",
-            ]
+        ]
         order_by = "-cancellation_date"
         attrs = {"class": TAPIR_TABLE_CLASSES}
         empty_text = "No entries"
         default = "No entries"
 
     cancellation_reason = django_tables2.Column(
-        attrs = {"td": {"class": "col-4 text-break"}} 
+        attrs={"td": {"class": "col-4 text-break"}}
     )
-    pay_out_day = django_tables2.DateColumn(
-        attrs = {"td": {"class": "" }}
-    )
+    pay_out_day = django_tables2.DateColumn(attrs={"td": {"class": ""}})
     add_buttons = django_tables2.Column(
         empty_values=(),
         verbose_name="Actions",
         orderable=False,
         exclude_from_export=True,
-        default = "No entries",
+        default="No entries",
     )
 
     def before_render(self, request):
         self.request = request
-    
+
     def render_share_owner(self, record: ResignedMembership):
         return UserUtils.build_html_link_for_viewer(
             record.share_owner, self.request.user
@@ -74,10 +82,10 @@ class ResignedShareOwnerTable(django_tables2.Table):
 
     def render_cancellation_reason(self, record: ResignedMembership):
         return f"{record.cancellation_reason}"
-    
+
     def render_cancellation_date(self, record: ResignedMembership):
         return record.cancellation_date.strftime("%d/%m/%Y")
-    
+
     def render_pay_out_day(self, record: ResignedMembership):
         if record.willing_to_gift_shares_to_coop:
             return "Gifted " + chr(8594) + " coop"
@@ -93,20 +101,24 @@ class ResignedShareOwnerTable(django_tables2.Table):
             format_html("<span class='material-icons'>edit</span>"),
         )
 
+
 class ResignedMemberFilter(django_filters.FilterSet):
     display_name = django_filters.CharFilter(
-        method="display_name_filter", label=_("Search member"))
-    paid_out = django_filters.BooleanFilter(widget=django_filters.widgets.BooleanWidget())
+        method="display_name_filter", label=_("Search member")
+    )
+    paid_out = django_filters.BooleanFilter(
+        widget=django_filters.widgets.BooleanWidget()
+    )
 
     class Meta:
         model = ResignedMembership
         fields = ["display_name", "paid_out"]
 
     @staticmethod
-    def display_name_filter(queryset: ResignedMembership.ResignedMemberQuerySet, name, value: str):
+    def display_name_filter(
+        queryset: ResignedMembership.ResignedMemberQuerySet, name, value: str
+    ):
         return queryset.with_term(value).distinct()
-
-
 
 
 class ResignedShareOwnersList(
@@ -126,7 +138,9 @@ class ResignedShareOwnersList(
         context_data["total_of_resigned_members"] = ResignedMembership.objects.count()
         return context_data
 
-class ResignShareOwnerEditView(LoginRequiredMixin, 
+
+class ResignShareOwnerEditView(
+    LoginRequiredMixin,
     PermissionRequiredMixin,
     TapirFormMixin,
     UpdateViewLogMixin,
@@ -138,7 +152,7 @@ class ResignShareOwnerEditView(LoginRequiredMixin,
     success_url = reverse_lazy("coop:resigned_members_list")
 
     def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)    
+        context_data = super().get_context_data(**kwargs)
         context_data["page_title"] = _("Cancel membership of %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
                 person=self.object.share_owner, viewer=self.request.user
@@ -164,11 +178,10 @@ class ResignShareOwnerEditView(LoginRequiredMixin,
                 ).save()
 
         return result
-        
-class ResignShareOwnerCreateView(LoginRequiredMixin, 
-    PermissionRequiredMixin,
-    TapirFormMixin,
-    CreateView
+
+
+class ResignShareOwnerCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
 ):
     model = ResignedMembership
     form_class = MembershipCancelForm
@@ -184,24 +197,29 @@ class ResignShareOwnerCreateView(LoginRequiredMixin,
     def form_valid(self, form):
         with transaction.atomic():
             result = super().form_valid(form)
-            ResignMemberService.update_shifts_and_shares(form.instance)
+            ResignMemberService.update_shifts_and_shares(form, form.instance)
             ResignMembershipCreateLogEntry().populate(
                 actor=self.request.user,
                 model=form.instance,
             ).save()
+            email = ResignedMembershipConfirmation(
+                share_owner=form.instance.share_owner
+            )
+            email.send_to_share_owner(
+                actor=self.request.user, recipient=form.instance.share_owner
+            )
         return result
+
 
 class ResignedShareOwnerDetailView(
     LoginRequiredMixin, PermissionRequiredMixin, DetailView
 ):
     permission_required = PERMISSION_COOP_MANAGE
     model = ResignedMembership
-        
+
 
 class ResignedShareOwnerRemoveFromListView(
-    LoginRequiredMixin, 
-    PermissionRequiredMixin, 
-    DeleteView
+    LoginRequiredMixin, PermissionRequiredMixin, DeleteView
 ):
     model = ResignedMembership
     permission_required = PERMISSION_COOP_MANAGE

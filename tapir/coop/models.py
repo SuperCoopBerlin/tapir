@@ -721,7 +721,7 @@ class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
 
 class ResignedMembership(models.Model):
     share_owner = models.ForeignKey(
-        ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Shareowner")
+        ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Shareowner"), related_name="share_owner",
     )
     cancellation_date = models.DateField(
         default=timezone.now,
@@ -732,7 +732,7 @@ class ResignedMembership(models.Model):
     coop_buys_shares_back = models.BooleanField()
     willing_to_gift_shares_to_coop = models.BooleanField()
     transfering_shares_to = models.ForeignKey(
-        TapirUser, on_delete=models.deletion.CASCADE, verbose_name=_("TapirUser"), null=True,
+        ShareOwner, on_delete=models.deletion.CASCADE, verbose_name="OwnerToTransfer", null=True, related_name="owner_to_transfer",
     )
     paid_out = models.BooleanField(default=False)
 
