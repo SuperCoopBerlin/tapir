@@ -105,7 +105,7 @@ class SlotModificationService:
             parameter_set, excluded_shift_template_ids
         )
         return [
-            cls.pick_slot_template_from_shift(parameter_set, shift_template)
+            cls.pick_slot_template_from_shift_template(parameter_set, shift_template)
             for shift_template in shift_templates
         ]
 
@@ -127,7 +127,7 @@ class SlotModificationService:
         return shift_templates.filter(weekend_shifts_filter)
 
     @classmethod
-    def pick_slot_template_from_shift(
+    def pick_slot_template_from_shift_template(
         cls, parameter_set: ParameterSet, shift_template: ShiftTemplate
     ) -> ShiftSlotTemplate:
         # The shift is assumed to have been picked according to the parameters, here we only look at the slot
