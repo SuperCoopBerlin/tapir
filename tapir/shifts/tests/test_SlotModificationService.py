@@ -35,7 +35,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
         self.assertIn(included_shift_template, selected_shifts)
         self.assertNotIn(excluded_shift_template, selected_shifts)
 
-    def test_pickShiftTemplate_hasExcludedShiftParameter_doesNotIncludeExcludedShift(
+    def test_pickShiftTemplate_hasExcludedShiftId_doesNotIncludeExcludedShift(
         self,
     ):
         targeted_time = datetime.time(hour=10, minute=45)
