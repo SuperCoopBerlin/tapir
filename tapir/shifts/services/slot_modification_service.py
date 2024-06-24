@@ -20,6 +20,9 @@ from tapir.utils.user_utils import UserUtils
 
 
 class SlotModificationService:
+    WORKDAY = "workday"
+    WEEKEND = "weekend"
+
     @dataclass(frozen=True)
     class ParameterSet:
         workday_or_weekend: str
@@ -35,21 +38,35 @@ class SlotModificationService:
         ALLGEMEIN = ""
 
     @classmethod
-    def build_changes(cls, parameter_sets: List[ParameterSet]):
+    def build_changes(
+        cls,
+        parameter_sets: List[ParameterSet],
+        excluded_shift_template_ids: list[int] | None = None,
+    ):
         return {
-            parameter_set: cls.pick_slots_to_modify(parameter_set)
+            parameter_set: cls.pick_slots_to_modify(
+                parameter_set, excluded_shift_template_ids
+            )
             for parameter_set in parameter_sets
         }
 
     @classmethod
-    def preview_changes(cls, parameter_sets: List[ParameterSet]):
-        changes = cls.build_changes(parameter_sets)
+    def preview_changes(
+        cls,
+        parameter_sets: List[ParameterSet],
+        excluded_shift_template_ids: list[int] | None = None,
+    ):
+        changes = cls.build_changes(parameter_sets, excluded_shift_template_ids)
         print(cls.get_affected_members(changes))
 
     @classmethod
     @transaction.atomic
-    def apply_changes(cls, parameter_sets: List[ParameterSet]):
-        changes = cls.build_changes(parameter_sets)
+    def apply_changes(
+        cls,
+        parameter_sets: List[ParameterSet],
+        excluded_shift_template_ids: list[int] | None = None,
+    ):
+        changes = cls.build_changes(parameter_sets, excluded_shift_template_ids)
         print(cls.get_affected_members(changes))
 
         for parameter_set, slots_templates in changes.items():
@@ -79,18 +96,33 @@ class SlotModificationService:
         slot_template.save()
 
     @classmethod
-    def pick_slots_to_modify(cls, parameter_set: ParameterSet):
-        shift_templates = cls.pick_shift_templates(parameter_set)
+    def pick_slots_to_modify(
+        cls,
+        parameter_set: ParameterSet,
+        excluded_shift_template_ids: list[int] | None = None,
+    ):
+        shift_templates = cls.pick_shift_templates(
+            parameter_set, excluded_shift_template_ids
+        )
         return [
             cls.pick_slot_template_from_shift(parameter_set, shift_template)
             for shift_template in shift_templates
         ]
 
     @classmethod
-    def pick_shift_templates(cls, parameter_set: ParameterSet) -> List[ShiftTemplate]:
-        shift_templates = ShiftTemplate.objects.filter(start_time=parameter_set.time)
+    def pick_shift_templates(
+        cls,
+        parameter_set: ParameterSet,
+        excluded_shift_template_ids: list[int] | None = None,
+    ) -> List[ShiftTemplate]:
+        if excluded_shift_template_ids is None:
+            excluded_shift_template_ids = []
+
+        shift_templates = ShiftTemplate.objects.filter(
+            start_time=parameter_set.time
+        ).exclude(id__in=excluded_shift_template_ids)
         weekend_shifts_filter = Q(weekday__in=[5, 6])
-        if parameter_set.workday_or_weekend == "workday":
+        if parameter_set.workday_or_weekend == cls.WORKDAY:
             return shift_templates.exclude(weekend_shifts_filter)
         return shift_templates.filter(weekend_shifts_filter)
 
