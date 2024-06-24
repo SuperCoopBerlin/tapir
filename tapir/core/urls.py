@@ -19,4 +19,9 @@ urlpatterns = [
         views.FeatureFlagUpdateView.as_view(),
         name="featureflag_update",
     ),
+    path(
+        "error",
+        views.ErrorView.as_view(),
+        name="error",
+    ),
 ]
