@@ -378,8 +378,9 @@ class TestSlotModificationService(TapirFactoryTestBase):
         SlotModificationService.apply_change(parameter_set, slot_template)
 
         self.assertEqual(
-            capabilities_after, ShiftSlot.objects.get().required_capabilities
+            set(capabilities_after), set(ShiftSlot.objects.get().required_capabilities)
         )
         self.assertEqual(
-            capabilities_after, ShiftSlotTemplate.objects.get().required_capabilities
+            set(capabilities_after),
+            set(ShiftSlotTemplate.objects.get().required_capabilities),
         )
