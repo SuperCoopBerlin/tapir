@@ -378,7 +378,11 @@ class SolidarityShiftGiven(LoginRequiredMixin, RedirectView):
         tapir_user = get_object_or_404(TapirUser, pk=kwargs["pk"])
         shift_attendance = tapir_user.shift_attendances.filter(
             is_solidarity=False, state=ShiftAttendance.State.DONE
-        )[0]
+        ).first()
+        if not shift_attendance:
+            return ShiftAttendance.DoesNotExist(
+                "Could not find a shift attendance to use as solidarity shift."
+            )
 
         SolidarityShift.objects.create(shiftAttendance=shift_attendance)
 
