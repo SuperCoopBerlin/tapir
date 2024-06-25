@@ -143,7 +143,7 @@ class ShiftTemplateGroup(models.Model):
         return None
 
 
-# Generate weekdays
+# Generate weekdays, 0 is Monday, 6 is Sunday
 WEEKDAY_CHOICES = [
     (i, _(calendar.day_name[i])) for i in calendar.Calendar().iterweekdays()
 ]
@@ -341,6 +341,9 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         blank=True,
         null=False,
     )
+
+    def __str__(self):
+        return f"{self.name}, {self.shift_template}"
 
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
