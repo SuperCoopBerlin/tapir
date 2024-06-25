@@ -24,7 +24,7 @@ class SlotModificationService:
 
     @dataclass(frozen=True)
     class ParameterSet:
-        target_weekdays: list[int]
+        target_weekdays: frozenset[int]
         time: datetime.time
         origin_slot_name: str
         target_slot_name: str | None  # if None, the slot will be deleted
