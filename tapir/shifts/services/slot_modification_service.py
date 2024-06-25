@@ -32,7 +32,7 @@ class SlotModificationService:
         target_capabilities: frozenset | None
 
     class SlotNames:
-        WARENANNAHME = "Warenannahme & Lager"
+        WARENANNAHME = "Warenannahme & Lagerhaltung"
         KASSE = "Kasse"
         REINIGUNG = "Reinigung & Aufräumen"
         ALLGEMEIN = ""

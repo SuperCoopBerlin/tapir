@@ -273,7 +273,7 @@ def generate_test_shift_templates():
     if ShiftTemplateGroup.objects.count() < 4:
         generate_test_template_groups()
 
-    slot_name_warenannahme = "Warenannahme & Lager"
+    slot_name_warenannahme = "Warenannahme & Lagerhaltung"
     slot_name_cashier = "Kasse"
     slot_name_general = ""
     slot_name_teamleader = "Teamleitung"
