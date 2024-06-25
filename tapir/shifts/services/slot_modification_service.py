@@ -139,7 +139,7 @@ class SlotModificationService:
         if not candidate_slot_templates.exists():
             raise ShiftSlotTemplate.DoesNotExist(
                 f"Could not find slot template with name {parameter_set.origin_slot_name} "
-                f"on shift template {parameter_set.origin_slot_name}"
+                f"on shift template {shift_template}"
             )
 
         if candidate_slot_templates.count() == 1:
