@@ -701,6 +701,9 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         self.warnings = self.slot_template.warnings
         self.save()
 
+    def __str__(self):
+        return f"{self.name}, {self.shift}"
+
 
 class ShiftAccountEntry(models.Model):
     """ShiftAccountEntry represents and entry to the shift "bank account" of a user.
@@ -780,7 +783,7 @@ class ShiftAttendance(models.Model):
     )
 
     def __str__(self):
-        return f"Sate:{self.get_state_display()} Slot:{self.slot.get_display_name()}"
+        return f"State:{self.get_state_display()} Slot:{self.slot.get_display_name()}"
 
     def get_state_display(self):
         return SHIFT_ATTENDANCE_STATES[self.state]
