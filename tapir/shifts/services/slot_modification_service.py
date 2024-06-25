@@ -5,7 +5,6 @@ from dataclasses import dataclass
 from typing import List
 
 from django.db import transaction
-from django.db.models import Q
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
@@ -25,7 +24,7 @@ class SlotModificationService:
 
     @dataclass(frozen=True)
     class ParameterSet:
-        workday_or_weekend: str
+        target_weekdays: list[int]
         time: datetime.time
         origin_slot_name: str
         target_slot_name: str | None  # if None, the slot will be deleted
@@ -118,13 +117,9 @@ class SlotModificationService:
         if excluded_shift_template_ids is None:
             excluded_shift_template_ids = []
 
-        shift_templates = ShiftTemplate.objects.filter(
-            start_time=parameter_set.time
+        return ShiftTemplate.objects.filter(
+            start_time=parameter_set.time, weekday__in=parameter_set.target_weekdays
         ).exclude(id__in=excluded_shift_template_ids)
-        weekend_shifts_filter = Q(weekday__in=[5, 6])
-        if parameter_set.workday_or_weekend == cls.WORKDAY:
-            return shift_templates.exclude(weekend_shifts_filter)
-        return shift_templates.filter(weekend_shifts_filter)
 
     @classmethod
     def pick_slot_template_from_shift_template(

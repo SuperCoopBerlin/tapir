@@ -26,7 +26,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
         )
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name=None,
             target_capabilities=None,
@@ -47,7 +47,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
         )
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name=None,
             target_capabilities=None,
@@ -58,7 +58,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
         self.assertIn(included_shift_template, selected_shifts)
         self.assertNotIn(excluded_shift_template, selected_shifts)
 
-    def test_pickShiftTemplate_workdayOnly_doesNotIncludeWeekendShift(
+    def test_pickShiftTemplate_default_doesNotIncludeShiftsOutsideOfTargetWorkdays(
         self,
     ):
         targeted_time = datetime.time(hour=10, minute=45)
@@ -70,30 +70,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
         )
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
-            workday_or_weekend=SlotModificationService.WORKDAY,
-            time=targeted_time,
-            target_slot_name=None,
-            target_capabilities=None,
-        )
-        selected_shifts = SlotModificationService.pick_shift_templates(
-            parameter_set, [excluded_shift_template.id]
-        )
-        self.assertIn(included_shift_template, selected_shifts)
-        self.assertNotIn(excluded_shift_template, selected_shifts)
-
-    def test_pickShiftTemplate_weekendOnly_doesNotIncludeWorkdayShift(
-        self,
-    ):
-        targeted_time = datetime.time(hour=10, minute=45)
-        included_shift_template = ShiftTemplateFactory.create(
-            start_hour=targeted_time.hour, start_minute=targeted_time.minute, weekday=5
-        )
-        excluded_shift_template = ShiftTemplateFactory.create(
-            start_hour=targeted_time.hour, start_minute=targeted_time.minute, weekday=0
-        )
-        parameter_set = SlotModificationService.ParameterSet(
-            origin_slot_name="",
-            workday_or_weekend=SlotModificationService.WEEKEND,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name=None,
             target_capabilities=None,
@@ -123,7 +100,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="yes",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name=None,
             target_capabilities=None,
@@ -146,7 +123,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="does_not_exist",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name=None,
             target_capabilities=None,
@@ -175,7 +152,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name=slot_template.name,
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name=None,
             target_capabilities=None,
@@ -215,7 +192,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="yes",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name=None,
             target_capabilities=None,
@@ -248,7 +225,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="yes",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name=None,
             target_capabilities=None,
@@ -272,7 +249,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name=None,
             target_capabilities=None,
@@ -291,7 +268,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name="new_name",
             target_capabilities=None,
@@ -315,7 +292,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name="new_name",
             target_capabilities=None,
@@ -341,7 +318,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name="new_name",
             target_capabilities=frozenset([]),
@@ -369,7 +346,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
         ]
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
-            workday_or_weekend=SlotModificationService.WORKDAY,
+            target_weekdays=[0],
             time=targeted_time,
             target_slot_name="new_name",
             target_capabilities=frozenset(capabilities_after),
