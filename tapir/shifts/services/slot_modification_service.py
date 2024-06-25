@@ -34,7 +34,7 @@ class SlotModificationService:
         WARENANNAHME = "Warenannahme & Lagerhaltung"
         KASSE = "Kasse"
         REINIGUNG = "Reinigung & Aufräumen"
-        ALLGEMEIN = ""
+        ALLGEMEIN = "Allgemein"
 
     @classmethod
     def build_changes(

@@ -275,7 +275,7 @@ def generate_test_shift_templates():
 
     slot_name_warenannahme = "Warenannahme & Lagerhaltung"
     slot_name_cashier = "Kasse"
-    slot_name_general = ""
+    slot_name_general = "Allgemein"
     slot_name_teamleader = "Teamleitung"
     slot_name_cleaning = "Reinigung & Aufräumen"
 
