@@ -114,7 +114,7 @@ class ShiftTemplateGroup(models.Model):
     ]
 
     def __str__(self):
-        return f"{self.__class__.__name__}: {self.name}"
+        return f"{self.__class__.__name__}: {self.name} (#{self.id})"
 
     def create_shifts(self, start_date: datetime.date):
         if start_date.weekday() != 0:
@@ -196,7 +196,7 @@ class ShiftTemplate(models.Model):
         )
         if self.group:
             display_name = f"{display_name} ({self.group.name})"
-        return display_name
+        return f"{display_name} (#{self.id})"
 
     def get_absolute_url(self):
         return reverse("shifts:shift_template_detail", args=[self.pk])
@@ -343,7 +343,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
     )
 
     def __str__(self):
-        return f"{self.name}, {self.shift_template}"
+        return f"{self.name}, {self.shift_template} (#{self.id})"
 
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
@@ -493,7 +493,7 @@ class Shift(models.Model):
             self.slots.count(),
         )
 
-        return display_name
+        return f"{display_name} (#{self.id})"
 
     def get_display_name(self):
         display_name = "%s %s - %s" % (
@@ -702,7 +702,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         self.save()
 
     def __str__(self):
-        return f"{self.name}, {self.shift}"
+        return f"{self.name}, {self.shift} (#{self.id})"
 
 
 class ShiftAccountEntry(models.Model):
@@ -783,7 +783,7 @@ class ShiftAttendance(models.Model):
     )
 
     def __str__(self):
-        return f"State:{self.get_state_display()} Slot:{self.slot.get_display_name()}"
+        return f"State:{self.get_state_display()} Slot:{self.slot.get_display_name()} (#{self.id})"
 
     def get_state_display(self):
         return SHIFT_ATTENDANCE_STATES[self.state]

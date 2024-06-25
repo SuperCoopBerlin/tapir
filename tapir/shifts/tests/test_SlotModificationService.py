@@ -31,7 +31,9 @@ class TestSlotModificationService(TapirFactoryTestBase):
             target_slot_name=None,
             target_capabilities=None,
         )
-        selected_shifts = SlotModificationService.pick_shift_templates(parameter_set)
+        selected_shifts = SlotModificationService.pick_shift_templates(
+            parameter_set, []
+        )
         self.assertIn(included_shift_template, selected_shifts)
         self.assertNotIn(excluded_shift_template, selected_shifts)
 

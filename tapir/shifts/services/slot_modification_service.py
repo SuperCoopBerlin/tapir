@@ -40,23 +40,15 @@ class SlotModificationService:
     def build_changes(
         cls,
         parameter_sets: List[ParameterSet],
-        excluded_shift_template_ids: list[int] | None = None,
+        excluded_shift_template_ids: list[int],
+        excluded_slot_template_ids: list[int],
     ):
         return {
             parameter_set: cls.pick_slots_to_modify(
-                parameter_set, excluded_shift_template_ids
+                parameter_set, excluded_shift_template_ids, excluded_slot_template_ids
             )
             for parameter_set in parameter_sets
         }
-
-    @classmethod
-    def preview_changes(
-        cls,
-        parameter_sets: List[ParameterSet],
-        excluded_shift_template_ids: list[int] | None = None,
-    ):
-        changes = cls.build_changes(parameter_sets, excluded_shift_template_ids)
-        print(cls.get_affected_members(changes))
 
     @classmethod
     @transaction.atomic
@@ -64,9 +56,22 @@ class SlotModificationService:
         cls,
         parameter_sets: List[ParameterSet],
         excluded_shift_template_ids: list[int] | None = None,
+        excluded_slot_template_ids: list[int] | None = None,
+        dry_run: bool = True,
     ):
-        changes = cls.build_changes(parameter_sets, excluded_shift_template_ids)
+        if excluded_shift_template_ids is None:
+            excluded_shift_template_ids = []
+        if excluded_slot_template_ids is None:
+            excluded_slot_template_ids = []
+
+        changes = cls.build_changes(
+            parameter_sets, excluded_shift_template_ids, excluded_slot_template_ids
+        )
         print(cls.get_affected_members(changes))
+
+        if dry_run:
+            print("This is a dry run, no changes will actually be applied.")
+            return
 
         for parameter_set, slots_templates in changes.items():
             for slot_template in slots_templates:
@@ -98,25 +103,31 @@ class SlotModificationService:
     def pick_slots_to_modify(
         cls,
         parameter_set: ParameterSet,
-        excluded_shift_template_ids: list[int] | None = None,
+        excluded_shift_template_ids: list[int],
+        excluded_slot_template_ids: list[int],
     ):
         shift_templates = cls.pick_shift_templates(
             parameter_set, excluded_shift_template_ids
         )
-        return [
+        slot_templates = [
             cls.pick_slot_template_from_shift_template(parameter_set, shift_template)
             for shift_template in shift_templates
         ]
+
+        slot_templates = [
+            slot_template
+            for slot_template in slot_templates
+            if slot_template.id not in excluded_slot_template_ids
+        ]
+
+        return slot_templates
 
     @classmethod
     def pick_shift_templates(
         cls,
         parameter_set: ParameterSet,
-        excluded_shift_template_ids: list[int] | None = None,
+        excluded_shift_template_ids: list[int],
     ) -> List[ShiftTemplate]:
-        if excluded_shift_template_ids is None:
-            excluded_shift_template_ids = []
-
         return ShiftTemplate.objects.filter(
             start_time=parameter_set.time, weekday__in=parameter_set.target_weekdays
         ).exclude(id__in=excluded_shift_template_ids)
