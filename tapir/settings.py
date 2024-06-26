@@ -78,6 +78,7 @@ MIDDLEWARE = [
     "tapir.accounts.models.language_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "tapir.core.middleware.SendExceptionsToSlackMiddleware",
 ]
 
 if ENABLE_SILK_PROFILING:
@@ -302,3 +303,5 @@ if ENABLE_SILK_PROFILING:
     SILKY_PYTHON_PROFILER = True
     SILKY_META = True
     SILKY_PROFILE_DIR = "silk_profiling"
+
+SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
