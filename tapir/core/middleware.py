@@ -1,8 +1,11 @@
+import logging
 import traceback
 
 import requests
 
 from tapir import settings
+
+LOG = logging.getLogger(__name__)
 
 
 class SendExceptionsToSlackMiddleware:
@@ -18,11 +21,15 @@ class SendExceptionsToSlackMiddleware:
             raise e
         return response
 
+    def process_exception(self, _, exception):
+        stacktrace_string = traceback.format_exc()
+        self.send_slack_message(exception, stacktrace_string)
+        return None
+
     @staticmethod
     def send_slack_message(e: Exception, stacktrace_string: str):
         if settings.DEBUG:
             return
-
         url = "https://slack.com/api/chat.postMessage"
         data = {
             "channel": "C079AQN3HE2",
@@ -57,4 +64,7 @@ class SendExceptionsToSlackMiddleware:
             "Authorization": f"Bearer {settings.SLACK_BOT_TOKEN}",
         }
         response = requests.post(url, json=data, headers=headers)
-        print(response.json())
+        if not response.json().get("ok", False):
+            LOG.error(
+                f"Failed to send slack message. Response from slack: {response.text}"
+            )
