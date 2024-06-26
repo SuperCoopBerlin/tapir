@@ -54,6 +54,7 @@ class SendExceptionsToSlackMiddleware:
         }
         headers = {
             "Content-type": "application/json; charset=utf-8",
-            "Authorization": f"Bearer {settings.SLACK_BOT_TOKEN}",  # TODO use Token from ENV, don't commit it!
+            "Authorization": f"Bearer {settings.SLACK_BOT_TOKEN}",
         }
-        requests.post(url, json=data, headers=headers)
+        response = requests.post(url, json=data, headers=headers)
+        print(response.json())
