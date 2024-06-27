@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import List
 
 from django.db import transaction
+from django.db.models import Q
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
@@ -81,19 +82,24 @@ class SlotModificationService:
     def apply_change(
         cls, parameter_set: ParameterSet, slot_template: ShiftSlotTemplate
     ):
+        shift_is_in_the_future_filter = Q(
+            shift__start_time__date__gte=timezone.now().date()
+        )
         if parameter_set.target_slot_name is None:
-            slot_template.generated_slots.all().delete()
+            slot_template.generated_slots.filter(shift_is_in_the_future_filter).delete()
             slot_template.delete()
             return
 
-        slot_template.generated_slots.update(name=parameter_set.target_slot_name)
+        slot_template.generated_slots.filter(shift_is_in_the_future_filter).update(
+            name=parameter_set.target_slot_name
+        )
         slot_template.name = parameter_set.target_slot_name
         slot_template.save()
 
         if parameter_set.target_capabilities is None:
             return
 
-        slot_template.generated_slots.update(
+        slot_template.generated_slots.filter(shift_is_in_the_future_filter).update(
             required_capabilities=list(parameter_set.target_capabilities)
         )
         slot_template.required_capabilities = list(parameter_set.target_capabilities)

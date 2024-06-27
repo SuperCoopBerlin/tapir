@@ -363,3 +363,28 @@ class TestSlotModificationService(TapirFactoryTestBase):
             set(capabilities_after),
             set(ShiftSlotTemplate.objects.get().required_capabilities),
         )
+
+    def test_applyChange_default_doesNotAffectPastShifts(self):
+        targeted_time = datetime.time(hour=10, minute=45)
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create()
+        future_shift = shift_template.create_shift(
+            timezone.now().date() + datetime.timedelta(days=10)
+        )
+        past_shift = shift_template.create_shift(
+            timezone.now().date() - datetime.timedelta(days=10)
+        )
+        slot_template_to_delete = shift_template.slot_templates.get()
+
+        parameter_set = SlotModificationService.ParameterSet(
+            origin_slot_name="",
+            target_weekdays=frozenset([0]),
+            time=targeted_time,
+            target_slot_name=None,
+            target_capabilities=None,
+        )
+
+        SlotModificationService.apply_change(parameter_set, slot_template_to_delete)
+
+        self.assertFalse(ShiftSlotTemplate.objects.exists())
+        self.assertFalse(future_shift.slots.exists())
+        self.assertTrue(past_shift.slots.exists())
