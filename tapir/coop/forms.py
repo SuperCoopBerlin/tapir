@@ -17,7 +17,7 @@ from tapir.coop.models import (
     ShareOwner,
     IncomingPayment,
     MembershipPause,
-    ResignedMembership,
+    MembershipResignation,
     TapirUser,
 )
 from tapir.shifts.forms import ShareOwnerChoiceField, TapirUserChoiceField
@@ -253,8 +253,8 @@ class MembershipPauseForm(forms.ModelForm):
     share_owner = ShareOwnerChoiceField()
 
 
-class MembershipCancelForm(forms.ModelForm):
-    already_resigned = ResignedMembership.objects.values("share_owner")
+class MembershipResignationForm(forms.ModelForm):
+    already_resigned = MembershipResignation.objects.values("share_owner")
     in_three_years = _("Coop buys back share(s)")
     cancellation_reason = forms.CharField(
         max_length=1000,
@@ -272,7 +272,7 @@ class MembershipCancelForm(forms.ModelForm):
     )
 
     class Meta:
-        model = ResignedMembership
+        model = MembershipResignation
         fields = [
             "share_owner",
             "cancellation_reason",
@@ -355,3 +355,6 @@ class MembershipCancelForm(forms.ModelForm):
             self.instance.pay_out_day = cancellation_date + relativedelta(
                 day=31, month=12, years=3
             )
+        if willing_to_gift_shares_to_coop or transfering_shares_to != None:
+            self.instance.pay_out_day = cancellation_date
+            self.instance.paid_out = True

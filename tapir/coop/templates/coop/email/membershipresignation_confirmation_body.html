@@ -7,14 +7,23 @@
     <p>
         schade, dass Du uns verlassen möchtest. Hiermit bestätigen wir Dir die Kündigung deiner Mitgliedschaft bei SuperCoop Berlin eG.
     </p>
+    {% if resigned_member.willing_to_gift_shares_to_coop %}
     <p>
-        Wenn Du in deinem Kündigungsschreiben angegeben hast, dass Du deine Anteile an SuperCoop oder ein anderes Mitglied
-        übertragen möchtest, ist deine Kündigung ab sofort gültig.
+        Wie in deinem Kündigungsschreiben angegeben, möchtest Du deine Anteile an SuperCoop übertragen. Somit ist deine Kündigung 
+        ab sofort gültig.
     </p>
+    {% elif resigned_member.transfering_shares_to is not None %}
     <p>
-        Andernfalls läuft deine Mitgliedschaft bis zum Ablauf der in unserer Satzung angegebenen regulären Kündigungsfrist, d.h.
+        Wie in deinem Kündigungsschreiben angegeben, möchtest Du deine Anteile an ein anderes Mitglied übertragen.
+        Wir haben {% get_display_name_full resigned_member.transfering_shares_to %} darüber gesonders informiert. 
+        Deine Kündigung ist ab sofort gültig.
+    </p>
+    {% else %}
+    <p>
+        Da Du in deinem Kündigungsschreiben angegeben hast, dass Du deine Anteile wieder zurückerstattet haben möchtest, 
+        läuft deine Mitgliedschaft bis zum Ablauf der in unserer Satzung angegebenen regulären Kündigungsfrist, d.h.
         bis zum Abschluss des Geschäftsjahres in drei Jahren. <br> Bitte beachte dazu den in unserer Satzung angegebenen Passus 
-        unter <b>§4 Beendigung der Mitgliedschaft, Übertragung des Geschäftsguthabens, Tod und Ausschluss</b>.<br>
+        unter §4 Beendigung der Mitgliedschaft, Übertragung des Geschäftsguthabens, Tod und Ausschluss.<br>
         Vorsorglich ist an diese Mail die Satzung angehängt. 
     </p>
     <p>
@@ -24,16 +33,17 @@
             darauf hinweisen, dass Du innerhalb der nächsten drei Jahre auch weiterhin Schichten absolvieren kannst und 
             damit auch dein Einkaufsrecht weiterhin behältst. Solltest Du keine Schichten mehr absolvieren und auch nicht 
             mehr in der Supercoop einkaufen wollen, möchten wir dich bitten, beim 
-            <a href="mailto: mitglied@supercoop.de">Mitgliederbüro</a> zu beantragen, dass deine Mitgliedschaft
+            {{ contact_email_address }} zu beantragen, dass deine Mitgliedschaft
             auf "investierend" umgestellt wird.
         </b>
     </p>
     <p>
         Damit wird verhindert, dass dein Schichtstatus ins Minus gerät und Du in Zukunft Emails mit Warnungen von uns erhältst.
     </p>
+    {% endif %}
     <p>
         Wir wünschen Dir alles Gute für die Zukunft und zögere bitte nicht, wenn Du noch weitere Fragen hast, 
-        das <a href="mailto: mitglied@supercoop.de">Mitgliederbüro</a> zu kontaktieren. 
+        das {{ contact_email_address }} zu kontaktieren. 
     <p>
         Kooperative Grüße,
     </p>
@@ -44,9 +54,19 @@
     <p>Dear {% get_display_name_short share_owner %},</p>
     <p>
         what a pity that you want to leave us. We hereby confirm the cancellation of your membership with SuperCoop Berlin eG. <br>
-        If you stated in your letter of cancellation that you want to transfer your shares to SuperCoop or another member,
+    </p>
+    {% if resigned_member.willing_to_gift_shares_to_coop %}
+    <p>
+        As you stated in your letter of cancellation that you want to transfer your shares to SuperCoop,
         your termination is effective immediately.
     </p>
+    {% elif resigned_member.transfering_shares_to is not None %}
+    <p>
+        You stated in your letter of cancellation that you want to transfer your shares to another member. We've informed 
+        {% get_display_name_full resigned_member.transfering_shares_to %} about this seperately. 
+        Your termination is effective immediately.
+    </p>
+    {% else %}
     <p>
         Otherwise, your membership will run until the end of the regular cancellation period specified in our Articles of Association, i.e.
         until the end of the financial year in three years. Please note the passage stated in our Articles of Association 
@@ -57,14 +77,15 @@
         <b>As your membership will continue to run as normal for the next three years and is still entered as "active" in Tapir, 
         we would like to take this opportunity to point out that you can continue to complete shifts in the next three years 
         and therefore retain your right to shop. If you no longer wish to complete shifts or shop in Supercoop, we would ask you to apply to 
-        the <a href="mailto: mitglied@supercoop.de">Membership Office</a> to switch your membership to "investing"</b>.
+        the {{ contact_email_address }} to switch your membership to "investing"</b>.
     </p>
     <p>
         This will prevent your shift backlog from going into the red and you from receiving emails with warnings from us in the future.
     </p>
+    {% endif %}
     <p>
         We wish you all the best for the future and please do not hesitate to contact the 
-        <a href="mailto: mitglied@supercoop.de">Membership Office</a> if you have any further questions. 
+        {{ contact_email_address }} if you have any further questions. 
     </p>
     <p>
         Cooperative greetings

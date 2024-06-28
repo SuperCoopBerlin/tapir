@@ -77,27 +77,27 @@ urlpatterns = [
     ),
     path(
         "resign_member/new",
-        views.ResignShareOwnerCreateView.as_view(),
+        views.MembershipResignationCreateView.as_view(),
         name="resign_new_membership",
     ),
     path(
         "resign_member/edit/<int:pk>",
-        views.ResignShareOwnerEditView.as_view(),
+        views.MembershipResignationEditView.as_view(),
         name="resign_member_edit",
     ),
     path(
-      "resign_member/<int:pk>/detail",
-      views.ResignedShareOwnerDetailView.as_view(),
-      name="resignedmember_detail",  
+        "resign_member/<int:pk>/detail",
+        views.MembershipResignationDetailView.as_view(),
+        name="resignedmember_detail",
     ),
     path(
         "resign_member/<int:pk>/delete",
-        views.ResignedShareOwnerRemoveFromListView.as_view(),
+        views.MembershipResignationRemoveFromListView.as_view(),
         name="resign_member_remove",
     ),
     path(
         "resigned_members_list",
-        views.ResignedShareOwnersList.as_view(),
+        views.MembershipResignationList.as_view(),
         name="resigned_members_list",
     ),
     path(

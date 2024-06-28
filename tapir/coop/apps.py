@@ -73,8 +73,11 @@ class CoopConfig(AppConfig):
         from tapir.coop.emails.co_purchaser_updated_mail import (
             CoPurchaserUpdatedMail,
         )
-        from tapir.coop.emails.resignedmembership_confirmation_email import (
-            ResignedMembershipConfirmation,
+        from tapir.coop.emails.membershipresignation_confirmation_email import (
+            MembershipResignationConfirmation,
+        )
+        from tapir.coop.emails.membershipresignation_transfered_shares_confirmation import (
+            MembershipResignationTransferedSharesConfirmation,
         )
 
         TapirEmailBase.register_email(ExtraSharesConfirmationEmail)
@@ -82,4 +85,5 @@ class CoopConfig(AppConfig):
         TapirEmailBase.register_email(MembershipConfirmationForInvestingMemberEmail)
         TapirEmailBase.register_email(TapirAccountCreatedEmail)
         TapirEmailBase.register_email(CoPurchaserUpdatedMail)
-        TapirEmailBase.register_email(ResignedMembershipConfirmation)
+        TapirEmailBase.register_email(MembershipResignationConfirmation)
+        TapirEmailBase.register_email(MembershipResignationTransferedSharesConfirmation)
