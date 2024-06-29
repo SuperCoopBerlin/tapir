@@ -727,9 +727,12 @@ class MembershipResignation(models.Model):
         default=timezone.now,
         )
     pay_out_day = models.DateField(null=True)
-    cancellation_reason = models.CharField(max_length = 1000)
+    cancellation_reason = models.CharField(max_length=1000)
     coop_buys_shares_back = models.BooleanField()
-    willing_to_gift_shares_to_coop = models.BooleanField()
+    willing_to_gift_shares_to_coop = models.BooleanField(
+        "Willing to gift shares to coop", 
+        help_text="Willing to gift shares to coop",
+        )
     transfering_shares_to = models.OneToOneField(
         ShareOwner, on_delete=models.deletion.PROTECT, verbose_name="OwnerToTransfer", null=True, related_name="owner_to_transfer",
     )
@@ -737,7 +740,7 @@ class MembershipResignation(models.Model):
 
     class MembershipResignationQuerySet(models.QuerySet):
         def with_name_or_id(self, search_string: str):
-            id_filter = (Q(share_owner__id__icontains=search_string))
+            id_filter = (Q(share_owner__id=search_string))
             member_filter = Q(share_owner__in=ShareOwner.objects.with_name(search_string))
             combined_filters = id_filter | member_filter
             return self.filter(combined_filters)

@@ -20,7 +20,6 @@ class MembershipResignationService:
     def update_shifts_and_shares(self, resignation: MembershipResignation):
         tapir_user: TapirUser = getattr(resignation.share_owner, "user", None)
         if not tapir_user:
-            print("Couldn't find an existing Tapir user.")
             return
 
         MembershipResignationService.update_shifts(
@@ -50,21 +49,19 @@ class MembershipResignationService:
             attendance_template.cancel_attendances(start_date)
             attendance_template.delete()
 
-            attendances = ShiftAttendance.objects.filter(
-                user=tapir_user,
-                slot__shift__start_time__gte=start_date,
-                state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
-            )
-            attendances.update(state=ShiftAttendance.State.CANCELLED)
+        attendances = ShiftAttendance.objects.filter(
+            user=tapir_user,
+            slot__shift__start_time__gte=start_date,
+            state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
+        )
+        attendances.update(state=ShiftAttendance.State.CANCELLED)
 
     @staticmethod
     def is_resignation_happening_right_away(self, resignation: MembershipResignation):
-        if (
+        return (
             resignation.willing_to_gift_shares_to_coop
             or resignation.transfering_shares_to is not None
-        ):
-            return True
-        return False
+        )
 
     @staticmethod
     def resignation_happens_right_away(
@@ -74,12 +71,11 @@ class MembershipResignationService:
             for share in shares:
                 ShareOwnership.objects.create(
                     share_owner=resignation.transfering_shares_to,
-                    amount_paid=share.amount_paid,
                     start_date=resignation.cancellation_date,
                 )
                 share.delete()
         elif resignation.willing_to_gift_shares_to_coop:
-            shares.update(end_date=datetime.datetime.now())
+            shares.update(end_date=resignation.cancellation_date)
 
     @staticmethod
     @transaction.atomic
