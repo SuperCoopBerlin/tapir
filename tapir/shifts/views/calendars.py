@@ -137,7 +137,7 @@ class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        displayed_year = self.kwargs.get("year", datetime.date.today().year)
+        displayed_year = self.kwargs.get("year", timezone.now().date().year)
 
         monday_to_week_group_map = {}
         current_monday = get_monday(datetime.date(year=displayed_year, month=1, day=1))

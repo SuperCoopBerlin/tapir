@@ -48,7 +48,7 @@ def delete_templates():
 
 def generate_test_shifts():
     for delta in range(-7, 7):
-        date = datetime.date.today() - datetime.timedelta(days=delta)
+        date = timezone.now().date() - datetime.timedelta(days=delta)
         morning = datetime.datetime.combine(
             date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
         )
@@ -97,7 +97,7 @@ def generate_test_shifts():
 def generate_test_user_shifts(user_id):
     user = TapirUser.objects.get(pk=user_id)
 
-    date = datetime.date.today() - datetime.timedelta(days=4)
+    date = timezone.now().date() - datetime.timedelta(days=4)
     start_time = datetime.datetime.combine(
         date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
     )
@@ -106,7 +106,7 @@ def generate_test_user_shifts(user_id):
         shift=shift, user=user, state=ShiftAttendance.State.DONE
     )
 
-    date = datetime.date.today() - datetime.timedelta(days=2)
+    date = timezone.now().date() - datetime.timedelta(days=2)
     start_time = datetime.datetime.combine(
         date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
     )
@@ -118,7 +118,7 @@ def generate_test_user_shifts(user_id):
         excused_reason="Was sick",
     )
 
-    date = datetime.date.today() + datetime.timedelta(days=1)
+    date = timezone.now().date() + datetime.timedelta(days=1)
     start_time = datetime.datetime.combine(
         date, datetime.time(hour=8, tzinfo=datetime.timezone.utc)
     )
@@ -135,7 +135,7 @@ def generate_test_user_shifts(user_id):
         shift=shift, user=user, state=ShiftAttendance.State.PENDING
     )
 
-    date = datetime.date.today() + datetime.timedelta(days=4)
+    date = timezone.now().date() + datetime.timedelta(days=4)
     start_time = datetime.datetime.combine(
         date, datetime.time(hour=12, tzinfo=datetime.timezone.utc)
     )
@@ -344,7 +344,7 @@ def generate_test_shift_templates():
 def generate_shifts(print_progress=False):
     if print_progress:
         print("Generating shifts")
-    start_day = get_monday(datetime.date.today() - datetime.timedelta(days=20))
+    start_day = get_monday(timezone.now().date() - datetime.timedelta(days=20))
 
     groups = ShiftTemplateGroup.objects.all()
     for week in range(8):

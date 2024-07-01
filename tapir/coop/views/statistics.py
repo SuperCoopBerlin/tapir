@@ -67,8 +67,8 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
         start_date = datetime.date(day=1, month=start_date.month, year=start_date.year)
 
         nb_months_since_start = (
-            (datetime.date.today().year - start_date.year) * 12
-            + datetime.date.today().month
+            (timezone.now().date().year - start_date.year) * 12
+            + timezone.now().date().month
             - start_date.month
         )
         context["average_shares_per_month"] = "{:.2f}".format(
@@ -213,7 +213,7 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
         current_date = first_share_ownership.start_date.replace(day=1)
         if min_date:
             current_date = max(current_date, min_date)
-        end_date = datetime.date.today() + datetime.timedelta(days=1)
+        end_date = timezone.now().date() + datetime.timedelta(days=1)
         dates = []
         while current_date < end_date:
             dates.append(current_date - datetime.timedelta(days=1))
