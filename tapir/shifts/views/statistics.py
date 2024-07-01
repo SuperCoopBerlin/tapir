@@ -117,7 +117,7 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
     @staticmethod
     def get_weeks_context():
         context = {}
-        today = timezone.now().today()
+        today = timezone.now().date()
         weeks = {"Last": -1, "Current": 0, "Next": 1}
         for week, delta in weeks.items():
             week_context = {}

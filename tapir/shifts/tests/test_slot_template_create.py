@@ -1,6 +1,7 @@
 import datetime
 
 from django.urls import reverse
+from django.utils import timezone
 
 from tapir.shifts.models import (
     ShiftUserCapability,
@@ -21,7 +22,7 @@ class TestSlotTemplateCreate(TapirFactoryTestBase):
 
         shift_template: ShiftTemplate = ShiftTemplateFactory.create(nb_slots=0)
         shift = shift_template.create_shift(
-            timezone.now().today() + datetime.timedelta(days=10)
+            timezone.now().date() + datetime.timedelta(days=10)
         )
 
         required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
@@ -71,7 +72,7 @@ class TestSlotTemplateCreate(TapirFactoryTestBase):
 
         shift_template: ShiftTemplate = ShiftTemplateFactory.create(nb_slots=0)
         shift = shift_template.create_shift(
-            timezone.now().today() - datetime.timedelta(days=10)
+            timezone.now().date() - datetime.timedelta(days=10)
         )
 
         response = self.client.post(

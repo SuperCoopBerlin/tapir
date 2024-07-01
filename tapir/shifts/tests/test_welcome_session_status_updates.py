@@ -1,6 +1,5 @@
-import datetime
-
 from django.urls import reverse
+from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
@@ -100,7 +99,7 @@ class TestWelcomeSessionStatusUpdates(TapirFactoryTestBase):
             is_from_welcome_session=True,
             user=tapir_user,
             description="Welcome session / Willkommenstreffen",
-            date=timezone.now().today(),
+            date=timezone.now().date(),
             value=1,
         )
 
@@ -131,7 +130,7 @@ class TestWelcomeSessionStatusUpdates(TapirFactoryTestBase):
             is_from_welcome_session=True,
             user=tapir_user,
             description="Welcome session / Willkommenstreffen",
-            date=timezone.now().today(),
+            date=timezone.now().date(),
             value=1,
         )
 

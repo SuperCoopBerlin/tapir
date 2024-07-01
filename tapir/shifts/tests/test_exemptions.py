@@ -34,8 +34,8 @@ class TestExemptions(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         self.create_exemption(
             user=user,
-            start_date=timezone.now().today() - datetime.timedelta(days=7),
-            end_date=timezone.now().today() + datetime.timedelta(days=7),
+            start_date=timezone.now().date() - datetime.timedelta(days=7),
+            end_date=timezone.now().date() + datetime.timedelta(days=7),
         )
 
         self.assertTrue(
@@ -44,7 +44,7 @@ class TestExemptions(TapirFactoryTestBase):
         )
         self.assertTrue(
             user.shift_user_data.is_currently_exempted_from_shifts(
-                timezone.now().today() + datetime.timedelta(days=2)
+                timezone.now().date() + datetime.timedelta(days=2)
             ),
             "The user should be exempted for in two days from now.",
         )
@@ -53,13 +53,13 @@ class TestExemptions(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         self.create_exemption(
             user=user,
-            start_date=timezone.now().today() - datetime.timedelta(days=120),
-            end_date=timezone.now().today() - datetime.timedelta(days=30),
+            start_date=timezone.now().date() - datetime.timedelta(days=120),
+            end_date=timezone.now().date() - datetime.timedelta(days=30),
         )
 
         self.assertFalse(
             user.shift_user_data.is_currently_exempted_from_shifts(
-                timezone.now().today()
+                timezone.now().date()
             ),
             "The exemption is finished, the user should not be exempted today.",
         )
@@ -68,13 +68,13 @@ class TestExemptions(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         self.create_exemption(
             user=user,
-            start_date=timezone.now().today() - datetime.timedelta(days=120),
+            start_date=timezone.now().date() - datetime.timedelta(days=120),
             end_date=None,
         )
 
         self.assertTrue(
             user.shift_user_data.is_currently_exempted_from_shifts(
-                timezone.now().today()
+                timezone.now().date()
             ),
             "The exemption has no end, the user should be exempted.",
         )
@@ -83,13 +83,13 @@ class TestExemptions(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         self.create_exemption(
             user=user,
-            start_date=timezone.now().today() + datetime.timedelta(days=30),
+            start_date=timezone.now().date() + datetime.timedelta(days=30),
             end_date=None,
         )
 
         self.assertFalse(
             user.shift_user_data.is_currently_exempted_from_shifts(
-                timezone.now().today()
+                timezone.now().date()
             ),
             "The exemption is not started yet, the user should not be exempted today.",
         )
@@ -98,17 +98,17 @@ class TestExemptions(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         shift_template = ShiftTemplateFactory.create()
         shift_cancelled = shift_template.create_shift(
-            start_date=timezone.now().today() + datetime.timedelta(days=1)
+            start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
         shift_kept = shift_template.create_shift(
-            start_date=timezone.now().today() + datetime.timedelta(days=20)
+            start_date=timezone.now().date() + datetime.timedelta(days=20)
         )
         self.login_as_member_office_user()
         register_user_to_shift_template(self.client, user, shift_template)
 
         post_data = {
-            "start_date": timezone.now().today() - datetime.timedelta(days=10),
-            "end_date": timezone.now().today() + datetime.timedelta(days=10),
+            "start_date": timezone.now().date() - datetime.timedelta(days=10),
+            "end_date": timezone.now().date() + datetime.timedelta(days=10),
             "description": "A test exemption",
         }
         response = self.client.post(
@@ -152,7 +152,7 @@ class TestExemptions(TapirFactoryTestBase):
 
     def test_attendance_cancelled_during_long_exemption(self):
         self.do_long_exemption_test(
-            end_date=timezone.now().today() + datetime.timedelta(days=365)
+            end_date=timezone.now().date() + datetime.timedelta(days=365)
         )
 
     def test_attendance_cancelled_during_infinite_exemption(self):
@@ -163,10 +163,10 @@ class TestExemptions(TapirFactoryTestBase):
         user = TapirUserFactory.create(is_in_member_office=False)
         shift_template = ShiftTemplateFactory.create()
         shift_kept = shift_template.create_shift(
-            start_date=timezone.now().today() + datetime.timedelta(days=1)
+            start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
         shift_cancelled = shift_template.create_shift(
-            start_date=timezone.now().today() + datetime.timedelta(days=20)
+            start_date=timezone.now().date() + datetime.timedelta(days=20)
         )
         member_office_user = TapirUserFactory.create(
             preferred_language=language, is_in_member_office=True
@@ -175,7 +175,7 @@ class TestExemptions(TapirFactoryTestBase):
         register_user_to_shift_template(self.client, user, shift_template)
 
         post_data = {
-            "start_date": timezone.now().today() + datetime.timedelta(days=10),
+            "start_date": timezone.now().date() + datetime.timedelta(days=10),
             "end_date": end_date if end_date else "",
             "description": "A test exemption",
         }
@@ -256,8 +256,8 @@ class TestExemptions(TapirFactoryTestBase):
 
     def test_creates_log_entry(self):
         user = TapirUserFactory.create()
-        start_date = timezone.now().today() + datetime.timedelta(days=30)
-        end_date = timezone.now().today() + datetime.timedelta(days=50)
+        start_date = timezone.now().date() + datetime.timedelta(days=30)
+        end_date = timezone.now().date() + datetime.timedelta(days=50)
         self.assertEqual(CreateExemptionLogEntry.objects.count(), 0)
 
         actor = self.login_as_member_office_user()
