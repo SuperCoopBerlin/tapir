@@ -19,12 +19,6 @@ class MembershipResignationService:
     @transaction.atomic
     def update_shifts_and_shares(self, resignation: MembershipResignation):
         tapir_user: TapirUser = getattr(resignation.share_owner, "user", None)
-        if not tapir_user:
-            return
-
-        MembershipResignationService.update_shifts(
-            self, tapir_user=tapir_user, resignation=resignation
-        )
 
         shares = ShareOwnership.objects.filter(share_owner=resignation.share_owner)
         if not MembershipResignationService.is_resignation_happening_right_away(
@@ -34,8 +28,16 @@ class MembershipResignationService:
             new_end_date = new_end_date.replace(year=new_end_date.year + 3)
             shares.update(end_date=new_end_date)
             return
+
         MembershipResignationService.resignation_happens_right_away(
             self, shares=shares, resignation=resignation
+        )
+
+        if not tapir_user:
+            return
+
+        MembershipResignationService.update_shifts(
+            self, tapir_user=tapir_user, resignation=resignation
         )
 
     @staticmethod

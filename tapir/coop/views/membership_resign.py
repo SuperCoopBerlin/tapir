@@ -94,7 +94,7 @@ class MembershipResignationTable(django_tables2.Table):
         return record.share_owner.get_member_number()
 
     def render_cancellation_reason(self, record: MembershipResignation):
-        return f"{record.cancellation_reason}"
+        return record.cancellation_reason
 
     def render_cancellation_date(self, record: MembershipResignation):
         return record.cancellation_date.strftime("%d/%m/%Y")
@@ -102,7 +102,8 @@ class MembershipResignationTable(django_tables2.Table):
     def render_paid_out(self, record):
         if record.willing_to_gift_shares_to_coop:
             return _(f"Share(s) gifted {chr(8594)} SuperCoop")
-        elif record.transfering_shares_to != None:
+
+        if record.transfering_shares_to != None:
             return format_html(
                 "{} {} {}",
                 _("Share(s) gifted"),
@@ -111,8 +112,8 @@ class MembershipResignationTable(django_tables2.Table):
                     record.transfering_shares_to, self.request.user
                 ),
             )
-        else:
-            return "Yes" if record.paid_out else "No"
+
+        return "Yes" if record.paid_out else "No"
 
     def render_add_buttons(self, value, record: MembershipResignation):
         return format_html(
@@ -245,7 +246,7 @@ class MembershipResignationCreateView(
             )
             if form.instance.transfering_shares_to != None:
                 email = MembershipResignationTransferedSharesConfirmation(
-                    resigned_member=form.instance
+                    member_resignation=form.instance
                 )
                 email.send_to_share_owner(
                     actor=self.request.user,

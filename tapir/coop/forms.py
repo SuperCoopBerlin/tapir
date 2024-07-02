@@ -300,21 +300,21 @@ class MembershipResignationForm(forms.ModelForm):
                 day=31, month=12, years=3
             )
         if willing_to_gift_shares_to_coop or transfering_shares_to != None:
-            self.instance.pay_out_day = cancellation_date
-            self.instance.paid_out = True
+            self.cleaned_data["pay_out_day"] = cancellation_date
+            self.cleaned_data["paid_out"] = True
 
     def validate_share_owner(self):
         share_owner = self.cleaned_data.get("share_owner")
-        if self.instance.pk is None:
-            for already_resigned_member in MembershipResignation.objects.values(
-                "share_owner"
-            ):
-                if already_resigned_member["share_owner"] == share_owner.id:
-                    self.add_error(
-                        "share_owner",
-                        ValidationError(_("This member is already resigned.")),
-                    )
-                    break
+        if self.instance.pk is not None:
+            return share_owner
+
+        if MembershipResignation.objects.filter(
+            share_owner__id=share_owner.id
+        ).exists():
+            self.add_error(
+                "share_owner",
+                ValidationError(_("This member is already resigned.")),
+            )
         return share_owner
 
     def validate_choices(self):
@@ -375,16 +375,15 @@ class MembershipResignationForm(forms.ModelForm):
     def validate_duplicates(self):
         transfering_shares_to = self.cleaned_data.get("transfering_shares_to")
         share_owner = self.cleaned_data.get("share_owner")
-        if transfering_shares_to is not None:
-            if transfering_shares_to == share_owner:
-                self.add_error(
-                    "transfering_shares_to",
-                    ValidationError(
-                        _(
-                            "Sender and receiver of tranfering the share(s) cannot be the same."
-                        )
-                    ),
-                )
+        if transfering_shares_to == share_owner:
+            self.add_error(
+                "transfering_shares_to",
+                ValidationError(
+                    _(
+                        "Sender and receiver of tranfering the share(s) cannot be the same."
+                    )
+                ),
+            )
         return transfering_shares_to, share_owner
 
     def validate_if_gifted(self):
@@ -394,8 +393,8 @@ class MembershipResignationForm(forms.ModelForm):
         )
         paid_out = self.cleaned_data.get("paid_out")
 
-        if (transfering_shares_to != None and paid_out) or (
-            willing_to_gift_shares_to_coop and paid_out
+        if paid_out and (
+            transfering_shares_to != None or willing_to_gift_shares_to_coop
         ):
             self.add_error(
                 "paid_out",

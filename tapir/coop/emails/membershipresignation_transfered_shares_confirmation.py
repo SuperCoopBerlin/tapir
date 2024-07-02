@@ -3,15 +3,15 @@ from typing import List
 
 from tapir import settings
 
-from tapir.coop.models import ShareOwner, MembershipResignation
+from tapir.coop.models import MembershipResignation
 from tapir.core.tapir_email_base import TapirEmailBase
 from django.utils.translation import gettext_lazy as _
 
 
 class MembershipResignationTransferedSharesConfirmation(TapirEmailBase):
-    def __init__(self, resigned_member: MembershipResignation):
+    def __init__(self, member_resignation: MembershipResignation):
         super().__init__()
-        self.resigned_member = resigned_member
+        self.member_resignation = member_resignation
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -39,18 +39,20 @@ class MembershipResignationTransferedSharesConfirmation(TapirEmailBase):
 
     def get_extra_context(self) -> dict:
         return {
-            "resigned_member": self.resigned_member.share_owner,
-            "receiving_member": self.resigned_member.transfering_shares_to,
+            "resigned_member": self.member_resignation.share_owner,
+            "receiving_member": self.member_resignation.transfering_shares_to,
             "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         }
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase | None:
-        share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
-        mail = cls(resigned_member=share_owner)
+        if len(MembershipResignation.objects.all()) == 0:
+            return None
+        member_resignation = MembershipResignation.objects.all().order_by("?")[0]
+        mail = cls(member_resignation=member_resignation)
         mail.get_full_context(
-            share_owner=share_owner,
-            member_infos=share_owner.get_info(),
-            tapir_user=share_owner.user,
+            share_owner=member_resignation.share_owner,
+            member_infos=member_resignation.share_owner.get_info(),
+            tapir_user=member_resignation.share_owner.user,
         )
         return mail
