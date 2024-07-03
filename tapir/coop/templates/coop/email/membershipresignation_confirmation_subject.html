@@ -1,0 +1,6 @@
+{% load i18n %}
+{% load utils %}
+{% get_display_name_full share_owner as share_owner_name %}
+{% blocktranslate %}
+    Confirmation of the cancellation of membership: #{{ coop_share_owner_id }} {{ share_owner_name }}
+{% endblocktranslate %}

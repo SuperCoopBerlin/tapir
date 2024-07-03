@@ -1,0 +1,41 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    (English below)
+    <p>
+        Liebe*r {% get_display_name_short receiving_member %},
+    </p>
+    <p>
+        Gute Nachrichten für Dich und leider schlechte für uns! <br>
+        {% get_display_name_full resigned_member %} hat seine Mitgliedschaft bei SuperCoop Berlin eG gekündigt
+        und Dir ihr(e) / sein(e) Anteil(e) vermacht. Wundere dich nicht, wenn in deinem Tapir-Konto 
+        plötzlich weitere Anteile vermerkt sind. Sollte dies ohne Deine Zustimmung 
+        vonstatten gegangen sein, kannst Du dich an das Mitgliederbüro 
+        ({{ contact_email_address }}) wenden. 
+    </p>
+    <p>
+        Kooperative Grüße, 
+    </p>
+    <p>
+        Der Vorstand von SuperCoop Berlin eG
+    </p>
+    <hr>
+    <p>
+        Dear {% get_display_name_short receiving_member %}, 
+    </p>
+    <p>
+        Good news for you and unfortunately bad news for us! <br>
+        {% get_display_name_full resigned_member %} has cancelled his membership 
+        of SuperCoop Berlin eG and bequeathed her/his share(s) to you. 
+        Don't be surprised if you suddenly see more shares in your Tapir account. 
+        If this was done without your consent you can contact the member-office 
+        ({{ contact_email_address }}).
+    </p>
+    <p>
+        Cooperative greetings,
+    </p>
+    <p>
+        Executive board of SuperCoop Berlin eG
+    </p>
+{% endblock body %}
