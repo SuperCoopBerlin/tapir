@@ -114,7 +114,7 @@ class ShiftTemplateGroup(models.Model):
     ]
 
     def __str__(self):
-        return f"{self.__class__.__name__}: {self.name}"
+        return f"{self.__class__.__name__}: {self.name} (#{self.id})"
 
     def create_shifts(self, start_date: datetime.date):
         if start_date.weekday() != 0:
@@ -143,7 +143,7 @@ class ShiftTemplateGroup(models.Model):
         return None
 
 
-# Generate weekdays
+# Generate weekdays, 0 is Monday, 6 is Sunday
 WEEKDAY_CHOICES = [
     (i, _(calendar.day_name[i])) for i in calendar.Calendar().iterweekdays()
 ]
@@ -196,7 +196,7 @@ class ShiftTemplate(models.Model):
         )
         if self.group:
             display_name = f"{display_name} ({self.group.name})"
-        return display_name
+        return f"{display_name} (#{self.id})"
 
     def get_absolute_url(self):
         return reverse("shifts:shift_template_detail", args=[self.pk])
@@ -341,6 +341,9 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         blank=True,
         null=False,
     )
+
+    def __str__(self):
+        return f"{self.name}, {self.shift_template} (#{self.id})"
 
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
@@ -490,7 +493,7 @@ class Shift(models.Model):
             self.slots.count(),
         )
 
-        return display_name
+        return f"{display_name} (#{self.id})"
 
     def get_display_name(self):
         display_name = "%s %s - %s" % (
@@ -698,6 +701,9 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         self.warnings = self.slot_template.warnings
         self.save()
 
+    def __str__(self):
+        return f"{self.name}, {self.shift} (#{self.id})"
+
 
 class ShiftAccountEntry(models.Model):
     """ShiftAccountEntry represents and entry to the shift "bank account" of a user.
@@ -777,7 +783,7 @@ class ShiftAttendance(models.Model):
     )
 
     def __str__(self):
-        return f"Sate:{self.get_state_display()} Slot:{self.slot.get_display_name()}"
+        return f"State:{self.get_state_display()} Slot:{self.slot.get_display_name()} (#{self.id})"
 
     def get_state_display(self):
         return SHIFT_ATTENDANCE_STATES[self.state]

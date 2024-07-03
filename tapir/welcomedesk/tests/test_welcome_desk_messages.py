@@ -1,6 +1,7 @@
 import datetime
 
 from django.urls import reverse
+from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
@@ -8,7 +9,6 @@ from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory, MembershipPauseFactory
 from tapir.shifts.models import (
     ShiftAttendanceMode,
-    ShiftAccountEntry,
     ShiftAttendanceTemplate,
     ShiftExemption,
 )
@@ -85,7 +85,7 @@ class TestWelcomeDeskMessages(TapirFactoryTestBase):
         user.shift_user_data.save()
         ShiftExemption.objects.create(
             shift_user_data=user.shift_user_data,
-            start_date=datetime.date.today() - datetime.timedelta(days=3),
+            start_date=timezone.now().date() - datetime.timedelta(days=3),
         )
         self.assertTrue(
             user.shift_user_data.is_currently_exempted_from_shifts(),

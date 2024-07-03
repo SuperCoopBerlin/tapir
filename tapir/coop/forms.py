@@ -1,6 +1,5 @@
-from django.utils import timezone
-from dateutil.relativedelta import relativedelta
 from django import forms
+from dateutil.relativedelta import relativedelta
 from django.core.exceptions import ValidationError
 from django.forms import DateField, IntegerField
 from django.utils.translation import gettext_lazy as _
@@ -18,7 +17,6 @@ from tapir.coop.models import (
     IncomingPayment,
     MembershipPause,
     MembershipResignation,
-    TapirUser,
 )
 from tapir.shifts.forms import ShareOwnerChoiceField, TapirUserChoiceField
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
@@ -302,6 +300,7 @@ class MembershipResignationForm(forms.ModelForm):
         if willing_to_gift_shares_to_coop or transfering_shares_to != None:
             self.cleaned_data["pay_out_day"] = cancellation_date
             self.cleaned_data["paid_out"] = True
+        return cleaned_data
 
     def validate_share_owner(self):
         share_owner = self.cleaned_data.get("share_owner")
@@ -315,7 +314,6 @@ class MembershipResignationForm(forms.ModelForm):
                 "share_owner",
                 ValidationError(_("This member is already resigned.")),
             )
-        return share_owner
 
     def validate_choices(self):
         coop_buys_shares_back = self.cleaned_data.get("coop_buys_shares_back")
@@ -366,11 +364,6 @@ class MembershipResignationForm(forms.ModelForm):
                 "coop_buys_shares_back",
                 ValidationError(_(make_at_least_one_choice_error_message)),
             )
-        return (
-            coop_buys_shares_back,
-            willing_to_gift_shares_to_coop,
-            transfering_shares_to,
-        )
 
     def validate_duplicates(self):
         transfering_shares_to = self.cleaned_data.get("transfering_shares_to")
@@ -384,7 +377,6 @@ class MembershipResignationForm(forms.ModelForm):
                     )
                 ),
             )
-        return transfering_shares_to, share_owner
 
     def validate_if_gifted(self):
         transfering_shares_to = self.cleaned_data.get("transfering_shares_to")
@@ -400,4 +392,3 @@ class MembershipResignationForm(forms.ModelForm):
                 "paid_out",
                 ValidationError(_("Cannot pay out, because shares have been gifted.")),
             )
-        return transfering_shares_to, willing_to_gift_shares_to_coop, paid_out

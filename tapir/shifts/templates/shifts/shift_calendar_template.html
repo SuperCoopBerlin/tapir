@@ -65,7 +65,7 @@
                         <h5 style="text-align: center;">{{ day|date:"l" }}</h5>
                         <h6 style="text-align: center;">
                             {{ day|date:"M d" }}
-                            {% if perms.shifts.manage %}
+                            {% if perms.welcomedesk.view %}
                                 <a href="{% url 'shifts:shift_day_printable' day|date:'d-m-y' %}"
                                    class="{% tapir_button_link %}">
                                     <span class="material-icons">print</span>

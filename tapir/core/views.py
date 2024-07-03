@@ -87,3 +87,11 @@ class FeatureFlagUpdateView(
         }
         context["card_title"] = context["page_title"]
         return context
+
+
+class ErrorView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+    permission_required = [PERMISSION_COOP_MANAGE]
+
+    # This view that always triggers an error is only used to test tapir.core.middleware.SendExceptionsToSlackMiddleware
+    def get(self, request, *args, **kwargs):
+        raise NotImplementedError("Oh no! An error!")

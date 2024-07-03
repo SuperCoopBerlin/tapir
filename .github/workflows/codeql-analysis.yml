@@ -38,7 +38,7 @@ jobs:
 
     steps:
     - name: Install dependencies
-      run: sudo apt-get install libsasl2-dev python3-dev libldap2-dev libssl-dev
+      run: sudo apt-get update -y && sudo apt-get install libsasl2-dev python3-dev libldap2-dev libssl-dev
 
     - name: Checkout repository
       uses: actions/checkout@v3

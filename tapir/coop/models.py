@@ -105,9 +105,9 @@ class ShareOwner(models.Model):
 
             return self.filter(combined_filters)
 
-        def with_status(self, status: str, date=None):
+        def with_status(self, status: str, date: datetime.date = None):
             if date is None:
-                date = datetime.date.today()
+                date = timezone.now().date()
             active_ownerships = ShareOwnership.objects.active_temporal(date)
 
             if status == MemberStatus.SOLD:
@@ -538,7 +538,7 @@ class DraftUser(models.Model):
         get_info is an interface implemented by both ShareOwner and DraftUser
         to allow identical treatment in templates.
         """
-        return self
+        return self.share_owner.get_info() if self.share_owner else self
 
     @staticmethod
     def get_member_number():
