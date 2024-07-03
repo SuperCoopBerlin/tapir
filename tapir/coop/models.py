@@ -106,9 +106,9 @@ class ShareOwner(models.Model):
 
             return self.filter(combined_filters)
 
-        def with_status(self, status: str, date=None):
+        def with_status(self, status: str, date: datetime.date = None):
             if date is None:
-                date = datetime.date.today()
+                date = timezone.now().date()
             active_ownerships = ShareOwnership.objects.active_temporal(date)
 
             if status == MemberStatus.SOLD:
@@ -539,7 +539,7 @@ class DraftUser(models.Model):
         get_info is an interface implemented by both ShareOwner and DraftUser
         to allow identical treatment in templates.
         """
-        return self
+        return self.share_owner.get_info() if self.share_owner else self
 
     @staticmethod
     def get_member_number():
@@ -716,6 +716,73 @@ class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
         return super().populate_base(
             actor=actor,
             share_owner=pause.share_owner,
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+        )
+
+
+class ResignedMembership(models.Model):
+    share_owner = models.ForeignKey(
+        ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Shareowner")
+    )
+    cancellation_date = models.DateField(
+        default=timezone.now,
+        blank=True,
+    )
+    pay_out_day = models.DateField(null=True)
+    cancellation_reason = models.CharField(max_length=1000)
+    coop_buys_shares_back = models.BooleanField()
+    willing_to_gift_shares_to_coop = models.BooleanField()
+    transfering_shares_to = models.ForeignKey(
+        TapirUser,
+        on_delete=models.deletion.CASCADE,
+        verbose_name=_("TapirUser"),
+        null=True,
+    )
+    paid_out = models.BooleanField(default=False)
+
+    class ResignedMemberQuerySet(models.QuerySet):
+        def with_term(self, search_string: str):
+            searches = [s for s in search_string.split(" ") if s != ""]
+
+            for search in searches:
+                word_filter = (
+                    Q(share_owner__user__usage_name__unaccent__icontains=search)
+                    | Q(share_owner__user__first_name__unaccent__icontains=search)
+                    | Q(share_owner__user__last_name__unaccent__icontains=search)
+                    | Q(share_owner__id__icontains=search)
+                )
+            return self.filter(word_filter)
+
+    objects = ResignedMemberQuerySet.as_manager()
+
+
+class ResignMembershipCreateLogEntry(ModelLogEntry):
+    template_name = "coop/log/create_resignmember_log_entry.html"
+
+    def populate(
+        self,
+        actor: User,
+        model: ResignedMembership,
+    ):
+        return super().populate_base(
+            actor=actor, share_owner=model.share_owner, model=model
+        )
+
+
+class ResignMembershipUpdateLogEntry(UpdateModelLogEntry):
+    template_name = "coop/log/update_resignmember_log_entry.html"
+
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        model: ResignedMembership,
+        actor: User,
+    ):
+        return super().populate_base(
+            actor=actor,
+            share_owner=model.share_owner,
             old_frozen=old_frozen,
             new_frozen=new_frozen,
         )

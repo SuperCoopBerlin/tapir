@@ -2,6 +2,7 @@ import datetime
 
 from django.core.management.base import BaseCommand
 from django.db.models import Max
+from django.utils import timezone
 
 from tapir.shifts.models import ShiftCycleEntry, ShiftTemplateGroup, Shift
 from tapir.shifts.services.shift_cycle_service import ShiftCycleService
@@ -25,7 +26,7 @@ class Command(BaseCommand):
         if new_cycle_start_date is None:
             return
 
-        while datetime.date.today() >= new_cycle_start_date:
+        while timezone.now().date() >= new_cycle_start_date:
             ShiftCycleService.apply_cycle_start(new_cycle_start_date)
             new_cycle_start_date += datetime.timedelta(
                 days=ShiftCycleEntry.SHIFT_CYCLE_DURATION

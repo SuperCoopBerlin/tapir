@@ -1,6 +1,7 @@
 import datetime
 
 from django.urls import reverse
+from django.utils import timezone
 
 from tapir.shifts.models import (
     ShiftUserCapability,
@@ -24,7 +25,7 @@ class TestSlotTemplateEdit(TapirFactoryTestBase):
         slot_template.warnings = []
         slot_template.save()
         shift = shift_template.create_shift(
-            datetime.date.today() + datetime.timedelta(days=10)
+            timezone.now().date() + datetime.timedelta(days=10)
         )
         slot = shift.slots.first()
         self.assertEqual([], slot.required_capabilities)
@@ -81,13 +82,13 @@ class TestSlotTemplateEdit(TapirFactoryTestBase):
         slot_template.name = "Name before"
         slot_template.save()
         shift = shift_template.create_shift(
-            datetime.date.today() - datetime.timedelta(days=10)
+            timezone.now().date() - datetime.timedelta(days=10)
         )
         slot = shift.slots.first()
         self.assertEqual("Name before", slot.name)
 
         response = self.client.post(
-            reverse(self.SLOT_TEMPLATE_EDIT_VIEW, args=[shift_template.id]),
+            reverse(self.SLOT_TEMPLATE_EDIT_VIEW, args=[slot_template.id]),
             {
                 "name": "Name after",
                 "check_update_future_shifts": True,

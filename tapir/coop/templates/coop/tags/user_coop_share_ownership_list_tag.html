@@ -176,8 +176,8 @@
                 <div class="col-7">{{ share_owner.willing_to_gift_a_share|yesno:_("Yes,No") }}</div>
             </div>
             {% if perms.accounts.manage %}
-                <div class="row m-1 mt-4 justify-content-end">
-                    <form class="d-flex justify-content-end"
+                <div class="d-flex align-items-end flex-column-reverse">
+                    <form class="p-2"
                           method="post"
                           action="{% url 'coop:send_shareowner_membership_confirmation_welcome_email' share_owner.pk %}">
                         {% csrf_token %}
@@ -185,7 +185,6 @@
                             <span class="material-icons">send</span>{% translate 'Send membership confirmation email' %}
                         </button>
                     </form>
-                </div>
             {% endif %}
         {% else %}
             {% translate "User is not a cooperative member." %}

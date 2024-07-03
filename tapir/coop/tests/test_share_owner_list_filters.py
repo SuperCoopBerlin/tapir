@@ -13,8 +13,10 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftAttendanceTemplate,
     ShiftUserCapability,
+    ShiftAttendance,
+    ShiftSlot,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory
+from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 from tapir.utils.user_utils import UserUtils
 
@@ -119,37 +121,51 @@ class TestShareOwnerList(TapirFactoryTestBase):
         )
 
     def test_filter_for_shift_type(self):
-        user_shiftname_dict = {}
-        for _ in range(2):
-            shift_template = ShiftTemplateFactory.create(nb_slots=0)
-            for shift_slot_name in ["ShiftSlotTest1", "ShiftSlotTest2"]:
-                # Create slots for that shift
-                shift_slot_template = ShiftSlotTemplate.objects.create(
-                    name=shift_slot_name,
-                    shift_template=shift_template,
-                )
+        shiftname_user_dict = {}
+        for slot_name in ["cheese making", "coffee brewing"]:
+            shift = ShiftFactory.create(
+                nb_slots=0, start_time=timezone.now() + datetime.timedelta(days=1)
+            )
+            slot_users = []
+            for _ in range(2):
+                slot = ShiftSlot.objects.create(shift=shift, name=slot_name)
                 user = TapirUserFactory.create()
-                ShiftAttendanceTemplate.objects.create(
-                    user=user,
-                    slot_template=shift_slot_template,
-                )
-                user_shiftname_dict[user.share_owner] = shift_slot_name
 
-        first_shift_slot_name = user_shiftname_dict[next(iter(user_shiftname_dict))]
-        all_users_of_with_same_shift_slot = [
-            key
-            for key, value in user_shiftname_dict.items()
-            if value == first_shift_slot_name
-        ]
-        all_users_of_other_same_shift_slot = [
-            key
-            for key, value in user_shiftname_dict.items()
-            if value != first_shift_slot_name
-        ]
+                ShiftAttendance.objects.create(user=user, slot=slot)
+                slot_users.append(user.share_owner)
+            shiftname_user_dict[slot_name] = slot_users
+
+        (
+            first_shift_slot_name,
+            users_with_same_shift_slot,
+        ) = shiftname_user_dict.popitem()
+        _, users_with_other_shift_slot = shiftname_user_dict.popitem()
         self.visit_view(
             {"shift_slot_name": first_shift_slot_name},
-            must_be_in=all_users_of_with_same_shift_slot,
-            must_be_out=all_users_of_other_same_shift_slot,
+            must_be_in=users_with_same_shift_slot,
+            must_be_out=users_with_other_shift_slot,
+        )
+
+    def test_filter_for_shift_type_no_historic(self):
+        # shift_slot_name should not find historic slots with same slot name
+        shiftname_user_dict = {}
+        slot_name = "cheese making"
+        for delta in [datetime.timedelta(days=-5), datetime.timedelta(days=+5)]:
+            shift = ShiftFactory.create(nb_slots=0, start_time=timezone.now() + delta)
+            slot_users = []
+            for _ in range(2):
+                slot = ShiftSlot.objects.create(shift=shift, name=slot_name)
+                user = TapirUserFactory.create()
+                ShiftAttendance.objects.create(user=user, slot=slot)
+                slot_users.append(user.share_owner)
+            shiftname_user_dict[delta] = slot_users
+
+        _, users_with_same_shift_slot = shiftname_user_dict.popitem()
+        _, users_with_other_shift_slot = shiftname_user_dict.popitem()
+        self.visit_view(
+            {"shift_slot_name": slot_name},
+            must_be_in=users_with_same_shift_slot,
+            must_be_out=users_with_other_shift_slot,
         )
 
     def test_abcd_week(self):

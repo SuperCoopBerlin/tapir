@@ -1,12 +1,12 @@
 import csv
-import os
 
 from django.core.management import BaseCommand
 
-from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.settings import GROUP_VORSTAND
-from tapir.utils.shortcuts import setup_ssh_for_biooffice_storage
+from tapir.utils.shortcuts import (
+    send_file_to_storage_server,
+)
 from tapir.utils.user_utils import UserUtils
 
 
@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.write_users_to_file()
-        self.send_file_to_server()
+        send_file_to_storage_server(self.FILE_NAME, "u326634-sub4")
 
     @classmethod
     def write_users_to_file(cls):
@@ -50,16 +50,3 @@ class Command(BaseCommand):
                         user.email,
                     ]
                 )
-
-    @classmethod
-    def send_file_to_server(cls):
-        if settings.DEBUG:
-            print(
-                "Skipping file sync to biooffice server because this is a debug instance."
-            )
-            return
-
-        setup_ssh_for_biooffice_storage()
-        os.system(
-            f"scp -o 'NumberOfPasswordPrompts=0' -o 'UserKnownHostsFile=~/.ssh/biooffice_known_hosts' -i ~/.ssh/biooffice_id_rsa -P 23 {cls.FILE_NAME} u326634-sub4@u326634.your-storagebox.de:./"
-        )

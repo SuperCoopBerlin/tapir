@@ -1,0 +1,60 @@
+{% extends "core/base.html" %}
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load querystring from django_tables2 %}
+{% load export_url from django_tables2 %}
+{% load core %}
+{% load coop %}
+{% load utils %}
+{% block title %}
+    {% translate "List of resigned members" %}
+{% endblock title %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
+{% endblock head %}
+{% block content %}
+    <div class="card mb-2">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5>{% translate "List of resigned members" %} ({{ total_of_resigned_members }}) </h5>
+            <div>
+                <div class="btn-group">
+                    <button type="button"
+                            class="{% tapir_button_link %} btn dropdown-toggle"
+                            data-bs-toggle="dropdown">{% translate "Export" %}</button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        {% for format in view.export_formats %}
+                            <a class="dropdown-item" href="{% export_url format %}">
+                                download <code>.{{ format }}</code>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'coop:resign_new_membership' %}">
+                    <span class="material-icons">add_circle_outline</span>
+                    {% translate "Resign new member" %}
+                </a>
+            </div>
+        </div>
+        <br>
+        <form method="get">
+            <div class="px-3 mt-1">
+                <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
+                <div class="member-filter-form-buttons">
+                    <button class="filter-button {% tapir_button_link %}">
+                        <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                    </button>
+                    <a class="{% tapir_button_link %}"
+                    href="{% url 'coop:resigned_members_list' %}">
+                     <span class="material-icons">clear</span>
+                     {% translate "Clear all filters" %}
+                 </a>
+                </div>
+            </div>
+        </form>
+            <li class="list-group-item">{% render_table table %}</li>
+    </div>
+{% endblock content %}

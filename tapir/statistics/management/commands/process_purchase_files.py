@@ -57,9 +57,7 @@ class Command(BaseCommand):
             if row["Kunde"].isnumeric() and not row["Kunde"].startswith("299"):
                 continue
             purchase_date = get_timezone_aware_datetime(
-                date=datetime.datetime.strptime(
-                    row['\ufeff"Datum"'], "%Y-%m-%d"
-                ).date(),
+                date=datetime.datetime.strptime(row["Datum"], "%Y-%m-%d").date(),
                 time=datetime.datetime.strptime(row["Zeit"], "%H:%M:%S").time(),
             )
 

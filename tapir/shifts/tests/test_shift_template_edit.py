@@ -30,10 +30,10 @@ class TestShiftTemplateEdit(TapirFactoryTestBase):
         shift_template.save()
 
         shift_1 = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=10)
+            start_date=timezone.now().date() + datetime.timedelta(days=10)
         )
         shift_2 = shift_template.create_shift(
-            start_date=datetime.date.today() + datetime.timedelta(days=30)
+            start_date=timezone.now().date() + datetime.timedelta(days=30)
         )
 
         name = "Updated name"
@@ -103,7 +103,7 @@ class TestShiftTemplateEdit(TapirFactoryTestBase):
         shift_template.save()
 
         shift = shift_template.create_shift(
-            start_date=get_monday(datetime.date.today() - datetime.timedelta(days=10))
+            start_date=get_monday(timezone.now().date() - datetime.timedelta(days=10))
         )
 
         response = self.client.post(
