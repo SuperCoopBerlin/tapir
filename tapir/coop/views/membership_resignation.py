@@ -11,6 +11,7 @@ from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
+from tapir.coop.config import feature_flag_membership_resignation
 from tapir.coop.emails.membershipresignation_confirmation_email import (
     MembershipResignationConfirmation,
 )
@@ -27,6 +28,7 @@ from tapir.coop.services.MembershipResignationService import (
     MembershipResignationService,
 )
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
+from tapir.core.models import FeatureFlag
 from tapir.core.templatetags.core import tapir_button_link_to_action
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
@@ -165,6 +167,9 @@ class MembershipResignationList(
     filterset_class = MembershipResignationFilter
 
     def get_context_data(self, **kwargs):
+        if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
+            raise PermissionError("The membership resignation feature is disabled.")
+
         context_data = super().get_context_data(**kwargs)
         context_data[
             "total_of_resigned_members"
@@ -185,6 +190,9 @@ class MembershipResignationEditView(
     success_url = reverse_lazy("coop:resigned_members_list")
 
     def get_context_data(self, **kwargs):
+        if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
+            raise PermissionError("The membership resignation feature is disabled.")
+
         context_data = super().get_context_data(**kwargs)
         context_data["page_title"] = _("Cancel membership of %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
@@ -222,6 +230,9 @@ class MembershipResignationCreateView(
     success_url = reverse_lazy("coop:resigned_members_list")
 
     def get_context_data(self, **kwargs):
+        if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
+            raise PermissionError("The membership resignation feature is disabled.")
+
         context_data = super().get_context_data(**kwargs)
         context_data["page_title"] = _("Resign a new membership")
         context_data["card_title"] = context_data["page_title"]
@@ -258,6 +269,12 @@ class MembershipResignationDetailView(
     permission_required = PERMISSION_COOP_MANAGE
     model = MembershipResignation
 
+    def get(self, request, *args, **kwargs):
+        if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
+            raise PermissionError("The membership resignation feature is disabled.")
+
+        return super().get(request, *args, **kwargs)
+
 
 class MembershipResignationRemoveFromListView(
     LoginRequiredMixin, PermissionRequiredMixin, DeleteView
@@ -267,6 +284,9 @@ class MembershipResignationRemoveFromListView(
     success_url = reverse_lazy("coop:resigned_members_list")
 
     def delete(self, request, *args, **kwargs):
+        if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
+            raise PermissionError("The membership resignation feature is disabled.")
+
         self.object = self.get_object()
         MembershipResignationService.delete_end_dates(self.object)
         self.object.delete()

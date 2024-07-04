@@ -2,6 +2,7 @@ from django.apps import AppConfig
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
+from tapir.coop.config import feature_flag_membership_resignation
 from tapir.core.config import sidebar_link_groups
 from tapir.settings import (
     PERMISSION_COOP_MANAGE,
@@ -16,6 +17,10 @@ class CoopConfig(AppConfig):
     def ready(self):
         self.register_sidebar_link_groups()
         self.register_emails()
+
+        from tapir.core.models import FeatureFlag
+
+        FeatureFlag.ensure_flag_exists(feature_flag_membership_resignation)
 
     @staticmethod
     def register_sidebar_link_groups():
