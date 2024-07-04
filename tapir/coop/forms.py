@@ -328,6 +328,19 @@ class MembershipResignationForm(forms.ModelForm):
                 ),
             )
 
+        if (
+            resignation_type != MembershipResignation.ResignationType.TRANSFER
+            and transferring_shares_to is not None
+        ):
+            self.add_error(
+                "transferring_shares_to",
+                ValidationError(
+                    _(
+                        "If the shares don't get transferred to another member, this field should be empty."
+                    )
+                ),
+            )
+
     def validate_duplicates(self):
         transferring_shares_to = self.cleaned_data.get("transferring_shares_to")
         share_owner = self.cleaned_data.get("share_owner")
