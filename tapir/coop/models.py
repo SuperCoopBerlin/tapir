@@ -23,6 +23,7 @@ from tapir.utils.models import (
 from tapir.utils.shortcuts import get_html_link
 from tapir.utils.user_utils import UserUtils
 
+
 class ShareOwner(models.Model):
     """ShareOwner represents a share_owner of a ShareOwnership.
 
@@ -206,7 +207,7 @@ class ShareOwner(models.Model):
 
     def get_display_name(self, display_type):
         return UserUtils.build_display_name(self, display_type)
-    
+
     def get_html_link(self, display_type):
         return get_html_link(
             url=self.get_absolute_url(), text=self.get_display_name(display_type)
@@ -719,34 +720,45 @@ class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
             new_frozen=new_frozen,
         )
 
+
 class MembershipResignation(models.Model):
     share_owner = models.OneToOneField(
-        ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Shareowner"), related_name="share_owner",
+        ShareOwner,
+        on_delete=models.deletion.CASCADE,
+        verbose_name=_("Shareowner"),
+        related_name="share_owner",
     )
     cancellation_date = models.DateField(
         default=timezone.now,
-        )
+    )
     pay_out_day = models.DateField(null=True)
     cancellation_reason = models.CharField(max_length=1000)
     coop_buys_shares_back = models.BooleanField()
     willing_to_gift_shares_to_coop = models.BooleanField(
-        "Willing to gift shares to coop", 
+        "Willing to gift shares to coop",
         help_text="Willing to gift shares to coop",
-        )
+    )
     transfering_shares_to = models.OneToOneField(
-        ShareOwner, on_delete=models.deletion.PROTECT, verbose_name="OwnerToTransfer", null=True, related_name="owner_to_transfer",
+        ShareOwner,
+        on_delete=models.deletion.PROTECT,
+        verbose_name="OwnerToTransfer",
+        null=True,
+        related_name="owner_to_transfer",
     )
     paid_out = models.BooleanField(default=False)
 
     class MembershipResignationQuerySet(models.QuerySet):
         def with_name_or_id(self, search_string: str):
-            id_filter = (Q(share_owner__id=search_string))
-            member_filter = Q(share_owner__in=ShareOwner.objects.with_name(search_string))
+            id_filter = Q(share_owner__id=search_string)
+            member_filter = Q(
+                share_owner__in=ShareOwner.objects.with_name(search_string)
+            )
             combined_filters = id_filter | member_filter
             return self.filter(combined_filters)
 
     objects = MembershipResignationQuerySet.as_manager()
-    
+
+
 class MembershipResignationCreateLogEntry(ModelLogEntry):
     template_name = "coop/log/create_resignmember_log_entry.html"
 
@@ -758,6 +770,8 @@ class MembershipResignationCreateLogEntry(ModelLogEntry):
         return super().populate_base(
             actor=actor, share_owner=model.share_owner, model=model
         )
+
+
 class MembershipResignationUpdateLogEntry(UpdateModelLogEntry):
     template_name = "coop/log/update_resignmember_log_entry.html"
 
