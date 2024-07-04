@@ -722,6 +722,15 @@ class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
 
 
 class MembershipResignation(models.Model):
+    class ResignationType(models.TextChoices):
+        BUY_BACK = "coop_buys_shares_back", _(
+            "The cooperative buys the shares back from the member"
+        )
+        GIFT_TO_COOP = "gift_to_coop", _(
+            "The member gifts the shares to the cooperative"
+        )
+        TRANSFER = "transfer", _("The shares get transferred to another member")
+
     share_owner = models.OneToOneField(
         ShareOwner,
         on_delete=models.deletion.CASCADE,
@@ -733,17 +742,16 @@ class MembershipResignation(models.Model):
     )
     pay_out_day = models.DateField(null=True)
     cancellation_reason = models.CharField(max_length=1000)
-    coop_buys_shares_back = models.BooleanField()
-    willing_to_gift_shares_to_coop = models.BooleanField(
-        "Willing to gift shares to coop",
-        help_text="Willing to gift shares to coop",
-    )
-    transfering_shares_to = models.OneToOneField(
+    resignation_type = models.CharField(choices=ResignationType.choices, max_length=50)
+    transferring_shares_to = models.OneToOneField(
         ShareOwner,
         on_delete=models.deletion.PROTECT,
         verbose_name="OwnerToTransfer",
         null=True,
         related_name="owner_to_transfer",
+        help_text=_(
+            "Leave this empty if the resignation type is not a transfer to another member"
+        ),
     )
     paid_out = models.BooleanField(default=False)
 

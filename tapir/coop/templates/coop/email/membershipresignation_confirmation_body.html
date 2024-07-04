@@ -7,15 +7,15 @@
     <p>
         schade, dass Du uns verlassen möchtest. Hiermit bestätigen wir Dir die Kündigung deiner Mitgliedschaft bei SuperCoop Berlin eG.
     </p>
-    {% if resigned_member.willing_to_gift_shares_to_coop %}
+    {% if resigned_member.resignation_type == resignation_type_gift_to_coop %}
     <p>
         Wie in deinem Kündigungsschreiben angegeben, möchtest Du deine Anteile an SuperCoop übertragen. Somit ist deine Kündigung 
         ab sofort gültig.
     </p>
-    {% elif resigned_member.transfering_shares_to is not None %}
+    {% elif resigned_member.resignation_type == resignation_type_transfer %}
     <p>
         Wie in deinem Kündigungsschreiben angegeben, möchtest Du deine Anteile an ein anderes Mitglied übertragen.
-        Wir haben {% get_display_name_full resigned_member.transfering_shares_to %} darüber gesonders informiert. 
+        Wir haben {% get_display_name_full resigned_member.transferring_shares_to %} darüber gesondert informiert.
         Deine Kündigung ist ab sofort gültig.
     </p>
     {% else %}
@@ -55,15 +55,15 @@
     <p>
         what a pity that you want to leave us. We hereby confirm the cancellation of your membership with SuperCoop Berlin eG. <br>
     </p>
-    {% if resigned_member.willing_to_gift_shares_to_coop %}
+    {% if resigned_member.resignation_type == resignation_type_gift_to_coop %}
     <p>
         As you stated in your letter of cancellation that you want to transfer your shares to SuperCoop,
         your termination is effective immediately.
     </p>
-    {% elif resigned_member.transfering_shares_to is not None %}
+    {% elif resigned_member.resignation_type == resignation_type_transfer %}
     <p>
         You stated in your letter of cancellation that you want to transfer your shares to another member. We've informed 
-        {% get_display_name_full resigned_member.transfering_shares_to %} about this seperately. 
+        {% get_display_name_full resigned_member.transferring_shares_to %} about this separately.
         Your termination is effective immediately.
     </p>
     {% else %}

@@ -8,81 +8,64 @@
     {% translate "Resigned member" %}: {% get_display_name_for_viewer object.share_owner request.user %}
 {% endblock title %}
 {% block content %}
-<div class="modal fade"
-    id="confirmDeleteModal"
-    tabindex="-1"
-    aria-labelledby="confirmDeleteModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Attention!</h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-          <p class="m-2"><strong>Are you sure you want to remove {{ object.share_owner.user.first_name }} {{ object.share_owner.user.last_name }} from the resigned members list and to reactivate the member? This cannot be undone!</strong></p>
-        <div class="modal-footer">
-            <form class="form-inline ms-3"
-                method="post"
-                action="{% url 'coop:resign_member_remove' object.pk %}">
-                {% csrf_token %}
-                <button type="submit" class="{% tapir_button_custom 'warning' %}">
-                    <span class="material-icons">mood</span>Reactivate
-                </button>
-            </form>      
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>    
-        </div>
-      </div>
-    </div>  
-</div>
-<div class="container">
-    <div class="card mb-2">
-        <h5 class="card-header">{% translate "Resigned member" %}: {% get_display_name_for_viewer object.share_owner request.user %}</h5>
-        <div class="card-body" id="resignedmember_detail_card">
-            <div class="row m-1">
-                <div class="col-3 fw-bold text-end">{% translate "Share owner" %}:</div>
-                <div class="col-9" id="resigendmember_share_owner">{% get_display_name_for_viewer object.share_owner request.user %}</div>
+    <div class="modal fade"
+         id="confirmDeleteModal"
+         tabindex="-1"
+         aria-labelledby="confirmDeleteModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Attention!</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <p class="m-2"><strong>Are you sure you want to
+                    remove {{ object.share_owner.user.first_name }} {{ object.share_owner.user.last_name }} from the
+                    resigned members list and to reactivate the member? This cannot be undone!</strong></p>
+                <div class="modal-footer">
+                    <form class="form-inline ms-3"
+                          method="post"
+                          action="{% url 'coop:resign_member_remove' object.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_custom 'warning' %}">
+                            <span class="material-icons">mood</span>Reactivate
+                        </button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-            <div class="row m-1">
-                <div class="col-3 fw-bold text-end">{% translate "Cancellation reason" %}:</div>
-                <div class="col-9" id="resigendmember_cancellation_reason">{{ object.cancellation_reason }}</div>
-            </div>                
-            <div class="row m-1">
-                <div class="col-3 fw-bold text-end">{% translate "Cancellation date" %}:</div>
-                <div class="col-9" id="resigendmember_cancellation_date">{{ object.cancellation_date|date:"d.m.Y" }}</div>
-            </div>   
-            {% if object.coop_buys_shares_back %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="card mb-2">
+            <h5 class="card-header">{% translate "Resigned member" %}: {% get_display_name_for_viewer object.share_owner request.user %}</h5>
+            <div class="card-body" id="resignedmember_detail_card">
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Coop buys back share" %}:</div>
-                    <div class="col-9" id="resigendmember_coop_buys_shares_back">
-                        {% if object.coop_buys_shares_back %}
-                            {% translate "Yes" %}
-                        {% else %}
-                            {% translate "No" %}
-                        {% endif %}
+                    <div class="col-3 fw-bold text-end">{% translate "Share owner" %}:</div>
+                    <div class="col-9"
+                         id="membership_resignation_share_owner">{% get_display_name_for_viewer object.share_owner request.user %}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Cancellation reason" %}:</div>
+                    <div class="col-9"
+                         id="membership_resignation_cancellation_reason">{{ object.cancellation_reason }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Cancellation date" %}:</div>
+                    <div class="col-9"
+                         id="membership_resignation_cancellation_date">{{ object.cancellation_date|date:"d.m.Y" }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Resignation type" %}:</div>
+                    <div class="col-9" id="resignation_type">
+                        {{ object.get_resignation_type_display }}
                     </div>
-                </div>  
-            {% elif object.willing_to_gift_shares_to_coop %}
-                <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Willing to gift share to coop" %}:</div>
-                    <div class="col-9" id="resigendmember_willing_to_gift_shares_to_coop">
-                        {% if object.willing_to_gift_shares_to_coop %}
-                            {% translate "Yes" %}
-                        {% else %}
-                            {% translate "No" %}
-                        {% endif %}
-                    </div>
-                </div>  
-            {% elif object.transfering_shares_to %}
-                <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Transfers share(s) to" %}:</div>
-                    <div class="col-9" id="resigendmember_willing_to_gift_shares_to_coop">{% get_display_name_for_viewer object.transfering_shares_to request.user %}</div>
-                </div>  
-            {% endif %}
+                </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Paid out" %}:</div>
-                    <div class="col-9" id="resigendmember_paid_out">
+                    <div class="col-9" id="membership_resignation_paid_out">
                         {% if object.paid_out %}
                             {% translate "Yes" %}
                         {% else %}
@@ -99,11 +82,10 @@
                 <span class="material-icons">mood</span>Reactivate
             </span>
             <a class="{% tapir_button_link_to_action %}"
-            href="{% url 'coop:resign_member_edit' object.pk %}">
-             <span class="material-icons">edit</span>
-             {% translate "Edit" %}
-         </a>
+               href="{% url 'coop:resign_member_edit' object.pk %}">
+                <span class="material-icons">edit</span>
+                {% translate "Edit" %}
+            </a>
         </div>
     </div>
-</div>
 {% endblock content %}

@@ -1,25 +1,24 @@
-import os
 from typing import List
 
-from tapir import settings
-
-from tapir.coop.models import MembershipResignation
-from tapir.core.tapir_email_base import TapirEmailBase
 from django.utils.translation import gettext_lazy as _
 
+from tapir import settings
+from tapir.coop.models import MembershipResignation
+from tapir.core.tapir_email_base import TapirEmailBase
 
-class MembershipResignationTransferedSharesConfirmation(TapirEmailBase):
+
+class MembershipResignationTransferredSharesConfirmation(TapirEmailBase):
     def __init__(self, member_resignation: MembershipResignation):
         super().__init__()
         self.member_resignation = member_resignation
 
     @classmethod
     def get_unique_id(cls) -> str:
-        return "tapir.coop.transfered_shares_confirmation"
+        return "tapir.coop.transferred_shares_confirmation"
 
     @classmethod
     def get_name(cls) -> str:
-        return _("Confirmation Email for transfered shares.")
+        return _("Confirmation Email for transferred shares.")
 
     @classmethod
     def get_description(cls) -> str:
@@ -29,18 +28,18 @@ class MembershipResignationTransferedSharesConfirmation(TapirEmailBase):
 
     def get_subject_templates(self) -> List:
         return [
-            "coop/email/membershipresignation_transfered_shares_confirmation_subject.html"
+            "coop/email/membershipresignation_transferred_shares_confirmation_subject.html"
         ]
 
     def get_body_templates(self) -> List:
         return [
-            "coop/email/membershipresignation_transfered_shares_confirmation_body.html"
+            "coop/email/membershipresignation_transferred_shares_confirmation_body.html"
         ]
 
     def get_extra_context(self) -> dict:
         return {
             "resigned_member": self.member_resignation.share_owner,
-            "receiving_member": self.member_resignation.transfering_shares_to,
+            "receiving_member": self.member_resignation.transferring_shares_to,
             "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         }
 

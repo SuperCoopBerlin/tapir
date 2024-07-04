@@ -1,5 +1,5 @@
-from django import forms
 from dateutil.relativedelta import relativedelta
+from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import DateField, IntegerField
 from django.utils.translation import gettext_lazy as _
@@ -18,7 +18,7 @@ from tapir.coop.models import (
     MembershipPause,
     MembershipResignation,
 )
-from tapir.shifts.forms import ShareOwnerChoiceField, TapirUserChoiceField
+from tapir.shifts.forms import ShareOwnerChoiceField
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
@@ -257,13 +257,13 @@ class MembershipResignationForm(forms.ModelForm):
             attrs={"rows": 2, "placeholder": _("Please not more than 1000 characters.")}
         ),
     )
-    coop_buys_shares_back = forms.BooleanField(
-        label=_("Coop buys back share(s)"), required=False
-    )
-    willing_to_gift_shares_to_coop = forms.BooleanField(required=False)
     share_owner = ShareOwnerChoiceField()
-    transfering_shares_to = ShareOwnerChoiceField(
-        required=False, label=_("Transfering share(s) to")
+    transferring_shares_to = ShareOwnerChoiceField(
+        required=False,
+        label=_("Transferring share(s) to"),
+        help_text=MembershipResignation._meta.get_field(
+            "transferring_shares_to"
+        ).help_text,
     )
 
     class Meta:
@@ -272,38 +272,34 @@ class MembershipResignationForm(forms.ModelForm):
             "share_owner",
             "cancellation_reason",
             "cancellation_date",
-            "coop_buys_shares_back",
-            "willing_to_gift_shares_to_coop",
-            "transfering_shares_to",
+            "resignation_type",
+            "transferring_shares_to",
             "paid_out",
         ]
         widgets = {"cancellation_date": DateInputTapir()}
 
     def clean(self):
         cleaned_data = super().clean()
-        coop_buys_shares_back = cleaned_data.get("coop_buys_shares_back")
-        willing_to_gift_shares_to_coop = cleaned_data.get(
-            "willing_to_gift_shares_to_coop"
-        )
-        transfering_shares_to = cleaned_data.get("transfering_shares_to")
+        resignation_type = cleaned_data.get("resignation_type")
         cancellation_date = cleaned_data.get("cancellation_date")
 
         self.validate_share_owner()
-        self.validate_choices()
+        self.validate_transfer_choice()
         self.validate_duplicates()
         self.validate_if_gifted()
 
-        if coop_buys_shares_back:
-            self.instance.pay_out_day = cancellation_date + relativedelta(
+        if resignation_type == MembershipResignation.ResignationType.BUY_BACK:
+            self.cleaned_data["pay_out_day"] = cancellation_date + relativedelta(
                 day=31, month=12, years=3
             )
-        if willing_to_gift_shares_to_coop or transfering_shares_to != None:
+        else:
             self.cleaned_data["pay_out_day"] = cancellation_date
             self.cleaned_data["paid_out"] = True
+
         return cleaned_data
 
     def validate_share_owner(self):
-        share_owner = self.cleaned_data.get("share_owner")
+        share_owner: ShareOwner = self.cleaned_data.get("share_owner")
         if self.instance.pk is not None:
             return share_owner
 
@@ -315,78 +311,46 @@ class MembershipResignationForm(forms.ModelForm):
                 ValidationError(_("This member is already resigned.")),
             )
 
-    def validate_choices(self):
-        coop_buys_shares_back = self.cleaned_data.get("coop_buys_shares_back")
-        willing_to_gift_shares_to_coop = self.cleaned_data.get(
-            "willing_to_gift_shares_to_coop"
-        )
-        transfering_shares_to = self.cleaned_data.get("transfering_shares_to")
-        only_one_choice_allowed_error_message = _("Please take only one choice.")
-
-        if coop_buys_shares_back and willing_to_gift_shares_to_coop:
-            self.add_error(
-                "coop_buys_shares_back", only_one_choice_allowed_error_message
-            )
-            self.add_error(
-                "willing_to_gift_shares_to_coop", only_one_choice_allowed_error_message
-            )
-        elif transfering_shares_to != None and (
-            coop_buys_shares_back or willing_to_gift_shares_to_coop
-        ):
-            self.add_error(
-                "transfering_shares_to", only_one_choice_allowed_error_message
-            )
-            if coop_buys_shares_back:
-                self.add_error(
-                    "coop_buys_shares_back", only_one_choice_allowed_error_message
-                )
-            elif willing_to_gift_shares_to_coop:
-                self.add_error(
-                    "willing_to_gift_shares_to_coop",
-                    only_one_choice_allowed_error_message,
-                )
+    def validate_transfer_choice(self):
+        resignation_type = self.cleaned_data.get("resignation_type")
+        transferring_shares_to = self.cleaned_data.get("transferring_shares_to")
 
         if (
-            transfering_shares_to == None
-            and not willing_to_gift_shares_to_coop
-            and not coop_buys_shares_back
+            resignation_type == MembershipResignation.ResignationType.TRANSFER
+            and transferring_shares_to is None
         ):
-            make_at_least_one_choice_error_message = "Please make a least one choice."
             self.add_error(
-                "transfering_shares_to",
-                ValidationError(_(make_at_least_one_choice_error_message)),
-            )
-            self.add_error(
-                "willing_to_gift_shares_to_coop",
-                ValidationError(_(make_at_least_one_choice_error_message)),
-            )
-            self.add_error(
-                "coop_buys_shares_back",
-                ValidationError(_(make_at_least_one_choice_error_message)),
+                "transferring_shares_to",
+                ValidationError(
+                    _(
+                        "Please select the member that the shares should be transferred to."
+                    )
+                ),
             )
 
     def validate_duplicates(self):
-        transfering_shares_to = self.cleaned_data.get("transfering_shares_to")
+        transferring_shares_to = self.cleaned_data.get("transferring_shares_to")
         share_owner = self.cleaned_data.get("share_owner")
-        if transfering_shares_to == share_owner:
+        if transferring_shares_to == share_owner:
             self.add_error(
-                "transfering_shares_to",
+                "transferring_shares_to",
                 ValidationError(
                     _(
-                        "Sender and receiver of tranfering the share(s) cannot be the same."
+                        "Sender and receiver of transferring the share(s) cannot be the same."
                     )
                 ),
             )
 
     def validate_if_gifted(self):
-        transfering_shares_to = self.cleaned_data.get("transfering_shares_to")
-        willing_to_gift_shares_to_coop = self.cleaned_data.get(
-            "willing_to_gift_shares_to_coop"
-        )
+        resignation_type = self.cleaned_data.get("resignation_type")
         paid_out = self.cleaned_data.get("paid_out")
 
         if paid_out and (
-            transfering_shares_to != None or willing_to_gift_shares_to_coop
+            resignation_type
+            in [
+                MembershipResignation.ResignationType.TRANSFER,
+                MembershipResignation.ResignationType.GIFT_TO_COOP,
+            ]
         ):
             self.add_error(
                 "paid_out",

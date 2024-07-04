@@ -1,19 +1,17 @@
-import os
 from typing import List
 
-from tapir import settings
-
-from tapir.coop.models import ShareOwner, MembershipResignation
-from tapir.core.tapir_email_base import TapirEmailBase
 from django.utils.translation import gettext_lazy as _
-from tapir.coop.templates.coop import pdf
+
+from tapir import settings
+from tapir.coop.models import ShareOwner, MembershipResignation
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.core.tapir_email_base import TapirEmailBase
 
 
 class MembershipResignationConfirmation(TapirEmailBase):
-    def __init__(self, resigned_member: MembershipResignation):
+    def __init__(self, membership_resignation: MembershipResignation):
         super().__init__()
-        self.resigned_member = resigned_member
+        self.membership_resignation = membership_resignation
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -39,14 +37,21 @@ class MembershipResignationConfirmation(TapirEmailBase):
 
     def get_extra_context(self) -> dict:
         return {
-            "resigned_member": self.resigned_member,
+            "resigned_member": self.membership_resignation,
             "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+            "resignation_type_transfer": MembershipResignation.ResignationType.TRANSFER,
+            "resignation_type_gift_to_coop": MembershipResignation.ResignationType.GIFT_TO_COOP,
+            "resignation_type_buy_back": MembershipResignation.ResignationType.BUY_BACK,
         }
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase | None:
+        membership_resignation = MembershipResignation.objects.order_by("?").first()
+        if not membership_resignation:
+            return None
+
         share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
-        mail = cls(resigned_member=share_owner)
+        mail = cls(membership_resignation=membership_resignation)
         mail.get_full_context(
             share_owner=share_owner,
             member_infos=share_owner.get_info(),

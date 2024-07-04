@@ -15,8 +15,8 @@ from tapir.coop.config import feature_flag_membership_resignation
 from tapir.coop.emails.membershipresignation_confirmation_email import (
     MembershipResignationConfirmation,
 )
-from tapir.coop.emails.membershipresignation_transfered_shares_confirmation import (
-    MembershipResignationTransferedSharesConfirmation,
+from tapir.coop.emails.membershipresignation_transferred_shares_confirmation import (
+    MembershipResignationTransferredSharesConfirmation,
 )
 from tapir.coop.forms import MembershipResignationForm
 from tapir.coop.models import (
@@ -48,9 +48,11 @@ class MembershipResignationTable(django_tables2.Table):
             "cancellation_reason",
             "paid_out",
             "pay_out_day",
+            "resignation_type",
         ]
         sequence = [
             "share_owner",
+            "resignation_type",
             "cancellation_reason",
             "cancellation_date",
             "pay_out_day",
@@ -98,21 +100,23 @@ class MembershipResignationTable(django_tables2.Table):
     def render_cancellation_date(self, record: MembershipResignation):
         return record.cancellation_date.strftime("%d/%m/%Y")
 
-    def render_paid_out(self, record):
-        if record.willing_to_gift_shares_to_coop:
-            return _(f"Share(s) gifted {chr(8594)} SuperCoop")
-
-        if record.transfering_shares_to != None:
-            return format_html(
-                "{} {} {}",
-                _("Share(s) gifted"),
-                chr(8594),
-                UserUtils.build_html_link_for_viewer(
-                    record.transfering_shares_to, self.request.user
-                ),
-            )
-
-        return "Yes" if record.paid_out else "No"
+    def render_paid_out(self, record: MembershipResignation):
+        match record.resignation_type:
+            case MembershipResignation.ResignationType.GIFT_TO_COOP:
+                return _(f"Share(s) gifted {chr(8594)} SuperCoop")
+            case MembershipResignation.ResignationType.BUY_BACK:
+                return "Yes" if record.paid_out else "No"
+            case MembershipResignation.ResignationType.TRANSFER:
+                return format_html(
+                    "{} {} {}",
+                    _("Share(s) gifted"),
+                    chr(8594),
+                    UserUtils.build_html_link_for_viewer(
+                        record.transferring_shares_to, self.request.user
+                    ),
+                )
+            case _:
+                raise ValueError(f"Unknown resignation type: {record.resignation_type}")
 
     def render_add_buttons(self, value, record: MembershipResignation):
         return format_html(
@@ -162,7 +166,7 @@ class MembershipResignationList(
 ):
     table_class = MembershipResignationTable
     model = MembershipResignation
-    template_name = "coop/resigned_members_list.html"
+    template_name = "coop/membership_resignation_list.html"
     export_formats = ["csv", "json"]
     filterset_class = MembershipResignationFilter
 
@@ -241,24 +245,30 @@ class MembershipResignationCreateView(
     def form_valid(self, form):
         with transaction.atomic():
             result = super().form_valid(form)
+            membership_resignation: MembershipResignation = form.instance
             MembershipResignationService.update_shifts_and_shares(
-                self, resignation=form.instance
+                resignation=membership_resignation
             )
             MembershipResignationCreateLogEntry().populate(
                 actor=self.request.user,
-                model=form.instance,
+                model=membership_resignation,
             ).save()
-            email = MembershipResignationConfirmation(resigned_member=form.instance)
-            email.send_to_share_owner(
-                actor=self.request.user, recipient=form.instance.share_owner
+            email = MembershipResignationConfirmation(
+                membership_resignation=membership_resignation
             )
-            if form.instance.transfering_shares_to != None:
-                email = MembershipResignationTransferedSharesConfirmation(
-                    member_resignation=form.instance
+            email.send_to_share_owner(
+                actor=self.request.user, recipient=membership_resignation.share_owner
+            )
+            if (
+                membership_resignation.resignation_type
+                == MembershipResignation.ResignationType.TRANSFER
+            ):
+                email = MembershipResignationTransferredSharesConfirmation(
+                    member_resignation=membership_resignation
                 )
                 email.send_to_share_owner(
                     actor=self.request.user,
-                    recipient=form.instance.transfering_shares_to,
+                    recipient=membership_resignation.transferring_shares_to,
                 )
         return result
 
