@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Type
+from typing import List, Type, TYPE_CHECKING, Dict, Tuple
 
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
@@ -8,14 +8,45 @@ from django.template import loader
 from django.utils import translation
 
 from tapir import settings
-from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner
+
+if TYPE_CHECKING:
+    # ignore at runtime to avoid circular import
+    from tapir.accounts.models import TapirUser
+    from tapir.coop.models import ShareOwner
 from tapir.log.models import EmailLogEntry
 
-all_emails = {}
+all_emails: Dict[str, Type[TapirEmailBase]] = {}
+
+
+def get_all_emails(default: bool | None = True) -> list[Type[TapirEmailBase]]:
+    if default is not None:
+        return [
+            mail for mail in TapirEmailBase.__subclasses__() if mail.default is default
+        ]
+    else:
+        return [mail for mail in TapirEmailBase.__subclasses__()]
+
+
+def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
+    return [
+        (mail.get_unique_id(), mail.get_name())
+        for mail in get_all_emails(default=default)
+        if mail.mandatory is False
+    ]
+
+
+def mails_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
+    return [
+        (mail.get_unique_id(), mail.get_name())
+        for mail in get_all_emails(default=default)
+        if mail.mandatory is True
+    ]
 
 
 class TapirEmailBase:
+    default = True # mails are opt-out by default
+    mandatory = True # mails are mandatory by default
+
     class Meta:
         abstract = True
 
