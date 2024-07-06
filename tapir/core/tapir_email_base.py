@@ -44,8 +44,8 @@ def mails_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
 
 
 class TapirEmailBase:
-    default = True # mails are opt-out by default
-    mandatory = True # mails are mandatory by default
+    default = True  # mails are opt-out by default
+    mandatory = True  # mails are mandatory by default
 
     class Meta:
         abstract = True
@@ -129,15 +129,21 @@ class TapirEmailBase:
             tapir_user=recipient.user,
         )
 
-    def send_to_tapir_user(self, actor: User | None, recipient: TapirUser):
-        self.__send(
-            actor=actor,
-            share_owner=recipient.share_owner
-            if hasattr(recipient, "share_owner")
-            else None,
-            member_infos=recipient,
-            tapir_user=recipient,
+    def user_wants_to_or_has_to_receive_mail(self, user: TapirUser):
+        return (self.get_unique_id() in user.additional_mails) | (
+            self.get_unique_id() in [x[0] for x in mails_mandatory()]
         )
+
+    def send_to_tapir_user(self, actor: User | None, recipient: TapirUser):
+        if self.user_wants_to_or_has_to_receive_mail(user=recipient):
+            self.__send(
+                actor=actor,
+                share_owner=recipient.share_owner
+                if hasattr(recipient, "share_owner")
+                else None,
+                member_infos=recipient,
+                tapir_user=recipient,
+            )
 
     @staticmethod
     def include_email_body_in_log_entry():
