@@ -8,10 +8,6 @@ from tapir.utils.tests_utils import LdapEnabledTestCase
 class VoluntaryMail(TapirEmailBase):
     mandatory = False
 
-    # def __init__(self, tapir_user: TapirUser):
-    #     super().__init__()
-    #     self.tapir_user = tapir_user
-
     @classmethod
     def get_unique_id(cls) -> str:
         return "tapir.coop.voluntaryTestMail"
