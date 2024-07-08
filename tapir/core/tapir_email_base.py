@@ -137,15 +137,17 @@ class TapirEmailBase:
         )
 
     def send_to_tapir_user(self, actor: User | None, recipient: TapirUser):
-        if self.user_wants_to_or_has_to_receive_mail(user=recipient):
-            self.__send(
-                actor=actor,
-                share_owner=recipient.share_owner
-                if hasattr(recipient, "share_owner")
-                else None,
-                member_infos=recipient,
-                tapir_user=recipient,
-            )
+        if not self.user_wants_to_or_has_to_receive_mail(user=recipient):
+            return
+
+        self.__send(
+            actor=actor,
+            share_owner=recipient.share_owner
+            if hasattr(recipient, "share_owner")
+            else None,
+            member_infos=recipient,
+            tapir_user=recipient,
+        )
 
     @staticmethod
     def include_email_body_in_log_entry():
