@@ -1115,3 +1115,19 @@ class SolidarityShift(models.Model):
     is_used_up = models.BooleanField(default=False)
     date_gifted = models.DateField(auto_now_add=True)
     date_used = models.DateField(null=True)
+
+
+class ShiftNotification(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "shift_to_be_notified_about"],
+                name="user_shift_constraint",
+            )
+        ]
+
+    user = models.ForeignKey(
+        TapirUser, related_name="shift_notification_entry", on_delete=models.CASCADE
+    )
+    shift_to_be_notified_about = models.ForeignKey(Shift, on_delete=models.CASCADE)
+    notification_timedelta = models.DurationField()

@@ -28,6 +28,18 @@
                 <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 {% if perms.shifts.manage %}
                     <span>
+
+                        {% if True %}
+                            <a class="{% tapir_button_link %}"
+                                href="{% url 'shifts:shift_detail_printable' shift.pk %}">
+                                 <span class="material-icons">visibility_off</span>{% translate 'Unwatch' %}
+                            </a>
+                        {% else %}
+                            <a class="{% tapir_button_link %}"
+                                href="{% url 'shifts:shift_detail_printable' shift.pk %}">
+                                 <span class="material-icons">visibility</span>{% translate 'Watch' %}
+                            </a>
+                        {% endif %}
                         <a class="{% tapir_button_link %}"
                            href="{% url 'shifts:shift_detail_printable' shift.pk %}">
                             <span class="material-icons">print</span>{% translate 'Get printable version' %}
