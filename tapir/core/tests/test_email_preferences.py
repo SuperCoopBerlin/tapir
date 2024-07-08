@@ -2,7 +2,7 @@ from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.core.tapir_email_base import TapirEmailBase
-from tapir.utils.tests_utils import LdapEnabledTestCase
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class VoluntaryMail(TapirEmailBase):
@@ -17,7 +17,7 @@ class VoluntaryMail(TapirEmailBase):
         return "VoluntaryTestMail"
 
 
-class TestVoluntaryMails(LdapEnabledTestCase):
+class TestVoluntaryMails(TapirFactoryTestBase):
     def setUp(self):
         TapirEmailBase.register_email(VoluntaryMail)
 
