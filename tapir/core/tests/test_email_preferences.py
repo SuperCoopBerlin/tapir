@@ -21,7 +21,9 @@ class TestVoluntaryMails(TapirFactoryTestBase):
     def setUp(self):
         TapirEmailBase.register_email(VoluntaryMail)
 
-    def test_has_voluntary_mail_NOT_subscribed(self):
+    def test_userWantsToOrHasToReceiveMail_mailNotSubscribedTo_shouldNotReceiveMail(
+        self,
+    ):
         tapir_user: TapirUser = TapirUserFactory.create()
 
         assert (
@@ -29,13 +31,13 @@ class TestVoluntaryMails(TapirFactoryTestBase):
             is False
         )
 
-    def test_has_voluntary_mail_subscribed(self):
+    def test_userWantsToOrHasToReceiveMail_mailSubscribedTo_shouldReceiveMail(self):
         tapir_user: TapirUser = TapirUserFactory.create()
         tapir_user.additional_mails = ["tapir.coop.voluntaryTestMail"]
 
         assert VoluntaryMail().user_wants_to_or_has_to_receive_mail(user=tapir_user)
 
-    def test_has_mandatory_mail_subscribed(self):
+    def test_userWantsToOrHasToReceiveMail_mailIsMandatory_shouldReceiveMail(self):
         tapir_user: TapirUser = TapirUserFactory.create()
         assert (
             TapirAccountCreatedEmail.mandatory
