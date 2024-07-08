@@ -21,7 +21,9 @@ all_emails: Dict[str, Type[TapirEmailBase]] = {}
 def get_all_emails(default: bool | None = True) -> list[Type[TapirEmailBase]]:
     if default is not None:
         return [
-            mail for mail in TapirEmailBase.__subclasses__() if mail.default is default
+            mail
+            for mail in TapirEmailBase.__subclasses__()
+            if mail.enabled_by_default is default
         ]
     else:
         return [mail for mail in TapirEmailBase.__subclasses__()]
@@ -44,7 +46,7 @@ def mails_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
 
 
 class TapirEmailBase:
-    default = True  # mails are opt-out by default
+    enabled_by_default = True  # mails are opt-out by default
     mandatory = True  # mails are mandatory by default
 
     class Meta:
