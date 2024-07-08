@@ -179,7 +179,6 @@ class TapirUser(LdapUser):
         default=mails_not_mandatory,
         blank=True,
         null=False,
-        # verbose_name="List of wanted mails by that user",
     )
     excluded_fields_for_logs = ["password"]
 
