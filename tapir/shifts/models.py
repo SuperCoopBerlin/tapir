@@ -1117,18 +1117,18 @@ class SolidarityShift(models.Model):
     date_used = models.DateField(null=True)
 
 
-class ShiftObserve(models.Model):
+class ShiftWatch(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "shift_to_be_notified_about"],
-                name="user_shift_constraint",
+                fields=["user", "shift_watched"],
+                name="shift_watch_constraint",
             )
         ]
 
     user = models.ForeignKey(
-        TapirUser, related_name="shift_notification_entry", on_delete=models.CASCADE
+        TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
     )
-    shift_to_be_notified_about = models.ForeignKey(Shift, on_delete=models.CASCADE)
-    notification_timedelta = models.DurationField()
+    shift_watched = models.ForeignKey(Shift, on_delete=models.CASCADE)
+    notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
     created_at = models.DateTimeField(auto_now_add=True)

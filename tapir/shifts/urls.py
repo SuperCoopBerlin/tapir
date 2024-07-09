@@ -252,4 +252,6 @@ urlpatterns = [
         views.ShiftStatusEvolutionJsonView.as_view(),
         name="shift_status_evolution_json",
     ),
+    path("watch_shift/<int:shift_id>/", views.watch_shift, name="watch_shift"),
+    path("unwatch_shift/<int:shift_id>/", views.unwatch_shift, name="unwatch_shift"),
 ]

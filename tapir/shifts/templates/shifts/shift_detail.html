@@ -29,14 +29,14 @@
                 {% if perms.shifts.manage %}
                     <span>
 
-                        {% if True %}
+                        {% if request.user.user_watching_shift|user_watching_shift:shift.id %}
                             <a class="{% tapir_button_link %}"
-                                href="{% url 'shifts:shift_detail_printable' shift.pk %}">
+                                href="{% url 'shifts:unwatch_shift' shift.pk %}">
                                  <span class="material-icons">visibility_off</span>{% translate 'Unwatch' %}
                             </a>
                         {% else %}
-                            <a class="{% tapir_button_link %}"
-                                href="{% url 'shifts:shift_detail_printable' shift.pk %}">
+                                                                                                    <a class="{% tapir_button_link %}"
+                                href="{% url 'shifts:watch_shift' shift.pk %}">
                                  <span class="material-icons">visibility</span>{% translate 'Watch' %}
                             </a>
                         {% endif %}

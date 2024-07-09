@@ -47,6 +47,7 @@ from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
     ShiftTemplate,
     SolidarityShift,
+    ShiftWatch,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -495,3 +496,21 @@ class UsedSolidarityShiftsJsonView(CacheDatesFirstSolidarityToTodayMixin, JSONVi
             },
         }
         return context_data
+
+
+def watch_shift(request, shift_id):
+    shift_to_watch = get_object_or_404(Shift, id=shift_id)
+    if not request.user.user_watching_shift.filter(shift_watched_id=shift_id).exists():
+        ShiftWatch.objects.create(user=request.user, shift_watched=shift_to_watch)
+    return redirect("shifts:shift_detail", pk=shift_id)
+
+
+def unwatch_shift(request, shift_id):
+    shift_to_unwatch = get_object_or_404(Shift, id=shift_id)
+    request.user.user_watching_shift.filter(shift_watched_id=shift_id).delete()
+    return redirect("shifts:shift_detail", pk=shift_id)
+
+
+@register.filter
+def user_watching_shift(user, shift_id) -> bool:
+    return user.filter(shift_watched_id=shift_id).exists()
