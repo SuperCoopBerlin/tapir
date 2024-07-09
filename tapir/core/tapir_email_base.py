@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Type
+from typing import List, Type, TYPE_CHECKING, Dict, Tuple
 
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
@@ -8,14 +8,47 @@ from django.template import loader
 from django.utils import translation
 
 from tapir import settings
-from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner
+
+if TYPE_CHECKING:
+    # ignore at runtime to avoid circular import
+    from tapir.accounts.models import TapirUser
+    from tapir.coop.models import ShareOwner
 from tapir.log.models import EmailLogEntry
 
-all_emails = {}
+all_emails: Dict[str, Type[TapirEmailBase]] = {}
+
+
+def get_all_emails(default: bool | None = True) -> list[Type[TapirEmailBase]]:
+    if default is not None:
+        return [
+            mail
+            for mail in TapirEmailBase.__subclasses__()
+            if mail.enabled_by_default is default
+        ]
+    else:
+        return [mail for mail in TapirEmailBase.__subclasses__()]
+
+
+def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
+    return [
+        (mail.get_unique_id(), mail.get_name())
+        for mail in get_all_emails(default=default)
+        if mail.mandatory is False
+    ]
+
+
+def mails_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
+    return [
+        (mail.get_unique_id(), mail.get_name())
+        for mail in get_all_emails(default=default)
+        if mail.mandatory is True
+    ]
 
 
 class TapirEmailBase:
+    enabled_by_default = True  # mails are opt-out by default
+    mandatory = True  # mails are mandatory by default
+
     class Meta:
         abstract = True
 
@@ -98,7 +131,15 @@ class TapirEmailBase:
             tapir_user=recipient.user,
         )
 
+    def user_wants_to_or_has_to_receive_mail(self, user: TapirUser):
+        return (self.get_unique_id() in user.additional_mails) | (
+            self.get_unique_id() in [x[0] for x in mails_mandatory()]
+        )
+
     def send_to_tapir_user(self, actor: User | None, recipient: TapirUser):
+        if not self.user_wants_to_or_has_to_receive_mail(user=recipient):
+            return
+
         self.__send(
             actor=actor,
             share_owner=recipient.share_owner
