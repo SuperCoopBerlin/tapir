@@ -1117,7 +1117,7 @@ class SolidarityShift(models.Model):
     date_used = models.DateField(null=True)
 
 
-class ShiftNotification(models.Model):
+class ShiftObserve(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
@@ -1131,3 +1131,4 @@ class ShiftNotification(models.Model):
     )
     shift_to_be_notified_about = models.ForeignKey(Shift, on_delete=models.CASCADE)
     notification_timedelta = models.DurationField()
+    created_at = models.DateTimeField(auto_now_add=True)
