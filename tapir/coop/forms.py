@@ -311,9 +311,6 @@ class MembershipResignationForm(forms.ModelForm):
             )
 
     def validate_transfer_choice(self, resignation_type, transferring_shares_to):
-
-        print(f"trans {transferring_shares_to}")
-
         if (
             resignation_type == MembershipResignation.ResignationType.TRANSFER
             and transferring_shares_to is None
@@ -341,7 +338,6 @@ class MembershipResignationForm(forms.ModelForm):
             )
 
     def validate_duplicates(self, share_owner, transferring_shares_to):
-        print(transferring_shares_to, share_owner)
         if transferring_shares_to == share_owner:
             self.add_error(
                 "transferring_shares_to",
