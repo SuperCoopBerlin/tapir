@@ -30,7 +30,6 @@ django-chartjs = "^2.3.0"
 unidecode = "^1.3.8"
 python-barcode = "^0.15.1"
 fabric = "^3.2.2"
-icecream = "^2.1.3"
 djlint = "^1.34.1"
 requests = "^2.32.3"
 
@@ -46,6 +45,7 @@ pytest-sugar = "^0.9.7"
 selenium = "^4.21.0"
 factory-boy = "^3.3.0"
 djlint = "^1.34.1"
+icecream = "^2.1.3"
 
 [build-system]
 requires = ["poetry-core>=1.2.0"]
