@@ -6,7 +6,9 @@
 {% block title %}
     {% translate "Register for shift slot" %}: {{ slot_template.get_display_name }}
 {% endblock title %}
-{% block head %}{{ form.media }}{% endblock head %}
+{% block head %}
+    {{ form.media }}
+{% endblock head %}
 {% block content %}
     <div class="container">
         <div class="card mb-2" id="shift_form_card">

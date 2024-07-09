@@ -185,9 +185,9 @@
                             <span class="material-icons">send</span>{% translate 'Send membership confirmation email' %}
                         </button>
                     </form>
+                {% endif %}
+            {% else %}
+                {% translate "User is not a cooperative member." %}
             {% endif %}
-        {% else %}
-            {% translate "User is not a cooperative member." %}
-        {% endif %}
+        </div>
     </div>
-</div>
