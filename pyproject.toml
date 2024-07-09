@@ -33,7 +33,7 @@ fabric = "^3.2.2"
 requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.12.1"
+black = "^24.4.2"
 ipython = "^8.25.0"
 pre-commit = "^2.21.0"
 werkzeug = "^2.3.8"

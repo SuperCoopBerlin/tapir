@@ -142,9 +142,9 @@ class TapirEmailBase:
 
         self.__send(
             actor=actor,
-            share_owner=recipient.share_owner
-            if hasattr(recipient, "share_owner")
-            else None,
+            share_owner=(
+                recipient.share_owner if hasattr(recipient, "share_owner") else None
+            ),
             member_infos=recipient,
             tapir_user=recipient,
         )

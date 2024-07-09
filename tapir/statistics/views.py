@@ -50,10 +50,10 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
 
-        context_data[
-            "number_of_members_now"
-        ] = MemberCountEvolutionJsonView.get_number_of_members_at_date(
-            timezone.now().date()
+        context_data["number_of_members_now"] = (
+            MemberCountEvolutionJsonView.get_number_of_members_at_date(
+                timezone.now().date()
+            )
         )
         context_data["campaigns"] = FinancingCampaign.objects.active_temporal()
         context_data["extra_shares"] = self.get_extra_shares_count()
@@ -197,12 +197,14 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView)
     def get_context_data(self, **kwargs):
         dates = self.get_and_cache_dates_from_first_share_to_today()
         data = [
-            MemberCountEvolutionJsonView.get_number_of_members_at_date(date)
-            - MemberCountEvolutionJsonView.get_number_of_members_at_date(
-                dates[index - 1]
+            (
+                MemberCountEvolutionJsonView.get_number_of_members_at_date(date)
+                - MemberCountEvolutionJsonView.get_number_of_members_at_date(
+                    dates[index - 1]
+                )
+                if index
+                else 0
             )
-            if index
-            else 0
             for index, date in enumerate(dates)
         ]
         context_data = {
