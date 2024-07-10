@@ -175,9 +175,9 @@ class MembershipResignationList(
             raise PermissionError("The membership resignation feature is disabled.")
 
         context_data = super().get_context_data(**kwargs)
-        context_data[
-            "total_of_resigned_members"
-        ] = MembershipResignation.objects.count()
+        context_data["total_of_resigned_members"] = (
+            MembershipResignation.objects.count()
+        )
         return context_data
 
 

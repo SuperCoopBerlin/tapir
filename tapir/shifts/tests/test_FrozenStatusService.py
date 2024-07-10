@@ -270,8 +270,8 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data.save = MagicMock()
         shift_user_data.user = TapirUser()
         actor = TapirUser()
-        mock_freeze_for_log.side_effect = (
-            lambda data: 1 if data.attendance_mode == ShiftAttendanceMode.FLYING else 2
+        mock_freeze_for_log.side_effect = lambda data: (
+            1 if data.attendance_mode == ShiftAttendanceMode.FLYING else 2
         )
 
         FrozenStatusService._update_attendance_mode_and_create_log_entry(
@@ -589,9 +589,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_first = mock_order_by.return_value.first
         mock_first.return_value = Mock()
         mock_first.return_value.old_values = dict()
-        mock_first.return_value.old_values[
-            "attendance_mode"
-        ] = ShiftAttendanceMode.REGULAR
+        mock_first.return_value.old_values["attendance_mode"] = (
+            ShiftAttendanceMode.REGULAR
+        )
 
         self.assertEqual(
             ShiftAttendanceMode.REGULAR,

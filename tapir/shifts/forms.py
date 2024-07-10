@@ -123,9 +123,9 @@ class MissingCapabilitiesWarningMixin(forms.Form):
                     f"The selected user is missing the required qualification for this shift : {missing_capabilities}"
                 )
                 self.add_error("user", error_msg)
-                self.fields[
-                    "confirm_missing_capabilities"
-                ].widget = forms.CheckboxInput()
+                self.fields["confirm_missing_capabilities"].widget = (
+                    forms.CheckboxInput()
+                )
                 self.fields["confirm_missing_capabilities"].required = True
 
 
@@ -294,9 +294,9 @@ class ShiftExemptionForm(forms.ModelForm):
                     f"The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
                 )
                 self.add_error("confirm_cancelled_attendances", error_msg)
-                self.fields[
-                    "confirm_cancelled_attendances"
-                ].widget = forms.CheckboxInput()
+                self.fields["confirm_cancelled_attendances"].widget = (
+                    forms.CheckboxInput()
+                )
                 self.fields["confirm_cancelled_attendances"].required = True
 
         if (
@@ -323,9 +323,9 @@ class ShiftExemptionForm(forms.ModelForm):
                     "attendances_display": attendances_display,
                 }
                 self.add_error("confirm_cancelled_abcd_attendances", error_msg)
-                self.fields[
-                    "confirm_cancelled_abcd_attendances"
-                ].widget = forms.CheckboxInput()
+                self.fields["confirm_cancelled_abcd_attendances"].widget = (
+                    forms.CheckboxInput()
+                )
                 self.fields["confirm_cancelled_abcd_attendances"].required = True
 
 

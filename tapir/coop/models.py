@@ -521,7 +521,9 @@ class DraftUser(models.Model):
                     message = _("First name must be set.")
                 case self.MustSolveBeforeCreatingShareOwner.NO_LAST_NAME:
                     message = _("Last name must be set.")
-                case self.MustSolveBeforeCreatingShareOwner.MEMBERSHIP_AGREEMENT_NOT_SIGNED:
+                case (
+                    self.MustSolveBeforeCreatingShareOwner.MEMBERSHIP_AGREEMENT_NOT_SIGNED
+                ):
                     message = _("Membership agreement must be signed.")
                 case self.MustSolveBeforeCreatingShareOwner.SHARE_COUNT_NOT_POSITIVE:
                     message = _("Amount of requested shares must be positive.")
