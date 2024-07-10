@@ -63,6 +63,13 @@
                     <div class="col-3 fw-bold text-end">{% translate "Cancellation date" %}:</div>
                     <div class="col-9" id="membership_resignation_cancellation_date">{{ object.cancellation_date|date:"d.m.Y" }}</div>
                 </div>
+                {% if object.pay_out_day is not None %}
+                <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Membership ends" %}:</div>
+                    <div class="col-9"
+                         id="membership_resignation_cancellation_date">{{ object.pay_out_day|date:"d.m.Y" }}</div>
+                </div>
+                {% endif %}
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Resignation type" %}:</div>
                     <div class="col-9" id="resignation_type">{{ object.get_resignation_type_display }}</div>

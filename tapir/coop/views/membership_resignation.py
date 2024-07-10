@@ -52,13 +52,13 @@ class MembershipResignationTable(django_tables2.Table):
         ]
         sequence = [
             "share_owner",
-            "resignation_type",
             "cancellation_reason",
             "cancellation_date",
             "pay_out_day",
             "paid_out",
             "add_buttons",
         ]
+        exclude = ["resignation_type"]
         order_by = "-cancellation_date"
         attrs = {"class": TAPIR_TABLE_CLASSES}
         empty_text = "No entries"

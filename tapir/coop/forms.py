@@ -280,13 +280,16 @@ class MembershipResignationForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        share_owner: ShareOwner = cleaned_data.get("share_owner")
         resignation_type = cleaned_data.get("resignation_type")
         cancellation_date = cleaned_data.get("cancellation_date")
+        transferring_shares_to = cleaned_data.get("transferring_shares_to")
+        paid_out = cleaned_data.get("paid_out")
 
-        self.validate_share_owner()
-        self.validate_transfer_choice()
-        self.validate_duplicates()
-        self.validate_if_gifted()
+        self.validate_share_owner(share_owner)
+        self.validate_transfer_choice(resignation_type, transferring_shares_to)
+        self.validate_duplicates(share_owner, transferring_shares_to)
+        self.validate_if_gifted(resignation_type, paid_out)
 
         if resignation_type == MembershipResignation.ResignationType.BUY_BACK:
             self.cleaned_data["pay_out_day"] = cancellation_date + relativedelta(
@@ -298,11 +301,7 @@ class MembershipResignationForm(forms.ModelForm):
 
         return cleaned_data
 
-    def validate_share_owner(self):
-        share_owner: ShareOwner = self.cleaned_data.get("share_owner")
-        if self.instance.pk is not None:
-            return share_owner
-
+    def validate_share_owner(self, share_owner):
         if MembershipResignation.objects.filter(
             share_owner__id=share_owner.id
         ).exists():
@@ -311,10 +310,7 @@ class MembershipResignationForm(forms.ModelForm):
                 ValidationError(_("This member is already resigned.")),
             )
 
-    def validate_transfer_choice(self):
-        resignation_type = self.cleaned_data.get("resignation_type")
-        transferring_shares_to = self.cleaned_data.get("transferring_shares_to")
-
+    def validate_transfer_choice(self, resignation_type, transferring_shares_to):
         if (
             resignation_type == MembershipResignation.ResignationType.TRANSFER
             and transferring_shares_to is None
@@ -341,9 +337,7 @@ class MembershipResignationForm(forms.ModelForm):
                 ),
             )
 
-    def validate_duplicates(self):
-        transferring_shares_to = self.cleaned_data.get("transferring_shares_to")
-        share_owner = self.cleaned_data.get("share_owner")
+    def validate_duplicates(self, share_owner, transferring_shares_to):
         if transferring_shares_to == share_owner:
             self.add_error(
                 "transferring_shares_to",
@@ -354,10 +348,7 @@ class MembershipResignationForm(forms.ModelForm):
                 ),
             )
 
-    def validate_if_gifted(self):
-        resignation_type = self.cleaned_data.get("resignation_type")
-        paid_out = self.cleaned_data.get("paid_out")
-
+    def validate_if_gifted(self, resignation_type, paid_out):
         if paid_out and (
             resignation_type
             in [

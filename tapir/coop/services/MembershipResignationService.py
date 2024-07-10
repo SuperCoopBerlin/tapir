@@ -23,6 +23,8 @@ class MembershipResignationService:
             case MembershipResignation.ResignationType.BUY_BACK:
                 new_end_date = resignation.cancellation_date.replace(day=31, month=12)
                 new_end_date = new_end_date.replace(year=new_end_date.year + 3)
+                resignation.pay_out_day = new_end_date
+                resignation.save()
                 shares.update(end_date=new_end_date)
                 return
             case MembershipResignation.ResignationType.GIFT_TO_COOP:
