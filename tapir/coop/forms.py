@@ -266,6 +266,17 @@ class MembershipResignationForm(forms.ModelForm):
         ).help_text,
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk is not None:
+            self.fields["share_owner"].disabled = True
+            self.fields["transferring_shares_to"].disabled = True
+            self.fields["resignation_type"].disabled = True
+        else:
+            self.fields["share_owner"].disabled = False
+            self.fields["transferring_shares_to"].disabled = False
+            self.fields["resignation_type"].disabled = False
+
     class Meta:
         model = MembershipResignation
         fields = [
