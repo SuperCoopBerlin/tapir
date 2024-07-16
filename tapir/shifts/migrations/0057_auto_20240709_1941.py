@@ -10,22 +10,47 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('shifts', '0056_shiftaccountentry_is_solidarity_used'),
+        ("shifts", "0056_shiftaccountentry_is_solidarity_used"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ShiftWatch',
+            name="ShiftWatch",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('notification_timedelta', models.DurationField(default=datetime.timedelta(days=2))),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('shift_watched', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shifts.shift')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='user_watching_shift', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "notification_timedelta",
+                    models.DurationField(default=datetime.timedelta(days=2)),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "shift_watched",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="shifts.shift"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="user_watching_shift",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.AddConstraint(
-            model_name='shiftwatch',
-            constraint=models.UniqueConstraint(fields=('user', 'shift_watched'), name='shift_watch_constraint'),
+            model_name="shiftwatch",
+            constraint=models.UniqueConstraint(
+                fields=("user", "shift_watched"), name="shift_watch_constraint"
+            ),
         ),
     ]

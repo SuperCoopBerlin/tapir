@@ -28,16 +28,15 @@
                 <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 {% if perms.shifts.manage %}
                     <span>
-
                         {% if request.user.user_watching_shift|user_watching_shift:shift.id %}
                             <a class="{% tapir_button_link %}"
-                                href="{% url 'shifts:unwatch_shift' shift.pk %}">
-                                 <span class="material-icons">visibility_off</span>{% translate 'Unwatch' %}
+                               href="{% url 'shifts:unwatch_shift' shift.pk %}">
+                                <span class="material-icons">visibility_off</span>{% translate 'Unwatch' %}
                             </a>
                         {% else %}
-                                                                                                    <a class="{% tapir_button_link %}"
-                                href="{% url 'shifts:watch_shift' shift.pk %}">
-                                 <span class="material-icons">visibility</span>{% translate 'Watch' %}
+                            <a class="{% tapir_button_link %}"
+                               href="{% url 'shifts:watch_shift' shift.pk %}">
+                                <span class="material-icons">visibility</span>{% translate 'Watch' %}
                             </a>
                         {% endif %}
                         <a class="{% tapir_button_link %}"
