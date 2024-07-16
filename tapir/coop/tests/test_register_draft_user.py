@@ -36,9 +36,11 @@ class TestRegisterDraftUser(TapirFactoryTestBase):
         )
         for attribute in DraftUserFactory.ATTRIBUTES:
             self.assertEqual(
-                getattr(mock_draft_user, attribute)
-                if attribute not in cant_be_set_when_self_registering
-                else False,
+                (
+                    getattr(mock_draft_user, attribute)
+                    if attribute not in cant_be_set_when_self_registering
+                    else False
+                ),
                 getattr(draft_user, attribute),
                 f"The mock user and the created user should have the same {attribute}.",
             )

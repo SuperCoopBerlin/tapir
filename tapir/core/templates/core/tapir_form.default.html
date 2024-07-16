@@ -7,7 +7,9 @@
     {{ block.super }}
     {{ form.media }}
 {% endblock head %}
-{% block title %}{{ page_title }}{% endblock title %}
+{% block title %}
+    {{ page_title }}
+{% endblock title %}
 {% block content %}
     <div class="container">
         <div class="card m-2">

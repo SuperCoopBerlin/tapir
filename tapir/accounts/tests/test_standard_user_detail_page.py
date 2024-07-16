@@ -18,7 +18,7 @@ class AccountsStandardUserDetailPage(TapirFactoryTestBase):
             "The logged in user should be the view's context object.",
         )
         self.assertInHTML(
-            f"<div class='col-8' id='tapir_user_username'>{ user.username }</div>",
+            f"<div class='col-12 col-sm-8' id='tapir_user_username'>{ user.username }</div>",
             response.content.decode(),
         )
 

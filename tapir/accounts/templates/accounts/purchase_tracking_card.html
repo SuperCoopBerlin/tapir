@@ -1,9 +1,9 @@
 {% load i18n %}
 {% load core %}
 <div class="card mb-2">
-    <h5 class="card-header d-flex justify-content-between align-items-center">
+    <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span>{% translate 'Purchase tracking' %}</span>
-        <span>
+        <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
             {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
                 <a class="{% tapir_button_link %}"
                    href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">
@@ -19,13 +19,13 @@
         </span>
     </h5>
     <div class="card-body">
-        <div class="row m-1">
-            <div class="col fw-bold text-end"
+        <div class="row gy-4">
+            <div class="col-12 col-sm fw-bold text-sm-end"
                  data-bs-toggle="tooltip"
                  title="{% translate 'Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst wird dagegen, welche konkreten Produkte du gekauft hast. Auch kannst du bei jedem Einkauf immer noch entscheiden, ob du deine Mitgliedskarte scannen lassen möchtest oder nicht. Mit deiner generellen Zustimmung hier auf Tapir gehst du keine Verpflichtung zum Scannen ein. Die Zustimmung kannst du jederzeit widerrufen, indem du die Checkbox oben deaktivierst. Du hilfst damit Supercoop, die Einkaufsgewohnheiten der Mitglieder besser zu verstehen. Das ist wichtig für die Weiterentwicklung unseres Supermarktes. Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte' %}">
                 Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an der Kasse gescannt und somit mein Einkauf erfasst und gespeichert wird:
             </div>
-            <div class="col d-flex align-content-center gap-1">
+            <div class="col-12 col-sm d-flex align-content-center gap-1">
                 <span>{{ tapir_user.allows_purchase_tracking|yesno:_("Yes,No") }}</span>
                 {% if request.user.pk == tapir_user.pk %}
                     <span>
@@ -44,12 +44,12 @@
                 {% endif %}
             </div>
         </div>
-        <div class="row m-3">
-            <div class="col d-flex justify-content-center">
-                {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
+        {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
+            <div class="row m-3">
+                <div class="col d-flex justify-content-center">
                     <a href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">{{ barcode_as_svg|safe }}</a>
-                {% endif %}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 </div>

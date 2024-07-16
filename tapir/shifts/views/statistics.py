@@ -81,9 +81,9 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
         )
         context["members_in_abcd_system_count"] = members_in_abcd_system.count()
 
-        context[
-            "members_in_flying_system_count"
-        ] = active_users.with_shift_attendance_mode(ShiftAttendanceMode.FLYING).count()
+        context["members_in_flying_system_count"] = (
+            active_users.with_shift_attendance_mode(ShiftAttendanceMode.FLYING).count()
+        )
 
         context["members_in_abcd_system_without_shift_attendance_count"] = (
             members_in_abcd_system.annotate(
@@ -104,11 +104,11 @@ class StatisticsView(LoginRequiredMixin, TemplateView):
             if displayed_name == "":
                 displayed_name = "General"
             abcd_slots[displayed_name] = {}
-            abcd_slots[displayed_name][
-                "registered"
-            ] = TapirUser.objects.registered_to_shift_slot_name(
-                slot_type["name"]
-            ).count()
+            abcd_slots[displayed_name]["registered"] = (
+                TapirUser.objects.registered_to_shift_slot_name(
+                    slot_type["name"]
+                ).count()
+            )
             abcd_slots[displayed_name]["slot_count"] = ShiftSlotTemplate.objects.filter(
                 name=slot_type["name"]
             ).count()
@@ -253,12 +253,16 @@ def slot_data_csv_view(_):
             [
                 slot.id,  # slot_id
                 slot.shift.id,  # shift_id
-                done_or_last_updated_attendance.id
-                if done_or_last_updated_attendance
-                else "None",  # attendance_id,
-                done_or_last_updated_attendance.user.get_member_number()
-                if done_or_last_updated_attendance
-                else "None",
+                (
+                    done_or_last_updated_attendance.id
+                    if done_or_last_updated_attendance
+                    else "None"
+                ),  # attendance_id,
+                (
+                    done_or_last_updated_attendance.user.get_member_number()
+                    if done_or_last_updated_attendance
+                    else "None"
+                ),
                 slot.shift.start_time.date(),  # shift_date
                 timezone.localtime(slot.shift.start_time).strftime(
                     "%H:%M"
@@ -277,20 +281,26 @@ def slot_data_csv_view(_):
                 ",".join(slot.required_capabilities),  # required_qualifications
                 slot.shift.shift_template is not None,  # is_from_an_abcd_shift
                 is_from_an_abcd_attendance,  # is_from_an_abcd_attendance
-                get_attendance_mode_display(
-                    done_or_last_updated_attendance.user.shift_user_data.attendance_mode
-                )
-                if done_or_last_updated_attendance
-                else "None",  # attendee_shift_status
-                SHIFT_ATTENDANCE_STATES[done_or_last_updated_attendance.state]
-                if done_or_last_updated_attendance
-                else "None",  # attendance_status
-                done_or_last_updated_attendance.account_entry.description.replace(
-                    done_or_last_updated_attendance.slot.get_display_name(), ""
-                )
-                if done_or_last_updated_attendance
-                and done_or_last_updated_attendance.account_entry
-                else "None",
+                (
+                    get_attendance_mode_display(
+                        done_or_last_updated_attendance.user.shift_user_data.attendance_mode
+                    )
+                    if done_or_last_updated_attendance
+                    else "None"
+                ),  # attendee_shift_status
+                (
+                    SHIFT_ATTENDANCE_STATES[done_or_last_updated_attendance.state]
+                    if done_or_last_updated_attendance
+                    else "None"
+                ),  # attendance_status
+                (
+                    done_or_last_updated_attendance.account_entry.description.replace(
+                        done_or_last_updated_attendance.slot.get_display_name(), ""
+                    )
+                    if done_or_last_updated_attendance
+                    and done_or_last_updated_attendance.account_entry
+                    else "None"
+                ),
             ],
         )
 
@@ -397,9 +407,11 @@ def shift_data_csv_export(_):
                 timezone.localtime(shift.end_time).strftime("%H:%M"),
                 shift.name,
                 shift.cancelled_reason if shift.cancelled else "Not cancelled",
-                shift.shift_template.id
-                if hasattr(shift, "shift_template") and shift.shift_template
-                else "None",
+                (
+                    shift.shift_template.id
+                    if hasattr(shift, "shift_template") and shift.shift_template
+                    else "None"
+                ),
             ],
         )
 
@@ -429,9 +441,11 @@ def shift_slot_data_csv_export(_):
                 shift_slot.id,
                 shift_slot.name,
                 shift_slot.shift.id,
-                shift_slot.slot_template.id
-                if hasattr(shift_slot, "slot_template") and shift_slot.slot_template
-                else "None",
+                (
+                    shift_slot.slot_template.id
+                    if hasattr(shift_slot, "slot_template") and shift_slot.slot_template
+                    else "None"
+                ),
                 shift_slot.get_required_capabilities_display(),
             ],
         )
@@ -626,10 +640,10 @@ class ShiftStatusEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONVie
         for date in self.get_dates():
             result_at_date = {}
             for mode in ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES:
-                result_at_date[
-                    mode[0]
-                ] = self.get_number_of_members_with_attendance_mode_at_date(
-                    mode[0], date
+                result_at_date[mode[0]] = (
+                    self.get_number_of_members_with_attendance_mode_at_date(
+                        mode[0], date
+                    )
                 )
             total = sum(result_at_date.values())
 

@@ -47,9 +47,9 @@ class ShiftSlotCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "card_title"
-        ] = f"Adding a slot to {self.get_shift().get_display_name()}"
+        context["card_title"] = (
+            f"Adding a slot to {self.get_shift().get_display_name()}"
+        )
         return context
 
     def form_valid(self, form):
@@ -169,9 +169,9 @@ class ShiftSlotTemplateCreateView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[
-            "card_title"
-        ] = f"Adding a slot to {self.get_shift_template().get_display_name()}"
+        context["card_title"] = (
+            f"Adding a slot to {self.get_shift_template().get_display_name()}"
+        )
         return context
 
     def form_valid(self, form):

@@ -17,13 +17,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Attention!</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button"
+                            class="close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×;</span>
                     </button>
                 </div>
-                <p class="m-2"><strong>Are you sure you want to
-                    remove {{ object.share_owner.user.first_name }} {{ object.share_owner.user.last_name }} from the
-                    resigned members list and to reactivate the member? This cannot be undone!</strong></p>
+                <p class="m-2">
+                    <strong>Are you sure you want to
+                        remove {{ object.share_owner.user.first_name }} {{ object.share_owner.user.last_name }} from the
+                    resigned members list and to reactivate the member? This cannot be undone!</strong>
+                </p>
                 <div class="modal-footer">
                     <form class="form-inline ms-3"
                           method="post"
@@ -40,22 +45,23 @@
     </div>
     <div class="container">
         <div class="card mb-2">
-            <h5 class="card-header">{% translate "Resigned member" %}: {% get_display_name_for_viewer object.share_owner request.user %}</h5>
+            <h5 class="card-header">
+                {% translate "Resigned member" %}: {% get_display_name_for_viewer object.share_owner request.user %}
+            </h5>
             <div class="card-body" id="resignedmember_detail_card">
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Share owner" %}:</div>
-                    <div class="col-9"
-                         id="membership_resignation_share_owner">{% get_display_name_for_viewer object.share_owner request.user %}</div>
+                    <div class="col-9" id="membership_resignation_share_owner">
+                        {% get_display_name_for_viewer object.share_owner request.user %}
+                    </div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Cancellation reason" %}:</div>
-                    <div class="col-9"
-                         id="membership_resignation_cancellation_reason">{{ object.cancellation_reason }}</div>
+                    <div class="col-9" id="membership_resignation_cancellation_reason">{{ object.cancellation_reason }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Cancellation date" %}:</div>
-                    <div class="col-9"
-                         id="membership_resignation_cancellation_date">{{ object.cancellation_date|date:"d.m.Y" }}</div>
+                    <div class="col-9" id="membership_resignation_cancellation_date">{{ object.cancellation_date|date:"d.m.Y" }}</div>
                 </div>
                 {% if object.pay_out_day is not None %}
                 <div class="row m-1">
@@ -66,9 +72,7 @@
                 {% endif %}
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Resignation type" %}:</div>
-                    <div class="col-9" id="resignation_type">
-                        {{ object.get_resignation_type_display }}
-                    </div>
+                    <div class="col-9" id="resignation_type">{{ object.get_resignation_type_display }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Paid out" %}:</div>
