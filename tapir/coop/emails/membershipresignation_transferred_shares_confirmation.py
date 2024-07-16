@@ -45,9 +45,15 @@ class MembershipResignationTransferredSharesConfirmation(TapirEmailBase):
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBase | None:
-        if len(MembershipResignation.objects.all()) == 0:
+        member_resignation = (
+            MembershipResignation.objects.filter(transferring_shares_to__isnull=False)
+            .order_by("?")
+            .first()
+        )
+
+        if not member_resignation:
             return None
-        member_resignation = MembershipResignation.objects.all().order_by("?")[0]
+
         mail = cls(member_resignation=member_resignation)
         mail.get_full_context(
             share_owner=member_resignation.share_owner,
