@@ -3,26 +3,28 @@
 {% load shifts %}
 {% load core %}
 <div class="card mb-2">
-    <h5 class="card-header d-flex justify-content-between align-items-center"
+    <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2"
         id="user_shift_card">
         {% translate "Shifts" %}
-        {% if perms.shifts.manage and user.shift_user_data %}
-            <a class="{% tapir_button_link_to_action %}"
-               id="edit_shift_user_data_button"
-               href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
-                <span class="material-icons button-icon">edit</span>{% translate 'Edit' %}
-            </a>
-        {% endif %}
+        <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
+            {% if perms.shifts.manage and user.shift_user_data %}
+                <a class="{% tapir_button_link_to_action %}"
+                id="edit_shift_user_data_button"
+                href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
+                    <span class="material-icons button-icon">edit</span>{% translate 'Edit' %}
+                </a>
+            {% endif %}
+        </span>
     </h5>
     <div class="card-body">
         <div class="row m-1">
-            <div class="col-4 fw-bold text-end">{% translate "Status" %}:</div>
-            <div class="col-8">{{ user.shift_user_data.get_attendance_mode_display }}</div>
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Status" %}:</div>
+            <div class="col-12 col-sm-8">{{ user.shift_user_data.get_attendance_mode_display }}</div>
         </div>
         <div class="row m-1">
             {% if user.shift_attendance_templates.count > 0 %}
-                <div class="col-4 fw-bold text-end">{% translate "ABCD Shift" %}:</div>
-                <div class="col-8">
+                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "ABCD Shift" %}:</div>
+                <div class="col-12 col-sm-8">
                     {% for shift_attendance_template in user.shift_attendance_templates.all %}
                         <span>
                             <a href="{{ shift_attendance_template.slot_template.shift_template.get_absolute_url }}">
@@ -33,8 +35,8 @@
                     {% endfor %}
                 </div>
             {% elif user.shift_user_data.attendance_mode == 'regular' %}
-                <div class="col-4 fw-bold text-end">{% translate "ABCD Shift" %}:</div>
-                <div class="col-8">
+                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "ABCD Shift" %}:</div>
+                <div class="col-12 col-sm-8">
                     <span class="text-danger">{% translate "Missing" %}</span>
                     {% if perms.shifts.manage %}
                         <a class="{% tapir_button_link %} btn-sm"
@@ -47,8 +49,8 @@
             {% endif %}
         </div>
         <div class="row m-1">
-            <div class="col-4 fw-bold text-end">{% translate "Upcoming Shift" %}:</div>
-            <div class="col-8">
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Upcoming Shift" %}:</div>
+            <div class="col-12 col-sm-8">
                 {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
                     {% if next_slot %}
                         <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.get_display_name }}</a>
@@ -69,8 +71,8 @@
             </div>
         </div>
         <div class="row m-1">
-            <div class="col-4 fw-bold text-end">{% translate "Shift Status" %}:</div>
-            <div class="col-8 d-flex gap-2" id="user-shift-status">
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Shift Status" %}:</div>
+            <div class="col-12 col-sm-8 d-flex gap-2" id="user-shift-status">
                 {% if user.shift_user_data.is_balance_ok %}
                     <span class="text-success">{% translate "OK" %}</span>
                     {% if user.shift_user_data.get_account_balance < 0 %}
@@ -88,8 +90,8 @@
             </div>
         </div>
         <div class="row m-1">
-            <div class="col-4 fw-bold text-end">{% translate "Qualifications" %}:</div>
-            <div class="col-8">
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Qualifications" %}:</div>
+            <div class="col-12 col-sm-8">
                 {% if user.shift_user_data.capabilities %}
                     {{ user.shift_user_data.get_capabilities_display }}
                 {% else %}
@@ -98,8 +100,8 @@
             </div>
         </div>
         <div class="row m-1">
-            <div class="col-4 fw-bold text-end">{% translate "Exemption" %}:</div>
-            <div class="col-8">
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Exemption" %}:</div>
+            <div class="col-12 col-sm-8">
                 <span id="shift_exemption_value">
                     {% with exemption=user.shift_user_data.get_current_shift_exemption %}
                         {% if exemption %}
@@ -125,8 +127,8 @@
         {% feature_flag_enabled "Enable Solidarity Shifts" as solidarity_shifts_enabled %}
         {% if solidarity_shifts_enabled %}
             <div class="row m-1">
-                <div class="col-4 fw-bold text-end">{% translate "Solidarity" %}:</div>
-                <div class="col-8 d-flex gap-1">
+                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Solidarity" %}:</div>
+                <div class="col-12 col-sm-8 d-flex gap-1">
                     <form method="post"
                           action="{% url 'shifts:solidarity_shift_used' object.pk %}">
                         {% csrf_token %}
@@ -177,8 +179,8 @@
                 </div>
             </div>
             <div class="row m-1">
-                <div class="col-4 fw-bold text-end">{% translate "Solidarity Status" %}:</div>
-                <div class="col-8 d-flex">
+                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Solidarity Status" %}:</div>
+                <div class="col-12 col-sm-8 d-flex">
                     {% get_used_solidarity_shifts_current_year user.shift_user_data as used_solidarity_shifts_current_year %}
                     {% if used_solidarity_shifts_current_year >= 2 %}
                         {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
