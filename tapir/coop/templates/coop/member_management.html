@@ -53,5 +53,16 @@
                 </li>
             </ul>
         </div>
+        <div class="card mb-2">
+            <div class="card-header d-flex justify-content-between">
+                <h5>General Tapir Accounts</h5>
+            </div>
+            <div class="card-body">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'coop:create_general_account' %}">Create new Tapir account</a>
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'coop:general_accounts_list' %}">Show general Tapir accounts</a>
+            </div>
+        </div>
     </div>
 {% endblock content %}

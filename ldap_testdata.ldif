@@ -51,3 +51,10 @@ objectClass: groupOfNames
 objectClass: top
 cn: shift-manager
 member: uid=admin,ou=people,dc=supercoop,dc=de
+
+dn: cn=welcomedesk-only,ou=groups,dc=supercoop,dc=de
+changetype: add
+objectClass: groupOfNames
+objectClass: top
+cn: welcomedesk-only
+member: uid=admin,ou=people,dc=supercoop,dc=de
