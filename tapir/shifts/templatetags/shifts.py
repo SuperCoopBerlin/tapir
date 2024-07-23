@@ -81,7 +81,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         "style": style,
         "id": shift.id,
         "is_template": False,
-        "filter_classes": get_html_classes_for_filtering(shift),
+        "filter_classes": " ".join(get_html_classes_for_filtering(shift)),
     }
 
 
@@ -189,7 +189,7 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
         "style": style,
         "id": shift_template.id,
         "is_template": True,
-        "filter_classes": filter_classes,
+        "filter_classes": " ".join(filter_classes),
     }
 
 

@@ -1,7 +1,7 @@
 {% load i18n %}
 <div class="shift-block-container" style="{{ shift.style }}">
     <div id="{% if shift.is_template %}template{% else %}shift{% endif %}_{{ shift.id }}"
-         class="shift-block btn btn-outline-dark {% for class in shift.filter_classes %}{{ class }}{% endfor %}"
+         class="shift-block btn btn-outline-dark {{ shift.filter_classes }}"
          style="height:{{ shift.height }}px">
         <div class="shift-time shift-block-title">{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
         <div class="shift-date">
