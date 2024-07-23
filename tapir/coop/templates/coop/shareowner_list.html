@@ -29,31 +29,37 @@
                     {% endfor %}
                 </div>
             </div>
-        </div>
-        <ul class="list-group list-group-flush" id="share_owner_table">
+        </div>   
+        <p style="text-align:right" class="m-3">
+        <button class="{% tapir_button_link_to_action %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+            Filters
+        </button>
+        </p>
             {% if filter %}
-                <li class="list-group-item">
-                    <form action="" method="get" class="form member-filter-form">
-                        <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
-                        <div class="member-filter-form-buttons">
-                            <button class="filter-button {% tapir_button_link %}">
-                                <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
-                            </button>
-                            <a class="{% tapir_button_link %}"
-                               href="{% url 'coop:shareowner_list' %}">
-                                <span class="material-icons">clear</span>
-                                {% translate "Clear all filters" %}
-                            </a>
-                            <div class="ms-2">
-                                {% blocktranslate %}
-                                    Filtered {{ filtered_member_count }} of {{ total_member_count }}
-                                {% endblocktranslate %}
-                            </div>
-                        </div>
-                    </form>
-                </li>
+                <ul class="list-group list-group-flush" id="share_owner_table">
+                    <div class="collapse" id="collapseFilter">
+                        <li class="list-group-item">
+                            <form action="" method="get" class="form member-filter-form">
+                                <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
+                                <div class="member-filter-form-buttons">
+                                    <button class="filter-button {% tapir_button_link %}">
+                                        <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                                    </button>
+                                    <a class="{% tapir_button_link %}"
+                                    href="{% url 'coop:shareowner_list' %}">
+                                        <span class="material-icons">clear</span>
+                                        {% translate "Clear all filters" %}
+                                    </a>
+                                    <div class="ms-2">
+                                        {% blocktranslate %}
+                                            Filtered {{ filtered_member_count }} of {{ total_member_count }}
+                                        {% endblocktranslate %}
+                                    </div>
+                                </div>
+                            </form>
+                        </li>
+                    </div>
             {% endif %}
-            <li class="list-group-item">{% render_table table %}</li>
-        </ul>
-    </div>
+                    <li class="list-group-item">{% render_table table %}</li>
+                </ul>
 {% endblock content %}
