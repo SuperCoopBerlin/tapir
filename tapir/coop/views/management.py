@@ -46,7 +46,9 @@ class GeneralAccountsTable(django_tables2.Table):
         order_by = "id"
         attrs = {"class": TAPIR_TABLE_CLASSES}
 
-    display_name = django_tables2.Column(empty_values=(), verbose_name="Name")
+    display_name = django_tables2.Column(
+        empty_values=(), verbose_name="Name", orderable=False
+    )
 
     def before_render(self, request):
         self.request = request
