@@ -1,5 +1,9 @@
 # Tapir Member & Shift Management System
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=coverage)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
+
 Tapir is a member and shift management system of the food cooperative [SuperCoop Berlin](https://supercoop.de).
 Our Vorstand and member office uses Tapir to manage shifts and members, for example their personal data, capabilities,
 payments and shift statuses. It is also used for automatic mails and evaluate new applicants.
