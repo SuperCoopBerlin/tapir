@@ -2,3 +2,4 @@
 omit =
     */migrations/*
     */tests/*
+relative_files = True
