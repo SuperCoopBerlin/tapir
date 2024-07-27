@@ -249,6 +249,7 @@ class MembershipResignationCreateView(
             MembershipResignationService.update_shifts_and_shares(
                 resignation=membership_resignation
             )
+            MembershipResignationService.delete_shareowner_membershippauses(membership_resignation)
             MembershipResignationCreateLogEntry().populate(
                 actor=self.request.user,
                 model=membership_resignation,
