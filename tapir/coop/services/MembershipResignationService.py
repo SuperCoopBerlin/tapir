@@ -76,7 +76,7 @@ class MembershipResignationService:
         ShareOwnership.objects.filter(share_owner=member.share_owner).update(
             end_date=None
         )
-    
+
     @staticmethod
     @transaction.atomic
     def delete_shareowner_membershippauses(resignation: MembershipResignation):
