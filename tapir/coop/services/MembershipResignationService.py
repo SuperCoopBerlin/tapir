@@ -78,6 +78,6 @@ class MembershipResignationService:
         )
     
     @staticmethod
-    transaction.atomic
+    @transaction.atomic
     def delete_shareowner_membershippauses(resignation: MembershipResignation):
         MembershipPause.objects.filter(share_owner=resignation.share_owner).delete()
