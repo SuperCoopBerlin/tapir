@@ -1,10 +1,17 @@
 import datetime
+import random
 
 import factory
 
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.config import COOP_SHARE_PRICE
-from tapir.coop.models import ShareOwnership, ShareOwner, DraftUser, MembershipPause
+from tapir.coop.models import (
+    ShareOwnership,
+    ShareOwner,
+    DraftUser,
+    MembershipPause,
+    MembershipResignation,
+)
 from tapir.statistics.models import PurchaseBasket
 
 
@@ -68,6 +75,19 @@ class MembershipPauseFactory(factory.django.DjangoModelFactory):
     )
     description = factory.Faker("bs")
     share_owner = factory.SubFactory(ShareOwnerFactory)
+
+
+class MembershipResignationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = MembershipResignation
+
+    share_owner = factory.Subfactory(ShareOwnerFactory)
+    cancellation_reason = factory.Faker("Resigned for testing reason.")
+    transferring_shares_to = factory.SubFactory(ShareOwnerFactory)
+    resignation_type = factory.Faker(
+        random.random_choice(MembershipResignation.resignation_type)
+    )
+    paid_out = factory.Faker("pybool")
 
 
 class PurchaseBasketFactory(factory.django.DjangoModelFactory):
