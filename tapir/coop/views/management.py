@@ -3,6 +3,7 @@ from django.views.generic import TemplateView, CreateView
 from django.utils.translation import gettext_lazy as _
 import django_tables2
 from django_tables2.views import SingleTableView
+from django.forms import EmailField
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
@@ -20,9 +21,17 @@ class MemberManagementView(LoginRequiredMixin, PermissionRequiredMixin, Template
 class CreateGeneralTapirAccountView(
     TapirFormMixin, CreateView, LoginRequiredMixin, PermissionRequiredMixin
 ):
-    model = TapirUser
     permission_required = PERMISSION_ACCOUNTS_MANAGE
+    model = TapirUser
     fields = ["first_name", "last_name", "username", "phone_number", "email"]
+
+    def get_form(self, form_class=None):
+        form = super(CreateGeneralTapirAccountView, self).get_form(form_class)
+        form.fields["email"].required = True
+        form.fields["email"].help_text = _(
+            "Required. Please insert a valid email address."
+        )
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
