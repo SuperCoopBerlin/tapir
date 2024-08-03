@@ -11,7 +11,7 @@ urlpatterns = [
     ),
     path(
         "share/<int:pk>/delete",
-        views.share_ownership_delete,
+        views.ShareOwnershipDeleteView.as_view(),
         name="shareownership_delete",
     ),
     path("user/draft/", views.DraftUserListView.as_view(), name="draftuser_list"),

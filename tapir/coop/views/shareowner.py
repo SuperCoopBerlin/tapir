@@ -17,7 +17,7 @@ from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
-from django.views.generic import UpdateView, FormView
+from django.views.generic import UpdateView, FormView, DeleteView
 from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
@@ -187,24 +187,22 @@ class ShareOwnershipCreateMultipleView(
         return self.get_share_owner().get_info().get_absolute_url()
 
 
-@require_POST
-@csrf_protect
-@login_required
-# Higher permission requirement since this is a destructive operation only to correct mistakes
-@permission_required(PERMISSION_COOP_ADMIN)
-def share_ownership_delete(request, pk):
-    share_ownership = get_object_or_404(ShareOwnership, pk=pk)
-    share_owner = share_ownership.share_owner
+class ShareOwnershipDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = PERMISSION_COOP_ADMIN
+    model = ShareOwnership
+    template_name = "coop/confirm_delete_share_ownership.html"
 
-    with transaction.atomic():
+    def get_success_url(self):
+        return self.get_object().share_owner.get_absolute_url()
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
         DeleteShareOwnershipLogEntry().populate(
-            share_owner=share_ownership.share_owner,
-            actor=request.user,
-            model=share_ownership,
+            share_owner=self.object.share_owner,
+            actor=self.request.user,
+            model=self.object,
         ).save()
-        share_ownership.delete()
-
-    return redirect(share_owner)
+        return response
 
 
 class ShareOwnerDetailView(
