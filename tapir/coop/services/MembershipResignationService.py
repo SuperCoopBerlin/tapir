@@ -78,6 +78,15 @@ class MembershipResignationService:
         )
 
     @staticmethod
-    @transaction.atomic
     def delete_shareowner_membershippauses(resignation: MembershipResignation):
-        MembershipPause.objects.filter(share_owner=resignation.share_owner).delete()
+        for pause in MembershipPause.objects.filter(share_owner=resignation.share_owner):
+            if resignation.pay_out_day is not None:
+                if resignation.pay_out_day >= pause.end_date:
+                    pause.update(end_date=resignation.pay_out_day)
+                elif pause.start_date > resignation.pay_out_day:
+                    pause.delete()
+            else:
+                if resignation.cancellation_date >= pause.end_date:
+                    pause.update(end_date=resignation.cancellation_date)
+                elif pause.start_date > resignation.cancellation_date:
+                    pause.delete()

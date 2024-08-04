@@ -1,7 +1,6 @@
 import datetime
-import random
-
 import factory
+import random
 
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.config import COOP_SHARE_PRICE
@@ -81,11 +80,11 @@ class MembershipResignationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = MembershipResignation
 
-    share_owner = factory.Subfactory(ShareOwnerFactory)
-    cancellation_reason = factory.Faker("Resigned for testing reason.")
+    share_owner = factory.SubFactory(ShareOwnerFactory)
+    cancellation_reason = factory.Faker("sentence")
     transferring_shares_to = factory.SubFactory(ShareOwnerFactory)
-    resignation_type = factory.Faker(
-        random.random_choice(MembershipResignation.resignation_type)
+    resignation_type = factory.random.reseed_random(
+        MembershipResignation.ResignationType
     )
     paid_out = factory.Faker("pybool")
 
