@@ -227,13 +227,31 @@ class ShareOwner(models.Model):
         return reverse("coop:shareowner_detail", args=[self.pk])
 
     def get_oldest_active_share_ownership(self):
-        return self.get_active_share_ownerships().order_by("start_date").first()
+        # This is equivalent to:
+        # return self.get_active_share_ownerships().order_by("start_date").first()
+        # but since using order_by will always trigger a database request, instead
+        # we do the request manually. If the share_ownerships are already cached, we avoid a database request
+        oldest = None
+        for share_ownership in self.share_ownerships.all():
+            if not share_ownership.is_active():
+                continue
+
+            if oldest is None or share_ownership.start_date < oldest.start_date:
+                oldest = share_ownership
+        return oldest
 
     def get_active_share_ownerships(self):
         return self.share_ownerships.active_temporal()
 
     def num_shares(self) -> int:
-        return ShareOwnership.objects.active_temporal().filter(share_owner=self).count()
+        # We do the count manually instead of using a queryset to avoid a database query
+        return len(
+            [
+                share_ownership
+                for share_ownership in self.share_ownerships.all()
+                if share_ownership.is_active()
+            ]
+        )
 
     def get_member_status(self):
         # Here we try to use only share_ownerships.all() without filter or count(),
