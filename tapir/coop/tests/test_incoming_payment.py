@@ -1,3 +1,4 @@
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils import timezone
 
@@ -171,3 +172,22 @@ class TestIncomingPayments(TapirFactoryTestBase):
         )
 
         self.assertEqual(response.status_code, 403)
+
+    def test_incomingPaymentListView_loggedInAsAccounting_actionColumnNotShowing(self):
+        accounting_team_member = TapirUserFactory.create(is_in_accounting_team=True)
+        self.login_as_user(accounting_team_member)
+
+        response: TemplateResponse = self.client.get(
+            reverse("coop:incoming_payment_list")
+        )
+
+        self.assertNotIn("Actions", response.content.decode())
+
+    def test_incomingPaymentListView_loggedInAsVorstand_actionColumnShowing(self):
+        self.login_as_vorstand()
+
+        response: TemplateResponse = self.client.get(
+            reverse("coop:incoming_payment_list")
+        )
+
+        self.assertIn("Actions", response.content.decode())
