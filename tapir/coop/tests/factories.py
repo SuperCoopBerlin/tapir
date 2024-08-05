@@ -83,8 +83,8 @@ class MembershipResignationFactory(factory.django.DjangoModelFactory):
     share_owner = factory.SubFactory(ShareOwnerFactory)
     cancellation_reason = factory.Faker("sentence")
     transferring_shares_to = factory.SubFactory(ShareOwnerFactory)
-    resignation_type = factory.random.reseed_random(
-        MembershipResignation.ResignationType
+    resignation_type = factory.Faker(
+        "random_element", elements=[x[0] for x in MembershipResignation.ResignationType]
     )
     paid_out = factory.Faker("pybool")
 

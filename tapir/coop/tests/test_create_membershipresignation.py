@@ -13,19 +13,19 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 class TestCreateMembershipResignation(TapirFactoryTestBase):
     def test_membershipResignation_created_isTrue(self):
         self.login_as_member_office_user()
-        resigned_member = MembershipResignationFactory.create()
+        resignation = MembershipResignationFactory.build()
 
         response = self.client.post(
             reverse("coop:resign_new_membership"),
             {
-                "share_owner": resigned_member,
+                "share_owner": resignation.share_owner,
                 "cancellation_date": datetime.now(),
                 "pay_out_day": datetime.now()
                 + relativedelta(day=31, month=12, years=3),
-                "cancellation_reason": resigned_member.cancellation_reason,
-                "resignation_type": resigned_member.resignation_type,
-                "transferring_shares_to": resigned_member.transferring_shares_to,
-                "paid_out": resigned_member.paid_out,
+                "cancellation_reason": resignation.cancellation_reason,
+                "resignation_type": resignation.resignation_type,
+                "transferring_shares_to": resignation.transferring_shares_to,
+                "paid_out": resignation.paid_out,
             },
             follow=True,
         )
