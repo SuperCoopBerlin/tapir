@@ -1,5 +1,6 @@
 import django_filters
 import django_tables2
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db import transaction
 from django.db.models import Q
@@ -19,6 +20,7 @@ from tapir.settings import (
     PERMISSION_COOP_VIEW,
     PERMISSION_ACCOUNTING_MANAGE,
     PERMISSION_ACCOUNTING_VIEW,
+    PERMISSION_COOP_ADMIN,
 )
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
@@ -43,9 +45,18 @@ class IncomingPaymentTable(django_tables2.Table):
         attrs = {"class": TAPIR_TABLE_CLASSES}
 
     id = django_tables2.Column(verbose_name=_("Payment ID"))
+    actions = django_tables2.TemplateColumn(
+        template_name="coop/incoming_payments_actions_column.html",
+        verbose_name="Actions",
+        orderable=False,
+        exclude_from_export=True,
+        visible=False,
+    )
 
     def before_render(self, request):
         self.request = request
+        if request.user.has_perm(PERMISSION_COOP_ADMIN):
+            self.columns.show("actions")
 
     def render_id(self, value, record: IncomingPayment):
         return f"#{record.id}"
@@ -144,3 +155,40 @@ class IncomingPaymentCreateView(
         context["page_title"] = _("Register payment")
         context["card_title"] = _("Register a new incoming payment")
         return context
+
+
+class IncomingPaymentEditView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, generic.UpdateView
+):
+    permission_required = PERMISSION_COOP_ADMIN
+    model = IncomingPayment
+    form_class = IncomingPaymentForm
+
+    def get_success_url(self):
+        return reverse("coop:incoming_payment_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["page_title"] = _("Edit payment")
+        context["card_title"] = _("Edit payment")
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, _("Payment updated."))
+        return super().form_valid(form)
+
+
+class IncomingPaymentDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView
+):
+    permission_required = PERMISSION_COOP_ADMIN
+    model = IncomingPayment
+    template_name = "coop/confirm_delete_incoming_payment.html"
+
+    def get_success_url(self):
+        return reverse("coop:incoming_payment_list")
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        messages.success(request, _("Payment deleted"))
+        return response
