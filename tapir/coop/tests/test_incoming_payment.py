@@ -7,7 +7,10 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import (
     IncomingPayment,
     CreatePaymentLogEntry,
+    UpdateIncomingPaymentLogEntry,
+    DeleteIncomingPaymentLogEntry,
 )
+from tapir.coop.tests.incoming_payment_factory import IncomingPaymentFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -174,8 +177,7 @@ class TestIncomingPayments(TapirFactoryTestBase):
         self.assertEqual(response.status_code, 403)
 
     def test_incomingPaymentListView_loggedInAsAccounting_actionColumnNotShowing(self):
-        accounting_team_member = TapirUserFactory.create(is_in_accounting_team=True)
-        self.login_as_user(accounting_team_member)
+        self.login_as_accounting_team()
 
         response: TemplateResponse = self.client.get(
             reverse("coop:incoming_payment_list")
@@ -191,3 +193,54 @@ class TestIncomingPayments(TapirFactoryTestBase):
         )
 
         self.assertIn("Actions", response.content.decode())
+
+    def test_incomingPaymentEditView_loggedInAsAccountingTeam_notAuthorized(self):
+        self.login_as_accounting_team()
+        payment = IncomingPaymentFactory.create()
+
+        response = self.client.get(
+            reverse("coop:incoming_payment_edit", args=[payment.id])
+        )
+
+        self.assertEqual(403, response.status_code)
+
+    def test_incomingPaymentEditView_loggedInAsVorstand_paymentEdited(self):
+        self.login_as_vorstand()
+        payment = IncomingPaymentFactory.create(amount=100)
+
+        response = self.client.post(
+            reverse("coop:incoming_payment_edit", args=[payment.id]),
+            data={
+                "amount": 200,
+                "payment_date": payment.payment_date,
+                "credited_member": payment.credited_member.id,
+                "paying_member": payment.paying_member.id,
+            },
+            follow=True,
+        )
+        self.assertEqual(200, response.status_code)
+        payment.refresh_from_db()
+        self.assertEqual(payment.amount, 200)
+        self.assertEqual(UpdateIncomingPaymentLogEntry.objects.count(), 1)
+
+    def test_incomingPaymentDeleteView_loggedInAsAccountingTeam_notAuthorized(self):
+        self.login_as_accounting_team()
+        payment = IncomingPaymentFactory.create()
+
+        response = self.client.get(
+            reverse("coop:incoming_payment_delete", args=[payment.id])
+        )
+
+        self.assertEqual(403, response.status_code)
+
+    def test_incomingPaymentDeleteView_loggedInAsVorstand_paymentDeleted(self):
+        self.login_as_vorstand()
+        payment = IncomingPaymentFactory.create()
+
+        response = self.client.post(
+            reverse("coop:incoming_payment_delete", args=[payment.id]),
+            follow=True,
+        )
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(IncomingPayment.objects.count(), 0)
+        self.assertEqual(DeleteIncomingPaymentLogEntry.objects.count(), 1)

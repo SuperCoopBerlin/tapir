@@ -4,7 +4,12 @@ import factory
 
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.config import COOP_SHARE_PRICE
-from tapir.coop.models import ShareOwnership, ShareOwner, DraftUser, MembershipPause
+from tapir.coop.models import (
+    ShareOwnership,
+    ShareOwner,
+    DraftUser,
+    MembershipPause,
+)
 from tapir.statistics.models import PurchaseBasket
 
 
