@@ -13,9 +13,17 @@ from django_tables2 import SingleTableView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
-from tapir.coop.models import IncomingPayment, ShareOwner, CreatePaymentLogEntry
+from tapir.coop.models import (
+    IncomingPayment,
+    ShareOwner,
+    CreatePaymentLogEntry,
+    UpdateIncomingPaymentLogEntry,
+    DeleteIncomingPaymentLogEntry,
+)
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
+from tapir.log.util import freeze_for_log
+from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
     PERMISSION_COOP_VIEW,
     PERMISSION_ACCOUNTING_MANAGE,
@@ -158,7 +166,11 @@ class IncomingPaymentCreateView(
 
 
 class IncomingPaymentEditView(
-    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, generic.UpdateView
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    TapirFormMixin,
+    UpdateViewLogMixin,
+    generic.UpdateView,
 ):
     permission_required = PERMISSION_COOP_ADMIN
     model = IncomingPayment
@@ -175,6 +187,14 @@ class IncomingPaymentEditView(
 
     def form_valid(self, form):
         messages.success(self.request, _("Payment updated."))
+        new_frozen = freeze_for_log(form.instance)
+        if self.old_object_frozen != new_frozen:
+            UpdateIncomingPaymentLogEntry().populate(
+                old_frozen=self.old_object_frozen,
+                new_frozen=new_frozen,
+                share_owner=form.instance.paying_member,
+                actor=self.request.user,
+            ).save()
         return super().form_valid(form)
 
 
@@ -191,4 +211,7 @@ class IncomingPaymentDeleteView(
     def delete(self, request, *args, **kwargs):
         response = super().delete(request, *args, **kwargs)
         messages.success(request, _("Payment deleted"))
+        DeleteIncomingPaymentLogEntry().populate(
+            share_owner=self.object.paying_member, actor=request.user, model=self.object
+        ).save()
         return response
