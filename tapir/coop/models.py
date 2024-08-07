@@ -419,6 +419,12 @@ class ShareOwnership(DurationModelMixin, models.Model):
                 )
             )
 
+    def __str__(self):
+        return (
+            f"{self.share_owner.get_display_name(display_type=UserUtils.DISPLAY_NAME_TYPE_FULL)} "
+            f"from {self.start_date} to {self.end_date} (ID:{self.id})"
+        )
+
 
 class DeleteShareOwnershipLogEntry(ModelLogEntry):
     template_name = "coop/log/delete_share_ownership_log_entry.html"

@@ -112,7 +112,7 @@
                                         {% translate "Edit" %}
                                     </a>
                                     {% if perms.coop.admin %}
-                                        <span class="dropdown">
+                                        <div class="dropdown share_ownership_delete_dropdown">
                                             <a class="{% tapir_button_link %} btn-sm dropdown-toggle"
                                                href="#"
                                                data-bs-toggle="dropdown">
@@ -120,14 +120,9 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right" style="min-width: 20rem;">
                                                 <!-- white-space: normal; to make the long text wrap -->
-                                                <form class="form-inline"
-                                                      method="post"
-                                                      action="{% url 'coop:shareownership_delete' o.pk %}">
-                                                    {% csrf_token %}
-                                                    <button type="submit"
-                                                            class="dropdown-item "
-                                                            style="white-space: normal"
-                                                            href="#">
+                                                <a class="form-inline"
+                                                   href="{% url 'coop:shareownership_delete' o.pk %}">
+                                                    <span class="dropdown-item " style="white-space: normal" href="#">
                                                         <span class="text-danger">{% translate "Delete" %}</span>
                                                         <br />
                                                         <small class="text-muted">
@@ -139,10 +134,10 @@
                                                             coop, please mark the share as sold instead.
                                                         {% endblocktrans %}
                                                         </small>
-                                                    </button>
-                                                </form>
+                                                    </span>
+                                                </a>
                                             </div>
-                                        </span>
+                                        </div>
                                     {% endif %}
                                 </td>
                             {% endif %}
