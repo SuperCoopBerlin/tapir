@@ -240,4 +240,14 @@ urlpatterns = [
         views.MemberManagementView.as_view(),
         name="management",
     ),
+    path(
+        "create/general_account/",
+        views.CreateGeneralTapirAccountView.as_view(),
+        name="create_general_account",
+    ),
+    path(
+        "general_accounts",
+        views.GeneralTapirAccountsListView.as_view(),
+        name="general_accounts_list",
+    ),
 ]
