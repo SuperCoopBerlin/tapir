@@ -3,7 +3,7 @@ import datetime
 from django.db import transaction
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.models import MembershipResignation, ShareOwnership
+from tapir.coop.models import MembershipResignation, ShareOwnership, MembershipPause
 from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendance,
@@ -76,3 +76,20 @@ class MembershipResignationService:
         ShareOwnership.objects.filter(share_owner=member.share_owner).update(
             end_date=None
         )
+
+    @staticmethod
+    def delete_shareowner_membershippauses(resignation: MembershipResignation):
+        for pause in MembershipPause.objects.filter(share_owner=resignation.share_owner):
+            if pause.end_date is not None:
+                if resignation.pay_out_day is not None:
+                    if resignation.pay_out_day <= pause.end_date:
+                        pause.update(end_date=resignation.pay_out_day)
+                    elif pause.start_date > resignation.pay_out_day:
+                        pause.delete()
+                else:
+                    if resignation.cancellation_date <= pause.end_date:
+                        pause.update(end_date=resignation.cancellation_date)
+                    elif pause.start_date > resignation.cancellation_date:
+                        pause.delete()
+            else:
+                pause.update(end_date=resignation.cancellation_date)                
