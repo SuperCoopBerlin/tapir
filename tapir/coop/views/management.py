@@ -22,7 +22,15 @@ class CreateGeneralTapirAccountView(
 ):
     permission_required = PERMISSION_ACCOUNTS_MANAGE
     model = TapirUser
-    fields = ["first_name", "last_name", "username", "phone_number", "email"]
+    fields = [
+        "username",
+        "first_name",
+        "last_name",
+        "usage_name",
+        "pronouns",
+        "email",
+        "phone_number",
+    ]
 
     def get_form(self, form_class=None):
         form = super(CreateGeneralTapirAccountView, self).get_form(form_class)

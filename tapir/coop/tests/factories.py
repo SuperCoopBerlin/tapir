@@ -86,18 +86,22 @@ class GeneralAccountFactory(UserDataFactory):
     class Meta:
         model = TapirUser
 
-    ATTRIBUTES = UserDataFactory.ATTRIBUTES + [
+    ATTRIBUTES = [
+        "username",
         "first_name",
         "last_name",
-        "username",
-        "phone_number",
+        "usage_name",
+        "pronouns",
         "email",
+        "phone_number",
     ]
 
-    first_name = factory.Faker("first_name")
-    last_name = factory.Faker("last_name")
     username = factory.LazyAttribute(
         lambda o: f"{o.usage_name if o.usage_name else o.first_name}.{o.last_name}"
     )
-    phone_number = factory.LazyAttribute(lambda _: fake.phone_number())
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
+    usage_name = factory.Faker("first_name")
+    pronouns = factory.Iterator(["he/him", "she/her", "they/them"])
     email = factory.Faker("email")
+    phone_number = factory.LazyAttribute(lambda _: fake.phone_number())
