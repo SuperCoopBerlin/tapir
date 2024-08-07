@@ -196,6 +196,16 @@ urlpatterns = [
         name="incoming_payment_create",
     ),
     path(
+        "payments/<int:pk>/edit/",
+        views.IncomingPaymentEditView.as_view(),
+        name="incoming_payment_edit",
+    ),
+    path(
+        "payments/<int:pk>/delete/",
+        views.IncomingPaymentDeleteView.as_view(),
+        name="incoming_payment_delete",
+    ),
+    path(
         "new_members_json_view",
         views.MemberStatusUpdatesJsonView.as_view(),
         name="member_status_updates_json_view",

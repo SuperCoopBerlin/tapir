@@ -1,0 +1,11 @@
+{% load core %}
+<span class="d-flex flex-row gap-2">
+    <a href="{% url "coop:incoming_payment_edit" pk=record.pk %}"
+       class="{% tapir_button_link_to_action %}">
+        <span class="material-icons">edit</span>
+    </a>
+    <a href="{% url "coop:incoming_payment_delete" pk=record.pk %}"
+       class="{% tapir_button_custom "outline-danger" %}">
+        <span class="material-icons">delete</span>
+    </a>
+</span>

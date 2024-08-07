@@ -1,0 +1,38 @@
+{% extends "core/base.html" %}
+{% load utils %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load core %}
+{% block title %}
+    {% translate "Confirm delete" %} {{ object }}
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="card mb-2">
+            <h5 class="card-header">
+                <span>{% translate "Confirm delete" %}</span>
+            </h5>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <p>Are you sure you want to delete the following payment?</p>
+                    <ul>
+                        <li>Paying member: {% get_display_name_full object.paying_member %}</li>
+                        <li>Credited member: {% get_display_name_full object.credited_member %}</li>
+                        <li>Payment data: {{ object.payment_date|date:"d.m.Y" }}</li>
+                        <li>Amount: {{ object.amount }}</li>
+                        <li>Comment: {{ object.comment }}</li>
+                        <li>Created by: {% get_display_name_full object.created_by %}</li>
+                    </ul>
+                    {{ form }}
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn tapir-btn btn-danger">
+                            <span class="material-icons">delete</span>
+                            {% translate 'Delete' %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
