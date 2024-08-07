@@ -82,7 +82,7 @@ class PurchaseBasketFactory(factory.django.DjangoModelFactory):
     discount = 0
 
 
-class GeneralAccountFactory(factory.django.DjangoModelFactory):
+class GeneralAccountFactory(UserDataFactory):
     class Meta:
         model = TapirUser
 
@@ -96,6 +96,8 @@ class GeneralAccountFactory(factory.django.DjangoModelFactory):
 
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    username = factory.Faker("username")
+    username = factory.LazyAttribute(
+        lambda o: f"{o.usage_name if o.usage_name else o.first_name}.{o.last_name}"
+    )
     phone_number = factory.LazyAttribute(lambda _: fake.phone_number())
     email = factory.Faker("email")

@@ -22,7 +22,8 @@ class TestCreateGeneralAccount(TapirFactoryTestBase):
                 first_name=mock_general_account.first_name,
                 last_name=mock_general_account.last_name,
             ).exists(),
-            "The general account should not have been created because the logged in user does not have the right permission.",
+            "The general account should not have been created because the logged in user does not have the right "
+            "permission.",
         )
 
     def test_create_general_account(self):

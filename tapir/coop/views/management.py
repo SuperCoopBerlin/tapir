@@ -1,9 +1,8 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.views.generic import TemplateView, CreateView
-from django.utils.translation import gettext_lazy as _
 import django_tables2
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.utils.translation import gettext_lazy as _
+from django.views.generic import TemplateView, CreateView
 from django_tables2.views import SingleTableView
-from django.forms import EmailField
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
@@ -19,7 +18,7 @@ class MemberManagementView(LoginRequiredMixin, PermissionRequiredMixin, Template
 
 
 class CreateGeneralTapirAccountView(
-    TapirFormMixin, CreateView, LoginRequiredMixin, PermissionRequiredMixin
+    TapirFormMixin, LoginRequiredMixin, PermissionRequiredMixin, CreateView
 ):
     permission_required = PERMISSION_ACCOUNTS_MANAGE
     model = TapirUser
