@@ -21,18 +21,18 @@ class MemberInfoService:
         if at_date is None:
             at_date = timezone.now().date()
 
-        if hasattr(share_owner, cls.ANNOTATION_NUMBER_OF_ACTIVE_SHARES):
-            annotated_active_date = getattr(
-                share_owner, cls.ANNOTATION_SHARES_ACTIVE_AT_DATE
-            )
-            if annotated_active_date != at_date:
-                raise ValueError(
-                    f"Trying to get the number of shares active at date {at_date}, but the queryset has been "
-                    f"annotated relative to {annotated_active_date}"
-                )
-            return getattr(share_owner, cls.ANNOTATION_NUMBER_OF_ACTIVE_SHARES)
+        if not hasattr(share_owner, cls.ANNOTATION_NUMBER_OF_ACTIVE_SHARES):
+            return share_owner.share_ownerships.active_temporal(at_date).count()
 
-        return share_owner.share_ownerships.active_temporal(at_date).count()
+        annotated_active_date = getattr(
+            share_owner, cls.ANNOTATION_SHARES_ACTIVE_AT_DATE
+        )
+        if annotated_active_date != at_date:
+            raise ValueError(
+                f"Trying to get the number of shares active at date {at_date}, but the queryset has been "
+                f"annotated relative to {annotated_active_date}"
+            )
+        return getattr(share_owner, cls.ANNOTATION_NUMBER_OF_ACTIVE_SHARES)
 
     @classmethod
     def annotate_share_owner_queryset_with_number_of_active_shares(
