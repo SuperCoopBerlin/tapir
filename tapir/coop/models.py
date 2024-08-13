@@ -12,6 +12,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
+from tapir.coop.services.MemberInfoService import MemberInfoService
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.utils.expection_utils import TapirException
@@ -244,14 +245,7 @@ class ShareOwner(models.Model):
         return self.share_ownerships.active_temporal()
 
     def num_shares(self) -> int:
-        # We do the count manually instead of using a queryset to avoid a database query
-        return len(
-            [
-                share_ownership
-                for share_ownership in self.share_ownerships.all()
-                if share_ownership.is_active()
-            ]
-        )
+        return MemberInfoService.get_number_of_active_shares(self)
 
     def get_member_status(self):
         # Here we try to use only share_ownerships.all() without filter or count(),
