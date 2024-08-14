@@ -13,6 +13,7 @@ from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
 from tapir.coop.services.MemberInfoService import MemberInfoService
+from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.utils.expection_utils import TapirException
@@ -248,20 +249,13 @@ class ShareOwner(models.Model):
         return MemberInfoService.get_number_of_active_shares(self)
 
     def get_member_status(self):
-        # Here we try to use only share_ownerships.all() without filter or count(),
-        # because in list views the shares have been prefetched.
-        # If we do any filtering on self.share_ownerships, it would trigger one DB query per item in the list.
-        has_active_share = (
-            len([share for share in self.share_ownerships.all() if share.is_active()])
-            > 0
-        )
-        if not has_active_share:
+        if not MemberInfoService.get_number_of_active_shares(self) > 0:
             return MemberStatus.SOLD
 
         if self.is_investing:
             return MemberStatus.INVESTING
 
-        if MembershipPause.objects.filter(share_owner=self).active_temporal().exists():
+        if MembershipPauseService.has_active_pause(self):
             return MemberStatus.PAUSED
 
         return MemberStatus.ACTIVE

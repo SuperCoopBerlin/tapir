@@ -54,6 +54,7 @@ from tapir.coop.models import (
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.coop.services.MemberInfoService import MemberInfoService
+from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
 from tapir.log.models import LogEntry
@@ -814,6 +815,11 @@ class ShareOwnerListView(
         queryset = ShareOwner.objects.prefetch_related("user", "share_ownerships")
         queryset = MemberInfoService.annotate_share_owner_queryset_with_number_of_active_shares(
             queryset
+        )
+        queryset = (
+            MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
+                queryset
+            )
         )
         return queryset
 
