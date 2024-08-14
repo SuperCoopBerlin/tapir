@@ -61,7 +61,7 @@ class MembershipPauseService:
             at_date = timezone.now().date()
 
         if not hasattr(share_owner, cls.ANNOTATION_HAS_ACTIVE_PAUSE):
-            share_owner.membershippause_set.active_temporal(at_date).exists()
+            return share_owner.membershippause_set.active_temporal(at_date).exists()
 
         annotated_active_date = getattr(
             share_owner, cls.ANNOTATION_HAS_ACTIVE_PAUSE_AT_DATE
