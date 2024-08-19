@@ -633,6 +633,32 @@ class CreatePaymentLogEntry(LogEntry):
         return super().populate_base(actor=actor, share_owner=share_owner)
 
 
+class UpdateIncomingPaymentLogEntry(UpdateModelLogEntry):
+    template_name = "coop/log/update_incoming_payment_log_entry.html"
+
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        share_owner: ShareOwner,
+        actor: User,
+    ):
+        return super().populate_base(
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+            share_owner=share_owner,
+            actor=actor,
+        )
+
+
+class DeleteIncomingPaymentLogEntry(ModelLogEntry):
+    template_name = "coop/log/delete_incoming_payment_log_entry.html"
+    exclude_fields = ["id", "credited_member", "paying_member", "comment", "created_by"]
+
+    def populate(self, share_owner: ShareOwner, actor, model):
+        return self.populate_base(share_owner=share_owner, actor=actor, model=model)
+
+
 class CreateShareOwnershipsLogEntry(LogEntry):
     num_shares = PositiveIntegerField(blank=False, null=False)
     start_date = models.DateField(null=False, blank=False)
