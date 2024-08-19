@@ -16,6 +16,8 @@ from tapir.coop.models import (
     ExtraSharesForAccountingRecap,
     MemberStatus,
 )
+from tapir.coop.services.MemberInfoService import MemberInfoService
+from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.log.models import LogEntry
 from tapir.shifts.models import (
     Shift,
@@ -149,9 +151,9 @@ def generate_test_user_shifts(user_id):
 
 def generate_test_template_groups():
     ShiftTemplateGroup.objects.all().delete()
-    for week in ["A", "B", "C", "D"]:
-        ShiftTemplateGroup.objects.get_or_create(name=week)
-
+    ShiftTemplateGroup.objects.bulk_create(
+        [ShiftTemplateGroup(name=week) for week in ["A", "B", "C", "D"]]
+    )
     print("Generated test template groups")
 
 
@@ -185,7 +187,7 @@ def generate_test_users():
 
         tapir_user: TapirUser | None = None
         if not is_company and not is_investing:
-            tapir_user = TapirUser.objects.create(
+            tapir_user = TapirUser(
                 username=json_user.get_username(),
             )
             copy_user_info(json_user, tapir_user)
@@ -204,7 +206,7 @@ def generate_test_users():
                 ldap_group.members.append(tapir_user.get_ldap().build_dn())
                 ldap_group.save()
 
-        share_owner = ShareOwner.objects.create(
+        share_owner = ShareOwner(
             is_company=is_company,
             user=tapir_user,
         )
@@ -236,36 +238,38 @@ def generate_test_users():
                 end_date=end_date,
             )
 
-        if (
-            not is_company
-            and not is_investing
-            and not ShiftAttendanceTemplate.objects.filter(user=tapir_user).exists()
-        ):
+        if not is_company and not is_investing:
+            capabilities = []
             if random.randint(1, 7) == 1:
-                tapir_user.shift_user_data.capabilities.append(
-                    ShiftUserCapability.SHIFT_COORDINATOR
-                )
-                tapir_user.shift_user_data.save()
+                capabilities.append(ShiftUserCapability.SHIFT_COORDINATOR)
             if random.randint(1, 4) == 1:
-                tapir_user.shift_user_data.capabilities.append(
-                    ShiftUserCapability.CASHIER
-                )
+                capabilities.append(ShiftUserCapability.CASHIER)
+
+            if capabilities:
+                tapir_user.shift_user_data.capabilities = capabilities
                 tapir_user.shift_user_data.save()
-            for _ in range(10):
-                template: ShiftTemplate = random.choice(ShiftTemplate.objects.all())
-                free_slots = template.slot_templates.filter(
+
+            shift_templates = ShiftTemplate.objects.order_by("?")[:10]
+            for shift_template in shift_templates:
+                free_slots = shift_template.slot_templates.filter(
                     attendance_template__isnull=True
-                )
-                if free_slots.exists():
-                    for free_slot in free_slots:
-                        # Attend the first one fit for this user.
-                        if free_slot.user_can_attend(tapir_user):
-                            ShiftAttendanceTemplate.objects.create(
-                                user=tapir_user, slot_template=free_slot
-                            )
-                            break
-                template.update_future_shift_attendances()
-                break
+                ).select_related("attendance_template")
+
+                attendance_template_created = False
+
+                for free_slot in free_slots:
+                    # Attend the first one fit for this user.
+                    if not free_slot.user_can_attend(tapir_user):
+                        continue
+                    ShiftAttendanceTemplate.objects.create(
+                        user=tapir_user, slot_template=free_slot
+                    )
+                    free_slot.update_future_slot_attendances()
+                    attendance_template_created = True
+                    break
+
+                if attendance_template_created:
+                    break
     print("Created fake users")
 
 
@@ -298,8 +302,11 @@ def generate_test_shift_templates():
         slot_name_cashier: 2,
         slot_name_general: 2,
     }
+    template_groups = ShiftTemplateGroup.objects.all()
+    shift_templates = []
+
     for weekday in [0, 1, 2, 3, 4, 5]:
-        for template_group in ShiftTemplateGroup.objects.all():
+        for template_group in template_groups:
             for index, start_hour in enumerate(start_hours):
                 start_time = datetime.time(
                     hour=start_hour[0],
@@ -311,57 +318,63 @@ def generate_test_shift_templates():
                     minute=start_hour[1],
                     tzinfo=timezone.localtime().tzinfo,
                 )
-                shift_template = ShiftTemplate.objects.create(
-                    name="Supermarket",
-                    group=template_group,
-                    weekday=weekday,
-                    start_time=start_time,
-                    end_time=end_time,
+                shift_templates.append(
+                    ShiftTemplate(
+                        name="Supermarket",
+                        group=template_group,
+                        weekday=weekday,
+                        start_time=start_time,
+                        end_time=end_time,
+                    )
                 )
 
-                slots = middle_shift_slots
-                if index == 0:
-                    slots = first_shift_slots
-                if index == len(start_hours) - 1:
-                    slots = last_shift_slots
+    shift_templates = ShiftTemplate.objects.bulk_create(shift_templates)
 
-                for slot_name, slot_quantity in slots.items():
-                    capabilities = []
-                    if slot_name == "Teamleitung":
-                        capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
-                    if slot_name == "Kasse":
-                        capabilities = [ShiftUserCapability.CASHIER]
-                    for index in range(slot_quantity):
-                        ShiftSlotTemplate.objects.create(
-                            name=slot_name,
-                            shift_template=shift_template,
-                            required_capabilities=capabilities,
-                        )
+    slot_templates = []
+    for shift_template in shift_templates:
+        slots = middle_shift_slots
+        if shift_template.start_time.hour == start_hours[0][0]:
+            slots = first_shift_slots
+        if shift_template.start_time.hour == start_hours[-1][0]:
+            slots = last_shift_slots
+
+        for slot_name, slot_quantity in slots.items():
+            capabilities = []
+            if slot_name == "Teamleitung":
+                capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+            if slot_name == "Kasse":
+                capabilities = [ShiftUserCapability.CASHIER]
+            for _ in range(slot_quantity):
+                slot_templates.append(
+                    ShiftSlotTemplate(
+                        name=slot_name,
+                        shift_template=shift_template,
+                        required_capabilities=capabilities,
+                    )
+                )
+    ShiftSlotTemplate.objects.bulk_create(slot_templates)
 
     print("Generated test shift templates")
 
 
-def generate_shifts(print_progress=False):
-    if print_progress:
-        print("Generating shifts")
+def generate_shifts():
+    print("Generating shifts")
     start_day = get_monday(timezone.now().date() - datetime.timedelta(days=20))
 
     groups = ShiftTemplateGroup.objects.all()
+    groups = {index: group for index, group in enumerate(groups)}
     for week in range(8):
         monday = start_day + datetime.timedelta(days=7 * week)
-        if print_progress:
-            print("Doing week from " + str(monday) + " " + str(week + 1) + "/8")
         groups[week % 4].create_shifts(monday)
-    if print_progress:
-        print("Generated shifts")
 
 
 def generate_test_applicants():
     parsed_users = get_test_users()
+    draft_users = []
     for index, parsed_user in enumerate(parsed_users[USER_COUNT : USER_COUNT + 50]):
         json_user = JsonUser(parsed_user)
         randomizer = index + 1
-        draft_user = DraftUser.objects.create()
+        draft_user = DraftUser()
         copy_user_info(json_user, draft_user)
 
         if randomizer % 3 == 0:
@@ -371,7 +384,9 @@ def generate_test_applicants():
         if randomizer % 5 == 0:
             draft_user.paid_membership_fee = True
 
-        draft_user.save()
+        draft_users.append(draft_user)
+
+    DraftUser.objects.bulk_create(draft_users)
 
 
 def clear_data():
@@ -402,6 +417,7 @@ def clear_data():
 
 
 def generate_purchase_baskets():
+    print("Generating purchase baskets")
     current_date = ShareOwnership.objects.order_by("start_date").first().start_date
     # starting not too long ago to avoid taking too much time
     current_date: datetime.date = max(
@@ -409,12 +425,10 @@ def generate_purchase_baskets():
     )
     today = timezone.now().date()
     current_month = -1
+    baskets = []
     while current_date < today:
         if current_date.month != current_month:
             current_month = current_date.month
-            print(
-                f"Generating purchase baskets for {current_date.strftime('%d.%m.%Y')}"
-            )
 
         source_file = ProcessedPurchaseFiles.objects.create(
             file_name=f"test_basket_file{current_date.strftime('%d.%m.%Y')}",
@@ -423,33 +437,47 @@ def generate_purchase_baskets():
             ),
         )
 
+        share_owners = ShareOwner.objects.prefetch_related("user")
+        share_owners = MemberInfoService.annotate_share_owner_queryset_with_number_of_active_shares(
+            share_owners, current_date
+        )
+        share_owners = (
+            MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
+                share_owners, current_date
+            )
+        )
+
         purchasing_users = [
             share_owner
-            for share_owner in ShareOwner.objects.with_status(
+            for share_owner in share_owners.with_status(
                 status=MemberStatus.ACTIVE, date=current_date
             )
             if share_owner.user
         ]
-        baskets = [
-            PurchaseBasket(
-                source_file=source_file,
-                purchase_date=get_timezone_aware_datetime(
-                    current_date - datetime.timedelta(days=random.randint(0, 6)),
-                    datetime.time(hour=random.randint(0, 23)),
-                ),
-                cashier=random.randint(0, 10),
-                purchase_counter=random.randint(0, 10),
-                tapir_user=share_owner.user,
-                gross_amount=random.randrange(1, 100),
-                first_net_amount=0,
-                second_net_amount=0,
-                discount=0,
-            )
-            for share_owner in purchasing_users
-        ]
-        PurchaseBasket.objects.bulk_create(baskets)
+        baskets.extend(
+            [
+                PurchaseBasket(
+                    source_file=source_file,
+                    purchase_date=get_timezone_aware_datetime(
+                        current_date - datetime.timedelta(days=random.randint(0, 6)),
+                        datetime.time(hour=random.randint(0, 23)),
+                    ),
+                    cashier=random.randint(0, 10),
+                    purchase_counter=random.randint(0, 10),
+                    tapir_user=share_owner.user,
+                    gross_amount=random.randrange(1, 100),
+                    first_net_amount=0,
+                    second_net_amount=0,
+                    discount=0,
+                )
+                for share_owner in purchasing_users
+            ]
+        )
 
         current_date += datetime.timedelta(days=7)
+
+    PurchaseBasket.objects.bulk_create(baskets)
+    print("Done")
 
 
 def reset_all_test_data():
@@ -457,7 +485,7 @@ def reset_all_test_data():
     clear_data()
     generate_test_template_groups()
     generate_test_shift_templates()
-    generate_shifts(True)
+    generate_shifts()
     generate_test_users()
     generate_test_applicants()
     generate_purchase_baskets()

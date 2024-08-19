@@ -260,7 +260,9 @@ class ShiftTemplate(models.Model):
         generated_shift.save()
         shift = generated_shift
 
-        for slot_template in self.slot_templates.all():
+        for slot_template in self.slot_templates.all().select_related(
+            "attendance_template"
+        ):
             slot = slot_template.create_slot_from_template(shift)
             slot.update_attendance_from_template()
 
@@ -371,9 +373,14 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         )
 
     def update_future_slot_attendances(self, now=None):
-        for slot in self.generated_slots.filter(
-            shift__start_time__gt=now or timezone.now()
-        ):
+        slots = (
+            self.generated_slots.filter(shift__start_time__gt=now or timezone.now())
+            .select_related("shift")
+            .prefetch_related(
+                "slot_template__attendance_template__user__shift_user_data__shift_exemptions"
+            )
+        )
+        for slot in slots:
             slot.update_attendance_from_template()
 
     def create_slot_from_template(self, shift: Shift):
@@ -689,9 +696,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
 
         attendance = self.attendances.filter(user=attendance_template.user).first()
         if attendance is None:
-            attendance = ShiftAttendance.objects.create(
-                user=attendance_template.user, slot=self
-            )
+            attendance = ShiftAttendance(user=attendance_template.user, slot=self)
         attendance.state = ShiftAttendance.State.PENDING
         attendance.save()
 
