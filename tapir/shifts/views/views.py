@@ -251,6 +251,12 @@ class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView)
     template_name = "shifts/shift_template_detail.html"
     model = ShiftTemplate
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.prefetch_related(
+            "slot_templates__attendance_template__user__share_owner"
+        )
+
 
 class ShiftUserDataTable(django_tables2.Table):
     class Meta:
