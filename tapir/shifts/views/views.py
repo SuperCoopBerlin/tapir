@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
-from django.db.models import Sum
+from django.db.models import Sum, Count, Q
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
@@ -205,13 +205,23 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         shift: Shift = context["shift"]
-        slots = shift.slots.all()
+        slots = (
+            shift.slots.all()
+            .annotate(
+                is_occupied=Count(
+                    "attendances",
+                    filter=Q(
+                        attendances__state__in=[
+                            ShiftAttendance.State.PENDING,
+                            ShiftAttendance.State.DONE,
+                        ]
+                    ),
+                )
+            )
+            .prefetch_related("slot_template__attendance_template__user")
+        )
 
         for slot in slots:
-            slot.is_occupied = ShiftAttendance.objects.filter(
-                slot=slot,
-                state__in=[ShiftAttendance.State.PENDING, ShiftAttendance.State.DONE],
-            ).exists()
             slot.can_self_register = slot.user_can_attend(self.request.user)
             slot.can_self_unregister = slot.user_can_self_unregister(self.request.user)
             slot.can_look_for_stand_in = slot.user_can_look_for_standin(
