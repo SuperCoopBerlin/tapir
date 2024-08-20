@@ -18,6 +18,7 @@ from django.views.decorators.http import require_POST, require_GET
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
+from tapir.coop.services.MemberInfoService import MemberInfoService
 
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
@@ -209,7 +210,9 @@ class CreateShareOwnerFromDraftUserView(
 
             NewMembershipsForAccountingRecap.objects.create(
                 member=share_owner,
-                number_of_shares=share_owner.get_active_share_ownerships().count(),
+                number_of_shares=MemberInfoService.get_number_of_active_shares(
+                    share_owner
+                ),
                 date=timezone.now().date(),
             )
 

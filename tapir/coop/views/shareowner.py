@@ -385,7 +385,7 @@ def shareowner_membership_confirmation(request, pk):
     num_shares = (
         request.GET["num_shares"]
         if "num_shares" in request.GET.keys()
-        else share_owner.get_active_share_ownerships().count()
+        else MemberInfoService.get_number_of_active_shares(share_owner)
     )
     date = (
         datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
