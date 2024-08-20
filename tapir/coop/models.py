@@ -168,19 +168,6 @@ class ShareOwner(models.Model):
                 Q(paid_amount__lt=F("expected_payments")) | Q(paid_amount=None)
             )
 
-        def became_member_after(self, date: datetime.date):
-            first_shares = [
-                share_owner.get_oldest_active_share_ownership()
-                for share_owner in ShareOwner.objects.all()
-                if share_owner.get_oldest_active_share_ownership() is not None
-            ]
-            first_shares_after_date = [
-                first_share
-                for first_share in first_shares
-                if first_share.start_date >= date
-            ]
-            return self.filter(share_ownerships__in=first_shares_after_date).distinct()
-
     objects = ShareOwnerQuerySet.as_manager()
 
     def blank_info_fields(self):
@@ -256,9 +243,6 @@ class ShareOwner(models.Model):
             if oldest is None or share_ownership.start_date < oldest.start_date:
                 oldest = share_ownership
         return oldest
-
-    def get_active_share_ownerships(self):
-        return self.share_ownerships.active_temporal()
 
     def num_shares(self) -> int:
         return MemberInfoService.get_number_of_active_shares(self)
