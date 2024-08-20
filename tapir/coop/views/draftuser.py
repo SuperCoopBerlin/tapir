@@ -145,7 +145,7 @@ def draftuser_membership_agreement(request, pk):
 @csrf_protect
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
-def mark_signed_membership_agreement(request, pk):
+def mark_signed_membership_agreement(_, pk):
     user = DraftUser.objects.get(pk=pk)
     user.signed_membership_agreement = True
     user.save()
@@ -157,7 +157,7 @@ def mark_signed_membership_agreement(request, pk):
 @csrf_protect
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
-def mark_attended_welcome_session(request, pk):
+def mark_attended_welcome_session(_, pk):
     user = DraftUser.objects.get(pk=pk)
     user.attended_welcome_session = True
     user.save()
@@ -169,7 +169,7 @@ def mark_attended_welcome_session(request, pk):
 @csrf_protect
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
-def register_draftuser_payment(request, pk):
+def register_draftuser_payment(_, pk):
     draft = get_object_or_404(DraftUser, pk=pk)
     draft.paid_membership_fee = True
     draft.save()
@@ -227,7 +227,7 @@ class CreateShareOwnerFromDraftUserView(
 
 
 def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> ShareOwner:
-    share_owner = ShareOwner.objects.create(
+    share_owner = ShareOwner(
         is_company=False,
         is_investing=draft_user.is_investing,
         ratenzahlung=draft_user.ratenzahlung,
@@ -238,12 +238,16 @@ def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> Shar
     copy_user_info(draft_user, share_owner)
     share_owner.save()
 
-    for _ in range(0, draft_user.num_shares):
-        ShareOwnership.objects.create(
-            share_owner=share_owner,
-            start_date=date.today(),
-            amount_paid=(COOP_SHARE_PRICE if draft_user.paid_shares else 0),
-        )
+    ShareOwnership.objects.bulk_create(
+        [
+            ShareOwnership(
+                share_owner=share_owner,
+                start_date=date.today(),
+                amount_paid=(COOP_SHARE_PRICE if draft_user.paid_shares else 0),
+            )
+            for _ in range(0, draft_user.num_shares)
+        ]
+    )
 
     return share_owner
 
@@ -278,7 +282,8 @@ class DraftUserTable(django_tables2.Table):
     def before_render(self, request):
         self.request = request
 
-    def render_share_owner_can_be_created(self, value, record: DraftUser):
+    @staticmethod
+    def render_share_owner_can_be_created(value, record: DraftUser):
         return _("Yes") if record.can_create_user() else _("No")
 
     def value_display_name(self, value, record: DraftUser):
@@ -287,7 +292,8 @@ class DraftUserTable(django_tables2.Table):
     def render_display_name(self, value, record: DraftUser):
         return UserUtils.build_html_link_for_viewer(record, self.request.user)
 
-    def render_created_at(self, value, record: DraftUser):
+    @staticmethod
+    def render_created_at(value, record: DraftUser):
         return record.created_at.strftime("%d.%m.%Y %H:%M")
 
 
@@ -308,9 +314,7 @@ class DraftUserFilter(django_filters.FilterSet):
     )
 
     @staticmethod
-    def share_owner_can_be_created_filter(
-        queryset: QuerySet, name, can_be_created: bool
-    ):
+    def share_owner_can_be_created_filter(queryset: QuerySet, _, can_be_created: bool):
         draft_user_ids = [
             draft_user.id
             for draft_user in queryset
