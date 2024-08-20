@@ -164,13 +164,15 @@ class ShareOwnershipCreateMultipleView(
                 end_date=form.cleaned_data["end_date"],
             ).save()
 
-            for _ in range(form.cleaned_data["num_shares"]):
-                ShareOwnership.objects.create(
+            ShareOwnership.objects.bulk_create(
+                ShareOwnership(
                     share_owner=share_owner,
                     amount_paid=0,
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
+                for _ in range(form.cleaned_data["num_shares"])
+            )
 
             ExtraSharesForAccountingRecap.objects.create(
                 member=share_owner,
@@ -692,7 +694,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     @staticmethod
     def display_name_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         # This is an ugly hack to enable searching by Mitgliedsnummer from the
-        # one-stop search box in the t  op right
+        # one-stop search box in the top right
         if value.isdigit():
             return queryset.filter(id=int(value))
 
