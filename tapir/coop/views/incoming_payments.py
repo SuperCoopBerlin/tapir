@@ -1,5 +1,6 @@
 import django_filters
 import django_tables2
+from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db import transaction
 from django.db.models import Q
@@ -12,13 +13,22 @@ from django_tables2 import SingleTableView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
-from tapir.coop.models import IncomingPayment, ShareOwner, CreatePaymentLogEntry
+from tapir.coop.models import (
+    IncomingPayment,
+    ShareOwner,
+    CreatePaymentLogEntry,
+    UpdateIncomingPaymentLogEntry,
+    DeleteIncomingPaymentLogEntry,
+)
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
+from tapir.log.util import freeze_for_log
+from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
     PERMISSION_COOP_VIEW,
     PERMISSION_ACCOUNTING_MANAGE,
     PERMISSION_ACCOUNTING_VIEW,
+    PERMISSION_COOP_ADMIN,
 )
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
@@ -43,9 +53,18 @@ class IncomingPaymentTable(django_tables2.Table):
         attrs = {"class": TAPIR_TABLE_CLASSES}
 
     id = django_tables2.Column(verbose_name=_("Payment ID"))
+    actions = django_tables2.TemplateColumn(
+        template_name="coop/incoming_payments_actions_column.html",
+        verbose_name="Actions",
+        orderable=False,
+        exclude_from_export=True,
+        visible=False,
+    )
 
     def before_render(self, request):
         self.request = request
+        if request.user.has_perm(PERMISSION_COOP_ADMIN):
+            self.columns.show("actions")
 
     def render_id(self, value, record: IncomingPayment):
         return f"#{record.id}"
@@ -144,3 +163,55 @@ class IncomingPaymentCreateView(
         context["page_title"] = _("Register payment")
         context["card_title"] = _("Register a new incoming payment")
         return context
+
+
+class IncomingPaymentEditView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    TapirFormMixin,
+    UpdateViewLogMixin,
+    generic.UpdateView,
+):
+    permission_required = PERMISSION_COOP_ADMIN
+    model = IncomingPayment
+    form_class = IncomingPaymentForm
+
+    def get_success_url(self):
+        return reverse("coop:incoming_payment_list")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["page_title"] = _("Edit payment")
+        context["card_title"] = _("Edit payment")
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, _("Payment updated."))
+        new_frozen = freeze_for_log(form.instance)
+        if self.old_object_frozen != new_frozen:
+            UpdateIncomingPaymentLogEntry().populate(
+                old_frozen=self.old_object_frozen,
+                new_frozen=new_frozen,
+                share_owner=form.instance.paying_member,
+                actor=self.request.user,
+            ).save()
+        return super().form_valid(form)
+
+
+class IncomingPaymentDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView
+):
+    permission_required = PERMISSION_COOP_ADMIN
+    model = IncomingPayment
+    template_name = "coop/confirm_delete_incoming_payment.html"
+
+    def get_success_url(self):
+        return reverse("coop:incoming_payment_list")
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
+        messages.success(request, _("Payment deleted"))
+        DeleteIncomingPaymentLogEntry().populate(
+            share_owner=self.object.paying_member, actor=request.user, model=self.object
+        ).save()
+        return response
