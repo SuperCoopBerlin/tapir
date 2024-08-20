@@ -70,9 +70,9 @@ class IncomingPaymentTable(django_tables2.Table):
         return f"#{record.id}"
 
     def render_member(self, logged_in_member: TapirUser, other_member: ShareOwner):
-        if logged_in_member.share_owner == other_member or logged_in_member.has_perm(
-            PERMISSION_ACCOUNTING_VIEW
-        ):
+        if getattr(
+            logged_in_member, "share_owner", None
+        ) == other_member or logged_in_member.has_perm(PERMISSION_ACCOUNTING_VIEW):
             other_member = other_member.get_info()
             return UserUtils.build_html_link_for_viewer(other_member, logged_in_member)
         return _("Other member")
@@ -126,6 +126,9 @@ class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
                 Q(paying_member=logged_in_share_owner)
                 | Q(credited_member=logged_in_share_owner)
             )
+        queryset = queryset.prefetch_related(
+            "credited_member__user", "paying_member__user", "created_by__share_owner"
+        )
         return queryset
 
     def get_context_data(self, **kwargs):
