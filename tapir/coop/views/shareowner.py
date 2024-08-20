@@ -813,8 +813,10 @@ class ShareOwnerListView(
 
     def get_queryset(self):
         queryset = ShareOwner.objects.prefetch_related("user", "share_ownerships")
-        queryset = MemberInfoService.annotate_share_owner_queryset_with_number_of_active_shares(
-            queryset
+        queryset = (
+            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
+                queryset
+            )
         )
         queryset = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(

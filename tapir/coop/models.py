@@ -1,4 +1,5 @@
 import datetime
+from typing import Self
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -112,13 +113,11 @@ class ShareOwner(models.Model):
             if date is None:
                 date = timezone.now().date()
 
-            share_owners_with_number_of_shares_annotations = MemberInfoService.annotate_share_owner_queryset_with_number_of_active_shares(
+            share_owners_with_nb_of_shares = MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
                 self, date
             )
-            share_owners_without_active_shares = (
-                share_owners_with_number_of_shares_annotations.filter(
-                    **{MemberInfoService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
-                )
+            share_owners_without_active_shares = share_owners_with_nb_of_shares.filter(
+                **{MemberInfoService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
             )
 
             if status == MemberStatus.SOLD:
@@ -131,8 +130,8 @@ class ShareOwner(models.Model):
             if status == MemberStatus.INVESTING:
                 return members_with_valid_shares.filter(is_investing=True)
 
-            member_with_shares_and_not_investing = members_with_valid_shares.filter(
-                is_investing=False
+            member_with_shares_and_not_investing: Self = (
+                members_with_valid_shares.filter(is_investing=False)
             )
 
             members_with_paused_annotation = MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
