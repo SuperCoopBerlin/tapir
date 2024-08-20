@@ -558,7 +558,8 @@ class DraftUser(models.Model):
     def get_member_number():
         return None
 
-    def get_is_company(self):
+    @staticmethod
+    def get_is_company():
         return False
 
 
