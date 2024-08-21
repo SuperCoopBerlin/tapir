@@ -164,13 +164,15 @@ class ShareOwnershipCreateMultipleView(
                 end_date=form.cleaned_data["end_date"],
             ).save()
 
-            for _ in range(form.cleaned_data["num_shares"]):
-                ShareOwnership.objects.create(
+            ShareOwnership.objects.bulk_create(
+                ShareOwnership(
                     share_owner=share_owner,
                     amount_paid=0,
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
+                for _ in range(form.cleaned_data["num_shares"])
+            )
 
             ExtraSharesForAccountingRecap.objects.create(
                 member=share_owner,
@@ -385,7 +387,7 @@ def shareowner_membership_confirmation(request, pk):
     num_shares = (
         request.GET["num_shares"]
         if "num_shares" in request.GET.keys()
-        else share_owner.get_active_share_ownerships().count()
+        else MemberInfoService.get_number_of_active_shares(share_owner)
     )
     date = (
         datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
@@ -692,7 +694,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     @staticmethod
     def display_name_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         # This is an ugly hack to enable searching by Mitgliedsnummer from the
-        # one-stop search box in the t  op right
+        # one-stop search box in the top right
         if value.isdigit():
             return queryset.filter(id=int(value))
 
@@ -813,8 +815,10 @@ class ShareOwnerListView(
 
     def get_queryset(self):
         queryset = ShareOwner.objects.prefetch_related("user", "share_ownerships")
-        queryset = MemberInfoService.annotate_share_owner_queryset_with_number_of_active_shares(
-            queryset
+        queryset = (
+            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
+                queryset
+            )
         )
         queryset = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(

@@ -236,6 +236,7 @@ class ShiftExemptionListView(
         shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
         if shift_user_data_id is not None:
             queryset = queryset.filter(shift_user_data__id=shift_user_data_id)
+        queryset = queryset.prefetch_related("shift_user_data__user__share_owner")
         return queryset
 
     def get_context_data(self, **kwargs):

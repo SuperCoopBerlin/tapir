@@ -265,13 +265,16 @@ class LdapGroupListView(
 
         groups_data = {}
         for group_cn in settings.LDAP_GROUPS:
-            group_members = []
-            for ldap_person_dn in LdapGroup.objects.get(cn=group_cn).members:
-                tapir_user_set = TapirUser.objects.filter(
-                    username=LdapPerson.objects.get(dn=ldap_person_dn).uid
+            ldap_person_dns = LdapGroup.objects.get(cn=group_cn).members
+            usernames = [
+                LdapPerson.objects.get(dn=ldap_person_dn).uid
+                for ldap_person_dn in ldap_person_dns
+            ]
+            group_members = list(
+                TapirUser.objects.filter(username__in=usernames).prefetch_related(
+                    "share_owner"
                 )
-                if tapir_user_set.exists():
-                    group_members.append(tapir_user_set.first())
+            )
             group_members = sorted(
                 group_members,
                 key=lambda tapir_user: UserUtils.build_display_name_for_viewer(

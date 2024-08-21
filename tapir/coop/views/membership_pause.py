@@ -116,6 +116,7 @@ class MembershipPauseListView(
         user: TapirUser = self.request.user
         if not user.has_perm(PERMISSION_COOP_MANAGE):
             queryset = queryset.filter(share_owner=user.share_owner)
+        queryset = queryset.prefetch_related("share_owner__user")
         return queryset
 
     def get_context_data(self, **kwargs):

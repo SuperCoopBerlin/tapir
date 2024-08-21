@@ -35,7 +35,7 @@ class MemberInfoService:
         return getattr(share_owner, cls.ANNOTATION_NUMBER_OF_ACTIVE_SHARES)
 
     @classmethod
-    def annotate_share_owner_queryset_with_number_of_active_shares(
+    def annotate_share_owner_queryset_with_nb_of_active_shares(
         cls, queryset: ShareOwner.ShareOwnerQuerySet, at_date: datetime.date = None
     ):
         if at_date is None:

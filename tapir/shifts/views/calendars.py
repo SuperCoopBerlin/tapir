@@ -141,9 +141,10 @@ class ShiftTemplateGroupCalendar(LoginRequiredMixin, TemplateView):
 
         monday_to_week_group_map = {}
         current_monday = get_monday(datetime.date(year=displayed_year, month=1, day=1))
+        shift_groups_count = ShiftTemplateGroup.objects.count()
         while current_monday.year <= displayed_year:
             monday_to_week_group_map[current_monday] = get_week_group(
-                current_monday
+                current_monday, shift_groups_count=shift_groups_count
             ).name
             current_monday += datetime.timedelta(days=7)
 

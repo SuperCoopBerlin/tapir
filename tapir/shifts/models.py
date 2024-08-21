@@ -618,7 +618,10 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         return get_html_link(self.shift.get_absolute_url(), self.get_display_name())
 
     def get_valid_attendance(self) -> ShiftAttendance:
-        return self.attendances.with_valid_state().first()
+        if hasattr(self, "valid_attendance"):
+            return self.valid_attendance
+        self.valid_attendance = self.attendances.with_valid_state().first()
+        return self.valid_attendance
 
     def user_can_attend(self, user):
         return (
@@ -648,9 +651,8 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         )
         user_is_not_registered_to_slot_template = (
             self.slot_template is None
-            or not ShiftAttendanceTemplate.objects.filter(
-                slot_template=self.slot_template, user=user
-            ).exists()
+            or not hasattr(self.slot_template, "attendance_template")
+            or not self.slot_template.attendance_template.user == user
         )
         early_enough = (
             self.shift.start_time.date() - timezone.now().date()
