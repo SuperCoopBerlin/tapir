@@ -426,8 +426,10 @@ def generate_purchase_baskets():
     for file in files:
         current_date = file.processed_on
         share_owners = ShareOwner.objects.prefetch_related("user")
-        share_owners = MemberInfoService.annotate_share_owner_queryset_with_number_of_active_shares(
-            share_owners, current_date
+        share_owners = (
+            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
+                share_owners, current_date
+            )
         )
         share_owners = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
