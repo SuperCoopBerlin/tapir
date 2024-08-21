@@ -34,9 +34,14 @@ class LdapUser(AbstractUser):
         abstract = True
 
     def get_ldap(self):
-        return LdapPerson.objects.get(uid=self.get_username())
+        if hasattr(self, "ldap_person"):
+            return getattr(self, "ldap_person")
+        self.ldap_person = LdapPerson.objects.get(uid=self.get_username())
+        return self.ldap_person
 
     def has_ldap(self):
+        if getattr(self, "ldap_person", None):
+            return True
         return LdapPerson.objects.filter(uid=self.get_username()).count() == 1
 
     def create_ldap(self):
