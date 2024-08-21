@@ -30,6 +30,7 @@ class JsonUser:
     date_joined: datetime.date
     preferred_language: str
     num_shares: int
+    fake: Faker = None
 
     def __init__(self, parsed_json):
         self.first_name = parsed_json["name"]["first"]
@@ -57,9 +58,11 @@ class JsonUser:
         self.city = parsed_json["location"]["city"]
         self.country = get_country_code(parsed_json["location"]["country"])
 
-        fake = Faker()
+        if JsonUser.fake is None:
+            JsonUser.fake = Faker()
+
         self.date_joined = get_timezone_aware_datetime(
-            fake.date_between(
+            JsonUser.fake.date_between(
                 start_date=datetime.date(year=2020, month=9, day=1), end_date="today"
             ),
             datetime.time(hour=1, minute=1),
