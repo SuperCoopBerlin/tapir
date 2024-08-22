@@ -66,11 +66,6 @@ urlpatterns = [
         name="draftuser_membership_agreement",
     ),
     path(
-        "membership_agreement",
-        views.empty_membership_agreement,
-        name="empty_membership_agreement",
-    ),
-    path(
         "member/<int:shareowner_pk>/create_shareownerships",
         views.ShareOwnershipCreateMultipleView.as_view(),
         name="share_create_multiple",
@@ -122,18 +117,8 @@ urlpatterns = [
     ),
     path(
         "member/<int:pk>/membership_confirmation",
-        views.shareowner_membership_confirmation,
+        views.ShareOwnerMembershipConfirmationFileView.as_view(),
         name="shareowner_membership_confirmation",
-    ),
-    path(
-        "member/<int:pk>/extra_shares_confirmation",
-        views.shareowner_extra_shares_confirmation,
-        name="shareowner_extra_shares_confirmation",
-    ),
-    path(
-        "member/<int:pk>/membership_agreement",
-        views.shareowner_membership_agreement,
-        name="shareowner_membership_agreement",
     ),
     path(
         "member/<int:pk>/membership_confirmation/send",

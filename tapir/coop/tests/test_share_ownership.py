@@ -3,6 +3,7 @@ import datetime
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import strip_tags
 
 from tapir.coop.models import (
     UpdateShareOwnershipLogEntry,
@@ -45,6 +46,24 @@ class TestShareOwnership(TapirFactoryTestBase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(UpdateShareOwnershipLogEntry.objects.count(), 1)
+
+    def test_ShareOwnershipUpdateView_default_contextDataIsCorrect(self):
+        self.login_as_member_office_user(preferred_language="en")
+        share_owner = ShareOwnerFactory.create(
+            first_name="Hyper", usage_name="Super", last_name="Coop"
+        )
+        response: TemplateResponse = self.client.get(
+            reverse("coop:share_update", args=[share_owner.share_ownerships.first().id])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            f"Edit share: Super Coop #{share_owner.id}",
+            response.context_data["page_title"],
+        )
+        self.assertEqual(
+            f"Edit share: Super Coop #{share_owner.id}",
+            strip_tags(response.context_data["card_title"]),
+        )
 
     def test_shareOwnershipDelete_loggedInAsMemberOffice_notAuthorized(self):
         self.login_as_member_office_user()

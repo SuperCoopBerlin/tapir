@@ -1,5 +1,6 @@
 import csv
 import datetime
+from tempfile import SpooledTemporaryFile
 
 import django_filters
 import django_tables2
@@ -9,12 +10,17 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
+from django.http import (
+    HttpResponse,
+    HttpResponseForbidden,
+    HttpResponseRedirect,
+    FileResponse,
+)
 from django.shortcuts import get_object_or_404, redirect
 from django.template import Template, Context
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
-from django.views import generic
+from django.views import generic, View
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 from django.views.generic import UpdateView, FormView, DeleteView
@@ -265,17 +271,6 @@ class ShareOwnerUpdateView(
         return context
 
 
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def empty_membership_agreement(request):
-    filename = "Beteiligungserklärung " + settings.COOP_NAME + ".pdf"
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
-    response.write(pdfs.get_membership_agreement_pdf().write_pdf())
-    return response
-
-
 @require_POST
 @csrf_protect
 @login_required
@@ -371,82 +366,43 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
     return redirect(share_owner.get_absolute_url())
 
 
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def shareowner_membership_confirmation(request, pk):
-    share_owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = (
-        "Mitgliedschaftsbestätigung %s.pdf"
-        % UserUtils.build_display_name_for_viewer(share_owner, request.user)
-    )
+class ShareOwnerMembershipConfirmationFileView(
+    LoginRequiredMixin, PermissionRequiredMixin, View
+):
+    permission_required = PERMISSION_COOP_MANAGE
 
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
+    def get(self, request, *args, **kwargs):
+        share_owner = get_object_or_404(ShareOwner, pk=self.kwargs["pk"])
+        filename = (
+            "Mitgliedschaftsbestätigung %s.pdf"
+            % UserUtils.build_display_name_for_viewer(share_owner, request.user)
+        )
+        num_shares = (
+            request.GET["num_shares"]
+            if "num_shares" in request.GET.keys()
+            else MemberInfoService.get_number_of_active_shares(share_owner)
+        )
+        date = (
+            datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
+            if "date" in request.GET.keys()
+            else timezone.now().date()
+        )
 
-    num_shares = (
-        request.GET["num_shares"]
-        if "num_shares" in request.GET.keys()
-        else MemberInfoService.get_number_of_active_shares(share_owner)
-    )
-    date = (
-        datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
-        if "date" in request.GET.keys()
-        else timezone.now().date()
-    )
+        pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+            share_owner,
+            num_shares=num_shares,
+            date=date,
+        )
+        temp_file = SpooledTemporaryFile()
+        temp_file.write(pdf.write_pdf())
+        temp_file.seek(0)
+        response = FileResponse(
+            temp_file,
+            as_attachment=True,
+            filename=filename,
+        )
 
-    pdf = pdfs.get_shareowner_membership_confirmation_pdf(
-        share_owner,
-        num_shares=num_shares,
-        date=date,
-    )
-    response.write(pdf.write_pdf())
-    return response
-
-
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def shareowner_extra_shares_confirmation(request, pk):
-    share_owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = (
-        "Bestätigung Erwerb Anteile %s.pdf"
-        % UserUtils.build_display_name_for_viewer(share_owner, request.user)
-    )
-
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
-
-    if "num_shares" not in request.GET.keys():
-        raise ValidationError("Missing parameter : num_shares")
-    num_shares = request.GET["num_shares"]
-
-    if "date" not in request.GET.keys():
-        raise ValidationError("Missing parameter : date")
-    date = datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
-
-    pdf = pdfs.get_confirmation_extra_shares_pdf(
-        share_owner,
-        num_shares=num_shares,
-        date=date,
-    )
-    response.write(pdf.write_pdf())
-    return response
-
-
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def shareowner_membership_agreement(request, pk):
-    share_owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = "Beteiligungserklärung %s.pdf" % UserUtils.build_display_name_for_viewer(
-        share_owner, request.user
-    )
-
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
-    response.write(pdfs.get_membership_agreement_pdf(share_owner).write_pdf())
-    return response
+        return response
 
 
 class CurrentShareOwnerMixin:
