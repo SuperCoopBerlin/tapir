@@ -191,3 +191,10 @@ class TestShiftCycleService(TapirFactoryTestBase):
         call_command("apply_shift_cycle_start")
         mock_get_next_cycle_start_date.assert_called_once()
         mock_apply_cycles_from.assert_called_once_with(next_cycle_start_date)
+
+    @patch.object(ShiftCycleService, "apply_cycles_from")
+    def test_cycleStartCommand_noPastShiftNorCycleEntry_doesntCallApplyCycles(
+        self, mock_apply_cycles_from: Mock
+    ):
+        call_command("apply_shift_cycle_start")
+        mock_apply_cycles_from.assert_not_called()
