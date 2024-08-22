@@ -4,8 +4,12 @@ from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftExemption,
+    ShiftTemplate,
+    ShiftCycleEntry,
+    ShiftUserData,
 )
 from tapir.shifts.services.shift_cycle_service import ShiftCycleService
+from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -123,4 +127,35 @@ class TestShiftCycleService(TapirFactoryTestBase):
         return TapirUserFactory.create(
             share_owner__is_investing=False,
             date_joined=self.FIRST_CYCLE_START_DATE - datetime.timedelta(days=7),
+        )
+
+    def test_getNextCycleStartDate_noPreexistingShiftCycleEntry_returnsMondayOfFirstShift(
+        self,
+    ):
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create()
+        shift_template.create_shift(
+            datetime.date(year=2024, month=8, day=15)
+        )  # This is a Thursday
+
+        self.assertEqual(
+            datetime.date(year=2024, month=8, day=12),
+            ShiftCycleService.get_next_cycle_start_date(),
+        )
+
+    def test_getNextCycleStartDate_pastShiftCycleEntryExist_returnsLatestEntryPlusCycleDuration(
+        self,
+    ):
+        shift_user_data: ShiftUserData = TapirUserFactory.create().shift_user_data
+        ShiftCycleEntry.objects.create(
+            shift_user_data=shift_user_data,
+            cycle_start_date=self.FIRST_CYCLE_START_DATE,
+        )
+        ShiftCycleEntry.objects.create(
+            shift_user_data=shift_user_data,
+            cycle_start_date=self.FIRST_CYCLE_START_DATE - datetime.timedelta(days=10),
+        )
+
+        self.assertEqual(
+            self.SECOND_CYCLE_START_DATE,
+            ShiftCycleService.get_next_cycle_start_date(),
         )
