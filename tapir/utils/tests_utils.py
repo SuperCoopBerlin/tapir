@@ -178,8 +178,8 @@ class TapirFactoryTestBase(LdapEnabledTestCase):
         self.login_as_user(user)
         return user
 
-    def login_as_member_office_user(self) -> TapirUser:
-        user = TapirUserFactory.create(is_in_member_office=True)
+    def login_as_member_office_user(self, **kwargs) -> TapirUser:
+        user = TapirUserFactory.create(is_in_member_office=True, **kwargs)
         self.login_as_user(user)
         return user
 

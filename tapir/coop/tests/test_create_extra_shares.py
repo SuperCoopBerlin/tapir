@@ -1,8 +1,10 @@
 import datetime
 
 from django.core import mail
+from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import strip_tags
 
 from tapir.coop.emails.extra_shares_confirmation_email import (
     ExtraSharesConfirmationEmail,
@@ -26,6 +28,23 @@ class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestBase):
             response.status_code,
             403,
             "A normal user should not be able to create shares.",
+        )
+
+    def test_ShareOwnershipCreateMultipleView_default_contextDataIsCorrect(self):
+        self.login_as_member_office_user(preferred_language="en")
+        share_owner = ShareOwnerFactory.create(
+            first_name="Hyper", usage_name="Super", last_name="Coop"
+        )
+        response: TemplateResponse = self.client.get(
+            reverse(self.VIEW_NAME, args=[share_owner.id])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            "Add shares to Super Coop #2", response.context_data["page_title"]
+        )
+        self.assertEqual(
+            "Add shares to Super Coop #2",
+            strip_tags(response.context_data["card_title"]),
         )
 
     def test_creates_the_right_amount_of_shares(self):
