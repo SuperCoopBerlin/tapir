@@ -13,35 +13,9 @@ class Command(BaseCommand):
     help = "If a new cycle has started, remove one shift point from all active members."
 
     def handle(self, *args, **options):
-        if ShiftCycleEntry.objects.exists():
-            last_cycle_date: datetime.date = ShiftCycleEntry.objects.aggregate(
-                Max("cycle_start_date")
-            )["cycle_start_date__max"]
-            new_cycle_start_date = last_cycle_date + datetime.timedelta(
-                days=ShiftCycleEntry.SHIFT_CYCLE_DURATION
-            )
-        else:
-            new_cycle_start_date = self.get_first_cycle_start_date()
+        next_cycle_start_date = ShiftCycleService.get_next_cycle_start_date()
 
-        if new_cycle_start_date is None:
+        if next_cycle_start_date is None:
             return
 
-        while timezone.now().date() >= new_cycle_start_date:
-            ShiftCycleService.apply_cycle_start(new_cycle_start_date)
-            new_cycle_start_date += datetime.timedelta(
-                days=ShiftCycleEntry.SHIFT_CYCLE_DURATION
-            )
-
-    @staticmethod
-    def get_first_cycle_start_date():
-        first_shift = (
-            Shift.objects.filter(
-                shift_template__group=ShiftTemplateGroup.objects.first()
-            )
-            .order_by("start_time")
-            .first()
-        )
-        if not first_shift:
-            return None
-
-        return get_monday(first_shift.start_time.date())
+        ShiftCycleService.apply_cycles_from(next_cycle_start_date)
