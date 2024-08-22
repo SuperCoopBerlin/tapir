@@ -65,13 +65,7 @@ class TestShareOwnerMembershipConfirmationFileView(TapirFactoryTestBase):
         )
         self.assertEqual(200, response.status_code)
 
-        temp_file = SpooledTemporaryFile()
-        temp_file.write(response.getvalue())
-
-        reader = PdfReader(temp_file)
-        self.assertEqual(1, len(reader.pages))
-        page = reader.pages[0]
-        text = page.extract_text()
+        text = self.get_text_from_pdf(response)
         self.assertIn("7 Anteil", text)
         self.assertIn("Berlin, 12. Mai 2021", text)
 
@@ -94,12 +88,15 @@ class TestShareOwnerMembershipConfirmationFileView(TapirFactoryTestBase):
         )
         self.assertEqual(200, response.status_code)
 
+        text = self.get_text_from_pdf(response)
+        self.assertIn("3 Anteil", text)
+        self.assertIn("Berlin, 27. März 2022", text)
+
+    def get_text_from_pdf(self, response):
         temp_file = SpooledTemporaryFile()
         temp_file.write(response.getvalue())
 
         reader = PdfReader(temp_file)
         self.assertEqual(1, len(reader.pages))
         page = reader.pages[0]
-        text = page.extract_text()
-        self.assertIn("3 Anteil", text)
-        self.assertIn("Berlin, 27. März 2022", text)
+        return page.extract_text()
