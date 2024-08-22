@@ -117,7 +117,7 @@ urlpatterns = [
     ),
     path(
         "member/<int:pk>/membership_confirmation",
-        views.shareowner_membership_confirmation,
+        views.ShareOwnerMembershipConfirmationFileView.as_view(),
         name="shareowner_membership_confirmation",
     ),
     path(
