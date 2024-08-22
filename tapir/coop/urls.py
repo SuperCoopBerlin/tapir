@@ -66,11 +66,6 @@ urlpatterns = [
         name="draftuser_membership_agreement",
     ),
     path(
-        "membership_agreement",
-        views.empty_membership_agreement,
-        name="empty_membership_agreement",
-    ),
-    path(
         "member/<int:shareowner_pk>/create_shareownerships",
         views.ShareOwnershipCreateMultipleView.as_view(),
         name="share_create_multiple",

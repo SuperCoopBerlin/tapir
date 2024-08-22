@@ -265,17 +265,6 @@ class ShareOwnerUpdateView(
         return context
 
 
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def empty_membership_agreement(request):
-    filename = "Beteiligungserklärung " + settings.COOP_NAME + ".pdf"
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
-    response.write(pdfs.get_membership_agreement_pdf().write_pdf())
-    return response
-
-
 @require_POST
 @csrf_protect
 @login_required
