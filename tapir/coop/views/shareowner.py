@@ -408,36 +408,6 @@ class ShareOwnerMembershipConfirmationFileView(
 @require_GET
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
-def shareowner_extra_shares_confirmation(request, pk):
-    share_owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = (
-        "Bestätigung Erwerb Anteile %s.pdf"
-        % UserUtils.build_display_name_for_viewer(share_owner, request.user)
-    )
-
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
-
-    if "num_shares" not in request.GET.keys():
-        raise ValidationError("Missing parameter : num_shares")
-    num_shares = request.GET["num_shares"]
-
-    if "date" not in request.GET.keys():
-        raise ValidationError("Missing parameter : date")
-    date = datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
-
-    pdf = pdfs.get_confirmation_extra_shares_pdf(
-        share_owner,
-        num_shares=num_shares,
-        date=date,
-    )
-    response.write(pdf.write_pdf())
-    return response
-
-
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
 def shareowner_membership_agreement(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
     filename = "Beteiligungserklärung %s.pdf" % UserUtils.build_display_name_for_viewer(

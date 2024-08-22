@@ -121,11 +121,6 @@ urlpatterns = [
         name="shareowner_membership_confirmation",
     ),
     path(
-        "member/<int:pk>/extra_shares_confirmation",
-        views.shareowner_extra_shares_confirmation,
-        name="shareowner_extra_shares_confirmation",
-    ),
-    path(
         "member/<int:pk>/membership_agreement",
         views.shareowner_membership_agreement,
         name="shareowner_membership_agreement",
