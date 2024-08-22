@@ -43,9 +43,10 @@ class TestShareOwnerUpdateView(TapirFactoryTestBase):
             "Member office users should be able to access this page",
         )
         self.assertEqual(
-            "Edit member: Super Coop #2", response.context_data["page_title"]
+            f"Edit member: Super Coop #{share_owner.id}",
+            response.context_data["page_title"],
         )
         self.assertEqual(
-            "Edit member: Super Coop #2",
+            f"Edit member: Super Coop #{share_owner.id}",
             strip_tags(response.context_data["card_title"]),
         )

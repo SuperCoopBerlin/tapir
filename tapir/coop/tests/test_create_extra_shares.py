@@ -40,10 +40,11 @@ class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestBase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            "Add shares to Super Coop #2", response.context_data["page_title"]
+            f"Add shares to Super Coop #{share_owner.id}",
+            response.context_data["page_title"],
         )
         self.assertEqual(
-            "Add shares to Super Coop #2",
+            f"Add shares to Super Coop #{share_owner.id}",
             strip_tags(response.context_data["card_title"]),
         )
 
