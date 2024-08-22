@@ -405,21 +405,6 @@ class ShareOwnerMembershipConfirmationFileView(
         return response
 
 
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def shareowner_membership_agreement(request, pk):
-    share_owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = "Beteiligungserklärung %s.pdf" % UserUtils.build_display_name_for_viewer(
-        share_owner, request.user
-    )
-
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
-    response.write(pdfs.get_membership_agreement_pdf(share_owner).write_pdf())
-    return response
-
-
 class CurrentShareOwnerMixin:
     def get_queryset(self):
         return (
