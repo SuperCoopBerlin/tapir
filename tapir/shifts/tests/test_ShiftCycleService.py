@@ -1,4 +1,8 @@
 import datetime
+from unittest import mock
+from unittest.mock import patch, Mock
+
+from django.core.management import call_command
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
@@ -16,6 +20,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 class TestShiftCycleService(TapirFactoryTestBase):
     FIRST_CYCLE_START_DATE = datetime.date(day=18, month=1, year=2021)
     SECOND_CYCLE_START_DATE = datetime.date(day=15, month=2, year=2021)
+    THIRD_CYCLE_START_DATE = datetime.date(day=15, month=3, year=2021)
 
     def test_applyCycleStart_default_userBalanceIsCorrect(self):
         user = self.get_user_that_joined_before_first_cycle()
@@ -159,3 +164,30 @@ class TestShiftCycleService(TapirFactoryTestBase):
             self.SECOND_CYCLE_START_DATE,
             ShiftCycleService.get_next_cycle_start_date(),
         )
+
+    @patch.object(ShiftCycleService, "apply_cycle_start")
+    def test_applyCyclesFrom_default_appliesExpectedCycles(
+        self, mock_apply_cycle_start: Mock
+    ):
+        start = self.FIRST_CYCLE_START_DATE
+        end = datetime.date(year=2021, month=3, day=15)
+        ShiftCycleService.apply_cycles_from(start, end)
+        self.assertEqual(3, len(mock_apply_cycle_start.mock_calls))
+        mock_apply_cycle_start.assert_has_calls(
+            [
+                mock.call(self.FIRST_CYCLE_START_DATE),
+                mock.call(self.SECOND_CYCLE_START_DATE),
+                mock.call(self.THIRD_CYCLE_START_DATE),
+            ]
+        )
+
+    @patch.object(ShiftCycleService, "get_next_cycle_start_date")
+    @patch.object(ShiftCycleService, "apply_cycles_from")
+    def test_cycleStartCommand_default_doesExpectedCalls(
+        self, mock_apply_cycles_from: Mock, mock_get_next_cycle_start_date: Mock
+    ):
+        next_cycle_start_date = Mock()
+        mock_get_next_cycle_start_date.return_value = next_cycle_start_date
+        call_command("apply_shift_cycle_start")
+        mock_get_next_cycle_start_date.assert_called_once()
+        mock_apply_cycles_from.assert_called_once_with(next_cycle_start_date)
