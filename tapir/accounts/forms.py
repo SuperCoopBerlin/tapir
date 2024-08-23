@@ -95,7 +95,7 @@ class EditUserLdapGroupsForm(forms.Form):
             self.fields[group_cn] = forms.BooleanField(
                 required=False,
                 label=group_cn,
-                initial=user_dn in LdapGroup.objects.get(cn=group_cn).members,
+                initial=user_dn in LdapGroup.get_group_members_dns(cn=group_cn),
             )
 
 

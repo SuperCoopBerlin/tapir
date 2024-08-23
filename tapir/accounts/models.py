@@ -433,6 +433,13 @@ class LdapGroup(ldapdb.models.Model):
     def __unicode__(self):
         return self.cn
 
+    @staticmethod
+    def get_group_members_dns(cn: str):
+        group = LdapGroup.objects.filter(cn=cn).first()
+        if not group:
+            return []
+        return group.members
+
 
 def language_middleware(get_response):
     def middleware(request):

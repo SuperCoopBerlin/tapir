@@ -114,16 +114,16 @@ def generate_tapir_users(json_users):
         elif randomizer % 25 == 1:
             member_office_users.append(tapir_user)
 
-    vorstand_ldap_group = LdapGroup.objects.get(cn="vorstand")
-    vorstand_ldap_group.members.extend(
-        [tapir_user.get_ldap().build_dn() for tapir_user in vorstand_users]
-    )
+    vorstand_ldap_group = LdapGroup(cn="vorstand")
+    vorstand_ldap_group.members = [
+        tapir_user.get_ldap().build_dn() for tapir_user in vorstand_users
+    ]
     vorstand_ldap_group.save()
 
-    member_office_ldap_group = LdapGroup.objects.get(cn="member-office")
-    member_office_ldap_group.members.extend(
-        [tapir_user.get_ldap().build_dn() for tapir_user in member_office_users]
-    )
+    member_office_ldap_group = LdapGroup(cn="member-office")
+    member_office_ldap_group.members = [
+        tapir_user.get_ldap().build_dn() for tapir_user in member_office_users
+    ]
     member_office_ldap_group.save()
 
     return result
@@ -373,6 +373,7 @@ def clear_data():
     print("Clearing data...")
     classes = [
         LdapPerson,
+        LdapGroup,
         LogEntry,
         ShiftAttendance,
         ShiftCycleEntry,
