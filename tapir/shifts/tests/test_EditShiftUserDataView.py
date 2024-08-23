@@ -30,11 +30,11 @@ class TestEditShiftUserDataView(TapirFactoryTestBase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            f"Edit user shift data: Super Coop #{tapir_user.id}",
+            f"Edit user shift data: Super Coop #{tapir_user.get_member_number()}",
             response.context_data["page_title"],
         )
         self.assertEqual(
-            f"Edit user shift data: Super Coop #{tapir_user.id}",
+            f"Edit user shift data: Super Coop #{tapir_user.get_member_number()}",
             strip_tags(response.context_data["card_title"]),
         )
 

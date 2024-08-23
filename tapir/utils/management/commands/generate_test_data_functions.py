@@ -6,7 +6,7 @@ import random
 
 from django.utils import timezone
 
-from tapir.accounts.models import TapirUser, LdapGroup
+from tapir.accounts.models import TapirUser, LdapGroup, LdapPerson
 from tapir.coop.models import (
     ShareOwner,
     ShareOwnership,
@@ -94,7 +94,9 @@ def generate_tapir_users(json_users):
         result.append(tapir_user)
 
     tapir_users = [tapir_user for tapir_user in result if tapir_user is not None]
-    TapirUser.objects.bulk_create(tapir_users)
+    tapir_users = TapirUser.objects.bulk_create(tapir_users)
+    for tapir_user in tapir_users:
+        tapir_user.create_ldap()
 
     for tapir_user in tapir_users:
         tapir_user.set_ldap_password(tapir_user.username)
@@ -370,6 +372,7 @@ def generate_test_applicants():
 def clear_data():
     print("Clearing data...")
     classes = [
+        LdapPerson,
         LogEntry,
         ShiftAttendance,
         ShiftCycleEntry,
