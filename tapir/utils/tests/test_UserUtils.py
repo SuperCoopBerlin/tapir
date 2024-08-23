@@ -1,10 +1,11 @@
+from django.test import SimpleTestCase
+
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.tests.factories import ShareOwnerFactory, DraftUserFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
 from tapir.utils.user_utils import UserUtils
 
 
-class TestUserUtilsBuildDisplayName(TapirFactoryTestBase):
+class TestUserUtilsBuildDisplayName(SimpleTestCase):
     FIRST_NAME = "John"
     USAGE_NAME = "Jane"
     LAST_NAME = "Doe"

@@ -1,10 +1,11 @@
 from unittest.mock import patch, Mock
 
+from django.test import SimpleTestCase
+
 from tapir.core.models import FeatureFlag
-from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
-class TestFeatureFlag(TapirFactoryTestBase):
+class TestFeatureFlag(SimpleTestCase):
     FLAG_NAME = "test_flag_name"
 
     @patch.object(FeatureFlag, "objects")
