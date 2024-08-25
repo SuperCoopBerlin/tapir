@@ -4,3 +4,4 @@ from .exemptions import *
 from .management import *
 from .statistics import *
 from .views import *
+from .solidarity import *
