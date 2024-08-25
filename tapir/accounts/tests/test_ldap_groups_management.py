@@ -44,7 +44,7 @@ class TestLdapGroupsManagement(TapirFactoryTestBase):
         self.assertEqual(403, response.status_code)
 
         member_dn = member_to_add_to_accounting_team.get_ldap().build_dn()
-        self.assertFalse(member_dn in LdapGroup.objects.get(cn="accounting").members)
+        self.assertFalse(member_dn in LdapGroup.get_group_members_dns(cn="accounting"))
 
     def test_vorstand_can_access_group_list_view(self):
         self.login_as_vorstand()

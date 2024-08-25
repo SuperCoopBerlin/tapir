@@ -213,7 +213,10 @@ class EditUserLdapGroupsView(
     def form_valid(self, form):
         user_dn = self.get_tapir_user().get_ldap().build_dn()
         for group_cn in settings.LDAP_GROUPS:
-            group = LdapGroup.objects.get(cn=group_cn)
+            group = LdapGroup.objects.filter(cn=group_cn).first()
+            if not group:
+                group = LdapGroup(cn=group_cn)
+                group.members = []
 
             if form.cleaned_data[group.cn] and user_dn not in group.members:
                 group.members.append(user_dn)
@@ -265,7 +268,7 @@ class LdapGroupListView(
 
         groups_data = {}
         for group_cn in settings.LDAP_GROUPS:
-            ldap_person_dns = LdapGroup.objects.get(cn=group_cn).members
+            ldap_person_dns = LdapGroup.get_group_members_dns(cn=group_cn)
             usernames = [
                 LdapPerson.objects.get(dn=ldap_person_dn).uid
                 for ldap_person_dn in ldap_person_dns
