@@ -15,7 +15,7 @@
         <div class="card mb-2">
             <h5 class="card-header">{% translate "Lists" %}</h5>
             <div class="card-body">
-                {% if perms.coop.admin %}
+                {% if perms.group.manage %}
                     <a class="{% tapir_button_link %}"
                        href="{% url 'accounts:ldap_group_list' %}">
                         <span class="material-icons button-icon">badge</span>{% translate 'Access right groups' %}

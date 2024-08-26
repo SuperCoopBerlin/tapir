@@ -2,6 +2,7 @@ import django.contrib.auth.views as auth_views
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
@@ -36,6 +37,8 @@ from tapir.settings import (
     PERMISSION_ACCOUNTS_MANAGE,
     PERMISSION_ACCOUNTS_VIEW,
     PERMISSION_COOP_ADMIN,
+    PERMISSION_GROUP_MANAGE,
+    GROUP_VORSTAND,
 )
 from tapir.utils.shortcuts import set_header_for_file_download
 from tapir.utils.user_utils import UserUtils
@@ -201,8 +204,7 @@ class EditUserLdapGroupsView(
     generic.FormView,
 ):
     form_class = EditUserLdapGroupsForm
-
-    permission_required = PERMISSION_COOP_ADMIN
+    permission_required = PERMISSION_GROUP_MANAGE
 
     def get_tapir_user(self) -> TapirUser:
         return get_object_or_404(TapirUser, pk=self.kwargs["pk"])
@@ -219,20 +221,37 @@ class EditUserLdapGroupsView(
                 group.members = []
 
             if form.cleaned_data[group.cn] and user_dn not in group.members:
+                self.raise_permission_error_if_necessary(group_cn)
                 group.members.append(user_dn)
-                group.save()
 
             if not form.cleaned_data[group.cn] and user_dn in group.members:
+                self.raise_permission_error_if_necessary(group_cn)
                 group.members.remove(user_dn)
+
+            if group.members:
                 group.save()
+                continue
+
+            if group.dn:
+                group.delete()
 
         return super().form_valid(form)
+
+    def raise_permission_error_if_necessary(self, group_cn):
+        if group_cn != GROUP_VORSTAND:
+            return
+
+        if not self.request.user.has_perm(PERMISSION_COOP_ADMIN):
+            raise PermissionDenied(
+                "Only members of the Vorstand can add or remove someone to the vorstand group."
+            )
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs.update(
             {
                 "tapir_user": self.get_tapir_user(),
+                "request_user": self.request.user,
             }
         )
         return kwargs
@@ -255,7 +274,7 @@ class EditUserLdapGroupsView(
 class LdapGroupListView(
     LoginRequiredMixin, PermissionRequiredMixin, generic.TemplateView
 ):
-    permission_required = PERMISSION_COOP_ADMIN
+    permission_required = PERMISSION_GROUP_MANAGE
 
     def get_template_names(self):
         return [

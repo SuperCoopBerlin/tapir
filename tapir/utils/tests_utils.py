@@ -193,6 +193,11 @@ class TapirFactoryTestBase(LdapEnabledTestCase):
         self.login_as_user(user)
         return user
 
+    def login_as_employee(self) -> TapirUser:
+        user = TapirUserFactory.create(is_employee=True)
+        self.login_as_user(user)
+        return user
+
 
 class TapirEmailTestBase(TestCase):
     def assertEmailOfClass_GotSentTo(
