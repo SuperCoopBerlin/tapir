@@ -9,8 +9,8 @@
         <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
             {% if perms.shifts.manage and user.shift_user_data %}
                 <a class="{% tapir_button_link_to_action %}"
-                id="edit_shift_user_data_button"
-                href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
+                   id="edit_shift_user_data_button"
+                   href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
                     <span class="material-icons button-icon">edit</span>{% translate 'Edit' %}
                 </a>
             {% endif %}
@@ -154,7 +154,10 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="submitGiveSolidarityModalLabel">Give Solidarity Shift</h1>
+                                        <h1 class="modal-title fs-5" id="submitGiveSolidarityModalLabel">
+                                            Give Solidarity
+                                            Shift
+                                        </h1>
                                         <button type="button"
                                                 class="btn-close"
                                                 data-bs-dismiss="modal"
@@ -184,20 +187,39 @@
                     {% get_used_solidarity_shifts_current_year user.shift_user_data as used_solidarity_shifts_current_year %}
                     {% if used_solidarity_shifts_current_year >= 2 %}
                         {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
-                            <p>You already used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
+                            <p>You already used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts
+                                this year</p>
                         {% endblocktranslate %}
                     {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
                         {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
-                            <p>There are Solidarity Shifts available for you to use. You used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
+                            <p>There are Solidarity Shifts available for you to use. You
+                                used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
                         {% endblocktranslate %}
                     {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance <= 0 %}
                         {% blocktranslate %}
-                            <p data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Solidarity Shifts can only be received while having a negative balance">You cannot receive a Solidarity Shift at the moment</p>
+                            <p data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Solidarity Shifts can only be received while having a negative balance">
+                                You cannot receive a Solidarity Shift at the moment</p>
                         {% endblocktranslate %}
                     {% elif not user.shift_user_data.get_available_solidarity_shifts %}
                         {% blocktranslate %}
                             <p>There are no Solidarity Shifts available at the moment</p>
                         {% endblocktranslate %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row m-1">
+                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Shift partner" %}:</div>
+                <div class="col-12 col-sm-8 d-flex">
+                    {% if user.shift_user_data.shift_partner %}
+                        <span>{% get_display_name_for_viewer user.shift_user_data.shift_partner.user request.user %}</span>
+                    {% else %}
+                        {% blocktranslate asvar tooltip %}
+                            You can email the member office to ask for a shift partner to be registered. <br />
+                            See member manual section III.F.6
+                        {% endblocktranslate %}
+                        <span data-bs-toggle="tooltip" data-bs-html="true" title="{{ tooltip }}">
+                            {% translate "None" context "No shift partner" %}
+                        </span>
                     {% endif %}
                 </div>
             </div>

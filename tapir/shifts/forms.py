@@ -222,6 +222,7 @@ class ShiftUserDataForm(forms.ModelForm):
         widget=CheckboxSelectMultiple,
         label=_("Qualifications"),
     )
+    shift_partner = TapirUserChoiceField(required=False)
 
     def clean(self):
         result = super().clean()

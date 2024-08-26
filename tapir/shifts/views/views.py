@@ -83,12 +83,19 @@ class EditShiftUserDataView(
     model = ShiftUserData
     form_class = ShiftUserDataForm
 
+    def get_initial(self):
+        return {"shift_partner": self.get_object().shift_partner.user}
+
     def get_success_url(self):
         return self.object.user.get_absolute_url()
 
     @transaction.atomic
     def form_valid(self, form):
         response = super().form_valid(form)
+
+        tapir_user = form.cleaned_data["shift_partner"]
+        form.instance.shift_partner = tapir_user.shift_user_data if tapir_user else None
+        form.instance.save()
 
         new_frozen = freeze_for_log(form.instance)
         if self.old_object_frozen != new_frozen:
