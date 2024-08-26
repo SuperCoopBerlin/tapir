@@ -20,6 +20,10 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 class TestEditShiftUserDataView(TapirFactoryTestBase):
     VIEW_NAME = "shifts:edit_shift_user_data"
+    NOW = datetime.datetime(year=2021, month=3, day=15)
+
+    def setUp(self) -> None:
+        mock_timezone_now(self, self.NOW)
 
     def test_editShiftUserDataView_loggedInAsNormalUser_notAuthorized(self):
         tapir_user = self.login_as_normal_user()
@@ -85,8 +89,7 @@ class TestEditShiftUserDataView(TapirFactoryTestBase):
 
         url = reverse(self.VIEW_NAME, args=[tapir_user.shift_user_data.id])
         response = self.client.post(
-            url,
-            data={"attendance_mode": ShiftAttendanceMode.FLYING},
+            url, data={"attendance_mode": ShiftAttendanceMode.FLYING}, follow=True
         )
         self.assertEqual(200, response.status_code)
 
@@ -144,11 +147,10 @@ class TestEditShiftUserDataView(TapirFactoryTestBase):
             user=tapir_user, slot_template=slot_template
         )
 
-        now = datetime.datetime(year=2021, month=3, day=15)
-        mock_timezone_now(self, now)
-
-        past_shift = shift_template.create_shift(now - datetime.timedelta(days=30))
-        future_shift = shift_template.create_shift(now + datetime.timedelta(days=30))
+        past_shift = shift_template.create_shift(self.NOW - datetime.timedelta(days=30))
+        future_shift = shift_template.create_shift(
+            self.NOW + datetime.timedelta(days=30)
+        )
         for slot in ShiftSlot.objects.all():
             slot.update_attendance_from_template()
 
