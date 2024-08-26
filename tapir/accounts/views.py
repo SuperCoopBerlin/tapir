@@ -220,11 +220,16 @@ class EditUserLdapGroupsView(
 
             if form.cleaned_data[group.cn] and user_dn not in group.members:
                 group.members.append(user_dn)
-                group.save()
 
             if not form.cleaned_data[group.cn] and user_dn in group.members:
                 group.members.remove(user_dn)
+
+            if group.members:
                 group.save()
+                continue
+
+            if group.dn:
+                group.delete()
 
         return super().form_valid(form)
 
