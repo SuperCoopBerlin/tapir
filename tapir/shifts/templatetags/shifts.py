@@ -122,7 +122,7 @@ def get_html_classes_for_filtering(shift: Shift) -> set:
                 valid_attendance = a
                 break
 
-        if valid_attendance:
+        if valid_attendance and valid_attendance.state == ShiftAttendance.State.PENDING:
             num_valid_attendances += 1
 
         if (
