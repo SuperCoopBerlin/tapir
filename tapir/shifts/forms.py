@@ -20,6 +20,7 @@ from tapir.shifts.models import (
     ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
     ShiftTemplate,
+    ShiftAttendanceMode,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -204,6 +205,17 @@ class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
 
 
 class ShiftUserDataForm(forms.ModelForm):
+    class Meta:
+        model = ShiftUserData
+        fields = ["attendance_mode", "capabilities"]
+
+    confirm_delete_abcd_attendance = BooleanField(
+        label=_(
+            "I am aware that the member will be unregistered from their ABCD shift"
+        ),
+        required=False,
+        widget=HiddenInput,
+    )
     capabilities = forms.MultipleChoiceField(
         required=False,
         choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
@@ -211,9 +223,28 @@ class ShiftUserDataForm(forms.ModelForm):
         label=_("Qualifications"),
     )
 
-    class Meta:
-        model = ShiftUserData
-        fields = ["attendance_mode", "capabilities"]
+    def clean(self):
+        result = super().clean()
+        if self.cleaned_data["attendance_mode"] == ShiftAttendanceMode.REGULAR:
+            return result
+
+        confirmation_checkbox_not_ticked = (
+            "confirm_delete_abcd_attendance" in self.cleaned_data
+            and not self.cleaned_data["confirm_delete_abcd_attendance"]
+        )
+        user_is_registered_to_an_abcd_shift = ShiftAttendanceTemplate.objects.filter(
+            user=self.instance.user
+        ).exists()
+        if user_is_registered_to_an_abcd_shift and confirmation_checkbox_not_ticked:
+            error_msg = _(
+                "This member is registered to at least one ABCD shift. "
+                "Please confirm the change of attendance mode with the checkbox below."
+            )
+            self.add_error("attendance_mode", error_msg)
+            self.fields["confirm_delete_abcd_attendance"].widget = forms.CheckboxInput()
+            self.fields["confirm_delete_abcd_attendance"].required = True
+
+        return result
 
 
 class CreateShiftAccountEntryForm(forms.ModelForm):
