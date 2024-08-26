@@ -84,7 +84,14 @@ class EditShiftUserDataView(
     form_class = ShiftUserDataForm
 
     def get_initial(self):
-        return {"shift_partner": self.get_object().shift_partner.user}
+        shift_user_data: ShiftUserData = self.get_object()
+        return {
+            "shift_partner": (
+                shift_user_data.shift_partner.user
+                if shift_user_data.shift_partner
+                else None
+            )
+        }
 
     def get_success_url(self):
         return self.object.user.get_absolute_url()
