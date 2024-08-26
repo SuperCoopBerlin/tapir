@@ -252,6 +252,7 @@ PERMISSION_ACCOUNTS_MANAGE = "accounts.manage"
 PERMISSION_WELCOMEDESK_VIEW = "welcomedesk.view"
 PERMISSION_ACCOUNTING_VIEW = "accounting.view"
 PERMISSION_ACCOUNTING_MANAGE = "accounting.manage"
+PERMISSION_GROUP_MANAGE = "group.manage"
 
 # Groups are stored in the LDAP tree
 GROUP_VORSTAND = "vorstand"
@@ -269,6 +270,7 @@ LDAP_GROUPS = [
     GROUP_WELCOME_DESK,
     GROUP_EMPLOYEES,
 ]
+
 
 PERMISSIONS = {
     PERMISSION_SHIFTS_MANAGE: [
@@ -321,8 +323,8 @@ PERMISSIONS = {
         GROUP_VORSTAND,
         GROUP_ACCOUNTING,
     ],
+    PERMISSION_GROUP_MANAGE: [GROUP_VORSTAND, GROUP_EMPLOYEES],
 }
-
 # Permissions granted to client presenting a given SSL client cert. Currently used for the welcome desk machines.
 LDAP_WELCOME_DESK_ID = "CN=welcome-desk.members.supercoop.de,O=SuperCoop Berlin eG,C=DE"
 CLIENT_PERMISSIONS = {
