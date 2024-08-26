@@ -938,7 +938,7 @@ class ShiftUserData(models.Model):
 
     def get_upcoming_shift_attendances(self):
         return self.user.shift_attendances.filter(
-            slot__shift__start_time__gt=timezone.localtime()
+            slot__shift__start_time__gt=timezone.now()
         ).with_valid_state()
 
     def get_account_balance(self, at_date: datetime.datetime | None = None):

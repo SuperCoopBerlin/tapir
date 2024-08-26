@@ -79,7 +79,6 @@ class ShiftCycleService:
 
         if not first_shift:
             return None
-
         return get_monday(first_shift.start_time.date())
 
     @staticmethod

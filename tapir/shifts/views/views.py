@@ -42,6 +42,8 @@ from tapir.shifts.models import (
     ShiftAttendance,
     SHIFT_ATTENDANCE_STATES,
     ShiftTemplate,
+    ShiftAttendanceMode,
+    ShiftAttendanceTemplate,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -84,20 +86,27 @@ class EditShiftUserDataView(
     def get_success_url(self):
         return self.object.user.get_absolute_url()
 
+    @transaction.atomic
     def form_valid(self, form):
-        with transaction.atomic():
-            response = super().form_valid(form)
+        response = super().form_valid(form)
 
-            new_frozen = freeze_for_log(form.instance)
-            if self.old_object_frozen != new_frozen:
-                UpdateShiftUserDataLogEntry().populate(
-                    old_frozen=self.old_object_frozen,
-                    new_frozen=new_frozen,
-                    tapir_user=self.object.user,
-                    actor=self.request.user,
-                ).save()
+        new_frozen = freeze_for_log(form.instance)
+        if self.old_object_frozen != new_frozen:
+            UpdateShiftUserDataLogEntry().populate(
+                old_frozen=self.old_object_frozen,
+                new_frozen=new_frozen,
+                tapir_user=self.object.user,
+                actor=self.request.user,
+            ).save()
 
-            return response
+        if form.instance.attendance_mode != ShiftAttendanceMode.REGULAR:
+            for attendance_template in ShiftAttendanceTemplate.objects.filter(
+                user=self.object.user
+            ):
+                attendance_template.cancel_attendances(timezone.now())
+                attendance_template.delete()
+
+        return response
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data()

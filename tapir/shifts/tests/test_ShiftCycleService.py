@@ -137,7 +137,7 @@ class TestShiftCycleService(TapirFactoryTestBase):
     def test_getNextCycleStartDate_noPreexistingShiftCycleEntry_returnsMondayOfFirstShift(
         self,
     ):
-        shift_template: ShiftTemplate = ShiftTemplateFactory.create()
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create(weekday=4)
         shift_template.create_shift(
             datetime.date(year=2024, month=8, day=15)
         )  # This is a Thursday
