@@ -21,7 +21,39 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 from tapir.utils.user_utils import UserUtils
 
 
-class TestShareOwnerList(TapirFactoryTestBase):
+class ShareOwnerFilterTestBase(TapirFactoryTestBase):
+    def visit_view(
+        self, params: dict, must_be_in: list[ShareOwner], must_be_out: list[ShareOwner]
+    ):
+        self.login_as_member_office_user()
+
+        query_dictionary = QueryDict("", mutable=True)
+        query_dictionary.update(params)
+        url = "{base_url}?{querystring}".format(
+            base_url=reverse("coop:shareowner_list"),
+            querystring=query_dictionary.urlencode(),
+        )
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+        for share_owner in must_be_in:
+            self.assertIn(
+                share_owner,
+                response.context["table"].rows.data,
+                f"{UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} "
+                f"should show up in the list filtered by {query_dictionary.urlencode()}.",
+            )
+        for share_owner in must_be_out:
+            self.assertNotIn(
+                share_owner,
+                response.context["table"].rows.data,
+                f"{UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} "
+                f"should not show up in the list filtered by {query_dictionary.urlencode()}.",
+            )
+        return response
+
+
+class TestShareOwnerList(ShareOwnerFilterTestBase):
     def test_requires_permissions(self):
         self.login_as_normal_user()
 
@@ -285,31 +317,3 @@ class TestShareOwnerList(TapirFactoryTestBase):
             must_be_in=owners_who_attended,
             must_be_out=owners_who_did_not_attend,
         )
-
-    def visit_view(
-        self, params: dict, must_be_in: list[ShareOwner], must_be_out: list[ShareOwner]
-    ):
-        self.login_as_member_office_user()
-
-        query_dictionary = QueryDict("", mutable=True)
-        query_dictionary.update(params)
-        url = "{base_url}?{querystring}".format(
-            base_url=reverse("coop:shareowner_list"),
-            querystring=query_dictionary.urlencode(),
-        )
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, 200)
-
-        for share_owner in must_be_in:
-            self.assertIn(
-                share_owner,
-                response.context["table"].rows.data,
-                f"{UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} should show up in the list filtered by {query_dictionary.urlencode()}.",
-            )
-        for share_owner in must_be_out:
-            self.assertNotIn(
-                share_owner,
-                response.context["table"].rows.data,
-                f"{UserUtils.build_display_name(share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL)} should not show up in the list filtered by {query_dictionary.urlencode()}.",
-            )
-        return response
