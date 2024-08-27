@@ -926,7 +926,7 @@ class ShiftUserData(models.Model):
         default=ShiftAttendanceMode.REGULAR,
         blank=False,
     )
-    shift_partner = models.ForeignKey(
+    shift_partner = models.OneToOneField(
         "self",
         on_delete=models.SET_NULL,
         null=True,

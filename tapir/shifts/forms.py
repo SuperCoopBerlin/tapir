@@ -234,7 +234,7 @@ class ShiftUserDataForm(forms.ModelForm):
             self.fields["shift_partner"].widget = HiddenInput()
             return
 
-        shift_partner_of: ShiftUserData | None = self.instance.shift_partner_of.first()
+        shift_partner_of: ShiftUserData | None = self.instance.shift_partner_of
         if not shift_partner_of:
             return
 
@@ -257,7 +257,7 @@ class ShiftUserDataForm(forms.ModelForm):
             return shift_partner
 
         partner_is_partner_of: ShiftUserData | None = (
-            shift_partner.shift_user_data.shift_partner_of.first()
+            shift_partner.shift_user_data.shift_partner_of
         )
         if not partner_is_partner_of or partner_is_partner_of == self.instance:
             return shift_partner
