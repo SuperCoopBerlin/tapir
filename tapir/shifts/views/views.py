@@ -93,6 +93,11 @@ class EditShiftUserDataView(
             )
         }
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"request_user": self.request.user})
+        return kwargs
+
     def get_success_url(self):
         return self.object.user.get_absolute_url()
 

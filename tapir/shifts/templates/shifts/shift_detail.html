@@ -99,7 +99,8 @@
                                             <span class="shift-centered-content">
                                                 <span class="shift-user">{% get_html_link_or_just_name attendance.user request.user %}</span>
                                                 {% if attendance.user.pronouns %}<span>({{ attendance.user.pronouns }})</span>{% endif %}
-                                                {% if attendance.user.shift_user_data.shift_partner %}
+                                                {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
+                                                {% if shift_partner_enabled and attendance.user.shift_user_data.shift_partner %}
                                                     <span>({% translate "Shift partner: " %}{% get_html_link_or_just_name attendance.user.shift_user_data.shift_partner.user request.user %})</span>
                                                 {% endif %}
                                             </span>

@@ -207,22 +207,27 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="row m-1">
-                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Shift partner" %}:</div>
-                <div class="col-12 col-sm-8 d-flex">
-                    {% if user.shift_user_data.shift_partner %}
-                        <span>{% get_display_name_for_viewer user.shift_user_data.shift_partner.user request.user %}</span>
-                    {% else %}
-                        {% blocktranslate asvar tooltip %}
-                            You can email the member office to ask for a shift partner to be registered. <br />
-                            See member manual section III.F.6
-                        {% endblocktranslate %}
-                        <span data-bs-toggle="tooltip" data-bs-html="true" title="{{ tooltip }}">
-                            {% translate "None" context "No shift partner" %}
-                        </span>
-                    {% endif %}
+            {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
+            {% if shift_partner_enabled %}
+                <div class="row m-1">
+                    <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Shift partner" %}:</div>
+                    <div class="col-12 col-sm-8 d-flex">
+                        {% if user.shift_user_data.shift_partner_of.first %}
+                            <span>{% get_display_name_for_viewer user.shift_user_data.shift_partner_of.first.user request.user %}</span>
+                        {% elif user.shift_user_data.shift_partner %}
+                            <span>{% get_display_name_for_viewer user.shift_user_data.shift_partner.user request.user %}</span>
+                        {% else %}
+                            {% blocktranslate asvar tooltip %}
+                                You can email the member office to ask for a shift partner to be registered. <br />
+                                See member manual section III.F.6
+                            {% endblocktranslate %}
+                            <span data-bs-toggle="tooltip" data-bs-html="true" title="{{ tooltip }}">
+                                {% translate "None" context "No shift partner" %}
+                            </span>
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         {% endif %}
     </div>
 </div>
