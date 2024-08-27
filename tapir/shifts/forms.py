@@ -7,7 +7,9 @@ from django_select2.forms import Select2Widget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
+from tapir.core.models import FeatureFlag
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
+from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
 from tapir.shifts.models import (
     Shift,
     ShiftAttendanceTemplate,
@@ -222,10 +224,81 @@ class ShiftUserDataForm(forms.ModelForm):
         widget=CheckboxSelectMultiple,
         label=_("Qualifications"),
     )
+    shift_partner = TapirUserChoiceField(required=False)
+
+    def __init__(self, **kwargs):
+        self.request_user = kwargs.pop("request_user", None)
+        super().__init__(**kwargs)
+        if not FeatureFlag.get_flag_value(FEATURE_FLAG_SHIFT_PARTNER):
+            self.fields["shift_partner"].disabled = True
+            self.fields["shift_partner"].widget = HiddenInput()
+            return
+
+        shift_partner_of: ShiftUserData | None = getattr(
+            self.instance, "shift_partner_of", None
+        )
+        if not shift_partner_of:
+            return
+
+        self.fields["shift_partner"].disabled = True
+        own_name = UserUtils.build_display_name_for_viewer(
+            self.instance.user,
+            self.request_user,
+        )
+        partner_of_name = UserUtils.build_display_name_for_viewer(
+            shift_partner_of.user,
+            self.request_user,
+        )
+        self.fields["shift_partner"].help_text = _(
+            f"{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
+        )
+
+    def clean_shift_partner(self):
+        shift_partner: TapirUser | None = self.cleaned_data.get("shift_partner", None)
+        if not shift_partner:
+            return shift_partner
+
+        partner_of_partner = getattr(
+            shift_partner.shift_user_data, "shift_partner", None
+        )
+        if partner_of_partner:
+            target_partner_name = UserUtils.build_display_name_for_viewer(
+                shift_partner, self.request_user
+            )
+            partner_of_partner_name = UserUtils.build_display_name_for_viewer(
+                partner_of_partner.user,
+                self.request_user,
+            )
+            self.add_error(
+                "shift_partner",
+                f"{target_partner_name} is already the partner of {partner_of_partner_name}",
+            )
+            return shift_partner
+
+        partner_is_partner_of: ShiftUserData | None = getattr(
+            shift_partner.shift_user_data, "shift_partner_of", None
+        )
+        if not partner_is_partner_of or partner_is_partner_of == self.instance:
+            return shift_partner
+
+        partner_name = UserUtils.build_display_name_for_viewer(
+            shift_partner, self.request_user
+        )
+        partner_of_name = UserUtils.build_display_name_for_viewer(
+            partner_is_partner_of.user,
+            self.request_user,
+        )
+        self.add_error(
+            "shift_partner",
+            f"{partner_name} is already the partner of {partner_of_name}",
+        )
+        return shift_partner
 
     def clean(self):
         result = super().clean()
-        if self.cleaned_data["attendance_mode"] == ShiftAttendanceMode.REGULAR:
+
+        attendance_mode = self.cleaned_data.get("attendance_mode", None)
+        if attendance_mode is None or attendance_mode == ShiftAttendanceMode.REGULAR:
             return result
 
         confirmation_checkbox_not_ticked = (

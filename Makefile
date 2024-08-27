@@ -5,4 +5,4 @@ test-lint:
 	poetry run black --check .
 
 test:
-	poetry run pytest --cov-report xml:coverage.xml
+	poetry run pytest --cov-report xml:coverage.xml --cov=tapir

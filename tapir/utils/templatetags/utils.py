@@ -39,6 +39,16 @@ def get_html_link(person, request_user: TapirUser):
 
 
 @register.simple_tag
+def get_html_link_or_just_name(person, request_user: TapirUser):
+    if (
+        UserUtils.should_viewer_see_short_or_long_display_type(request_user)
+        == UserUtils.DISPLAY_NAME_TYPE_FULL
+    ):
+        return UserUtils.build_html_link_for_viewer(person, request_user)
+    return UserUtils.build_display_name_for_viewer(person, request_user)
+
+
+@register.simple_tag
 def disabled_if_user_cant_receive_solidarity(user):
     if (
         user.shift_user_data.get_available_solidarity_shifts()

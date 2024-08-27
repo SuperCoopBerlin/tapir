@@ -908,14 +908,12 @@ class ShiftUserData(models.Model):
     user = models.OneToOneField(
         TapirUser, null=False, on_delete=models.CASCADE, related_name="shift_user_data"
     )
-
     capabilities = ArrayField(
         models.CharField(
             max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
         ),
         default=list,
     )
-
     SHIFT_ATTENDANCE_MODE_CHOICES = [
         (ShiftAttendanceMode.REGULAR, _("🏠 ABCD")),
         (ShiftAttendanceMode.FLYING, _("✈ Flying")),
@@ -927,6 +925,13 @@ class ShiftUserData(models.Model):
         choices=SHIFT_ATTENDANCE_MODE_CHOICES,
         default=ShiftAttendanceMode.REGULAR,
         blank=False,
+    )
+    shift_partner = models.OneToOneField(
+        "self",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        related_name="shift_partner_of",
     )
 
     objects = ShiftUserDataQuerySet.as_manager()

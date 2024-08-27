@@ -637,6 +637,12 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="shift_slot_filter",
         label=_("Shift Name"),
     )
+    has_shift_partner = BooleanFilter(
+        method="has_shift_partner_filter", label="Has a shift partner"
+    )
+    is_shift_partner_of = BooleanFilter(
+        method="is_shift_partner_of_filter", label="Is the shift partner of someone"
+    )
 
     @staticmethod
     def shift_slot_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
@@ -743,6 +749,20 @@ class ShareOwnerFilter(django_filters.FilterSet):
         if not value:
             exemption_filter = ~exemption_filter
         return queryset.filter(exemption_filter).distinct()
+
+    @staticmethod
+    def has_shift_partner_filter(
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+    ):
+        return queryset.filter(user__shift_user_data__shift_partner__isnull=not value)
+
+    @staticmethod
+    def is_shift_partner_of_filter(
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+    ):
+        return queryset.filter(
+            user__shift_user_data__shift_partner_of__isnull=not value
+        )
 
 
 class ShareOwnerListView(
