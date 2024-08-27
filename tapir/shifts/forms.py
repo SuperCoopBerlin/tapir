@@ -234,7 +234,9 @@ class ShiftUserDataForm(forms.ModelForm):
             self.fields["shift_partner"].widget = HiddenInput()
             return
 
-        shift_partner_of: ShiftUserData | None = self.instance.shift_partner_of
+        shift_partner_of: ShiftUserData | None = getattr(
+            self.instance, "shift_partner_of", None
+        )
         if not shift_partner_of:
             return
 
@@ -256,8 +258,25 @@ class ShiftUserDataForm(forms.ModelForm):
         if not shift_partner:
             return shift_partner
 
-        partner_is_partner_of: ShiftUserData | None = (
-            shift_partner.shift_user_data.shift_partner_of
+        partner_of_partner = getattr(
+            shift_partner.shift_user_data, "shift_partner", None
+        )
+        if partner_of_partner:
+            target_partner_name = UserUtils.build_display_name_for_viewer(
+                shift_partner, self.request_user
+            )
+            partner_of_partner_name = UserUtils.build_display_name_for_viewer(
+                partner_of_partner.user,
+                self.request_user,
+            )
+            self.add_error(
+                "shift_partner",
+                f"{target_partner_name} is already the partner of {partner_of_partner_name}",
+            )
+            return shift_partner
+
+        partner_is_partner_of: ShiftUserData | None = getattr(
+            shift_partner.shift_user_data, "shift_partner_of", None
         )
         if not partner_is_partner_of or partner_is_partner_of == self.instance:
             return shift_partner
@@ -277,7 +296,9 @@ class ShiftUserDataForm(forms.ModelForm):
 
     def clean(self):
         result = super().clean()
-        if self.cleaned_data["attendance_mode"] == ShiftAttendanceMode.REGULAR:
+
+        attendance_mode = self.cleaned_data.get("attendance_mode", None)
+        if attendance_mode is None or attendance_mode == ShiftAttendanceMode.REGULAR:
             return result
 
         confirmation_checkbox_not_ticked = (
