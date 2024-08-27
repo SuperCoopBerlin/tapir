@@ -213,9 +213,9 @@
                     <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Shift partner" %}:</div>
                     <div class="col-12 col-sm-8 d-flex">
                         {% if user.shift_user_data.shift_partner_of %}
-                            <span>{% get_display_name_for_viewer user.shift_user_data.shift_partner_of.user request.user %}</span>
+                            <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner_of.user request.user %}</span>
                         {% elif user.shift_user_data.shift_partner %}
-                            <span>{% get_display_name_for_viewer user.shift_user_data.shift_partner.user request.user %}</span>
+                            <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner.user request.user %}</span>
                         {% else %}
                             {% blocktranslate asvar tooltip %}
                                 You can email the member office to ask for a shift partner to be registered. <br />

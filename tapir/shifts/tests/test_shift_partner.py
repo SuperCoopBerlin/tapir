@@ -123,3 +123,22 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.assertEqual(
             member_2.shift_user_data, member_1.shift_user_data.shift_partner
         )
+
+    def test_EditShiftUserDataView_memberAlreadyHasAPartner_initialValueOfFieldIsSet(
+        self,
+    ):
+        self.login_as_member_office_user()
+        member_1 = TapirUserFactory.create()
+        member_2 = TapirUserFactory.create()
+        member_1.shift_user_data.shift_partner = member_2.shift_user_data
+        member_1.shift_user_data.save()
+
+        response: TemplateResponse = self.client.get(
+            reverse("shifts:edit_shift_user_data", args=[member_1.shift_user_data.id])
+        )
+        self.assertEqual(200, response.status_code)
+
+        self.assertEqual(
+            member_2.id,
+            response.context_data["form"].initial["shift_partner"],
+        )

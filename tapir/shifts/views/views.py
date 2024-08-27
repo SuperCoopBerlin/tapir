@@ -87,7 +87,7 @@ class EditShiftUserDataView(
         shift_user_data: ShiftUserData = self.get_object()
         return {
             "shift_partner": (
-                shift_user_data.shift_partner.user
+                shift_user_data.shift_partner.user.id
                 if shift_user_data.shift_partner
                 else None
             )
