@@ -5,7 +5,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ImproperlyConfigured
 from django.db import models, transaction
 from django.db.models import Sum, Q
 from django.db.models.signals import pre_save
@@ -65,7 +65,8 @@ SHIFT_SLOT_WARNING_CHOICES = {
         "I understand that all working groups help the Reinigung & Aufräumen working group after the shop closes."
     ),
     ShiftSlotWarning.BREAD_PICKUP_NEEDS_A_VEHICLE: _(
-        "I understand that I need my own vehicle in order to pick up the bread. A cargo bike can be borrowed, more infos in Slack in the #cargobike channel"
+        "I understand that I need my own vehicle in order to pick up the bread. A cargo bike can be borrowed, "
+        "more infos in Slack in the #cargobike channel"
     ),
     ShiftSlotWarning.MUST_BE_ABLE_TO_CARRY_HEAVY_WEIGHTS: _(
         "I understand that I may need to carry heavy weights for this shift."
@@ -152,7 +153,7 @@ WEEKDAY_CHOICES = [
 class ShiftTemplate(models.Model):
     """ShiftTemplate represents a (usually recurring) shift that may be instantiated as a concrete Shift.
 
-    Usually, a ShiftTemplate will be part of a ShiftTemplateGroup, such as "Week A". ShiftTemlates has an associated
+    Usually, a ShiftTemplate will be part of a ShiftTemplateGroup, such as "Week A". ShiftTemplates has an associated
     weekday. So "Week A" may have a ShiftTemplate for Tuesday 9:00 - 12:00. When instantiating the ShiftTemplateGroup,
     a Shift will be created on Tuesday of the selected week.
 
@@ -291,28 +292,38 @@ class ShiftTemplate(models.Model):
     def clean(self):
         if self.start_time >= self.end_time:
             raise ValidationError(
-                f"The shift must end after it starts. Given start time: {self.start_time}. Given end time: {self.end_time}"
+                f"The shift must end after it starts. Given start time: {self.start_time}. "
+                f"Given end time: {self.end_time}"
             )
 
 
 class RequiredCapabilitiesMixin:
+    def ensure_required_capabilities(self):
+        if not hasattr(self, "required_capabilities"):
+            raise ImproperlyConfigured(
+                f"{self} is missing attribute required_capabilities"
+            )
+        return getattr(self, "required_capabilities")
+
     # Théo 23.12.22 the required_capabilities field could be moved to this class, but we'd need to migrate
     # the data from ShiftSlot and ShiftSlotTemplate to it first
     def get_required_capabilities_display(self):
+        required_capabilities = self.ensure_required_capabilities()
         return ", ".join(
             [
                 str(SHIFT_USER_CAPABILITY_CHOICES[capability])
-                for capability in self.required_capabilities
+                for capability in required_capabilities
             ]
         )
 
     def get_required_capabilities_dict(self):
         """
-        returns required capabilites as dictionary with corresponding translatiom
+        returns required capabilities as dictionary with corresponding translation
         """
+        required_capabilities = self.ensure_required_capabilities()
         return {
             capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
-            for capability in self.required_capabilities
+            for capability in required_capabilities
         }
 
 
@@ -831,7 +842,10 @@ class ShiftAttendance(models.Model):
 
         is_solidarity_str = "Solidarity" if self.is_solidarity else ""
 
-        description = f"{is_solidarity_str} Shift {SHIFT_ATTENDANCE_STATES[self.state]} {self.slot.get_display_name()} {entry_description}"
+        description = (
+            f"{is_solidarity_str} Shift {SHIFT_ATTENDANCE_STATES[self.state]} "
+            f"{self.slot.get_display_name()} {entry_description}"
+        )
 
         entry = ShiftAccountEntry.objects.create(
             user=self.user,
@@ -964,7 +978,8 @@ class ShiftUserData(models.Model):
     def is_balance_positive(self):
         return self.get_account_balance() > 0
 
-    def get_available_solidarity_shifts(self):
+    @staticmethod
+    def get_available_solidarity_shifts():
         return SolidarityShift.objects.filter(is_used_up=False).count()
 
     def get_used_solidarity_shifts_current_year(self):

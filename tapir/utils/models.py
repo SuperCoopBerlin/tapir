@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import datetime
 from collections import namedtuple
 
 from django.core.exceptions import ValidationError
@@ -272,7 +271,7 @@ class CountryField(models.CharField):
 
 
 class DurationModelMixinQuerySet(models.QuerySet):
-    ## Filter all objects that overlap with the given object.
+    # Filter all objects that overlap with the given object.
     #
     # @param obj the object that the filtered objects should overlap with
     # @return all objects that overlap with the given object but not the given object itself
@@ -292,9 +291,9 @@ class DurationModelMixinQuerySet(models.QuerySet):
                 # and end after `obj` begins
                 (Q(end_date__gte=obj.start_date) | Q(end_date__isnull=True))
             )
-        ).exclude(id=(obj.id if hasattr(obj, "id") else None))
+        ).exclude(id=getattr(obj, "id", None))
 
-    ## Filter all objects that are active on a given date.
+    # Filter all objects that are active on a given date.
     # @param effective_date The date that the objects returned should all be active on.
     def active_temporal(self, effective_date=None) -> DurationModelMixinQuerySet:
         if not effective_date:
@@ -308,7 +307,7 @@ class DurationModelMixinQuerySet(models.QuerySet):
         )
 
 
-## Mixin to represent a model that is active inbetween two dates
+# Mixin to represent a model that is active inbetween two dates
 class DurationModelMixin(models.Model):
     start_date = models.DateField(db_index=True)
     end_date = models.DateField(null=True, blank=True, db_index=True)
@@ -319,7 +318,7 @@ class DurationModelMixin(models.Model):
         ordering = ["-start_date"]
         abstract = True
 
-    ## Return True if the model is currently active, else False
+    # Return True if the model is currently active, else False
     def is_active(self, effective_date=None) -> bool:
         if not effective_date:
             # if no effective date was given, use today as the default
@@ -337,8 +336,8 @@ class DurationModelMixin(models.Model):
         # end date is in the past, the model is not active anymore
         return False
 
-    ## Return True if the model overlaps with the given model, else false
-    ## @param `other` the model to check overlap with
+    # Return True if the model overlaps with the given model, else false
+    # @param `other` the model to check overlap with
     def overlaps_with(self, other) -> bool:
         overlaps = False
 
@@ -354,7 +353,7 @@ class DurationModelMixin(models.Model):
 
         return overlaps
 
-    ## Validate the model
+    # Validate the model
     def clean(self, *args, **kwargs):
         super(DurationModelMixin, self).clean()
         # Ensure that the duration has a start date
