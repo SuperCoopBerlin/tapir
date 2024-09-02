@@ -260,7 +260,9 @@ class ShiftTemplate(models.Model):
         generated_shift.save()
         shift = generated_shift
 
-        for slot_template in self.slot_templates.all():
+        for slot_template in self.slot_templates.all().select_related(
+            "attendance_template"
+        ):
             slot = slot_template.create_slot_from_template(shift)
             slot.update_attendance_from_template()
 
@@ -371,9 +373,14 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         )
 
     def update_future_slot_attendances(self, now=None):
-        for slot in self.generated_slots.filter(
-            shift__start_time__gt=now or timezone.now()
-        ):
+        slots = (
+            self.generated_slots.filter(shift__start_time__gt=now or timezone.now())
+            .select_related("shift")
+            .prefetch_related(
+                "slot_template__attendance_template__user__shift_user_data__shift_exemptions"
+            )
+        )
+        for slot in slots:
             slot.update_attendance_from_template()
 
     def create_slot_from_template(self, shift: Shift):
@@ -412,10 +419,13 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
     class Meta:
         abstract = True
 
-    exclude_fields = ["slot_template"]
-
-    # Don't link directly to the slot because it may be less stable than the shift
     slot_template_name = models.CharField(blank=True, max_length=255)
+    # The slot may be null for entries created before september 2024
+    # (we used to save only the shift template, not the slot template)
+    # The slot can also be null if the shift still exists but the slot is deleted.
+    slot_template = models.ForeignKey(
+        ShiftSlotTemplate, null=True, on_delete=models.SET_NULL
+    )
     shift_template = models.ForeignKey(ShiftTemplate, on_delete=models.CASCADE)
 
     def populate(
@@ -425,6 +435,7 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
         shift_attendance_template: ShiftAttendanceTemplate,
     ):
         self.slot_template_name = shift_attendance_template.slot_template.name
+        self.slot_template = shift_attendance_template.slot_template
         self.shift_template = shift_attendance_template.slot_template.shift_template
         return super().populate_base(
             actor=actor, tapir_user=tapir_user, model=shift_attendance_template
@@ -611,7 +622,10 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         return get_html_link(self.shift.get_absolute_url(), self.get_display_name())
 
     def get_valid_attendance(self) -> ShiftAttendance:
-        return self.attendances.with_valid_state().first()
+        if hasattr(self, "valid_attendance"):
+            return self.valid_attendance
+        self.valid_attendance = self.attendances.with_valid_state().first()
+        return self.valid_attendance
 
     def user_can_attend(self, user):
         return (
@@ -641,9 +655,8 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         )
         user_is_not_registered_to_slot_template = (
             self.slot_template is None
-            or not ShiftAttendanceTemplate.objects.filter(
-                slot_template=self.slot_template, user=user
-            ).exists()
+            or not hasattr(self.slot_template, "attendance_template")
+            or not self.slot_template.attendance_template.user == user
         )
         early_enough = (
             self.shift.start_time.date() - timezone.now().date()
@@ -689,9 +702,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
 
         attendance = self.attendances.filter(user=attendance_template.user).first()
         if attendance is None:
-            attendance = ShiftAttendance.objects.create(
-                user=attendance_template.user, slot=self
-            )
+            attendance = ShiftAttendance(user=attendance_template.user, slot=self)
         attendance.state = ShiftAttendance.State.PENDING
         attendance.save()
 
@@ -901,14 +912,12 @@ class ShiftUserData(models.Model):
     user = models.OneToOneField(
         TapirUser, null=False, on_delete=models.CASCADE, related_name="shift_user_data"
     )
-
     capabilities = ArrayField(
         models.CharField(
             max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
         ),
         default=list,
     )
-
     SHIFT_ATTENDANCE_MODE_CHOICES = [
         (ShiftAttendanceMode.REGULAR, _("🏠 ABCD")),
         (ShiftAttendanceMode.FLYING, _("✈ Flying")),
@@ -921,6 +930,13 @@ class ShiftUserData(models.Model):
         default=ShiftAttendanceMode.REGULAR,
         blank=False,
     )
+    shift_partner = models.OneToOneField(
+        "self",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        related_name="shift_partner_of",
+    )
 
     objects = ShiftUserDataQuerySet.as_manager()
 
@@ -931,7 +947,7 @@ class ShiftUserData(models.Model):
 
     def get_upcoming_shift_attendances(self):
         return self.user.shift_attendances.filter(
-            slot__shift__start_time__gt=timezone.localtime()
+            slot__shift__start_time__gt=timezone.now()
         ).with_valid_state()
 
     def get_account_balance(self, at_date: datetime.datetime | None = None):

@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir import settings
 from tapir.accounts.models import TapirUser, LdapGroup
 from tapir.core.tapir_email_base import mails_not_mandatory, mails_mandatory
+from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
@@ -88,15 +89,19 @@ class PasswordResetForm(auth_forms.PasswordResetForm):
 
 class EditUserLdapGroupsForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        tapir_user: TapirUser = kwargs.pop("tapir_user", None)
+        tapir_user: TapirUser = kwargs.pop("tapir_user")
+        request_user: TapirUser = kwargs.pop("request_user")
         super().__init__(*args, **kwargs)
         user_dn = tapir_user.get_ldap().build_dn()
         for group_cn in settings.LDAP_GROUPS:
             self.fields[group_cn] = forms.BooleanField(
                 required=False,
                 label=group_cn,
-                initial=user_dn in LdapGroup.objects.get(cn=group_cn).members,
+                initial=user_dn in LdapGroup.get_group_members_dns(cn=group_cn),
             )
+
+        if not request_user.has_perm(PERMISSION_COOP_ADMIN):
+            self.fields[GROUP_VORSTAND].disabled = True
 
 
 class EditUsernameForm(forms.ModelForm):

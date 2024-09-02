@@ -1,3 +1,4 @@
+{% load core %}
 {% load i18n %}
 {% load utils %}
 <style>
@@ -78,6 +79,11 @@
                                     {% get_display_name_short attendance.user %}
                                     {% if attendance.user.pronouns %}({{ attendance.user.pronouns }}){% endif %}
                                     #{{ attendance.user.share_owner.id }}
+                                    <br />
+                                    {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
+                                    {% if shift_partner_enabled and attendance.user.shift_user_data.shift_partner %}
+                                        <span>({% translate "Shift partner: " %}{% get_display_name_short attendance.user.shift_user_data.shift_partner.user %})</span>
+                                    {% endif %}
                                     {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
                                         ({% translate "Looking for a stand-in" %})
                                     {% endif %}

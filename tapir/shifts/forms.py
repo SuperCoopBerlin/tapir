@@ -7,7 +7,9 @@ from django_select2.forms import Select2Widget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
+from tapir.core.models import FeatureFlag
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
+from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
 from tapir.shifts.models import (
     Shift,
     ShiftAttendanceTemplate,
@@ -20,6 +22,7 @@ from tapir.shifts.models import (
     ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
     ShiftTemplate,
+    ShiftAttendanceMode,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -204,16 +207,117 @@ class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
 
 
 class ShiftUserDataForm(forms.ModelForm):
+    class Meta:
+        model = ShiftUserData
+        fields = ["attendance_mode", "capabilities"]
+
+    confirm_delete_abcd_attendance = BooleanField(
+        label=_(
+            "I am aware that the member will be unregistered from their ABCD shift"
+        ),
+        required=False,
+        widget=HiddenInput,
+    )
     capabilities = forms.MultipleChoiceField(
         required=False,
         choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
         widget=CheckboxSelectMultiple,
         label=_("Qualifications"),
     )
+    shift_partner = TapirUserChoiceField(required=False)
 
-    class Meta:
-        model = ShiftUserData
-        fields = ["attendance_mode", "capabilities"]
+    def __init__(self, **kwargs):
+        self.request_user = kwargs.pop("request_user", None)
+        super().__init__(**kwargs)
+        if not FeatureFlag.get_flag_value(FEATURE_FLAG_SHIFT_PARTNER):
+            self.fields["shift_partner"].disabled = True
+            self.fields["shift_partner"].widget = HiddenInput()
+            return
+
+        shift_partner_of: ShiftUserData | None = getattr(
+            self.instance, "shift_partner_of", None
+        )
+        if not shift_partner_of:
+            return
+
+        self.fields["shift_partner"].disabled = True
+        own_name = UserUtils.build_display_name_for_viewer(
+            self.instance.user,
+            self.request_user,
+        )
+        partner_of_name = UserUtils.build_display_name_for_viewer(
+            shift_partner_of.user,
+            self.request_user,
+        )
+        self.fields["shift_partner"].help_text = _(
+            f"{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
+        )
+
+    def clean_shift_partner(self):
+        shift_partner: TapirUser | None = self.cleaned_data.get("shift_partner", None)
+        if not shift_partner:
+            return shift_partner
+
+        partner_of_partner = getattr(
+            shift_partner.shift_user_data, "shift_partner", None
+        )
+        if partner_of_partner:
+            target_partner_name = UserUtils.build_display_name_for_viewer(
+                shift_partner, self.request_user
+            )
+            partner_of_partner_name = UserUtils.build_display_name_for_viewer(
+                partner_of_partner.user,
+                self.request_user,
+            )
+            self.add_error(
+                "shift_partner",
+                f"{target_partner_name} is already the partner of {partner_of_partner_name}",
+            )
+            return shift_partner
+
+        partner_is_partner_of: ShiftUserData | None = getattr(
+            shift_partner.shift_user_data, "shift_partner_of", None
+        )
+        if not partner_is_partner_of or partner_is_partner_of == self.instance:
+            return shift_partner
+
+        partner_name = UserUtils.build_display_name_for_viewer(
+            shift_partner, self.request_user
+        )
+        partner_of_name = UserUtils.build_display_name_for_viewer(
+            partner_is_partner_of.user,
+            self.request_user,
+        )
+        self.add_error(
+            "shift_partner",
+            f"{partner_name} is already the partner of {partner_of_name}",
+        )
+        return shift_partner
+
+    def clean(self):
+        result = super().clean()
+
+        attendance_mode = self.cleaned_data.get("attendance_mode", None)
+        if attendance_mode is None or attendance_mode == ShiftAttendanceMode.REGULAR:
+            return result
+
+        confirmation_checkbox_not_ticked = (
+            "confirm_delete_abcd_attendance" in self.cleaned_data
+            and not self.cleaned_data["confirm_delete_abcd_attendance"]
+        )
+        user_is_registered_to_an_abcd_shift = ShiftAttendanceTemplate.objects.filter(
+            user=self.instance.user
+        ).exists()
+        if user_is_registered_to_an_abcd_shift and confirmation_checkbox_not_ticked:
+            error_msg = _(
+                "This member is registered to at least one ABCD shift. "
+                "Please confirm the change of attendance mode with the checkbox below."
+            )
+            self.add_error("attendance_mode", error_msg)
+            self.fields["confirm_delete_abcd_attendance"].widget = forms.CheckboxInput()
+            self.fields["confirm_delete_abcd_attendance"].required = True
+
+        return result
 
 
 class CreateShiftAccountEntryForm(forms.ModelForm):

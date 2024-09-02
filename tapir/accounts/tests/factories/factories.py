@@ -65,21 +65,43 @@ class TapirUserFactory(UserDataFactory):
             self, settings.GROUP_SHIFT_MANAGER, is_shift_manager
         )
 
+    @factory.post_generation
+    def is_employee(self, create, is_employee, **kwargs):
+        if not create:
+            return
+
+        TapirUserFactory._set_group_membership(
+            self, settings.GROUP_EMPLOYEES, is_employee
+        )
+
     @staticmethod
     def _set_group_membership(
         tapir_user: TapirUser, group_cn: str, is_member_of_group: bool
     ):
-        group = LdapGroup.objects.get(cn=group_cn)
+        group = LdapGroup.objects.filter(cn=group_cn).first()
+        if not group:
+            group = LdapGroup(cn=group_cn)
+            group.members = []
+
         user_dn = tapir_user.get_ldap().build_dn()
         if is_member_of_group:
             group.members.append(user_dn)
             group.save()
-        elif user_dn in group.members:
-            # The current test setup uses the same LDAP server for all the tests, without resetting it in between tests,
-            # so we have to make sure that this user has not been added to the member office by a previous test
-            # or a previous run
-            group.members.remove(user_dn)
+            return
+
+        if user_dn not in group.members:
+            return
+
+        # The current test setup uses the same LDAP server for all the tests, without resetting it in between tests,
+        # so we have to make sure that this user has not been added to the member office by a previous test
+        # or a previous run
+        group.members.remove(user_dn)
+
+        if group.members:
             group.save()
+            return
+
+        group.delete()
 
     @factory.post_generation
     def shift_capabilities(self, create, shift_capabilities, **kwargs):

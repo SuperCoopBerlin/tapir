@@ -1,9 +1,11 @@
 import unittest
 
+from django.test import SimpleTestCase
+
 from tapir.shifts.models import ShiftNames
 
 
-class ShiftNamesTestCase(unittest.TestCase):
+class ShiftNamesTestCase(SimpleTestCase):
     def test_get_names_for_index(self):
         self.assertEqual("A", ShiftNames.get_name(0))
         self.assertEqual("B", ShiftNames.get_name(1))

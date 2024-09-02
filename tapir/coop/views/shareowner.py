@@ -1,5 +1,6 @@
 import csv
 import datetime
+from tempfile import SpooledTemporaryFile
 
 import django_filters
 import django_tables2
@@ -9,15 +10,20 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
+from django.http import (
+    HttpResponse,
+    HttpResponseForbidden,
+    HttpResponseRedirect,
+    FileResponse,
+)
 from django.shortcuts import get_object_or_404, redirect
 from django.template import Template, Context
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
-from django.views import generic
+from django.views import generic, View
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
-from django.views.generic import UpdateView, FormView
+from django.views.generic import UpdateView, FormView, DeleteView
 from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
@@ -53,6 +59,8 @@ from tapir.coop.models import (
     ExtraSharesForAccountingRecap,
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.coop.services.MemberInfoService import MemberInfoService
+from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
 from tapir.log.models import LogEntry
@@ -162,13 +170,15 @@ class ShareOwnershipCreateMultipleView(
                 end_date=form.cleaned_data["end_date"],
             ).save()
 
-            for _ in range(form.cleaned_data["num_shares"]):
-                ShareOwnership.objects.create(
+            ShareOwnership.objects.bulk_create(
+                ShareOwnership(
                     share_owner=share_owner,
                     amount_paid=0,
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
+                for _ in range(form.cleaned_data["num_shares"])
+            )
 
             ExtraSharesForAccountingRecap.objects.create(
                 member=share_owner,
@@ -187,24 +197,22 @@ class ShareOwnershipCreateMultipleView(
         return self.get_share_owner().get_info().get_absolute_url()
 
 
-@require_POST
-@csrf_protect
-@login_required
-# Higher permission requirement since this is a destructive operation only to correct mistakes
-@permission_required(PERMISSION_COOP_ADMIN)
-def share_ownership_delete(request, pk):
-    share_ownership = get_object_or_404(ShareOwnership, pk=pk)
-    share_owner = share_ownership.share_owner
+class ShareOwnershipDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = PERMISSION_COOP_ADMIN
+    model = ShareOwnership
+    template_name = "coop/confirm_delete_share_ownership.html"
 
-    with transaction.atomic():
+    def get_success_url(self):
+        return self.get_object().share_owner.get_absolute_url()
+
+    def delete(self, request, *args, **kwargs):
+        response = super().delete(request, *args, **kwargs)
         DeleteShareOwnershipLogEntry().populate(
-            share_owner=share_ownership.share_owner,
-            actor=request.user,
-            model=share_ownership,
+            share_owner=self.object.share_owner,
+            actor=self.request.user,
+            model=self.object,
         ).save()
-        share_ownership.delete()
-
-    return redirect(share_owner)
+        return response
 
 
 class ShareOwnerDetailView(
@@ -261,17 +269,6 @@ class ShareOwnerUpdateView(
             "name": UserUtils.build_html_link_for_viewer(share_owner, self.request.user)
         }
         return context
-
-
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def empty_membership_agreement(request):
-    filename = "Beteiligungserklärung " + settings.COOP_NAME + ".pdf"
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
-    response.write(pdfs.get_membership_agreement_pdf().write_pdf())
-    return response
 
 
 @require_POST
@@ -369,82 +366,43 @@ def send_shareowner_membership_confirmation_welcome_email(request, pk):
     return redirect(share_owner.get_absolute_url())
 
 
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def shareowner_membership_confirmation(request, pk):
-    share_owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = (
-        "Mitgliedschaftsbestätigung %s.pdf"
-        % UserUtils.build_display_name_for_viewer(share_owner, request.user)
-    )
+class ShareOwnerMembershipConfirmationFileView(
+    LoginRequiredMixin, PermissionRequiredMixin, View
+):
+    permission_required = PERMISSION_COOP_MANAGE
 
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
+    def get(self, request, *args, **kwargs):
+        share_owner = get_object_or_404(ShareOwner, pk=self.kwargs["pk"])
+        filename = (
+            "Mitgliedschaftsbestätigung %s.pdf"
+            % UserUtils.build_display_name_for_viewer(share_owner, request.user)
+        )
+        num_shares = (
+            request.GET["num_shares"]
+            if "num_shares" in request.GET.keys()
+            else MemberInfoService.get_number_of_active_shares(share_owner)
+        )
+        date = (
+            datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
+            if "date" in request.GET.keys()
+            else timezone.now().date()
+        )
 
-    num_shares = (
-        request.GET["num_shares"]
-        if "num_shares" in request.GET.keys()
-        else share_owner.get_active_share_ownerships().count()
-    )
-    date = (
-        datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
-        if "date" in request.GET.keys()
-        else timezone.now().date()
-    )
+        pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+            share_owner,
+            num_shares=num_shares,
+            date=date,
+        )
+        temp_file = SpooledTemporaryFile()
+        temp_file.write(pdf.write_pdf())
+        temp_file.seek(0)
+        response = FileResponse(
+            temp_file,
+            as_attachment=True,
+            filename=filename,
+        )
 
-    pdf = pdfs.get_shareowner_membership_confirmation_pdf(
-        share_owner,
-        num_shares=num_shares,
-        date=date,
-    )
-    response.write(pdf.write_pdf())
-    return response
-
-
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def shareowner_extra_shares_confirmation(request, pk):
-    share_owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = (
-        "Bestätigung Erwerb Anteile %s.pdf"
-        % UserUtils.build_display_name_for_viewer(share_owner, request.user)
-    )
-
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
-
-    if "num_shares" not in request.GET.keys():
-        raise ValidationError("Missing parameter : num_shares")
-    num_shares = request.GET["num_shares"]
-
-    if "date" not in request.GET.keys():
-        raise ValidationError("Missing parameter : date")
-    date = datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
-
-    pdf = pdfs.get_confirmation_extra_shares_pdf(
-        share_owner,
-        num_shares=num_shares,
-        date=date,
-    )
-    response.write(pdf.write_pdf())
-    return response
-
-
-@require_GET
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def shareowner_membership_agreement(request, pk):
-    share_owner = get_object_or_404(ShareOwner, pk=pk)
-    filename = "Beteiligungserklärung %s.pdf" % UserUtils.build_display_name_for_viewer(
-        share_owner, request.user
-    )
-
-    response = HttpResponse(content_type=CONTENT_TYPE_PDF)
-    set_header_for_file_download(response, filename)
-    response.write(pdfs.get_membership_agreement_pdf(share_owner).write_pdf())
-    return response
+        return response
 
 
 class CurrentShareOwnerMixin:
@@ -679,6 +637,12 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="shift_slot_filter",
         label=_("Shift Name"),
     )
+    has_shift_partner = BooleanFilter(
+        method="has_shift_partner_filter", label="Has a shift partner"
+    )
+    is_shift_partner_of = BooleanFilter(
+        method="is_shift_partner_of_filter", label="Is the shift partner of someone"
+    )
 
     @staticmethod
     def shift_slot_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
@@ -692,7 +656,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     @staticmethod
     def display_name_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         # This is an ugly hack to enable searching by Mitgliedsnummer from the
-        # one-stop search box in the t  op right
+        # one-stop search box in the top right
         if value.isdigit():
             return queryset.filter(id=int(value))
 
@@ -786,6 +750,20 @@ class ShareOwnerFilter(django_filters.FilterSet):
             exemption_filter = ~exemption_filter
         return queryset.filter(exemption_filter).distinct()
 
+    @staticmethod
+    def has_shift_partner_filter(
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+    ):
+        return queryset.filter(user__shift_user_data__shift_partner__isnull=not value)
+
+    @staticmethod
+    def is_shift_partner_of_filter(
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+    ):
+        return queryset.filter(
+            user__shift_user_data__shift_partner_of__isnull=not value
+        )
+
 
 class ShareOwnerListView(
     LoginRequiredMixin,
@@ -812,9 +790,17 @@ class ShareOwnerListView(
         return response
 
     def get_queryset(self):
-        queryset = ShareOwner.objects.prefetch_related(
-            "share_ownerships"
-        ).prefetch_related("user")
+        queryset = ShareOwner.objects.prefetch_related("user", "share_ownerships")
+        queryset = (
+            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
+                queryset
+            )
+        )
+        queryset = (
+            MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
+                queryset
+            )
+        )
         return queryset
 
     def get_context_data(self, **kwargs):

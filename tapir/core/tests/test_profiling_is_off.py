@@ -1,9 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, SimpleTestCase
 
 from tapir import settings
 
 
-class TestProfilingIsOff(TestCase):
+class TestProfilingIsOff(SimpleTestCase):
     def test_profiling_is_off(self):
         self.assertFalse(
             settings.ENABLE_SILK_PROFILING,

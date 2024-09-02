@@ -34,14 +34,20 @@ class LdapUser(AbstractUser):
         abstract = True
 
     def get_ldap(self):
-        return LdapPerson.objects.get(uid=self.get_username())
+        if hasattr(self, "ldap_person"):
+            return getattr(self, "ldap_person")
+        self.ldap_person = LdapPerson.objects.get(uid=self.get_username())
+        return self.ldap_person
 
     def has_ldap(self):
+        if getattr(self, "ldap_person", None):
+            return True
         return LdapPerson.objects.filter(uid=self.get_username()).count() == 1
 
     def create_ldap(self):
-        username = self.username
-        LdapPerson.objects.create(uid=username, sn=username, cn=username)
+        self.ldap_person = LdapPerson(uid=self.username)
+        self.set_ldap_user_infos()
+        self.ldap_person.save()
 
     def set_ldap_password(self, raw_password):
         ldap_person = self.get_ldap()
@@ -50,22 +56,25 @@ class LdapUser(AbstractUser):
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
-        if self.has_ldap():
-            ldap_user = self.get_ldap()
-        else:
-            ldap_user = LdapPerson(uid=self.username)
+        if not self.has_ldap():
+            self.ldap_person = LdapPerson()
 
-        ldap_user.sn = self.last_name or self.username
-        ldap_user.cn = UserUtils.build_display_name(
-            self, UserUtils.DISPLAY_NAME_TYPE_FULL
-        )
-        ldap_user.mail = self.email
-        ldap_user.save()
+        self.set_ldap_user_infos()
+        self.ldap_person.save()
 
         super(LdapUser, self).save(force_insert, force_update, using, update_fields)
 
         # force null Django password (will use LDAP password instead)
         self.set_unusable_password()
+
+    def set_ldap_user_infos(self):
+        ldap_user = self.get_ldap()
+        ldap_user.uid = self.username
+        ldap_user.sn = self.last_name or self.username
+        ldap_user.cn = UserUtils.build_display_name(
+            self, UserUtils.DISPLAY_NAME_TYPE_FULL
+        )
+        ldap_user.mail = self.email
 
     def delete(self):
         if self.has_ldap():
@@ -423,6 +432,13 @@ class LdapGroup(ldapdb.models.Model):
 
     def __unicode__(self):
         return self.cn
+
+    @staticmethod
+    def get_group_members_dns(cn: str):
+        group = LdapGroup.objects.filter(cn=cn).first()
+        if not group:
+            return []
+        return group.members
 
 
 def language_middleware(get_response):

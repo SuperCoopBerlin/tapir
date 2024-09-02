@@ -1,4 +1,5 @@
 import datetime
+from typing import Self
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -12,6 +13,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
+from tapir.coop.services.MemberInfoService import MemberInfoService
+from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.utils.expection_utils import TapirException
@@ -109,30 +112,43 @@ class ShareOwner(models.Model):
         def with_status(self, status: str, date: datetime.date = None):
             if date is None:
                 date = timezone.now().date()
-            active_ownerships = ShareOwnership.objects.active_temporal(date)
+
+            share_owners_with_nb_of_shares = MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
+                self, date
+            )
+            share_owners_without_active_shares = share_owners_with_nb_of_shares.filter(
+                **{MemberInfoService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
+            )
 
             if status == MemberStatus.SOLD:
-                return self.exclude(share_ownerships__in=active_ownerships).distinct()
+                return self.filter(id__in=share_owners_without_active_shares)
 
-            members_with_valid_shares = self.filter(
-                share_ownerships__in=active_ownerships,
+            members_with_valid_shares = self.exclude(
+                id__in=share_owners_without_active_shares
             ).distinct()
 
             if status == MemberStatus.INVESTING:
                 return members_with_valid_shares.filter(is_investing=True)
 
-            member_with_shares_and_not_investing = members_with_valid_shares.filter(
-                is_investing=False
+            member_with_shares_and_not_investing: Self = (
+                members_with_valid_shares.filter(is_investing=False)
             )
-            active_pauses = MembershipPause.objects.active_temporal(date)
+
+            members_with_paused_annotation = MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
+                member_with_shares_and_not_investing, date
+            )
+            paused_members = members_with_paused_annotation.filter(
+                **{MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE: True}
+            )
+
             if status == MemberStatus.PAUSED:
                 return member_with_shares_and_not_investing.filter(
-                    membershippause__in=active_pauses
+                    id__in=paused_members
                 )
 
             if status == MemberStatus.ACTIVE:
                 return member_with_shares_and_not_investing.exclude(
-                    membershippause__in=active_pauses
+                    id__in=paused_members
                 )
 
             raise TapirException(f"Invalid status : {status}")
@@ -150,19 +166,6 @@ class ShareOwner(models.Model):
             return annotated.filter(
                 Q(paid_amount__lt=F("expected_payments")) | Q(paid_amount=None)
             )
-
-        def became_member_after(self, date: datetime.date):
-            first_shares = [
-                share_owner.get_oldest_active_share_ownership()
-                for share_owner in ShareOwner.objects.all()
-                if share_owner.get_oldest_active_share_ownership() is not None
-            ]
-            first_shares_after_date = [
-                first_share
-                for first_share in first_shares
-                if first_share.start_date >= date
-            ]
-            return self.filter(share_ownerships__in=first_shares_after_date).distinct()
 
     objects = ShareOwnerQuerySet.as_manager()
 
@@ -227,29 +230,30 @@ class ShareOwner(models.Model):
         return reverse("coop:shareowner_detail", args=[self.pk])
 
     def get_oldest_active_share_ownership(self):
-        return self.get_active_share_ownerships().order_by("start_date").first()
+        # This is equivalent to:
+        # return self.get_active_share_ownerships().order_by("start_date").first()
+        # but since using order_by will always trigger a database request, instead
+        # we do the request manually. If the share_ownerships are already cached, we avoid a database request
+        oldest = None
+        for share_ownership in self.share_ownerships.all():
+            if not share_ownership.is_active():
+                continue
 
-    def get_active_share_ownerships(self):
-        return self.share_ownerships.active_temporal()
+            if oldest is None or share_ownership.start_date < oldest.start_date:
+                oldest = share_ownership
+        return oldest
 
     def num_shares(self) -> int:
-        return ShareOwnership.objects.active_temporal().filter(share_owner=self).count()
+        return MemberInfoService.get_number_of_active_shares(self)
 
     def get_member_status(self):
-        # Here we try to use only share_ownerships.all() without filter or count(),
-        # because in list views the shares have been prefetched.
-        # If we do any filtering on self.share_ownerships, it would trigger one DB query per item in the list.
-        has_active_share = (
-            len([share for share in self.share_ownerships.all() if share.is_active()])
-            > 0
-        )
-        if not has_active_share:
+        if not MemberInfoService.get_number_of_active_shares(self) > 0:
             return MemberStatus.SOLD
 
         if self.is_investing:
             return MemberStatus.INVESTING
 
-        if MembershipPause.objects.filter(share_owner=self).active_temporal().exists():
+        if MembershipPauseService.has_active_pause(self):
             return MemberStatus.PAUSED
 
         return MemberStatus.ACTIVE
@@ -401,6 +405,12 @@ class ShareOwnership(DurationModelMixin, models.Model):
                 )
             )
 
+    def __str__(self):
+        return (
+            f"{self.share_owner.get_display_name(display_type=UserUtils.DISPLAY_NAME_TYPE_FULL)} "
+            f"from {self.start_date} to {self.end_date} (ID:{self.id})"
+        )
+
 
 class DeleteShareOwnershipLogEntry(ModelLogEntry):
     template_name = "coop/log/delete_share_ownership_log_entry.html"
@@ -547,7 +557,8 @@ class DraftUser(models.Model):
     def get_member_number():
         return None
 
-    def get_is_company(self):
+    @staticmethod
+    def get_is_company():
         return False
 
 
@@ -607,6 +618,32 @@ class CreatePaymentLogEntry(LogEntry):
         self.amount = amount
         self.payment_date = payment_date
         return super().populate_base(actor=actor, share_owner=share_owner)
+
+
+class UpdateIncomingPaymentLogEntry(UpdateModelLogEntry):
+    template_name = "coop/log/update_incoming_payment_log_entry.html"
+
+    def populate(
+        self,
+        old_frozen: dict,
+        new_frozen: dict,
+        share_owner: ShareOwner,
+        actor: User,
+    ):
+        return super().populate_base(
+            old_frozen=old_frozen,
+            new_frozen=new_frozen,
+            share_owner=share_owner,
+            actor=actor,
+        )
+
+
+class DeleteIncomingPaymentLogEntry(ModelLogEntry):
+    template_name = "coop/log/delete_incoming_payment_log_entry.html"
+    exclude_fields = ["id", "credited_member", "paying_member", "comment", "created_by"]
+
+    def populate(self, share_owner: ShareOwner, actor, model):
+        return self.populate_base(share_owner=share_owner, actor=actor, model=model)
 
 
 class CreateShareOwnershipsLogEntry(LogEntry):

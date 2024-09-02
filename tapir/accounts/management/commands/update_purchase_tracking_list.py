@@ -11,7 +11,10 @@ from tapir.utils.user_utils import UserUtils
 
 
 class Command(BaseCommand):
-    help = "Updates the file containing the list of users that allowed purchase tracking and synchronizes it with the BioOffice server."
+    help = (
+        "Updates the file containing the list of users that allowed purchase tracking and synchronizes it with the "
+        "BioOffice server."
+    )
     FILE_NAME = "members-current.csv"
 
     def handle(self, *args, **options):
@@ -35,7 +38,9 @@ class Command(BaseCommand):
                 ]
             )
 
-            for user in TapirUser.objects.filter(allows_purchase_tracking=True):
+            for user in TapirUser.objects.filter(
+                allows_purchase_tracking=True, share_owner__isnull=False
+            ):
                 writer.writerow(
                     [
                         user.share_owner.get_id_for_biooffice(),

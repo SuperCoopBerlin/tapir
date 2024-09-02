@@ -11,7 +11,7 @@ urlpatterns = [
     ),
     path(
         "share/<int:pk>/delete",
-        views.share_ownership_delete,
+        views.ShareOwnershipDeleteView.as_view(),
         name="shareownership_delete",
     ),
     path("user/draft/", views.DraftUserListView.as_view(), name="draftuser_list"),
@@ -66,11 +66,6 @@ urlpatterns = [
         name="draftuser_membership_agreement",
     ),
     path(
-        "membership_agreement",
-        views.empty_membership_agreement,
-        name="empty_membership_agreement",
-    ),
-    path(
         "member/<int:shareowner_pk>/create_shareownerships",
         views.ShareOwnershipCreateMultipleView.as_view(),
         name="share_create_multiple",
@@ -122,18 +117,8 @@ urlpatterns = [
     ),
     path(
         "member/<int:pk>/membership_confirmation",
-        views.shareowner_membership_confirmation,
+        views.ShareOwnerMembershipConfirmationFileView.as_view(),
         name="shareowner_membership_confirmation",
-    ),
-    path(
-        "member/<int:pk>/extra_shares_confirmation",
-        views.shareowner_extra_shares_confirmation,
-        name="shareowner_extra_shares_confirmation",
-    ),
-    path(
-        "member/<int:pk>/membership_agreement",
-        views.shareowner_membership_agreement,
-        name="shareowner_membership_agreement",
     ),
     path(
         "member/<int:pk>/membership_confirmation/send",
@@ -196,6 +181,16 @@ urlpatterns = [
         name="incoming_payment_create",
     ),
     path(
+        "payments/<int:pk>/edit/",
+        views.IncomingPaymentEditView.as_view(),
+        name="incoming_payment_edit",
+    ),
+    path(
+        "payments/<int:pk>/delete/",
+        views.IncomingPaymentDeleteView.as_view(),
+        name="incoming_payment_delete",
+    ),
+    path(
         "new_members_json_view",
         views.MemberStatusUpdatesJsonView.as_view(),
         name="member_status_updates_json_view",
@@ -239,5 +234,15 @@ urlpatterns = [
         "management",
         views.MemberManagementView.as_view(),
         name="management",
+    ),
+    path(
+        "create/general_account/",
+        views.CreateGeneralTapirAccountView.as_view(),
+        name="create_general_account",
+    ),
+    path(
+        "general_accounts",
+        views.GeneralTapirAccountsListView.as_view(),
+        name="general_accounts_list",
     ),
 ]

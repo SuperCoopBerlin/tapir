@@ -2,7 +2,8 @@ import datetime
 import factory
 import random
 
-from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
+from tapir.accounts.models import TapirUser
+from tapir.accounts.tests.factories.user_data_factory import UserDataFactory, fake
 from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.models import (
     ShareOwnership,
@@ -98,3 +99,28 @@ class PurchaseBasketFactory(factory.django.DjangoModelFactory):
     first_net_amount = 0
     second_net_amount = 0
     discount = 0
+
+
+class GeneralAccountFactory(UserDataFactory):
+    class Meta:
+        model = TapirUser
+
+    ATTRIBUTES = [
+        "username",
+        "first_name",
+        "last_name",
+        "usage_name",
+        "pronouns",
+        "email",
+        "phone_number",
+    ]
+
+    username = factory.LazyAttribute(
+        lambda o: f"{o.usage_name if o.usage_name else o.first_name}.{o.last_name}"
+    )
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
+    usage_name = factory.Faker("first_name")
+    pronouns = factory.Iterator(["he/him", "she/her", "they/them"])
+    email = factory.Faker("email")
+    phone_number = factory.LazyAttribute(lambda _: fake.phone_number())

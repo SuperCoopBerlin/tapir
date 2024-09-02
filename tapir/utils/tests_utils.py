@@ -28,16 +28,14 @@ from tapir.core.tapir_email_base import TapirEmailBase
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.json_user import JsonUser
 
-TAPIR_SELENIUM_BASE_FIXTURES = ["admin_account.json", "test_data.json"]
-
 
 @override_settings(ALLOWED_HOSTS=["*"])
 class TapirSeleniumTestBase(StaticLiveServerTestCase):
     DEFAULT_TIMEOUT = 5
     selenium: WebDriver
     test_users: [] = None
-    fixtures = TAPIR_SELENIUM_BASE_FIXTURES
     host = "0.0.0.0"  # Bind to 0.0.0.0 to allow external access
+    databases = {"ldap", DEFAULT_DB_ALIAS}
 
     @classmethod
     def setUpClass(cls):
@@ -62,9 +60,6 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
         login_card.find_element(By.ID, "id_password").send_keys(password)
         login_card.find_element(By.TAG_NAME, "button").click()
         self.wait_until_element_present_by_id("logout")
-
-    def login_as_admin(self):
-        self.login("admin", "admin")
 
     def get_test_user(self, searched_username: str) -> JsonUser:
         if self.test_users is None:
@@ -178,8 +173,8 @@ class TapirFactoryTestBase(LdapEnabledTestCase):
         self.login_as_user(user)
         return user
 
-    def login_as_member_office_user(self) -> TapirUser:
-        user = TapirUserFactory.create(is_in_member_office=True)
+    def login_as_member_office_user(self, **kwargs) -> TapirUser:
+        user = TapirUserFactory.create(is_in_member_office=True, **kwargs)
         self.login_as_user(user)
         return user
 
@@ -190,6 +185,16 @@ class TapirFactoryTestBase(LdapEnabledTestCase):
 
     def login_as_shift_manager(self) -> TapirUser:
         user = TapirUserFactory.create(is_shift_manager=True)
+        self.login_as_user(user)
+        return user
+
+    def login_as_accounting_team(self) -> TapirUser:
+        user = TapirUserFactory.create(is_in_accounting_team=True)
+        self.login_as_user(user)
+        return user
+
+    def login_as_employee(self) -> TapirUser:
+        user = TapirUserFactory.create(is_employee=True)
         self.login_as_user(user)
         return user
 

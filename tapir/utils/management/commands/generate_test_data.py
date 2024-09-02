@@ -5,9 +5,6 @@ from tapir.utils.management.commands.generate_test_data_functions import (
     generate_test_users,
     generate_test_template_groups,
     generate_test_shift_templates,
-    generate_test_shifts,
-    generate_test_user_shifts,
-    delete_templates,
     generate_shifts,
     clear_data,
     reset_all_test_data,
@@ -35,13 +32,6 @@ class Command(BaseCommand):
             "--shifts",
             help="Create single shifts (not templates) in the past and coming week",
             action="store_true",
-        )
-        parser.add_argument(
-            "--user_shifts",
-            help="Register the given users to the shifts created with the 'generate_test_data shifts' command",
-        )
-        parser.add_argument(
-            "--delete_templates", help="Delete all ShiftTemplates", action="store_true"
         )
         parser.add_argument(
             "--generate_shifts",
@@ -72,12 +62,6 @@ class Command(BaseCommand):
             generate_test_template_groups()
         if options["shift_templates"]:
             generate_test_shift_templates()
-        if options["shifts"]:
-            generate_test_shifts()
-        if options["user_shifts"]:
-            generate_test_user_shifts(options["user_shifts"])
-        if options["delete_templates"]:
-            delete_templates()
         if options["generate_shifts"]:
             generate_shifts()
         if options["clear"]:

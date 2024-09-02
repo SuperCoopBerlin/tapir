@@ -71,7 +71,6 @@ class FrozenStatusService:
         upcoming_shifts = ShiftAttendance.objects.filter(
             user=shift_user_data.user,
             state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
-            slot__shift__start_time__gt=timezone.now(),
             slot__shift__start_time__lt=timezone.now()
             + datetime.timedelta(weeks=NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS),
         )

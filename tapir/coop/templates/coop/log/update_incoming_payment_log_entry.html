@@ -1,0 +1,6 @@
+{% load i18n %}
+{% translate "Updated payment:" %}:
+{% for change in changes %}
+    <strong>{{ change.0 }}</strong>: {{ change.1 }} → {{ change.2 }}
+    <br />
+{% endfor %}

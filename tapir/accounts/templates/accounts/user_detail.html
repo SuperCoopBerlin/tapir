@@ -25,25 +25,25 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <span>{% translate "Personal Data" %}</span>
                     <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
-                        {% if perms.coop.admin %}
+                        {% if perms.group.manage %}
                             <a class="{% tapir_button_link_to_action %}"
-                                href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
+                               href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
                                 <span class="material-icons">badge</span>{% translate 'Edit groups' %}
                             </a>
                         {% endif %}
                         <a class="{% tapir_button_link_to_action %}"
-                            href="{% url 'accounts:edit_username' object.pk %}">
+                           href="{% url 'accounts:edit_username' object.pk %}">
                             <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
                         </a>
                         {% if perms.accounts.manage %}
                             <a class="{% tapir_button_link_to_action %}"
-                                href="{% url 'accounts:user_update' object.pk %}"
-                                id="tapir_user_edit_button">
+                               href="{% url 'accounts:user_update' object.pk %}"
+                               id="tapir_user_edit_button">
                                 <span class="material-icons">edit</span>{% translate 'Edit' %}
                             </a>
                         {% else %}
                             <a class="{% tapir_button_link_to_action %}"
-                                href="{% url 'accounts:user_update_self' object.pk %}">
+                               href="{% url 'accounts:user_update_self' object.pk %}">
                                 <span class="material-icons">edit</span>{% translate 'Edit name and pronouns' %}
                             </a>
                         {% endif %}

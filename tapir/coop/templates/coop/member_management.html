@@ -15,7 +15,7 @@
         <div class="card mb-2">
             <h5 class="card-header">{% translate "Lists" %}</h5>
             <div class="card-body">
-                {% if perms.coop.admin %}
+                {% if perms.group.manage %}
                     <a class="{% tapir_button_link %}"
                        href="{% url 'accounts:ldap_group_list' %}">
                         <span class="material-icons button-icon">badge</span>{% translate 'Access right groups' %}
@@ -52,6 +52,17 @@
                     </a>
                 </li>
             </ul>
+        </div>
+        <div class="card mb-2">
+            <div class="card-header d-flex justify-content-between">
+                <h5>General Tapir Accounts</h5>
+            </div>
+            <div class="card-body">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'coop:create_general_account' %}"><span class="material-icons button-icon">add</span>Create new Tapir account</a>
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'coop:general_accounts_list' %}"><span class="material-icons button-icon">list</span>Show general Tapir accounts</a>
+            </div>
         </div>
     </div>
 {% endblock content %}

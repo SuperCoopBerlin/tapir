@@ -122,7 +122,7 @@ def get_html_classes_for_filtering(shift: Shift) -> set:
                 valid_attendance = a
                 break
 
-        if valid_attendance:
+        if valid_attendance and valid_attendance.state == ShiftAttendance.State.PENDING:
             num_valid_attendances += 1
 
         if (
@@ -211,8 +211,12 @@ def shift_filters(context):
 
 
 @register.simple_tag
-def get_week_group(target_date, cycle_start_dates=None) -> ShiftTemplateGroup | None:
-    shift_groups_count = ShiftTemplateGroup.objects.count()
+def get_week_group(
+    target_date, cycle_start_dates=None, shift_groups_count: int | None = None
+) -> ShiftTemplateGroup | None:
+    if shift_groups_count is None:
+        shift_groups_count = ShiftTemplateGroup.objects.count()
+
     if shift_groups_count == 0:
         # Many tests run without creating any ShiftTemplateGroup but still call get_week_group
         return None
