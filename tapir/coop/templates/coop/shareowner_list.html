@@ -19,7 +19,7 @@
             <h5>{% translate "Cooperative Members" %}</h5>
             <div class="btn-group">
                 <button type="button"
-                        class="{% tapir_button_link %} btn-sm dropdown-toggle"
+                        class="{% tapir_button_link %} btn-sm dropdown-toggle m-1"
                         data-bs-toggle="dropdown">{% translate "Export" %}</button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
@@ -28,38 +28,40 @@
                         </a>
                     {% endfor %}
                 </div>
-            </div>
+                <div class="m-1">
+                    <button class="{% tapir_button_link_to_action %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
+                        {% translate "Filters" %}
+                    </button>
+                 </div>
+            </div>            
         </div>   
-        <p style="text-align:right" class="m-3">
-        <button class="{% tapir_button_link_to_action %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter">
-            {% translate "Filters" %}
-        </button>
-        </p>
             {% if filter %}
+            <div class="collapse" id="collapseFilter">
                 <ul class="list-group list-group-flush" id="share_owner_table">
-                    <div class="collapse" id="collapseFilter">
-                        <li class="list-group-item">
-                            <form action="" method="get" class="form member-filter-form">
-                                <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
-                                <div class="member-filter-form-buttons">
-                                    <button class="filter-button {% tapir_button_link %}">
-                                        <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
-                                    </button>
-                                    <a class="{% tapir_button_link %}"
-                                    href="{% url 'coop:shareowner_list' %}">
-                                        <span class="material-icons">clear</span>
-                                        {% translate "Clear all filters" %}
-                                    </a>
-                                    <div class="ms-2">
-                                        {% blocktranslate %}
-                                            Filtered {{ filtered_member_count }} of {{ total_member_count }}
-                                        {% endblocktranslate %}
-                                    </div>
+                    <li class="list-group-item">
+                        <form action="" method="get" class="form member-filter-form">
+                            <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
+                            <div class="member-filter-form-buttons">
+                                <button class="filter-button {% tapir_button_link %}">
+                                    <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                                </button>
+                                <a class="{% tapir_button_link %}"
+                                href="{% url 'coop:shareowner_list' %}">
+                                    <span class="material-icons">clear</span>
+                                    {% translate "Clear all filters" %}
+                                </a>
+                                <div class="ms-2">
+                                    {% blocktranslate %}
+                                        Filtered {{ filtered_member_count }} of {{ total_member_count }}
+                                    {% endblocktranslate %}
                                 </div>
-                            </form>
-                        </li>
-                    </div>
-            {% endif %}
-                    <li class="list-group-item">{% render_table table %}</li>
+                            </div>
+                        </form>
+                    </li>
                 </ul>
+            </div>
+        {% endif %}
+    <ul>
+        <li class="list-group-item">{% render_table table %}</li>
+    </ul>
 {% endblock content %}
