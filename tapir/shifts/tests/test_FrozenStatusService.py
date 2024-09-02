@@ -226,6 +226,32 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             )
         )
 
+    def test_isMemberRegisteredToEnoughShiftsToCompensateForNegativeShiftAccount_enoughShiftsIncludingSomeInThePast_returnsTrue(
+        self,
+    ):
+        tapir_user = TapirUserFactory.create()
+        ShiftAccountEntry.objects.create(
+            user=tapir_user,
+            value=-4,
+            date=timezone.now() - datetime.timedelta(days=20),
+        )
+
+        for weeks_in_the_future in [-2, -1, 1, 2]:
+            shift: Shift = ShiftFactory.create(
+                start_time=timezone.now()
+                + datetime.timedelta(weeks=weeks_in_the_future)
+            )
+            ShiftAttendance.objects.create(
+                user=tapir_user,
+                slot=shift.slots.first(),
+            )
+
+        self.assertTrue(
+            FrozenStatusService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
+                tapir_user.shift_user_data
+            )
+        )
+
     @patch("tapir.shifts.services.frozen_status_service.MemberFrozenEmail")
     @patch.object(FrozenStatusService, "_cancel_future_attendances_templates")
     @patch.object(FrozenStatusService, "_update_attendance_mode_and_create_log_entry")
