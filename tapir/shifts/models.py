@@ -419,10 +419,13 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
     class Meta:
         abstract = True
 
-    exclude_fields = ["slot_template"]
-
-    # Don't link directly to the slot because it may be less stable than the shift
     slot_template_name = models.CharField(blank=True, max_length=255)
+    # The slot may be null for entries created before september 2024
+    # (we used to save only the shift template, not the slot template)
+    # The slot can also be null if the shift still exists but the slot is deleted.
+    slot_template = models.ForeignKey(
+        ShiftSlotTemplate, null=True, on_delete=models.SET_NULL
+    )
     shift_template = models.ForeignKey(ShiftTemplate, on_delete=models.CASCADE)
 
     def populate(
@@ -432,6 +435,7 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
         shift_attendance_template: ShiftAttendanceTemplate,
     ):
         self.slot_template_name = shift_attendance_template.slot_template.name
+        self.slot_template = shift_attendance_template.slot_template
         self.shift_template = shift_attendance_template.slot_template.shift_template
         return super().populate_base(
             actor=actor, tapir_user=tapir_user, model=shift_attendance_template
