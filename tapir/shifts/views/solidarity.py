@@ -79,14 +79,25 @@ class SolidarityShiftGiven(LoginRequiredMixin, RedirectView):
             return HttpResponseBadRequest(
                 "The Solidarity Shift feature is not enabled."
             )
+
         tapir_user = get_object_or_404(TapirUser, pk=kwargs["pk"])
+
+        if request.user.pk != tapir_user.pk or not request.user.has_perm(
+            PERMISSION_SHIFTS_MANAGE
+        ):
+            return HttpResponseForbidden(
+                "You don't have permission to give Solidarity Shifts on behalf of another user."
+            )
+
         shift_attendance = tapir_user.shift_attendances.filter(
             is_solidarity=False, state=ShiftAttendance.State.DONE
         ).first()
         if not shift_attendance:
-            return ShiftAttendance.DoesNotExist(
-                "Could not find a shift attendance to use as solidarity shift."
+            messages.error(
+                request,
+                _("Could not find a shift attendance to use as solidarity shift."),
             )
+            return redirect(tapir_user.get_absolute_url())
 
         SolidarityShift.objects.create(shiftAttendance=shift_attendance)
 
