@@ -3,18 +3,38 @@
 {% load utils %}
 {% block body %}
     {% get_display_name_short member_infos as display_name_short %}
-    {% blocktranslate with display_name_short=display_name_short co_purchaser_name=tapir_user.co_purchaser email_address_member_office=EMAIL_ADDRESS_MEMBER_OFFICE %}
+        <p>
+            Hallo {{ display_name_short }},
+        </p>
+        <p>
+            dies ist eine automatische E-Mail von SuperCoop. 
+            Wir möchten dich darüber informieren, 
+            dass soeben ein*e Miteinkäufer*in zu deinem Tapir-Konto hinzugefügt wurde.
+        </p>
+        <p>
+            Von nun an kann {{ tapir_user.co_purchaser_name }} mit deiner Mitgliedsnummer im Laden einkaufen.
+        </p>
+        <p>
+            Sollte dies ein Fehler sein und nicht deiner Anfrage entsprechen, 
+            sende bitte eine kurze E-Mail an das <a href="mailto:{{ EMAIL_ADDRESS_MEMBER_OFFICE }}">
+                Mitgliederbüro</a>, um uns dies mitzuteilen.
+        </p>
+        <p>
+            Kooperative Grüße,
+            Das Mitgliederbüro
+        </p>
+        <hr />
         <p>Hello {{ display_name_short }},</p>
         <p>
             This is an automatic e-mail from SuperCoop. We would like to inform you that a co-shopper has just been
             added to your Tapir account.
         </p>
         <p>
-            From now on {{ co_purchaser_name }} can shop in the store using your membership number.
+            From now on {{ tapir_user.co_purchaser_name }} can shop in the store using your membership number.
         </p>
         <p>
             If this is an error and does not correspond to your request, please send a short
-            <a href="mailto:{{ email_address_member_office }}">email to the Member Office</a> to let us know.
+            <a href="mailto:{{ EMAIL_ADDRESS_MEMBER_OFFICE }}">email to the Member Office</a> to let us know.
         </p>
         <p>
             Cooperative greetings,<br />
