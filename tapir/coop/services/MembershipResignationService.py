@@ -79,7 +79,9 @@ class MembershipResignationService:
 
     @staticmethod
     def delete_shareowner_membershippauses(resignation: MembershipResignation):
-        for pause in MembershipPause.objects.filter(share_owner=resignation.share_owner):
+        for pause in MembershipPause.objects.filter(
+            share_owner=resignation.share_owner
+        ):
             if pause.end_date is not None:
                 if resignation.pay_out_day is not None:
                     if resignation.pay_out_day <= pause.end_date:
@@ -92,4 +94,4 @@ class MembershipResignationService:
                     elif pause.start_date > resignation.cancellation_date:
                         pause.delete()
             else:
-                pause.update(end_date=resignation.cancellation_date)                
+                pause.update(end_date=resignation.cancellation_date)
