@@ -42,6 +42,7 @@ SHIFT_NAME_STORAGE_MORNING = "Storage morning"
 SHIFT_NAME_STORAGE_AFTERNOON = "Storage afternoon"
 
 USER_COUNT = 400
+DRAFT_USER_COUNT = 50
 
 
 def generate_test_template_groups():
@@ -60,7 +61,10 @@ def get_test_users():
     json_string = json_file.read()
     json_file.close()
     parsed_users = json.loads(json_string)["results"]
-    return [JsonUser(parsed_user) for parsed_user in parsed_users[:USER_COUNT]]
+    return [
+        JsonUser(parsed_user)
+        for parsed_user in parsed_users[: USER_COUNT + DRAFT_USER_COUNT]
+    ]
 
 
 def determine_is_company(randomizer: int) -> bool:
@@ -207,7 +211,7 @@ def generate_test_users():
     # Users generated with https://randomuser.me
     print(f"Creating {USER_COUNT} users, this may take a while")
 
-    json_users = get_test_users()
+    json_users = get_test_users()[:USER_COUNT]
     print("\tCreating tapir_users")
     tapir_users = generate_tapir_users(json_users)
     print("\tCreating share_owners")
@@ -349,10 +353,9 @@ def generate_shifts():
 
 
 def generate_test_applicants():
-    parsed_users = get_test_users()
+    json_users = get_test_users()
     draft_users = []
-    for index, parsed_user in enumerate(parsed_users[USER_COUNT : USER_COUNT + 50]):
-        json_user = JsonUser(parsed_user)
+    for index, json_user in enumerate(json_users[USER_COUNT : USER_COUNT + 50]):
         randomizer = index + 1
         draft_user = DraftUser()
         copy_user_info(json_user, draft_user)
