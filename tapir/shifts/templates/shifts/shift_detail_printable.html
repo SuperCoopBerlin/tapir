@@ -77,7 +77,7 @@
                             #{{ attendance.user.share_owner.id }}
                             {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
                             {% if shift_partner_enabled and attendance.user.shift_user_data.shift_partner %}
-                                <span>({% translate "Shift partner: " %}{% get_display_name_short attendance.user.shift_user_data.shift_partner.user %})</span>
+                                <span>({% translate "Shift partner: " %}{% get_display_name_short attendance.user.shift_user_data.shift_partner.user %} #{{ attendance.user.shift_user_data.shift_partner.user.get_member_number }})</span>
                             {% endif %}
                             {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
                                 ({% translate "Looking for a stand-in" %})
