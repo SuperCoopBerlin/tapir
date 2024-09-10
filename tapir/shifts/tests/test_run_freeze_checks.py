@@ -1,4 +1,5 @@
-from unittest.mock import patch
+from unittest import mock
+from unittest.mock import patch, Mock
 
 from django.core.management import call_command
 
@@ -15,13 +16,19 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
 
     @patch.object(FrozenStatusService, "should_freeze_member")
     def test_should_freeze_member_gets_called_once_per_member(
-        self, mock_should_freeze_member
+        self, mock_should_freeze_member: Mock
     ):
         tapir_user_1 = TapirUserFactory.create()
         tapir_user_2 = TapirUserFactory.create()
         call_command("run_freeze_checks")
         self.assertEqual(2, mock_should_freeze_member.call_count)
-        mock_should_freeze_member.has_calls([tapir_user_1, tapir_user_2])
+        mock_should_freeze_member.assert_has_calls(
+            [
+                mock.call(tapir_user_1.shift_user_data),
+                mock.call(tapir_user_2.shift_user_data),
+            ],
+            any_order=True,
+        )
 
     @patch.object(FrozenStatusService, "freeze_member_and_send_email")
     @patch.object(FrozenStatusService, "should_freeze_member")
