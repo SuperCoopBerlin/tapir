@@ -7,7 +7,7 @@ from django_filters import RangeFilter
 from django_filters.fields import DateRangeField
 from django_filters.widgets import DateRangeWidget, SuffixedMultiWidget
 from phonenumber_field.formfields import PhoneNumberField
-from phonenumber_field.widgets import PhoneNumberInternationalFallbackWidget
+from phonenumber_field.widgets import RegionalPhoneNumberWidget
 
 
 class DateInputTapir(forms.DateInput):
@@ -18,7 +18,7 @@ class DateInputTapir(forms.DateInput):
 
 
 class TapirPhoneNumberField(PhoneNumberField):
-    widget = PhoneNumberInternationalFallbackWidget
+    widget = RegionalPhoneNumberWidget
 
     def __init__(self, *args, **kwargs):
         help_text = _(
