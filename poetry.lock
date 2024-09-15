@@ -898,6 +898,21 @@ files = [
 django = "*"
 
 [[package]]
+name = "django-auth-ldap"
+version = "4.8.0"
+description = "Django LDAP authentication backend"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "django-auth-ldap-4.8.0.tar.gz", hash = "sha256:604250938ddc9fda619f247c7a59b0b2f06e53a7d3f46a156f28aa30dd71a738"},
+    {file = "django_auth_ldap-4.8.0-py3-none-any.whl", hash = "sha256:4b4b944f3c28bce362f33fb6e8db68429ed8fd8f12f0c0c4b1a4344a7ef225ce"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+python-ldap = ">=3.1"
+
+[[package]]
 name = "django-bootstrap-datepicker-plus"
 version = "5.0.5"
 description = "Bootstrap3/Bootstrap4/Bootstrap5 DatePickerInput, TimePickerInput, DateTimePickerInput, MonthPickerInput, YearPickerInput"
@@ -981,24 +996,6 @@ files = [
 
 [package.dependencies]
 Django = ">=3.2"
-
-[[package]]
-name = "django-ldapdb"
-version = "1.5.1"
-description = "A LDAP database backend for Django"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "django-ldapdb-1.5.1.tar.gz", hash = "sha256:5ea333c3130abbb86f8629766370a7f490878706469fce4e5008e41fb566392a"},
-    {file = "django_ldapdb-1.5.1-py2.py3-none-any.whl", hash = "sha256:2daee828a7eb1ce6ad0634ce5311339d77c08128829e575ff14d62a46771b86a"},
-]
-
-[package.dependencies]
-Django = ">=2.2"
-python-ldap = ">=3.0"
-
-[package.extras]
-dev = ["check-manifest", "factory-boy", "flake8", "isort (>=5.0.0)", "tox", "volatildap (>=1.1.0)", "wheel", "zest.releaser[recommended]"]
 
 [[package]]
 name = "django-phonenumber-field"
@@ -3073,4 +3070,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "62cfb47e0c27d67ec39d5d462fbede56c3badaa21e967e0352e4c83d4b18dbec"
+content-hash = "ea5b2e54671901a1f59a6407c0dc49279a2229b9c6c47eb8561226304878d2fc"
