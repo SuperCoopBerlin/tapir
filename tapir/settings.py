@@ -17,6 +17,8 @@ from pathlib import Path
 
 import celery.schedules
 import environ
+import ldap
+from django_auth_ldap.config import LDAPSearch
 
 env = environ.Env()
 
@@ -112,12 +114,7 @@ WSGI_APPLICATION = "tapir.wsgi.application"
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
     "default": env.db(default="postgresql://tapir:tapir@db:5432/tapir"),
-    "ldap": env.db_url(
-        "LDAP_URL", default="ldap://cn=admin,dc=supercoop,dc=de:admin@openldap"
-    ),
 }
-
-DATABASE_ROUTERS = ["ldapdb.router.Router"]
 
 CELERY_BROKER_URL = "redis://redis:6379"
 CELERY_RESULT_BACKEND = "redis://redis:6379"
@@ -325,13 +322,6 @@ PERMISSIONS = {
     ],
     PERMISSION_GROUP_MANAGE: [GROUP_VORSTAND, GROUP_EMPLOYEES],
 }
-# Permissions granted to client presenting a given SSL client cert. Currently used for the welcome desk machines.
-LDAP_WELCOME_DESK_ID = "CN=welcome-desk.members.supercoop.de,O=SuperCoop Berlin eG,C=DE"
-CLIENT_PERMISSIONS = {
-    LDAP_WELCOME_DESK_ID: [
-        PERMISSION_WELCOMEDESK_VIEW,
-    ]
-}
 
 AUTH_USER_MODEL = "accounts.TapirUser"
 LOGIN_REDIRECT_URL = "accounts:user_me"
@@ -348,3 +338,13 @@ if ENABLE_SILK_PROFILING:
     SILKY_PROFILE_DIR = "silk_profiling"
 
 SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
+
+AUTHENTICATION_BACKENDS = ["tapir.accounts.LoggingLdapBackend.LoggingLdapBackend"]
+AUTH_LDAP_SERVER_URI = "ldap://openldap"
+AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=supercoop,dc=de"
+if False:
+    AUTH_LDAP_USER_SEARCH = LDAPSearch(
+        "ou=people,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE, "(uid=%(user)s)"
+    )
+AUTH_LDAP_BIND_DN = "cn=admin,dc=supercoop,dc=de"
+AUTH_LDAP_BIND_PASSWORD = "admin"

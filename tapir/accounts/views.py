@@ -24,8 +24,6 @@ from tapir.accounts.forms import (
 from tapir.accounts.models import (
     TapirUser,
     UpdateTapirUserLogEntry,
-    LdapGroup,
-    LdapPerson,
 )
 from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail

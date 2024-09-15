@@ -5,7 +5,7 @@ from django.forms import TextInput, CheckboxSelectMultiple
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
-from tapir.accounts.models import TapirUser, LdapGroup
+from tapir.accounts.models import TapirUser
 from tapir.core.tapir_email_base import mails_not_mandatory, mails_mandatory
 from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
