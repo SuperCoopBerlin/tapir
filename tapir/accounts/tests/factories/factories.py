@@ -1,9 +1,13 @@
 import factory
+import ldap
+from icecream import ic
+from ldap.ldapobject import LDAPObject
 
 from tapir import settings
-from tapir.accounts.models import TapirUser, LdapGroup
+from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.tests.factories import ShareOwnerFactory
+from tapir.utils.shortcuts import build_ldap_group_dn
 
 
 class TapirUserFactory(UserDataFactory):
@@ -12,7 +16,7 @@ class TapirUserFactory(UserDataFactory):
         skip_postgeneration_save = True
 
     username = factory.LazyAttribute(
-        lambda o: f"{o.usage_name if o.usage_name else o.first_name}.{o.last_name}"
+        lambda o: f"{o.usage_name if o.usage_name else o.first_name}.{o.last_name}".lower()
     )
 
     share_owner = factory.RelatedFactory(
@@ -78,30 +82,20 @@ class TapirUserFactory(UserDataFactory):
     def _set_group_membership(
         tapir_user: TapirUser, group_cn: str, is_member_of_group: bool
     ):
-        group = LdapGroup.objects.filter(cn=group_cn).first()
-        if not group:
-            group = LdapGroup(cn=group_cn)
-            group.members = []
-
-        user_dn = tapir_user.get_ldap().build_dn()
-        if is_member_of_group:
-            group.members.append(user_dn)
-            group.save()
-            return
-
-        if user_dn not in group.members:
-            return
-
-        # The current test setup uses the same LDAP server for all the tests, without resetting it in between tests,
-        # so we have to make sure that this user has not been added to the member office by a previous test
-        # or a previous run
-        group.members.remove(user_dn)
-
-        if group.members:
-            group.save()
-            return
-
-        group.delete()
+        ic(tapir_user.id)
+        connection: LDAPObject = tapir_user.get_ldap_user().connection
+        group_dn = build_ldap_group_dn(group_cn)
+        user_dn = tapir_user.build_ldap_dn()
+        connection.modify_s(
+            group_dn,
+            [
+                (
+                    ldap.MOD_ADD if is_member_of_group else ldap.MOD_DELETE,
+                    "member",
+                    [user_dn],
+                )
+            ],
+        )
 
     @factory.post_generation
     def shift_capabilities(self, create, shift_capabilities, **kwargs):

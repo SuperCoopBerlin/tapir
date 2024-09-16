@@ -153,11 +153,7 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
         )
 
 
-class LdapEnabledTestCase(TestCase):
-    databases = {"ldap", DEFAULT_DB_ALIAS}
-
-
-class TapirFactoryTestBase(LdapEnabledTestCase):
+class TapirFactoryTestBase(TestCase):
     client: Client
 
     def setUp(self) -> None:

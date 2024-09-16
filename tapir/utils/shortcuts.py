@@ -131,3 +131,7 @@ def get_models_with_attribute_value_at_date(
         if getattr(entry, attribute_name) == attribute_value:
             result.append(entry)
     return result
+
+
+def build_ldap_group_dn(group_cn: str):
+    return f"cn={group_cn},ou=groups,dc=supercoop,dc=de"

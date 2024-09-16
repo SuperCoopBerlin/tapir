@@ -162,6 +162,9 @@ class TapirUser(AbstractUser):
             self.ldap_user = LDAPBackend().populate_user(self.username).ldap_user
         return self.ldap_user
 
+    def build_ldap_dn(self):
+        return f"uid={self.username},ou=people,dc=supercoop,dc=de"
+
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
     template_name = "accounts/log/update_tapir_user_log_entry.html"

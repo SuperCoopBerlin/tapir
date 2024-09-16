@@ -1,6 +1,7 @@
 from django.urls import reverse
+from ldap.ldapobject import LDAPObject
 
-from tapir.accounts.models import TapirUser, LdapPerson
+from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -59,4 +60,11 @@ class TestUsernameChange(TapirFactoryTestBase):
         )
 
     def tearDown(self) -> None:
-        LdapPerson.objects.filter(uid=self.NEW_USERNAME).delete()
+        tapir_user: TapirUser | None = TapirUser.objects.filter(
+            username=self.NEW_USERNAME
+        ).first()
+        if not tapir_user:
+            return
+
+        connection: LDAPObject = tapir_user.get_ldap_user().connection
+        connection.delete_s(tapir_user.build_ldap_dn())
