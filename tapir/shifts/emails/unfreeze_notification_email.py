@@ -25,13 +25,11 @@ class UnfreezeNotificationEmail(TapirEmailBase):
     def get_subject_templates(self) -> List:
         return [
             "shifts/email/unfreeze_notification.subject.html",
-            "shifts/email/unfreeze_notification.subject.default.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
             "shifts/email/unfreeze_notification.body.html",
-            "shifts/email/unfreeze_notification.body.default.html",
         ]
 
     def get_extra_context(self) -> dict:

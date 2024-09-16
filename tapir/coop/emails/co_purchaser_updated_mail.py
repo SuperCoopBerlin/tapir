@@ -36,7 +36,6 @@ class CoPurchaserUpdatedMail(TapirEmailBase):
     def get_body_templates(self) -> List:
         return [
             "coop/email/co_purchaser_updated.body.html",
-            "coop/email/co_purchaser_updated.body.default.html",
         ]
 
     def get_extra_context(self) -> dict:

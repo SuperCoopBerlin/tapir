@@ -7,12 +7,15 @@
         <p>Dear {{ display_name_short }},</p>
 
         <p>This is an automated email from {{ coop_name }}.</p>
-
         <p>
             You were looking for a stand-in for the following shift: {{ shift_display_name }}.<br />
             Another member has taken over your slot for that shift.
         </p>
 
         <p>If you haven't done so already, don't forget to attend another shift to compensate for the one you will miss!</p>
+        <p>
+            Cooperative Greetings,<br />
+            The member office
+        </p>
     {% endblocktranslate %}
 {% endblock body %}

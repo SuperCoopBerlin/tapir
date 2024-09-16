@@ -30,13 +30,11 @@ class ShiftReminderEmail(TapirEmailBase):
     def get_subject_templates(self) -> List:
         return [
             "shifts/email/shift_reminder.subject.html",
-            "shifts/email/shift_reminder.subject.default.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
             "shifts/email/shift_reminder.body.html",
-            "shifts/email/shift_reminder.body.default.html",
         ]
 
     def get_extra_context(self) -> dict:

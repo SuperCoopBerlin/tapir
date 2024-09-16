@@ -31,13 +31,11 @@ class MemberFrozenEmail(TapirEmailBase):
     def get_subject_templates(self) -> List:
         return [
             "shifts/email/member_frozen.subject.html",
-            "shifts/email/member_frozen.subject.default.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
             "shifts/email/member_frozen.body.html",
-            "shifts/email/member_frozen.body.default.html",
         ]
 
     def get_extra_context(self) -> dict:

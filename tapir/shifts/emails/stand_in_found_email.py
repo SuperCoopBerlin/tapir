@@ -31,13 +31,11 @@ class StandInFoundEmail(TapirEmailBase):
     def get_subject_templates(self) -> List:
         return [
             "shifts/email/stand_in_found.subject.html",
-            "shifts/email/stand_in_found.subject.default.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
             "shifts/email/stand_in_found.body.html",
-            "shifts/email/stand_in_found.body.default.html",
         ]
 
     def get_extra_context(self) -> dict:

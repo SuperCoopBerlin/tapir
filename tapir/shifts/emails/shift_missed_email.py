@@ -28,13 +28,11 @@ class ShiftMissedEmail(TapirEmailBase):
     def get_subject_templates(self) -> List:
         return [
             "shifts/email/shift_missed.subject.html",
-            "shifts/email/shift_missed.subject.default.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
             "shifts/email/shift_missed.body.html",
-            "shifts/email/shift_missed.body.default.html",
         ]
 
     def get_extra_context(self) -> dict:
