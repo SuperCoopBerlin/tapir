@@ -6,9 +6,10 @@ from django.db import models
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
+from django_auth_ldap.backend import _LDAPUser, LDAPBackend
 from phonenumber_field.modelfields import PhoneNumberField
 
-from tapir import utils
+from tapir import utils, settings
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
 from tapir.core.tapir_email_base import mails_not_mandatory
@@ -90,6 +91,11 @@ class TapirUser(AbstractUser):
 
     objects = TapirUserManager()
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ldap_user = None
+        self.__cached_perms = None
+
     def get_display_name(self, display_type):
         return UserUtils.build_display_name(self, display_type)
 
@@ -106,14 +112,6 @@ class TapirUser(AbstractUser):
     def get_absolute_url(self):
         return reverse("accounts:user_detail", args=[self.pk])
 
-    def has_perm(self, perm, obj=None):
-        # This is a hack to allow permissions based on client certificates. ClientPermsMiddleware checks the
-        # certificate in the request and adds the extra permissions the user object, which is accessible here.
-        if hasattr(self, "client_perms") and perm in self.client_perms:
-            return True
-
-        return super().has_perm(perm=perm, obj=obj)
-
     def get_permissions_display(self):
         user_perms = [perm for perm in PERMISSIONS if self.has_perm(perm)]
         if len(user_perms) == 0:
@@ -121,13 +119,28 @@ class TapirUser(AbstractUser):
         return ", ".join(user_perms)
 
     def get_groups_display(self):
-        user_dn = self.get_ldap().build_dn()
-        user_groups = [
-            group.cn for group in LdapGroup.objects.all() if user_dn in group.members
-        ]
-        if len(user_groups) == 0:
+        group_names = self.get_ldap_user().group_names
+        if len(group_names) == 0:
             return _("None")
-        return ", ".join(user_groups)
+        return ", ".join(group_names)
+
+    def has_perm(self, perm, obj=None):
+        if self.__cached_perms is None:
+            self.__build_cached_perms()
+
+        return self.__cached_perms.get(perm, False)
+
+    def __build_cached_perms(self):
+        self.__cached_perms = {}
+        for (
+            permission_name,
+            groups_that_have_this_permission,
+        ) in settings.PERMISSIONS.items():
+            self.__cached_perms[permission_name] = (
+                not groups_that_have_this_permission.isdisjoint(
+                    self.get_ldap_user().group_names
+                )
+            )
 
     def get_member_number(self):
         if not hasattr(self, "share_owner") or not self.share_owner:
@@ -143,6 +156,11 @@ class TapirUser(AbstractUser):
             return False
 
         return self.share_owner.get_is_company()
+
+    def get_ldap_user(self) -> _LDAPUser:
+        if not self.ldap_user:
+            self.ldap_user = LDAPBackend().populate_user(self.username).ldap_user
+        return self.ldap_user
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):

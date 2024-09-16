@@ -16,9 +16,10 @@ from datetime import timedelta
 from pathlib import Path
 
 import celery.schedules
+import django_auth_ldap
 import environ
 import ldap
-from django_auth_ldap.config import LDAPSearch
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType, NestedGroupOfNamesType
 
 env = environ.Env()
 
@@ -259,68 +260,68 @@ GROUP_ACCOUNTING = "accounting"
 GROUP_WELCOME_DESK = "welcomedesk-only"
 GROUP_EMPLOYEES = "employees"
 
-LDAP_GROUPS = [
+LDAP_GROUPS = {
     GROUP_VORSTAND,
     GROUP_MEMBER_OFFICE,
     GROUP_SHIFT_MANAGER,
     GROUP_ACCOUNTING,
     GROUP_WELCOME_DESK,
     GROUP_EMPLOYEES,
-]
+}
 
 
 PERMISSIONS = {
-    PERMISSION_SHIFTS_MANAGE: [
+    PERMISSION_SHIFTS_MANAGE: {
         GROUP_VORSTAND,
         GROUP_MEMBER_OFFICE,
         GROUP_SHIFT_MANAGER,
         GROUP_EMPLOYEES,
-    ],
-    PERMISSION_SHIFTS_EXEMPTIONS: [
+    },
+    PERMISSION_SHIFTS_EXEMPTIONS: {
         GROUP_VORSTAND,
         GROUP_MEMBER_OFFICE,
         GROUP_EMPLOYEES,
-    ],
-    PERMISSION_COOP_VIEW: [
-        GROUP_VORSTAND,
-        GROUP_MEMBER_OFFICE,
-        GROUP_ACCOUNTING,
-        GROUP_EMPLOYEES,
-    ],
-    PERMISSION_COOP_MANAGE: [
-        GROUP_VORSTAND,
-        GROUP_MEMBER_OFFICE,
-        GROUP_EMPLOYEES,
-    ],
-    PERMISSION_COOP_ADMIN: [GROUP_VORSTAND],
-    PERMISSION_ACCOUNTS_VIEW: [
+    },
+    PERMISSION_COOP_VIEW: {
         GROUP_VORSTAND,
         GROUP_MEMBER_OFFICE,
         GROUP_ACCOUNTING,
         GROUP_EMPLOYEES,
-    ],
-    PERMISSION_ACCOUNTS_MANAGE: [
+    },
+    PERMISSION_COOP_MANAGE: {
         GROUP_VORSTAND,
         GROUP_MEMBER_OFFICE,
         GROUP_EMPLOYEES,
-    ],
-    PERMISSION_WELCOMEDESK_VIEW: [
+    },
+    PERMISSION_COOP_ADMIN: {GROUP_VORSTAND},
+    PERMISSION_ACCOUNTS_VIEW: {
+        GROUP_VORSTAND,
+        GROUP_MEMBER_OFFICE,
+        GROUP_ACCOUNTING,
+        GROUP_EMPLOYEES,
+    },
+    PERMISSION_ACCOUNTS_MANAGE: {
+        GROUP_VORSTAND,
+        GROUP_MEMBER_OFFICE,
+        GROUP_EMPLOYEES,
+    },
+    PERMISSION_WELCOMEDESK_VIEW: {
         GROUP_VORSTAND,
         GROUP_MEMBER_OFFICE,
         GROUP_WELCOME_DESK,
         GROUP_EMPLOYEES,
-    ],
-    PERMISSION_ACCOUNTING_VIEW: [
+    },
+    PERMISSION_ACCOUNTING_VIEW: {
         GROUP_VORSTAND,
         GROUP_MEMBER_OFFICE,
         GROUP_ACCOUNTING,
         GROUP_EMPLOYEES,
-    ],
-    PERMISSION_ACCOUNTING_MANAGE: [
+    },
+    PERMISSION_ACCOUNTING_MANAGE: {
         GROUP_VORSTAND,
         GROUP_ACCOUNTING,
-    ],
-    PERMISSION_GROUP_MANAGE: [GROUP_VORSTAND, GROUP_EMPLOYEES],
+    },
+    PERMISSION_GROUP_MANAGE: {GROUP_VORSTAND, GROUP_EMPLOYEES},
 }
 
 AUTH_USER_MODEL = "accounts.TapirUser"
@@ -339,12 +340,15 @@ if ENABLE_SILK_PROFILING:
 
 SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
 
-AUTHENTICATION_BACKENDS = ["tapir.accounts.LoggingLdapBackend.LoggingLdapBackend"]
+AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
 AUTH_LDAP_SERVER_URI = "ldap://openldap"
 AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=supercoop,dc=de"
-if False:
-    AUTH_LDAP_USER_SEARCH = LDAPSearch(
-        "ou=people,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE, "(uid=%(user)s)"
-    )
 AUTH_LDAP_BIND_DN = "cn=admin,dc=supercoop,dc=de"
 AUTH_LDAP_BIND_PASSWORD = "admin"
+
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+    "ou=groups,dc=supercoop,dc=de",
+    ldap.SCOPE_SUBTREE,
+    "(objectClass=top)",
+)
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")

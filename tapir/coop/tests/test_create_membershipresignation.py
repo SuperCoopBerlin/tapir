@@ -1,15 +1,14 @@
-from icecream import ic
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
 from django.urls import reverse
 
+from tapir.coop.config import feature_flag_membership_resignation
 from tapir.coop.tests.factories import (
     MembershipResignationFactory,
     ShareOwnerFactory,
 )
 from tapir.core.models import FeatureFlag
-from tapir.coop.config import feature_flag_membership_resignation
-
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

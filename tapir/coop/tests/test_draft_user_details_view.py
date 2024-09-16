@@ -1,5 +1,4 @@
 from django.urls import reverse
-from icecream import ic
 
 from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
