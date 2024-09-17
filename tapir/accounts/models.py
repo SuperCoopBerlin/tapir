@@ -9,7 +9,6 @@ from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from django_auth_ldap.backend import _LDAPUser, LDAPBackend
 from django_auth_ldap.config import LDAPSearch
-from icecream import ic
 from ldap import modlist
 from ldap.ldapobject import LDAPObject
 from phonenumber_field.modelfields import PhoneNumberField
@@ -203,7 +202,7 @@ class TapirUser(AbstractUser):
     def create_ldap(self):
         connection = get_admin_ldap_connection()
         connection.add_s(
-            ic(self.build_ldap_dn()), ic(modlist.addModlist(self.build_ldap_modlist()))
+            self.build_ldap_dn(), modlist.addModlist(self.build_ldap_modlist())
         )
 
     def save(self, **kwargs):
@@ -226,6 +225,14 @@ class TapirUser(AbstractUser):
         ldap_user = self.get_ldap_user("set_password")
         connection: LDAPObject = ldap_user.connection
         connection.passwd_s(self.build_ldap_dn(), None, raw_password)
+
+    def check_password(self, raw_password):
+        connection = ldap.initialize("ldap://openldap")
+        try:
+            connection.simple_bind_s(self.build_ldap_dn(), raw_password)
+        except ldap.INVALID_CREDENTIALS:
+            return False
+        return True
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
