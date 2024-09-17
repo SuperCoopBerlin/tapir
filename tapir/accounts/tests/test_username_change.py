@@ -1,8 +1,10 @@
 from django.urls import reverse
+from icecream import ic
 from ldap.ldapobject import LDAPObject
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.utils.shortcuts import get_admin_ldap_connection
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -11,14 +13,20 @@ class TestUsernameChange(TapirFactoryTestBase):
     NEW_USERNAME = "new.username"
 
     def test_normal_user_can_update_own_username(self):
+        ic("Create actor")
         actor: TapirUser = TapirUserFactory.create(
             is_in_member_office=False, username=self.OLD_USERNAME
         )
+        self.assertTrue(
+            self.client.login(username=self.OLD_USERNAME, password=self.OLD_USERNAME)
+        )
+        ic("User can login with old username")
 
         response = self.try_update(actor=actor, target=actor)
         self.assertEqual(200, response.status_code)
 
         actor.refresh_from_db()
+        ic(actor)
         self.assertEqual(self.NEW_USERNAME, actor.username)
         self.assertTrue(
             self.client.login(username=self.NEW_USERNAME, password=self.OLD_USERNAME)
@@ -40,6 +48,9 @@ class TestUsernameChange(TapirFactoryTestBase):
     def test_member_office_user_can_update_other_username(self):
         actor: TapirUser = TapirUserFactory.create(is_in_member_office=True)
         target: TapirUser = TapirUserFactory.create(username=self.OLD_USERNAME)
+        self.assertTrue(
+            self.client.login(username=self.OLD_USERNAME, password=self.OLD_USERNAME)
+        )
 
         response = self.try_update(actor=actor, target=target)
         self.assertEqual(200, response.status_code)
@@ -51,6 +62,7 @@ class TestUsernameChange(TapirFactoryTestBase):
         )
 
     def try_update(self, actor: TapirUser, target: TapirUser):
+        ic("Logging client with old username")
         self.login_as_user(actor)
 
         return self.client.post(
@@ -58,13 +70,3 @@ class TestUsernameChange(TapirFactoryTestBase):
             {"username": self.NEW_USERNAME},
             follow=True,
         )
-
-    def tearDown(self) -> None:
-        tapir_user: TapirUser | None = TapirUser.objects.filter(
-            username=self.NEW_USERNAME
-        ).first()
-        if not tapir_user:
-            return
-
-        connection: LDAPObject = tapir_user.get_ldap_user().connection
-        connection.delete_s(tapir_user.build_ldap_dn())

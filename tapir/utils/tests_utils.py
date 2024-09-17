@@ -9,7 +9,6 @@ from unittest.mock import patch
 import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.mail import EmailMessage
-from django.db import DEFAULT_DB_ALIAS
 from django.test import TestCase, override_settings, Client
 from django.urls import reverse
 from selenium import webdriver
@@ -27,6 +26,7 @@ from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_base import TapirEmailBase
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.json_user import JsonUser
+from tapir.utils.shortcuts import get_admin_ldap_connection
 
 
 @override_settings(ALLOWED_HOSTS=["*"])
@@ -35,7 +35,6 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
     selenium: WebDriver
     test_users: [] = None
     host = "0.0.0.0"  # Bind to 0.0.0.0 to allow external access
-    databases = {"ldap", DEFAULT_DB_ALIAS}
 
     @classmethod
     def setUpClass(cls):
@@ -193,6 +192,11 @@ class TapirFactoryTestBase(TestCase):
         user = TapirUserFactory.create(is_employee=True)
         self.login_as_user(user)
         return user
+
+    def tearDown(self):
+        connection = get_admin_ldap_connection()
+        for tapir_user in TapirUser.objects.all():
+            connection.delete_s(tapir_user.build_ldap_dn())
 
 
 class TapirEmailTestBase(TestCase):

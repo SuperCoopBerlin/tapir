@@ -1,5 +1,6 @@
 import logging
 
+import ldap
 from django.contrib.auth.models import AbstractUser, UserManager, User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
@@ -7,6 +8,10 @@ from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
 from django_auth_ldap.backend import _LDAPUser, LDAPBackend
+from django_auth_ldap.config import LDAPSearch
+from icecream import ic
+from ldap import modlist
+from ldap.ldapobject import LDAPObject
 from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils, settings
@@ -14,9 +19,9 @@ from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capabi
 from tapir.core.config import help_text_displayed_name
 from tapir.core.tapir_email_base import mails_not_mandatory
 from tapir.log.models import UpdateModelLogEntry
-from tapir.settings import PERMISSIONS
+from tapir.settings import PERMISSIONS, REG_PERSON_BASE_DN, REG_PERSON_OBJECT_CLASSES
 from tapir.utils.models import CountryField
-from tapir.utils.shortcuts import get_html_link
+from tapir.utils.shortcuts import get_html_link, get_admin_ldap_connection
 from tapir.utils.user_utils import UserUtils
 
 log = logging.getLogger(__name__)
@@ -95,6 +100,7 @@ class TapirUser(AbstractUser):
         super().__init__(*args, **kwargs)
         self.ldap_user = None
         self.__cached_perms = None
+        self.client_perms = []
 
     def get_display_name(self, display_type):
         return UserUtils.build_display_name(self, display_type)
@@ -125,6 +131,9 @@ class TapirUser(AbstractUser):
         return ", ".join(group_names)
 
     def has_perm(self, perm, obj=None):
+        if perm in self.client_perms:
+            return True
+
         if self.__cached_perms is None:
             self.__build_cached_perms()
 
@@ -157,13 +166,66 @@ class TapirUser(AbstractUser):
 
         return self.share_owner.get_is_company()
 
-    def get_ldap_user(self) -> _LDAPUser:
-        if not self.ldap_user:
-            self.ldap_user = LDAPBackend().populate_user(self.username).ldap_user
+    def get_ldap_user(self, source=None) -> _LDAPUser | None:
+        if self.ldap_user:
+            return self.ldap_user
+
+        search = LDAPSearch(
+            "ou=people,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE, f"(uid={self.username})"
+        )
+        result = search.execute(get_admin_ldap_connection())
+        if not result:
+            return None
+
+        self.ldap_user = _LDAPUser(backend=LDAPBackend(), user=self)
         return self.ldap_user
 
     def build_ldap_dn(self):
-        return f"uid={self.username},ou=people,dc=supercoop,dc=de"
+        return f"uid={self.username},{REG_PERSON_BASE_DN}"
+
+    def build_ldap_modlist(self):
+        user_modlist = {
+            "uid": [self.username],
+            "sn": [self.last_name],
+            "cn": [
+                UserUtils.build_display_name(self, UserUtils.DISPLAY_NAME_TYPE_FULL)
+            ],
+            "mail": [self.email],
+            "objectclass": REG_PERSON_OBJECT_CLASSES,
+        }
+        user_modlist = {
+            key: [value_in_list.encode("utf-8") for value_in_list in value_list]
+            for key, value_list in user_modlist.items()
+        }  # Ldap expects byte-strings
+
+        return user_modlist
+
+    def create_ldap(self):
+        connection = get_admin_ldap_connection()
+        connection.add_s(
+            ic(self.build_ldap_dn()), ic(modlist.addModlist(self.build_ldap_modlist()))
+        )
+
+    def save(self, **kwargs):
+        super().save(**kwargs)
+        ldap_user = self.get_ldap_user("save")
+        if ldap_user:
+            self.get_ldap_user().connection.modify_s(
+                self.build_ldap_dn(),
+                modlist.modifyModlist(
+                    self.build_ldap_modlist(), self.build_ldap_modlist()
+                ),
+            )
+        else:
+            self.create_ldap()
+
+    def set_password(self, raw_password):
+        # force null Django password (will use LDAP password)
+        self.set_unusable_password()
+
+        ldap_user = self.get_ldap_user("set_password")
+        connection: LDAPObject = ldap_user.connection
+        connection.passwd_s(self.build_ldap_dn(), None, raw_password)
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):

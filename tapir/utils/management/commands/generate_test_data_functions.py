@@ -4,9 +4,14 @@ import os
 import pathlib
 import random
 
+import ldap
 from django.utils import timezone
+from django_auth_ldap.config import LDAPSearch
+from fabric.testing.fixtures import connection
+from ldap.ldapobject import LDAPObject
 
-from tapir.accounts.models import TapirUser, LdapGroup, LdapPerson
+from tapir import settings
+from tapir.accounts.models import TapirUser
 from tapir.coop.models import (
     ShareOwner,
     ShareOwnership,
@@ -19,6 +24,7 @@ from tapir.coop.models import (
 from tapir.coop.services.MemberInfoService import MemberInfoService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.log.models import LogEntry
+from tapir.settings import GROUP_VORSTAND, GROUP_MEMBER_OFFICE
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -34,7 +40,13 @@ from tapir.shifts.models import (
 from tapir.statistics.models import ProcessedPurchaseFiles, PurchaseBasket
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
-from tapir.utils.shortcuts import get_monday, get_timezone_aware_datetime
+from tapir.utils.shortcuts import (
+    get_monday,
+    get_timezone_aware_datetime,
+    set_group_membership,
+    get_admin_ldap_connection,
+    build_ldap_group_dn,
+)
 
 SHIFT_NAME_CASHIER_MORNING = "Cashier morning"
 SHIFT_NAME_CASHIER_AFTERNOON = "Cashier afternoon"
@@ -103,7 +115,7 @@ def generate_tapir_users(json_users):
         tapir_user.create_ldap()
 
     for tapir_user in tapir_users:
-        tapir_user.set_ldap_password(tapir_user.username)
+        tapir_user.set_password(tapir_user.username)
 
     vorstand_users = []
     member_office_users = []
@@ -118,17 +130,8 @@ def generate_tapir_users(json_users):
         elif randomizer % 25 == 1:
             member_office_users.append(tapir_user)
 
-    vorstand_ldap_group = LdapGroup(cn="vorstand")
-    vorstand_ldap_group.members = [
-        tapir_user.get_ldap().build_dn() for tapir_user in vorstand_users
-    ]
-    vorstand_ldap_group.save()
-
-    member_office_ldap_group = LdapGroup(cn="member-office")
-    member_office_ldap_group.members = [
-        tapir_user.get_ldap().build_dn() for tapir_user in member_office_users
-    ]
-    member_office_ldap_group.save()
+    set_group_membership(vorstand_users, GROUP_VORSTAND, True)
+    set_group_membership(member_office_users, GROUP_MEMBER_OFFICE, True)
 
     return result
 
@@ -372,11 +375,40 @@ def generate_test_applicants():
     DraftUser.objects.bulk_create(draft_users)
 
 
-def clear_data():
-    print("Clearing data...")
+def remove_users_from_group(connection: LDAPObject, group_name: str, tapir_users):
+    connection.modify_s(
+        build_ldap_group_dn(group_name),
+        [
+            (
+                ldap.MOD_DELETE,
+                "member",
+                [
+                    tapir_user.build_ldap_dn().encode("utf-8")
+                    for tapir_user in tapir_users
+                ],
+            )
+        ],
+    )
+
+
+def clear_ldap():
+    tapir_users = TapirUser.objects.all()
+    connection = get_admin_ldap_connection()
+    for group_name in settings.LDAP_GROUPS:
+        search = LDAPSearch(
+            "ou=groups,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE, f"(cn={group_name})"
+        )
+        result = search.execute(connection)
+        if result:
+            connection.delete_s(build_ldap_group_dn(group_name))
+
+    for tapir_user in tapir_users:
+        if tapir_user.get_ldap_user("check delete"):
+            connection.delete_s(tapir_user.build_ldap_dn())
+
+
+def clear_django_db():
     classes = [
-        LdapPerson,
-        LdapGroup,
         LogEntry,
         ShiftAttendance,
         ShiftCycleEntry,
@@ -398,6 +430,14 @@ def clear_data():
     for cls in classes:
         cls.objects.all().delete()
     TapirUser.objects.filter(is_staff=False).delete()
+
+
+def clear_data():
+    print("Clearing data...")
+
+    clear_ldap()
+    clear_django_db()
+
     print("Done")
 
 
