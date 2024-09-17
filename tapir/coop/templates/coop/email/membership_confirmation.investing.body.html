@@ -2,38 +2,21 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-    (English below)
-    <p>Liebe*r {% get_display_name_short share_owner %},</p>
+    {% blocktranslate with get_display_name_short share_owner as share_owner coop_full_name=%}
+    <p>Dear {{ share_owner }},</p>
     <p>
-        herzlich Willkommen als offizielles Fördermitglied der {{ coop_full_name }}! Mit dem Zeichnen von
+    Welcome as an official investing member of {{ coop_full_name }}! By subscribing to
+    {% endblocktranslate %}
         {% if share_owner.num_shares == 1 %}
-            einem Genossenschaftsanteil
+    {% blocktranslate %}
+        a cooperative share
+    {% endblocktranslate %}
         {% else %}
-            {{ share_owner.num_shares }} Anteilen
+    {% blocktranslate with share_owner=share_owner %}
+        {{ share_owner.num_shares }} cooperative shares
+    {% endblocktranslate %}
         {% endif %}
-        hast du dich dafür entschieden,
-        gemeinsam mit uns und vielen weiteren Genoss*innen das Ernährungssystem mitzugestalten!
-    </p>
-    <p>
-        Wir freuen uns sehr, dich als Fördermitglied der {{ coop_full_name }} begrüßen zu dürfen und bestätigen die Aufnahme in
-        die Genossenschaft mit der Mitgliedsnummer {{ share_owner.id }}. Deine Mitgliedschaftsbestätigung findest du als PDF
-        im Anhang.
-    </p>
-    <p>Bei Fragen kannst du dich gerne an mitglied@supercoop.de wenden.</p>
-    <p>
-        Kooperative Grüße
-        <br />
-        Dein SuperCoop-Vorstand
-    </p>
-    <hr />
-    <p>Dear {% get_display_name_short share_owner %},</p>
-    <p>
-        Welcome as an official investing member of {{ coop_full_name }}! By subscribing to
-        {% if share_owner.num_shares == 1 %}
-            a cooperative share
-        {% else %}
-            {{ share_owner.num_shares }} cooperative shares
-        {% endif %}
+    {% blocktranslate with share_owner=share_owner %}
         , you have decided to
         shape the food system together with us and many other coop members!
     </p>
@@ -42,8 +25,12 @@
         attached PDF for full details.
     </p>
     <p>
+        If you have questions, please contact our member-office (<a href="mailto: mitglied@supercoop.de">mitglied@supercoop.de</a>)
+    </p>
+    <p>
         Cooperative greetings
         <br />
         Your SuperCoop-Board
     </p>
+    {% endblocktranslate %}
 {% endblock body %}
