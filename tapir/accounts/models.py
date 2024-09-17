@@ -165,7 +165,7 @@ class TapirUser(AbstractUser):
 
         return self.share_owner.get_is_company()
 
-    def get_ldap_user(self, source=None) -> _LDAPUser | None:
+    def get_ldap_user(self) -> _LDAPUser | None:
         if self.ldap_user:
             return self.ldap_user
 
@@ -207,7 +207,7 @@ class TapirUser(AbstractUser):
 
     def save(self, **kwargs):
         super().save(**kwargs)
-        ldap_user = self.get_ldap_user("save")
+        ldap_user = self.get_ldap_user()
         if ldap_user:
             self.get_ldap_user().connection.modify_s(
                 self.build_ldap_dn(),
@@ -222,7 +222,7 @@ class TapirUser(AbstractUser):
         # force null Django password (will use LDAP password)
         self.set_unusable_password()
 
-        ldap_user = self.get_ldap_user("set_password")
+        ldap_user = self.get_ldap_user()
         connection: LDAPObject = ldap_user.connection
         connection.passwd_s(self.build_ldap_dn(), None, raw_password)
 
