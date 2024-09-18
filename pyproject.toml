@@ -2,7 +2,7 @@
 name = "tapir"
 version = "0.1.0"
 description = ""
-authors = ["Leon Handreke <leonh@ndreke.de>"]
+authors = ["Leon Handreke <leonh@ndreke.de>, Théophile Madet <theo.madet@posteo.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
