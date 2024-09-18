@@ -3,23 +3,11 @@
 {% load utils %}
 {% block body %}
     {% get_display_name_short share_owner as display_name %}
-    {% blocktranslate with display_name=display_name coop_full_name=coop_full_name %}
+    {% blocktranslate with display_name=display_name coop_full_name=coop_full_name owner_id=share_owner.id num_shares=share_owner.num_shares %}
     <p>Dear {{ display_name }},</p>
     <p>
-    Welcome as an official investing member of {{ coop_full_name }}! By subscribing to
-    {% endblocktranslate %}
-    {% if share_owner.num_shares == 1 %}
-        {% blocktranslate %}
-        a cooperative share
-    {% endblocktranslate %}
-    {% else %}
-        {% blocktranslate with shares=share_owner.num_shares %}
-        {{ shares }} cooperative shares
-    {% endblocktranslate %}
-    {% endif %}
-    {% blocktranslate with owner_id=share_owner.id %}
-        , you have decided to
-        shape the food system together with us and many other coop members!
+    Welcome as an official investing member of {{ coop_full_name }}! By subscribing to {{ num_shares }} cooperative share/s, 
+    you have decided to shape the food system together with us and many other coop members!
     </p>
     <p>
         We are very happy to confirm your admission to the cooperative with the membership number {{ owner_id }}. See the
