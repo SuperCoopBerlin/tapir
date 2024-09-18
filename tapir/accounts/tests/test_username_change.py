@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from tapir.accounts.models import TapirUser, LdapPerson
+from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -13,11 +13,15 @@ class TestUsernameChange(TapirFactoryTestBase):
         actor: TapirUser = TapirUserFactory.create(
             is_in_member_office=False, username=self.OLD_USERNAME
         )
+        self.assertTrue(
+            self.client.login(username=self.OLD_USERNAME, password=self.OLD_USERNAME)
+        )
 
         response = self.try_update(actor=actor, target=actor)
         self.assertEqual(200, response.status_code)
 
         actor.refresh_from_db()
+
         self.assertEqual(self.NEW_USERNAME, actor.username)
         self.assertTrue(
             self.client.login(username=self.NEW_USERNAME, password=self.OLD_USERNAME)
@@ -39,6 +43,9 @@ class TestUsernameChange(TapirFactoryTestBase):
     def test_member_office_user_can_update_other_username(self):
         actor: TapirUser = TapirUserFactory.create(is_in_member_office=True)
         target: TapirUser = TapirUserFactory.create(username=self.OLD_USERNAME)
+        self.assertTrue(
+            self.client.login(username=self.OLD_USERNAME, password=self.OLD_USERNAME)
+        )
 
         response = self.try_update(actor=actor, target=target)
         self.assertEqual(200, response.status_code)
@@ -57,6 +64,3 @@ class TestUsernameChange(TapirFactoryTestBase):
             {"username": self.NEW_USERNAME},
             follow=True,
         )
-
-    def tearDown(self) -> None:
-        LdapPerson.objects.filter(uid=self.NEW_USERNAME).delete()

@@ -24,8 +24,6 @@ from tapir.accounts.forms import (
 from tapir.accounts.models import (
     TapirUser,
     UpdateTapirUserLogEntry,
-    LdapGroup,
-    LdapPerson,
 )
 from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
@@ -40,7 +38,12 @@ from tapir.settings import (
     PERMISSION_GROUP_MANAGE,
     GROUP_VORSTAND,
 )
-from tapir.utils.shortcuts import set_header_for_file_download
+from tapir.utils.shortcuts import (
+    set_header_for_file_download,
+    set_group_membership,
+    get_group_members,
+    get_admin_ldap_connection,
+)
 from tapir.utils.user_utils import UserUtils
 
 
@@ -213,27 +216,9 @@ class EditUserLdapGroupsView(
         return self.get_tapir_user().get_absolute_url()
 
     def form_valid(self, form):
-        user_dn = self.get_tapir_user().get_ldap().build_dn()
+        tapir_user = self.get_tapir_user()
         for group_cn in settings.LDAP_GROUPS:
-            group = LdapGroup.objects.filter(cn=group_cn).first()
-            if not group:
-                group = LdapGroup(cn=group_cn)
-                group.members = []
-
-            if form.cleaned_data[group.cn] and user_dn not in group.members:
-                self.raise_permission_error_if_necessary(group_cn)
-                group.members.append(user_dn)
-
-            if not form.cleaned_data[group.cn] and user_dn in group.members:
-                self.raise_permission_error_if_necessary(group_cn)
-                group.members.remove(user_dn)
-
-            if group.members:
-                group.save()
-                continue
-
-            if group.dn:
-                group.delete()
+            set_group_membership([tapir_user], group_cn, form.cleaned_data[group_cn])
 
         return super().form_valid(form)
 
@@ -287,10 +272,9 @@ class LdapGroupListView(
 
         groups_data = {}
         for group_cn in settings.LDAP_GROUPS:
-            ldap_person_dns = LdapGroup.get_group_members_dns(cn=group_cn)
+            group_member_dns = get_group_members(get_admin_ldap_connection(), group_cn)
             usernames = [
-                LdapPerson.objects.get(dn=ldap_person_dn).uid
-                for ldap_person_dn in ldap_person_dns
+                dn.split(",")[0].replace("uid=", "") for dn in group_member_dns
             ]
             group_members = list(
                 TapirUser.objects.filter(username__in=usernames).prefetch_related(
@@ -327,9 +311,11 @@ class EditUsernameView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     def form_valid(self, form):
         tapir_user_before = self.get_target_user()
         tapir_user_after: TapirUser = form.instance
-        ldap_person = tapir_user_before.get_ldap()
-        ldap_person.uid = tapir_user_after.username
-        ldap_person.save()
+
+        tapir_user_before.get_ldap_user().connection.rename_s(
+            tapir_user_before.build_ldap_dn(),
+            f"uid={tapir_user_after.username}",
+        )
 
         response = super().form_valid(form)
 

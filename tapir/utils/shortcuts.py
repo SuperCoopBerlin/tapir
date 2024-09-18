@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 import datetime
 import os
-from typing import Type, Callable
+from typing import Type, Callable, List, TYPE_CHECKING
 
 import environ
+import ldap
 from django.db import models
 from django.db.models import QuerySet
 from django.http import HttpResponse
@@ -11,8 +14,14 @@ from django.utils import timezone
 from django.utils.encoding import iri_to_uri
 from django.utils.html import format_html
 from django.utils.http import url_has_allowed_host_and_scheme
+from django_auth_ldap.config import LDAPSearch
+from ldap import modlist
 
 from tapir import settings
+from tapir.settings import AUTH_LDAP_BIND_PASSWORD
+
+if TYPE_CHECKING:
+    from tapir.accounts.models import TapirUser
 from tapir.log.models import UpdateModelLogEntry
 
 
@@ -131,3 +140,92 @@ def get_models_with_attribute_value_at_date(
         if getattr(entry, attribute_name) == attribute_value:
             result.append(entry)
     return result
+
+
+def build_ldap_group_dn(group_cn: str):
+    return f"cn={group_cn},ou=groups,dc=supercoop,dc=de"
+
+
+def get_group_members(connection, group_cn):
+    search = LDAPSearch(
+        "ou=groups,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE, f"(cn={group_cn})"
+    )
+    result = search.execute(connection)
+    return result[0][1]._data["member"] if result else []
+
+
+def create_ldap_group(connection, group_cn, tapir_users: List[TapirUser]):
+    # Empty groups are not allowed in LDAP, so we need to create them with at least one member
+    connection.add_s(
+        build_ldap_group_dn(group_cn),
+        modlist.addModlist(
+            {
+                "objectclass": [b"groupOfNames"],
+                "member": [
+                    tapir_user.build_ldap_dn().encode("utf-8")
+                    for tapir_user in tapir_users
+                ],
+            }
+        ),
+    )
+
+
+def set_group_membership(
+    tapir_users: List[TapirUser], group_cn, is_member_of_group: bool
+):
+    connection = get_admin_ldap_connection()
+
+    current_group_members = get_group_members(connection, group_cn)
+    groups_exists = (
+        len(current_group_members) > 0
+    )  # Empty groups can't exist in LDAP, if get_group_members returns an empty the group has not been found
+
+    if not groups_exists:
+        if not is_member_of_group:
+            return
+        create_ldap_group(connection, group_cn, tapir_users)
+        return
+
+    current_group_members = get_group_members(connection, group_cn)
+    tapir_users_dns = [tapir_user.build_ldap_dn() for tapir_user in tapir_users]
+
+    if is_member_of_group:
+        members_to_update = [
+            user_dn
+            for user_dn in tapir_users_dns
+            if user_dn not in current_group_members
+        ]
+    else:
+        members_to_update = [
+            user_dn for user_dn in tapir_users_dns if user_dn in current_group_members
+        ]
+
+    if not members_to_update:
+        return
+
+    if not is_member_of_group and set(members_to_update) == set(current_group_members):
+        # Here we would remove all members of the group, so instead we delete the group
+        connection.delete_s(build_ldap_group_dn(group_cn))
+        return
+
+    group_dn = build_ldap_group_dn(group_cn)
+    connection.modify_s(
+        group_dn,
+        [
+            (
+                ldap.MOD_ADD if is_member_of_group else ldap.MOD_DELETE,
+                "member",
+                [member_dn.encode("utf-8") for member_dn in members_to_update],
+            )
+        ],
+    )
+
+
+def get_admin_ldap_connection():
+    connection = ldap.initialize("ldap://openldap")
+    connection.simple_bind_s("cn=admin,dc=supercoop,dc=de", AUTH_LDAP_BIND_PASSWORD)
+    return connection
+
+
+def is_member_in_group(connection, tapir_user: TapirUser, group_cn: str):
+    return tapir_user.build_ldap_dn() in get_group_members(connection, group_cn)

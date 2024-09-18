@@ -5,7 +5,7 @@ from django.forms import TextInput, CheckboxSelectMultiple
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
-from tapir.accounts.models import TapirUser, LdapGroup
+from tapir.accounts.models import TapirUser
 from tapir.core.tapir_email_base import mails_not_mandatory, mails_mandatory
 from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
@@ -92,12 +92,11 @@ class EditUserLdapGroupsForm(forms.Form):
         tapir_user: TapirUser = kwargs.pop("tapir_user")
         request_user: TapirUser = kwargs.pop("request_user")
         super().__init__(*args, **kwargs)
-        user_dn = tapir_user.get_ldap().build_dn()
         for group_cn in settings.LDAP_GROUPS:
             self.fields[group_cn] = forms.BooleanField(
                 required=False,
                 label=group_cn,
-                initial=user_dn in LdapGroup.get_group_members_dns(cn=group_cn),
+                initial=group_cn in tapir_user.get_ldap_user().group_names,
             )
 
         if not request_user.has_perm(PERMISSION_COOP_ADMIN):

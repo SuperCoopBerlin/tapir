@@ -164,7 +164,7 @@ class TestWelcomeSessionStatusUpdates(TapirFactoryTestBase):
 
         response = self.client.post(
             reverse("coop:create_user_from_shareowner", args=[share_owner.id]),
-            data={"username": "test.user"},
+            data={"username": "test.user", "last_name": "test_last_name"},
             follow=True,
         )
         self.assertEqual(response.status_code, 200)
@@ -182,7 +182,7 @@ class TestWelcomeSessionStatusUpdates(TapirFactoryTestBase):
 
         response = self.client.post(
             reverse("coop:create_user_from_shareowner", args=[share_owner.id]),
-            data={"username": "test.user"},
+            data={"username": "test.user", "last_name": "test_last_name"},
             follow=True,
         )
         self.assertEqual(response.status_code, 200)

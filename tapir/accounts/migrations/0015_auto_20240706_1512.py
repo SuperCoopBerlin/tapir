@@ -2,7 +2,7 @@
 
 import django.contrib.postgres.fields
 from django.db import migrations, models
-import ldapdb.models.fields
+
 import tapir.core.tapir_email_base
 
 
