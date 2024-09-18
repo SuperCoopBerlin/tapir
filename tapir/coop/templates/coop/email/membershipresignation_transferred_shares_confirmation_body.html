@@ -2,12 +2,14 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-    {% blocktranslate with  get_display_name_short receiving_member as receive_member get_display_name_full resigned_member as resigned_member contact_email_address=contact_email_address %}
-        <p>Dear {{ receive_member }},</p>
+    {% get_display_name_full resigned_member as resigning_member %}
+    {% get_display_name_short receiving_member as receiving_member %}
+    {% blocktranslate with receiving_member=receiving_member resigning_member=resigning_member contact_email_address=contact_email_address %}
+        <p>Dear {{ receiving_member }},</p>
         <p>
             Good news for you and unfortunately bad news for us!
             <br>
-            {{ resigned_member }} has cancelled his membership
+            {{ resigning_member }} has cancelled his membership
             of SuperCoop Berlin eG and bequeathed her/his share(s) to you.
             Don't be surprised if you suddenly see more shares in your Tapir account.
             If this was done without your consent you can contact the member-office

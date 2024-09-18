@@ -2,8 +2,10 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-        {% blocktranslate with share_owner=get_display_name_short share_owner %}
-            <p>Dear {{ share_owner }},</p>
+    {% get_display_name_short share_owner as display_name %}
+    {% get_display_name_full resigned_member.transferring_shares_to as transferred_member %}
+    {% blocktranslate with display_name=display_name %}
+            <p>Dear {{ display_name }},</p>
             <p>
                 what a pity that you want to leave us. We hereby confirm the cancellation of your membership with SuperCoop Berlin eG.
                 <br>
@@ -17,7 +19,7 @@
             </p>
         {% endblocktranslate %}
     {% elif resigned_member.resignation_type == resignation_type_transfer %}
-        {% blocktranslate with get_display_name_full resigned_member.transferring_shares_to as transferred_member%}
+        {% blocktranslate with transferred_member=transferred_member %}
             <p>
                 You stated in your letter of cancellation that you want to transfer your shares to another member. We've informed
                 {{ transferred_member }} about this separately.
@@ -44,7 +46,7 @@
             </p>
         {% endblocktranslate %}
     {% endif %}
-        {% blocktranslate with contact_email_adress=contact_email_adress %}
+    {% blocktranslate with contact_email_adress=contact_email_adress %}
             <p>
                 We wish you all the best for the future and please do not hesitate to contact the member-office
                 ({{ contact_email_address }}) if you have any further questions.

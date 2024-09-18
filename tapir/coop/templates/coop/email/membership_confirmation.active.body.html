@@ -2,8 +2,9 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-    {% blocktranslate with share_owner=get_display_name_short share_owner contact_email_address=contact_email_address coop_full_name=coop_full_name management_email_address=management_email_address supervisors_email_address=supervisors_email_address %}
-        <p>Hello {{ share_owner }},</p>
+    {% get_display_name_short share_owner as display_name %}
+    {% blocktranslate with display_name=display_name contact_email_address=contact_email_address coop_full_name=coop_full_name management_email_address=management_email_address supervisors_email_address=supervisors_email_address %}
+        <p>Hello {{ display_name }},</p>
         <p>
             Welcome as an official member of our cooperative, {{ coop_full_name }}! Please find the details of your
             membership confirmation attached. It is important that you complete METRO's online hygiene training before
@@ -204,7 +205,7 @@
             or <a href="https://nebenan.de/places/organizations/3885">Nebenan.de</a> and spread the word about SuperCoop.
         </p>
         <p>
-            We’re so glad you're joining us and we hope to see you soon whether on the wiki, Slack, at the Plenum or at
+            We're so glad you're joining us and we hope to see you soon whether on the wiki, Slack, at the Plenum or at
             Osram-Höfe!
         </p>
         <p>
