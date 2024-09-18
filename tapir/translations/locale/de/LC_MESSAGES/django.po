@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-18 15:01+0200\n"
-"PO-Revision-Date: 2024-09-18 15:01+0200\n"
+"POT-Creation-Date: 2024-09-18 16:29+0200\n"
+"PO-Revision-Date: 2024-09-18 16:30+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -1780,10 +1780,10 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"    Confirmation of the cancellation of membership: #%(coop_share_owner_id)s %(share_owner_name)s\n"
+"    Confirmation of the cancellation of membership: %(share_owner_name)s\n"
 msgstr ""
 "\n"
-"Bestätigung der Kündigung von: # %(coop_share_owner_id)s %(share_owner_name)s\n"
+"Bestätigung der Kündigung von: %(share_owner_name)s\n"
 
 #: coop/templates/coop/email/membershipresignation_transferred_shares_confirmation_body.html:7
 #, python-format
