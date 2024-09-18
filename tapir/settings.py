@@ -188,7 +188,6 @@ PASSWORD_RESET_TIMEOUT = (
 LANGUAGE_CODE = "de"
 TIME_ZONE = "Europe/Berlin"
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 
 EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
@@ -327,7 +326,8 @@ PERMISSIONS = {
 AUTH_USER_MODEL = "accounts.TapirUser"
 LOGIN_REDIRECT_URL = "accounts:user_me"
 
-SITE_URL = env("SITE_URL", default="http://127.0.0.1:8000")
+SITE_URL = env("SITE_URL", default="http://localhost:8000")
+CSRF_TRUSTED_ORIGINS = [SITE_URL]
 
 PHONENUMBER_DEFAULT_REGION = "DE"
 

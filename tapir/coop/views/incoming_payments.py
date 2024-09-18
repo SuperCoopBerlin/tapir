@@ -10,6 +10,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
+from icecream import ic
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
@@ -211,10 +212,16 @@ class IncomingPaymentDeleteView(
     def get_success_url(self):
         return reverse("coop:incoming_payment_list")
 
-    def delete(self, request, *args, **kwargs):
-        response = super().delete(request, *args, **kwargs)
-        messages.success(request, _("Payment deleted"))
+    def post(self, request, *args, **kwargs):
+        ic("POST", request, args, kwargs)
+        return super().post(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        messages.success(self.request, _("Payment deleted"))
         DeleteIncomingPaymentLogEntry().populate(
-            share_owner=self.object.paying_member, actor=request.user, model=self.object
+            share_owner=self.object.paying_member,
+            actor=self.request.user,
+            model=self.object,
         ).save()
-        return response
+        return result

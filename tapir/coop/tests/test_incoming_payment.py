@@ -236,7 +236,7 @@ class TestIncomingPayments(TapirFactoryTestBase):
     def test_incomingPaymentDeleteView_loggedInAsVorstand_paymentDeleted(self):
         self.login_as_vorstand()
         payment = IncomingPaymentFactory.create()
-
+        self.assertTrue(IncomingPayment.objects.exists())
         response = self.client.post(
             reverse("coop:incoming_payment_delete", args=[payment.id]),
             follow=True,
