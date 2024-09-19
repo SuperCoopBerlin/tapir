@@ -7,7 +7,6 @@ import django_tables2
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
-from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Q
 from django.http import (
@@ -22,14 +21,13 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic, View
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_POST
 from django.views.generic import UpdateView, FormView, DeleteView
 from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
-from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE, on_welcome_session_attendance_update
@@ -58,7 +56,6 @@ from tapir.coop.models import (
     UpdateShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
 )
-from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.coop.services.MemberInfoService import MemberInfoService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
@@ -205,14 +202,14 @@ class ShareOwnershipDeleteView(LoginRequiredMixin, PermissionRequiredMixin, Dele
     def get_success_url(self):
         return self.get_object().share_owner.get_absolute_url()
 
-    def delete(self, request, *args, **kwargs):
-        response = super().delete(request, *args, **kwargs)
+    def form_valid(self, form):
+        result = super().form_valid(form)
         DeleteShareOwnershipLogEntry().populate(
             share_owner=self.object.share_owner,
             actor=self.request.user,
             model=self.object,
         ).save()
-        return response
+        return result
 
 
 class ShareOwnerDetailView(

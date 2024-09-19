@@ -2,11 +2,11 @@
 name = "tapir"
 version = "0.1.0"
 description = ""
-authors = ["Leon Handreke <leonh@ndreke.de>"]
+authors = ["Leon Handreke <leonh@ndreke.de>, Théophile Madet <theo.madet@posteo.net>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-Django = "~3.2.25"
+Django = "~5.1.1"
 django-weasyprint = "^2.3.0"
 django-extensions = "^3.2.3"
 django-bootstrap-datepicker-plus = "^5.0.5"
@@ -46,6 +46,7 @@ factory-boy = "^3.3.1"
 icecream = "^2.1.3"
 djlint = "^1.35.2"
 pypdf = "^4.3.1"
+django-upgrade = "^1.21.0"
 
 [build-system]
 requires = ["poetry-core>=1.2.0"]

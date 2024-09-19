@@ -9,7 +9,6 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.utils.datetime_safe import date
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
@@ -18,7 +17,6 @@ from django.views.decorators.http import require_POST, require_GET
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
-from tapir.coop.services.MemberInfoService import MemberInfoService
 
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
@@ -39,6 +37,7 @@ from tapir.coop.models import (
     NewMembershipsForAccountingRecap,
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.coop.services.MemberInfoService import MemberInfoService
 from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
@@ -242,7 +241,7 @@ def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> Shar
         [
             ShareOwnership(
                 share_owner=share_owner,
-                start_date=date.today(),
+                start_date=timezone.now().date(),
                 amount_paid=(COOP_SHARE_PRICE if draft_user.paid_shares else 0),
             )
             for _ in range(0, draft_user.num_shares)

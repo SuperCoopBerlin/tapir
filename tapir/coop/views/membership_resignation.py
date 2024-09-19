@@ -2,7 +2,6 @@ import django_filters
 import django_tables2
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
-from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
@@ -296,12 +295,11 @@ class MembershipResignationRemoveFromListView(
     permission_required = PERMISSION_COOP_MANAGE
     success_url = reverse_lazy("coop:resigned_members_list")
 
-    def delete(self, request, *args, **kwargs):
+    def form_valid(self, form):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
             raise PermissionError("The membership resignation feature is disabled.")
 
-        self.object = self.get_object()
-        MembershipResignationService.delete_end_dates(self.object)
+        result = super().form_valid(form)
+        MembershipResignationService.delete_end_dates(self.get_object())
         self.object.delete()
-        response = redirect(self.success_url)
-        return response
+        return result
