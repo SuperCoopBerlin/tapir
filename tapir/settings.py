@@ -341,7 +341,8 @@ if ENABLE_SILK_PROFILING:
 SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
 
 AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
-AUTH_LDAP_SERVER_URI = "ldap://openldap"
+LDAP_DOCKER_SERVICE_NAME = env("LDAP_DOCKER_SERVICE_NAME", cast=str, default="openldap")
+AUTH_LDAP_SERVER_URI = f"ldap://{LDAP_DOCKER_SERVICE_NAME}"
 AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=supercoop,dc=de"
 AUTH_LDAP_BIND_DN = "cn=admin,dc=supercoop,dc=de"
 AUTH_LDAP_BIND_PASSWORD = env("LDAP_ADMIN_PASSWORD", cast=str, default="admin")

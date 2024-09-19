@@ -18,7 +18,12 @@ from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capabi
 from tapir.core.config import help_text_displayed_name
 from tapir.core.tapir_email_base import mails_not_mandatory
 from tapir.log.models import UpdateModelLogEntry
-from tapir.settings import PERMISSIONS, REG_PERSON_BASE_DN, REG_PERSON_OBJECT_CLASSES
+from tapir.settings import (
+    PERMISSIONS,
+    REG_PERSON_BASE_DN,
+    REG_PERSON_OBJECT_CLASSES,
+    AUTH_LDAP_SERVER_URI,
+)
 from tapir.utils.models import CountryField
 from tapir.utils.shortcuts import get_html_link, get_admin_ldap_connection
 from tapir.utils.user_utils import UserUtils
@@ -227,7 +232,7 @@ class TapirUser(AbstractUser):
         connection.passwd_s(self.build_ldap_dn(), None, raw_password)
 
     def check_password(self, raw_password):
-        connection = ldap.initialize("ldap://openldap")
+        connection = ldap.initialize(AUTH_LDAP_SERVER_URI)
         try:
             connection.simple_bind_s(self.build_ldap_dn(), raw_password)
         except ldap.INVALID_CREDENTIALS:

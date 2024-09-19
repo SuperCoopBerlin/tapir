@@ -18,7 +18,7 @@ from django_auth_ldap.config import LDAPSearch
 from ldap import modlist
 
 from tapir import settings
-from tapir.settings import AUTH_LDAP_BIND_PASSWORD
+from tapir.settings import AUTH_LDAP_BIND_PASSWORD, AUTH_LDAP_SERVER_URI
 
 if TYPE_CHECKING:
     from tapir.accounts.models import TapirUser
@@ -218,7 +218,7 @@ def set_group_membership(
 
 
 def get_admin_ldap_connection():
-    connection = ldap.initialize("ldap://openldap")
+    connection = ldap.initialize(AUTH_LDAP_SERVER_URI)
     connection.simple_bind_s("cn=admin,dc=supercoop,dc=de", AUTH_LDAP_BIND_PASSWORD)
     return connection
 
