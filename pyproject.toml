@@ -5,7 +5,7 @@ description = ""
 authors = ["Leon Handreke <leonh@ndreke.de>, Théophile Madet <theo.madet@posteo.net>"]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 Django = "~5.1.1"
 django-weasyprint = "^2.3.0"
 django-extensions = "^3.2.3"
