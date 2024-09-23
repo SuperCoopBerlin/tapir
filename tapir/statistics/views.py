@@ -18,6 +18,8 @@ from tapir.accounts.models import (
     UpdateTapirUserLogEntry,
 )
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
+from tapir.coop.services.MemberInfoService import MemberInfoService
+from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.coop.views import ShareCountEvolutionJsonView
 from tapir.financingcampaign.models import (
     FinancingCampaign,
@@ -92,15 +94,46 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         return context
 
     @staticmethod
-    def get_working_members_context():
+    def transfer_attributes(source, target, attributes):
+        for attribute in attributes:
+            setattr(target, attribute, getattr(source, attribute))
+
+    @classmethod
+    def get_working_members_context(cls):
+        shift_user_datas = (
+            ShiftUserData.objects.all()
+            .prefetch_related("user")
+            .prefetch_related("user__share_owner")
+            .prefetch_related("user__share_owner__share_ownerships")
+            .prefetch_related("shift_exemptions")
+        )
+        share_owners = (
+            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
+                ShareOwner.objects.all()
+            )
+        )
+        share_owners = (
+            MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
+                share_owners
+            )
+        )
+        share_owners = {share_owner.id: share_owner for share_owner in share_owners}
+        for shift_user_data in shift_user_datas:
+            cls.transfer_attributes(
+                share_owners[shift_user_data.user.share_owner.id],
+                shift_user_data.user.share_owner,
+                [
+                    MemberInfoService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES,
+                    MemberInfoService.ANNOTATION_SHARES_ACTIVE_AT_DATE,
+                    MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE,
+                    MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE_AT_DATE,
+                ],
+            )
+
         current_number_of_working_members = len(
             [
                 shift_user_data
-                for shift_user_data in ShiftUserData.objects.all()
-                .prefetch_related("user")
-                .prefetch_related("user__share_owner")
-                .prefetch_related("user__share_owner__share_ownerships")
-                .prefetch_related("shift_exemptions")
+                for shift_user_data in shift_user_datas
                 if ShiftExpectationService.is_member_expected_to_do_shifts(
                     shift_user_data
                 )
