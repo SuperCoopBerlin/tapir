@@ -82,7 +82,7 @@ class SolidarityShiftGiven(LoginRequiredMixin, RedirectView):
 
         tapir_user = get_object_or_404(TapirUser, pk=kwargs["pk"])
 
-        if request.user.pk != tapir_user.pk or not request.user.has_perm(
+        if request.user.pk != tapir_user.pk and not request.user.has_perm(
             PERMISSION_SHIFTS_MANAGE
         ):
             return HttpResponseForbidden(
