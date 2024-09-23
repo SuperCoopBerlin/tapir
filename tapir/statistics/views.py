@@ -66,15 +66,24 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         return context_data
 
     def get_purchasing_members_context(self):
+        share_owners = (
+            ShareOwner.objects.all()
+            .prefetch_related("user")
+            .prefetch_related("user__shift_user_data")
+            .prefetch_related("share_ownerships")
+        )
+        share_owners = (
+            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
+                share_owners
+            )
+        )
+        share_owners = (
+            MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
+                share_owners
+            )
+        )
         current_number_of_purchasing_members = len(
-            [
-                share_owner
-                for share_owner in ShareOwner.objects.all()
-                .prefetch_related("user")
-                .prefetch_related("user__shift_user_data")
-                .prefetch_related("share_ownerships")
-                if share_owner.can_shop()
-            ]
+            [share_owner for share_owner in share_owners if share_owner.can_shop()]
         )
 
         context = dict()
@@ -155,7 +164,9 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         threshold_date = datetime.date(day=12, month=9, year=2023)
         first_shares = [
             share_owner.get_oldest_active_share_ownership().id
-            for share_owner in ShareOwner.objects.all()
+            for share_owner in ShareOwner.objects.all().prefetch_related(
+                "share_ownerships"
+            )
             if share_owner.get_oldest_active_share_ownership() is not None
         ]
 
