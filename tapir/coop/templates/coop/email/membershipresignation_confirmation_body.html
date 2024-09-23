@@ -3,7 +3,6 @@
 {% load utils %}
 {% block body %}
     {% get_display_name_short share_owner as display_name %}
-    {% get_display_name_full resigned_member.transferring_shares_to as transferred_member %}
     {% blocktranslate with display_name=display_name %}
             <p>Dear {{ display_name }},</p>
             <p>
@@ -19,6 +18,7 @@
             </p>
         {% endblocktranslate %}
     {% elif resigned_member.resignation_type == resignation_type_transfer %}
+        {% get_display_name_full resigned_member.transferring_shares_to as transferred_member %}
         {% blocktranslate with transferred_member=transferred_member %}
             <p>
                 You stated in your letter of cancellation that you want to transfer your shares to another member. We've informed
