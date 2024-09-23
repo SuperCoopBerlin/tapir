@@ -347,7 +347,7 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
         for date in self.get_dates():
             relevant_members = (
                 ShareOwner.objects.with_status(MemberStatus.ACTIVE, date)
-                .prefetch_related("user")
+                .select_related("user")
                 .filter(user__isnull=False)
                 .filter(user__date_joined__lte=date)
             )
@@ -377,18 +377,22 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
         member: ShareOwner, date: datetime.date, co_purchaser_updates
     ):
         has_co_purchaser = None
+
         for update in co_purchaser_updates:
             if update.created_date.date() < date:
                 continue
-            if update.user == member.user:
-                old_values = update.old_values
-                has_co_purchaser = (
-                    "co_purchaser" in old_values.keys()
-                    and old_values["co_purchaser"] != ""
-                )
-                break
+            if update.user != member.user:
+                continue
+
+            old_values = update.old_values
+            has_co_purchaser = (
+                "co_purchaser" in old_values.keys() and old_values["co_purchaser"] != ""
+            )
+            break
+
         if has_co_purchaser is None:
             has_co_purchaser = member.user.co_purchaser != ""
+
         return has_co_purchaser
 
 
