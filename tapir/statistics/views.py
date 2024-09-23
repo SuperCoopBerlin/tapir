@@ -344,6 +344,12 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
             .prefetch_related("user")
         )
 
+        updates_per_member = {}
+        for update in co_purchaser_updates:
+            if update.user not in updates_per_member.keys():
+                updates_per_member[update.user] = []
+            updates_per_member[update.user].append(update)
+
         for date in self.get_dates():
             relevant_members = (
                 ShareOwner.objects.with_status(MemberStatus.ACTIVE, date)
@@ -359,7 +365,7 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
                     if self.does_member_have_a_co_purchaser_at_date(
                         member=member,
                         date=date,
-                        co_purchaser_updates=co_purchaser_updates,
+                        co_purchaser_updates=updates_per_member.get(member.user, []),
                     )
                 ]
             )
