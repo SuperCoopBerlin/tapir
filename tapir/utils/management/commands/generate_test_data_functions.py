@@ -8,10 +8,13 @@ import ldap
 from django.utils import timezone
 from django_auth_ldap.config import LDAPSearch
 from fabric.testing.fixtures import connection
+from faker import Faker
 from ldap.ldapobject import LDAPObject
 
 from tapir import settings
-from tapir.accounts.models import TapirUser
+from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
+from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.models import (
     ShareOwner,
     ShareOwnership,
@@ -20,6 +23,7 @@ from tapir.coop.models import (
     NewMembershipsForAccountingRecap,
     ExtraSharesForAccountingRecap,
     MemberStatus,
+    MembershipResignation,
 )
 from tapir.coop.services.MemberInfoService import MemberInfoService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
@@ -107,6 +111,7 @@ def generate_tapir_users(json_users):
         tapir_user.is_active = True
         tapir_user.date_joined = json_user.date_joined
         tapir_user.password = tapir_user.username
+        tapir_user.co_purchaser = Faker().name() if random.random() > 0.5 else ""
         result.append(tapir_user)
 
     tapir_users = [tapir_user for tapir_user in result if tapir_user is not None]
@@ -403,13 +408,14 @@ def clear_ldap():
             connection.delete_s(build_ldap_group_dn(group_name))
 
     for tapir_user in tapir_users:
-        if tapir_user.get_ldap_user("check delete"):
+        if tapir_user.get_ldap_user():
             connection.delete_s(tapir_user.build_ldap_dn())
 
 
 def clear_django_db():
     classes = [
         LogEntry,
+        MembershipResignation,
         ShiftAttendance,
         ShiftCycleEntry,
         ShiftAccountEntry,
@@ -512,7 +518,64 @@ def generate_purchase_baskets():
         )
 
     PurchaseBasket.objects.bulk_create(baskets)
-    print("Done")
+
+
+def generate_log_updates():
+    print("Generating history of changes")
+    tapir_users = [tapir_user for tapir_user in TapirUser.objects.all()]
+    logs = {}
+    now = timezone.now()
+    fields = UserDataFactory.ATTRIBUTES + ["co_purchaser"]
+
+    nb_logs_to_create = TapirUser.objects.count() * 2
+    for _ in range(nb_logs_to_create):
+        tapir_user = random.choice(tapir_users)
+        if (now - tapir_user.date_joined).days < 7:
+            continue
+
+        if tapir_user in logs.keys():
+            oldest_log = logs[tapir_user][-1]
+            reference_date = oldest_log.created_date
+        else:
+            reference_date = now
+
+        date_range = round((reference_date - tapir_user.date_joined).days / 2.0)
+        le_random = random.randint(1, date_range)
+        log_date = now - datetime.timedelta(days=le_random)
+
+        log = UpdateTapirUserLogEntry(
+            created_date=log_date, user=tapir_user, actor=random.choice(tapir_users)
+        )
+        if tapir_user not in logs.keys():
+            logs[tapir_user] = []
+
+        old_values_reference = TapirUserFactory.build()
+        nb_fields = random.randint(1, 5)
+        fields_in_log = set()
+        for _ in range(nb_fields):
+            fields_in_log.add(random.choice(fields))
+
+        log.old_values = {}
+        log.new_values = {}
+        for field in fields_in_log:
+            old_value = getattr(old_values_reference, field)
+
+            new_value = None
+            for newer_log in logs[tapir_user]:
+                if field in newer_log.new_values.keys():
+                    new_value = newer_log.new_values.get(field)
+                    break
+            if new_value is None:
+                new_value = getattr(tapir_user, field)
+            if old_value != new_value:
+                log.old_values[field] = old_value
+                log.new_values[field] = new_value
+
+        log.save()
+        # the date gets overriden on creating since the field has auto_now_add
+        log.created_date = log_date
+        log.save()
+        logs[tapir_user].append(log)
 
 
 def reset_all_test_data():
@@ -524,3 +587,5 @@ def reset_all_test_data():
     generate_test_users()
     generate_test_applicants()
     generate_purchase_baskets()
+    generate_log_updates()
+    print("Done")
