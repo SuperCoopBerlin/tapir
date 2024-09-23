@@ -9,15 +9,11 @@
         <p>This is an automatically sent email from SuperCoop to kindly remind you about your next shift.</p>
 
         <p>You are registered for the shift: {{ shift_display_name }}</p>
-    {% endblocktranslate %}
-    <p>
-        {% blocktranslate %}
-            Before you start your next shift, we would like to ask you to check the wiki for the latest information
-            about your shift. You can find all the latest updates on our
-            <a href="https://wiki.supercoop.de/wiki/Schicht-News">shift news wiki page.</a>
-        {% endblocktranslate %}
-    </p>
-    {% blocktranslate %}
+        <p>
+                Before you start your next shift, we would like to ask you to check the wiki for the latest information
+                about your shift. You can find all the latest updates on our
+                <a href="https://wiki.supercoop.de/wiki/Schicht-News">shift news wiki page.</a>
+        </p>
         <p>
             If you are unable to complete your shift, please contact your team leader as soon as possible. If you do not
             have a team leader, please contact the Member Office by replying to this email.
@@ -29,19 +25,15 @@
         <p>
             If you can only come late: please still come to your shift, every support is important!
         </p>
+        <p>
+                Please note that it is your responsibility as a member to make every effort to find a replacement if needed.
+                To learn more about the replacement (stand-in) system, please see the
+                <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.vxvgxkgmyf1w">
+                    Member Manual</a>.
+        </p>
+        <p>
+                Cooperative Greetings,<br />
+                The Member Office
+        </p>
     {% endblocktranslate %}
-    <p>
-        {% blocktranslate %}
-            Please note that it is your responsibility as a member to make every effort to find a replacement if needed.
-            To learn more about the replacement (stand-in) system, please see the
-            <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.vxvgxkgmyf1w">
-                Member Manual</a>.
-        {% endblocktranslate %}
-    </p>
-    <p>
-        {% blocktranslate %}
-            Cooperative Greetings, <br />
-            The Member Office
-        {% endblocktranslate %}
-    </p>
 {% endblock body %}

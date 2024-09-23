@@ -31,14 +31,12 @@ class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
 
     def get_subject_templates(self) -> List:
         return [
-            f"coop/email/membership_confirmation.investing.subject.html",
-            f"coop/email/membership_confirmation.investing.subject.default.html",
+            "coop/email/membership_confirmation.investing.subject.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
-            f"coop/email/membership_confirmation.investing.body.html",
-            f"coop/email/membership_confirmation.investing.body.default.html",
+            "coop/email/membership_confirmation.investing.body.html",
         ]
 
     def get_attachments(self) -> List:

@@ -31,14 +31,12 @@ class ExtraSharesConfirmationEmail(TapirEmailBase):
 
     def get_subject_templates(self) -> List:
         return [
-            f"coop/email/extra_shares_bought.subject.html",
-            f"coop/email/extra_shares_bought.subject.default.html",
+            "coop/email/extra_shares_bought.subject.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
-            f"coop/email/extra_shares_bought.body.html",
-            f"coop/email/extra_shares_bought.body.default.html",
+            "coop/email/extra_shares_bought.body.html",
         ]
 
     def get_extra_context(self) -> dict:

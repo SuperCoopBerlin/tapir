@@ -28,13 +28,11 @@ class CreateAccountReminderEmail(TapirEmailBase):
     def get_subject_templates(self) -> List:
         return [
             "accounts/email/create_account_reminder.subject.html",
-            "accounts/email/create_account_reminder.subject.default.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
             "accounts/email/create_account_reminder.body.html",
-            "accounts/email/create_account_reminder.body.default.html",
         ]
 
     @classmethod

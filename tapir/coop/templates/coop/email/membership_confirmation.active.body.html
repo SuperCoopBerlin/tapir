@@ -2,273 +2,58 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-    <p>(English below)</p>
-    <p>Hallo {% get_display_name_short share_owner %},</p>
-    <p>
-        herzlich willkommen als offizielles Mitglied unserer SuperCoop Genossenschaft! Im Anhang findest du deine
-        Mitgliedschaftsbestätigung. Wichtig ist, dass du bereits vor Antritt deiner ersten Schicht in der Coop die
-        Online-Hygieneschulung der METRO absolvierst. Alle Infos dazu findest du unter Punkt 3.
-    </p>
-    <p>Wir freuen uns sehr, dass du mit an Bord bist und wir SuperCoop gemeinsam weiterentwickeln.</p>
-    <p>In dieser E-Mail wollen wir für dich die wichtigsten Informationen zu SuperCoop kurz und knackig zusammenfassen.</p>
-    <h2>1. Mitgliederbüro</h2>
-    <p>Das Mitgliederbüro ist der Knotenpunkt für die Unterstützung der Mitglieder in allen Belangen der SuperCoop.</p>
-    <p>
-        Um dich für deine erste Schicht anzumelden (oder anzugeben, dass du für eine <a href="https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit#heading=h.80s8z1ce6ayn">Ausnahmeregelung</a>
-        in Frage kommst), besuche bitte das Mitgliederbüro in unserem Laden. Dort wird
-        ein Konto für dich auf Tapir, unserem Online-Schichtverwaltungssystem, eingerichtet und du wirst durch die
-        Schritte zur Auswahl deiner Schicht und Arbeitsgruppe geführt.
-    </p>
-    <div>
-        Bei allgemeinen Fragen zu deiner Mitgliedschaft wende dich bitte an das Mitgliederbüro per E-Mail
-        (<a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>) oder besuche SuperCoop. Komm
-        gerne vorbei und lerne andere SuperCoop’ies persönlich
-        kennen! Die Öffnungszeiten sind:
-        <ul>
-            <li>Montag - Freitag von 16:30 - 19:30 Uhr</li>
-            <li>Samstags von 11.00 - 14.00 Uhr</li>
-        </ul>
-    </div>
-    <h2>
-        2. <a href="https://members.supercoop.de">Tapir</a>
-    </h2>
-    <p>
-        <a href="https://members.supercoop.de">Tapir</a> ist unser Mitglieder- und Schichtverwaltungssystem, das
-        komplett
-        von den Mitgliedern der IT-Arbeitsgruppe entwickelt wurde. Dort kannst du dich für Schichten anmelden und
-        zusätzliche Informationen über deine Mitgliedschaft einsehen, z.B. wie viele Anteile du besitzt.
-    </p>
-    <div>
-        Oben auf der Seite findest du außerdem Links zu folgenden Bereichen:
-        <ul>
-            <li>aktuelle Woche im ABCD-Kalender (einschließlich des ABCD-Kalenders für den Rest des Jahres),</li>
-            <li>Wiki,</li>
-            <li>Mitgliederhandbuch,</li>
-            <li>Ladenöffnungszeiten,</li>
-            <li>die E-Mail-Adresse des Mitgliederbüros,</li>
-            <li>sowie Statistiken über Schichten und unsere Genossenschaft im Allgemeinen.</li>
-        </ul>
-    </div>
-    <p>
-        Um ein Profil auf Tapir zu erstellen, besuche bitte das Mitgliederbüro im Laden (siehe Öffnungszeiten oben).
-        Vergiss ebenfalls nicht, deinem Konto eine*n Miteinkäufer*in hinzuzufügen!
-    </p>
-    <p>
-        Sobald dein Profil erstellt ist, erhältst du eine Bestätigungsemail mit einem Link, über den du ein Passwort
-        einrichten kannst. Mit diesen Zugangsdaten kannst du dich dann auch im <a href="https://wiki.supercoop.de/wiki/Main_Page">SuperCoop Wiki</a> anmelden.
-    </p>
-    <p>
-        <strong>Tipp:</strong>Setze ein Lesezeichen für den <a href="https://members.supercoop.de/">Link zu Tapir</a>,
-        damit du ihn in Zukunft leicht finden kannst!
-    </p>
-    <h2>3. Hygiene Schulung</h2>
-    <p>
-        Neue Mitglieder müssen VOR ihrer ersten Schicht eine Online-Hygienschulung von METRO absolvieren:
-        <a href="https://kw.my/Qt5PLD/#/">https://kw.my/Qt5PLD/#/</a>. Die Schulung dauert ca. 30 Minuten und endet mit
-        einem kurzen Fragebogen. Wenn du 80%
-        der Fragen richtig beantwortest, erhältst du ein Zertifikat. Bitte zeige dieses bei deiner ersten Schicht
-        einer*m Angestellter*n.
-    </p>
-    <p>
-        In deiner ersten Schicht weist die Teamleitung oder ein* Angestellte*r dich zusätzlich offline 10 Minuten in die
-        wichtigsten Stationen & Regeln im Laden ein. Wenn du die Online-Schulung zu Hause nicht erledigen konntest, gibt
-        es auch die Möglichkeit, dies an unserem Welcome Desk in deiner Schicht selbst zu tun.
-    </p>
-    <h2>4. Mitgliederkarte</h2>
-    <p>
-        Deine Mitgliedskarte kann über dein Tapir-Konto aktiviert werden. Mitgliedskarten sind zustimmungspflichtig, da
-        wir damit Daten über die Summe der Gesamtkäufe und die Häufigkeit der Käufe sammeln. Wir verwenden diese
-        Informationen, um unsere Finanzplanung zu unterstützen und Prognosen für zukünftige Einnahmen zu berechnen.
-        Sie helfen uns auch zu verstehen, ob bestimmte Maßnahmen, die wir zur Verbesserung des Sortiments ergreifen,
-        Auswirkungen auf die Häufigkeit der Einkäufe in der Genossenschaft haben. Umgekehrt wissen wir, wenn wir
-        feststellen, dass die Regelmäßigkeit oder die Gesamtsumme der Einkäufe abnimmt, dass wir dies weiter
-        untersuchen müssen. Auf diese Weise hilft uns die Verwendung der Mitgliedskarte zur Erfassung bestimmter
-        Daten auch, die Bedürfnisse unserer Mitglieder besser zu verstehen!
-    </p>
-    <p>
-        Um mehr über die Mitgliedskarte und die Datenerfassung zu erfahren, besuche bitte unser Wiki:
-        <a href="https://wiki.supercoop.de/wiki/Mitgliederkarte">https://wiki.supercoop.de/wiki/Mitgliederkarte</a>.
-        Wenn du Fragen zum Datenschutz hast, kannst du dich an unseren
-        Datenschutzbeauftragten und unsere Datenschutz-Arbeitsgruppe wenden: <a href="mailto:datenschutz-supercoop@posteo.de">datenschutz-supercoop@posteo.de</a>.
-    </p>
-    <h3>Und so funktioniert es:</h3>
-    <div>
-        <ol>
-            <li>
-                Logge dich in deinem Tapir-Profil ein: <a href="https://members.supercoop.de/">https://members.supercoop.de/</a>
-            </li>
-            <li>
-                Scrolle nach unten und du wirst eine Option sehen, mit der du deine Zustimmung geben kannst,
-                einschließlich
-                einer Erklärung, welche Daten wir sammeln. Bitte beachte, dass du deine Zustimmung jederzeit mit nur
-                einem
-                Klick erteilen oder widerrufen kannst!
-            </li>
-            <li>
-                Sobald du deine Zustimmung gegeben hast, siehst du einen Strichcode, der speziell für dich erstellt
-                wurde!
-            </li>
-            <li>
-                Der letzte und wichtigste Schritt (neben der Erteilung der Zustimmung natürlich) ist, dass du daran
-                denkst,
-                den Code an der Kasse einzuscannen! Du hast verschiedene Möglichkeiten, dies zu tun: melde dich mit
-                deinem
-                Handy bei Tapir an und zeige ihn von dort aus an, lade ihn als PDF herunter und speichere ihn auf deinem
-                Handy, mache einen Screenshot oder drucke ihn aus! (Wir drucken sie bei Bedarf auch gerne für dich im
-                Laden
-                aus!)
-            </li>
-        </ol>
-    </div>
-    <p>
-        Nicht zuletzt besteht auch die Möglichkeit, Guthaben auf die Mitgliedskarte zu laden und damit einzukaufen! So
-        können sowohl du als auch die Genossenschaft bei deinem Einkauf Transaktionsgebühren vermeiden und das Guthaben
-        kannst du sogar direkt an der Kasse aufladen! 🎉
-    </p>
-    <h2>5. Arbeitsgruppen</h2>
-    <p>
-        Deine <strong>Arbeitsgruppe</strong> gibt vor, <strong>welche Art von Arbeit</strong> du in der Coop machst.
-    </p>
-    <p>
-        Wichtig: Bitte suche dir eine Schichtzeit aus, an der du regelmäßig teilnehmen kannst, bevor du deine
-        Arbeitsgruppe wählst. Da wir selbstorganisiert arbeiten, sind wir auf die Eigenverantwortung jedes Mitglieds
-        angewiesen, um unseren Supermarkt zu betreiben.
-    </p>
-    <div>
-        Mitglieder sollten (von Ausnahmefällen abgesehen) ihre ersten sechs Schichten in einer der folgenden <strong>Kernarbeitsgruppen</strong>
-        absolvieren:
-        <ul>
-            <li>
-                <strong>Wareneingang und Lagerhaltung</strong> (Annahme von Lieferungen und Auffüllen der Regale und
-                Kühltruhen, Nachfüllen unverpackter Produkte, MHD - Rote Karte nicht erforderlich)
-            </li>
-            <li>
-                <strong>Kassierer*in</strong>
-            </li>
-            <li>
-                <strong>Welcome Desk</strong> (Begrüßung am Eingang der Genossenschaft, Überprüfung der Mitgliedsnummern
-                und
-                Beantwortung von Fragen der Besucher über SuperCoop)
-            </li>
-            <li>
-                <strong>Gebäudereinigung</strong> (Reinigung nach Ladenschluss)
-            </li>
-        </ul>
-    </div>
-    <p>
-        Die Arbeitsgruppen und Aufgaben passen sich dynamisch der Entwicklung von SuperCoop an und werden laufend
-        aktualisiert. Wenn du also in einer Arbeitsgruppe startest, heißt das nicht, dass du auf ewig nur dort
-        mitarbeiten darfst.
-    </p>
-    <p>
-        Du hast viele Möglichkeiten, dich über deine regelmäßige Schicht hinaus bei SuperCoop zu engagieren. Um dir den
-        Einstieg so leicht wie möglich zu machen, haben wir im Wiki alle <a href="https://wiki.supercoop.de/wiki/Working_Groups">zusätzlichen Arbeitsgruppen</a> zusammengefasst.
-    </p>
-    <h2>6. Mitgliederhandbuch</h2>
-    <p>
-        Bevor du deine Fragen an das Mitgliederbüro richtest, lies bitte das <a href="https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg">Mitgliederhandbuch</a>.
-        Es enthält alle Informationen, die du über die Mitgliedschaft bei SuperCoop wissen musst: wie du einsteigst, wie
-        die Schichtsysteme funktionieren, unsere Strukturen der Entscheidungsfindung und vieles mehr!
-    </p>
-    <h2>7. SuperCoop Wiki</h2>
-    <p>
-        Eine weitere gute Informationsquelle ist das <a href="https://wiki.supercoop.de/wiki/Main_Page">SuperCoop
-        Wiki</a>. Hier findest du alle wichtigen Termine und Links, Informationen zu den Arbeitsgruppen, laufenden
-        Projekten und deinen Mitgenoss*innen. Das Wiki ist im Aufbau und wird von uns allen
-        gefüllt und weiterentwickelt. Schau am besten in die <a href="https://wiki.supercoop.de/wiki/Getting_started_on_Wiki_-_Mit_dem_Wiki_arbeiten">Get
-        started-Seite</a> rein und leg deine eigene Profilseite im SuperCoop-Wiki an.
-    </p>
-    <h2>8. Plenum</h2>
-    <p>
-        Alle Mitglieder sind zu unserem <a href="https://wiki.supercoop.de/wiki/Plenum">Plenum</a> eingeladen, um über
-        Vorschläge abzustimmen und aktuelle Themen zu besprechen. Termine, Links und weitere Details werden <a href="https://wiki.supercoop.de/wiki/Plenum">im Wiki</a> und unserem zweiwöchentlichen Newsletter bekannt
-        gegeben.
-    </p>
-    <h2>9. Newsletter</h2>
-    <p>
-        Mittwoch ist SuperCoop-Tag! Alle zwei Wochen landen nämlich frische News mit aktuellen Terminen, Infos zu
-        Produkten oder Veröffentlichungen in deinem Email-Postfach.
-    </p>
-    <h2>10. Slack</h2>
-    <p>
-        Als direkten Kommunikationskanal für die Arbeitsgruppen, Projekte und allgemeine Informationen nutzen wir die
-        Chat-App Slack. Du kannst dich kostenlos registrieren und Slack direkt im Browser oder als App verwenden. Melde
-        dich <a href="https://supercoopberlin.slack.com/join/shared_invite/zt-o5mrrdh0-RdsN0dhlz8qyCCl9clLQYA#/shared-invite/email">hier</a>
-        an! Wenn du Hilfe beim Einstieg möchtest, wende dich bitte an das Mitgliederbüro (<a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>).
-    </p>
-    <h2>11. Direkter Kontakt</h2>
-    <p>
-        Wenn du den Vorstand direkt kontaktieren möchtest, benutze bitte die E-Mail-Adresse <a href="mailto:{{ management_email_address }}">{{ management_email_address }}</a>
-    </p>
-    <p>
-        Um den Aufsichtsrat zu kontaktieren, benutze bitte die Email-Adresse <a href="mailto:{{ supervisors_email_address }}">{{ supervisors_email_address }}</a>. Der Aufsichtsrat kann zu
-        jedem Thema kontaktiert werden, das für die Interessen der SuperCoop Mitglieder relevant ist.
-    </p>
-    <h2>12. Social Media-Kanäle</h2>
-    <p>
-        Oh ja, wir sind auch im <a href="https://supercoop.de">World Wide Web</a> zu finden! Folge uns sehr gerne auf <a href="https://www.facebook.com/SuperCoopBerlin/">Facebook</a>, <a href="https://www.instagram.com/supercoopberlin">Instagram</a>, <a href="https://www.linkedin.com/company/supercoopberlin/">LinkedIn</a> oder <a href="https://nebenan.de/places/organizations/3885">Nebenan.de</a> und verbreite dort die Idee von SuperCoop
-        weiter. <a href="https://drive.google.com/drive/folders/1_1J-4okllu1NBCFbvuSc-XBI2eIwfjNN">Spread the word!</a>
-    </p>
-    <p>
-        Wie schön, dass du mit dabei bist und wir sehen uns hoffentlich bald im Wiki, auf Slack, im Plenum oder in den
-        Osram-Höfen!
-    </p>
-    <p>
-        Kooperative Grüße
-        <br />
-        Dein SuperCoop-Vorstand
-    </p>
-    <hr />
-    <p>Hello {% get_display_name_short share_owner %},</p>
-    <p>
-        Welcome as an official member of our cooperative, {{ coop_full_name }}! Please find the details of your
-        membership confirmation attached. It is important that you complete METRO's online hygiene training before
-        starting your first shift at the Coop. You can find all the information on this under point 3.
-    </p>
-    <p>
-        We are thrilled to welcome you aboard and begin running SuperCoop together
-        with you!
-    </p>
-    <p>See below for key details to kickstart your SuperCoop membership:</p>
-    <h2>1. Member Office</h2>
-    <p>The Member Office is the hub for supporting members in all things SuperCoop!</p>
-    <p>
-        Please visit the Member Office to sign up for your first shift (or indicate that you qualify for a <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.rjj2v2m92fqa">work
-        exemption</a>). They will create an account for you on Tapir, our online shift management system, and guide you
-        through the steps of choosing your shift and working group.
-    </p>
-    <div>
-        For general questions about your membership, please contact the Member Office via email (<a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>) or by visiting <a href="https://www.google.com/maps/place/SuperCoop+Berlin/@52.553371,13.3585897,15z/data=!4m5!3m4!1s0x0:0x72e80db955fa8d3!8m2!3d52.5533091!4d13.3586012">SuperCoop</a>.
-        Their opening hours are:
-        <ul>
-            <li>Monday - Friday from 4:30 - 7:30 p.m.</li>
-            <li>Saturdays from 11 a.m. - 2 p.m.</li>
-        </ul>
-    </div>
-    <h2>
-        2. <a href="https://members.supercoop.de/">Tapir</a>
-    </h2>
-    <p>
-        <a href="https://members.supercoop.de/">Tapir</a> is our shift management system created by and for SuperCoop
-        members! There you can sign up for shifts and see additional information about your membership, such as how many
-        shares you own.
-    </p>
-    <div>
-        Links to the following are also available on Tapir:
-        <ul>
-            <li>The current week in the ABCD calendar (including also the ABCD calendar for the rest of the year),</li>
-            <li>wiki,</li>
-            <li>member manual,</li>
-            <li>opening hours,</li>
-            <li>Member Office contact information</li>
-            <li>as well as statistics about shifts and our cooperative in general.</li>
-        </ul>
-    </div>
-    <p>
-        To create a profile on Tapir, please visit the Member Office in the supermarket (see office hours above). Don’t
-        forget to
-        <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.aal5b9whb07w">
-            add a co-shopper</a> to your account too!
+    {% get_display_name_short share_owner as display_name %}
+    {% blocktranslate with display_name=display_name contact_email_address=contact_email_address coop_full_name=coop_full_name management_email_address=management_email_address supervisors_email_address=supervisors_email_address %}
+        <p>Hello {{ display_name }},</p>
+        <p>
+            Welcome as an official member of our cooperative, {{ coop_full_name }}! Please find the details of your
+            membership confirmation attached. It is important that you complete METRO's online hygiene training before
+            starting your first shift at the Coop. You can find all the information on this under point 3.
+        </p>
+        <p>
+            We are thrilled to welcome you aboard and begin running SuperCoop together
+            with you!
+        </p>
+        <p>See below for key details to kickstart your SuperCoop membership:</p>
+        <h2>1. Member Office</h2>
+        <p>The Member Office is the hub for supporting members in all things SuperCoop!</p>
+        <p>
+            Please visit the Member Office to sign up for your first shift (or indicate that you qualify for a <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.rjj2v2m92fqa">work
+            exemption</a>). They will create an account for you on Tapir, our online shift management system, and guide you
+            through the steps of choosing your shift and working group.
+        </p>
+        <div>
+            For general questions about your membership, please contact the Member Office via email (<a href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a>) or by visiting <a href="https://www.google.com/maps/place/SuperCoop+Berlin/@52.553371,13.3585897,15z/data=!4m5!3m4!1s0x0:0x72e80db955fa8d3!8m2!3d52.5533091!4d13.3586012">SuperCoop</a>.
+            Their opening hours are:
+            <ul>
+                <li>Monday - Friday from 4:30 - 7:30 p.m.</li>
+                <li>Saturdays from 11 a.m. - 2 p.m.</li>
+            </ul>
+        </div>
+        <h2>
+            2. <a href="https://members.supercoop.de/">Tapir</a>
+        </h2>
+        <p>
+            <a href="https://members.supercoop.de/">Tapir</a> is our shift management system created by and for SuperCoop
+            members! There you can sign up for shifts and see additional information about your membership, such as how many
+            shares you own.
+        </p>
+        <div>
+            Links to the following are also available on Tapir:
+            <ul>
+                <li>The current week in the ABCD calendar (including also the ABCD calendar for the rest of the year),</li>
+                <li>wiki,</li>
+                <li>member manual,</li>
+                <li>opening hours,</li>
+                <li>Member Office contact information</li>
+                <li>as well as statistics about shifts and our cooperative in general.</li>
+            </ul>
+        </div>
+        <p>
+            To create a profile on Tapir, please visit the Member Office in the supermarket (see office hours above). Don’t
+            forget to
+            <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.aal5b9whb07w">
+                add a co-shopper</a> to your account too!
         </p>
         <p>
             Once your profile has been created, you will receive a confirmation email including a link to create a password.
@@ -420,12 +205,13 @@
             or <a href="https://nebenan.de/places/organizations/3885">Nebenan.de</a> and spread the word about SuperCoop.
         </p>
         <p>
-            We’re so glad you're joining us and we hope to see you soon whether on the wiki, Slack, at the Plenum or at
+            We're so glad you're joining us and we hope to see you soon whether on the wiki, Slack, at the Plenum or at
             Osram-Höfe!
         </p>
         <p>
-            Cooperative Greetings
+            Cooperative Greetings,
             <br />
             Your SuperCoop-Board
         </p>
-    {% endblock body %}
+    {% endblocktranslate %}
+{% endblock body %}
