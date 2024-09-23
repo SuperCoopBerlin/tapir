@@ -110,7 +110,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
     @classmethod
     def get_working_members_context(cls):
         shift_user_datas = (
-            ShiftUserData.objects.all()
+            ShiftUserData.objects.filter(user__share_owner__isnull=False)
             .prefetch_related("user")
             .prefetch_related("user__share_owner")
             .prefetch_related("user__share_owner__share_ownerships")
