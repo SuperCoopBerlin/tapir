@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-18 16:46+0200\n"
-"PO-Revision-Date: 2024-09-19 19:58+0200\n"
+"PO-Revision-Date: 2024-09-24 15:45+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -553,19 +553,19 @@ msgstr "Mitgliedsbestätigung für investierende Mitglieder"
 
 #: coop/emails/membershipresignation_confirmation_email.py:22
 msgid "Confirmation Email for resigned members."
-msgstr ""
+msgstr "Bestätigungsmail für ausgetretene Mitglieder."
 
 #: coop/emails/membershipresignation_confirmation_email.py:26
 msgid "Automatically sent after a member has been resigned."
-msgstr ""
+msgstr "Wird automatisch gesendet, wenn ein Mitglied ausgetreten ist."
 
 #: coop/emails/membershipresignation_transferred_shares_confirmation.py:21
 msgid "Confirmation Email for transferred shares."
-msgstr ""
+msgstr "Bestätigungsemail für übertragene Anteile."
 
 #: coop/emails/membershipresignation_transferred_shares_confirmation.py:26
 msgid "Automatically sent to the member who received shares after a resignation."
-msgstr ""
+msgstr "Wird automatisch an das Mitglied geschickt, das nach einem Austritt Anteile erhalten hat."
 
 #: coop/emails/tapir_account_created_email.py:25
 msgid "Tapir account created"
@@ -4433,15 +4433,15 @@ msgstr ""
 
 #: shifts/views/solidarity.py:70
 msgid "Solidarity Shift received. Account Balance increased by 1."
-msgstr ""
+msgstr "Solidaritätsschicht empfangen. Deinem Kontostand wird eine Schicht gutgeschrieben."
 
 #: shifts/views/solidarity.py:98
 msgid "Could not find a shift attendance to use as solidarity shift."
-msgstr ""
+msgstr "Konnte keine gemachte Schicht finden, die als Solidaritätsschicht genutzt werden könnte."
 
 #: shifts/views/solidarity.py:116
 msgid "Solidarity Shift given. Account Balance debited with -1."
-msgstr ""
+msgstr "Die Solidaritätsschicht wurde vergeben. Von deinem Kontostand wird nun eine Schicht abgezogen."
 
 #: shifts/views/views.py:133 shifts/views/views.py:138
 #, python-format
