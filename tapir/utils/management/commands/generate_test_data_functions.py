@@ -407,9 +407,13 @@ def clear_ldap():
         if result:
             connection.delete_s(build_ldap_group_dn(group_name))
 
-    for tapir_user in tapir_users:
-        if tapir_user.get_ldap_user():
-            connection.delete_s(tapir_user.build_ldap_dn())
+    search = LDAPSearch("ou=people,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE)
+    search_results = search.execute(connection)
+    for search_result in search_results:
+        user_dn = search_result[0]
+        if not user_dn.startswith("uid="):
+            continue
+        connection.delete_s(user_dn)
 
 
 def clear_django_db():
@@ -588,4 +592,5 @@ def reset_all_test_data():
     generate_test_applicants()
     generate_purchase_baskets()
     generate_log_updates()
+
     print("Done")
