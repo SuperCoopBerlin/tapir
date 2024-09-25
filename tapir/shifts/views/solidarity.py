@@ -95,7 +95,9 @@ class SolidarityShiftGiven(LoginRequiredMixin, RedirectView):
         if not shift_attendance:
             messages.error(
                 request,
-                _("Could not find a shift attendance to use as solidarity shift."),
+                _(
+                    "Could not find a shift attendance to use as solidarity shift. You have to finish at least one shift, before you can donate one."
+                ),
             )
             return redirect(tapir_user.get_absolute_url())
 
