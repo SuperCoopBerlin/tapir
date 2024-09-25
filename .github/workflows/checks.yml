@@ -1,0 +1,17 @@
+name: Run checks
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Check formatting
+        run: docker compose run web make check-formatting
+      - name: Check translations
+        run: docker compose run web make check-translations
+      - name: Check migrations
+        run: docker compose run web make check-migrations
