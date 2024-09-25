@@ -31,6 +31,14 @@ class SendExceptionsToSlackMiddleware:
         if settings.DEBUG:
             return
         url = "https://slack.com/api/chat.postMessage"
+
+        error_text = f"{e}"
+        if not error_text:
+            error_text = "No exception raised"
+
+        if not stacktrace_string:
+            stacktrace_string = "No stacktrace available"
+
         data = {
             "channel": "C079AQN3HE2",
             "blocks": [
@@ -46,7 +54,7 @@ class SendExceptionsToSlackMiddleware:
                     "type": "section",
                     "text": {
                         "type": "mrkdwn",
-                        "text": f"{e}",
+                        "text": error_text,
                     },
                 },
                 {"type": "divider"},
