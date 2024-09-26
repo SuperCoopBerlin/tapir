@@ -1,15 +1,15 @@
 # It is recommended to specify the latest version of Python
 # supported by your project here
 default_language_version:
-    python: python3.11
+    python: python3.12
 repos:
   # Using this mirror lets us use mypyc-compiled black, which is about 2x faster
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 24.4.2
+    rev: 24.8.0
     hooks:
       - id: black
   - repo: https://github.com/djlint/djLint
-    rev: v1.34.1
+    rev: v1.35.2
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
