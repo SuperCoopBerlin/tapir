@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-25 17:14+0200\n"
-"PO-Revision-Date: 2024-09-25 17:34+0200\n"
+"POT-Creation-Date: 2024-09-26 10:44+0200\n"
+"PO-Revision-Date: 2024-09-26 10:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -353,36 +353,26 @@ msgstr "Passwort ändern"
 msgid "Password reset"
 msgstr "Passwort zurückgesetzt"
 
-#: accounts/templates/registration/email/password_reset_email.html:13
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        <p>Hi %(display_name_short)s,</p>\n"
-#| "\n"
-#| "        <p>\n"
-#| "            Someone asked for password reset for %(email)s.<br/>\n"
-#| "            Your username is %(username)s <br/>\n"
-#| "            Follow this link to reset your password: <a href=\"%(protocol)s://%(domain)s%(password_reset_url)s\">%(protocol)s://%(domain)s%(password_reset_url)s</a>\n"
-#| "        </p>\n"
-#| "    "
+#: accounts/templates/registration/email/password_reset_email.html:14
+#, python-format
 msgid ""
 "\n"
-"        <p>Hi %(display_name_short)s,</p>\n"
-"\n"
-"        <p>\n"
-"            Someone asked for password reset for %(email)s.<br />\n"
-"            Your username is %(username)s <br />\n"
-"            Follow this link to reset your password: <a href=\"%(protocol)s://%(domain)s%(password_reset_url)s\">%(protocol)s://%(domain)s%(password_reset_url)s</a>\n"
-"        </p>\n"
-"    "
+"                    <p>Hi %(display_name_short)s,</p>\n"
+"                    <p>\n"
+"                        Someone asked for password reset for %(email)s.<br />\n"
+"                        Your username is %(username)s <br />\n"
+"                        Follow this link to reset your password: <a href=\"%(password_reset_url_full)s\">%(password_reset_url_full)s</a>\n"
+"                        If the link doesn't work, try to open it in a private browser window (sometimes called \"incognito mode\"), or in another browser.\n"
+"                    </p>\n"
+"                "
 msgstr ""
 "\n"
 "    <p>Hallo %(display_name_short)s,</p>\n"
-"\n"
 "    <p>\n"
 "        Jemand hat nach einem Passwort-Reset gefragt für %(email)s.<br/>\n"
 "        Deine Benutzername ist %(username)s <br/>\n"
-"        Folge diesem Link um dein Passwort zurückzusetzen: <a href=\"%(protocol)s://%(domain)s%(password_reset_url)s\">%(protocol)s://%(domain)s%(password_reset_url)s</a>\n"
+"        Folge diesem Link um dein Passwort zurückzusetzen: <a href=\"%(password_reset_url_full)s\">%(password_reset_url_full)s</a>\n"
+"        Soll das Link nicht funktionieren, versuche bitte es in \"incognito mode\" zu öffnen, oder in ein anderes Browser.\n"
 "    </p>\n"
 " "
 
@@ -445,8 +435,6 @@ msgid "Password reset instructions have been sent."
 msgstr "Anleitung zum Passwort zurücksetzen wurde gesendet."
 
 #: accounts/templates/registration/password_reset_done.html:9
-#, fuzzy
-#| msgid "We've emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly. If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder."
 msgid "We have emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly. If you don't receive an email, please make sure you've entered the address you registered with, and check your spam folder."
 msgstr "Wir haben dir eine Anleitung geschickt, wie du ein neues Passwort für dein Konto festlegen kannst. Du solltest sie in Kürze erhalten. Wenn nicht, dann prüfe bitte, ob du auch die E-Mail-Adresse angegeben hast, mit der du dich registriert hast, und schau auch in deinem Spam-Ordner nach."
 
@@ -815,13 +803,7 @@ msgid "Latest changes"
 msgstr "Letzte Änderungen"
 
 #: coop/templates/coop/active_members_progress_bar.html:4
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        Grey : %(member_count_on_start_date)s active members on 15.11.2022 <br/>\n"
-#| "        Blue : %(new_member_count_since_start_date)s new members since 15.11.2022 <br/>\n"
-#| "        Click for more statistics\n"
-#| "    "
+#, python-format
 msgid ""
 "\n"
 "        Grey : %(member_count_on_start_date)s active members on 15.11.2022 <br />\n"
@@ -2136,11 +2118,7 @@ msgid "Cooperative Members"
 msgstr "Genossenschaftsmitglieder"
 
 #: coop/templates/coop/shareowner_list.html:55
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                    Filtered %(filtered_member_count)s of %(total_member_count)s\n"
-#| "                                "
+#, python-format
 msgid ""
 "\n"
 "                                            Filtered %(filtered_member_count)s of %(total_member_count)s\n"
@@ -4294,11 +4272,6 @@ msgstr ""
 "                        "
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:199
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            <p data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"Solidarity Shifts can only be received while having a negative balance\">You cannot receive a Solidarity Shift at the moment</p>\n"
-#| "                        "
 msgid ""
 "\n"
 "                            <p data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"Solidarity Shifts can only be received while having a negative balance\">\n"
@@ -4342,8 +4315,6 @@ msgstr ""
 "Jedes Mitglied kann eine Person (egal, ob im eigenen Haushalt oder nicht) bestimmen, die unter der gleichen Mitgliedsnummer einkaufen kann. Das können investierende Mitglieder oder Nichtmitglieder sein. "
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:225
-#, fuzzy
-#| msgid "None"
 msgctxt "No shift partner"
 msgid "None"
 msgstr "Keine"
