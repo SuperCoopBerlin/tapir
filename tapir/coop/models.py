@@ -280,11 +280,14 @@ class ShareOwner(models.Model):
     def get_total_expected_payment(self) -> float:
         return COOP_ENTRY_AMOUNT + self.share_ownerships.count() * COOP_SHARE_PRICE
 
-    def get_currently_paid_amount(self) -> float:
+    def get_currently_paid_amount(self, at_date: datetime.date | None = None) -> float:
+        if at_date is None:
+            at_date = timezone.now().date()
+
         return (
-            IncomingPayment.objects.filter(credited_member=self).aggregate(
-                Sum("amount")
-            )["amount__sum"]
+            IncomingPayment.objects.filter(
+                credited_member=self, payment_date__lte=at_date
+            ).aggregate(Sum("amount"))["amount__sum"]
             or 0
         )
 
