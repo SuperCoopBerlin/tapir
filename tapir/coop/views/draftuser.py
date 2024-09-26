@@ -37,7 +37,7 @@ from tapir.coop.models import (
     NewMembershipsForAccountingRecap,
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
-from tapir.coop.services.MemberInfoService import MemberInfoService
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
@@ -209,7 +209,7 @@ class CreateShareOwnerFromDraftUserView(
 
             NewMembershipsForAccountingRecap.objects.create(
                 member=share_owner,
-                number_of_shares=MemberInfoService.get_number_of_active_shares(
+                number_of_shares=NumberOfSharesService.get_number_of_active_shares(
                     share_owner
                 ),
                 date=timezone.now().date(),

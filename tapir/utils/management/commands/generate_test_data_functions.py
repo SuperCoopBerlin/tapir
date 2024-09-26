@@ -10,6 +10,7 @@ from django_auth_ldap.config import LDAPSearch
 from fabric.testing.fixtures import connection
 from faker import Faker
 from ldap.ldapobject import LDAPObject
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 
 from tapir import settings
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
@@ -25,7 +26,6 @@ from tapir.coop.models import (
     MemberStatus,
     MembershipResignation,
 )
-from tapir.coop.services.MemberInfoService import MemberInfoService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.log.models import LogEntry
 from tapir.settings import GROUP_VORSTAND, GROUP_MEMBER_OFFICE
@@ -483,10 +483,8 @@ def generate_purchase_baskets():
     for file in files:
         current_date = file.processed_on
         share_owners = ShareOwner.objects.prefetch_related("user")
-        share_owners = (
-            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                share_owners, current_date
-            )
+        share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            share_owners, current_date
         )
         share_owners = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(

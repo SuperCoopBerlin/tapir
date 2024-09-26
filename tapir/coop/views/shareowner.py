@@ -27,6 +27,7 @@ from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
@@ -56,7 +57,6 @@ from tapir.coop.models import (
     UpdateShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
 )
-from tapir.coop.services.MemberInfoService import MemberInfoService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
@@ -377,7 +377,7 @@ class ShareOwnerMembershipConfirmationFileView(
         num_shares = (
             request.GET["num_shares"]
             if "num_shares" in request.GET.keys()
-            else MemberInfoService.get_number_of_active_shares(share_owner)
+            else NumberOfSharesService.get_number_of_active_shares(share_owner)
         )
         date = (
             datetime.datetime.strptime(request.GET["date"], "%d.%m.%Y").date()
@@ -788,10 +788,8 @@ class ShareOwnerListView(
 
     def get_queryset(self):
         queryset = ShareOwner.objects.prefetch_related("user", "share_ownerships")
-        queryset = (
-            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                queryset
-            )
+        queryset = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            queryset
         )
         queryset = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(

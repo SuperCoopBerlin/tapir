@@ -10,9 +10,9 @@ if TYPE_CHECKING:
     from tapir.coop.models import ShareOwner
 
 
-class MemberInfoService:
+class NumberOfSharesService:
     ANNOTATION_NUMBER_OF_ACTIVE_SHARES = "num_active_shares"
-    ANNOTATION_SHARES_ACTIVE_AT_DATE = "shares_active_at_date"
+    ANNOTATION_SHARES_ACTIVE_AT_DATE = "shares_active_date_check"
 
     @classmethod
     def get_number_of_active_shares(

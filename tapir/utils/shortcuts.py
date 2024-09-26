@@ -110,7 +110,7 @@ def get_models_with_attribute_value_at_date(
             ),
             old_values__has_key=attribute_name,
         )
-        .order_by("user", "created_date")
+        .order_by("user" if entry_to_user else "share_owner", "created_date")
         .select_related("user", "share_owner")
     )  # ordering by user then calling distinct("user") will give us the oldest entry for each user
 

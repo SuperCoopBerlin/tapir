@@ -12,13 +12,13 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import RedirectView
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 
 from tapir.accounts.models import (
     TapirUser,
     UpdateTapirUserLogEntry,
 )
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
-from tapir.coop.services.MemberInfoService import MemberInfoService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.coop.views import ShareCountEvolutionJsonView
 from tapir.financingcampaign.models import (
@@ -72,10 +72,8 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
             .prefetch_related("user__shift_user_data")
             .prefetch_related("share_ownerships")
         )
-        share_owners = (
-            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                share_owners
-            )
+        share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            share_owners
         )
         share_owners = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
@@ -116,10 +114,8 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
             .prefetch_related("user__share_owner__share_ownerships")
             .prefetch_related("shift_exemptions")
         )
-        share_owners = (
-            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                ShareOwner.objects.all()
-            )
+        share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            ShareOwner.objects.all()
         )
         share_owners = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
@@ -132,8 +128,8 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
                 share_owners[shift_user_data.user.share_owner.id],
                 shift_user_data.user.share_owner,
                 [
-                    MemberInfoService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES,
-                    MemberInfoService.ANNOTATION_SHARES_ACTIVE_AT_DATE,
+                    NumberOfSharesService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES,
+                    NumberOfSharesService.ANNOTATION_SHARES_ACTIVE_AT_DATE,
                     MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE,
                     MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE_AT_DATE,
                 ],

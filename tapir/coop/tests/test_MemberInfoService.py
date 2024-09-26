@@ -1,7 +1,8 @@
 import datetime
 
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+
 from tapir.coop.models import ShareOwner
-from tapir.coop.services.MemberInfoService import MemberInfoService
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
@@ -27,7 +28,7 @@ class TestMemberInfoService(TapirFactoryTestBase):
 
         self.assertEqual(
             1,
-            MemberInfoService.get_number_of_active_shares(
+            NumberOfSharesService.get_number_of_active_shares(
                 share_owner, self.TODAY + datetime.timedelta(days=7)
             ),
         )
@@ -57,22 +58,20 @@ class TestMemberInfoService(TapirFactoryTestBase):
             end_date=self.TODAY + datetime.timedelta(days=10),
         )
 
-        share_owners = (
-            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                ShareOwner.objects.all(), self.TODAY + datetime.timedelta(days=7)
-            )
+        share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            ShareOwner.objects.all(), self.TODAY + datetime.timedelta(days=7)
         )
 
         self.assertEqual(
             1,
-            MemberInfoService.get_number_of_active_shares(
+            NumberOfSharesService.get_number_of_active_shares(
                 share_owners.get(id=share_owner_with_one_active_share.id),
                 self.TODAY + datetime.timedelta(days=7),
             ),
         )
         self.assertEqual(
             3,
-            MemberInfoService.get_number_of_active_shares(
+            NumberOfSharesService.get_number_of_active_shares(
                 share_owners.get(id=share_owner_with_three_active_shares.id),
                 self.TODAY + datetime.timedelta(days=7),
             ),
@@ -85,12 +84,12 @@ class TestMemberInfoService(TapirFactoryTestBase):
         )
 
         with self.assertNumQueries(1):
-            share_owner = MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            share_owner = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
                 ShareOwner.objects.all()
             ).first()
 
         with self.assertNumQueries(0):
-            number_of_active_shares = MemberInfoService.get_number_of_active_shares(
+            number_of_active_shares = NumberOfSharesService.get_number_of_active_shares(
                 share_owner
             )
 
@@ -99,13 +98,11 @@ class TestMemberInfoService(TapirFactoryTestBase):
     def test_getNumberOfActiveShares_annotationWithWrongDate_raisesException(self):
         ShareOwnerFactory.create()
 
-        share_owner = (
-            MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                ShareOwner.objects.all(), self.TODAY
-            ).first()
-        )
+        share_owner = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            ShareOwner.objects.all(), self.TODAY
+        ).first()
 
         with self.assertRaises(ValueError):
-            MemberInfoService.get_number_of_active_shares(
+            NumberOfSharesService.get_number_of_active_shares(
                 share_owner, self.TODAY + datetime.timedelta(days=7)
             )

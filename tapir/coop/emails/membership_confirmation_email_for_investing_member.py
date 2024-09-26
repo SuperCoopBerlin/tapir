@@ -2,7 +2,7 @@ from typing import List
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from tapir.coop.services.MemberInfoService import MemberInfoService
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 
 from tapir import settings
 from tapir.coop import pdfs
@@ -48,7 +48,7 @@ class MembershipConfirmationForInvestingMemberEmail(TapirEmailBase):
                 ),
                 pdfs.get_shareowner_membership_confirmation_pdf(
                     self.share_owner,
-                    num_shares=MemberInfoService.get_number_of_active_shares(
+                    num_shares=NumberOfSharesService.get_number_of_active_shares(
                         self.share_owner
                     ),
                     date=timezone.now().date(),

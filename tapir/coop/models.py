@@ -13,8 +13,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
-from tapir.coop.services.MemberInfoService import MemberInfoService
+from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.utils.expection_utils import TapirException
@@ -113,11 +114,11 @@ class ShareOwner(models.Model):
             if date is None:
                 date = timezone.now().date()
 
-            share_owners_with_nb_of_shares = MemberInfoService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            share_owners_with_nb_of_shares = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
                 self, date
             )
             share_owners_without_active_shares = share_owners_with_nb_of_shares.filter(
-                **{MemberInfoService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
+                **{NumberOfSharesService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
             )
 
             if status == MemberStatus.SOLD:
@@ -127,11 +128,16 @@ class ShareOwner(models.Model):
                 id__in=share_owners_without_active_shares
             ).distinct()
 
+            members_with_valid_shares = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_date(
+                members_with_valid_shares, date
+            )
+            annotation_was_investing = {
+                InvestingStatusService.ANNOTATION_WAS_INVESTING: True
+            }
             if status == MemberStatus.INVESTING:
-                return members_with_valid_shares.filter(is_investing=True)
-
+                return members_with_valid_shares.filter(**annotation_was_investing)
             member_with_shares_and_not_investing: Self = (
-                members_with_valid_shares.filter(is_investing=False)
+                members_with_valid_shares.exclude(**annotation_was_investing)
             )
 
             members_with_paused_annotation = MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
@@ -244,16 +250,19 @@ class ShareOwner(models.Model):
         return oldest
 
     def num_shares(self) -> int:
-        return MemberInfoService.get_number_of_active_shares(self)
+        return NumberOfSharesService.get_number_of_active_shares(self)
 
-    def get_member_status(self):
-        if not MemberInfoService.get_number_of_active_shares(self) > 0:
+    def get_member_status(self, at_date: datetime.date | None = None):
+        if not at_date:
+            at_date = timezone.now().date()
+
+        if not NumberOfSharesService.get_number_of_active_shares(self, at_date) > 0:
             return MemberStatus.SOLD
 
-        if self.is_investing:
+        if InvestingStatusService.is_investing(self, at_date):
             return MemberStatus.INVESTING
 
-        if MembershipPauseService.has_active_pause(self):
+        if MembershipPauseService.has_active_pause(self, at_date):
             return MemberStatus.PAUSED
 
         return MemberStatus.ACTIVE
