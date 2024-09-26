@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-26 21:08+0200\n"
+"POT-Creation-Date: 2024-09-26 22:59+0200\n"
 "PO-Revision-Date: 2024-09-26 10:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -276,7 +276,7 @@ msgstr "Benutzername bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:42
 #: coop/templates/coop/draftuser_detail.html:242
-#: coop/templates/coop/membershipresignation_detail.html:98
+#: coop/templates/coop/membershipresignation_detail.html:97
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:21
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:89
@@ -941,33 +941,33 @@ msgstr "Beteiligungserklärung"
 msgid "Export"
 msgstr "Exportieren"
 
-#: coop/templates/coop/draftuser_list.html:37
-#: coop/templates/coop/shareowner_list.html:33
+#: coop/templates/coop/draftuser_list.html:42
+#: coop/templates/coop/shareowner_list.html:38
 #: shifts/templates/shifts/shift_filters.html:3
 msgid "Filters"
 msgstr "Filter"
 
-#: coop/templates/coop/draftuser_list.html:51
+#: coop/templates/coop/draftuser_list.html:56
 #: coop/templates/coop/incoming_payment_list.html:35
 #: coop/templates/coop/membership_pause/membership_pause_list.html:47
 #: coop/templates/coop/membership_resignation_list.html:48
-#: coop/templates/coop/shareowner_list.html:47
+#: coop/templates/coop/shareowner_list.html:52
 #: log/templates/log/log_overview.html:24
 #: shifts/templates/shifts/shift_calendar_template.html:53
 #: shifts/templates/shifts/shiftexemption_list.html:50
 msgid "Filter"
 msgstr "Filter"
 
-#: coop/templates/coop/draftuser_list.html:56
+#: coop/templates/coop/draftuser_list.html:61
 #: coop/templates/coop/incoming_payment_list.html:40
 #: coop/templates/coop/membership_pause/membership_pause_list.html:52
 #: coop/templates/coop/membership_resignation_list.html:53
-#: coop/templates/coop/shareowner_list.html:52
+#: coop/templates/coop/shareowner_list.html:57
 #: shifts/templates/shifts/shiftexemption_list.html:55
 msgid "Clear all filters"
 msgstr "Alle Filter entfernen"
 
-#: coop/templates/coop/draftuser_list.html:59
+#: coop/templates/coop/draftuser_list.html:64
 #, python-format
 msgid ""
 "\n"
@@ -2008,24 +2008,24 @@ msgstr "Erstellungsdatum"
 msgid "Membership ends"
 msgstr "Mitglieder"
 
-#: coop/templates/coop/membershipresignation_detail.html:74
+#: coop/templates/coop/membershipresignation_detail.html:73
 #, fuzzy
 #| msgid "Creation date"
 msgid "Resignation type"
 msgstr "Erstellungsdatum"
 
-#: coop/templates/coop/membershipresignation_detail.html:78
+#: coop/templates/coop/membershipresignation_detail.html:77
 #, fuzzy
 #| msgid "Paid"
 msgid "Paid out"
 msgstr "Bezahlt"
 
-#: coop/templates/coop/membershipresignation_detail.html:81
+#: coop/templates/coop/membershipresignation_detail.html:80
 #: coop/views/draftuser.py:286
 msgid "Yes"
 msgstr "Ja"
 
-#: coop/templates/coop/membershipresignation_detail.html:83
+#: coop/templates/coop/membershipresignation_detail.html:82
 #: coop/views/draftuser.py:286
 msgid "No"
 msgstr "Nein"
@@ -2117,7 +2117,7 @@ msgstr "Zur Nutzer*innen-Seite"
 msgid "Cooperative Members"
 msgstr "Genossenschaftsmitglieder"
 
-#: coop/templates/coop/shareowner_list.html:55
+#: coop/templates/coop/shareowner_list.html:60
 #, python-format
 msgid ""
 "\n"
