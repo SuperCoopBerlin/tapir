@@ -47,12 +47,17 @@ class ShiftCountByCategoryJsonView(
     LoginRequiredMixin, PermissionRequiredMixin, JSONView
 ):
     permission_required = PERMISSION_SHIFTS_MANAGE
+    SELECTION_ABCD_MEMBERS = "ABCD members"
+    SELECTION_FLYING_MEMBERS = "Flying members"
+    SELECTION_FROZEN_MEMBERS = "Frozen members"
+    SELECTION_ABCD_SHIFTS = "ABCD shifts"
+    SELECTION_FLYING_SHIFTS = "Flying shifts"
     SELECTIONS = [
-        "abcd_members",
-        "flying_members",
-        "frozen_members",
-        "abcd_shifts",
-        "flying_shifts",
+        SELECTION_ABCD_MEMBERS,
+        SELECTION_FLYING_MEMBERS,
+        SELECTION_FROZEN_MEMBERS,
+        SELECTION_ABCD_SHIFTS,
+        SELECTION_FLYING_SHIFTS,
     ]
 
     def __init__(self, **kwargs):
@@ -129,7 +134,9 @@ class ShiftCountByCategoryJsonView(
         attendances = ShiftAttendance.objects.exclude(
             state=ShiftAttendance.State.PENDING
         ).filter(
-            slot__shift__start_time__gte=at_date, slot__shift__start_time__lte=end_date
+            slot__shift__start_time__gte=at_date,
+            slot__shift__start_time__lte=end_date,
+            slot__shift__cancelled=False,
         )
 
         # Only pick one attendance per slot, choosing the most recently updated one
@@ -137,19 +144,19 @@ class ShiftCountByCategoryJsonView(
             "slot"
         )
 
-        if selection == "abcd_members":
+        if selection == cls.SELECTION_ABCD_MEMBERS:
             attendances = cls.filter_attendance_by_attendance_mode_of_member_at_date(
                 attendances, ShiftAttendanceMode.REGULAR, at_date
             )
-        elif selection == "flying_members":
+        elif selection == cls.SELECTION_FLYING_MEMBERS:
             attendances = cls.filter_attendance_by_attendance_mode_of_member_at_date(
                 attendances, ShiftAttendanceMode.FLYING, at_date
             )
-        elif selection == "frozen_members":
+        elif selection == cls.SELECTION_FROZEN_MEMBERS:
             attendances = cls.filter_attendance_by_attendance_mode_of_member_at_date(
                 attendances, ShiftAttendanceMode.FROZEN, at_date
             )
-        elif selection == "abcd_shifts":
+        elif selection == cls.SELECTION_ABCD_SHIFTS:
             attendances = (
                 IsShiftAttendanceFromTemplateService.annotate_shift_attendances(
                     attendances
@@ -159,7 +166,7 @@ class ShiftCountByCategoryJsonView(
                 IsShiftAttendanceFromTemplateService.ANNOTATION_IS_FROM_ATTENDANCE_TEMPLATE: True
             }
             attendances = attendances.filter(**filters)
-        elif selection == "flying_shifts":
+        elif selection == cls.SELECTION_FLYING_SHIFTS:
             attendances = (
                 IsShiftAttendanceFromTemplateService.annotate_shift_attendances(
                     attendances

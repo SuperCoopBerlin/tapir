@@ -13,15 +13,57 @@
 {% endblock head %}
 {% block content %}
     <div class="row">
-        <div class="col-xl-6">
+        <div class="col">
             <div class="card mb-2">
                 <h5 class="card-header">{% translate "Shift cancellation rate" %}</h5>
                 <div class="card-body">
-                    <p>
-                        {% blocktranslate %}
-                            # TODO explanations
-                        {% endblocktranslate %}
-                    </p>
+                    <ul>
+                        <li>
+                            These graphs show the attendance ratio of shifts per month over several category.
+                            <ul>
+                                <li>
+                                    That means, for a given month and category, we get all "attendances".
+                                    <br />
+                                    An attendance is a registration of a member to a shift slot.
+                                    <br />
+                                    We then calculate the ratio of "number of not-attended attendances" against "total number of attendances".
+                                </li>
+                                <li>
+                                    For example, if there has been 10 registrations in a given month and category,
+                                    and out of those 10 registrations, 8 members actually showed up, then we get a 20% cancellation rate.
+                                </li>
+                            </ul>
+                        </li>
+                        <li>We only count actual show ups: excused, cancelled, no-shows... are all counted as "not attended".</li>
+                        <li>Cancelled shifts (for example on holidays) are removed from the calculations.</li>
+                        <li>
+                            For each shift slot, only a single attendance is taken into account.
+                            <ul>
+                                <li>
+                                    There can be several attendances for a single slot, for example if a flying member registered, cancelled, then another member registered.
+                                    <br />
+                                    In that case, we only look at the most recent attendance for that slot.
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    The following categories are counted separately:
+                    <ul>
+                        <li>
+                            ABCD members: takes into account only attendances from ABCD members. That means, members that have the status ABCD on their shift profile.
+                            <br />
+                            The status at the time of the shift is taken into account, not the status they have now.
+                        </li>
+                        <li>Same for flying and frozen members.</li>
+                        <li>
+                            ABCD shifts: takes into account only attendances from ABCD shifts. That means, the attendance comes from the user being registered to an ABCD slot.
+                        </li>
+                        <li>
+                            Flying shifts: takes into account only attendances from not-ABCD shifts. That means, the user registered to a single shift.
+                            <br />
+                            The case of an ABCD member that registers to an extra single shift, separate from their normal ABCD shift, would count as a flying shift.
+                        </li>
+                    </ul>
                     <p>
                         <span class="{% tapir_button_link %}"
                               onclick="chartManager.show_stats_chart( this, '{% url "statistics:shift_cancelling_rate_json" %}', 'shift_cancelling_rate_canvas', )">
@@ -29,6 +71,11 @@
                             <span class="button-text">{% translate "Show graph: " %}{% translate "Shift cancellation rate" %}</span>
                         </span>
                         <canvas id="shift_cancelling_rate_canvas" style="display: none;"></canvas>
+                    </p>
+                    <p>
+                        This second graph shows the number of attendances in each category, following the same criterias as described above.
+                        <br />
+                        This is useful to put some values in perspective. For example, at 01.05.2024, 100% of the frozen members didn't show up. But that's only 1 attendance.
                     </p>
                     <p>
                         <span class="{% tapir_button_link %}"
