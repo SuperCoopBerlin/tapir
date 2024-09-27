@@ -12,14 +12,15 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import RedirectView
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 
 from tapir.accounts.models import (
     TapirUser,
     UpdateTapirUserLogEntry,
 )
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
+from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 from tapir.coop.views import ShareCountEvolutionJsonView
 from tapir.financingcampaign.models import (
     FinancingCampaign,
@@ -80,6 +81,9 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
                 share_owners
             )
         )
+        share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_date(
+            share_owners
+        )
         current_number_of_purchasing_members = len(
             [share_owner for share_owner in share_owners if share_owner.can_shop()]
         )
@@ -122,6 +126,9 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
                 share_owners
             )
         )
+        share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_date(
+            share_owners
+        )
         share_owners = {share_owner.id: share_owner for share_owner in share_owners}
         for shift_user_data in shift_user_datas:
             cls.transfer_attributes(
@@ -132,6 +139,8 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
                     NumberOfSharesService.ANNOTATION_SHARES_ACTIVE_AT_DATE,
                     MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE,
                     MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE_AT_DATE,
+                    InvestingStatusService.ANNOTATION_WAS_INVESTING,
+                    InvestingStatusService.ANNOTATION_WAS_INVESTING_AT_DATE,
                 ],
             )
 
