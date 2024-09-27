@@ -59,4 +59,14 @@ urlpatterns = [
         views.ShiftCountByCategoryJsonView.as_view(),
         name="shift_count_by_category_json",
     ),
+    path(
+        "state_distribution",
+        views.StateDistributionView.as_view(),
+        name="state_distribution",
+    ),
+    path(
+        "state_distribution_json",
+        views.StateDistributionJsonView.as_view(),
+        name="state_distribution_json",
+    ),
 ]

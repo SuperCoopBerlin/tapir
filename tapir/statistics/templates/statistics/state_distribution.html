@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+{% load core %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% load i18n %}
+{% load utils %}
+{% block title %}
+    {% translate 'State distribution' %}
+{% endblock title %}
+{% block head %}
+    <script src="{% static 'statistics/chart_4.4.0.js' %}"></script>
+    <script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
+{% endblock head %}
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <div class="card mb-2">
+                <h5 class="card-header">{% translate "State distribution" %}</h5>
+                <div class="card-body">
+                    <ul>
+                        <li>These graphs show the distribution of the attendance states per month</li>
+                        <li>Cancelled shifts (for example on holidays) are removed from the calculations.</li>
+                        <li>
+                            For each shift slot, only a single attendance is taken into account.
+                            <ul>
+                                <li>
+                                    There can be several attendances for a single slot, for example if a flying member registered, cancelled, then another member registered.
+                                    <br />
+                                    In that case, we only look at the most recent attendance for that slot.
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p>
+                        <span class="{% tapir_button_link %}"
+                              onclick="chartManager.show_stats_chart( this, '{% url "statistics:state_distribution_json" %}', 'state_distribution_canvas', )">
+                            <span class="material-icons">leaderboard</span>
+                            <span class="button-text">{% translate "Show graph: " %}{% translate "State distribution" %}</span>
+                        </span>
+                        <canvas id="state_distribution_canvas" style="display: none;"></canvas>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
