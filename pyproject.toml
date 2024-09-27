@@ -57,3 +57,11 @@ profile = "django"
 max_line_length = 120
 ignore = "T002,H006,H021,H025,H030,H031"
 use_gitignore = true
+
+
+[tool.coverage.run]
+omit = [
+    "*/migrations/*",
+     "*/tests/*"
+]
+relative_files = true
