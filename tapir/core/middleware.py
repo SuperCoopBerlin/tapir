@@ -2,6 +2,7 @@ import logging
 import traceback
 
 import requests
+from django.http import HttpRequest
 
 from tapir import settings
 
@@ -12,22 +13,22 @@ class SendExceptionsToSlackMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
-    def __call__(self, request):
+    def __call__(self, request: HttpRequest):
         try:
             response = self.get_response(request)
         except Exception as e:
             stacktrace_string = traceback.format_exc()
-            self.send_slack_message(e, stacktrace_string)
+            self.send_slack_message(e, stacktrace_string, request)
             raise e
         return response
 
-    def process_exception(self, _, exception):
+    def process_exception(self, request: HttpRequest, exception):
         stacktrace_string = traceback.format_exc()
-        self.send_slack_message(exception, stacktrace_string)
+        self.send_slack_message(exception, stacktrace_string, request)
         return None
 
     @staticmethod
-    def send_slack_message(e: Exception, stacktrace_string: str):
+    def send_slack_message(e: Exception, stacktrace_string: str, request: HttpRequest):
         if settings.DEBUG:
             return
         url = "https://slack.com/api/chat.postMessage"
@@ -47,6 +48,14 @@ class SendExceptionsToSlackMiddleware:
                     "text": {
                         "type": "mrkdwn",
                         "text": f"Hi @channel! The following error happened on the production server :ladybug:",
+                    },
+                },
+                {"type": "divider"},
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "plain_text",
+                        "text": f"{request}",
                     },
                 },
                 {"type": "divider"},
