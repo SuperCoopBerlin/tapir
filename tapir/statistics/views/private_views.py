@@ -125,8 +125,11 @@ class ShiftCancellingRateJsonView(
         return attendances.filter(attendance_mode=attendance_mode)
 
     def get_cancel_rate_for_selection_at_date(self, selection, at_date):
+        end_date = get_first_of_next_month(at_date) - datetime.timedelta(days=1)
         attendances = ShiftAttendance.objects.exclude(
             state=ShiftAttendance.State.PENDING
+        ).filter(
+            slot__shift__start_time__gte=at_date, slot__shift__start_time__lte=end_date
         )
 
         # Only pick one attendance per slot, choosing the most recently updated one
