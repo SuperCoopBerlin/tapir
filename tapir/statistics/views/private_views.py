@@ -8,7 +8,6 @@ from django.views import generic
 
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.models import (
-    Shift,
     ShiftAttendance,
     ShiftAttendanceMode,
     ShiftUserData,
@@ -82,11 +81,7 @@ class ShiftCountByCategoryJsonView(
 
     @staticmethod
     def get_dates_from_first_shift_to_today():
-        first_shift = Shift.objects.order_by("start_time").first()
-        if not first_shift:
-            return []
-
-        current_date = first_shift.start_time.date().replace(day=1)
+        current_date = datetime.date(year=2024, month=1, day=1)
         end_date = timezone.now().date() + datetime.timedelta(days=1)
         dates = []
         while current_date < end_date:
