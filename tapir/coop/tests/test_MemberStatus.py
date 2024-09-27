@@ -170,7 +170,7 @@ class TestShareOwnerQuerySetWithStatus(
         at_date: datetime.date | None = None,
     ):
         if not at_date:
-            at_date = timezone.now().date()
+            at_date = timezone.now()
 
         for status in MEMBER_STATUS_CHOICES:
             queryset = ShareOwner.objects.with_status(status[0], at_date)

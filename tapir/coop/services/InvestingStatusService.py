@@ -16,15 +16,15 @@ class InvestingStatusService:
     ANNOTATION_WAS_INVESTING_AT_DATE = "was_investing_date_check"
 
     @classmethod
-    def is_investing(cls, share_owner: ShareOwner, at_date: datetime.date = None):
+    def is_investing(cls, share_owner: ShareOwner, at_date: datetime.datetime = None):
         if at_date is None:
-            at_date = timezone.now().date()
+            at_date = timezone.now()
 
         if not hasattr(share_owner, cls.ANNOTATION_WAS_INVESTING):
             from tapir.coop.models import ShareOwner
 
             share_owner = (
-                cls.annotate_share_owner_queryset_with_investing_status_at_date(
+                cls.annotate_share_owner_queryset_with_investing_status_at_datetime(
                     ShareOwner.objects.filter(id=share_owner.id), at_date
                 ).first()
             )
@@ -38,11 +38,11 @@ class InvestingStatusService:
         return getattr(share_owner, cls.ANNOTATION_WAS_INVESTING)
 
     @classmethod
-    def annotate_share_owner_queryset_with_investing_status_at_date(
-        cls, queryset: ShareOwner.ShareOwnerQuerySet, at_date: datetime.date = None
+    def annotate_share_owner_queryset_with_investing_status_at_datetime(
+        cls, queryset: ShareOwner.ShareOwnerQuerySet, at_date: datetime.datetime = None
     ):
         if at_date is None:
-            at_date = timezone.now().date()
+            at_date = timezone.now()
 
         from tapir.coop.models import UpdateShareOwnerLogEntry
 

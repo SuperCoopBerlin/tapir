@@ -81,7 +81,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
                 share_owners
             )
         )
-        share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_date(
+        share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
             share_owners
         )
         current_number_of_purchasing_members = len(
@@ -126,7 +126,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
                 share_owners
             )
         )
-        share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_date(
+        share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
             share_owners
         )
         share_owners = {share_owner.id: share_owner for share_owner in share_owners}

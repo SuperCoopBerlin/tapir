@@ -11,6 +11,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.mail import EmailMessage
 from django.test import TestCase, override_settings, Client
 from django.urls import reverse
+from django.utils import timezone
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -220,6 +221,7 @@ class TapirEmailTestBase(TestCase):
 
 
 def mock_timezone_now(test: TestCase, now: datetime.datetime) -> None:
+    now = timezone.make_aware(now) if timezone.is_naive(now) else now
     patcher = patch("django.utils.timezone.now")
     test.mock_now = patcher.start()
     test.addCleanup(patcher.stop)

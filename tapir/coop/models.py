@@ -24,7 +24,7 @@ from tapir.utils.models import (
     CountryField,
     positive_number_validator,
 )
-from tapir.utils.shortcuts import get_html_link
+from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime
 from tapir.utils.user_utils import UserUtils
 
 
@@ -110,12 +110,17 @@ class ShareOwner(models.Model):
 
             return self.filter(combined_filters)
 
-        def with_status(self, status: str, date: datetime.date = None):
-            if date is None:
-                date = timezone.now().date()
+        def with_status(
+            self, status: str, at_datetime: datetime.datetime | datetime.date = None
+        ):
+            if at_datetime is None:
+                at_datetime = timezone.now()
+
+            if isinstance(at_datetime, datetime.date):
+                at_datetime = get_timezone_aware_datetime(at_datetime, datetime.time())
 
             share_owners_with_nb_of_shares = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                self, date
+                self, at_datetime.date()
             )
             share_owners_without_active_shares = share_owners_with_nb_of_shares.filter(
                 **{NumberOfSharesService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
@@ -128,8 +133,8 @@ class ShareOwner(models.Model):
                 id__in=share_owners_without_active_shares
             ).distinct()
 
-            members_with_valid_shares = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_date(
-                members_with_valid_shares, date
+            members_with_valid_shares = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
+                members_with_valid_shares, at_datetime
             )
             annotation_was_investing = {
                 InvestingStatusService.ANNOTATION_WAS_INVESTING: True
@@ -141,7 +146,7 @@ class ShareOwner(models.Model):
             )
 
             members_with_paused_annotation = MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
-                member_with_shares_and_not_investing, date
+                member_with_shares_and_not_investing, at_datetime.date()
             )
             paused_members = members_with_paused_annotation.filter(
                 **{MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE: True}
@@ -252,17 +257,25 @@ class ShareOwner(models.Model):
     def num_shares(self) -> int:
         return NumberOfSharesService.get_number_of_active_shares(self)
 
-    def get_member_status(self, at_date: datetime.date | None = None):
-        if not at_date:
-            at_date = timezone.now().date()
+    def get_member_status(self, at_datetime: datetime.datetime | datetime.date = None):
+        if not at_datetime:
+            at_datetime = timezone.now()
 
-        if not NumberOfSharesService.get_number_of_active_shares(self, at_date) > 0:
+        if isinstance(at_datetime, datetime.date):
+            at_datetime = get_timezone_aware_datetime(at_datetime, datetime.time())
+
+        if (
+            not NumberOfSharesService.get_number_of_active_shares(
+                self, at_datetime.date()
+            )
+            > 0
+        ):
             return MemberStatus.SOLD
 
-        if InvestingStatusService.is_investing(self, at_date):
+        if InvestingStatusService.is_investing(self, at_datetime):
             return MemberStatus.INVESTING
 
-        if MembershipPauseService.has_active_pause(self, at_date):
+        if MembershipPauseService.has_active_pause(self, at_datetime.date()):
             return MemberStatus.PAUSED
 
         return MemberStatus.ACTIVE

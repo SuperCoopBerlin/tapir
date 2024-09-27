@@ -503,7 +503,7 @@ def generate_purchase_baskets():
         purchasing_users = [
             share_owner
             for share_owner in share_owners.with_status(
-                status=MemberStatus.ACTIVE, date=current_date
+                status=MemberStatus.ACTIVE, at_datetime=current_date
             )
             if share_owner.user
         ]
