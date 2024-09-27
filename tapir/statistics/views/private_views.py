@@ -82,6 +82,7 @@ class ShiftCancellingRateJsonView(
             return []
 
         current_date = first_shift.start_time.date().replace(day=1)
+        current_date = datetime.date(year=2024, month=3, day=1)
         end_date = timezone.now().date() + datetime.timedelta(days=1)
         dates = []
         while current_date < end_date:
