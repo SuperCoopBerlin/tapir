@@ -11,3 +11,25 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Run Test
         run: docker compose run web make test
+      - name: Upload coverage
+        uses: actions/upload-artifact@master
+        with:
+          name: coverage-reports
+          path: coverage.xml
+  sonarcloud:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Disabling shallow clone is recommended for improving relevancy of reporting
+          fetch-depth: 0
+      - name: Download coverage.xml
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-reports
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
