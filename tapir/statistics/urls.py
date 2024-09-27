@@ -44,4 +44,14 @@ urlpatterns = [
         views.BasketSumEvolutionJsonView.as_view(),
         name="basket_sum_evolution_json",
     ),
+    path(
+        "shift_cancelling_rate",
+        views.ShiftCancellingRateView.as_view(),
+        name="shift_cancelling_rate",
+    ),
+    path(
+        "shift_cancelling_rate_json",
+        views.ShiftCancellingRateJsonView.as_view(),
+        name="shift_cancelling_rate_json",
+    ),
 ]

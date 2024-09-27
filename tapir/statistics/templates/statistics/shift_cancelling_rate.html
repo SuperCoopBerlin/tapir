@@ -1,0 +1,37 @@
+{% extends "core/base.html" %}
+{% load core %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% load i18n %}
+{% load utils %}
+{% block title %}
+    {% translate 'Main statistics' %}
+{% endblock title %}
+{% block head %}
+    <script src="{% static 'statistics/chart_4.4.0.js' %}"></script>
+    <script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
+{% endblock head %}
+{% block content %}
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header">{% translate "Shift cancellation rate" %}</h5>
+                <div class="card-body">
+                    <p>
+                        {% blocktranslate %}
+                            # TODO explanations
+                        {% endblocktranslate %}
+                    </p>
+                    <p>
+                        <span class="{% tapir_button_link %}"
+                              onclick="chartManager.show_stats_chart( this, '{% url "statistics:shift_cancelling_rate_json" %}', 'shift_cancelling_rate_canvas', )">
+                            <span class="material-icons">leaderboard</span>
+                            <span class="button-text">{% translate "Show graph: " %}{% translate "Shift cancellation rate" %}</span>
+                        </span>
+                        <canvas id="shift_cancelling_rate_canvas" style="display: none;"></canvas>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
