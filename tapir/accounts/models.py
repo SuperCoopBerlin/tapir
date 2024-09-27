@@ -61,7 +61,7 @@ class TapirUserManager(UserManager.from_queryset(TapirUserQuerySet)):
     use_in_migrations = True
 
 
-def get_mails_not_mandatory_and_default():
+def get_mails_not_mandatory_and_enabled_by_default():
     return [m[0] for m in get_mails_not_mandatory(default=True)]
 
 
