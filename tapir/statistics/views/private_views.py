@@ -13,6 +13,9 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     ShiftUserData,
 )
+from tapir.shifts.services.is_shift_attendance_from_template_service import (
+    IsShiftAttendanceFromTemplateService,
+)
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
@@ -40,7 +43,7 @@ class ShiftCancellingRateView(
         return context_data
 
 
-class ShiftCancellingRateJsonView(
+class ShiftCountByCategoryJsonView(
     LoginRequiredMixin, PermissionRequiredMixin, JSONView
 ):
     permission_required = PERMISSION_SHIFTS_MANAGE
@@ -63,9 +66,6 @@ class ShiftCancellingRateJsonView(
             ],
             y_axis_values=self.get_data(),
             data_labels=self.SELECTIONS,
-            y_axis_min=0,
-            y_axis_max=1,
-            format_ticks=FORMAT_TICKS_PERCENTAGE,
         )
 
     def get_and_cache_dates_from_first_shift_to_today(self):
@@ -82,29 +82,28 @@ class ShiftCancellingRateJsonView(
             return []
 
         current_date = first_shift.start_time.date().replace(day=1)
-        current_date = datetime.date(year=2024, month=3, day=1)
         end_date = timezone.now().date() + datetime.timedelta(days=1)
         dates = []
         while current_date < end_date:
             dates.append(current_date)
             current_date = get_first_of_next_month(current_date)
 
-        if len(dates) > 0 and dates[-1] != end_date:
-            dates.append(end_date)
-
         return dates
 
     def get_data(self):
         return [
-            self.get_cancel_rate_for_selection(selection)
+            self.get_cancel_count_for_selection(selection)
             for selection in self.SELECTIONS
         ]
 
-    def get_cancel_rate_for_selection(self, selection: str):
+    def get_cancel_count_for_selection(self, selection: str):
         return [
-            self.get_cancel_rate_for_selection_at_date(selection, at_date)
+            self.get_number_of_attendances_for_selection_at_date(selection, at_date)
             for at_date in self.get_and_cache_dates_from_first_shift_to_today()
         ]
+
+    def get_number_of_attendances_for_selection_at_date(self, selection: str, at_date):
+        return self.get_attendances_for_selection_at_date(selection, at_date).count()
 
     @staticmethod
     def filter_attendance_by_attendance_mode_of_member_at_date(
@@ -124,7 +123,8 @@ class ShiftCancellingRateJsonView(
 
         return attendances.filter(attendance_mode=attendance_mode)
 
-    def get_cancel_rate_for_selection_at_date(self, selection, at_date):
+    @classmethod
+    def get_attendances_for_selection_at_date(cls, selection, at_date):
         end_date = get_first_of_next_month(at_date) - datetime.timedelta(days=1)
         attendances = ShiftAttendance.objects.exclude(
             state=ShiftAttendance.State.PENDING
@@ -138,21 +138,88 @@ class ShiftCancellingRateJsonView(
         )
 
         if selection == "abcd_members":
-            attendances = self.filter_attendance_by_attendance_mode_of_member_at_date(
+            attendances = cls.filter_attendance_by_attendance_mode_of_member_at_date(
                 attendances, ShiftAttendanceMode.REGULAR, at_date
             )
         elif selection == "flying_members":
-            attendances = self.filter_attendance_by_attendance_mode_of_member_at_date(
+            attendances = cls.filter_attendance_by_attendance_mode_of_member_at_date(
                 attendances, ShiftAttendanceMode.FLYING, at_date
             )
         elif selection == "frozen_members":
-            attendances = self.filter_attendance_by_attendance_mode_of_member_at_date(
+            attendances = cls.filter_attendance_by_attendance_mode_of_member_at_date(
                 attendances, ShiftAttendanceMode.FROZEN, at_date
             )
         elif selection == "abcd_shifts":
-            return 0
+            attendances = (
+                IsShiftAttendanceFromTemplateService.annotate_shift_attendances(
+                    attendances
+                )
+            )
+            filters = {
+                IsShiftAttendanceFromTemplateService.ANNOTATION_IS_FROM_ATTENDANCE_TEMPLATE: True
+            }
+            attendances = attendances.filter(**filters)
         elif selection == "flying_shifts":
-            return 0
+            attendances = (
+                IsShiftAttendanceFromTemplateService.annotate_shift_attendances(
+                    attendances
+                )
+            )
+            filters = {
+                IsShiftAttendanceFromTemplateService.ANNOTATION_IS_FROM_ATTENDANCE_TEMPLATE: False
+            }
+            attendances = attendances.filter(**filters)
+
+        return attendances
+
+
+class ShiftCancellingRateJsonView(
+    LoginRequiredMixin, PermissionRequiredMixin, JSONView
+):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.dates_from_first_shift_to_today = None
+
+    def get_context_data(self, **kwargs):
+        return build_line_chart_data(
+            x_axis_values=[
+                date for date in self.get_and_cache_dates_from_first_shift_to_today()
+            ],
+            y_axis_values=self.get_data(),
+            data_labels=ShiftCountByCategoryJsonView.SELECTIONS,
+            y_axis_min=0,
+            y_axis_max=1,
+            format_ticks=FORMAT_TICKS_PERCENTAGE,
+        )
+
+    def get_and_cache_dates_from_first_shift_to_today(self):
+        if self.dates_from_first_shift_to_today is None:
+            self.dates_from_first_shift_to_today = (
+                ShiftCountByCategoryJsonView.get_dates_from_first_shift_to_today()
+            )
+        return self.dates_from_first_shift_to_today
+
+    def get_data(self):
+        return [
+            self.get_cancel_rate_for_selection(selection)
+            for selection in ShiftCountByCategoryJsonView.SELECTIONS
+        ]
+
+    def get_cancel_rate_for_selection(self, selection: str):
+        return [
+            self.get_cancel_rate_for_selection_at_date(selection, at_date)
+            for at_date in self.get_and_cache_dates_from_first_shift_to_today()
+        ]
+
+    @staticmethod
+    def get_cancel_rate_for_selection_at_date(selection, at_date):
+        attendances = (
+            ShiftCountByCategoryJsonView.get_attendances_for_selection_at_date(
+                selection, at_date
+            )
+        )
 
         nb_total_attendances = attendances.count()
         nb_attended = attendances.filter(state=ShiftAttendance.State.DONE).count()

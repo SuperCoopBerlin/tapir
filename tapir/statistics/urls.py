@@ -54,4 +54,9 @@ urlpatterns = [
         views.ShiftCancellingRateJsonView.as_view(),
         name="shift_cancelling_rate_json",
     ),
+    path(
+        "shift_count_by_category_json",
+        views.ShiftCountByCategoryJsonView.as_view(),
+        name="shift_count_by_category_json",
+    ),
 ]

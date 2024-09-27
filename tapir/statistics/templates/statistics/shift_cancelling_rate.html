@@ -30,6 +30,14 @@
                         </span>
                         <canvas id="shift_cancelling_rate_canvas" style="display: none;"></canvas>
                     </p>
+                    <p>
+                        <span class="{% tapir_button_link %}"
+                              onclick="chartManager.show_stats_chart( this, '{% url "statistics:shift_count_by_category_json" %}', 'shift_count_by_category_canvas', )">
+                            <span class="material-icons">leaderboard</span>
+                            <span class="button-text">{% translate "Show graph: " %}{% translate "Number of shifts by category" %}</span>
+                        </span>
+                        <canvas id="shift_count_by_category_canvas" style="display: none;"></canvas>
+                    </p>
                 </div>
             </div>
         </div>
