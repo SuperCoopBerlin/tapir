@@ -62,6 +62,8 @@ use_gitignore = true
 [tool.coverage.run]
 omit = [
     "*/migrations/*",
-     "*/tests/*"
+     "*/tests/*",
+    "*/urls.py",
+    "migrate.py"
 ]
 relative_files = true
