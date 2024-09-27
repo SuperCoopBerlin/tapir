@@ -134,10 +134,11 @@ class ShiftCountByCategoryJsonView(
             slot__shift__cancelled=False,
         )
 
-        # Only pick one attendance per slot, choosing the most recently updated one
-        attendances = attendances.order_by("slot", "-last_state_update").distinct(
-            "slot"
-        )
+        if False:
+            # Only pick one attendance per slot, choosing the most recently updated one
+            attendances = attendances.order_by("slot", "-last_state_update").distinct(
+                "slot"
+            )
 
         if selection == cls.SELECTION_ABCD_MEMBERS:
             attendances = cls.filter_attendance_by_attendance_mode_of_member_at_date(
