@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app
 
 RUN apt update -y  \
-    && apt install -y libldap2-dev libsasl2-dev gettext postgresql-client-common postgresql-client  \
+    && apt --no-install-recommends install -y libldap2-dev libsasl2-dev gettext postgresql-client-common postgresql-client  \
     && rm -rf /var/lib/apt/lists/*  \
     && pip install poetry  \
     && poetry install  \
