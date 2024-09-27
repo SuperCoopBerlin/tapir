@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-26 22:59+0200\n"
+"POT-Creation-Date: 2024-09-27 15:59+0200\n"
 "PO-Revision-Date: 2024-09-26 10:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1015,7 +1015,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:21
-#: statistics/views.py:256
+#: statistics/views/main_view.py:265
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -2157,6 +2157,9 @@ msgstr ""
 #: statistics/templates/statistics/main_statistics.html:137
 #: statistics/templates/statistics/main_statistics.html:163
 #: statistics/templates/statistics/main_statistics.html:200
+#: statistics/templates/statistics/shift_cancelling_rate.html:71
+#: statistics/templates/statistics/shift_cancelling_rate.html:84
+#: statistics/templates/statistics/state_distribution.html:38
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:37
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
@@ -4431,7 +4434,7 @@ msgid "Main statistics"
 msgstr "Hauptstatistik"
 
 #: statistics/templates/statistics/main_statistics.html:18
-#: statistics/views.py:215
+#: statistics/views/main_view.py:224
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
@@ -4528,7 +4531,7 @@ msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:123
 #: statistics/templates/statistics/main_statistics.html:137
-#: statistics/views.py:332
+#: statistics/views/main_view.py:341
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
@@ -4576,6 +4579,33 @@ msgstr ""
 "Hier könnt ihr den Fortschritt der Finanzierungskampagne verfolgen. Es werden sowohl weitere Anteile gezählt (alle Anteile, die über den Pflichtanteil hinaus gezeichnet werden) als auch Nachrangdarlehen. Der Zeitraum läuft vom 12.09.2023 - 09.12.2023. Was eine:r nicht schafft, schaffen viele!\n"
 "                                    "
 
+#: statistics/templates/statistics/shift_cancelling_rate.html:8
+#, fuzzy
+#| msgid "Shift attendance: %(name)s"
+msgid "Shift attendance rates"
+msgstr "Schicht-Anwesenheit: %(name)s"
+
+#: statistics/templates/statistics/shift_cancelling_rate.html:18
+#: statistics/templates/statistics/shift_cancelling_rate.html:71
+#, fuzzy
+#| msgid "Creation date"
+msgid "Shift cancellation rate"
+msgstr "Erstellungsdatum"
+
+#: statistics/templates/statistics/shift_cancelling_rate.html:84
+#, fuzzy
+#| msgid "Number of shares to create"
+msgid "Number of shifts by category"
+msgstr "Anzahl zu erstellender Anteile"
+
+#: statistics/templates/statistics/state_distribution.html:8
+#: statistics/templates/statistics/state_distribution.html:18
+#: statistics/templates/statistics/state_distribution.html:38
+#, fuzzy
+#| msgid "Send me instructions!"
+msgid "State distribution"
+msgstr "Schickt mir eine Anleitung!"
+
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:5
 msgid "Purchases"
 msgstr "Einkäufe"
@@ -4603,19 +4633,19 @@ msgstr ""
 msgid "Evolution of total spends per month"
 msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
-#: statistics/views.py:287
+#: statistics/views/main_view.py:296
 msgid "Total spends per month"
 msgstr "Gesamtausgaben pro Monat"
 
-#: statistics/views.py:332
+#: statistics/views/main_view.py:341
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views.py:350
+#: statistics/views/main_view.py:359
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views.py:497
+#: statistics/views/main_view.py:506
 msgid "Purchase data updated"
 msgstr "Kaufdaten aktualisiert"
 

@@ -10,7 +10,6 @@ from django_auth_ldap.config import LDAPSearch
 from fabric.testing.fixtures import connection
 from faker import Faker
 from ldap.ldapobject import LDAPObject
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 
 from tapir import settings
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
@@ -27,6 +26,7 @@ from tapir.coop.models import (
     MembershipResignation,
 )
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 from tapir.log.models import LogEntry
 from tapir.settings import GROUP_VORSTAND, GROUP_MEMBER_OFFICE
 from tapir.shifts.models import (
@@ -40,6 +40,7 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftUserCapability,
     ShiftCycleEntry,
+    ShiftAttendanceMode,
 )
 from tapir.statistics.models import ProcessedPurchaseFiles, PurchaseBasket
 from tapir.utils.json_user import JsonUser
@@ -207,6 +208,10 @@ def generate_shift_user_datas(tapir_users):
     ]
 
     for shift_user_data in shift_user_datas:
+        if random.randint(1, 2) == 1:
+            shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
+        else:
+            shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
         if random.randint(1, 7) == 1:
             shift_user_data.capabilities.append(ShiftUserCapability.SHIFT_COORDINATOR)
         if random.randint(1, 4) == 1:
@@ -256,7 +261,7 @@ def generate_test_users():
                 ShiftAttendanceTemplate.objects.create(
                     user=tapir_user, slot_template=free_slot
                 )
-                free_slot.update_future_slot_attendances()
+                free_slot.update_future_slot_attendances(SHIFT_GENERATION_START)
                 attendance_template_created = True
                 break
 
@@ -349,13 +354,16 @@ def generate_test_shift_templates():
     print("Generated test shift templates")
 
 
+SHIFT_GENERATION_START = timezone.now().date() - datetime.timedelta(days=100)
+
+
 def generate_shifts():
     print("Generating shifts")
-    start_day = get_monday(timezone.now().date() - datetime.timedelta(days=20))
+    start_day = get_monday(SHIFT_GENERATION_START)
 
     groups = ShiftTemplateGroup.objects.all()
     groups = {index: group for index, group in enumerate(groups)}
-    for week in range(8):
+    for week in range(20):
         monday = start_day + datetime.timedelta(days=7 * week)
         groups[week % 4].create_shifts(monday)
 
@@ -580,6 +588,22 @@ def generate_log_updates():
         logs[tapir_user].append(log)
 
 
+def update_attendances():
+    print("Updating attendances")
+    attendances = [
+        attendance
+        for attendance in ShiftAttendance.objects.filter(
+            slot__shift__start_time__lte=timezone.now()
+        )
+    ]
+    for attendance in attendances:
+        attendance.state = random.choice(ShiftAttendance.State.choices)[0]
+    ShiftAttendance.objects.bulk_update(attendances, ["state"])
+    attendances = ShiftAttendance.objects.all().prefetch_related("account_entry")
+    for attendance in attendances:
+        attendance.update_shift_account_entry()
+
+
 def reset_all_test_data():
     random.seed("supercoop")
     clear_data()
@@ -590,5 +614,6 @@ def reset_all_test_data():
     generate_test_applicants()
     generate_purchase_baskets()
     generate_log_updates()
+    update_attendances()
 
     print("Done")
