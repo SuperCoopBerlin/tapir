@@ -67,3 +67,8 @@ omit = [
     "migrate.py"
 ]
 relative_files = true
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tapir.settings"
+python_files = ["tests.py", "test_*.py", "tests_*.py"]
+testpaths = "tapir"
