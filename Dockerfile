@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app
 
 RUN apt update -y  \
-    && apt install -y  \
+    && apt --no-install-recommends install -y  \
         gettext  \
         libldap2-dev  \
         libsasl2-dev  \
