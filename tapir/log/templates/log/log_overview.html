@@ -12,20 +12,43 @@
 {% endblock head %}
 {% block content %}
     <div class="card m-2">
-        <h5 class="card-header d-flex justify-content-between">
-            <span>{% translate "Logs" %}</span>
-        </h5>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                {% if filter %}
-                    <form action="" method="get" class="form log-filter-form">
-                        {% bootstrap_form filter.form %}
-                        <button class="filter-button {% tapir_button_link %}">
-                            <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+        <div class="card-header d-flex justify-content-between">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-6">
+                        <h5>
+                            <span>{% translate "Logs" %}</span>
+                        </h5>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end">
+                        <button class="{% tapir_button_link_to_action %}"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collapseFilter"
+                                aria-expanded="false"
+                                aria-controls="collapseFilter">
+                            {% translate "Filters" %}
+                            <span class="material-icons">unfold_more</span>
                         </button>
-                    </form>
-                {% endif %}
-            </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="collapse" id="collapseFilter">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    {% if filter %}
+                        <form action="" method="get" class="form log-filter-form">
+                            {% bootstrap_form filter.form %}
+                            <button class="filter-button {% tapir_button_link %}">
+                                <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                            </button>
+                        </form>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+        <ul class="list-group list-group-flush">
             <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
