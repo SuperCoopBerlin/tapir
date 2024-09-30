@@ -101,8 +101,8 @@ The class name is the convention for the word in texts, followed by how to write
 | ShareOwner    | `share_owner` | Represents a person or a company that is either currently owning at least a share, or has owned shares in the past. Therefore they are or have been a member of the cooperative. They may not be active, for example investing members or someone who sold their shares. |
 | TapirUser     | `tapir_user`  | Represents a person with a user account. Accounts are linked between Tapir and the Wiki for example. Gets created when the member becomes active (part of the shift system etc.), but can become inactive.                                                               |
 | Shift         |               | Represents a shift with a specific date and time (for example, 18/06/21 10:00 to 13:00). Can be a one-time activity or an instance of a ShiftTemplate   |
-| ShiftTemplate |               | Represents the recurring aspect of a shift in the ABCD system. For example helping at the shop on Tuesday, 10:00 to 13:00, on Week C. It has a weekday (Tuesday) and a time, but no date (18/06/21)    
-| ShiftAttendance | 'attendances', 'shift_attendances' | Represents a state if a user register for a slot. Then a ShiftAttendance gets created, which can have several states: PENDING, DONE, CANCELLED, MISSED, MISSED_EXCUSED, LOOKING_FOR_STAND_IN. This ShiftAttendance is above all used for surverying the users obligations concerning the registered shift |
+| ShiftTemplate |               | Represents the recurring aspect of a shift in the ABCD system. For example helping at the shop on Tuesday, 10:00 to 13:00, on Week C. It has a weekday (Tuesday) and a time, but no date (18/06/21) |
+| ShiftAttendance | 'attendances', 'shift_attendances' | Represents the registration of a member to a slot. An attendance is always in one of the states defined in the state variable and the ShiftAttendance.State enum class. This is used for tracking who is coming to which shift but also if members are attending enough shifts. See ShiftAttendance.update_shift_account_entry. |
 
 ### Django Shell
 
