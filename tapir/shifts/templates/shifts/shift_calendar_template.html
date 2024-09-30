@@ -8,18 +8,23 @@
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
     <script src="{% static 'shifts/ShiftFiltersManager.js' %}?version=2" defer></script>
+    <script>
+        function onFilter() {
+            let url = "{% url "shifts:calendar" %}";
+            url += "?date_from=" + document.getElementById("date-from").value;
+            url += "&date_to=" + document.getElementById("date-to").value;
+            window.location = url;
+        }
+    </script>
 {% endblock head %}
 {% block content %}
-    <div class="d-flex align-items-end flex-column">
-        <button class="btn btn-link"
+    <div class="d-flex align-items-end flex-column m-2">
+        <button class="filter-button {% tapir_button_link %}"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseCalendarInfo"
                 aria-expanded="false"
                 style="text-decoration: none">
-            <div class="d-flex align-items-center" style="text-decoration: none">
-                <span style="font-size: 18px; text-decoration: none; color: black;">{% translate "Legend" %}</span>
-                <span class="material-icons" style="color: black">unfold_more</span>
-            </div>
+            <span class="material-icons">unfold_more</span>{% translate "Legend & Filters" %}
         </button>
     </div>
     <div class="collapse" id="collapseCalendarInfo">
@@ -43,20 +48,10 @@
                 <div class="card-header">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-5">
+                            <div class="col-5 d-flex align-items-center">
                                 <h5>
                                     KW {{ week|date:"W" }} {% translate 'starting' %} {{ week }},
                                     {% translate 'Week ' %}{{ week_group.name }}
-                                    <div>
-                                        <script>
-                                            function onFilter() {
-                                                let url = "{% url "shifts:calendar" %}";
-                                                url += "?date_from=" + document.getElementById("date-from").value;
-                                                url += "&date_to=" + document.getElementById("date-to").value;
-                                                window.location = url;
-                                            }
-                                        </script>
-                                    </div>
                                 </h5>
                             </div>
                             <div class="col-7 d-flex justify-content-end gap-2">
@@ -76,15 +71,15 @@
                                            class="form-control"
                                            style="max-width: 160px" />
                                 </div>
-                                <button class="{% tapir_button_link %}"
-                                        style="max-height: 45px"
-                                        onclick="onFilter()">{% translate "Filter" %}</button>
+                                <button class="{% tapir_button_link %}" onclick="onFilter()">
+                                    <span class="material-icons">filter_alt</span>{% translate "Filter" %}
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             {% endwith %}
-            <div class="card-body d-flex flex-row flex-wrap">
+            <div class="card-body d-flex flex-row flex-wrap gap-2">
                 {% for day, shift_infos in shifts_by_day.items %}
                     <div class="d-flex flex-column">
                         <h5 style="text-align: center;">{{ day|date:"l" }}</h5>
@@ -106,5 +101,6 @@
                     </div>
                 {% endfor %}
             </div>
-        {% endfor %}
-    {% endblock content %}
+        </div>
+    {% endfor %}
+{% endblock content %}
