@@ -34,21 +34,17 @@
                 </div>
             </div>
         </div>
-        <div class="collapse" id="collapseFilter">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    {% if filter %}
-                        <form action="" method="get" class="form log-filter-form">
-                            {% bootstrap_form filter.form %}
-                            <button class="filter-button {% tapir_button_link %}">
-                                <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
-                            </button>
-                        </form>
-                    {% endif %}
-                </li>
-            </ul>
-        </div>
         <ul class="list-group list-group-flush">
+            <li class="list-group-item collapse" id="collapseFilter">
+                {% if filter %}
+                    <form action="" method="get" class="form log-filter-form">
+                        {% bootstrap_form filter.form %}
+                        <button class="filter-button {% tapir_button_link %}">
+                            <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                        </button>
+                    </form>
+                {% endif %}
+            </li>
             <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
