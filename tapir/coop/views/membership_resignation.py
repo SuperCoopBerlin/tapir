@@ -1,6 +1,7 @@
 import django_filters
 import django_tables2
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.urls import reverse_lazy
 from django.utils.html import format_html
@@ -171,7 +172,7 @@ class MembershipResignationList(
 
     def get_context_data(self, **kwargs):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
-            raise PermissionError("The membership resignation feature is disabled.")
+            raise PermissionDenied("The membership resignation feature is disabled.")
 
         context_data = super().get_context_data(**kwargs)
         context_data["total_of_resigned_members"] = (

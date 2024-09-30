@@ -199,6 +199,13 @@ class TapirFactoryTestBase(TestCase):
         for tapir_user in TapirUser.objects.all():
             connection.delete_s(tapir_user.build_ldap_dn())
 
+    def assertStatusCode(self, response, expected_status_code):
+        self.assertEqual(
+            expected_status_code,
+            response.status_code,
+            f"Unexpected status code, response content : {response.content.decode()}",
+        )
+
 
 class TapirEmailTestBase(TestCase):
     def assertEmailOfClass_GotSentTo(
