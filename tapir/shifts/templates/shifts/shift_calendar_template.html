@@ -19,7 +19,7 @@
 {% endblock head %}
 {% block content %}
     <div class="d-flex align-items-end flex-column m-2">
-        <button class="filter-button {% tapir_button_link %}"
+        <button class="{% tapir_button_link %}"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseCalendarInfo"
                 aria-expanded="false"
@@ -48,8 +48,8 @@
                 <div class="card-header">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-5 d-flex align-items-center">
-                                <h5>
+                            <div class="col-5 d-flex flex-column justify-content-center">
+                                <h5 style="margin-bottom: 0">
                                     KW {{ week|date:"W" }} {% translate 'starting' %} {{ week }},
                                     {% translate 'Week ' %}{{ week_group.name }}
                                 </h5>

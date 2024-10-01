@@ -20,7 +20,7 @@
                 {% if filter %}
                     <form action="" method="get" class="form log-filter-form">
                         {% bootstrap_form filter.form %}
-                        <button class="filter-button {% tapir_button_link %}">
+                        <button class="{% tapir_button_link %}">
                             <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
                         </button>
                     </form>
