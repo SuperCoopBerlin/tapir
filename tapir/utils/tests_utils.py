@@ -207,7 +207,7 @@ class TapirFactoryTestBase(TestCase):
         )
 
 
-class TapirEmailTestBase(TestCase):
+class TapirEmailTestMixin(TestCase):
     def assertEmailOfClass_GotSentTo(
         self,
         expected_class: Type[TapirEmailBase],

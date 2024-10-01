@@ -123,7 +123,7 @@ class MembershipResignationTable(django_tables2.Table):
             "<a href='{}' class='{}'>{}</a>",
             reverse_lazy("coop:resignedmember_detail", args=[record.pk]),
             tapir_button_link_to_action(),
-            format_html("<span class='material-icons'>edit</span>"),
+            "<span class='material-icons'>edit</span>",
         )
 
 
@@ -242,37 +242,37 @@ class MembershipResignationCreateView(
         context_data["card_title"] = context_data["page_title"]
         return context_data
 
+    @transaction.atomic
     def form_valid(self, form):
-        with transaction.atomic():
-            result = super().form_valid(form)
-            membership_resignation: MembershipResignation = form.instance
-            MembershipResignationService.update_shifts_and_shares(
-                resignation=membership_resignation
-            )
-            MembershipResignationService.delete_shareowner_membershippauses(
-                membership_resignation
-            )
-            MembershipResignationCreateLogEntry().populate(
-                actor=self.request.user,
-                model=membership_resignation,
-            ).save()
-            email = MembershipResignationConfirmation(
-                membership_resignation=membership_resignation
+        result = super().form_valid(form)
+        membership_resignation: MembershipResignation = form.instance
+        MembershipResignationService.update_shifts_and_shares(
+            resignation=membership_resignation
+        )
+        MembershipResignationService.delete_shareowner_membershippauses(
+            membership_resignation
+        )
+        MembershipResignationCreateLogEntry().populate(
+            actor=self.request.user,
+            model=membership_resignation,
+        ).save()
+        email = MembershipResignationConfirmation(
+            membership_resignation=membership_resignation
+        )
+        email.send_to_share_owner(
+            actor=self.request.user, recipient=membership_resignation.share_owner
+        )
+        if (
+            membership_resignation.resignation_type
+            == MembershipResignation.ResignationType.TRANSFER
+        ):
+            email = MembershipResignationTransferredSharesConfirmation(
+                member_resignation=membership_resignation
             )
             email.send_to_share_owner(
-                actor=self.request.user, recipient=membership_resignation.share_owner
+                actor=self.request.user,
+                recipient=membership_resignation.transferring_shares_to,
             )
-            if (
-                membership_resignation.resignation_type
-                == MembershipResignation.ResignationType.TRANSFER
-            ):
-                email = MembershipResignationTransferredSharesConfirmation(
-                    member_resignation=membership_resignation
-                )
-                email.send_to_share_owner(
-                    actor=self.request.user,
-                    recipient=membership_resignation.transferring_shares_to,
-                )
         return result
 
 
