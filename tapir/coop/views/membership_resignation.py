@@ -235,7 +235,7 @@ class MembershipResignationCreateView(
 
     def get_context_data(self, **kwargs):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
-            raise PermissionError("The membership resignation feature is disabled.")
+            raise PermissionDenied("The membership resignation feature is disabled.")
 
         context_data = super().get_context_data(**kwargs)
         context_data["page_title"] = _("Resign a new membership")
