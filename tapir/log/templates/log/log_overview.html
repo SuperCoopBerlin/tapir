@@ -8,6 +8,11 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+    <style>
+        .select2 {    
+            width: 100%!important; /* overrides computed width, 100px in your demo */ 
+        }
+    </style>
     {{ filter.form.media }}
 {% endblock head %}
 {% block content %}
