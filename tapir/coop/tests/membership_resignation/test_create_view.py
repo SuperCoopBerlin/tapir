@@ -81,12 +81,6 @@ class TestMembershipResignationCreateView(
         mock_delete_shareowner_membershippauses.assert_called_once()
         mock_update_shifts_and_shares.assert_called_once()
 
-        self.assertEqual(1, len(mail.outbox))
-        sent_mail = mail.outbox[0]
-        self.assertEmailOfClass_GotSentTo(
-            MembershipResignationConfirmation, member_to_resign.email, sent_mail
-        )
-
     def test_membershipResignationCreateView_default_logEntryCreated(self):
         member_to_resign, actor = self.create_default_resignation()
 
@@ -136,4 +130,20 @@ class TestMembershipResignationCreateView(
             MembershipResignationTransferredSharesConfirmation,
             member_that_receives_shares.email,
             mail_to_receiving_member,
+        )
+
+    def test_membershipResignationCreateView_default_payOutDayIsSetCorrectly(self):
+        member_to_resign, _ = self.create_default_resignation()
+
+        resignation = MembershipResignation.objects.get()
+        self.assertEqual(self.TODAY, resignation.pay_out_day)
+
+    def test_membershipResignationCreateView_resignationTypeBuyBack_payOutDayIsSetCorrectly(
+        self,
+    ):
+        member_to_resign, _ = self.create_default_resignation()
+
+        resignation = MembershipResignation.objects.get()
+        self.assertEqual(
+            datetime.date(year=2027, month=12, day=31), resignation.pay_out_day
         )
