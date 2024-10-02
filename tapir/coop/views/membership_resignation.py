@@ -284,7 +284,7 @@ class MembershipResignationDetailView(
 
     def get(self, request, *args, **kwargs):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
-            raise PermissionError("The membership resignation feature is disabled.")
+            raise PermissionDenied("The membership resignation feature is disabled.")
 
         return super().get(request, *args, **kwargs)
 
@@ -298,9 +298,7 @@ class MembershipResignationRemoveFromListView(
 
     def form_valid(self, form):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
-            raise PermissionError("The membership resignation feature is disabled.")
+            raise PermissionDenied("The membership resignation feature is disabled.")
 
-        result = super().form_valid(form)
         MembershipResignationService.delete_end_dates(self.get_object())
-        self.object.delete()
-        return result
+        return super().form_valid(form)
