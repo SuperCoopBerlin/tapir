@@ -8,15 +8,37 @@
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+    <style>
+        .select2 {    
+            width: 100%!important; /* overrides computed width, 100px in your demo */ 
+        }
+    </style>
     {{ filter.form.media }}
 {% endblock head %}
 {% block content %}
     <div class="card m-2">
-        <h5 class="card-header d-flex justify-content-between">
-            <span>{% translate "Logs" %}</span>
-        </h5>
+        <div class="card-header">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="col-6 d-flex flex-column justify-content-center">
+                    <h5 style="margin-bottom: 0">
+                        <span>{% translate "Logs" %}</span>
+                    </h5>
+                </div>
+                <div class="col-6 d-flex justify-content-end">
+                    <button class="{% tapir_button_link_to_action %}"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#collapseFilter"
+                            aria-expanded="false"
+                            aria-controls="collapseFilter">
+                        {% translate "Filters" %}
+                        <span class="material-icons">unfold_more</span>
+                    </button>
+                </div>
+            </div>
+        </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">
+            <li class="list-group-item collapse" id="collapseFilter">
                 {% if filter %}
                     <form action="" method="get" class="form log-filter-form">
                         {% bootstrap_form filter.form %}
