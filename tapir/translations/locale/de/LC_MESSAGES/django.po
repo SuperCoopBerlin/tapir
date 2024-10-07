@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-28 09:48+0200\n"
-"PO-Revision-Date: 2024-09-26 10:50+0200\n"
+"POT-Creation-Date: 2024-10-07 10:59+0200\n"
+"PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -943,6 +943,7 @@ msgstr "Exportieren"
 
 #: coop/templates/coop/draftuser_list.html:42
 #: coop/templates/coop/shareowner_list.html:38
+#: log/templates/log/log_overview.html:34
 #: shifts/templates/shifts/shift_filters.html:3
 msgid "Filters"
 msgstr "Filter"
@@ -952,8 +953,8 @@ msgstr "Filter"
 #: coop/templates/coop/membership_pause/membership_pause_list.html:47
 #: coop/templates/coop/membership_resignation_list.html:48
 #: coop/templates/coop/shareowner_list.html:52
-#: log/templates/log/log_overview.html:24
-#: shifts/templates/shifts/shift_calendar_template.html:53
+#: log/templates/log/log_overview.html:46
+#: shifts/templates/shifts/shift_calendar_template.html:74
 #: shifts/templates/shifts/shiftexemption_list.html:50
 msgid "Filter"
 msgstr "Filter"
@@ -2730,7 +2731,7 @@ msgstr ""
 msgid "Edit financing source datapoint: %(name)s"
 msgstr ""
 
-#: log/apps.py:18 log/templates/log/log_overview.html:16
+#: log/apps.py:18 log/templates/log/log_overview.html:24
 msgid "Logs"
 msgstr ""
 
@@ -3568,25 +3569,25 @@ msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
 #: shifts/templates/shifts/shift_calendar_template.html:27
-msgid "Date range"
-msgstr ""
+msgid "Legend & Filters"
+msgstr "Legende & Filter"
 
-#: shifts/templates/shifts/shift_calendar_template.html:38
-msgid "From"
-msgstr ""
-
-#: shifts/templates/shifts/shift_calendar_template.html:46
-msgid "To"
-msgstr ""
-
-#: shifts/templates/shifts/shift_calendar_template.html:60
+#: shifts/templates/shifts/shift_calendar_template.html:52
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_calendar_template.html:61
+#: shifts/templates/shifts/shift_calendar_template.html:53
 #: shifts/templates/shifts/shift_template_overview.html:40
 msgid "Week "
 msgstr "Woche "
+
+#: shifts/templates/shifts/shift_calendar_template.html:58
+msgid "From"
+msgstr "Vom"
+
+#: shifts/templates/shifts/shift_calendar_template.html:66
+msgid "To"
+msgstr "Zum"
 
 #: shifts/templates/shifts/shift_day_printable.html:54
 #: shifts/templates/shifts/shift_detail.html:73
@@ -3603,10 +3604,8 @@ msgstr "Erforderliche Qualifikation: "
 #: shifts/templates/shifts/shift_detail.html:104
 #: shifts/templates/shifts/shift_detail_printable.html:80
 #: shifts/templates/shifts/shift_template_detail.html:61
-#, fuzzy
-#| msgid "Shift reminder"
 msgid "Shift partner: "
-msgstr "Schicht-Erinnerung"
+msgstr "Schicht-Partner: "
 
 #: shifts/templates/shifts/shift_day_printable.html:95
 #: shifts/templates/shifts/shift_detail_printable.html:89
