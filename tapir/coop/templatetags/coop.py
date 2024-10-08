@@ -1,3 +1,5 @@
+import datetime
+
 from django import template
 
 from tapir.coop.models import (
@@ -18,8 +20,10 @@ def share_owner_ownership_list(context, share_owner: ShareOwner):
 
 
 @register.inclusion_tag("coop/tags/member_status_colored_text_tag.html")
-def member_status_colored_text(share_owner: ShareOwner):
-    status = share_owner.get_member_status()
+def member_status_colored_text(
+    share_owner: ShareOwner, at_datetime: datetime.datetime | datetime.date = None
+):
+    status = share_owner.get_member_status(at_datetime)
     return {
         "text": get_member_status_translation(status),
         "color": MemberStatus.get_status_color(status),

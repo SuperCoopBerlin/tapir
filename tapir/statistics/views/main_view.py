@@ -50,6 +50,11 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
 
     TARGET_NUMBER_OF_PURCHASING_MEMBERS = 1140
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.reference_time = timezone.now()
+        self.reference_date = self.reference_time.date()
+
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
 
@@ -74,18 +79,22 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
             .prefetch_related("share_ownerships")
         )
         share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
-            share_owners
+            share_owners, self.reference_date
         )
         share_owners = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
-                share_owners
+                share_owners, self.reference_date
             )
         )
         share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
-            share_owners
+            share_owners, self.reference_time
         )
         current_number_of_purchasing_members = len(
-            [share_owner for share_owner in share_owners if share_owner.can_shop()]
+            [
+                share_owner
+                for share_owner in share_owners
+                if share_owner.can_shop(self.reference_time)
+            ]
         )
 
         context = dict()
@@ -109,8 +118,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         for attribute in attributes:
             setattr(target, attribute, getattr(source, attribute))
 
-    @classmethod
-    def get_working_members_context(cls):
+    def get_working_members_context(self):
         shift_user_datas = (
             ShiftUserData.objects.filter(user__share_owner__isnull=False)
             .prefetch_related("user")
@@ -119,19 +127,19 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
             .prefetch_related("shift_exemptions")
         )
         share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
-            ShareOwner.objects.all()
+            ShareOwner.objects.all(), self.reference_date
         )
         share_owners = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
-                share_owners
+                share_owners, self.reference_date
             )
         )
         share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
-            share_owners
+            share_owners, self.reference_time
         )
         share_owners = {share_owner.id: share_owner for share_owner in share_owners}
         for shift_user_data in shift_user_datas:
-            cls.transfer_attributes(
+            self.transfer_attributes(
                 share_owners[shift_user_data.user.share_owner.id],
                 shift_user_data.user.share_owner,
                 [
@@ -149,7 +157,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
                 shift_user_data
                 for shift_user_data in shift_user_datas
                 if ShiftExpectationService.is_member_expected_to_do_shifts(
-                    shift_user_data
+                    shift_user_data, self.reference_time
                 )
             ]
         )

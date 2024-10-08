@@ -6,7 +6,7 @@ from tapir.statistics.views import MemberCountEvolutionJsonView
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
-class TestMainStatisticsViewData(TapirFactoryTestBase):
+class TestMainStatisticsViewNumberOfMembers(TapirFactoryTestBase):
     NOW = datetime.datetime(year=2023, month=9, day=1, hour=12)
 
     def test_getNumberOfMembersAtDate(self):

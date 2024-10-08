@@ -20,7 +20,7 @@ class ShiftAttendanceModeService:
 
         if not hasattr(shift_user_data, cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE):
             shift_user_data = (
-                cls.annotate_share_owner_queryset_with_investing_status_at_date(
+                cls.annotate_shift_user_data_queryset_with_attendance_mode_at_date(
                     ShiftUserData.objects.filter(id=shift_user_data.id), at_date
                 ).first()
             )
