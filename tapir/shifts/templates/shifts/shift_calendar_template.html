@@ -46,14 +46,14 @@
         <div class="card mb-2">
             {% with week_group=week_to_group|dictionary_get:week %}
                 <div class="card-header">
-                    <div class="d-flex flex-row justify-content-between">
-                        <div class="col-5 d-flex flex-column justify-content-center">
+                    <div class="d-flex flex-wrap justify-content-between">
+                        <div class="col-7 d-flex flex-row flex-wrap justify-content-start align-items-center">
                             <h5 style="margin-bottom: 0">
                                 KW {{ week|date:"W" }} {% translate 'starting' %} {{ week }},
                                 {% translate 'Week ' %}{{ week_group.name }}
                             </h5>
                         </div>
-                        <div class="col-7 d-flex justify-content-end gap-2">
+                        <div class="col-5 d-flex flex-row flex-wrap justify-content-end gap-2">
                             <div class="d-flex align-items-baseline gap-2">
                                 <label for="date-from" class="form-label">{% translate "From" %}</label>
                                 <input id="date-from"
@@ -70,7 +70,9 @@
                                        class="form-control"
                                        style="max-width: 160px" />
                             </div>
-                            <button class="{% tapir_button_link %}" onclick="onFilter()">
+                            <button class="{% tapir_button_link %}"
+                                    onclick="onFilter()"
+                                    style="height: 45px">
                                 <span class="material-icons">filter_alt</span>{% translate "Filter" %}
                             </button>
                         </div>

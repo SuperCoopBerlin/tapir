@@ -20,6 +20,7 @@
             <div class="btn-group">
                 <button type="button"
                         class="{% tapir_button_link %} btn-sm dropdown-toggle m-1"
+                        style="height: 45px"
                         data-bs-toggle="dropdown">{% translate "Export" %}</button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
@@ -31,6 +32,7 @@
                 <div class="m-1">
                     <button class="{% tapir_button_link_to_action %}"
                             type="button"
+                            style="height: 45px"
                             data-bs-toggle="collapse"
                             data-bs-target="#collapseFilter"
                             aria-expanded="false"
@@ -67,7 +69,7 @@
                 </ul>
             </div>
         {% endif %}
-        <ul>
+        <ul class="table-responsive">
             <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
