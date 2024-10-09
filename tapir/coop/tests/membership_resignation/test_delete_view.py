@@ -33,7 +33,7 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
             reverse("coop:resign_member_remove", args=[resignation.id])
         )
 
-        self.assertStatusCode(response, HTTPStatus.OK)
+        self.assertStatusCode(response, HTTPStatus.FOUND)
 
     def test_membershipResignationDeleteView_featureFlagDisabled_accessDenied(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, False)
@@ -75,7 +75,7 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
         response = self.client.post(
             reverse("coop:resign_member_remove", args=[resignation.id])
         )
-        self.assertStatusCode(response, HTTPStatus.OK)
+        self.assertStatusCode(response, HTTPStatus.FOUND)
 
         self.fail(
             "No corresponding log entry class, see "
