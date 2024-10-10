@@ -225,3 +225,15 @@ def get_admin_ldap_connection():
 
 def is_member_in_group(connection, tapir_user: TapirUser, group_cn: str):
     return tapir_user.build_ldap_dn() in get_group_members(connection, group_cn)
+
+
+def ensure_date(obj: datetime.date | datetime.datetime):
+    if isinstance(obj, datetime.datetime):
+        return obj.date()
+    return obj
+
+
+def ensure_datetime(obj: datetime.date | datetime.datetime):
+    if isinstance(obj, datetime.datetime):
+        return obj
+    return get_timezone_aware_datetime(obj, datetime.time())

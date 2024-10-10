@@ -25,7 +25,10 @@ from tapir.utils.models import (
     CountryField,
     positive_number_validator,
 )
-from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime
+from tapir.utils.shortcuts import (
+    get_html_link,
+    ensure_datetime,
+)
 from tapir.utils.user_utils import UserUtils
 
 
@@ -117,10 +120,7 @@ class ShareOwner(models.Model):
             if at_datetime is None:
                 at_datetime = timezone.now()
 
-            if isinstance(at_datetime, datetime.date) and not isinstance(
-                at_datetime, datetime.datetime
-            ):
-                at_datetime = get_timezone_aware_datetime(at_datetime, datetime.time())
+            at_datetime = ensure_datetime(at_datetime)
 
             share_owners_with_nb_of_shares = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
                 self, at_datetime.date()
@@ -264,10 +264,7 @@ class ShareOwner(models.Model):
         if not at_datetime:
             at_datetime = timezone.now()
 
-        if isinstance(at_datetime, datetime.date) and not isinstance(
-            at_datetime, datetime.datetime
-        ):
-            at_datetime = get_timezone_aware_datetime(at_datetime, datetime.time())
+        at_datetime = ensure_datetime(at_datetime)
 
         if (
             not NumberOfSharesService.get_number_of_active_shares(

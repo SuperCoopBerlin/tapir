@@ -5,6 +5,7 @@ from django.db.models.functions import Coalesce
 from django.utils import timezone
 
 from tapir.shifts.models import ShiftUserData
+from tapir.utils.shortcuts import ensure_date
 
 
 class ShiftAttendanceModeService:
@@ -17,6 +18,8 @@ class ShiftAttendanceModeService:
     ):
         if at_date is None:
             at_date = timezone.now().date()
+
+        at_date = ensure_date(at_date)
 
         if not hasattr(shift_user_data, cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE):
             shift_user_data = (
