@@ -7,10 +7,10 @@ from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
-class TestsShareOwnerToTapirUser(TapirFactoryTestBase, TapirEmailTestBase):
+class TestsShareOwnerToTapirUser(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_requires_permissions(self):
         self.login_as_normal_user()
         share_owner: ShareOwner = ShareOwnerFactory.create()
