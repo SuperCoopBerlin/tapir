@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework import routers
 
 from tapir.coop import views
 
@@ -246,3 +247,7 @@ urlpatterns = [
         name="general_accounts_list",
     ),
 ]
+
+router = routers.DefaultRouter()
+router.register("api/tapir_users", views.TapirUserViewSet)
+urlpatterns += router.urls

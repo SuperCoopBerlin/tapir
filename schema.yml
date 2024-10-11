@@ -1,0 +1,936 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /coop/api/tapir_users/:
+    get:
+      operationId: coop_api_tapir_users_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - coop
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTapirUserList'
+          description: ''
+    post:
+      operationId: coop_api_tapir_users_create
+      tags:
+      - coop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TapirUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TapirUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TapirUser'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TapirUser'
+          description: ''
+  /coop/api/tapir_users/{id}/:
+    get:
+      operationId: coop_api_tapir_users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Benutzer.
+        required: true
+      tags:
+      - coop
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TapirUser'
+          description: ''
+    put:
+      operationId: coop_api_tapir_users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Benutzer.
+        required: true
+      tags:
+      - coop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TapirUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TapirUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TapirUser'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TapirUser'
+          description: ''
+    patch:
+      operationId: coop_api_tapir_users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Benutzer.
+        required: true
+      tags:
+      - coop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTapirUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTapirUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTapirUser'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TapirUser'
+          description: ''
+    delete:
+      operationId: coop_api_tapir_users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Benutzer.
+        required: true
+      tags:
+      - coop
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    BlankEnum:
+      enum:
+      - ''
+    CountryEnum:
+      enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AN
+      - AO
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BM
+      - BN
+      - BO
+      - BR
+      - BS
+      - BT
+      - BV
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CC
+      - CF
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - CU
+      - CV
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FO
+      - FR
+      - FX
+      - GA
+      - GB
+      - GD
+      - GE
+      - GF
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HM
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - MG
+      - MH
+      - ML
+      - MN
+      - MM
+      - MO
+      - MP
+      - MQ
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - 'NO'
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - ST
+      - SV
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TM
+      - TN
+      - TO
+      - TP
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - UM
+      - US
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - YE
+      - YT
+      - YU
+      - ZA
+      - ZM
+      - ZR
+      - ZW
+      - ZZ
+      type: string
+      description: |-
+        * `AD` - Andorra
+        * `AE` - United Arab Emirates
+        * `AF` - Afghanistan
+        * `AG` - Antigua & Barbuda
+        * `AI` - Anguilla
+        * `AL` - Albania
+        * `AM` - Armenia
+        * `AN` - Netherlands Antilles
+        * `AO` - Angola
+        * `AQ` - Antarctica
+        * `AR` - Argentina
+        * `AS` - American Samoa
+        * `AT` - Austria
+        * `AU` - Australia
+        * `AW` - Aruba
+        * `AZ` - Azerbaijan
+        * `BA` - Bosnia and Herzegovina
+        * `BB` - Barbados
+        * `BD` - Bangladesh
+        * `BE` - Belgium
+        * `BF` - Burkina Faso
+        * `BG` - Bulgaria
+        * `BH` - Bahrain
+        * `BI` - Burundi
+        * `BJ` - Benin
+        * `BM` - Bermuda
+        * `BN` - Brunei Darussalam
+        * `BO` - Bolivia
+        * `BR` - Brazil
+        * `BS` - Bahama
+        * `BT` - Bhutan
+        * `BV` - Bouvet Island
+        * `BW` - Botswana
+        * `BY` - Belarus
+        * `BZ` - Belize
+        * `CA` - Canada
+        * `CC` - Cocos (Keeling) Islands
+        * `CF` - Central African Republic
+        * `CG` - Congo
+        * `CH` - Switzerland
+        * `CI` - Ivory Coast
+        * `CK` - Cook Iislands
+        * `CL` - Chile
+        * `CM` - Cameroon
+        * `CN` - China
+        * `CO` - Colombia
+        * `CR` - Costa Rica
+        * `CU` - Cuba
+        * `CV` - Cape Verde
+        * `CX` - Christmas Island
+        * `CY` - Cyprus
+        * `CZ` - Czech Republic
+        * `DE` - Germany
+        * `DJ` - Djibouti
+        * `DK` - Denmark
+        * `DM` - Dominica
+        * `DO` - Dominican Republic
+        * `DZ` - Algeria
+        * `EC` - Ecuador
+        * `EE` - Estonia
+        * `EG` - Egypt
+        * `EH` - Western Sahara
+        * `ER` - Eritrea
+        * `ES` - Spain
+        * `ET` - Ethiopia
+        * `FI` - Finland
+        * `FJ` - Fiji
+        * `FK` - Falkland Islands (Malvinas)
+        * `FM` - Micronesia
+        * `FO` - Faroe Islands
+        * `FR` - France
+        * `FX` - France, Metropolitan
+        * `GA` - Gabon
+        * `GB` - United Kingdom (Great Britain)
+        * `GD` - Grenada
+        * `GE` - Georgia
+        * `GF` - French Guiana
+        * `GH` - Ghana
+        * `GI` - Gibraltar
+        * `GL` - Greenland
+        * `GM` - Gambia
+        * `GN` - Guinea
+        * `GP` - Guadeloupe
+        * `GQ` - Equatorial Guinea
+        * `GR` - Greece
+        * `GS` - South Georgia and the South Sandwich Islands
+        * `GT` - Guatemala
+        * `GU` - Guam
+        * `GW` - Guinea-Bissau
+        * `GY` - Guyana
+        * `HK` - Hong Kong
+        * `HM` - Heard & McDonald Islands
+        * `HN` - Honduras
+        * `HR` - Croatia
+        * `HT` - Haiti
+        * `HU` - Hungary
+        * `ID` - Indonesia
+        * `IE` - Ireland
+        * `IL` - Israel
+        * `IN` - India
+        * `IO` - British Indian Ocean Territory
+        * `IQ` - Iraq
+        * `IR` - Islamic Republic of Iran
+        * `IS` - Iceland
+        * `IT` - Italy
+        * `JM` - Jamaica
+        * `JO` - Jordan
+        * `JP` - Japan
+        * `KE` - Kenya
+        * `KG` - Kyrgyzstan
+        * `KH` - Cambodia
+        * `KI` - Kiribati
+        * `KM` - Comoros
+        * `KN` - St. Kitts and Nevis
+        * `KP` - Korea, Democratic People's Republic of
+        * `KR` - Korea, Republic of
+        * `KW` - Kuwait
+        * `KY` - Cayman Islands
+        * `KZ` - Kazakhstan
+        * `LA` - Lao People's Democratic Republic
+        * `LB` - Lebanon
+        * `LC` - Saint Lucia
+        * `LI` - Liechtenstein
+        * `LK` - Sri Lanka
+        * `LR` - Liberia
+        * `LS` - Lesotho
+        * `LT` - Lithuania
+        * `LU` - Luxembourg
+        * `LV` - Latvia
+        * `LY` - Libyan Arab Jamahiriya
+        * `MA` - Morocco
+        * `MC` - Monaco
+        * `MD` - Moldova, Republic of
+        * `MG` - Madagascar
+        * `MH` - Marshall Islands
+        * `ML` - Mali
+        * `MN` - Mongolia
+        * `MM` - Myanmar
+        * `MO` - Macau
+        * `MP` - Northern Mariana Islands
+        * `MQ` - Martinique
+        * `MR` - Mauritania
+        * `MS` - Monserrat
+        * `MT` - Malta
+        * `MU` - Mauritius
+        * `MV` - Maldives
+        * `MW` - Malawi
+        * `MX` - Mexico
+        * `MY` - Malaysia
+        * `MZ` - Mozambique
+        * `NA` - Namibia
+        * `NC` - New Caledonia
+        * `NE` - Niger
+        * `NF` - Norfolk Island
+        * `NG` - Nigeria
+        * `NI` - Nicaragua
+        * `NL` - Netherlands
+        * `NO` - Norway
+        * `NP` - Nepal
+        * `NR` - Nauru
+        * `NU` - Niue
+        * `NZ` - New Zealand
+        * `OM` - Oman
+        * `PA` - Panama
+        * `PE` - Peru
+        * `PF` - French Polynesia
+        * `PG` - Papua New Guinea
+        * `PH` - Philippines
+        * `PK` - Pakistan
+        * `PL` - Poland
+        * `PM` - St. Pierre & Miquelon
+        * `PN` - Pitcairn
+        * `PR` - Puerto Rico
+        * `PT` - Portugal
+        * `PW` - Palau
+        * `PY` - Paraguay
+        * `QA` - Qatar
+        * `RE` - Reunion
+        * `RO` - Romania
+        * `RU` - Russian Federation
+        * `RW` - Rwanda
+        * `SA` - Saudi Arabia
+        * `SB` - Solomon Islands
+        * `SC` - Seychelles
+        * `SD` - Sudan
+        * `SE` - Sweden
+        * `SG` - Singapore
+        * `SH` - St. Helena
+        * `SI` - Slovenia
+        * `SJ` - Svalbard & Jan Mayen Islands
+        * `SK` - Slovakia
+        * `SL` - Sierra Leone
+        * `SM` - San Marino
+        * `SN` - Senegal
+        * `SO` - Somalia
+        * `SR` - Suriname
+        * `ST` - Sao Tome & Principe
+        * `SV` - El Salvador
+        * `SY` - Syrian Arab Republic
+        * `SZ` - Swaziland
+        * `TC` - Turks & Caicos Islands
+        * `TD` - Chad
+        * `TF` - French Southern Territories
+        * `TG` - Togo
+        * `TH` - Thailand
+        * `TJ` - Tajikistan
+        * `TK` - Tokelau
+        * `TM` - Turkmenistan
+        * `TN` - Tunisia
+        * `TO` - Tonga
+        * `TP` - East Timor
+        * `TR` - Turkey
+        * `TT` - Trinidad & Tobago
+        * `TV` - Tuvalu
+        * `TW` - Taiwan, Province of China
+        * `TZ` - Tanzania, United Republic of
+        * `UA` - Ukraine
+        * `UG` - Uganda
+        * `UM` - United States Minor Outlying Islands
+        * `US` - United States of America
+        * `UY` - Uruguay
+        * `UZ` - Uzbekistan
+        * `VA` - Vatican City State (Holy See)
+        * `VC` - St. Vincent & the Grenadines
+        * `VE` - Venezuela
+        * `VG` - British Virgin Islands
+        * `VI` - United States Virgin Islands
+        * `VN` - Viet Nam
+        * `VU` - Vanuatu
+        * `WF` - Wallis & Futuna Islands
+        * `WS` - Samoa
+        * `YE` - Yemen
+        * `YT` - Mayotte
+        * `YU` - Yugoslavia
+        * `ZA` - South Africa
+        * `ZM` - Zambia
+        * `ZR` - Zaire
+        * `ZW` - Zimbabwe
+        * `ZZ` - Unknown or unspecified country
+    PaginatedTapirUserList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TapirUser'
+    PatchedTapirUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          title: Passwort
+          maxLength: 128
+        last_login:
+          type: string
+          format: date-time
+          nullable: true
+          title: Letzte Anmeldung
+        is_superuser:
+          type: boolean
+          title: Administrator-Status
+          description: Legt fest, dass der Benutzer alle Berechtigungen hat, ohne
+            diese einzeln zuweisen zu müssen.
+        username:
+          type: string
+          title: Benutzername
+          description: Erforderlich. 150 Zeichen oder weniger. Nur Buchstaben, Ziffern
+            und @/./+/-/_.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          title: Vorname
+          maxLength: 150
+        last_name:
+          type: string
+          title: Nachname
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: E-Mail-Adresse
+          maxLength: 254
+        is_staff:
+          type: boolean
+          title: Mitarbeiter-Status
+          description: Legt fest, ob sich der Benutzer an der Administrationsseite
+            anmelden kann.
+        is_active:
+          type: boolean
+          title: Aktiv
+          description: Legt fest, ob dieser Benutzer aktiv ist. Kann deaktiviert werden,
+            anstatt Benutzer zu löschen.
+        date_joined:
+          type: string
+          format: date-time
+          title: Mitglied seit
+        usage_name:
+          type: string
+          title: Angezeigter Name
+          description: Optional. If filled, will be used instead of the administrative
+            first name wherever possible. Only official documents will show the administrative
+            first name.
+          maxLength: 150
+        pronouns:
+          type: string
+          title: Pronomen
+          maxLength: 150
+        phone_number:
+          type: string
+          title: Telefonnummer
+          maxLength: 128
+        birthdate:
+          type: string
+          format: date
+          nullable: true
+          title: Geburtsdatum
+        street:
+          type: string
+          title: Straße und Hausnummer
+          maxLength: 150
+        street_2:
+          type: string
+          title: Adresszusatz
+          maxLength: 150
+        postcode:
+          type: string
+          title: Postleitzahl
+          maxLength: 32
+        city:
+          type: string
+          title: Ort
+          maxLength: 50
+        country:
+          title: Land
+          oneOf:
+          - $ref: '#/components/schemas/CountryEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        co_purchaser:
+          type: string
+          title: Miteinkäufer*in
+          maxLength: 150
+        allows_purchase_tracking:
+          type: boolean
+          title: Allow purchase tracking
+        additional_mails:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        preferred_language:
+          allOf:
+          - $ref: '#/components/schemas/PreferredLanguageEnum'
+          title: Bevorzugte Sprache
+        groups:
+          type: array
+          items:
+            type: integer
+            title: Gruppen
+          title: Gruppen
+          description: Die Gruppen, denen der Benutzer angehört. Ein Benutzer bekommt
+            alle Berechtigungen dieser Gruppen.
+        user_permissions:
+          type: array
+          items:
+            type: integer
+            title: Berechtigungen
+          title: Berechtigungen
+          description: Spezifische Berechtigungen für diesen Benutzer.
+    PreferredLanguageEnum:
+      enum:
+      - de
+      - en
+      type: string
+      description: |-
+        * `de` - 🇩🇪 Deutsch
+        * `en` - 🇬🇧 English
+    TapirUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        password:
+          type: string
+          title: Passwort
+          maxLength: 128
+        last_login:
+          type: string
+          format: date-time
+          nullable: true
+          title: Letzte Anmeldung
+        is_superuser:
+          type: boolean
+          title: Administrator-Status
+          description: Legt fest, dass der Benutzer alle Berechtigungen hat, ohne
+            diese einzeln zuweisen zu müssen.
+        username:
+          type: string
+          title: Benutzername
+          description: Erforderlich. 150 Zeichen oder weniger. Nur Buchstaben, Ziffern
+            und @/./+/-/_.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        first_name:
+          type: string
+          title: Vorname
+          maxLength: 150
+        last_name:
+          type: string
+          title: Nachname
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: E-Mail-Adresse
+          maxLength: 254
+        is_staff:
+          type: boolean
+          title: Mitarbeiter-Status
+          description: Legt fest, ob sich der Benutzer an der Administrationsseite
+            anmelden kann.
+        is_active:
+          type: boolean
+          title: Aktiv
+          description: Legt fest, ob dieser Benutzer aktiv ist. Kann deaktiviert werden,
+            anstatt Benutzer zu löschen.
+        date_joined:
+          type: string
+          format: date-time
+          title: Mitglied seit
+        usage_name:
+          type: string
+          title: Angezeigter Name
+          description: Optional. If filled, will be used instead of the administrative
+            first name wherever possible. Only official documents will show the administrative
+            first name.
+          maxLength: 150
+        pronouns:
+          type: string
+          title: Pronomen
+          maxLength: 150
+        phone_number:
+          type: string
+          title: Telefonnummer
+          maxLength: 128
+        birthdate:
+          type: string
+          format: date
+          nullable: true
+          title: Geburtsdatum
+        street:
+          type: string
+          title: Straße und Hausnummer
+          maxLength: 150
+        street_2:
+          type: string
+          title: Adresszusatz
+          maxLength: 150
+        postcode:
+          type: string
+          title: Postleitzahl
+          maxLength: 32
+        city:
+          type: string
+          title: Ort
+          maxLength: 50
+        country:
+          title: Land
+          oneOf:
+          - $ref: '#/components/schemas/CountryEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        co_purchaser:
+          type: string
+          title: Miteinkäufer*in
+          maxLength: 150
+        allows_purchase_tracking:
+          type: boolean
+          title: Allow purchase tracking
+        additional_mails:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        preferred_language:
+          allOf:
+          - $ref: '#/components/schemas/PreferredLanguageEnum'
+          title: Bevorzugte Sprache
+        groups:
+          type: array
+          items:
+            type: integer
+            title: Gruppen
+          title: Gruppen
+          description: Die Gruppen, denen der Benutzer angehört. Ein Benutzer bekommt
+            alle Berechtigungen dieser Gruppen.
+        user_permissions:
+          type: array
+          items:
+            type: integer
+            title: Berechtigungen
+          title: Berechtigungen
+          description: Spezifische Berechtigungen für diesen Benutzer.
+      required:
+      - id
+      - password
+      - username
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
