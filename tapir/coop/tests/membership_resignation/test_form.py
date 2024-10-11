@@ -1,6 +1,7 @@
 import datetime
 from http import HTTPStatus
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 from tapir.coop.config import feature_flag_membership_resignation
 from tapir.utils.tests_utils import (
@@ -8,8 +9,12 @@ from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
     mock_timezone_now,
 )
-from django.core.exceptions import ValidationError
-from coop.forms import MembershipResignationForm
+
+from icecream import ic
+
+from tapir.coop.models import MembershipResignation
+from tapir.coop.forms import MembershipResignationForm
+from tapir.coop.tests.factories import MembershipResignationFactory, ShareOwnerFactory
 
 
 class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
@@ -21,30 +26,28 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         mock_timezone_now(self, self.NOW)
 
-    def test_empty_form(self):
-        form = MembershipResignationForm()
-        self.assertIn("share_owner", form.fields)
-        self.assertIn("resignation_type", form.fields)
-        self.assertIn("cancellation_date", form.fields)
-        self.assertIn("transferring_shares_to", form.fields)
+    def test_membershipResignationForm_is_valid(self):
+        ShareOwnerFactory.create()
+        resignation = MembershipResignationFactory.create()
+        data = {
+            "share_owner": resignation.id,
+            "cancellation_reason": resignation.cancellation_reason,
+            "cancellation_date": resignation.cancellation_date,
+            "resignation_type": resignation.resignation_type,
+            "transferring_shares_to": resignation.transferring_shares_to,
+            "paid_out": resignation.paid_out,
+        }
+        form = MembershipResignationForm(data=data)
+        self.assertTrue(form.is_valid())
+        return form
 
-    def test_validations(self):
-        self.assertRaises(
-            ValidationError, MembershipResignationForm.validate_duplicates
+    def test_validate_shareOwner_function(self):
+        share_owner = ShareOwnerFactory.create()
+        resignation = MembershipResignationFactory.create(share_owner=share_owner)
+        form = MembershipResignationForm(data={"share_owner": resignation.share_owner})
+        form.validate_share_owner(resignation.share_owner)
+        self.assertIn("share_owner", form.errors.keys())
+        self.assertIn(
+            "This member is already resigned.",
+            form.errors["share_owner"],
         )
-        self.assertRaises(
-            ValidationError, MembershipResignationForm.validate_share_owner
-        )
-        self.assertRaises(
-            ValidationError, MembershipResignationForm.validate_transfer_choice
-        )
-        self.assertRaises(ValidationError, MembershipResignationForm.validate_if_gifted)
-
-    def test_membershipResignationForm_loggedInAsMemberOffice_accessGranted(self):
-        self.login_as_member_office_user()
-        resignation_form: MembershipResignationForm = MembershipResignationForm.create()
-
-        response = self.client.get(
-            reverse("coop:resign_member_edit", args=[resignation_form.id])
-        )
-        self.assertStatusCode(response, HTTPStatus.OK)
