@@ -66,8 +66,8 @@
                         </li>
                     </ul>
                     <p>
-                        {% translate "Shift cancellation rate" as chart_name1 %}
-                        {% on_demand_chart "statistics:shift_cancelling_rate_json" chart_name1 %}
+                        {% translate "Shift cancellation rate" as chart_name %}
+                        {% on_demand_chart "statistics:shift_cancelling_rate_json" chart_name %}
                     </p>
                     <p>
                         This second graph shows the number of attendances in each category, following the same criterias as described above.
@@ -75,8 +75,8 @@
                         This is useful to put some values in perspective. For example, at 01.05.2024, 100% of the frozen members didn't show up. But that's only 1 attendance.
                     </p>
                     <p>
-                        {% translate "Number of shifts by category" as chart_name2 %}
-                        {% on_demand_chart "statistics:shift_count_by_category_json" chart_name2 %}
+                        {% translate "Number of shifts by category" as chart_name %}
+                        {% on_demand_chart "statistics:shift_count_by_category_json" chart_name %}
                     </p>
                 </div>
             </div>

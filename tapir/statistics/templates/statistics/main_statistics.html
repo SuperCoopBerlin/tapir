@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load statistics %}
 {% load core %}
 {% load django_bootstrap5 %}
 {% load static %}
@@ -23,18 +24,12 @@
                         {% endblocktranslate %}
                     </p>
                     <p>
-                        <span class="{% tapir_button_link %}"
-                              onclick="chartManager.show_stats_chart( this, '{% url "statistics:member_count_evolution_json" %}', 'member_count_evolution_canvas', )">
-                            <span class="material-icons">leaderboard</span>
-                            <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of member count" %}</span>
-                        </span>
-                        <span class="{% tapir_button_link %}"
-                              onclick="chartManager.show_stats_chart( this, '{% url "statistics:new_members_per_month_json" %}', 'new_members_per_month_canvas', ) ">
-                            <span class="material-icons">leaderboard</span>
-                            <span class="button-text">{% translate "Show graph: " %}{% translate "New members per month" %}</span>
-                        </span>
-                        <canvas id="member_count_evolution_canvas" style="display: none;"></canvas>
-                        <canvas id="new_members_per_month_canvas" style="display: none;"></canvas>
+                        {% translate "Evolution of member count" as chart_name %}
+                        {% on_demand_chart "statistics:member_count_evolution_json" chart_name %}
+                    </p>
+                    <p>
+                        {% translate "New members per month" as chart_name %}
+                        {% on_demand_chart "statistics:new_members_per_month_json" chart_name %}
                     </p>
                 </div>
             </div>
@@ -131,14 +126,8 @@
                             {% endblocktranslate %}
                         </p>
                         <p>
-                            <span class="{% tapir_button_link %}"
-                                  onclick="chartManager.show_stats_chart(this, '{% url "statistics:frozen_members_json" %}', 'frozen_members_canvas')">
-                                <span class="material-icons">leaderboard</span>
-                                <span class="button-text">{% translate "Show graph: " %}{% translate "Frozen members" %}</span>
-                            </span>
-                        </p>
-                        <p>
-                            <canvas id="frozen_members_canvas" style="display: none;"></canvas>
+                            {% translate "Frozen members" as chart_name %}
+                            {% on_demand_chart "statistics:frozen_members_json" chart_name %}
                         </p>
                     </li>
                 </ul>
@@ -157,14 +146,8 @@
                                 {% endblocktranslate %}
                             </p>
                             <p>
-                                <span class="{% tapir_button_link %}"
-                                      onclick="chartManager.show_stats_chart(this, '{% url "statistics:co_purchasers_json" %}', 'co_purchasers_canvas')">
-                                    <span class="material-icons">leaderboard</span>
-                                    <span class="button-text">{% translate "Show graph: " %}{% translate "Co-Purchasers" %}</span>
-                                </span>
-                            </p>
-                            <p>
-                                <canvas id="co_purchasers_canvas" style="display: none;"></canvas>
+                                {% translate "Co-Purchasers" as chart_name %}
+                                {% on_demand_chart "statistics:co_purchasers_json" chart_name %}
                             </p>
                         </li>
                     </ul>

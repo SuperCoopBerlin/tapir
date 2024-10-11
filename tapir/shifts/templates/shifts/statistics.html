@@ -1,4 +1,5 @@
 {% extends "shifts/base.html" %}
+{% load statistics %}
 {% load static %}
 {% load django_bootstrap5 %}
 {% load i18n %}
@@ -211,16 +212,8 @@
                                     <span>{% translate "Evolution of shift status" %}</span>
                                 </h5>
                                 <div class="card-body">
-                                    <p>
-                                        <span class="{% tapir_button_link %}"
-                                              onclick="chartManager.show_stats_chart(this, '{% url "shifts:shift_status_evolution_json" %}', 'shift_status_evolution_json_canvas')">
-                                            <span class="material-icons">leaderboard</span>
-                                            <span class="button-text">{% translate "Show graph: " %}{% translate "Shift status evolution" %}</span>
-                                        </span>
-                                    </p>
-                                    <p>
-                                        <canvas id="shift_status_evolution_json_canvas" style="display: none;"></canvas>
-                                    </p>
+                                    {% translate "Shift status evolution" as chart_name %}
+                                    {% on_demand_chart "shifts:shift_status_evolution_json" chart_name %}
                                 </div>
                             </div>
                         </div>

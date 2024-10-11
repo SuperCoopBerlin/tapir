@@ -1,3 +1,4 @@
+{% load statistics %}
 {% load i18n %}
 {% load shifts %}
 {% load core %}
@@ -31,12 +32,8 @@
     </ul>
     <div class="card-body">
         <p>
-            <span class="{% tapir_button_link %}"
-                  onclick="chartManager.show_stats_chart( this, '{% url "statistics:basket_sum_evolution_json" tapir_user.pk %}', 'basket_sum_evolution_canvas', )">
-                <span class="material-icons">leaderboard</span>
-                <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of total spends per month" %}</span>
-            </span>
-            <canvas id="basket_sum_evolution_canvas" style="display: none;"></canvas>
+            {% translate "Evolution of total spends per month" as chart_name %}
+            {% on_demand_chart "statistics:basket_sum_evolution_json" chart_name %}
         </p>
     </div>
 </div>
