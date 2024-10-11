@@ -1,4 +1,5 @@
 from django import template
+from django.urls import reverse
 
 from tapir.statistics.models import PurchaseBasket
 from tapir.statistics.views import get_average_monthly_basket
@@ -17,3 +18,12 @@ def purchase_statistics_card(context, tapir_user):
     )
 
     return context
+
+
+@register.inclusion_tag("statistics/tags/on_demand_chart.html")
+def on_demand_chart(json_view_name: str, chart_name: str):
+    return {
+        "chart_name": chart_name,
+        "url": reverse(json_view_name),
+        "prefix": json_view_name.split(":")[1],
+    }
