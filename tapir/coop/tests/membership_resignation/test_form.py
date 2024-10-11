@@ -1,6 +1,7 @@
 import datetime
 from http import HTTPStatus
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 from tapir.coop.config import feature_flag_membership_resignation
 from tapir.utils.tests_utils import (
@@ -25,29 +26,28 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         mock_timezone_now(self, self.NOW)
 
-    def test_form_valid(self):
-        member_to_resign = ShareOwnerFactory.create()
-
+    def test_membershipResignationForm_is_valid(self):
+        ShareOwnerFactory.create()
+        resignation = MembershipResignationFactory.create()
         data = {
-            "share_owner": member_to_resign.id,
-            "cancellation_reason": "Test resignation",
-            "cancellation_date": self.TODAY,
-            "resignation_type": MembershipResignation.ResignationType.GIFT_TO_COOP,
+            "share_owner": resignation.id,
+            "cancellation_reason": resignation.cancellation_reason,
+            "cancellation_date": resignation.cancellation_date,
+            "resignation_type": resignation.resignation_type,
+            "transferring_shares_to": resignation.transferring_shares_to,
+            "paid_out": resignation.paid_out,
         }
         form = MembershipResignationForm(data=data)
         self.assertTrue(form.is_valid())
-        # resignation = MembershipResignationFactory.create()
-        # data = {
-        #     "share_owner": ic(resignation.share_owner),
-        #     "cancellation_reason": ic(resignation.cancellation_reason),
-        #     "cancellation_date": ic(resignation.cancellation_date),
-        #     "paid_out": ic(resignation.paid_out),
-        # }
-        # form = MembershipResignationForm(data=data)
-        # self.assertTrue(form.is_valid())
+        return form
 
-    def test_form_no_data(self):
-        MembershipResignationFactory()
-        form = MembershipResignationForm(data={})
-        self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors), 6)
+    def test_validate_shareOwner_function(self):
+        share_owner = ShareOwnerFactory.create()
+        resignation = MembershipResignationFactory.create(share_owner=share_owner)
+        form = MembershipResignationForm(data={"share_owner": resignation.share_owner})
+        form.validate_share_owner(resignation.share_owner)
+        self.assertIn("share_owner", form.errors.keys())
+        self.assertIn(
+            "This member is already resigned.",
+            form.errors["share_owner"],
+        )
