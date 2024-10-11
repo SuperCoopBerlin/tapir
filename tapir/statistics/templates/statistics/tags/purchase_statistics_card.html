@@ -33,7 +33,7 @@
     <div class="card-body">
         <p>
             {% translate "Evolution of total spends per month" as chart_name %}
-            {% on_demand_chart "statistics:basket_sum_evolution_json" chart_name %}
+            {% on_demand_chart chart_name "statistics:basket_sum_evolution_json" tapir_user.pk %}
         </p>
     </div>
 </div>

@@ -70,9 +70,9 @@
                         <li>{{ nb_members_with_purchase_tracking_enabled }} members have enabled purchase tracking.</li>
                     </ul>
                     {% translate "Evolution of member count" as chart_name %}
-                    {% on_demand_chart "coop:member_count_evolution_json" chart_name %}
+                    {% on_demand_chart chart_name "coop:member_count_evolution_json" %}
                     {% translate "Member age distribution" as chart_name %}
-                    {% on_demand_chart "coop:member_age_distribution_json" chart_name %}
+                    {% on_demand_chart chart_name "coop:member_age_distribution_json" %}
                 </div>
             </div>
         </div>
@@ -124,7 +124,7 @@
                         </li>
                     </ul>
                     {% translate "Evolution of the number of shares" as chart_name %}
-                    {% on_demand_chart "coop:share_count_evolution_json" chart_name %}
+                    {% on_demand_chart chart_name "coop:share_count_evolution_json" %}
                 </div>
             </div>
         </div>
@@ -156,7 +156,7 @@
                 </h5>
                 <div class="card-body">
                     {% translate "Member status updates" as chart_name %}
-                    {% on_demand_chart "coop:member_status_updates_json_view" chart_name %}
+                    {% on_demand_chart chart_name "coop:member_status_updates_json_view" %}
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@
                 </h5>
                 <div class="card-body">
                     {% translate "Number of co-purchasers per month" as chart_name %}
-                    {% on_demand_chart "coop:number_of_co_purchasers_json_view" chart_name %}
+                    {% on_demand_chart chart_name "coop:number_of_co_purchasers_json_view" %}
                 </div>
             </div>
         </div>

@@ -25,11 +25,11 @@
                     </p>
                     <p>
                         {% translate "Evolution of member count" as chart_name %}
-                        {% on_demand_chart "statistics:member_count_evolution_json" chart_name %}
+                        {% on_demand_chart chart_name "statistics:member_count_evolution_json" %}
                     </p>
                     <p>
                         {% translate "New members per month" as chart_name %}
-                        {% on_demand_chart "statistics:new_members_per_month_json" chart_name %}
+                        {% on_demand_chart chart_name "statistics:new_members_per_month_json" %}
                     </p>
                 </div>
             </div>
@@ -127,7 +127,7 @@
                         </p>
                         <p>
                             {% translate "Frozen members" as chart_name %}
-                            {% on_demand_chart "statistics:frozen_members_json" chart_name %}
+                            {% on_demand_chart chart_name "statistics:frozen_members_json" %}
                         </p>
                     </li>
                 </ul>
@@ -147,7 +147,7 @@
                             </p>
                             <p>
                                 {% translate "Co-Purchasers" as chart_name %}
-                                {% on_demand_chart "statistics:co_purchasers_json" chart_name %}
+                                {% on_demand_chart chart_name "statistics:co_purchasers_json" %}
                             </p>
                         </li>
                     </ul>
@@ -176,17 +176,8 @@
                             </li>
                             {% for campaign in campaigns %}
                                 <li class="list-group-item">
-                                    <p>
-                                        <span class="{% tapir_button_link %}"
-                                              onclick="chartManager.show_stats_chart(this, '{% url "statistics:financing_campaign_json" campaign.id %}', 'financing_campaign_canvas_{{ campaign.id }}')">
-                                            <span class="material-icons">leaderboard</span>
-                                            <span class="button-text">{% translate "Show graph: " %}{{ campaign.name }}</span>
-                                        </span>
-                                    </p>
-                                    <p>
-                                        <canvas id="financing_campaign_canvas_{{ campaign.id }}"
-                                                style="display: none"></canvas>
-                                    </p>
+                                    {% translate "State distribution" as chart_name %}
+                                    {% on_demand_chart campaign.name "statistics:state_distribution_json" campaign.id %}
                                 </li>
                             {% endfor %}
                         </ul>

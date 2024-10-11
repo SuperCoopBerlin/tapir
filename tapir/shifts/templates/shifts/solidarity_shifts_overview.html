@@ -39,7 +39,7 @@
                         {% endblocktranslate %}
                     {% endif %}
                     {% translate "Solidarity shifts used" as chart_name %}
-                    {% on_demand_chart "shifts:used_solidarity_shifts_json" chart_name %}
+                    {% on_demand_chart chart_name "shifts:used_solidarity_shifts_json" %}
                 </div>
             </div>
         </div>
@@ -59,7 +59,7 @@
                         {% endblocktranslate %}
                     {% endif %}
                     {% translate "Solidarity shifts gifted" as chart_name %}
-                    {% on_demand_chart "shifts:gifted_solidarity_shifts_json" chart_name %}
+                    {% on_demand_chart chart_name "shifts:gifted_solidarity_shifts_json" %}
                 </div>
             </div>
         </div>

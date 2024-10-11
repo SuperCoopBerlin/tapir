@@ -21,9 +21,11 @@ def purchase_statistics_card(context, tapir_user):
 
 
 @register.inclusion_tag("statistics/tags/on_demand_chart.html")
-def on_demand_chart(json_view_name: str, chart_name: str):
+def on_demand_chart(chart_name: str, json_view_name: str = None, *args):
+    url = reverse(json_view_name, args=args)
+
     return {
         "chart_name": chart_name,
-        "url": reverse(json_view_name),
+        "url": url,
         "prefix": json_view_name.split(":")[1],
     }

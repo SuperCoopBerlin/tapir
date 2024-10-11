@@ -67,7 +67,7 @@
                     </ul>
                     <p>
                         {% translate "Shift cancellation rate" as chart_name %}
-                        {% on_demand_chart "statistics:shift_cancelling_rate_json" chart_name %}
+                        {% on_demand_chart chart_name "statistics:shift_cancelling_rate_json" %}
                     </p>
                     <p>
                         This second graph shows the number of attendances in each category, following the same criterias as described above.
@@ -76,7 +76,7 @@
                     </p>
                     <p>
                         {% translate "Number of shifts by category" as chart_name %}
-                        {% on_demand_chart "statistics:shift_count_by_category_json" chart_name %}
+                        {% on_demand_chart chart_name "statistics:shift_count_by_category_json" %}
                     </p>
                 </div>
             </div>
