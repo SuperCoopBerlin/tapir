@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Type, TYPE_CHECKING, Dict, Tuple
+from typing import List, Type, TYPE_CHECKING, Dict, Tuple, Literal
 
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
@@ -17,9 +17,17 @@ from tapir.log.models import EmailLogEntry
 
 all_emails: Dict[str, Type[TapirEmailBase]] = {}
 
+enabled_by_default_options = Literal[True, False, "both"]
 
-def get_all_emails(default: bool | None = True) -> list[Type[TapirEmailBase]]:
-    if default is not None:
+
+def get_all_emails(
+    default: enabled_by_default_options = True,
+) -> list[Type[TapirEmailBase]]:
+    """
+    default="both" returns both, default and non-default mails.
+    default=False returns mails not being sent by default
+    """
+    if default != "both":
         return [
             mail
             for mail in TapirEmailBase.__subclasses__()
@@ -29,7 +37,9 @@ def get_all_emails(default: bool | None = True) -> list[Type[TapirEmailBase]]:
         return [mail for mail in TapirEmailBase.__subclasses__()]
 
 
-def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
+def get_mails_not_mandatory(
+    default: enabled_by_default_options = "both",
+) -> List[Tuple[str, str]]:
     return [
         (mail.get_unique_id(), mail.get_name())
         for mail in get_all_emails(default=default)
@@ -37,7 +47,9 @@ def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
     ]
 
 
-def mails_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
+def get_mails_mandatory(
+    default: enabled_by_default_options = "both",
+) -> List[Tuple[str, str]]:
     return [
         (mail.get_unique_id(), mail.get_name())
         for mail in get_all_emails(default=default)
@@ -133,7 +145,7 @@ class TapirEmailBase:
 
     def user_wants_to_or_has_to_receive_mail(self, user: TapirUser):
         return (self.get_unique_id() in user.additional_mails) | (
-            self.get_unique_id() in [x[0] for x in mails_mandatory()]
+            self.get_unique_id() in [x[0] for x in get_mails_mandatory()]
         )
 
     def send_to_tapir_user(self, actor: User | None, recipient: TapirUser):
