@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load django_bootstrap5 %}
 <div class="shift-block-container" style="{{ shift.style }}">
     <div id="{% if shift.is_template %}template{% else %}shift{% endif %}_{{ shift.id }}"
          class="shift-block btn btn-outline-dark {{ shift.filter_classes }}"
@@ -11,9 +12,9 @@
                 {{ shift.weekday|slice:":3" }}
             {% endif %}
         </div>
-        <div style="display: flex; flex-direction: column">
+        <div class="d-flex flex-column flex-wrap">
             {% for slot_name, attendances in shift.attendances.items %}
-                <div>
+                <div style="max-width: 220px">
                     {{ slot_name }}:
                     {% for state in attendances %}
                         {% if state == "regular" %}
