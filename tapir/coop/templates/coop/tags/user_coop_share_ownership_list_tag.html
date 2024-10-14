@@ -1,3 +1,4 @@
+{% load static %}
 {% load django_vite %}
 {% load coop %}
 {% load i18n %}
@@ -26,7 +27,7 @@
         {% endif %}
     </h5>
     <div class="card-body">
-        {% vite_asset 'assets/user_page-lLWIHPyy.js' %}
+        {% vite_asset 'user_page/user_page.tsx' %}
         <div>
             LE TEST BUTTON <span id="le_test_button"></span>
         </div>

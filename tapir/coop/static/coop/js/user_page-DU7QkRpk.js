@@ -1,0 +1,1 @@
+import{c as o,j as e,T as r}from"./TapirButton-BnDZh9Rw.js";const t=document.getElementById("le_test_button");t?o(t).render(e.jsx(r,{variant:"danger",text:"Button on user page"})):console.error("SOME ERROR");

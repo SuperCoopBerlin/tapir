@@ -1,0 +1,1 @@
+import{c as t,j as e,T as n}from"./TapirButton-BnDZh9Rw.js";const o=document.getElementById("navigation");o?t(o).render(e.jsx(n,{variant:"warning",text:"Button on welcome desk"})):console.error("SOME ERROR");

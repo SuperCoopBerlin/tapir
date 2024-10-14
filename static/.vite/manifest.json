@@ -1,40 +1,24 @@
 {
-  "_TapirButton-Dda4GHpi.js": {
-    "file": "assets/TapirButton-Dda4GHpi.js",
+  "_TapirButton-BnDZh9Rw.js": {
+    "file": "assets/TapirButton-BnDZh9Rw.js",
     "name": "TapirButton"
   },
-  "assets/react.svg": {
-    "file": "assets/react-CHdo91hT.svg",
-    "src": "assets/react.svg"
-  },
-  "index.css": {
-    "file": "assets/css-BPvgi06w.css",
-    "src": "index.css",
-    "isEntry": true
-  },
-  "main.tsx": {
-    "file": "assets/home-C7NvXXjk.js",
-    "name": "home",
-    "src": "main.tsx",
-    "isEntry": true,
-    "imports": [
-      "_TapirButton-Dda4GHpi.js"
-    ],
-    "css": [
-      "assets/home-Bx9V9zN2.css",
-      "assets/css-BPvgi06w.css"
-    ],
-    "assets": [
-      "assets/react-CHdo91hT.svg"
-    ]
-  },
   "user_page/user_page.tsx": {
-    "file": "assets/user_page-lLWIHPyy.js",
+    "file": "assets/user_page-DU7QkRpk.js",
     "name": "user_page",
     "src": "user_page/user_page.tsx",
     "isEntry": true,
     "imports": [
-      "_TapirButton-Dda4GHpi.js"
+      "_TapirButton-BnDZh9Rw.js"
+    ]
+  },
+  "welcome_desk/welcome_desk.tsx": {
+    "file": "assets/welcome_desk-XjyfMHrG.js",
+    "name": "welcome_desk",
+    "src": "welcome_desk/welcome_desk.tsx",
+    "isEntry": true,
+    "imports": [
+      "_TapirButton-BnDZh9Rw.js"
     ]
   }
 }
