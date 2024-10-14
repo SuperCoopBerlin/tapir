@@ -27,10 +27,10 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         mock_timezone_now(self, self.NOW)
 
     def test_membershipResignationForm_is_valid(self):
-        ShareOwnerFactory.create()
+        share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create()
         data = {
-            "share_owner": resignation.id,
+            "share_owner": share_owner,
             "cancellation_reason": resignation.cancellation_reason,
             "cancellation_date": resignation.cancellation_date,
             "resignation_type": resignation.resignation_type,
@@ -38,10 +38,10 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             "paid_out": resignation.paid_out,
         }
         form = MembershipResignationForm(data=data)
+        ic(form.errors)
         self.assertTrue(form.is_valid())
-        return form
 
-    def test_validate_shareOwner_function(self):
+    def test_validate_share_owner(self):
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create(share_owner=share_owner)
         form = MembershipResignationForm(data={"share_owner": resignation.share_owner})
@@ -50,4 +50,79 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.assertIn(
             "This member is already resigned.",
             form.errors["share_owner"],
+        )
+
+    def test_validate_transfer_choice(self):
+        share_owner = ShareOwnerFactory.create()
+        resignation = MembershipResignationFactory.create(
+            share_owner=share_owner,
+            resignation_type=MembershipResignation.ResignationType.TRANSFER,
+        )
+        form = MembershipResignationForm(
+            data={
+                "share_owner": resignation.share_owner,
+                "resignation_type": resignation.resignation_type,
+                "transferring_shares_to": resignation.transferring_shares_to,
+            }
+        )
+        form.validate_transfer_choice(
+            resignation.resignation_type,
+            transferring_shares_to=None,
+        )
+        self.assertIn("transferring_shares_to", form.errors.keys())
+        self.assertIn(
+            "Please select the member that the shares should be transferred to.",
+            form.errors["transferring_shares_to"],
+        )
+        form.validate_transfer_choice(
+            resignation_type=MembershipResignation.ResignationType.BUY_BACK,
+            transferring_shares_to=resignation.transferring_shares_to,
+        )
+        self.assertIn("transferring_shares_to", form.errors.keys())
+        self.assertIn(
+            "If the shares don't get transferred to another member, this field should be empty.",
+            form.errors["transferring_shares_to"],
+        )
+
+    def test_validate_duplicates(self):
+        share_owner = ShareOwnerFactory.create()
+        resignation = MembershipResignationFactory.create(
+            share_owner=share_owner, transferring_shares_to=share_owner
+        )
+        form = MembershipResignationForm(
+            data={
+                "share_owner": resignation.share_owner,
+                "transferring_shares_to": resignation.share_owner,
+            }
+        )
+        form.validate_duplicates(
+            share_owner=resignation.share_owner,
+            transferring_shares_to=resignation.transferring_shares_to,
+        )
+        self.assertIn("transferring_shares_to", form.errors.keys())
+        self.assertIn(
+            "Sender and receiver of transferring the share(s) cannot be the same.",
+            form.errors["transferring_shares_to"],
+        )
+
+    def test_validate_if_gifted(self):
+        share_owner = ShareOwnerFactory.create()
+        resignation = MembershipResignationFactory.create(
+            share_owner=share_owner,
+            resignation_type=MembershipResignation.ResignationType.GIFT_TO_COOP,
+        )
+        form = MembershipResignationForm(
+            data={
+                "share_owner": resignation.share_owner,
+                "resignation_type": resignation.resignation_type,
+            }
+        )
+        form.validate_if_gifted(
+            resignation_type=resignation.resignation_type,
+            paid_out=True,
+        )
+        self.assertIn("paid_out", form.errors.keys())
+        self.assertIn(
+            "Cannot pay out, because shares have been gifted.",
+            form.errors["paid_out"],
         )
