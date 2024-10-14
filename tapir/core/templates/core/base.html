@@ -4,6 +4,7 @@
 {% load coop %}
 {% load core %}
 {% load utils %}
+{% load django_vite %}
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
 <html lang="{{ LANGUAGE_CODE }}">
@@ -34,6 +35,8 @@
                 tooltip_element.classList.add("tapir-tooltip-item");
             })
         })
+        {% vite_hmr_client %}
+        {% vite_react_refresh %}
         </script>
     </head>
     <body>

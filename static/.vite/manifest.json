@@ -1,0 +1,40 @@
+{
+  "_TapirButton-Dda4GHpi.js": {
+    "file": "assets/TapirButton-Dda4GHpi.js",
+    "name": "TapirButton"
+  },
+  "assets/react.svg": {
+    "file": "assets/react-CHdo91hT.svg",
+    "src": "assets/react.svg"
+  },
+  "index.css": {
+    "file": "assets/css-BPvgi06w.css",
+    "src": "index.css",
+    "isEntry": true
+  },
+  "main.tsx": {
+    "file": "assets/home-C7NvXXjk.js",
+    "name": "home",
+    "src": "main.tsx",
+    "isEntry": true,
+    "imports": [
+      "_TapirButton-Dda4GHpi.js"
+    ],
+    "css": [
+      "assets/home-Bx9V9zN2.css",
+      "assets/css-BPvgi06w.css"
+    ],
+    "assets": [
+      "assets/react-CHdo91hT.svg"
+    ]
+  },
+  "user_page/user_page.tsx": {
+    "file": "assets/user_page-lLWIHPyy.js",
+    "name": "user_page",
+    "src": "user_page/user_page.tsx",
+    "isEntry": true,
+    "imports": [
+      "_TapirButton-Dda4GHpi.js"
+    ]
+  }
+}
