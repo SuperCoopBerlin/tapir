@@ -15,12 +15,11 @@
 {% endblock head %}
 {% block content %}
     <div class="card mb-2">
-        <div class="card-header d-flex justify-content-between">
+        <div class="card-header d-flex justify-content-between align-items-center">
             <h5>{% translate "Cooperative Members" %}</h5>
             <div class="btn-group">
                 <button type="button"
-                        class="{% tapir_button_link %} btn-sm dropdown-toggle m-1"
-                        style="height: 45px"
+                        class="{% tapir_button_link %} btn dropdown-toggle m-1"
                         data-bs-toggle="dropdown">{% translate "Export" %}</button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
@@ -30,9 +29,8 @@
                     {% endfor %}
                 </div>
                 <div class="m-1">
-                    <button class="{% tapir_button_link_to_action %}"
+                    <button class="{% tapir_button_link_to_action %} btn"
                             type="button"
-                            style="height: 45px"
                             data-bs-toggle="collapse"
                             data-bs-target="#collapseFilter"
                             aria-expanded="false"

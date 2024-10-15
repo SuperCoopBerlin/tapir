@@ -56,20 +56,13 @@
                             <input id="date-from"
                                    type="date"
                                    value="{{ date_from }}"
-                                   class="form-control"
-                                   style="max-width: 160px" />
+                                   class="form-control" />
                         </div>
                         <div class="d-inline-flex align-items-baseline p-2">
                             <label for="date-to" class="form-label pe-2">{% translate "To" %}</label>
-                            <input id="date-to"
-                                   type="date"
-                                   value="{{ date_to }}"
-                                   class="form-control"
-                                   style="max-width: 160px" />
+                            <input id="date-to" type="date" value="{{ date_to }}" class="form-control" />
                         </div>
-                        <button class="{% tapir_button_link %}"
-                                onclick="onFilter()"
-                                style="height: 45px">
+                        <button class="{% tapir_button_link %} btn" onclick="onFilter()">
                             <span class="material-icons">filter_alt</span>{% translate "Filter" %}
                         </button>
                     </div>
@@ -90,7 +83,7 @@
                         </h6>
                         {% for shift in shift_infos %}
                             <!-- a bit of margin so the boxes don't overlap -->
-                            <div style="margin: 3px; max-width=">
+                            <div style="margin: 3px">
                                 <a href="{% url 'shifts:shift_detail' shift.pk %}">{% shift_block shift True %}</a>
                             </div>
                         {% endfor %}
