@@ -19,7 +19,7 @@
             <h5>{% translate "Cooperative Members" %}</h5>
             <div class="btn-group">
                 <button type="button"
-                        class="{% tapir_button_link %} btn dropdown-toggle m-1"
+                        class="{% tapir_button_link %} dropdown-toggle m-1"
                         data-bs-toggle="dropdown">{% translate "Export" %}</button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
@@ -29,7 +29,7 @@
                     {% endfor %}
                 </div>
                 <div class="m-1">
-                    <button class="{% tapir_button_link_to_action %} btn"
+                    <button class="{% tapir_button_link_to_action %}"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#collapseFilter"
@@ -67,7 +67,7 @@
                 </ul>
             </div>
         {% endif %}
-        <ul class="table-responsive">
+        <ul class="table-responsive" style="padding-left: 0px">
             <li class="list-group-item">{% render_table table %}</li>
         </ul>
     </div>
