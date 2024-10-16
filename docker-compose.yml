@@ -14,7 +14,10 @@ services:
     command: --copy-service
 
   web:
-    build: .
+    image: tapir-image
+    build:
+      context: .
+      dockerfile: ./django.Dockerfile
     command: bash -c "poetry install &&
                       poetry run python manage.py compilemessages --ignore \".venv\" &&
                       poetry run python manage.py runserver_plus 0.0.0.0:80"
@@ -62,7 +65,7 @@ services:
     image: redis:alpine
 
   celery:
-    build: .
+    image: tapir-image
     command: bash -c "poetry install &&
                       poetry run celery -A tapir worker -l info"
     volumes:
@@ -73,7 +76,7 @@ services:
       - redis
 
   celery-beat:
-    build: .
+    image: tapir-image
     # --schedule to avoid polluting the app directory
     command: bash -c "poetry install &&
                       poetry run celery -A tapir beat -l info --schedule /tmp/celerybeat-schedule"
@@ -83,6 +86,19 @@ services:
       DEBUG: 1
     depends_on:
       - redis
+
+  vite:
+    build:
+      context: .
+      dockerfile: ./vite.Dockerfile
+    tty: true
+    ports:
+      - '5173:5173'
+    volumes:
+      - ./vite.config.ts:/app/vite.config.ts
+      - ./src:/app/src
+      - ./dist:/app/dist
+      - ./static:/app/static
 
 volumes:
   nginx-certs-volume:
