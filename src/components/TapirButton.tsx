@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Spinner } from "react-bootstrap";
 
 interface TapirButtonProps {
   variant: string;
@@ -13,24 +14,23 @@ interface TapirButtonProps {
 }
 
 const TapirButton: React.FC<TapirButtonProps> = (props) => {
-  const className = "btn tapir-btn btn-"+props.variant;
   return (
-    <button
-      className={className}
+    <Button
+      variant={props.variant ?? "undefined"}
       style={{
         display: "flex",
         alignItems: "center",
         gap: "6px",
-        height: "100%",
         ...props.style,
       }}
+      size={props.size}
       onClick={props.onClick}
       disabled={props.disabled || props.loading}
       type={props.type}
     >
-      {props.icon && (props.loading ? <span>LOADING_ICON</span> : <props.icon />)}
+      {props.icon && (props.loading ? <Spinner size="sm" /> : <props.icon />)}
       {props.text && <span>{props.loading ? "Loading..." : props.text}</span>}
-    </button>
+    </Button>
   );
 };
 

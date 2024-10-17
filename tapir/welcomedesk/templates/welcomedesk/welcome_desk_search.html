@@ -14,10 +14,9 @@
     {% translate "Welcome Desk" %}
 {% endblock title %}
 {% block content %}
+    {% vite_asset 'welcome_desk/welcome_desk.tsx' %}<span id="welcome_desk"></span>
     <div class="card mb-2">
-        <h5 class="card-header d-flex">
-            {% translate "Welcome Desk" %}{% vite_asset 'welcome_desk/welcome_desk.tsx' %}<span id="welcome_desk_button"></span>
-        </h5>
+        <h5 class="card-header d-flex">{% translate "Welcome Desk" %} OLD</h5>
         <ul class="list-group list-group-flush" id="welcome_desk_table">
             {% if filter %}
                 <li class="list-group-item">

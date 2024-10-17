@@ -1,12 +1,10 @@
 import { createRoot } from "react-dom/client";
-import TapirButton from "../components/TapirButton.tsx";
+import WelcomeDeskSearch from "./WelcomeDeskSearch.tsx";
 
-const domNode = document.getElementById("welcome_desk_button");
+const domNode = document.getElementById("welcome_desk");
 if (domNode) {
   const root = createRoot(domNode);
-  root.render(
-    <TapirButton variant={"warning"} text={"Button on welcome desk"} />,
-  );
+  root.render(<WelcomeDeskSearch />);
 } else {
   console.error("SOME ERROR");
 }

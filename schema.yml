@@ -161,6 +161,28 @@ paths:
       responses:
         '204':
           description: No response body
+  /welcomedesk/api/search:
+    get:
+      operationId: welcomedesk_api_search_list
+      parameters:
+      - in: query
+        name: search_input
+        schema:
+          type: string
+        required: true
+      tags:
+      - welcomedesk
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShareOwnerForWelcomeDesk'
+          description: ''
 components:
   schemas:
     PaginatedTapirUserList:
@@ -317,6 +339,22 @@ components:
       description: |-
         * `de` - 🇩🇪 Deutsch
         * `en` - 🇬🇧 English
+    ShareOwnerForWelcomeDesk:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        display_name:
+          type: string
+          readOnly: true
+        can_shop:
+          type: boolean
+          readOnly: true
+      required:
+      - can_shop
+      - display_name
+      - id
     TapirUser:
       type: object
       properties:
