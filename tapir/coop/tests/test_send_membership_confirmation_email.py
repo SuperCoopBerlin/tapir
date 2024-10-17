@@ -9,10 +9,10 @@ from tapir.coop.emails.membership_confirmation_email_for_investing_member import
 )
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
-class TestSendMembershipConfirmationEmail(TapirFactoryTestBase, TapirEmailTestBase):
+class TestSendMembershipConfirmationEmail(TapirFactoryTestBase, TapirEmailTestMixin):
     VIEW_NAME = "coop:send_shareowner_membership_confirmation_welcome_email"
     USER_EMAIL_ADDRESS = "test_address@test.net"
 

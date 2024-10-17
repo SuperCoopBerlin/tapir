@@ -1,9 +1,11 @@
 import datetime
+
 import factory
-import random
+from dateutil.relativedelta import relativedelta
+from faker import Faker
 
 from tapir.accounts.models import TapirUser
-from tapir.accounts.tests.factories.user_data_factory import UserDataFactory, fake
+from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.models import (
     ShareOwnership,
@@ -13,6 +15,8 @@ from tapir.coop.models import (
     MembershipResignation,
 )
 from tapir.statistics.models import PurchaseBasket
+
+fake = Faker()
 
 
 class ShareOwnershipFactory(factory.django.DjangoModelFactory):
@@ -83,11 +87,35 @@ class MembershipResignationFactory(factory.django.DjangoModelFactory):
 
     share_owner = factory.SubFactory(ShareOwnerFactory)
     cancellation_reason = factory.Faker("sentence")
-    transferring_shares_to = factory.SubFactory(ShareOwnerFactory)
+    cancellation_date = factory.Faker("date_object")
     resignation_type = factory.Faker(
-        "random_element", elements=[x[0] for x in MembershipResignation.ResignationType]
+        "random_element",
+        elements=[x[0] for x in MembershipResignation.ResignationType.choices],
     )
-    paid_out = factory.Faker("pybool")
+    transferring_shares_to = factory.LazyAttribute(
+        lambda resignation: (
+            ShareOwnerFactory.create()
+            if resignation.resignation_type
+            == MembershipResignation.ResignationType.TRANSFER
+            else None
+        )
+    )
+    paid_out = factory.LazyAttribute(
+        lambda resignation: (
+            fake.pybool()
+            if resignation.resignation_type
+            == MembershipResignation.ResignationType.BUY_BACK
+            else False
+        )
+    )
+    pay_out_day = factory.LazyAttribute(
+        lambda resignation: (
+            resignation.cancellation_date + relativedelta(day=31, month=12, years=3)
+            if resignation.resignation_type
+            == MembershipResignation.ResignationType.BUY_BACK
+            else resignation.cancellation_date
+        )
+    )
 
 
 class PurchaseBasketFactory(factory.django.DjangoModelFactory):
