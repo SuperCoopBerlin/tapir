@@ -185,6 +185,16 @@ class ShiftTemplate(models.Model):
             "This determines from which date shifts should be generated from this ABCD shift."
         ),
     )
+    flexible_time = models.BooleanField(
+        verbose_name=_("Flexible time"),
+        help_text=_(
+            "If enabled, members who register for that shift can choose themselves "
+            "the time where they come do their shift."
+        ),
+        default=False,
+        blank=False,
+        null=False,
+    )
 
     def __str__(self):
         display_name = "%s: %s %s %s-%s" % (
@@ -245,6 +255,7 @@ class ShiftTemplate(models.Model):
             end_time=end_time,
             description=self.description,
             num_required_attendances=self.num_required_attendances,
+            flexible_time=self.flexible_time,
         )
 
     @transaction.atomic
@@ -400,6 +411,17 @@ class ShiftAttendanceTemplate(models.Model):
     slot_template = models.OneToOneField(
         ShiftSlotTemplate, related_name="attendance_template", on_delete=models.CASCADE
     )
+    custom_time = models.TimeField(
+        blank=False,
+        null=True,
+        verbose_name=_("Chosen time"),
+        help_text=_(
+            "This shift lets you choose at what time you come during the day of the shift. "
+            "In order to help organising the attendance, please specify when you expect to come."
+            "Setting or updating this field will set the time for all individual shifts generated from this ABCD shift."
+            "You can update the time of a single shift individually and at any time on the shift page."
+        ),
+    )
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -479,8 +501,29 @@ class Shift(models.Model):
         default="",
     )
 
-    start_time = models.DateTimeField(blank=False)
-    end_time = models.DateTimeField(blank=False)
+    flexible_time = models.BooleanField(
+        verbose_name=_("Flexible time"),
+        help_text=_(
+            "If enabled, members who register for that shift can choose themselves "
+            "the time where they come do their shift."
+        ),
+        default=False,
+        blank=False,
+        null=False,
+    )
+
+    start_time = models.DateTimeField(
+        blank=False,
+        help_text=_(
+            "If 'flexible time' is enabled, then the time component is ignored"
+        ),
+    )
+    end_time = models.DateTimeField(
+        blank=False,
+        help_text=_(
+            "If 'flexible time' is enabled, then the time component is ignored"
+        ),
+    )
 
     cancelled = models.BooleanField(default=False)
     cancelled_reason = models.CharField(null=True, max_length=1000)
@@ -693,16 +736,23 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         attendance_template = self.slot_template.get_attendance_template()
         if (
             not attendance_template
-            or self.get_valid_attendance()
             or attendance_template.user.shift_user_data.is_currently_exempted_from_shifts(
                 self.shift.start_time.date()
             )
         ):
             return
 
+        valid_attendance = self.get_valid_attendance()
+        if valid_attendance:
+            if valid_attendance.user == attendance_template.user:
+                valid_attendance.custom_time = attendance_template.custom_time
+                valid_attendance.save()
+            return
+
         attendance = self.attendances.filter(user=attendance_template.user).first()
         if attendance is None:
             attendance = ShiftAttendance(user=attendance_template.user, slot=self)
+        attendance.custom_time = attendance_template.custom_time
         attendance.state = ShiftAttendance.State.PENDING
         attendance.save()
 
@@ -759,6 +809,15 @@ class ShiftAttendance(models.Model):
     )
     reminder_email_sent = models.BooleanField(default=False)
     is_solidarity = models.BooleanField(default=False)
+    custom_time = models.TimeField(
+        blank=False,
+        null=True,
+        verbose_name=_("Chosen time"),
+        help_text=_(
+            "This shift lets you choose at what time you come during the day of the shift. "
+            "In order to help organising the attendance, please specify when you expect to come."
+        ),
+    )
 
     class State(models.IntegerChoices):
         PENDING = 1
