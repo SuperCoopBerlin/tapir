@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-18 11:32+0200\n"
+"POT-Creation-Date: 2024-10-18 11:46+0200\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2967,6 +2967,7 @@ msgid "This determines from which date shifts should be generated from this ABCD
 msgstr ""
 
 #: shifts/models.py:189 shifts/models.py:505
+#: shifts/templates/shifts/shift_block_tag.html:8
 msgid "Flexible time"
 msgstr ""
 
@@ -4342,7 +4343,7 @@ msgctxt "No shift partner"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templatetags/shifts.py:57 shifts/templatetags/shifts.py:160
+#: shifts/templatetags/shifts.py:57 shifts/templatetags/shifts.py:161
 #: shifts/views/views.py:153
 msgid "General"
 msgstr "Allgemein"
