@@ -63,9 +63,7 @@ class MembershipResignationTable(django_tables2.Table):
         empty_text = "No entries"
         default = "No entries"
 
-    cancellation_reason = django_tables2.Column(
-        attrs={"td": {"class": "col-3"}}
-    )
+    cancellation_reason = django_tables2.Column(attrs={"td": {"class": "col-3"}})
     pay_out_day = django_tables2.DateColumn(
         format="d/m/Y",
         verbose_name="Membership ends",
