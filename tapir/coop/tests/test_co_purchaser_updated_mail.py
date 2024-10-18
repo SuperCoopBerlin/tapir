@@ -3,10 +3,10 @@ from django.urls import reverse
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
-class TestCoPurchaserUpdatedMail(TapirFactoryTestBase, TapirEmailTestBase):
+class TestCoPurchaserUpdatedMail(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_setCoPurchaserToBlank_noEmailSent(self):
         self.login_as_member_office_user()
         tapir_user = TapirUserFactory.create(co_purchaser="A test co-purchaser")
