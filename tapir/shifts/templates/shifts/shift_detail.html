@@ -24,10 +24,12 @@
 {% block content %}
     <div class="card mb-2" id="shift_detail_card">
         <div class="card-header">
-            <h5 class="d-flex justify-content-between align-items-center">
-                <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>
+                    <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
+                </h5>
                 {% if perms.shifts.manage %}
-                    <span>
+                    <span class="d-flex justify-content-end flex-wrap gap-2">
                         <a class="{% tapir_button_link %}"
                            href="{% url 'shifts:shift_detail_printable' shift.pk %}">
                             <span class="material-icons">print</span>{% translate 'Get printable version' %}
@@ -49,12 +51,14 @@
                         {% endif %}
                     </span>
                 {% endif %}
-            </h5>
-            {% if shift.shift_template %}
-                <span>{% translate "Generated from" %}:
-                    <a href="{{ shift.shift_template.get_absolute_url }}">{{ shift.shift_template.get_display_name }}</a>
-                </span>
-            {% endif %}
+            </div>
+            <div>
+                {% if shift.shift_template %}
+                    <span>{% translate "Generated from" %}:
+                        <a href="{{ shift.shift_template.get_absolute_url }}">{{ shift.shift_template.get_display_name }}</a>
+                    </span>
+                {% endif %}
+            </div>
         </div>
         <ul class="list-group list-group-flush">
             {% if shift.description %}<li class="list-group-item">{{ shift.description }}</li>{% endif %}
@@ -64,7 +68,9 @@
                     {{ shift.cancelled_reason }}
                 </li>
             {% endif %}
-            <li class="list-group-item">
+            <li class="list-group-item table-responsive"
+                style="padding-left: 0px;
+                       padding-right: 0px">
                 <table class="{% tapir_table_classes %}"
                        id="attendance_table"
                        aria-label="{% translate 'List of slots for this shift' %}">
@@ -91,7 +97,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <span class="shift-centered-content">{{ slot.name }}</span>
+                                    <span class="shift-centered-content text-break">{{ slot.name }}</span>
                                 </td>
                                 {% with slot.get_valid_attendance as attendance %}
                                     {% if attendance %}

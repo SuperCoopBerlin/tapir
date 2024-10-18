@@ -23,5 +23,5 @@ class IsShiftAttendanceFromTemplateService:
         if not hasattr(attendance, cls.ANNOTATION_IS_FROM_ATTENDANCE_TEMPLATE):
             attendance = cls.annotate_shift_attendances(
                 ShiftAttendance.objects.filter(id=attendance.id)
-            )
+            ).first()
         return getattr(attendance, cls.ANNOTATION_IS_FROM_ATTENDANCE_TEMPLATE)
