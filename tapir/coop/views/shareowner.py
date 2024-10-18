@@ -56,6 +56,7 @@ from tapir.coop.models import (
     UpdateShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
 )
+from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
@@ -526,9 +527,8 @@ class ShareOwnerTable(django_tables2.Table):
         }
         return Template(template_string).render(Context(template_context))
 
-    @staticmethod
-    def value_status(value, record: ShareOwner):
-        return record.get_member_status()
+    def value_status(self, value, record: ShareOwner):
+        return record.get_member_status(self.reference_time)
 
     @staticmethod
     def value_email(value, record: ShareOwner):
@@ -822,6 +822,9 @@ class ShareOwnerListView(
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
                 queryset, self.reference_date
             )
+        )
+        queryset = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
+            queryset, self.reference_time
         )
         return queryset
 
