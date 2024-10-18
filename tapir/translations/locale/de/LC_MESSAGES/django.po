@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-18 11:53+0200\n"
+"POT-Creation-Date: 2024-10-18 13:16+0200\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -464,8 +464,8 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:99 accounts/views.py:104 coop/views/shareowner.py:260
-#: coop/views/shareowner.py:265
+#: accounts/views.py:99 accounts/views.py:104 coop/views/shareowner.py:261
+#: coop/views/shareowner.py:266
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
@@ -2378,17 +2378,17 @@ msgstr "Mitglied bearbeiten: %(name)s"
 msgid "Resign a new membership"
 msgstr ""
 
-#: coop/views/shareowner.py:122 coop/views/shareowner.py:127
+#: coop/views/shareowner.py:123 coop/views/shareowner.py:128
 #, python-format
 msgid "Edit share: %(name)s"
 msgstr "Anteil bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:147 coop/views/shareowner.py:152
+#: coop/views/shareowner.py:148 coop/views/shareowner.py:153
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:361
+#: coop/views/shareowner.py:362
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
@@ -2443,7 +2443,7 @@ msgstr "Ist derzeit von der Schichtarbeit befreit"
 msgid "Shift Name"
 msgstr "Schicht versäumt"
 
-#: coop/views/shareowner.py:916
+#: coop/views/shareowner.py:919
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
