@@ -1,4 +1,5 @@
 from django import template
+from django.core.handlers.wsgi import WSGIRequest
 
 from tapir.core.config import TAPIR_TABLE_CLASSES, sidebar_link_groups
 from tapir.core.models import FeatureFlag
@@ -56,4 +57,17 @@ def campaign_progress_bar():
         "campaign": campaign,
         "progress": round(campaign.get_current_sum() * 100 / campaign.goal),
         "current_sum": round(campaign.get_current_sum()),
+    }
+
+
+@register.inclusion_tag(
+    "core/tags/javascript_environment_variables.html", takes_context=True
+)
+def javascript_environment_variables(context):
+    request: WSGIRequest = context["request"]
+    api_root = f"{"https" if request.is_secure() else "http"}://{request.get_host()}"
+    if request.get_host() == "localhost":
+        api_root = f"{api_root}:8000"
+    return {
+        "env_vars": {"REACT_APP_API_ROOT": api_root},
     }
