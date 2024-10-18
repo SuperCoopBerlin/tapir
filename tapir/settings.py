@@ -367,4 +367,4 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 
-DJANGO_VITE = {"default": {"dev_mode": DEBUG}}
+DJANGO_VITE = {"default": {"dev_mode": DEBUG, "manifest_path": "./dist/manifest.json"}}

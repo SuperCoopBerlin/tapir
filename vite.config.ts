@@ -12,7 +12,7 @@ export default defineConfig(() => {
     base: "/static/",
     build: {
       sourcemap: true,
-      manifest: true,
+      manifest: "manifest.json",
       emptyOutDir: true,
       outDir: resolve(OUTPUT_DIR),
       rollupOptions: {
