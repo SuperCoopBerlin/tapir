@@ -48,7 +48,9 @@ class SendExceptionsToSlackMiddleware:
             cls.build_section(f"Request: {request}"),
             cls.build_section(f"User: {request.user}"),
             cls.build_section(f"Request headers: {request.headers}"),
-            cls.build_section(f"Request Body: {request.body.decode()}"),
+            cls.build_section(
+                f"Request Body: {request.body.decode() if not request._read_started else 'Cannot access body'}"
+            ),
             cls.build_section(f"Error: {error_text}", is_markdown=True),
             cls.build_section(stacktrace_string),
         ]

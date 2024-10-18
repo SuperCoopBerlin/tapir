@@ -82,6 +82,9 @@
                             <th>{% translate 'Attendance' %}</th>
                             <th>{% translate 'Actions' %}</th>
                             <th>{% translate 'Do you meet the requirements?' %}</th>
+                            {% if shift.flexible_time %}
+                                <th>{% translate "Chosen time" %}</th>
+                            {% endif %}
                             {% if perms.shifts.manage %}
                                 <th>{% translate 'Member-Office actions' %}</th>
                                 <th>{% translate 'Previous attendances' %}</th>
@@ -231,6 +234,27 @@
                                         <span class="d-flex align-items-center"><span class="material-icons">check</span></span>
                                     {% endfor %}
                                 </td>
+                                <!-- Chosen time -->
+                                {% if shift.flexible_time %}
+                                    <td>
+                                        {% with slot.get_valid_attendance as attendance %}
+                                            {% if attendance %}
+                                                {% if attendance.custom_time %}
+                                                    <span>{{ attendance.custom_time|time:"H:i" }}</span>
+                                                {% else %}
+                                                    <span>{% translate "Not specified" %}</span>
+                                                {% endif %}
+                                                {% if request.user == attendance.user or perms.shifts.manage %}
+                                                    <a href="{% url 'shifts:attendance_custom_time' attendance.id %}">
+                                                        <button class="{% tapir_button_link_to_action %}">
+                                                            <span class="material-icons button-icon">edit</span>
+                                                        </button>
+                                                    </a>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endwith %}
+                                    </td>
+                                {% endif %}
                                 <!-- Member-Office actions -->
                                 {% if perms.shifts.manage %}
                                     <td>

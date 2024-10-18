@@ -21,6 +21,8 @@ from tapir.shifts.forms import (
     ShiftAttendanceTemplateForm,
     UpdateShiftAttendanceForm,
     RegisterUserToShiftSlotForm,
+    ShiftAttendanceCustomTimeForm,
+    ShiftAttendanceTemplateCustomTimeForm,
 )
 from tapir.shifts.models import (
     ShiftAttendance,
@@ -35,7 +37,7 @@ from tapir.shifts.models import (
     SolidarityShift,
 )
 from tapir.shifts.views.views import SelectedUserViewMixin
-from tapir.utils.shortcuts import safe_redirect
+from tapir.utils.shortcuts import safe_redirect, get_html_link
 from tapir.utils.user_utils import UserUtils
 
 
@@ -287,10 +289,14 @@ class RegisterUserToShiftSlotView(
         slot = self.get_slot()
         user_to_register = form.cleaned_data["user"]
         is_solidarity = form.cleaned_data["is_solidarity"]
+        custom_time = form.cleaned_data.get("custom_time", None)
 
         with transaction.atomic():
             attendance = ShiftAttendance.objects.create(
-                user=user_to_register, slot=slot, is_solidarity=is_solidarity
+                user=user_to_register,
+                slot=slot,
+                is_solidarity=is_solidarity,
+                custom_time=custom_time,
             )
             if attendance.is_solidarity:
                 SolidarityShift.objects.create(shiftAttendance=attendance)
@@ -302,3 +308,84 @@ class RegisterUserToShiftSlotView(
             ).save()
 
         return response
+
+
+class UpdateShiftAttendanceCustomTimeView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, UpdateView
+):
+    model = ShiftAttendance
+    form_class = ShiftAttendanceCustomTimeForm
+
+    def get_success_url(self):
+        return self.get_attendance().slot.shift.get_absolute_url()
+
+    def get_attendance(self):
+        return get_object_or_404(ShiftAttendance, pk=self.kwargs["pk"])
+
+    def get_permission_required(self):
+        attendance = self.get_attendance()
+        if attendance.user == self.request.user:
+            return []
+        return [PERMISSION_SHIFTS_MANAGE]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        attendance = self.get_attendance()
+        context["page_title"] = _("Shift attendance: %(name)s") % {
+            "name": UserUtils.build_display_name_for_viewer(
+                attendance.user, self.request.user
+            )
+        }
+        context["card_title"] = _(
+            "Updating shift attendance: %(member_link)s, %(slot_link)s"
+            % {
+                "member_link": UserUtils.build_html_link_for_viewer(
+                    attendance.user, self.request.user
+                ),
+                "slot_link": attendance.slot.get_html_link(),
+            }
+        )
+        return context
+
+
+class UpdateShiftAttendanceTemplateCustomTimeView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, UpdateView
+):
+    model = ShiftAttendanceTemplate
+    form_class = ShiftAttendanceTemplateCustomTimeForm
+
+    def get_success_url(self):
+        return (
+            self.get_attendance_template().slot_template.shift_template.get_absolute_url()
+        )
+
+    def get_attendance_template(self):
+        return get_object_or_404(ShiftAttendanceTemplate, pk=self.kwargs["pk"])
+
+    def get_permission_required(self):
+        attendance_template = self.get_attendance_template()
+        if attendance_template.user == self.request.user:
+            return []
+        return [PERMISSION_SHIFTS_MANAGE]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        attendance_template = self.get_attendance_template()
+        context["page_title"] = _("ABCD attendance: %(name)s") % {
+            "name": UserUtils.build_display_name_for_viewer(
+                attendance_template.user, self.request.user
+            )
+        }
+        shift_template = attendance_template.slot_template.shift_template
+        context["card_title"] = _(
+            "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
+            % {
+                "member_link": UserUtils.build_html_link_for_viewer(
+                    attendance_template.user, self.request.user
+                ),
+                "slot_link": get_html_link(
+                    shift_template.get_absolute_url(), shift_template.get_display_name()
+                ),
+            }
+        )
+        return context

@@ -93,6 +93,10 @@ class TestShiftCancel(TapirFactoryTestBase):
 
         register_user_to_shift_template(self.client, user, shift_template)
 
+        self.assertTrue(
+            ShiftAttendance.objects.filter(user=user, slot__shift=shift).exists(),
+            "There should be an attendance on the cancelled shift.",
+        )
         self.assertEqual(
             ShiftAttendance.objects.get(user=user, slot__shift=shift).state,
             ShiftAttendance.State.MISSED_EXCUSED,

@@ -38,6 +38,9 @@
                             <th>{% translate 'Details' %}</th>
                             <th>{% translate 'Requirements' %}</th>
                             <th>{% translate 'Registered user' %}</th>
+                            {% if object.flexible_time %}
+                                <th>{% translate "Chosen time" %}</th>
+                            {% endif %}
                             {% if perms.shifts.manage %}
                                 <th>{% translate 'Member-Office actions' %}</th>
                             {% endif %}
@@ -80,6 +83,24 @@
                                                     <span class="material-icons">person_add</span>
                                                     {% translate "Register" %}
                                                 </a>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                    {% if object.flexible_time %}
+                                        <td>
+                                            {% if attendance %}
+                                                {% if attendance.custom_time %}
+                                                    <span>{{ attendance.custom_time|time:"H:i" }}</span>
+                                                {% else %}
+                                                    <span>{% translate "Not specified" %}</span>
+                                                {% endif %}
+                                                {% if request.user == attendance.user or perms.shifts.manage %}
+                                                    <a href="{% url 'shifts:attendance_template_custom_time' attendance.id %}">
+                                                        <button class="{% tapir_button_link_to_action %}">
+                                                            <span class="material-icons button-icon">edit</span>
+                                                        </button>
+                                                    </a>
+                                                {% endif %}
                                             {% endif %}
                                         </td>
                                     {% endif %}

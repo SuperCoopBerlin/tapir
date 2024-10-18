@@ -117,7 +117,7 @@ class EditShiftView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["card_title"] = _("Edit shift:") + self.object.get_display_name()
+        context["card_title"] = _("Edit shift: ") + self.object.get_display_name()
         return context
 
 

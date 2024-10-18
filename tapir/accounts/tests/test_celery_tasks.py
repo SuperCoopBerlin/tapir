@@ -6,13 +6,6 @@ from tapir.accounts.tasks import (
     update_purchase_tracking_list,
     send_create_account_reminder,
 )
-from tapir.coop.tasks import send_accounting_recap
-from tapir.shifts.tasks import (
-    send_shift_reminders,
-    apply_shift_cycle_start,
-    generate_shifts,
-    run_freeze_checks,
-)
 
 
 class TestCeleryTasks(SimpleTestCase):
