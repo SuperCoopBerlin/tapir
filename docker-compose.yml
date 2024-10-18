@@ -26,6 +26,7 @@ services:
     environment:
       VIRTUAL_HOST: localhost
       DEBUG: 1
+      DJANGO_VITE_DEBUG: 1
     depends_on:
       - openldap
       - db
