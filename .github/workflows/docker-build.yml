@@ -34,6 +34,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Build front-end
+        run: docker compose run vite npm run build
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
