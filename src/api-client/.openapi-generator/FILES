@@ -1,0 +1,11 @@
+apis/CoopApi.ts
+apis/WelcomedeskApi.ts
+apis/index.ts
+index.ts
+models/PaginatedTapirUserList.ts
+models/PatchedTapirUser.ts
+models/PreferredLanguageEnum.ts
+models/ShareOwnerForWelcomeDesk.ts
+models/TapirUser.ts
+models/index.ts
+runtime.ts

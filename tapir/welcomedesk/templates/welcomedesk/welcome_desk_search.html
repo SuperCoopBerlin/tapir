@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load django_vite %}
 {% load render_table from django_tables2 %}
 {% load django_bootstrap5 %}
 {% load i18n %}
@@ -13,8 +14,9 @@
     {% translate "Welcome Desk" %}
 {% endblock title %}
 {% block content %}
+    {% vite_asset 'welcome_desk/welcome_desk.tsx' %}<span id="welcome_desk"></span>
     <div class="card mb-2">
-        <h5 class="card-header d-flex">{% translate "Welcome Desk" %}</h5>
+        <h5 class="card-header d-flex">{% translate "Welcome Desk" %} OLD</h5>
         <ul class="list-group list-group-flush" id="welcome_desk_table">
             {% if filter %}
                 <li class="list-group-item">

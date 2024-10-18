@@ -14,4 +14,9 @@ urlpatterns = [
         views.WelcomeDeskShareOwnerView.as_view(),
         name="welcome_desk_share_owner",
     ),
+    path(
+        "api/search",
+        views.SearchMemberForWelcomeDeskView.as_view(),
+        name="search",
+    ),
 ]

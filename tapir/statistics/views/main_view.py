@@ -92,7 +92,9 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
             share_owners, self.reference_time
         )
-        share_owners = self.annotate_attendance_modes(share_owners)
+        share_owners = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_date(
+            share_owners, self.reference_date
+        )
 
         current_number_of_purchasing_members = len(
             [
@@ -117,29 +119,6 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         context["missing_progress"] = 100 - context["progress"]
 
         return context
-
-    def annotate_attendance_modes(self, share_owners):
-        shift_user_datas = ShiftUserData.objects.filter(
-            user__share_owner__in=share_owners
-        )
-        shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_date(
-            shift_user_datas, self.reference_date
-        )
-        shift_user_datas = {
-            shift_user_data.id: shift_user_data for shift_user_data in shift_user_datas
-        }
-        for share_owner in share_owners:
-            if not share_owner.user:
-                continue
-            self.transfer_attributes(
-                shift_user_datas[share_owner.user.shift_user_data.id],
-                share_owner.user.shift_user_data,
-                [
-                    ShiftAttendanceModeService.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE,
-                    ShiftAttendanceModeService.ANNOTATION_SHIFT_ATTENDANCE_MODE_DATE_CHECK,
-                ],
-            )
-        return share_owners
 
     @staticmethod
     def transfer_attributes(source, target, attributes):

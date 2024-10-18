@@ -1,0 +1,18 @@
+{
+  "index.html": {
+    "file": "assets/index-DLQBDo-T.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "css": [
+      "assets/index-DiwrgTda.css"
+    ],
+    "assets": [
+      "assets/react-CHdo91hT.svg"
+    ]
+  },
+  "src/assets/react.svg": {
+    "file": "assets/react-CHdo91hT.svg",
+    "src": "src/assets/react.svg"
+  }
+}
