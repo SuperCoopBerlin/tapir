@@ -1,0 +1,13 @@
+{% load i18n %}
+{% load core %}
+<span class="{% tapir_button_link %}" tabindex="0" id="{{ prefix }}_button">
+    <span class="material-icons">leaderboard</span>
+    <span class="button-text">{% translate "Show graph: " %}{{ chart_name }}</span>
+</span>
+<canvas id="{{ prefix }}_canvas" style="display: none;"></canvas>
+<script>
+    window.addEventListener("load", () => {
+        const button = document.getElementById("{{ prefix }}_button");
+        chartManager.register_show_chart_button(button, "{{ url }}", "{{ prefix }}_canvas");
+    })
+</script>

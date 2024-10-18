@@ -1,8 +1,10 @@
 import logging
 import traceback
+from itertools import chain
 
 import requests
 from django.http import HttpRequest
+from icecream import ic
 
 from tapir import settings
 
@@ -27,12 +29,10 @@ class SendExceptionsToSlackMiddleware:
         self.send_slack_message(exception, stacktrace_string, request)
         return None
 
-    @staticmethod
-    def send_slack_message(e: Exception, stacktrace_string: str, request: HttpRequest):
-        if settings.DEBUG:
-            return
-        url = "https://slack.com/api/chat.postMessage"
-
+    @classmethod
+    def send_slack_message(
+        cls, e: Exception, stacktrace_string: str, request: HttpRequest
+    ):
         error_text = f"{e}"
         if not error_text:
             error_text = "No exception raised"
@@ -40,42 +40,32 @@ class SendExceptionsToSlackMiddleware:
         if not stacktrace_string:
             stacktrace_string = "No stacktrace available"
 
+        sections = [
+            cls.build_section(
+                "Hi @channel! The following error happened on the production server :ladybug:",
+                is_markdown=True,
+            ),
+            cls.build_section(f"Request: {request}"),
+            cls.build_section(f"User: {request.user}"),
+            cls.build_section(f"Request headers: {request.headers}"),
+            cls.build_section(f"Request Body: {request.body.decode()}"),
+            cls.build_section(f"Error: {error_text}", is_markdown=True),
+            cls.build_section(stacktrace_string),
+        ]
+        sections_and_dividers = list(
+            chain.from_iterable(({"type": "divider"}, section) for section in sections)
+        )
+
         data = {
             "channel": "C079AQN3HE2",
-            "blocks": [
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": f"Hi @channel! The following error happened on the production server :ladybug:",
-                    },
-                },
-                {"type": "divider"},
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "plain_text",
-                        "text": f"{request}",
-                    },
-                },
-                {"type": "divider"},
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": error_text,
-                    },
-                },
-                {"type": "divider"},
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "plain_text",
-                        "text": stacktrace_string,
-                    },
-                },
-            ],
+            "blocks": sections_and_dividers,
         }
+
+        if settings.DEBUG:
+            ic(data)
+            return
+
+        url = "https://slack.com/api/chat.postMessage"
         headers = {
             "Content-type": "application/json; charset=utf-8",
             "Authorization": f"Bearer {settings.SLACK_BOT_TOKEN}",
@@ -85,3 +75,13 @@ class SendExceptionsToSlackMiddleware:
             LOG.error(
                 f"Failed to send slack message. Response from slack: {response.text}"
             )
+
+    @staticmethod
+    def build_section(text: str, is_markdown=False):
+        return {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn" if is_markdown else "plain_text",
+                "text": text,
+            },
+        }

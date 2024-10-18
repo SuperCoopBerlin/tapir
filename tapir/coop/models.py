@@ -18,13 +18,17 @@ from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
+from tapir.shifts.services.shift_can_shop_service import ShiftCanShopService
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.models import (
     DurationModelMixin,
     CountryField,
     positive_number_validator,
 )
-from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime
+from tapir.utils.shortcuts import (
+    get_html_link,
+    ensure_datetime,
+)
 from tapir.utils.user_utils import UserUtils
 
 
@@ -116,8 +120,7 @@ class ShareOwner(models.Model):
             if at_datetime is None:
                 at_datetime = timezone.now()
 
-            if isinstance(at_datetime, datetime.date):
-                at_datetime = get_timezone_aware_datetime(at_datetime, datetime.time())
+            at_datetime = ensure_datetime(at_datetime)
 
             share_owners_with_nb_of_shares = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
                 self, at_datetime.date()
@@ -261,8 +264,7 @@ class ShareOwner(models.Model):
         if not at_datetime:
             at_datetime = timezone.now()
 
-        if isinstance(at_datetime, datetime.date):
-            at_datetime = get_timezone_aware_datetime(at_datetime, datetime.time())
+        at_datetime = ensure_datetime(at_datetime)
 
         if (
             not NumberOfSharesService.get_number_of_active_shares(
@@ -280,15 +282,17 @@ class ShareOwner(models.Model):
 
         return MemberStatus.ACTIVE
 
-    def can_shop(self):
+    def can_shop(self, at_datetime: datetime.datetime | datetime.date | None = None):
         return (
             self.user is not None
-            and self.is_active()
-            and self.user.shift_user_data.can_shop()
+            and self.is_active(at_datetime)
+            and ShiftCanShopService.can_shop(self.user.shift_user_data, at_datetime)
         )
 
-    def is_active(self) -> bool:
-        return self.get_member_status() == MemberStatus.ACTIVE
+    def is_active(
+        self, at_datetime: datetime.datetime | datetime.date | None = None
+    ) -> bool:
+        return self.get_member_status(at_datetime) == MemberStatus.ACTIVE
 
     def get_total_expected_payment(self) -> float:
         return COOP_ENTRY_AMOUNT + self.share_ownerships.count() * COOP_SHARE_PRICE

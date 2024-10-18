@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load statistics %}
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load coop %}
@@ -68,18 +69,10 @@
                         <li>{{ applicants_count }} applicants are waiting to become members.</li>
                         <li>{{ nb_members_with_purchase_tracking_enabled }} members have enabled purchase tracking.</li>
                     </ul>
-                    <span class="{% tapir_button_link %}"
-                          onclick="show_stats_chart( this, '{% url "coop:member_count_evolution_json" %}', 'member_count_evolution_canvas', 'line', )">
-                        <span class="material-icons">leaderboard</span>
-                        <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of member count" %}</span>
-                    </span>
-                    <canvas id="member_count_evolution_canvas" style="display: none;"></canvas>
-                    <span class="{% tapir_button_link %}"
-                          onclick="show_stats_chart( this, '{% url "coop:member_age_distribution_json" %}', 'member_age_distribution_canvas', 'line', )">
-                        <span class="material-icons">leaderboard</span>
-                        <span class="button-text">{% translate "Show graph: " %}{% translate "Member age distribution" %}</span>
-                    </span>
-                    <canvas id="member_age_distribution_canvas" style="display: none;"></canvas>
+                    {% translate "Evolution of member count" as chart_name %}
+                    {% on_demand_chart chart_name "coop:member_count_evolution_json" %}
+                    {% translate "Member age distribution" as chart_name %}
+                    {% on_demand_chart chart_name "coop:member_age_distribution_json" %}
                 </div>
             </div>
         </div>
@@ -130,12 +123,8 @@
                             </ul>
                         </li>
                     </ul>
-                    <span class="{% tapir_button_link %}"
-                          onclick="show_stats_chart( this, '{% url "coop:share_count_evolution_json" %}', 'share_count_evolution_canvas', 'line', )">
-                        <span class="material-icons">leaderboard</span>
-                        <span class="button-text">{% translate "Show graph: " %}{% translate "Evolution of the number of shares" %}</span>
-                    </span>
-                    <canvas id="share_count_evolution_canvas" style="display: none;"></canvas>
+                    {% translate "Evolution of the number of shares" as chart_name %}
+                    {% on_demand_chart chart_name "coop:share_count_evolution_json" %}
                 </div>
             </div>
         </div>
@@ -166,12 +155,8 @@
                     </a>
                 </h5>
                 <div class="card-body">
-                    <span class="{% tapir_button_link %}"
-                          onclick="show_stats_chart( this, '{% url "coop:member_status_updates_json_view" %}', 'new_members_canvas', 'line', )">
-                        <span class="material-icons">leaderboard</span>
-                        <span class="button-text">{% translate "Show graph: " %}{% translate "Member status updates" %}</span>
-                    </span>
-                    <canvas id="new_members_canvas" style="display: none;"></canvas>
+                    {% translate "Member status updates" as chart_name %}
+                    {% on_demand_chart chart_name "coop:member_status_updates_json_view" %}
                 </div>
             </div>
         </div>
@@ -186,12 +171,8 @@
                     </a>
                 </h5>
                 <div class="card-body">
-                    <span class="{% tapir_button_link %}"
-                          onclick="show_stats_chart( this, '{% url "coop:number_of_co_purchasers_json_view" %}', 'number_of_co_purchasers_canvas', 'line', )">
-                        <span class="material-icons">leaderboard</span>
-                        <span class="button-text">{% translate "Show graph: " %}{% translate "Number of co-purchasers per month" %}</span>
-                    </span>
-                    <canvas id="number_of_co_purchasers_canvas" style="display: none;"></canvas>
+                    {% translate "Number of co-purchasers per month" as chart_name %}
+                    {% on_demand_chart chart_name "coop:number_of_co_purchasers_json_view" %}
                 </div>
             </div>
         </div>

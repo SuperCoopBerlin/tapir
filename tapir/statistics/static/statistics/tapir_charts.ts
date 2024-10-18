@@ -1,5 +1,15 @@
 class ChartManager {
-    public show_stats_chart(button: HTMLElement, url: string, canvas_id: string) {
+    public register_show_chart_button(button: HTMLElement, url: string, canvas_id: string) {
+        button.addEventListener('click', () => {
+            this.show_stats_chart(button, url, canvas_id)
+        })
+        button.addEventListener('keydown', (event: KeyboardEvent) => {
+            if (event.key === 'Tab') return;
+            this.show_stats_chart(button, url, canvas_id)
+        })
+    }
+
+    private show_stats_chart(button: HTMLElement, url: string, canvas_id: string) {
         const buttonText = button.getElementsByClassName("button-text")[0] as HTMLElement;
         buttonText.innerText = "Loading...";
 

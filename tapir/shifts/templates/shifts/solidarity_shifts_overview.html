@@ -1,4 +1,5 @@
 {% extends "shifts/base.html" %}
+{% load statistics %}
 {% load i18n %}
 {% load core %}
 {% load static %}
@@ -37,12 +38,8 @@
                         <p>{{ used_solidarity_shifts_total }} solidarity shifts have been used in total</p>
                         {% endblocktranslate %}
                     {% endif %}
-                    <span class="{% tapir_button_link %}"
-                          onclick="chartManager.show_stats_chart( this, '{% url "shifts:used_solidarity_shifts_json" %}', 'used_solidarity_shifts_canvas', )">
-                        <span class="material-icons">leaderboard</span>
-                        <span class="button-text">{% translate "Show graph: " %}{% translate "Solidarity shifts used" %}</span>
-                    </span>
-                    <canvas id="used_solidarity_shifts_canvas" style="display: none;"></canvas>
+                    {% translate "Solidarity shifts used" as chart_name %}
+                    {% on_demand_chart chart_name "shifts:used_solidarity_shifts_json" %}
                 </div>
             </div>
         </div>
@@ -61,12 +58,8 @@
                         <p>{{ gifted_solidarity_shifts_total }} solidarity shifts have been gifted in total</p>
                         {% endblocktranslate %}
                     {% endif %}
-                    <span class="{% tapir_button_link %}"
-                          onclick="chartManager.show_stats_chart( this, '{% url "shifts:gifted_solidarity_shifts_json" %}', 'gifted_solidarity_shifts_canvas', )">
-                        <span class="material-icons">leaderboard</span>
-                        <span class="button-text">{% translate "Show graph: " %}{% translate "Solidarity shifts gifted" %}</span>
-                    </span>
-                    <canvas id="gifted_solidarity_shifts_canvas" style="display: none;"></canvas>
+                    {% translate "Solidarity shifts gifted" as chart_name %}
+                    {% on_demand_chart chart_name "shifts:gifted_solidarity_shifts_json" %}
                 </div>
             </div>
         </div>

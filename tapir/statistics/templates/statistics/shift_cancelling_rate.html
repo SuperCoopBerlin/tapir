@@ -1,4 +1,5 @@
 {% extends "core/base.html" %}
+{% load statistics %}
 {% load core %}
 {% load django_bootstrap5 %}
 {% load static %}
@@ -65,12 +66,8 @@
                         </li>
                     </ul>
                     <p>
-                        <span class="{% tapir_button_link %}"
-                              onclick="chartManager.show_stats_chart( this, '{% url "statistics:shift_cancelling_rate_json" %}', 'shift_cancelling_rate_canvas', )">
-                            <span class="material-icons">leaderboard</span>
-                            <span class="button-text">{% translate "Show graph: " %}{% translate "Shift cancellation rate" %}</span>
-                        </span>
-                        <canvas id="shift_cancelling_rate_canvas" style="display: none;"></canvas>
+                        {% translate "Shift cancellation rate" as chart_name %}
+                        {% on_demand_chart chart_name "statistics:shift_cancelling_rate_json" %}
                     </p>
                     <p>
                         This second graph shows the number of attendances in each category, following the same criterias as described above.
@@ -78,12 +75,8 @@
                         This is useful to put some values in perspective. For example, at 01.05.2024, 100% of the frozen members didn't show up. But that's only 1 attendance.
                     </p>
                     <p>
-                        <span class="{% tapir_button_link %}"
-                              onclick="chartManager.show_stats_chart( this, '{% url "statistics:shift_count_by_category_json" %}', 'shift_count_by_category_canvas', )">
-                            <span class="material-icons">leaderboard</span>
-                            <span class="button-text">{% translate "Show graph: " %}{% translate "Number of shifts by category" %}</span>
-                        </span>
-                        <canvas id="shift_count_by_category_canvas" style="display: none;"></canvas>
+                        {% translate "Number of shifts by category" as chart_name %}
+                        {% on_demand_chart chart_name "statistics:shift_count_by_category_json" %}
                     </p>
                 </div>
             </div>

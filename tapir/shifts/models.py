@@ -991,9 +991,6 @@ class ShiftUserData(models.Model):
     def is_currently_exempted_from_shifts(self, date=None):
         return self.get_current_shift_exemption(date) is not None
 
-    def can_shop(self):
-        return self.attendance_mode != ShiftAttendanceMode.FROZEN
-
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
     if not hasattr(instance, "shift_user_data"):
