@@ -373,3 +373,5 @@ DJANGO_VITE = {
         "manifest_path": "./dist/manifest.json",
     }
 }
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
