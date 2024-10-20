@@ -2,7 +2,6 @@ import logging
 
 import ldap
 from django.contrib.auth.models import AbstractUser, UserManager, User
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from django.utils import translation
@@ -16,7 +15,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils, settings
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
-from tapir.core.tapir_email_base import get_mails_not_mandatory
+from tapir.core.tapir_email_base import get_optional_mails, get_mail_types
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import (
     PERMISSIONS,
@@ -61,8 +60,8 @@ class TapirUserManager(UserManager.from_queryset(TapirUserQuerySet)):
     use_in_migrations = True
 
 
-def get_mails_not_mandatory_and_enabled_by_default():
-    return [m[0] for m in get_mails_not_mandatory(default=True)]
+def get_optional_mails_enabledbydefault():
+    return [m[0] for m in get_mail_types(optional=True, enabled_by_default=True)]
 
 
 class TapirUser(AbstractUser):
@@ -83,17 +82,6 @@ class TapirUser(AbstractUser):
     co_purchaser = models.CharField(_("Co-Purchaser"), max_length=150, blank=True)
     allows_purchase_tracking = models.BooleanField(
         _("Allow purchase tracking"), blank=False, null=False, default=False
-    )
-    additional_mails = ArrayField(
-        models.CharField(
-            max_length=128,
-            blank=False,
-            choices=get_mails_not_mandatory,
-        ),
-        # in the beginning, select all mails which are enabled by default
-        default=get_mails_not_mandatory_and_default,
-        blank=True,
-        null=False,
     )
     excluded_fields_for_logs = ["password"]
 
@@ -275,3 +263,38 @@ def language_middleware(get_response):
         return response
 
     return middleware
+
+
+class MailChoice(models.Model):
+    name = models.CharField(max_length=256, blank=False, choices=get_optional_mails)
+    choice = models.BooleanField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name", "choice"], name="mail-name-chosen-constraint"
+            )
+        ]
+
+    def __str__(self):
+        return self.name
+
+
+class OptionalMails(models.Model):
+    user = models.ForeignKey(
+        "accounts.TapirUser",
+        null=False,
+        related_name="mail_setting",
+        on_delete=models.CASCADE,
+    )
+    mail = models.ForeignKey(
+        MailChoice,
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "mail"], name="user-mail-constraint"
+            )
+        ]

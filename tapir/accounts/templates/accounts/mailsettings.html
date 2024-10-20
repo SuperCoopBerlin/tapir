@@ -1,0 +1,24 @@
+{#action="{% url 'accounts:mailsettings' object.pk %}"#}
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load core %}
+{% block title %}
+    {% translate "Confirm delete" %} {{ object }}
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="card mb-2">
+            <h5 class="card-header">
+                <span>{% translate "Notification settings" %}</span>
+            </h5>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

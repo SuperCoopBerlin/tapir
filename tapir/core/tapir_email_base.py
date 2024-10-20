@@ -12,54 +12,44 @@ from tapir import settings
 if TYPE_CHECKING:
     # ignore at runtime to avoid circular import
     from tapir.accounts.models import TapirUser
+    from tapir.accounts.forms import all_optional_mails_by_user
     from tapir.coop.models import ShareOwner
 from tapir.log.models import EmailLogEntry
 
 all_emails: Dict[str, Type[TapirEmailBase]] = {}
 
-enabled_by_default_options = Literal[True, False, "both"]
+MAIL_OPTIONS_ = Literal[True, False, "both"]
 
 
-def get_all_emails(
-    default: enabled_by_default_options = True,
-) -> list[Type[TapirEmailBase]]:
+def get_mail_types(
+    enabled_by_default: MAIL_OPTIONS_ = True,
+    optional: MAIL_OPTIONS_ = True,
+) -> List[Tuple[str, str]]:
     """
     default="both" returns both, default and non-default mails.
     default=False returns mails not being sent by default
     """
-    if default != "both":
-        return [
-            mail
-            for mail in TapirEmailBase.__subclasses__()
-            if mail.enabled_by_default is default
-        ]
-    else:
-        return [mail for mail in TapirEmailBase.__subclasses__()]
 
+    def filter_mail(mail):
+        return (
+            enabled_by_default == "both"
+            or mail.enabled_by_default is enabled_by_default
+        ) and (optional == "both" or mail.optional is optional)
 
-def get_mails_not_mandatory(
-    default: enabled_by_default_options = "both",
-) -> List[Tuple[str, str]]:
     return [
         (mail.get_unique_id(), mail.get_name())
-        for mail in get_all_emails(default=default)
-        if mail.mandatory is False
+        for mail in TapirEmailBase.__subclasses__()
+        if filter_mail(mail)
     ]
 
 
-def get_mails_mandatory(
-    default: enabled_by_default_options = "both",
-) -> List[Tuple[str, str]]:
-    return [
-        (mail.get_unique_id(), mail.get_name())
-        for mail in get_all_emails(default=default)
-        if mail.mandatory is True
-    ]
+def get_optional_mails() -> List[Tuple[str, str]]:
+    return get_mail_types(optional=True, enabled_by_default="both")
 
 
 class TapirEmailBase:
     enabled_by_default = True  # mails are opt-out by default
-    mandatory = True  # mails are mandatory by default
+    optional = False  # mails are mandatory by default
 
     class Meta:
         abstract = True
@@ -144,8 +134,8 @@ class TapirEmailBase:
         )
 
     def user_wants_to_or_has_to_receive_mail(self, user: TapirUser):
-        return (self.get_unique_id() in user.additional_mails) | (
-            self.get_unique_id() in [x[0] for x in get_mails_mandatory()]
+        return (self.get_unique_id() in all_optional_mails_by_user(user=user)) | (
+            self.get_unique_id() in [x[0] for x in get_mail_types(optional=False)]
         )
 
     def send_to_tapir_user(self, actor: User | None, recipient: TapirUser):

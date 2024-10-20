@@ -20,10 +20,13 @@ from tapir.accounts.forms import (
     EditUserLdapGroupsForm,
     TapirUserSelfUpdateForm,
     EditUsernameForm,
+    OptionalMailsForm,
 )
 from tapir.accounts.models import (
     TapirUser,
     UpdateTapirUserLogEntry,
+    OptionalMails,
+    MailChoice,
 )
 from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
@@ -330,3 +333,52 @@ class EditUsernameView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
             ).save()
 
         return response
+
+
+class MailSettingsView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    TapirFormMixin,
+    generic.FormView,
+):
+    template_name = "accounts/mailsettings.html"
+    form_class = OptionalMailsForm
+
+    def get_permission_required(self):
+        if self.request.user.pk == self.get_tapir_user().pk:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
+
+    def get_tapir_user(self) -> TapirUser:
+        return get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update(
+            {
+                "tapir_user": self.get_tapir_user(),
+            }
+        )
+        return kwargs
+
+    def get_success_url(self):
+        return self.get_tapir_user().get_absolute_url()
+
+    def form_valid(self, form):
+        o = OptionalMails.objects.filter(user=self.get_tapir_user())
+        o.delete()
+        # Save selected optional mails
+        for optional_mail_choices in self.form_class.base_fields[
+            "optional_mails"
+        ].choices:
+            if optional_mail_choices[0] in form.cleaned_data["optional_mails"]:
+                _is_selected = True
+            else:
+                _is_selected = False
+            mail_object, created = MailChoice.objects.get_or_create(
+                name=optional_mail_choices[0], choice=_is_selected
+            )
+            if created is True:
+                mail_object.save()
+            OptionalMails.objects.create(user=self.get_tapir_user(), mail=mail_object)
+        return super().form_valid(form)
