@@ -15,10 +15,10 @@ from tapir.coop.models import (
     ExtraSharesForAccountingRecap,
 )
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
-class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestBase):
+class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestMixin):
     VIEW_NAME = "coop:share_create_multiple"
 
     def test_create_shares_requires_permissions(self):

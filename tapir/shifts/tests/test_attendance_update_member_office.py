@@ -11,10 +11,10 @@ from tapir.shifts.models import (
     ShiftAttendance,
 )
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
-class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase, TapirEmailTestBase):
+class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase, TapirEmailTestMixin):
     USER_EMAIL_ADDRESS = "test_address@test.net"
 
     def test_shift_attended(self):
