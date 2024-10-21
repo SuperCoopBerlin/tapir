@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Card, Form, Spinner } from "react-bootstrap";
+import { Alert, Card, Form, Spinner, Table } from "react-bootstrap";
 import { useApi } from "../hooks/useApi.ts";
 import {
   FetchError,
@@ -15,6 +15,8 @@ const WelcomeDeskSearch: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [controller, setController] = useState<AbortController | null>(null);
+  const [selectedMember, setSelectedMember] =
+    useState<ShareOwnerForWelcomeDesk | null>(null);
   const api = useApi(WelcomedeskApi);
 
   useEffect(() => {
@@ -25,6 +27,7 @@ const WelcomeDeskSearch: React.FC = () => {
     setSearchResults([]);
     setLoading(false);
     setError("");
+    setSelectedMember(null);
   }
 
   function updateSearchResults() {
@@ -39,6 +42,7 @@ const WelcomeDeskSearch: React.FC = () => {
     setController(localController);
     setLoading(true);
     setError("");
+    setSelectedMember(null);
 
     api
       .welcomedeskApiSearchList(
@@ -47,6 +51,9 @@ const WelcomeDeskSearch: React.FC = () => {
       )
       .then((results) => {
         setSearchResults(results);
+        if (results.length === 1) {
+          setSelectedMember(results[0]);
+        }
         setLoading(false);
       })
       .catch((error: FetchError) => {
@@ -79,19 +86,40 @@ const WelcomeDeskSearch: React.FC = () => {
 
   function buildResultList() {
     return (
-      <ul>
-        {searchResults.map((member) => (
-          <li key={member.id}>
-            {member.id} - {member.displayName} -{" "}
-            {member.canShop ? "Can shop" : "Cannot shop"}
-          </li>
-        ))}
-      </ul>
+      <Table striped hover responsive>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Can shop</th>
+          </tr>
+        </thead>
+        <tbody>
+          {searchResults.map((member) => (
+            <tr
+              key={member.id}
+              onClick={() =>
+                setSelectedMember(selectedMember !== member ? member : null)
+              }
+              className={selectedMember === member ? "table-primary" : ""}
+              style={{ cursor: "pointer" }}
+            >
+              <td>{member.displayName}</td>
+              <td>{member.canShop ? "Yes" : "No"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     );
   }
 
+  function getDetailCardColor(member: ShareOwnerForWelcomeDesk) {
+    if (!member.canShop) return "danger";
+    if (member.warnings.length > 0) return "warning";
+    return "success";
+  }
+
   return (
-    <>
+    <div className={"card-group"}>
       <Card>
         <Card.Header
           style={{
@@ -100,7 +128,7 @@ const WelcomeDeskSearch: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <h5>Welcome Desk</h5>
+          <h5>Search results</h5>
           <Form.Group>
             <Form.Control
               placeholder={"Name or member ID"}
@@ -112,7 +140,42 @@ const WelcomeDeskSearch: React.FC = () => {
         </Card.Header>
         <Card.Body>{getCardContent()}</Card.Body>
       </Card>
-    </>
+      {selectedMember !== null && (
+        <Card className={"text-bg-" + getDetailCardColor(selectedMember)}>
+          <Card.Header>
+            <h5>Member details</h5>
+          </Card.Header>
+          <Card.Body>
+            <div>Member: {selectedMember.displayName}</div>
+            <div>Can shop: {selectedMember.canShop ? "yes" : "no"}</div>
+            {selectedMember.warnings.length > 0 && (
+              <div>
+                Warnings:{" "}
+                <ul>
+                  {selectedMember.warnings.map((warning, index) => {
+                    return <li key={index}>{warning}</li>;
+                  })}
+                </ul>
+              </div>
+            )}
+            {selectedMember.reasonsCannotShop.length > 0 && (
+              <div>
+                Why this member cannot shop:{" "}
+                <ul>
+                  {selectedMember.reasonsCannotShop.map((reason, index) => {
+                    return <li key={index}>{reason}</li>;
+                  })}
+                </ul>
+              </div>
+            )}
+            <div>
+              Co-purchaser:{" "}
+              {selectedMember.coPurchaser ? selectedMember.coPurchaser : "None"}
+            </div>
+          </Card.Body>
+        </Card>
+      )}
+    </div>
   );
 };
 

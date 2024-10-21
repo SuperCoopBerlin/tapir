@@ -15,22 +15,4 @@
 {% endblock title %}
 {% block content %}
     {% vite_asset 'welcome_desk/welcome_desk.tsx' %}<span id="welcome_desk"></span>
-    <div class="card mb-2">
-        <h5 class="card-header d-flex">{% translate "Welcome Desk" %} OLD</h5>
-        <ul class="list-group list-group-flush" id="welcome_desk_table">
-            {% if filter %}
-                <li class="list-group-item">
-                    <form action="" method="get" class="form member-filter-form">
-                        {% bootstrap_form filter.form bound_css_class='' %}
-                        <div class="member-filter-form-buttons">
-                            <button class="{% tapir_button_link %}">
-                                <span class="material-icons">search</span>{% translate 'Search' %}
-                            </button>
-                        </div>
-                    </form>
-                </li>
-            {% endif %}
-            <li class="list-group-item">{% render_table table %}</li>
-        </ul>
-    </div>
 {% endblock content %}

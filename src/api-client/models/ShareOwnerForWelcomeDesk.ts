@@ -37,6 +37,24 @@ export interface ShareOwnerForWelcomeDesk {
      * @memberof ShareOwnerForWelcomeDesk
      */
     readonly canShop: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ShareOwnerForWelcomeDesk
+     */
+    readonly coPurchaser: string | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ShareOwnerForWelcomeDesk
+     */
+    readonly warnings: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ShareOwnerForWelcomeDesk
+     */
+    readonly reasonsCannotShop: Array<string>;
 }
 
 /**
@@ -46,6 +64,9 @@ export function instanceOfShareOwnerForWelcomeDesk(value: object): value is Shar
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('displayName' in value) || value['displayName'] === undefined) return false;
     if (!('canShop' in value) || value['canShop'] === undefined) return false;
+    if (!('coPurchaser' in value) || value['coPurchaser'] === undefined) return false;
+    if (!('warnings' in value) || value['warnings'] === undefined) return false;
+    if (!('reasonsCannotShop' in value) || value['reasonsCannotShop'] === undefined) return false;
     return true;
 }
 
@@ -62,6 +83,9 @@ export function ShareOwnerForWelcomeDeskFromJSONTyped(json: any, ignoreDiscrimin
         'id': json['id'],
         'displayName': json['display_name'],
         'canShop': json['can_shop'],
+        'coPurchaser': json['co_purchaser'],
+        'warnings': json['warnings'],
+        'reasonsCannotShop': json['reasons_cannot_shop'],
     };
 }
 
@@ -69,7 +93,7 @@ export function ShareOwnerForWelcomeDeskFromJSONTyped(json: any, ignoreDiscrimin
       return ShareOwnerForWelcomeDeskToJSONTyped(json, false);
   }
 
-  export function ShareOwnerForWelcomeDeskToJSONTyped(value?: Omit<ShareOwnerForWelcomeDesk, 'id'|'display_name'|'can_shop'> | null, ignoreDiscriminator: boolean = false): any {
+  export function ShareOwnerForWelcomeDeskToJSONTyped(value?: Omit<ShareOwnerForWelcomeDesk, 'id'|'display_name'|'can_shop'|'co_purchaser'|'warnings'|'reasons_cannot_shop'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

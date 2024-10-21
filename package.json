@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@openapitools/openapi-generator-cli": "^2.14.0",
+    "@openapitools/openapi-generator-cli": "^2.14.1",
     "@types/node": "^22.7.5",
     "bootstrap": "^5.3.3",
     "react": "^18.3.1",

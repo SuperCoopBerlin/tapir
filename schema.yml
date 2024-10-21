@@ -351,10 +351,27 @@ components:
         can_shop:
           type: boolean
           readOnly: true
+        co_purchaser:
+          type: string
+          nullable: true
+          readOnly: true
+        warnings:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        reasons_cannot_shop:
+          type: array
+          items:
+            type: string
+          readOnly: true
       required:
       - can_shop
+      - co_purchaser
       - display_name
       - id
+      - reasons_cannot_shop
+      - warnings
     TapirUser:
       type: object
       properties:
