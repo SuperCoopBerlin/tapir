@@ -115,3 +115,4 @@ geckodriver.log
 *.prof
 
 tapir_dump.sql
+node_modules
