@@ -14,11 +14,11 @@
 {% endblock head %}
 {% block content %}
     <div class="card mb-2">
-        <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
             <h5>{% translate "Applicants" %}</h5>
             <div class="btn-group">
                 <button type="button"
-                        class="{% tapir_button_link %} btn dropdown-toggle m-1"
+                        class="{% tapir_button_link %} dropdown-toggle m-1"
                         data-bs-toggle="dropdown">{% translate "Export" %}</button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
@@ -45,34 +45,33 @@
                 </div>
             </div>
         </div>
-        {% if filter %}
-            <div class="collapse" id="collapseFilter">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <form action="" method="get" class="form member-filter-form">
-                            <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
-                            <div class="member-filter-form-buttons">
-                                <button class=" {% tapir_button_link %}">
-                                    <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
-                                </button>
-                                <a class="{% tapir_button_link %}"
-                                   href="{% url 'coop:draftuser_list' %}">
-                                    <span class="material-icons">clear</span>
-                                    {% translate "Clear all filters" %}
-                                </a>
-                                <div class="ms-2">
-                                    {% blocktranslate with filtered=filtered_draftuser_count total=total_draftuser_count %}
+        <ul class="list-group list-group-flush">
+            {% if filter %}
+                <li class="list-group-item collapse" id="collapseFilter">
+                    <form action="" method="get" class="form member-filter-form">
+                        <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
+                        <div class="member-filter-form-buttons">
+                            <button class=" {% tapir_button_link %}">
+                                <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                            </button>
+                            <a class="{% tapir_button_link %}"
+                               href="{% url 'coop:draftuser_list' %}">
+                                <span class="material-icons">clear</span>
+                                {% translate "Clear all filters" %}
+                            </a>
+                            <div class="ms-2">
+                                {% blocktranslate with filtered=filtered_draftuser_count total=total_draftuser_count %}
                                             Filtered {{ filtered }} of {{ total }}
                                         {% endblocktranslate %}
-                                </div>
                             </div>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        {% endif %}
-        <ul>
-            <li class="list-group-item">{% render_table table %}</li>
+                        </div>
+                    </form>
+                </li>
+            {% endif %}
+            <li class="list-group-item table-responsive"
+                style="padding-left: 0px;
+                       padding-right: 0px;
+                       padding-top: 0px">{% render_table table %}</li>
         </ul>
     </div>
 {% endblock content %}
