@@ -11,8 +11,7 @@ from tapir import settings
 
 if TYPE_CHECKING:
     # ignore at runtime to avoid circular import
-    from tapir.accounts.models import TapirUser
-    from tapir.accounts.forms import all_optional_mails_by_user
+    from tapir.accounts.models import TapirUser, OptionalMails
     from tapir.coop.models import ShareOwner
 from tapir.log.models import EmailLogEntry
 
@@ -134,7 +133,7 @@ class TapirEmailBase:
         )
 
     def user_wants_to_or_has_to_receive_mail(self, user: TapirUser):
-        return (self.get_unique_id() in all_optional_mails_by_user(user=user)) | (
+        return (self.get_unique_id() in user.optional_mails_by_user()) | (
             self.get_unique_id() in [x[0] for x in get_mail_types(optional=False)]
         )
 

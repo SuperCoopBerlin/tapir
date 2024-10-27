@@ -1,4 +1,5 @@
 import logging
+from typing import List
 
 import ldap
 from django.contrib.auth.models import AbstractUser, UserManager, User
@@ -232,6 +233,27 @@ class TapirUser(AbstractUser):
         except ldap.INVALID_CREDENTIALS:
             return False
         return True
+
+    def optional_mails_by_user(self) -> List[str]:
+        """
+        unique mail-ids from both lists
+        """
+        user_mails_wanted = list(
+            OptionalMails.objects.filter(user=self, mail__choice=True).values_list(
+                "mail__name", flat=True
+            )
+        )
+        user_mails_not_wanted = list(
+            OptionalMails.objects.filter(user=self, mail__choice=False).values_list(
+                "mail__name", flat=True
+            )
+        )
+        other_optional_mails = [
+            x[0]
+            for x in get_mail_types(optional=True)
+            if x[0] not in user_mails_not_wanted
+        ]
+        return list(set(user_mails_wanted).intersection(set(other_optional_mails)))
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
