@@ -1,3 +1,5 @@
+from typing import List
+
 from django import forms
 from django.contrib.auth import forms as auth_forms
 from django.core.exceptions import ValidationError
@@ -5,35 +7,22 @@ from django.forms import TextInput, CheckboxSelectMultiple
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
-from tapir.accounts.models import TapirUser
-from tapir.core.tapir_email_base import mails_not_mandatory, mails_mandatory
+from tapir.accounts.models import TapirUser, OptionalMails
+from tapir.core.tapir_email_base import (
+    get_mail_types,
+)
 from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
 class TapirUserSelfUpdateForm(forms.ModelForm):
-    additional_mails = forms.MultipleChoiceField(
-        required=False,
-        choices=mails_not_mandatory(default=None),
-        widget=CheckboxSelectMultiple(),
-        label=_("Additional Emails"),
-    )
-
-    mandatory_mails = forms.MultipleChoiceField(
-        required=False,
-        choices=mails_mandatory(default=None),
-        label=_("Mandatory Emails"),
-        widget=CheckboxSelectMultiple(),
-        initial=[m[0] for m in mails_mandatory(default=None)],
-    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["mandatory_mails"].disabled = True
 
     class Meta:
         model = TapirUser
-        fields = ["usage_name", "pronouns", "additional_mails"]
+        fields = ["usage_name", "pronouns"]
         widgets = {}
 
 
@@ -119,3 +108,30 @@ class EditUsernameForm(forms.ModelForm):
             raise ValidationError(_("This username is not available."))
 
         return self.cleaned_data["username"]
+
+
+class OptionalMailsForm(forms.Form):
+
+    optional_mails = forms.MultipleChoiceField(
+        choices=get_mail_types(optional=True, enabled_by_default=True)
+        + get_mail_types(optional=True, enabled_by_default=False),
+        widget=forms.CheckboxSelectMultiple(),
+        label=_("Optional Mails"),
+        required=False,
+    )
+
+    mandatory_mails = forms.MultipleChoiceField(
+        required=False,
+        choices=get_mail_types(enabled_by_default="both", optional=False),
+        label=_("Mandatory Emails"),
+        widget=CheckboxSelectMultiple(),
+        initial=[
+            m[0] for m in get_mail_types(enabled_by_default="both", optional=False)
+        ],
+    )
+
+    def __init__(self, *args, **kwargs):
+        tapir_user: TapirUser = kwargs.pop("tapir_user")
+        super().__init__(*args, **kwargs)
+        self.fields["mandatory_mails"].disabled = True
+        self.fields["optional_mails"].initial = tapir_user.optional_mails_by_user()
