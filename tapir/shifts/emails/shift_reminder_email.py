@@ -9,7 +9,7 @@ from tapir.shifts.models import Shift
 
 
 class ShiftReminderEmail(TapirEmailBase):
-    mandatory = False
+    optional = True
     enabled_by_default = True
 
     def __init__(self, shift):

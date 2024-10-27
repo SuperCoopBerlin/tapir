@@ -253,7 +253,11 @@ class TapirUser(AbstractUser):
             for x in get_mail_types(optional=True)
             if x[0] not in user_mails_not_wanted
         ]
-        return list(set(user_mails_wanted).intersection(set(other_optional_mails)))
+        # Mails which are either
+        # A) optional but enabled by default or
+        # B) optional, not enabled by default but still wanted by user
+        optional_mails = other_optional_mails + user_mails_wanted
+        return list(set(optional_mails))
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):

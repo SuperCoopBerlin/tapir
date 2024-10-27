@@ -6,7 +6,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class VoluntaryMail(TapirEmailBase):
-    mandatory = False
+    optional = True
 
     @classmethod
     def get_unique_id(cls) -> str:
