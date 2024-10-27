@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-26 21:08+0200\n"
+"POT-Creation-Date: 2024-10-27 18:26+0100\n"
 "PO-Revision-Date: 2024-09-26 10:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,29 +26,29 @@ msgstr "Konto erstellen Erinnerung"
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
 msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt noch kein Konto erstellt haben."
 
-#: accounts/forms.py:19
-#, fuzzy
-#| msgid "List of all emails"
-msgid "Additional Emails"
-msgstr "Liste alle E-Mails"
-
-#: accounts/forms.py:25
-msgid "Mandatory Emails"
-msgstr ""
-
-#: accounts/forms.py:119
+#: accounts/forms.py:108
 msgid "This username is not available."
 msgstr ""
 
-#: accounts/models.py:66
+#: accounts/forms.py:119
+#, fuzzy
+#| msgid "List of all emails"
+msgid "Optional Mails"
+msgstr "Optionale E-Mails"
+
+#: accounts/forms.py:126
+msgid "Important Mails"
+msgstr "Wichtige E-Mails"
+
+#: accounts/models.py:70
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:71 coop/models.py:64 coop/models.py:454
+#: accounts/models.py:75 coop/models.py:64 coop/models.py:454
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:72 accounts/templates/accounts/user_detail.html:66
+#: accounts/models.py:76 accounts/templates/accounts/user_detail.html:70
 #: coop/models.py:66 coop/models.py:456
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
@@ -56,49 +56,49 @@ msgstr "Pronomen"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:73 accounts/templates/accounts/user_detail.html:76
+#: accounts/models.py:77 accounts/templates/accounts/user_detail.html:80
 #: coop/models.py:67 coop/models.py:457
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:74 coop/models.py:68 coop/models.py:458
+#: accounts/models.py:78 coop/models.py:68 coop/models.py:458
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:75 coop/models.py:69 coop/models.py:459
+#: accounts/models.py:79 coop/models.py:69 coop/models.py:459
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:76 coop/models.py:70 coop/models.py:460
+#: accounts/models.py:80 coop/models.py:70 coop/models.py:460
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:77 coop/models.py:71 coop/models.py:461
+#: accounts/models.py:81 coop/models.py:71 coop/models.py:461
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:78 coop/models.py:72 coop/models.py:462
+#: accounts/models.py:82 coop/models.py:72 coop/models.py:462
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:79 accounts/templates/accounts/user_detail.html:110
+#: accounts/models.py:83 accounts/templates/accounts/user_detail.html:114
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:90
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:81
+#: accounts/models.py:85
 msgid "Allow purchase tracking"
 msgstr ""
 
-#: accounts/models.py:95 accounts/templates/accounts/user_detail.html:96
+#: accounts/models.py:90 accounts/templates/accounts/user_detail.html:100
 #: coop/models.py:75 coop/models.py:465
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:128 accounts/models.py:134
+#: accounts/models.py:123 accounts/models.py:129
 #: coop/views/membership_pause.py:74 shifts/views/exemptions.py:198
 msgid "None"
 msgstr "Keine"
@@ -218,8 +218,23 @@ msgstr ""
 "    Vergiss nicht, dich für deine erste Schicht bei SuperCoop anzumelden!\n"
 
 #: accounts/templates/accounts/ldap_group_list.html:7
-#: accounts/templates/accounts/user_detail.html:101
+#: accounts/templates/accounts/user_detail.html:105
 msgid "Groups"
+msgstr ""
+
+#: accounts/templates/accounts/mailsettings.html:7
+#: coop/templates/coop/confirm_delete_incoming_payment.html:7
+#: coop/templates/coop/confirm_delete_incoming_payment.html:13
+#: coop/templates/coop/confirm_delete_share_ownership.html:6
+#: coop/templates/coop/confirm_delete_share_ownership.html:12
+#: coop/templates/coop/draftuser_detail.html:20
+#: financingcampaign/templates/financingcampaign/confirm_delete.html:6
+#: financingcampaign/templates/financingcampaign/confirm_delete.html:12
+msgid "Confirm delete"
+msgstr ""
+
+#: accounts/templates/accounts/mailsettings.html:13
+msgid "Notification settings"
 msgstr ""
 
 #: accounts/templates/accounts/purchase_tracking_card.html:5
@@ -266,17 +281,23 @@ msgstr "Mitglied"
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:31
+#: accounts/templates/accounts/user_detail.html:30
+#, fuzzy
+#| msgid "Emails"
+msgid "Mails"
+msgstr "E-Mails"
+
+#: accounts/templates/accounts/user_detail.html:35
 msgid "Edit groups"
 msgstr "Gruppen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:36
+#: accounts/templates/accounts/user_detail.html:40
 msgid "Edit username"
 msgstr "Benutzername bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:42
+#: accounts/templates/accounts/user_detail.html:46
 #: coop/templates/coop/draftuser_detail.html:242
-#: coop/templates/coop/membershipresignation_detail.html:98
+#: coop/templates/coop/membershipresignation_detail.html:97
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:21
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:89
@@ -290,11 +311,11 @@ msgstr "Benutzername bearbeiten"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:47
+#: accounts/templates/accounts/user_detail.html:51
 msgid "Edit name and pronouns"
 msgstr "Name und Pronomen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:54
+#: accounts/templates/accounts/user_detail.html:58
 #: coop/templates/coop/draftuser_detail.html:70
 #: coop/templates/coop/draftuser_detail.html:130
 #: coop/templates/coop/shareowner_detail.html:43 coop/views/draftuser.py:271
@@ -306,21 +327,21 @@ msgstr "Name und Pronomen bearbeiten"
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:58
+#: accounts/templates/accounts/user_detail.html:62
 #: coop/templates/coop/draftuser_detail.html:134
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/templates/accounts/user_detail.html:62
+#: accounts/templates/accounts/user_detail.html:66
 #: coop/templates/coop/draftuser_detail.html:73
 #: coop/templates/coop/draftuser_detail.html:138
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:71
-#: accounts/templates/accounts/user_detail.html:81
-#: accounts/templates/accounts/user_detail.html:91
+#: accounts/templates/accounts/user_detail.html:75
+#: accounts/templates/accounts/user_detail.html:85
+#: accounts/templates/accounts/user_detail.html:95
 #: coop/templates/coop/draftuser_detail.html:161
 #: coop/templates/coop/shareowner_detail.html:60
 #: coop/templates/coop/shareowner_detail.html:70
@@ -330,22 +351,22 @@ msgstr "E-Mail-Adresse"
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:86
+#: accounts/templates/accounts/user_detail.html:90
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/draftuser_detail.html:156
 #: coop/templates/coop/shareowner_detail.html:65
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:105
+#: accounts/templates/accounts/user_detail.html:109
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:126
+#: accounts/templates/accounts/user_detail.html:130
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:134
+#: accounts/templates/accounts/user_detail.html:138
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -464,21 +485,21 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:99 accounts/views.py:104 coop/views/shareowner.py:260
+#: accounts/views.py:102 accounts/views.py:107 coop/views/shareowner.py:260
 #: coop/views/shareowner.py:265
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:142
+#: accounts/views.py:145
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:187
+#: accounts/views.py:190
 msgid "You can only look at your own barcode unless you have member office rights"
 msgstr ""
 
-#: accounts/views.py:246 accounts/views.py:251
+#: accounts/views.py:249 accounts/views.py:254
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr ""
@@ -821,16 +842,6 @@ msgstr ""
 msgid "Active Members with a Tapir Account"
 msgstr "Aktive Mitglieder mit Tapir-Konto"
 
-#: coop/templates/coop/confirm_delete_incoming_payment.html:7
-#: coop/templates/coop/confirm_delete_incoming_payment.html:13
-#: coop/templates/coop/confirm_delete_share_ownership.html:6
-#: coop/templates/coop/confirm_delete_share_ownership.html:12
-#: coop/templates/coop/draftuser_detail.html:20
-#: financingcampaign/templates/financingcampaign/confirm_delete.html:6
-#: financingcampaign/templates/financingcampaign/confirm_delete.html:12
-msgid "Confirm delete"
-msgstr ""
-
 #: coop/templates/coop/confirm_delete_incoming_payment.html:31
 #: coop/templates/coop/confirm_delete_share_ownership.html:24
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:126
@@ -941,33 +952,33 @@ msgstr "Beteiligungserklärung"
 msgid "Export"
 msgstr "Exportieren"
 
-#: coop/templates/coop/draftuser_list.html:37
-#: coop/templates/coop/shareowner_list.html:33
+#: coop/templates/coop/draftuser_list.html:42
+#: coop/templates/coop/shareowner_list.html:38
 #: shifts/templates/shifts/shift_filters.html:3
 msgid "Filters"
 msgstr "Filter"
 
-#: coop/templates/coop/draftuser_list.html:51
+#: coop/templates/coop/draftuser_list.html:56
 #: coop/templates/coop/incoming_payment_list.html:35
 #: coop/templates/coop/membership_pause/membership_pause_list.html:47
 #: coop/templates/coop/membership_resignation_list.html:48
-#: coop/templates/coop/shareowner_list.html:47
+#: coop/templates/coop/shareowner_list.html:52
 #: log/templates/log/log_overview.html:24
 #: shifts/templates/shifts/shift_calendar_template.html:53
 #: shifts/templates/shifts/shiftexemption_list.html:50
 msgid "Filter"
 msgstr "Filter"
 
-#: coop/templates/coop/draftuser_list.html:56
+#: coop/templates/coop/draftuser_list.html:61
 #: coop/templates/coop/incoming_payment_list.html:40
 #: coop/templates/coop/membership_pause/membership_pause_list.html:52
 #: coop/templates/coop/membership_resignation_list.html:53
-#: coop/templates/coop/shareowner_list.html:52
+#: coop/templates/coop/shareowner_list.html:57
 #: shifts/templates/shifts/shiftexemption_list.html:55
 msgid "Clear all filters"
 msgstr "Alle Filter entfernen"
 
-#: coop/templates/coop/draftuser_list.html:59
+#: coop/templates/coop/draftuser_list.html:64
 #, python-format
 msgid ""
 "\n"
@@ -2008,24 +2019,24 @@ msgstr "Erstellungsdatum"
 msgid "Membership ends"
 msgstr "Mitglieder"
 
-#: coop/templates/coop/membershipresignation_detail.html:74
+#: coop/templates/coop/membershipresignation_detail.html:73
 #, fuzzy
 #| msgid "Creation date"
 msgid "Resignation type"
 msgstr "Erstellungsdatum"
 
-#: coop/templates/coop/membershipresignation_detail.html:78
+#: coop/templates/coop/membershipresignation_detail.html:77
 #, fuzzy
 #| msgid "Paid"
 msgid "Paid out"
 msgstr "Bezahlt"
 
-#: coop/templates/coop/membershipresignation_detail.html:81
+#: coop/templates/coop/membershipresignation_detail.html:80
 #: coop/views/draftuser.py:286
 msgid "Yes"
 msgstr "Ja"
 
-#: coop/templates/coop/membershipresignation_detail.html:83
+#: coop/templates/coop/membershipresignation_detail.html:82
 #: coop/views/draftuser.py:286
 msgid "No"
 msgstr "Nein"
@@ -2117,7 +2128,7 @@ msgstr "Zur Nutzer*innen-Seite"
 msgid "Cooperative Members"
 msgstr "Genossenschaftsmitglieder"
 
-#: coop/templates/coop/shareowner_list.html:55
+#: coop/templates/coop/shareowner_list.html:60
 #, python-format
 msgid ""
 "\n"
@@ -2821,20 +2832,20 @@ msgstr "Schicht versäumt"
 msgid "Sent to a member when the member office marks the shift as missed"
 msgstr ""
 
-#: shifts/emails/shift_reminder_email.py:22
+#: shifts/emails/shift_reminder_email.py:25
 msgid "Shift reminder"
 msgstr "Schicht-Erinnerung"
 
-#: shifts/emails/shift_reminder_email.py:27
+#: shifts/emails/shift_reminder_email.py:30
 #, python-brace-format
 msgid "Sent to a member {config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT} days before their shift"
 msgstr ""
 
-#: shifts/emails/stand_in_found_email.py:22
+#: shifts/emails/stand_in_found_email.py:25
 msgid "Stand-in found"
 msgstr "Vertretung gefunden"
 
-#: shifts/emails/stand_in_found_email.py:27
+#: shifts/emails/stand_in_found_email.py:30
 msgid "Sent to a member that was looking for a stand-inwhen the corresponding slot is taken over by another member."
 msgstr ""
 

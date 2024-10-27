@@ -123,7 +123,7 @@ class OptionalMailsForm(forms.Form):
     mandatory_mails = forms.MultipleChoiceField(
         required=False,
         choices=get_mail_types(enabled_by_default="both", optional=False),
-        label=_("Mandatory Emails"),
+        label=_("Important Mails"),
         widget=CheckboxSelectMultiple(),
         initial=[
             m[0] for m in get_mail_types(enabled_by_default="both", optional=False)
