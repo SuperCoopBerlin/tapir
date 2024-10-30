@@ -123,33 +123,34 @@ class ShareOwner(models.Model):
             at_datetime = ensure_datetime(at_datetime)
 
             share_owners_with_nb_of_shares = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                self, at_datetime.date()
+                ShareOwner.objects.all(), at_datetime.date()
             )
-            share_owners_without_active_shares = share_owners_with_nb_of_shares.filter(
+            members_without_shares = share_owners_with_nb_of_shares.filter(
                 **{NumberOfSharesService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
             )
 
             if status == MemberStatus.SOLD:
-                return self.filter(id__in=share_owners_without_active_shares)
+                return self.filter(id__in=members_without_shares).distinct()
 
-            members_with_valid_shares = self.exclude(
-                id__in=share_owners_without_active_shares
-            ).distinct()
+            members_with_valid_shares = self.exclude(id__in=members_without_shares)
 
-            members_with_valid_shares = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
-                members_with_valid_shares, at_datetime
+            members_with_investing_annotation = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
+                ShareOwner.objects.all(), at_datetime
             )
-            annotation_was_investing = {
-                InvestingStatusService.ANNOTATION_WAS_INVESTING: True
-            }
+            investing_members = members_with_investing_annotation.filter(
+                **{InvestingStatusService.ANNOTATION_WAS_INVESTING: True}
+            )
             if status == MemberStatus.INVESTING:
-                return members_with_valid_shares.filter(**annotation_was_investing)
+                return members_with_valid_shares.filter(
+                    id__in=investing_members
+                ).distinct()
+
             member_with_shares_and_not_investing: Self = (
-                members_with_valid_shares.exclude(**annotation_was_investing)
+                members_with_valid_shares.exclude(id__in=investing_members)
             )
 
             members_with_paused_annotation = MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
-                member_with_shares_and_not_investing, at_datetime.date()
+                ShareOwner.objects.all(), at_datetime.date()
             )
             paused_members = members_with_paused_annotation.filter(
                 **{MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE: True}
@@ -158,12 +159,12 @@ class ShareOwner(models.Model):
             if status == MemberStatus.PAUSED:
                 return member_with_shares_and_not_investing.filter(
                     id__in=paused_members
-                )
+                ).distinct()
 
             if status == MemberStatus.ACTIVE:
                 return member_with_shares_and_not_investing.exclude(
                     id__in=paused_members
-                )
+                ).distinct()
 
             raise TapirException(f"Invalid status : {status}")
 

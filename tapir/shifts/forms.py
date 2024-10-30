@@ -1,6 +1,11 @@
 from django import forms
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.forms import ModelChoiceField, CheckboxSelectMultiple, BooleanField
+from django.forms import (
+    ModelChoiceField,
+    CheckboxSelectMultiple,
+    BooleanField,
+    TimeField,
+)
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
 from django_select2.forms import Select2Widget
@@ -37,6 +42,7 @@ class ShiftCreateForm(forms.ModelForm):
             "end_time",
             "num_required_attendances",
             "description",
+            "flexible_time",
         ]
         widgets = {
             "start_time": forms.widgets.DateTimeInput(
@@ -138,7 +144,12 @@ class ShiftAttendanceTemplateForm(MissingCapabilitiesWarningMixin, forms.ModelFo
 
     class Meta:
         model = ShiftAttendanceTemplate
-        fields = ["user"]
+        fields = ["user", "custom_time"]
+        widgets = {
+            "custom_time": forms.widgets.TimeInput(
+                attrs={"type": "time"}, format="%H:%M"
+            ),
+        }
 
     def __init__(self, *args, **kwargs):
         self.slot_template = ShiftSlotTemplate.objects.get(
@@ -149,6 +160,12 @@ class ShiftAttendanceTemplateForm(MissingCapabilitiesWarningMixin, forms.ModelFo
             self.fields[f"warning_{warning}"] = forms.BooleanField(
                 label=SHIFT_SLOT_WARNING_CHOICES[warning]
             )
+
+        if self.slot_template.shift_template.flexible_time:
+            self.fields["custom_time"].required = True
+        else:
+            self.fields["custom_time"].required = False
+            self.fields["custom_time"].widget = HiddenInput()
 
     def clean_user(self):
         user: TapirUser = self.cleaned_data["user"]
@@ -170,13 +187,16 @@ class ShiftAttendanceTemplateForm(MissingCapabilitiesWarningMixin, forms.ModelFo
 
 class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
     user = TapirUserChoiceField()
-    request_user: TapirUser
-    slot: ShiftSlot
     is_solidarity = BooleanField(required=False, label="Mark as a Solidarity Shift")
+    custom_time = TimeField(
+        required=False,
+        widget=forms.widgets.TimeInput(attrs={"type": "time"}, format="%H:%M"),
+    )
+    field_order = ["user", "is_solidarity", "custom_time"]
 
     def __init__(self, *args, **kwargs):
-        self.slot = kwargs.pop("slot", None)
-        self.request_user = kwargs.pop("request_user", None)
+        self.slot: ShiftSlot = kwargs.pop("slot")
+        self.request_user: TapirUser = kwargs.pop("request_user")
         super().__init__(*args, **kwargs)
         self.fields["user"].disabled = not self.request_user.has_perm(
             PERMISSION_SHIFTS_MANAGE
@@ -185,6 +205,12 @@ class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
             self.fields[f"warning_{warning}"] = forms.BooleanField(
                 label=SHIFT_SLOT_WARNING_CHOICES[warning]
             )
+
+        if self.slot.shift.flexible_time:
+            self.fields["custom_time"].required = True
+        else:
+            self.fields["custom_time"].required = False
+            self.fields["custom_time"].widget = HiddenInput()
 
     def get_required_capabilities(self):
         return self.slot.required_capabilities
@@ -451,6 +477,7 @@ class ShiftTemplateForm(forms.ModelForm):
             "start_time",
             "end_time",
             "start_date",
+            "flexible_time",
         ]
         widgets = {
             "start_time": forms.widgets.TimeInput(
@@ -496,3 +523,25 @@ class ConvertShiftExemptionToMembershipPauseForm(forms.Form):
         ),
         required=True,
     )
+
+
+class ShiftAttendanceCustomTimeForm(forms.ModelForm):
+    class Meta:
+        model = ShiftAttendance
+        fields = ["custom_time"]
+        widgets = {
+            "custom_time": forms.widgets.TimeInput(
+                attrs={"type": "time"}, format="%H:%M"
+            )
+        }
+
+
+class ShiftAttendanceTemplateCustomTimeForm(forms.ModelForm):
+    class Meta:
+        model = ShiftAttendanceTemplate
+        fields = ["custom_time"]
+        widgets = {
+            "custom_time": forms.widgets.TimeInput(
+                attrs={"type": "time"}, format="%H:%M"
+            )
+        }

@@ -252,4 +252,14 @@ urlpatterns = [
         views.ShiftStatusEvolutionJsonView.as_view(),
         name="shift_status_evolution_json",
     ),
+    path(
+        "attendance/<int:pk>/custom_time",
+        views.UpdateShiftAttendanceCustomTimeView.as_view(),
+        name="attendance_custom_time",
+    ),
+    path(
+        "attendance_template/<int:pk>/custom_time",
+        views.UpdateShiftAttendanceTemplateCustomTimeView.as_view(),
+        name="attendance_template_custom_time",
+    ),
 ]
