@@ -412,6 +412,11 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
         else:
             starting_month = None
 
+        one_year_ago = timezone.now().date() - datetime.timedelta(days=365)
+        one_year_ago = one_year_ago.replace(day=1) - datetime.timedelta(days=1)
+        if starting_month is None or starting_month < one_year_ago:
+            starting_month = one_year_ago
+
         return [
             date
             for date in self.get_and_cache_dates_from_first_share_to_today()
