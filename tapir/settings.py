@@ -353,3 +353,6 @@ AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
     "(objectClass=top)",
 )
 AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
