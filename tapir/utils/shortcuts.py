@@ -46,6 +46,10 @@ def get_first_of_next_month(date: datetime.date):
     return (date.replace(day=1) + datetime.timedelta(days=32)).replace(day=1)
 
 
+def get_last_day_of_month(date: datetime.date):
+    return get_first_of_next_month(date) - datetime.timedelta(days=1)
+
+
 def set_header_for_file_download(response: HttpResponse, filename: str):
     response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
 
