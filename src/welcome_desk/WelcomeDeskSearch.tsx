@@ -7,6 +7,8 @@ import {
   WelcomedeskApi,
 } from "../api-client";
 
+declare let gettext: (english_text: string) => string;
+
 const WelcomeDeskSearch: React.FC = () => {
   const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState<
@@ -18,6 +20,8 @@ const WelcomeDeskSearch: React.FC = () => {
   const [selectedMember, setSelectedMember] =
     useState<ShareOwnerForWelcomeDesk | null>(null);
   const api = useApi(WelcomedeskApi);
+
+  const test = gettext("this is to be translated");
 
   useEffect(() => {
     updateSearchResults();
@@ -128,7 +132,7 @@ const WelcomeDeskSearch: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <h5>Search results</h5>
+          <h5>Welcome Desk {test}</h5>
           <Form.Group>
             <Form.Control
               placeholder={"Name or member ID"}
