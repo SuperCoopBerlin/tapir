@@ -1,50 +1,76 @@
-# React + TypeScript + Vite
+# Tapir Member & Shift Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=coverage)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
 
-Currently, two official plugins are available:
+Tapir is a member and shift management system of the food cooperative [SuperCoop Berlin](https://supercoop.de).
+Our Vorstand and member office uses Tapir to manage shifts and members, for example their personal data, capabilities,
+payments and shift statuses. It is also used for automatic mails and evaluate new applicants.
+Members can use Tapir to register or unregister for shifts, search for a stand-in and see their shift status as well as
+upcoming shifts.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<img src="https://user-images.githubusercontent.com/18083323/179391686-4cfa724f-4847-4859-aba4-f074722d69ca.png" width="68%"/> <img src="https://user-images.githubusercontent.com/18083323/179391799-96f4e204-9bd2-4739-b8f9-3bc25a70f717.JPG" width="22.6%"/>
 
-## Expanding the ESLint configuration
+The Tapir project is developed by SuperCoop members, in collaberation with [WirMarkt Hamburg](https://wirmarkt.de/) and
+is licensed under the terms of the [AGPL license](LICENSE.md).
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+SuperCoop members can access the system at [https://members.supercoop.de](https://members.supercoop.de).
 
-- Configure the top-level `parserOptions` property like this:
+> Tapir (/ˈteɪpər/) [has a trunk](https://www.youtube.com/watch?v=JgwBecM_E6Q), but not quite such a beautiful one
+> as [Mme. l'élephan](https://github.com/elefan-grenoble/gestion-compte). Tapir is
+> badass, [but not quite as badass as the other animals](https://www.youtube.com/watch?v=zJm6nDnR2SE). Let's teach Tapir
+> some tricks!
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Getting started
+
+### Prerequisites
+- Docker
+- [Poetry](https://python-poetry.org/docs/)
+
+Please note that while the actual program runs in a Docker container, you're adviced to install packages locally in order to use your IDE properly. For that you need a C Compiler such as gcc for Linux or the Visual C++ Build tools.
+### Install
+
+1. Clone the project.
+2. Configure our pre-commit hooks: `poetry install && pre-commit install`
+
+### Setup
+
+Start by running:
+
+```sh
+docker compose up
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+This starts a container with an LDAP server and automatically loads the test data into the LDAP.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+For local development and testing, set up the test database and load test data
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```sh
+# Create tables
+docker compose exec web poetry run python manage.py migrate
+# Load admin (password: admin) account
+docker compose exec web poetry run python manage.py loaddata admin_account
+# Load lots of test users & shifts
+docker compose exec web poetry run python manage.py generate_test_data --reset_all
 ```
+
+You then can find the local instance of Tapir at [http://localhost:8000](http://localhost:8000). Login with username and
+password `roberto.cortes` to get started.
+For more information, have a look at our [:book: Documentation](CONTRIBUTING.md#documentation).
+
+## Contributing
+
+This is an active open-source project, so you can get involved in it easily!
+You can do so **without any programming or Python knowledge**! Just choose a task that you like.
+
+1. [:bug: Report issues or :bulb: suggest new features](CONTRIBUTING.md#report-issues-or-suggest-new-features)
+2. [:computer: Contribute Code](CONTRIBUTING.md#contribute-code)
+3. [:earth_africa: Translate Tapir](CONTRIBUTING.md#translate-tapir)
+4. [:book: Improve Documentation](CONTRIBUTING.md#documentation)
+5. [:apple: Become a part of SuperCoop e.G.](https://supercoop.de/en/joinus/)
+
+## Troubleshooting
+
+* On macOS, in order to set up a local Python `venv`, you might have to install Postgresql to get `psycopg2` working.
+  Use `brew install postgresql` for that. 

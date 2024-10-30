@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-21 10:37+0200\n"
+"POT-Creation-Date: 2024-10-30 17:18+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -44,12 +44,12 @@ msgstr ""
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:71 coop/models.py:68 coop/models.py:471
+#: accounts/models.py:71 coop/models.py:68 coop/models.py:472
 msgid "Pronouns"
 msgstr "Pronomen"
 
 #: accounts/models.py:72 accounts/templates/accounts/user_detail.html:66
-#: coop/models.py:70 coop/models.py:473
+#: coop/models.py:70 coop/models.py:474
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
 #: coop/templates/coop/shareowner_detail.html:51
@@ -57,34 +57,33 @@ msgid "Phone number"
 msgstr "Telefonnummer"
 
 #: accounts/models.py:73 accounts/templates/accounts/user_detail.html:76
-#: coop/models.py:71 coop/models.py:474
+#: coop/models.py:71 coop/models.py:475
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:74 coop/models.py:72 coop/models.py:475
+#: accounts/models.py:74 coop/models.py:72 coop/models.py:476
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:75 coop/models.py:73 coop/models.py:476
+#: accounts/models.py:75 coop/models.py:73 coop/models.py:477
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:76 coop/models.py:74 coop/models.py:477
+#: accounts/models.py:76 coop/models.py:74 coop/models.py:478
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:77 coop/models.py:75 coop/models.py:478
+#: accounts/models.py:77 coop/models.py:75 coop/models.py:479
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:78 coop/models.py:76 coop/models.py:479
+#: accounts/models.py:78 coop/models.py:76 coop/models.py:480
 msgid "Country"
 msgstr "Land"
 
 #: accounts/models.py:79 accounts/templates/accounts/user_detail.html:110
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:90
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
@@ -93,7 +92,7 @@ msgid "Allow purchase tracking"
 msgstr ""
 
 #: accounts/models.py:95 accounts/templates/accounts/user_detail.html:96
-#: coop/models.py:79 coop/models.py:482
+#: coop/models.py:79 coop/models.py:483
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
@@ -240,8 +239,8 @@ msgstr ""
 
 #: accounts/templates/accounts/purchase_tracking_card.html:29
 #: coop/templates/coop/draftuser_detail.html:235
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:167
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:171
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:173
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:177
 msgid "Yes,No"
 msgstr ""
 
@@ -253,7 +252,7 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: accounts/templates/accounts/user_detail.html:19 coop/models.py:745
+#: accounts/templates/accounts/user_detail.html:19 coop/models.py:746
 #: coop/templates/coop/draftuser_detail.html:86
 #: coop/templates/coop/shareowner_detail.html:10 log/views.py:94
 #: log/views.py:152 shifts/templates/shifts/shift_day_printable.html:55
@@ -278,15 +277,14 @@ msgstr "Benutzername bearbeiten"
 #: coop/templates/coop/draftuser_detail.html:242
 #: coop/templates/coop/membershipresignation_detail.html:97
 #: coop/templates/coop/shareowner_detail.html:30
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:21
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:89
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:112
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:23
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:95
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:118
 #: core/templates/core/featureflag_list.html:30
 #: shifts/templates/shifts/shift_detail.html:44
 #: shifts/templates/shifts/shift_template_detail.html:25
 #: shifts/templates/shifts/shift_template_detail.html:113
 #: shifts/templates/shifts/user_shifts_overview_tag.html:14
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:98
 msgid "Edit"
 msgstr "Bearbeiten"
 
@@ -302,7 +300,6 @@ msgstr "Name und Pronomen bearbeiten"
 #: core/templates/core/featureflag_list.html:18
 #: financingcampaign/templates/financingcampaign/general.html:25
 #: financingcampaign/templates/financingcampaign/general.html:70
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:82
 msgid "Name"
 msgstr "Name"
 
@@ -581,7 +578,7 @@ msgstr "Anzahl zu erstellender Anteile"
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:107 coop/models.py:488
+#: coop/forms.py:107 coop/models.py:489
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
@@ -636,19 +633,19 @@ msgstr ""
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:59 coop/models.py:462
+#: coop/models.py:59 coop/models.py:463
 msgid "Administrative first name"
 msgstr "Amtlicher Vorname"
 
-#: coop/models.py:61 coop/models.py:464
+#: coop/models.py:61 coop/models.py:465
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:63 coop/models.py:466
+#: coop/models.py:63 coop/models.py:467
 msgid "Usage name"
 msgstr "Angezeigter Name"
 
-#: coop/models.py:69 coop/models.py:472
+#: coop/models.py:69 coop/models.py:473
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
@@ -656,18 +653,18 @@ msgstr "E-Mail-Adresse"
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:88 coop/models.py:503
+#: coop/models.py:88 coop/models.py:504
 #: coop/templates/coop/draftuser_detail.html:176
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:47
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:166
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:53
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:90 coop/models.py:495
+#: coop/models.py:90 coop/models.py:496
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:92 coop/models.py:500
+#: coop/models.py:92 coop/models.py:501
 msgid "Paid Entrance Fee"
 msgstr "Eintrittsgeld bezahlt"
 
@@ -675,122 +672,122 @@ msgstr "Eintrittsgeld bezahlt"
 msgid "Is willing to gift a share"
 msgstr "Ist bereit Anteile zu verschenken"
 
-#: coop/models.py:205
+#: coop/models.py:206
 msgid "Cannot be a company and have a Tapir account"
 msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
-#: coop/models.py:221
+#: coop/models.py:222
 msgid "User info should be stored in associated Tapir account"
 msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 
-#: coop/models.py:373
+#: coop/models.py:374
 msgid "Not a member"
 msgstr ""
 
-#: coop/models.py:374 coop/templates/coop/draftuser_detail.html:169
+#: coop/models.py:375 coop/templates/coop/draftuser_detail.html:169
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:375 coop/templates/coop/draftuser_detail.html:171
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
+#: coop/models.py:376 coop/templates/coop/draftuser_detail.html:171
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:108
 #: coop/views/statistics.py:142
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:376
+#: coop/models.py:377
 msgid "Paused"
 msgstr "Pausiert"
 
-#: coop/models.py:429
+#: coop/models.py:430
 msgid "Amount paid for a share can't be negative"
 msgstr "Der Betrag kann nicht negative sein"
 
-#: coop/models.py:433
+#: coop/models.py:434
 #, python-brace-format
 msgid "Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
 msgstr "Der Betrag kann nicht mehr als {COOP_SHARE_PRICE} sein"
 
-#: coop/models.py:491
+#: coop/models.py:492
 msgid "Investing member"
 msgstr "Investierendes Mitglied"
 
-#: coop/models.py:498
+#: coop/models.py:499
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:501 coop/templates/coop/draftuser_detail.html:234
+#: coop/models.py:502 coop/templates/coop/draftuser_detail.html:234
 msgid "Paid Shares"
 msgstr "Anteil(e) bezahlt"
 
-#: coop/models.py:558
+#: coop/models.py:559
 msgid "Email address must be set."
 msgstr "Email-Adresse muss gesetzt sein."
 
-#: coop/models.py:560
+#: coop/models.py:561
 msgid "First name must be set."
 msgstr "Vorname muss gesetzt sein."
 
-#: coop/models.py:562
+#: coop/models.py:563
 msgid "Last name must be set."
 msgstr "Nachname muss gesetzt sein."
 
-#: coop/models.py:566
+#: coop/models.py:567
 msgid "Membership agreement must be signed."
 msgstr "Mitgliedsantrag muss unterschrieben sein."
 
-#: coop/models.py:568
+#: coop/models.py:569
 msgid "Amount of requested shares must be positive."
 msgstr "Die Anzahl der erwünschten Anteile muss positiv sein."
 
-#: coop/models.py:570
+#: coop/models.py:571
 msgid "Member already created."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/models.py:597
+#: coop/models.py:598
 msgid "Paying member"
 msgstr "Zahlendes Mitglied"
 
-#: coop/models.py:605
+#: coop/models.py:606
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:612
+#: coop/models.py:613
 msgid "Amount"
 msgstr "Betrag"
 
-#: coop/models.py:618
+#: coop/models.py:619
 msgid "Payment date"
 msgstr "Zahldatum"
 
-#: coop/models.py:621
+#: coop/models.py:622
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
-#: coop/models.py:626
+#: coop/models.py:627
 msgid "Created by"
 msgstr "Erstellt durch"
 
-#: coop/models.py:795
+#: coop/models.py:796
 msgid "The cooperative buys the shares back from the member"
 msgstr ""
 
-#: coop/models.py:798
+#: coop/models.py:799
 #, fuzzy
 #| msgid "Number of shares to create"
 msgid "The member gifts the shares to the cooperative"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/models.py:800
+#: coop/models.py:801
 msgid "The shares get transferred to another member"
 msgstr ""
 
-#: coop/models.py:805
+#: coop/models.py:806
 #, fuzzy
 #| msgid "Edit shareowner"
 msgid "Shareowner"
 msgstr "Mitglied bearbeiten"
 
-#: coop/models.py:821
+#: coop/models.py:822
 msgid "Leave this empty if the resignation type is not a transfer to another member"
 msgstr ""
 
@@ -833,7 +830,7 @@ msgstr ""
 
 #: coop/templates/coop/confirm_delete_incoming_payment.html:31
 #: coop/templates/coop/confirm_delete_share_ownership.html:24
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:126
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:132
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:24
 msgid "Delete"
 msgstr "Löschen"
@@ -898,8 +895,8 @@ msgid "List of similar members"
 msgstr "Liste alle E-Mails"
 
 #: coop/templates/coop/draftuser_detail.html:69
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:30
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:87
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:36
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:93
 #: coop/views/shareowner.py:583
 #: shifts/templates/shifts/user_shifts_overview_tag.html:21
 msgid "Status"
@@ -923,7 +920,7 @@ msgid "Shares requested"
 msgstr "Angeforderte Anteile"
 
 #: coop/templates/coop/draftuser_detail.html:190
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:52
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
 #: shifts/models.py:44
 msgid "Welcome Session"
 msgstr "Willkommenstreffen"
@@ -1017,7 +1014,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:21
-#: statistics/views/main_view.py:301
+#: statistics/views/main_view.py:304
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -1856,7 +1853,7 @@ msgid "General Tapir Accounts"
 msgstr "Tapir-Konto erstellen"
 
 #: coop/templates/coop/incoming_payment_list.html:9
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:159
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:165
 msgid "Payments"
 msgstr "Zahlungen"
 
@@ -2182,7 +2179,7 @@ msgstr ""
 msgid "Number of co-purchasers per month"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:8
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:10
 #, python-format
 msgid ""
 "\n"
@@ -2193,11 +2190,11 @@ msgstr ""
 "                    Mitglied #%(coop_share_owner_id)s\n"
 "                "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:16
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:18
 msgid "Membership confirmation"
 msgstr "Mitgliedsbestätigung"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:34
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:40
 #, python-format
 msgid ""
 "\n"
@@ -2205,7 +2202,7 @@ msgid ""
 "                        "
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:39
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:45
 #, python-format
 msgid ""
 "\n"
@@ -2213,43 +2210,43 @@ msgid ""
 "                        "
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:55
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:61
 #: shifts/models.py:924 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:272
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:57
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:63
 #: shifts/models.py:923
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:64
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:70
 msgid "Mark Attended"
 msgstr "Als teilgenommen markieren"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:73
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:79
 msgid "Owned shares"
 msgstr "Anteile"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:81
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:87
 msgid "List of shares owned by this member"
 msgstr "Liste der Anteile die dieses Mitglied gehören"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:85
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:91
 msgid "Starts at"
 msgstr "Anfangsdatum"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:86
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:92
 msgid "Ends at"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:104
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:110
 msgid "Sold or future"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:129
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:135
 msgid ""
 "\n"
 "                                                            Only use this to correct mistakes, i.e. if the share was\n"
@@ -2263,19 +2260,19 @@ msgstr ""
 "Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als 'verkauft'.\n"
 " "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:152
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:158
 msgid "Add Shares"
 msgstr "Anteile hinzufügen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:170
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:176
 msgid "Willing to gift a share"
 msgstr "Bereit Anteile zu schenken"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:180
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:186
 msgid "Send membership confirmation email"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:185
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:191
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
@@ -2429,7 +2426,7 @@ msgstr "Hat unbezahlte Anteile"
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:637 welcomedesk/views.py:54
+#: coop/views/shareowner.py:637
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
@@ -2532,11 +2529,11 @@ msgstr ""
 msgid "Flag value"
 msgstr ""
 
-#: core/templates/core/base.html:71
+#: core/templates/core/base.html:75
 msgid "Use this form to search for members"
 msgstr "Benutze dieses Formular, um nach Mitgliedern zu suchen"
 
-#: core/templates/core/base.html:72
+#: core/templates/core/base.html:76
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
@@ -4470,7 +4467,7 @@ msgid "Main statistics"
 msgstr "Hauptstatistik"
 
 #: statistics/templates/statistics/main_statistics.html:19
-#: statistics/views/main_view.py:260
+#: statistics/views/main_view.py:263
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
@@ -4567,7 +4564,7 @@ msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:118
 #: statistics/templates/statistics/main_statistics.html:129
-#: statistics/views/main_view.py:377
+#: statistics/views/main_view.py:380
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
@@ -4643,6 +4640,26 @@ msgstr "Erstellungsdatum"
 msgid "Number of shifts by category"
 msgstr "Anzahl zu erstellender Anteile"
 
+#: statistics/templates/statistics/stats_for_marie.html:9
+#, fuzzy
+#| msgid "Statistics on shares"
+msgid "Stats for Marie"
+msgstr "Anteile-Statistiken"
+
+#: statistics/templates/statistics/stats_for_marie.html:20
+#: statistics/templates/statistics/stats_for_marie.html:26
+#, fuzzy
+#| msgid "New members per month"
+msgid "Number of frozen members per month"
+msgstr "Neue Mitglieder*innen pro Monat"
+
+#: statistics/templates/statistics/stats_for_marie.html:33
+#: statistics/templates/statistics/stats_for_marie.html:39
+#, fuzzy
+#| msgid "Current number of purchasing members"
+msgid "Number of purchasing members per month"
+msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
+
 #: statistics/templates/statistics/tags/on_demand_chart.html:5
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
@@ -4674,19 +4691,19 @@ msgstr ""
 msgid "Evolution of total spends per month"
 msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:332
+#: statistics/views/main_view.py:335
 msgid "Total spends per month"
 msgstr "Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:377
+#: statistics/views/main_view.py:380
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views/main_view.py:395
+#: statistics/views/main_view.py:398
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views/main_view.py:542
+#: statistics/views/main_view.py:550
 msgid "Purchase data updated"
 msgstr "Kaufdaten aktualisiert"
 
@@ -5675,39 +5692,44 @@ msgid "NO NAME AVAILABLE"
 msgstr ""
 
 #: welcomedesk/apps.py:17 welcomedesk/apps.py:20
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:13
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:17
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:12
+#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:14
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:25
-msgid "Search"
-msgstr "Suchen"
+#: welcomedesk/serializers.py:72
+#, fuzzy, python-format
+#| msgid ""
+#| "%(name)s is not registered to an\n"
+#| "                        ABCD shift yet. Make sure they plan to do it!"
+msgid "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do it!"
+msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass er*sie es entsprechend einplant!"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:28
-#, python-format
-msgid ""
-"%(name)s can shop\n"
-"                        :)"
-msgstr "%(name)s kann einkaufen :)"
+#: welcomedesk/serializers.py:80
+#, fuzzy, python-format
+#| msgid ""
+#| "%(name)s has not attended a welcome\n"
+#| "                        session yet. Make sure they plan to do it!"
+msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
+msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:34
-#, python-format
-msgid ""
-"%(name)s does not have a Tapir\n"
-"                            account. Contact a member of the management team."
+#: welcomedesk/serializers.py:93
+#, fuzzy, python-format
+#| msgid ""
+#| "%(name)s does not have a Tapir\n"
+#| "                            account. Contact a member of the management team."
+msgid "%(name)s does not have a Tapir account. Contact a member of the management team."
 msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:42
-#, python-format
-msgid ""
-"%(name)s is an investing member.\n"
-"                            If they want to shop, they have to become an active member. Contact a member of the\n"
-"                            management team."
+#: welcomedesk/serializers.py:100
+#, fuzzy, python-format
+#| msgid ""
+#| "%(name)s is an investing member.\n"
+#| "                            If they want to shop, they have to become an active member. Contact a member of the\n"
+#| "                            management team."
+msgid "%(name)s is an investing member. If they want to shop, they have to become an active member. Contact a member of the management team."
 msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss es ein aktives Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:49
+#: welcomedesk/serializers.py:114
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -5715,43 +5737,32 @@ msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss 
 #| "                                therefore\n"
 #| "                                not eligible to purchase again until they sign up for the appropriate make-up shifts.\n"
 #| "                            "
-msgid ""
-"\n"
-"                            %(name)s has been frozen because they missed too many shifts. <br />\n"
-"                            If they want to shop, they must first be re-activated. <br />\n"
-"                            Contact a member of the management team.\n"
-"                        "
+msgid "%(name)s has been frozen because they missed too many shifts.If they want to shop, they must first be re-activated.Contact a member of the management team."
 msgstr ""
 "\n"
 "Alle Mitglieder, die als aktives Mitglied eingetragen sind, aber 4 oder mehr Schichten im Minus sind und deshalb erst wieder einkaufsberechtigt sind, wenn sie sich für die entsprechenden Nachholschichten eintragen.\n"
 "\n"
 " "
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:58
-#, python-format
-msgid ""
-"\n"
-"                            %(name)s has paused their membership. Contact a member of the management team.\n"
-"                        "
-msgstr ""
+#: welcomedesk/serializers.py:123
+#, fuzzy, python-format
+#| msgid ""
+#| "%(name)s does not have a Tapir\n"
+#| "                            account. Contact a member of the management team."
+msgid "%(name)s has paused their membership. Contact a member of the management team."
+msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:68
-#, python-format
-msgid ""
-"%(name)s is not registered to an\n"
-"                        ABCD shift yet. Make sure they plan to do it!"
-msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass er*sie es entsprechend einplant!"
+#~ msgid "Search"
+#~ msgstr "Suchen"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:76
 #, python-format
-msgid ""
-"%(name)s has not attended a welcome\n"
-"                        session yet. Make sure they plan to do it!"
-msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+#~ msgid ""
+#~ "%(name)s can shop\n"
+#~ "                        :)"
+#~ msgstr "%(name)s kann einkaufen :)"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:86
-msgid "Member ID"
-msgstr "Mitglieds-ID"
+#~ msgid "Member ID"
+#~ msgstr "Mitglieds-ID"
 
 #~ msgid "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
 #~ msgstr "Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen oder ./-/_ verwenden."
@@ -6034,9 +6045,6 @@ msgstr "Mitglieds-ID"
 #~| msgid "Total number of members"
 #~ msgid "Number of members"
 #~ msgstr "Gesamte Mitgliederzahl"
-
-#~ msgid "Current number of purchasing members"
-#~ msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
 
 #~ msgid "Required number of purchasing members to reach break-even"
 #~ msgstr "Erforderliche Anzahl von einkaufsberechtigten Mitglieder*innen, um den Break-Even zu erreichen"
