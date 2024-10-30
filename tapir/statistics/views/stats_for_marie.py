@@ -78,6 +78,9 @@ class NumberOfFrozenMembersPerMonthJsonView(
         # we want the end of each month rather than the first of the month
         dates = [date - datetime.timedelta(days=1) for date in dates]
 
+        # limit to 6 month to avoid time out
+        dates = dates[-6:]
+
         return dates
 
     @staticmethod
