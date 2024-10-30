@@ -84,4 +84,14 @@ urlpatterns = [
         views.NumberOfFrozenMembersPerMonthCsvView.as_view(),
         name="number_of_frozen_members_per_month_csv",
     ),
+    path(
+        "number_of_purchasing_members_per_month_json",
+        views.NumberOfPurchasingMembersPerMonthJsonView.as_view(),
+        name="number_of_purchasing_members_per_month_json",
+    ),
+    path(
+        "number_of_purchasing_members_per_month_csv",
+        views.NumberOfPurchasingMembersPerMonthCsvView.as_view(),
+        name="number_of_purchasing_members_per_month_csv",
+    ),
 ]
