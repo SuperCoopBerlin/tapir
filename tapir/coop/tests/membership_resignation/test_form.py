@@ -38,7 +38,6 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             "paid_out": resignation.paid_out,
         }
         form = MembershipResignationForm(data=data)
-        ic(form.errors)
         self.assertTrue(form.is_valid())
 
     def test_validate_share_owner(self):

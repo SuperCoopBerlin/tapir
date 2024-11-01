@@ -1,6 +1,7 @@
 import datetime
 from http import HTTPStatus
 from unittest.mock import patch, Mock
+from icecream import ic
 
 from django.core import mail
 from django.urls import reverse
@@ -12,11 +13,15 @@ from tapir.coop.emails.membershipresignation_confirmation_email import (
 from tapir.coop.emails.membershipresignation_transferred_shares_confirmation import (
     MembershipResignationTransferredSharesConfirmation,
 )
-from tapir.coop.models import MembershipResignation, MembershipResignationCreateLogEntry
+from tapir.coop.models import (
+    MembershipResignation,
+    MembershipResignationCreateLogEntry,
+    TapirUser,
+)
 from tapir.coop.services.MembershipResignationService import (
     MembershipResignationService,
 )
-from tapir.coop.tests.factories import ShareOwnerFactory
+from tapir.coop.tests.factories import ShareOwnerFactory, MembershipResignationFactory
 from tapir.utils.tests_utils import (
     FeatureFlagTestMixin,
     TapirFactoryTestBase,
@@ -53,12 +58,12 @@ class TestMembershipResignationCreateView(
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
 
     def create_default_resignation(self):
-        member_to_resign = ShareOwnerFactory.create()
+        share_owner = ShareOwnerFactory.create()
         actor = self.login_as_member_office_user()
         response = self.client.post(
             reverse("coop:resign_new_membership"),
             data={
-                "share_owner": member_to_resign.id,
+                "share_owner": share_owner.id,
                 "cancellation_reason": "Test resignation",
                 "cancellation_date": self.TODAY,
                 "resignation_type": MembershipResignation.ResignationType.GIFT_TO_COOP,
@@ -66,6 +71,7 @@ class TestMembershipResignationCreateView(
             follow=True,
         )
         self.assertStatusCode(response, HTTPStatus.OK)
+        member_to_resign = MembershipResignation.objects.last()
         return member_to_resign, actor
 
     @patch.object(MembershipResignationService, "delete_shareowner_membershippauses")
@@ -75,14 +81,13 @@ class TestMembershipResignationCreateView(
         mock_delete_shareowner_membershippauses: Mock,
         mock_update_shifts_and_shares: Mock,
     ):
-        member_to_resign, _ = self.create_default_resignation()
-
+        self.create_default_resignation()
         self.assertEqual(1, MembershipResignation.objects.count())
         mock_delete_shareowner_membershippauses.assert_called_once()
         mock_update_shifts_and_shares.assert_called_once()
 
     def test_membershipResignationCreateView_default_logEntryCreated(self):
-        member_to_resign, actor = self.create_default_resignation()
+        _, actor = self.create_default_resignation()
 
         self.assertEqual(1, MembershipResignationCreateLogEntry.objects.count())
         log_entry = MembershipResignationCreateLogEntry.objects.get()
@@ -96,7 +101,9 @@ class TestMembershipResignationCreateView(
         self.assertEqual(1, len(mail.outbox))
         sent_mail = mail.outbox[0]
         self.assertEmailOfClass_GotSentTo(
-            MembershipResignationConfirmation, member_to_resign.email, sent_mail
+            MembershipResignationConfirmation,
+            member_to_resign.share_owner.email,
+            sent_mail,
         )
 
     def test_membershipResignationCreateView_sharesTransferred_shareRecipientAlsoReceivesMails(
@@ -135,15 +142,30 @@ class TestMembershipResignationCreateView(
     def test_membershipResignationCreateView_default_payOutDayIsSetCorrectly(self):
         member_to_resign, _ = self.create_default_resignation()
 
-        resignation = MembershipResignation.objects.get()
-        self.assertEqual(self.TODAY, resignation.pay_out_day)
+        self.assertEqual(self.TODAY, member_to_resign.pay_out_day)
 
     def test_membershipResignationCreateView_resignationTypeBuyBack_payOutDayIsSetCorrectly(
         self,
     ):
-        member_to_resign, _ = self.create_default_resignation()
-
-        resignation = MembershipResignation.objects.get()
+        self.login_as_member_office_user()
+        share_owner = ShareOwnerFactory.create()
+        response = self.client.post(
+            reverse("coop:resign_new_membership"),
+            data={
+                "share_owner": share_owner.id,
+                "cancellation_reason": "Test resignation",
+                "cancellation_date": self.TODAY,
+                "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
+            },
+            follow=True,
+        )
+        self.assertStatusCode(response, HTTPStatus.OK)
+        member_to_resign = MembershipResignation.objects.last()
         self.assertEqual(
-            datetime.date(year=2027, month=12, day=31), resignation.pay_out_day
+            member_to_resign.cancellation_date.replace(
+                year=member_to_resign.cancellation_date.year + 3,
+                month=12,
+                day=31,
+            ),
+            member_to_resign.pay_out_day,
         )

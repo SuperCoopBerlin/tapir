@@ -309,9 +309,12 @@ class MembershipResignationForm(forms.ModelForm):
         return cleaned_data
 
     def validate_share_owner(self, share_owner):
-        if MembershipResignation.objects.filter(
-            share_owner__id=share_owner.id
-        ).exists():
+        if (
+            self.instance.pk is None
+            and MembershipResignation.objects.filter(
+                share_owner__id=share_owner.id
+            ).exists()
+        ):
             self.add_error(
                 "share_owner",
                 ValidationError(_("This member is already resigned.")),

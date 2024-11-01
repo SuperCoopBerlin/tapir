@@ -28,8 +28,12 @@ class MembershipResignationService:
                 shares.update(end_date=new_end_date)
                 return
             case MembershipResignation.ResignationType.GIFT_TO_COOP:
+                resignation.pay_out_day = resignation.cancellation_date
+                resignation.save()
                 shares.update(end_date=resignation.cancellation_date)
             case MembershipResignation.ResignationType.TRANSFER:
+                resignation.pay_out_day = resignation.cancellation_date
+                resignation.save()
                 shares_to_create = [
                     ShareOwnership(
                         share_owner=resignation.transferring_shares_to,

@@ -84,7 +84,6 @@ class MembershipPauseFactory(factory.django.DjangoModelFactory):
 class MembershipResignationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = MembershipResignation
-        exclude = "pay_out_day"
 
     share_owner = factory.SubFactory(ShareOwnerFactory)
     cancellation_reason = factory.Faker("sentence")

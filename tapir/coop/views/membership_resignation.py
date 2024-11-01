@@ -221,9 +221,7 @@ class MembershipResignationEditView(
                     model=form.instance,
                     actor=self.request.user,
                 ).save()
-
         return result
-
 
 class MembershipResignationCreateView(
     LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
@@ -290,15 +288,24 @@ class MembershipResignationDetailView(
 
 
 class MembershipResignationRemoveFromListView(
-    LoginRequiredMixin, PermissionRequiredMixin, DeleteView
+    LoginRequiredMixin, PermissionRequiredMixin, DeleteView, UpdateViewLogMixin,
 ):
     model = MembershipResignation
     permission_required = PERMISSION_COOP_MANAGE
     success_url = reverse_lazy("coop:resigned_members_list")
 
     def form_valid(self, form):
+        result = super().form_valid(form)
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
             raise PermissionDenied("The membership resignation feature is disabled.")
 
         MembershipResignationService.delete_end_dates(self.get_object())
-        return super().form_valid(form)
+        new_frozen = freeze_for_log(self.get_object())
+        if self.old_object_frozen != new_frozen:
+            MembershipResignationUpdateLogEntry().populate(
+                old_frozen=self.old_object_frozen,
+                new_frozen=new_frozen,
+                model=self.get_object(),
+                actor=self.request.user,
+            ).save()
+        return result
