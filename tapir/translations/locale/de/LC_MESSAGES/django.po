@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-30 17:18+0100\n"
+"POT-Creation-Date: 2024-11-05 11:17+0100\n"
 "PO-Revision-Date: 2024-11-05 11:05+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2527,11 +2527,11 @@ msgstr ""
 msgid "Flag value"
 msgstr ""
 
-#: core/templates/core/base.html:75
+#: core/templates/core/base.html:76
 msgid "Use this form to search for members"
 msgstr "Benutze dieses Formular, um nach Mitgliedern zu suchen"
 
-#: core/templates/core/base.html:76
+#: core/templates/core/base.html:77
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
