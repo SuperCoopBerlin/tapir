@@ -74,7 +74,7 @@ class WelcomeDeskReasonsCannotShopService:
     @staticmethod
     def should_show_frozen_reason(share_owner: ShareOwner, reference_date, **_):
         return (
-            share_owner.user
+            share_owner.user is not None
             and ShiftAttendanceModeService.get_attendance_mode(
                 share_owner, reference_date
             )
