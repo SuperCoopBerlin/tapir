@@ -1,4 +1,5 @@
 import datetime
+from dateutil.relativedelta import relativedelta
 
 from django.db import transaction
 
@@ -14,35 +15,37 @@ from tapir.utils.shortcuts import get_timezone_aware_datetime
 class MembershipResignationService:
     @staticmethod
     @transaction.atomic
-    def update_shifts_and_shares(resignation: MembershipResignation):
+    def update_shifts_and_shares_and_pay_out_day(resignation: MembershipResignation):
         tapir_user: TapirUser = getattr(resignation.share_owner, "user", None)
 
         shares = ShareOwnership.objects.filter(share_owner=resignation.share_owner)
 
         match resignation.resignation_type:
             case MembershipResignation.ResignationType.BUY_BACK:
-                new_end_date = resignation.cancellation_date.replace(day=31, month=12)
-                new_end_date = new_end_date.replace(year=new_end_date.year + 3)
+                new_end_date = resignation.cancellation_date+relativedelta(years=+3, day=31, month=12)
                 resignation.pay_out_day = new_end_date
                 resignation.save()
-                shares.update(end_date=new_end_date)
+                if shares.exists():
+                    shares.update(end_date=new_end_date)
                 return
             case MembershipResignation.ResignationType.GIFT_TO_COOP:
                 resignation.pay_out_day = resignation.cancellation_date
                 resignation.save()
-                shares.update(end_date=resignation.cancellation_date)
+                if shares.exists():
+                    shares.update(end_date=resignation.cancellation_date)
             case MembershipResignation.ResignationType.TRANSFER:
                 resignation.pay_out_day = resignation.cancellation_date
                 resignation.save()
-                shares_to_create = [
-                    ShareOwnership(
-                        share_owner=resignation.transferring_shares_to,
-                        start_date=resignation.cancellation_date,
-                    )
-                    for _ in shares
-                ]
-                ShareOwnership.objects.bulk_create(shares_to_create)
-                shares.update(end_date=resignation.cancellation_date)
+                if shares.exists():
+                    shares_to_create = [
+                        ShareOwnership(
+                            share_owner=resignation.transferring_shares_to,
+                            start_date=resignation.cancellation_date,
+                        )
+                        for _ in shares
+                    ]
+                    ShareOwnership.objects.bulk_create(shares_to_create)
+                    shares.update(end_date=resignation.cancellation_date)
             case _:
                 raise ValueError(
                     f"Unknown resignation type: {resignation.resignation_type}"

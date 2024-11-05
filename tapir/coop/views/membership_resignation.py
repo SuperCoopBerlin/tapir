@@ -213,6 +213,8 @@ class MembershipResignationEditView(
     def form_valid(self, form):
         with transaction.atomic():
             result = super().form_valid(form)
+            membership_resignation: MembershipResignation = form.instance
+            MembershipResignationService.update_shifts_and_shares_and_pay_out_day(resignation=membership_resignation)
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
                 MembershipResignationUpdateLogEntry().populate(

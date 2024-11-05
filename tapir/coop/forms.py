@@ -1,4 +1,3 @@
-from dateutil.relativedelta import relativedelta
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import DateField, IntegerField
@@ -289,7 +288,6 @@ class MembershipResignationForm(forms.ModelForm):
         cleaned_data = super().clean()
         share_owner: ShareOwner = cleaned_data.get("share_owner")
         resignation_type = cleaned_data.get("resignation_type")
-        cancellation_date = cleaned_data.get("cancellation_date")
         transferring_shares_to = cleaned_data.get("transferring_shares_to")
         paid_out = cleaned_data.get("paid_out")
 
@@ -297,14 +295,6 @@ class MembershipResignationForm(forms.ModelForm):
         self.validate_transfer_choice(resignation_type, transferring_shares_to)
         self.validate_duplicates(share_owner, transferring_shares_to)
         self.validate_if_gifted(resignation_type, paid_out)
-
-        if resignation_type == MembershipResignation.ResignationType.BUY_BACK:
-            self.cleaned_data["pay_out_day"] = cancellation_date + relativedelta(
-                day=31, month=12, years=3
-            )
-        else:
-            self.cleaned_data["pay_out_day"] = cancellation_date
-            self.cleaned_data["paid_out"] = True
 
         return cleaned_data
 
