@@ -21,8 +21,6 @@ const WelcomeDeskSearch: React.FC = () => {
     useState<ShareOwnerForWelcomeDesk | null>(null);
   const api = useApi(WelcomedeskApi);
 
-  const test = gettext("this is to be translated");
-
   useEffect(() => {
     updateSearchResults();
   }, [searchInput]);
@@ -32,6 +30,17 @@ const WelcomeDeskSearch: React.FC = () => {
     setLoading(false);
     setError("");
     setSelectedMember(null);
+  }
+
+  function buildErrorMessage(searchInput: string) {
+    return (
+      gettext(
+        "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: ",
+      ) +
+      "'" +
+      searchInput +
+      "'"
+    );
   }
 
   function updateSearchResults() {
@@ -62,11 +71,7 @@ const WelcomeDeskSearch: React.FC = () => {
       })
       .catch((error: FetchError) => {
         if (error.cause && error.cause.name === "AbortError") return;
-        setError(
-          "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: '" +
-            searchInput +
-            "'",
-        );
+        setError(buildErrorMessage(searchInput));
         console.log(error);
         setLoading(false);
       });
@@ -76,7 +81,7 @@ const WelcomeDeskSearch: React.FC = () => {
     if (!searchInput) {
       return (
         <Alert variant={"primary"}>
-          Use the search field on the top right.
+          {gettext("Use the search field on the top right.")}
         </Alert>
       );
     }
@@ -93,8 +98,8 @@ const WelcomeDeskSearch: React.FC = () => {
       <Table striped hover responsive>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Can shop</th>
+            <th>{gettext("Name")}</th>
+            <th>{gettext("Can shop")}</th>
           </tr>
         </thead>
         <tbody>
@@ -108,7 +113,7 @@ const WelcomeDeskSearch: React.FC = () => {
               style={{ cursor: "pointer" }}
             >
               <td>{member.displayName}</td>
-              <td>{member.canShop ? "Yes" : "No"}</td>
+              <td>{member.canShop ? gettext("Yes") : gettext("No")}</td>
             </tr>
           ))}
         </tbody>
@@ -132,10 +137,10 @@ const WelcomeDeskSearch: React.FC = () => {
             alignItems: "center",
           }}
         >
-          <h5>Welcome Desk {test}</h5>
+          <h5>{gettext("Welcome Desk")}</h5>
           <Form.Group>
             <Form.Control
-              placeholder={"Name or member ID"}
+              placeholder={gettext("Name or member ID")}
               onChange={(changeEvent) =>
                 setSearchInput(changeEvent.target.value)
               }
@@ -147,11 +152,16 @@ const WelcomeDeskSearch: React.FC = () => {
       {selectedMember !== null && (
         <Card className={"text-bg-" + getDetailCardColor(selectedMember)}>
           <Card.Header>
-            <h5>Member details</h5>
+            <h5>{gettext("Member details")}</h5>
           </Card.Header>
           <Card.Body>
-            <div>Member: {selectedMember.displayName}</div>
-            <div>Can shop: {selectedMember.canShop ? "yes" : "no"}</div>
+            <div>
+              {gettext("Member")}: {selectedMember.displayName}
+            </div>
+            <div>
+              {gettext("Can shop")}:{" "}
+              {selectedMember.canShop ? gettext("yes") : gettext("no")}
+            </div>
             {selectedMember.warnings.length > 0 && (
               <div>
                 Warnings:{" "}
@@ -164,7 +174,7 @@ const WelcomeDeskSearch: React.FC = () => {
             )}
             {selectedMember.reasonsCannotShop.length > 0 && (
               <div>
-                Why this member cannot shop:{" "}
+                {gettext("Why this member cannot shop: ")}
                 <ul>
                   {selectedMember.reasonsCannotShop.map((reason, index) => {
                     return <li key={index}>{reason}</li>;
@@ -173,8 +183,10 @@ const WelcomeDeskSearch: React.FC = () => {
               </div>
             )}
             <div>
-              Co-purchaser:{" "}
-              {selectedMember.coPurchaser ? selectedMember.coPurchaser : "None"}
+              {gettext("Co-purchaser: ")}
+              {selectedMember.coPurchaser
+                ? selectedMember.coPurchaser
+                : gettext("None")}
             </div>
           </Card.Body>
         </Card>

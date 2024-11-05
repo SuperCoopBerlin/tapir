@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-30 17:46+0100\n"
+"POT-Creation-Date: 2024-11-05 10:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,66 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-#: dist/assets/welcome_desk-BTuYS5Tv.js:1
-msgid "this is to be translated"
-msgstr "Eine Übersetzung"
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Use the search field on the top right."
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Name"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Can shop"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Yes"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "No"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Welcome Desk"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Name or member ID"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Member details"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Member"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "yes"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "no"
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Why this member cannot shop: "
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "Co-purchaser: "
+msgstr ""
+
+#: dist/assets/welcome_desk-W5G89EQp.js:1
+msgid "None"
+msgstr ""
+
+#~ msgid "this is to be translated"
+#~ msgstr "Eine Übersetzung"
