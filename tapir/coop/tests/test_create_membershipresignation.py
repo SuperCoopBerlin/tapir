@@ -27,7 +27,7 @@ class TestCreateMembershipResignation(TapirFactoryTestBase):
                 "share_owner": ShareOwnerFactory.create().id,
                 "cancellation_date": datetime.now(),
                 "pay_out_day": datetime.now()
-                + relativedelta(day=31, month=12, years=3),
+                + relativedelta(years=+3, day=31, month=12),
                 "cancellation_reason": resignation.cancellation_reason,
                 "resignation_type": resignation.resignation_type,
                 "transferring_shares_to": ShareOwnerFactory.create().id,

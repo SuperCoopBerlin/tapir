@@ -75,16 +75,18 @@ class TestMembershipResignationCreateView(
         return member_to_resign, actor
 
     @patch.object(MembershipResignationService, "delete_shareowner_membershippauses")
-    @patch.object(MembershipResignationService, "update_shifts_and_shares")
+    @patch.object(
+        MembershipResignationService, "update_shifts_and_shares_and_pay_out_day"
+    )
     def test_membershipResignationCreateView_default_changesApplied(
         self,
         mock_delete_shareowner_membershippauses: Mock,
-        mock_update_shifts_and_shares: Mock,
+        mock_update_shifts_and_shares_and_pay_out_day: Mock,
     ):
         self.create_default_resignation()
         self.assertEqual(1, MembershipResignation.objects.count())
         mock_delete_shareowner_membershippauses.assert_called_once()
-        mock_update_shifts_and_shares.assert_called_once()
+        mock_update_shifts_and_shares_and_pay_out_day.assert_called_once()
 
     def test_membershipResignationCreateView_default_logEntryCreated(self):
         _, actor = self.create_default_resignation()

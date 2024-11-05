@@ -246,7 +246,7 @@ class MembershipResignationCreateView(
     def form_valid(self, form):
         result = super().form_valid(form)
         membership_resignation: MembershipResignation = form.instance
-        MembershipResignationService.update_shifts_and_shares(
+        MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
             resignation=membership_resignation
         )
         MembershipResignationService.delete_shareowner_membershippauses(

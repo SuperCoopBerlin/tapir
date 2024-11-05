@@ -34,7 +34,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         mock_timezone_now(self, self.NOW)
 
-    def test_update_shifts_and_shares(self):
+    def test_update_shifts_and_shares_and_pay_out_day(self):
         resignations = [
             MembershipResignation.ResignationType.BUY_BACK,
             MembershipResignation.ResignationType.GIFT_TO_COOP,
@@ -48,7 +48,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             share_owner=share_owner,
             resignation_type=resignation,
         )
-            MembershipResignationService.update_shifts_and_shares(
+            MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
                         resignation=resignation,
                     )
             shares_after_update = resignation.share_owner.share_ownerships
