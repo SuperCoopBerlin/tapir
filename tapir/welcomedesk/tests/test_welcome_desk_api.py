@@ -49,5 +49,6 @@ class TestWelcomeDeskAPI(TapirFactoryTestBase):
             ],
         )
 
-    def build_url(self, search_input):
+    @staticmethod
+    def build_url(search_input):
         return reverse("welcomedesk:search") + f"?search_input={search_input}"
