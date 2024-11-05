@@ -1,32 +1,21 @@
-import django_filters
-import django_tables2
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
-from django.views import generic
 from django.views.generic import TemplateView
-from django_filters import CharFilter
-from django_filters.views import FilterView
-from django_tables2 import SingleTableView
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from tapir.coop.models import ShareOwner, MembershipPause
-from tapir.coop.services.InvestingStatusService import InvestingStatusService
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
+from tapir.coop.models import ShareOwner
 from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
-from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.settings import PERMISSION_WELCOMEDESK_VIEW
-from tapir.shifts.models import ShiftAttendanceMode, ShiftAttendanceTemplate
-from tapir.shifts.services.shift_attendance_mode_service import (
-    ShiftAttendanceModeService,
-)
-from tapir.utils.shortcuts import get_html_link
-from tapir.utils.user_utils import UserUtils
 from tapir.welcomedesk.serializers import ShareOwnerForWelcomeDeskSerializer
+from tapir.welcomedesk.services.welcome_desk_reasons_cannot_shop_service import (
+    WelcomeDeskReasonsCannotShopService,
+)
+from tapir.welcomedesk.services.welcome_desk_warnings_service import (
+    WelcomeDeskWarningsService,
+)
 
 
 class WelcomeDeskSearchView(PermissionRequiredMixin, TemplateView):
@@ -34,7 +23,9 @@ class WelcomeDeskSearchView(PermissionRequiredMixin, TemplateView):
     template_name = "welcomedesk/welcome_desk_search.html"
 
 
-class SearchMemberForWelcomeDeskView(APIView):
+class SearchMemberForWelcomeDeskView(PermissionRequiredMixin, APIView):
+    permission_required = PERMISSION_WELCOMEDESK_VIEW
+
     @extend_schema(
         responses={200: ShareOwnerForWelcomeDeskSerializer(many=True)},
         parameters=[
@@ -48,7 +39,7 @@ class SearchMemberForWelcomeDeskView(APIView):
         reference_date = reference_time.date()
 
         share_owners = self.get_share_owners(search_input)
-        share_owners = self.optimize_queryset_for_faster_loading_time(
+        share_owners = self.optimize_queryset(
             share_owners, reference_time, reference_date
         )
 
@@ -69,26 +60,18 @@ class SearchMemberForWelcomeDeskView(APIView):
         )
 
     @staticmethod
-    def optimize_queryset_for_faster_loading_time(
-        queryset, reference_time, reference_date
-    ):
-        queryset = queryset.prefetch_related("user", "user__shift_user_data")
-
+    def optimize_queryset(queryset, reference_time, reference_date):
+        queryset = WelcomeDeskWarningsService.optimize_queryset_for_this_service(
+            queryset
+        )
+        queryset = (
+            WelcomeDeskReasonsCannotShopService.optimize_queryset_for_this_service(
+                queryset, reference_time=reference_time, reference_date=reference_date
+            )
+        )
         queryset = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
             queryset, reference_date
         )
-        queryset = (
-            MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
-                queryset, reference_date
-            )
-        )
-        queryset = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
-            queryset, reference_time
-        )
-        queryset = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_date(
-            queryset, reference_date
-        )
-
         return queryset
 
     @staticmethod

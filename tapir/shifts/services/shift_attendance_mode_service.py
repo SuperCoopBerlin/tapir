@@ -40,7 +40,10 @@ class ShiftAttendanceModeService:
 
     @classmethod
     def annotate_shift_user_data_queryset_with_attendance_mode_at_date(
-        cls, queryset: QuerySet, at_date: datetime.date = None
+        cls,
+        queryset: QuerySet,
+        at_date: datetime.date = None,
+        attendance_mode_prefix=None,
     ):
         if at_date is None:
             at_date = timezone.now().date()
@@ -62,7 +65,11 @@ class ShiftAttendanceModeService:
         annotate_kwargs = {
             cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE: Coalesce(
                 "attendance_mode_from_log_entry",
-                "attendance_mode",
+                (
+                    "attendance_mode"
+                    if attendance_mode_prefix is None
+                    else f"{attendance_mode_prefix}__attendance_mode"
+                ),
             ),
             cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_DATE_CHECK: Value(at_date),
         }
@@ -70,32 +77,11 @@ class ShiftAttendanceModeService:
 
     @classmethod
     def annotate_share_owner_queryset_with_attendance_mode_at_date(
-        cls, share_owners: QuerySet, at_date: datetime.date = None
+        cls, queryset: QuerySet, at_date: datetime.date = None
     ):
-        if at_date is None:
-            at_date = timezone.now().date()
-
-        shift_user_datas = ShiftUserData.objects.filter(
-            user__share_owner__in=share_owners
+        return cls.annotate_shift_user_data_queryset_with_attendance_mode_at_date(
+            queryset, at_date, "user__shift_user_data"
         )
-        shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_date(
-            shift_user_datas, at_date
-        )
-        shift_user_datas = {
-            shift_user_data.id: shift_user_data for shift_user_data in shift_user_datas
-        }
-        for share_owner in share_owners:
-            if not share_owner.user:
-                continue
-            cls.transfer_attributes(
-                shift_user_datas[share_owner.user.shift_user_data.id],
-                share_owner.user.shift_user_data,
-                [
-                    ShiftAttendanceModeService.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE,
-                    ShiftAttendanceModeService.ANNOTATION_SHIFT_ATTENDANCE_MODE_DATE_CHECK,
-                ],
-            )
-        return share_owners
 
     @staticmethod
     def transfer_attributes(source, target, attributes):
