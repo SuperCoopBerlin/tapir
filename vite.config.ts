@@ -17,7 +17,6 @@ export default defineConfig(() => {
       outDir: resolve(OUTPUT_DIR),
       rollupOptions: {
         input: {
-          user_page: join(INPUT_DIR, "/user_page/user_page.tsx"),
           welcome_desk: join(INPUT_DIR, "/welcome_desk/welcome_desk.tsx"),
         },
       },
