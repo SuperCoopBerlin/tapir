@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-30 17:18+0100\n"
-"PO-Revision-Date: 2024-10-07 11:12+0200\n"
+"PO-Revision-Date: 2024-11-05 11:05+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -889,10 +889,8 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/draftuser_detail.html:66
-#, fuzzy
-#| msgid "List of all emails"
 msgid "List of similar members"
-msgstr "Liste alle E-Mails"
+msgstr "Liste der ähnlichen Mitglieder"
 
 #: coop/templates/coop/draftuser_detail.html:69
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:36
@@ -3550,14 +3548,7 @@ msgid "Already occupied shifts :"
 msgstr "Schon besetzte Schichten:"
 
 #: shifts/templates/shifts/shift_calendar_future.html:10
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        <p>Below you can find all the upcoming shifts, and who is registered for each shift.</p>\n"
-#| "        <p>You can sign yourself up for any shift that has a free slot here on TAPIR. You may also cancel it yourself if done at least %(nb_days_for_self_unregister)s days before the shift.<br/>\n"
-#| "            When you sign up for one of these shifts, you only commit to the shift on that specific day.</p>\n"
-#| "        <p>To register for a regular ABCD shift you must contact the Member Office.</p>\n"
-#| "    "
+#, python-format
 msgid ""
 "\n"
 "        <p>Below you can find all the upcoming shifts, and who is registered for each shift.</p>\n"
@@ -3567,7 +3558,11 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"<p>Unten findest du alle anstehenden Schichten und wer für die einzelnen Schichten angemeldet ist.</p></p> Du kannst dich für jede Schicht, die einen freien Platz hat, hier auf TAPIR anmelden. Du kannst dich auch selbst abmelden, wenn du dies mindestens %(nb_days_for_self_unregister)s Tage vor der Schicht tust. </p></p>Wenn du dich für eine dieser Schichten anmeldest, verpflichtest du dich nur für die Schicht an diesem bestimmten Tag.</p><p> Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das Mitgliederbüro kontaktieren.</p> "
+"    <p>Unten findest du alle anstehenden Schichten und wer für die einzelnen Schichten angemeldet ist.</p>\n"
+"    </p> Du kannst dich für jede Schicht, die einen freien Platz hat, hier auf TAPIR anmelden. Du kannst dich auch selbst abmelden, wenn du dies mindestens %(nb_days_for_self_unregister)s Tage vor der Schicht tust. </p>\n"
+"    </p>Wenn du dich für eine dieser Schichten anmeldest, verpflichtest du dich nur für die Schicht an diesem bestimmten Tag.</p>\n"
+"    <p> Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das Mitgliederbüro kontaktieren.</p> \n"
+"    "
 
 #: shifts/templates/shifts/shift_calendar_past.html:4
 msgid "Past shifts"
@@ -5697,60 +5692,34 @@ msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
 #: welcomedesk/serializers.py:72
-#, fuzzy, python-format
-#| msgid ""
-#| "%(name)s is not registered to an\n"
-#| "                        ABCD shift yet. Make sure they plan to do it!"
+#, python-format
 msgid "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do it!"
 msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass er*sie es entsprechend einplant!"
 
 #: welcomedesk/serializers.py:80
-#, fuzzy, python-format
-#| msgid ""
-#| "%(name)s has not attended a welcome\n"
-#| "                        session yet. Make sure they plan to do it!"
+#, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
 
 #: welcomedesk/serializers.py:93
-#, fuzzy, python-format
-#| msgid ""
-#| "%(name)s does not have a Tapir\n"
-#| "                            account. Contact a member of the management team."
+#, python-format
 msgid "%(name)s does not have a Tapir account. Contact a member of the management team."
 msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
 #: welcomedesk/serializers.py:100
-#, fuzzy, python-format
-#| msgid ""
-#| "%(name)s is an investing member.\n"
-#| "                            If they want to shop, they have to become an active member. Contact a member of the\n"
-#| "                            management team."
+#, python-format
 msgid "%(name)s is an investing member. If they want to shop, they have to become an active member. Contact a member of the management team."
 msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss es ein aktives Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
 
 #: welcomedesk/serializers.py:114
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                                Any member who is registered as an active member but is 4 or more shifts short and\n"
-#| "                                therefore\n"
-#| "                                not eligible to purchase again until they sign up for the appropriate make-up shifts.\n"
-#| "                            "
+#, python-format
 msgid "%(name)s has been frozen because they missed too many shifts.If they want to shop, they must first be re-activated.Contact a member of the management team."
 msgstr ""
-"\n"
-"Alle Mitglieder, die als aktives Mitglied eingetragen sind, aber 4 oder mehr Schichten im Minus sind und deshalb erst wieder einkaufsberechtigt sind, wenn sie sich für die entsprechenden Nachholschichten eintragen.\n"
-"\n"
-" "
 
 #: welcomedesk/serializers.py:123
-#, fuzzy, python-format
-#| msgid ""
-#| "%(name)s does not have a Tapir\n"
-#| "                            account. Contact a member of the management team."
+#, python-format
 msgid "%(name)s has paused their membership. Contact a member of the management team."
-msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
+msgstr ""
 
 #~ msgid "Search"
 #~ msgstr "Suchen"
