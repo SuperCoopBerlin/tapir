@@ -6,7 +6,6 @@ from django.forms import (
     ModelChoiceField,
     CheckboxSelectMultiple,
     BooleanField,
-    TimeField,
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
@@ -147,7 +146,7 @@ class MissingCapabilitiesWarningMixin(forms.Form):
 
 class CustomTimeCleanMixin(forms.Form):
     custom_time = forms.TimeField(
-        widget=forms.TimeInput(attrs={"type": "time"}, format="%H:%M")
+        required=False, widget=forms.TimeInput(attrs={"type": "time"}, format="%H:%M")
     )
 
     def __init__(self, *args, **kwargs):
@@ -236,14 +235,10 @@ class ShiftAttendanceTemplateForm(
 
 
 class RegisterUserToShiftSlotForm(
-    MissingCapabilitiesWarningMixin, CustomTimeCleanMixin
+    CustomTimeCleanMixin, MissingCapabilitiesWarningMixin, forms.Form
 ):
     user = TapirUserChoiceField()
     is_solidarity = BooleanField(required=False, label="Mark as a Solidarity Shift")
-    custom_time = TimeField(
-        required=False,
-        widget=forms.widgets.TimeInput(attrs={"type": "time"}, format="%H:%M"),
-    )
     field_order = ["user", "is_solidarity", "custom_time"]
 
     def __init__(self, *args, **kwargs):
@@ -578,33 +573,15 @@ class ShiftAttendanceCustomTimeForm(CustomTimeCleanMixin, forms.ModelForm):
     class Meta:
         model = ShiftAttendance
         fields = ["custom_time"]
-        widgets = {
-            "custom_time": forms.widgets.TimeInput(
-                attrs={"type": "time"}, format="%H:%M"
-            )
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.attendance: ShiftAttendance = self.instance
 
     def get_shift_object(self) -> Shift | ShiftTemplate:
-        return self.attendance.slot.shift
+        return self.instance.slot.shift
 
 
 class ShiftAttendanceTemplateCustomTimeForm(CustomTimeCleanMixin, forms.ModelForm):
     class Meta:
         model = ShiftAttendanceTemplate
         fields = ["custom_time"]
-        widgets = {
-            "custom_time": forms.widgets.TimeInput(
-                attrs={"type": "time"}, format="%H:%M"
-            )
-        }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.attendance_template: ShiftAttendanceTemplate = self.instance
 
     def get_shift_object(self) -> Shift | ShiftTemplate:
-        return self.attendance_template.slot_template.shift_template
+        return self.instance.slot_template.shift_template

@@ -3415,7 +3415,7 @@ msgstr ""
 "\n"
 "    <p>Falls du es noch nicht getan hast, vergiss nicht, an einer anderen Schicht teilzunehmen, um die verpasste Schicht zu kompensieren!</p>\n"
 "\n"
-"    <p>Kooperative Grüße,</p> \n"
+"    <p>Kooperative Grüße,<br /> \n"
 "            Das Mitgliederbüro\n"
 "        </p> "
 
