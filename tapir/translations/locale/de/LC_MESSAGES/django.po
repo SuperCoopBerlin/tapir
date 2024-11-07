@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-21 10:37+0200\n"
+"POT-Creation-Date: 2024-11-07 12:05+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -44,12 +44,12 @@ msgstr ""
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:71 coop/models.py:68 coop/models.py:471
+#: accounts/models.py:71 coop/models.py:68 coop/models.py:472
 msgid "Pronouns"
 msgstr "Pronomen"
 
 #: accounts/models.py:72 accounts/templates/accounts/user_detail.html:66
-#: coop/models.py:70 coop/models.py:473
+#: coop/models.py:70 coop/models.py:474
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
 #: coop/templates/coop/shareowner_detail.html:51
@@ -57,29 +57,29 @@ msgid "Phone number"
 msgstr "Telefonnummer"
 
 #: accounts/models.py:73 accounts/templates/accounts/user_detail.html:76
-#: coop/models.py:71 coop/models.py:474
+#: coop/models.py:71 coop/models.py:475
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:74 coop/models.py:72 coop/models.py:475
+#: accounts/models.py:74 coop/models.py:72 coop/models.py:476
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:75 coop/models.py:73 coop/models.py:476
+#: accounts/models.py:75 coop/models.py:73 coop/models.py:477
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:76 coop/models.py:74 coop/models.py:477
+#: accounts/models.py:76 coop/models.py:74 coop/models.py:478
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:77 coop/models.py:75 coop/models.py:478
+#: accounts/models.py:77 coop/models.py:75 coop/models.py:479
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:78 coop/models.py:76 coop/models.py:479
+#: accounts/models.py:78 coop/models.py:76 coop/models.py:480
 msgid "Country"
 msgstr "Land"
 
@@ -93,7 +93,7 @@ msgid "Allow purchase tracking"
 msgstr ""
 
 #: accounts/models.py:95 accounts/templates/accounts/user_detail.html:96
-#: coop/models.py:79 coop/models.py:482
+#: coop/models.py:79 coop/models.py:483
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
@@ -253,7 +253,7 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: accounts/templates/accounts/user_detail.html:19 coop/models.py:745
+#: accounts/templates/accounts/user_detail.html:19 coop/models.py:746
 #: coop/templates/coop/draftuser_detail.html:86
 #: coop/templates/coop/shareowner_detail.html:10 log/views.py:94
 #: log/views.py:152 shifts/templates/shifts/shift_day_printable.html:55
@@ -581,7 +581,7 @@ msgstr "Anzahl zu erstellender Anteile"
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:107 coop/models.py:488
+#: coop/forms.py:107 coop/models.py:489
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
@@ -636,19 +636,19 @@ msgstr ""
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:59 coop/models.py:462
+#: coop/models.py:59 coop/models.py:463
 msgid "Administrative first name"
 msgstr "Amtlicher Vorname"
 
-#: coop/models.py:61 coop/models.py:464
+#: coop/models.py:61 coop/models.py:465
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:63 coop/models.py:466
+#: coop/models.py:63 coop/models.py:467
 msgid "Usage name"
 msgstr "Angezeigter Name"
 
-#: coop/models.py:69 coop/models.py:472
+#: coop/models.py:69 coop/models.py:473
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
@@ -656,18 +656,18 @@ msgstr "E-Mail-Adresse"
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:88 coop/models.py:503
+#: coop/models.py:88 coop/models.py:504
 #: coop/templates/coop/draftuser_detail.html:176
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:47
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:166
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:90 coop/models.py:495
+#: coop/models.py:90 coop/models.py:496
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:92 coop/models.py:500
+#: coop/models.py:92 coop/models.py:501
 msgid "Paid Entrance Fee"
 msgstr "Eintrittsgeld bezahlt"
 
@@ -675,122 +675,122 @@ msgstr "Eintrittsgeld bezahlt"
 msgid "Is willing to gift a share"
 msgstr "Ist bereit Anteile zu verschenken"
 
-#: coop/models.py:205
+#: coop/models.py:206
 msgid "Cannot be a company and have a Tapir account"
 msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
-#: coop/models.py:221
+#: coop/models.py:222
 msgid "User info should be stored in associated Tapir account"
 msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 
-#: coop/models.py:373
+#: coop/models.py:374
 msgid "Not a member"
 msgstr ""
 
-#: coop/models.py:374 coop/templates/coop/draftuser_detail.html:169
+#: coop/models.py:375 coop/templates/coop/draftuser_detail.html:169
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:375 coop/templates/coop/draftuser_detail.html:171
+#: coop/models.py:376 coop/templates/coop/draftuser_detail.html:171
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
 #: coop/views/statistics.py:142
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:376
+#: coop/models.py:377
 msgid "Paused"
 msgstr "Pausiert"
 
-#: coop/models.py:429
+#: coop/models.py:430
 msgid "Amount paid for a share can't be negative"
 msgstr "Der Betrag kann nicht negative sein"
 
-#: coop/models.py:433
+#: coop/models.py:434
 #, python-brace-format
 msgid "Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
 msgstr "Der Betrag kann nicht mehr als {COOP_SHARE_PRICE} sein"
 
-#: coop/models.py:491
+#: coop/models.py:492
 msgid "Investing member"
 msgstr "Investierendes Mitglied"
 
-#: coop/models.py:498
+#: coop/models.py:499
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:501 coop/templates/coop/draftuser_detail.html:234
+#: coop/models.py:502 coop/templates/coop/draftuser_detail.html:234
 msgid "Paid Shares"
 msgstr "Anteil(e) bezahlt"
 
-#: coop/models.py:558
+#: coop/models.py:559
 msgid "Email address must be set."
 msgstr "Email-Adresse muss gesetzt sein."
 
-#: coop/models.py:560
+#: coop/models.py:561
 msgid "First name must be set."
 msgstr "Vorname muss gesetzt sein."
 
-#: coop/models.py:562
+#: coop/models.py:563
 msgid "Last name must be set."
 msgstr "Nachname muss gesetzt sein."
 
-#: coop/models.py:566
+#: coop/models.py:567
 msgid "Membership agreement must be signed."
 msgstr "Mitgliedsantrag muss unterschrieben sein."
 
-#: coop/models.py:568
+#: coop/models.py:569
 msgid "Amount of requested shares must be positive."
 msgstr "Die Anzahl der erwünschten Anteile muss positiv sein."
 
-#: coop/models.py:570
+#: coop/models.py:571
 msgid "Member already created."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/models.py:597
+#: coop/models.py:598
 msgid "Paying member"
 msgstr "Zahlendes Mitglied"
 
-#: coop/models.py:605
+#: coop/models.py:606
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:612
+#: coop/models.py:613
 msgid "Amount"
 msgstr "Betrag"
 
-#: coop/models.py:618
+#: coop/models.py:619
 msgid "Payment date"
 msgstr "Zahldatum"
 
-#: coop/models.py:621
+#: coop/models.py:622
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
-#: coop/models.py:626
+#: coop/models.py:627
 msgid "Created by"
 msgstr "Erstellt durch"
 
-#: coop/models.py:795
+#: coop/models.py:796
 msgid "The cooperative buys the shares back from the member"
 msgstr ""
 
-#: coop/models.py:798
+#: coop/models.py:799
 #, fuzzy
 #| msgid "Number of shares to create"
 msgid "The member gifts the shares to the cooperative"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/models.py:800
+#: coop/models.py:801
 msgid "The shares get transferred to another member"
 msgstr ""
 
-#: coop/models.py:805
+#: coop/models.py:806
 #, fuzzy
 #| msgid "Edit shareowner"
 msgid "Shareowner"
 msgstr "Mitglied bearbeiten"
 
-#: coop/models.py:821
+#: coop/models.py:822
 msgid "Leave this empty if the resignation type is not a transfer to another member"
 msgstr ""
 
@@ -1017,7 +1017,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:21
-#: statistics/views/main_view.py:301
+#: statistics/views/main_view.py:302
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -2831,75 +2831,83 @@ msgstr ""
 msgid "Sent to a member when their shift status gets set from frozen to flying."
 msgstr ""
 
-#: shifts/forms.py:59
+#: shifts/forms.py:61
 msgid "The shift must end after it starts."
 msgstr "Die Schicht muss nach ihrem Start enden."
 
-#: shifts/forms.py:109
+#: shifts/forms.py:111
 msgid "I have read the warning about the missing qualification and confirm that the user should get registered to the shift"
 msgstr "Ich habe die Warnung über die fehlende Qualifikation gelesen und bestätige, dass Benutzer*in für die Schicht registriert werden sollte"
 
-#: shifts/forms.py:132
+#: shifts/forms.py:139
 #, python-brace-format
 msgid "The selected user is missing the required qualification for this shift : {missing_capabilities}"
 msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Qualifikation für diese Schicht: {missing_capabilities}"
 
-#: shifts/forms.py:177
+#: shifts/forms.py:182
+msgid "Please set the chosen time after the start of the shift"
+msgstr ""
+
+#: shifts/forms.py:187
+msgid "Please set the chosen time before the end of the shift"
+msgstr ""
+
+#: shifts/forms.py:224
 msgid "This user is already registered to another slot in this ABCD shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser ABCD-Schicht registriert."
 
-#: shifts/forms.py:225
+#: shifts/forms.py:271
 msgid "You need the shifts.manage permission to do this."
 msgstr ""
 
-#: shifts/forms.py:229
+#: shifts/forms.py:275
 msgid "This user is already registered to another slot in this shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht registriert."
 
-#: shifts/forms.py:242
+#: shifts/forms.py:291
 msgid "I am aware that the member will be unregistered from their ABCD shift"
 msgstr ""
 
-#: shifts/forms.py:251 shifts/templates/shifts/user_shifts_overview_tag.html:93
+#: shifts/forms.py:300 shifts/templates/shifts/user_shifts_overview_tag.html:93
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
-#: shifts/forms.py:279
+#: shifts/forms.py:328
 #, python-brace-format
 msgid "{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
 msgstr ""
 
-#: shifts/forms.py:339
+#: shifts/forms.py:388
 msgid "This member is registered to at least one ABCD shift. Please confirm the change of attendance mode with the checkbox below."
 msgstr ""
 
-#: shifts/forms.py:384
+#: shifts/forms.py:433
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:391
+#: shifts/forms.py:440
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:424
+#: shifts/forms.py:473
 #, python-brace-format
 msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
 msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerhalb der Befreiung sind : {attendances_display}"
 
-#: shifts/forms.py:449
+#: shifts/forms.py:498
 #, python-format
 msgid "The user will be unregistered from the following ABCD shifts because the exemption is longer than %(number_of_cycles)s cycles: %(attendances_display)s "
 msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s "
 
-#: shifts/forms.py:492
+#: shifts/forms.py:541
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:513
+#: shifts/forms.py:562
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:522
+#: shifts/forms.py:571
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
@@ -4470,7 +4478,7 @@ msgid "Main statistics"
 msgstr "Hauptstatistik"
 
 #: statistics/templates/statistics/main_statistics.html:19
-#: statistics/views/main_view.py:260
+#: statistics/views/main_view.py:261
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
@@ -4567,7 +4575,7 @@ msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:118
 #: statistics/templates/statistics/main_statistics.html:129
-#: statistics/views/main_view.py:377
+#: statistics/views/main_view.py:378
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
@@ -4643,6 +4651,26 @@ msgstr "Erstellungsdatum"
 msgid "Number of shifts by category"
 msgstr "Anzahl zu erstellender Anteile"
 
+#: statistics/templates/statistics/stats_for_marie.html:9
+#, fuzzy
+#| msgid "Statistics on shares"
+msgid "Stats for Marie"
+msgstr "Anteile-Statistiken"
+
+#: statistics/templates/statistics/stats_for_marie.html:20
+#: statistics/templates/statistics/stats_for_marie.html:26
+#, fuzzy
+#| msgid "New members per month"
+msgid "Number of frozen members per month"
+msgstr "Neue Mitglieder*innen pro Monat"
+
+#: statistics/templates/statistics/stats_for_marie.html:33
+#: statistics/templates/statistics/stats_for_marie.html:39
+#, fuzzy
+#| msgid "Current number of purchasing members"
+msgid "Number of purchasing members per month"
+msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
+
 #: statistics/templates/statistics/tags/on_demand_chart.html:5
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
@@ -4674,19 +4702,19 @@ msgstr ""
 msgid "Evolution of total spends per month"
 msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:332
+#: statistics/views/main_view.py:333
 msgid "Total spends per month"
 msgstr "Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:377
+#: statistics/views/main_view.py:378
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views/main_view.py:395
+#: statistics/views/main_view.py:396
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views/main_view.py:542
+#: statistics/views/main_view.py:548
 msgid "Purchase data updated"
 msgstr "Kaufdaten aktualisiert"
 
@@ -6034,9 +6062,6 @@ msgstr "Mitglieds-ID"
 #~| msgid "Total number of members"
 #~ msgid "Number of members"
 #~ msgstr "Gesamte Mitgliederzahl"
-
-#~ msgid "Current number of purchasing members"
-#~ msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
 
 #~ msgid "Required number of purchasing members to reach break-even"
 #~ msgstr "Erforderliche Anzahl von einkaufsberechtigten Mitglieder*innen, um den Break-Even zu erreichen"
