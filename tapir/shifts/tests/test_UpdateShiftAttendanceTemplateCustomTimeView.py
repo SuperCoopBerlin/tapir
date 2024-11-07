@@ -14,7 +14,11 @@ class TestUpdateShiftAttendanceTemplateCustomTimeView(TapirFactoryTestBase):
     CUSTOM_TIME_AFTER = datetime.time(hour=12, minute=30)
 
     def create_attendance_template_for_user(self, tapir_user):
-        shift_template: ShiftTemplate = ShiftTemplateFactory.create(flexible_time=True)
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create(
+            flexible_time=True,
+            start_time=datetime.time(hour=7),
+            end_time=datetime.time(hour=22),
+        )
         return ShiftAttendanceTemplate.objects.create(
             user=tapir_user,
             slot_template=shift_template.slot_templates.first(),
