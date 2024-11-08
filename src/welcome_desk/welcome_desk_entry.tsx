@@ -1,10 +1,10 @@
 import { createRoot } from "react-dom/client";
-import WelcomeDeskSearch from "./WelcomeDeskSearch.tsx";
+import WelcomeDeskCard from "./WelcomeDeskCard.tsx";
 
 const domNode = document.getElementById("welcome_desk");
 if (domNode) {
   const root = createRoot(domNode);
-  root.render(<WelcomeDeskSearch />);
+  root.render(<WelcomeDeskCard />);
 } else {
-  console.error("SOME ERROR");
+  console.error("Failed to render welcome desk from React");
 }
