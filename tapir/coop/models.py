@@ -287,7 +287,7 @@ class ShareOwner(models.Model):
         return (
             self.user is not None
             and self.is_active(at_datetime)
-            and ShiftCanShopService.can_shop(self.user.shift_user_data, at_datetime)
+            and ShiftCanShopService.can_shop(self, at_datetime)
         )
 
     def is_active(
@@ -346,6 +346,9 @@ class ShareOwner(models.Model):
         return shares_starting_in_the_future.aggregate(Min("start_date"))[
             "start_date__min"
         ]
+
+    def __str__(self):
+        return self.get_info().get_display_name(UserUtils.DISPLAY_NAME_TYPE_FULL)
 
 
 class MemberStatus:

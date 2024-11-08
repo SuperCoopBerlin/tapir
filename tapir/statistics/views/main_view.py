@@ -92,7 +92,9 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
             share_owners, self.reference_time
         )
-        share_owners = self.annotate_attendance_modes(share_owners, self.reference_date)
+        share_owners = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_date(
+            share_owners, self.reference_date
+        )
 
         current_number_of_purchasing_members = len(
             [
