@@ -434,7 +434,7 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
                 new_values__co_purchaser__isnull=False,
             )
             .order_by("created_date")
-            .prefetch_related("user")
+            .select_related("user")
         )
 
         updates_per_member = {}

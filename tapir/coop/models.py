@@ -39,6 +39,9 @@ class ShareOwner(models.Model):
     represent a person or company that does not have their own account.
     """
 
+    class Meta:
+        indexes = [models.Index(fields=["is_investing"])]
+
     # Only for owners that have a user account
     user = models.OneToOneField(
         TapirUser,
@@ -745,6 +748,9 @@ class ExtraSharesForAccountingRecap(models.Model):
 
 
 class MembershipPause(DurationModelMixin, models.Model):
+    class Meta:
+        indexes = [models.Index(fields=["share_owner"])]
+
     share_owner = models.ForeignKey(
         ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Member")
     )
