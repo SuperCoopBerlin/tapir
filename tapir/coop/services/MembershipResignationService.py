@@ -90,15 +90,12 @@ class MembershipResignationService:
             share_owner=resignation.share_owner
         ):
             if pause.end_date is not None:
-                if resignation.pay_out_day is not None:
-                    if resignation.pay_out_day <= pause.end_date:
-                        pause.update(end_date=resignation.pay_out_day)
-                    elif pause.start_date > resignation.pay_out_day:
-                        pause.delete()
-                else:
-                    if resignation.cancellation_date <= pause.end_date:
-                        pause.update(end_date=resignation.cancellation_date)
-                    elif pause.start_date > resignation.cancellation_date:
-                        pause.delete()
+                if resignation.pay_out_day <= pause.end_date:
+                    pause.end_date=resignation.pay_out_day
+                    pause.save()
             else:
-                pause.update(end_date=resignation.cancellation_date)
+                if pause.start_date > resignation.pay_out_day:
+                    pause.delete()
+                else:
+                    pause.end_date=resignation.cancellation_date
+                    pause.save()

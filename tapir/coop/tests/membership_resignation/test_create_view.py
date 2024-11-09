@@ -1,7 +1,6 @@
 import datetime
 from http import HTTPStatus
 from unittest.mock import patch, Mock
-from icecream import ic
 
 from django.core import mail
 from django.urls import reverse

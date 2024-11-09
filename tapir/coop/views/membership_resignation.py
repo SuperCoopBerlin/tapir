@@ -23,6 +23,7 @@ from tapir.coop.models import (
     MembershipResignation,
     MembershipResignationCreateLogEntry,
     MembershipResignationUpdateLogEntry,
+    MembershipResignationDeleteLogEntry,
 )
 from tapir.coop.services.MembershipResignationService import (
     MembershipResignationService,
@@ -36,7 +37,6 @@ from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
-
 
 class MembershipResignationTable(django_tables2.Table):
     class Meta:
@@ -160,6 +160,7 @@ class MembershipResignationFilter(django_filters.FilterSet):
 
 class MembershipResignationList(
     LoginRequiredMixin,
+    PermissionRequiredMixin,
     FilterView,
     ExportMixin,
     SingleTableView,
@@ -169,6 +170,7 @@ class MembershipResignationList(
     template_name = "coop/membership_resignation_list.html"
     export_formats = ["csv", "json"]
     filterset_class = MembershipResignationFilter
+    permission_required = PERMISSION_COOP_MANAGE
 
     def get_context_data(self, **kwargs):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
@@ -296,18 +298,17 @@ class MembershipResignationRemoveFromListView(
     permission_required = PERMISSION_COOP_MANAGE
     success_url = reverse_lazy("coop:resigned_members_list")
 
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
-            raise PermissionDenied("The membership resignation feature is disabled.")
+    def form_valid(self, form):  
+        with transaction.atomic():
+            if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
+                raise PermissionDenied("The membership resignation feature is disabled.")
 
-        MembershipResignationService.delete_end_dates(self.get_object())
-        new_frozen = freeze_for_log(self.get_object())
-        if self.old_object_frozen != new_frozen:
-            MembershipResignationUpdateLogEntry().populate(
-                old_frozen=self.old_object_frozen,
-                new_frozen=new_frozen,
+            MembershipResignationService.delete_end_dates(self.get_object())
+            MembershipResignationDeleteLogEntry().populate(
                 model=self.get_object(),
                 actor=self.request.user,
             ).save()
-        return result
+        return super().form_valid(form)
+
+
+

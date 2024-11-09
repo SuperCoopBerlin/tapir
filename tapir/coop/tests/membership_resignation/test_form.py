@@ -26,12 +26,12 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         mock_timezone_now(self, self.NOW)
 
-    def test_membershipResignationForm_is_valid(self):
+    def test_isValid_sendingValidData_returnsTrue(self):
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create()
         data = {
             "share_owner": share_owner,
-            "cancellation_reason": resignation.cancellation_reason,
+            "cancellation_reason": "A test reason.",
             "cancellation_date": resignation.cancellation_date,
             "resignation_type": resignation.resignation_type,
             "transferring_shares_to": resignation.transferring_shares_to,
@@ -40,7 +40,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         form = MembershipResignationForm(data=data)
         self.assertTrue(form.is_valid())
 
-    def test_validate_share_owner(self):
+    def test_validate_share_owner_duplicateErrors_isThrown(self):
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create(share_owner=share_owner)
         form = MembershipResignationForm(data={"share_owner": resignation.share_owner})
@@ -51,7 +51,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             form.errors["share_owner"],
         )
 
-    def test_validate_transfer_choice(self):
+    def test_validate_transfer_choice_notChosenError_isThrown(self):
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner,
@@ -83,7 +83,9 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             form.errors["transferring_shares_to"],
         )
 
-    def test_validate_duplicates(self):
+    def test_validate_duplicates_errorShareownerAndTransferringSharesToDuplicate_isThrown(
+        self,
+    ):
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner, transferring_shares_to=share_owner
@@ -104,7 +106,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             form.errors["transferring_shares_to"],
         )
 
-    def test_validate_if_gifted(self):
+    def test_validate_if_gifted_paidOutError_isThrown(self):
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner,

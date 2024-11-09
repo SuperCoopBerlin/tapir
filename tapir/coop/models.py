@@ -807,7 +807,7 @@ class MembershipResignation(models.Model):
     pay_out_day = models.DateField(null=True)
     cancellation_reason = models.CharField(max_length=1000)
     resignation_type = models.CharField(choices=ResignationType.choices, max_length=50)
-    transferring_shares_to = models.OneToOneField(
+    transferring_shares_to = models.ForeignKey(
         ShareOwner,
         on_delete=models.deletion.PROTECT,
         verbose_name="OwnerToTransfer",
@@ -859,4 +859,16 @@ class MembershipResignationUpdateLogEntry(UpdateModelLogEntry):
             share_owner=model.share_owner,
             old_frozen=old_frozen,
             new_frozen=new_frozen,
+        )
+
+class MembershipResignationDeleteLogEntry(ModelLogEntry):
+    template_name = "coop/log/delete_resignmember_log_entry.html"
+
+    def populate(
+        self,
+        actor: User,
+        model: MembershipResignation,
+    ):
+        return super().populate_base(
+            actor=actor, share_owner=model.share_owner, model=model
         )
