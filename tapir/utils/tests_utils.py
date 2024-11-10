@@ -220,12 +220,13 @@ class TapirEmailTestBase(TestCase):
         self.assertEqual(CONTENT_TYPE_PDF, attachment_type)
 
 
-def mock_timezone_now(test: TestCase, now: datetime.datetime) -> None:
+def mock_timezone_now(test: TestCase, now: datetime.datetime) -> datetime.datetime:
     now = timezone.make_aware(now) if timezone.is_naive(now) else now
     patcher = patch("django.utils.timezone.now")
     test.mock_now = patcher.start()
     test.addCleanup(patcher.stop)
     test.mock_now.return_value = now
+    return now
 
 
 class FeatureFlagTestMixin(TestCase):

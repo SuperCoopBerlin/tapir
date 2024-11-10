@@ -9,7 +9,7 @@ from tapir.utils.shortcuts import get_timezone_aware_datetime
 class ShiftExpectationService:
     @staticmethod
     def is_member_expected_to_do_shifts(
-        shift_user_data: ShiftUserData, at_datetime: datetime.date | None = None
+        shift_user_data: ShiftUserData, at_datetime: datetime.datetime | None = None
     ) -> bool:
         if at_datetime is None:
             at_datetime = timezone.now()
