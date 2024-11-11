@@ -13,3 +13,6 @@ FREEZE_AFTER_DAYS = 10
 NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS = 8
 
 FEATURE_FLAG_SHIFT_PARTNER = "feature_flags.shifts.shift_partner"
+FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER = (
+    "feature_flags.shifts.flying_members_registration_reminder"
+)

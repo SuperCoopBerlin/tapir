@@ -3,7 +3,9 @@ import datetime
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
+from tapir.core.models import FeatureFlag
 from tapir.log.models import EmailLogEntry
+from tapir.shifts.config import FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER
 from tapir.shifts.emails.flying_member_registration_reminder_email import (
     FlyingMemberRegistrationReminderEmail,
 )
@@ -21,6 +23,11 @@ class Command(BaseCommand):
     help = "Send FlyingMemberRegistrationReminderEmail if necessary."
 
     def handle(self, *args, **options):
+        if not FeatureFlag.get_flag_value(
+            FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER
+        ):
+            return
+
         start_date = ShiftCycleService.get_start_date_of_current_cycle()
         end_date = start_date + datetime.timedelta(
             days=ShiftCycleEntry.SHIFT_CYCLE_DURATION

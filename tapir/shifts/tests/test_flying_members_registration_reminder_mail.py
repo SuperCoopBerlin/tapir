@@ -6,6 +6,7 @@ from django.core.management import call_command
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.log.models import EmailLogEntry
+from tapir.shifts.config import FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER
 from tapir.shifts.emails.flying_member_registration_reminder_email import (
     FlyingMemberRegistrationReminderEmail,
 )
@@ -20,14 +21,35 @@ from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
     TapirEmailTestBase,
     mock_timezone_now,
+    FeatureFlagTestMixin,
 )
 
 
-class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase, TapirEmailTestBase):
+class TestAttendanceUpdateMemberOffice(
+    FeatureFlagTestMixin, TapirFactoryTestBase, TapirEmailTestBase
+):
     NOW = datetime.datetime(year=2024, month=6, day=15)
 
     def setUp(self) -> None:
+        super().setUp()
         self.NOW = mock_timezone_now(self, self.NOW)
+        self.given_feature_flag_value(
+            FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER, True
+        )
+
+    @patch.object(ShiftCycleService, "get_start_date_of_current_cycle")
+    def test_sendFlyingMemberRegistrationReminderMailsCommand_featureFlagDisabled_noMailSent(
+        self,
+        mock_get_start_date_of_current_cycle: Mock,
+    ):
+        self.given_feature_flag_value(
+            FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER, False
+        )
+
+        call_command("send_flying_member_registration_reminder_mails")
+
+        mock_get_start_date_of_current_cycle.filter.assert_not_called()
+        self.assertEqual(0, len(mail.outbox))
 
     @patch.object(ShiftCycleService, "get_start_date_of_current_cycle")
     @patch.object(ShiftUserData, "objects")
