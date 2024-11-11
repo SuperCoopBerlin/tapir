@@ -4,6 +4,7 @@ from django.db import transaction
 from django.db.models import Max
 from django.utils import timezone
 
+from tapir.shifts.config import cycle_start_dates
 from tapir.shifts.models import (
     ShiftUserData,
     ShiftCycleEntry,
@@ -92,3 +93,32 @@ class ShiftCycleService:
             new_cycle_start_date += datetime.timedelta(
                 days=ShiftCycleEntry.SHIFT_CYCLE_DURATION
             )
+
+    @classmethod
+    def get_start_date_of_current_cycle(cls, today: datetime.date | None = None):
+        if today is None:
+            today = timezone.now().date()
+
+        cycle_start_date = cls.get_reference_date_for_cycles(today)
+        # get the date for the coming cycle
+        while cycle_start_date < today:
+            cycle_start_date += datetime.timedelta(
+                days=ShiftCycleEntry.SHIFT_CYCLE_DURATION
+            )
+        # go back one cycle to get the current cycle
+        return cycle_start_date - datetime.timedelta(
+            days=ShiftCycleEntry.SHIFT_CYCLE_DURATION
+        )
+
+    @staticmethod
+    def get_reference_date_for_cycles(today: datetime.date | None = None):
+        if today is None:
+            today = timezone.now().date()
+
+        return max(
+            [
+                cycle_start_date
+                for cycle_start_date in cycle_start_dates
+                if cycle_start_date <= today
+            ]
+        )

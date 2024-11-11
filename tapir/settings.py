@@ -131,11 +131,13 @@ CELERY_BEAT_SCHEDULE = {
     },
     "apply_shift_cycle_start": {
         "task": "tapir.shifts.tasks.apply_shift_cycle_start",
-        "schedule": celery.schedules.crontab(hour="*/2", minute=20),
+        "schedule": celery.schedules.crontab(hour="*/2", minute="20"),
     },
     "send_accounting_recap": {
         "task": "tapir.coop.tasks.send_accounting_recap",
-        "schedule": celery.schedules.crontab(hour=12, minute=0, day_of_week="sunday"),
+        "schedule": celery.schedules.crontab(
+            hour="12", minute="0", day_of_week="sunday"
+        ),
     },
     "generate_shifts": {
         "task": "tapir.shifts.tasks.generate_shifts",
@@ -160,6 +162,10 @@ CELERY_BEAT_SCHEDULE = {
     "metabase_export": {
         "task": "tapir.core.tasks.metabase_export",
         "schedule": celery.schedules.crontab(minute=0, hour=3),
+    },
+    "send_flying_member_registration_reminder_mails": {
+        "task": "tapir.shifts.tasks.send_flying_member_registration_reminder_mails",
+        "schedule": celery.schedules.crontab(minute=0, hour=4),
     },
 }
 
