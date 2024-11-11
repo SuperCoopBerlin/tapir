@@ -5,7 +5,7 @@ cycle_start_dates = [
 ]
 cycle_start_dates.sort()
 
-REMINDER_EMAIL_DAYS_BEFORE_SHIFT = 7
+REMINDER_EMAIL_DAYS_BEFORE_SHIFT = 9
 
 FREEZE_THRESHOLD = -4
 FREEZE_AFTER_DAYS = 10
