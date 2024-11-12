@@ -4,8 +4,8 @@ import datetime
 import typing
 
 from tapir.shifts.models import ShiftUserData
-from tapir.shifts.services.shift_attendance_mode_service import (
-    ShiftAttendanceModeService,
+from tapir.shifts.services.frozen_status_history_service import (
+    FrozenStatusHistoryService,
 )
 
 if typing.TYPE_CHECKING:
@@ -17,4 +17,4 @@ class ShiftCanShopService:
     def can_shop(
         cls, member_object: ShiftUserData | ShareOwner, at_date: datetime.date = None
     ):
-        return not ShiftAttendanceModeService.is_frozen_at_date(member_object, at_date)
+        return not FrozenStatusHistoryService.is_frozen_at_date(member_object, at_date)

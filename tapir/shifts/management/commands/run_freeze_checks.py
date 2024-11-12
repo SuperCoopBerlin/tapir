@@ -3,7 +3,9 @@ import time
 from django.core.management.base import BaseCommand
 
 from tapir.shifts.models import ShiftUserData
-from tapir.shifts.services.frozen_status_service import FrozenStatusService
+from tapir.shifts.services.frozen_status_management_service import (
+    FrozenStatusManagementService,
+)
 
 
 class Command(BaseCommand):
@@ -14,20 +16,22 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for shift_user_data in ShiftUserData.objects.all():
-            if FrozenStatusService.should_freeze_member(shift_user_data):
-                FrozenStatusService.freeze_member_and_send_email(
+            if FrozenStatusManagementService.should_freeze_member(shift_user_data):
+                FrozenStatusManagementService.freeze_member_and_send_email(
                     shift_user_data, actor=None
                 )
                 time.sleep(0.1)
                 continue
 
-            if FrozenStatusService.should_send_freeze_warning(shift_user_data):
-                FrozenStatusService.send_freeze_warning_email(shift_user_data)
+            if FrozenStatusManagementService.should_send_freeze_warning(
+                shift_user_data
+            ):
+                FrozenStatusManagementService.send_freeze_warning_email(shift_user_data)
                 time.sleep(0.1)
                 continue
 
-            if FrozenStatusService.should_unfreeze_member(shift_user_data):
-                FrozenStatusService.unfreeze_and_send_notification_email(
+            if FrozenStatusManagementService.should_unfreeze_member(shift_user_data):
+                FrozenStatusManagementService.unfreeze_and_send_notification_email(
                     shift_user_data
                 )
                 time.sleep(0.1)

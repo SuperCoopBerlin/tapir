@@ -25,7 +25,7 @@ from tapir.shifts.models import (
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 
 
-class FrozenStatusService:
+class FrozenStatusManagementService:
     @classmethod
     def should_freeze_member(cls, shift_user_data: ShiftUserData) -> bool:
         if shift_user_data.is_frozen:
@@ -81,20 +81,18 @@ class FrozenStatusService:
         cls, shift_user_data: ShiftUserData, actor: TapirUser | None
     ):
         with transaction.atomic():
-            cls._update_attendance_mode_and_create_log_entry(
-                shift_user_data, actor, ShiftAttendanceMode.FROZEN
-            )
+            cls._update_frozen_status_and_create_log_entry(shift_user_data, actor, True)
             cls._cancel_future_attendances_templates(shift_user_data)
             ShiftAttendanceTemplate.objects.filter(user=shift_user_data.user).delete()
         email = MemberFrozenEmail()
         email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
 
     @staticmethod
-    def _update_attendance_mode_and_create_log_entry(
-        shift_user_data: ShiftUserData, actor: TapirUser | None, attendance_mode: str
+    def _update_frozen_status_and_create_log_entry(
+        shift_user_data: ShiftUserData, actor: TapirUser | None, is_frozen: bool
     ):
         old_data = freeze_for_log(shift_user_data)
-        shift_user_data.attendance_mode = attendance_mode
+        shift_user_data.is_frozen = is_frozen
         new_data = freeze_for_log(shift_user_data)
         shift_user_data.save()
         if old_data != new_data:
@@ -163,12 +161,10 @@ class FrozenStatusService:
     def unfreeze_and_send_notification_email(
         cls, shift_user_data: ShiftUserData, actor: None | TapirUser = None
     ):
-        cls._update_attendance_mode_and_create_log_entry(
+        cls._update_frozen_status_and_create_log_entry(
             shift_user_data=shift_user_data,
             actor=actor,
-            attendance_mode=cls._get_last_attendance_mode_before_frozen(
-                shift_user_data
-            ),
+            is_frozen=False,
         )
         email = UnfreezeNotificationEmail()
         email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)

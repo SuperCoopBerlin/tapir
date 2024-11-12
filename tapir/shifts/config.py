@@ -12,3 +12,5 @@ FREEZE_AFTER_DAYS = 10
 NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS = 8
 
 FEATURE_FLAG_SHIFT_PARTNER = "feature_flags.shifts.shift_partner"
+
+ATTENDANCE_MODE_REFACTOR_DATE = datetime.date(year=2024, month=11, day=11)

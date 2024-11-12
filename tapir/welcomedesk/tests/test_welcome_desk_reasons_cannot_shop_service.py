@@ -5,8 +5,8 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.shifts.services.shift_attendance_mode_service import (
-    ShiftAttendanceModeService,
+from tapir.shifts.services.frozen_status_history_service import (
+    FrozenStatusHistoryService,
 )
 from tapir.utils.tests_utils import TapirFactoryTestBase
 from tapir.welcomedesk.services.welcome_desk_reasons_cannot_shop_service import (
@@ -66,7 +66,7 @@ class TestWelcomeDeskReasonsCannotShopService(TapirFactoryTestBase):
         )
         mock_is_investing.assert_called_once_with(share_owner, reference_time)
 
-    @patch.object(ShiftAttendanceModeService, "is_frozen_at_date")
+    @patch.object(FrozenStatusHistoryService, "is_frozen_at_date")
     def test_shouldShowFrozenReason_memberIsFrozen_returnsTrue(
         self, mock_is_frozen_at_date: Mock
     ):
@@ -83,7 +83,7 @@ class TestWelcomeDeskReasonsCannotShopService(TapirFactoryTestBase):
         )
         mock_is_frozen_at_date.assert_called_once_with(shift_user_data, reference_date)
 
-    @patch.object(ShiftAttendanceModeService, "is_frozen_at_date")
+    @patch.object(FrozenStatusHistoryService, "is_frozen_at_date")
     def test_shouldShowFrozenReason_memberIsNotFrozen_returnsFalse(
         self, mock_is_frozen_at_date: Mock
     ):

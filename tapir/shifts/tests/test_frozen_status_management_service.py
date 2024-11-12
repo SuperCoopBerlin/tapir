@@ -15,13 +15,15 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftTemplate,
 )
-from tapir.shifts.services.frozen_status_service import FrozenStatusService
+from tapir.shifts.services.frozen_status_management_service import (
+    FrozenStatusManagementService,
+)
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
-class TestFrozenStatusService(TapirFactoryTestBase):
+class TestFrozenUpdateService(TapirFactoryTestBase):
     FREEZE_WARNING_EMAIL_ID = "tapir.shifts.freeze_warning"
     NOW = datetime.datetime(year=2020, month=1, day=30, hour=16, minute=37)
 
@@ -31,7 +33,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
     def test_shouldFreezeMember_memberAlreadyFrozen_returnsFalse(self):
         shift_user_data = ShiftUserData()
         shift_user_data.is_frozen = True
-        self.assertFalse(FrozenStatusService.should_freeze_member(shift_user_data))
+        self.assertFalse(
+            FrozenStatusManagementService.should_freeze_member(shift_user_data)
+        )
 
     @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
     def test_shouldFreezeMember_memberIsNotExpectedToDoShifts_returnsFalse(
@@ -40,13 +44,17 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data = ShiftUserData()
         shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
         mock_is_member_expected_to_do_shifts.return_value = False
-        self.assertFalse(FrozenStatusService.should_freeze_member(shift_user_data))
+        self.assertFalse(
+            FrozenStatusManagementService.should_freeze_member(shift_user_data)
+        )
         mock_is_member_expected_to_do_shifts.assert_called_once_with(
             shift_user_data, self.NOW
         )
 
     @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
-    @patch.object(FrozenStatusService, "_is_member_below_threshold_since_long_enough")
+    @patch.object(
+        FrozenStatusManagementService, "_is_member_below_threshold_since_long_enough"
+    )
     def test_shouldFreezeMember_memberNotBelowThreshold_returnsFalse(
         self,
         mock_is_member_below_threshold_since_long_enough: Mock,
@@ -56,7 +64,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
         mock_is_member_expected_to_do_shifts.return_value = True
         mock_is_member_below_threshold_since_long_enough.return_value = False
-        self.assertFalse(FrozenStatusService.should_freeze_member(shift_user_data))
+        self.assertFalse(
+            FrozenStatusManagementService.should_freeze_member(shift_user_data)
+        )
         mock_is_member_below_threshold_since_long_enough.assert_called_once_with(
             shift_user_data
         )
@@ -66,10 +76,12 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
     @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
     @patch.object(
-        FrozenStatusService,
+        FrozenStatusManagementService,
         "_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account",
     )
-    @patch.object(FrozenStatusService, "_is_member_below_threshold_since_long_enough")
+    @patch.object(
+        FrozenStatusManagementService, "_is_member_below_threshold_since_long_enough"
+    )
     def test_shouldFreezeMember_memberRegisteredToEnoughShifts_returnsFalse(
         self,
         mock_is_member_below_threshold_since_long_enough: Mock,
@@ -83,7 +95,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             True
         )
         mock_is_member_expected_to_do_shifts.return_value = True
-        self.assertFalse(FrozenStatusService.should_freeze_member(shift_user_data))
+        self.assertFalse(
+            FrozenStatusManagementService.should_freeze_member(shift_user_data)
+        )
         mock_is_member_below_threshold_since_long_enough.assert_called_once_with(
             shift_user_data
         )
@@ -96,10 +110,12 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
     @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
     @patch.object(
-        FrozenStatusService,
+        FrozenStatusManagementService,
         "_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account",
     )
-    @patch.object(FrozenStatusService, "_is_member_below_threshold_since_long_enough")
+    @patch.object(
+        FrozenStatusManagementService, "_is_member_below_threshold_since_long_enough"
+    )
     def test_shouldFreezeMember_shouldGetFrozen_returnsTrue(
         self,
         mock_is_member_below_threshold_since_long_enough: Mock,
@@ -112,7 +128,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account.return_value = (
             False
         )
-        self.assertTrue(FrozenStatusService.should_freeze_member(shift_user_data))
+        self.assertTrue(
+            FrozenStatusManagementService.should_freeze_member(shift_user_data)
+        )
         mock_is_member_below_threshold_since_long_enough.assert_called_once_with(
             shift_user_data
         )
@@ -129,7 +147,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         tapir_user = TapirUserFactory.create()
         self.assertEqual(0, tapir_user.shift_user_data.get_account_balance())
         self.assertFalse(
-            FrozenStatusService._is_member_below_threshold_since_long_enough(
+            FrozenStatusManagementService._is_member_below_threshold_since_long_enough(
                 tapir_user.shift_user_data
             )
         )
@@ -149,7 +167,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             date=timezone.now() - datetime.timedelta(days=5),
         )
         self.assertFalse(
-            FrozenStatusService._is_member_below_threshold_since_long_enough(
+            FrozenStatusManagementService._is_member_below_threshold_since_long_enough(
                 tapir_user.shift_user_data
             )
         )
@@ -169,7 +187,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             date=timezone.now() - datetime.timedelta(days=15),
         )
         self.assertTrue(
-            FrozenStatusService._is_member_below_threshold_since_long_enough(
+            FrozenStatusManagementService._is_member_below_threshold_since_long_enough(
                 tapir_user.shift_user_data
             )
         )
@@ -195,7 +213,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             )
 
         self.assertFalse(
-            FrozenStatusService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
+            FrozenStatusManagementService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
                 tapir_user.shift_user_data
             )
         )
@@ -221,7 +239,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             )
 
         self.assertTrue(
-            FrozenStatusService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
+            FrozenStatusManagementService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
                 tapir_user.shift_user_data
             )
         )
@@ -247,17 +265,19 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             )
 
         self.assertTrue(
-            FrozenStatusService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
+            FrozenStatusManagementService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
                 tapir_user.shift_user_data
             )
         )
 
-    @patch("tapir.shifts.services.frozen_status_service.MemberFrozenEmail")
-    @patch.object(FrozenStatusService, "_cancel_future_attendances_templates")
-    @patch.object(FrozenStatusService, "_update_attendance_mode_and_create_log_entry")
+    @patch("tapir.shifts.services.frozen_status_management_service.MemberFrozenEmail")
+    @patch.object(FrozenStatusManagementService, "_cancel_future_attendances_templates")
+    @patch.object(
+        FrozenStatusManagementService, "_update_frozen_status_and_create_log_entry"
+    )
     def test_freezeMemberAndSendMail(
         self,
-        mock_update_attendance_mode_and_create_log_entry: Mock,
+        mock_update_frozen_status_and_create_log_entry: Mock,
         mock_cancel_future_attendances_templates: Mock,
         mock_member_frozen_email_class: Mock,
     ):
@@ -268,12 +288,12 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         )
         actor = TapirUser()
 
-        FrozenStatusService.freeze_member_and_send_email(
+        FrozenStatusManagementService.freeze_member_and_send_email(
             tapir_user.shift_user_data, actor
         )
 
-        mock_update_attendance_mode_and_create_log_entry.assert_called_once_with(
-            tapir_user.shift_user_data, actor, ShiftAttendanceMode.FROZEN
+        mock_update_frozen_status_and_create_log_entry.assert_called_once_with(
+            tapir_user.shift_user_data, actor, True
         )
         mock_cancel_future_attendances_templates.assert_called_once_with(
             tapir_user.shift_user_data
@@ -284,27 +304,27 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             actor=actor, recipient=tapir_user
         )
 
-    @patch("tapir.shifts.services.frozen_status_service.UpdateShiftUserDataLogEntry")
-    @patch("tapir.shifts.services.frozen_status_service.freeze_for_log")
+    @patch(
+        "tapir.shifts.services.frozen_status_management_service.UpdateShiftUserDataLogEntry"
+    )
+    @patch("tapir.shifts.services.frozen_status_management_service.freeze_for_log")
     def test_updateAttendanceModeAndCreateLogEntry(
         self,
         mock_freeze_for_log: Mock,
         mock_update_shift_user_data_log_entry_class: Mock,
     ):
         shift_user_data = ShiftUserData()
-        shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
+        shift_user_data.is_frozen = False
         shift_user_data.save = MagicMock()
         shift_user_data.user = TapirUser()
         actor = TapirUser()
-        mock_freeze_for_log.side_effect = lambda data: (
-            1 if data.attendance_mode == ShiftAttendanceMode.FLYING else 2
+        mock_freeze_for_log.side_effect = lambda data: (1 if not data.is_frozen else 2)
+
+        FrozenStatusManagementService._update_frozen_status_and_create_log_entry(
+            shift_user_data, actor, True
         )
 
-        FrozenStatusService._update_attendance_mode_and_create_log_entry(
-            shift_user_data, actor, ShiftAttendanceMode.FROZEN
-        )
-
-        self.assertEqual(ShiftAttendanceMode.FROZEN, shift_user_data.attendance_mode)
+        self.assertEqual(True, shift_user_data.is_frozen)
         shift_user_data.save.assert_called_once()
         self.assertEqual(2, mock_freeze_for_log.call_count)
         mock_update_shift_user_data_log_entry_class.assert_called_once()
@@ -314,9 +334,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         )
         mock_entry.populate.return_value.save.assert_called_once()
 
-    @patch("tapir.shifts.services.frozen_status_service.timezone.now")
+    @patch("tapir.shifts.services.frozen_status_management_service.timezone.now")
     @patch(
-        "tapir.shifts.services.frozen_status_service.ShiftAttendanceTemplate.objects.filter"
+        "tapir.shifts.services.frozen_status_management_service.ShiftAttendanceTemplate.objects.filter"
     )
     def test_cancelFutureAttendancesTemplates(self, mock_filter: Mock, mock_now: Mock):
         shift_user_data = ShiftUserData()
@@ -324,7 +344,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_attendance_templates = [Mock(), Mock()]
         mock_filter.return_value = mock_attendance_templates
 
-        FrozenStatusService._cancel_future_attendances_templates(shift_user_data)
+        FrozenStatusManagementService._cancel_future_attendances_templates(
+            shift_user_data
+        )
 
         mock_filter.assert_called_once_with(user=shift_user_data.user)
         for mock_attendance_template in mock_attendance_templates:
@@ -338,7 +360,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data.get_account_balance.return_value = -3
 
         self.assertFalse(
-            FrozenStatusService.should_send_freeze_warning(shift_user_data)
+            FrozenStatusManagementService.should_send_freeze_warning(shift_user_data)
         )
         shift_user_data.get_account_balance.assert_called_once()
 
@@ -350,7 +372,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data.get_account_balance.return_value = -6
         mock_is_member_expected_to_do_shifts.return_value = False
         self.assertFalse(
-            FrozenStatusService.should_send_freeze_warning(shift_user_data)
+            FrozenStatusManagementService.should_send_freeze_warning(shift_user_data)
         )
         shift_user_data.get_account_balance.assert_called_once()
         mock_is_member_expected_to_do_shifts.assert_called_once_with(
@@ -371,7 +393,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         )
 
         self.assertTrue(
-            FrozenStatusService.should_send_freeze_warning(mock_shift_user_data)
+            FrozenStatusManagementService.should_send_freeze_warning(
+                mock_shift_user_data
+            )
         )
 
         mock_shift_user_data.get_account_balance.assert_called_once()
@@ -404,7 +428,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_is_member_expected_to_do_shifts.return_value = True
 
         self.assertTrue(
-            FrozenStatusService.should_send_freeze_warning(mock_shift_user_data)
+            FrozenStatusManagementService.should_send_freeze_warning(
+                mock_shift_user_data
+            )
         )
 
         mock_shift_user_data.get_account_balance.assert_called_once()
@@ -437,7 +463,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_is_member_expected_to_do_shifts.return_value = True
 
         self.assertFalse(
-            FrozenStatusService.should_send_freeze_warning(mock_shift_user_data)
+            FrozenStatusManagementService.should_send_freeze_warning(
+                mock_shift_user_data
+            )
         )
 
         mock_shift_user_data.get_account_balance.assert_called_once()
@@ -452,12 +480,12 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             mock_shift_user_data, self.NOW
         )
 
-    @patch("tapir.shifts.services.frozen_status_service.FreezeWarningEmail")
+    @patch("tapir.shifts.services.frozen_status_management_service.FreezeWarningEmail")
     def test_send_freeze_warning_email(self, mock_freeze_warning_email_class: Mock):
         shift_user_data = ShiftUserData()
         shift_user_data.user = TapirUser()
 
-        FrozenStatusService.send_freeze_warning_email(shift_user_data)
+        FrozenStatusManagementService.send_freeze_warning_email(shift_user_data)
 
         mock_freeze_warning_email_class.assert_called_once_with(shift_user_data)
         mock_send_to_tapir_user = (
@@ -471,7 +499,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data = ShiftUserData()
         shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
 
-        self.assertFalse(FrozenStatusService.should_unfreeze_member(shift_user_data))
+        self.assertFalse(
+            FrozenStatusManagementService.should_unfreeze_member(shift_user_data)
+        )
 
     def test_shouldUnfreezeMember_memberIsInactive_returnsFalse(self):
         shift_user_data = Mock()
@@ -479,7 +509,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data.get_account_balance.return_value = 10
         shift_user_data.user.share_owner.is_active.return_value = False
 
-        self.assertFalse(FrozenStatusService.should_unfreeze_member(shift_user_data))
+        self.assertFalse(
+            FrozenStatusManagementService.should_unfreeze_member(shift_user_data)
+        )
 
         shift_user_data.user.share_owner.is_active.assert_called_once_with()
 
@@ -489,13 +521,15 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         shift_user_data.get_account_balance.return_value = -3
         shift_user_data.user.share_owner.is_active.return_value = True
 
-        self.assertTrue(FrozenStatusService.should_unfreeze_member(shift_user_data))
+        self.assertTrue(
+            FrozenStatusManagementService.should_unfreeze_member(shift_user_data)
+        )
 
         shift_user_data.user.share_owner.is_active.assert_called_once_with()
         shift_user_data.get_account_balance.assert_called_once_with()
 
     @patch.object(
-        FrozenStatusService,
+        FrozenStatusManagementService,
         "_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account",
     )
     def test_shouldUnfreezeMember_memberRegisteredToEnoughShifts_returnsTrue(
@@ -510,7 +544,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         )
         shift_user_data.user.share_owner.is_active.return_value = True
 
-        self.assertTrue(FrozenStatusService.should_unfreeze_member(shift_user_data))
+        self.assertTrue(
+            FrozenStatusManagementService.should_unfreeze_member(shift_user_data)
+        )
 
         shift_user_data.user.share_owner.is_active.assert_called_once_with()
         shift_user_data.get_account_balance.assert_called_once_with()
@@ -519,7 +555,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         )
 
     @patch.object(
-        FrozenStatusService,
+        FrozenStatusManagementService,
         "_is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account",
     )
     def test_shouldUnfreezeMember_memberNotRegisteredToEnoughShifts_returnsFalse(
@@ -534,7 +570,9 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         )
         shift_user_data.user.share_owner.is_active.return_value = True
 
-        self.assertFalse(FrozenStatusService.should_unfreeze_member(shift_user_data))
+        self.assertFalse(
+            FrozenStatusManagementService.should_unfreeze_member(shift_user_data)
+        )
 
         shift_user_data.user.share_owner.is_active.assert_called_once_with()
         shift_user_data.get_account_balance.assert_called_once_with()
@@ -542,18 +580,20 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             shift_user_data
         )
 
-    @patch("tapir.shifts.services.frozen_status_service.UnfreezeNotificationEmail")
+    @patch(
+        "tapir.shifts.services.frozen_status_management_service.UnfreezeNotificationEmail"
+    )
     @patch.object(
-        FrozenStatusService,
+        FrozenStatusManagementService,
         "_get_last_attendance_mode_before_frozen",
     )
     @patch.object(
-        FrozenStatusService,
-        "_update_attendance_mode_and_create_log_entry",
+        FrozenStatusManagementService,
+        "_update_frozen_status_and_create_log_entry",
     )
     def test_unfreezeAndSendNotificationEmail(
         self,
-        mock_update_attendance_mode_and_create_log_entry: Mock,
+        mock_update_frozen_status_and_create_log_entry: Mock,
         mock_get_last_attendance_mode_before_frozen: Mock,
         mock_unfreeze_notification_email_class: Mock,
     ):
@@ -564,12 +604,14 @@ class TestFrozenStatusService(TapirFactoryTestBase):
             ShiftAttendanceMode.REGULAR
         )
 
-        FrozenStatusService.unfreeze_and_send_notification_email(shift_user_data, actor)
+        FrozenStatusManagementService.unfreeze_and_send_notification_email(
+            shift_user_data, actor
+        )
 
-        mock_update_attendance_mode_and_create_log_entry.assert_called_once_with(
+        mock_update_frozen_status_and_create_log_entry.assert_called_once_with(
             shift_user_data=shift_user_data,
             actor=actor,
-            attendance_mode=ShiftAttendanceMode.REGULAR,
+            is_frozen=False,
         )
         mock_unfreeze_notification_email_class.assert_called_once_with()
         mock_email = mock_unfreeze_notification_email_class.return_value
@@ -578,7 +620,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         )
 
     @patch(
-        "tapir.shifts.services.frozen_status_service.UpdateShiftUserDataLogEntry.objects.filter"
+        "tapir.shifts.services.frozen_status_management_service.UpdateShiftUserDataLogEntry.objects.filter"
     )
     def test_getLastAttendanceModeBeforeFrozen_noLogEntryFound_returnsFlying(
         self, mock_filter: Mock
@@ -591,7 +633,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
         self.assertEqual(
             ShiftAttendanceMode.FLYING,
-            FrozenStatusService._get_last_attendance_mode_before_frozen(
+            FrozenStatusManagementService._get_last_attendance_mode_before_frozen(
                 shift_user_data
             ),
         )
@@ -604,7 +646,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
         mock_first.assert_called_once_with()
 
     @patch(
-        "tapir.shifts.services.frozen_status_service.UpdateShiftUserDataLogEntry.objects.filter"
+        "tapir.shifts.services.frozen_status_management_service.UpdateShiftUserDataLogEntry.objects.filter"
     )
     def test_getLastAttendanceModeBeforeFrozen_default_returnsLastMode(
         self, mock_filter: Mock
@@ -621,7 +663,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
         self.assertEqual(
             ShiftAttendanceMode.REGULAR,
-            FrozenStatusService._get_last_attendance_mode_before_frozen(
+            FrozenStatusManagementService._get_last_attendance_mode_before_frozen(
                 shift_user_data
             ),
         )
