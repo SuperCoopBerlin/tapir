@@ -23,8 +23,8 @@ class ShiftExpectationService:
         ):
             return False
 
-        if FrozenStatusHistoryService.is_frozen_at_date(
-            shift_user_data, at_datetime.date()
+        if FrozenStatusHistoryService.is_frozen_at_datetime(
+            shift_user_data, at_datetime
         ):
             return False
 

@@ -77,7 +77,7 @@ class WelcomeDeskReasonsCannotShopService:
     def should_show_frozen_reason(share_owner: ShareOwner, reference_date, **_):
         return (
             share_owner.user is not None
-            and FrozenStatusHistoryService.is_frozen_at_date(
+            and FrozenStatusHistoryService.is_frozen_at_datetime(
                 share_owner.user.shift_user_data, reference_date
             )
         )

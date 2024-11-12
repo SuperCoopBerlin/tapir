@@ -98,7 +98,7 @@ class ShiftAttendanceModeService:
         if at_date is None:
             at_date = timezone.now().date()
 
-        queryset = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_date(
+        queryset = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
             queryset, at_date, attendance_mode_prefix
         )
 

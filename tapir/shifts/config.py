@@ -1,5 +1,7 @@
 import datetime
 
+from tapir.utils.shortcuts import get_timezone_aware_datetime
+
 cycle_start_dates = [
     datetime.date(year=2022, month=4, day=11),
 ]
@@ -14,3 +16,6 @@ NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS = 8
 FEATURE_FLAG_SHIFT_PARTNER = "feature_flags.shifts.shift_partner"
 
 ATTENDANCE_MODE_REFACTOR_DATE = datetime.date(year=2024, month=11, day=11)
+ATTENDANCE_MODE_REFACTOR_DATETIME = get_timezone_aware_datetime(
+    ATTENDANCE_MODE_REFACTOR_DATE, datetime.time(hour=0, minute=0)
+)

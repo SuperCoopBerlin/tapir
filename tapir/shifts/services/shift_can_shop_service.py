@@ -15,6 +15,10 @@ if typing.TYPE_CHECKING:
 class ShiftCanShopService:
     @classmethod
     def can_shop(
-        cls, member_object: ShiftUserData | ShareOwner, at_date: datetime.date = None
+        cls,
+        member_object: ShiftUserData | ShareOwner,
+        at_datetime: datetime.datetime = None,
     ):
-        return not FrozenStatusHistoryService.is_frozen_at_date(member_object, at_date)
+        return not FrozenStatusHistoryService.is_frozen_at_datetime(
+            member_object, at_datetime
+        )
