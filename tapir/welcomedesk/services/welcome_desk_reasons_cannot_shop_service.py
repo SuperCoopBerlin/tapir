@@ -4,7 +4,6 @@ from django.utils.translation import gettext_lazy as _
 from tapir.coop.models import ShareOwner
 from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
-from tapir.shifts.models import ShiftAttendanceMode
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
@@ -75,10 +74,9 @@ class WelcomeDeskReasonsCannotShopService:
     def should_show_frozen_reason(share_owner: ShareOwner, reference_date, **_):
         return (
             share_owner.user is not None
-            and ShiftAttendanceModeService.get_attendance_mode(
-                share_owner, reference_date
+            and ShiftAttendanceModeService.is_frozen_at_date(
+                share_owner.user.shift_user_data, reference_date
             )
-            == ShiftAttendanceMode.FROZEN
         )
 
     @staticmethod

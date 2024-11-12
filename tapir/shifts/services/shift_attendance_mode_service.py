@@ -28,6 +28,8 @@ from tapir.utils.shortcuts import ensure_date
 class ShiftAttendanceModeService:
     ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE = "attendance_mode_at_date"
     ANNOTATION_SHIFT_ATTENDANCE_MODE_DATE_CHECK = "attendance_mode_date_check"
+    ANNOTATION_IS_FROZEN_AT_DATE = "is_frozen_at_date"
+    ANNOTATION_IS_FROZEN_DATE_CHECK = "is_frozen_date_check"
     ATTENDANCE_MODE_REFACTOR_DATE = datetime.date(year=2024, month=11, day=11)
 
     @classmethod
@@ -57,9 +59,36 @@ class ShiftAttendanceModeService:
         return getattr(shift_user_data, cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE)
 
     @classmethod
-    def _annotate_shift_user_data_queryset_with_is_frozen_at_date(
-        cls, queryset: QuerySet, at_date: datetime.date, attendance_mode_prefix
+    def is_frozen_at_date(
+        cls, shift_user_data: ShiftUserData, at_date: datetime.date = None
     ):
+        if at_date is None:
+            at_date = timezone.now().date()
+
+        at_date = ensure_date(at_date)
+
+        if not hasattr(shift_user_data, cls.ANNOTATION_IS_FROZEN_AT_DATE):
+            shift_user_data = (
+                cls.annotate_shift_user_data_queryset_with_is_frozen_at_date(
+                    ShiftUserData.objects.filter(id=shift_user_data.id), at_date
+                ).first()
+            )
+
+        annotated_date = getattr(shift_user_data, cls.ANNOTATION_IS_FROZEN_DATE_CHECK)
+        if annotated_date != at_date:
+            raise ValueError(
+                f"Trying to get the frozen status at date {at_date}, but the queryset has been "
+                f"annotated relative to {annotated_date}"
+            )
+        return getattr(shift_user_data, cls.ANNOTATION_IS_FROZEN_AT_DATE)
+
+    @classmethod
+    def annotate_shift_user_data_queryset_with_is_frozen_at_date(
+        cls, queryset: QuerySet, at_date: datetime.date, attendance_mode_prefix=None
+    ):
+        queryset = queryset.annotate(
+            **{cls.ANNOTATION_IS_FROZEN_DATE_CHECK: Value(at_date)}
+        )
         if at_date < cls.ATTENDANCE_MODE_REFACTOR_DATE:
             return cls._annotate_shift_user_data_queryset_with_is_frozen_at_date_before_refactor(
                 queryset, at_date
@@ -179,7 +208,7 @@ class ShiftAttendanceModeService:
         if at_date is None:
             at_date = timezone.now().date()
 
-        queryset = cls._annotate_shift_user_data_queryset_with_is_frozen_at_date(
+        queryset = cls.annotate_shift_user_data_queryset_with_is_frozen_at_date(
             queryset, at_date, attendance_mode_prefix
         )
 

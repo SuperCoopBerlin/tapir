@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 import typing
 
-from tapir.shifts.models import ShiftAttendanceMode, ShiftUserData
+from tapir.shifts.models import ShiftUserData
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
@@ -17,7 +17,4 @@ class ShiftCanShopService:
     def can_shop(
         cls, member_object: ShiftUserData | ShareOwner, at_date: datetime.date = None
     ):
-        return (
-            ShiftAttendanceModeService.get_attendance_mode(member_object, at_date)
-            != ShiftAttendanceMode.FROZEN
-        )
+        return not ShiftAttendanceModeService.is_frozen_at_date(member_object, at_date)
