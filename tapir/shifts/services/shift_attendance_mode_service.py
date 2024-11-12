@@ -1,16 +1,33 @@
 import datetime
 
-from django.db.models import QuerySet, OuterRef, Value, Subquery, CharField
+from django.db.models import (
+    QuerySet,
+    OuterRef,
+    Value,
+    Subquery,
+    CharField,
+    Case,
+    When,
+    Count,
+    F,
+)
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 
-from tapir.shifts.models import ShiftUserData
+from tapir.shifts.models import (
+    ShiftUserData,
+    ShiftAttendanceMode,
+    UpdateShiftUserDataLogEntry,
+    DeleteShiftAttendanceTemplateLogEntry,
+    CreateShiftAttendanceTemplateLogEntry,
+)
 from tapir.utils.shortcuts import ensure_date
 
 
 class ShiftAttendanceModeService:
     ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE = "attendance_mode_at_date"
     ANNOTATION_SHIFT_ATTENDANCE_MODE_DATE_CHECK = "attendance_mode_date_check"
+    ATTENDANCE_MODE_REFACTOR_DATE = datetime.date(year=2024, month=11, day=13)
 
     @classmethod
     def get_attendance_mode(
@@ -39,15 +56,21 @@ class ShiftAttendanceModeService:
         return getattr(shift_user_data, cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE)
 
     @classmethod
-    def annotate_shift_user_data_queryset_with_attendance_mode_at_date(
-        cls,
-        queryset: QuerySet,
-        at_date: datetime.date = None,
-        attendance_mode_prefix=None,
+    def _annotate_shift_user_data_queryset_with_is_frozen_at_date(
+        cls, queryset: QuerySet, at_date: datetime.date, attendance_mode_prefix
     ):
-        if at_date is None:
-            at_date = timezone.now().date()
+        if at_date < cls.ATTENDANCE_MODE_REFACTOR_DATE:
+            return cls._annotate_shift_user_data_queryset_with_is_frozen_at_date_before_refactor(
+                queryset, at_date
+            )
+        return cls._annotate_shift_user_data_queryset_with_is_frozen_at_date_after_refactor(
+            queryset, at_date, attendance_mode_prefix
+        )
 
+    @classmethod
+    def _annotate_shift_user_data_queryset_with_is_frozen_at_date_before_refactor(
+        cls, queryset: QuerySet, at_date: datetime.date = None
+    ):
         from tapir.shifts.models import UpdateShiftUserDataLogEntry
 
         queryset = queryset.annotate(
@@ -62,14 +85,97 @@ class ShiftAttendanceModeService:
             )
         )
 
-        annotate_kwargs = {
-            cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE: Coalesce(
-                "attendance_mode_from_log_entry",
-                (
-                    "attendance_mode"
-                    if attendance_mode_prefix is None
-                    else f"{attendance_mode_prefix}__attendance_mode"
+        return queryset.annotate(
+            is_frozen_at_date=Case(
+                When(
+                    attendance_mode_from_log_entry=ShiftAttendanceMode.FROZEN, then=True
                 ),
+                default=False,
+            )
+        )
+
+    @classmethod
+    def _annotate_shift_user_data_queryset_with_is_frozen_at_date_after_refactor(
+        cls,
+        queryset: QuerySet,
+        at_date: datetime.date = None,
+        attendance_mode_prefix=None,
+    ):
+        queryset = queryset.annotate(
+            is_frozen_from_log_entry=Subquery(
+                UpdateShiftUserDataLogEntry.objects.filter(
+                    user_id=OuterRef("user_id"),
+                    created_date__gte=at_date,
+                )
+                .order_by("created_date")
+                .values("old_values__is_frozen")[:1],
+                output_field=CharField(),
+            )
+        )
+
+        return queryset.annotate(
+            is_frozen_at_date=Coalesce(
+                "is_frozen_from_log_entry",
+                (
+                    "is_frozen"
+                    if attendance_mode_prefix is None
+                    else f"{attendance_mode_prefix}__is_frozen"
+                ),
+            ),
+        )
+
+    @classmethod
+    def _annotate_queryset_with_has_abcd_attendance_at_date(
+        cls, queryset: QuerySet, at_date: datetime.date
+    ):
+        queryset = queryset.annotate(
+            nb_attendance_template_create=Count(
+                CreateShiftAttendanceTemplateLogEntry.objects.filter(
+                    user_id=OuterRef("user_id"),
+                    created_date__lte=at_date,
+                )
+            ),
+            nb_attendance_template_delete=Count(
+                DeleteShiftAttendanceTemplateLogEntry.objects.filter(
+                    user_id=OuterRef("user_id"),
+                    created_date__lte=at_date,
+                )
+            ),
+        )
+
+        return queryset.annotate(
+            has_abcd_attendance_at_date=When(
+                nb_attendance_template_create__gt=F("nb_attendance_template_delete"),
+                then=True,
+            ),
+            default=False,
+        )
+
+    @classmethod
+    def annotate_shift_user_data_queryset_with_attendance_mode_at_date(
+        cls,
+        queryset: QuerySet,
+        at_date: datetime.date = None,
+        attendance_mode_prefix=None,
+    ):
+        if at_date is None:
+            at_date = timezone.now().date()
+
+        queryset = cls._annotate_shift_user_data_queryset_with_is_frozen_at_date(
+            queryset, at_date, attendance_mode_prefix
+        )
+
+        queryset = cls._annotate_queryset_with_has_abcd_attendance_at_date(
+            queryset, at_date
+        )
+
+        annotate_kwargs = {
+            cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE: Case(
+                When(is_frozen_at_date=True, then=ShiftAttendanceMode.FROZEN),
+                When(
+                    has_abcd_attendance_at_date=True, then=ShiftAttendanceMode.REGULAR
+                ),
+                default=ShiftAttendanceMode.FLYING,
             ),
             cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_DATE_CHECK: Value(at_date),
         }
@@ -82,8 +188,3 @@ class ShiftAttendanceModeService:
         return cls.annotate_shift_user_data_queryset_with_attendance_mode_at_date(
             queryset, at_date, "user__shift_user_data"
         )
-
-    @staticmethod
-    def transfer_attributes(source, target, attributes):
-        for attribute in attributes:
-            setattr(target, attribute, getattr(source, attribute))

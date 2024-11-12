@@ -957,6 +957,13 @@ class ShiftAttendanceMode:
     FROZEN = "frozen"
 
 
+SHIFT_ATTENDANCE_MODE_CHOICES = [
+    (ShiftAttendanceMode.REGULAR, _("🏠 ABCD")),
+    (ShiftAttendanceMode.FLYING, _("✈ Flying")),
+    (ShiftAttendanceMode.FROZEN, _("❄ Frozen")),
+]
+
+
 class ShiftUserDataQuerySet(models.QuerySet):
     def is_covered_by_exemption(self, date=None):
         return self.filter(
@@ -977,18 +984,6 @@ class ShiftUserData(models.Model):
         ),
         default=list,
     )
-    SHIFT_ATTENDANCE_MODE_CHOICES = [
-        (ShiftAttendanceMode.REGULAR, _("🏠 ABCD")),
-        (ShiftAttendanceMode.FLYING, _("✈ Flying")),
-        (ShiftAttendanceMode.FROZEN, _("❄ Frozen")),
-    ]
-    attendance_mode = models.CharField(
-        _("Shift system"),
-        max_length=32,
-        choices=SHIFT_ATTENDANCE_MODE_CHOICES,
-        default=ShiftAttendanceMode.REGULAR,
-        blank=False,
-    )
     shift_partner = models.OneToOneField(
         "self",
         on_delete=models.SET_NULL,
@@ -996,6 +991,7 @@ class ShiftUserData(models.Model):
         blank=False,
         related_name="shift_partner_of",
     )
+    is_frozen = models.BooleanField(default=False, verbose_name=_("Is frozen"))
 
     objects = ShiftUserDataQuerySet.as_manager()
 
