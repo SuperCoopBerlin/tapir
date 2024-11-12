@@ -10,6 +10,7 @@ from django.db.models import (
     When,
     Count,
     F,
+    Q,
 )
 from django.db.models.functions import Coalesce
 from django.utils import timezone
@@ -27,7 +28,7 @@ from tapir.utils.shortcuts import ensure_date
 class ShiftAttendanceModeService:
     ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE = "attendance_mode_at_date"
     ANNOTATION_SHIFT_ATTENDANCE_MODE_DATE_CHECK = "attendance_mode_date_check"
-    ATTENDANCE_MODE_REFACTOR_DATE = datetime.date(year=2024, month=11, day=13)
+    ATTENDANCE_MODE_REFACTOR_DATE = datetime.date(year=2024, month=11, day=11)
 
     @classmethod
     def get_attendance_mode(
@@ -88,9 +89,10 @@ class ShiftAttendanceModeService:
         return queryset.annotate(
             is_frozen_at_date=Case(
                 When(
-                    attendance_mode_from_log_entry=ShiftAttendanceMode.FROZEN, then=True
+                    attendance_mode_from_log_entry=ShiftAttendanceMode.FROZEN,
+                    then=Value(True),
                 ),
-                default=False,
+                default=Value(False),
             )
         )
 
@@ -102,7 +104,7 @@ class ShiftAttendanceModeService:
         attendance_mode_prefix=None,
     ):
         queryset = queryset.annotate(
-            is_frozen_from_log_entry=Subquery(
+            is_frozen_from_log_entry_as_string=Subquery(
                 UpdateShiftUserDataLogEntry.objects.filter(
                     user_id=OuterRef("user_id"),
                     created_date__gte=at_date,
@@ -113,9 +115,17 @@ class ShiftAttendanceModeService:
             )
         )
 
+        queryset = queryset.annotate(
+            is_frozen_from_log_entry_as_bool=Case(
+                When(is_frozen_from_log_entry_as_string="True", then=True),
+                When(is_frozen_from_log_entry_as_string="False", then=False),
+                default=None,
+            )
+        )
+
         return queryset.annotate(
             is_frozen_at_date=Coalesce(
-                "is_frozen_from_log_entry",
+                "is_frozen_from_log_entry_as_bool",
                 (
                     "is_frozen"
                     if attendance_mode_prefix is None
@@ -130,26 +140,34 @@ class ShiftAttendanceModeService:
     ):
         queryset = queryset.annotate(
             nb_attendance_template_create=Count(
-                CreateShiftAttendanceTemplateLogEntry.objects.filter(
-                    user_id=OuterRef("user_id"),
-                    created_date__lte=at_date,
-                )
+                "user__log_entries",
+                filter=Q(
+                    user__log_entries__log_class_type__model=CreateShiftAttendanceTemplateLogEntry.__name__.lower(),
+                    user__log_entries__created_date__lte=at_date,
+                ),
             ),
             nb_attendance_template_delete=Count(
-                DeleteShiftAttendanceTemplateLogEntry.objects.filter(
-                    user_id=OuterRef("user_id"),
-                    created_date__lte=at_date,
-                )
+                "user__log_entries",
+                filter=Q(
+                    user__log_entries__log_class_type__model=DeleteShiftAttendanceTemplateLogEntry.__name__.lower(),
+                    user__log_entries__created_date__lte=at_date,
+                ),
             ),
         )
 
-        return queryset.annotate(
-            has_abcd_attendance_at_date=When(
-                nb_attendance_template_create__gt=F("nb_attendance_template_delete"),
-                then=True,
+        queryset = queryset.annotate(
+            has_abcd_attendance_at_date=Case(
+                When(
+                    nb_attendance_template_create__gt=F(
+                        "nb_attendance_template_delete"
+                    ),
+                    then=Value(True),
+                ),
+                default=Value(False),
             ),
-            default=False,
         )
+
+        return queryset
 
     @classmethod
     def annotate_shift_user_data_queryset_with_attendance_mode_at_date(
@@ -171,11 +189,12 @@ class ShiftAttendanceModeService:
 
         annotate_kwargs = {
             cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE: Case(
-                When(is_frozen_at_date=True, then=ShiftAttendanceMode.FROZEN),
+                When(is_frozen_at_date=True, then=Value(ShiftAttendanceMode.FROZEN)),
                 When(
-                    has_abcd_attendance_at_date=True, then=ShiftAttendanceMode.REGULAR
+                    has_abcd_attendance_at_date=True,
+                    then=Value(ShiftAttendanceMode.REGULAR),
                 ),
-                default=ShiftAttendanceMode.FLYING,
+                default=Value(ShiftAttendanceMode.FLYING),
             ),
             cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_DATE_CHECK: Value(at_date),
         }

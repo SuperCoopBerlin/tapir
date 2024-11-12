@@ -3,6 +3,9 @@ import datetime
 from django.utils import timezone
 
 from tapir.shifts.models import ShiftUserData, ShiftAttendanceMode
+from tapir.shifts.services.shift_attendance_mode_service import (
+    ShiftAttendanceModeService,
+)
 from tapir.utils.shortcuts import get_timezone_aware_datetime
 
 
@@ -20,7 +23,12 @@ class ShiftExpectationService:
         ):
             return False
 
-        if shift_user_data.attendance_mode == ShiftAttendanceMode.FROZEN:
+        if (
+            ShiftAttendanceModeService.get_attendance_mode(
+                shift_user_data, at_datetime.date()
+            )
+            == ShiftAttendanceMode.FROZEN
+        ):
             return False
 
         if shift_user_data.user.date_joined.date() > at_datetime.date():

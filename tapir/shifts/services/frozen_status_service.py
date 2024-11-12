@@ -28,7 +28,7 @@ from tapir.shifts.services.shift_expectation_service import ShiftExpectationServ
 class FrozenStatusService:
     @classmethod
     def should_freeze_member(cls, shift_user_data: ShiftUserData) -> bool:
-        if shift_user_data.attendance_mode == ShiftAttendanceMode.FROZEN:
+        if shift_user_data.is_frozen:
             return False
 
         if not ShiftExpectationService.is_member_expected_to_do_shifts(
@@ -146,7 +146,7 @@ class FrozenStatusService:
 
     @classmethod
     def should_unfreeze_member(cls, shift_user_data: ShiftUserData):
-        if shift_user_data.attendance_mode != ShiftAttendanceMode.FROZEN:
+        if not shift_user_data.is_frozen:
             return False
 
         if not shift_user_data.user.share_owner.is_active():

@@ -30,7 +30,7 @@ class TestFrozenStatusService(TapirFactoryTestBase):
 
     def test_shouldFreezeMember_memberAlreadyFrozen_returnsFalse(self):
         shift_user_data = ShiftUserData()
-        shift_user_data.attendance_mode = ShiftAttendanceMode.FROZEN
+        shift_user_data.is_frozen = True
         self.assertFalse(FrozenStatusService.should_freeze_member(shift_user_data))
 
     @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
