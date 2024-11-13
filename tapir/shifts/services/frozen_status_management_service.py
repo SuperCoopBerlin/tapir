@@ -21,6 +21,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAccountEntry,
     ShiftAttendance,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 
@@ -83,6 +84,15 @@ class FrozenStatusManagementService:
         with transaction.atomic():
             cls._update_frozen_status_and_create_log_entry(shift_user_data, actor, True)
             cls._cancel_future_attendances_templates(shift_user_data)
+            for attendance_template in ShiftAttendanceTemplate.objects.filter(
+                user=shift_user_data.user
+            ):
+                DeleteShiftAttendanceTemplateLogEntry().populate(
+                    actor=actor,
+                    tapir_user=shift_user_data.user,
+                    shift_attendance_template=attendance_template,
+                    comment="Unregistered because frozen",
+                ).save()
             ShiftAttendanceTemplate.objects.filter(user=shift_user_data.user).delete()
         email = MemberFrozenEmail()
         email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
@@ -109,7 +119,6 @@ class FrozenStatusManagementService:
             user=shift_user_data.user
         ):
             attendance_template.cancel_attendances(timezone.now())
-            attendance_template.delete()
 
     @classmethod
     def should_send_freeze_warning(cls, shift_user_data: ShiftUserData):

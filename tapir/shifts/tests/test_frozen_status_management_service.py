@@ -14,6 +14,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftAttendanceTemplate,
     ShiftTemplate,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.shifts.services.frozen_status_management_service import (
     FrozenStatusManagementService,
@@ -286,7 +287,7 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
         ShiftAttendanceTemplate.objects.create(
             slot_template=shift_template.slot_templates.first(), user=tapir_user
         )
-        actor = TapirUser()
+        actor = TapirUserFactory.create()
 
         FrozenStatusManagementService.freeze_member_and_send_email(
             tapir_user.shift_user_data, actor
@@ -299,6 +300,7 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             tapir_user.shift_user_data
         )
         self.assertEqual(0, ShiftAttendanceTemplate.objects.all().count())
+        self.assertEqual(1, DeleteShiftAttendanceTemplateLogEntry.objects.count())
         mock_member_frozen_email_class.assert_called_once()
         mock_member_frozen_email_class.return_value.send_to_tapir_user.assert_called_once_with(
             actor=actor, recipient=tapir_user
@@ -353,7 +355,6 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             mock_attendance_template.cancel_attendances.assert_called_once_with(
                 mock_now.return_value
             )
-            mock_attendance_template.delete.assert_called_once_with()
 
     def test_shouldSendFreezeWarning_balanceAboveThreshold_returnsFalse(self):
         shift_user_data = Mock()

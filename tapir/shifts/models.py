@@ -452,13 +452,15 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser,
         tapir_user: TapirUser,
         shift_attendance_template: ShiftAttendanceTemplate,
+        comment: str,
     ):
         self.slot_template_name = shift_attendance_template.slot_template.name
         self.slot_template = shift_attendance_template.slot_template
         self.shift_template = shift_attendance_template.slot_template.shift_template
+        self.comment = comment
         return super().populate_base(
             actor=actor, tapir_user=tapir_user, model=shift_attendance_template
         )
@@ -470,6 +472,8 @@ class CreateShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
 
 class DeleteShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
     template_name = "shifts/log/delete_shift_attendance_template_log_entry.html"
+
+    comment = models.CharField(null=True, max_length=255)
 
 
 class Shift(models.Model):
@@ -606,7 +610,9 @@ class ShiftAttendanceLogEntry(ModelLogEntry):
             context["state_name"] = SHIFT_ATTENDANCE_STATES[self.state]
         return context
 
-    def populate(self, actor: User, tapir_user: TapirUser, attendance: ShiftAttendance):
+    def populate(
+        self, actor: TapirUser, tapir_user: TapirUser, attendance: ShiftAttendance
+    ):
         self.slot_name = attendance.slot.name
         self.shift = attendance.slot.shift
         self.state = attendance.state
@@ -941,7 +947,7 @@ class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         tapir_user: TapirUser,
-        actor: User | None,
+        actor: TapirUser | None,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -1141,7 +1147,7 @@ class UpdateExemptionLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         tapir_user: TapirUser,
-        actor: User,
+        actor: TapirUser,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
