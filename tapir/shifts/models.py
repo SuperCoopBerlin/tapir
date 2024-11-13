@@ -452,15 +452,13 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: TapirUser,
+        actor: TapirUser | User,
         tapir_user: TapirUser,
         shift_attendance_template: ShiftAttendanceTemplate,
-        comment: str,
     ):
         self.slot_template_name = shift_attendance_template.slot_template.name
         self.slot_template = shift_attendance_template.slot_template
         self.shift_template = shift_attendance_template.slot_template.shift_template
-        self.comment = comment
         return super().populate_base(
             actor=actor, tapir_user=tapir_user, model=shift_attendance_template
         )
@@ -474,6 +472,20 @@ class DeleteShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
     template_name = "shifts/log/delete_shift_attendance_template_log_entry.html"
 
     comment = models.CharField(null=True, max_length=255)
+
+    def populate(
+        self,
+        actor: TapirUser | User,
+        tapir_user: TapirUser,
+        shift_attendance_template: ShiftAttendanceTemplate,
+        comment: str,
+    ):
+        self.comment = comment
+        return super().populate(
+            actor=actor,
+            tapir_user=tapir_user,
+            shift_attendance_template=shift_attendance_template,
+        )
 
 
 class Shift(models.Model):
@@ -611,7 +623,10 @@ class ShiftAttendanceLogEntry(ModelLogEntry):
         return context
 
     def populate(
-        self, actor: TapirUser, tapir_user: TapirUser, attendance: ShiftAttendance
+        self,
+        actor: TapirUser | User,
+        tapir_user: TapirUser,
+        attendance: ShiftAttendance,
     ):
         self.slot_name = attendance.slot.name
         self.shift = attendance.slot.shift
@@ -947,7 +962,7 @@ class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         tapir_user: TapirUser,
-        actor: TapirUser | None,
+        actor: TapirUser | User | None,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -1147,7 +1162,7 @@ class UpdateExemptionLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         tapir_user: TapirUser,
-        actor: TapirUser,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             old_frozen=old_frozen,

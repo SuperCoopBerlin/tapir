@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.models import User
 from django.db import transaction
 from django.utils import timezone
 
@@ -79,27 +80,28 @@ class FrozenStatusManagementService:
 
     @classmethod
     def freeze_member_and_send_email(
-        cls, shift_user_data: ShiftUserData, actor: TapirUser | None
+        cls, shift_user_data: ShiftUserData, actor: TapirUser | User | None
     ):
         with transaction.atomic():
             cls._update_frozen_status_and_create_log_entry(shift_user_data, actor, True)
             cls._cancel_future_attendances_templates(shift_user_data)
-            for attendance_template in ShiftAttendanceTemplate.objects.filter(
+            attendance_templates_to_delete = ShiftAttendanceTemplate.objects.filter(
                 user=shift_user_data.user
-            ):
+            )
+            for attendance_template in attendance_templates_to_delete:
                 DeleteShiftAttendanceTemplateLogEntry().populate(
                     actor=actor,
                     tapir_user=shift_user_data.user,
                     shift_attendance_template=attendance_template,
                     comment="Unregistered because frozen",
                 ).save()
-            ShiftAttendanceTemplate.objects.filter(user=shift_user_data.user).delete()
+            attendance_templates_to_delete.delete()
         email = MemberFrozenEmail()
         email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
 
     @staticmethod
     def _update_frozen_status_and_create_log_entry(
-        shift_user_data: ShiftUserData, actor: TapirUser | None, is_frozen: bool
+        shift_user_data: ShiftUserData, actor: TapirUser | User | None, is_frozen: bool
     ):
         old_data = freeze_for_log(shift_user_data)
         shift_user_data.is_frozen = is_frozen

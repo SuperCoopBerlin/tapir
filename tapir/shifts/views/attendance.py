@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -267,7 +268,7 @@ class RegisterUserToShiftSlotView(
         return self.get_slot().shift.get_absolute_url()
 
     @staticmethod
-    def mark_stand_in_found_if_relevant(slot: ShiftSlot, actor: TapirUser):
+    def mark_stand_in_found_if_relevant(slot: ShiftSlot, actor: TapirUser | User):
         attendances = ShiftAttendance.objects.filter(
             slot=slot, state=ShiftAttendance.State.LOOKING_FOR_STAND_IN
         )

@@ -249,7 +249,7 @@ class UpdateTapirUserLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         tapir_user: TapirUser,
-        actor: TapirUser,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             actor=actor,
