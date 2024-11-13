@@ -19,7 +19,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 class TestFrozenStatusHistoryService(TapirFactoryTestBase):
     @staticmethod
-    def create_annotated_shift_user_data_(
+    def create_annotated_shift_user_data(
         is_frozen: bool, annotation_time: datetime.datetime
     ):
         shift_user_data = ShiftUserData()
@@ -37,7 +37,7 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
 
     def test_isFrozenAtDatetime_annotationWithWrongDate_raisesError(self):
         reference_datetime = timezone.now()
-        shift_user_data = self.create_annotated_shift_user_data_(
+        shift_user_data = self.create_annotated_shift_user_data(
             True, reference_datetime
         )
 
@@ -55,7 +55,7 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
         self, mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime: Mock
     ):
         reference_datetime = timezone.now()
-        shift_user_data = self.create_annotated_shift_user_data_(
+        shift_user_data = self.create_annotated_shift_user_data(
             True, reference_datetime
         )
 
@@ -68,7 +68,7 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
 
     def test_isFrozenAtDatetime_annotatedFrozen_returnsTrue(self):
         reference_datetime = timezone.now()
-        shift_user_data = self.create_annotated_shift_user_data_(
+        shift_user_data = self.create_annotated_shift_user_data(
             True, reference_datetime
         )
 
@@ -81,7 +81,7 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
 
     def test_isFrozenAtDatetime_annotatedNotFrozen_returnsFalse(self):
         reference_datetime = timezone.now()
-        shift_user_data = self.create_annotated_shift_user_data_(
+        shift_user_data = self.create_annotated_shift_user_data(
             False, reference_datetime
         )
 
