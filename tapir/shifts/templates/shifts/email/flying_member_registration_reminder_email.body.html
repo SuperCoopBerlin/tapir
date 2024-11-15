@@ -1,0 +1,27 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    {% get_display_name_short member_infos as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short %}
+        <p>Hi {{ display_name_short }},</p>
+
+        <p>
+            we would like to remind you about your next <a href="https://members.supercoop.de/shifts/calendar">shift
+            registration</a>.
+        </p>
+        <p>
+            A new shift cycle has been running for a week and we have noticed
+            that you have not yet registered for a suitable shift. As a flying member,
+            unlike members with a regular ABCD shift, you have to take care of this yourself every four weeks.
+        </p>
+        <p>
+            So take a look at the <a href="https://members.supercoop.de/shifts/calendar">shift calendar on Tapir</a>
+            and register for one of the shifts highlighted in blue - this is where the most support is currently needed.
+        </p>
+        <p>
+            Cooperative greetings,<br />
+            The Member Office
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}
