@@ -66,39 +66,43 @@ class TestWelcomeDeskReasonsCannotShopService(TapirFactoryTestBase):
         )
         mock_is_investing.assert_called_once_with(share_owner, reference_time)
 
-    @patch.object(FrozenStatusHistoryService, "is_frozen_at_date")
+    @patch.object(FrozenStatusHistoryService, "is_frozen_at_datetime")
     def test_shouldShowFrozenReason_memberIsFrozen_returnsTrue(
-        self, mock_is_frozen_at_date: Mock
+        self, mock_is_frozen_at_datetime: Mock
     ):
         share_owner = Mock()
         shift_user_data = Mock()
         share_owner.user.shift_user_data = shift_user_data
         reference_date = datetime.datetime.today()
-        mock_is_frozen_at_date.return_value = True
+        mock_is_frozen_at_datetime.return_value = True
 
         self.assertTrue(
             WelcomeDeskReasonsCannotShopService.should_show_frozen_reason(
                 share_owner, reference_date
             )
         )
-        mock_is_frozen_at_date.assert_called_once_with(shift_user_data, reference_date)
+        mock_is_frozen_at_datetime.assert_called_once_with(
+            shift_user_data, reference_date
+        )
 
-    @patch.object(FrozenStatusHistoryService, "is_frozen_at_date")
+    @patch.object(FrozenStatusHistoryService, "is_frozen_at_datetime")
     def test_shouldShowFrozenReason_memberIsNotFrozen_returnsFalse(
-        self, mock_is_frozen_at_date: Mock
+        self, mock_is_frozen_at_datetime: Mock
     ):
         share_owner = Mock()
         shift_user_data = Mock()
         share_owner.user.shift_user_data = shift_user_data
         reference_date = datetime.datetime.today()
-        mock_is_frozen_at_date.return_value = False
+        mock_is_frozen_at_datetime.return_value = False
 
         self.assertFalse(
             WelcomeDeskReasonsCannotShopService.should_show_frozen_reason(
                 share_owner, reference_date
             )
         )
-        mock_is_frozen_at_date.assert_called_once_with(shift_user_data, reference_date)
+        mock_is_frozen_at_datetime.assert_called_once_with(
+            shift_user_data, reference_date
+        )
 
     @patch.object(MembershipPauseService, "has_active_pause")
     def test_shouldShowPausedReason_memberIsPaused_returnsTrue(

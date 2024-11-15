@@ -124,11 +124,14 @@ class TestShiftAttendanceModeService(TapirFactoryTestBase):
         shift_attendance_template = ShiftAttendanceTemplate.objects.create(
             user=tapir_user, slot_template=shift_template.slot_templates.first()
         )
-        log_entry = log_class().populate(
-            actor=None,
-            tapir_user=tapir_user,
-            shift_attendance_template=shift_attendance_template,
-        )
+        kwargs = {
+            "actor": None,
+            "tapir_user": tapir_user,
+            "shift_attendance_template": shift_attendance_template,
+        }
+        if log_class == DeleteShiftAttendanceTemplateLogEntry:
+            kwargs["comment"] = "A test comment"
+        log_entry = log_class().populate(**kwargs)
         log_entry.save()
         log_entry.created_date = reference_datetime - datetime.timedelta(days=1)
         log_entry.save()
