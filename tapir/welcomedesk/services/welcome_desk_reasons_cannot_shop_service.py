@@ -1,7 +1,7 @@
 from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 
-from tapir.coop.models import ShareOwner
+from tapir.coop.models import ShareOwner, MemberStatus
 from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.shifts.models import ShiftAttendanceMode
@@ -50,6 +50,9 @@ class WelcomeDeskReasonsCannotShopService:
             cls.should_show_paused_reason: _(
                 "%(name)s has paused their membership. Contact a member of the management team."
             ),
+            cls.should_show_not_a_member_reason: _(
+                "%(name)s has is not a member of the cooperative. They may have transferred their shares to another member. Contact a member of the management team."
+            ),
         }
 
         return [
@@ -84,3 +87,7 @@ class WelcomeDeskReasonsCannotShopService:
     @staticmethod
     def should_show_paused_reason(share_owner: ShareOwner, reference_date, **_):
         return MembershipPauseService.has_active_pause(share_owner, reference_date)
+
+    @staticmethod
+    def should_show_not_a_member_reason(share_owner: ShareOwner, reference_time, **_):
+        return share_owner.get_member_status(reference_time) == MemberStatus.SOLD

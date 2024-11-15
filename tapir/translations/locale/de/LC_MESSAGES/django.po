@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-15 13:07+0100\n"
+"POT-Creation-Date: 2024-11-15 13:59+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -5754,6 +5754,11 @@ msgstr ""
 #, python-format
 msgid "%(name)s has paused their membership. Contact a member of the management team."
 msgstr ""
+
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:54
+#, python-format
+msgid "%(name)s has is not a member of the cooperative. They may have transferred their shares to another member. Contact a member of the management team."
+msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie deren Anteile an ein anderes Mitglied übertragen. Kontaktiere eine Person aus dem Vorstand."
 
 #: welcomedesk/services/welcome_desk_warnings_service.py:25
 #, python-format
