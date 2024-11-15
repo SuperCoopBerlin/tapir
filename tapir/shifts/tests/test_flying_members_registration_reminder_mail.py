@@ -271,7 +271,20 @@ class TestAttendanceUpdateMemberOffice(
         date_after_the_cycle = cycle_start_date + datetime.timedelta(days=30)
         for date in [date_before_the_cycle, date_after_the_cycle]:
             shift = ShiftFactory.create(start_time=date)
-            ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
+            ShiftAttendance.objects.create(
+                user=tapir_user,
+                slot=shift.slots.first(),
+                state=ShiftAttendance.State.PENDING,
+            )
+
+        shift = ShiftFactory.create(
+            start_time=cycle_start_date + datetime.timedelta(days=2)
+        )
+        ShiftAttendance.objects.create(
+            user=tapir_user,
+            slot=shift.slots.first(),
+            state=ShiftAttendance.State.CANCELLED,
+        )
 
         self.assertFalse(
             Command.is_member_registered_to_a_shift_this_cycle(

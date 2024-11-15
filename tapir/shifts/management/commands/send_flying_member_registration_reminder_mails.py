@@ -81,4 +81,5 @@ class Command(BaseCommand):
             slot__shift__start_time__date__gte=cycle_start_date,
             slot__shift__start_time__date__lt=cycle_start_date
             + datetime.timedelta(days=ShiftCycleEntry.SHIFT_CYCLE_DURATION),
+            state__in=ShiftAttendance.VALID_STATES,
         ).exists()
