@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.models import User
 from django.db import transaction
 
 from tapir.accounts.models import TapirUser
@@ -7,6 +8,7 @@ from tapir.coop.models import MembershipResignation, ShareOwnership, MembershipP
 from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendance,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.utils.shortcuts import get_timezone_aware_datetime
 
@@ -52,7 +54,11 @@ class MembershipResignationService:
         )
 
     @staticmethod
-    def update_shifts(tapir_user: TapirUser, resignation: MembershipResignation):
+    def update_shifts(
+        tapir_user: TapirUser,
+        resignation: MembershipResignation,
+        actor: TapirUser | User,
+    ):
         start_date = get_timezone_aware_datetime(
             resignation.cancellation_date, datetime.time()
         )
@@ -61,6 +67,12 @@ class MembershipResignationService:
             user=tapir_user
         ):
             attendance_template.cancel_attendances(start_date)
+            DeleteShiftAttendanceTemplateLogEntry().populate(
+                actor=actor,
+                tapir_user=tapir_user,
+                shift_attendance_template=attendance_template,
+                comment="Unregistered because of membership pause",
+            ).save()
             attendance_template.delete()
 
         attendances = ShiftAttendance.objects.filter(
