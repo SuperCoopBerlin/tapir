@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-12 15:56+0100\n"
+"POT-Creation-Date: 2024-11-15 12:47+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2779,6 +2779,15 @@ msgstr ""
 "ABCD-Jahreskalender\n"
 "Aktuelle Woche: {current_week_group_name}"
 
+#: shifts/emails/flying_member_registration_reminder_email.py:17
+msgid "Flying member registration reminder"
+msgstr ""
+
+#: shifts/emails/flying_member_registration_reminder_email.py:22
+#, python-brace-format
+msgid "Sent to flying members {config.FLYING_MEMBERS_REGISTRATION_REMINDER_DAYS_AFTER_CYCLE_START} days after a cycle has begun, "
+msgstr ""
+
 #: shifts/emails/freeze_warning_email.py:28
 msgid "Freeze warning"
 msgstr ""
@@ -3091,6 +3100,53 @@ msgid ""
 "                        </ul>\n"
 "                    "
 msgstr ""
+
+#: shifts/templates/shifts/email/flying_member_registration_reminder_email.body.html:6
+#, python-format
+msgid ""
+"\n"
+"        <p>Hi %(display_name_short)s,</p>\n"
+"\n"
+"        <p>\n"
+"            we would like to remind you about your next <a href=\"https://members.supercoop.de/shifts/calendar\">shift\n"
+"            registration</a>.\n"
+"        </p>\n"
+"        <p>\n"
+"            A new shift cycle has been running for a week and we have noticed\n"
+"            that you have not yet registered for a suitable shift. As a flying member,\n"
+"            unlike members with a regular ABCD shift, you have to take care of this yourself every four weeks.\n"
+"        </p>\n"
+"        <p>\n"
+"            So take a look at the <a href=\"https://members.supercoop.de/shifts/calendar\">shift calendar on Tapir</a>\n"
+"            and register for one of the shifts highlighted in blue - this is where the most support is currently needed.\n"
+"        </p>\n"
+"        <p>\n"
+"            Cooperative greetings,<br />\n"
+"            The Member Office\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
+"        <p>Hi %(display_name_short)s,</p>\n"
+"\n"
+"        <p>\n"
+"            hiermit möchten wir dich an deine nächste <a href=\"https://members.supercoop.de/shifts/calendar\">Schichtanmeldung</a> zu erinnern..\n"
+"        </p>\n"
+"        <p>\n"
+"            Seit einer Woche läuft ein neuer Schichtzyklus und wir haben festgestellt, dass du dich bisher noch nicht für eine passende Schicht registriert hast. Als Fliegendes Mitglied musst du dich, im Unterschied zu Mitgliedern mit fester ABCD-Schicht, alle vier Wochen selbst darum kümmern."
+"        </p>\n"
+"        <p>\n"
+"            Schau also am besten gleich mal in den <a href=\"https://members.supercoop.de/shifts/calendar\">Schichtkalender auf Tapir</a>, und melde dich gerne für eine der blau unterlegten Schichten an - dort wird aktuell am meisten Unterstützung benötigt."
+"        </p>\n"
+"        <p>\n"
+"            Kooperative Grüße,<br />\n"
+"            Das Mitgliederbüro\n"
+"        </p>\n"
+"    "
+
+#: shifts/templates/shifts/email/flying_member_registration_reminder_email.subject.html:2
+msgid "Sign up for your next SuperCoop shift"
+msgstr "Melde dich für deine nächste SuperCoop-Schicht an"
 
 #: shifts/templates/shifts/email/freeze_warning.body.html:6
 #, python-format
