@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-15 12:47+0100\n"
+"POT-Creation-Date: 2024-11-15 13:07+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2784,8 +2784,8 @@ msgid "Flying member registration reminder"
 msgstr ""
 
 #: shifts/emails/flying_member_registration_reminder_email.py:22
-#, python-brace-format
-msgid "Sent to flying members {config.FLYING_MEMBERS_REGISTRATION_REMINDER_DAYS_AFTER_CYCLE_START} days after a cycle has begun, "
+#, python-format
+msgid "Sent to flying members %(nb_days)s days after a cycle has begun, if they haven't registered to a shift for this cycle."
 msgstr ""
 
 #: shifts/emails/freeze_warning_email.py:28
@@ -3133,11 +3133,9 @@ msgstr ""
 "            hiermit möchten wir dich an deine nächste <a href=\"https://members.supercoop.de/shifts/calendar\">Schichtanmeldung</a> zu erinnern..\n"
 "        </p>\n"
 "        <p>\n"
-"            Seit einer Woche läuft ein neuer Schichtzyklus und wir haben festgestellt, dass du dich bisher noch nicht für eine passende Schicht registriert hast. Als Fliegendes Mitglied musst du dich, im Unterschied zu Mitgliedern mit fester ABCD-Schicht, alle vier Wochen selbst darum kümmern."
-"        </p>\n"
+"            Seit einer Woche läuft ein neuer Schichtzyklus und wir haben festgestellt, dass du dich bisher noch nicht für eine passende Schicht registriert hast. Als Fliegendes Mitglied musst du dich, im Unterschied zu Mitgliedern mit fester ABCD-Schicht, alle vier Wochen selbst darum kümmern.        </p>\n"
 "        <p>\n"
-"            Schau also am besten gleich mal in den <a href=\"https://members.supercoop.de/shifts/calendar\">Schichtkalender auf Tapir</a>, und melde dich gerne für eine der blau unterlegten Schichten an - dort wird aktuell am meisten Unterstützung benötigt."
-"        </p>\n"
+"            Schau also am besten gleich mal in den <a href=\"https://members.supercoop.de/shifts/calendar\">Schichtkalender auf Tapir</a>, und melde dich gerne für eine der blau unterlegten Schichten an - dort wird aktuell am meisten Unterstützung benötigt.        </p>\n"
 "        <p>\n"
 "            Kooperative Grüße,<br />\n"
 "            Das Mitgliederbüro\n"
