@@ -243,7 +243,7 @@ class TestAttendanceUpdateMemberOffice(
             )
         )
 
-    def test_hasUserReceivedReminderThisCycle_logEntryExistsWithinCycle_returnsFalse(
+    def test_hasUserReceivedReminderThisCycle_logEntryExistsWithinCycle_returnsTrue(
         self,
     ):
         tapir_user = TapirUserFactory.create()
