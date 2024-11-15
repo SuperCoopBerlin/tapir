@@ -15,6 +15,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendance,
     ShiftSlot,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.utils.user_utils import UserUtils
 
@@ -87,6 +88,12 @@ class SlotModificationService:
         )
         if parameter_set.target_slot_name is None:
             slot_template.generated_slots.filter(shift_is_in_the_future_filter).delete()
+            DeleteShiftAttendanceTemplateLogEntry().populate(
+                actor=None,
+                tapir_user=slot_template.attendance_template.user,
+                shift_attendance_template=slot_template.attendance_template,
+                comment="Unregistered because of membership pause",
+            ).save()
             slot_template.delete()
             return
 
