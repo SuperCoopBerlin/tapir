@@ -27,7 +27,6 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
 
         response = self.client.post(
             reverse("coop:resign_member_remove", args=[resignation.id]),
-            follow=True,
         )
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
 
@@ -38,9 +37,8 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
 
         response = self.client.post(
             reverse("coop:resign_member_remove", args=[resignation.id]),
-            follow=True,
         )
-        self.assertStatusCode(response, HTTPStatus.OK)
+        self.assertStatusCode(response, HTTPStatus.FOUND)
 
     def test_membershipResignationDeleteView_featureFlagDisabled_accessDenied(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, False)
@@ -49,7 +47,6 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
 
         response = self.client.post(
             reverse("coop:resign_member_remove", args=[resignation.id]),
-            follow=True,
         )
 
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
@@ -84,12 +81,7 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
         )
         self.assertStatusCode(response, HTTPStatus.OK)
         self.assertEqual(MembershipResignation.objects.all().count(), 0)
-        for shareownership in ShareOwnership.objects.filter(
-            share_owner=resignation.share_owner
-        ):
-            self.assertEqual(shareownership.end_date, None)
-
         self.assertEqual(MembershipResignationDeleteLogEntry.objects.count(), 1)
         log_entry = MembershipResignationDeleteLogEntry.objects.get()
-        # self.assertEqual(resignation.id, log_entry.actor.id)
+        self.assertEqual(resignation.id, int(log_entry.values["id"]))
         self.assertEqual(actor, log_entry.actor)

@@ -25,27 +25,24 @@ class MembershipResignationService:
                 new_end_date = resignation.cancellation_date+relativedelta(years=+3, day=31, month=12)
                 resignation.pay_out_day = new_end_date
                 resignation.save()
-                if shares.exists():
-                    shares.update(end_date=new_end_date)
+                shares.update(end_date=new_end_date)
                 return
             case MembershipResignation.ResignationType.GIFT_TO_COOP:
                 resignation.pay_out_day = resignation.cancellation_date
                 resignation.save()
-                if shares.exists():
-                    shares.update(end_date=resignation.cancellation_date)
+                shares.update(end_date=resignation.cancellation_date)
             case MembershipResignation.ResignationType.TRANSFER:
                 resignation.pay_out_day = resignation.cancellation_date
                 resignation.save()
-                if shares.exists():
-                    shares_to_create = [
-                        ShareOwnership(
-                            share_owner=resignation.transferring_shares_to,
-                            start_date=resignation.cancellation_date,
-                        )
-                        for _ in shares
-                    ]
-                    ShareOwnership.objects.bulk_create(shares_to_create)
-                    shares.update(end_date=resignation.cancellation_date)
+                shares_to_create = [
+                    ShareOwnership(
+                        share_owner=resignation.transferring_shares_to,
+                        start_date=resignation.cancellation_date,
+                    )
+                    for _ in shares
+                ]
+                ShareOwnership.objects.bulk_create(shares_to_create)
+                shares.update(end_date=resignation.cancellation_date)
             case _:
                 raise ValueError(
                     f"Unknown resignation type: {resignation.resignation_type}"
@@ -65,9 +62,10 @@ class MembershipResignationService:
         )
 
         for attendance_template in ShiftAttendanceTemplate.objects.filter(
-            user=tapir_user
+            user=tapir_user,
+            slot_template__shift_template__start_date__gte=start_date,
         ):
-            attendance_template.cancel_attendances(start_date)
+            attendance_template.cancel_attendances(starting_from=start_date)
             attendance_template.delete()
 
         attendances = ShiftAttendance.objects.filter(
@@ -79,8 +77,8 @@ class MembershipResignationService:
 
     @staticmethod
     @transaction.atomic
-    def delete_end_dates(member: MembershipResignation):
-        ShareOwnership.objects.filter(share_owner=member.share_owner).update(
+    def delete_end_dates(resignation: MembershipResignation):
+        ShareOwnership.objects.filter(share_owner=resignation.share_owner).update(
             end_date=None
         )
 

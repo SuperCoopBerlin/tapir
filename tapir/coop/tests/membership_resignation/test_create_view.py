@@ -1,6 +1,7 @@
 import datetime
 from http import HTTPStatus
 from unittest.mock import patch, Mock
+from icecream import ic
 
 from django.core import mail
 from django.urls import reverse
@@ -70,8 +71,8 @@ class TestMembershipResignationCreateView(
             follow=True,
         )
         self.assertStatusCode(response, HTTPStatus.OK)
-        member_to_resign = MembershipResignation.objects.last()
-        return member_to_resign, actor
+        resignation = MembershipResignation.objects.last()
+        return resignation, actor
 
     @patch.object(MembershipResignationService, "delete_shareowner_membershippauses")
     @patch.object(
@@ -82,10 +83,16 @@ class TestMembershipResignationCreateView(
         mock_delete_shareowner_membershippauses: Mock,
         mock_update_shifts_and_shares_and_pay_out_day: Mock,
     ):
-        self.create_default_resignation()
+        resignation, actor = self.create_default_resignation()
         self.assertEqual(1, MembershipResignation.objects.count())
-        mock_delete_shareowner_membershippauses.assert_called_once()
-        mock_update_shifts_and_shares_and_pay_out_day.assert_called_once()
+        mock_delete_shareowner_membershippauses.assert_called_once_with(
+            resignation=resignation,
+            tapir_user=actor,
+        )
+        mock_update_shifts_and_shares_and_pay_out_day.assert_called_once_with(
+            resignation=resignation,
+            tapir_user=actor,
+        )
 
     def test_membershipResignationCreateView_default_logEntryCreated(self):
         _, actor = self.create_default_resignation()
@@ -163,10 +170,6 @@ class TestMembershipResignationCreateView(
         self.assertStatusCode(response, HTTPStatus.OK)
         member_to_resign = MembershipResignation.objects.last()
         self.assertEqual(
-            member_to_resign.cancellation_date.replace(
-                year=member_to_resign.cancellation_date.year + 3,
-                month=12,
-                day=31,
-            ),
+            datetime.date(year=2027, month=12, day=31),
             member_to_resign.pay_out_day,
         )
