@@ -20,8 +20,6 @@ from tapir.coop.services.MembershipResignationService import (
     MembershipResignationService,
 )
 
-from icecream import ic
-
 
 class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBase):
     NOW = datetime.datetime(year=2024, month=9, day=15)
@@ -232,5 +230,4 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             resignation_two
         )
         share_owner.refresh_from_db()
-        ic(share_owner.num_shares())
         self.assertTrue(share_owner.num_shares() == 4)
