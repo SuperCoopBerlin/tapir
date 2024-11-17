@@ -861,6 +861,7 @@ class MembershipResignationUpdateLogEntry(UpdateModelLogEntry):
             new_frozen=new_frozen,
         )
 
+
 class MembershipResignationDeleteLogEntry(ModelLogEntry):
     template_name = "coop/log/delete_resignmember_log_entry.html"
 

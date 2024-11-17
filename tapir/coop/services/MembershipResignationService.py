@@ -22,7 +22,9 @@ class MembershipResignationService:
 
         match resignation.resignation_type:
             case MembershipResignation.ResignationType.BUY_BACK:
-                new_end_date = resignation.cancellation_date+relativedelta(years=+3, day=31, month=12)
+                new_end_date = resignation.cancellation_date + relativedelta(
+                    years=+3, day=31, month=12
+                )
                 resignation.pay_out_day = new_end_date
                 resignation.save()
                 shares.update(end_date=new_end_date)
@@ -42,7 +44,6 @@ class MembershipResignationService:
                     for _ in shares
                 ]
                 ShareOwnership.objects.bulk_create(shares_to_create)
-                shares.update(end_date=resignation.cancellation_date)
             case _:
                 raise ValueError(
                     f"Unknown resignation type: {resignation.resignation_type}"
@@ -89,11 +90,11 @@ class MembershipResignationService:
         ):
             if pause.end_date is not None:
                 if resignation.pay_out_day <= pause.end_date:
-                    pause.end_date=resignation.pay_out_day
+                    pause.end_date = resignation.pay_out_day
                     pause.save()
             else:
                 if pause.start_date > resignation.pay_out_day:
                     pause.delete()
                 else:
-                    pause.end_date=resignation.cancellation_date
+                    pause.end_date = resignation.cancellation_date
                     pause.save()

@@ -38,6 +38,7 @@ from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
 
+
 class MembershipResignationTable(django_tables2.Table):
     class Meta:
         model = MembershipResignation
@@ -216,7 +217,9 @@ class MembershipResignationEditView(
         with transaction.atomic():
             result = super().form_valid(form)
             membership_resignation: MembershipResignation = form.instance
-            MembershipResignationService.update_shifts_and_shares_and_pay_out_day(resignation=membership_resignation)
+            MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
+                resignation=membership_resignation
+            )
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
                 MembershipResignationUpdateLogEntry().populate(
@@ -226,6 +229,7 @@ class MembershipResignationEditView(
                     actor=self.request.user,
                 ).save()
         return result
+
 
 class MembershipResignationCreateView(
     LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
@@ -292,16 +296,21 @@ class MembershipResignationDetailView(
 
 
 class MembershipResignationRemoveFromListView(
-    LoginRequiredMixin, PermissionRequiredMixin, DeleteView, UpdateViewLogMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    DeleteView,
+    UpdateViewLogMixin,
 ):
     model = MembershipResignation
     permission_required = PERMISSION_COOP_MANAGE
     success_url = reverse_lazy("coop:resigned_members_list")
 
-    def form_valid(self, form):  
+    def form_valid(self, form):
         with transaction.atomic():
             if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
-                raise PermissionDenied("The membership resignation feature is disabled.")
+                raise PermissionDenied(
+                    "The membership resignation feature is disabled."
+                )
 
             MembershipResignationService.delete_end_dates(self.get_object())
             MembershipResignationDeleteLogEntry().populate(
@@ -309,6 +318,3 @@ class MembershipResignationRemoveFromListView(
                 actor=self.request.user,
             ).save()
         return super().form_valid(form)
-
-
-
