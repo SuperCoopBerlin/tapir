@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-07 12:03+0200\n"
+"POT-Creation-Date: 2024-11-17 12:47+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -555,80 +555,80 @@ msgstr "Tapir-Konto erstellt"
 msgid "Sent to a member when the accounts gets created."
 msgstr ""
 
-#: coop/forms.py:41
+#: coop/forms.py:40
 #: financingcampaign/templates/financingcampaign/general.html:27
 msgid "Start date"
 msgstr "Anfangsdatum"
 
-#: coop/forms.py:45
+#: coop/forms.py:44
 msgid "Usually, the date on the membership agreement, or today. In the case of sold or gifted shares, can be set in the future."
 msgstr ""
 
-#: coop/forms.py:50
+#: coop/forms.py:49
 #: financingcampaign/templates/financingcampaign/general.html:28
 msgid "End date"
 msgstr "Enddatum"
 
-#: coop/forms.py:54
+#: coop/forms.py:53
 msgid "Usually left empty. Can be set to a point in the future if it is already known that the shares will be transferred to another member in the future."
 msgstr ""
 
-#: coop/forms.py:60
+#: coop/forms.py:59
 msgid "Number of shares to create"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/forms.py:68
+#: coop/forms.py:67
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:107 coop/models.py:484
+#: coop/forms.py:106 coop/models.py:484
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
-#: coop/forms.py:112
+#: coop/forms.py:111
 #, python-format
 msgid "Number of shares you would like to purchase. The price of one share is EUR %(share_price)s. You need to purchase at least one share to become member of the cooperative. To support our cooperative even more, you may voluntarily purchase more shares."
 msgstr ""
 
-#: coop/forms.py:122
+#: coop/forms.py:121
 msgid "I would like to join the membership list as an investing member (= sponsoring member)"
 msgstr ""
 
-#: coop/forms.py:125
+#: coop/forms.py:124
 msgid "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
 msgstr ""
 
-#: coop/forms.py:235
+#: coop/forms.py:234
 msgid "Usually, the credited member is the same as the paying member. Only if a person if gifting another person a share through the matching program, then the fields can be different."
 msgstr ""
 
-#: coop/forms.py:257
+#: coop/forms.py:256
 msgid "Please not more than 1000 characters."
 msgstr ""
 
-#: coop/forms.py:263
+#: coop/forms.py:262
 msgid "Transferring share(s) to"
 msgstr ""
 
-#: coop/forms.py:317
+#: coop/forms.py:310
 #, fuzzy
 #| msgid "Member already created."
 msgid "This member is already resigned."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/forms.py:329
+#: coop/forms.py:322
 msgid "Please select the member that the shares should be transferred to."
 msgstr ""
 
-#: coop/forms.py:342
+#: coop/forms.py:335
 msgid "If the shares don't get transferred to another member, this field should be empty."
 msgstr ""
 
-#: coop/forms.py:353
+#: coop/forms.py:346
 msgid "Sender and receiver of transferring the share(s) cannot be the same."
 msgstr ""
 
-#: coop/forms.py:368
+#: coop/forms.py:361
 msgid "Cannot pay out, because shares have been gifted."
 msgstr ""
 
@@ -1882,6 +1882,14 @@ msgid ""
 "Member resigned for reason: %(cancellation_reason)s\n"
 msgstr ""
 
+#: coop/templates/coop/log/delete_resignmember_log_entry.html:2
+#, fuzzy
+#| msgid "Update Member:"
+msgid ""
+"\n"
+"    Reactivated resigned member\n"
+msgstr "Mitglied bearbeiten:"
+
 #: coop/templates/coop/log/update_incoming_payment_log_entry.html:2
 #, fuzzy
 #| msgid "Create applicant"
@@ -2358,42 +2366,42 @@ msgstr ""
 msgid "Edit membership pause: %(name)s"
 msgstr ""
 
-#: coop/views/membership_resignation.py:106
+#: coop/views/membership_resignation.py:107
 msgid "Share(s) gifted {chr(8594)} SuperCoop"
 msgstr ""
 
-#: coop/views/membership_resignation.py:112
+#: coop/views/membership_resignation.py:113
 #, fuzzy
 #| msgid "Shares requested"
 msgid "Share(s) gifted"
 msgstr "Angeforderte Anteile"
 
-#: coop/views/membership_resignation.py:132
+#: coop/views/membership_resignation.py:133
 #, fuzzy
 #| msgid "Search Members"
 msgid "Search member or ID"
 msgstr "Mitglieder suchen"
 
-#: coop/views/membership_resignation.py:138
+#: coop/views/membership_resignation.py:139
 #, fuzzy
 #| msgid "Cycle start date"
 msgid "Pay out start date"
 msgstr "Anfangsdatum"
 
-#: coop/views/membership_resignation.py:144
+#: coop/views/membership_resignation.py:145
 #, fuzzy
 #| msgid "without end date"
 msgid "Pay out end date"
 msgstr "ohne Endddatum"
 
-#: coop/views/membership_resignation.py:201
-#: coop/views/membership_resignation.py:206
+#: coop/views/membership_resignation.py:204
+#: coop/views/membership_resignation.py:209
 #, fuzzy, python-format
 #| msgid "Edit member: %(name)s"
 msgid "Cancel membership of %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: coop/views/membership_resignation.py:241
+#: coop/views/membership_resignation.py:247
 msgid "Resign a new membership"
 msgstr ""
 
