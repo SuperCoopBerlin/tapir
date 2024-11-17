@@ -64,7 +64,6 @@ class MembershipResignationService:
 
         for attendance_template in ShiftAttendanceTemplate.objects.filter(
             user=tapir_user,
-            slot_template__shift_template__start_date__gte=start_date,
         ):
             attendance_template.cancel_attendances(starting_from=start_date)
             attendance_template.delete()

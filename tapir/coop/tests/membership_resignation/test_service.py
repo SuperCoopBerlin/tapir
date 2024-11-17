@@ -89,17 +89,15 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             ).count(),
             shares_after_update.count(),
         )
-        # for share in shares_after_update.all():
-        #     self.assertEqual(share.end_date, resignation.cancellation_date)
+        for share in shares_after_update.all():
+            self.assertEqual(share.end_date, None)
 
     def test_updateShifts_shiftsAndShiftAttendance_cancelled(self):
         tapir_user = TapirUserFactory.create()
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create(share_owner=share_owner)
-        shift_template = ShiftTemplateFactory.create(
-            start_date=resignation.cancellation_date + datetime.timedelta(days=1),
-        )
-        shift = ShiftFactory.create()
+        shift_template = ShiftTemplateFactory.create()
+        shift = ShiftFactory.create(start_time=self.NOW.replace(day=16))
         ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
         ShiftAttendanceTemplate.objects.create(
             user=tapir_user, slot_template=shift_template.slot_templates.first()
@@ -119,10 +117,8 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner, cancellation_date=self.TODAY
         )
-        shift_template = ShiftTemplateFactory.create(
-            start_date=datetime.datetime(year=2023, month=5, day=2)
-        )
-        shift = ShiftFactory.create()
+        shift_template = ShiftTemplateFactory.create()
+        shift = ShiftFactory.create(start_time=self.NOW.replace(day=14))
         ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
         ShiftAttendanceTemplate.objects.create(
             user=tapir_user,
@@ -135,7 +131,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             ShiftAttendance.objects.get(user=tapir_user).state,
             ShiftAttendance.State.PENDING,
         )
-        self.assertEqual(ShiftAttendanceTemplate.objects.count(), 1)
+        self.assertEqual(ShiftAttendanceTemplate.objects.count(), 0)
 
     def test_deleteEndDates_endDatesOfShares_removedFromShares(self):
         share_owner = ShareOwnerFactory.create(
