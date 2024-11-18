@@ -69,4 +69,29 @@ urlpatterns = [
         views.StateDistributionJsonView.as_view(),
         name="state_distribution_json",
     ),
+    path(
+        "stats_for_marie",
+        views.StatsForMarieView.as_view(),
+        name="stats_for_marie",
+    ),
+    path(
+        "number_of_frozen_members_per_month_json",
+        views.NumberOfFrozenMembersPerMonthJsonView.as_view(),
+        name="number_of_frozen_members_per_month_json",
+    ),
+    path(
+        "number_of_frozen_members_per_month_csv",
+        views.NumberOfFrozenMembersPerMonthCsvView.as_view(),
+        name="number_of_frozen_members_per_month_csv",
+    ),
+    path(
+        "number_of_purchasing_members_per_month_json",
+        views.NumberOfPurchasingMembersPerMonthJsonView.as_view(),
+        name="number_of_purchasing_members_per_month_json",
+    ),
+    path(
+        "number_of_purchasing_members_per_month_csv",
+        views.NumberOfPurchasingMembersPerMonthCsvView.as_view(),
+        name="number_of_purchasing_members_per_month_csv",
+    ),
 ]

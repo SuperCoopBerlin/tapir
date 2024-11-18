@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-17 12:47+0100\n"
+"POT-Creation-Date: 2024-11-15 13:59+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -44,47 +44,46 @@ msgstr ""
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:71 coop/models.py:64 coop/models.py:467
+#: accounts/models.py:71 coop/models.py:71 coop/models.py:478
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:72 accounts/templates/accounts/user_detail.html:66
-#: coop/models.py:66 coop/models.py:469
+#: accounts/models.py:72 accounts/templates/accounts/user_detail.html:67
+#: coop/models.py:73 coop/models.py:480
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
 #: coop/templates/coop/shareowner_detail.html:51
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:73 accounts/templates/accounts/user_detail.html:76
-#: coop/models.py:67 coop/models.py:470
+#: accounts/models.py:73 accounts/templates/accounts/user_detail.html:77
+#: coop/models.py:74 coop/models.py:481
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:74 coop/models.py:68 coop/models.py:471
+#: accounts/models.py:74 coop/models.py:75 coop/models.py:482
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:75 coop/models.py:69 coop/models.py:472
+#: accounts/models.py:75 coop/models.py:76 coop/models.py:483
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:76 coop/models.py:70 coop/models.py:473
+#: accounts/models.py:76 coop/models.py:77 coop/models.py:484
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:77 coop/models.py:71 coop/models.py:474
+#: accounts/models.py:77 coop/models.py:78 coop/models.py:485
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:78 coop/models.py:72 coop/models.py:475
+#: accounts/models.py:78 coop/models.py:79 coop/models.py:486
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:79 accounts/templates/accounts/user_detail.html:110
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:90
+#: accounts/models.py:79 accounts/templates/accounts/user_detail.html:111
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
@@ -92,8 +91,8 @@ msgstr "Miteinkäufer*in"
 msgid "Allow purchase tracking"
 msgstr ""
 
-#: accounts/models.py:95 accounts/templates/accounts/user_detail.html:96
-#: coop/models.py:75 coop/models.py:478
+#: accounts/models.py:95 accounts/templates/accounts/user_detail.html:97
+#: coop/models.py:82 coop/models.py:489
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
@@ -218,7 +217,7 @@ msgstr ""
 "    Vergiss nicht, dich für deine erste Schicht bei SuperCoop anzumelden!\n"
 
 #: accounts/templates/accounts/ldap_group_list.html:7
-#: accounts/templates/accounts/user_detail.html:101
+#: accounts/templates/accounts/user_detail.html:102
 msgid "Groups"
 msgstr ""
 
@@ -240,8 +239,8 @@ msgstr ""
 
 #: accounts/templates/accounts/purchase_tracking_card.html:29
 #: coop/templates/coop/draftuser_detail.html:235
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:167
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:171
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:168
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
 msgid "Yes,No"
 msgstr ""
 
@@ -253,7 +252,7 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: accounts/templates/accounts/user_detail.html:19 coop/models.py:741
+#: accounts/templates/accounts/user_detail.html:20 coop/models.py:755
 #: coop/templates/coop/draftuser_detail.html:86
 #: coop/templates/coop/shareowner_detail.html:10 log/views.py:94
 #: log/views.py:152 shifts/templates/shifts/shift_day_printable.html:55
@@ -261,40 +260,39 @@ msgstr ""
 msgid "Member"
 msgstr "Mitglied"
 
-#: accounts/templates/accounts/user_detail.html:26
+#: accounts/templates/accounts/user_detail.html:27
 #: coop/templates/coop/shareowner_detail.html:17
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:31
+#: accounts/templates/accounts/user_detail.html:32
 msgid "Edit groups"
 msgstr "Gruppen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:36
+#: accounts/templates/accounts/user_detail.html:37
 msgid "Edit username"
 msgstr "Benutzername bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:42
+#: accounts/templates/accounts/user_detail.html:43
 #: coop/templates/coop/draftuser_detail.html:242
 #: coop/templates/coop/membershipresignation_detail.html:97
 #: coop/templates/coop/shareowner_detail.html:30
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:21
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:89
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:112
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:22
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:90
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:113
 #: core/templates/core/featureflag_list.html:30
-#: shifts/templates/shifts/shift_detail.html:42
+#: shifts/templates/shifts/shift_detail.html:44
 #: shifts/templates/shifts/shift_template_detail.html:25
-#: shifts/templates/shifts/shift_template_detail.html:92
+#: shifts/templates/shifts/shift_template_detail.html:113
 #: shifts/templates/shifts/user_shifts_overview_tag.html:14
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:98
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:47
+#: accounts/templates/accounts/user_detail.html:48
 msgid "Edit name and pronouns"
 msgstr "Name und Pronomen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:54
+#: accounts/templates/accounts/user_detail.html:55
 #: coop/templates/coop/draftuser_detail.html:70
 #: coop/templates/coop/draftuser_detail.html:130
 #: coop/templates/coop/shareowner_detail.html:43 coop/views/draftuser.py:271
@@ -302,50 +300,49 @@ msgstr "Name und Pronomen bearbeiten"
 #: core/templates/core/featureflag_list.html:18
 #: financingcampaign/templates/financingcampaign/general.html:25
 #: financingcampaign/templates/financingcampaign/general.html:70
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:82
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:58
+#: accounts/templates/accounts/user_detail.html:59
 #: coop/templates/coop/draftuser_detail.html:134
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/templates/accounts/user_detail.html:62
+#: accounts/templates/accounts/user_detail.html:63
 #: coop/templates/coop/draftuser_detail.html:73
 #: coop/templates/coop/draftuser_detail.html:138
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:71
-#: accounts/templates/accounts/user_detail.html:81
-#: accounts/templates/accounts/user_detail.html:91
+#: accounts/templates/accounts/user_detail.html:72
+#: accounts/templates/accounts/user_detail.html:82
+#: accounts/templates/accounts/user_detail.html:92
 #: coop/templates/coop/draftuser_detail.html:161
 #: coop/templates/coop/shareowner_detail.html:60
 #: coop/templates/coop/shareowner_detail.html:70
 #: shifts/templates/shifts/user_shifts_overview_tag.html:40
-#: statistics/templates/statistics/main_statistics.html:81
-#: statistics/templates/statistics/main_statistics.html:113
+#: statistics/templates/statistics/main_statistics.html:76
+#: statistics/templates/statistics/main_statistics.html:108
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:86
+#: accounts/templates/accounts/user_detail.html:87
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/draftuser_detail.html:156
 #: coop/templates/coop/shareowner_detail.html:65
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:105
+#: accounts/templates/accounts/user_detail.html:106
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:126
+#: accounts/templates/accounts/user_detail.html:127
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:134
+#: accounts/templates/accounts/user_detail.html:135
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -464,8 +461,8 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:99 accounts/views.py:104 coop/views/shareowner.py:260
-#: coop/views/shareowner.py:265
+#: accounts/views.py:99 accounts/views.py:104 coop/views/shareowner.py:261
+#: coop/views/shareowner.py:266
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
@@ -581,7 +578,7 @@ msgstr "Anzahl zu erstellender Anteile"
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:106 coop/models.py:484
+#: coop/forms.py:107 coop/models.py:495
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
@@ -632,165 +629,165 @@ msgstr ""
 msgid "Cannot pay out, because shares have been gifted."
 msgstr ""
 
-#: coop/models.py:48
+#: coop/models.py:55
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:55 coop/models.py:458
+#: coop/models.py:62 coop/models.py:469
 msgid "Administrative first name"
 msgstr "Amtlicher Vorname"
 
-#: coop/models.py:57 coop/models.py:460
+#: coop/models.py:64 coop/models.py:471
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:59 coop/models.py:462
+#: coop/models.py:66 coop/models.py:473
 msgid "Usage name"
 msgstr "Angezeigter Name"
 
-#: coop/models.py:65 coop/models.py:468
+#: coop/models.py:72 coop/models.py:479
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
-#: coop/models.py:82
+#: coop/models.py:89
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:84 coop/models.py:499
+#: coop/models.py:91 coop/models.py:510
 #: coop/templates/coop/draftuser_detail.html:176
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:47
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:166
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:48
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:167
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:86 coop/models.py:491
+#: coop/models.py:93 coop/models.py:502
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:88 coop/models.py:496
+#: coop/models.py:95 coop/models.py:507
 msgid "Paid Entrance Fee"
 msgstr "Eintrittsgeld bezahlt"
 
-#: coop/models.py:90
+#: coop/models.py:97
 msgid "Is willing to gift a share"
 msgstr "Ist bereit Anteile zu verschenken"
 
-#: coop/models.py:202
+#: coop/models.py:209
 msgid "Cannot be a company and have a Tapir account"
 msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
-#: coop/models.py:218
+#: coop/models.py:225
 msgid "User info should be stored in associated Tapir account"
 msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 
-#: coop/models.py:369
+#: coop/models.py:380
 msgid "Not a member"
 msgstr ""
 
-#: coop/models.py:370 coop/templates/coop/draftuser_detail.html:169
+#: coop/models.py:381 coop/templates/coop/draftuser_detail.html:169
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:371 coop/templates/coop/draftuser_detail.html:171
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
+#: coop/models.py:382 coop/templates/coop/draftuser_detail.html:171
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:103
 #: coop/views/statistics.py:142
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:372
+#: coop/models.py:383
 msgid "Paused"
 msgstr "Pausiert"
 
-#: coop/models.py:425
+#: coop/models.py:436
 msgid "Amount paid for a share can't be negative"
 msgstr "Der Betrag kann nicht negative sein"
 
-#: coop/models.py:429
+#: coop/models.py:440
 #, python-brace-format
 msgid "Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
 msgstr "Der Betrag kann nicht mehr als {COOP_SHARE_PRICE} sein"
 
-#: coop/models.py:487
+#: coop/models.py:498
 msgid "Investing member"
 msgstr "Investierendes Mitglied"
 
-#: coop/models.py:494
+#: coop/models.py:505
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:497 coop/templates/coop/draftuser_detail.html:234
+#: coop/models.py:508 coop/templates/coop/draftuser_detail.html:234
 msgid "Paid Shares"
 msgstr "Anteil(e) bezahlt"
 
-#: coop/models.py:554
+#: coop/models.py:565
 msgid "Email address must be set."
 msgstr "Email-Adresse muss gesetzt sein."
 
-#: coop/models.py:556
+#: coop/models.py:567
 msgid "First name must be set."
 msgstr "Vorname muss gesetzt sein."
 
-#: coop/models.py:558
+#: coop/models.py:569
 msgid "Last name must be set."
 msgstr "Nachname muss gesetzt sein."
 
-#: coop/models.py:562
+#: coop/models.py:573
 msgid "Membership agreement must be signed."
 msgstr "Mitgliedsantrag muss unterschrieben sein."
 
-#: coop/models.py:564
+#: coop/models.py:575
 msgid "Amount of requested shares must be positive."
 msgstr "Die Anzahl der erwünschten Anteile muss positiv sein."
 
-#: coop/models.py:566
+#: coop/models.py:577
 msgid "Member already created."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/models.py:593
+#: coop/models.py:604
 msgid "Paying member"
 msgstr "Zahlendes Mitglied"
 
-#: coop/models.py:601
+#: coop/models.py:612
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:608
+#: coop/models.py:619
 msgid "Amount"
 msgstr "Betrag"
 
-#: coop/models.py:614
+#: coop/models.py:625
 msgid "Payment date"
 msgstr "Zahldatum"
 
-#: coop/models.py:617
+#: coop/models.py:628
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
-#: coop/models.py:622
+#: coop/models.py:633
 msgid "Created by"
 msgstr "Erstellt durch"
 
-#: coop/models.py:791
+#: coop/models.py:805
 msgid "The cooperative buys the shares back from the member"
 msgstr ""
 
-#: coop/models.py:794
+#: coop/models.py:808
 #, fuzzy
 #| msgid "Number of shares to create"
 msgid "The member gifts the shares to the cooperative"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/models.py:796
+#: coop/models.py:810
 msgid "The shares get transferred to another member"
 msgstr ""
 
-#: coop/models.py:801
+#: coop/models.py:815
 #, fuzzy
 #| msgid "Edit shareowner"
 msgid "Shareowner"
 msgstr "Mitglied bearbeiten"
 
-#: coop/models.py:817
+#: coop/models.py:831
 msgid "Leave this empty if the resignation type is not a transfer to another member"
 msgstr ""
 
@@ -833,7 +830,7 @@ msgstr ""
 
 #: coop/templates/coop/confirm_delete_incoming_payment.html:31
 #: coop/templates/coop/confirm_delete_share_ownership.html:24
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:126
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:127
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:24
 msgid "Delete"
 msgstr "Löschen"
@@ -898,9 +895,9 @@ msgid "List of similar members"
 msgstr "Liste alle E-Mails"
 
 #: coop/templates/coop/draftuser_detail.html:69
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:30
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:87
-#: coop/views/shareowner.py:572
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:31
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:88
+#: coop/views/shareowner.py:583
 #: shifts/templates/shifts/user_shifts_overview_tag.html:21
 msgid "Status"
 msgstr "Status"
@@ -923,7 +920,7 @@ msgid "Shares requested"
 msgstr "Angeforderte Anteile"
 
 #: coop/templates/coop/draftuser_detail.html:190
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:52
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:53
 #: shifts/models.py:44
 msgid "Welcome Session"
 msgstr "Willkommenstreffen"
@@ -934,7 +931,7 @@ msgstr "Beteiligungserklärung"
 
 #: coop/templates/coop/draftuser_list.html:22
 #: coop/templates/coop/membership_pause/membership_pause_list.html:24
-#: coop/templates/coop/membership_resignation_list.html:26
+#: coop/templates/coop/membership_resignation_list.html:25
 #: coop/templates/coop/shareowner_list.html:23
 #: shifts/templates/shifts/members_on_alert_list.html:19
 #: shifts/templates/shifts/shiftexemption_list.html:24
@@ -942,33 +939,34 @@ msgid "Export"
 msgstr "Exportieren"
 
 #: coop/templates/coop/draftuser_list.html:42
+#: coop/templates/coop/membership_resignation_list.html:44
 #: coop/templates/coop/shareowner_list.html:38
 #: log/templates/log/log_overview.html:34
 #: shifts/templates/shifts/shift_filters.html:3
 msgid "Filters"
 msgstr "Filter"
 
-#: coop/templates/coop/draftuser_list.html:56
+#: coop/templates/coop/draftuser_list.html:55
 #: coop/templates/coop/incoming_payment_list.html:35
 #: coop/templates/coop/membership_pause/membership_pause_list.html:47
-#: coop/templates/coop/membership_resignation_list.html:48
-#: coop/templates/coop/shareowner_list.html:52
+#: coop/templates/coop/membership_resignation_list.html:56
+#: coop/templates/coop/shareowner_list.html:51
 #: log/templates/log/log_overview.html:46
-#: shifts/templates/shifts/shift_calendar_template.html:74
+#: shifts/templates/shifts/shift_calendar_template.html:66
 #: shifts/templates/shifts/shiftexemption_list.html:50
 msgid "Filter"
 msgstr "Filter"
 
-#: coop/templates/coop/draftuser_list.html:61
+#: coop/templates/coop/draftuser_list.html:60
 #: coop/templates/coop/incoming_payment_list.html:40
 #: coop/templates/coop/membership_pause/membership_pause_list.html:52
-#: coop/templates/coop/membership_resignation_list.html:53
-#: coop/templates/coop/shareowner_list.html:57
+#: coop/templates/coop/membership_resignation_list.html:61
+#: coop/templates/coop/shareowner_list.html:56
 #: shifts/templates/shifts/shiftexemption_list.html:55
 msgid "Clear all filters"
 msgstr "Alle Filter entfernen"
 
-#: coop/templates/coop/draftuser_list.html:64
+#: coop/templates/coop/draftuser_list.html:63
 #, python-format
 msgid ""
 "\n"
@@ -987,8 +985,8 @@ msgstr "Bewerber*in erzeugen"
 #: coop/templates/coop/draftuser_register_form.html:29
 #: shifts/templates/shifts/register_user_to_shift_slot.html:27
 #: shifts/templates/shifts/register_user_to_shift_slot_template.html:26
-#: shifts/templates/shifts/shift_detail.html:208
-#: shifts/templates/shifts/shift_template_detail.html:81
+#: shifts/templates/shifts/shift_detail.html:217
+#: shifts/templates/shifts/shift_template_detail.html:84
 msgid "Register"
 msgstr "Anmelden"
 
@@ -1016,7 +1014,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:21
-#: statistics/views/main_view.py:265
+#: statistics/views/main_view.py:304
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -1175,7 +1173,7 @@ msgid ""
 "        <h2>3. Hygiene Training</h2>\n"
 "        <p>\n"
 "            New members must complete an online hygiene training from METRO BEFORE their first shift:\n"
-"            <a href=\"https://kw.my/Qt5PLD/#/\">https://kw.my/Qt5PLD/#/</a>. The training takes about 30 minutes and ends with\n"
+"            <a href=\"https://kw.my/jEM8PK/#/\">https://kw.my/jEM8PK/#/</a>. The training takes about 30 minutes and ends with\n"
 "            a short questionnaire. If you answer\n"
 "            80%% of the questions correctly, you will receive a certificate. Please show this to an employee during your\n"
 "            first shift.\n"
@@ -1388,7 +1386,7 @@ msgstr ""
 "        <h2>3. Hygiene Schulung</h2>\n"
 "    <p>\n"
 "        Neue Mitglieder müssen VOR ihrer ersten Schicht eine Online-Hygienschulung von METRO absolvieren:\n"
-"        <a href=\"https://kw.my/Qt5PLD/#/\">https://kw.my/Qt5PLD/#/</a>. Die Schulung dauert ca. 30 Minuten und endet mit\n"
+"        <a href=\"https://kw.my/jEM8PK/#/\">https://kw.my/jEM8PK/#/</a>. Die Schulung dauert ca. 30 Minuten und endet mit\n"
 "        einem kurzen Fragebogen. Wenn du 80%%\n"
 "        der Fragen richtig beantwortest, erhältst du ein Zertifikat. Bitte zeige dieses bei deiner ersten Schicht\n"
 "        einer*m Angestellter*n.\n"
@@ -1855,7 +1853,7 @@ msgid "General Tapir Accounts"
 msgstr "Tapir-Konto erstellen"
 
 #: coop/templates/coop/incoming_payment_list.html:9
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:159
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:160
 msgid "Payments"
 msgstr "Zahlungen"
 
@@ -1980,7 +1978,7 @@ msgstr ""
 msgid "List of resigned members"
 msgstr "Liste alle E-Mails"
 
-#: coop/templates/coop/membership_resignation_list.html:38
+#: coop/templates/coop/membership_resignation_list.html:36
 #, fuzzy
 #| msgid "Investing member"
 msgid "Resign new member"
@@ -2126,7 +2124,7 @@ msgstr "Zur Nutzer*innen-Seite"
 msgid "Cooperative Members"
 msgstr "Genossenschaftsmitglieder"
 
-#: coop/templates/coop/shareowner_list.html:60
+#: coop/templates/coop/shareowner_list.html:59
 #, python-format
 msgid ""
 "\n"
@@ -2137,79 +2135,59 @@ msgstr ""
 "                            %(filtered_member_count)s aus %(total_member_count)s gefilterte Mitglieder\n"
 "                            "
 
-#: coop/templates/coop/statistics.html:9
+#: coop/templates/coop/statistics.html:10
 msgid "Members statistics"
 msgstr "Mitglieder-Statistik"
 
-#: coop/templates/coop/statistics.html:27
+#: coop/templates/coop/statistics.html:28
 msgid "Loading..."
 msgstr ""
 
-#: coop/templates/coop/statistics.html:47
+#: coop/templates/coop/statistics.html:48
 msgid "Statistics on members"
 msgstr "Mitglieder-Statistiken"
 
-#: coop/templates/coop/statistics.html:51
+#: coop/templates/coop/statistics.html:52
 msgid "Active members with account at end of month as CSV"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:74
-#: coop/templates/coop/statistics.html:80
-#: coop/templates/coop/statistics.html:136
-#: coop/templates/coop/statistics.html:172
-#: coop/templates/coop/statistics.html:192
-#: shifts/templates/shifts/solidarity_shifts_overview.html:43
-#: shifts/templates/shifts/solidarity_shifts_overview.html:67
-#: shifts/templates/shifts/statistics.html:218
-#: statistics/templates/statistics/main_statistics.html:29
-#: statistics/templates/statistics/main_statistics.html:34
-#: statistics/templates/statistics/main_statistics.html:137
-#: statistics/templates/statistics/main_statistics.html:163
-#: statistics/templates/statistics/main_statistics.html:200
-#: statistics/templates/statistics/shift_cancelling_rate.html:71
-#: statistics/templates/statistics/shift_cancelling_rate.html:84
-#: statistics/templates/statistics/state_distribution.html:38
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:37
-msgid "Show graph: "
-msgstr "Grafik anzeigen: "
-
-#: coop/templates/coop/statistics.html:74
-#: statistics/templates/statistics/main_statistics.html:29
+#: coop/templates/coop/statistics.html:72
+#: statistics/templates/statistics/main_statistics.html:27
 msgid "Evolution of member count"
 msgstr "Entwicklung der Mitgliederzahl"
 
-#: coop/templates/coop/statistics.html:80
+#: coop/templates/coop/statistics.html:74
 msgid "Member age distribution"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:89
+#: coop/templates/coop/statistics.html:82
 msgid "Statistics on shares"
 msgstr "Anteile-Statistiken"
 
-#: coop/templates/coop/statistics.html:136
+#: coop/templates/coop/statistics.html:126
 msgid "Evolution of the number of shares"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:145
+#: coop/templates/coop/statistics.html:134
 msgid "Members who bought extra shares"
 msgstr "Mitglieder die weitere Anteile übernommen haben"
 
-#: coop/templates/coop/statistics.html:161
-#: coop/templates/coop/statistics.html:172
+#: coop/templates/coop/statistics.html:150
+#: coop/templates/coop/statistics.html:158
 msgid "Member status updates"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:165
-#: coop/templates/coop/statistics.html:185
+#: coop/templates/coop/statistics.html:154
+#: coop/templates/coop/statistics.html:170
 msgid "Get as CSV"
 msgstr ""
 
-#: coop/templates/coop/statistics.html:181
-#: coop/templates/coop/statistics.html:192
+#: coop/templates/coop/statistics.html:166
+#: coop/templates/coop/statistics.html:174
 msgid "Number of co-purchasers per month"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:8
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:9
 #, python-format
 msgid ""
 "\n"
@@ -2220,11 +2198,11 @@ msgstr ""
 "                    Mitglied #%(coop_share_owner_id)s\n"
 "                "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:16
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:17
 msgid "Membership confirmation"
 msgstr "Mitgliedsbestätigung"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:34
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:35
 #, python-format
 msgid ""
 "\n"
@@ -2232,7 +2210,7 @@ msgid ""
 "                        "
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:39
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:40
 #, python-format
 msgid ""
 "\n"
@@ -2240,43 +2218,43 @@ msgid ""
 "                        "
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:55
-#: shifts/models.py:865 shifts/templates/shifts/shift_day_printable.html:56
-#: shifts/templates/shifts/shift_detail.html:242
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:56
+#: shifts/models.py:924 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/templates/shifts/shift_detail.html:272
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:57
-#: shifts/models.py:864
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
+#: shifts/models.py:923
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:64
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:65
 msgid "Mark Attended"
 msgstr "Als teilgenommen markieren"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:73
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:74
 msgid "Owned shares"
 msgstr "Anteile"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:81
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:82
 msgid "List of shares owned by this member"
 msgstr "Liste der Anteile die dieses Mitglied gehören"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:85
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:86
 msgid "Starts at"
 msgstr "Anfangsdatum"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:86
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:87
 msgid "Ends at"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:104
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:105
 msgid "Sold or future"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:129
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:130
 msgid ""
 "\n"
 "                                                            Only use this to correct mistakes, i.e. if the share was\n"
@@ -2290,19 +2268,19 @@ msgstr ""
 "Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als 'verkauft'.\n"
 " "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:152
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:153
 msgid "Add Shares"
 msgstr "Anteile hinzufügen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:170
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:171
 msgid "Willing to gift a share"
 msgstr "Bereit Anteile zu schenken"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:180
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:181
 msgid "Send membership confirmation email"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:185
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:187
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
@@ -2366,111 +2344,111 @@ msgstr ""
 msgid "Edit membership pause: %(name)s"
 msgstr ""
 
-#: coop/views/membership_resignation.py:107
+#: coop/views/membership_resignation.py:103
 msgid "Share(s) gifted {chr(8594)} SuperCoop"
 msgstr ""
 
-#: coop/views/membership_resignation.py:113
+#: coop/views/membership_resignation.py:109
 #, fuzzy
 #| msgid "Shares requested"
 msgid "Share(s) gifted"
 msgstr "Angeforderte Anteile"
 
-#: coop/views/membership_resignation.py:133
+#: coop/views/membership_resignation.py:129
 #, fuzzy
 #| msgid "Search Members"
 msgid "Search member or ID"
 msgstr "Mitglieder suchen"
 
-#: coop/views/membership_resignation.py:139
+#: coop/views/membership_resignation.py:135
 #, fuzzy
 #| msgid "Cycle start date"
 msgid "Pay out start date"
 msgstr "Anfangsdatum"
 
-#: coop/views/membership_resignation.py:145
+#: coop/views/membership_resignation.py:141
 #, fuzzy
 #| msgid "without end date"
 msgid "Pay out end date"
 msgstr "ohne Endddatum"
 
-#: coop/views/membership_resignation.py:204
-#: coop/views/membership_resignation.py:209
+#: coop/views/membership_resignation.py:198
+#: coop/views/membership_resignation.py:203
 #, fuzzy, python-format
 #| msgid "Edit member: %(name)s"
 msgid "Cancel membership of %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: coop/views/membership_resignation.py:247
+#: coop/views/membership_resignation.py:238
 msgid "Resign a new membership"
 msgstr ""
 
-#: coop/views/shareowner.py:122 coop/views/shareowner.py:127
+#: coop/views/shareowner.py:123 coop/views/shareowner.py:128
 #, python-format
 msgid "Edit share: %(name)s"
 msgstr "Anteil bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:147 coop/views/shareowner.py:152
+#: coop/views/shareowner.py:148 coop/views/shareowner.py:153
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:361
+#: coop/views/shareowner.py:362
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:573 shifts/templates/shifts/shift_filters.html:45
+#: coop/views/shareowner.py:584 shifts/templates/shifts/shift_filters.html:45
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:578
+#: coop/views/shareowner.py:589
 #: shifts/templates/shifts/user_shifts_overview_tag.html:74
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:586
+#: coop/views/shareowner.py:597
 msgid "Is registered to an ABCD-slot that requires a qualification"
 msgstr "Ist für eine ABCD-Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:594
+#: coop/views/shareowner.py:605
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:602
+#: coop/views/shareowner.py:613
 msgid "Has qualification"
 msgstr "Hat Qualifikation"
 
-#: coop/views/shareowner.py:610
+#: coop/views/shareowner.py:621
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:617
+#: coop/views/shareowner.py:628
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:620
+#: coop/views/shareowner.py:631
 msgid "Has unpaid shares"
 msgstr "Hat unbezahlte Anteile"
 
-#: coop/views/shareowner.py:623
+#: coop/views/shareowner.py:634
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:626 welcomedesk/views.py:54
+#: coop/views/shareowner.py:637
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:630
+#: coop/views/shareowner.py:641
 msgid "Is currently exempted from shifts"
 msgstr "Ist derzeit von der Schichtarbeit befreit"
 
-#: coop/views/shareowner.py:635
+#: coop/views/shareowner.py:646
 #, fuzzy
 #| msgid "Shift missed"
 msgid "Shift Name"
 msgstr "Schicht versäumt"
 
-#: coop/views/shareowner.py:889
+#: coop/views/shareowner.py:919
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
@@ -2559,11 +2537,11 @@ msgstr ""
 msgid "Flag value"
 msgstr ""
 
-#: core/templates/core/base.html:71
+#: core/templates/core/base.html:76
 msgid "Use this form to search for members"
 msgstr "Benutze dieses Formular, um nach Mitgliedern zu suchen"
 
-#: core/templates/core/base.html:72
+#: core/templates/core/base.html:77
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
@@ -2587,8 +2565,8 @@ msgstr ""
 msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
-#: core/templates/core/email_list.html:39 shifts/models.py:475
-#: shifts/models.py:1010 shifts/templates/shifts/user_shift_account_log.html:29
+#: core/templates/core/email_list.html:39 shifts/models.py:497
+#: shifts/models.py:1066 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -2628,7 +2606,7 @@ msgstr "Klicke hier um mehr zu erfahren."
 msgid "Goal: "
 msgstr "Ziel: "
 
-#: core/views.py:47 core/views.py:49 log/models.py:140
+#: core/views.py:47 core/views.py:49 log/models.py:147
 msgid "Not available"
 msgstr ""
 
@@ -2664,7 +2642,7 @@ msgstr "Ziel"
 #: financingcampaign/templates/financingcampaign/general.html:29
 #: financingcampaign/templates/financingcampaign/general.html:72
 #: financingcampaign/templates/financingcampaign/general.html:114
-#: shifts/templates/shifts/shift_detail.html:77
+#: shifts/templates/shifts/shift_detail.html:83
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -2699,7 +2677,7 @@ msgstr ""
 #: financingcampaign/templates/financingcampaign/general.html:111
 #: log/templates/log/log_entry_list_tag.html:23
 #: shifts/templates/shifts/user_shift_account_log.html:26
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:17
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:18
 msgid "Date"
 msgstr "Datum"
 
@@ -2743,7 +2721,7 @@ msgstr ""
 msgid "Logs"
 msgstr ""
 
-#: log/models.py:14
+#: log/models.py:21
 msgid "Creation Date"
 msgstr "Erstellungsdatum"
 
@@ -2809,6 +2787,15 @@ msgstr ""
 "ABCD-Jahreskalender\n"
 "Aktuelle Woche: {current_week_group_name}"
 
+#: shifts/emails/flying_member_registration_reminder_email.py:17
+msgid "Flying member registration reminder"
+msgstr ""
+
+#: shifts/emails/flying_member_registration_reminder_email.py:22
+#, python-format
+msgid "Sent to flying members %(nb_days)s days after a cycle has begun, if they haven't registered to a shift for this cycle."
+msgstr ""
+
 #: shifts/emails/freeze_warning_email.py:28
 msgid "Freeze warning"
 msgstr ""
@@ -2858,75 +2845,83 @@ msgstr ""
 msgid "Sent to a member when their shift status gets set from frozen to flying."
 msgstr ""
 
-#: shifts/forms.py:53
+#: shifts/forms.py:60
 msgid "The shift must end after it starts."
 msgstr "Die Schicht muss nach ihrem Start enden."
 
-#: shifts/forms.py:103
+#: shifts/forms.py:110
 msgid "I have read the warning about the missing qualification and confirm that the user should get registered to the shift"
 msgstr "Ich habe die Warnung über die fehlende Qualifikation gelesen und bestätige, dass Benutzer*in für die Schicht registriert werden sollte"
 
-#: shifts/forms.py:126
+#: shifts/forms.py:138
 #, python-brace-format
 msgid "The selected user is missing the required qualification for this shift : {missing_capabilities}"
 msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Qualifikation für diese Schicht: {missing_capabilities}"
 
-#: shifts/forms.py:160
+#: shifts/forms.py:181
+msgid "Please set the chosen time after the start of the shift"
+msgstr ""
+
+#: shifts/forms.py:186
+msgid "Please set the chosen time before the end of the shift"
+msgstr ""
+
+#: shifts/forms.py:223
 msgid "This user is already registered to another slot in this ABCD shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser ABCD-Schicht registriert."
 
-#: shifts/forms.py:199
+#: shifts/forms.py:266
 msgid "You need the shifts.manage permission to do this."
 msgstr ""
 
-#: shifts/forms.py:203
+#: shifts/forms.py:270
 msgid "This user is already registered to another slot in this shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht registriert."
 
-#: shifts/forms.py:216
+#: shifts/forms.py:286
 msgid "I am aware that the member will be unregistered from their ABCD shift"
 msgstr ""
 
-#: shifts/forms.py:225 shifts/templates/shifts/user_shifts_overview_tag.html:93
+#: shifts/forms.py:295 shifts/templates/shifts/user_shifts_overview_tag.html:93
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
-#: shifts/forms.py:253
+#: shifts/forms.py:323
 #, python-brace-format
 msgid "{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
 msgstr ""
 
-#: shifts/forms.py:313
+#: shifts/forms.py:383
 msgid "This member is registered to at least one ABCD shift. Please confirm the change of attendance mode with the checkbox below."
 msgstr ""
 
-#: shifts/forms.py:358
+#: shifts/forms.py:428
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:365
+#: shifts/forms.py:435
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:398
+#: shifts/forms.py:468
 #, python-brace-format
 msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
 msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerhalb der Befreiung sind : {attendances_display}"
 
-#: shifts/forms.py:423
+#: shifts/forms.py:493
 #, python-format
 msgid "The user will be unregistered from the following ABCD shifts because the exemption is longer than %(number_of_cycles)s cycles: %(attendances_display)s "
 msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s "
 
-#: shifts/forms.py:465
+#: shifts/forms.py:536
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:486
+#: shifts/forms.py:557
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:495
+#: shifts/forms.py:566
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
@@ -2994,58 +2989,85 @@ msgstr "Mir ist klar, dass ich möglicherweise in großer Höhe arbeiten muss, z
 msgid "This determines from which date shifts should be generated from this ABCD shift."
 msgstr ""
 
-#: shifts/models.py:465
+#: shifts/models.py:189 shifts/models.py:505
+#: shifts/templates/shifts/shift_block_tag.html:9
+msgid "Flexible time"
+msgstr ""
+
+#: shifts/models.py:191 shifts/models.py:507
+msgid "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
+msgstr ""
+
+#: shifts/models.py:417 shifts/models.py:815
+#: shifts/templates/shifts/shift_detail.html:86
+#: shifts/templates/shifts/shift_template_detail.html:42
+msgid "Chosen time"
+msgstr ""
+
+#: shifts/models.py:419
+msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come.Setting or updating this field will set the time for all individual shifts generated from this ABCD shift.You can update the time of a single shift individually and at any time on the shift page."
+msgstr ""
+
+#: shifts/models.py:487
 msgid "Number of required attendances"
 msgstr "Anzahl notwendiger Teilnehmender"
 
-#: shifts/models.py:467
+#: shifts/models.py:489
 msgid "If there are less members registered to a shift than that number, it will be highlighted in the shift calendar."
 msgstr ""
 
-#: shifts/models.py:476
+#: shifts/models.py:498
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:866 shifts/templates/shifts/shift_day_printable.html:57
-#: shifts/templates/shifts/shift_detail.html:252
+#: shifts/models.py:518 shifts/models.py:524
+msgid "If 'flexible time' is enabled, then the time component is ignored"
+msgstr ""
+
+#: shifts/models.py:817
+msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
+msgstr ""
+
+#: shifts/models.py:925 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/templates/shifts/shift_detail.html:282
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:867 shifts/templates/shifts/shift_day_printable.html:58
-#: shifts/templates/shifts/shift_detail.html:282
+#: shifts/models.py:926 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/templates/shifts/shift_detail.html:312
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:868 shifts/templates/shifts/shift_detail.html:290
+#: shifts/models.py:927 shifts/templates/shifts/shift_detail.html:320
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:869 shifts/templates/shifts/shift_day_printable.html:88
-#: shifts/templates/shifts/shift_detail.html:274
-#: shifts/templates/shifts/shift_detail_printable.html:83
+#: shifts/models.py:928 shifts/templates/shifts/shift_day_printable.html:97
+#: shifts/templates/shifts/shift_detail.html:304
+#: shifts/templates/shifts/shift_detail_printable.html:94
 #: shifts/templates/shifts/shift_filters.html:83
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:922
+#: shifts/models.py:981
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:923
+#: shifts/models.py:982
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:924
+#: shifts/models.py:983
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:927
+#: shifts/models.py:986
 msgid "Shift system"
 msgstr "Schichten"
 
-#: shifts/models.py:1116
+#: shifts/models.py:1172
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -3086,6 +3108,51 @@ msgid ""
 "                        </ul>\n"
 "                    "
 msgstr ""
+
+#: shifts/templates/shifts/email/flying_member_registration_reminder_email.body.html:6
+#, python-format
+msgid ""
+"\n"
+"        <p>Hi %(display_name_short)s,</p>\n"
+"\n"
+"        <p>\n"
+"            we would like to remind you about your next <a href=\"https://members.supercoop.de/shifts/calendar\">shift\n"
+"            registration</a>.\n"
+"        </p>\n"
+"        <p>\n"
+"            A new shift cycle has been running for a week and we have noticed\n"
+"            that you have not yet registered for a suitable shift. As a flying member,\n"
+"            unlike members with a regular ABCD shift, you have to take care of this yourself every four weeks.\n"
+"        </p>\n"
+"        <p>\n"
+"            So take a look at the <a href=\"https://members.supercoop.de/shifts/calendar\">shift calendar on Tapir</a>\n"
+"            and register for one of the shifts highlighted in blue - this is where the most support is currently needed.\n"
+"        </p>\n"
+"        <p>\n"
+"            Cooperative greetings,<br />\n"
+"            The Member Office\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
+"        <p>Hi %(display_name_short)s,</p>\n"
+"\n"
+"        <p>\n"
+"            hiermit möchten wir dich an deine nächste <a href=\"https://members.supercoop.de/shifts/calendar\">Schichtanmeldung</a> zu erinnern..\n"
+"        </p>\n"
+"        <p>\n"
+"            Seit einer Woche läuft ein neuer Schichtzyklus und wir haben festgestellt, dass du dich bisher noch nicht für eine passende Schicht registriert hast. Als Fliegendes Mitglied musst du dich, im Unterschied zu Mitgliedern mit fester ABCD-Schicht, alle vier Wochen selbst darum kümmern.        </p>\n"
+"        <p>\n"
+"            Schau also am besten gleich mal in den <a href=\"https://members.supercoop.de/shifts/calendar\">Schichtkalender auf Tapir</a>, und melde dich gerne für eine der blau unterlegten Schichten an - dort wird aktuell am meisten Unterstützung benötigt.        </p>\n"
+"        <p>\n"
+"            Kooperative Grüße,<br />\n"
+"            Das Mitgliederbüro\n"
+"        </p>\n"
+"    "
+
+#: shifts/templates/shifts/email/flying_member_registration_reminder_email.subject.html:2
+msgid "Sign up for your next SuperCoop shift"
+msgstr "Melde dich für deine nächste SuperCoop-Schicht an"
 
 #: shifts/templates/shifts/email/freeze_warning.body.html:6
 #, python-format
@@ -3301,69 +3368,46 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"        <p>Hi %(display_name_short)s,</p>\n"
+"        <p>Hello %(display_name_short)s,</p>\n"
 "\n"
-"        <p>This is an automatically sent email from SuperCoop to kindly remind you about your next shift.</p>\n"
-"\n"
-"        <p>You are registered for the shift: %(shift_display_name)s</p>\n"
+"        <p>We'll see you on %(shift_display_name)s</p>\n"
+"        <div>\n"
+"            If you can't make it to your shift:\n"
+"            <ol>\n"
+"                <li>Please set yourself to ‘Looking for a stand-in’ in Tapir</li>\n"
+"                <li>Register for another shift</li>\n"
+"                <li>Contact your team leader or the Member Office within the next 48 hours by replying to this email. This way you avoid an additional catch-up shift.</li>\n"
+"            </ol>\n"
+"        </div>\n"
+"        <p></p>\n"
+"        <p>If you have already contacted your team leader and/or the Member Office about this matter, you can ignore this message.</p>\n"
+"        <p>If you can't be on time for your shift: Please come anyway, any support is important!</p>\n"
+"        <p>You can find more information about the stand-in system in the <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?tab=t.0#heading=h.naxyslw4b9ig\">member manual</a>.</p>\n"
 "        <p>\n"
-"                Before you start your next shift, we would like to ask you to check the wiki for the latest information\n"
-"                about your shift. You can find all the latest updates on our\n"
-"                <a href=\"https://wiki.supercoop.de/wiki/Schicht-News\">shift news wiki page.</a>\n"
-"        </p>\n"
-"        <p>\n"
-"            If you are unable to complete your shift, please contact your team leader as soon as possible. If you do not\n"
-"            have a team leader, please contact the Member Office by replying to this email.\n"
-"        </p>\n"
-"        <p>\n"
-"            If you have already contacted your team leader and/or the Member Office regarding this matter, please feel\n"
-"            free to ignore this message.\n"
-"        </p>\n"
-"        <p>\n"
-"            If you can only come late: please still come to your shift, every support is important!\n"
-"        </p>\n"
-"        <p>\n"
-"                Please note that it is your responsibility as a member to make every effort to find a replacement if needed.\n"
-"                To learn more about the replacement (stand-in) system, please see the\n"
-"                <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.vxvgxkgmyf1w\">\n"
-"                    Member Manual</a>.\n"
-"        </p>\n"
-"        <p>\n"
-"                Cooperative Greetings,<br />\n"
-"                The Member Office\n"
+"            Cooperative greetings,<br />\n"
+"            The Member Office\n"
 "        </p>\n"
 "    "
 msgstr ""
 "\n"
 "        <p>Hallo %(display_name_short)s,</p>\n"
 "\n"
-"        <p>Dies ist eine automatische E-Mail von SuperCoop, um dich an deine nächste Schicht zu erinnern.</p>\n"
-"\n"
-"        <p>Du bist für die folgende Schicht angemeldet: %(shift_display_name)s</p>\n"
+"        <p>wir sehen uns am %(shift_display_name)s</p>\n"
+"        <div>\n"
+"            Wenn du deine Schicht nicht antreten kannst:\n"
+"            <ol>\n"
+"                <li>Setze dich bitte selbstständig in Tapir auf “Sucht Vertretung”</li>\n"
+"                <li>Melde Dich für eine andere Schicht an</li>\n"
+"                <li>Kontaktiere innerhalb der nächsten 48 Stunden deine/n Teamleiter/in oder das Mitgliederbüro, indem du auf diese E-Mail antwortest. So vermeidest du eine zusätzliche Nachholschicht</li>\n"
+"            </ol>\n"
+"        </div>\n"
+"        <p></p>\n"
+"        <p>Wenn du dich in dieser Angelegenheit bereits an den/die Teamleiter/in und/oder das Mitgliederbüro gewandt hast, kannst du diese Nachricht ignorieren.</p>\n"
+"        <p>Falls du nicht ganz pünktlich zur Schicht kommen kannst: Bitte komm trotzdem, jede Unterstützung ist wichtig!</p>\n"
+"        <p>Weitere Informationen über das Vertretungssystem findest du im  <a href=\"https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit?tab=t.0#heading=h.ibmcsczg5lek\">Handbuch für Mitglieder</a>.</p>\n"
 "        <p>\n"
-"                Bevor du deine nächste Schicht antrittst, möchten wir dich bitten, im Wiki nach den neuesten Informationen\n"
-"                über deine Schicht zu schauen. Du findest alle aktuellen Informationen auf unserer\n"
-"               <a href=\"https://wiki.supercoop.de/wiki/Schicht-News\">Schicht-Nachrichten-Wiki-Seite.</a>\n"
-"        </p>\n"
-"        <p>\n"
-"            Wenn Du deine Schicht nicht antreten kannst, kontaktiere bitte so schnell wie möglich dein/e Teamleiter/in. Wenn kein/e\n"
-"            Teamleiter/in für die Schicht angemeldet ist, wende dich bitte an das Mitgliederbüro, indem du auf diese E-Mail antwortest.\n"
-"        </p>\n"
-"        <p>\n"
-"            Wenn du dich in dieser Angelegenheit bereits an den/die Teamleiter/in und/oder das Mitgliedsbüro gewandt hast, \n"
-"            kannst du diese Nachricht ignorieren.\n"
-"        </p>\n"
-"        <p>\n"
-"            Wenn du nur zu spät kommen kannst: Bitte komm trotzdem zu deiner Schicht, jede Unterstützung ist wichtig!\n"
-"        </p>\n"
-"        <p>\n"
-"                Bitte beachte, dass du als Mitglied dafür verantwortlich bist, dich bei Bedarf um eine Vertretung zu bemühen.\n"
-"                Weitere Informationen über das Vertretungssystem findest du im \n"
-"                   <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.vxvgxkgmyf1w\">Handbuch für Mitglieder</a>.\n"
-"        </p>\n"
-"        <p>\n"
-"                Kooperative Grüße,<br />\n"
-"                Das Mitgliederbüro\n"
+"            Kooperative Grüße,<br />\n"
+"            Das Mitgliederbüro\n"
 "        </p>\n"
 "    "
 
@@ -3407,7 +3451,7 @@ msgstr ""
 "\n"
 "    <p>Falls du es noch nicht getan hast, vergiss nicht, an einer anderen Schicht teilzunehmen, um die verpasste Schicht zu kompensieren!</p>\n"
 "\n"
-"    <p>Kooperative Grüße,</p> \n"
+"    <p>Kooperative Grüße,<br /> \n"
 "            Das Mitgliederbüro\n"
 "        </p> "
 
@@ -3553,14 +3597,7 @@ msgid "Already occupied shifts :"
 msgstr "Schon besetzte Schichten:"
 
 #: shifts/templates/shifts/shift_calendar_future.html:10
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        <p>Below you can find all the upcoming shifts, and who is registered for each shift.</p>\n"
-#| "        <p>You can sign yourself up for any shift that has a free slot here on TAPIR. You may also cancel it yourself if done at least %(nb_days_for_self_unregister)s days before the shift.<br/>\n"
-#| "            When you sign up for one of these shifts, you only commit to the shift on that specific day.</p>\n"
-#| "        <p>To register for a regular ABCD shift you must contact the Member Office.</p>\n"
-#| "    "
+#, python-format
 msgid ""
 "\n"
 "        <p>Below you can find all the upcoming shifts, and who is registered for each shift.</p>\n"
@@ -3570,7 +3607,11 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"<p>Unten findest du alle anstehenden Schichten und wer für die einzelnen Schichten angemeldet ist.</p></p> Du kannst dich für jede Schicht, die einen freien Platz hat, hier auf TAPIR anmelden. Du kannst dich auch selbst abmelden, wenn du dies mindestens %(nb_days_for_self_unregister)s Tage vor der Schicht tust. </p></p>Wenn du dich für eine dieser Schichten anmeldest, verpflichtest du dich nur für die Schicht an diesem bestimmten Tag.</p><p> Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das Mitgliederbüro kontaktieren.</p> "
+"    <p>Unten findest du alle anstehenden Schichten und wer für die einzelnen Schichten angemeldet ist.</p>\n"
+"    </p> Du kannst dich für jede Schicht, die einen freien Platz hat, hier auf TAPIR anmelden. Du kannst dich auch selbst abmelden, wenn du dies mindestens %(nb_days_for_self_unregister)s Tage vor der Schicht tust. </p>\n"
+"    </p>Wenn du dich für eine dieser Schichten anmeldest, verpflichtest du dich nur für die Schicht an diesem bestimmten Tag.</p>\n"
+"    <p> Um dich für eine reguläre ABCD-Schicht anzumelden, musst du das Mitgliederbüro kontaktieren.</p> \n"
+"    "
 
 #: shifts/templates/shifts/shift_calendar_past.html:4
 msgid "Past shifts"
@@ -3580,25 +3621,25 @@ msgstr "Vergangene Schichten"
 msgid "Legend & Filters"
 msgstr "Legende & Filter"
 
-#: shifts/templates/shifts/shift_calendar_template.html:52
+#: shifts/templates/shifts/shift_calendar_template.html:50
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_calendar_template.html:53
+#: shifts/templates/shifts/shift_calendar_template.html:51
 #: shifts/templates/shifts/shift_template_overview.html:40
 msgid "Week "
 msgstr "Woche "
 
-#: shifts/templates/shifts/shift_calendar_template.html:58
+#: shifts/templates/shifts/shift_calendar_template.html:55
 msgid "From"
 msgstr "Vom"
 
-#: shifts/templates/shifts/shift_calendar_template.html:66
+#: shifts/templates/shifts/shift_calendar_template.html:62
 msgid "To"
 msgstr "Zum"
 
 #: shifts/templates/shifts/shift_day_printable.html:54
-#: shifts/templates/shifts/shift_detail.html:73
+#: shifts/templates/shifts/shift_detail.html:79
 #: shifts/templates/shifts/shift_detail_printable.html:49
 msgid "Slot"
 msgstr "Platz"
@@ -3608,97 +3649,107 @@ msgstr "Platz"
 msgid "Required qualifications: "
 msgstr "Erforderliche Qualifikation: "
 
-#: shifts/templates/shifts/shift_day_printable.html:85
-#: shifts/templates/shifts/shift_detail.html:104
-#: shifts/templates/shifts/shift_detail_printable.html:80
-#: shifts/templates/shifts/shift_template_detail.html:61
+#: shifts/templates/shifts/shift_day_printable.html:86
+#: shifts/templates/shifts/shift_detail_printable.html:82
+msgid "Expected to come at"
+msgstr ""
+
+#: shifts/templates/shifts/shift_day_printable.html:88
+#: shifts/templates/shifts/shift_detail_printable.html:84
+msgid "Flexible time not specified"
+msgstr ""
+
+#: shifts/templates/shifts/shift_day_printable.html:94
+#: shifts/templates/shifts/shift_detail.html:113
+#: shifts/templates/shifts/shift_detail_printable.html:90
+#: shifts/templates/shifts/shift_template_detail.html:64
 msgid "Shift partner: "
 msgstr "Schicht-Partner: "
 
-#: shifts/templates/shifts/shift_day_printable.html:95
-#: shifts/templates/shifts/shift_detail_printable.html:89
+#: shifts/templates/shifts/shift_day_printable.html:104
+#: shifts/templates/shifts/shift_detail_printable.html:100
 msgid "Has qualifications: "
 msgstr "Hat Qualifikationen : "
 
 #: shifts/templates/shifts/shift_detail.html:7
-#: shifts/templates/shifts/shift_detail.html:28
+#: shifts/templates/shifts/shift_detail.html:29
 msgid "Shift"
 msgstr "Schicht"
 
-#: shifts/templates/shifts/shift_detail.html:33
+#: shifts/templates/shifts/shift_detail.html:35
 msgid "Get printable version"
 msgstr "Druckversion erhalten"
 
-#: shifts/templates/shifts/shift_detail.html:37
+#: shifts/templates/shifts/shift_detail.html:39
 #: shifts/templates/shifts/shift_template_detail.html:20
 msgid "Add a slot"
 msgstr "Slot hinzufügen"
 
-#: shifts/templates/shifts/shift_detail.html:47
+#: shifts/templates/shifts/shift_detail.html:49
 msgid "Cancel shift"
 msgstr "Schicht absagen"
 
-#: shifts/templates/shifts/shift_detail.html:54
+#: shifts/templates/shifts/shift_detail.html:57
 msgid "Generated from"
 msgstr "Erzeugt von"
 
-#: shifts/templates/shifts/shift_detail.html:63
+#: shifts/templates/shifts/shift_detail.html:67
 msgid "This shift has been cancelled: "
 msgstr ""
 
-#: shifts/templates/shifts/shift_detail.html:70
+#: shifts/templates/shifts/shift_detail.html:76
 msgid "List of slots for this shift"
 msgstr "Liste der Slots für diese Schicht"
 
-#: shifts/templates/shifts/shift_detail.html:73
+#: shifts/templates/shifts/shift_detail.html:79
 msgid "Number"
 msgstr "Nummer"
 
-#: shifts/templates/shifts/shift_detail.html:74
+#: shifts/templates/shifts/shift_detail.html:80
 #: shifts/templates/shifts/shift_template_detail.html:38
 msgid "Details"
 msgstr "Details"
 
-#: shifts/templates/shifts/shift_detail.html:75
+#: shifts/templates/shifts/shift_detail.html:81
 #: shifts/templates/shifts/shift_template_detail.html:40
 msgid "Registered user"
 msgstr "Angemeldete*r Nutzer*in"
 
-#: shifts/templates/shifts/shift_detail.html:76
+#: shifts/templates/shifts/shift_detail.html:82
 msgid "Attendance"
 msgstr "Anwesenheit"
 
-#: shifts/templates/shifts/shift_detail.html:78
+#: shifts/templates/shifts/shift_detail.html:84
 msgid "Do you meet the requirements?"
 msgstr "Erfüllst du die Voraussetzungen?"
 
-#: shifts/templates/shifts/shift_detail.html:80
-#: shifts/templates/shifts/shift_template_detail.html:42
+#: shifts/templates/shifts/shift_detail.html:89
+#: shifts/templates/shifts/shift_template_detail.html:45
 msgid "Member-Office actions"
 msgstr "Mitgliederbüro Aktionen"
 
-#: shifts/templates/shifts/shift_detail.html:81
+#: shifts/templates/shifts/shift_detail.html:90
 msgid "Previous attendances"
 msgstr "Vorherige Anwesenheiten"
 
-#: shifts/templates/shifts/shift_detail.html:112
+#: shifts/templates/shifts/shift_detail.html:121
 msgid "since"
 msgstr "seit"
 
-#: shifts/templates/shifts/shift_detail.html:125
+#: shifts/templates/shifts/shift_detail.html:134
 msgid "Vacant"
 msgstr "Frei"
 
-#: shifts/templates/shifts/shift_detail.html:142
+#: shifts/templates/shifts/shift_detail.html:151
 msgid "Cancels the search for a stand-in. Use this if you want to attend the shift."
 msgstr "Beendet die Suche nach Vertretung. Benutze dies, wenn du die Schicht wahrnehmen möchtest."
 
-#: shifts/templates/shifts/shift_detail.html:144
-#: shifts/templates/shifts/shift_detail.html:263
+#: shifts/templates/shifts/shift_detail.html:153
+#: shifts/templates/shifts/shift_detail.html:293
 msgid "Cancel looking for a stand-in"
 msgstr "Beende die Suche nach Vertretung"
 
-#: shifts/templates/shifts/shift_detail.html:152
+#: shifts/templates/shifts/shift_detail.html:161
 #, fuzzy, python-format
 #| msgid ""
 #| "You can only look for a\n"
@@ -3718,11 +3769,11 @@ msgid ""
 "                                                            possible."
 msgstr "Du kannst nur bis %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s Tage vor der Schicht nach einer Vertretung suchen. Wenn du die Schicht nicht wahrnehmen kannst, wende dich bitte schnellstmöglich an die Teamleitung."
 
-#: shifts/templates/shifts/shift_detail.html:165
+#: shifts/templates/shifts/shift_detail.html:174
 msgid "Look for a stand-in"
 msgstr "Suche nach Vertretung"
 
-#: shifts/templates/shifts/shift_detail.html:174
+#: shifts/templates/shifts/shift_detail.html:183
 #, fuzzy, python-format
 #| msgid ""
 #| "You can only unregister\n"
@@ -3744,11 +3795,11 @@ msgid ""
 "                                                        possible."
 msgstr "Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner Schicht abmelden. Von ABCD-Schichten kannst du dich überhaupt nicht abmelden. Wenn du die Schicht nicht wahrnehmen kannst, suche bitte eine Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung."
 
-#: shifts/templates/shifts/shift_detail.html:189
+#: shifts/templates/shifts/shift_detail.html:198
 msgid "Unregister myself"
 msgstr "Melde mich ab"
 
-#: shifts/templates/shifts/shift_detail.html:194
+#: shifts/templates/shifts/shift_detail.html:203
 #, fuzzy
 #| msgid ""
 #| "You can only register\n"
@@ -3777,7 +3828,12 @@ msgstr ""
 "- die Schicht in der Zukunft liegt\n"
 " "
 
-#: shifts/templates/shifts/shift_detail.html:298
+#: shifts/templates/shifts/shift_detail.html:245
+#: shifts/templates/shifts/shift_template_detail.html:95
+msgid "Not specified"
+msgstr ""
+
+#: shifts/templates/shifts/shift_detail.html:328
 msgid "Edit slot"
 msgstr "Slot bearbeiten"
 
@@ -3914,15 +3970,15 @@ msgstr "Liste des Slots für diese ABCD-Schicht"
 msgid "Requirements"
 msgstr ""
 
-#: shifts/templates/shifts/shift_template_detail.html:70
+#: shifts/templates/shifts/shift_template_detail.html:73
 msgid "Unregister"
 msgstr "Abmelden"
 
-#: shifts/templates/shifts/shift_template_detail.html:101
+#: shifts/templates/shifts/shift_template_detail.html:122
 msgid "Future generated Shifts"
 msgstr "Zukünftige erstellte Schichten"
 
-#: shifts/templates/shifts/shift_template_detail.html:111
+#: shifts/templates/shifts/shift_template_detail.html:132
 msgid "Past generated Shifts"
 msgstr "Vergangene Schichten"
 
@@ -3983,11 +4039,11 @@ msgstr ""
 "Sei vorsichtig, wenn du ein Schicht-Slot anlegst, weil du es nachträglich nicht löschen kannst.\n"
 " "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:13
+#: shifts/templates/shifts/solidarity_shifts_overview.html:14
 msgid "Available"
 msgstr "Verfügbar"
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:16
+#: shifts/templates/shifts/solidarity_shifts_overview.html:17
 #, python-format
 msgid ""
 "\n"
@@ -3998,7 +4054,7 @@ msgstr ""
 "                        <p>Es ist zurzeit %(available_solidarity_shifts)s Solidaritäts-Schicht verfügbar</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:20
+#: shifts/templates/shifts/solidarity_shifts_overview.html:21
 #, python-format
 msgid ""
 "\n"
@@ -4009,11 +4065,11 @@ msgstr ""
 "                        <p>Es sind zurzeit %(available_solidarity_shifts)s Solidaritäts-Schichten verfügbar</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:29
+#: shifts/templates/shifts/solidarity_shifts_overview.html:30
 msgid "Used"
 msgstr "Bisher genutzt"
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:32
+#: shifts/templates/shifts/solidarity_shifts_overview.html:33
 #, python-format
 msgid ""
 "\n"
@@ -4024,7 +4080,7 @@ msgstr ""
 "                        <p>%(used_solidarity_shifts_total)s Solidaritäts-Schicht wurde bisher genutzt</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:36
+#: shifts/templates/shifts/solidarity_shifts_overview.html:37
 #, python-format
 msgid ""
 "\n"
@@ -4035,16 +4091,16 @@ msgstr ""
 "                        <p>%(used_solidarity_shifts_total)s Solidaritäts-Schichten wurden bisher genutzt</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:43
+#: shifts/templates/shifts/solidarity_shifts_overview.html:41
 #: shifts/views/solidarity.py:208
 msgid "Solidarity shifts used"
 msgstr "Genutzte Solidaritäts-Schichten"
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:53
+#: shifts/templates/shifts/solidarity_shifts_overview.html:50
 msgid "Gifted"
 msgstr "Bisher gespendet"
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:56
+#: shifts/templates/shifts/solidarity_shifts_overview.html:53
 #, python-format
 msgid ""
 "\n"
@@ -4055,7 +4111,7 @@ msgstr ""
 "                        <p>%(gifted_solidarity_shifts_total)s Solidaritäts-Schicht wurde bisher gespendet</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:60
+#: shifts/templates/shifts/solidarity_shifts_overview.html:57
 #, python-format
 msgid ""
 "\n"
@@ -4066,82 +4122,82 @@ msgstr ""
 "                        <p>%(gifted_solidarity_shifts_total)s Solidaritäts-Schichten wurden bisher gespendet</p>\n"
 "                        "
 
-#: shifts/templates/shifts/solidarity_shifts_overview.html:67
+#: shifts/templates/shifts/solidarity_shifts_overview.html:61
 #: shifts/views/solidarity.py:179
 msgid "Solidarity shifts gifted"
 msgstr "Gespendete Solidaritäts-Schichten"
 
-#: shifts/templates/shifts/statistics.html:8
+#: shifts/templates/shifts/statistics.html:9
 msgid "Shift statistics"
 msgstr "Schicht-Statistiken"
 
-#: shifts/templates/shifts/statistics.html:65
+#: shifts/templates/shifts/statistics.html:66
 msgid "Statistics on shifts"
 msgstr "Schicht-Statistik"
 
-#: shifts/templates/shifts/statistics.html:80
+#: shifts/templates/shifts/statistics.html:81
 msgid "Gives details of the attendance per slot type."
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:106
+#: shifts/templates/shifts/statistics.html:107
 msgid "Gives details of the attendance for the past, current and next week."
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:130
+#: shifts/templates/shifts/statistics.html:131
 msgid "Shift cycle list"
 msgstr "Schicht-Zyklus-Liste"
 
-#: shifts/templates/shifts/statistics.html:134
+#: shifts/templates/shifts/statistics.html:135
 msgid "Gives details of the attendance per shift cycle."
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:157
+#: shifts/templates/shifts/statistics.html:158
 msgid "Data exports"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:163
+#: shifts/templates/shifts/statistics.html:164
 msgid "Slot data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:168
+#: shifts/templates/shifts/statistics.html:169
 msgid "ABCD shift data"
 msgstr "ABCD-Schichtsdaten"
 
-#: shifts/templates/shifts/statistics.html:173
+#: shifts/templates/shifts/statistics.html:174
 msgid "ABCD shift slot data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:178
+#: shifts/templates/shifts/statistics.html:179
 msgid "Shift data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:183
+#: shifts/templates/shifts/statistics.html:184
 msgid "Shift slot data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:188
+#: shifts/templates/shifts/statistics.html:189
 msgid "ABCD attendance data"
 msgstr "ABCD Anwesenheitsdaten"
 
-#: shifts/templates/shifts/statistics.html:193
+#: shifts/templates/shifts/statistics.html:194
 msgid "Attendance data"
 msgstr "Anwesenheitsdaten"
 
-#: shifts/templates/shifts/statistics.html:198
+#: shifts/templates/shifts/statistics.html:199
 msgid "Attendance updates data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:203
+#: shifts/templates/shifts/statistics.html:204
 msgid "Attendance takeover data"
 msgstr ""
 
-#: shifts/templates/shifts/statistics.html:211
+#: shifts/templates/shifts/statistics.html:212
 #, fuzzy
 #| msgid "Evolution of member count"
 msgid "Evolution of shift status"
 msgstr "Entwicklung der Mitgliederzahl"
 
-#: shifts/templates/shifts/statistics.html:218
+#: shifts/templates/shifts/statistics.html:215
 #, fuzzy
 #| msgid "Shift statistics"
 msgid "Shift status evolution"
@@ -4329,7 +4385,7 @@ msgctxt "No shift partner"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templatetags/shifts.py:57 shifts/templatetags/shifts.py:160
+#: shifts/templatetags/shifts.py:57 shifts/templatetags/shifts.py:161
 #: shifts/views/views.py:153
 msgid "General"
 msgstr "Allgemein"
@@ -4339,14 +4395,26 @@ msgstr "Allgemein"
 msgid "Unknown mode {attendance_mode}"
 msgstr ""
 
-#: shifts/views/attendance.py:191
+#: shifts/views/attendance.py:193 shifts/views/attendance.py:334
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:197
+#: shifts/views/attendance.py:199 shifts/views/attendance.py:340
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
+msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
+
+#: shifts/views/attendance.py:374
+#, fuzzy, python-format
+#| msgid "Shift attendance: %(name)s"
+msgid "ABCD attendance: %(name)s"
+msgstr "Schicht-Anwesenheit: %(name)s"
+
+#: shifts/views/attendance.py:381
+#, fuzzy, python-format
+#| msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
+msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
 #: shifts/views/exemptions.py:79
@@ -4381,7 +4449,9 @@ msgid "Edit slot: "
 msgstr "Slot bearbeiten: "
 
 #: shifts/views/management.py:120
-msgid "Edit shift:"
+#, fuzzy
+#| msgid "Edit shift:"
+msgid "Edit shift: "
 msgstr "Schicht bearbeiten:"
 
 #: shifts/views/management.py:134
@@ -4436,16 +4506,16 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statistiken"
 
-#: statistics/templates/statistics/main_statistics.html:8
+#: statistics/templates/statistics/main_statistics.html:9
 msgid "Main statistics"
 msgstr "Hauptstatistik"
 
-#: statistics/templates/statistics/main_statistics.html:18
-#: statistics/views/main_view.py:224
+#: statistics/templates/statistics/main_statistics.html:19
+#: statistics/views/main_view.py:263
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
-#: statistics/templates/statistics/main_statistics.html:21
+#: statistics/templates/statistics/main_statistics.html:22
 #, python-format
 msgid ""
 "\n"
@@ -4456,19 +4526,19 @@ msgstr ""
 "                            Alle Mitglieder der Genossenschaft - egal, ob investierend oder aktiv.: %(number_of_members_now)s.\n"
 "                        "
 
-#: statistics/templates/statistics/main_statistics.html:34
+#: statistics/templates/statistics/main_statistics.html:31
 msgid "New members per month"
 msgstr "Neue Mitglieder*innen pro Monat"
 
-#: statistics/templates/statistics/main_statistics.html:44
+#: statistics/templates/statistics/main_statistics.html:39
 msgid "Targets for break-even"
 msgstr "Ziele für den Break-Even"
 
-#: statistics/templates/statistics/main_statistics.html:47
+#: statistics/templates/statistics/main_statistics.html:42
 msgid "Shopping basket"
 msgstr "Warenkorb"
 
-#: statistics/templates/statistics/main_statistics.html:49
+#: statistics/templates/statistics/main_statistics.html:44
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -4487,11 +4557,11 @@ msgstr ""
 "                            %(target_basket)s€.\n"
 "                        "
 
-#: statistics/templates/statistics/main_statistics.html:57
+#: statistics/templates/statistics/main_statistics.html:52
 msgid "Members eligible to purchase"
 msgstr "Einkaufsberechtigte Mitglieder"
 
-#: statistics/templates/statistics/main_statistics.html:59
+#: statistics/templates/statistics/main_statistics.html:54
 #, python-format
 msgid ""
 "\n"
@@ -4512,16 +4582,16 @@ msgstr ""
 "\n"
 "                            "
 
-#: statistics/templates/statistics/main_statistics.html:76
-#: statistics/templates/statistics/main_statistics.html:108
+#: statistics/templates/statistics/main_statistics.html:71
+#: statistics/templates/statistics/main_statistics.html:103
 msgid "Current"
 msgstr "Aktuelle"
 
-#: statistics/templates/statistics/main_statistics.html:93
+#: statistics/templates/statistics/main_statistics.html:88
 msgid "Working members"
 msgstr "Mitarbeitende Mitglieder"
 
-#: statistics/templates/statistics/main_statistics.html:97
+#: statistics/templates/statistics/main_statistics.html:92
 #, python-format
 msgid ""
 "\n"
@@ -4536,13 +4606,13 @@ msgstr ""
 "\n"
 " "
 
-#: statistics/templates/statistics/main_statistics.html:123
-#: statistics/templates/statistics/main_statistics.html:137
-#: statistics/views/main_view.py:341
+#: statistics/templates/statistics/main_statistics.html:118
+#: statistics/templates/statistics/main_statistics.html:129
+#: statistics/views/main_view.py:380
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
-#: statistics/templates/statistics/main_statistics.html:127
+#: statistics/templates/statistics/main_statistics.html:122
 msgid ""
 "\n"
 "                                Any member who is registered as an active member but is 4 or more shifts short and\n"
@@ -4555,11 +4625,11 @@ msgstr ""
 "\n"
 " "
 
-#: statistics/templates/statistics/main_statistics.html:150
+#: statistics/templates/statistics/main_statistics.html:139
 msgid "Co-purchasers"
 msgstr "Miteinkäufer*innen"
 
-#: statistics/templates/statistics/main_statistics.html:154
+#: statistics/templates/statistics/main_statistics.html:143
 msgid ""
 "\n"
 "                                    Each member can designate one person (whether in their own household or not) to shop\n"
@@ -4569,11 +4639,11 @@ msgstr ""
 "\n"
 "Jedes Mitglied kann eine Person (egal, ob im eigenen Haushalt oder nicht) bestimmen, die unter der gleichen Mitgliedsnummer einkaufen kann. Das können investierende Mitglieder oder Nichtmitglieder sein. "
 
-#: statistics/templates/statistics/main_statistics.html:163
+#: statistics/templates/statistics/main_statistics.html:149
 msgid "Co-Purchasers"
 msgstr "Miteinkäufer*innen"
 
-#: statistics/templates/statistics/main_statistics.html:180
+#: statistics/templates/statistics/main_statistics.html:163
 msgid ""
 "\n"
 "                                        Here you can follow the progress of the funding campaign. Both additional shares\n"
@@ -4586,38 +4656,63 @@ msgstr ""
 "Hier könnt ihr den Fortschritt der Finanzierungskampagne verfolgen. Es werden sowohl weitere Anteile gezählt (alle Anteile, die über den Pflichtanteil hinaus gezeichnet werden) als auch Nachrangdarlehen. Der Zeitraum läuft vom 12.09.2023 - 09.12.2023. Was eine:r nicht schafft, schaffen viele!\n"
 "                                    "
 
-#: statistics/templates/statistics/shift_cancelling_rate.html:8
-#, fuzzy
-#| msgid "Shift attendance: %(name)s"
-msgid "Shift attendance rates"
-msgstr "Schicht-Anwesenheit: %(name)s"
-
-#: statistics/templates/statistics/shift_cancelling_rate.html:18
-#: statistics/templates/statistics/shift_cancelling_rate.html:71
-#, fuzzy
-#| msgid "Creation date"
-msgid "Shift cancellation rate"
-msgstr "Erstellungsdatum"
-
-#: statistics/templates/statistics/shift_cancelling_rate.html:84
-#, fuzzy
-#| msgid "Number of shares to create"
-msgid "Number of shifts by category"
-msgstr "Anzahl zu erstellender Anteile"
-
-#: statistics/templates/statistics/state_distribution.html:8
-#: statistics/templates/statistics/state_distribution.html:18
-#: statistics/templates/statistics/state_distribution.html:38
+#: statistics/templates/statistics/main_statistics.html:179
+#: statistics/templates/statistics/state_distribution.html:9
+#: statistics/templates/statistics/state_distribution.html:19
+#: statistics/templates/statistics/state_distribution.html:36
 #, fuzzy
 #| msgid "Send me instructions!"
 msgid "State distribution"
 msgstr "Schickt mir eine Anleitung!"
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:5
+#: statistics/templates/statistics/shift_cancelling_rate.html:9
+#, fuzzy
+#| msgid "Shift attendance: %(name)s"
+msgid "Shift attendance rates"
+msgstr "Schicht-Anwesenheit: %(name)s"
+
+#: statistics/templates/statistics/shift_cancelling_rate.html:19
+#: statistics/templates/statistics/shift_cancelling_rate.html:69
+#, fuzzy
+#| msgid "Creation date"
+msgid "Shift cancellation rate"
+msgstr "Erstellungsdatum"
+
+#: statistics/templates/statistics/shift_cancelling_rate.html:78
+#, fuzzy
+#| msgid "Number of shares to create"
+msgid "Number of shifts by category"
+msgstr "Anzahl zu erstellender Anteile"
+
+#: statistics/templates/statistics/stats_for_marie.html:9
+#, fuzzy
+#| msgid "Statistics on shares"
+msgid "Stats for Marie"
+msgstr "Anteile-Statistiken"
+
+#: statistics/templates/statistics/stats_for_marie.html:20
+#: statistics/templates/statistics/stats_for_marie.html:26
+#, fuzzy
+#| msgid "New members per month"
+msgid "Number of frozen members per month"
+msgstr "Neue Mitglieder*innen pro Monat"
+
+#: statistics/templates/statistics/stats_for_marie.html:33
+#: statistics/templates/statistics/stats_for_marie.html:39
+#, fuzzy
+#| msgid "Current number of purchasing members"
+msgid "Number of purchasing members per month"
+msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
+
+#: statistics/templates/statistics/tags/on_demand_chart.html:5
+msgid "Show graph: "
+msgstr "Grafik anzeigen: "
+
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:6
 msgid "Purchases"
 msgstr "Einkäufe"
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:8
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:9
 #, python-format
 msgid ""
 "\n"
@@ -4628,31 +4723,31 @@ msgstr ""
 "                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
 "            "
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:14
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:15
 msgid "List of the last purchases"
 msgstr "Liste der letzten Einkäufe"
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:18
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:19
 msgid "Gross amount"
 msgstr ""
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:37
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:35
 msgid "Evolution of total spends per month"
 msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:296
+#: statistics/views/main_view.py:335
 msgid "Total spends per month"
 msgstr "Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:341
+#: statistics/views/main_view.py:380
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views/main_view.py:359
+#: statistics/views/main_view.py:398
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views/main_view.py:506
+#: statistics/views/main_view.py:550
 msgid "Purchase data updated"
 msgstr "Kaufdaten aktualisiert"
 
@@ -4660,979 +4755,979 @@ msgstr "Kaufdaten aktualisiert"
 msgid "German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. +12125552368)"
 msgstr "Innerstädtische und Mobilfunk-Verbindungen benötigen keine Vorwahlnummer (z.B. 01736160646), internationale Verbindungen benötigen die Landesvorwahlnummer für Mobilfunk, für Festnetz die Landes- und Ortsvorwahlnummer"
 
-#: utils/models.py:16
+#: utils/models.py:15
 msgid "Andorra"
 msgstr ""
 
-#: utils/models.py:17
+#: utils/models.py:16
 msgid "United Arab Emirates"
 msgstr ""
 
-#: utils/models.py:18
+#: utils/models.py:17
 msgid "Afghanistan"
 msgstr ""
 
-#: utils/models.py:19
+#: utils/models.py:18
 msgid "Antigua & Barbuda"
 msgstr ""
 
-#: utils/models.py:20
+#: utils/models.py:19
 msgid "Anguilla"
 msgstr ""
 
-#: utils/models.py:21
+#: utils/models.py:20
 msgid "Albania"
 msgstr ""
 
-#: utils/models.py:22
+#: utils/models.py:21
 msgid "Armenia"
 msgstr ""
 
-#: utils/models.py:23
+#: utils/models.py:22
 msgid "Netherlands Antilles"
 msgstr ""
 
-#: utils/models.py:24
+#: utils/models.py:23
 msgid "Angola"
 msgstr ""
 
-#: utils/models.py:25
+#: utils/models.py:24
 msgid "Antarctica"
 msgstr ""
 
-#: utils/models.py:26
+#: utils/models.py:25
 msgid "Argentina"
 msgstr ""
 
-#: utils/models.py:27
+#: utils/models.py:26
 msgid "American Samoa"
 msgstr ""
 
-#: utils/models.py:28
+#: utils/models.py:27
 msgid "Austria"
 msgstr ""
 
-#: utils/models.py:29
+#: utils/models.py:28
 msgid "Australia"
 msgstr ""
 
-#: utils/models.py:30
+#: utils/models.py:29
 msgid "Aruba"
 msgstr ""
 
-#: utils/models.py:31
+#: utils/models.py:30
 msgid "Azerbaijan"
 msgstr ""
 
-#: utils/models.py:32
+#: utils/models.py:31
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-#: utils/models.py:33
+#: utils/models.py:32
 msgid "Barbados"
 msgstr ""
 
-#: utils/models.py:34
+#: utils/models.py:33
 msgid "Bangladesh"
 msgstr ""
 
-#: utils/models.py:35
+#: utils/models.py:34
 msgid "Belgium"
 msgstr ""
 
-#: utils/models.py:36
+#: utils/models.py:35
 msgid "Burkina Faso"
 msgstr ""
 
-#: utils/models.py:37
+#: utils/models.py:36
 msgid "Bulgaria"
 msgstr ""
 
-#: utils/models.py:38
+#: utils/models.py:37
 msgid "Bahrain"
 msgstr ""
 
-#: utils/models.py:39
+#: utils/models.py:38
 msgid "Burundi"
 msgstr ""
 
-#: utils/models.py:40
+#: utils/models.py:39
 msgid "Benin"
 msgstr ""
 
-#: utils/models.py:41
+#: utils/models.py:40
 msgid "Bermuda"
 msgstr ""
 
-#: utils/models.py:42
+#: utils/models.py:41
 msgid "Brunei Darussalam"
 msgstr ""
 
-#: utils/models.py:43
+#: utils/models.py:42
 msgid "Bolivia"
 msgstr ""
 
-#: utils/models.py:44
+#: utils/models.py:43
 msgid "Brazil"
 msgstr ""
 
-#: utils/models.py:45
+#: utils/models.py:44
 msgid "Bahama"
 msgstr ""
 
-#: utils/models.py:46
+#: utils/models.py:45
 msgid "Bhutan"
 msgstr ""
 
-#: utils/models.py:47
+#: utils/models.py:46
 msgid "Bouvet Island"
 msgstr ""
 
-#: utils/models.py:48
+#: utils/models.py:47
 msgid "Botswana"
 msgstr ""
 
-#: utils/models.py:49
+#: utils/models.py:48
 msgid "Belarus"
 msgstr ""
 
-#: utils/models.py:50
+#: utils/models.py:49
 msgid "Belize"
 msgstr ""
 
-#: utils/models.py:51
+#: utils/models.py:50
 msgid "Canada"
 msgstr ""
 
-#: utils/models.py:52
+#: utils/models.py:51
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: utils/models.py:53
+#: utils/models.py:52
 msgid "Central African Republic"
 msgstr ""
 
-#: utils/models.py:54
+#: utils/models.py:53
 msgid "Congo"
 msgstr ""
 
-#: utils/models.py:55
+#: utils/models.py:54
 msgid "Switzerland"
 msgstr ""
 
-#: utils/models.py:56
+#: utils/models.py:55
 msgid "Ivory Coast"
 msgstr ""
 
-#: utils/models.py:57
+#: utils/models.py:56
 msgid "Cook Iislands"
 msgstr ""
 
-#: utils/models.py:58
+#: utils/models.py:57
 msgid "Chile"
 msgstr ""
 
-#: utils/models.py:59
+#: utils/models.py:58
 msgid "Cameroon"
 msgstr ""
 
-#: utils/models.py:60
+#: utils/models.py:59
 msgid "China"
 msgstr ""
 
-#: utils/models.py:61
+#: utils/models.py:60
 msgid "Colombia"
 msgstr ""
 
-#: utils/models.py:62
+#: utils/models.py:61
 msgid "Costa Rica"
 msgstr ""
 
-#: utils/models.py:63
+#: utils/models.py:62
 msgid "Cuba"
 msgstr ""
 
-#: utils/models.py:64
+#: utils/models.py:63
 msgid "Cape Verde"
 msgstr ""
 
-#: utils/models.py:65
+#: utils/models.py:64
 msgid "Christmas Island"
 msgstr ""
 
-#: utils/models.py:66
+#: utils/models.py:65
 msgid "Cyprus"
 msgstr ""
 
-#: utils/models.py:67
+#: utils/models.py:66
 msgid "Czech Republic"
 msgstr ""
 
-#: utils/models.py:68
+#: utils/models.py:67
 msgid "Germany"
 msgstr ""
 
-#: utils/models.py:69
+#: utils/models.py:68
 msgid "Djibouti"
 msgstr ""
 
-#: utils/models.py:70
+#: utils/models.py:69
 msgid "Denmark"
 msgstr ""
 
-#: utils/models.py:71
+#: utils/models.py:70
 msgid "Dominica"
 msgstr ""
 
-#: utils/models.py:72
+#: utils/models.py:71
 msgid "Dominican Republic"
 msgstr ""
 
-#: utils/models.py:73
+#: utils/models.py:72
 msgid "Algeria"
 msgstr ""
 
-#: utils/models.py:74
+#: utils/models.py:73
 msgid "Ecuador"
 msgstr ""
 
-#: utils/models.py:75
+#: utils/models.py:74
 msgid "Estonia"
 msgstr ""
 
-#: utils/models.py:76
+#: utils/models.py:75
 msgid "Egypt"
 msgstr ""
 
-#: utils/models.py:77
+#: utils/models.py:76
 msgid "Western Sahara"
 msgstr ""
 
-#: utils/models.py:78
+#: utils/models.py:77
 msgid "Eritrea"
 msgstr ""
 
-#: utils/models.py:79
+#: utils/models.py:78
 msgid "Spain"
 msgstr ""
 
-#: utils/models.py:80
+#: utils/models.py:79
 msgid "Ethiopia"
 msgstr ""
 
-#: utils/models.py:81
+#: utils/models.py:80
 msgid "Finland"
 msgstr ""
 
-#: utils/models.py:82
+#: utils/models.py:81
 msgid "Fiji"
 msgstr ""
 
-#: utils/models.py:83
+#: utils/models.py:82
 msgid "Falkland Islands (Malvinas)"
 msgstr ""
 
-#: utils/models.py:84
+#: utils/models.py:83
 msgid "Micronesia"
 msgstr ""
 
-#: utils/models.py:85
+#: utils/models.py:84
 msgid "Faroe Islands"
 msgstr ""
 
-#: utils/models.py:86
+#: utils/models.py:85
 msgid "France"
 msgstr ""
 
-#: utils/models.py:87
+#: utils/models.py:86
 msgid "France, Metropolitan"
 msgstr ""
 
-#: utils/models.py:88
+#: utils/models.py:87
 msgid "Gabon"
 msgstr ""
 
-#: utils/models.py:89
+#: utils/models.py:88
 msgid "United Kingdom (Great Britain)"
 msgstr ""
 
-#: utils/models.py:90
+#: utils/models.py:89
 msgid "Grenada"
 msgstr ""
 
-#: utils/models.py:91
+#: utils/models.py:90
 msgid "Georgia"
 msgstr ""
 
-#: utils/models.py:92
+#: utils/models.py:91
 msgid "French Guiana"
 msgstr ""
 
-#: utils/models.py:93
+#: utils/models.py:92
 msgid "Ghana"
 msgstr ""
 
-#: utils/models.py:94
+#: utils/models.py:93
 msgid "Gibraltar"
 msgstr ""
 
-#: utils/models.py:95
+#: utils/models.py:94
 msgid "Greenland"
 msgstr ""
 
-#: utils/models.py:96
+#: utils/models.py:95
 msgid "Gambia"
 msgstr ""
 
-#: utils/models.py:97
+#: utils/models.py:96
 msgid "Guinea"
 msgstr ""
 
-#: utils/models.py:98
+#: utils/models.py:97
 msgid "Guadeloupe"
 msgstr ""
 
-#: utils/models.py:99
+#: utils/models.py:98
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: utils/models.py:100
+#: utils/models.py:99
 msgid "Greece"
 msgstr ""
 
-#: utils/models.py:101
+#: utils/models.py:100
 msgid "South Georgia and the South Sandwich Islands"
 msgstr ""
 
-#: utils/models.py:102
+#: utils/models.py:101
 msgid "Guatemala"
 msgstr ""
 
-#: utils/models.py:103
+#: utils/models.py:102
 msgid "Guam"
 msgstr ""
 
-#: utils/models.py:104
+#: utils/models.py:103
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: utils/models.py:105
+#: utils/models.py:104
 msgid "Guyana"
 msgstr ""
 
-#: utils/models.py:106
+#: utils/models.py:105
 msgid "Hong Kong"
 msgstr ""
 
-#: utils/models.py:107
+#: utils/models.py:106
 msgid "Heard & McDonald Islands"
 msgstr ""
 
-#: utils/models.py:108
+#: utils/models.py:107
 msgid "Honduras"
 msgstr ""
 
-#: utils/models.py:109
+#: utils/models.py:108
 msgid "Croatia"
 msgstr ""
 
-#: utils/models.py:110
+#: utils/models.py:109
 msgid "Haiti"
 msgstr ""
 
-#: utils/models.py:111
+#: utils/models.py:110
 msgid "Hungary"
 msgstr ""
 
-#: utils/models.py:112
+#: utils/models.py:111
 msgid "Indonesia"
 msgstr ""
 
-#: utils/models.py:113
+#: utils/models.py:112
 msgid "Ireland"
 msgstr ""
 
-#: utils/models.py:114
+#: utils/models.py:113
 msgid "Israel"
 msgstr ""
 
-#: utils/models.py:115
+#: utils/models.py:114
 msgid "India"
 msgstr ""
 
-#: utils/models.py:116
+#: utils/models.py:115
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: utils/models.py:117
+#: utils/models.py:116
 msgid "Iraq"
 msgstr ""
 
-#: utils/models.py:118
+#: utils/models.py:117
 msgid "Islamic Republic of Iran"
 msgstr ""
 
-#: utils/models.py:119
+#: utils/models.py:118
 msgid "Iceland"
 msgstr ""
 
-#: utils/models.py:120
+#: utils/models.py:119
 msgid "Italy"
 msgstr ""
 
-#: utils/models.py:121
+#: utils/models.py:120
 msgid "Jamaica"
 msgstr ""
 
-#: utils/models.py:122
+#: utils/models.py:121
 msgid "Jordan"
 msgstr ""
 
-#: utils/models.py:123
+#: utils/models.py:122
 msgid "Japan"
 msgstr ""
 
-#: utils/models.py:124
+#: utils/models.py:123
 msgid "Kenya"
 msgstr ""
 
-#: utils/models.py:125
+#: utils/models.py:124
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: utils/models.py:126
+#: utils/models.py:125
 msgid "Cambodia"
 msgstr ""
 
-#: utils/models.py:127
+#: utils/models.py:126
 msgid "Kiribati"
 msgstr ""
 
-#: utils/models.py:128
+#: utils/models.py:127
 msgid "Comoros"
 msgstr ""
 
-#: utils/models.py:129
+#: utils/models.py:128
 msgid "St. Kitts and Nevis"
 msgstr ""
 
-#: utils/models.py:130
+#: utils/models.py:129
 msgid "Korea, Democratic People's Republic of"
 msgstr ""
 
-#: utils/models.py:131
+#: utils/models.py:130
 msgid "Korea, Republic of"
 msgstr ""
 
-#: utils/models.py:132
+#: utils/models.py:131
 msgid "Kuwait"
 msgstr ""
 
-#: utils/models.py:133
+#: utils/models.py:132
 msgid "Cayman Islands"
 msgstr ""
 
-#: utils/models.py:134
+#: utils/models.py:133
 msgid "Kazakhstan"
 msgstr ""
 
-#: utils/models.py:135
+#: utils/models.py:134
 msgid "Lao People's Democratic Republic"
 msgstr ""
 
-#: utils/models.py:136
+#: utils/models.py:135
 msgid "Lebanon"
 msgstr ""
 
-#: utils/models.py:137
+#: utils/models.py:136
 msgid "Saint Lucia"
 msgstr ""
 
-#: utils/models.py:138
+#: utils/models.py:137
 msgid "Liechtenstein"
 msgstr ""
 
-#: utils/models.py:139
+#: utils/models.py:138
 msgid "Sri Lanka"
 msgstr ""
 
-#: utils/models.py:140
+#: utils/models.py:139
 msgid "Liberia"
 msgstr ""
 
-#: utils/models.py:141
+#: utils/models.py:140
 msgid "Lesotho"
 msgstr ""
 
-#: utils/models.py:142
+#: utils/models.py:141
 msgid "Lithuania"
 msgstr ""
 
-#: utils/models.py:143
+#: utils/models.py:142
 msgid "Luxembourg"
 msgstr ""
 
-#: utils/models.py:144
+#: utils/models.py:143
 msgid "Latvia"
 msgstr ""
 
-#: utils/models.py:145
+#: utils/models.py:144
 msgid "Libyan Arab Jamahiriya"
 msgstr ""
 
-#: utils/models.py:146
+#: utils/models.py:145
 msgid "Morocco"
 msgstr ""
 
-#: utils/models.py:147
+#: utils/models.py:146
 msgid "Monaco"
 msgstr ""
 
-#: utils/models.py:148
+#: utils/models.py:147
 msgid "Moldova, Republic of"
 msgstr ""
 
-#: utils/models.py:149
+#: utils/models.py:148
 msgid "Madagascar"
 msgstr ""
 
-#: utils/models.py:150
+#: utils/models.py:149
 msgid "Marshall Islands"
 msgstr ""
 
-#: utils/models.py:151
+#: utils/models.py:150
 msgid "Mali"
 msgstr ""
 
-#: utils/models.py:152
+#: utils/models.py:151
 msgid "Mongolia"
 msgstr ""
 
-#: utils/models.py:153
+#: utils/models.py:152
 msgid "Myanmar"
 msgstr ""
 
-#: utils/models.py:154
+#: utils/models.py:153
 msgid "Macau"
 msgstr ""
 
-#: utils/models.py:155
+#: utils/models.py:154
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: utils/models.py:156
+#: utils/models.py:155
 msgid "Martinique"
 msgstr ""
 
-#: utils/models.py:157
+#: utils/models.py:156
 msgid "Mauritania"
 msgstr ""
 
-#: utils/models.py:158
+#: utils/models.py:157
 msgid "Monserrat"
 msgstr ""
 
-#: utils/models.py:159
+#: utils/models.py:158
 msgid "Malta"
 msgstr ""
 
-#: utils/models.py:160
+#: utils/models.py:159
 msgid "Mauritius"
 msgstr ""
 
-#: utils/models.py:161
+#: utils/models.py:160
 msgid "Maldives"
 msgstr ""
 
-#: utils/models.py:162
+#: utils/models.py:161
 msgid "Malawi"
 msgstr ""
 
-#: utils/models.py:163
+#: utils/models.py:162
 msgid "Mexico"
 msgstr ""
 
-#: utils/models.py:164
+#: utils/models.py:163
 msgid "Malaysia"
 msgstr ""
 
-#: utils/models.py:165
+#: utils/models.py:164
 msgid "Mozambique"
 msgstr ""
 
-#: utils/models.py:166
+#: utils/models.py:165
 msgid "Namibia"
 msgstr ""
 
-#: utils/models.py:167
+#: utils/models.py:166
 msgid "New Caledonia"
 msgstr ""
 
-#: utils/models.py:168
+#: utils/models.py:167
 msgid "Niger"
 msgstr ""
 
-#: utils/models.py:169
+#: utils/models.py:168
 msgid "Norfolk Island"
 msgstr ""
 
-#: utils/models.py:170
+#: utils/models.py:169
 msgid "Nigeria"
 msgstr ""
 
-#: utils/models.py:171
+#: utils/models.py:170
 msgid "Nicaragua"
 msgstr ""
 
-#: utils/models.py:172
+#: utils/models.py:171
 msgid "Netherlands"
 msgstr ""
 
-#: utils/models.py:173
+#: utils/models.py:172
 msgid "Norway"
 msgstr ""
 
-#: utils/models.py:174
+#: utils/models.py:173
 msgid "Nepal"
 msgstr ""
 
-#: utils/models.py:175
+#: utils/models.py:174
 msgid "Nauru"
 msgstr ""
 
-#: utils/models.py:176
+#: utils/models.py:175
 msgid "Niue"
 msgstr ""
 
-#: utils/models.py:177
+#: utils/models.py:176
 msgid "New Zealand"
 msgstr ""
 
-#: utils/models.py:178
+#: utils/models.py:177
 msgid "Oman"
 msgstr ""
 
-#: utils/models.py:179
+#: utils/models.py:178
 msgid "Panama"
 msgstr ""
 
-#: utils/models.py:180
+#: utils/models.py:179
 msgid "Peru"
 msgstr ""
 
-#: utils/models.py:181
+#: utils/models.py:180
 msgid "French Polynesia"
 msgstr ""
 
-#: utils/models.py:182
+#: utils/models.py:181
 msgid "Papua New Guinea"
 msgstr ""
 
-#: utils/models.py:183
+#: utils/models.py:182
 msgid "Philippines"
 msgstr ""
 
-#: utils/models.py:184
+#: utils/models.py:183
 msgid "Pakistan"
 msgstr ""
 
-#: utils/models.py:185
+#: utils/models.py:184
 msgid "Poland"
 msgstr ""
 
-#: utils/models.py:186
+#: utils/models.py:185
 msgid "St. Pierre & Miquelon"
 msgstr ""
 
-#: utils/models.py:187
+#: utils/models.py:186
 msgid "Pitcairn"
 msgstr ""
 
-#: utils/models.py:188
+#: utils/models.py:187
 msgid "Puerto Rico"
 msgstr ""
 
-#: utils/models.py:189
+#: utils/models.py:188
 msgid "Portugal"
 msgstr ""
 
-#: utils/models.py:190
+#: utils/models.py:189
 msgid "Palau"
 msgstr ""
 
-#: utils/models.py:191
+#: utils/models.py:190
 msgid "Paraguay"
 msgstr ""
 
-#: utils/models.py:192
+#: utils/models.py:191
 msgid "Qatar"
 msgstr ""
 
-#: utils/models.py:193
+#: utils/models.py:192
 msgid "Reunion"
 msgstr ""
 
-#: utils/models.py:194
+#: utils/models.py:193
 msgid "Romania"
 msgstr ""
 
-#: utils/models.py:195
+#: utils/models.py:194
 msgid "Russian Federation"
 msgstr ""
 
-#: utils/models.py:196
+#: utils/models.py:195
 msgid "Rwanda"
 msgstr ""
 
-#: utils/models.py:197
+#: utils/models.py:196
 msgid "Saudi Arabia"
 msgstr ""
 
-#: utils/models.py:198
+#: utils/models.py:197
 msgid "Solomon Islands"
 msgstr ""
 
-#: utils/models.py:199
+#: utils/models.py:198
 msgid "Seychelles"
 msgstr ""
 
-#: utils/models.py:200
+#: utils/models.py:199
 msgid "Sudan"
 msgstr ""
 
-#: utils/models.py:201
+#: utils/models.py:200
 msgid "Sweden"
 msgstr ""
 
-#: utils/models.py:202
+#: utils/models.py:201
 msgid "Singapore"
 msgstr ""
 
-#: utils/models.py:203
+#: utils/models.py:202
 msgid "St. Helena"
 msgstr ""
 
-#: utils/models.py:204
+#: utils/models.py:203
 msgid "Slovenia"
 msgstr ""
 
-#: utils/models.py:205
+#: utils/models.py:204
 msgid "Svalbard & Jan Mayen Islands"
 msgstr ""
 
-#: utils/models.py:206
+#: utils/models.py:205
 msgid "Slovakia"
 msgstr ""
 
-#: utils/models.py:207
+#: utils/models.py:206
 msgid "Sierra Leone"
 msgstr ""
 
-#: utils/models.py:208
+#: utils/models.py:207
 msgid "San Marino"
 msgstr ""
 
-#: utils/models.py:209
+#: utils/models.py:208
 msgid "Senegal"
 msgstr ""
 
-#: utils/models.py:210
+#: utils/models.py:209
 msgid "Somalia"
 msgstr ""
 
-#: utils/models.py:211
+#: utils/models.py:210
 msgid "Suriname"
 msgstr ""
 
-#: utils/models.py:212
+#: utils/models.py:211
 msgid "Sao Tome & Principe"
 msgstr ""
 
-#: utils/models.py:213
+#: utils/models.py:212
 msgid "El Salvador"
 msgstr ""
 
-#: utils/models.py:214
+#: utils/models.py:213
 msgid "Syrian Arab Republic"
 msgstr ""
 
-#: utils/models.py:215
+#: utils/models.py:214
 msgid "Swaziland"
 msgstr ""
 
-#: utils/models.py:216
+#: utils/models.py:215
 msgid "Turks & Caicos Islands"
 msgstr ""
 
-#: utils/models.py:217
+#: utils/models.py:216
 msgid "Chad"
 msgstr ""
 
-#: utils/models.py:218
+#: utils/models.py:217
 msgid "French Southern Territories"
 msgstr ""
 
-#: utils/models.py:219
+#: utils/models.py:218
 msgid "Togo"
 msgstr ""
 
-#: utils/models.py:220
+#: utils/models.py:219
 msgid "Thailand"
 msgstr ""
 
-#: utils/models.py:221
+#: utils/models.py:220
 msgid "Tajikistan"
 msgstr ""
 
-#: utils/models.py:222
+#: utils/models.py:221
 msgid "Tokelau"
 msgstr ""
 
-#: utils/models.py:223
+#: utils/models.py:222
 msgid "Turkmenistan"
 msgstr ""
 
-#: utils/models.py:224
+#: utils/models.py:223
 msgid "Tunisia"
 msgstr ""
 
-#: utils/models.py:225
+#: utils/models.py:224
 msgid "Tonga"
 msgstr ""
 
-#: utils/models.py:226
+#: utils/models.py:225
 msgid "East Timor"
 msgstr ""
 
-#: utils/models.py:227
+#: utils/models.py:226
 msgid "Turkey"
 msgstr ""
 
-#: utils/models.py:228
+#: utils/models.py:227
 msgid "Trinidad & Tobago"
 msgstr ""
 
-#: utils/models.py:229
+#: utils/models.py:228
 msgid "Tuvalu"
 msgstr ""
 
-#: utils/models.py:230
+#: utils/models.py:229
 msgid "Taiwan, Province of China"
 msgstr ""
 
-#: utils/models.py:231
+#: utils/models.py:230
 msgid "Tanzania, United Republic of"
 msgstr ""
 
-#: utils/models.py:232
+#: utils/models.py:231
 msgid "Ukraine"
 msgstr ""
 
-#: utils/models.py:233
+#: utils/models.py:232
 msgid "Uganda"
 msgstr ""
 
-#: utils/models.py:234
+#: utils/models.py:233
 msgid "United States Minor Outlying Islands"
 msgstr ""
 
-#: utils/models.py:235
+#: utils/models.py:234
 msgid "United States of America"
 msgstr ""
 
-#: utils/models.py:236
+#: utils/models.py:235
 msgid "Uruguay"
 msgstr ""
 
-#: utils/models.py:237
+#: utils/models.py:236
 msgid "Uzbekistan"
 msgstr ""
 
-#: utils/models.py:238
+#: utils/models.py:237
 msgid "Vatican City State (Holy See)"
 msgstr ""
 
-#: utils/models.py:239
+#: utils/models.py:238
 msgid "St. Vincent & the Grenadines"
 msgstr ""
 
-#: utils/models.py:240
+#: utils/models.py:239
 msgid "Venezuela"
 msgstr ""
 
-#: utils/models.py:241
+#: utils/models.py:240
 msgid "British Virgin Islands"
 msgstr ""
 
-#: utils/models.py:242
+#: utils/models.py:241
 msgid "United States Virgin Islands"
 msgstr ""
 
-#: utils/models.py:243
+#: utils/models.py:242
 msgid "Viet Nam"
 msgstr ""
 
-#: utils/models.py:244
+#: utils/models.py:243
 msgid "Vanuatu"
 msgstr ""
 
-#: utils/models.py:245
+#: utils/models.py:244
 msgid "Wallis & Futuna Islands"
 msgstr ""
 
-#: utils/models.py:246
+#: utils/models.py:245
 msgid "Samoa"
 msgstr ""
 
-#: utils/models.py:247
+#: utils/models.py:246
 msgid "Yemen"
 msgstr ""
 
-#: utils/models.py:248
+#: utils/models.py:247
 msgid "Mayotte"
 msgstr ""
 
-#: utils/models.py:249
+#: utils/models.py:248
 msgid "Yugoslavia"
 msgstr ""
 
-#: utils/models.py:250
+#: utils/models.py:249
 msgid "South Africa"
 msgstr ""
 
-#: utils/models.py:251
+#: utils/models.py:250
 msgid "Zambia"
 msgstr ""
 
-#: utils/models.py:252
+#: utils/models.py:251
 msgid "Zaire"
 msgstr ""
 
-#: utils/models.py:253
+#: utils/models.py:252
 msgid "Zimbabwe"
 msgstr ""
 
-#: utils/models.py:254
+#: utils/models.py:253
 msgid "Unknown or unspecified country"
 msgstr ""
 
-#: utils/models.py:258
+#: utils/models.py:257
 msgid "🇩🇪 Deutsch"
 msgstr "🇩🇪 Deutsch"
 
-#: utils/models.py:259
+#: utils/models.py:258
 msgid "🇬🇧 English"
 msgstr "🇬🇧 English"
 
-#: utils/models.py:362
+#: utils/models.py:366
 msgid "start date must be set"
 msgstr "Anfangsdatum muss gesetzt sein"
 
-#: utils/models.py:365
+#: utils/models.py:369
 msgid "Start date must be prior to end date"
 msgstr "Anfangsdatum muss vor Enddatum sein"
 
-#: utils/models.py:395
+#: utils/models.py:399
 msgid "Must be a positive number."
 msgstr "Muss eine positive Zahl sein."
 
@@ -5641,83 +5736,59 @@ msgid "NO NAME AVAILABLE"
 msgstr ""
 
 #: welcomedesk/apps.py:17 welcomedesk/apps.py:20
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:13
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:17
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:12
+#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:14
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:25
-msgid "Search"
-msgstr "Suchen"
-
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:28
-#, python-format
-msgid ""
-"%(name)s can shop\n"
-"                        :)"
-msgstr "%(name)s kann einkaufen :)"
-
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:34
-#, python-format
-msgid ""
-"%(name)s does not have a Tapir\n"
-"                            account. Contact a member of the management team."
-msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
-
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:42
-#, python-format
-msgid ""
-"%(name)s is an investing member.\n"
-"                            If they want to shop, they have to become an active member. Contact a member of the\n"
-"                            management team."
-msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss es ein aktives Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
-
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:49
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:39
 #, fuzzy, python-format
 #| msgid ""
-#| "\n"
-#| "                                Any member who is registered as an active member but is 4 or more shifts short and\n"
-#| "                                therefore\n"
-#| "                                not eligible to purchase again until they sign up for the appropriate make-up shifts.\n"
-#| "                            "
-msgid ""
-"\n"
-"                            %(name)s has been frozen because they missed too many shifts. <br />\n"
-"                            If they want to shop, they must first be re-activated. <br />\n"
-"                            Contact a member of the management team.\n"
-"                        "
-msgstr ""
-"\n"
-"Alle Mitglieder, die als aktives Mitglied eingetragen sind, aber 4 oder mehr Schichten im Minus sind und deshalb erst wieder einkaufsberechtigt sind, wenn sie sich für die entsprechenden Nachholschichten eintragen.\n"
-"\n"
-" "
+#| "%(name)s does not have a Tapir\n"
+#| "                            account. Contact a member of the management team."
+msgid "%(name)s does not have a Tapir account. Contact a member of the management team."
+msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:58
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:42
 #, python-format
-msgid ""
-"\n"
-"                            %(name)s has paused their membership. Contact a member of the management team.\n"
-"                        "
+msgid "%(name)s is an investing member. If they want to shop, they have to become an active member. Contact a member of the management team."
+msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss es ein aktives Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
+
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:46
+#, python-format
+msgid "%(name)s has been frozen because they missed too many shifts.If they want to shop, they must first be re-activated.Contact a member of the management team."
 msgstr ""
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:68
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:51
 #, python-format
-msgid ""
-"%(name)s is not registered to an\n"
-"                        ABCD shift yet. Make sure they plan to do it!"
+msgid "%(name)s has paused their membership. Contact a member of the management team."
+msgstr ""
+
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:54
+#, python-format
+msgid "%(name)s has is not a member of the cooperative. They may have transferred their shares to another member. Contact a member of the management team."
+msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie deren Anteile an ein anderes Mitglied übertragen. Kontaktiere eine Person aus dem Vorstand."
+
+#: welcomedesk/services/welcome_desk_warnings_service.py:25
+#, python-format
+msgid "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do it!"
 msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass er*sie es entsprechend einplant!"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:76
+#: welcomedesk/services/welcome_desk_warnings_service.py:28
 #, python-format
-msgid ""
-"%(name)s has not attended a welcome\n"
-"                        session yet. Make sure they plan to do it!"
+msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
 
-#: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:86
-msgid "Member ID"
-msgstr "Mitglieds-ID"
+#~ msgid "Search"
+#~ msgstr "Suchen"
+
+#, python-format
+#~ msgid ""
+#~ "%(name)s can shop\n"
+#~ "                        :)"
+#~ msgstr "%(name)s kann einkaufen :)"
+
+#~ msgid "Member ID"
+#~ msgstr "Mitglieds-ID"
 
 #~ msgid "Required. 150 characters or fewer. Letters, digits and ./-/_ only."
 #~ msgstr "Erforderlich. Maximale Zeichenanzahl: 150. Bitte nur Buchstaben, Zahlen oder ./-/_ verwenden."
@@ -6000,9 +6071,6 @@ msgstr "Mitglieds-ID"
 #~| msgid "Total number of members"
 #~ msgid "Number of members"
 #~ msgstr "Gesamte Mitgliederzahl"
-
-#~ msgid "Current number of purchasing members"
-#~ msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
 
 #~ msgid "Required number of purchasing members to reach break-even"
 #~ msgstr "Erforderliche Anzahl von einkaufsberechtigten Mitglieder*innen, um den Break-Even zu erreichen"

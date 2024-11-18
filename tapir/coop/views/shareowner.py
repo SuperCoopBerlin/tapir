@@ -27,7 +27,6 @@ from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
@@ -57,7 +56,9 @@ from tapir.coop.models import (
     UpdateShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
 )
+from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
+from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
 from tapir.log.models import LogEntry
@@ -462,6 +463,11 @@ class ShareOwnerTable(django_tables2.Table):
     num_shares = django_tables2.Column(empty_values=(), orderable=False, visible=False)
     join_date = django_tables2.Column(empty_values=(), orderable=False, visible=False)
 
+    def __init__(self, *args, **kwargs):
+        self.reference_date = kwargs.pop("reference_date")
+        self.reference_time = kwargs.pop("reference_time")
+        super().__init__(*args, **kwargs)
+
     def before_render(self, request):
         self.request = request
 
@@ -511,15 +517,18 @@ class ShareOwnerTable(django_tables2.Table):
     def render_country(value, record: ShareOwner):
         return record.get_info().country
 
-    @staticmethod
-    def render_status(value, record: ShareOwner):
-        template_string = "{% load coop %}{% member_status_colored_text share_owner %}"
-        template_context = {"share_owner": record}
+    def render_status(self, value, record: ShareOwner):
+        template_string = (
+            "{% load coop %}{% member_status_colored_text share_owner reference_time %}"
+        )
+        template_context = {
+            "share_owner": record,
+            "reference_time": self.reference_time,
+        }
         return Template(template_string).render(Context(template_context))
 
-    @staticmethod
-    def value_status(value, record: ShareOwner):
-        return record.get_member_status()
+    def value_status(self, value, record: ShareOwner):
+        return record.get_member_status(self.reference_time)
 
     @staticmethod
     def value_email(value, record: ShareOwner):
@@ -553,6 +562,8 @@ class ShareOwnerFilter(django_filters.FilterSet):
         ]
 
     def __init__(self, *args, **kwargs):
+        self.reference_date = kwargs.pop("reference_date")
+        self.reference_time = kwargs.pop("reference_time")
         super().__init__(*args, **kwargs)
         # initiate after database has been initiated
         self.filters["abcd_week"].extra.update(
@@ -659,9 +670,8 @@ class ShareOwnerFilter(django_filters.FilterSet):
 
         return queryset.with_name(value).distinct()
 
-    @staticmethod
-    def status_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
-        return queryset.with_status(value).distinct()
+    def status_filter(self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
+        return queryset.with_status(value, self.reference_time).distinct()
 
     @staticmethod
     def shift_attendance_mode_filter(
@@ -778,6 +788,11 @@ class ShareOwnerListView(
 
     export_formats = ["csv", "json"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.reference_time = timezone.now()
+        self.reference_date = self.reference_time.date()
+
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
         if self.object_list.count() == 1:
@@ -786,15 +801,30 @@ class ShareOwnerListView(
             )
         return response
 
+    def get_filterset_kwargs(self, filterset_class):
+        kwargs = super().get_filterset_kwargs(filterset_class)
+        kwargs["reference_date"] = self.reference_date
+        kwargs["reference_time"] = self.reference_time
+        return kwargs
+
+    def get_table_kwargs(self):
+        kwargs = super().get_table_kwargs()
+        kwargs["reference_date"] = self.reference_date
+        kwargs["reference_time"] = self.reference_time
+        return kwargs
+
     def get_queryset(self):
         queryset = ShareOwner.objects.prefetch_related("user", "share_ownerships")
         queryset = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
-            queryset
+            queryset, self.reference_date
         )
         queryset = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
-                queryset
+                queryset, self.reference_date
             )
+        )
+        queryset = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
+            queryset, self.reference_time
         )
         return queryset
 

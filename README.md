@@ -25,7 +25,7 @@ SuperCoop members can access the system at [https://members.supercoop.de](https:
 ## Getting started
 
 ### Prerequisites
-- Docker 
+- Docker
 - [Poetry](https://python-poetry.org/docs/)
 
 Please note that while the actual program runs in a Docker container, you're adviced to install packages locally in order to use your IDE properly. For that you need a C Compiler such as gcc for Linux or the Visual C++ Build tools.

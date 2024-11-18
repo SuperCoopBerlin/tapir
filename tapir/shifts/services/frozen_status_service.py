@@ -32,7 +32,7 @@ class FrozenStatusService:
             return False
 
         if not ShiftExpectationService.is_member_expected_to_do_shifts(
-            shift_user_data, timezone.now().date()
+            shift_user_data, timezone.now()
         ):
             return False
 
@@ -119,7 +119,7 @@ class FrozenStatusService:
             return False
 
         if not ShiftExpectationService.is_member_expected_to_do_shifts(
-            shift_user_data, timezone.now().date()
+            shift_user_data, timezone.now()
         ):
             return False
 

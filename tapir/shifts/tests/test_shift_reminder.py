@@ -35,7 +35,7 @@ class TestShiftReminder(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_shift_too_far_in_the_future_does_not_trigger_reminder(self):
         user: TapirUser = TapirUserFactory.create()
         shift_far_in_the_future: Shift = ShiftFactory.create(
-            start_time=timezone.now() + datetime.timedelta(days=8)
+            start_time=timezone.now() + datetime.timedelta(days=10)
         )
         attendance = ShiftAttendance.objects.create(
             user=user,

@@ -6,7 +6,7 @@ authors = ["Leon Handreke <leonh@ndreke.de>, Théophile Madet <theo.madet@posteo
 
 [tool.poetry.dependencies]
 python = "^3.12"
-Django = "~5.1.1"
+Django = "^5.1.2"
 django-weasyprint = "^2.3.0"
 django-extensions = "^3.2.3"
 django-bootstrap-datepicker-plus = "^5.0.5"
@@ -31,6 +31,9 @@ python-barcode = "^0.15.1"
 fabric = "^3.2.2"
 requests = "^2.32.3"
 django-auth-ldap = "^4.8.0"
+djangorestframework = "^3.15.2"
+django-vite = "^3.0.5"
+django-cors-headers = "^4.5.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.8.0"
@@ -47,6 +50,7 @@ icecream = "^2.1.3"
 djlint = "^1.35.2"
 pypdf = "^4.3.1"
 django-upgrade = "^1.21.0"
+drf-spectacular = "^0.27.2"
 
 [build-system]
 requires = ["poetry-core>=1.2.0"]

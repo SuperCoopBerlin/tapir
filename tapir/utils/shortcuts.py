@@ -46,6 +46,10 @@ def get_first_of_next_month(date: datetime.date):
     return (date.replace(day=1) + datetime.timedelta(days=32)).replace(day=1)
 
 
+def get_last_day_of_month(date: datetime.date):
+    return get_first_of_next_month(date) - datetime.timedelta(days=1)
+
+
 def set_header_for_file_download(response: HttpResponse, filename: str):
     response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
 
@@ -225,3 +229,15 @@ def get_admin_ldap_connection():
 
 def is_member_in_group(connection, tapir_user: TapirUser, group_cn: str):
     return tapir_user.build_ldap_dn() in get_group_members(connection, group_cn)
+
+
+def ensure_date(obj: datetime.date | datetime.datetime):
+    if isinstance(obj, datetime.datetime):
+        return obj.date()
+    return obj
+
+
+def ensure_datetime(obj: datetime.date | datetime.datetime):
+    if isinstance(obj, datetime.datetime):
+        return obj
+    return get_timezone_aware_datetime(obj, datetime.time())

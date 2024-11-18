@@ -151,6 +151,7 @@ To generate the translation files, first use "makemessages" and specify the lang
 
 ```sh
 docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages --no-wrap -l de
+docker compose run --rm -w /app web poetry run python manage.py makemessages --no-wrap -l de -d djangojs
 ```
 
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.

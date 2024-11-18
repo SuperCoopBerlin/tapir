@@ -4,36 +4,24 @@
 {% block body %}
     {% get_display_name_short member_infos as display_name_short %}
     {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
-        <p>Hi {{ display_name_short }},</p>
+        <p>Hello {{ display_name_short }},</p>
 
-        <p>This is an automatically sent email from SuperCoop to kindly remind you about your next shift.</p>
-
-        <p>You are registered for the shift: {{ shift_display_name }}</p>
+        <p>We'll see you on {{ shift_display_name }}</p>
+        <div>
+            If you can't make it to your shift:
+            <ol>
+                <li>Please set yourself to ‘Looking for a stand-in’ in Tapir</li>
+                <li>Register for another shift</li>
+                <li>Contact your team leader or the Member Office within the next 48 hours by replying to this email. This way you avoid an additional catch-up shift.</li>
+            </ol>
+        </div>
+        <p></p>
+        <p>If you have already contacted your team leader and/or the Member Office about this matter, you can ignore this message.</p>
+        <p>If you can't be on time for your shift: Please come anyway, any support is important!</p>
+        <p>You can find more information about the stand-in system in the <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?tab=t.0#heading=h.naxyslw4b9ig">member manual</a>.</p>
         <p>
-                Before you start your next shift, we would like to ask you to check the wiki for the latest information
-                about your shift. You can find all the latest updates on our
-                <a href="https://wiki.supercoop.de/wiki/Schicht-News">shift news wiki page.</a>
-        </p>
-        <p>
-            If you are unable to complete your shift, please contact your team leader as soon as possible. If you do not
-            have a team leader, please contact the Member Office by replying to this email.
-        </p>
-        <p>
-            If you have already contacted your team leader and/or the Member Office regarding this matter, please feel
-            free to ignore this message.
-        </p>
-        <p>
-            If you can only come late: please still come to your shift, every support is important!
-        </p>
-        <p>
-                Please note that it is your responsibility as a member to make every effort to find a replacement if needed.
-                To learn more about the replacement (stand-in) system, please see the
-                <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?pli=1#heading=h.vxvgxkgmyf1w">
-                    Member Manual</a>.
-        </p>
-        <p>
-                Cooperative Greetings,<br />
-                The Member Office
+            Cooperative greetings,<br />
+            The Member Office
         </p>
     {% endblocktranslate %}
 {% endblock body %}

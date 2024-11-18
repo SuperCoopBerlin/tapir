@@ -67,6 +67,9 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_extensions",
     "chartjs",
+    "rest_framework",
+    "drf_spectacular",
+    "django_vite",
 ]
 
 if ENABLE_SILK_PROFILING:
@@ -128,11 +131,13 @@ CELERY_BEAT_SCHEDULE = {
     },
     "apply_shift_cycle_start": {
         "task": "tapir.shifts.tasks.apply_shift_cycle_start",
-        "schedule": celery.schedules.crontab(hour="*/2", minute=20),
+        "schedule": celery.schedules.crontab(hour="*/2", minute="20"),
     },
     "send_accounting_recap": {
         "task": "tapir.coop.tasks.send_accounting_recap",
-        "schedule": celery.schedules.crontab(hour=12, minute=0, day_of_week="sunday"),
+        "schedule": celery.schedules.crontab(
+            hour="12", minute="0", day_of_week="sunday"
+        ),
     },
     "generate_shifts": {
         "task": "tapir.shifts.tasks.generate_shifts",
@@ -157,6 +162,10 @@ CELERY_BEAT_SCHEDULE = {
     "metabase_export": {
         "task": "tapir.core.tasks.metabase_export",
         "schedule": celery.schedules.crontab(minute=0, hour=3),
+    },
+    "send_flying_member_registration_reminder_mails": {
+        "task": "tapir.shifts.tasks.send_flying_member_registration_reminder_mails",
+        "schedule": celery.schedules.crontab(minute=0, hour=4),
     },
 }
 
@@ -227,6 +236,7 @@ SERVER_EMAIL = env("SERVER_EMAIL", default=EMAIL_ADDRESS_MEMBER_OFFICE)
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [BASE_DIR / "dist"]
 
 SELECT2_JS = "core/select2/4.0.13/js/select2.min.js"
 SELECT2_CSS = "core/select2/4.0.13/css/select2.min.css"
@@ -353,3 +363,21 @@ AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
     "(objectClass=top)",
 )
 AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+}
+
+DJANGO_VITE = {
+    "default": {
+        "dev_mode": env("DJANGO_VITE_DEBUG", cast=bool, default=False),
+        "manifest_path": "./dist/manifest.json",
+    }
+}
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
