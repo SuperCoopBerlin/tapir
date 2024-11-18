@@ -39,8 +39,9 @@ class MembershipResignationService:
                     ShareOwnership(
                         share_owner=resignation.transferring_shares_to,
                         start_date=resignation.cancellation_date,
+                        transferred_from=share,
                     )
-                    for _ in shares
+                    for share in shares
                 ]
                 ShareOwnership.objects.bulk_create(shares_to_create)
             case _:

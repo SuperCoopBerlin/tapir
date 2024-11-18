@@ -299,7 +299,11 @@ class ShareOwner(models.Model):
         return self.get_member_status(at_datetime) == MemberStatus.ACTIVE
 
     def get_total_expected_payment(self) -> float:
-        return COOP_ENTRY_AMOUNT + self.share_ownerships.count() * COOP_SHARE_PRICE
+        return (
+            COOP_ENTRY_AMOUNT
+            + self.share_ownerships.filter(transferred_from__isnull=True).count()
+            * COOP_SHARE_PRICE
+        )
 
     def get_currently_paid_amount(self, at_date: datetime.date | None = None) -> float:
         if at_date is None:
@@ -426,6 +430,8 @@ class ShareOwnership(DurationModelMixin, models.Model):
         max_digits=10,
         decimal_places=2,
     )
+
+    transferred_from = models.OneToOneField("self", null=True, on_delete=models.PROTECT)
 
     def is_fully_paid(self):
         return self.amount_paid >= COOP_SHARE_PRICE

@@ -104,16 +104,23 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             resignation.transferring_shares_to.share_ownerships.all()
         )
         self.assertEqual(3, resignation.transferring_shares_to.share_ownerships.count())
+        shares_of_gifting_member = list(gifting_member.share_ownerships.all())
         for share in shares_of_receiving_member.all():
             if share == share_of_receiving_member_before_transfer:
+                self.assertIsNone(share.transferred_from)
                 continue
             self.assertEqual(None, share.end_date)
             self.assertEqual(self.TODAY, share.start_date)
+            self.assertIn(share.transferred_from, gifting_member.share_ownerships.all())
+            shares_of_gifting_member.remove(
+                share.transferred_from
+            )  # making sure that there are no two shares with the same "transferred_from"
 
         shares_of_gifting_member = gifting_member.share_ownerships.all()
         self.assertEqual(2, shares_of_gifting_member.count())
         for share in shares_of_gifting_member.all():
             self.assertEqual(self.TODAY, share.end_date)
+            self.assertIsNone(share.transferred_from)
 
     def test_updateShifts_resigningMemberHasAttendanceInTheFuture_attendanceCancelled(
         self,
