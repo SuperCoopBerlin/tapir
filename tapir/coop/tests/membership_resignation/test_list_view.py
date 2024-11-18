@@ -11,17 +11,17 @@ class TestMembershipResignationListView(FeatureFlagTestMixin, TapirFactoryTestBa
     def test_membershipResignationListView_loggedInAsNormalUser_accessDenied(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         self.login_as_normal_user()
-        response = self.client.get(reverse("coop:resigned_members_list"))
+        response = self.client.get(reverse("coop:membership_resignation_list"))
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
 
     def test_membershipResignationListView_loggedInAsMemberOffice_accessGranted(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         self.login_as_member_office_user()
-        response = self.client.get(reverse("coop:resigned_members_list"))
+        response = self.client.get(reverse("coop:membership_resignation_list"))
         self.assertStatusCode(response, HTTPStatus.OK)
 
     def test_membershipResignationListView_featureFlagDisabled_accessDenied(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, False)
         self.login_as_member_office_user()
-        response = self.client.get(reverse("coop:resigned_members_list"))
+        response = self.client.get(reverse("coop:membership_resignation_list"))
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)

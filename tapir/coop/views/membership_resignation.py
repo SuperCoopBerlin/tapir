@@ -192,7 +192,7 @@ class MembershipResignationEditView(
     model = MembershipResignation
     form_class = MembershipResignationForm
     permission_required = PERMISSION_COOP_MANAGE
-    success_url = reverse_lazy("coop:resigned_members_list")
+    success_url = reverse_lazy("coop:membership_resignation_list")
 
     def get_context_data(self, **kwargs):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
@@ -235,7 +235,7 @@ class MembershipResignationCreateView(
     model = MembershipResignation
     form_class = MembershipResignationForm
     permission_required = PERMISSION_COOP_MANAGE
-    success_url = reverse_lazy("coop:resigned_members_list")
+    success_url = reverse_lazy("coop:membership_resignation_list")
 
     def get_context_data(self, **kwargs):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
@@ -301,7 +301,7 @@ class MembershipResignationRemoveFromListView(
 ):
     model = MembershipResignation
     permission_required = PERMISSION_COOP_MANAGE
-    success_url = reverse_lazy("coop:resigned_members_list")
+    success_url = reverse_lazy("coop:membership_resignation_list")
 
     def form_valid(self, form):
         with transaction.atomic():

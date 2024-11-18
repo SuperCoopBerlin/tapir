@@ -32,7 +32,7 @@
             <div class="modal-footer">
                 <form class="form-inline ms-3"
                       method="post"
-                      action="{% url 'coop:resign_member_remove' object.pk %}">
+                      action="{% url 'coop:membership_resignation_delete' object.pk %}">
                     {% csrf_token %}
                     <button type="submit" class="{% tapir_button_custom 'warning' %}">
                         <span class="material-icons">mood</span>Reactivate

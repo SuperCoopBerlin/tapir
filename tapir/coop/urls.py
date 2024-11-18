@@ -88,12 +88,12 @@ urlpatterns = [
     path(
         "membership_resignation/<int:pk>/delete",
         views.MembershipResignationRemoveFromListView.as_view(),
-        name="resign_member_remove",
+        name="membership_resignation_delete",
     ),
     path(
         "membership_resignation_list",
         views.MembershipResignationList.as_view(),
-        name="resigned_members_list",
+        name="membership_resignation_list",
     ),
     path(
         "member/<int:shareowner_pk>/create_user",

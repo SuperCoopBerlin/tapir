@@ -124,7 +124,7 @@ class TestMembershipResignationCreateView(
             sent_mail,
         )
 
-    def test_membershipResignationCreateView_sharesTransferred_shareRecipientAlsoReceivesMails(
+    def test_membershipResignationCreateView_resignationTypeTransfer_shareRecipientAlsoReceivesMails(
         self,
     ):
         self.login_as_member_office_user()
