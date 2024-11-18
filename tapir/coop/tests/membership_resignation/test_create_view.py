@@ -79,7 +79,7 @@ class TestMembershipResignationCreateView(
         self.assertStatusCode(response, HTTPStatus.OK)
         return MembershipResignation.objects.get()
 
-    @patch.object(MembershipResignationService, "delete_shareowner_membershippauses")
+    @patch.object(MembershipResignationService, "update_membership_pauses")
     @patch.object(
         MembershipResignationService, "update_shifts_and_shares_and_pay_out_day"
     )

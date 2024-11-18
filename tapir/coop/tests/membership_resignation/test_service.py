@@ -250,7 +250,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         pause.refresh_from_db()
         self.assertEqual(pause.end_date, datetime.date(year=1998, month=12, day=31))
 
-    def test_updateShiftsAndSharesAndPayOutDay_twoResignationTransferingToSameMember_receivingMemberReceivesAllShares(
+    def test_updateShiftsAndSharesAndPayOutDay_twoResignationTransferringToSameMember_receivingMemberReceivesAllShares(
         self,
     ):
         share_owner = ShareOwnerFactory.create(nb_shares=2)
