@@ -28,7 +28,7 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.get(
-            reverse("coop:resign_member_edit", args=[resignation.id])
+            reverse("coop:membership_resignation_edit", args=[resignation.id])
         )
 
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
@@ -38,7 +38,7 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.get(
-            reverse("coop:resign_member_edit", args=[resignation.id])
+            reverse("coop:membership_resignation_edit", args=[resignation.id])
         )
 
         self.assertStatusCode(response, HTTPStatus.OK)
@@ -49,7 +49,7 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.get(
-            reverse("coop:resign_member_edit", args=[resignation.id])
+            reverse("coop:membership_resignation_edit", args=[resignation.id])
         )
 
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
@@ -59,7 +59,7 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.post(
-            reverse("coop:resign_member_edit", args=[resignation.id]),
+            reverse("coop:membership_resignation_edit", args=[resignation.id]),
             data={
                 "cancellation_reason": "Reason after edit",
                 "cancellation_date": self.TODAY,
@@ -88,7 +88,7 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
         new_recipient = ShareOwnerFactory.create()
 
         response = self.client.post(
-            reverse("coop:resign_member_edit", args=[resignation.id]),
+            reverse("coop:membership_resignation_edit", args=[resignation.id]),
             data={
                 "share_owner": new_resigned_member.id,
                 "transferring_shares_to": new_recipient.id,
@@ -117,7 +117,7 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
             datetime.date(year=2023, month=12, day=31), resignation.pay_out_day
         )
         response = self.client.post(
-            reverse("coop:resign_member_edit", args=[resignation.id]),
+            reverse("coop:membership_resignation_edit", args=[resignation.id]),
             data={
                 "cancellation_reason": "Test for updated object via post-client.",
                 "cancellation_date": datetime.date(year=2022, month=7, day=30),

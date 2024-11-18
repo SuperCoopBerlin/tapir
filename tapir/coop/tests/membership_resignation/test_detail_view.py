@@ -16,7 +16,7 @@ class TestMembershipResignationDetailView(FeatureFlagTestMixin, TapirFactoryTest
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.get(
-            reverse("coop:resignedmember_detail", args=[resignation.id])
+            reverse("coop:membership_resignation_detail", args=[resignation.id])
         )
 
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
@@ -27,7 +27,7 @@ class TestMembershipResignationDetailView(FeatureFlagTestMixin, TapirFactoryTest
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.get(
-            reverse("coop:resignedmember_detail", args=[resignation.id])
+            reverse("coop:membership_resignation_detail", args=[resignation.id])
         )
 
         self.assertStatusCode(response, HTTPStatus.OK)
@@ -38,7 +38,7 @@ class TestMembershipResignationDetailView(FeatureFlagTestMixin, TapirFactoryTest
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.get(
-            reverse("coop:resignedmember_detail", args=[resignation.id])
+            reverse("coop:membership_resignation_detail", args=[resignation.id])
         )
 
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)

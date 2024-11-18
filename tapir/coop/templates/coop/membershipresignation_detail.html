@@ -48,7 +48,7 @@
         <h5 class="card-header">
             {% translate "Resigned member" %}: {% get_display_name_for_viewer object.share_owner request.user %}
         </h5>
-        <div class="card-body" id="resignedmember_detail_card">
+        <div class="card-body">
             <div class="row m-1">
                 <div class="col-3 fw-bold text-end">{% translate "Share owner" %}:</div>
                 <div class="col-9" id="membership_resignation_share_owner">
@@ -92,7 +92,7 @@
             <span class="material-icons">mood</span>Reactivate
         </span>
         <a class="{% tapir_button_link_to_action %}"
-           href="{% url 'coop:resign_member_edit' object.pk %}">
+           href="{% url 'coop:membership_resignation_edit' object.pk %}">
             <span class="material-icons">edit</span>
             {% translate "Edit" %}
         </a>

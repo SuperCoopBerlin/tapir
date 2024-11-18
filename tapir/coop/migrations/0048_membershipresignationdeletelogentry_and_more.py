@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("coop", "0046_deleteincomingpaymentlogentry"),
+        ("coop", "0047_alter_membershippause_options_and_more"),
         ("log", "0007_auto_20240702_1748"),
     ]
 
