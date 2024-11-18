@@ -6,8 +6,12 @@ Name : {{ entry.get_name }}
 <br />
 Subject : {{ entry.subject }}
 <br />
-<a class="{% tapir_button_link %} btn-sm"
-   href="{% url 'log:email_log_entry_content' entry.pk %}">
-    <span class="material-icons">download</span>
-    Download
-</a>
+{% if entry.email_content %}
+    <a class="{% tapir_button_link %} btn-sm"
+       href="{% url 'log:email_log_entry_content' entry.pk %}">
+        <span class="material-icons">download</span>
+        Download
+    </a>
+{% else %}
+    {% translate "Email-Inhalt ist aus Sicherheitsgründen nicht verfügbar" %}
+{% endif %}
