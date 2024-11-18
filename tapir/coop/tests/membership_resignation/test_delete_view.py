@@ -1,11 +1,18 @@
 import datetime
 from http import HTTPStatus
+import json
 
 from django.urls import reverse
 
 from tapir.coop.config import feature_flag_membership_resignation
-from tapir.coop.models import MembershipResignation
-from tapir.coop.tests.factories import MembershipResignationFactory
+from tapir.coop.models import (
+    MembershipResignation,
+    MembershipResignationDeleteLogEntry,
+    ShareOwnership,
+)
+from tapir.coop.tests.factories import (
+    MembershipResignationFactory,
+)
 from tapir.utils.tests_utils import FeatureFlagTestMixin, TapirFactoryTestBase
 
 
@@ -19,9 +26,8 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.post(
-            reverse("coop:resign_member_remove", args=[resignation.id])
+            reverse("coop:resign_member_remove", args=[resignation.id]),
         )
-
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
 
     def test_membershipResignationDeleteView_loggedInAsMemberOffice_accessGranted(self):
@@ -30,10 +36,9 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.post(
-            reverse("coop:resign_member_remove", args=[resignation.id])
+            reverse("coop:resign_member_remove", args=[resignation.id]),
         )
-
-        self.assertStatusCode(response, HTTPStatus.OK)
+        self.assertStatusCode(response, HTTPStatus.FOUND)
 
     def test_membershipResignationDeleteView_featureFlagDisabled_accessDenied(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, False)
@@ -41,7 +46,7 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.post(
-            reverse("coop:resign_member_remove", args=[resignation.id])
+            reverse("coop:resign_member_remove", args=[resignation.id]),
         )
 
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
@@ -56,7 +61,6 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
             reverse("coop:resign_member_remove", args=[resignation.id]),
             follow=True,
         )
-
         self.assertStatusCode(response, HTTPStatus.OK)
         self.assertTrue(
             all(
@@ -69,16 +73,15 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
 
     def test_membershipResignationDeleteView_default_logEntryCreated(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
-        self.login_as_member_office_user()
+        actor = self.login_as_member_office_user()
         resignation: MembershipResignation = MembershipResignationFactory.create()
-
         response = self.client.post(
-            reverse("coop:resign_member_remove", args=[resignation.id])
+            reverse("coop:resign_member_remove", args=[resignation.id]),
+            follow=True,
         )
         self.assertStatusCode(response, HTTPStatus.OK)
-
-        self.fail(
-            "No corresponding log entry class, see "
-            "TestMembershipResignationEditView.test_membershipResignationEditView_default_logEntryCreated "
-            "for an example on how to test log entries"
-        )
+        self.assertEqual(MembershipResignation.objects.all().count(), 0)
+        self.assertEqual(MembershipResignationDeleteLogEntry.objects.count(), 1)
+        log_entry = MembershipResignationDeleteLogEntry.objects.get()
+        self.assertEqual(resignation.id, int(log_entry.values["id"]))
+        self.assertEqual(actor, log_entry.actor)

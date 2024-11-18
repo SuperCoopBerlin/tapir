@@ -1,5 +1,6 @@
 import datetime
 from http import HTTPStatus
+from icecream import ic
 
 from django.urls import reverse
 
@@ -63,13 +64,18 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
                 "cancellation_reason": "Reason after edit",
                 "cancellation_date": self.TODAY,
             },
+            follow=True,
         )
         self.assertStatusCode(response, HTTPStatus.OK)
 
         self.assertEqual(1, MembershipResignationUpdateLogEntry.objects.count())
         log_entry = MembershipResignationUpdateLogEntry.objects.get()
-        created_resignation = MembershipResignation.objects.get()
-        self.assertEqual(created_resignation.id, int(log_entry.values["id"]))
+        self.assertEqual(
+            resignation.cancellation_reason, log_entry.old_values["cancellation_reason"]
+        )
+        self.assertEqual(
+            "Reason after edit", log_entry.new_values["cancellation_reason"]
+        )
         self.assertEqual(actor, log_entry.actor)
 
     def test_membershipResignationEditView_default_cantChangeBaseFields(self):
@@ -110,16 +116,19 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
         self.assertEqual(
             datetime.date(year=2023, month=12, day=31), resignation.pay_out_day
         )
-
         response = self.client.post(
             reverse("coop:resign_member_edit", args=[resignation.id]),
             data={
+                "cancellation_reason": "Test for updated object via post-client.",
                 "cancellation_date": datetime.date(year=2022, month=7, day=30),
+                "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
+                "paid_out": False,
             },
+            follow=True,
         )
         self.assertStatusCode(response, HTTPStatus.OK)
-
         resignation.refresh_from_db()
         self.assertEqual(
-            datetime.date(year=2025, month=12, day=31), resignation.pay_out_day
+            datetime.date(year=2025, month=12, day=31),
+            resignation.pay_out_day,
         )

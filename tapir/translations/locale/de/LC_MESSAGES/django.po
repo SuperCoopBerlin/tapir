@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-28 09:48+0200\n"
-"PO-Revision-Date: 2024-09-26 10:50+0200\n"
+"POT-Creation-Date: 2024-11-17 12:47+0100\n"
+"PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -159,8 +159,8 @@ msgid ""
 "            or visit <a href=\"https://www.google.com/maps/place/SuperCoop+Berlin/@52.553371,13.3585897,15z/data=!4m5!3m4!1s0x0:0x72e80db955fa8d3!8m2!3d52.5533091!4d13.3586012\">SuperCoop</a>.\n"
 "            Feel free to drop by and meet other SuperCoopies in person! Opening hours are::\n"
 "        <ul>\n"
-"            <li>Wednesday - Friday from 16:30 - 19:30 Uhr</li>\n"
-"            <li>Saturdays from 11.00 - 14.00 Uhr</li>\n"
+"            <li>Monday - Friday from 16:30 to 19:30</li>\n"
+"            <li>Saturdays from 11:00 to 14:00</li>\n"
 "        </ul>\n"
 "        </p>\n"
 "        <p>\n"
@@ -555,80 +555,80 @@ msgstr "Tapir-Konto erstellt"
 msgid "Sent to a member when the accounts gets created."
 msgstr ""
 
-#: coop/forms.py:41
+#: coop/forms.py:40
 #: financingcampaign/templates/financingcampaign/general.html:27
 msgid "Start date"
 msgstr "Anfangsdatum"
 
-#: coop/forms.py:45
+#: coop/forms.py:44
 msgid "Usually, the date on the membership agreement, or today. In the case of sold or gifted shares, can be set in the future."
 msgstr ""
 
-#: coop/forms.py:50
+#: coop/forms.py:49
 #: financingcampaign/templates/financingcampaign/general.html:28
 msgid "End date"
 msgstr "Enddatum"
 
-#: coop/forms.py:54
+#: coop/forms.py:53
 msgid "Usually left empty. Can be set to a point in the future if it is already known that the shares will be transferred to another member in the future."
 msgstr ""
 
-#: coop/forms.py:60
+#: coop/forms.py:59
 msgid "Number of shares to create"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/forms.py:68
+#: coop/forms.py:67
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:107 coop/models.py:484
+#: coop/forms.py:106 coop/models.py:484
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
-#: coop/forms.py:112
+#: coop/forms.py:111
 #, python-format
 msgid "Number of shares you would like to purchase. The price of one share is EUR %(share_price)s. You need to purchase at least one share to become member of the cooperative. To support our cooperative even more, you may voluntarily purchase more shares."
 msgstr ""
 
-#: coop/forms.py:122
+#: coop/forms.py:121
 msgid "I would like to join the membership list as an investing member (= sponsoring member)"
 msgstr ""
 
-#: coop/forms.py:125
+#: coop/forms.py:124
 msgid "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
 msgstr ""
 
-#: coop/forms.py:235
+#: coop/forms.py:234
 msgid "Usually, the credited member is the same as the paying member. Only if a person if gifting another person a share through the matching program, then the fields can be different."
 msgstr ""
 
-#: coop/forms.py:257
+#: coop/forms.py:256
 msgid "Please not more than 1000 characters."
 msgstr ""
 
-#: coop/forms.py:263
+#: coop/forms.py:262
 msgid "Transferring share(s) to"
 msgstr ""
 
-#: coop/forms.py:317
+#: coop/forms.py:310
 #, fuzzy
 #| msgid "Member already created."
 msgid "This member is already resigned."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/forms.py:329
+#: coop/forms.py:322
 msgid "Please select the member that the shares should be transferred to."
 msgstr ""
 
-#: coop/forms.py:342
+#: coop/forms.py:335
 msgid "If the shares don't get transferred to another member, this field should be empty."
 msgstr ""
 
-#: coop/forms.py:353
+#: coop/forms.py:346
 msgid "Sender and receiver of transferring the share(s) cannot be the same."
 msgstr ""
 
-#: coop/forms.py:368
+#: coop/forms.py:361
 msgid "Cannot pay out, because shares have been gifted."
 msgstr ""
 
@@ -943,6 +943,7 @@ msgstr "Exportieren"
 
 #: coop/templates/coop/draftuser_list.html:42
 #: coop/templates/coop/shareowner_list.html:38
+#: log/templates/log/log_overview.html:34
 #: shifts/templates/shifts/shift_filters.html:3
 msgid "Filters"
 msgstr "Filter"
@@ -952,8 +953,8 @@ msgstr "Filter"
 #: coop/templates/coop/membership_pause/membership_pause_list.html:47
 #: coop/templates/coop/membership_resignation_list.html:48
 #: coop/templates/coop/shareowner_list.html:52
-#: log/templates/log/log_overview.html:24
-#: shifts/templates/shifts/shift_calendar_template.html:53
+#: log/templates/log/log_overview.html:46
+#: shifts/templates/shifts/shift_calendar_template.html:74
 #: shifts/templates/shifts/shiftexemption_list.html:50
 msgid "Filter"
 msgstr "Filter"
@@ -1881,6 +1882,14 @@ msgid ""
 "Member resigned for reason: %(cancellation_reason)s\n"
 msgstr ""
 
+#: coop/templates/coop/log/delete_resignmember_log_entry.html:2
+#, fuzzy
+#| msgid "Update Member:"
+msgid ""
+"\n"
+"    Reactivated resigned member\n"
+msgstr "Mitglied bearbeiten:"
+
 #: coop/templates/coop/log/update_incoming_payment_log_entry.html:2
 #, fuzzy
 #| msgid "Create applicant"
@@ -2357,42 +2366,42 @@ msgstr ""
 msgid "Edit membership pause: %(name)s"
 msgstr ""
 
-#: coop/views/membership_resignation.py:105
+#: coop/views/membership_resignation.py:107
 msgid "Share(s) gifted {chr(8594)} SuperCoop"
 msgstr ""
 
-#: coop/views/membership_resignation.py:111
+#: coop/views/membership_resignation.py:113
 #, fuzzy
 #| msgid "Shares requested"
 msgid "Share(s) gifted"
 msgstr "Angeforderte Anteile"
 
-#: coop/views/membership_resignation.py:131
+#: coop/views/membership_resignation.py:133
 #, fuzzy
 #| msgid "Search Members"
 msgid "Search member or ID"
 msgstr "Mitglieder suchen"
 
-#: coop/views/membership_resignation.py:137
+#: coop/views/membership_resignation.py:139
 #, fuzzy
 #| msgid "Cycle start date"
 msgid "Pay out start date"
 msgstr "Anfangsdatum"
 
-#: coop/views/membership_resignation.py:143
+#: coop/views/membership_resignation.py:145
 #, fuzzy
 #| msgid "without end date"
 msgid "Pay out end date"
 msgstr "ohne Endddatum"
 
-#: coop/views/membership_resignation.py:200
-#: coop/views/membership_resignation.py:205
+#: coop/views/membership_resignation.py:204
+#: coop/views/membership_resignation.py:209
 #, fuzzy, python-format
 #| msgid "Edit member: %(name)s"
 msgid "Cancel membership of %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: coop/views/membership_resignation.py:240
+#: coop/views/membership_resignation.py:247
 msgid "Resign a new membership"
 msgstr ""
 
@@ -2730,7 +2739,7 @@ msgstr ""
 msgid "Edit financing source datapoint: %(name)s"
 msgstr ""
 
-#: log/apps.py:18 log/templates/log/log_overview.html:16
+#: log/apps.py:18 log/templates/log/log_overview.html:24
 msgid "Logs"
 msgstr ""
 
@@ -3568,25 +3577,25 @@ msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
 #: shifts/templates/shifts/shift_calendar_template.html:27
-msgid "Date range"
-msgstr ""
+msgid "Legend & Filters"
+msgstr "Legende & Filter"
 
-#: shifts/templates/shifts/shift_calendar_template.html:38
-msgid "From"
-msgstr ""
-
-#: shifts/templates/shifts/shift_calendar_template.html:46
-msgid "To"
-msgstr ""
-
-#: shifts/templates/shifts/shift_calendar_template.html:60
+#: shifts/templates/shifts/shift_calendar_template.html:52
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_calendar_template.html:61
+#: shifts/templates/shifts/shift_calendar_template.html:53
 #: shifts/templates/shifts/shift_template_overview.html:40
 msgid "Week "
 msgstr "Woche "
+
+#: shifts/templates/shifts/shift_calendar_template.html:58
+msgid "From"
+msgstr "Vom"
+
+#: shifts/templates/shifts/shift_calendar_template.html:66
+msgid "To"
+msgstr "Zum"
 
 #: shifts/templates/shifts/shift_day_printable.html:54
 #: shifts/templates/shifts/shift_detail.html:73
@@ -3603,10 +3612,8 @@ msgstr "Erforderliche Qualifikation: "
 #: shifts/templates/shifts/shift_detail.html:104
 #: shifts/templates/shifts/shift_detail_printable.html:80
 #: shifts/templates/shifts/shift_template_detail.html:61
-#, fuzzy
-#| msgid "Shift reminder"
 msgid "Shift partner: "
-msgstr "Schicht-Erinnerung"
+msgstr "Schicht-Partner: "
 
 #: shifts/templates/shifts/shift_day_printable.html:95
 #: shifts/templates/shifts/shift_detail_printable.html:89
@@ -4375,7 +4382,7 @@ msgstr "Slot bearbeiten: "
 
 #: shifts/views/management.py:120
 msgid "Edit shift:"
-msgstr "Schiht bearbeiten:"
+msgstr "Schicht bearbeiten:"
 
 #: shifts/views/management.py:134
 msgid "Edit shift template: "
