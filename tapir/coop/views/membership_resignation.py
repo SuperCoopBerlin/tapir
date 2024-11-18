@@ -253,9 +253,7 @@ class MembershipResignationCreateView(
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
             resignation=membership_resignation
         )
-        MembershipResignationService.delete_shareowner_membershippauses(
-            membership_resignation
-        )
+        MembershipResignationService.update_membership_pauses(membership_resignation)
         MembershipResignationCreateLogEntry().populate(
             actor=self.request.user,
             model=membership_resignation,
@@ -293,7 +291,7 @@ class MembershipResignationDetailView(
         return super().get(request, *args, **kwargs)
 
 
-class MembershipResignationRemoveFromListView(
+class MembershipResignationDeleteView(
     LoginRequiredMixin,
     PermissionRequiredMixin,
     DeleteView,

@@ -1,23 +1,29 @@
 import datetime
 
+from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.config import feature_flag_membership_resignation
-from tapir.utils.tests_utils import (
-    FeatureFlagTestMixin,
-    TapirFactoryTestBase,
-    mock_timezone_now,
+from tapir.coop.models import (
+    MembershipResignation,
+    MembershipPause,
+    ShareOwner,
 )
-
-from tapir.coop.models import MembershipResignation, ShareOwnership, MembershipPause
-from tapir.shifts.models import ShiftSlot, ShiftAttendance, ShiftAttendanceTemplate
+from tapir.coop.services.MembershipResignationService import (
+    MembershipResignationService,
+)
 from tapir.coop.tests.factories import (
     MembershipResignationFactory,
     ShareOwnerFactory,
     MembershipPauseFactory,
 )
+from tapir.shifts.models import (
+    ShiftAttendance,
+    ShiftAttendanceTemplate,
+)
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
-from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.coop.services.MembershipResignationService import (
-    MembershipResignationService,
+from tapir.utils.tests_utils import (
+    FeatureFlagTestMixin,
+    TapirFactoryTestBase,
+    mock_timezone_now,
 )
 
 
@@ -30,28 +36,31 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         mock_timezone_now(self, self.NOW)
 
-    def test_updateShiftsAndSharesAndPayOutDay_SharesAndPayOutDayForResignationTypeBuyBack_transferredAndSet(
+    def test_updateShiftsAndSharesAndPayOutDay_resignationTypeBuyBack_sharesEndDateAndPayOutDaySetToThreeYearsAfterResignation(
         self,
     ):
         self.login_as_member_office_user()
-        share_owner = ShareOwnerFactory.create(nb_shares=2)
+        share_owner: ShareOwner = ShareOwnerFactory.create(nb_shares=2)
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner,
             resignation_type=MembershipResignation.ResignationType.BUY_BACK,
+            cancellation_date=self.TODAY,
         )
+
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
             resignation=resignation,
         )
-        shares_after_update = resignation.share_owner.share_ownerships
-        for share in shares_after_update.all():
+
+        resignation.refresh_from_db()
+        expected_pay_out_day = datetime.date(year=2027, month=12, day=31)
+        self.assertEqual(expected_pay_out_day, resignation.pay_out_day)
+        for share in share_owner.share_ownerships.all():
             self.assertEqual(
-                resignation.cancellation_date.replace(
-                    day=31, month=12, year=resignation.cancellation_date.year + 3
-                ),
+                datetime.date(year=2027, month=12, day=31),
                 share.end_date,
             )
 
-    def test_updateShiftsAndSharesAndPayOutDay_SharesAndPayOutDayForResignationTypeGiftToCoop_transferredAndSet(
+    def test_updateShiftsAndSharesAndPayOutDay_resignationTypeGiftToCoop_sharesEndDateAndPayOutDaySetToResignationDate(
         self,
     ):
         self.login_as_member_office_user()
@@ -59,92 +68,129 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner,
             resignation_type=MembershipResignation.ResignationType.GIFT_TO_COOP,
+            cancellation_date=self.TODAY,
         )
+
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
             resignation=resignation,
         )
-        shares_after_update = resignation.share_owner.share_ownerships
-        for share in shares_after_update.all():
-            self.assertEqual(share.end_date, resignation.cancellation_date)
 
-    def test_updateShiftsAndSharesAndPayOutDay_SharesAndPayOutDayForResignationTypeTransfer_transferredAndSet(
+        resignation.refresh_from_db()
+        self.assertEqual(self.TODAY, resignation.pay_out_day)
+        for share in share_owner.share_ownerships.all():
+            self.assertEqual(share.end_date, self.TODAY)
+
+    def test_updateShiftsAndSharesAndPayOutDay_resignationTypeTransfer_newSharesCreatedForReceivingMember(
         self,
     ):
         self.login_as_member_office_user()
-        share_owner = ShareOwnerFactory.create(nb_shares=2)
-        resignation = MembershipResignationFactory.create(
-            share_owner=share_owner,
-            resignation_type=MembershipResignation.ResignationType.TRANSFER,
+        gifting_member = ShareOwnerFactory.create(nb_shares=2)
+        receiving_member = ShareOwnerFactory.create(nb_shares=1)
+        share_of_receiving_member_before_transfer = (
+            receiving_member.share_ownerships.first()
         )
+        resignation = MembershipResignationFactory.create(
+            share_owner=gifting_member,
+            resignation_type=MembershipResignation.ResignationType.TRANSFER,
+            cancellation_date=self.TODAY,
+            transferring_shares_to=receiving_member,
+        )
+
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
             resignation=resignation,
         )
-        shares_after_update = resignation.share_owner.share_ownerships
-        self.assertEqual(
-            ShareOwnership.objects.filter(
-                share_owner=resignation.transferring_shares_to,
-                start_date=resignation.cancellation_date,
-            ).count(),
-            shares_after_update.count(),
-        )
-        for share in shares_after_update.all():
-            self.assertEqual(share.end_date, None)
 
-    def test_updateShifts_shiftsAndShiftAttendance_cancelled(self):
-        tapir_user = TapirUserFactory.create()
-        share_owner = ShareOwnerFactory.create()
-        resignation = MembershipResignationFactory.create(share_owner=share_owner)
-        shift_template = ShiftTemplateFactory.create()
-        shift = ShiftFactory.create(start_time=self.NOW.replace(day=16))
-        ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
-        ShiftAttendanceTemplate.objects.create(
-            user=tapir_user, slot_template=shift_template.slot_templates.first()
+        shares_of_receiving_member = (
+            resignation.transferring_shares_to.share_ownerships.all()
         )
+        self.assertEqual(3, resignation.transferring_shares_to.share_ownerships.count())
+        for share in shares_of_receiving_member.all():
+            if share == share_of_receiving_member_before_transfer:
+                continue
+            self.assertEqual(None, share.end_date)
+            self.assertEqual(self.TODAY, share.start_date)
+
+        shares_of_gifting_member = gifting_member.share_ownerships.all()
+        self.assertEqual(2, shares_of_gifting_member.count())
+        for share in shares_of_gifting_member.all():
+            self.assertEqual(self.TODAY, share.end_date)
+
+    def test_updateShifts_resigningMemberHasAttendanceInTheFuture_attendanceCancelled(
+        self,
+    ):
+        tapir_user = TapirUserFactory.create()
+        resignation = MembershipResignationFactory.create(
+            share_owner=tapir_user.share_owner
+        )
+        shift = ShiftFactory.create(start_time=self.NOW + datetime.timedelta(days=1))
+        ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
+
         MembershipResignationService.update_shifts(
             tapir_user=tapir_user, resignation=resignation
         )
+
         self.assertEqual(ShiftAttendanceTemplate.objects.count(), 0)
         self.assertEqual(
             ShiftAttendance.objects.get(user=tapir_user).state,
             ShiftAttendance.State.CANCELLED,
         )
 
-    def test_updateShifts_shiftsBeforeResignation_notCancelled(self):
+    def test_updateShifts_resigningMemberHasAttendanceTemplate_attendanceTemplateDeleted(
+        self,
+    ):
         tapir_user = TapirUserFactory.create()
-        share_owner = ShareOwnerFactory.create()
-        resignation = MembershipResignationFactory.create(
-            share_owner=share_owner, cancellation_date=self.TODAY
+        resignation = MembershipResignationFactory.build(
+            share_owner=tapir_user.share_owner
         )
         shift_template = ShiftTemplateFactory.create()
-        shift = ShiftFactory.create(start_time=self.NOW.replace(day=14))
-        ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
         ShiftAttendanceTemplate.objects.create(
-            user=tapir_user,
-            slot_template=shift_template.slot_templates.first(),
+            user=tapir_user, slot_template=shift_template.slot_templates.first()
         )
+
         MembershipResignationService.update_shifts(
             tapir_user=tapir_user, resignation=resignation
         )
+
+        self.assertEqual(ShiftAttendanceTemplate.objects.count(), 0)
+
+    def test_updateShifts_resigningMemberHasAttendancesBeforeResignationDate_attendancesNotUpdated(
+        self,
+    ):
+        tapir_user = TapirUserFactory.create()
+        resignation = MembershipResignationFactory.create(
+            share_owner=tapir_user.share_owner, cancellation_date=self.TODAY
+        )
+        shift = ShiftFactory.create(start_time=self.NOW - datetime.timedelta(days=1))
+        ShiftAttendance.objects.create(
+            user=tapir_user,
+            slot=shift.slots.first(),
+            state=ShiftAttendance.State.PENDING,
+        )
+
+        MembershipResignationService.update_shifts(
+            tapir_user=tapir_user, resignation=resignation
+        )
+
         self.assertEqual(
             ShiftAttendance.objects.get(user=tapir_user).state,
             ShiftAttendance.State.PENDING,
         )
-        self.assertEqual(ShiftAttendanceTemplate.objects.count(), 0)
 
-    def test_deleteEndDates_endDatesOfShares_removedFromShares(self):
+    def test_deleteEndDates_default_sharesEndDateRemoved(self):
         share_owner = ShareOwnerFactory.create(
-            nb_shares=1,
+            nb_shares=2,
         )
-        ShareOwnership.objects.filter(share_owner=share_owner).update(
+        share_owner.share_ownerships.update(
             end_date=datetime.datetime(year=2024, month=3, day=21),
         )
-        resignation = MembershipResignationFactory.create(share_owner=share_owner)
-        MembershipResignationService.delete_end_dates(resignation=resignation)
-        shares = ShareOwnership.objects.filter(share_owner=resignation.share_owner)
-        for share in shares:
-            self.assertEqual(share.end_date, None)
+        resignation = MembershipResignationFactory.build(share_owner=share_owner)
 
-    def test_deleteShareownerMembershippauses_pauseThatsEndsAfterPayOutDay_updatedToNewDate(
+        MembershipResignationService.delete_end_dates(resignation=resignation)
+
+        for share in share_owner.share_ownerships.all():
+            self.assertEqual(None, share.end_date)
+
+    def test_updateMembershipPauses_pauseEndsAfterPayOutDay_pauseEndDateSetToPayOutDay(
         self,
     ):
         share_owner = ShareOwnerFactory.create()
@@ -153,20 +199,21 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             resignation_type=MembershipResignation.ResignationType.BUY_BACK,
             cancellation_date=datetime.date(year=1995, month=6, day=20),
         )
-        pause_that_ends_after_pay_out_day = MembershipPauseFactory.create(
+        pause = MembershipPauseFactory.create(
             share_owner=resignation.share_owner,
             start_date=datetime.date(year=1990, month=1, day=12),
             end_date=datetime.date(year=2000, month=6, day=20),
         )
-        MembershipResignationService.delete_shareowner_membershippauses(
-            resignation=resignation
-        )
-        pause_that_ends_after_pay_out_day.refresh_from_db()
+
+        MembershipResignationService.update_membership_pauses(resignation=resignation)
+
+        pause.refresh_from_db()
         self.assertEqual(
-            pause_that_ends_after_pay_out_day.end_date, resignation.pay_out_day
+            pause.end_date,
+            datetime.date(year=1998, month=12, day=31),
         )
 
-    def test_deleteShareownerMembershippauses_pauseWithNoEndDate_getsDeleted(
+    def test_updateMembershipPauses_pauseStartsAfterPayOutDay_pauseDeleted(
         self,
     ):
         share_owner = ShareOwnerFactory.create()
@@ -175,19 +222,17 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             resignation_type=MembershipResignation.ResignationType.BUY_BACK,
             cancellation_date=datetime.date(year=1995, month=6, day=20),
         )
-        pause_with_no_end_date = MembershipPauseFactory.create(
+        MembershipPauseFactory.create(
             share_owner=resignation.share_owner,
             start_date=datetime.date(year=2001, month=6, day=20),
             end_date=None,
         )
-        MembershipResignationService.delete_shareowner_membershippauses(
-            resignation=resignation
-        )
-        self.assertFalse(
-            MembershipPause.objects.filter(id=pause_with_no_end_date.id).exists()
-        )
 
-    def test_deleteShareownerMembershippauses_pauseWithNoEndDateAndStartDateAndSmallerThanPayOutDay_endDateSetToCancellationDate(
+        MembershipResignationService.update_membership_pauses(resignation=resignation)
+
+        self.assertFalse(MembershipPause.objects.exists())
+
+    def test_updateMembershipPauses_pauseHasNoEnd_pauseEndDateSetToPayOutDay(
         self,
     ):
         share_owner = ShareOwnerFactory.create()
@@ -196,29 +241,25 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             resignation_type=MembershipResignation.ResignationType.BUY_BACK,
             cancellation_date=datetime.date(year=1995, month=6, day=20),
         )
-        pause_with_smaller_start_date = MembershipPauseFactory.create(
+        pause = MembershipPauseFactory.create(
             share_owner=resignation.share_owner,
-            start_date=datetime.date(year=1990, month=1, day=12),
+            start_date=datetime.date(year=1995, month=1, day=12),
             end_date=None,
         )
-        MembershipResignationService.delete_shareowner_membershippauses(
-            resignation=resignation
-        )
-        pause_with_smaller_start_date.refresh_from_db()
-        self.assertEqual(
-            pause_with_smaller_start_date.end_date, resignation.cancellation_date
-        )
+        MembershipResignationService.update_membership_pauses(resignation=resignation)
+        pause.refresh_from_db()
+        self.assertEqual(pause.end_date, datetime.date(year=1998, month=12, day=31))
 
-    def test_updateShiftsAndSharesAndPayOutDay_resignationTransferringShares_toSameMember(
+    def test_updateShiftsAndSharesAndPayOutDay_twoResignationTransferingToSameMember_receivingMemberReceivesAllShares(
         self,
     ):
         share_owner = ShareOwnerFactory.create(nb_shares=2)
-        resignation_one = MembershipResignationFactory.create(
+        resignation_one = MembershipResignationFactory.build(
             share_owner=ShareOwnerFactory.create(nb_shares=1),
             resignation_type=MembershipResignation.ResignationType.TRANSFER,
             transferring_shares_to=share_owner,
         )
-        resignation_two = MembershipResignationFactory.create(
+        resignation_two = MembershipResignationFactory.build(
             share_owner=ShareOwnerFactory.create(nb_shares=1),
             resignation_type=MembershipResignation.ResignationType.TRANSFER,
             transferring_shares_to=share_owner,
@@ -229,5 +270,5 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
             resignation_two
         )
-        share_owner.refresh_from_db()
-        self.assertTrue(share_owner.num_shares() == 4)
+
+        self.assertEqual(4, share_owner.share_ownerships.count())

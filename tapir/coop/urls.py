@@ -87,7 +87,7 @@ urlpatterns = [
     ),
     path(
         "membership_resignation/<int:pk>/delete",
-        views.MembershipResignationRemoveFromListView.as_view(),
+        views.MembershipResignationDeleteView.as_view(),
         name="membership_resignation_delete",
     ),
     path(
