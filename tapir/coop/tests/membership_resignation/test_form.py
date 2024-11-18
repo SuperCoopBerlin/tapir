@@ -1,18 +1,14 @@
 import datetime
-from http import HTTPStatus
-from django.urls import reverse
-from django.core.exceptions import ValidationError
 
 from tapir.coop.config import feature_flag_membership_resignation
+from tapir.coop.forms import MembershipResignationForm
+from tapir.coop.models import MembershipResignation
+from tapir.coop.tests.factories import MembershipResignationFactory, ShareOwnerFactory
 from tapir.utils.tests_utils import (
     FeatureFlagTestMixin,
     TapirFactoryTestBase,
     mock_timezone_now,
 )
-
-from tapir.coop.models import MembershipResignation
-from tapir.coop.forms import MembershipResignationForm
-from tapir.coop.tests.factories import MembershipResignationFactory, ShareOwnerFactory
 
 
 class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
@@ -48,24 +44,20 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             form.errors["share_owner"],
         )
 
-    def test_validateShareOwner_noResignation_noErrors(self):
+    def test_validateShareOwner_memberHasNoPreviousResignation_noErrors(self):
         share_owner = ShareOwnerFactory.create()
         form = MembershipResignationForm(data={"share_owner": share_owner})
         form.validate_share_owner(share_owner)
         self.assertNotIn("share_owner", form.errors.keys())
 
-    def test_validateTransferChoice_tranferringShareOwnerNotChosen_errorIsAddedToForm(
+    def test_validateTransferChoice_resignationTypeTransferButNoRecipient_errorIsAddedToForm(
         self,
     ):
         share_owner = ShareOwnerFactory.create()
-        resignation = MembershipResignationFactory.build(
-            share_owner=share_owner,
-            resignation_type=MembershipResignation.ResignationType.TRANSFER,
-        )
         form = MembershipResignationForm(
             data={
-                "share_owner": resignation.share_owner,
-                "resignation_type": resignation.resignation_type,
+                "share_owner": share_owner,
+                "resignation_type": MembershipResignation.ResignationType.TRANSFER,
             }
         )
         self.assertIn("transferring_shares_to", form.errors.keys())
@@ -74,7 +66,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             form.errors["transferring_shares_to"],
         )
 
-    def test_validateTransferChoice_tranferringShareOwnerNotChosen_errorIsAddedToForm(
+    def test_validateTransferChoice_resignationTypeNotTransferButRecipientSent_errorIsAddedToForm(
         self,
     ):
         share_owner = ShareOwnerFactory.create()
@@ -96,7 +88,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             form.errors["transferring_shares_to"],
         )
 
-    def test_validateDuplicates_SenderAndReceiverOfTransferringSharesDuplicate_errorIsAddedToForm(
+    def test_validateGiftingMemberAndReceivingMemberAreNotTheSame_giftingAndReceivingMembersAreTheSame_errorIsAddedToForm(
         self,
     ):
         share_owner = ShareOwnerFactory.create()
@@ -115,7 +107,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             form.errors["transferring_shares_to"],
         )
 
-    def test_validateDuplicates_SenderAndReceiverOfTransferringSharesAreNotTheSame_noErrorIsAddedToForm(
+    def test_validateGiftingMemberAndReceivingMemberAreNotTheSame_giftingAndReceivingMembersAreNotTheSame_noErrorIsAddedToForm(
         self,
     ):
         share_owner = ShareOwnerFactory.create()
@@ -132,7 +124,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         )
         self.assertNotIn("transferring_shares_to", form.errors.keys())
 
-    def test_validateIfGifted_paidOutIsTrue_errorIsAddedToForm(self):
+    def test_validatePaidOut_resignationTypeGiftButPaidOutTrue_errorIsAddedToForm(self):
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner,
@@ -154,7 +146,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             form.errors["paid_out"],
         )
 
-    def test_validateIfGifted_paidOutIsTrueAndResignationtypeIsNotGiftToCoop_noErrorIsAddedToForm(
+    def test_validatePaidOut_resignationTypeBuyBackAndPaidOutTrue_noErrorIsAddedToForm(
         self,
     ):
         share_owner = ShareOwnerFactory.create()

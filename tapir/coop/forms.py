@@ -293,8 +293,10 @@ class MembershipResignationForm(forms.ModelForm):
 
         self.validate_share_owner(share_owner)
         self.validate_transfer_choice(resignation_type, transferring_shares_to)
-        self.validate_duplicates(share_owner, transferring_shares_to)
-        self.validate_if_gifted(resignation_type, paid_out)
+        self.validate_gifting_member_and_receiving_member_are_not_the_same(
+            share_owner, transferring_shares_to
+        )
+        self.validate_paid_out(resignation_type, paid_out)
 
         return cleaned_data
 
@@ -337,7 +339,9 @@ class MembershipResignationForm(forms.ModelForm):
                 ),
             )
 
-    def validate_duplicates(self, share_owner, transferring_shares_to):
+    def validate_gifting_member_and_receiving_member_are_not_the_same(
+        self, share_owner, transferring_shares_to
+    ):
         if transferring_shares_to == share_owner:
             self.add_error(
                 "transferring_shares_to",
@@ -348,15 +352,12 @@ class MembershipResignationForm(forms.ModelForm):
                 ),
             )
 
-    def validate_if_gifted(self, resignation_type, paid_out):
-        if paid_out and (
-            resignation_type
-            in [
-                MembershipResignation.ResignationType.TRANSFER,
-                MembershipResignation.ResignationType.GIFT_TO_COOP,
-            ]
-        ):
-            self.add_error(
-                "paid_out",
-                ValidationError(_("Cannot pay out, because shares have been gifted.")),
-            )
+    def validate_paid_out(self, resignation_type, paid_out):
+        if resignation_type == MembershipResignation.ResignationType.BUY_BACK:
+            return
+        if not paid_out:
+            return
+        self.add_error(
+            "paid_out",
+            ValidationError(_("Cannot pay out, because shares have been gifted.")),
+        )
