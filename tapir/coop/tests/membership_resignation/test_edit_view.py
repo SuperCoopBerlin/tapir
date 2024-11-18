@@ -1,6 +1,5 @@
 import datetime
 from http import HTTPStatus
-from icecream import ic
 
 from django.urls import reverse
 
@@ -78,7 +77,9 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
         )
         self.assertEqual(actor, log_entry.actor)
 
-    def test_membershipResignationEditView_default_cantChangeBaseFields(self):
+    def test_membershipResignationEditView_tryToUpdateBaseFields_baseFieldsNotUpdated(
+        self,
+    ):
         self.login_as_member_office_user()
         resignation: MembershipResignation = MembershipResignationFactory.create(
             resignation_type=MembershipResignation.ResignationType.GIFT_TO_COOP
