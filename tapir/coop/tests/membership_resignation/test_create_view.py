@@ -80,13 +80,15 @@ class TestMembershipResignationCreateView(
     )
     def test_membershipResignationCreateView_default_changesApplied(
         self,
-        mock_delete_shareowner_membershippauses: Mock,
         mock_update_shifts_and_shares_and_pay_out_day: Mock,
+        mock_delete_shareowner_membershippauses: Mock,
     ):
-        self.create_default_resignation()
+        resignation = self.create_default_resignation()
         self.assertEqual(1, MembershipResignation.objects.count())
-        mock_delete_shareowner_membershippauses.assert_called_once()
-        mock_update_shifts_and_shares_and_pay_out_day.assert_called_once()
+        mock_update_shifts_and_shares_and_pay_out_day.assert_called_once_with(
+            resignation=resignation
+        )
+        mock_delete_shareowner_membershippauses.assert_called_once_with(resignation)
 
     def test_membershipResignationCreateView_default_logEntryCreated(self):
         _, actor = self.create_default_resignation()
