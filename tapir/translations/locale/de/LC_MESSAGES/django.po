@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-18 13:45+0100\n"
+"POT-Creation-Date: 2024-11-19 15:24+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -44,12 +44,12 @@ msgstr ""
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:71 coop/models.py:71 coop/models.py:478
+#: accounts/models.py:71 coop/models.py:71 coop/models.py:484
 msgid "Pronouns"
 msgstr "Pronomen"
 
 #: accounts/models.py:72 accounts/templates/accounts/user_detail.html:67
-#: coop/models.py:73 coop/models.py:480
+#: coop/models.py:73 coop/models.py:486
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
 #: coop/templates/coop/shareowner_detail.html:51
@@ -57,29 +57,29 @@ msgid "Phone number"
 msgstr "Telefonnummer"
 
 #: accounts/models.py:73 accounts/templates/accounts/user_detail.html:77
-#: coop/models.py:74 coop/models.py:481
+#: coop/models.py:74 coop/models.py:487
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:74 coop/models.py:75 coop/models.py:482
+#: accounts/models.py:74 coop/models.py:75 coop/models.py:488
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:75 coop/models.py:76 coop/models.py:483
+#: accounts/models.py:75 coop/models.py:76 coop/models.py:489
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:76 coop/models.py:77 coop/models.py:484
+#: accounts/models.py:76 coop/models.py:77 coop/models.py:490
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:77 coop/models.py:78 coop/models.py:485
+#: accounts/models.py:77 coop/models.py:78 coop/models.py:491
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:78 coop/models.py:79 coop/models.py:486
+#: accounts/models.py:78 coop/models.py:79 coop/models.py:492
 msgid "Country"
 msgstr "Land"
 
@@ -92,7 +92,7 @@ msgid "Allow purchase tracking"
 msgstr ""
 
 #: accounts/models.py:95 accounts/templates/accounts/user_detail.html:97
-#: coop/models.py:82 coop/models.py:489
+#: coop/models.py:82 coop/models.py:495
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
@@ -252,7 +252,7 @@ msgstr ""
 msgid "Enable"
 msgstr ""
 
-#: accounts/templates/accounts/user_detail.html:20 coop/models.py:755
+#: accounts/templates/accounts/user_detail.html:20 coop/models.py:761
 #: coop/templates/coop/draftuser_detail.html:86
 #: coop/templates/coop/shareowner_detail.html:10 log/views.py:94
 #: log/views.py:152 shifts/templates/shifts/shift_day_printable.html:55
@@ -275,7 +275,7 @@ msgstr "Benutzername bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:43
 #: coop/templates/coop/draftuser_detail.html:242
-#: coop/templates/coop/membershipresignation_detail.html:97
+#: coop/templates/coop/membershipresignation_detail.html:99
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:22
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:90
@@ -552,80 +552,80 @@ msgstr "Tapir-Konto erstellt"
 msgid "Sent to a member when the accounts gets created."
 msgstr ""
 
-#: coop/forms.py:41
+#: coop/forms.py:40
 #: financingcampaign/templates/financingcampaign/general.html:27
 msgid "Start date"
 msgstr "Anfangsdatum"
 
-#: coop/forms.py:45
+#: coop/forms.py:44
 msgid "Usually, the date on the membership agreement, or today. In the case of sold or gifted shares, can be set in the future."
 msgstr ""
 
-#: coop/forms.py:50
+#: coop/forms.py:49
 #: financingcampaign/templates/financingcampaign/general.html:28
 msgid "End date"
 msgstr "Enddatum"
 
-#: coop/forms.py:54
+#: coop/forms.py:53
 msgid "Usually left empty. Can be set to a point in the future if it is already known that the shares will be transferred to another member in the future."
 msgstr ""
 
-#: coop/forms.py:60
+#: coop/forms.py:59
 msgid "Number of shares to create"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/forms.py:68
+#: coop/forms.py:67
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:107 coop/models.py:495
+#: coop/forms.py:106 coop/models.py:501
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
-#: coop/forms.py:112
+#: coop/forms.py:111
 #, python-format
 msgid "Number of shares you would like to purchase. The price of one share is EUR %(share_price)s. You need to purchase at least one share to become member of the cooperative. To support our cooperative even more, you may voluntarily purchase more shares."
 msgstr ""
 
-#: coop/forms.py:122
+#: coop/forms.py:121
 msgid "I would like to join the membership list as an investing member (= sponsoring member)"
 msgstr ""
 
-#: coop/forms.py:125
+#: coop/forms.py:124
 msgid "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
 msgstr ""
 
-#: coop/forms.py:235
+#: coop/forms.py:234
 msgid "Usually, the credited member is the same as the paying member. Only if a person if gifting another person a share through the matching program, then the fields can be different."
 msgstr ""
 
-#: coop/forms.py:257
+#: coop/forms.py:256
 msgid "Please not more than 1000 characters."
 msgstr ""
 
-#: coop/forms.py:263
+#: coop/forms.py:262
 msgid "Transferring share(s) to"
 msgstr ""
 
-#: coop/forms.py:317
+#: coop/forms.py:312
 #, fuzzy
 #| msgid "Member already created."
 msgid "This member is already resigned."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/forms.py:329
+#: coop/forms.py:324
 msgid "Please select the member that the shares should be transferred to."
 msgstr ""
 
-#: coop/forms.py:342
+#: coop/forms.py:337
 msgid "If the shares don't get transferred to another member, this field should be empty."
 msgstr ""
 
-#: coop/forms.py:353
+#: coop/forms.py:350
 msgid "Sender and receiver of transferring the share(s) cannot be the same."
 msgstr ""
 
-#: coop/forms.py:368
+#: coop/forms.py:362
 msgid "Cannot pay out, because shares have been gifted."
 msgstr ""
 
@@ -633,19 +633,19 @@ msgstr ""
 msgid "Is company"
 msgstr "Ist eine Firma"
 
-#: coop/models.py:62 coop/models.py:469
+#: coop/models.py:62 coop/models.py:475
 msgid "Administrative first name"
 msgstr "Amtlicher Vorname"
 
-#: coop/models.py:64 coop/models.py:471
+#: coop/models.py:64 coop/models.py:477
 msgid "Last name"
 msgstr "Nachname"
 
-#: coop/models.py:66 coop/models.py:473
+#: coop/models.py:66 coop/models.py:479
 msgid "Usage name"
 msgstr "Angezeigter Name"
 
-#: coop/models.py:72 coop/models.py:479
+#: coop/models.py:72 coop/models.py:485
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
@@ -653,18 +653,18 @@ msgstr "E-Mail-Adresse"
 msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
-#: coop/models.py:91 coop/models.py:510
+#: coop/models.py:91 coop/models.py:516
 #: coop/templates/coop/draftuser_detail.html:176
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:48
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:167
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
-#: coop/models.py:93 coop/models.py:502
+#: coop/models.py:93 coop/models.py:508
 msgid "Attended Welcome Session"
 msgstr "An Willkommenstreffen teilgenommen"
 
-#: coop/models.py:95 coop/models.py:507
+#: coop/models.py:95 coop/models.py:513
 msgid "Paid Entrance Fee"
 msgstr "Eintrittsgeld bezahlt"
 
@@ -680,114 +680,114 @@ msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 msgid "User info should be stored in associated Tapir account"
 msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 
-#: coop/models.py:380
+#: coop/models.py:384
 msgid "Not a member"
 msgstr ""
 
-#: coop/models.py:381 coop/templates/coop/draftuser_detail.html:169
+#: coop/models.py:385 coop/templates/coop/draftuser_detail.html:169
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:382 coop/templates/coop/draftuser_detail.html:171
+#: coop/models.py:386 coop/templates/coop/draftuser_detail.html:171
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:103
 #: coop/views/statistics.py:142
 msgid "Active"
 msgstr "Aktiv"
 
-#: coop/models.py:383
+#: coop/models.py:387
 msgid "Paused"
 msgstr "Pausiert"
 
-#: coop/models.py:436
+#: coop/models.py:442
 msgid "Amount paid for a share can't be negative"
 msgstr "Der Betrag kann nicht negative sein"
 
-#: coop/models.py:440
+#: coop/models.py:446
 #, python-brace-format
 msgid "Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
 msgstr "Der Betrag kann nicht mehr als {COOP_SHARE_PRICE} sein"
 
-#: coop/models.py:498
+#: coop/models.py:504
 msgid "Investing member"
 msgstr "Investierendes Mitglied"
 
-#: coop/models.py:505
+#: coop/models.py:511
 msgid "Signed Beteiligungserklärung"
 msgstr "Beteiligungserklärung unterschrieben"
 
-#: coop/models.py:508 coop/templates/coop/draftuser_detail.html:234
+#: coop/models.py:514 coop/templates/coop/draftuser_detail.html:234
 msgid "Paid Shares"
 msgstr "Anteil(e) bezahlt"
 
-#: coop/models.py:565
+#: coop/models.py:571
 msgid "Email address must be set."
 msgstr "Email-Adresse muss gesetzt sein."
 
-#: coop/models.py:567
+#: coop/models.py:573
 msgid "First name must be set."
 msgstr "Vorname muss gesetzt sein."
 
-#: coop/models.py:569
+#: coop/models.py:575
 msgid "Last name must be set."
 msgstr "Nachname muss gesetzt sein."
 
-#: coop/models.py:573
+#: coop/models.py:579
 msgid "Membership agreement must be signed."
 msgstr "Mitgliedsantrag muss unterschrieben sein."
 
-#: coop/models.py:575
+#: coop/models.py:581
 msgid "Amount of requested shares must be positive."
 msgstr "Die Anzahl der erwünschten Anteile muss positiv sein."
 
-#: coop/models.py:577
+#: coop/models.py:583
 msgid "Member already created."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/models.py:604
+#: coop/models.py:610
 msgid "Paying member"
 msgstr "Zahlendes Mitglied"
 
-#: coop/models.py:612
+#: coop/models.py:618
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:619
+#: coop/models.py:625
 msgid "Amount"
 msgstr "Betrag"
 
-#: coop/models.py:625
+#: coop/models.py:631
 msgid "Payment date"
 msgstr "Zahldatum"
 
-#: coop/models.py:628
+#: coop/models.py:634
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
-#: coop/models.py:633
+#: coop/models.py:639
 msgid "Created by"
 msgstr "Erstellt durch"
 
-#: coop/models.py:805
+#: coop/models.py:811
 msgid "The cooperative buys the shares back from the member"
 msgstr ""
 
-#: coop/models.py:808
+#: coop/models.py:814
 #, fuzzy
 #| msgid "Number of shares to create"
 msgid "The member gifts the shares to the cooperative"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/models.py:810
+#: coop/models.py:816
 msgid "The shares get transferred to another member"
 msgstr ""
 
-#: coop/models.py:815
+#: coop/models.py:821
 #, fuzzy
 #| msgid "Edit shareowner"
 msgid "Shareowner"
 msgstr "Mitglied bearbeiten"
 
-#: coop/models.py:831
+#: coop/models.py:837
 msgid "Leave this empty if the resignation type is not a transfer to another member"
 msgstr ""
 
@@ -1880,6 +1880,14 @@ msgid ""
 "Member resigned for reason: %(cancellation_reason)s\n"
 msgstr ""
 
+#: coop/templates/coop/log/delete_resignmember_log_entry.html:2
+#, fuzzy
+#| msgid "Update Member:"
+msgid ""
+"\n"
+"    Reactivated resigned member\n"
+msgstr "Mitglied bearbeiten:"
+
 #: coop/templates/coop/log/update_incoming_payment_log_entry.html:2
 #, fuzzy
 #| msgid "Create applicant"
@@ -1966,9 +1974,9 @@ msgstr ""
 #: coop/templates/coop/membership_resignation_list.html:12
 #: coop/templates/coop/membership_resignation_list.html:21
 #, fuzzy
-#| msgid "List of all emails"
-msgid "List of resigned members"
-msgstr "Liste alle E-Mails"
+#| msgid "List of shift exemptions"
+msgid "List of membership resignations"
+msgstr "Liste der Schicht-Befreiungen"
 
 #: coop/templates/coop/membership_resignation_list.html:36
 #, fuzzy
@@ -1977,54 +1985,77 @@ msgid "Resign new member"
 msgstr "Investierendes Mitglied"
 
 #: coop/templates/coop/membershipresignation_detail.html:8
-#: coop/templates/coop/membershipresignation_detail.html:49
+#: coop/templates/coop/membershipresignation_detail.html:51
 #, fuzzy
-#| msgid "Credited member"
-msgid "Resigned member"
-msgstr "Empfangendes Mitglied"
+#| msgid "Membership confirmation"
+msgid "Membership resignation"
+msgstr "Mitgliedsbestätigung"
 
-#: coop/templates/coop/membershipresignation_detail.html:53
+#: coop/templates/coop/membershipresignation_detail.html:19
+#, fuzzy
+#| msgid "Confirm cancellation"
+msgid "Confirm cancellation of resignation"
+msgstr "Absage bestätigen"
+
+#: coop/templates/coop/membershipresignation_detail.html:28
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "                                            Filtered %(filtered_member_count)s of %(total_member_count)s\n"
+#| "                                        "
+msgid ""
+"\n"
+"                        Are you sure you want to\n"
+"                        cancel the resignation of %(member_name)s?\n"
+"                        The person's shares will be reactivated.\n"
+"                        "
+msgstr ""
+"\n"
+"                            %(filtered_member_count)s aus %(total_member_count)s gefilterte Mitglieder\n"
+"                            "
+
+#: coop/templates/coop/membershipresignation_detail.html:55
 #, fuzzy
 #| msgid "Edit shareowner"
 msgid "Share owner"
 msgstr "Mitglied bearbeiten"
 
-#: coop/templates/coop/membershipresignation_detail.html:59
+#: coop/templates/coop/membershipresignation_detail.html:61
 #, fuzzy
 #| msgid "Confirm cancellation"
 msgid "Cancellation reason"
 msgstr "Absage bestätigen"
 
-#: coop/templates/coop/membershipresignation_detail.html:63
+#: coop/templates/coop/membershipresignation_detail.html:65
 #, fuzzy
 #| msgid "Creation date"
 msgid "Cancellation date"
 msgstr "Erstellungsdatum"
 
-#: coop/templates/coop/membershipresignation_detail.html:68
+#: coop/templates/coop/membershipresignation_detail.html:70
 #, fuzzy
 #| msgid "Members"
 msgid "Membership ends"
 msgstr "Mitglieder"
 
-#: coop/templates/coop/membershipresignation_detail.html:73
+#: coop/templates/coop/membershipresignation_detail.html:75
 #, fuzzy
 #| msgid "Creation date"
 msgid "Resignation type"
 msgstr "Erstellungsdatum"
 
-#: coop/templates/coop/membershipresignation_detail.html:77
+#: coop/templates/coop/membershipresignation_detail.html:79
 #, fuzzy
 #| msgid "Paid"
 msgid "Paid out"
 msgstr "Bezahlt"
 
-#: coop/templates/coop/membershipresignation_detail.html:80
+#: coop/templates/coop/membershipresignation_detail.html:82
 #: coop/views/draftuser.py:286
 msgid "Yes"
 msgstr "Ja"
 
-#: coop/templates/coop/membershipresignation_detail.html:82
+#: coop/templates/coop/membershipresignation_detail.html:84
 #: coop/views/draftuser.py:286
 msgid "No"
 msgstr "Nein"
@@ -2336,42 +2367,42 @@ msgstr ""
 msgid "Edit membership pause: %(name)s"
 msgstr ""
 
-#: coop/views/membership_resignation.py:103
+#: coop/views/membership_resignation.py:105
 msgid "Share(s) gifted {chr(8594)} SuperCoop"
 msgstr ""
 
-#: coop/views/membership_resignation.py:109
+#: coop/views/membership_resignation.py:111
 #, fuzzy
 #| msgid "Shares requested"
 msgid "Share(s) gifted"
 msgstr "Angeforderte Anteile"
 
-#: coop/views/membership_resignation.py:129
+#: coop/views/membership_resignation.py:131
 #, fuzzy
 #| msgid "Search Members"
 msgid "Search member or ID"
 msgstr "Mitglieder suchen"
 
-#: coop/views/membership_resignation.py:135
+#: coop/views/membership_resignation.py:137
 #, fuzzy
 #| msgid "Cycle start date"
 msgid "Pay out start date"
 msgstr "Anfangsdatum"
 
-#: coop/views/membership_resignation.py:141
+#: coop/views/membership_resignation.py:143
 #, fuzzy
 #| msgid "without end date"
 msgid "Pay out end date"
 msgstr "ohne Endddatum"
 
-#: coop/views/membership_resignation.py:198
-#: coop/views/membership_resignation.py:203
+#: coop/views/membership_resignation.py:202
+#: coop/views/membership_resignation.py:207
 #, fuzzy, python-format
 #| msgid "Edit member: %(name)s"
 msgid "Cancel membership of %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: coop/views/membership_resignation.py:238
+#: coop/views/membership_resignation.py:245
 msgid "Resign a new membership"
 msgstr ""
 
@@ -5774,6 +5805,16 @@ msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass 
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
 
+#, fuzzy
+#~| msgid "List of all emails"
+#~ msgid "List of resigned members"
+#~ msgstr "Liste alle E-Mails"
+
+#, fuzzy
+#~| msgid "Credited member"
+#~ msgid "Resigned member"
+#~ msgstr "Empfangendes Mitglied"
+
 #~ msgid "Search"
 #~ msgstr "Suchen"
 
@@ -6053,9 +6094,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 
 #~ msgid "Inactive"
 #~ msgstr "Inaktiv"
-
-#~ msgid "List of shift exemptions"
-#~ msgstr "Liste der Schicht-Befreiungen"
 
 #~ msgid "User"
 #~ msgstr "Benutzer*in"
