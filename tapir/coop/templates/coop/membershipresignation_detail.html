@@ -5,7 +5,7 @@
 {% load core %}
 {% load accounts %}
 {% block title %}
-    {% translate "Resigned member" %}: {% get_display_name_for_viewer object.share_owner request.user %}
+    {% translate "Membership resignation" %}: {% get_display_name_for_viewer object.share_owner request.user %}
 {% endblock title %}
 {% block content %}
     <div class="modal fade"
@@ -16,7 +16,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Attention!</h5>
+                    <h5 class="modal-title">{% translate "Confirm cancellation of resignation" %}</h5>
                     <button type="button"
                             class="btn-close"
                             data-bs-dismiss="modal"
@@ -24,78 +24,80 @@
                 </div>
                 <div class="modal-body">
                     <p>
+                        {% get_display_name_for_viewer object.share_owner request.user as display_name %}
+                        {% blocktranslate with member_name=display_name %}
                         Are you sure you want to
-                        remove {{ object.share_owner.user.first_name }} {{ object.share_owner.user.last_name }} from the
-                    resigned members list and to reactivate the member? This cannot be undone!</strong>
-                </p>
-            </div>
-            <div class="modal-footer">
-                <form class="form-inline ms-3"
-                      method="post"
-                      action="{% url 'coop:membership_resignation_delete' object.pk %}">
-                    {% csrf_token %}
-                    <button type="submit" class="{% tapir_button_custom 'warning' %}">
-                        <span class="material-icons">mood</span>Reactivate
-                    </button>
-                </form>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        cancel the resignation of {{member_name}}?
+                        The person's shares will be reactivated.
+                        {% endblocktranslate %}
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <form class="form-inline ms-3"
+                          method="post"
+                          action="{% url 'coop:membership_resignation_delete' object.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="{% tapir_button_custom 'danger' %}">
+                            <span class="material-icons">cancel</span>Confirm cancel resignation
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="container">
-    <div class="card mb-2">
-        <h5 class="card-header">
-            {% translate "Resigned member" %}: {% get_display_name_for_viewer object.share_owner request.user %}
-        </h5>
-        <div class="card-body">
-            <div class="row m-1">
-                <div class="col-3 fw-bold text-end">{% translate "Share owner" %}:</div>
-                <div class="col-9" id="membership_resignation_share_owner">
-                    {% get_display_name_for_viewer object.share_owner request.user %}
-                </div>
-            </div>
-            <div class="row m-1">
-                <div class="col-3 fw-bold text-end">{% translate "Cancellation reason" %}:</div>
-                <div class="col-9" id="membership_resignation_cancellation_reason">{{ object.cancellation_reason }}</div>
-            </div>
-            <div class="row m-1">
-                <div class="col-3 fw-bold text-end">{% translate "Cancellation date" %}:</div>
-                <div class="col-9" id="membership_resignation_cancellation_date">{{ object.cancellation_date|date:"d.m.Y" }}</div>
-            </div>
-            {% if object.pay_out_day is not None %}
+    <div class="container">
+        <div class="card mb-2">
+            <h5 class="card-header">
+                {% translate "Membership resignation" %}: {% get_display_name_for_viewer object.share_owner request.user %}
+            </h5>
+            <div class="card-body">
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Membership ends" %}:</div>
-                    <div class="col-9" id="membership_resignation_cancellation_date">{{ object.pay_out_day|date:"d.m.Y" }}</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Share owner" %}:</div>
+                    <div class="col-9" id="membership_resignation_share_owner">
+                        {% get_display_name_for_viewer object.share_owner request.user %}
+                    </div>
                 </div>
-            {% endif %}
-            <div class="row m-1">
-                <div class="col-3 fw-bold text-end">{% translate "Resignation type" %}:</div>
-                <div class="col-9" id="resignation_type">{{ object.get_resignation_type_display }}</div>
-            </div>
-            <div class="row m-1">
-                <div class="col-3 fw-bold text-end">{% translate "Paid out" %}:</div>
-                <div class="col-9" id="membership_resignation_paid_out">
-                    {% if object.paid_out %}
-                        {% translate "Yes" %}
-                    {% else %}
-                        {% translate "No" %}
-                    {% endif %}
+                <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Cancellation reason" %}:</div>
+                    <div class="col-9" id="membership_resignation_cancellation_reason">{{ object.cancellation_reason }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Cancellation date" %}:</div>
+                    <div class="col-9" id="membership_resignation_cancellation_date">{{ object.cancellation_date|date:"d.m.Y" }}</div>
+                </div>
+                {% if object.pay_out_day is not None %}
+                    <div class="row m-1">
+                        <div class="col-3 fw-bold text-end">{% translate "Membership ends" %}:</div>
+                        <div class="col-9" id="membership_resignation_cancellation_date">{{ object.pay_out_day|date:"d.m.Y" }}</div>
+                    </div>
+                {% endif %}
+                <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Resignation type" %}:</div>
+                    <div class="col-9" id="resignation_type">{{ object.get_resignation_type_display }}</div>
+                </div>
+                <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Paid out" %}:</div>
+                    <div class="col-9" id="membership_resignation_paid_out">
+                        {% if object.paid_out %}
+                            {% translate "Yes" %}
+                        {% else %}
+                            {% translate "No" %}
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="card-footer d-flex justify-content-end gap-2">
+            <span class="{% tapir_button_custom 'danger' %}"
+                  data-bs-toggle="modal"
+                  data-bs-target="#confirmDeleteModal">
+                <span class="material-icons">cancel</span>Cancel resignation
+            </span>
+            <a class="{% tapir_button_link_to_action %}"
+               href="{% url 'coop:membership_resignation_edit' object.pk %}">
+                <span class="material-icons">edit</span>
+                {% translate "Edit" %}
+            </a>
+        </div>
     </div>
-    <div class="card-footer d-flex justify-content-end gap-2">
-        <span class="{% tapir_button_custom 'warning' %}"
-              data-bs-toggle="modal"
-              data-bs-target="#confirmDeleteModal">
-            <span class="material-icons">mood</span>Reactivate
-        </span>
-        <a class="{% tapir_button_link_to_action %}"
-           href="{% url 'coop:membership_resignation_edit' object.pk %}">
-            <span class="material-icons">edit</span>
-            {% translate "Edit" %}
-        </a>
-    </div>
-</div>
 {% endblock content %}

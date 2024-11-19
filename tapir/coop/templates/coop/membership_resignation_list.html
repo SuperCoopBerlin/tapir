@@ -9,7 +9,7 @@
 {% load coop %}
 {% load utils %}
 {% block title %}
-    {% translate "List of resigned members" %}
+    {% translate "List of membership resignations" %}
 {% endblock title %}
 {% block head %}
     {{ block.super }}
@@ -18,7 +18,7 @@
 {% block content %}
     <div class="card mb-2">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5>{% translate "List of resigned members" %} ({{ total_of_resigned_members }})</h5>
+            <h5>{% translate "List of membership resignations" %} ({{ total_of_resigned_members }})</h5>
             <div class="d-flex flex-wrap gap-2 justify-content-end">
                 <button type="button"
                         class="{% tapir_button_link %} btn dropdown-toggle"

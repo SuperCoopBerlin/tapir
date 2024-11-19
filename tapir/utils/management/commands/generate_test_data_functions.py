@@ -445,6 +445,7 @@ def clear_django_db():
         ProcessedPurchaseFiles,
         PurchaseBasket,
     ]
+    ShareOwnership.objects.update(transferred_from=None)
     for cls in classes:
         cls.objects.all().delete()
     TapirUser.objects.filter(is_staff=False).delete()
