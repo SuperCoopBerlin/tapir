@@ -1,5 +1,6 @@
 import datetime
 
+from dateutil.relativedelta import relativedelta
 from django.db import transaction
 
 from tapir.accounts.models import TapirUser
@@ -14,36 +15,41 @@ from tapir.utils.shortcuts import get_timezone_aware_datetime
 class MembershipResignationService:
     @staticmethod
     @transaction.atomic
-    def update_shifts_and_shares(resignation: MembershipResignation):
-        tapir_user: TapirUser = getattr(resignation.share_owner, "user", None)
-
+    def update_shifts_and_shares_and_pay_out_day(resignation: MembershipResignation):
         shares = ShareOwnership.objects.filter(share_owner=resignation.share_owner)
 
         match resignation.resignation_type:
             case MembershipResignation.ResignationType.BUY_BACK:
-                new_end_date = resignation.cancellation_date.replace(day=31, month=12)
-                new_end_date = new_end_date.replace(year=new_end_date.year + 3)
+                new_end_date = resignation.cancellation_date + relativedelta(
+                    years=+3, day=31, month=12
+                )
                 resignation.pay_out_day = new_end_date
                 resignation.save()
                 shares.update(end_date=new_end_date)
                 return
             case MembershipResignation.ResignationType.GIFT_TO_COOP:
+                resignation.pay_out_day = resignation.cancellation_date
+                resignation.save()
                 shares.update(end_date=resignation.cancellation_date)
             case MembershipResignation.ResignationType.TRANSFER:
+                shares.update(end_date=resignation.cancellation_date)
+                resignation.pay_out_day = resignation.cancellation_date
+                resignation.save()
                 shares_to_create = [
                     ShareOwnership(
                         share_owner=resignation.transferring_shares_to,
                         start_date=resignation.cancellation_date,
+                        transferred_from=share,
                     )
-                    for _ in shares
+                    for share in shares
                 ]
                 ShareOwnership.objects.bulk_create(shares_to_create)
-                shares.update(end_date=resignation.cancellation_date)
             case _:
                 raise ValueError(
                     f"Unknown resignation type: {resignation.resignation_type}"
                 )
 
+        tapir_user: TapirUser = getattr(resignation.share_owner, "user", None)
         if not tapir_user:
             return
 
@@ -58,9 +64,9 @@ class MembershipResignationService:
         )
 
         for attendance_template in ShiftAttendanceTemplate.objects.filter(
-            user=tapir_user
+            user=tapir_user,
         ):
-            attendance_template.cancel_attendances(start_date)
+            attendance_template.cancel_attendances(starting_from=start_date)
             attendance_template.delete()
 
         attendances = ShiftAttendance.objects.filter(
@@ -72,26 +78,22 @@ class MembershipResignationService:
 
     @staticmethod
     @transaction.atomic
-    def delete_end_dates(member: MembershipResignation):
-        ShareOwnership.objects.filter(share_owner=member.share_owner).update(
+    def delete_end_dates(resignation: MembershipResignation):
+        ShareOwnership.objects.filter(share_owner=resignation.share_owner).update(
             end_date=None
         )
 
     @staticmethod
-    def delete_shareowner_membershippauses(resignation: MembershipResignation):
+    def update_membership_pauses(resignation: MembershipResignation):
         for pause in MembershipPause.objects.filter(
             share_owner=resignation.share_owner
         ):
-            if pause.end_date is not None:
-                if resignation.pay_out_day is not None:
-                    if resignation.pay_out_day <= pause.end_date:
-                        pause.update(end_date=resignation.pay_out_day)
-                    elif pause.start_date > resignation.pay_out_day:
-                        pause.delete()
-                else:
-                    if resignation.cancellation_date <= pause.end_date:
-                        pause.update(end_date=resignation.cancellation_date)
-                    elif pause.start_date > resignation.cancellation_date:
-                        pause.delete()
-            else:
-                pause.update(end_date=resignation.cancellation_date)
+            if pause.start_date > resignation.pay_out_day:
+                pause.delete()
+                return
+
+            if pause.end_date is not None and pause.end_date <= resignation.pay_out_day:
+                return
+
+            pause.end_date = resignation.pay_out_day
+            pause.save()

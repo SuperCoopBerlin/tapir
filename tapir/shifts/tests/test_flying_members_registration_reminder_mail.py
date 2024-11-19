@@ -19,14 +19,14 @@ from tapir.shifts.services.shift_expectation_service import ShiftExpectationServ
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
-    TapirEmailTestBase,
+    TapirEmailTestMixin,
     mock_timezone_now,
     FeatureFlagTestMixin,
 )
 
 
 class TestAttendanceUpdateMemberOffice(
-    FeatureFlagTestMixin, TapirFactoryTestBase, TapirEmailTestBase
+    FeatureFlagTestMixin, TapirFactoryTestBase, TapirEmailTestMixin
 ):
     NOW = datetime.datetime(year=2024, month=6, day=15)
 

@@ -9,7 +9,7 @@
 {% load coop %}
 {% load utils %}
 {% block title %}
-    {% translate "List of resigned members" %}
+    {% translate "List of membership resignations" %}
 {% endblock title %}
 {% block head %}
     {{ block.super }}
@@ -18,7 +18,7 @@
 {% block content %}
     <div class="card mb-2">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h5>{% translate "List of resigned members" %} ({{ total_of_resigned_members }})</h5>
+            <h5>{% translate "List of membership resignations" %} ({{ total_of_resigned_members }})</h5>
             <div class="d-flex flex-wrap gap-2 justify-content-end">
                 <button type="button"
                         class="{% tapir_button_link %} btn dropdown-toggle"
@@ -31,7 +31,7 @@
                     {% endfor %}
                 </div>
                 <a class="{% tapir_button_link_to_action %}"
-                   href="{% url 'coop:resign_new_membership' %}">
+                   href="{% url 'coop:membership_resignation_create' %}">
                     <span class="material-icons">add_circle_outline</span>
                     {% translate "Resign new member" %}
                 </a>
@@ -56,7 +56,7 @@
                             <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
                         </button>
                         <a class="{% tapir_button_link %}"
-                           href="{% url 'coop:resigned_members_list' %}">
+                           href="{% url 'coop:membership_resignation_list' %}">
                             <span class="material-icons">clear</span>
                             {% translate "Clear all filters" %}
                         </a>
