@@ -87,6 +87,10 @@ body {
   align-items: center;
 }
 
+.tapir-btn > .material-icons {
+  font-size: 20px;
+}
+
 .tapir-tooltip-icon {
   font-size: 16px;
 }
