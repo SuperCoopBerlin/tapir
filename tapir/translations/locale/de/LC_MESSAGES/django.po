@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-19 15:24+0100\n"
+"POT-Creation-Date: 2024-11-19 15:41+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1941,9 +1941,9 @@ msgstr ""
 
 #: coop/templates/coop/member_management.html:36
 #, fuzzy
-#| msgid "Credited member"
-msgid "Resigned members"
-msgstr "Empfangendes Mitglied"
+#| msgid "Membership confirmation"
+msgid "Membership resignations"
+msgstr "Mitgliedsbestätigung"
 
 #: coop/templates/coop/member_management.html:42
 #: coop/templates/coop/member_management.html:51
@@ -5804,6 +5804,11 @@ msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass 
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy
+#~| msgid "Credited member"
+#~ msgid "Resigned members"
+#~ msgstr "Empfangendes Mitglied"
 
 #, fuzzy
 #~| msgid "List of all emails"
