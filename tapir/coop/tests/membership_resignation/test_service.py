@@ -18,6 +18,7 @@ from tapir.coop.tests.factories import (
 from tapir.shifts.models import (
     ShiftAttendance,
     ShiftAttendanceTemplate,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.utils.tests_utils import (
@@ -163,6 +164,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         )
 
         self.assertEqual(ShiftAttendanceTemplate.objects.count(), 0)
+        self.assertEqual(DeleteShiftAttendanceTemplateLogEntry.objects.count(), 1)
 
     def test_updateShifts_resigningMemberHasAttendancesBeforeResignationDate_attendancesNotUpdated(
         self,
