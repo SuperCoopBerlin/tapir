@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-20 12:51+0100\n"
+"POT-Creation-Date: 2024-11-20 13:14+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -4683,15 +4683,6 @@ msgstr ""
 "Hier könnt ihr den Fortschritt der Finanzierungskampagne verfolgen. Es werden sowohl weitere Anteile gezählt (alle Anteile, die über den Pflichtanteil hinaus gezeichnet werden) als auch Nachrangdarlehen. Der Zeitraum läuft vom 12.09.2023 - 09.12.2023. Was eine:r nicht schafft, schaffen viele!\n"
 "                                    "
 
-#: statistics/templates/statistics/main_statistics.html:179
-#: statistics/templates/statistics/state_distribution.html:9
-#: statistics/templates/statistics/state_distribution.html:19
-#: statistics/templates/statistics/state_distribution.html:36
-#, fuzzy
-#| msgid "Send me instructions!"
-msgid "State distribution"
-msgstr "Schickt mir eine Anleitung!"
-
 #: statistics/templates/statistics/shift_cancelling_rate.html:9
 #, fuzzy
 #| msgid "Shift attendance: %(name)s"
@@ -4710,6 +4701,14 @@ msgstr "Erstellungsdatum"
 #| msgid "Number of shares to create"
 msgid "Number of shifts by category"
 msgstr "Anzahl zu erstellender Anteile"
+
+#: statistics/templates/statistics/state_distribution.html:9
+#: statistics/templates/statistics/state_distribution.html:19
+#: statistics/templates/statistics/state_distribution.html:36
+#, fuzzy
+#| msgid "Send me instructions!"
+msgid "State distribution"
+msgstr "Schickt mir eine Anleitung!"
 
 #: statistics/templates/statistics/stats_for_marie.html:9
 #, fuzzy
