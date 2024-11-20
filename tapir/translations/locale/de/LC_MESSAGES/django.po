@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-20 11:20+0100\n"
+"POT-Creation-Date: 2024-11-20 12:08+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -98,7 +98,7 @@ msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
 #: accounts/models.py:128 accounts/models.py:134
-#: coop/views/membership_pause.py:74 shifts/views/exemptions.py:217
+#: coop/views/membership_pause.py:74 shifts/views/exemptions.py:214
 msgid "None"
 msgstr "Keine"
 
@@ -4444,26 +4444,26 @@ msgstr "Schicht-Anwesenheit: %(name)s"
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/exemptions.py:84
+#: shifts/views/exemptions.py:83
 msgid "Is covered by shift exemption: "
 msgstr "Ist durch Schicht-Befreiung abgedeckt: "
 
-#: shifts/views/exemptions.py:111 shifts/views/exemptions.py:161
+#: shifts/views/exemptions.py:108 shifts/views/exemptions.py:158
 #, python-format
 msgid "Shift exemption: %(name)s"
 msgstr "Schicht-Befreiung: %(name)s"
 
-#: shifts/views/exemptions.py:116
+#: shifts/views/exemptions.py:113
 #, python-format
 msgid "Create shift exemption for: %(link)s"
 msgstr "Erzeuge Schicht-Befreiung für: %(link)s"
 
-#: shifts/views/exemptions.py:166
+#: shifts/views/exemptions.py:163
 #, python-format
 msgid "Edit shift exemption for: %(link)s"
 msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 
-#: shifts/views/exemptions.py:298
+#: shifts/views/exemptions.py:295
 msgid "Shift exemption converted to membership pause."
 msgstr ""
 
