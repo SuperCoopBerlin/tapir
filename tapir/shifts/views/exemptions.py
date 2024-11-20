@@ -85,7 +85,6 @@ class CreateShiftExemptionView(
             )
             attendance.save()
 
-        ic("LA QUESTION")
         if ShiftExemption.must_unregister_from_abcd_shift(
             start_date=exemption.start_date, end_date=exemption.end_date
         ):
