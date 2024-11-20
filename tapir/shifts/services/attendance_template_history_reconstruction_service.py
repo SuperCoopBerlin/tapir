@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from django.utils import timezone
 from icecream import ic
 
@@ -7,11 +9,18 @@ from tapir.shifts.models import (
     CreateShiftAttendanceTemplateLogEntry,
     DeleteShiftAttendanceTemplateLogEntry,
     ShiftAttendance,
-    ShiftAttendanceTemplate,
+    ShiftSlotTemplate,
+    ShiftTemplate,
 )
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
+
+
+@dataclass
+class FakeAttendanceTemplate:
+    slot_template: ShiftSlotTemplate | None
+    shift_template: ShiftTemplate
 
 
 class AttendanceTemplateHistoryReconstructionService:
@@ -73,7 +82,7 @@ class AttendanceTemplateHistoryReconstructionService:
             .order_by("slot__shift__start_time")
             .last()
         )
-        fake_attendance_template = ShiftAttendanceTemplate()
+        fake_attendance_template = FakeAttendanceTemplate()
         if (
             hasattr(create_log_entry, "slot_template")
             and create_log_entry.slot_template
