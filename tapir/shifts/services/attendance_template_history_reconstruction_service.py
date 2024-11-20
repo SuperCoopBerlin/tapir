@@ -74,8 +74,12 @@ class AttendanceTemplateHistoryReconstructionService:
             .last()
         )
         fake_attendance_template = ShiftAttendanceTemplate()
-        fake_attendance_template.slot_template = create_log_entry.slot_template
-        if not fake_attendance_template.slot_template:
+        if (
+            hasattr(create_log_entry, "slot_template")
+            and create_log_entry.slot_template
+        ):
+            fake_attendance_template.slot_template = create_log_entry.slot_template
+        else:
             fake_attendance_template.slot_template = object()
             fake_attendance_template.slot_template.name = (
                 CreateShiftAttendanceTemplateLogEntry.slot_template_name
