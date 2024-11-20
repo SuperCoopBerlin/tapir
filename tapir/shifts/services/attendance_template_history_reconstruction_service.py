@@ -82,21 +82,21 @@ class AttendanceTemplateHistoryReconstructionService:
             .order_by("slot__shift__start_time")
             .last()
         )
-        fake_attendance_template = FakeAttendanceTemplate()
+
         if (
             hasattr(create_log_entry, "slot_template")
             and create_log_entry.slot_template
         ):
-            fake_attendance_template.slot_template = create_log_entry.slot_template
+            slot_template = create_log_entry.slot_template
         else:
-            fake_attendance_template.slot_template = object()
-            fake_attendance_template.slot_template.name = (
+            slot_template = ShiftSlotTemplate()
+            slot_template.name = (
                 CreateShiftAttendanceTemplateLogEntry.slot_template_name
             )
-            fake_attendance_template.slot_template.shift_template = (
-                create_log_entry.shift_template
-            )
-        fake_attendance_template.shift_template = create_log_entry.shift_template
+            slot_template.shift_template = create_log_entry.shift_template
+        fake_attendance_template = FakeAttendanceTemplate(
+            slot_template=slot_template, shift_template=create_log_entry.shift_template
+        )
         delete_log_entry = DeleteShiftAttendanceTemplateLogEntry().populate(
             actor=actor,
             tapir_user=create_log_entry.user,
