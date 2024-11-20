@@ -96,7 +96,7 @@ class SlotModificationService:
                     actor=None,
                     tapir_user=slot_template.attendance_template.user,
                     shift_attendance_template=slot_template.attendance_template,
-                    comment="Unregistered because of membership pause",
+                    comment="Unregistered because the slot got deleted",
                 ).save()
             slot_template.delete()
             return
