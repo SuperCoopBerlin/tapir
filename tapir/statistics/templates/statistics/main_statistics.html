@@ -175,10 +175,7 @@
                                 {% endif %}
                             </li>
                             {% for campaign in campaigns %}
-                                <li class="list-group-item">
-                                    {% translate "State distribution" as chart_name %}
-                                    {% on_demand_chart campaign.name "statistics:state_distribution_json" campaign.id %}
-                                </li>
+                                <li class="list-group-item">{% on_demand_chart campaign.name "statistics:financing_campaign_json" campaign.id %}</li>
                             {% endfor %}
                         </ul>
                     </div>
