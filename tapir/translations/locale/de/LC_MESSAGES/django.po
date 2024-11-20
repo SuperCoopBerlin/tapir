@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-20 13:14+0100\n"
+"POT-Creation-Date: 2024-11-20 16:41+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -5766,7 +5766,7 @@ msgstr ""
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:41
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:44
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s does not have a Tapir\n"
@@ -5774,35 +5774,34 @@ msgstr "Welcome Desk"
 msgid "%(name)s does not have a Tapir account. Contact a member of the management team."
 msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:44
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:47
 #, python-format
 msgid "%(name)s is an investing member. If they want to shop, they have to become an active member. Contact a member of the management team."
 msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss es ein aktives Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:48
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:51
 #, python-format
 msgid "%(name)s has been frozen because they missed too many shifts.If they want to shop, they must first be re-activated.Contact a member of the management team."
 msgstr ""
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:53
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:56
 #, python-format
 msgid "%(name)s has paused their membership. Contact a member of the management team."
 msgstr ""
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:56
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:59
 #, python-format
 msgid "%(name)s has is not a member of the cooperative. They may have transferred their shares to another member. Contact a member of the management team."
 msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie deren Anteile an ein anderes Mitglied übertragen. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/services/welcome_desk_warnings_service.py:25
-#, python-format
-msgid "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do it!"
-msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass er*sie es entsprechend einplant!"
-
-#: welcomedesk/services/welcome_desk_warnings_service.py:28
+#: welcomedesk/services/welcome_desk_warnings_service.py:34
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, python-format
+#~ msgid "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do it!"
+#~ msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass er*sie es entsprechend einplant!"
 
 #~ msgid "Shift system"
 #~ msgstr "Schichten"

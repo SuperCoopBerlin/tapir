@@ -95,7 +95,7 @@ class AttendanceTemplateHistoryReconstructionService2:
             actor=actor,
             tapir_user=create_log_entry.user,
             shift_attendance_template=fake_attendance_template,
-            comment="Reconstructed on 15.11.24",
+            comment="Reconstructed on 20.11.24",
         )
         if dry_run:
             ic(
