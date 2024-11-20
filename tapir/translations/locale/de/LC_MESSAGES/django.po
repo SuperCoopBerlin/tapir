@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-20 12:08+0100\n"
+"POT-Creation-Date: 2024-11-20 12:51+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -4412,7 +4412,7 @@ msgctxt "No shift partner"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templatetags/shifts.py:57 shifts/templatetags/shifts.py:161
+#: shifts/templatetags/shifts.py:61 shifts/templatetags/shifts.py:165
 #: shifts/views/views.py:144
 msgid "General"
 msgstr "Allgemein"
@@ -4635,7 +4635,7 @@ msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:118
 #: statistics/templates/statistics/main_statistics.html:129
-#: statistics/views/main_view.py:380
+#: statistics/views/main_view.py:385
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
@@ -4766,15 +4766,15 @@ msgstr "Entwicklung der Gesamtausgaben pro Monat"
 msgid "Total spends per month"
 msgstr "Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:380
+#: statistics/views/main_view.py:385
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views/main_view.py:398
+#: statistics/views/main_view.py:403
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views/main_view.py:550
+#: statistics/views/main_view.py:555
 msgid "Purchase data updated"
 msgstr "Kaufdaten aktualisiert"
 
