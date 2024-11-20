@@ -74,9 +74,6 @@ class AttendanceTemplateHistoryReconstructionService:
             .last()
         )
         fake_attendance_template = ShiftAttendanceTemplate()
-        fake_attendance_template.slot_template_name = (
-            create_log_entry.slot_template.name
-        )
         fake_attendance_template.slot_template = create_log_entry.slot_template
         fake_attendance_template.shift_template = (
             create_log_entry.slot_template.shift_template
