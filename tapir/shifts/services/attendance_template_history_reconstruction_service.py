@@ -78,12 +78,14 @@ class AttendanceTemplateHistoryReconstructionService:
             fake_time = last_log_entry.created_date
 
         fake_attendance_template = ShiftAttendanceTemplate()
+        fake_slot_template = False
         if (
             hasattr(create_log_entry, "slot_template")
             and create_log_entry.slot_template
         ):
             fake_attendance_template.slot_template = create_log_entry.slot_template
         else:
+            fake_slot_template = True
             fake_attendance_template.slot_template = ShiftSlotTemplate()
             fake_attendance_template.slot_template.name = (
                 CreateShiftAttendanceTemplateLogEntry.slot_template_name
@@ -97,6 +99,8 @@ class AttendanceTemplateHistoryReconstructionService:
             shift_attendance_template=fake_attendance_template,
             comment="Reconstructed on 20.11.24",
         )
+        if fake_slot_template:
+            delete_log_entry.slot_template = None
         if dry_run:
             ic(
                 "Would create",
