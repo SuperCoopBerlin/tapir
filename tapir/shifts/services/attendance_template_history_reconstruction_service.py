@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 from django.utils import timezone
 from icecream import ic
 
@@ -8,22 +6,16 @@ from tapir.shifts.models import (
     ShiftUserData,
     CreateShiftAttendanceTemplateLogEntry,
     DeleteShiftAttendanceTemplateLogEntry,
-    ShiftAttendance,
     ShiftSlotTemplate,
-    ShiftTemplate,
+    ShiftAttendanceTemplate,
+    UpdateShiftAttendanceStateLogEntry,
 )
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
 
 
-@dataclass
-class FakeAttendanceTemplate:
-    slot_template: ShiftSlotTemplate | None
-    shift_template: ShiftTemplate
-
-
-class AttendanceTemplateHistoryReconstructionService:
+class AttendanceTemplateHistoryReconstructionService2:
     @classmethod
     def reconstruct(cls, actor: TapirUser, dry_run=True):
         shift_user_datas = ShiftAttendanceModeService._annotate_queryset_with_has_abcd_attendance_at_datetime(
@@ -73,30 +65,32 @@ class AttendanceTemplateHistoryReconstructionService:
         actor: TapirUser,
         dry_run: bool,
     ):
-        last_done_attendance = (
-            ShiftAttendance.objects.filter(
+        last_log_entry = (
+            UpdateShiftAttendanceStateLogEntry.objects.filter(
                 user=create_log_entry.user,
-                slot__shift__shift_template=create_log_entry.shift_template,
-                state=ShiftAttendance.State.DONE,
+                shift__shift_template=create_log_entry.shift_template,
             )
-            .order_by("slot__shift__start_time")
+            .order_by("created_date")
             .last()
         )
+        fake_time = create_log_entry.created_date
+        if last_log_entry:
+            fake_time = last_log_entry.created_date
 
+        fake_attendance_template = ShiftAttendanceTemplate()
         if (
             hasattr(create_log_entry, "slot_template")
             and create_log_entry.slot_template
         ):
-            slot_template = create_log_entry.slot_template
+            fake_attendance_template.slot_template = create_log_entry.slot_template
         else:
-            slot_template = ShiftSlotTemplate()
-            slot_template.name = (
+            fake_attendance_template.slot_template = ShiftSlotTemplate()
+            fake_attendance_template.slot_template.name = (
                 CreateShiftAttendanceTemplateLogEntry.slot_template_name
             )
-            slot_template.shift_template = create_log_entry.shift_template
-        fake_attendance_template = FakeAttendanceTemplate(
-            slot_template=slot_template, shift_template=create_log_entry.shift_template
-        )
+            fake_attendance_template.slot_template.shift_template = (
+                create_log_entry.shift_template
+            )
         delete_log_entry = DeleteShiftAttendanceTemplateLogEntry().populate(
             actor=actor,
             tapir_user=create_log_entry.user,
@@ -104,8 +98,14 @@ class AttendanceTemplateHistoryReconstructionService:
             comment="Reconstructed on 15.11.24",
         )
         if dry_run:
-            ic("Would create", delete_log_entry)
+            ic(
+                "Would create",
+                delete_log_entry,
+                delete_log_entry.user,
+                delete_log_entry.shift_template,
+                fake_time,
+            )
             return
         delete_log_entry.save()
-        delete_log_entry.created_date = last_done_attendance.slot.shift.end_time
+        delete_log_entry.created_date = fake_time
         delete_log_entry.save()
