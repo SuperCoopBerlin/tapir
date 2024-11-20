@@ -128,9 +128,9 @@ class ShiftAttendanceModeService:
         return queryset.annotate(**annotate_kwargs)
 
     @classmethod
-    def annotate_share_owner_queryset_with_attendance_mode_at_date(
-        cls, queryset: QuerySet, at_date: datetime.date = None
+    def annotate_share_owner_queryset_with_attendance_mode_at_datetime(
+        cls, queryset: QuerySet, at_datetime: datetime.datetime = None
     ):
         return cls.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
-            queryset, at_date, "user__shift_user_data"
+            queryset, at_datetime, "user__shift_user_data"
         )

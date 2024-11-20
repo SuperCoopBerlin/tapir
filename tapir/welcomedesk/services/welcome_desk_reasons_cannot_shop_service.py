@@ -22,8 +22,8 @@ class WelcomeDeskReasonsCannotShopService:
         queryset = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
             queryset, reference_time
         )
-        queryset = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_date(
-            queryset, reference_date
+        queryset = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_datetime(
+            queryset, reference_time
         )
         queryset = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(

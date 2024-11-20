@@ -41,6 +41,7 @@ from tapir.shifts.models import (
     ShiftUserCapability,
     ShiftCycleEntry,
     ShiftAttendanceMode,
+    CreateShiftAttendanceTemplateLogEntry,
 )
 from tapir.statistics.models import ProcessedPurchaseFiles, PurchaseBasket
 from tapir.utils.json_user import JsonUser
@@ -251,6 +252,7 @@ def generate_test_users():
         tapir_user = tapir_users[index]
 
         random_templates = random.choices(shift_templates, k=10)
+        log_entries = []
         for shift_template in random_templates:
             attendance_template_created = False
 
@@ -258,8 +260,17 @@ def generate_test_users():
                 # Attend the first one fit for this user.
                 if not free_slot.user_can_attend(tapir_user):
                     continue
-                ShiftAttendanceTemplate.objects.create(
+                attendance_template = ShiftAttendanceTemplate.objects.create(
                     user=tapir_user, slot_template=free_slot
+                )
+                log_entries.append(
+                    CreateShiftAttendanceTemplateLogEntry()
+                    .populate(
+                        actor=None,
+                        tapir_user=tapir_user,
+                        shift_attendance_template=attendance_template,
+                    )
+                    .save()
                 )
                 free_slot.update_future_slot_attendances(SHIFT_GENERATION_START)
                 attendance_template_created = True
