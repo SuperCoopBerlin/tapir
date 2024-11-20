@@ -1,7 +1,7 @@
 import datetime
 
-from django.contrib.auth.models import User
 from dateutil.relativedelta import relativedelta
+from django.contrib.auth.models import User
 from django.db import transaction
 
 from tapir.accounts.models import TapirUser
@@ -17,7 +17,9 @@ from tapir.utils.shortcuts import get_timezone_aware_datetime
 class MembershipResignationService:
     @staticmethod
     @transaction.atomic
-    def update_shifts_and_shares_and_pay_out_day(resignation: MembershipResignation):
+    def update_shifts_and_shares_and_pay_out_day(
+        resignation: MembershipResignation, actor: TapirUser | User
+    ):
         shares = ShareOwnership.objects.filter(share_owner=resignation.share_owner)
 
         match resignation.resignation_type:
@@ -56,7 +58,7 @@ class MembershipResignationService:
             return
 
         MembershipResignationService.update_shifts(
-            tapir_user=tapir_user, resignation=resignation
+            tapir_user=tapir_user, resignation=resignation, actor=actor
         )
 
     @staticmethod
@@ -77,7 +79,7 @@ class MembershipResignationService:
                 actor=actor,
                 tapir_user=tapir_user,
                 shift_attendance_template=attendance_template,
-                comment="Unregistered because of membership pause",
+                comment="Unregistered because of membership resignation",
             ).save()
             attendance_template.delete()
 
