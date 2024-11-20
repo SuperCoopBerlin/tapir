@@ -17,10 +17,10 @@ from tapir.coop.models import (
     DraftUser,
 )
 from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
-class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestBase):
+class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestMixin):
     VIEW_NAME = "coop:draftuser_create_share_owner"
     USER_EMAIL_ADDRESS = "test_address@test.net"
 

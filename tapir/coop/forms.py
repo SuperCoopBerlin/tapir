@@ -1,4 +1,3 @@
-from dateutil.relativedelta import relativedelta
 from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import DateField, IntegerField
@@ -289,29 +288,25 @@ class MembershipResignationForm(forms.ModelForm):
         cleaned_data = super().clean()
         share_owner: ShareOwner = cleaned_data.get("share_owner")
         resignation_type = cleaned_data.get("resignation_type")
-        cancellation_date = cleaned_data.get("cancellation_date")
         transferring_shares_to = cleaned_data.get("transferring_shares_to")
         paid_out = cleaned_data.get("paid_out")
 
         self.validate_share_owner(share_owner)
         self.validate_transfer_choice(resignation_type, transferring_shares_to)
-        self.validate_duplicates(share_owner, transferring_shares_to)
-        self.validate_if_gifted(resignation_type, paid_out)
-
-        if resignation_type == MembershipResignation.ResignationType.BUY_BACK:
-            self.cleaned_data["pay_out_day"] = cancellation_date + relativedelta(
-                day=31, month=12, years=3
-            )
-        else:
-            self.cleaned_data["pay_out_day"] = cancellation_date
-            self.cleaned_data["paid_out"] = True
+        self.validate_gifting_member_and_receiving_member_are_not_the_same(
+            share_owner, transferring_shares_to
+        )
+        self.validate_paid_out(resignation_type, paid_out)
 
         return cleaned_data
 
     def validate_share_owner(self, share_owner):
-        if MembershipResignation.objects.filter(
-            share_owner__id=share_owner.id
-        ).exists():
+        if (
+            self.instance.pk is None
+            and MembershipResignation.objects.filter(
+                share_owner__id=share_owner.id
+            ).exists()
+        ):
             self.add_error(
                 "share_owner",
                 ValidationError(_("This member is already resigned.")),
@@ -344,7 +339,9 @@ class MembershipResignationForm(forms.ModelForm):
                 ),
             )
 
-    def validate_duplicates(self, share_owner, transferring_shares_to):
+    def validate_gifting_member_and_receiving_member_are_not_the_same(
+        self, share_owner, transferring_shares_to
+    ):
         if transferring_shares_to == share_owner:
             self.add_error(
                 "transferring_shares_to",
@@ -355,15 +352,12 @@ class MembershipResignationForm(forms.ModelForm):
                 ),
             )
 
-    def validate_if_gifted(self, resignation_type, paid_out):
-        if paid_out and (
-            resignation_type
-            in [
-                MembershipResignation.ResignationType.TRANSFER,
-                MembershipResignation.ResignationType.GIFT_TO_COOP,
-            ]
-        ):
-            self.add_error(
-                "paid_out",
-                ValidationError(_("Cannot pay out, because shares have been gifted.")),
-            )
+    def validate_paid_out(self, resignation_type, paid_out):
+        if resignation_type == MembershipResignation.ResignationType.BUY_BACK:
+            return
+        if not paid_out:
+            return
+        self.add_error(
+            "paid_out",
+            ValidationError(_("Cannot pay out, because shares have been gifted.")),
+        )

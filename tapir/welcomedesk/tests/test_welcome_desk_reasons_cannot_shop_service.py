@@ -2,6 +2,7 @@ import datetime
 from unittest.mock import patch, Mock
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.coop.models import MemberStatus
 from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.coop.tests.factories import ShareOwnerFactory
@@ -134,6 +135,35 @@ class TestWelcomeDeskReasonsCannotShopService(TapirFactoryTestBase):
         )
         mock_has_active_pause.assert_called_once_with(share_owner, reference_date)
 
+    def test_shouldShowNotAMemberReason_isAMember_returnsFalse(self):
+        share_owner = Mock()
+        share_owner.get_member_status = Mock()
+        share_owner.get_member_status.return_value = MemberStatus.ACTIVE
+        reference_time = datetime.datetime.now()
+
+        self.assertFalse(
+            WelcomeDeskReasonsCannotShopService.should_show_not_a_member_reason(
+                share_owner, reference_time
+            )
+        )
+        share_owner.get_member_status.assert_called_once_with(reference_time)
+
+    def test_shouldShowNotAMemberReason_isNotAMember_returnsFalse(self):
+        share_owner = Mock()
+        share_owner.get_member_status = Mock()
+        share_owner.get_member_status.return_value = MemberStatus.SOLD
+        reference_time = datetime.datetime.now()
+
+        self.assertTrue(
+            WelcomeDeskReasonsCannotShopService.should_show_not_a_member_reason(
+                share_owner, reference_time
+            )
+        )
+        share_owner.get_member_status.assert_called_once_with(reference_time)
+
+    @patch.object(
+        WelcomeDeskReasonsCannotShopService, "should_show_not_a_member_reason"
+    )
     @patch.object(WelcomeDeskReasonsCannotShopService, "should_show_no_account_reason")
     @patch.object(WelcomeDeskReasonsCannotShopService, "should_show_investing_reason")
     @patch.object(WelcomeDeskReasonsCannotShopService, "should_show_frozen_reason")
@@ -150,7 +180,7 @@ class TestWelcomeDeskReasonsCannotShopService(TapirFactoryTestBase):
             share_owner, request_user, reference_time, reference_date
         )
 
-        self.assertEqual(4, len(reasons))
+        self.assertEqual(5, len(reasons))
         for mock in mocks:
             mock.assert_called_once_with(
                 share_owner=share_owner,
