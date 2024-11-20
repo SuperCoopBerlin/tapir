@@ -216,7 +216,7 @@ class MembershipResignationEditView(
             result = super().form_valid(form)
             membership_resignation: MembershipResignation = form.instance
             MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
-                resignation=membership_resignation
+                resignation=membership_resignation, actor=self.request.user
             )
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
@@ -251,7 +251,7 @@ class MembershipResignationCreateView(
         result = super().form_valid(form)
         membership_resignation: MembershipResignation = form.instance
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
-            resignation=membership_resignation
+            resignation=membership_resignation, actor=self.request.user
         )
         MembershipResignationService.update_membership_pauses(membership_resignation)
         MembershipResignationCreateLogEntry().populate(

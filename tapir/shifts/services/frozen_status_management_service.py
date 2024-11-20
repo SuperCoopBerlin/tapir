@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.models import User
 from django.db import transaction
 from django.utils import timezone
 
@@ -21,14 +22,15 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAccountEntry,
     ShiftAttendance,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 
 
-class FrozenStatusService:
+class FrozenStatusManagementService:
     @classmethod
     def should_freeze_member(cls, shift_user_data: ShiftUserData) -> bool:
-        if shift_user_data.attendance_mode == ShiftAttendanceMode.FROZEN:
+        if shift_user_data.is_frozen:
             return False
 
         if not ShiftExpectationService.is_member_expected_to_do_shifts(
@@ -78,23 +80,31 @@ class FrozenStatusService:
 
     @classmethod
     def freeze_member_and_send_email(
-        cls, shift_user_data: ShiftUserData, actor: TapirUser | None
+        cls, shift_user_data: ShiftUserData, actor: TapirUser | User | None
     ):
         with transaction.atomic():
-            cls._update_attendance_mode_and_create_log_entry(
-                shift_user_data, actor, ShiftAttendanceMode.FROZEN
-            )
+            cls._update_frozen_status_and_create_log_entry(shift_user_data, actor, True)
             cls._cancel_future_attendances_templates(shift_user_data)
-            ShiftAttendanceTemplate.objects.filter(user=shift_user_data.user).delete()
+            attendance_templates_to_delete = ShiftAttendanceTemplate.objects.filter(
+                user=shift_user_data.user
+            )
+            for attendance_template in attendance_templates_to_delete:
+                DeleteShiftAttendanceTemplateLogEntry().populate(
+                    actor=actor,
+                    tapir_user=shift_user_data.user,
+                    shift_attendance_template=attendance_template,
+                    comment="Unregistered because frozen",
+                ).save()
+            attendance_templates_to_delete.delete()
         email = MemberFrozenEmail()
         email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
 
     @staticmethod
-    def _update_attendance_mode_and_create_log_entry(
-        shift_user_data: ShiftUserData, actor: TapirUser | None, attendance_mode: str
+    def _update_frozen_status_and_create_log_entry(
+        shift_user_data: ShiftUserData, actor: TapirUser | User | None, is_frozen: bool
     ):
         old_data = freeze_for_log(shift_user_data)
-        shift_user_data.attendance_mode = attendance_mode
+        shift_user_data.is_frozen = is_frozen
         new_data = freeze_for_log(shift_user_data)
         shift_user_data.save()
         if old_data != new_data:
@@ -111,7 +121,6 @@ class FrozenStatusService:
             user=shift_user_data.user
         ):
             attendance_template.cancel_attendances(timezone.now())
-            attendance_template.delete()
 
     @classmethod
     def should_send_freeze_warning(cls, shift_user_data: ShiftUserData):
@@ -146,7 +155,7 @@ class FrozenStatusService:
 
     @classmethod
     def should_unfreeze_member(cls, shift_user_data: ShiftUserData):
-        if shift_user_data.attendance_mode != ShiftAttendanceMode.FROZEN:
+        if not shift_user_data.is_frozen:
             return False
 
         if not shift_user_data.user.share_owner.is_active():
@@ -163,12 +172,10 @@ class FrozenStatusService:
     def unfreeze_and_send_notification_email(
         cls, shift_user_data: ShiftUserData, actor: None | TapirUser = None
     ):
-        cls._update_attendance_mode_and_create_log_entry(
+        cls._update_frozen_status_and_create_log_entry(
             shift_user_data=shift_user_data,
             actor=actor,
-            attendance_mode=cls._get_last_attendance_mode_before_frozen(
-                shift_user_data
-            ),
+            is_frozen=False,
         )
         email = UnfreezeNotificationEmail()
         email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-19 15:41+0100\n"
+"POT-Creation-Date: 2024-11-20 12:08+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -98,7 +98,7 @@ msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
 #: accounts/models.py:128 accounts/models.py:134
-#: coop/views/membership_pause.py:74 shifts/views/exemptions.py:198
+#: coop/views/membership_pause.py:74 shifts/views/exemptions.py:214
 msgid "None"
 msgstr "Keine"
 
@@ -2242,14 +2242,14 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:56
-#: shifts/models.py:924 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:945 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:272
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
-#: shifts/models.py:923
+#: shifts/models.py:944
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -2362,7 +2362,7 @@ msgstr ""
 msgid "Create a new membership pause"
 msgstr ""
 
-#: coop/views/membership_pause.py:171 coop/views/membership_pause.py:176
+#: coop/views/membership_pause.py:173 coop/views/membership_pause.py:178
 #, python-format
 msgid "Edit membership pause: %(name)s"
 msgstr ""
@@ -2588,8 +2588,8 @@ msgstr ""
 msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
-#: core/templates/core/email_list.html:39 shifts/models.py:497
-#: shifts/models.py:1066 shifts/templates/shifts/user_shift_account_log.html:29
+#: core/templates/core/email_list.html:39 shifts/models.py:513
+#: shifts/models.py:1083 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -3016,16 +3016,16 @@ msgstr "Mir ist klar, dass ich möglicherweise in großer Höhe arbeiten muss, z
 msgid "This determines from which date shifts should be generated from this ABCD shift."
 msgstr ""
 
-#: shifts/models.py:189 shifts/models.py:505
+#: shifts/models.py:189 shifts/models.py:521
 #: shifts/templates/shifts/shift_block_tag.html:9
 msgid "Flexible time"
 msgstr ""
 
-#: shifts/models.py:191 shifts/models.py:507
+#: shifts/models.py:191 shifts/models.py:523
 msgid "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
 msgstr ""
 
-#: shifts/models.py:417 shifts/models.py:815
+#: shifts/models.py:417 shifts/models.py:836
 #: shifts/templates/shifts/shift_detail.html:86
 #: shifts/templates/shifts/shift_template_detail.html:42
 msgid "Chosen time"
@@ -3035,66 +3035,66 @@ msgstr ""
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come.Setting or updating this field will set the time for all individual shifts generated from this ABCD shift.You can update the time of a single shift individually and at any time on the shift page."
 msgstr ""
 
-#: shifts/models.py:487
+#: shifts/models.py:503
 msgid "Number of required attendances"
 msgstr "Anzahl notwendiger Teilnehmender"
 
-#: shifts/models.py:489
+#: shifts/models.py:505
 msgid "If there are less members registered to a shift than that number, it will be highlighted in the shift calendar."
 msgstr ""
 
-#: shifts/models.py:498
+#: shifts/models.py:514
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:518 shifts/models.py:524
+#: shifts/models.py:534 shifts/models.py:540
 msgid "If 'flexible time' is enabled, then the time component is ignored"
 msgstr ""
 
-#: shifts/models.py:817
+#: shifts/models.py:838
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
 msgstr ""
 
-#: shifts/models.py:925 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:946 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:282
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:926 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:947 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:312
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:927 shifts/templates/shifts/shift_detail.html:320
+#: shifts/models.py:948 shifts/templates/shifts/shift_detail.html:320
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:928 shifts/templates/shifts/shift_day_printable.html:97
+#: shifts/models.py:949 shifts/templates/shifts/shift_day_printable.html:97
 #: shifts/templates/shifts/shift_detail.html:304
 #: shifts/templates/shifts/shift_detail_printable.html:94
 #: shifts/templates/shifts/shift_filters.html:83
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:981
+#: shifts/models.py:982
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:982
+#: shifts/models.py:983
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:983
+#: shifts/models.py:984
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:986
-msgid "Shift system"
-msgstr "Schichten"
+#: shifts/models.py:1015
+msgid "Is frozen"
+msgstr ""
 
-#: shifts/models.py:1172
+#: shifts/models.py:1189
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -4413,7 +4413,7 @@ msgid "None"
 msgstr "Keine"
 
 #: shifts/templatetags/shifts.py:57 shifts/templatetags/shifts.py:161
-#: shifts/views/views.py:153
+#: shifts/views/views.py:144
 msgid "General"
 msgstr "Allgemein"
 
@@ -4422,48 +4422,48 @@ msgstr "Allgemein"
 msgid "Unknown mode {attendance_mode}"
 msgstr ""
 
-#: shifts/views/attendance.py:193 shifts/views/attendance.py:334
+#: shifts/views/attendance.py:194 shifts/views/attendance.py:336
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:199 shifts/views/attendance.py:340
+#: shifts/views/attendance.py:200 shifts/views/attendance.py:342
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/attendance.py:374
+#: shifts/views/attendance.py:376
 #, fuzzy, python-format
 #| msgid "Shift attendance: %(name)s"
 msgid "ABCD attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:381
+#: shifts/views/attendance.py:383
 #, fuzzy, python-format
 #| msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/exemptions.py:79
+#: shifts/views/exemptions.py:83
 msgid "Is covered by shift exemption: "
 msgstr "Ist durch Schicht-Befreiung abgedeckt: "
 
-#: shifts/views/exemptions.py:94 shifts/views/exemptions.py:142
+#: shifts/views/exemptions.py:108 shifts/views/exemptions.py:158
 #, python-format
 msgid "Shift exemption: %(name)s"
 msgstr "Schicht-Befreiung: %(name)s"
 
-#: shifts/views/exemptions.py:99
+#: shifts/views/exemptions.py:113
 #, python-format
 msgid "Create shift exemption for: %(link)s"
 msgstr "Erzeuge Schicht-Befreiung für: %(link)s"
 
-#: shifts/views/exemptions.py:147
+#: shifts/views/exemptions.py:163
 #, python-format
 msgid "Edit shift exemption for: %(link)s"
 msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 
-#: shifts/views/exemptions.py:279
+#: shifts/views/exemptions.py:295
 msgid "Shift exemption converted to membership pause."
 msgstr ""
 
@@ -4509,23 +4509,23 @@ msgstr "Es konnte keine vollendete Schicht gefunden werden, die als Solidarität
 msgid "Solidarity Shift given. Account Balance debited with -1."
 msgstr "Die Solidaritätsschicht wurde vergeben. Von deinem Kontostand wird nun eine Schicht abgezogen."
 
-#: shifts/views/views.py:133 shifts/views/views.py:138
+#: shifts/views/views.py:124 shifts/views/views.py:129
 #, python-format
 msgid "Edit user shift data: %(name)s"
 msgstr "Bearbeite Nutzer*in-Schichtdaten: %(name)s"
 
-#: shifts/views/views.py:206
+#: shifts/views/views.py:197
 #, python-format
 msgid "Shift account: %(name)s"
 msgstr "Schichtkonto-Protokoll für: %(name)s"
 
-#: shifts/views/views.py:212
+#: shifts/views/views.py:203
 #, fuzzy, python-format
 #| msgid "Create manual shift account entry for:  %(link)s"
 msgid "Create manual shift account entry for: %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:363
+#: shifts/views/views.py:354
 msgid "Frozen statuses updated."
 msgstr ""
 
@@ -5767,7 +5767,7 @@ msgstr ""
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:39
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:41
 #, fuzzy, python-format
 #| msgid ""
 #| "%(name)s does not have a Tapir\n"
@@ -5775,22 +5775,22 @@ msgstr "Welcome Desk"
 msgid "%(name)s does not have a Tapir account. Contact a member of the management team."
 msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:42
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:44
 #, python-format
 msgid "%(name)s is an investing member. If they want to shop, they have to become an active member. Contact a member of the management team."
 msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss es ein aktives Mitglied werden. Kontaktiere eine Person aus dem Vorstand."
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:46
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:48
 #, python-format
 msgid "%(name)s has been frozen because they missed too many shifts.If they want to shop, they must first be re-activated.Contact a member of the management team."
 msgstr ""
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:51
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:53
 #, python-format
 msgid "%(name)s has paused their membership. Contact a member of the management team."
 msgstr ""
 
-#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:54
+#: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:56
 #, python-format
 msgid "%(name)s has is not a member of the cooperative. They may have transferred their shares to another member. Contact a member of the management team."
 msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie deren Anteile an ein anderes Mitglied übertragen. Kontaktiere eine Person aus dem Vorstand."
@@ -5804,6 +5804,9 @@ msgstr "%(name)s is noch zu keiner ABCD Schicht angemeldet. Stelle sicher, dass 
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#~ msgid "Shift system"
+#~ msgstr "Schichten"
 
 #, fuzzy
 #~| msgid "Credited member"

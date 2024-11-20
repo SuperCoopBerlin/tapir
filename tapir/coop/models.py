@@ -402,7 +402,7 @@ class UpdateShareOwnerLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         share_owner: ShareOwner,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -652,7 +652,7 @@ class CreatePaymentLogEntry(LogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         share_owner: ShareOwner,
         amount: float,
         payment_date: datetime.date,
@@ -670,7 +670,7 @@ class UpdateIncomingPaymentLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         share_owner: ShareOwner,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -768,7 +768,7 @@ class MembershipPauseCreatedLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         pause: MembershipPause,
     ):
         return super().populate_base(
@@ -795,7 +795,7 @@ class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         pause: MembershipPause,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             actor=actor,
@@ -856,7 +856,7 @@ class MembershipResignationCreateLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         model: MembershipResignation,
     ):
         return super().populate_base(
@@ -872,7 +872,7 @@ class MembershipResignationUpdateLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         model: MembershipResignation,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             actor=actor,

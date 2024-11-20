@@ -125,7 +125,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         shift_user_datas = ShiftUserData.objects.filter(
             user__share_owner__in=share_owners
         )
-        shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_date(
+        shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
             shift_user_datas, date
         )
         shift_user_datas = {

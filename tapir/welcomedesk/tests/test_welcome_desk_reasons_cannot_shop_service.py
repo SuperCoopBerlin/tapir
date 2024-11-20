@@ -6,9 +6,8 @@ from tapir.coop.models import MemberStatus
 from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.shifts.models import ShiftAttendanceMode
-from tapir.shifts.services.shift_attendance_mode_service import (
-    ShiftAttendanceModeService,
+from tapir.shifts.services.frozen_status_history_service import (
+    FrozenStatusHistoryService,
 )
 from tapir.utils.tests_utils import TapirFactoryTestBase
 from tapir.welcomedesk.services.welcome_desk_reasons_cannot_shop_service import (
@@ -68,38 +67,42 @@ class TestWelcomeDeskReasonsCannotShopService(TapirFactoryTestBase):
         )
         mock_is_investing.assert_called_once_with(share_owner, reference_time)
 
-    @patch.object(ShiftAttendanceModeService, "get_attendance_mode")
+    @patch.object(FrozenStatusHistoryService, "is_frozen_at_datetime")
     def test_shouldShowFrozenReason_memberIsFrozen_returnsTrue(
-        self, mock_get_attendance_mode: Mock
+        self, mock_is_frozen_at_datetime: Mock
     ):
-        tapir_user = TapirUserFactory.build()
+        share_owner = Mock()
+        shift_user_data = Mock()
+        share_owner.user.shift_user_data = shift_user_data
         reference_date = datetime.datetime.today()
-        mock_get_attendance_mode.return_value = ShiftAttendanceMode.FROZEN
+        mock_is_frozen_at_datetime.return_value = True
 
         self.assertTrue(
             WelcomeDeskReasonsCannotShopService.should_show_frozen_reason(
-                tapir_user.share_owner, reference_date
+                share_owner, reference_date
             )
         )
-        mock_get_attendance_mode.assert_called_once_with(
-            tapir_user.share_owner, reference_date
+        mock_is_frozen_at_datetime.assert_called_once_with(
+            shift_user_data, reference_date
         )
 
-    @patch.object(ShiftAttendanceModeService, "get_attendance_mode")
+    @patch.object(FrozenStatusHistoryService, "is_frozen_at_datetime")
     def test_shouldShowFrozenReason_memberIsNotFrozen_returnsFalse(
-        self, mock_get_attendance_mode: Mock
+        self, mock_is_frozen_at_datetime: Mock
     ):
-        tapir_user = TapirUserFactory.build()
+        share_owner = Mock()
+        shift_user_data = Mock()
+        share_owner.user.shift_user_data = shift_user_data
         reference_date = datetime.datetime.today()
-        mock_get_attendance_mode.return_value = ShiftAttendanceMode.REGULAR
+        mock_is_frozen_at_datetime.return_value = False
 
         self.assertFalse(
             WelcomeDeskReasonsCannotShopService.should_show_frozen_reason(
-                tapir_user.share_owner, reference_date
+                share_owner, reference_date
             )
         )
-        mock_get_attendance_mode.assert_called_once_with(
-            tapir_user.share_owner, reference_date
+        mock_is_frozen_at_datetime.assert_called_once_with(
+            shift_user_data, reference_date
         )
 
     @patch.object(MembershipPauseService, "has_active_pause")

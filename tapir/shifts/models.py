@@ -452,7 +452,7 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         tapir_user: TapirUser,
         shift_attendance_template: ShiftAttendanceTemplate,
     ):
@@ -470,6 +470,22 @@ class CreateShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
 
 class DeleteShiftAttendanceTemplateLogEntry(ShiftAttendanceTemplateLogEntry):
     template_name = "shifts/log/delete_shift_attendance_template_log_entry.html"
+
+    comment = models.CharField(null=True, max_length=255)
+
+    def populate(
+        self,
+        actor: TapirUser | User | None,
+        tapir_user: TapirUser,
+        shift_attendance_template: ShiftAttendanceTemplate,
+        comment: str,
+    ):
+        self.comment = comment
+        return super().populate(
+            actor=actor,
+            tapir_user=tapir_user,
+            shift_attendance_template=shift_attendance_template,
+        )
 
 
 class Shift(models.Model):
@@ -606,7 +622,12 @@ class ShiftAttendanceLogEntry(ModelLogEntry):
             context["state_name"] = SHIFT_ATTENDANCE_STATES[self.state]
         return context
 
-    def populate(self, actor: User, tapir_user: TapirUser, attendance: ShiftAttendance):
+    def populate(
+        self,
+        actor: TapirUser | User,
+        tapir_user: TapirUser,
+        attendance: ShiftAttendance,
+    ):
         self.slot_name = attendance.slot.name
         self.shift = attendance.slot.shift
         self.state = attendance.state
@@ -941,7 +962,7 @@ class UpdateShiftUserDataLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         tapir_user: TapirUser,
-        actor: User | None,
+        actor: TapirUser | User | None,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -955,6 +976,13 @@ class ShiftAttendanceMode:
     REGULAR = "regular"
     FLYING = "flying"
     FROZEN = "frozen"
+
+
+SHIFT_ATTENDANCE_MODE_CHOICES = [
+    (ShiftAttendanceMode.REGULAR, _("🏠 ABCD")),
+    (ShiftAttendanceMode.FLYING, _("✈ Flying")),
+    (ShiftAttendanceMode.FROZEN, _("❄ Frozen")),
+]
 
 
 class ShiftUserDataQuerySet(models.QuerySet):
@@ -977,18 +1005,6 @@ class ShiftUserData(models.Model):
         ),
         default=list,
     )
-    SHIFT_ATTENDANCE_MODE_CHOICES = [
-        (ShiftAttendanceMode.REGULAR, _("🏠 ABCD")),
-        (ShiftAttendanceMode.FLYING, _("✈ Flying")),
-        (ShiftAttendanceMode.FROZEN, _("❄ Frozen")),
-    ]
-    attendance_mode = models.CharField(
-        _("Shift system"),
-        max_length=32,
-        choices=SHIFT_ATTENDANCE_MODE_CHOICES,
-        default=ShiftAttendanceMode.REGULAR,
-        blank=False,
-    )
     shift_partner = models.OneToOneField(
         "self",
         on_delete=models.SET_NULL,
@@ -996,6 +1012,7 @@ class ShiftUserData(models.Model):
         blank=False,
         related_name="shift_partner_of",
     )
+    is_frozen = models.BooleanField(default=False, verbose_name=_("Is frozen"))
 
     objects = ShiftUserDataQuerySet.as_manager()
 
@@ -1145,7 +1162,7 @@ class UpdateExemptionLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         tapir_user: TapirUser,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             old_frozen=old_frozen,

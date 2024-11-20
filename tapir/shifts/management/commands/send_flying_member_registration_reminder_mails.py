@@ -15,6 +15,9 @@ from tapir.shifts.models import (
     ShiftCycleEntry,
     ShiftAttendance,
 )
+from tapir.shifts.services.shift_attendance_mode_service import (
+    ShiftAttendanceModeService,
+)
 from tapir.shifts.services.shift_cycle_service import ShiftCycleService
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 
@@ -36,10 +39,17 @@ class Command(BaseCommand):
             # Don't send mails if the cycle is about to end
             return
 
-        flying_members = ShiftUserData.objects.filter(
-            attendance_mode=ShiftAttendanceMode.FLYING
+        shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
+            ShiftUserData.objects.all()
         )
-        for shift_user_data in flying_members:
+
+        for shift_user_data in shift_user_datas:
+            if (
+                ShiftAttendanceModeService.get_attendance_mode(shift_user_data)
+                != ShiftAttendanceMode.FLYING
+            ):
+                continue
+
             if not self.should_member_receive_reminder_mail(
                 shift_user_data, start_date
             ):

@@ -88,14 +88,14 @@ class TestMembershipResignationCreateView(
         mock_update_shifts_and_shares_and_pay_out_day: Mock,
         mock_delete_shareowner_membershippauses: Mock,
     ):
-        self.login_as_member_office_user()
+        actor = self.login_as_member_office_user()
         resignation = self.call_resignation_create_view(
             MembershipResignation.ResignationType.GIFT_TO_COOP
         )
         self.assertEqual(1, MembershipResignation.objects.count())
         mock_delete_shareowner_membershippauses.assert_called_once_with(resignation)
         mock_update_shifts_and_shares_and_pay_out_day.assert_called_once_with(
-            resignation=resignation
+            resignation=resignation, actor=actor
         )
 
     def test_membershipResignationCreateView_default_logEntryCreated(self):

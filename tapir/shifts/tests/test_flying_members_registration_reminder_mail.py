@@ -13,7 +13,14 @@ from tapir.shifts.emails.flying_member_registration_reminder_email import (
 from tapir.shifts.management.commands.send_flying_member_registration_reminder_mails import (
     Command,
 )
-from tapir.shifts.models import ShiftAttendanceMode, ShiftUserData, ShiftAttendance
+from tapir.shifts.models import (
+    ShiftAttendanceMode,
+    ShiftUserData,
+    ShiftAttendance,
+)
+from tapir.shifts.services.shift_attendance_mode_service import (
+    ShiftAttendanceModeService,
+)
 from tapir.shifts.services.shift_cycle_service import ShiftCycleService
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.shifts.tests.factories import ShiftFactory
@@ -67,25 +74,27 @@ class TestAttendanceUpdateMemberOffice(
         mock_objects.filter.assert_not_called()
         self.assertEqual(0, len(mail.outbox))
 
+    @patch.object(ShiftAttendanceModeService, "get_attendance_mode")
     @patch.object(ShiftCycleService, "get_start_date_of_current_cycle")
     @patch.object(Command, "should_member_receive_reminder_mail")
     def test_sendFlyingMemberRegistrationReminderMailsCommand_userNotFlying_noMailSent(
         self,
         mock_should_member_receive_reminder_mail: Mock,
         mock_get_start_date_of_current_cycle: Mock,
+        mock_get_attendance_mode: Mock,
     ):
         mock_get_start_date_of_current_cycle.return_value = (
             self.NOW - datetime.timedelta(days=7)
         ).date()
 
         tapir_user = TapirUserFactory.create()
-        tapir_user.shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
-        tapir_user.shift_user_data.save()
+        mock_get_attendance_mode.return_value = ShiftAttendanceMode.REGULAR
 
         call_command("send_flying_member_registration_reminder_mails")
 
         mock_should_member_receive_reminder_mail.assert_not_called()
         self.assertEqual(0, len(mail.outbox))
+        mock_get_attendance_mode.assert_called_once_with(tapir_user.shift_user_data)
 
     @patch.object(ShiftCycleService, "get_start_date_of_current_cycle")
     @patch.object(Command, "should_member_receive_reminder_mail")
@@ -118,8 +127,6 @@ class TestAttendanceUpdateMemberOffice(
         cycle_start_date = (self.NOW - datetime.timedelta(days=7)).date()
         mock_get_start_date_of_current_cycle.return_value = cycle_start_date
         tapir_user = TapirUserFactory.create()
-        tapir_user.shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
-        tapir_user.shift_user_data.save()
         mock_should_member_receive_reminder_mail.return_value = True
 
         call_command("send_flying_member_registration_reminder_mails")

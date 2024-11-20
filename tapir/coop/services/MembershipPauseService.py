@@ -3,11 +3,16 @@ from __future__ import annotations
 import datetime
 from typing import TYPE_CHECKING
 
+from django.contrib.auth.models import User
 from django.db.models import Q, Value, Count
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
-from tapir.shifts.models import ShiftAttendanceTemplate, ShiftAttendance
+from tapir.shifts.models import (
+    ShiftAttendanceTemplate,
+    ShiftAttendance,
+    DeleteShiftAttendanceTemplateLogEntry,
+)
 from tapir.utils.shortcuts import get_timezone_aware_datetime
 
 if TYPE_CHECKING:
@@ -19,7 +24,7 @@ class MembershipPauseService:
     ANNOTATION_HAS_ACTIVE_PAUSE_AT_DATE = "has_active_pause_at_date"
 
     @staticmethod
-    def on_pause_created_or_updated(pause: MembershipPause):
+    def on_pause_created_or_updated(pause: MembershipPause, actor: TapirUser | User):
         tapir_user: TapirUser = getattr(pause.share_owner, "user", None)
         if not tapir_user:
             return
@@ -39,6 +44,12 @@ class MembershipPauseService:
             user=tapir_user
         ):
             attendance_template.cancel_attendances(pause_start_as_datetime)
+            DeleteShiftAttendanceTemplateLogEntry().populate(
+                actor=actor,
+                tapir_user=tapir_user,
+                shift_attendance_template=attendance_template,
+                comment="Unregistered because of membership pause",
+            ).save()
             attendance_template.delete()
 
         attendances = ShiftAttendance.objects.filter(

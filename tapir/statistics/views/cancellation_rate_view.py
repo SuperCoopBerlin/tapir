@@ -109,7 +109,7 @@ class ShiftCountByCategoryJsonView(
     def filter_attendance_by_attendance_mode_of_member_at_date(
         attendances, attendance_mode, at_date
     ):
-        shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_date(
+        shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
             ShiftUserData.objects.all(), at_date
         )
         attendances = attendances.annotate(

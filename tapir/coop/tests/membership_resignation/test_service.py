@@ -18,6 +18,7 @@ from tapir.coop.tests.factories import (
 from tapir.shifts.models import (
     ShiftAttendance,
     ShiftAttendanceTemplate,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.utils.tests_utils import (
@@ -39,7 +40,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
     def test_updateShiftsAndSharesAndPayOutDay_resignationTypeBuyBack_sharesEndDateAndPayOutDaySetToThreeYearsAfterResignation(
         self,
     ):
-        self.login_as_member_office_user()
+        actor = self.login_as_member_office_user()
         share_owner: ShareOwner = ShareOwnerFactory.create(nb_shares=2)
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner,
@@ -48,7 +49,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         )
 
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
-            resignation=resignation,
+            resignation=resignation, actor=actor
         )
 
         resignation.refresh_from_db()
@@ -63,7 +64,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
     def test_updateShiftsAndSharesAndPayOutDay_resignationTypeGiftToCoop_sharesEndDateAndPayOutDaySetToResignationDate(
         self,
     ):
-        self.login_as_member_office_user()
+        actor = self.login_as_member_office_user()
         share_owner = ShareOwnerFactory.create(nb_shares=2)
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner,
@@ -72,7 +73,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         )
 
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
-            resignation=resignation,
+            resignation=resignation, actor=actor
         )
 
         resignation.refresh_from_db()
@@ -83,7 +84,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
     def test_updateShiftsAndSharesAndPayOutDay_resignationTypeTransfer_newSharesCreatedForReceivingMember(
         self,
     ):
-        self.login_as_member_office_user()
+        actor = self.login_as_member_office_user()
         gifting_member = ShareOwnerFactory.create(nb_shares=2)
         receiving_member = ShareOwnerFactory.create(nb_shares=1)
         share_of_receiving_member_before_transfer = (
@@ -97,7 +98,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         )
 
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
-            resignation=resignation,
+            resignation=resignation, actor=actor
         )
 
         shares_of_receiving_member = (
@@ -133,7 +134,9 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
 
         MembershipResignationService.update_shifts(
-            tapir_user=tapir_user, resignation=resignation
+            tapir_user=tapir_user,
+            resignation=resignation,
+            actor=TapirUserFactory.create(),
         )
 
         self.assertEqual(ShiftAttendanceTemplate.objects.count(), 0)
@@ -155,10 +158,13 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         )
 
         MembershipResignationService.update_shifts(
-            tapir_user=tapir_user, resignation=resignation
+            tapir_user=tapir_user,
+            resignation=resignation,
+            actor=TapirUserFactory.create(),
         )
 
         self.assertEqual(ShiftAttendanceTemplate.objects.count(), 0)
+        self.assertEqual(DeleteShiftAttendanceTemplateLogEntry.objects.count(), 1)
 
     def test_updateShifts_resigningMemberHasAttendancesBeforeResignationDate_attendancesNotUpdated(
         self,
@@ -175,7 +181,9 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         )
 
         MembershipResignationService.update_shifts(
-            tapir_user=tapir_user, resignation=resignation
+            tapir_user=tapir_user,
+            resignation=resignation,
+            actor=TapirUserFactory.create(),
         )
 
         self.assertEqual(
@@ -272,10 +280,10 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             transferring_shares_to=share_owner,
         )
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
-            resignation_one
+            resignation=resignation_one, actor=TapirUserFactory.create()
         )
         MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
-            resignation_two
+            resignation=resignation_two, actor=TapirUserFactory.create()
         )
 
         self.assertEqual(4, share_owner.share_ownerships.count())

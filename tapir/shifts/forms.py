@@ -279,7 +279,7 @@ class RegisterUserToShiftSlotForm(
 class ShiftUserDataForm(forms.ModelForm):
     class Meta:
         model = ShiftUserData
-        fields = ["attendance_mode", "capabilities"]
+        fields = ["is_frozen", "capabilities"]
 
     confirm_delete_abcd_attendance = BooleanField(
         label=_(

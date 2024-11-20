@@ -1,4 +1,5 @@
 import datetime
+from http import HTTPStatus
 
 from django.urls import reverse
 from django.utils import translation, timezone
@@ -10,6 +11,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftAttendanceTemplate,
     CreateExemptionLogEntry,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
 from tapir.shifts.tests.utils import register_user_to_shift_template
@@ -495,3 +497,29 @@ class TestExemptions(TapirFactoryTestBase):
         response_content = response.content.decode()
         self.assertIn(other_user_1.last_name, response_content)
         self.assertIn(other_user_2.last_name, response_content)
+
+    def test_createShiftExemptionView_longExemptionCreated_attendanceTemplateDeleted(
+        self,
+    ):
+        self.login_as_member_office_user()
+        user = TapirUserFactory.create()
+        shift_template = ShiftTemplateFactory.create()
+        register_user_to_shift_template(self.client, user, shift_template)
+        self.assertEqual(1, ShiftAttendanceTemplate.objects.count())
+
+        post_data = {
+            "start_date": timezone.now().date() - datetime.timedelta(days=10),
+            "end_date": timezone.now().date() + datetime.timedelta(days=365),
+            "description": "A test exemption",
+            "confirm_cancelled_abcd_attendances": True,
+        }
+        response = self.client.post(
+            reverse("shifts:create_shift_exemption", args=[user.shift_user_data.pk]),
+            post_data,
+            follow=True,
+        )
+
+        self.assertEqual(HTTPStatus.OK, response.status_code)
+        self.assertEqual(1, ShiftExemption.objects.count())
+        self.assertEqual(0, ShiftAttendanceTemplate.objects.count())
+        self.assertEqual(1, DeleteShiftAttendanceTemplateLogEntry.objects.count())
