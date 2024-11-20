@@ -75,9 +75,7 @@ class AttendanceTemplateHistoryReconstructionService:
         )
         fake_attendance_template = ShiftAttendanceTemplate()
         fake_attendance_template.slot_template = create_log_entry.slot_template
-        fake_attendance_template.shift_template = (
-            create_log_entry.slot_template.shift_template
-        )
+        fake_attendance_template.shift_template = create_log_entry.shift_template
         delete_log_entry = DeleteShiftAttendanceTemplateLogEntry().populate(
             actor=actor,
             tapir_user=create_log_entry.user,
