@@ -30,6 +30,9 @@ class WelcomeDeskReasonsCannotShopService:
                 queryset, reference_date
             )
         )
+        queryset = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
+            queryset, reference_time
+        )
         return queryset
 
     @classmethod
@@ -77,11 +80,11 @@ class WelcomeDeskReasonsCannotShopService:
         return InvestingStatusService.is_investing(share_owner, reference_time)
 
     @staticmethod
-    def should_show_frozen_reason(share_owner: ShareOwner, reference_date, **_):
+    def should_show_frozen_reason(share_owner: ShareOwner, reference_time, **_):
         return (
             share_owner.user is not None
             and FrozenStatusHistoryService.is_frozen_at_datetime(
-                share_owner.user.shift_user_data, reference_date
+                share_owner, reference_time
             )
         )
 

@@ -130,3 +130,11 @@ class FrozenStatusHistoryService:
                 ),
             ),
         )
+
+    @classmethod
+    def annotate_share_owner_queryset_with_is_frozen_at_datetime(
+        cls, queryset: QuerySet, at_datetime: datetime.datetime = None
+    ):
+        return cls.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
+            queryset, at_datetime, "user__shift_user_data"
+        )

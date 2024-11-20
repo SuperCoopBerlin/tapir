@@ -72,8 +72,6 @@ class TestWelcomeDeskReasonsCannotShopService(TapirFactoryTestBase):
         self, mock_is_frozen_at_datetime: Mock
     ):
         share_owner = Mock()
-        shift_user_data = Mock()
-        share_owner.user.shift_user_data = shift_user_data
         reference_date = datetime.datetime.today()
         mock_is_frozen_at_datetime.return_value = True
 
@@ -82,17 +80,13 @@ class TestWelcomeDeskReasonsCannotShopService(TapirFactoryTestBase):
                 share_owner, reference_date
             )
         )
-        mock_is_frozen_at_datetime.assert_called_once_with(
-            shift_user_data, reference_date
-        )
+        mock_is_frozen_at_datetime.assert_called_once_with(share_owner, reference_date)
 
     @patch.object(FrozenStatusHistoryService, "is_frozen_at_datetime")
     def test_shouldShowFrozenReason_memberIsNotFrozen_returnsFalse(
         self, mock_is_frozen_at_datetime: Mock
     ):
         share_owner = Mock()
-        shift_user_data = Mock()
-        share_owner.user.shift_user_data = shift_user_data
         reference_date = datetime.datetime.today()
         mock_is_frozen_at_datetime.return_value = False
 
@@ -101,9 +95,7 @@ class TestWelcomeDeskReasonsCannotShopService(TapirFactoryTestBase):
                 share_owner, reference_date
             )
         )
-        mock_is_frozen_at_datetime.assert_called_once_with(
-            shift_user_data, reference_date
-        )
+        mock_is_frozen_at_datetime.assert_called_once_with(share_owner, reference_date)
 
     @patch.object(MembershipPauseService, "has_active_pause")
     def test_shouldShowPausedReason_memberIsPaused_returnsTrue(
