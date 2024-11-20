@@ -16,7 +16,6 @@ from django.views.generic import (
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
-from icecream import ic
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import MembershipPause
@@ -91,7 +90,6 @@ class CreateShiftExemptionView(
             attendance_templates_to_delete = ShiftAttendanceTemplate.objects.filter(
                 user=tapir_user
             )
-            ic("YES", attendance_templates_to_delete)
             for attendance_template in attendance_templates_to_delete:
                 DeleteShiftAttendanceTemplateLogEntry().populate(
                     actor=actor,
