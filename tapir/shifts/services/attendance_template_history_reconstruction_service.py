@@ -15,7 +15,7 @@ from tapir.shifts.services.shift_attendance_mode_service import (
 )
 
 
-class AttendanceTemplateHistoryReconstructionService2:
+class AttendanceTemplateHistoryReconstructionService:
     @classmethod
     def reconstruct(cls, actor: TapirUser, dry_run=True):
         shift_user_datas = ShiftAttendanceModeService._annotate_queryset_with_has_abcd_attendance_at_datetime(
