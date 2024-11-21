@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-21 15:54+0100\n"
+"POT-Creation-Date: 2024-11-21 18:37+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -132,6 +132,7 @@ msgstr ""
 #: accounts/templates/registration/password_update.html:16
 #: coop/templates/coop/draftuser_register_form.default.html:42
 #: coop/templates/coop/draftuser_register_form.html:45
+#: coop/templates/coop/membership_resignation_form.html:49
 #: core/templates/core/tapir_form.default.html:30
 #: core/templates/core/tapir_form.html:30
 #: shifts/templates/shifts/convert_exemption_to_pause_form.html:37
@@ -607,25 +608,25 @@ msgstr ""
 msgid "Transferring share(s) to"
 msgstr ""
 
-#: coop/forms.py:312
+#: coop/forms.py:314
 #, fuzzy
 #| msgid "Member already created."
 msgid "This member is already resigned."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/forms.py:324
+#: coop/forms.py:326
 msgid "Please select the member that the shares should be transferred to."
 msgstr ""
 
-#: coop/forms.py:337
+#: coop/forms.py:339
 msgid "If the shares don't get transferred to another member, this field should be empty."
 msgstr ""
 
-#: coop/forms.py:350
+#: coop/forms.py:352
 msgid "Sender and receiver of transferring the share(s) cannot be the same."
 msgstr ""
 
-#: coop/forms.py:362
+#: coop/forms.py:364
 msgid "Cannot pay out, because shares have been gifted."
 msgstr ""
 
@@ -1971,6 +1972,12 @@ msgid ""
 "                                "
 msgstr ""
 
+#: coop/templates/coop/membership_resignation_form.html:35
+#: coop/templates/coop/membership_resignation_form.html:40
+#: coop/views/membership_resignation.py:249
+msgid "Resign a new membership"
+msgstr ""
+
 #: coop/templates/coop/membership_resignation_list.html:12
 #: coop/templates/coop/membership_resignation_list.html:21
 #, fuzzy
@@ -2423,10 +2430,6 @@ msgstr "ohne Endddatum"
 #| msgid "Edit member: %(name)s"
 msgid "Cancel membership of %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
-
-#: coop/views/membership_resignation.py:248
-msgid "Resign a new membership"
-msgstr ""
 
 #: coop/views/shareowner.py:123 coop/views/shareowner.py:128
 #, python-format
