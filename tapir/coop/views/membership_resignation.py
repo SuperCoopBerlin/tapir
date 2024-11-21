@@ -24,6 +24,8 @@ from tapir.coop.models import (
     MembershipResignationCreateLogEntry,
     MembershipResignationUpdateLogEntry,
     MembershipResignationDeleteLogEntry,
+    ShareOwner,
+    UpdateShareOwnerLogEntry,
 )
 from tapir.coop.services.MembershipResignationService import (
     MembershipResignationService,
@@ -279,7 +281,30 @@ class MembershipResignationCreateView(
                 actor=self.request.user,
                 recipient=membership_resignation.transferring_shares_to,
             )
+
+        if (
+            form.cleaned_data["set_member_status_investing"]
+            == MembershipResignationForm.SetMemberStatusInvestingChoices.MEMBER_BECOMES_INVESTING
+        ):
+            self.switch_member_to_investing(membership_resignation.share_owner)
         return result
+
+    def switch_member_to_investing(self, share_owner: ShareOwner):
+        if share_owner.is_investing:
+            return
+
+        with transaction.atomic():
+            old_frozen = freeze_for_log(share_owner)
+            share_owner.is_investing = True
+            share_owner.save()
+            new_frozen = freeze_for_log(share_owner)
+
+            UpdateShareOwnerLogEntry().populate(
+                old_frozen=old_frozen,
+                new_frozen=new_frozen,
+                share_owner=share_owner,
+                actor=self.request.user,
+            ).save()
 
 
 class MembershipResignationDetailView(

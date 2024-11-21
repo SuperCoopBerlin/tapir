@@ -9,7 +9,7 @@
     <script>
         function updateTransferToEnabled() {
             const resignationTypeSelect = document.getElementById("id_resignation_type");
-            const enabled = resignationTypeSelect.options[resignationTypeSelect.selectedIndex].value === "transfer"
+            const enabled = resignationTypeSelect.options[resignationTypeSelect.selectedIndex].value === "transfer";
             const select2 = document.getElementById("id_transferring_shares_to");
             $(select2).prop('disabled', !enabled);
             if (!enabled) {
@@ -17,14 +17,30 @@
             }
         }
 
+        function updateStatusInvestingEnabled() {
+            const resignationTypeSelect = document.getElementById("id_resignation_type");
+            const enabled = resignationTypeSelect.options[resignationTypeSelect.selectedIndex].value === "coop_buys_shares_back";
+            console.log(enabled)
+            console.log(resignationTypeSelect.options[resignationTypeSelect.selectedIndex].value)
+            const setMemberStatusInvestingSelect = document.getElementById("id_set_member_status_investing");
+            if (enabled) {
+                setMemberStatusInvestingSelect.removeAttribute("disabled");
+            } else {
+                setMemberStatusInvestingSelect.setAttribute("disabled", "");
+            }
+
+        }
+
         function onDocumentReady() {
             const resignationTypeSelect = document.getElementById("id_resignation_type");
 
             resignationTypeSelect.addEventListener("change", () => {
                 updateTransferToEnabled();
+                updateStatusInvestingEnabled();
             });
 
             updateTransferToEnabled();
+            updateStatusInvestingEnabled();
         }
 
         document.addEventListener('DOMContentLoaded', onDocumentReady, false);

@@ -13,10 +13,12 @@ from tapir.coop.emails.membershipresignation_confirmation_email import (
 from tapir.coop.emails.membershipresignation_transferred_shares_confirmation import (
     MembershipResignationTransferredSharesConfirmation,
 )
+from tapir.coop.forms import MembershipResignationForm
 from tapir.coop.models import (
     MembershipResignation,
     MembershipResignationCreateLogEntry,
     ShareOwner,
+    UpdateShareOwnerLogEntry,
 )
 from tapir.coop.services.MembershipResignationService import (
     MembershipResignationService,
@@ -171,3 +173,50 @@ class TestMembershipResignationCreateView(
             datetime.date(year=2027, month=12, day=31),
             resignation.pay_out_day,
         )
+
+    def test_membershipResignationCreateView_memberStaysActive_memberStillActive(
+        self,
+    ):
+        self.login_as_vorstand()
+        resigning_member = ShareOwnerFactory.create(is_investing=False)
+        data = {
+            "share_owner": resigning_member.id,
+            "cancellation_reason": "Test resignation",
+            "cancellation_date": self.TODAY,
+            "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
+            "set_member_status_investing": MembershipResignationForm.SetMemberStatusInvestingChoices.MEMBER_STAYS_ACTIVE,
+        }
+
+        response = self.client.post(
+            reverse("coop:membership_resignation_create"),
+            data=data,
+            follow=True,
+        )
+        self.assertStatusCode(response, HTTPStatus.OK)
+
+        resigning_member.refresh_from_db()
+        self.assertFalse(resigning_member.is_investing)
+
+    def test_membershipResignationCreateView_memberToInvesting_memberIsInvestingAndLogEntryCreated(
+        self,
+    ):
+        self.login_as_vorstand()
+        resigning_member = ShareOwnerFactory.create(is_investing=False)
+        data = {
+            "share_owner": resigning_member.id,
+            "cancellation_reason": "Test resignation",
+            "cancellation_date": self.TODAY,
+            "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
+            "set_member_status_investing": MembershipResignationForm.SetMemberStatusInvestingChoices.MEMBER_BECOMES_INVESTING,
+        }
+
+        response = self.client.post(
+            reverse("coop:membership_resignation_create"),
+            data=data,
+            follow=True,
+        )
+        self.assertStatusCode(response, HTTPStatus.OK)
+
+        resigning_member.refresh_from_db()
+        self.assertTrue(resigning_member.is_investing)
+        self.assertEqual(1, UpdateShareOwnerLogEntry.objects.count())

@@ -143,3 +143,27 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             }
         )
         self.assertNotIn("paid_out", form.errors.keys())
+
+    def test_validateSetMemberStatusInvesting_noOptionSelected_errorAddedToForm(
+        self,
+    ):
+        form = MembershipResignationForm(
+            data={
+                "share_owner": ShareOwnerFactory.create(),
+                "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
+                "set_member_status_investing": MembershipResignationForm.SetMemberStatusInvestingChoices.NOT_SELECTED,
+            }
+        )
+        self.assertIn("set_member_status_investing", form.errors.keys())
+
+    def test_validateSetMemberStatusInvesting_optionSelected_noErrorAddedToForm(
+        self,
+    ):
+        form = MembershipResignationForm(
+            data={
+                "share_owner": ShareOwnerFactory.create(),
+                "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
+                "set_member_status_investing": MembershipResignationForm.SetMemberStatusInvestingChoices.MEMBER_BECOMES_INVESTING,
+            }
+        )
+        self.assertNotIn("set_member_status_investing", form.errors.keys())
