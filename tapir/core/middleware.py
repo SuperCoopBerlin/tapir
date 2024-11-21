@@ -4,6 +4,7 @@ from itertools import chain
 
 import requests
 from django.http import HttpRequest
+from icecream import ic
 
 from tapir import settings
 
