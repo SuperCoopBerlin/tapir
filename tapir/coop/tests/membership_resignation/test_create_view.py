@@ -5,6 +5,7 @@ from unittest.mock import patch, Mock
 from django.core import mail
 from django.urls import reverse
 
+from tapir import settings
 from tapir.coop.config import feature_flag_membership_resignation
 from tapir.coop.emails.membershipresignation_confirmation_email import (
     MembershipResignationConfirmation,
@@ -26,11 +27,12 @@ from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
     mock_timezone_now,
     TapirEmailTestMixin,
+    PermissionTestMixin,
 )
 
 
 class TestMembershipResignationCreateView(
-    FeatureFlagTestMixin, TapirEmailTestMixin, TapirFactoryTestBase
+    PermissionTestMixin, FeatureFlagTestMixin, TapirEmailTestMixin, TapirFactoryTestBase
 ):
     NOW = datetime.datetime(year=2024, month=9, day=15)
     TODAY = NOW.date()
@@ -40,19 +42,18 @@ class TestMembershipResignationCreateView(
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         mock_timezone_now(self, self.NOW)
 
-    def test_membershipResignationCreateView_loggedInAsNormalUser_accessDenied(self):
-        self.login_as_normal_user()
-        response = self.client.get(reverse("coop:membership_resignation_create"))
-        self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
+    def get_allowed_groups(self):
+        return [
+            settings.GROUP_VORSTAND,
+            settings.GROUP_EMPLOYEES,
+        ]
 
-    def test_membershipResignationCreateView_loggedInAsMemberOffice_accessGranted(self):
-        self.login_as_member_office_user()
-        response = self.client.get(reverse("coop:membership_resignation_create"))
-        self.assertStatusCode(response, HTTPStatus.OK)
+    def do_request(self):
+        return self.client.get(reverse("coop:membership_resignation_create"))
 
     def test_membershipResignationCreateView_featureFlagDisabled_accessDenied(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, False)
-        self.login_as_member_office_user()
+        self.login_as_vorstand()
         response = self.client.get(reverse("coop:membership_resignation_create"))
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
 
@@ -88,7 +89,7 @@ class TestMembershipResignationCreateView(
         mock_update_shifts_and_shares_and_pay_out_day: Mock,
         mock_delete_shareowner_membershippauses: Mock,
     ):
-        actor = self.login_as_member_office_user()
+        actor = self.login_as_vorstand()
         resignation = self.call_resignation_create_view(
             MembershipResignation.ResignationType.GIFT_TO_COOP
         )
@@ -99,7 +100,7 @@ class TestMembershipResignationCreateView(
         )
 
     def test_membershipResignationCreateView_default_logEntryCreated(self):
-        actor = self.login_as_member_office_user()
+        actor = self.login_as_vorstand()
         self.call_resignation_create_view(
             MembershipResignation.ResignationType.GIFT_TO_COOP
         )
@@ -111,7 +112,7 @@ class TestMembershipResignationCreateView(
         self.assertEqual(actor, log_entry.actor)
 
     def test_membershipResignationCreateView_default_correctMailSent(self):
-        self.login_as_member_office_user()
+        self.login_as_vorstand()
         member_to_resign = self.call_resignation_create_view(
             MembershipResignation.ResignationType.GIFT_TO_COOP
         )
@@ -127,9 +128,8 @@ class TestMembershipResignationCreateView(
     def test_membershipResignationCreateView_resignationTypeTransfer_shareRecipientAlsoReceivesMails(
         self,
     ):
-        self.login_as_member_office_user()
         member_that_receives_shares = ShareOwnerFactory.create()
-        self.login_as_member_office_user()
+        self.login_as_vorstand()
         resignation = self.call_resignation_create_view(
             MembershipResignation.ResignationType.TRANSFER,
             member_that_receives_shares,
@@ -153,7 +153,7 @@ class TestMembershipResignationCreateView(
     def test_membershipResignationCreateView_resignationTypeGiftToCoop_payOutDayIsSetCorrectly(
         self,
     ):
-        self.login_as_member_office_user()
+        self.login_as_vorstand()
         member_to_resign = self.call_resignation_create_view(
             MembershipResignation.ResignationType.GIFT_TO_COOP
         )
@@ -163,7 +163,7 @@ class TestMembershipResignationCreateView(
     def test_membershipResignationCreateView_resignationTypeBuyBack_payOutDayIsSetCorrectly(
         self,
     ):
-        self.login_as_member_office_user()
+        self.login_as_vorstand()
         resignation = self.call_resignation_create_view(
             MembershipResignation.ResignationType.BUY_BACK
         )

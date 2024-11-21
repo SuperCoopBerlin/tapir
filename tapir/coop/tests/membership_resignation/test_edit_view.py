@@ -3,6 +3,7 @@ from http import HTTPStatus
 
 from django.urls import reverse
 
+from tapir import settings
 from tapir.coop.config import feature_flag_membership_resignation
 from tapir.coop.models import MembershipResignationUpdateLogEntry, MembershipResignation
 from tapir.coop.tests.factories import MembershipResignationFactory, ShareOwnerFactory
@@ -10,10 +11,13 @@ from tapir.utils.tests_utils import (
     FeatureFlagTestMixin,
     TapirFactoryTestBase,
     mock_timezone_now,
+    PermissionTestMixin,
 )
 
 
-class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBase):
+class TestMembershipResignationEditView(
+    PermissionTestMixin, FeatureFlagTestMixin, TapirFactoryTestBase
+):
     NOW = datetime.datetime(year=2024, month=9, day=15)
     TODAY = NOW.date()
 
@@ -22,29 +26,21 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         mock_timezone_now(self, self.NOW)
 
-    def test_membershipResignationEditView_loggedInAsNormalUser_accessDenied(self):
-        self.login_as_normal_user()
-        resignation: MembershipResignation = MembershipResignationFactory.create()
+    def get_allowed_groups(self):
+        return [
+            settings.GROUP_VORSTAND,
+            settings.GROUP_EMPLOYEES,
+        ]
 
-        response = self.client.get(
+    def do_request(self):
+        resignation: MembershipResignation = MembershipResignationFactory.create()
+        return self.client.get(
             reverse("coop:membership_resignation_edit", args=[resignation.id])
         )
-
-        self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
-
-    def test_membershipResignationEditView_loggedInAsMemberOffice_accessGranted(self):
-        self.login_as_member_office_user()
-        resignation: MembershipResignation = MembershipResignationFactory.create()
-
-        response = self.client.get(
-            reverse("coop:membership_resignation_edit", args=[resignation.id])
-        )
-
-        self.assertStatusCode(response, HTTPStatus.OK)
 
     def test_membershipResignationEditView_featureFlagDisabled_accessDenied(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, False)
-        self.login_as_member_office_user()
+        self.login_as_vorstand()
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.get(
@@ -54,7 +50,7 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
 
     def test_membershipResignationEditView_default_logEntryCreated(self):
-        actor = self.login_as_member_office_user()
+        actor = self.login_as_vorstand()
         resignation: MembershipResignation = MembershipResignationFactory.create()
 
         response = self.client.post(
@@ -80,7 +76,7 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
     def test_membershipResignationEditView_tryToUpdateBaseFields_baseFieldsNotUpdated(
         self,
     ):
-        self.login_as_member_office_user()
+        self.login_as_vorstand()
         resignation: MembershipResignation = MembershipResignationFactory.create(
             resignation_type=MembershipResignation.ResignationType.GIFT_TO_COOP
         )
@@ -109,7 +105,7 @@ class TestMembershipResignationEditView(FeatureFlagTestMixin, TapirFactoryTestBa
     def test_membershipResignationEditView_cancellationDateUpdate_payOutDayUpdated(
         self,
     ):
-        self.login_as_member_office_user()
+        self.login_as_vorstand()
         resignation: MembershipResignation = MembershipResignationFactory.create(
             resignation_type=MembershipResignation.ResignationType.BUY_BACK,
             cancellation_date=datetime.date(year=2020, month=6, day=20),

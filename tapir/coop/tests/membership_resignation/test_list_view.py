@@ -2,23 +2,29 @@ from http import HTTPStatus
 
 from django.urls import reverse
 
+from tapir import settings
 from tapir.coop.config import feature_flag_membership_resignation
-from tapir.utils.tests_utils import FeatureFlagTestMixin, TapirFactoryTestBase
+from tapir.utils.tests_utils import (
+    FeatureFlagTestMixin,
+    TapirFactoryTestBase,
+    PermissionTestMixin,
+)
 
 
-class TestMembershipResignationListView(FeatureFlagTestMixin, TapirFactoryTestBase):
+class TestMembershipResignationListView(
+    PermissionTestMixin, FeatureFlagTestMixin, TapirFactoryTestBase
+):
 
-    def test_membershipResignationListView_loggedInAsNormalUser_accessDenied(self):
+    def get_allowed_groups(self):
+        return [
+            settings.GROUP_VORSTAND,
+            settings.GROUP_EMPLOYEES,
+            settings.GROUP_MEMBER_OFFICE,
+        ]
+
+    def do_request(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
-        self.login_as_normal_user()
-        response = self.client.get(reverse("coop:membership_resignation_list"))
-        self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
-
-    def test_membershipResignationListView_loggedInAsMemberOffice_accessGranted(self):
-        self.given_feature_flag_value(feature_flag_membership_resignation, True)
-        self.login_as_member_office_user()
-        response = self.client.get(reverse("coop:membership_resignation_list"))
-        self.assertStatusCode(response, HTTPStatus.OK)
+        return self.client.get(reverse("coop:membership_resignation_list"))
 
     def test_membershipResignationListView_featureFlagDisabled_accessDenied(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, False)

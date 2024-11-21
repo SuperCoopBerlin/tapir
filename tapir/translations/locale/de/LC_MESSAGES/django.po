@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-20 16:41+0100\n"
+"POT-Creation-Date: 2024-11-21 15:54+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -275,7 +275,7 @@ msgstr "Benutzername bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:43
 #: coop/templates/coop/draftuser_detail.html:242
-#: coop/templates/coop/membershipresignation_detail.html:99
+#: coop/templates/coop/membershipresignation_detail.html:107
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:22
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:90
@@ -939,7 +939,7 @@ msgid "Export"
 msgstr "Exportieren"
 
 #: coop/templates/coop/draftuser_list.html:42
-#: coop/templates/coop/membership_resignation_list.html:44
+#: coop/templates/coop/membership_resignation_list.html:50
 #: coop/templates/coop/shareowner_list.html:38
 #: log/templates/log/log_overview.html:34
 #: shifts/templates/shifts/shift_filters.html:3
@@ -949,7 +949,7 @@ msgstr "Filter"
 #: coop/templates/coop/draftuser_list.html:55
 #: coop/templates/coop/incoming_payment_list.html:35
 #: coop/templates/coop/membership_pause/membership_pause_list.html:47
-#: coop/templates/coop/membership_resignation_list.html:56
+#: coop/templates/coop/membership_resignation_list.html:62
 #: coop/templates/coop/shareowner_list.html:51
 #: log/templates/log/log_overview.html:46
 #: shifts/templates/shifts/shift_calendar_template.html:66
@@ -960,7 +960,7 @@ msgstr "Filter"
 #: coop/templates/coop/draftuser_list.html:60
 #: coop/templates/coop/incoming_payment_list.html:40
 #: coop/templates/coop/membership_pause/membership_pause_list.html:52
-#: coop/templates/coop/membership_resignation_list.html:61
+#: coop/templates/coop/membership_resignation_list.html:67
 #: coop/templates/coop/shareowner_list.html:56
 #: shifts/templates/shifts/shiftexemption_list.html:55
 msgid "Clear all filters"
@@ -1978,7 +1978,22 @@ msgstr ""
 msgid "List of membership resignations"
 msgstr "Liste der Schicht-Befreiungen"
 
-#: coop/templates/coop/membership_resignation_list.html:36
+#: coop/templates/coop/membership_resignation_list.html:33
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                        %(num_banked_shifts)s banked shifts\n"
+#| "                    "
+msgid ""
+"\n"
+"                    Only the vorstand and the employees can create resignations.\n"
+"                "
+msgstr ""
+"\n"
+"                        %(num_banked_shifts)s Schicht(en) gut geschrieben\n"
+"                    "
+
+#: coop/templates/coop/membership_resignation_list.html:41
 #, fuzzy
 #| msgid "Investing member"
 msgid "Resign new member"
@@ -2059,6 +2074,13 @@ msgstr "Ja"
 #: coop/views/draftuser.py:286
 msgid "No"
 msgstr "Nein"
+
+#: coop/templates/coop/membershipresignation_detail.html:91
+msgid ""
+"\n"
+"                Only the vorstand and the employees can edit resignations.\n"
+"            "
+msgstr ""
 
 #: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:12
 #, python-format
@@ -2367,42 +2389,42 @@ msgstr ""
 msgid "Edit membership pause: %(name)s"
 msgstr ""
 
-#: coop/views/membership_resignation.py:105
+#: coop/views/membership_resignation.py:108
 msgid "Share(s) gifted {chr(8594)} SuperCoop"
 msgstr ""
 
-#: coop/views/membership_resignation.py:111
+#: coop/views/membership_resignation.py:114
 #, fuzzy
 #| msgid "Shares requested"
 msgid "Share(s) gifted"
 msgstr "Angeforderte Anteile"
 
-#: coop/views/membership_resignation.py:131
+#: coop/views/membership_resignation.py:134
 #, fuzzy
 #| msgid "Search Members"
 msgid "Search member or ID"
 msgstr "Mitglieder suchen"
 
-#: coop/views/membership_resignation.py:137
+#: coop/views/membership_resignation.py:140
 #, fuzzy
 #| msgid "Cycle start date"
 msgid "Pay out start date"
 msgstr "Anfangsdatum"
 
-#: coop/views/membership_resignation.py:143
+#: coop/views/membership_resignation.py:146
 #, fuzzy
 #| msgid "without end date"
 msgid "Pay out end date"
 msgstr "ohne Endddatum"
 
-#: coop/views/membership_resignation.py:202
-#: coop/views/membership_resignation.py:207
+#: coop/views/membership_resignation.py:205
+#: coop/views/membership_resignation.py:210
 #, fuzzy, python-format
 #| msgid "Edit member: %(name)s"
 msgid "Cancel membership of %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: coop/views/membership_resignation.py:245
+#: coop/views/membership_resignation.py:248
 msgid "Resign a new membership"
 msgstr ""
 
@@ -2560,11 +2582,11 @@ msgstr ""
 msgid "Flag value"
 msgstr ""
 
-#: core/templates/core/base.html:76
+#: core/templates/core/base.html:79
 msgid "Use this form to search for members"
 msgstr "Benutze dieses Formular, um nach Mitgliedern zu suchen"
 
-#: core/templates/core/base.html:77
+#: core/templates/core/base.html:80
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
