@@ -124,28 +124,6 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         )
         self.assertNotIn("transferring_shares_to", form.errors.keys())
 
-    def test_validatePaidOut_resignationTypeGiftButPaidOutTrue_errorIsAddedToForm(self):
-        share_owner = ShareOwnerFactory.create()
-        resignation = MembershipResignationFactory.create(
-            share_owner=share_owner,
-            resignation_type=MembershipResignation.ResignationType.GIFT_TO_COOP,
-            paid_out=True,
-        )
-        form = MembershipResignationForm(
-            data={
-                "share_owner": ShareOwnerFactory.create(),
-                "cancellation_date": resignation.cancellation_date,
-                "cancellation_reason": resignation.cancellation_reason,
-                "resignation_type": resignation.resignation_type,
-                "paid_out": resignation.paid_out,
-            }
-        )
-        self.assertIn("paid_out", form.errors.keys())
-        self.assertIn(
-            "Cannot pay out, because shares have been gifted.",
-            form.errors["paid_out"],
-        )
-
     def test_validatePaidOut_resignationTypeBuyBackAndPaidOutTrue_noErrorIsAddedToForm(
         self,
     ):

@@ -271,8 +271,14 @@ class MembershipResignationForm(forms.ModelForm):
             self.fields["share_owner"].disabled = True
             self.fields["transferring_shares_to"].disabled = True
             self.fields["resignation_type"].disabled = True
-        else:
+
+        if (
+            self.instance.pk is None
+            or self.instance.resignation_type
+            != MembershipResignation.ResignationType.BUY_BACK
+        ):
             self.fields["paid_out"].disabled = True
+            self.fields["paid_out"].widget = forms.HiddenInput()
 
     class Meta:
         model = MembershipResignation
