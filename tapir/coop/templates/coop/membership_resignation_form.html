@@ -1,0 +1,57 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+{% block head %}
+    {{ block.super }}
+    {{ form.media }}
+    <script>
+        function updateTransferToEnabled() {
+            const resignationTypeSelect = document.getElementById("id_resignation_type");
+            const enabled = resignationTypeSelect.options[resignationTypeSelect.selectedIndex].value === "transfer"
+            const select2 = document.getElementById("id_transferring_shares_to");
+            $(select2).prop('disabled', !enabled);
+            if (!enabled) {
+                $(select2).val(null).trigger('change');
+            }
+        }
+
+        function onDocumentReady() {
+            const resignationTypeSelect = document.getElementById("id_resignation_type");
+
+            resignationTypeSelect.addEventListener("change", () => {
+                updateTransferToEnabled();
+            });
+
+            updateTransferToEnabled();
+        }
+
+        document.addEventListener('DOMContentLoaded', onDocumentReady, false);
+
+    </script>
+{% endblock head %}
+{% block title %}
+    {% translate "Resign a new membership" %}
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="card m-2">
+            <h5 class="card-header">{% translate "Resign a new membership" %}</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <form role="form" method="post">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="{% tapir_button_action %}">
+                                <span class="material-icons">save</span>
+                                {% translate 'Save' %}
+                            </button>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock content %}

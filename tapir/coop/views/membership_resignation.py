@@ -233,12 +233,13 @@ class MembershipResignationEditView(
 
 
 class MembershipResignationCreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+    LoginRequiredMixin, PermissionRequiredMixin, CreateView
 ):
     model = MembershipResignation
     form_class = MembershipResignationForm
     permission_required = PERMISSION_RESIGNATION_MANAGE
     success_url = reverse_lazy("coop:membership_resignation_list")
+    template_name = "coop/membership_resignation_form.html"
 
     def get_context_data(self, **kwargs):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
