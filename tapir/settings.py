@@ -76,6 +76,7 @@ if ENABLE_SILK_PROFILING:
     INSTALLED_APPS.append("silk")
 
 MIDDLEWARE = [
+    "tapir.core.middleware.SendExceptionsToSlackMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -85,7 +86,6 @@ MIDDLEWARE = [
     "tapir.accounts.models.language_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "tapir.core.middleware.SendExceptionsToSlackMiddleware",
 ]
 
 if ENABLE_SILK_PROFILING:
