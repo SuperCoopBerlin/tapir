@@ -1,5 +1,6 @@
 import datetime
 from http import HTTPStatus
+from unittest.mock import patch, Mock
 
 from django.urls import reverse
 
@@ -7,6 +8,9 @@ from tapir.coop.config import feature_flag_membership_resignation
 from tapir.coop.models import (
     MembershipResignation,
     MembershipResignationDeleteLogEntry,
+)
+from tapir.coop.services.MembershipResignationService import (
+    MembershipResignationService,
 )
 from tapir.coop.tests.factories import (
     MembershipResignationFactory,
@@ -48,7 +52,10 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
 
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
 
-    def test_membershipResignationDeleteView_default_sharesEndDateSetToNone(self):
+    @patch.object(MembershipResignationService, "on_resignation_deleted")
+    def test_membershipResignationDeleteView_default_sharesEndDateSetToNone(
+        self, mock_on_resignation_deleted: Mock
+    ):
         self.login_as_member_office_user()
         resignation: MembershipResignation = MembershipResignationFactory.create()
         resignation.share_owner.share_ownerships.update(end_date=datetime.date.today())
@@ -57,15 +64,9 @@ class TestMembershipResignationDeleteView(FeatureFlagTestMixin, TapirFactoryTest
             reverse("coop:membership_resignation_delete", args=[resignation.id]),
             follow=True,
         )
+
         self.assertStatusCode(response, HTTPStatus.OK)
-        self.assertTrue(
-            all(
-                [
-                    share_ownership.end_date is None
-                    for share_ownership in resignation.share_owner.share_ownerships.all()
-                ]
-            )
-        )
+        mock_on_resignation_deleted.assert_called_once_with(resignation)
 
     def test_membershipResignationDeleteView_default_logEntryCreated(self):
         actor = self.login_as_member_office_user()

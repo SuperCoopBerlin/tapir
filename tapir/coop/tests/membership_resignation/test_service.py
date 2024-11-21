@@ -1,4 +1,5 @@
 import datetime
+from unittest.mock import patch, Mock
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.config import feature_flag_membership_resignation
@@ -191,19 +192,102 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             ShiftAttendance.State.PENDING,
         )
 
-    def test_deleteEndDates_default_sharesEndDateRemoved(self):
+    @patch.object(MembershipResignationService, "delete_end_dates")
+    @patch.object(MembershipResignationService, "delete_transferred_share_ownerships")
+    def test_onResignationDeleted_default_classAllRelevantFunctions(
+        self,
+        mock_delete_transferred_share_ownerships: Mock,
+        mock_delete_end_dates: Mock,
+    ):
+        resignation = MembershipResignationFactory.create()
+
+        MembershipResignationService.on_resignation_deleted(resignation)
+
+        mock_delete_transferred_share_ownerships.assert_called_once_with(resignation)
+        mock_delete_end_dates.assert_called_once_with(resignation)
+
+    def test_deleteEndDates_default_sharesEndDateSetToNone(self):
+        cancellation_date = datetime.datetime(year=2024, month=3, day=21)
         share_owner = ShareOwnerFactory.create(
             nb_shares=2,
         )
         share_owner.share_ownerships.update(
-            end_date=datetime.datetime(year=2024, month=3, day=21),
+            end_date=cancellation_date,
         )
-        resignation = MembershipResignationFactory.build(share_owner=share_owner)
+        resignation = MembershipResignationFactory.build(
+            share_owner=share_owner, cancellation_date=cancellation_date
+        )
 
         MembershipResignationService.delete_end_dates(resignation=resignation)
 
         for share in share_owner.share_ownerships.all():
             self.assertEqual(None, share.end_date)
+
+    def test_deleteEndDates_someSharesEndedBeforeCancellation_thoseSharesKeepTheirEndDate(
+        self,
+    ):
+        cancellation_date = datetime.datetime(year=2024, month=3, day=21)
+        share_owner = ShareOwnerFactory.create(
+            nb_shares=3,
+        )
+        share_owner.share_ownerships.update(
+            end_date=cancellation_date,
+        )
+        resignation = MembershipResignationFactory.build(
+            share_owner=share_owner, cancellation_date=cancellation_date
+        )
+        share_that_ended_before_cancellation = share_owner.share_ownerships.first()
+        share_that_ended_before_cancellation.end_date = datetime.date(
+            year=2024, month=1, day=15
+        )
+        share_that_ended_before_cancellation.save()
+
+        MembershipResignationService.delete_end_dates(resignation=resignation)
+
+        for share in share_owner.share_ownerships.all():
+            if share == share_that_ended_before_cancellation:
+                self.assertEqual(
+                    datetime.date(year=2024, month=1, day=15), share.end_date
+                )
+            else:
+                self.assertEqual(None, share.end_date)
+
+    def test_deleteTransferredShareOwnerships_default_deletesAllOwnershipsOfChain(self):
+        cancellation_date = datetime.datetime(year=2024, month=3, day=21)
+        resigned_member = ShareOwnerFactory.create(
+            nb_shares=3,
+        )
+        resigned_member.share_ownerships.update(
+            end_date=cancellation_date,
+        )
+
+        # build a transfer chain
+        first_recipient: ShareOwner = ShareOwnerFactory.create(nb_shares=2)
+        # set start date for only one share in order to test that the second share doesn't get affected
+        transferred_share = first_recipient.share_ownerships.first()
+        transferred_share.transferred_from = resigned_member.share_ownerships.first()
+        transferred_share.start_date = cancellation_date
+        transferred_share.save()
+
+        second_recipient: ShareOwner = ShareOwnerFactory.create(nb_shares=1)
+        second_recipient.share_ownerships.update(
+            transferred_from=first_recipient.share_ownerships.first()
+        )
+
+        resignation = MembershipResignationFactory.build(
+            share_owner=resigned_member,
+            cancellation_date=cancellation_date,
+            resignation_type=MembershipResignation.ResignationType.TRANSFER,
+            transferring_shares_to=first_recipient,
+        )
+
+        MembershipResignationService.delete_transferred_share_ownerships(
+            resignation=resignation
+        )
+
+        self.assertEqual(3, resigned_member.share_ownerships.count())
+        self.assertEqual(1, first_recipient.share_ownerships.count())
+        self.assertEqual(0, second_recipient.share_ownerships.count())
 
     def test_updateMembershipPauses_pauseEndsAfterPayOutDay_pauseEndDateSetToPayOutDay(
         self,

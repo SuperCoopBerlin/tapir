@@ -308,9 +308,10 @@ class MembershipResignationDeleteView(
                     "The membership resignation feature is disabled."
                 )
 
-            MembershipResignationService.delete_end_dates(self.get_object())
-            MembershipResignationDeleteLogEntry().populate(
-                model=self.get_object(),
-                actor=self.request.user,
-            ).save()
+            with transaction.atomic():
+                MembershipResignationService.on_resignation_deleted(self.get_object())
+                MembershipResignationDeleteLogEntry().populate(
+                    model=self.get_object(),
+                    actor=self.request.user,
+                ).save()
         return super().form_valid(form)

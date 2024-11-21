@@ -90,12 +90,43 @@ class MembershipResignationService:
         )
         attendances.update(state=ShiftAttendance.State.CANCELLED)
 
+    @classmethod
+    def on_resignation_deleted(cls, resignation: MembershipResignation):
+        cls.delete_end_dates(resignation)
+        cls.delete_transferred_share_ownerships(resignation)
+
     @staticmethod
-    @transaction.atomic
     def delete_end_dates(resignation: MembershipResignation):
-        ShareOwnership.objects.filter(share_owner=resignation.share_owner).update(
-            end_date=None
+        resignation.share_owner.share_ownerships.filter(
+            end_date=resignation.cancellation_date
+        ).update(end_date=None)
+
+    @classmethod
+    def delete_transferred_share_ownerships(cls, resignation: MembershipResignation):
+        if (
+            not resignation.resignation_type
+            == MembershipResignation.ResignationType.TRANSFER
+        ):
+            return
+        ended_ownerships = resignation.share_owner.share_ownerships.filter(
+            end_date=resignation.cancellation_date
         )
+        started_ownerships = ShareOwnership.objects.filter(
+            share_owner=resignation.transferring_shares_to,
+            start_date=resignation.cancellation_date,
+            transferred_from__in=ended_ownerships,
+        )
+        for started_ownership in started_ownerships:
+            cls.delete_share_ownership_and_all_transfers(started_ownership)
+
+    @classmethod
+    def delete_share_ownership_and_all_transfers(cls, share_ownership: ShareOwnership):
+        transferred = ShareOwnership.objects.filter(
+            transferred_from=share_ownership
+        ).first()
+        if transferred:
+            cls.delete_share_ownership_and_all_transfers(transferred)
+        share_ownership.delete()
 
     @staticmethod
     def update_membership_pauses(resignation: MembershipResignation):
