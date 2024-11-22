@@ -94,4 +94,9 @@ urlpatterns = [
         views.NumberOfPurchasingMembersPerMonthCsvView.as_view(),
         name="number_of_purchasing_members_per_month_csv",
     ),
+    path(
+        "fancy_graph",
+        views.FancyGraphView.as_view(),
+        name="fancy_graph",
+    ),
 ]
