@@ -19,7 +19,7 @@
     <div class="card-body">
         <div class="row m-1">
             <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Status" %}:</div>
-            <div class="col-12 col-sm-8">{{ user.shift_user_data.get_attendance_mode_display }}</div>
+            <div class="col-12 col-sm-8">{% get_attendance_mode_display user.shift_user_data %}</div>
         </div>
         <div class="row m-1">
             {% if user.shift_attendance_templates.count > 0 %}

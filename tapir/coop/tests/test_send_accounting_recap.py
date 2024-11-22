@@ -13,10 +13,10 @@ from tapir.coop.models import (
     ExtraSharesForAccountingRecap,
 )
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
-class TestSendAccountingRecap(TapirFactoryTestBase, TapirEmailTestBase):
+class TestSendAccountingRecap(TapirFactoryTestBase, TapirEmailTestMixin):
     VIEW_NAME = "coop:shareowner_membership_confirmation"
 
     def test_send_accounting_recap(self):

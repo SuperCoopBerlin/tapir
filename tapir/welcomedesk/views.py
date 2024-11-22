@@ -62,7 +62,7 @@ class SearchMemberForWelcomeDeskView(PermissionRequiredMixin, APIView):
     @staticmethod
     def optimize_queryset(queryset, reference_time, reference_date):
         queryset = WelcomeDeskWarningsService.optimize_queryset_for_this_service(
-            queryset
+            queryset, reference_time
         )
         queryset = (
             WelcomeDeskReasonsCannotShopService.optimize_queryset_for_this_service(

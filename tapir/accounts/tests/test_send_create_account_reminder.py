@@ -9,10 +9,10 @@ from tapir.accounts.emails.create_account_reminder_email import (
     CreateAccountReminderEmail,
 )
 from tapir.coop.models import ShareOwner, ShareOwnership
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
-class TestCreateAccountReminderMail(TapirFactoryTestBase, TapirEmailTestBase):
+class TestCreateAccountReminderMail(TapirFactoryTestBase, TapirEmailTestMixin):
     NOW = datetime.datetime(year=2023, month=8, day=7, hour=10, minute=7)
 
     def setUp(self) -> None:

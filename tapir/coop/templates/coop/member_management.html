@@ -32,8 +32,8 @@
                 {% feature_flag_enabled "feature_flags.coop.membership_resignation" as membership_resignation_enabled %}
                 {% if membership_resignation_enabled %}
                     <a class="{% tapir_button_link %}"
-                       href="{% url 'coop:resigned_members_list' %}">
-                        <span class="material-icons button-icon">close</span>{% translate 'Resigned members' %}
+                       href="{% url 'coop:membership_resignation_list' %}">
+                        <span class="material-icons button-icon">person_cancel</span>{% translate 'Membership resignations' %}
                     {% endif %}
                 </a>
             </div>

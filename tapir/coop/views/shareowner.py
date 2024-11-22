@@ -71,11 +71,11 @@ from tapir.settings import (
     PERMISSION_COOP_VIEW,
 )
 from tapir.shifts.models import (
-    ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
     ShiftExemption,
     ShiftTemplateGroup,
     Shift,
+    SHIFT_ATTENDANCE_MODE_CHOICES,
 )
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
@@ -584,7 +584,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
         empty_label=_("Any"),
     )
     shift_attendance_mode = ChoiceFilter(
-        choices=ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES,
+        choices=SHIFT_ATTENDANCE_MODE_CHOICES,
         method="shift_attendance_mode_filter",
         label=_("Shift Status"),
     )

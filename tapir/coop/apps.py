@@ -23,7 +23,7 @@ class CoopConfig(AppConfig):
 
         members_group.add_link(
             display_name=_("Applicants"),
-            material_icon="person_outline",
+            material_icon="group_add",
             url=reverse_lazy("coop:draftuser_list"),
             ordering=1,
             required_permissions=[PERMISSION_COOP_MANAGE],
@@ -31,7 +31,7 @@ class CoopConfig(AppConfig):
 
         members_group.add_link(
             display_name=_("Members"),
-            material_icon="person",
+            material_icon="groups",
             url=reverse_lazy("coop:shareowner_list"),
             ordering=2,
             required_permissions=[PERMISSION_COOP_VIEW],

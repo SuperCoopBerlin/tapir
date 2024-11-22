@@ -48,7 +48,6 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
             reverse("shifts:edit_shift_user_data", args=[member_2.shift_user_data.id]),
             data={
                 "shift_partner": member_3.id,
-                "attendance_mode": member_2.shift_user_data.attendance_mode,
             },
             follow=True,
         )
@@ -71,7 +70,6 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
             reverse("shifts:edit_shift_user_data", args=[member_3.shift_user_data.id]),
             data={
                 "shift_partner": member_2,
-                "attendance_mode": member_3.shift_user_data.attendance_mode,
             },
         )
         self.assertEqual(response.status_code, 200)
@@ -94,7 +92,6 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
             reverse("shifts:edit_shift_user_data", args=[member_3.shift_user_data.id]),
             data={
                 "shift_partner": member_1.id,
-                "attendance_mode": member_3.shift_user_data.attendance_mode,
             },
         )
         self.assertEqual(response.status_code, 200)
@@ -114,7 +111,6 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
             reverse("shifts:edit_shift_user_data", args=[member_1.shift_user_data.id]),
             data={
                 "shift_partner": member_2.id,
-                "attendance_mode": member_1.shift_user_data.attendance_mode,
             },
         )
         self.assertRedirects(response, member_1.get_absolute_url())

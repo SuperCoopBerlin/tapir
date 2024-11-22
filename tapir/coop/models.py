@@ -299,7 +299,11 @@ class ShareOwner(models.Model):
         return self.get_member_status(at_datetime) == MemberStatus.ACTIVE
 
     def get_total_expected_payment(self) -> float:
-        return COOP_ENTRY_AMOUNT + self.share_ownerships.count() * COOP_SHARE_PRICE
+        return (
+            COOP_ENTRY_AMOUNT
+            + self.share_ownerships.filter(transferred_from__isnull=True).count()
+            * COOP_SHARE_PRICE
+        )
 
     def get_currently_paid_amount(self, at_date: datetime.date | None = None) -> float:
         if at_date is None:
@@ -398,7 +402,7 @@ class UpdateShareOwnerLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         share_owner: ShareOwner,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -426,6 +430,8 @@ class ShareOwnership(DurationModelMixin, models.Model):
         max_digits=10,
         decimal_places=2,
     )
+
+    transferred_from = models.OneToOneField("self", null=True, on_delete=models.PROTECT)
 
     def is_fully_paid(self):
         return self.amount_paid >= COOP_SHARE_PRICE
@@ -646,7 +652,7 @@ class CreatePaymentLogEntry(LogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         share_owner: ShareOwner,
         amount: float,
         payment_date: datetime.date,
@@ -664,7 +670,7 @@ class UpdateIncomingPaymentLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         share_owner: ShareOwner,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -762,7 +768,7 @@ class MembershipPauseCreatedLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         pause: MembershipPause,
     ):
         return super().populate_base(
@@ -789,7 +795,7 @@ class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         pause: MembershipPause,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             actor=actor,
@@ -821,7 +827,7 @@ class MembershipResignation(models.Model):
     pay_out_day = models.DateField(null=True)
     cancellation_reason = models.CharField(max_length=1000)
     resignation_type = models.CharField(choices=ResignationType.choices, max_length=50)
-    transferring_shares_to = models.OneToOneField(
+    transferring_shares_to = models.ForeignKey(
         ShareOwner,
         on_delete=models.deletion.PROTECT,
         verbose_name="OwnerToTransfer",
@@ -850,7 +856,7 @@ class MembershipResignationCreateLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         model: MembershipResignation,
     ):
         return super().populate_base(
@@ -866,11 +872,24 @@ class MembershipResignationUpdateLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         model: MembershipResignation,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             actor=actor,
             share_owner=model.share_owner,
             old_frozen=old_frozen,
             new_frozen=new_frozen,
+        )
+
+
+class MembershipResignationDeleteLogEntry(ModelLogEntry):
+    template_name = "coop/log/delete_resignmember_log_entry.html"
+
+    def populate(
+        self,
+        actor: User,
+        model: MembershipResignation,
+    ):
+        return super().populate_base(
+            actor=actor, share_owner=model.share_owner, model=model
         )

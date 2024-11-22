@@ -42,8 +42,6 @@ from tapir.shifts.models import (
     ShiftAttendance,
     SHIFT_ATTENDANCE_STATES,
     ShiftTemplate,
-    ShiftAttendanceMode,
-    ShiftAttendanceTemplate,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -117,13 +115,6 @@ class EditShiftUserDataView(
                 tapir_user=self.object.user,
                 actor=self.request.user,
             ).save()
-
-        if form.instance.attendance_mode != ShiftAttendanceMode.REGULAR:
-            for attendance_template in ShiftAttendanceTemplate.objects.filter(
-                user=self.object.user
-            ):
-                attendance_template.cancel_attendances(timezone.now())
-                attendance_template.delete()
 
         return response
 

@@ -10,7 +10,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
     ShiftAttendance,
     ShiftUserCapability,
-    ShiftUserData,
+    SHIFT_ATTENDANCE_MODE_CHOICES,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
@@ -160,7 +160,7 @@ def get_ids_of_users_registered_to_a_shift_with_capability(
 
 
 def get_attendance_mode_display(attendance_mode: str) -> str:
-    for mode_choice in ShiftUserData.SHIFT_ATTENDANCE_MODE_CHOICES:
+    for mode_choice in SHIFT_ATTENDANCE_MODE_CHOICES:
         if mode_choice[0] == attendance_mode:
             return mode_choice[1]
     return _(f"Unknown mode {attendance_mode}")

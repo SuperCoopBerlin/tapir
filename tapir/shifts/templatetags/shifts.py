@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 import tapir.shifts.config
+from tapir.shifts import utils
 from tapir.shifts.models import (
     Shift,
     ShiftTemplate,
@@ -13,6 +14,9 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftSlot,
     ShiftUserData,
+)
+from tapir.shifts.services.shift_attendance_mode_service import (
+    ShiftAttendanceModeService,
 )
 from tapir.utils.shortcuts import get_monday, ensure_date
 
@@ -249,3 +253,10 @@ def get_current_week_group() -> ShiftTemplateGroup:
 @register.simple_tag
 def get_used_solidarity_shifts_current_year(shift_user_data):
     return ShiftUserData.get_used_solidarity_shifts_current_year(shift_user_data)
+
+
+@register.simple_tag
+def get_attendance_mode_display(shift_user_data: ShiftUserData) -> str:
+    return utils.get_attendance_mode_display(
+        ShiftAttendanceModeService.get_attendance_mode(shift_user_data)
+    )

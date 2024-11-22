@@ -92,8 +92,8 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         share_owners = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
             share_owners, self.reference_time
         )
-        share_owners = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_date(
-            share_owners, self.reference_date
+        share_owners = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_datetime(
+            share_owners, self.reference_time
         )
 
         current_number_of_purchasing_members = len(
@@ -125,7 +125,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         shift_user_datas = ShiftUserData.objects.filter(
             user__share_owner__in=share_owners
         )
-        shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_date(
+        shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
             shift_user_datas, date
         )
         shift_user_datas = {
@@ -371,8 +371,13 @@ class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, JS
 class FrozenMembersJsonView(JSONView):
     def get_context_data(self, **kwargs):
         relevant_members = self.get_relevant_members()
-        frozen_members_count = relevant_members.filter(
-            user__shift_user_data__attendance_mode=ShiftAttendanceMode.FROZEN
+        annotated_members = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_datetime(
+            relevant_members
+        )
+        frozen_members_count = annotated_members.filter(
+            **{
+                ShiftAttendanceModeService.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE: ShiftAttendanceMode.FROZEN
+            }
         ).count()
         not_frozen_members_count = relevant_members.count() - frozen_members_count
 

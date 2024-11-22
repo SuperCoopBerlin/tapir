@@ -13,6 +13,7 @@ from django.views.generic import (
     FormView,
 )
 
+from tapir.accounts.models import TapirUser
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.emails.shift_missed_email import ShiftMissedEmail
@@ -220,6 +221,7 @@ def shift_attendance_template_delete(request, pk):
             actor=request.user,
             tapir_user=shift_attendance_template.user,
             shift_attendance_template=shift_attendance_template,
+            comment="Manual unregistration",
         ).save()
 
         shift_attendance_template.cancel_attendances(timezone.now())
@@ -266,7 +268,7 @@ class RegisterUserToShiftSlotView(
         return self.get_slot().shift.get_absolute_url()
 
     @staticmethod
-    def mark_stand_in_found_if_relevant(slot: ShiftSlot, actor: User):
+    def mark_stand_in_found_if_relevant(slot: ShiftSlot, actor: TapirUser | User):
         attendances = ShiftAttendance.objects.filter(
             slot=slot, state=ShiftAttendance.State.LOOKING_FOR_STAND_IN
         )

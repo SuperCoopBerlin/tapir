@@ -76,6 +76,7 @@ if ENABLE_SILK_PROFILING:
     INSTALLED_APPS.append("silk")
 
 MIDDLEWARE = [
+    "tapir.core.middleware.SendExceptionsToSlackMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -85,7 +86,6 @@ MIDDLEWARE = [
     "tapir.accounts.models.language_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "tapir.core.middleware.SendExceptionsToSlackMiddleware",
 ]
 
 if ENABLE_SILK_PROFILING:
@@ -260,6 +260,8 @@ PERMISSION_WELCOMEDESK_VIEW = "welcomedesk.view"
 PERMISSION_ACCOUNTING_VIEW = "accounting.view"
 PERMISSION_ACCOUNTING_MANAGE = "accounting.manage"
 PERMISSION_GROUP_MANAGE = "group.manage"
+PERMISSION_RESIGNATION_VIEW = "resignation.view"
+PERMISSION_RESIGNATION_MANAGE = "resignation.manage"
 
 # Groups are stored in the LDAP tree
 GROUP_VORSTAND = "vorstand"
@@ -331,6 +333,16 @@ PERMISSIONS = {
         GROUP_ACCOUNTING,
     },
     PERMISSION_GROUP_MANAGE: {GROUP_VORSTAND, GROUP_EMPLOYEES},
+    PERMISSION_RESIGNATION_VIEW: {
+        GROUP_VORSTAND,
+        GROUP_EMPLOYEES,
+        GROUP_MEMBER_OFFICE,
+        GROUP_ACCOUNTING,
+    },
+    PERMISSION_RESIGNATION_MANAGE: {
+        GROUP_VORSTAND,
+        GROUP_EMPLOYEES,
+    },
 }
 
 AUTH_USER_MODEL = "accounts.TapirUser"

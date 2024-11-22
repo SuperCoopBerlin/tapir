@@ -20,22 +20,24 @@ class SendExceptionsToSlackMiddleware:
             response = self.get_response(request)
         except Exception as e:
             stacktrace_string = traceback.format_exc()
-            self.send_slack_message(e, stacktrace_string, request)
+            self.send_slack_message(e, stacktrace_string, request, source="Try/Catch")
             raise e
         return response
 
     def process_exception(self, request: HttpRequest, exception):
         stacktrace_string = traceback.format_exc()
-        self.send_slack_message(exception, stacktrace_string, request)
+        self.send_slack_message(
+            exception, stacktrace_string, request, source="Process exception"
+        )
         return None
 
     @classmethod
     def send_slack_message(
-        cls, e: Exception, stacktrace_string: str, request: HttpRequest
+        cls, e: Exception, stacktrace_string: str, request: HttpRequest, source: str
     ):
         error_text = f"{e}"
         if not error_text:
-            error_text = "No exception raised"
+            error_text = "Could not get exception text"
 
         if not stacktrace_string:
             stacktrace_string = "No stacktrace available"
@@ -45,6 +47,7 @@ class SendExceptionsToSlackMiddleware:
                 "Hi @channel! The following error happened on the production server :ladybug:",
                 is_markdown=True,
             ),
+            cls.build_section(f"Source: {source}"),
             cls.build_section(f"Request: {request}"),
             cls.build_section(f"User: {request.user}"),
             cls.build_section(f"Request headers: {request.headers}"),

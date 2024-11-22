@@ -4,7 +4,9 @@ from django.utils.translation import gettext_lazy as _
 from tapir.coop.models import ShareOwner, MemberStatus
 from tapir.coop.services.InvestingStatusService import InvestingStatusService
 from tapir.coop.services.MembershipPauseService import MembershipPauseService
-from tapir.shifts.models import ShiftAttendanceMode
+from tapir.shifts.services.frozen_status_history_service import (
+    FrozenStatusHistoryService,
+)
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
@@ -20,13 +22,16 @@ class WelcomeDeskReasonsCannotShopService:
         queryset = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
             queryset, reference_time
         )
-        queryset = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_date(
-            queryset, reference_date
+        queryset = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_datetime(
+            queryset, reference_time
         )
         queryset = (
             MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
                 queryset, reference_date
             )
+        )
+        queryset = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
+            queryset, reference_time
         )
         return queryset
 
@@ -75,13 +80,12 @@ class WelcomeDeskReasonsCannotShopService:
         return InvestingStatusService.is_investing(share_owner, reference_time)
 
     @staticmethod
-    def should_show_frozen_reason(share_owner: ShareOwner, reference_date, **_):
+    def should_show_frozen_reason(share_owner: ShareOwner, reference_time, **_):
         return (
             share_owner.user is not None
-            and ShiftAttendanceModeService.get_attendance_mode(
-                share_owner, reference_date
+            and FrozenStatusHistoryService.is_frozen_at_datetime(
+                share_owner, reference_time
             )
-            == ShiftAttendanceMode.FROZEN
         )
 
     @staticmethod

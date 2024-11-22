@@ -3,6 +3,7 @@ import json
 import os
 import pathlib
 import socket
+from http import HTTPStatus
 from typing import Type
 from unittest.mock import patch
 
@@ -12,6 +13,7 @@ from django.core.mail import EmailMessage
 from django.test import TestCase, override_settings, Client
 from django.urls import reverse
 from django.utils import timezone
+from parameterized import parameterized
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -21,13 +23,14 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
+from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_base import TapirEmailBase
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.json_user import JsonUser
-from tapir.utils.shortcuts import get_admin_ldap_connection
+from tapir.utils.shortcuts import get_admin_ldap_connection, set_group_membership
 
 
 @override_settings(ALLOWED_HOSTS=["*"])
@@ -199,8 +202,15 @@ class TapirFactoryTestBase(TestCase):
         for tapir_user in TapirUser.objects.all():
             connection.delete_s(tapir_user.build_ldap_dn())
 
+    def assertStatusCode(self, response, expected_status_code):
+        self.assertEqual(
+            expected_status_code,
+            response.status_code,
+            f"Unexpected status code, response content : {response.content.decode()}",
+        )
 
-class TapirEmailTestBase(TestCase):
+
+class TapirEmailTestMixin(TestCase):
     def assertEmailOfClass_GotSentTo(
         self,
         expected_class: Type[TapirEmailBase],
@@ -247,3 +257,30 @@ class FeatureFlagTestMixin(TestCase):
             self._enabled_feature_flags.append(flag_name)
         elif not flag_value and flag_name in self._enabled_feature_flags:
             self._enabled_feature_flags.remove(flag_name)
+
+
+class PermissionTestMixin:
+    def get_allowed_groups(self):
+        raise NotImplementedError(
+            "Children of PermissionTestMixin must implement get_allowed_groups to say which groups should have access to the view."
+        )
+
+    def do_request(self):
+        raise NotImplementedError(
+            "Children of PermissionTestMixin must implement do_request, a function that visits the target view and returns the response."
+        )
+
+    @parameterized.expand(settings.LDAP_GROUPS)
+    def test_accessView_loggedInAsMemberOfGroup_accessAsExpected(self, group):
+        user = TapirUserFactory.create()
+        set_group_membership([user], group, group in self.get_allowed_groups())
+        self.login_as_user(user)
+        response = self.do_request()
+        self.assertStatusCode(
+            response,
+            (
+                HTTPStatus.OK
+                if group in self.get_allowed_groups()
+                else HTTPStatus.FORBIDDEN
+            ),
+        )

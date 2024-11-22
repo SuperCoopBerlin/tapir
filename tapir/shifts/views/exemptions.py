@@ -2,6 +2,7 @@ import django_filters
 import django_tables2
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
@@ -34,6 +35,7 @@ from tapir.shifts.models import (
     ShiftExemption,
     CreateExemptionLogEntry,
     UpdateExemptionLogEntry,
+    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.utils.user_utils import UserUtils
 
@@ -57,7 +59,7 @@ class CreateShiftExemptionView(
     def form_valid(self, form):
         with transaction.atomic():
             exemption: ShiftExemption = form.instance
-            self.cancel_attendances_covered_by_exemption(exemption)
+            self.cancel_attendances_covered_by_exemption(exemption, self.request.user)
             CreateExemptionLogEntry().populate(
                 start_date=exemption.start_date,
                 end_date=exemption.end_date,
@@ -67,10 +69,12 @@ class CreateShiftExemptionView(
             return super().form_valid(form)
 
     @staticmethod
-    def cancel_attendances_covered_by_exemption(exemption: ShiftExemption):
-        user = exemption.shift_user_data.user
+    def cancel_attendances_covered_by_exemption(
+        exemption: ShiftExemption, actor: TapirUser | User
+    ):
+        tapir_user = exemption.shift_user_data.user
         for attendance in ShiftExemption.get_attendances_cancelled_by_exemption(
-            user=user,
+            user=tapir_user,
             start_date=exemption.start_date,
             end_date=exemption.end_date,
         ):
@@ -83,7 +87,17 @@ class CreateShiftExemptionView(
         if ShiftExemption.must_unregister_from_abcd_shift(
             start_date=exemption.start_date, end_date=exemption.end_date
         ):
-            ShiftAttendanceTemplate.objects.filter(user=user).delete()
+            attendance_templates_to_delete = ShiftAttendanceTemplate.objects.filter(
+                user=tapir_user
+            )
+            for attendance_template in attendance_templates_to_delete:
+                DeleteShiftAttendanceTemplateLogEntry().populate(
+                    actor=actor,
+                    tapir_user=tapir_user,
+                    shift_attendance_template=attendance_template,
+                    comment="Unregistered because of shift exemption",
+                ).save()
+            attendance_templates_to_delete.delete()
 
     def get_success_url(self):
         return self.get_target_user_data().user.get_absolute_url()
@@ -121,7 +135,9 @@ class EditShiftExemptionView(
             response = super().form_valid(form)
 
             exemption: ShiftExemption = form.instance
-            CreateShiftExemptionView.cancel_attendances_covered_by_exemption(exemption)
+            CreateShiftExemptionView.cancel_attendances_covered_by_exemption(
+                exemption, self.request.user
+            )
 
             new_frozen = freeze_for_log(form.instance)
             if self.old_object_frozen != new_frozen:
