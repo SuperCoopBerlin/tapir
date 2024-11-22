@@ -39,13 +39,16 @@ class Command(BaseCommand):
             # Don't send mails if the cycle is about to end
             return
 
+        reference_time = timezone.now()
         shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
-            ShiftUserData.objects.all()
+            ShiftUserData.objects.all(), reference_time
         )
 
         for shift_user_data in shift_user_datas:
             if (
-                ShiftAttendanceModeService.get_attendance_mode(shift_user_data)
+                ShiftAttendanceModeService.get_attendance_mode(
+                    shift_user_data, reference_time
+                )
                 != ShiftAttendanceMode.FLYING
             ):
                 continue
