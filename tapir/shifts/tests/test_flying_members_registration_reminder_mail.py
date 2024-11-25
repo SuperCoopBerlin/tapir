@@ -94,7 +94,9 @@ class TestAttendanceUpdateMemberOffice(
 
         mock_should_member_receive_reminder_mail.assert_not_called()
         self.assertEqual(0, len(mail.outbox))
-        mock_get_attendance_mode.assert_called_once_with(tapir_user.shift_user_data)
+        mock_get_attendance_mode.assert_called_once_with(
+            tapir_user.shift_user_data, self.NOW
+        )
 
     @patch.object(ShiftCycleService, "get_start_date_of_current_cycle")
     @patch.object(Command, "should_member_receive_reminder_mail")

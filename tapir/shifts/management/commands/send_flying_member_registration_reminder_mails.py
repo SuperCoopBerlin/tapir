@@ -54,7 +54,7 @@ class Command(BaseCommand):
                 continue
 
             if not self.should_member_receive_reminder_mail(
-                shift_user_data, start_date
+                shift_user_data, start_date, reference_time
             ):
                 continue
             FlyingMemberRegistrationReminderEmail().send_to_tapir_user(
@@ -62,8 +62,12 @@ class Command(BaseCommand):
             )
 
     @classmethod
-    def should_member_receive_reminder_mail(cls, shift_user_data, start_date):
-        if not ShiftExpectationService.is_member_expected_to_do_shifts(shift_user_data):
+    def should_member_receive_reminder_mail(
+        cls, shift_user_data, start_date, reference_time
+    ):
+        if not ShiftExpectationService.is_member_expected_to_do_shifts(
+            shift_user_data, reference_time
+        ):
             return False
         if cls.has_user_received_reminder_this_cycle(shift_user_data, start_date):
             return False
