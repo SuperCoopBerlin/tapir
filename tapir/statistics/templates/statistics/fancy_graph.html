@@ -10,10 +10,6 @@
     {% translate 'State distribution' %}
 {% endblock title %}
 {% block content %}
-    <div class="row">
-        <div class="col">
-            {% vite_asset 'statistics/fancy_graph_entry.tsx' %}
-            <div id="fancy_graph">HAHA</div>
-        </div>
-    </div>
+    {% vite_asset 'statistics/fancy_graph_entry.tsx' %}
+    <div id="fancy_graph">React not rendered yet</div>
 {% endblock content %}

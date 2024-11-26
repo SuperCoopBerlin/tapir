@@ -3,25 +3,19 @@ info:
   title: ''
   version: 0.0.0
 paths:
-  /coop/api/tapir_users/:
+  /statistics/number_of_active_members_at_date:
     get:
-      operationId: coop_api_tapir_users_list
-      description: Verify that the current user has all specified permissions.
+      operationId: statistics_number_of_active_members_at_date_retrieve
+      description: Verify that the current user is authenticated.
       parameters:
-      - name: limit
-        required: false
-        in: query
-        description: Number of results to return per page.
+      - in: query
+        name: at_date
         schema:
-          type: integer
-      - name: offset
-        required: false
-        in: query
-        description: The initial index from which to return the results.
-        schema:
-          type: integer
+          type: string
+          format: date
+        required: true
       tags:
-      - coop
+      - statistics
       security:
       - cookieAuth: []
       responses:
@@ -29,47 +23,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedTapirUserList'
+                type: integer
           description: ''
-    post:
-      operationId: coop_api_tapir_users_create
-      description: Verify that the current user has all specified permissions.
-      tags:
-      - coop
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TapirUser'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/TapirUser'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/TapirUser'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TapirUser'
-          description: ''
-  /coop/api/tapir_users/{id}/:
+  /statistics/number_of_members_at_date:
     get:
-      operationId: coop_api_tapir_users_retrieve
-      description: Verify that the current user has all specified permissions.
+      operationId: statistics_number_of_members_at_date_retrieve
+      description: Verify that the current user is authenticated.
       parameters:
-      - in: path
-        name: id
+      - in: query
+        name: at_date
         schema:
-          type: integer
-        description: A unique integer value identifying this Benutzer.
+          type: string
+          format: date
         required: true
       tags:
-      - coop
+      - statistics
       security:
       - cookieAuth: []
       responses:
@@ -77,93 +45,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TapirUser'
+                type: integer
           description: ''
-    put:
-      operationId: coop_api_tapir_users_update
-      description: Verify that the current user has all specified permissions.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Benutzer.
-        required: true
-      tags:
-      - coop
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TapirUser'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/TapirUser'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/TapirUser'
-        required: true
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TapirUser'
-          description: ''
-    patch:
-      operationId: coop_api_tapir_users_partial_update
-      description: Verify that the current user has all specified permissions.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Benutzer.
-        required: true
-      tags:
-      - coop
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedTapirUser'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedTapirUser'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedTapirUser'
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TapirUser'
-          description: ''
-    delete:
-      operationId: coop_api_tapir_users_destroy
-      description: Verify that the current user has all specified permissions.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this Benutzer.
-        required: true
-      tags:
-      - coop
-      security:
-      - cookieAuth: []
-      responses:
-        '204':
-          description: No response body
   /welcomedesk/api/search:
     get:
       operationId: welcomedesk_api_search_list
+      description: Verify that the current user is authenticated.
       parameters:
       - in: query
         name: search_input
@@ -185,160 +72,6 @@ paths:
           description: ''
 components:
   schemas:
-    PaginatedTapirUserList:
-      type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/TapirUser'
-    PatchedTapirUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        country:
-          type: string
-        password:
-          type: string
-          title: Passwort
-          maxLength: 128
-        last_login:
-          type: string
-          format: date-time
-          nullable: true
-          title: Letzte Anmeldung
-        is_superuser:
-          type: boolean
-          title: Administrator-Status
-          description: Legt fest, dass der Benutzer alle Berechtigungen hat, ohne
-            diese einzeln zuweisen zu müssen.
-        username:
-          type: string
-          title: Benutzername
-          description: Erforderlich. 150 Zeichen oder weniger. Nur Buchstaben, Ziffern
-            und @/./+/-/_.
-          pattern: ^[\w.@+-]+$
-          maxLength: 150
-        first_name:
-          type: string
-          title: Vorname
-          maxLength: 150
-        last_name:
-          type: string
-          title: Nachname
-          maxLength: 150
-        email:
-          type: string
-          format: email
-          title: E-Mail-Adresse
-          maxLength: 254
-        is_staff:
-          type: boolean
-          title: Mitarbeiter-Status
-          description: Legt fest, ob sich der Benutzer an der Administrationsseite
-            anmelden kann.
-        is_active:
-          type: boolean
-          title: Aktiv
-          description: Legt fest, ob dieser Benutzer aktiv ist. Kann deaktiviert werden,
-            anstatt Benutzer zu löschen.
-        date_joined:
-          type: string
-          format: date-time
-          title: Mitglied seit
-        usage_name:
-          type: string
-          title: Angezeigter Name
-          description: Optional. If filled, will be used instead of the administrative
-            first name wherever possible. Only official documents will show the administrative
-            first name.
-          maxLength: 150
-        pronouns:
-          type: string
-          title: Pronomen
-          maxLength: 150
-        phone_number:
-          type: string
-          title: Telefonnummer
-          maxLength: 128
-        birthdate:
-          type: string
-          format: date
-          nullable: true
-          title: Geburtsdatum
-        street:
-          type: string
-          title: Straße und Hausnummer
-          maxLength: 150
-        street_2:
-          type: string
-          title: Adresszusatz
-          maxLength: 150
-        postcode:
-          type: string
-          title: Postleitzahl
-          maxLength: 32
-        city:
-          type: string
-          title: Ort
-          maxLength: 50
-        co_purchaser:
-          type: string
-          title: Miteinkäufer*in
-          maxLength: 150
-        allows_purchase_tracking:
-          type: boolean
-          title: Allow purchase tracking
-        additional_mails:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-        preferred_language:
-          allOf:
-          - $ref: '#/components/schemas/PreferredLanguageEnum'
-          title: Bevorzugte Sprache
-        groups:
-          type: array
-          items:
-            type: integer
-            title: Gruppen
-          title: Gruppen
-          description: Die Gruppen, denen der Benutzer angehört. Ein Benutzer bekommt
-            alle Berechtigungen dieser Gruppen.
-        user_permissions:
-          type: array
-          items:
-            type: integer
-            title: Berechtigungen
-          title: Berechtigungen
-          description: Spezifische Berechtigungen für diesen Benutzer.
-    PreferredLanguageEnum:
-      enum:
-      - de
-      - en
-      type: string
-      description: |-
-        * `de` - 🇩🇪 Deutsch
-        * `en` - 🇬🇧 English
     ShareOwnerForWelcomeDesk:
       type: object
       properties:
@@ -372,134 +105,6 @@ components:
       - id
       - reasons_cannot_shop
       - warnings
-    TapirUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        country:
-          type: string
-        password:
-          type: string
-          title: Passwort
-          maxLength: 128
-        last_login:
-          type: string
-          format: date-time
-          nullable: true
-          title: Letzte Anmeldung
-        is_superuser:
-          type: boolean
-          title: Administrator-Status
-          description: Legt fest, dass der Benutzer alle Berechtigungen hat, ohne
-            diese einzeln zuweisen zu müssen.
-        username:
-          type: string
-          title: Benutzername
-          description: Erforderlich. 150 Zeichen oder weniger. Nur Buchstaben, Ziffern
-            und @/./+/-/_.
-          pattern: ^[\w.@+-]+$
-          maxLength: 150
-        first_name:
-          type: string
-          title: Vorname
-          maxLength: 150
-        last_name:
-          type: string
-          title: Nachname
-          maxLength: 150
-        email:
-          type: string
-          format: email
-          title: E-Mail-Adresse
-          maxLength: 254
-        is_staff:
-          type: boolean
-          title: Mitarbeiter-Status
-          description: Legt fest, ob sich der Benutzer an der Administrationsseite
-            anmelden kann.
-        is_active:
-          type: boolean
-          title: Aktiv
-          description: Legt fest, ob dieser Benutzer aktiv ist. Kann deaktiviert werden,
-            anstatt Benutzer zu löschen.
-        date_joined:
-          type: string
-          format: date-time
-          title: Mitglied seit
-        usage_name:
-          type: string
-          title: Angezeigter Name
-          description: Optional. If filled, will be used instead of the administrative
-            first name wherever possible. Only official documents will show the administrative
-            first name.
-          maxLength: 150
-        pronouns:
-          type: string
-          title: Pronomen
-          maxLength: 150
-        phone_number:
-          type: string
-          title: Telefonnummer
-          maxLength: 128
-        birthdate:
-          type: string
-          format: date
-          nullable: true
-          title: Geburtsdatum
-        street:
-          type: string
-          title: Straße und Hausnummer
-          maxLength: 150
-        street_2:
-          type: string
-          title: Adresszusatz
-          maxLength: 150
-        postcode:
-          type: string
-          title: Postleitzahl
-          maxLength: 32
-        city:
-          type: string
-          title: Ort
-          maxLength: 50
-        co_purchaser:
-          type: string
-          title: Miteinkäufer*in
-          maxLength: 150
-        allows_purchase_tracking:
-          type: boolean
-          title: Allow purchase tracking
-        additional_mails:
-          type: array
-          items:
-            type: string
-            maxLength: 128
-        preferred_language:
-          allOf:
-          - $ref: '#/components/schemas/PreferredLanguageEnum'
-          title: Bevorzugte Sprache
-        groups:
-          type: array
-          items:
-            type: integer
-            title: Gruppen
-          title: Gruppen
-          description: Die Gruppen, denen der Benutzer angehört. Ein Benutzer bekommt
-            alle Berechtigungen dieser Gruppen.
-        user_permissions:
-          type: array
-          items:
-            type: integer
-            title: Berechtigungen
-          title: Berechtigungen
-          description: Spezifische Berechtigungen für diesen Benutzer.
-      required:
-      - country
-      - id
-      - password
-      - username
   securitySchemes:
     cookieAuth:
       type: apiKey

@@ -99,4 +99,14 @@ urlpatterns = [
         views.FancyGraphView.as_view(),
         name="fancy_graph",
     ),
+    path(
+        "number_of_members_at_date",
+        views.NumberOfMembersAtDateView.as_view(),
+        name="number_of_members_at_date",
+    ),
+    path(
+        "number_of_active_members_at_date",
+        views.NumberOfActiveMembersAtDateView.as_view(),
+        name="number_of_active_members_at_date",
+    ),
 ]
