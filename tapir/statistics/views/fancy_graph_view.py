@@ -32,6 +32,7 @@ class NumberOfMembersAtDateView(LoginRequiredMixin, PermissionRequiredMixin, API
     )
     def get(self, request):
         at_date = request.query_params.get("at_date")
+        at_datetime = datetime.datetime.strptime(at_date, "%Y-%d-%m")
 
         total_count = 0
         for member_status in [
@@ -40,7 +41,7 @@ class NumberOfMembersAtDateView(LoginRequiredMixin, PermissionRequiredMixin, API
             MemberStatus.INVESTING,
         ]:
             total_count += ShareOwner.objects.with_status(
-                member_status, at_date
+                member_status, at_datetime
             ).count()
 
         return Response(
@@ -62,8 +63,9 @@ class NumberOfActiveMembersAtDateView(
     )
     def get(self, request):
         at_date = request.query_params.get("at_date")
+        at_datetime = datetime.datetime.strptime(at_date, "%Y-%d-%m")
 
         return Response(
-            ShareOwner.objects.with_status(MemberStatus.ACTIVE, at_date).count(),
+            ShareOwner.objects.with_status(MemberStatus.ACTIVE, at_datetime).count(),
             status=status.HTTP_200_OK,
         )
