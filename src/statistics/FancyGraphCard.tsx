@@ -55,6 +55,7 @@ const FancyGraphCard: React.FC = () => {
 
   const datasetNumberOfMembers = "number_of_members";
   const datasetNumberOfActiveMembers = "number_of_active_members";
+  const datasetNumberOfWorkingMembers = "number_of_working_members";
 
   const datasets: { [key: string]: Dataset } = {
     [datasetNumberOfMembers]: {
@@ -63,9 +64,13 @@ const FancyGraphCard: React.FC = () => {
     },
     [datasetNumberOfActiveMembers]: {
       display_name: gettext(
-        "Number of active numbers (active relative to the membership: paused and investing are not active, but frozen are active)",
+        "Number of active members (active relative to the membership: paused and investing are not active, but frozen are active)",
       ),
       apiCall: api.statisticsNumberOfActiveMembersAtDateRetrieve,
+    },
+    [datasetNumberOfWorkingMembers]: {
+      display_name: gettext("Number of working members"),
+      apiCall: api.statisticsNumberOfWorkingMembersAtDateRetrieve,
     },
   };
 
@@ -249,14 +254,6 @@ const FancyGraphCard: React.FC = () => {
           </Form>
         </Col>
       </Row>
-      <Row className={"mb-2"}>
-        <Col>
-          <div>Showing datasets: {Array.from(enabledDatasets).join(", ")}</div>
-        </Col>
-        <Col>
-          From {dateFrom.toLocaleString()} to {dateTo.toLocaleString()}
-        </Col>
-      </Row>
       {error && (
         <Row className={"mb-2"}>
           <Col>
@@ -278,6 +275,7 @@ const FancyGraphCard: React.FC = () => {
                 options={{
                   scales: { y: { min: 0 } },
                   plugins: { colors: { enabled: true, forceOverride: true } },
+                  animation: false,
                 }}
               />
             </Card.Body>

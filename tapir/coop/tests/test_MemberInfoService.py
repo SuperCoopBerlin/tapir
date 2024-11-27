@@ -1,8 +1,7 @@
 import datetime
 
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
-
 from tapir.coop.models import ShareOwner
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 

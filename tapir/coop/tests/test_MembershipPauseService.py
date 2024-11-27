@@ -1,7 +1,7 @@
 import datetime
 
 from tapir.coop.models import ShareOwner, MembershipPause
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.tests.factories import ShareOwnerFactory, MembershipPauseFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 

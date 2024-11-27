@@ -2,7 +2,7 @@ from typing import List
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 
 from tapir import settings
 from tapir.coop import pdfs

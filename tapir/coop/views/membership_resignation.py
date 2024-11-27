@@ -27,7 +27,7 @@ from tapir.coop.models import (
     ShareOwner,
     UpdateShareOwnerLogEntry,
 )
-from tapir.coop.services.MembershipResignationService import (
+from tapir.coop.services.membership_resignation_service import (
     MembershipResignationService,
 )
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE

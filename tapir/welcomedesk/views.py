@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from tapir.coop.models import ShareOwner
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.settings import PERMISSION_WELCOMEDESK_VIEW
 from tapir.welcomedesk.serializers import ShareOwnerForWelcomeDeskSerializer
 from tapir.welcomedesk.services.welcome_desk_reasons_cannot_shop_service import (

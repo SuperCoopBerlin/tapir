@@ -25,8 +25,8 @@ from tapir.coop.models import (
     MemberStatus,
     MembershipResignation,
 )
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.log.models import LogEntry
 from tapir.settings import GROUP_VORSTAND, GROUP_MEMBER_OFFICE
 from tapir.shifts.models import (
