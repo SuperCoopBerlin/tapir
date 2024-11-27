@@ -39,6 +39,11 @@ class SearchMemberForWelcomeDeskView(PermissionRequiredMixin, APIView):
         reference_date = reference_time.date()
 
         share_owners = self.get_share_owners(search_input)
+
+        # Trying to run the annotations on a smaller queryset
+        ids = [share_owner.id for share_owner in share_owners]
+        share_owners = ShareOwner.objects.filter(id__in=ids)
+
         share_owners = self.optimize_queryset(
             share_owners, reference_time, reference_date
         )
