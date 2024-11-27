@@ -57,6 +57,7 @@ const FancyGraphCard: React.FC = () => {
   const datasetNumberOfActiveMembers = "number_of_active_members";
   const datasetNumberOfWorkingMembers = "number_of_working_members";
   const datasetNumberOfPurchasingMembers = "number_of_purchasing_members";
+  const datasetNumberOfFrozenMembers = "number_of_frozen_members";
 
   const datasets: { [key: string]: Dataset } = {
     [datasetNumberOfMembers]: {
@@ -77,6 +78,10 @@ const FancyGraphCard: React.FC = () => {
       display_name: gettext("Number of purchasing members"),
       apiCall: api.statisticsNumberOfPurchasingMembersAtDateRetrieve,
     },
+    [datasetNumberOfFrozenMembers]: {
+      display_name: gettext("Number of frozen members"),
+      apiCall: api.statisticsNumberOfFrozenMembersAtDateRetrieve,
+    },
   };
 
   useEffect(() => {
@@ -96,6 +101,11 @@ const FancyGraphCard: React.FC = () => {
       currentDate.setDate(currentDate.getDate() + 32);
       currentDate.setDate(1);
     }
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dates.push(tomorrow);
+
     setDates(dates);
     setGraphLabels(dates.map((date) => formatDate(date)));
   }, [dateFrom, dateTo]);
@@ -148,8 +158,13 @@ const FancyGraphCard: React.FC = () => {
     setFetching(true);
 
     const [datasetId, dateString] = nextDataToFetch;
-    const date = new Date(dateString);
+    const date = new Date();
+    const [day, month, year] = dateString.split(".");
+    date.setDate(Number(day));
+    date.setMonth(Number(month) - 1);
+    date.setFullYear(Number(year));
     date.setHours(12);
+    date.setMinutes(0);
     datasets[datasetId].apiCall
       .call(api, { atDate: date })
       .then((value: number) => {

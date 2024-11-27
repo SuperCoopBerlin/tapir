@@ -86,11 +86,31 @@ class FrozenStatusHistoryService:
             )
         )
 
-        return queryset.annotate(
+        queryset = queryset.annotate(
+            is_frozen_from_log_entry=Subquery(
+                UpdateShiftUserDataLogEntry.objects.filter(
+                    user_id=OuterRef("user_id"),
+                    created_date__gte=at_datetime,
+                )
+                .order_by("created_date")
+                .values("old_values__is_frozen")[:1],
+                output_field=CharField(),
+            )
+        )
+
+        queryset = queryset.annotate(
             is_frozen_at_date=Case(
                 When(
                     attendance_mode_from_log_entry=ShiftAttendanceMode.FROZEN,
                     then=Value(True),
+                ),
+                When(
+                    is_frozen_from_log_entry="True",
+                    then=Value(True),
+                ),
+                When(
+                    is_frozen_from_log_entry="False",
+                    then=Value(False),
                 ),
                 default=(
                     "is_frozen"
@@ -99,6 +119,8 @@ class FrozenStatusHistoryService:
                 ),
             )
         )
+
+        return queryset
 
     @classmethod
     def _annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor(
@@ -127,7 +149,7 @@ class FrozenStatusHistoryService:
             )
         )
 
-        return queryset.annotate(
+        queryset = queryset.annotate(
             is_frozen_at_date=Coalesce(
                 "is_frozen_from_log_entry_as_bool",
                 (
@@ -137,6 +159,8 @@ class FrozenStatusHistoryService:
                 ),
             ),
         )
+
+        return queryset
 
     @classmethod
     def annotate_share_owner_queryset_with_is_frozen_at_datetime(
