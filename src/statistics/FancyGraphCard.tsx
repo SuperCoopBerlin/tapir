@@ -158,6 +158,7 @@ const FancyGraphCard: React.FC = () => {
     setFetching(true);
 
     const [datasetId, dateString] = nextDataToFetch;
+
     const date = new Date();
     const [day, month, year] = dateString.split(".");
     date.setDate(Number(day));
@@ -165,6 +166,7 @@ const FancyGraphCard: React.FC = () => {
     date.setFullYear(Number(year));
     date.setHours(12);
     date.setMinutes(0);
+
     datasets[datasetId].apiCall
       .call(api, { atDate: date })
       .then((value: number) => {
