@@ -61,7 +61,7 @@ class FrozenStatusHistoryService:
         )
         if at_datetime < ATTENDANCE_MODE_REFACTOR_DATETIME:
             return cls._annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor(
-                queryset, at_datetime
+                queryset, at_datetime, attendance_mode_prefix
             )
         return cls._annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor(
             queryset, at_datetime, attendance_mode_prefix
@@ -69,7 +69,10 @@ class FrozenStatusHistoryService:
 
     @classmethod
     def _annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor(
-        cls, queryset: QuerySet, at_datetime: datetime.datetime = None
+        cls,
+        queryset: QuerySet,
+        at_datetime: datetime.datetime = None,
+        attendance_mode_prefix=None,
     ):
         queryset = queryset.annotate(
             attendance_mode_from_log_entry=Subquery(
@@ -89,7 +92,11 @@ class FrozenStatusHistoryService:
                     attendance_mode_from_log_entry=ShiftAttendanceMode.FROZEN,
                     then=Value(True),
                 ),
-                default="is_frozen",
+                default=(
+                    "is_frozen"
+                    if not attendance_mode_prefix
+                    else f"{attendance_mode_prefix}__is_frozen"
+                ),
             )
         )
 
