@@ -58,6 +58,7 @@ const FancyGraphCard: React.FC = () => {
   const datasetNumberOfWorkingMembers = "number_of_working_members";
   const datasetNumberOfPurchasingMembers = "number_of_purchasing_members";
   const datasetNumberOfFrozenMembers = "number_of_frozen_members";
+  const datasetNumberOfLongTermFrozenMembers = "number_of_lfrozen_members";
 
   const datasets: { [key: string]: Dataset } = {
     [datasetNumberOfMembers]: {
@@ -81,6 +82,10 @@ const FancyGraphCard: React.FC = () => {
     [datasetNumberOfFrozenMembers]: {
       display_name: gettext("Number of frozen members"),
       apiCall: api.statisticsNumberOfFrozenMembersAtDateRetrieve,
+    },
+    [datasetNumberOfLongTermFrozenMembers]: {
+      display_name: gettext("Number of long term frozen members"),
+      apiCall: api.statisticsNumberOfLongTermFrozenMembersAtDateRetrieve,
     },
   };
 

@@ -13,7 +13,11 @@ from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.settings import PERMISSION_COOP_MANAGE
-from tapir.shifts.models import ShiftUserData
+from tapir.shifts.models import (
+    ShiftUserData,
+    UpdateShiftUserDataLogEntry,
+    ShiftAttendanceMode,
+)
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,
 )
@@ -224,8 +228,19 @@ class NumberOfFrozenMembersAtDateView(
         at_date = request.query_params.get("at_date")
         reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
         reference_time = timezone.make_aware(reference_time)
-        reference_date = reference_time.date()
 
+        share_owners = self.get_members_frozen_at_datetime(reference_time)
+
+        count = share_owners.count()
+
+        return Response(
+            count,
+            status=status.HTTP_200_OK,
+        )
+
+    @staticmethod
+    def get_members_frozen_at_datetime(reference_time):
+        reference_date = reference_time.date()
         share_owners = (
             ShareOwner.objects.all()
             .prefetch_related("user")
@@ -249,9 +264,69 @@ class NumberOfFrozenMembersAtDateView(
             share_owners, reference_time
         )
 
-        count = share_owners.filter(
+        return share_owners.filter(
             **{FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE: True}
-        ).count()
+        )
+
+
+class NumberOfLongTermFrozenMembersAtDateView(
+    LoginRequiredMixin, PermissionRequiredMixin, APIView
+):
+    permission_required = PERMISSION_COOP_MANAGE
+
+    @extend_schema(
+        responses={200: int},
+        parameters=[
+            OpenApiParameter(name="at_date", required=True, type=datetime.date),
+        ],
+    )
+    def get(self, request):
+        at_date = request.query_params.get("at_date")
+        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
+        reference_time = timezone.make_aware(reference_time)
+
+        share_owners = NumberOfFrozenMembersAtDateView.get_members_frozen_at_datetime(
+            reference_time
+        ).prefetch_related("user")
+
+        count = 0
+        for share_owner in share_owners:
+            status_change_log_entry = (
+                UpdateShiftUserDataLogEntry.objects.filter(
+                    user=share_owner.user,
+                    created_date__lte=reference_time,
+                    new_values__is_frozen="True",
+                )
+                .order_by("-created_date")
+                .first()
+            )
+
+            if status_change_log_entry:
+                if (
+                    reference_time - status_change_log_entry.created_date
+                ).days > 30 * 6:
+                    count += 1
+                continue
+
+            status_change_log_entry = (
+                UpdateShiftUserDataLogEntry.objects.filter(
+                    user=share_owner.user,
+                    created_date__lte=reference_time,
+                    new_values__attendance_mode=ShiftAttendanceMode.FROZEN,
+                )
+                .order_by("-created_date")
+                .first()
+            )
+
+            if status_change_log_entry:
+                if (
+                    reference_time - status_change_log_entry.created_date
+                ).days > 30 * 6:
+                    count += 1
+                continue
+
+            # could not find any log entry, we assume the member is frozen long-term
+            count += 1
 
         return Response(
             count,
