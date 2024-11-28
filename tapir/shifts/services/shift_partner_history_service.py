@@ -49,6 +49,7 @@ class ShiftPartnerHistoryService:
             shift_partner_at_date=UpdateShiftUserDataLogEntry.objects.filter(
                 user_id=OuterRef("user_id"),
                 created_date__lte=at_datetime,
+                new_values__shift_partner__isnull=False,
             )
             .order_by("-created_date")
             .values("new_values__shift_partner")[:1]

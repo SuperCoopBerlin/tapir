@@ -25,6 +25,28 @@ paths:
               schema:
                 type: integer
           description: ''
+  /statistics/number_of_co_purchasers_at_date:
+    get:
+      operationId: statistics_number_of_co_purchasers_at_date_retrieve
+      description: Verify that the current user is authenticated.
+      parameters:
+      - in: query
+        name: at_date
+        schema:
+          type: string
+          format: date
+        required: true
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: ''
   /statistics/number_of_frozen_members_at_date:
     get:
       operationId: statistics_number_of_frozen_members_at_date_retrieve
