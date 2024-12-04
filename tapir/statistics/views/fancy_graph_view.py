@@ -89,31 +89,6 @@ def get_shift_user_datas_of_working_members_annotated_with_attendance_mode(
     )
 
 
-class NumberOfInvestingMembersAtDateView(
-    LoginRequiredMixin, PermissionRequiredMixin, APIView
-):
-    permission_required = PERMISSION_COOP_MANAGE
-
-    @extend_schema(
-        responses={200: int},
-        parameters=[
-            OpenApiParameter(name="at_date", required=True, type=datetime.date),
-        ],
-    )
-    def get(self, request):
-        at_date = request.query_params.get("at_date")
-        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
-        reference_time = timezone.make_aware(reference_time)
-        reference_date = reference_time.date()
-
-        return Response(
-            ShareOwner.objects.with_status(
-                MemberStatus.INVESTING, reference_date
-            ).count(),
-            status=status.HTTP_200_OK,
-        )
-
-
 class NumberOfPausedMembersAtDateView(
     LoginRequiredMixin, PermissionRequiredMixin, APIView
 ):
