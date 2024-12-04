@@ -2,7 +2,6 @@ import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone
-from django.views import generic
 from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.response import Response
@@ -34,70 +33,6 @@ from tapir.shifts.services.shift_partner_history_service import (
 )
 
 DATE_FORMAT = "%Y-%m-%d"
-
-
-class FancyGraphView(LoginRequiredMixin, PermissionRequiredMixin, generic.TemplateView):
-    permission_required = PERMISSION_COOP_MANAGE
-    template_name = "statistics/fancy_graph.html"
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-
-        return context_data
-
-
-class NumberOfMembersAtDateView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
-    permission_required = PERMISSION_COOP_MANAGE
-
-    @extend_schema(
-        responses={200: int},
-        parameters=[
-            OpenApiParameter(name="at_date", required=True, type=datetime.date),
-        ],
-    )
-    def get(self, request):
-        at_date = request.query_params.get("at_date")
-        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
-        reference_time = timezone.make_aware(reference_time)
-        reference_date = reference_time.date()
-
-        total_count = 0
-        for member_status in [
-            MemberStatus.ACTIVE,
-            MemberStatus.PAUSED,
-            MemberStatus.INVESTING,
-        ]:
-            total_count += ShareOwner.objects.with_status(
-                member_status, reference_date
-            ).count()
-
-        return Response(
-            total_count,
-            status=status.HTTP_200_OK,
-        )
-
-
-class NumberOfActiveMembersAtDateView(
-    LoginRequiredMixin, PermissionRequiredMixin, APIView
-):
-    permission_required = PERMISSION_COOP_MANAGE
-
-    @extend_schema(
-        responses={200: int},
-        parameters=[
-            OpenApiParameter(name="at_date", required=True, type=datetime.date),
-        ],
-    )
-    def get(self, request):
-        at_date = request.query_params.get("at_date")
-        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
-        reference_time = timezone.make_aware(reference_time)
-        reference_date = reference_time.date()
-
-        return Response(
-            ShareOwner.objects.with_status(MemberStatus.ACTIVE, reference_date).count(),
-            status=status.HTTP_200_OK,
-        )
 
 
 class NumberOfWorkingMembersAtDateView(

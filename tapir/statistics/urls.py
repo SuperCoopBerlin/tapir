@@ -1,6 +1,10 @@
 from django.urls import path
 
+import tapir.statistics.views.fancy_graph.base_view
+import tapir.statistics.views.fancy_graph.number_of_active_members_view
+import tapir.statistics.views.fancy_graph.number_of_members_view
 from tapir.statistics import views
+from tapir.statistics.views import fancy_graph
 
 app_name = "statistics"
 urlpatterns = [
@@ -96,17 +100,17 @@ urlpatterns = [
     ),
     path(
         "fancy_graph",
-        views.FancyGraphView.as_view(),
+        fancy_graph.base_view.FancyGraphView.as_view(),
         name="fancy_graph",
     ),
     path(
         "number_of_members_at_date",
-        views.NumberOfMembersAtDateView.as_view(),
+        fancy_graph.number_of_members_view.NumberOfMembersAtDateView.as_view(),
         name="number_of_members_at_date",
     ),
     path(
         "number_of_active_members_at_date",
-        views.NumberOfActiveMembersAtDateView.as_view(),
+        fancy_graph.number_of_active_members_view.NumberOfActiveMembersAtDateView.as_view(),
         name="number_of_active_members_at_date",
     ),
     path(

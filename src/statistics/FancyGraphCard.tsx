@@ -9,8 +9,11 @@ import {
   Spinner,
 } from "react-bootstrap";
 import {
+  BarController,
+  BarElement,
   CategoryScale,
   Chart as ChartJS,
+  ChartType,
   Colors,
   Legend,
   LinearScale,
@@ -21,16 +24,18 @@ import {
 } from "chart.js";
 import { useApi } from "../hooks/useApi.ts";
 import { FetchError, InitOverrideFunction, StatisticsApi } from "../api-client";
-import { Line } from "react-chartjs-2";
+import { Chart } from "react-chartjs-2";
 
 declare let gettext: (english_text: string) => string;
 
 interface Dataset {
   apiCall: (
-    requestParameters: { atDate: Date },
+    requestParameters: { atDate: Date; relative: boolean },
     initOverrides?: RequestInit | InitOverrideFunction,
   ) => any;
   display_name: string;
+  chart_type: ChartType;
+  relative: boolean;
 }
 
 type GraphData = {
@@ -64,7 +69,7 @@ const FancyGraphCard: React.FC = () => {
   const datasetNumberOfLongTermFrozenMembers =
     "number_of_long_term_frozen_members";
   const datasetNumberOfShiftPartners = "number_of_shift_partners";
-  const datasetNumberOfCoPurchasers = "number_of_cp_purchasers";
+  const datasetNumberOfCoPurchasers = "number_of_co_purchasers";
   const datasetNumberOfFlyingMembers = "number_of_flying_members";
   const datasetNumberOfAbcdMembers = "number_of_abcd_members";
   const datasetNumberOfPendingResignations = "number_of_pending_resignations";
@@ -74,72 +79,109 @@ const FancyGraphCard: React.FC = () => {
     [datasetNumberOfMembers]: {
       display_name: gettext("Number of numbers (all statuses)"),
       apiCall: api.statisticsNumberOfMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfActiveMembers]: {
       display_name: gettext(
         "Number of active members (active relative to the membership: paused and investing are not active, but frozen are active)",
       ),
       apiCall: api.statisticsNumberOfActiveMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfInvestingMembers]: {
       display_name: gettext("Number of investing members"),
       apiCall: api.statisticsNumberOfInvestingMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfPausedMembers]: {
       display_name: gettext("Number of paused members"),
       apiCall: api.statisticsNumberOfPausedMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfWorkingMembers]: {
       display_name: gettext("Number of working members"),
       apiCall: api.statisticsNumberOfWorkingMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfPurchasingMembers]: {
       display_name: gettext("Number of purchasing members"),
       apiCall: api.statisticsNumberOfPurchasingMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfFrozenMembers]: {
       display_name: gettext("Number of frozen members"),
       apiCall: api.statisticsNumberOfFrozenMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfLongTermFrozenMembers]: {
       display_name: gettext("Number of long term frozen members"),
       apiCall: api.statisticsNumberOfLongTermFrozenMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfShiftPartners]: {
       display_name: gettext("Number of shift partners"),
       apiCall: api.statisticsNumberOfShiftPartnersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfCoPurchasers]: {
       display_name: gettext(
         "Number of co-purchasers (out of the members who can shop, frozen & co not counted)",
       ),
       apiCall: api.statisticsNumberOfCoPurchasersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfFlyingMembers]: {
       display_name: gettext(
         "Number of flying members (out of the members who work, exempted, paused and co not counted)",
       ),
       apiCall: api.statisticsNumberOfFlyingMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfAbcdMembers]: {
       display_name: gettext(
         "Number of abcd members (out of the members who work, exempted, paused and co not counted)",
       ),
       apiCall: api.statisticsNumberOfAbcdMembersAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfPendingResignations]: {
       display_name: gettext(
         "Number of pending resignations (members who want to get their money back and are waiting for the 3 year term)",
       ),
       apiCall: api.statisticsNumberOfPendingResignationsAtDateRetrieve,
+      chart_type: "line",
+      relative: false,
     },
     [datasetNumberOfCreatedResignations]: {
       display_name: gettext(
         "Number of created resignations in that month (regardless of whether the member gifts their share or get their money back)",
       ),
       apiCall: api.statisticsNumberOfCreatedResignationsInSameMonthRetrieve,
+      chart_type: "line",
+      relative: false,
     },
   };
+
+  for (const [datasetId, dataset] of Object.entries(datasets)) {
+    datasets[datasetId + "_relative"] = {
+      display_name: dataset.display_name + " (relative)",
+      apiCall: dataset.apiCall,
+      chart_type: "bar",
+      relative: true,
+    };
+  }
 
   useEffect(() => {
     const dateFromOnPageLoad = new Date();
@@ -226,7 +268,7 @@ const FancyGraphCard: React.FC = () => {
     date.setMinutes(0);
 
     datasets[datasetId].apiCall
-      .call(api, { atDate: date })
+      .call(api, { atDate: date, relative: datasets[datasetId].relative })
       .then((value: number) => {
         cachedData[datasetId][dateString] = value;
         buildAndSetGraphData();
@@ -261,6 +303,8 @@ const FancyGraphCard: React.FC = () => {
     Colors,
     Legend,
     Tooltip,
+    BarElement,
+    BarController,
   );
 
   const data = {
@@ -268,6 +312,7 @@ const FancyGraphCard: React.FC = () => {
     datasets: Object.entries(graphData).map(([datasetId, data]) => {
       return {
         label: datasets[datasetId].display_name,
+        type: datasets[datasetId].chart_type,
         data: data,
       };
     }),
@@ -283,23 +328,44 @@ const FancyGraphCard: React.FC = () => {
       <Row className={"mb-2"}>
         <Col>
           {Object.entries(datasets).map(([datasetId, dataset]) => {
+            if (dataset.relative) {
+              return null;
+            }
+            const datasetRelativeId = datasetId + "_relative";
             return (
-              <Form.Check
-                key={datasetId}
-                type={"switch"}
-                label={dataset.display_name}
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    enabledDatasets.add(datasetId);
-                  } else {
-                    enabledDatasets.delete(datasetId);
-                  }
-                  setEnabledDatasets(new Set(enabledDatasets));
-                }}
-              />
+              <div className={"d-flex gap-2"} key={datasetId}>
+                <Form.Check
+                  type={"switch"}
+                  label={"Absolute"}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      enabledDatasets.add(datasetId);
+                    } else {
+                      enabledDatasets.delete(datasetId);
+                    }
+                    setEnabledDatasets(new Set(enabledDatasets));
+                  }}
+                />
+                <Form.Check
+                  key={datasetRelativeId}
+                  type={"switch"}
+                  label={"Relative"}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      enabledDatasets.add(datasetRelativeId);
+                    } else {
+                      enabledDatasets.delete(datasetRelativeId);
+                    }
+                    setEnabledDatasets(new Set(enabledDatasets));
+                  }}
+                />
+                <div>{dataset.display_name}</div>
+              </div>
             );
           })}
         </Col>
+      </Row>
+      <Row className={"mb-2"}>
         <Col>
           <Form>
             <Form.Group>
@@ -351,7 +417,8 @@ const FancyGraphCard: React.FC = () => {
               </h5>
             </Card.Header>
             <Card.Body className={"p-2 m-2"}>
-              <Line
+              <Chart
+                type={"line"}
                 data={data}
                 options={{
                   scales: { y: { min: 0 } },

@@ -21,6 +21,7 @@ export interface StatisticsNumberOfAbcdMembersAtDateRetrieveRequest {
 
 export interface StatisticsNumberOfActiveMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfCoPurchasersAtDateRetrieveRequest {
@@ -49,6 +50,7 @@ export interface StatisticsNumberOfLongTermFrozenMembersAtDateRetrieveRequest {
 
 export interface StatisticsNumberOfMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfPausedMembersAtDateRetrieveRequest {
@@ -128,10 +130,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfActiveMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -415,10 +428,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
