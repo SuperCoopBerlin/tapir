@@ -27,9 +27,6 @@ from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
-from tapir.shifts.services.shift_partner_history_service import (
-    ShiftPartnerHistoryService,
-)
 from tapir.statistics.views.fancy_graph.number_of_purchasing_members_view import (
     NumberOfPurchasingMembersAtDateView,
 )
@@ -38,42 +35,6 @@ from tapir.statistics.views.fancy_graph.number_of_working_members_view import (
 )
 
 DATE_FORMAT = "%Y-%m-%d"
-
-
-class NumberOfShiftPartnersAtDateView(
-    LoginRequiredMixin, PermissionRequiredMixin, APIView
-):
-    permission_required = PERMISSION_COOP_MANAGE
-
-    @extend_schema(
-        responses={200: int},
-        parameters=[
-            OpenApiParameter(name="at_date", required=True, type=datetime.date),
-        ],
-    )
-    def get(self, request):
-        at_date = request.query_params.get("at_date")
-        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
-        reference_time = timezone.make_aware(reference_time)
-
-        active_members = ShareOwner.objects.with_status(
-            MemberStatus.ACTIVE, reference_time
-        )
-        shift_user_datas = ShiftUserData.objects.filter(
-            user__share_owner__in=active_members
-        )
-
-        shift_user_datas = ShiftPartnerHistoryService.annotate_shift_user_data_queryset_with_has_shift_partner_at_date(
-            shift_user_datas, reference_time
-        )
-        shift_user_datas = shift_user_datas.filter(
-            **{ShiftPartnerHistoryService.ANNOTATION_HAS_SHIFT_PARTNER: True}
-        )
-
-        return Response(
-            shift_user_datas.count(),
-            status=status.HTTP_200_OK,
-        )
 
 
 class NumberOfCoPurchasersAtDateView(

@@ -6,6 +6,7 @@ import tapir.statistics.views.fancy_graph.number_of_frozen_members_view
 import tapir.statistics.views.fancy_graph.number_of_long_term_frozen_members_view
 import tapir.statistics.views.fancy_graph.number_of_members_view
 import tapir.statistics.views.fancy_graph.number_of_purchasing_members_view
+import tapir.statistics.views.fancy_graph.number_of_shift_partners_view
 import tapir.statistics.views.fancy_graph.number_of_working_members_view
 from tapir.statistics import views
 from tapir.statistics.views import fancy_graph
@@ -139,7 +140,7 @@ urlpatterns = [
     ),
     path(
         "number_of_shift_partners_at_date",
-        views.NumberOfShiftPartnersAtDateView.as_view(),
+        tapir.statistics.views.fancy_graph.number_of_shift_partners_view.NumberOfShiftPartnersAtDateView.as_view(),
         name="number_of_shift_partners_at_date",
     ),
     path(
