@@ -17,6 +17,7 @@ import * as runtime from '../runtime';
 
 export interface StatisticsNumberOfAbcdMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfActiveMembersAtDateRetrieveRequest {
@@ -26,26 +27,32 @@ export interface StatisticsNumberOfActiveMembersAtDateRetrieveRequest {
 
 export interface StatisticsNumberOfCoPurchasersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfCreatedResignationsInSameMonthRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfFlyingMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfFrozenMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfInvestingMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfLongTermFrozenMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfMembersAtDateRetrieveRequest {
@@ -55,22 +62,27 @@ export interface StatisticsNumberOfMembersAtDateRetrieveRequest {
 
 export interface StatisticsNumberOfPausedMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfPendingResignationsAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfPurchasingMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfShiftPartnersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 export interface StatisticsNumberOfWorkingMembersAtDateRetrieveRequest {
     atDate: Date;
+    relative: boolean;
 }
 
 /**
@@ -89,10 +101,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfAbcdMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -182,10 +205,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfCoPurchasersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -223,10 +257,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfCreatedResignationsInSameMonthRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -264,10 +309,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfFlyingMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -305,10 +361,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfFrozenMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -346,10 +413,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfInvestingMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -387,10 +465,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfLongTermFrozenMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -480,10 +569,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfPausedMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -521,10 +621,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfPendingResignationsAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -562,10 +673,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfPurchasingMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -603,10 +725,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfShiftPartnersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -644,10 +777,21 @@ export class StatisticsApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfWorkingMembersAtDateRetrieve().'
+            );
+        }
+
         const queryParameters: any = {};
 
         if (requestParameters['atDate'] != null) {
             queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

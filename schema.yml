@@ -14,6 +14,11 @@ paths:
           type: string
           format: date
         required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
+        required: true
       tags:
       - statistics
       security:
@@ -63,6 +68,11 @@ paths:
           type: string
           format: date
         required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
+        required: true
       tags:
       - statistics
       security:
@@ -84,6 +94,11 @@ paths:
         schema:
           type: string
           format: date
+        required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
         required: true
       tags:
       - statistics
@@ -107,6 +122,11 @@ paths:
           type: string
           format: date
         required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
+        required: true
       tags:
       - statistics
       security:
@@ -128,6 +148,11 @@ paths:
         schema:
           type: string
           format: date
+        required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
         required: true
       tags:
       - statistics
@@ -151,6 +176,11 @@ paths:
           type: string
           format: date
         required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
+        required: true
       tags:
       - statistics
       security:
@@ -172,6 +202,11 @@ paths:
         schema:
           type: string
           format: date
+        required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
         required: true
       tags:
       - statistics
@@ -222,6 +257,11 @@ paths:
           type: string
           format: date
         required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
+        required: true
       tags:
       - statistics
       security:
@@ -243,6 +283,11 @@ paths:
         schema:
           type: string
           format: date
+        required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
         required: true
       tags:
       - statistics
@@ -266,6 +311,11 @@ paths:
           type: string
           format: date
         required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
+        required: true
       tags:
       - statistics
       security:
@@ -288,6 +338,11 @@ paths:
           type: string
           format: date
         required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
+        required: true
       tags:
       - statistics
       security:
@@ -309,6 +364,11 @@ paths:
         schema:
           type: string
           format: date
+        required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
         required: true
       tags:
       - statistics
