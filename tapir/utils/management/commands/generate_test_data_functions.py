@@ -263,21 +263,29 @@ def generate_test_users():
                 attendance_template = ShiftAttendanceTemplate.objects.create(
                     user=tapir_user, slot_template=free_slot
                 )
-                log_entries.append(
-                    CreateShiftAttendanceTemplateLogEntry()
-                    .populate(
-                        actor=None,
-                        tapir_user=tapir_user,
-                        shift_attendance_template=attendance_template,
-                    )
-                    .save()
+                log_entry = CreateShiftAttendanceTemplateLogEntry().populate(
+                    actor=None,
+                    tapir_user=tapir_user,
+                    shift_attendance_template=attendance_template,
                 )
+                log_entry.save()
+                log_entries.append(log_entry)
                 free_slot.update_future_slot_attendances(SHIFT_GENERATION_START)
                 attendance_template_created = True
                 break
 
             if attendance_template_created:
                 break
+
+        for log_entry in log_entries:
+            log_entry.created_date = log_entry.user.date_joined + datetime.timedelta(
+                weeks=random.randint(1, 100)
+            )
+            log_entry.created_date = min(timezone.now(), log_entry.created_date)
+        CreateShiftAttendanceTemplateLogEntry.objects.bulk_update(
+            log_entries, ["created_date"]
+        )
+
     print("Created fake users")
 
 

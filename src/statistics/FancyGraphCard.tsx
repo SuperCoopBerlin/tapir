@@ -62,6 +62,7 @@ const FancyGraphCard: React.FC = () => {
     "number_of_long_term_frozen_members";
   const datasetNumberOfShiftPartners = "number_of_shift_partners";
   const datasetNumberOfCoPurchasers = "number_of_cp_purchasers";
+  const datasetNumberOfFlyingMembers = "number_of_flying_members";
 
   const datasets: { [key: string]: Dataset } = {
     [datasetNumberOfMembers]: {
@@ -100,6 +101,12 @@ const FancyGraphCard: React.FC = () => {
       ),
       apiCall: api.statisticsNumberOfCoPurchasersAtDateRetrieve,
     },
+    [datasetNumberOfFlyingMembers]: {
+      display_name: gettext(
+        "Number of flying members (out of the members who work, exempted, paused and co not counted)",
+      ),
+      apiCall: api.statisticsNumberOfFlyingMembersAtDateRetrieve,
+    },
   };
 
   useEffect(() => {
@@ -119,6 +126,7 @@ const FancyGraphCard: React.FC = () => {
       currentDate.setDate(currentDate.getDate() + 32);
       currentDate.setDate(1);
     }
+    dates.push(currentDate);
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
