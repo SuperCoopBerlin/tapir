@@ -4,6 +4,7 @@ import tapir.statistics.views.fancy_graph.base_view
 import tapir.statistics.views.fancy_graph.number_of_abcd_members_view
 import tapir.statistics.views.fancy_graph.number_of_active_members_view
 import tapir.statistics.views.fancy_graph.number_of_co_purchasers_view
+import tapir.statistics.views.fancy_graph.number_of_created_resignations_view
 import tapir.statistics.views.fancy_graph.number_of_flying_members_view
 import tapir.statistics.views.fancy_graph.number_of_frozen_members_view
 import tapir.statistics.views.fancy_graph.number_of_investing_members_view
@@ -126,62 +127,62 @@ urlpatterns = [
     ),
     path(
         "number_of_working_members_at_date",
-        tapir.statistics.views.fancy_graph.number_of_working_members_view.NumberOfWorkingMembersAtDateView.as_view(),
+        fancy_graph.number_of_working_members_view.NumberOfWorkingMembersAtDateView.as_view(),
         name="number_of_working_members_at_date",
     ),
     path(
         "number_of_purchasing_members_at_date",
-        tapir.statistics.views.fancy_graph.number_of_purchasing_members_view.NumberOfPurchasingMembersAtDateView.as_view(),
+        fancy_graph.number_of_purchasing_members_view.NumberOfPurchasingMembersAtDateView.as_view(),
         name="number_of_purchasing_members_at_date",
     ),
     path(
         "number_of_frozen_members_at_date",
-        tapir.statistics.views.fancy_graph.number_of_frozen_members_view.NumberOfFrozenMembersAtDateView.as_view(),
+        fancy_graph.number_of_frozen_members_view.NumberOfFrozenMembersAtDateView.as_view(),
         name="number_of_frozen_members_at_date",
     ),
     path(
         "number_of_long_term_frozen_members_at_date",
-        tapir.statistics.views.fancy_graph.number_of_long_term_frozen_members_view.NumberOfLongTermFrozenMembersAtDateView.as_view(),
+        fancy_graph.number_of_long_term_frozen_members_view.NumberOfLongTermFrozenMembersAtDateView.as_view(),
         name="number_of_long_term_frozen_members_at_date",
     ),
     path(
         "number_of_shift_partners_at_date",
-        tapir.statistics.views.fancy_graph.number_of_shift_partners_view.NumberOfShiftPartnersAtDateView.as_view(),
+        fancy_graph.number_of_shift_partners_view.NumberOfShiftPartnersAtDateView.as_view(),
         name="number_of_shift_partners_at_date",
     ),
     path(
         "number_of_co_purchasers_at_date",
-        tapir.statistics.views.fancy_graph.number_of_co_purchasers_view.NumberOfCoPurchasersAtDateView.as_view(),
+        fancy_graph.number_of_co_purchasers_view.NumberOfCoPurchasersAtDateView.as_view(),
         name="number_of_co_purchasers_at_date",
     ),
     path(
         "number_of_flying_members_at_date",
-        tapir.statistics.views.fancy_graph.number_of_flying_members_view.NumberOfFlyingMembersAtDateView.as_view(),
+        fancy_graph.number_of_flying_members_view.NumberOfFlyingMembersAtDateView.as_view(),
         name="number_of_flying_members_at_date",
     ),
     path(
         "number_of_abcd_members_at_date",
-        tapir.statistics.views.fancy_graph.number_of_abcd_members_view.NumberOfAbcdMembersAtDateView.as_view(),
+        fancy_graph.number_of_abcd_members_view.NumberOfAbcdMembersAtDateView.as_view(),
         name="number_of_abcd_members_at_date",
     ),
     path(
         "number_of_investing_members_at_date",
-        tapir.statistics.views.fancy_graph.number_of_investing_members_view.NumberOfInvestingMembersAtDateView.as_view(),
+        fancy_graph.number_of_investing_members_view.NumberOfInvestingMembersAtDateView.as_view(),
         name="number_of_investing_members_at_date",
     ),
     path(
         "number_of_paused_members_at_date",
-        tapir.statistics.views.fancy_graph.number_of_paused_members_view.NumberOfPausedMembersAtDateView.as_view(),
+        fancy_graph.number_of_paused_members_view.NumberOfPausedMembersAtDateView.as_view(),
         name="number_of_paused_members_at_date",
     ),
     path(
         "number_of_pending_resignations_at_date",
-        tapir.statistics.views.fancy_graph.number_of_pending_resignations_view.NumberOfPendingResignationsAtDateView.as_view(),
+        fancy_graph.number_of_pending_resignations_view.NumberOfPendingResignationsAtDateView.as_view(),
         name="number_of_pending_resignations_at_date",
     ),
     path(
         "number_of_created_resignations_in_same_month",
-        views.NumberOfCreatedResignationsInSameMonthView.as_view(),
+        fancy_graph.number_of_created_resignations_view.NumberOfCreatedResignationsInSameMonthView.as_view(),
         name="number_of_created_resignations_in_same_month",
     ),
 ]
