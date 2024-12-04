@@ -3,6 +3,28 @@ info:
   title: ''
   version: 0.0.0
 paths:
+  /statistics/number_of_abcd_members_at_date:
+    get:
+      operationId: statistics_number_of_abcd_members_at_date_retrieve
+      description: Verify that the current user is authenticated.
+      parameters:
+      - in: query
+        name: at_date
+        schema:
+          type: string
+          format: date
+        required: true
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: ''
   /statistics/number_of_active_members_at_date:
     get:
       operationId: statistics_number_of_active_members_at_date_retrieve

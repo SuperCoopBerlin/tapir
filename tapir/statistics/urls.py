@@ -144,4 +144,9 @@ urlpatterns = [
         views.NumberOfFlyingMembersAtDateView.as_view(),
         name="number_of_flying_members_at_date",
     ),
+    path(
+        "number_of_abcd_members_at_date",
+        views.NumberOfAbcdMembersAtDateView.as_view(),
+        name="number_of_abcd_members_at_date",
+    ),
 ]

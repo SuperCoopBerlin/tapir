@@ -15,6 +15,10 @@
 
 import * as runtime from '../runtime';
 
+export interface StatisticsNumberOfAbcdMembersAtDateRetrieveRequest {
+    atDate: Date;
+}
+
 export interface StatisticsNumberOfActiveMembersAtDateRetrieveRequest {
     atDate: Date;
 }
@@ -55,6 +59,47 @@ export interface StatisticsNumberOfWorkingMembersAtDateRetrieveRequest {
  * 
  */
 export class StatisticsApi extends runtime.BaseAPI {
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfAbcdMembersAtDateRetrieveRaw(requestParameters: StatisticsNumberOfAbcdMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['atDate'] == null) {
+            throw new runtime.RequiredError(
+                'atDate',
+                'Required parameter "atDate" was null or undefined when calling statisticsNumberOfAbcdMembersAtDateRetrieve().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['atDate'] != null) {
+            queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/number_of_abcd_members_at_date`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfAbcdMembersAtDateRetrieve(requestParameters: StatisticsNumberOfAbcdMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.statisticsNumberOfAbcdMembersAtDateRetrieveRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      * Verify that the current user is authenticated.

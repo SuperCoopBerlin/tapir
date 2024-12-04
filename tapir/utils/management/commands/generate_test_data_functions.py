@@ -93,6 +93,10 @@ def determine_is_investing(randomizer: int, is_company: bool) -> bool:
     return randomizer % 7 == 0 or is_company
 
 
+def determine_is_abcd(randomizer: int) -> bool:
+    return randomizer % 4 == 0
+
+
 def generate_tapir_users(json_users):
     result = []
     for index, json_user in enumerate(json_users):
@@ -246,7 +250,8 @@ def generate_test_users():
 
         is_company = determine_is_company(randomizer)
         is_investing = determine_is_investing(randomizer, is_company)
-        if is_company or is_investing:
+        is_abcd = determine_is_abcd(randomizer)
+        if is_company or is_investing or not is_abcd:
             continue
 
         tapir_user = tapir_users[index]

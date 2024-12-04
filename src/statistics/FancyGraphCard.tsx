@@ -17,6 +17,7 @@ import {
   LineController,
   LineElement,
   PointElement,
+  Tooltip,
 } from "chart.js";
 import { useApi } from "../hooks/useApi.ts";
 import { FetchError, InitOverrideFunction, StatisticsApi } from "../api-client";
@@ -63,6 +64,7 @@ const FancyGraphCard: React.FC = () => {
   const datasetNumberOfShiftPartners = "number_of_shift_partners";
   const datasetNumberOfCoPurchasers = "number_of_cp_purchasers";
   const datasetNumberOfFlyingMembers = "number_of_flying_members";
+  const datasetNumberOfAbcdMembers = "number_of_abcd_members";
 
   const datasets: { [key: string]: Dataset } = {
     [datasetNumberOfMembers]: {
@@ -106,6 +108,12 @@ const FancyGraphCard: React.FC = () => {
         "Number of flying members (out of the members who work, exempted, paused and co not counted)",
       ),
       apiCall: api.statisticsNumberOfFlyingMembersAtDateRetrieve,
+    },
+    [datasetNumberOfAbcdMembers]: {
+      display_name: gettext(
+        "Number of abcd members (out of the members who work, exempted, paused and co not counted)",
+      ),
+      apiCall: api.statisticsNumberOfAbcdMembersAtDateRetrieve,
     },
   };
 
@@ -228,6 +236,7 @@ const FancyGraphCard: React.FC = () => {
     LinearScale,
     Colors,
     Legend,
+    Tooltip,
   );
 
   const data = {
