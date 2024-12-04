@@ -14,7 +14,6 @@ from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.shifts.models import (
     ShiftUserData,
-    ShiftAttendanceMode,
 )
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,
@@ -88,40 +87,6 @@ def get_shift_user_datas_of_working_members_annotated_with_attendance_mode(
     return ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
         shift_user_datas, reference_time
     )
-
-
-class NumberOfAbcdMembersAtDateView(
-    LoginRequiredMixin, PermissionRequiredMixin, APIView
-):
-    permission_required = PERMISSION_COOP_MANAGE
-
-    @extend_schema(
-        responses={200: int},
-        parameters=[
-            OpenApiParameter(name="at_date", required=True, type=datetime.date),
-        ],
-    )
-    def get(self, request):
-        at_date = request.query_params.get("at_date")
-        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
-        reference_time = timezone.make_aware(reference_time)
-
-        shift_user_datas = (
-            get_shift_user_datas_of_working_members_annotated_with_attendance_mode(
-                reference_time
-            )
-        )
-
-        shift_user_datas = shift_user_datas.filter(
-            **{
-                ShiftAttendanceModeService.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE: ShiftAttendanceMode.REGULAR
-            }
-        )
-
-        return Response(
-            shift_user_datas.count(),
-            status=status.HTTP_200_OK,
-        )
 
 
 class NumberOfInvestingMembersAtDateView(

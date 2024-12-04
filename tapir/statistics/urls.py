@@ -1,6 +1,7 @@
 from django.urls import path
 
 import tapir.statistics.views.fancy_graph.base_view
+import tapir.statistics.views.fancy_graph.number_of_abcd_members_view
 import tapir.statistics.views.fancy_graph.number_of_active_members_view
 import tapir.statistics.views.fancy_graph.number_of_co_purchasers_view
 import tapir.statistics.views.fancy_graph.number_of_flying_members_view
@@ -157,7 +158,7 @@ urlpatterns = [
     ),
     path(
         "number_of_abcd_members_at_date",
-        views.NumberOfAbcdMembersAtDateView.as_view(),
+        tapir.statistics.views.fancy_graph.number_of_abcd_members_view.NumberOfAbcdMembersAtDateView.as_view(),
         name="number_of_abcd_members_at_date",
     ),
     path(
