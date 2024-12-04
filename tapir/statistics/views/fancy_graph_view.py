@@ -57,7 +57,9 @@ class NumberOfMembersAtDateView(LoginRequiredMixin, PermissionRequiredMixin, API
     )
     def get(self, request):
         at_date = request.query_params.get("at_date")
-        at_datetime = datetime.datetime.strptime(at_date, DATE_FORMAT)
+        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
+        reference_time = timezone.make_aware(reference_time)
+        reference_date = reference_time.date()
 
         total_count = 0
         for member_status in [
@@ -66,7 +68,7 @@ class NumberOfMembersAtDateView(LoginRequiredMixin, PermissionRequiredMixin, API
             MemberStatus.INVESTING,
         ]:
             total_count += ShareOwner.objects.with_status(
-                member_status, at_datetime
+                member_status, reference_date
             ).count()
 
         return Response(
@@ -88,10 +90,12 @@ class NumberOfActiveMembersAtDateView(
     )
     def get(self, request):
         at_date = request.query_params.get("at_date")
-        at_datetime = datetime.datetime.strptime(at_date, DATE_FORMAT)
+        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
+        reference_time = timezone.make_aware(reference_time)
+        reference_date = reference_time.date()
 
         return Response(
-            ShareOwner.objects.with_status(MemberStatus.ACTIVE, at_datetime).count(),
+            ShareOwner.objects.with_status(MemberStatus.ACTIVE, reference_date).count(),
             status=status.HTTP_200_OK,
         )
 
@@ -109,9 +113,8 @@ class NumberOfWorkingMembersAtDateView(
     )
     def get(self, request):
         at_date = request.query_params.get("at_date")
-        reference_time = timezone.make_aware(
-            datetime.datetime.strptime(at_date, DATE_FORMAT)
-        )
+        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
+        reference_time = timezone.make_aware(reference_time)
         reference_date = reference_time.date()
 
         shift_user_datas = (
