@@ -69,6 +69,28 @@ paths:
               schema:
                 type: integer
           description: ''
+  /statistics/number_of_created_resignations_in_same_month:
+    get:
+      operationId: statistics_number_of_created_resignations_in_same_month_retrieve
+      description: Verify that the current user is authenticated.
+      parameters:
+      - in: query
+        name: at_date
+        schema:
+          type: string
+          format: date
+        required: true
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: ''
   /statistics/number_of_flying_members_at_date:
     get:
       operationId: statistics_number_of_flying_members_at_date_retrieve
@@ -182,6 +204,28 @@ paths:
   /statistics/number_of_paused_members_at_date:
     get:
       operationId: statistics_number_of_paused_members_at_date_retrieve
+      description: Verify that the current user is authenticated.
+      parameters:
+      - in: query
+        name: at_date
+        schema:
+          type: string
+          format: date
+        required: true
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: ''
+  /statistics/number_of_pending_resignations_at_date:
+    get:
+      operationId: statistics_number_of_pending_resignations_at_date_retrieve
       description: Verify that the current user is authenticated.
       parameters:
       - in: query

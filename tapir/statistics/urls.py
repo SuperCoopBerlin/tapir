@@ -159,4 +159,14 @@ urlpatterns = [
         views.NumberOfPausedMembersAtDateView.as_view(),
         name="number_of_paused_members_at_date",
     ),
+    path(
+        "number_of_pending_resignations_at_date",
+        views.NumberOfPendingResignationsAtDateView.as_view(),
+        name="number_of_pending_resignations_at_date",
+    ),
+    path(
+        "number_of_created_resignations_in_same_month",
+        views.NumberOfCreatedResignationsInSameMonthView.as_view(),
+        name="number_of_created_resignations_in_same_month",
+    ),
 ]

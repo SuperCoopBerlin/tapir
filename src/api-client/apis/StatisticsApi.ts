@@ -27,6 +27,10 @@ export interface StatisticsNumberOfCoPurchasersAtDateRetrieveRequest {
     atDate: Date;
 }
 
+export interface StatisticsNumberOfCreatedResignationsInSameMonthRetrieveRequest {
+    atDate: Date;
+}
+
 export interface StatisticsNumberOfFlyingMembersAtDateRetrieveRequest {
     atDate: Date;
 }
@@ -48,6 +52,10 @@ export interface StatisticsNumberOfMembersAtDateRetrieveRequest {
 }
 
 export interface StatisticsNumberOfPausedMembersAtDateRetrieveRequest {
+    atDate: Date;
+}
+
+export interface StatisticsNumberOfPendingResignationsAtDateRetrieveRequest {
     atDate: Date;
 }
 
@@ -188,6 +196,47 @@ export class StatisticsApi extends runtime.BaseAPI {
      */
     async statisticsNumberOfCoPurchasersAtDateRetrieve(requestParameters: StatisticsNumberOfCoPurchasersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
         const response = await this.statisticsNumberOfCoPurchasersAtDateRetrieveRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfCreatedResignationsInSameMonthRetrieveRaw(requestParameters: StatisticsNumberOfCreatedResignationsInSameMonthRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['atDate'] == null) {
+            throw new runtime.RequiredError(
+                'atDate',
+                'Required parameter "atDate" was null or undefined when calling statisticsNumberOfCreatedResignationsInSameMonthRetrieve().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['atDate'] != null) {
+            queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/number_of_created_resignations_in_same_month`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfCreatedResignationsInSameMonthRetrieve(requestParameters: StatisticsNumberOfCreatedResignationsInSameMonthRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.statisticsNumberOfCreatedResignationsInSameMonthRetrieveRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -434,6 +483,47 @@ export class StatisticsApi extends runtime.BaseAPI {
      */
     async statisticsNumberOfPausedMembersAtDateRetrieve(requestParameters: StatisticsNumberOfPausedMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
         const response = await this.statisticsNumberOfPausedMembersAtDateRetrieveRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfPendingResignationsAtDateRetrieveRaw(requestParameters: StatisticsNumberOfPendingResignationsAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['atDate'] == null) {
+            throw new runtime.RequiredError(
+                'atDate',
+                'Required parameter "atDate" was null or undefined when calling statisticsNumberOfPendingResignationsAtDateRetrieve().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['atDate'] != null) {
+            queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/number_of_pending_resignations_at_date`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfPendingResignationsAtDateRetrieve(requestParameters: StatisticsNumberOfPendingResignationsAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.statisticsNumberOfPendingResignationsAtDateRetrieveRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

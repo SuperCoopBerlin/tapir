@@ -67,6 +67,8 @@ const FancyGraphCard: React.FC = () => {
   const datasetNumberOfCoPurchasers = "number_of_cp_purchasers";
   const datasetNumberOfFlyingMembers = "number_of_flying_members";
   const datasetNumberOfAbcdMembers = "number_of_abcd_members";
+  const datasetNumberOfPendingResignations = "number_of_pending_resignations";
+  const datasetNumberOfCreatedResignations = "number_of_created_resignations";
 
   const datasets: { [key: string]: Dataset } = {
     [datasetNumberOfMembers]: {
@@ -124,6 +126,18 @@ const FancyGraphCard: React.FC = () => {
         "Number of abcd members (out of the members who work, exempted, paused and co not counted)",
       ),
       apiCall: api.statisticsNumberOfAbcdMembersAtDateRetrieve,
+    },
+    [datasetNumberOfPendingResignations]: {
+      display_name: gettext(
+        "Number of pending resignations (members who want to get their money back and are waiting for the 3 year term)",
+      ),
+      apiCall: api.statisticsNumberOfPendingResignationsAtDateRetrieve,
+    },
+    [datasetNumberOfCreatedResignations]: {
+      display_name: gettext(
+        "Number of created resignations in that month (regardless of whether the member gifts their share or get their money back)",
+      ),
+      apiCall: api.statisticsNumberOfCreatedResignationsInSameMonthRetrieve,
     },
   };
 
