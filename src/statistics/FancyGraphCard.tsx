@@ -7,6 +7,7 @@ import {
   Form,
   Row,
   Spinner,
+  Table,
 } from "react-bootstrap";
 import {
   BarController,
@@ -34,8 +35,11 @@ interface Dataset {
     initOverrides?: RequestInit | InitOverrideFunction,
   ) => any;
   display_name: string;
+  description?: string;
   chart_type: ChartType;
   relative: boolean;
+  color: string;
+  pointStyle: string;
 }
 
 type GraphData = {
@@ -75,102 +79,144 @@ const FancyGraphCard: React.FC = () => {
   const datasetNumberOfPendingResignations = "number_of_pending_resignations";
   const datasetNumberOfCreatedResignations = "number_of_created_resignations";
 
+  // Colors from https://mokole.com/palette.html
+  // or https://lospec.com/palette-list/simple-14
+
+  // Point styles from https://www.chartjs.org/docs/latest/configuration/elements.html#info
+
   const datasets: { [key: string]: Dataset } = {
     [datasetNumberOfMembers]: {
-      display_name: gettext("Number of numbers (all statuses)"),
+      display_name: gettext("Total members"),
+      description: gettext(
+        "Ignoring status: investing and paused members are included",
+      ),
       apiCall: api.statisticsNumberOfMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#000000",
+      pointStyle: "circle",
     },
     [datasetNumberOfActiveMembers]: {
-      display_name: gettext(
-        "Number of active members (active relative to the membership: paused and investing are not active, but frozen are active)",
+      display_name: gettext("Active members"),
+      description: gettext(
+        "Active in the sense of their membership: paused and investing members are not active, but frozen membersare active",
       ),
       apiCall: api.statisticsNumberOfActiveMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#e3dac9",
+      pointStyle: "cross",
     },
     [datasetNumberOfInvestingMembers]: {
-      display_name: gettext("Number of investing members"),
+      display_name: gettext("Investing members"),
       apiCall: api.statisticsNumberOfInvestingMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#318ce7",
+      pointStyle: "crossRot",
     },
     [datasetNumberOfPausedMembers]: {
-      display_name: gettext("Number of paused members"),
+      display_name: gettext("Paused members"),
       apiCall: api.statisticsNumberOfPausedMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#0b486b",
+      pointStyle: "dash",
     },
     [datasetNumberOfWorkingMembers]: {
-      display_name: gettext("Number of working members"),
+      display_name: gettext("Working members"),
       apiCall: api.statisticsNumberOfWorkingMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#272941",
+      pointStyle: "line",
     },
     [datasetNumberOfPurchasingMembers]: {
-      display_name: gettext("Number of purchasing members"),
+      display_name: gettext("Purchasing members"),
       apiCall: api.statisticsNumberOfPurchasingMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#1cceb7",
+      pointStyle: "rect",
     },
     [datasetNumberOfFrozenMembers]: {
-      display_name: gettext("Number of frozen members"),
+      display_name: gettext("Frozen members"),
       apiCall: api.statisticsNumberOfFrozenMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#008080",
+      pointStyle: "rectRounded",
     },
     [datasetNumberOfLongTermFrozenMembers]: {
-      display_name: gettext("Number of long term frozen members"),
+      display_name: gettext("Long-term frozen members"),
       apiCall: api.statisticsNumberOfLongTermFrozenMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#1b4d3e",
+      pointStyle: "rectRot",
     },
     [datasetNumberOfShiftPartners]: {
-      display_name: gettext("Number of shift partners"),
+      display_name: gettext("Shift partners"),
       apiCall: api.statisticsNumberOfShiftPartnersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#2c9c38",
+      pointStyle: "star",
     },
     [datasetNumberOfCoPurchasers]: {
-      display_name: gettext(
-        "Number of co-purchasers (out of the members who can shop, frozen & co not counted)",
+      display_name: gettext("Co-purchasers"),
+      description: gettext(
+        "Only members who can shop are counted: members that have a co-purchaser but are not allowed to shop are not counted",
       ),
       apiCall: api.statisticsNumberOfCoPurchasersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#f0a830",
+      pointStyle: "triangle",
     },
     [datasetNumberOfFlyingMembers]: {
-      display_name: gettext(
-        "Number of flying members (out of the members who work, exempted, paused and co not counted)",
+      display_name: gettext("Flying members"),
+      description: gettext(
+        "Only members who work are counted: members that are exempted, paused, frozen... are not counted",
       ),
       apiCall: api.statisticsNumberOfFlyingMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#ffa4e9",
+      pointStyle: "circle",
     },
     [datasetNumberOfAbcdMembers]: {
-      display_name: gettext(
-        "Number of abcd members (out of the members who work, exempted, paused and co not counted)",
+      display_name: gettext("ABCD members"),
+      description: gettext(
+        "Only members who work are counted: members that are exempted, paused, frozen... are not counted",
       ),
       apiCall: api.statisticsNumberOfAbcdMembersAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#e95081",
+      pointStyle: "cross",
     },
     [datasetNumberOfPendingResignations]: {
-      display_name: gettext(
-        "Number of pending resignations (members who want to get their money back and are waiting for the 3 year term)",
+      display_name: gettext("Pending resignations"),
+      description: gettext(
+        "Members who want to get their money back and are waiting for the 3 year term",
       ),
       apiCall: api.statisticsNumberOfPendingResignationsAtDateRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#7b1e7a",
+      pointStyle: "crossRot",
     },
     [datasetNumberOfCreatedResignations]: {
-      display_name: gettext(
-        "Number of created resignations in that month (regardless of whether the member gifts their share or get their money back)",
+      display_name: gettext("Created resignations"),
+      description: gettext(
+        "Regardless of whether the member gifts their share or get their money back, this is relative to when the resignation is created.",
       ),
       apiCall: api.statisticsNumberOfCreatedResignationsInSameMonthRetrieve,
       chart_type: "line",
       relative: false,
+      color: "#841b2d",
+      pointStyle: "dash",
     },
   };
 
@@ -180,6 +226,8 @@ const FancyGraphCard: React.FC = () => {
       apiCall: dataset.apiCall,
       chart_type: "bar",
       relative: true,
+      color: dataset.color,
+      pointStyle: dataset.pointStyle,
     };
   }
 
@@ -310,10 +358,15 @@ const FancyGraphCard: React.FC = () => {
   const data = {
     labels: graphLabels,
     datasets: Object.entries(graphData).map(([datasetId, data]) => {
+      const dataset = datasets[datasetId];
       return {
-        label: datasets[datasetId].display_name,
-        type: datasets[datasetId].chart_type,
+        label: dataset.display_name,
+        type: dataset.chart_type,
         data: data,
+        borderColor: dataset.color,
+        backgroundColor: dataset.color,
+        pointStyle: dataset.pointStyle,
+        radius: 5,
       };
     }),
   };
@@ -327,78 +380,119 @@ const FancyGraphCard: React.FC = () => {
     <>
       <Row className={"mb-2"}>
         <Col>
-          {Object.entries(datasets).map(([datasetId, dataset]) => {
-            if (dataset.relative) {
-              return null;
-            }
-            const datasetRelativeId = datasetId + "_relative";
-            return (
-              <div className={"d-flex gap-2"} key={datasetId}>
-                <Form.Check
-                  type={"switch"}
-                  label={"Absolute"}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      enabledDatasets.add(datasetId);
-                    } else {
-                      enabledDatasets.delete(datasetId);
+          <Card>
+            <Card.Header>
+              <h5>{gettext("Pick which data to display")}</h5>
+            </Card.Header>
+            <Card.Body>
+              <Table className={"table-striped table-hover"}>
+                <thead>
+                  <tr>
+                    <th>Data</th>
+                    <th>Color</th>
+                    <th>Absolute</th>
+                    <th>Relative</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(datasets).map(([datasetId, dataset]) => {
+                    if (dataset.relative) {
+                      return null;
                     }
-                    setEnabledDatasets(new Set(enabledDatasets));
-                  }}
-                />
-                <Form.Check
-                  key={datasetRelativeId}
-                  type={"switch"}
-                  label={"Relative"}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      enabledDatasets.add(datasetRelativeId);
-                    } else {
-                      enabledDatasets.delete(datasetRelativeId);
-                    }
-                    setEnabledDatasets(new Set(enabledDatasets));
-                  }}
-                />
-                <div>{dataset.display_name}</div>
-              </div>
-            );
-          })}
+                    const datasetRelativeId = datasetId + "_relative";
+                    return (
+                      <tr key={datasetId}>
+                        <td>{dataset.display_name}</td>
+                        <td className={"fs-2"} style={{ color: dataset.color }}>
+                          &#9632;
+                        </td>
+                        <td>
+                          <Form.Check
+                            type={"switch"}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                enabledDatasets.add(datasetId);
+                              } else {
+                                enabledDatasets.delete(datasetId);
+                              }
+                              setEnabledDatasets(new Set(enabledDatasets));
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <Form.Check
+                            key={datasetRelativeId}
+                            type={"switch"}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                enabledDatasets.add(datasetRelativeId);
+                              } else {
+                                enabledDatasets.delete(datasetRelativeId);
+                              }
+                              setEnabledDatasets(new Set(enabledDatasets));
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <div>{dataset.description}</div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
       <Row className={"mb-2"}>
         <Col>
-          <Form>
-            <Form.Group>
-              <FloatingLabel label={"Date from"}>
-                <Form.Control
-                  type={"date"}
-                  value={
-                    !isNaN(dateFrom.getTime())
-                      ? dateFrom.toISOString().substring(0, 10)
-                      : undefined
-                  }
-                  onChange={(event) => {
-                    setDateFrom(getFirstOfMonth(new Date(event.target.value)));
-                  }}
-                />
-              </FloatingLabel>
-            </Form.Group>
-            <Form.Group>
-              <FloatingLabel label={"Date from"}>
-                <Form.Control
-                  type={"date"}
-                  value={
-                    !isNaN(dateTo.getTime())
-                      ? dateTo.toISOString().substring(0, 10)
-                      : undefined
-                  }
-                  onChange={(event) => {
-                    setDateTo(getFirstOfMonth(new Date(event.target.value)));
-                  }}
-                />
-              </FloatingLabel>
-            </Form.Group>
-          </Form>
+          <Card>
+            <Card.Header>
+              <h5>{gettext("Set date range")}</h5>
+            </Card.Header>
+            <Card.Body>
+              <Form>
+                <div className={"d-flex flex-row gap-2"}>
+                  <Form.Group>
+                    <FloatingLabel label={"Date from"}>
+                      <Form.Control
+                        type={"date"}
+                        value={
+                          !isNaN(dateFrom.getTime())
+                            ? dateFrom.toISOString().substring(0, 10)
+                            : undefined
+                        }
+                        onChange={(event) => {
+                          setDateFrom(
+                            getFirstOfMonth(new Date(event.target.value)),
+                          );
+                        }}
+                      />
+                    </FloatingLabel>
+                  </Form.Group>
+                  <Form.Group>
+                    <FloatingLabel label={"Date from"}>
+                      <Form.Control
+                        type={"date"}
+                        value={
+                          !isNaN(dateTo.getTime())
+                            ? dateTo.toISOString().substring(0, 10)
+                            : undefined
+                        }
+                        onChange={(event) => {
+                          setDateTo(
+                            getFirstOfMonth(new Date(event.target.value)),
+                          );
+                        }}
+                      />
+                    </FloatingLabel>
+                  </Form.Group>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
       {error && (
@@ -413,7 +507,7 @@ const FancyGraphCard: React.FC = () => {
           <Card>
             <Card.Header>
               <h5>
-                {gettext("Fancy graph")} {fetching && <Spinner size={"sm"} />}
+                {gettext("Graph")} {fetching && <Spinner size={"sm"} />}
               </h5>
             </Card.Header>
             <Card.Body className={"p-2 m-2"}>
@@ -422,7 +516,7 @@ const FancyGraphCard: React.FC = () => {
                 data={data}
                 options={{
                   scales: { y: { min: 0 } },
-                  plugins: { colors: { enabled: true, forceOverride: true } },
+                  plugins: { colors: { enabled: true } },
                   animation: false,
                 }}
               />
