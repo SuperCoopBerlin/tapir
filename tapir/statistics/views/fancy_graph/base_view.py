@@ -35,6 +35,11 @@ class DatapointView(LoginRequiredMixin, PermissionRequiredMixin, APIView, ABC):
         reference_time = datetime.datetime.strptime(at_date, "%Y-%m-%d")
         return timezone.make_aware(reference_time)
 
+    @staticmethod
+    def transfer_attributes(source, target, attributes):
+        for attribute in attributes:
+            setattr(target, attribute, getattr(source, attribute))
+
     @extend_schema(
         responses={200: int},
         parameters=[

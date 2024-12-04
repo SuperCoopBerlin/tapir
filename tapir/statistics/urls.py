@@ -2,7 +2,11 @@ from django.urls import path
 
 import tapir.statistics.views.fancy_graph.base_view
 import tapir.statistics.views.fancy_graph.number_of_active_members_view
+import tapir.statistics.views.fancy_graph.number_of_frozen_members_view
+import tapir.statistics.views.fancy_graph.number_of_long_term_frozen_members_view
 import tapir.statistics.views.fancy_graph.number_of_members_view
+import tapir.statistics.views.fancy_graph.number_of_purchasing_members_view
+import tapir.statistics.views.fancy_graph.number_of_working_members_view
 from tapir.statistics import views
 from tapir.statistics.views import fancy_graph
 
@@ -115,22 +119,22 @@ urlpatterns = [
     ),
     path(
         "number_of_working_members_at_date",
-        views.NumberOfWorkingMembersAtDateView.as_view(),
+        tapir.statistics.views.fancy_graph.number_of_working_members_view.NumberOfWorkingMembersAtDateView.as_view(),
         name="number_of_working_members_at_date",
     ),
     path(
         "number_of_purchasing_members_at_date",
-        views.NumberOfPurchasingMembersAtDateView.as_view(),
+        tapir.statistics.views.fancy_graph.number_of_purchasing_members_view.NumberOfPurchasingMembersAtDateView.as_view(),
         name="number_of_purchasing_members_at_date",
     ),
     path(
         "number_of_frozen_members_at_date",
-        views.NumberOfFrozenMembersAtDateView.as_view(),
+        tapir.statistics.views.fancy_graph.number_of_frozen_members_view.NumberOfFrozenMembersAtDateView.as_view(),
         name="number_of_frozen_members_at_date",
     ),
     path(
         "number_of_long_term_frozen_members_at_date",
-        views.NumberOfLongTermFrozenMembersAtDateView.as_view(),
+        tapir.statistics.views.fancy_graph.number_of_long_term_frozen_members_view.NumberOfLongTermFrozenMembersAtDateView.as_view(),
         name="number_of_long_term_frozen_members_at_date",
     ),
     path(
