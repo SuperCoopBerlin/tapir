@@ -9,6 +9,7 @@ import tapir.statistics.views.fancy_graph.number_of_frozen_members_view
 import tapir.statistics.views.fancy_graph.number_of_investing_members_view
 import tapir.statistics.views.fancy_graph.number_of_long_term_frozen_members_view
 import tapir.statistics.views.fancy_graph.number_of_members_view
+import tapir.statistics.views.fancy_graph.number_of_paused_members_view
 import tapir.statistics.views.fancy_graph.number_of_purchasing_members_view
 import tapir.statistics.views.fancy_graph.number_of_shift_partners_view
 import tapir.statistics.views.fancy_graph.number_of_working_members_view
@@ -169,7 +170,7 @@ urlpatterns = [
     ),
     path(
         "number_of_paused_members_at_date",
-        views.NumberOfPausedMembersAtDateView.as_view(),
+        tapir.statistics.views.fancy_graph.number_of_paused_members_view.NumberOfPausedMembersAtDateView.as_view(),
         name="number_of_paused_members_at_date",
     ),
     path(

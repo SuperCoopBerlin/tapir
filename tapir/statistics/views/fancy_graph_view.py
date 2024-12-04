@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from tapir.coop.models import ShareOwner, MemberStatus, MembershipResignation
+from tapir.coop.models import ShareOwner, MembershipResignation
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
@@ -87,29 +87,6 @@ def get_shift_user_datas_of_working_members_annotated_with_attendance_mode(
     return ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
         shift_user_datas, reference_time
     )
-
-
-class NumberOfPausedMembersAtDateView(
-    LoginRequiredMixin, PermissionRequiredMixin, APIView
-):
-    permission_required = PERMISSION_COOP_MANAGE
-
-    @extend_schema(
-        responses={200: int},
-        parameters=[
-            OpenApiParameter(name="at_date", required=True, type=datetime.date),
-        ],
-    )
-    def get(self, request):
-        at_date = request.query_params.get("at_date")
-        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
-        reference_time = timezone.make_aware(reference_time)
-        reference_date = reference_time.date()
-
-        return Response(
-            ShareOwner.objects.with_status(MemberStatus.PAUSED, reference_date).count(),
-            status=status.HTTP_200_OK,
-        )
 
 
 class NumberOfPendingResignationsAtDateView(
