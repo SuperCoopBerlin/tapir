@@ -35,11 +35,19 @@ export interface StatisticsNumberOfFrozenMembersAtDateRetrieveRequest {
     atDate: Date;
 }
 
+export interface StatisticsNumberOfInvestingMembersAtDateRetrieveRequest {
+    atDate: Date;
+}
+
 export interface StatisticsNumberOfLongTermFrozenMembersAtDateRetrieveRequest {
     atDate: Date;
 }
 
 export interface StatisticsNumberOfMembersAtDateRetrieveRequest {
+    atDate: Date;
+}
+
+export interface StatisticsNumberOfPausedMembersAtDateRetrieveRequest {
     atDate: Date;
 }
 
@@ -268,6 +276,47 @@ export class StatisticsApi extends runtime.BaseAPI {
     /**
      * Verify that the current user is authenticated.
      */
+    async statisticsNumberOfInvestingMembersAtDateRetrieveRaw(requestParameters: StatisticsNumberOfInvestingMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['atDate'] == null) {
+            throw new runtime.RequiredError(
+                'atDate',
+                'Required parameter "atDate" was null or undefined when calling statisticsNumberOfInvestingMembersAtDateRetrieve().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['atDate'] != null) {
+            queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/number_of_investing_members_at_date`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfInvestingMembersAtDateRetrieve(requestParameters: StatisticsNumberOfInvestingMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.statisticsNumberOfInvestingMembersAtDateRetrieveRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
     async statisticsNumberOfLongTermFrozenMembersAtDateRetrieveRaw(requestParameters: StatisticsNumberOfLongTermFrozenMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
         if (requestParameters['atDate'] == null) {
             throw new runtime.RequiredError(
@@ -344,6 +393,47 @@ export class StatisticsApi extends runtime.BaseAPI {
      */
     async statisticsNumberOfMembersAtDateRetrieve(requestParameters: StatisticsNumberOfMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
         const response = await this.statisticsNumberOfMembersAtDateRetrieveRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfPausedMembersAtDateRetrieveRaw(requestParameters: StatisticsNumberOfPausedMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['atDate'] == null) {
+            throw new runtime.RequiredError(
+                'atDate',
+                'Required parameter "atDate" was null or undefined when calling statisticsNumberOfPausedMembersAtDateRetrieve().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['atDate'] != null) {
+            queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/number_of_paused_members_at_date`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfPausedMembersAtDateRetrieve(requestParameters: StatisticsNumberOfPausedMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.statisticsNumberOfPausedMembersAtDateRetrieveRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

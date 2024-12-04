@@ -546,3 +546,45 @@ class NumberOfAbcdMembersAtDateView(
             shift_user_datas.count(),
             status=status.HTTP_200_OK,
         )
+
+
+class NumberOfInvestingMembersAtDateView(
+    LoginRequiredMixin, PermissionRequiredMixin, APIView
+):
+    permission_required = PERMISSION_COOP_MANAGE
+
+    @extend_schema(
+        responses={200: int},
+        parameters=[
+            OpenApiParameter(name="at_date", required=True, type=datetime.date),
+        ],
+    )
+    def get(self, request):
+        at_date = request.query_params.get("at_date")
+        at_datetime = datetime.datetime.strptime(at_date, DATE_FORMAT)
+
+        return Response(
+            ShareOwner.objects.with_status(MemberStatus.INVESTING, at_datetime).count(),
+            status=status.HTTP_200_OK,
+        )
+
+
+class NumberOfPausedMembersAtDateView(
+    LoginRequiredMixin, PermissionRequiredMixin, APIView
+):
+    permission_required = PERMISSION_COOP_MANAGE
+
+    @extend_schema(
+        responses={200: int},
+        parameters=[
+            OpenApiParameter(name="at_date", required=True, type=datetime.date),
+        ],
+    )
+    def get(self, request):
+        at_date = request.query_params.get("at_date")
+        at_datetime = datetime.datetime.strptime(at_date, DATE_FORMAT)
+
+        return Response(
+            ShareOwner.objects.with_status(MemberStatus.PAUSED, at_datetime).count(),
+            status=status.HTTP_200_OK,
+        )

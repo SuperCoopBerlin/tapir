@@ -56,6 +56,8 @@ const FancyGraphCard: React.FC = () => {
 
   const datasetNumberOfMembers = "number_of_members";
   const datasetNumberOfActiveMembers = "number_of_active_members";
+  const datasetNumberOfInvestingMembers = "number_of_investing_members";
+  const datasetNumberOfPausedMembers = "number_of_paused_members";
   const datasetNumberOfWorkingMembers = "number_of_working_members";
   const datasetNumberOfPurchasingMembers = "number_of_purchasing_members";
   const datasetNumberOfFrozenMembers = "number_of_frozen_members";
@@ -76,6 +78,14 @@ const FancyGraphCard: React.FC = () => {
         "Number of active members (active relative to the membership: paused and investing are not active, but frozen are active)",
       ),
       apiCall: api.statisticsNumberOfActiveMembersAtDateRetrieve,
+    },
+    [datasetNumberOfInvestingMembers]: {
+      display_name: gettext("Number of investing members"),
+      apiCall: api.statisticsNumberOfInvestingMembersAtDateRetrieve,
+    },
+    [datasetNumberOfPausedMembers]: {
+      display_name: gettext("Number of paused members"),
+      apiCall: api.statisticsNumberOfPausedMembersAtDateRetrieve,
     },
     [datasetNumberOfWorkingMembers]: {
       display_name: gettext("Number of working members"),
