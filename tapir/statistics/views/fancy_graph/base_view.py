@@ -26,7 +26,7 @@ class DatapointView(LoginRequiredMixin, PermissionRequiredMixin, APIView, ABC):
     permission_required = PERMISSION_COOP_MANAGE
 
     @abstractmethod
-    def get_datapoint(self, reference_time: datetime.datetime):
+    def get_datapoint(self, reference_time: datetime.datetime) -> int:
         pass
 
     @staticmethod

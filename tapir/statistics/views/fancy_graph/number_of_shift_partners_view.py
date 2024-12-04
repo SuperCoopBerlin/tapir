@@ -7,7 +7,7 @@ from tapir.statistics.views.fancy_graph.base_view import DatapointView
 
 
 class NumberOfShiftPartnersAtDateView(DatapointView):
-    def get_datapoint(self, reference_time):
+    def get_datapoint(self, reference_time) -> int:
         active_members = ShareOwner.objects.with_status(
             MemberStatus.ACTIVE, reference_time
         )

@@ -5,7 +5,7 @@ from tapir.statistics.views.fancy_graph.base_view import DatapointView
 
 
 class NumberOfMembersAtDateView(DatapointView):
-    def get_datapoint(self, reference_time: datetime.datetime):
+    def get_datapoint(self, reference_time: datetime.datetime) -> int:
         reference_date = reference_time.date()
         total_count = 0
         for member_status in [

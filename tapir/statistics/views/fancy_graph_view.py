@@ -7,10 +7,6 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from tapir.accounts.models import TapirUser
-from tapir.accounts.services.co_purchaser_history_service import (
-    CoPurchaserHistoryService,
-)
 from tapir.coop.models import ShareOwner, MemberStatus, MembershipResignation
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
@@ -27,51 +23,11 @@ from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
-from tapir.statistics.views.fancy_graph.number_of_purchasing_members_view import (
-    NumberOfPurchasingMembersAtDateView,
-)
 from tapir.statistics.views.fancy_graph.number_of_working_members_view import (
     NumberOfWorkingMembersAtDateView,
 )
 
 DATE_FORMAT = "%Y-%m-%d"
-
-
-class NumberOfCoPurchasersAtDateView(
-    LoginRequiredMixin, PermissionRequiredMixin, APIView
-):
-    permission_required = PERMISSION_COOP_MANAGE
-
-    @extend_schema(
-        responses={200: int},
-        parameters=[
-            OpenApiParameter(name="at_date", required=True, type=datetime.date),
-        ],
-    )
-    def get(self, request):
-        at_date = request.query_params.get("at_date")
-        reference_time = datetime.datetime.strptime(at_date, DATE_FORMAT)
-        reference_time = timezone.make_aware(reference_time)
-
-        tapir_users = TapirUser.objects.all()
-        purchasing_members = (
-            NumberOfPurchasingMembersAtDateView.get_purchasing_members_at_date(
-                reference_time
-            )
-        )
-        tapir_users = tapir_users.filter(share_owner__in=purchasing_members)
-
-        tapir_users = CoPurchaserHistoryService.annotate_tapir_user_queryset_with_has_co_purchaser_at_date(
-            tapir_users, reference_time
-        )
-        tapir_users = tapir_users.filter(
-            **{CoPurchaserHistoryService.ANNOTATION_HAS_CO_PURCHASER: True}
-        )
-
-        return Response(
-            tapir_users.count(),
-            status=status.HTTP_200_OK,
-        )
 
 
 def get_shift_user_datas_of_working_members_annotated_with_attendance_mode(
