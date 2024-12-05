@@ -3,8 +3,8 @@ from unittest.mock import patch, Mock
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import MemberStatus
-from tapir.coop.services.InvestingStatusService import InvestingStatusService
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
+from tapir.coop.services.investing_status_service import InvestingStatusService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,

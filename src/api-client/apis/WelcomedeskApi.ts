@@ -32,6 +32,7 @@ export interface WelcomedeskApiSearchListRequest {
 export class WelcomedeskApi extends runtime.BaseAPI {
 
     /**
+     * Verify that the current user is authenticated.
      */
     async welcomedeskApiSearchListRaw(requestParameters: WelcomedeskApiSearchListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<ShareOwnerForWelcomeDesk>>> {
         if (requestParameters['searchInput'] == null) {
@@ -60,6 +61,7 @@ export class WelcomedeskApi extends runtime.BaseAPI {
     }
 
     /**
+     * Verify that the current user is authenticated.
      */
     async welcomedeskApiSearchList(requestParameters: WelcomedeskApiSearchListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<ShareOwnerForWelcomeDesk>> {
         const response = await this.welcomedeskApiSearchListRaw(requestParameters, initOverrides);

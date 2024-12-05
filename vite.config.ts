@@ -18,6 +18,7 @@ export default defineConfig(() => {
       rollupOptions: {
         input: {
           welcome_desk: join(INPUT_DIR, "/welcome_desk/welcome_desk_entry.tsx"),
+          fancy_graph: join(INPUT_DIR, "/statistics/fancy_graph_entry.tsx"),
         },
       },
     },

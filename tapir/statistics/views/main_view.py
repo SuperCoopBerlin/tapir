@@ -18,9 +18,9 @@ from tapir.accounts.models import (
     UpdateTapirUserLogEntry,
 )
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
-from tapir.coop.services.InvestingStatusService import InvestingStatusService
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.investing_status_service import InvestingStatusService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.views import ShareCountEvolutionJsonView
 from tapir.financingcampaign.models import (
     FinancingCampaign,

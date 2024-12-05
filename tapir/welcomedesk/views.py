@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.utils import timezone
 from django.views.generic import TemplateView
 from drf_spectacular.utils import extend_schema, OpenApiParameter
@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from tapir.coop.models import ShareOwner
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.settings import PERMISSION_WELCOMEDESK_VIEW
 from tapir.welcomedesk.serializers import ShareOwnerForWelcomeDeskSerializer
 from tapir.welcomedesk.services.welcome_desk_reasons_cannot_shop_service import (
@@ -18,12 +18,14 @@ from tapir.welcomedesk.services.welcome_desk_warnings_service import (
 )
 
 
-class WelcomeDeskSearchView(PermissionRequiredMixin, TemplateView):
+class WelcomeDeskSearchView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
     permission_required = PERMISSION_WELCOMEDESK_VIEW
     template_name = "welcomedesk/welcome_desk_search.html"
 
 
-class SearchMemberForWelcomeDeskView(PermissionRequiredMixin, APIView):
+class SearchMemberForWelcomeDeskView(
+    LoginRequiredMixin, PermissionRequiredMixin, APIView
+):
     permission_required = PERMISSION_WELCOMEDESK_VIEW
 
     @extend_schema(

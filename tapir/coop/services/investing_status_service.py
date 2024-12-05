@@ -54,6 +54,7 @@ class InvestingStatusService:
             was_investing_as_string=UpdateShareOwnerLogEntry.objects.filter(
                 Q(share_owner_id=OuterRef("id")) | Q(user_id=OuterRef("user_id")),
                 created_date__gte=at_datetime,
+                old_values__is_investing__isnull=False,
             )
             .order_by("created_date")
             .values("old_values__is_investing")[:1]

@@ -10,7 +10,7 @@ from tapir.coop.models import (
     MembershipResignation,
     MembershipResignationDeleteLogEntry,
 )
-from tapir.coop.services.MembershipResignationService import (
+from tapir.coop.services.membership_resignation_service import (
     MembershipResignationService,
 )
 from tapir.coop.tests.factories import (

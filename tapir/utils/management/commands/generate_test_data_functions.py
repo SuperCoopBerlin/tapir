@@ -25,8 +25,8 @@ from tapir.coop.models import (
     MemberStatus,
     MembershipResignation,
 )
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.log.models import LogEntry
 from tapir.settings import GROUP_VORSTAND, GROUP_MEMBER_OFFICE
 from tapir.shifts.models import (
@@ -91,6 +91,10 @@ def determine_is_company(randomizer: int) -> bool:
 
 def determine_is_investing(randomizer: int, is_company: bool) -> bool:
     return randomizer % 7 == 0 or is_company
+
+
+def determine_is_abcd(randomizer: int) -> bool:
+    return randomizer % 4 == 0
 
 
 def generate_tapir_users(json_users):
@@ -246,7 +250,8 @@ def generate_test_users():
 
         is_company = determine_is_company(randomizer)
         is_investing = determine_is_investing(randomizer, is_company)
-        if is_company or is_investing:
+        is_abcd = determine_is_abcd(randomizer)
+        if is_company or is_investing or not is_abcd:
             continue
 
         tapir_user = tapir_users[index]
@@ -263,21 +268,29 @@ def generate_test_users():
                 attendance_template = ShiftAttendanceTemplate.objects.create(
                     user=tapir_user, slot_template=free_slot
                 )
-                log_entries.append(
-                    CreateShiftAttendanceTemplateLogEntry()
-                    .populate(
-                        actor=None,
-                        tapir_user=tapir_user,
-                        shift_attendance_template=attendance_template,
-                    )
-                    .save()
+                log_entry = CreateShiftAttendanceTemplateLogEntry().populate(
+                    actor=None,
+                    tapir_user=tapir_user,
+                    shift_attendance_template=attendance_template,
                 )
+                log_entry.save()
+                log_entries.append(log_entry)
                 free_slot.update_future_slot_attendances(SHIFT_GENERATION_START)
                 attendance_template_created = True
                 break
 
             if attendance_template_created:
                 break
+
+        for log_entry in log_entries:
+            log_entry.created_date = log_entry.user.date_joined + datetime.timedelta(
+                weeks=random.randint(1, 100)
+            )
+            log_entry.created_date = min(timezone.now(), log_entry.created_date)
+        CreateShiftAttendanceTemplateLogEntry.objects.bulk_update(
+            log_entries, ["created_date"]
+        )
+
     print("Created fake users")
 
 

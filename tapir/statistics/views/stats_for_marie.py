@@ -9,9 +9,9 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from tapir.coop.models import ShareOwner, MemberStatus, ShareOwnership
-from tapir.coop.services.InvestingStatusService import InvestingStatusService
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.investing_status_service import InvestingStatusService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.shifts.models import (
     UpdateShiftUserDataLogEntry,

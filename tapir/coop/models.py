@@ -13,9 +13,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
-from tapir.coop.services.InvestingStatusService import InvestingStatusService
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.investing_status_service import InvestingStatusService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.shifts.services.shift_can_shop_service import ShiftCanShopService

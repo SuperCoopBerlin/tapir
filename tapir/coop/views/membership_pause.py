@@ -18,7 +18,7 @@ from tapir.coop.models import (
     MembershipPauseUpdatedLogEntry,
     MembershipPauseCreatedLogEntry,
 )
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.core.templatetags.core import tapir_button_link_to_action
 from tapir.core.views import TapirFormMixin
