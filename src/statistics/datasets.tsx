@@ -19,9 +19,10 @@ const datasetNumberOfFlyingMembers = "number_of_flying_members";
 const datasetNumberOfAbcdMembers = "number_of_abcd_members";
 const datasetNumberOfPendingResignations = "number_of_pending_resignations";
 const datasetNumberOfCreatedResignations = "number_of_created_resignations";
+const datasetNumberOfExemptedMembers = "number_of_exempted_members";
 
 // Colors from https://mokole.com/palette.html
-// or https://lospec.com/palette-list/simple-14
+// or https://lospec.com/palette-list/syz15
 
 // Point styles from https://www.chartjs.org/docs/latest/configuration/elements.html#info
 
@@ -49,7 +50,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#000000",
+    color: "#0e0c19",
     pointStyle: "circle",
   },
   [datasetNumberOfActiveMembers]: {
@@ -60,7 +61,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfActiveMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#e3dac9",
+    color: "#9d1f2f",
     pointStyle: "cross",
   },
   [datasetNumberOfInvestingMembers]: {
@@ -68,7 +69,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfInvestingMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#318ce7",
+    color: "#f28c8c",
     pointStyle: "crossRot",
   },
   [datasetNumberOfPausedMembers]: {
@@ -76,7 +77,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfPausedMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#0b486b",
+    color: "#b05621",
     pointStyle: "dash",
   },
   [datasetNumberOfWorkingMembers]: {
@@ -84,7 +85,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfWorkingMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#272941",
+    color: "#c9ad23",
     pointStyle: "line",
   },
   [datasetNumberOfPurchasingMembers]: {
@@ -92,7 +93,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfPurchasingMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#1cceb7",
+    color: "#d8e1a9",
     pointStyle: "rect",
   },
   [datasetNumberOfFrozenMembers]: {
@@ -100,7 +101,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfFrozenMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#008080",
+    color: "#52b466",
     pointStyle: "rectRounded",
   },
   [datasetNumberOfLongTermFrozenMembers]: {
@@ -108,7 +109,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfLongTermFrozenMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#1b4d3e",
+    color: "#0e4f38",
     pointStyle: "rectRot",
   },
   [datasetNumberOfShiftPartners]: {
@@ -116,7 +117,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfShiftPartnersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#2c9c38",
+    color: "#68062f",
     pointStyle: "star",
   },
   [datasetNumberOfCoPurchasers]: {
@@ -127,7 +128,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfCoPurchasersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#f0a830",
+    color: "#8d5a88",
     pointStyle: "triangle",
   },
   [datasetNumberOfFlyingMembers]: {
@@ -138,7 +139,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfFlyingMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#ffa4e9",
+    color: "#126f7e",
     pointStyle: "circle",
   },
   [datasetNumberOfAbcdMembers]: {
@@ -149,7 +150,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfAbcdMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#e95081",
+    color: "#53269a",
     pointStyle: "cross",
   },
   [datasetNumberOfPendingResignations]: {
@@ -160,7 +161,7 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfPendingResignationsAtDateRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#7b1e7a",
+    color: "#221452",
     pointStyle: "crossRot",
   },
   [datasetNumberOfCreatedResignations]: {
@@ -171,7 +172,18 @@ export const datasets: { [key: string]: Dataset } = {
     apiCall: api.statisticsNumberOfCreatedResignationsInSameMonthRetrieve,
     chart_type: "line",
     relative: false,
-    color: "#841b2d",
+    color: "#122f70",
+    pointStyle: "dash",
+  },
+  [datasetNumberOfExemptedMembers]: {
+    display_name: gettext("Exempted members"),
+    description: gettext(
+      "Counting only members that would work if they were not exempted: frozen and investing members with an exemption are not counted. ",
+    ),
+    apiCall: api.statisticsNumberOfExemptedMembersAtDateRetrieve,
+    chart_type: "line",
+    relative: false,
+    color: "#223421",
     pointStyle: "dash",
   },
 };

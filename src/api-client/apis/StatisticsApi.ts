@@ -35,6 +35,11 @@ export interface StatisticsNumberOfCreatedResignationsInSameMonthRetrieveRequest
     relative: boolean;
 }
 
+export interface StatisticsNumberOfExemptedMembersAtDateRetrieveRequest {
+    atDate: Date;
+    relative: boolean;
+}
+
 export interface StatisticsNumberOfFlyingMembersAtDateRetrieveRequest {
     atDate: Date;
     relative: boolean;
@@ -295,6 +300,58 @@ export class StatisticsApi extends runtime.BaseAPI {
      */
     async statisticsNumberOfCreatedResignationsInSameMonthRetrieve(requestParameters: StatisticsNumberOfCreatedResignationsInSameMonthRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
         const response = await this.statisticsNumberOfCreatedResignationsInSameMonthRetrieveRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfExemptedMembersAtDateRetrieveRaw(requestParameters: StatisticsNumberOfExemptedMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['atDate'] == null) {
+            throw new runtime.RequiredError(
+                'atDate',
+                'Required parameter "atDate" was null or undefined when calling statisticsNumberOfExemptedMembersAtDateRetrieve().'
+            );
+        }
+
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsNumberOfExemptedMembersAtDateRetrieve().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['atDate'] != null) {
+            queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/number_of_exempted_members_at_date`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsNumberOfExemptedMembersAtDateRetrieve(requestParameters: StatisticsNumberOfExemptedMembersAtDateRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.statisticsNumberOfExemptedMembersAtDateRetrieveRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
