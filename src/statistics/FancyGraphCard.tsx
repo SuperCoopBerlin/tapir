@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Alert,
   Card,
@@ -54,13 +54,14 @@ const FancyGraphCard: React.FC = () => {
   const [dateFrom, setDateFrom] = useState<Date>(new Date());
   const [dateTo, setDateTo] = useState<Date>(getFirstOfMonth(new Date()));
   const [enabledDatasets, setEnabledDatasets] = useState<Set<string>>(
-    new Set(),
+    new Set<string>(),
   );
+  const enabledDatasetsRef = useRef<Set<string>>(new Set<string>());
   const [graphData, setGraphData] = useState<GraphData>({});
   const [graphLabels, setGraphLabels] = useState<string[]>([]);
   const [dates, setDates] = useState<Date[]>([]);
   const [fetching, setFetching] = useState(false);
-  const [cachedData, setCachedData] = useState<CachedData>({});
+  const cachedData = useRef<CachedData>({});
   const api = useApi(StatisticsApi);
 
   const datasetNumberOfMembers = "number_of_members";
@@ -99,7 +100,7 @@ const FancyGraphCard: React.FC = () => {
     [datasetNumberOfActiveMembers]: {
       display_name: gettext("Active members"),
       description: gettext(
-        "Active in the sense of their membership: paused and investing members are not active, but frozen membersare active",
+        "Active in the sense of their membership: paused and investing members are not active, but frozen members are active",
       ),
       apiCall: api.statisticsNumberOfActiveMembersAtDateRetrieve,
       chart_type: "line",
@@ -273,24 +274,25 @@ const FancyGraphCard: React.FC = () => {
   }, [dates, enabledDatasets]);
 
   function fillCachedData() {
-    for (const datasetId of enabledDatasets) {
-      if (!Object.keys(cachedData).includes(datasetId)) {
-        cachedData[datasetId] = {};
+    for (const datasetId of enabledDatasetsRef.current) {
+      if (!Object.keys(cachedData.current).includes(datasetId)) {
+        cachedData.current[datasetId] = {};
       }
       for (const date of dates) {
-        if (!Object.keys(cachedData[datasetId]).includes(formatDate(date))) {
-          cachedData[datasetId][formatDate(date)] = null;
+        if (
+          !Object.keys(cachedData.current[datasetId]).includes(formatDate(date))
+        ) {
+          cachedData.current[datasetId][formatDate(date)] = null;
         }
       }
     }
-    setCachedData(cachedData);
   }
 
   function buildAndSetGraphData() {
     const newGraphData: GraphData = {};
-    for (const datasetId of enabledDatasets) {
+    for (const datasetId of enabledDatasetsRef.current) {
       newGraphData[datasetId] = dates.map(
-        (date) => cachedData[datasetId][formatDate(date)],
+        (date) => cachedData.current[datasetId][formatDate(date)],
       );
     }
     setGraphData(newGraphData);
@@ -318,7 +320,7 @@ const FancyGraphCard: React.FC = () => {
     datasets[datasetId].apiCall
       .call(api, { atDate: date, relative: datasets[datasetId].relative })
       .then((value: number) => {
-        cachedData[datasetId][dateString] = value;
+        cachedData.current[datasetId][dateString] = value;
         buildAndSetGraphData();
         setFetching(false);
         fetchData();
@@ -331,9 +333,9 @@ const FancyGraphCard: React.FC = () => {
   }
 
   function getNextDataToFetch() {
-    for (const datasetId of enabledDatasets) {
-      for (const date of Object.keys(cachedData[datasetId])) {
-        if (cachedData[datasetId][date] === null) {
+    for (const datasetId of enabledDatasetsRef.current) {
+      for (const date of Object.keys(cachedData.current[datasetId])) {
+        if (cachedData.current[datasetId][date] === null) {
           return [datasetId, date];
         }
       }
@@ -376,6 +378,17 @@ const FancyGraphCard: React.FC = () => {
     return date;
   }
 
+  function getYScaleMinimum() {
+    let min = 0;
+    for (const values of Object.values(graphData)) {
+      for (const value of values) {
+        if (value === null) continue;
+        min = Math.min(min, value);
+      }
+    }
+    return min;
+  }
+
   return (
     <>
       <Row className={"mb-2"}>
@@ -412,11 +425,13 @@ const FancyGraphCard: React.FC = () => {
                             type={"switch"}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                enabledDatasets.add(datasetId);
+                                enabledDatasetsRef.current.add(datasetId);
                               } else {
-                                enabledDatasets.delete(datasetId);
+                                enabledDatasetsRef.current.delete(datasetId);
                               }
-                              setEnabledDatasets(new Set(enabledDatasets));
+                              setEnabledDatasets(
+                                new Set(enabledDatasetsRef.current),
+                              );
                             }}
                           />
                         </td>
@@ -426,11 +441,17 @@ const FancyGraphCard: React.FC = () => {
                             type={"switch"}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                enabledDatasets.add(datasetRelativeId);
+                                enabledDatasetsRef.current.add(
+                                  datasetRelativeId,
+                                );
                               } else {
-                                enabledDatasets.delete(datasetRelativeId);
+                                enabledDatasetsRef.current.delete(
+                                  datasetRelativeId,
+                                );
                               }
-                              setEnabledDatasets(new Set(enabledDatasets));
+                              setEnabledDatasets(
+                                new Set(enabledDatasetsRef.current),
+                              );
                             }}
                           />
                         </td>
@@ -515,7 +536,7 @@ const FancyGraphCard: React.FC = () => {
                 type={"line"}
                 data={data}
                 options={{
-                  scales: { y: { min: 0 } },
+                  scales: { y: { min: getYScaleMinimum() } },
                   plugins: { colors: { enabled: true } },
                   animation: false,
                 }}
