@@ -21,6 +21,8 @@ import { formatDate } from "../utils/formatDate.ts";
 import DatasetPickerCard from "./components/DatasetPickerCard.tsx";
 import { getFirstOfMonth } from "./utils.tsx";
 import DateRangePickerCard from "./components/DateRangePickerCard.tsx";
+import TapirButton from "../components/TapirButton.tsx";
+import { Download } from "react-bootstrap-icons";
 
 declare let gettext: (english_text: string) => string;
 
@@ -190,6 +192,40 @@ const FancyGraphCard: React.FC = () => {
     return min;
   }
 
+  function getCurrentDataAsCsvString() {
+    let string = "date";
+    for (const datasetId of Object.keys(graphData)) {
+      string += "," + datasetId;
+    }
+    string += "\n";
+
+    for (const [index, date] of dates.entries()) {
+      string += formatDate(date);
+
+      for (const datasetValues of Object.values(graphData)) {
+        string += "," + datasetValues[index];
+      }
+      string += "\n";
+    }
+
+    return string;
+  }
+
+  function downloadCurrentData() {
+    const element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," +
+        encodeURIComponent(getCurrentDataAsCsvString()),
+    );
+    const filename =
+      "tapir graph export " + formatDate(new Date(), true) + ".csv";
+    element.setAttribute("download", filename);
+
+    element.style.display = "none";
+    element.click();
+  }
+
   return (
     <>
       <Row className={"mb-2"}>
@@ -220,10 +256,18 @@ const FancyGraphCard: React.FC = () => {
       <Row>
         <Col>
           <Card>
-            <Card.Header>
+            <Card.Header
+              className={"d-flex align-items-center justify-content-between"}
+            >
               <h5>
                 {gettext("Graph")} {fetching && <Spinner size={"sm"} />}
               </h5>
+              <TapirButton
+                variant={"outline-secondary"}
+                text={"Download as CSV"}
+                icon={Download}
+                onClick={downloadCurrentData}
+              />
             </Card.Header>
             <Card.Body className={"p-2 m-2"}>
               <Chart
