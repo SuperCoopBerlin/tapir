@@ -115,7 +115,7 @@ class TestAttendanceUpdateMemberOffice(
         call_command("send_flying_member_registration_reminder_mails")
 
         mock_should_member_receive_reminder_mail.assert_called_once_with(
-            tapir_user.shift_user_data, cycle_start_date
+            tapir_user.shift_user_data, cycle_start_date, self.NOW
         )
         self.assertEqual(0, len(mail.outbox))
 
@@ -134,7 +134,7 @@ class TestAttendanceUpdateMemberOffice(
         call_command("send_flying_member_registration_reminder_mails")
 
         mock_should_member_receive_reminder_mail.assert_called_once_with(
-            tapir_user.shift_user_data, cycle_start_date
+            tapir_user.shift_user_data, cycle_start_date, self.NOW
         )
         self.assertEqual(1, len(mail.outbox))
         self.assertEmailOfClass_GotSentTo(
@@ -149,11 +149,13 @@ class TestAttendanceUpdateMemberOffice(
         mock_is_member_expected_to_do_shifts.return_value = False
 
         result = Command.should_member_receive_reminder_mail(
-            shift_user_data, self.NOW.date()
+            shift_user_data, self.NOW.date(), self.NOW
         )
 
         self.assertFalse(result)
-        mock_is_member_expected_to_do_shifts.assert_called_once_with(shift_user_data)
+        mock_is_member_expected_to_do_shifts.assert_called_once_with(
+            shift_user_data, self.NOW
+        )
 
     @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
     @patch.object(Command, "has_user_received_reminder_this_cycle")
@@ -168,11 +170,13 @@ class TestAttendanceUpdateMemberOffice(
         start_date = Mock()
 
         result = Command.should_member_receive_reminder_mail(
-            shift_user_data, start_date
+            shift_user_data, start_date, self.NOW
         )
 
         self.assertFalse(result)
-        mock_is_member_expected_to_do_shifts.assert_called_once_with(shift_user_data)
+        mock_is_member_expected_to_do_shifts.assert_called_once_with(
+            shift_user_data, self.NOW
+        )
         mock_has_user_received_reminder_this_cycle.assert_called_once_with(
             shift_user_data, start_date
         )
@@ -193,11 +197,13 @@ class TestAttendanceUpdateMemberOffice(
         start_date = Mock()
 
         result = Command.should_member_receive_reminder_mail(
-            shift_user_data, start_date
+            shift_user_data, start_date, self.NOW
         )
 
         self.assertFalse(result)
-        mock_is_member_expected_to_do_shifts.assert_called_once_with(shift_user_data)
+        mock_is_member_expected_to_do_shifts.assert_called_once_with(
+            shift_user_data, self.NOW
+        )
         mock_has_user_received_reminder_this_cycle.assert_called_once_with(
             shift_user_data, start_date
         )
@@ -221,11 +227,13 @@ class TestAttendanceUpdateMemberOffice(
         start_date = Mock()
 
         result = Command.should_member_receive_reminder_mail(
-            shift_user_data, start_date
+            shift_user_data, start_date, self.NOW
         )
 
         self.assertTrue(result)
-        mock_is_member_expected_to_do_shifts.assert_called_once_with(shift_user_data)
+        mock_is_member_expected_to_do_shifts.assert_called_once_with(
+            shift_user_data, self.NOW
+        )
         mock_has_user_received_reminder_this_cycle.assert_called_once_with(
             shift_user_data, start_date
         )
