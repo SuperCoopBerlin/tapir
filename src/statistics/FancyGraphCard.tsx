@@ -31,6 +31,19 @@ type CachedData = {
   [datasetId: string]: { [date_as_iso_string: string]: number | null };
 };
 
+ChartJS.register(
+  LineController,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale,
+  Colors,
+  Legend,
+  Tooltip,
+  BarElement,
+  BarController,
+);
+
 const FancyGraphCard: React.FC = () => {
   const [error, setError] = useState("");
   const [dateFrom, setDateFrom] = useState<Date>(new Date());
@@ -149,19 +162,6 @@ const FancyGraphCard: React.FC = () => {
 
     return null;
   }
-
-  ChartJS.register(
-    LineController,
-    LineElement,
-    PointElement,
-    CategoryScale,
-    LinearScale,
-    Colors,
-    Legend,
-    Tooltip,
-    BarElement,
-    BarController,
-  );
 
   const data = {
     labels: graphLabels,
