@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-21 19:45+0100\n"
+"POT-Creation-Date: 2024-12-05 12:47+0100\n"
 "PO-Revision-Date: 2024-10-07 11:12+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -4587,6 +4587,10 @@ msgstr ""
 #: statistics/apps.py:18
 msgid "Statistics"
 msgstr "Statistiken"
+
+#: statistics/templates/statistics/fancy_graph.html:10
+msgid "Fancy graph"
+msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:9
 msgid "Main statistics"
