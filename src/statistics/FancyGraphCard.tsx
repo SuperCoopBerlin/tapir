@@ -384,7 +384,7 @@ const FancyGraphCard: React.FC = () => {
             <Card.Header>
               <h5>{gettext("Pick which data to display")}</h5>
             </Card.Header>
-            <Card.Body>
+            <Card.Body style={{ padding: "0" }}>
               <Table className={"table-striped table-hover"}>
                 <thead>
                   <tr>
@@ -402,7 +402,7 @@ const FancyGraphCard: React.FC = () => {
                     }
                     const datasetRelativeId = datasetId + "_relative";
                     return (
-                      <tr key={datasetId}>
+                      <tr key={datasetId} style={{ verticalAlign: "middle" }}>
                         <td>{dataset.display_name}</td>
                         <td className={"fs-2"} style={{ color: dataset.color }}>
                           &#9632;
