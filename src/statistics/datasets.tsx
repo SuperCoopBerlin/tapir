@@ -98,6 +98,9 @@ export const datasets: { [key: string]: Dataset } = {
   },
   [datasetNumberOfFrozenMembers]: {
     display_name: gettext("Frozen members"),
+    description: gettext(
+      "Counted out of 'active' members: paused and investing members not counted.",
+    ),
     apiCall: api.statisticsNumberOfFrozenMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
