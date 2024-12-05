@@ -117,6 +117,9 @@ export const datasets: { [key: string]: Dataset } = {
   },
   [datasetNumberOfShiftPartners]: {
     display_name: gettext("Shift partners"),
+    description: gettext(
+      "Counted out of working members only: a frozen member with a shift partner is not counted",
+    ),
     apiCall: api.statisticsNumberOfShiftPartnersAtDateRetrieve,
     chart_type: "line",
     relative: false,
