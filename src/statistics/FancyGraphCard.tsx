@@ -7,7 +7,6 @@ import {
   Form,
   Row,
   Spinner,
-  Table,
 } from "react-bootstrap";
 import {
   BarController,
@@ -27,6 +26,7 @@ import { FetchError, StatisticsApi } from "../api-client";
 import { Chart } from "react-chartjs-2";
 import { datasets } from "./datasets.tsx";
 import { formatDate } from "../utils/formatDate.ts";
+import DatasetPickerCard from "./components/DatasetPickerCard.tsx";
 
 declare let gettext: (english_text: string) => string;
 
@@ -205,78 +205,10 @@ const FancyGraphCard: React.FC = () => {
     <>
       <Row className={"mb-2"}>
         <Col>
-          <Card>
-            <Card.Header>
-              <h5>{gettext("Pick which data to display")}</h5>
-            </Card.Header>
-            <Card.Body style={{ padding: "0" }}>
-              <Table className={"table-striped table-hover"}>
-                <thead>
-                  <tr>
-                    <th>Data</th>
-                    <th>Color</th>
-                    <th>Absolute</th>
-                    <th>Relative</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.entries(datasets).map(([datasetId, dataset]) => {
-                    if (dataset.relative) {
-                      return null;
-                    }
-                    const datasetRelativeId = datasetId + "_relative";
-                    return (
-                      <tr key={datasetId} style={{ verticalAlign: "middle" }}>
-                        <td>{dataset.display_name}</td>
-                        <td className={"fs-2"} style={{ color: dataset.color }}>
-                          &#9632;
-                        </td>
-                        <td>
-                          <Form.Check
-                            type={"switch"}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                enabledDatasetsRef.current.add(datasetId);
-                              } else {
-                                enabledDatasetsRef.current.delete(datasetId);
-                              }
-                              setEnabledDatasets(
-                                new Set(enabledDatasetsRef.current),
-                              );
-                            }}
-                          />
-                        </td>
-                        <td>
-                          <Form.Check
-                            key={datasetRelativeId}
-                            type={"switch"}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                enabledDatasetsRef.current.add(
-                                  datasetRelativeId,
-                                );
-                              } else {
-                                enabledDatasetsRef.current.delete(
-                                  datasetRelativeId,
-                                );
-                              }
-                              setEnabledDatasets(
-                                new Set(enabledDatasetsRef.current),
-                              );
-                            }}
-                          />
-                        </td>
-                        <td>
-                          <div>{dataset.description}</div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </Card.Body>
-          </Card>
+          <DatasetPickerCard
+            setEnabledDatasets={setEnabledDatasets}
+            enabledDatasetsRef={enabledDatasetsRef}
+          />
         </Col>
       </Row>
       <Row className={"mb-2"}>
