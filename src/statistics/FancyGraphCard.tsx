@@ -26,6 +26,7 @@ import { useApi } from "../hooks/useApi.ts";
 import { FetchError, StatisticsApi } from "../api-client";
 import { Chart } from "react-chartjs-2";
 import { datasets } from "./datasets.tsx";
+import { formatDate } from "../utils/formatDate.ts";
 
 declare let gettext: (english_text: string) => string;
 
@@ -77,14 +78,6 @@ const FancyGraphCard: React.FC = () => {
     setDates(dates);
     setGraphLabels(dates.map((date) => formatDate(date)));
   }, [dateFrom, dateTo]);
-
-  function formatDate(date: Date) {
-    return date.toLocaleDateString("de-DE", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  }
 
   useEffect(() => {
     fillCachedData();
