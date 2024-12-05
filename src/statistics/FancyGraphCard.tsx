@@ -1,13 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Alert,
-  Card,
-  Col,
-  FloatingLabel,
-  Form,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import { Alert, Card, Col, Row, Spinner } from "react-bootstrap";
 import {
   BarController,
   BarElement,
@@ -27,6 +19,8 @@ import { Chart } from "react-chartjs-2";
 import { datasets } from "./datasets.tsx";
 import { formatDate } from "../utils/formatDate.ts";
 import DatasetPickerCard from "./components/DatasetPickerCard.tsx";
+import { getFirstOfMonth } from "./utils.tsx";
+import DateRangePickerCard from "./components/DateRangePickerCard.tsx";
 
 declare let gettext: (english_text: string) => string;
 
@@ -185,11 +179,6 @@ const FancyGraphCard: React.FC = () => {
     }),
   };
 
-  function getFirstOfMonth(date: Date) {
-    date.setDate(1);
-    return date;
-  }
-
   function getYScaleMinimum() {
     let min = 0;
     for (const values of Object.values(graphData)) {
@@ -213,51 +202,12 @@ const FancyGraphCard: React.FC = () => {
       </Row>
       <Row className={"mb-2"}>
         <Col>
-          <Card>
-            <Card.Header>
-              <h5>{gettext("Set date range")}</h5>
-            </Card.Header>
-            <Card.Body>
-              <Form>
-                <div className={"d-flex flex-row gap-2"}>
-                  <Form.Group>
-                    <FloatingLabel label={"Date from"}>
-                      <Form.Control
-                        type={"date"}
-                        value={
-                          !isNaN(dateFrom.getTime())
-                            ? dateFrom.toISOString().substring(0, 10)
-                            : undefined
-                        }
-                        onChange={(event) => {
-                          setDateFrom(
-                            getFirstOfMonth(new Date(event.target.value)),
-                          );
-                        }}
-                      />
-                    </FloatingLabel>
-                  </Form.Group>
-                  <Form.Group>
-                    <FloatingLabel label={"Date from"}>
-                      <Form.Control
-                        type={"date"}
-                        value={
-                          !isNaN(dateTo.getTime())
-                            ? dateTo.toISOString().substring(0, 10)
-                            : undefined
-                        }
-                        onChange={(event) => {
-                          setDateTo(
-                            getFirstOfMonth(new Date(event.target.value)),
-                          );
-                        }}
-                      />
-                    </FloatingLabel>
-                  </Form.Group>
-                </div>
-              </Form>
-            </Card.Body>
-          </Card>
+          <DateRangePickerCard
+            dateFrom={dateFrom}
+            setDateFrom={setDateFrom}
+            dateTo={dateTo}
+            setDateTo={setDateTo}
+          />
         </Col>
       </Row>
       {error && (
