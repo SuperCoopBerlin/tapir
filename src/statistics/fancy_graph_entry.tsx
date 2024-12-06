@@ -6,5 +6,5 @@ if (domNode) {
   const root = createRoot(domNode);
   root.render(<FancyGraphCard />);
 } else {
-  console.error("Failed to render welcome desk from React");
+  console.error("Failed to render fancy graph from React");
 }

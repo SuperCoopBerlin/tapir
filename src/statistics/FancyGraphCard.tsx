@@ -58,6 +58,7 @@ const FancyGraphCard: React.FC = () => {
   const [graphLabels, setGraphLabels] = useState<string[]>([]);
   const [dates, setDates] = useState<Date[]>([]);
   const [fetching, setFetching] = useState(false);
+  const [datapickerExpanded, setDatapickerExpanded] = useState(false);
   const cachedData = useRef<CachedData>({});
   const api = useApi(StatisticsApi);
 
@@ -230,14 +231,6 @@ const FancyGraphCard: React.FC = () => {
     <>
       <Row className={"mb-2"}>
         <Col>
-          <DatasetPickerCard
-            setEnabledDatasets={setEnabledDatasets}
-            enabledDatasetsRef={enabledDatasetsRef}
-          />
-        </Col>
-      </Row>
-      <Row className={"mb-2"}>
-        <Col>
           <DateRangePickerCard
             dateFrom={dateFrom}
             setDateFrom={setDateFrom}
@@ -254,6 +247,14 @@ const FancyGraphCard: React.FC = () => {
         </Row>
       )}
       <Row>
+        <Col className={"mb-2 " + (datapickerExpanded ? "" : "col-xxl-3")}>
+          <DatasetPickerCard
+            setEnabledDatasets={setEnabledDatasets}
+            enabledDatasetsRef={enabledDatasetsRef}
+            isExpanded={datapickerExpanded}
+            setIsExpanded={setDatapickerExpanded}
+          />
+        </Col>
         <Col>
           <Card>
             <Card.Header
