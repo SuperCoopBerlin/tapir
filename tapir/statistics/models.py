@@ -11,6 +11,13 @@ class ProcessedPurchaseFiles(models.Model):
     processed_on = models.DateTimeField()
 
 
+class ProcessedCreditFiles(models.Model):
+    MAX_FILE_NAME_LENGTH = 255
+
+    file_name = models.CharField(max_length=255)
+    processed_on = models.DateTimeField()
+
+
 class PurchaseBasket(models.Model):
     source_file = models.ForeignKey(ProcessedPurchaseFiles, on_delete=models.CASCADE)
     purchase_date = models.DateTimeField()  # Datum & Zeit
@@ -23,3 +30,15 @@ class PurchaseBasket(models.Model):
     first_net_amount = models.FloatField()  # VKNetto_SUM
     second_net_amount = models.FloatField()  # EKNetto_SUM
     discount = models.FloatField()  # Rabatt_SUM
+
+
+class CreditAccount(models.Model):
+    source_file = models.ForeignKey(ProcessedCreditFiles, on_delete=models.CASCADE)
+    credit_date = models.DateTimeField()  # Datum & Zeit
+    credit_amount = models.FloatField()  # Betrag
+    credit_counter = models.IntegerField()  # Bon
+    cashier = models.IntegerField()  # cKasse (column names from the CSV source file)
+    info = models.CharField()  # Info (field from CSV source file)
+    tapir_user = models.ForeignKey(
+        TapirUser, on_delete=models.SET_NULL, null=True
+    )  # Nutzer

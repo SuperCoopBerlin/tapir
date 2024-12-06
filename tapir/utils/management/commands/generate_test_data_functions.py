@@ -43,7 +43,12 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
 )
-from tapir.statistics.models import ProcessedPurchaseFiles, PurchaseBasket
+from tapir.statistics.models import (
+    ProcessedPurchaseFiles,
+    PurchaseBasket,
+    ProcessedCreditFiles,
+    CreditAccount,
+)
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import (
@@ -542,6 +547,81 @@ def generate_purchase_baskets():
     PurchaseBasket.objects.bulk_create(baskets)
 
 
+def generate_credit_account():
+    print("Generating credit account")
+    current_date = ShareOwnership.objects.order_by("start_date").first().start_date
+    # starting not too long ago to avoid taking too much time
+    current_date: datetime.date = max(
+        current_date, datetime.date(year=2023, month=1, day=1)
+    )
+    today = timezone.now().date()
+
+    weeks = []
+
+    while current_date < today:
+        weeks.append(current_date)
+        current_date += datetime.timedelta(days=7)
+
+    processed_credit_files = [
+        ProcessedCreditFiles(
+            file_name=f"test_credit_file{current_date.strftime('%d.%m.%Y')}",
+            processed_on=get_timezone_aware_datetime(
+                week, datetime.time(hour=random.randint(0, 23))
+            ),
+        )
+        for week in weeks
+    ]
+    files: list[ProcessedCreditFiles] = ProcessedCreditFiles.objects.bulk_create(
+        processed_credit_files
+    )
+
+    account_credits = []
+    for file in files:
+        current_date = file.processed_on
+        share_owners = ShareOwner.objects.prefetch_related("user")
+        share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            share_owners, current_date
+        )
+        # share_owners = (
+        #     MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
+        #         share_owners, current_date
+        #     )
+        # )
+
+        purchasing_users = [
+            share_owner
+            for share_owner in share_owners.with_status(
+                status=MemberStatus.ACTIVE, at_datetime=current_date
+            )
+            if share_owner.user
+        ]
+        info = random.choice(["Guthabenkarte", "Einkauf"])
+        credit_amount = (
+            random.randrange(0, 100)
+            if info == "Guthabenkarte"
+            else random.randrange(-100, 0)
+        )
+        account_credits.extend(
+            [
+                CreditAccount(
+                    source_file=file,
+                    credit_date=get_timezone_aware_datetime(
+                        current_date - datetime.timedelta(days=random.randint(0, 6)),
+                        datetime.time(hour=random.randint(0, 23)),
+                    ),
+                    credit_amount=credit_amount,
+                    credit_counter=random.randint(0, 10),
+                    cashier=random.randint(0, 10),
+                    info=info,
+                    tapir_user=share_owner.user,
+                )
+                for share_owner in purchasing_users
+            ]
+        )
+
+    CreditAccount.objects.bulk_create(account_credits)
+
+
 def generate_log_updates():
     print("Generating history of changes")
     tapir_users = [tapir_user for tapir_user in TapirUser.objects.all()]
@@ -625,6 +705,7 @@ def reset_all_test_data():
     generate_test_users()
     generate_test_applicants()
     generate_purchase_baskets()
+    generate_credit_account()
     generate_log_updates()
     update_attendances()
 

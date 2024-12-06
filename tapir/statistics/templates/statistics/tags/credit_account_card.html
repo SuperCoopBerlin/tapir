@@ -1,0 +1,34 @@
+{% load statistics %}
+{% load i18n %}
+{% load core %}
+<div class="card mb-2">
+    <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Credits" %}</h5>
+    <ul class="list-group  list-group-flush">
+        <li class="list-group-item">
+            {% blocktranslate with credit=actual_credit %}
+                Your current credit is {{ credit }}€.
+            {% endblocktranslate %}
+        </li>
+        <ul class="list-group  list-group-flush">
+            <li class="list-group-item">
+                <table class="{% tapir_table_classes %}"
+                       aria-label="{% translate 'List of last charged credits' %}">
+                    <thead>
+                        <tr>
+                            <th>{% translate 'Date' %}</th>
+                            <th>{% translate 'Action' %}</th>
+                            <th>{% translate 'Credit amount' %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for credit in last_credits %}
+                            <tr>
+                                <td>{{ credit.credit_date|date:"d.m.Y H:i" }}</td>
+                                <td>{{ credit.info }}</td>
+                                <td>{{ credit.credit_amount }}€</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </li>
+        </ul>
