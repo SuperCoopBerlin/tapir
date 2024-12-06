@@ -24,7 +24,9 @@ const DatasetPickerCard: React.FC<DatasetPickerCardProps> = ({
 }) => {
   return (
     <Card>
-      <Card.Header className={"d-flex justify-content-between"}>
+      <Card.Header
+        className={"d-flex justify-content-between align-items-center"}
+      >
         <h5>{gettext("Pick which data to display")}</h5>
         <TapirButton
           variant={"outline-secondary"}
