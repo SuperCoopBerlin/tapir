@@ -26,6 +26,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         data = {
             "share_owner": share_owner,
             "cancellation_reason": "A test reason.",
+            "cancellation_reason_category": MembershipResignation.CancellationReasons.OTHER,
             "cancellation_date": resignation.cancellation_date,
             "resignation_type": resignation.resignation_type,
             "transferring_shares_to": resignation.transferring_shares_to,

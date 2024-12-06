@@ -57,6 +57,7 @@ class TestMembershipResignationEditView(
             reverse("coop:membership_resignation_edit", args=[resignation.id]),
             data={
                 "cancellation_reason": "Reason after edit",
+                "cancellation_reason_category": MembershipResignation.CancellationReasons.OTHER,
                 "cancellation_date": self.TODAY,
             },
             follow=True,
@@ -117,6 +118,7 @@ class TestMembershipResignationEditView(
             reverse("coop:membership_resignation_edit", args=[resignation.id]),
             data={
                 "cancellation_reason": "Test for updated object via post-client.",
+                "cancellation_reason_category": MembershipResignation.CancellationReasons.OTHER,
                 "cancellation_date": datetime.date(year=2022, month=7, day=30),
                 "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
                 "paid_out": False,

@@ -68,6 +68,7 @@ class TestMembershipResignationCreateView(
         data = {
             "share_owner": resigning_member.id,
             "cancellation_reason": "Test resignation",
+            "cancellation_reason_category": MembershipResignation.CancellationReasons.OTHER,
             "cancellation_date": self.TODAY,
             "resignation_type": resignation_type,
         }
@@ -205,6 +206,7 @@ class TestMembershipResignationCreateView(
         data = {
             "share_owner": resigning_member.id,
             "cancellation_reason": "Test resignation",
+            "cancellation_reason_category": MembershipResignation.CancellationReasons.OTHER,
             "cancellation_date": self.TODAY,
             "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
             "set_member_status_investing": MembershipResignationForm.SetMemberStatusInvestingChoices.MEMBER_BECOMES_INVESTING,
