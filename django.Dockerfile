@@ -1,10 +1,10 @@
-FROM python:3.12
+FROM python:3.13
 ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 COPY . /app
 
-RUN apt update -y  \
-    && apt --no-install-recommends install -y  \
+RUN apt-get update -y  \
+    && apt-get --no-install-recommends install -y  \
         gettext  \
         libldap2-dev  \
         libsasl2-dev  \

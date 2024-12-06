@@ -24,8 +24,10 @@ from tapir.coop.models import (
     MembershipResignationCreateLogEntry,
     MembershipResignationUpdateLogEntry,
     MembershipResignationDeleteLogEntry,
+    ShareOwner,
+    UpdateShareOwnerLogEntry,
 )
-from tapir.coop.services.MembershipResignationService import (
+from tapir.coop.services.membership_resignation_service import (
     MembershipResignationService,
 )
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
@@ -34,7 +36,10 @@ from tapir.core.templatetags.core import tapir_button_link_to_action
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import PERMISSION_COOP_MANAGE
+from tapir.settings import (
+    PERMISSION_RESIGNATION_VIEW,
+    PERMISSION_RESIGNATION_MANAGE,
+)
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
 
@@ -46,6 +51,7 @@ class MembershipResignationTable(django_tables2.Table):
         fields = [
             "share_owner",
             "cancellation_date",
+            "cancellation_reason_category",
             "cancellation_reason",
             "paid_out",
             "pay_out_day",
@@ -53,10 +59,11 @@ class MembershipResignationTable(django_tables2.Table):
         ]
         sequence = [
             "share_owner",
-            "cancellation_reason",
             "cancellation_date",
             "pay_out_day",
             "paid_out",
+            "cancellation_reason_category",
+            "cancellation_reason",
             "add_buttons",
         ]
         exclude = ["resignation_type"]
@@ -65,7 +72,6 @@ class MembershipResignationTable(django_tables2.Table):
         empty_text = "No entries"
         default = "No entries"
 
-    cancellation_reason = django_tables2.Column(attrs={"td": {"class": "col-3"}})
     pay_out_day = django_tables2.DateColumn(
         format="d/m/Y",
         verbose_name="Membership ends",
@@ -122,7 +128,7 @@ class MembershipResignationTable(django_tables2.Table):
             "<a href='{}' class='{}'>{}</a>",
             reverse_lazy("coop:membership_resignation_detail", args=[record.pk]),
             tapir_button_link_to_action(),
-            format_html("<span class='material-icons'>edit</span>"),
+            format_html("<span class='material-icons'>more_horiz</span>"),
         )
 
 
@@ -144,6 +150,9 @@ class MembershipResignationFilter(django_filters.FilterSet):
     )
     paid_out = django_filters.BooleanFilter(
         widget=django_filters.widgets.BooleanWidget()
+    )
+    cancellation_reason_category = django_filters.ChoiceFilter(
+        choices=MembershipResignation.CancellationReasons.choices
     )
 
     class Meta:
@@ -169,7 +178,7 @@ class MembershipResignationList(
     template_name = "coop/membership_resignation_list.html"
     export_formats = ["csv", "json"]
     filterset_class = MembershipResignationFilter
-    permission_required = PERMISSION_COOP_MANAGE
+    permission_required = PERMISSION_RESIGNATION_VIEW
 
     def get_context_data(self, **kwargs):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
@@ -191,7 +200,7 @@ class MembershipResignationEditView(
 ):
     model = MembershipResignation
     form_class = MembershipResignationForm
-    permission_required = PERMISSION_COOP_MANAGE
+    permission_required = PERMISSION_RESIGNATION_MANAGE
     success_url = reverse_lazy("coop:membership_resignation_list")
 
     def get_context_data(self, **kwargs):
@@ -230,12 +239,13 @@ class MembershipResignationEditView(
 
 
 class MembershipResignationCreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+    LoginRequiredMixin, PermissionRequiredMixin, CreateView
 ):
     model = MembershipResignation
     form_class = MembershipResignationForm
-    permission_required = PERMISSION_COOP_MANAGE
+    permission_required = PERMISSION_RESIGNATION_MANAGE
     success_url = reverse_lazy("coop:membership_resignation_list")
+    template_name = "coop/membership_resignation_form.html"
 
     def get_context_data(self, **kwargs):
         if not FeatureFlag.get_flag_value(feature_flag_membership_resignation):
@@ -275,13 +285,36 @@ class MembershipResignationCreateView(
                 actor=self.request.user,
                 recipient=membership_resignation.transferring_shares_to,
             )
+
+        if (
+            form.cleaned_data["set_member_status_investing"]
+            == MembershipResignationForm.SetMemberStatusInvestingChoices.MEMBER_BECOMES_INVESTING
+        ):
+            self.switch_member_to_investing(membership_resignation.share_owner)
         return result
+
+    def switch_member_to_investing(self, share_owner: ShareOwner):
+        if share_owner.is_investing:
+            return
+
+        with transaction.atomic():
+            old_frozen = freeze_for_log(share_owner)
+            share_owner.is_investing = True
+            share_owner.save()
+            new_frozen = freeze_for_log(share_owner)
+
+            UpdateShareOwnerLogEntry().populate(
+                old_frozen=old_frozen,
+                new_frozen=new_frozen,
+                share_owner=share_owner,
+                actor=self.request.user,
+            ).save()
 
 
 class MembershipResignationDetailView(
     LoginRequiredMixin, PermissionRequiredMixin, DetailView
 ):
-    permission_required = PERMISSION_COOP_MANAGE
+    permission_required = PERMISSION_RESIGNATION_VIEW
     model = MembershipResignation
 
     def get(self, request, *args, **kwargs):
@@ -298,7 +331,7 @@ class MembershipResignationDeleteView(
     UpdateViewLogMixin,
 ):
     model = MembershipResignation
-    permission_required = PERMISSION_COOP_MANAGE
+    permission_required = PERMISSION_RESIGNATION_MANAGE
     success_url = reverse_lazy("coop:membership_resignation_list")
 
     def form_valid(self, form):
@@ -308,9 +341,10 @@ class MembershipResignationDeleteView(
                     "The membership resignation feature is disabled."
                 )
 
-            MembershipResignationService.delete_end_dates(self.get_object())
-            MembershipResignationDeleteLogEntry().populate(
-                model=self.get_object(),
-                actor=self.request.user,
-            ).save()
+            with transaction.atomic():
+                MembershipResignationService.on_resignation_deleted(self.get_object())
+                MembershipResignationDeleteLogEntry().populate(
+                    model=self.get_object(),
+                    actor=self.request.user,
+                ).save()
         return super().form_valid(form)

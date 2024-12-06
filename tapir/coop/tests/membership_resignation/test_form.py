@@ -26,6 +26,7 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         data = {
             "share_owner": share_owner,
             "cancellation_reason": "A test reason.",
+            "cancellation_reason_category": MembershipResignation.CancellationReasons.OTHER,
             "cancellation_date": resignation.cancellation_date,
             "resignation_type": resignation.resignation_type,
             "transferring_shares_to": resignation.transferring_shares_to,
@@ -124,28 +125,6 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
         )
         self.assertNotIn("transferring_shares_to", form.errors.keys())
 
-    def test_validatePaidOut_resignationTypeGiftButPaidOutTrue_errorIsAddedToForm(self):
-        share_owner = ShareOwnerFactory.create()
-        resignation = MembershipResignationFactory.create(
-            share_owner=share_owner,
-            resignation_type=MembershipResignation.ResignationType.GIFT_TO_COOP,
-            paid_out=True,
-        )
-        form = MembershipResignationForm(
-            data={
-                "share_owner": ShareOwnerFactory.create(),
-                "cancellation_date": resignation.cancellation_date,
-                "cancellation_reason": resignation.cancellation_reason,
-                "resignation_type": resignation.resignation_type,
-                "paid_out": resignation.paid_out,
-            }
-        )
-        self.assertIn("paid_out", form.errors.keys())
-        self.assertIn(
-            "Cannot pay out, because shares have been gifted.",
-            form.errors["paid_out"],
-        )
-
     def test_validatePaidOut_resignationTypeBuyBackAndPaidOutTrue_noErrorIsAddedToForm(
         self,
     ):
@@ -165,3 +144,27 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
             }
         )
         self.assertNotIn("paid_out", form.errors.keys())
+
+    def test_validateSetMemberStatusInvesting_noOptionSelected_errorAddedToForm(
+        self,
+    ):
+        form = MembershipResignationForm(
+            data={
+                "share_owner": ShareOwnerFactory.create(),
+                "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
+                "set_member_status_investing": MembershipResignationForm.SetMemberStatusInvestingChoices.NOT_SELECTED,
+            }
+        )
+        self.assertIn("set_member_status_investing", form.errors.keys())
+
+    def test_validateSetMemberStatusInvesting_optionSelected_noErrorAddedToForm(
+        self,
+    ):
+        form = MembershipResignationForm(
+            data={
+                "share_owner": ShareOwnerFactory.create(),
+                "resignation_type": MembershipResignation.ResignationType.BUY_BACK,
+                "set_member_status_investing": MembershipResignationForm.SetMemberStatusInvestingChoices.MEMBER_BECOMES_INVESTING,
+            }
+        )
+        self.assertNotIn("set_member_status_investing", form.errors.keys())

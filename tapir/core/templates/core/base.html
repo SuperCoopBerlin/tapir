@@ -31,8 +31,11 @@
             $('[data-bs-toggle="tooltip"]').tooltip();
             $('[data-bs-toggle="tooltip"]').each(function () {
                 const tooltip_element = $(this)[0];
-                tooltip_element.innerHTML += "<span class='material-icons tapir-tooltip-icon'>info</span>";
-                tooltip_element.classList.add("tapir-tooltip-item");
+                const title = tooltip_element.getAttribute("data-bs-original-title")
+                if (title) {
+                    tooltip_element.innerHTML += "<span class='material-icons tapir-tooltip-icon'>info</span>";
+                    tooltip_element.classList.add("tapir-tooltip-item");
+                }
             })
         })
         </script>

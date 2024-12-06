@@ -7,7 +7,7 @@ from tapir import settings
 from tapir.coop import pdfs
 from tapir.coop.models import ShareOwner
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.tapir_email_base import TapirEmailBase
 from tapir.utils.user_utils import UserUtils
 

@@ -132,6 +132,7 @@ msgstr ""
 #: accounts/templates/registration/password_update.html:16
 #: coop/templates/coop/draftuser_register_form.default.html:42
 #: coop/templates/coop/draftuser_register_form.html:45
+#: coop/templates/coop/membership_resignation_form.html:65
 #: core/templates/core/tapir_form.default.html:30
 #: core/templates/core/tapir_form.html:30
 #: shifts/templates/shifts/convert_exemption_to_pause_form.html:37
@@ -275,7 +276,7 @@ msgstr "Benutzername bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:43
 #: coop/templates/coop/draftuser_detail.html:242
-#: coop/templates/coop/membershipresignation_detail.html:99
+#: coop/templates/coop/membershipresignation_detail.html:107
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:22
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:90
@@ -552,80 +553,110 @@ msgstr "Tapir-Konto erstellt"
 msgid "Sent to a member when the accounts gets created."
 msgstr ""
 
-#: coop/forms.py:40
+#: coop/forms.py:41
 #: financingcampaign/templates/financingcampaign/general.html:27
 msgid "Start date"
 msgstr "Anfangsdatum"
 
-#: coop/forms.py:44
+#: coop/forms.py:45
 msgid "Usually, the date on the membership agreement, or today. In the case of sold or gifted shares, can be set in the future."
 msgstr ""
 
-#: coop/forms.py:49
+#: coop/forms.py:50
 #: financingcampaign/templates/financingcampaign/general.html:28
 msgid "End date"
 msgstr "Enddatum"
 
-#: coop/forms.py:53
+#: coop/forms.py:54
 msgid "Usually left empty. Can be set to a point in the future if it is already known that the shares will be transferred to another member in the future."
 msgstr ""
 
-#: coop/forms.py:59
+#: coop/forms.py:60
 msgid "Number of shares to create"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/forms.py:67
+#: coop/forms.py:68
 msgid "The end date must be later than the start date."
 msgstr ""
 
-#: coop/forms.py:106 coop/models.py:501
+#: coop/forms.py:107 coop/models.py:501
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
-#: coop/forms.py:111
+#: coop/forms.py:112
 #, python-format
 msgid "Number of shares you would like to purchase. The price of one share is EUR %(share_price)s. You need to purchase at least one share to become member of the cooperative. To support our cooperative even more, you may voluntarily purchase more shares."
 msgstr ""
 
-#: coop/forms.py:121
+#: coop/forms.py:122
 msgid "I would like to join the membership list as an investing member (= sponsoring member)"
 msgstr ""
 
-#: coop/forms.py:124
+#: coop/forms.py:125
 msgid "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
 msgstr ""
 
-#: coop/forms.py:234
+#: coop/forms.py:235
 msgid "Usually, the credited member is the same as the paying member. Only if a person if gifting another person a share through the matching program, then the fields can be different."
 msgstr ""
 
-#: coop/forms.py:256
+#: coop/forms.py:257
 msgid "Please not more than 1000 characters."
 msgstr ""
 
-#: coop/forms.py:262
+#: coop/forms.py:260
+#, fuzzy
+#| msgid "Membership confirmation"
+msgid "Member to resign"
+msgstr "Mitgliedsbestätigung"
+
+#: coop/forms.py:263
 msgid "Transferring share(s) to"
 msgstr ""
 
-#: coop/forms.py:312
+#: coop/forms.py:271
+#, fuzzy
+#| msgid "Number of shares to create"
+msgid "The member stays active"
+msgstr "Anzahl zu erstellender Anteile"
+
+#: coop/forms.py:273
+msgid "The member becomes investing"
+msgstr ""
+
+#: coop/forms.py:277
+#, fuzzy
+#| msgid "Members statistics"
+msgid "Member status"
+msgstr "Mitglieder-Statistik"
+
+#: coop/forms.py:281
+msgid "In the case where the member wants their money back, they stay a member for 3 more years. However, it is very likely that the member doesn't want to be active anymore. If they haven't explicitly mentioned it, please ask them if we can switch them to investing."
+msgstr ""
+
+#: coop/forms.py:348
+msgid "Please pick an option"
+msgstr ""
+
+#: coop/forms.py:360
 #, fuzzy
 #| msgid "Member already created."
 msgid "This member is already resigned."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/forms.py:324
+#: coop/forms.py:372
 msgid "Please select the member that the shares should be transferred to."
 msgstr ""
 
-#: coop/forms.py:337
+#: coop/forms.py:385
 msgid "If the shares don't get transferred to another member, this field should be empty."
 msgstr ""
 
-#: coop/forms.py:350
+#: coop/forms.py:398
 msgid "Sender and receiver of transferring the share(s) cannot be the same."
 msgstr ""
 
-#: coop/forms.py:362
+#: coop/forms.py:410
 msgid "Cannot pay out, because shares have been gifted."
 msgstr ""
 
@@ -781,13 +812,37 @@ msgstr "Anzahl zu erstellender Anteile"
 msgid "The shares get transferred to another member"
 msgstr ""
 
+#: coop/models.py:819
+#, fuzzy
+#| msgid "Confirm cancellation"
+msgid "Financial reasons"
+msgstr "Absage bestätigen"
+
+#: coop/models.py:820
+#, fuzzy
+#| msgid "Confirm cancellation"
+msgid "Health reasons"
+msgstr "Absage bestätigen"
+
 #: coop/models.py:821
+msgid "Distance"
+msgstr ""
+
+#: coop/models.py:822
+msgid "Strategic orientation of SuperCoop"
+msgstr ""
+
+#: coop/models.py:823
+msgid "Other"
+msgstr ""
+
+#: coop/models.py:828
 #, fuzzy
 #| msgid "Edit shareowner"
 msgid "Shareowner"
 msgstr "Mitglied bearbeiten"
 
-#: coop/models.py:837
+#: coop/models.py:847
 msgid "Leave this empty if the resignation type is not a transfer to another member"
 msgstr ""
 
@@ -939,7 +994,7 @@ msgid "Export"
 msgstr "Exportieren"
 
 #: coop/templates/coop/draftuser_list.html:42
-#: coop/templates/coop/membership_resignation_list.html:44
+#: coop/templates/coop/membership_resignation_list.html:50
 #: coop/templates/coop/shareowner_list.html:38
 #: log/templates/log/log_overview.html:34
 #: shifts/templates/shifts/shift_filters.html:3
@@ -949,7 +1004,7 @@ msgstr "Filter"
 #: coop/templates/coop/draftuser_list.html:55
 #: coop/templates/coop/incoming_payment_list.html:35
 #: coop/templates/coop/membership_pause/membership_pause_list.html:47
-#: coop/templates/coop/membership_resignation_list.html:56
+#: coop/templates/coop/membership_resignation_list.html:62
 #: coop/templates/coop/shareowner_list.html:51
 #: log/templates/log/log_overview.html:46
 #: shifts/templates/shifts/shift_calendar_template.html:66
@@ -960,7 +1015,7 @@ msgstr "Filter"
 #: coop/templates/coop/draftuser_list.html:60
 #: coop/templates/coop/incoming_payment_list.html:40
 #: coop/templates/coop/membership_pause/membership_pause_list.html:52
-#: coop/templates/coop/membership_resignation_list.html:61
+#: coop/templates/coop/membership_resignation_list.html:67
 #: coop/templates/coop/shareowner_list.html:56
 #: shifts/templates/shifts/shiftexemption_list.html:55
 msgid "Clear all filters"
@@ -1114,12 +1169,12 @@ msgid ""
 "        <p>Hello %(display_name)s,</p>\n"
 "        <p>\n"
 "            Welcome as an official member of our cooperative, %(coop_full_name)s! Please find the details of your\n"
-"            membership confirmation attached. It is important that you complete METRO's online hygiene training before\n"
-"            starting your first shift at the Coop. You can find all the information on this under point 3.\n"
-"        </p>\n"
+"            membership confirmation attached. We are thrilled to welcome you aboard and begin running SuperCoop together with you!\n"
 "        <p>\n"
-"            We are thrilled to welcome you aboard and begin running SuperCoop together\n"
-"            with you!\n"
+"            If you haven't done so already, please transfer the amount for your shares together with the 10 € \n"
+"            admission fee to our account DE98430609671121379000.    \n"
+"            It is also important that you complete METRO's online hygiene training before\n"
+"            starting your first shift at the Coop. You can find all the information on this under point 3.\n"
 "        </p>\n"
 "        <p>See below for key details to kickstart your SuperCoop membership:</p>\n"
 "        <h2>1. Member Office</h2>\n"
@@ -1326,12 +1381,12 @@ msgstr ""
 "        <p>Hallo %(display_name)s,</p>\n"
 "        <p>\n"
 "         herzlich willkommen als offizielles Mitglied unserer %(coop_full_name)s Genossenschaft! Im Anhang findest du deine\n"
-"        Mitgliedschaftsbestätigung. Wichtig ist, dass du bereits vor Antritt deiner ersten Schicht in der Coop die\n"
-"        Online-Hygieneschulung der METRO absolvierst. Alle Infos dazu findest du unter Punkt 3.\n"
-"        </p>\n"
-"        <p>\n"
-"            Wir freuen uns sehr, dass du mit an Bord bist und wir SuperCoop gemeinsam weiterentwickeln.\n"
-"        </p>\n"
+"        Mitgliedschaftsbestätigung. Wir freuen uns sehr, dass du mit an Bord bist und wir SuperCoop gemeinsam weiterentwickeln.  \n"
+"</p>\n"
+"<p>\n"
+"Falls noch nicht gesehen, bitte überweise den Betrag für deine Anteile inkl. 10 € Gebühr auf unser Konto DE98430609671121379000.\n"
+"Wichtig ist auch, dass du bereits vor Antritt deiner ersten Schicht in der Coop die Online-Hygieneschulung der METRO absolvierst. Alle Infos dazu findest du unter Punkt 3.\n"
+"</p>\n"
 "        <p>In dieser E-Mail wollen wir für dich die wichtigsten Informationen zu SuperCoop kurz und knackig zusammenfassen.</p>\n"
 "        <h2>1. Mitgliederbüro</h2>\n"
 "        <p>Das Mitgliederbüro ist der Knotenpunkt für die Unterstützung der Mitglieder in allen Belangen der SuperCoop.</p>\n"
@@ -1971,6 +2026,12 @@ msgid ""
 "                                "
 msgstr ""
 
+#: coop/templates/coop/membership_resignation_form.html:51
+#: coop/templates/coop/membership_resignation_form.html:56
+#: coop/views/membership_resignation.py:255
+msgid "Resign a new membership"
+msgstr ""
+
 #: coop/templates/coop/membership_resignation_list.html:12
 #: coop/templates/coop/membership_resignation_list.html:21
 #, fuzzy
@@ -1978,7 +2039,22 @@ msgstr ""
 msgid "List of membership resignations"
 msgstr "Liste der Schicht-Befreiungen"
 
-#: coop/templates/coop/membership_resignation_list.html:36
+#: coop/templates/coop/membership_resignation_list.html:33
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                        %(num_banked_shifts)s banked shifts\n"
+#| "                    "
+msgid ""
+"\n"
+"                    Only the vorstand and the employees can create resignations.\n"
+"                "
+msgstr ""
+"\n"
+"                        %(num_banked_shifts)s Schicht(en) gut geschrieben\n"
+"                    "
+
+#: coop/templates/coop/membership_resignation_list.html:41
 #, fuzzy
 #| msgid "Investing member"
 msgid "Resign new member"
@@ -2059,6 +2135,13 @@ msgstr "Ja"
 #: coop/views/draftuser.py:286
 msgid "No"
 msgstr "Nein"
+
+#: coop/templates/coop/membershipresignation_detail.html:91
+msgid ""
+"\n"
+"                Only the vorstand and the employees can edit resignations.\n"
+"            "
+msgstr ""
 
 #: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:12
 #, python-format
@@ -2367,44 +2450,40 @@ msgstr ""
 msgid "Edit membership pause: %(name)s"
 msgstr ""
 
-#: coop/views/membership_resignation.py:105
+#: coop/views/membership_resignation.py:111
 msgid "Share(s) gifted {chr(8594)} SuperCoop"
 msgstr ""
 
-#: coop/views/membership_resignation.py:111
+#: coop/views/membership_resignation.py:117
 #, fuzzy
 #| msgid "Shares requested"
 msgid "Share(s) gifted"
 msgstr "Angeforderte Anteile"
 
-#: coop/views/membership_resignation.py:131
+#: coop/views/membership_resignation.py:137
 #, fuzzy
 #| msgid "Search Members"
 msgid "Search member or ID"
 msgstr "Mitglieder suchen"
 
-#: coop/views/membership_resignation.py:137
+#: coop/views/membership_resignation.py:143
 #, fuzzy
 #| msgid "Cycle start date"
 msgid "Pay out start date"
 msgstr "Anfangsdatum"
 
-#: coop/views/membership_resignation.py:143
+#: coop/views/membership_resignation.py:149
 #, fuzzy
 #| msgid "without end date"
 msgid "Pay out end date"
 msgstr "ohne Endddatum"
 
-#: coop/views/membership_resignation.py:202
-#: coop/views/membership_resignation.py:207
+#: coop/views/membership_resignation.py:211
+#: coop/views/membership_resignation.py:216
 #, fuzzy, python-format
 #| msgid "Edit member: %(name)s"
 msgid "Cancel membership of %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
-
-#: coop/views/membership_resignation.py:245
-msgid "Resign a new membership"
-msgstr ""
 
 #: coop/views/shareowner.py:123 coop/views/shareowner.py:128
 #, python-format
@@ -2560,11 +2639,11 @@ msgstr ""
 msgid "Flag value"
 msgstr ""
 
-#: core/templates/core/base.html:76
+#: core/templates/core/base.html:79
 msgid "Use this form to search for members"
 msgstr "Benutze dieses Formular, um nach Mitgliedern zu suchen"
 
-#: core/templates/core/base.html:77
+#: core/templates/core/base.html:80
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
@@ -4534,6 +4613,10 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statistiken"
 
+#: statistics/templates/statistics/fancy_graph.html:10
+msgid "Fancy graph"
+msgstr ""
+
 #: statistics/templates/statistics/main_statistics.html:9
 msgid "Main statistics"
 msgstr "Hauptstatistik"
@@ -5826,6 +5909,30 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy, python-format
+#~| msgid ""
+#~| "\n"
+#~| "                Your average basket per month is %(average)s€.\n"
+#~| "            "
+#~ msgid ""
+#~ "\n"
+#~ "                Your current credit is %(credit)s€.\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
+#~ "            "
+
+#, fuzzy
+#~| msgid "List of the last purchases"
+#~ msgid "List of last credits"
+#~ msgstr "Liste der letzten Einkäufe"
+
+#, fuzzy
+#~| msgid "Create account"
+#~ msgid "Credit amount"
+#~ msgstr "Konto erstellen"
 
 #, python-format
 #~ msgid "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do it!"

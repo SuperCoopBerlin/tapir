@@ -13,9 +13,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
-from tapir.coop.services.InvestingStatusService import InvestingStatusService
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.investing_status_service import InvestingStatusService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.shifts.services.shift_can_shop_service import ShiftCanShopService
@@ -815,6 +815,13 @@ class MembershipResignation(models.Model):
         )
         TRANSFER = "transfer", _("The shares get transferred to another member")
 
+    class CancellationReasons(models.TextChoices):
+        FINANCIAL = "financial", _("Financial reasons")
+        HEALTH = "health", _("Health reasons")
+        DISTANCE = "distance", _("Distance")
+        STRATEGY = "strategy", _("Strategic orientation of SuperCoop")
+        OTHER = "other", _("Other")
+
     share_owner = models.OneToOneField(
         ShareOwner,
         on_delete=models.deletion.CASCADE,
@@ -825,6 +832,9 @@ class MembershipResignation(models.Model):
         default=timezone.now,
     )
     pay_out_day = models.DateField(null=True)
+    cancellation_reason_category = models.CharField(
+        choices=CancellationReasons.choices, max_length=50
+    )
     cancellation_reason = models.CharField(max_length=1000)
     resignation_type = models.CharField(choices=ResignationType.choices, max_length=50)
     transferring_shares_to = models.ForeignKey(

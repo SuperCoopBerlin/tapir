@@ -205,9 +205,19 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
             new_values={},
         )
         relevant_log_entry.created_date = reference_datetime + datetime.timedelta(
-            days=1
+            days=5
         )
         relevant_log_entry.save()
+
+        not_relevant_log_entry = UpdateShiftUserDataLogEntry.objects.create(
+            user=tapir_user,
+            old_values={"shift_partner": 182},
+            new_values={"shift_partner": 25},
+        )
+        not_relevant_log_entry.created_date = reference_datetime + datetime.timedelta(
+            days=3
+        )
+        not_relevant_log_entry.save()
 
         queryset = FrozenStatusHistoryService._annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor(
             ShiftUserData.objects.all(), reference_datetime

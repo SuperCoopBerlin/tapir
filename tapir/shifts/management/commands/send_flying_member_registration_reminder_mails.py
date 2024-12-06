@@ -39,19 +39,22 @@ class Command(BaseCommand):
             # Don't send mails if the cycle is about to end
             return
 
+        reference_time = timezone.now()
         shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
-            ShiftUserData.objects.all()
+            ShiftUserData.objects.all(), reference_time
         )
 
         for shift_user_data in shift_user_datas:
             if (
-                ShiftAttendanceModeService.get_attendance_mode(shift_user_data)
+                ShiftAttendanceModeService.get_attendance_mode(
+                    shift_user_data, reference_time
+                )
                 != ShiftAttendanceMode.FLYING
             ):
                 continue
 
             if not self.should_member_receive_reminder_mail(
-                shift_user_data, start_date
+                shift_user_data, start_date, reference_time
             ):
                 continue
             FlyingMemberRegistrationReminderEmail().send_to_tapir_user(
@@ -59,8 +62,12 @@ class Command(BaseCommand):
             )
 
     @classmethod
-    def should_member_receive_reminder_mail(cls, shift_user_data, start_date):
-        if not ShiftExpectationService.is_member_expected_to_do_shifts(shift_user_data):
+    def should_member_receive_reminder_mail(
+        cls, shift_user_data, start_date, reference_time
+    ):
+        if not ShiftExpectationService.is_member_expected_to_do_shifts(
+            shift_user_data, reference_time
+        ):
             return False
         if cls.has_user_received_reminder_this_cycle(shift_user_data, start_date):
             return False
