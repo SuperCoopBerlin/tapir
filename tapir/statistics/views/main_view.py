@@ -45,7 +45,7 @@ from tapir.statistics.utils import (
     build_line_chart_data,
     build_bar_chart_data,
 )
-from tapir.utils.shortcuts import get_first_of_next_month
+from tapir.utils.shortcuts import get_first_of_next_month, transfer_attributes
 
 
 class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
@@ -134,7 +134,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         for share_owner in share_owners:
             if not share_owner.user:
                 continue
-            cls.transfer_attributes(
+            transfer_attributes(
                 shift_user_datas[share_owner.user.shift_user_data.id],
                 share_owner.user.shift_user_data,
                 [
@@ -143,11 +143,6 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
                 ],
             )
         return share_owners
-
-    @staticmethod
-    def transfer_attributes(source, target, attributes):
-        for attribute in attributes:
-            setattr(target, attribute, getattr(source, attribute))
 
     def get_working_members_context(self):
         shift_user_datas = (
