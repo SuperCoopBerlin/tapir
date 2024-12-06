@@ -51,6 +51,7 @@ class MembershipResignationTable(django_tables2.Table):
         fields = [
             "share_owner",
             "cancellation_date",
+            "cancellation_reason_category",
             "cancellation_reason",
             "paid_out",
             "pay_out_day",
@@ -58,10 +59,11 @@ class MembershipResignationTable(django_tables2.Table):
         ]
         sequence = [
             "share_owner",
-            "cancellation_reason",
             "cancellation_date",
             "pay_out_day",
             "paid_out",
+            "cancellation_reason_category",
+            "cancellation_reason",
             "add_buttons",
         ]
         exclude = ["resignation_type"]
@@ -70,7 +72,6 @@ class MembershipResignationTable(django_tables2.Table):
         empty_text = "No entries"
         default = "No entries"
 
-    cancellation_reason = django_tables2.Column(attrs={"td": {"class": "col-3"}})
     pay_out_day = django_tables2.DateColumn(
         format="d/m/Y",
         verbose_name="Membership ends",
@@ -149,6 +150,9 @@ class MembershipResignationFilter(django_filters.FilterSet):
     )
     paid_out = django_filters.BooleanFilter(
         widget=django_filters.widgets.BooleanWidget()
+    )
+    cancellation_reason_category = django_filters.ChoiceFilter(
+        choices=MembershipResignation.CancellationReasons.choices
     )
 
     class Meta:

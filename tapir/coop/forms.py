@@ -305,6 +305,7 @@ class MembershipResignationForm(forms.ModelForm):
         model = MembershipResignation
         fields = [
             "share_owner",
+            "cancellation_reason_category",
             "cancellation_reason",
             "cancellation_date",
             "resignation_type",

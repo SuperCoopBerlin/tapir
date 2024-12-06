@@ -815,6 +815,13 @@ class MembershipResignation(models.Model):
         )
         TRANSFER = "transfer", _("The shares get transferred to another member")
 
+    class CancellationReasons(models.TextChoices):
+        FINANCIAL = "financial", _("Financial reasons")
+        HEALTH = "health", _("Health reasons")
+        DISTANCE = "distance", _("Distance")
+        STRATEGY = "strategy", _("Strategic orientation of SuperCoop")
+        OTHER = "other", _("Other")
+
     share_owner = models.OneToOneField(
         ShareOwner,
         on_delete=models.deletion.CASCADE,
@@ -825,6 +832,9 @@ class MembershipResignation(models.Model):
         default=timezone.now,
     )
     pay_out_day = models.DateField(null=True)
+    cancellation_reason_category = models.CharField(
+        choices=CancellationReasons.choices, max_length=50
+    )
     cancellation_reason = models.CharField(max_length=1000)
     resignation_type = models.CharField(choices=ResignationType.choices, max_length=50)
     transferring_shares_to = models.ForeignKey(
