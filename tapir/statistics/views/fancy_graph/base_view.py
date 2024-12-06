@@ -22,6 +22,7 @@ from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
+from tapir.statistics.models import FancyGraphCache
 
 
 class FancyGraphView(LoginRequiredMixin, PermissionRequiredMixin, generic.TemplateView):
@@ -38,8 +39,27 @@ class DatapointView(LoginRequiredMixin, PermissionRequiredMixin, APIView, ABC):
     permission_required = PERMISSION_COOP_MANAGE
 
     @abstractmethod
-    def get_datapoint(self, reference_time: datetime.datetime) -> int:
+    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
         pass
+
+    def get_datapoint(self, reference_time: datetime.datetime):
+        reference_date = reference_time.date()
+        view_name = f"{self.__class__.__module__}.{self.__class__.__name__}"
+
+        if reference_date < timezone.now().date():
+            # Only use the cache for dates in the past:
+            # someone may make changes and check the results on the graph on the same day.
+            cached_value = FancyGraphCache.objects.filter(
+                view_name=view_name, date=reference_date
+            ).first()
+            if cached_value:
+                return cached_value.value
+
+        value = self.calculate_datapoint(reference_time)
+        FancyGraphCache.objects.create(
+            view_name=view_name, date=reference_date, value=value
+        )
+        return value
 
     @staticmethod
     def get_reference_time(request):

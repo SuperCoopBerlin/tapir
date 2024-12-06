@@ -11,7 +11,7 @@ from tapir.statistics.views.fancy_graph.base_view import (
 
 
 class NumberOfAbcdMembersAtDateView(DatapointView):
-    def get_datapoint(self, reference_time: datetime.datetime) -> int:
+    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
         shift_user_datas = (
             get_shift_user_datas_of_working_members_annotated_with_attendance_mode(
                 reference_time

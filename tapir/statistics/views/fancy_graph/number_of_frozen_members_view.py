@@ -14,7 +14,7 @@ from tapir.statistics.views.fancy_graph.base_view import DatapointView
 class NumberOfFrozenMembersAtDateView(DatapointView):
     permission_required = PERMISSION_COOP_MANAGE
 
-    def get_datapoint(self, reference_time: datetime.datetime) -> int:
+    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
         return self.get_members_frozen_at_datetime(reference_time).count()
 
     @staticmethod

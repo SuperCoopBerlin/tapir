@@ -11,7 +11,7 @@ from tapir.statistics.views.fancy_graph.number_of_frozen_members_view import (
 class NumberOfLongTermFrozenMembersAtDateView(DatapointView):
     permission_required = PERMISSION_COOP_MANAGE
 
-    def get_datapoint(self, reference_time: datetime.datetime) -> int:
+    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
         share_owners = NumberOfFrozenMembersAtDateView.get_members_frozen_at_datetime(
             reference_time
         ).prefetch_related("user")
