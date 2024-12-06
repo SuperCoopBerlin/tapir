@@ -11,7 +11,7 @@ from tapir.statistics.views.fancy_graph.number_of_purchasing_members_view import
 
 
 class NumberOfCoPurchasersAtDateView(DatapointView):
-    def get_datapoint(self, reference_time: datetime.datetime) -> int:
+    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
         tapir_users = TapirUser.objects.all()
         purchasing_members = NumberOfPurchasingMembersAtDateView.get_purchasing_members(
             reference_time

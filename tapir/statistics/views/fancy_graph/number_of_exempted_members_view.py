@@ -9,7 +9,7 @@ from tapir.statistics.views.fancy_graph.base_view import DatapointView
 
 
 class NumberOfExemptedMembersAtDateView(DatapointView):
-    def get_datapoint(self, reference_time: datetime.datetime) -> int:
+    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
         reference_date = reference_time.date()
         active_members = ShareOwner.objects.with_status(
             MemberStatus.ACTIVE, reference_date

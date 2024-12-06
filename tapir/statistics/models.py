@@ -23,3 +23,9 @@ class PurchaseBasket(models.Model):
     first_net_amount = models.FloatField()  # VKNetto_SUM
     second_net_amount = models.FloatField()  # EKNetto_SUM
     discount = models.FloatField()  # Rabatt_SUM
+
+
+class FancyGraphCache(models.Model):
+    view_name = models.CharField(max_length=255)
+    date = models.DateField()
+    value = models.IntegerField()

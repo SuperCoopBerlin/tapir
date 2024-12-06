@@ -20,9 +20,9 @@ import { datasets } from "./datasets.tsx";
 import { formatDate } from "../utils/formatDate.ts";
 import DatasetPickerCard from "./components/DatasetPickerCard.tsx";
 import { getFirstOfMonth } from "./utils.tsx";
-import DateRangePickerCard from "./components/DateRangePickerCard.tsx";
 import TapirButton from "../components/TapirButton.tsx";
 import { Download } from "react-bootstrap-icons";
+import DateRangePicker from "./components/DateRangePicker.tsx";
 
 declare let gettext: (english_text: string) => string;
 
@@ -58,6 +58,7 @@ const FancyGraphCard: React.FC = () => {
   const [graphLabels, setGraphLabels] = useState<string[]>([]);
   const [dates, setDates] = useState<Date[]>([]);
   const [fetching, setFetching] = useState(false);
+  const [datapickerExpanded, setDatapickerExpanded] = useState(false);
   const cachedData = useRef<CachedData>({});
   const api = useApi(StatisticsApi);
 
@@ -228,24 +229,6 @@ const FancyGraphCard: React.FC = () => {
 
   return (
     <>
-      <Row className={"mb-2"}>
-        <Col>
-          <DatasetPickerCard
-            setEnabledDatasets={setEnabledDatasets}
-            enabledDatasetsRef={enabledDatasetsRef}
-          />
-        </Col>
-      </Row>
-      <Row className={"mb-2"}>
-        <Col>
-          <DateRangePickerCard
-            dateFrom={dateFrom}
-            setDateFrom={setDateFrom}
-            dateTo={dateTo}
-            setDateTo={setDateTo}
-          />
-        </Col>
-      </Row>
       {error && (
         <Row className={"mb-2"}>
           <Col>
@@ -254,6 +237,14 @@ const FancyGraphCard: React.FC = () => {
         </Row>
       )}
       <Row>
+        <Col className={"mb-2 " + (datapickerExpanded ? "" : "col-xxl-3")}>
+          <DatasetPickerCard
+            setEnabledDatasets={setEnabledDatasets}
+            enabledDatasetsRef={enabledDatasetsRef}
+            isExpanded={datapickerExpanded}
+            setIsExpanded={setDatapickerExpanded}
+          />
+        </Col>
         <Col>
           <Card>
             <Card.Header
@@ -262,12 +253,20 @@ const FancyGraphCard: React.FC = () => {
               <h5>
                 {gettext("Graph")} {fetching && <Spinner size={"sm"} />}
               </h5>
-              <TapirButton
-                variant={"outline-secondary"}
-                text={"Download as CSV"}
-                icon={Download}
-                onClick={downloadCurrentData}
-              />
+              <span className={"d-flex gap-2"}>
+                <DateRangePicker
+                  dateFrom={dateFrom}
+                  setDateFrom={setDateFrom}
+                  dateTo={dateTo}
+                  setDateTo={setDateTo}
+                />
+                <TapirButton
+                  variant={"outline-secondary"}
+                  text={"Download as CSV"}
+                  icon={Download}
+                  onClick={downloadCurrentData}
+                />
+              </span>
             </Card.Header>
             <Card.Body className={"p-2 m-2"}>
               <Chart

@@ -9,7 +9,7 @@ from tapir.statistics.views.fancy_graph.base_view import DatapointView
 
 
 class NumberOfPurchasingMembersAtDateView(DatapointView):
-    def get_datapoint(self, reference_time) -> int:
+    def calculate_datapoint(self, reference_time) -> int:
         return len(self.get_purchasing_members(reference_time))
 
     @staticmethod
