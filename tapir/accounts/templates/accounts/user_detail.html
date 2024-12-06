@@ -149,6 +149,10 @@
         <div class="col-xl-6">{% purchase_tracking_card tapir_user=object %}</div>
         {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
             <div class="col-xl-6">{% purchase_statistics_card tapir_user=object %}</div>
-        {% endif %}
-    </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-xl-6">{% credit_account_card tapir_user=object %}</div>
+        </div>
+    {% endif %}
+</div>
 {% endblock content %}
