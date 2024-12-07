@@ -62,7 +62,7 @@ class ShiftExpectationService:
 
         # joined before date
         working_shift_user_datas = working_shift_user_datas.filter(
-            user__date_joined__lte=reference_date
+            user__date_joined__lte=reference_time
         )
 
         # member status active
