@@ -116,17 +116,16 @@ class TestShiftAttendanceModeService(TapirFactoryTestBase):
             False,
         )
 
-    @staticmethod
     def test_annotateQuerysetWithHasAbcdAttendanceAtDate_moreDeleteThanCreateEntries_annotatesFalse(
         self,
     ):
         tapir_user = TapirUserFactory.create()
         reference_datetime = timezone.now()
 
-        self.create_attendance_template_log_entry_in_the_past(
+        create_attendance_template_log_entry_in_the_past(
             CreateShiftAttendanceTemplateLogEntry, tapir_user, reference_datetime
         )
-        self.create_attendance_template_log_entry_in_the_past(
+        create_attendance_template_log_entry_in_the_past(
             DeleteShiftAttendanceTemplateLogEntry, tapir_user, reference_datetime
         )
 
