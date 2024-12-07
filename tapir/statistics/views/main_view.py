@@ -19,6 +19,7 @@ from tapir.accounts.models import (
 )
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
 from tapir.coop.services.investing_status_service import InvestingStatusService
+from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.views import ShareCountEvolutionJsonView
@@ -100,7 +101,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
             [
                 share_owner
                 for share_owner in share_owners
-                if share_owner.can_shop(self.reference_time)
+                if MemberCanShopService.can_shop(share_owner, self.reference_time)
             ]
         )
 
@@ -188,9 +189,10 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
             ]
         )
 
-        context = dict()
-        context["target_count"] = ShiftSlotTemplate.objects.count()
-        context["current_count"] = current_number_of_working_members
+        context = {
+            "target_count": ShiftSlotTemplate.objects.count(),
+            "current_count": current_number_of_working_members,
+        }
         context["missing_count"] = context["target_count"] - context["current_count"]
         context["progress"] = round(
             100 * context["current_count"] / context["target_count"]

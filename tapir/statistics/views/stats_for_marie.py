@@ -10,6 +10,7 @@ from django.views.generic import TemplateView
 
 from tapir.coop.models import ShareOwner, MemberStatus, ShareOwnership
 from tapir.coop.services.investing_status_service import InvestingStatusService
+from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.settings import PERMISSION_COOP_MANAGE
@@ -224,7 +225,7 @@ class NumberOfPurchasingMembersPerMonthJsonView(
                 [
                     share_owner
                     for share_owner in share_owners
-                    if share_owner.can_shop(date_with_time)
+                    if MemberCanShopService.can_shop(date_with_time)
                 ]
             )
             data.append(number_of_purchasing_members_at_date)
