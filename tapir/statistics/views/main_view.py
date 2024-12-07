@@ -165,7 +165,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         )
         share_owners = {share_owner.id: share_owner for share_owner in share_owners}
         for shift_user_data in shift_user_datas:
-            self.transfer_attributes(
+            transfer_attributes(
                 share_owners[shift_user_data.user.share_owner.id],
                 shift_user_data.user.share_owner,
                 [

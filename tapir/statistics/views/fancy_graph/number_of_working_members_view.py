@@ -10,6 +10,7 @@ from tapir.shifts.services.frozen_status_history_service import (
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.statistics.views.fancy_graph.base_view import DatapointView
+from tapir.utils.shortcuts import transfer_attributes
 
 
 class NumberOfWorkingMembersAtDateView(DatapointView):
@@ -39,7 +40,7 @@ class NumberOfWorkingMembersAtDateView(DatapointView):
         )
         share_owners = {share_owner.id: share_owner for share_owner in share_owners}
         for shift_user_data in shift_user_datas:
-            self.transfer_attributes(
+            transfer_attributes(
                 share_owners[shift_user_data.user.share_owner.id],
                 shift_user_data.user.share_owner,
                 [
