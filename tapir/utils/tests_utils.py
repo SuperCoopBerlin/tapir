@@ -10,7 +10,7 @@ from unittest.mock import patch
 import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.mail import EmailMessage
-from django.test import TestCase, override_settings, Client
+from django.test import TestCase, override_settings, Client, SimpleTestCase
 from django.urls import reverse
 from django.utils import timezone
 from parameterized import parameterized
@@ -28,6 +28,11 @@ from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.shifts.models import (
+    ShiftAttendanceTemplate,
+    DeleteShiftAttendanceTemplateLogEntry,
+)
+from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.json_user import JsonUser
 from tapir.utils.shortcuts import get_admin_ldap_connection, set_group_membership
@@ -230,7 +235,9 @@ class TapirEmailTestMixin(TestCase):
         self.assertEqual(CONTENT_TYPE_PDF, attachment_type)
 
 
-def mock_timezone_now(test: TestCase, now: datetime.datetime) -> datetime.datetime:
+def mock_timezone_now(
+    test: SimpleTestCase, now: datetime.datetime
+) -> datetime.datetime:
     now = timezone.make_aware(now) if timezone.is_naive(now) else now
     patcher = patch("django.utils.timezone.now")
     test.mock_now = patcher.start()
@@ -284,3 +291,23 @@ class PermissionTestMixin:
                 else HTTPStatus.FORBIDDEN
             ),
         )
+
+
+def create_attendance_template_log_entry_in_the_past(
+    log_class, tapir_user, reference_datetime
+):
+    shift_template = ShiftTemplateFactory.create()
+    shift_attendance_template = ShiftAttendanceTemplate.objects.create(
+        user=tapir_user, slot_template=shift_template.slot_templates.first()
+    )
+    kwargs = {
+        "actor": None,
+        "tapir_user": tapir_user,
+        "shift_attendance_template": shift_attendance_template,
+    }
+    if log_class == DeleteShiftAttendanceTemplateLogEntry:
+        kwargs["comment"] = "A test comment"
+    log_entry = log_class().populate(**kwargs)
+    log_entry.save()
+    log_entry.created_date = reference_datetime - datetime.timedelta(days=1)
+    log_entry.save()

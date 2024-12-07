@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 from typing import TYPE_CHECKING
 
-from django.db.models import Value, OuterRef, Q, Case, When
+from django.db.models import Value, OuterRef, Q, Case, When, QuerySet
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 
@@ -42,7 +42,7 @@ class InvestingStatusService:
     @classmethod
     def annotate_share_owner_queryset_with_investing_status_at_datetime(
         cls,
-        queryset: ShareOwner.ShareOwnerQuerySet,
+        queryset: QuerySet[ShareOwner],
         at_datetime: datetime.datetime = None,
     ):
         if at_datetime is None:

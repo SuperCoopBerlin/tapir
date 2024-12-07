@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 from typing import TYPE_CHECKING
 
-from django.db.models import Count, Q, Value
+from django.db.models import Count, Q, Value, QuerySet
 from django.utils import timezone
 
 if TYPE_CHECKING:
@@ -36,7 +36,7 @@ class NumberOfSharesService:
 
     @classmethod
     def annotate_share_owner_queryset_with_nb_of_active_shares(
-        cls, queryset: ShareOwner.ShareOwnerQuerySet, at_date: datetime.date = None
+        cls, queryset: QuerySet[ShareOwner], at_date: datetime.date = None
     ):
         if at_date is None:
             at_date = timezone.now().date()

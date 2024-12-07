@@ -19,7 +19,7 @@ from tapir.statistics.models import PurchaseBasket
 fake = Faker()
 
 
-class ShareOwnershipFactory(factory.django.DjangoModelFactory):
+class ShareOwnershipFactory(factory.django.DjangoModelFactory[ShareOwnership]):
     class Meta:
         model = ShareOwnership
 
@@ -27,7 +27,7 @@ class ShareOwnershipFactory(factory.django.DjangoModelFactory):
     amount_paid = factory.Faker("pydecimal", min_value=0, max_value=COOP_SHARE_PRICE)
 
 
-class ShareOwnerFactory(UserDataFactory):
+class ShareOwnerFactory(UserDataFactory[ShareOwner]):
     class Meta:
         model = ShareOwner
         skip_postgeneration_save = True
@@ -44,7 +44,7 @@ class ShareOwnerFactory(UserDataFactory):
             ShareOwnershipFactory.create(share_owner=self)
 
 
-class DraftUserFactory(UserDataFactory):
+class DraftUserFactory(UserDataFactory[DraftUser]):
     class Meta:
         model = DraftUser
 
@@ -67,7 +67,7 @@ class DraftUserFactory(UserDataFactory):
     signed_membership_agreement = factory.Faker("pybool")
 
 
-class MembershipPauseFactory(factory.django.DjangoModelFactory):
+class MembershipPauseFactory(factory.django.DjangoModelFactory[MembershipPause]):
     class Meta:
         model = MembershipPause
         exclude = "pause_duration"
@@ -81,7 +81,9 @@ class MembershipPauseFactory(factory.django.DjangoModelFactory):
     share_owner = factory.SubFactory(ShareOwnerFactory)
 
 
-class MembershipResignationFactory(factory.django.DjangoModelFactory):
+class MembershipResignationFactory(
+    factory.django.DjangoModelFactory[MembershipResignation]
+):
     class Meta:
         model = MembershipResignation
 
@@ -118,7 +120,7 @@ class MembershipResignationFactory(factory.django.DjangoModelFactory):
     )
 
 
-class PurchaseBasketFactory(factory.django.DjangoModelFactory):
+class PurchaseBasketFactory(factory.django.DjangoModelFactory[PurchaseBasket]):
     class Meta:
         model = PurchaseBasket
 
@@ -129,7 +131,7 @@ class PurchaseBasketFactory(factory.django.DjangoModelFactory):
     discount = 0
 
 
-class GeneralAccountFactory(UserDataFactory):
+class GeneralAccountFactory(UserDataFactory[TapirUser]):
     class Meta:
         model = TapirUser
 

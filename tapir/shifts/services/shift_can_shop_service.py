@@ -3,6 +3,8 @@ from __future__ import annotations
 import datetime
 import typing
 
+from django.db.models import QuerySet, Case, When
+
 from tapir.shifts.models import ShiftUserData
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,
@@ -13,6 +15,9 @@ if typing.TYPE_CHECKING:
 
 
 class ShiftCanShopService:
+    ANNOTATION_SHIFT_CAN_SHOP = "shift_can_shop"
+    ANNOTATION_SHIFT_CAN_SHOP_DATE_CHECK = "shift_can_shop_date_check"
+
     @classmethod
     def can_shop(
         cls,
@@ -21,4 +26,22 @@ class ShiftCanShopService:
     ):
         return not FrozenStatusHistoryService.is_frozen_at_datetime(
             member_object, at_datetime
+        )
+
+    @staticmethod
+    def annotate_share_owner_queryset_with_can_shop_at_datetime(
+        share_owners: QuerySet[ShareOwner], reference_datetime: datetime.datetime
+    ):
+        share_owners = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
+            share_owners, reference_datetime
+        )
+
+        return share_owners.annotate(
+            Case(
+                When(
+                    **{FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE: True},
+                    then=True,
+                ),
+                default=False,
+            )
         )

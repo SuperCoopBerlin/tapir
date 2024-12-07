@@ -1,3 +1,5 @@
+from typing import TypeVar
+
 import factory
 import phonenumbers
 from faker import Faker
@@ -27,8 +29,10 @@ class CustomPhoneProvider(Provider):
 fake = Faker()
 fake.add_provider(CustomPhoneProvider)
 
+T = TypeVar("T")
 
-class UserDataFactory(factory.django.DjangoModelFactory):
+
+class UserDataFactory(factory.django.DjangoModelFactory[T]):
     class Meta:
         abstract = True
         exclude = ("ATTRIBUTES",)

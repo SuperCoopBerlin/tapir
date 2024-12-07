@@ -4,6 +4,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from rest_framework import serializers
 
 from tapir.coop.models import ShareOwner
+from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.utils.user_utils import UserUtils
 from tapir.welcomedesk.services.welcome_desk_reasons_cannot_shop_service import (
     WelcomeDeskReasonsCannotShopService,
@@ -46,7 +47,7 @@ class ShareOwnerForWelcomeDeskSerializer(serializers.ModelSerializer):
         return UserUtils.build_display_name(share_owner, display_type)
 
     def get_can_shop(self, share_owner: ShareOwner) -> bool:
-        return share_owner.can_shop(self.reference_time)
+        return MemberCanShopService.can_shop(share_owner, self.reference_time)
 
     @staticmethod
     def get_co_purchaser(share_owner: ShareOwner) -> str | None:

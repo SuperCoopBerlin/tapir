@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-06 14:19+0100\n"
+"POT-Creation-Date: 2024-12-07 13:51+0100\n"
 "PO-Revision-Date: 2024-11-22 08:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1069,7 +1069,7 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:21
-#: statistics/views/main_view.py:304
+#: statistics/views/main_view.py:299
 msgid "New members"
 msgstr "Neue Mitglieder"
 
@@ -4621,7 +4621,7 @@ msgid "Main statistics"
 msgstr "Hauptstatistik"
 
 #: statistics/templates/statistics/main_statistics.html:19
-#: statistics/views/main_view.py:263
+#: statistics/views/main_view.py:258
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
@@ -4718,7 +4718,7 @@ msgstr ""
 
 #: statistics/templates/statistics/main_statistics.html:118
 #: statistics/templates/statistics/main_statistics.html:129
-#: statistics/views/main_view.py:385
+#: statistics/views/main_view.py:380
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
@@ -4844,19 +4844,19 @@ msgstr ""
 msgid "Evolution of total spends per month"
 msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:335
+#: statistics/views/main_view.py:330
 msgid "Total spends per month"
 msgstr "Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:385
+#: statistics/views/main_view.py:380
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
-#: statistics/views/main_view.py:403
+#: statistics/views/main_view.py:398
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views/main_view.py:555
+#: statistics/views/main_view.py:550
 msgid "Purchase data updated"
 msgstr "Kaufdaten aktualisiert"
 

@@ -18,7 +18,6 @@ from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
-from tapir.shifts.services.shift_can_shop_service import ShiftCanShopService
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.models import (
     DurationModelMixin,
@@ -285,13 +284,6 @@ class ShareOwner(models.Model):
             return MemberStatus.PAUSED
 
         return MemberStatus.ACTIVE
-
-    def can_shop(self, at_datetime: datetime.datetime | datetime.date | None = None):
-        return (
-            self.user is not None
-            and self.is_active(at_datetime)
-            and ShiftCanShopService.can_shop(self, at_datetime)
-        )
 
     def is_active(
         self, at_datetime: datetime.datetime | datetime.date | None = None

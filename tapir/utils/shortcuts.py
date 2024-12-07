@@ -241,3 +241,8 @@ def ensure_datetime(obj: datetime.date | datetime.datetime):
     if isinstance(obj, datetime.datetime):
         return obj
     return get_timezone_aware_datetime(obj, datetime.time())
+
+
+def transfer_attributes(source, target, attributes):
+    for attribute in attributes:
+        setattr(target, attribute, getattr(source, attribute))

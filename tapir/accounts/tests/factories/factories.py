@@ -7,7 +7,7 @@ from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.shortcuts import set_group_membership
 
 
-class TapirUserFactory(UserDataFactory):
+class TapirUserFactory(UserDataFactory[TapirUser]):
     class Meta:
         model = TapirUser
         skip_postgeneration_save = True
