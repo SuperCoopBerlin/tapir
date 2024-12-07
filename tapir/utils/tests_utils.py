@@ -10,7 +10,7 @@ from unittest.mock import patch
 import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.mail import EmailMessage
-from django.test import TestCase, override_settings, Client
+from django.test import TestCase, override_settings, Client, SimpleTestCase
 from django.urls import reverse
 from django.utils import timezone
 from parameterized import parameterized
@@ -230,7 +230,9 @@ class TapirEmailTestMixin(TestCase):
         self.assertEqual(CONTENT_TYPE_PDF, attachment_type)
 
 
-def mock_timezone_now(test: TestCase, now: datetime.datetime) -> datetime.datetime:
+def mock_timezone_now(
+    test: SimpleTestCase, now: datetime.datetime
+) -> datetime.datetime:
     now = timezone.make_aware(now) if timezone.is_naive(now) else now
     patcher = patch("django.utils.timezone.now")
     test.mock_now = patcher.start()
