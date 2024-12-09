@@ -69,6 +69,7 @@ class TestMembershipResignationDeleteView(
 
         self.assertStatusCode(response, HTTPStatus.OK)
         mock_on_resignation_deleted.assert_called_once_with(resignation)
+        self.assertTrue(resignation.share_owner.share_ownerships.first().end_date, None)
 
     def test_membershipResignationDeleteView_default_logEntryCreated(self):
         actor = self.login_as_vorstand()
