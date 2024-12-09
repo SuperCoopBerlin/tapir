@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-06 14:19+0100\n"
+"POT-Creation-Date: 2024-12-09 21:10+0100\n"
 "PO-Revision-Date: 2024-12-06 17:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2761,6 +2761,7 @@ msgstr ""
 #: financingcampaign/templates/financingcampaign/general.html:111
 #: log/templates/log/log_entry_list_tag.html:23
 #: shifts/templates/shifts/user_shift_account_log.html:26
+#: statistics/templates/statistics/tags/credit_account_card.html:18
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:18
 msgid "Date"
 msgstr "Datum"
@@ -4795,6 +4796,45 @@ msgstr "Neue Mitglieder*innen pro Monat"
 msgid "Number of purchasing members per month"
 msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
 
+#: statistics/templates/statistics/tags/credit_account_card.html:5
+#, fuzzy
+#| msgid "Create account"
+msgid "Credits"
+msgstr "Konto erstellen"
+
+#: statistics/templates/statistics/tags/credit_account_card.html:8
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "                Your average basket per month is %(average)s€.\n"
+#| "            "
+msgid ""
+"\n"
+"                Your current credit is %(credit)s€.\n"
+"            "
+msgstr ""
+"\n"
+"                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
+"            "
+
+#: statistics/templates/statistics/tags/credit_account_card.html:15
+#, fuzzy
+#| msgid "List of the last purchases"
+msgid "List of last charged credits"
+msgstr "Liste der letzten Einkäufe"
+
+#: statistics/templates/statistics/tags/credit_account_card.html:19
+#, fuzzy
+#| msgid "Actions"
+msgid "Action"
+msgstr "Aktionen"
+
+#: statistics/templates/statistics/tags/credit_account_card.html:20
+#, fuzzy
+#| msgid "Create account"
+msgid "Credit amount"
+msgstr "Konto erstellen"
+
 #: statistics/templates/statistics/tags/on_demand_chart.html:5
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
@@ -5863,30 +5903,6 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
-
-#, fuzzy, python-format
-#~| msgid ""
-#~| "\n"
-#~| "                Your average basket per month is %(average)s€.\n"
-#~| "            "
-#~ msgid ""
-#~ "\n"
-#~ "                Your current credit is %(credit)s€.\n"
-#~ "            "
-#~ msgstr ""
-#~ "\n"
-#~ "                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
-#~ "            "
-
-#, fuzzy
-#~| msgid "List of the last purchases"
-#~ msgid "List of last credits"
-#~ msgstr "Liste der letzten Einkäufe"
-
-#, fuzzy
-#~| msgid "Create account"
-#~ msgid "Credit amount"
-#~ msgstr "Konto erstellen"
 
 #, python-format
 #~ msgid "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do it!"
