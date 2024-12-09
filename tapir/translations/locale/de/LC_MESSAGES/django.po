@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-06 14:14+0100\n"
-"PO-Revision-Date: 2024-12-06 14:17+0100\n"
+"POT-Creation-Date: 2024-12-06 14:19+0100\n"
+"PO-Revision-Date: 2024-12-06 17:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -2761,7 +2761,6 @@ msgstr ""
 #: financingcampaign/templates/financingcampaign/general.html:111
 #: log/templates/log/log_entry_list_tag.html:23
 #: shifts/templates/shifts/user_shift_account_log.html:26
-#: statistics/templates/statistics/tags/credit_account_card.html:18
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:18
 msgid "Date"
 msgstr "Datum"
@@ -4795,33 +4794,6 @@ msgstr "Neue Mitglieder*innen pro Monat"
 #| msgid "Current number of purchasing members"
 msgid "Number of purchasing members per month"
 msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
-
-#: statistics/templates/statistics/tags/credit_account_card.html:5
-msgid "Credits"
-msgstr "Guthaben"
-
-#: statistics/templates/statistics/tags/credit_account_card.html:8
-#, python-format
-msgid ""
-"\n"
-"                Your current credit is %(credit)s€.\n"
-"            "
-msgstr ""
-"\n"
-"                Dein aktuelles Guthaben beträgt %(credit)s€.\n"
-"            "
-
-#: statistics/templates/statistics/tags/credit_account_card.html:15
-msgid "List of last charged credits"
-msgstr "Liste der letzten aufgeladenen Guthaben"
-
-#: statistics/templates/statistics/tags/credit_account_card.html:19
-msgid "Action"
-msgstr "Aktionen"
-
-#: statistics/templates/statistics/tags/credit_account_card.html:20
-msgid "Credit amount"
-msgstr "Guthaben"
 
 #: statistics/templates/statistics/tags/on_demand_chart.html:5
 msgid "Show graph: "
