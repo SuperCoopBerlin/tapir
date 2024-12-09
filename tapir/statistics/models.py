@@ -32,6 +32,12 @@ class PurchaseBasket(models.Model):
     discount = models.FloatField()  # Rabatt_SUM
 
 
+class FancyGraphCache(models.Model):
+    view_name = models.CharField(max_length=255)
+    date = models.DateField()
+    value = models.IntegerField()
+
+
 class CreditAccount(models.Model):
     source_file = models.ForeignKey(ProcessedCreditFiles, on_delete=models.CASCADE)
     credit_date = models.DateTimeField()  # Datum & Zeit

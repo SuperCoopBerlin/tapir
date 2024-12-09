@@ -15,6 +15,7 @@ from paramiko.sftp_file import SFTPFile
 from tapir.accounts.models import TapirUser
 from tapir.statistics.models import ProcessedCreditFiles, CreditAccount
 from tapir.utils.shortcuts import get_timezone_aware_datetime
+from tapir.statistics.management.commands import process_purchase_files
 
 
 class Command(BaseCommand):
@@ -66,13 +67,9 @@ class Command(BaseCommand):
             CreditAccount.objects.create(
                 source_file=source_file,
                 credit_date=credit_date,
-                credit_amount=cls.parse_german_number(row["Betrag"]),
+                credit_amount=process_purchase_files.parse_german_number(row["Betrag"]),
                 credit_counter=row["Bon"],
                 cashier=row["Kasse"],
                 info=row["Info"],
                 tapir_user=tapir_user,
             )
-
-    @staticmethod
-    def parse_german_number(string: str) -> float:
-        return float(string.replace(",", "."))
