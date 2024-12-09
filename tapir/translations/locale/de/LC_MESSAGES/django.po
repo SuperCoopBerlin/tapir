@@ -605,34 +605,28 @@ msgid "Please not more than 1000 characters."
 msgstr ""
 
 #: coop/forms.py:260
-#, fuzzy
-#| msgid "Membership confirmation"
 msgid "Member to resign"
-msgstr "Mitgliedsbestätigung"
+msgstr "Mitglied"
 
 #: coop/forms.py:263
 msgid "Transferring share(s) to"
-msgstr ""
+msgstr "Anteil(e) übertragen auf"
 
 #: coop/forms.py:271
-#, fuzzy
-#| msgid "Number of shares to create"
 msgid "The member stays active"
-msgstr "Anzahl zu erstellender Anteile"
+msgstr "Das Mitglied bleibt aktiv"
 
 #: coop/forms.py:273
 msgid "The member becomes investing"
-msgstr ""
+msgstr "Das Mitglied auf investierend stellen"
 
 #: coop/forms.py:277
-#, fuzzy
-#| msgid "Members statistics"
 msgid "Member status"
-msgstr "Mitglieder-Statistik"
+msgstr "Status"
 
 #: coop/forms.py:281
 msgid "In the case where the member wants their money back, they stay a member for 3 more years. However, it is very likely that the member doesn't want to be active anymore. If they haven't explicitly mentioned it, please ask them if we can switch them to investing."
-msgstr ""
+msgstr "Wenn das Mitglied sein Geld zurückhaben will, bleibt es noch 3 Jahre lang Mitglied. Es ist jedoch sehr wahrscheinlich, dass das Mitglied nicht mehr aktiv sein möchte. Wenn sie es nicht ausdrücklich erwähnt haben, frag sie bitte, ob wir sie auf „investierend“ stellen sollen."
 
 #: coop/forms.py:348
 msgid "Please pick an option"
@@ -813,28 +807,24 @@ msgid "The shares get transferred to another member"
 msgstr ""
 
 #: coop/models.py:819
-#, fuzzy
-#| msgid "Confirm cancellation"
 msgid "Financial reasons"
-msgstr "Absage bestätigen"
+msgstr "Finanzielle Gründe"
 
 #: coop/models.py:820
-#, fuzzy
-#| msgid "Confirm cancellation"
 msgid "Health reasons"
-msgstr "Absage bestätigen"
+msgstr "Gesundheit"
 
 #: coop/models.py:821
 msgid "Distance"
-msgstr ""
+msgstr "Entfernung"
 
 #: coop/models.py:822
 msgid "Strategic orientation of SuperCoop"
-msgstr ""
+msgstr "Strategische Ausrichtung von Supercoop"
 
 #: coop/models.py:823
 msgid "Other"
-msgstr ""
+msgstr "Andere"
 
 #: coop/models.py:828
 #, fuzzy
@@ -844,7 +834,7 @@ msgstr "Mitglied bearbeiten"
 
 #: coop/models.py:847
 msgid "Leave this empty if the resignation type is not a transfer to another member"
-msgstr ""
+msgstr "Lass das Feld leer, wenn es sich nicht um eine Übertragung auf ein anderes Mitglied handelt"
 
 #: coop/templates/coop/about.html:5 coop/templates/coop/about.html:11
 msgid "About Tapir"
@@ -2030,7 +2020,7 @@ msgstr ""
 #: coop/templates/coop/membership_resignation_form.html:56
 #: coop/views/membership_resignation.py:255
 msgid "Resign a new membership"
-msgstr ""
+msgstr "Ein neues Mitglied kündigen"
 
 #: coop/templates/coop/membership_resignation_list.html:12
 #: coop/templates/coop/membership_resignation_list.html:21
@@ -2097,16 +2087,12 @@ msgid "Share owner"
 msgstr "Mitglied bearbeiten"
 
 #: coop/templates/coop/membershipresignation_detail.html:61
-#, fuzzy
-#| msgid "Confirm cancellation"
 msgid "Cancellation reason"
-msgstr "Absage bestätigen"
+msgstr "Grund der Kündigung"
 
 #: coop/templates/coop/membershipresignation_detail.html:65
-#, fuzzy
-#| msgid "Creation date"
 msgid "Cancellation date"
-msgstr "Erstellungsdatum"
+msgstr "Datum der Kündigung"
 
 #: coop/templates/coop/membershipresignation_detail.html:70
 #, fuzzy
@@ -2115,16 +2101,12 @@ msgid "Membership ends"
 msgstr "Mitglieder"
 
 #: coop/templates/coop/membershipresignation_detail.html:75
-#, fuzzy
-#| msgid "Creation date"
 msgid "Resignation type"
-msgstr "Erstellungsdatum"
+msgstr "Art der Kündigung"
 
 #: coop/templates/coop/membershipresignation_detail.html:79
-#, fuzzy
-#| msgid "Paid"
 msgid "Paid out"
-msgstr "Bezahlt"
+msgstr "Ausbezahlt"
 
 #: coop/templates/coop/membershipresignation_detail.html:82
 #: coop/views/draftuser.py:286
@@ -3099,7 +3081,7 @@ msgstr ""
 #: shifts/models.py:189 shifts/models.py:521
 #: shifts/templates/shifts/shift_block_tag.html:9
 msgid "Flexible time"
-msgstr ""
+msgstr "Zeit flexibel"
 
 #: shifts/models.py:191 shifts/models.py:523
 msgid "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
