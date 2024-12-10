@@ -112,7 +112,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
                 self.assertIsNone(share.transferred_from)
                 continue
             self.assertEqual(None, share.end_date)
-            self.assertEqual(self.TODAY, share.start_date)
+            self.assertEqual(self.TODAY + datetime.timedelta(days=1), share.start_date)
             self.assertIn(share.transferred_from, gifting_member.share_ownerships.all())
             shares_of_gifting_member.remove(
                 share.transferred_from

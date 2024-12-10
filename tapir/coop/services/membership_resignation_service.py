@@ -42,7 +42,8 @@ class MembershipResignationService:
                 shares_to_create = [
                     ShareOwnership(
                         share_owner=resignation.transferring_shares_to,
-                        start_date=resignation.cancellation_date,
+                        start_date=resignation.cancellation_date
+                        + datetime.timedelta(days=1),
                         transferred_from=share,
                     )
                     for share in shares
