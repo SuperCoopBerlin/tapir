@@ -109,6 +109,9 @@ export const datasets: { [key: string]: Dataset } = {
   },
   [datasetNumberOfLongTermFrozenMembers]: {
     display_name: gettext("Long-term frozen members"),
+    description: gettext(
+      "Members that are frozen since more than 180 days (roughly 6 month)",
+    ),
     apiCall: api.statisticsNumberOfLongTermFrozenMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
