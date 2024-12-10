@@ -25,10 +25,11 @@ def purchase_statistics_card(context, tapir_user):
 @register.inclusion_tag("statistics/tags/credit_account_card.html", takes_context=True)
 def credit_account_card(context, tapir_user):
     user_credits = CreditAccount.objects.filter(tapir_user=tapir_user)
-    context["last_credits"] = user_credits.order_by("-credit_date")[:10]
-    context["actual_credit"] = "{:.2f}".format(
-        user_credits.aggregate(total_credit=Sum("credit_amount"))["total_credit"]
-    )
+    if user_credits:
+        context["last_credits"] = user_credits.order_by("-credit_date")[:10]
+        context["actual_credit"] = "{:.2f}".format(
+            user_credits.aggregate(total_credit=Sum("credit_amount"))["total_credit"]
+        )
     return context
 
 

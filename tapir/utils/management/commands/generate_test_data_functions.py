@@ -595,17 +595,11 @@ def generate_credit_account():
         share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
             share_owners, current_date
         )
-        # share_owners = (
-        #     MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
-        #         share_owners, current_date
-        #     )
-        # )
-
-        purchasing_users = [
+        credit_users = [
             share_owner
             for share_owner in share_owners.with_status(
                 status=MemberStatus.ACTIVE, at_datetime=current_date
-            )
+            )[::2]
             if share_owner.user
         ]
         info = random.choice(["Guthabenkarte", "Einkauf"])
@@ -628,7 +622,7 @@ def generate_credit_account():
                     info=info,
                     tapir_user=share_owner.user,
                 )
-                for share_owner in purchasing_users
+                for share_owner in credit_users
             ]
         )
 
