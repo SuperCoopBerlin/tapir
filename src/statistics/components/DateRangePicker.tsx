@@ -35,7 +35,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         </FloatingLabel>
       </Form.Group>
       <Form.Group>
-        <FloatingLabel label={"Date from"}>
+        <FloatingLabel label={"Date to"}>
           <Form.Control
             type={"date"}
             value={
