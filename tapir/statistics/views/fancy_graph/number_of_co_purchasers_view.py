@@ -28,4 +28,4 @@ class NumberOfCoPurchasersAtDateView(DatapointView):
             **{CoPurchaserHistoryService.ANNOTATION_HAS_CO_PURCHASER: True}
         )
 
-        return tapir_users.count()
+        return tapir_users.distinct().count()

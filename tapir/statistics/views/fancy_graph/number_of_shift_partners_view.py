@@ -25,4 +25,4 @@ class NumberOfShiftPartnersAtDateView(DatapointView):
             **{ShiftPartnerHistoryService.ANNOTATION_HAS_SHIFT_PARTNER: True}
         )
 
-        return shift_user_datas.count()
+        return shift_user_datas.distinct().count()

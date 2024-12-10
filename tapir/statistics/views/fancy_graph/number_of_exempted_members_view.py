@@ -28,10 +28,9 @@ class NumberOfExemptedMembersAtDateView(DatapointView):
         )
 
         exemptions = ShiftExemption.objects.active_temporal(reference_date)
-        exemptions.filter(
-            shift_user_data__user__share_owner__in=members_that_joined_before_date
-        )
 
-        return exemptions.filter(
-            shift_user_data__user__share_owner__in=members_that_joined_before_date
-        ).count()
+        exempted_members = members_that_joined_before_date.filter(
+            user__shift_user_data__exemption__in=exemptions
+        ).distinct()
+
+        return exempted_members.count()

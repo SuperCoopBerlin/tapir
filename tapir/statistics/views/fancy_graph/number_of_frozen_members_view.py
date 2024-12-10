@@ -45,4 +45,4 @@ class NumberOfFrozenMembersAtDateView(DatapointView):
 
         return share_owners.filter(
             **{FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE: True}
-        )
+        ).distinct()

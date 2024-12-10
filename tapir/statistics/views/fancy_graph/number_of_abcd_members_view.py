@@ -28,4 +28,4 @@ class NumberOfAbcdMembersAtDateView(DatapointView):
             }
         )
 
-        return working_and_abcd_members.count()
+        return working_and_abcd_members.distinct().count()

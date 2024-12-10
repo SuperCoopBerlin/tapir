@@ -20,7 +20,7 @@ class NumberOfFlyingMembersAtDateView(DatapointView):
             )
         ).filter(**{ShiftExpectationService.ANNOTATION_IS_WORKING_AT_DATE: True})
 
-        working_and_abcd_members = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
+        working_and_flying_members = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
             working_members, reference_time
         ).filter(
             **{
@@ -28,4 +28,4 @@ class NumberOfFlyingMembersAtDateView(DatapointView):
             }
         )
 
-        return working_and_abcd_members.count()
+        return working_and_flying_members.distinct().count()

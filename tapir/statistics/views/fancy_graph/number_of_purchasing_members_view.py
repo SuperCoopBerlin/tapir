@@ -8,15 +8,8 @@ class NumberOfPurchasingMembersAtDateView(DatapointView):
         share_owners = MemberCanShopService.annotate_share_owner_queryset_with_shopping_status_at_datetime(
             ShareOwner.objects.all(), reference_time
         )
-        return share_owners.filter(
-            **{MemberCanShopService.ANNOTATION_CAN_SHOP: True}
-        ).count()
-
-    @staticmethod
-    def get_purchasing_members(reference_time):
-        share_owners = MemberCanShopService.annotate_share_owner_queryset_with_shopping_status_at_datetime(
-            ShareOwner.objects.all(), reference_time
+        return (
+            share_owners.filter(**{MemberCanShopService.ANNOTATION_CAN_SHOP: True})
+            .distinct()
+            .count()
         )
-        return share_owners.filter(
-            **{MemberCanShopService.ANNOTATION_CAN_SHOP: True}
-        ).count()

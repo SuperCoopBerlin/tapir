@@ -26,7 +26,8 @@ class NumberOfWorkingMembersAtDateView(DatapointView):
         )
         shift_user_datas = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
             shift_user_datas, reference_time
-        )
+        ).distinct()
+
         share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
             ShareOwner.objects.all(), reference_date
         )
