@@ -3,6 +3,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import User
 from django.db import transaction
+from django.db.models import Q
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import MembershipResignation, ShareOwnership, MembershipPause
@@ -21,6 +22,10 @@ class MembershipResignationService:
         resignation: MembershipResignation, actor: TapirUser | User
     ):
         shares = ShareOwnership.objects.filter(share_owner=resignation.share_owner)
+        end_date_null_or_after_cancellation_filter = Q(end_date__isnull=True) | Q(
+            end_date__gte=resignation.cancellation_date
+        )
+        shares = shares.filter(end_date_null_or_after_cancellation_filter)
 
         match resignation.resignation_type:
             case MembershipResignation.ResignationType.BUY_BACK:
@@ -29,6 +34,10 @@ class MembershipResignationService:
                 )
                 resignation.pay_out_day = new_end_date
                 resignation.save()
+                end_date_null_or_after_pay_out_day_filter = Q(
+                    end_date__isnull=True
+                ) | Q(end_date__gte=resignation.pay_out_day)
+                shares = shares.filter(end_date_null_or_after_pay_out_day_filter)
                 shares.update(end_date=new_end_date)
                 return
             case MembershipResignation.ResignationType.GIFT_TO_COOP:
