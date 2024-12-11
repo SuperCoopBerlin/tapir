@@ -93,8 +93,8 @@ class MembershipResignationService:
 
     @classmethod
     def on_resignation_deleted(cls, resignation: MembershipResignation):
-        cls.delete_end_dates(resignation)
         cls.delete_transferred_share_ownerships(resignation)
+        cls.delete_end_dates(resignation)
 
     @staticmethod
     def delete_end_dates(resignation: MembershipResignation):
