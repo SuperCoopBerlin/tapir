@@ -23,26 +23,6 @@ class CoPurchaserHistoryService:
     ANNOTATION_HAS_CO_PURCHASER_DATE_CHECK = "has_co_purchaser_date_check"
 
     @classmethod
-    def has_co_purchaser(
-        cls, tapir_user: TapirUser, at_datetime: datetime.datetime = None
-    ):
-        if at_datetime is None:
-            at_datetime = timezone.now()
-
-        if not hasattr(tapir_user, cls.ANNOTATION_HAS_CO_PURCHASER):
-            tapir_user = cls.annotate_tapir_user_queryset_with_has_co_purchaser_at_date(
-                TapirUser.objects.filter(id=tapir_user.id), at_datetime
-            ).first()
-
-        annotated_date = getattr(tapir_user, cls.ANNOTATION_HAS_CO_PURCHASER_DATE_CHECK)
-        if annotated_date != at_datetime:
-            raise ValueError(
-                f"Trying to get 'has co purchaser' at date {at_datetime}, but the queryset has been "
-                f"annotated relative to {annotated_date}"
-            )
-        return getattr(tapir_user, cls.ANNOTATION_HAS_CO_PURCHASER)
-
-    @classmethod
     def annotate_tapir_user_queryset_with_has_co_purchaser_at_date(
         cls,
         queryset: QuerySet[TapirUser],
