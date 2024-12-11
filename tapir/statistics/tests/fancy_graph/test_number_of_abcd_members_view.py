@@ -49,7 +49,7 @@ class TestNumberOfAbcdMembersView(TapirFactoryTestBase):
 
         self.assertEqual(0, result)
 
-    def test_calculateDatapoint_memberIsWorkingAnAbcd_counted(self):
+    def test_calculateDatapoint_memberIsWorkingAndAbcd_counted(self):
         tapir_user = TapirUserFactory.create(
             date_joined=self.REFERENCE_TIME - datetime.timedelta(days=1)
         )

@@ -2,7 +2,17 @@ from __future__ import annotations
 
 import datetime
 
-from django.db.models import Value, OuterRef, Case, When, QuerySet, Q
+from django.db.models import (
+    Value,
+    OuterRef,
+    Case,
+    When,
+    QuerySet,
+    Q,
+    CharField,
+    Subquery,
+)
+from django.db.models.functions import Coalesce
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
@@ -42,13 +52,20 @@ class CoPurchaserHistoryService:
             at_datetime = timezone.now()
 
         queryset = queryset.annotate(
-            co_purchaser_at_date=UpdateTapirUserLogEntry.objects.filter(
-                user_id=OuterRef("id"),
-                created_date__lte=at_datetime,
-                new_values__co_purchaser__isnull=False,
+            co_purchaser_from_log_entry=Subquery(
+                UpdateTapirUserLogEntry.objects.filter(
+                    user_id=OuterRef("id"),
+                    created_date__lte=at_datetime,
+                    new_values__co_purchaser__isnull=False,
+                )
+                .order_by("-created_date")
+                .values("new_values__co_purchaser")[:1],
+                output_field=CharField(),
             )
-            .order_by("-created_date")
-            .values("new_values__co_purchaser")[:1]
+        )
+
+        queryset = queryset.annotate(
+            co_purchaser_at_date=Coalesce("co_purchaser_from_log_entry", "co_purchaser")
         )
 
         return queryset.annotate(
