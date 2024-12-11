@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-11 16:55+0100\n"
+"POT-Creation-Date: 2024-12-11 17:31+0100\n"
 "PO-Revision-Date: 2024-11-22 08:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -4766,53 +4766,6 @@ msgstr ""
 "Hier könnt ihr den Fortschritt der Finanzierungskampagne verfolgen. Es werden sowohl weitere Anteile gezählt (alle Anteile, die über den Pflichtanteil hinaus gezeichnet werden) als auch Nachrangdarlehen. Der Zeitraum läuft vom 12.09.2023 - 09.12.2023. Was eine:r nicht schafft, schaffen viele!\n"
 "                                    "
 
-#: statistics/templates/statistics/shift_cancelling_rate.html:9
-#, fuzzy
-#| msgid "Shift attendance: %(name)s"
-msgid "Shift attendance rates"
-msgstr "Schicht-Anwesenheit: %(name)s"
-
-#: statistics/templates/statistics/shift_cancelling_rate.html:19
-#: statistics/templates/statistics/shift_cancelling_rate.html:69
-#, fuzzy
-#| msgid "Creation date"
-msgid "Shift cancellation rate"
-msgstr "Erstellungsdatum"
-
-#: statistics/templates/statistics/shift_cancelling_rate.html:78
-#, fuzzy
-#| msgid "Number of shares to create"
-msgid "Number of shifts by category"
-msgstr "Anzahl zu erstellender Anteile"
-
-#: statistics/templates/statistics/state_distribution.html:9
-#: statistics/templates/statistics/state_distribution.html:19
-#: statistics/templates/statistics/state_distribution.html:36
-#, fuzzy
-#| msgid "Send me instructions!"
-msgid "State distribution"
-msgstr "Schickt mir eine Anleitung!"
-
-#: statistics/templates/statistics/stats_for_marie.html:9
-#, fuzzy
-#| msgid "Statistics on shares"
-msgid "Stats for Marie"
-msgstr "Anteile-Statistiken"
-
-#: statistics/templates/statistics/stats_for_marie.html:20
-#: statistics/templates/statistics/stats_for_marie.html:26
-#, fuzzy
-#| msgid "New members per month"
-msgid "Number of frozen members per month"
-msgstr "Neue Mitglieder*innen pro Monat"
-
-#: statistics/templates/statistics/stats_for_marie.html:33
-#: statistics/templates/statistics/stats_for_marie.html:39
-#, fuzzy
-#| msgid "Current number of purchasing members"
-msgid "Number of purchasing members per month"
-msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
-
 #: statistics/templates/statistics/tags/on_demand_chart.html:5
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
@@ -5881,6 +5834,41 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy
+#~| msgid "Shift attendance: %(name)s"
+#~ msgid "Shift attendance rates"
+#~ msgstr "Schicht-Anwesenheit: %(name)s"
+
+#, fuzzy
+#~| msgid "Creation date"
+#~ msgid "Shift cancellation rate"
+#~ msgstr "Erstellungsdatum"
+
+#, fuzzy
+#~| msgid "Number of shares to create"
+#~ msgid "Number of shifts by category"
+#~ msgstr "Anzahl zu erstellender Anteile"
+
+#, fuzzy
+#~| msgid "Send me instructions!"
+#~ msgid "State distribution"
+#~ msgstr "Schickt mir eine Anleitung!"
+
+#, fuzzy
+#~| msgid "Statistics on shares"
+#~ msgid "Stats for Marie"
+#~ msgstr "Anteile-Statistiken"
+
+#, fuzzy
+#~| msgid "New members per month"
+#~ msgid "Number of frozen members per month"
+#~ msgstr "Neue Mitglieder*innen pro Monat"
+
+#, fuzzy
+#~| msgid "Current number of purchasing members"
+#~ msgid "Number of purchasing members per month"
+#~ msgstr "Aktuelle Anzahl von einkaufsberechtigten Mitgliedern"
 
 #, fuzzy, python-format
 #~| msgid ""
