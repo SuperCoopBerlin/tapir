@@ -12,6 +12,7 @@ from django.db.models import (
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 
+from tapir.coop.models import ShareOwner
 from tapir.shifts.models import (
     ShiftUserData,
     UpdateShiftUserDataLogEntry,
@@ -94,8 +95,11 @@ class FrozenStatusHistoryService:
 
     @classmethod
     def annotate_share_owner_queryset_with_is_frozen_at_datetime(
-        cls, queryset: QuerySet, at_datetime: datetime.datetime = None
+        cls, queryset: QuerySet[ShareOwner], at_datetime: datetime.datetime = None
     ):
+        if at_datetime is None:
+            at_datetime = timezone.now()
+
         return cls.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
             queryset, at_datetime, "user__shift_user_data"
         )

@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.coop.models import ShareOwner
 from tapir.shifts.models import (
     ShiftUserData,
     UpdateShiftUserDataLogEntry,
@@ -161,6 +162,25 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
         self.assertEqual(
             getattr(
                 shift_user_data,
+                FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE,
+            ),
+            True,
+        )
+
+    def test_annotateShareOwnerQuerysetWithIsFrozenAtDatetime_memberIsFrozen_annotatesTrue(
+        self,
+    ):
+        TapirUserFactory.create()
+        ShiftUserData.objects.update(is_frozen=True)
+
+        queryset = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
+            ShareOwner.objects.all()
+        )
+
+        share_owner = queryset.first()
+        self.assertEqual(
+            getattr(
+                share_owner,
                 FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE,
             ),
             True,
