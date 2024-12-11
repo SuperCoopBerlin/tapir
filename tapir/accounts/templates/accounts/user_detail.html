@@ -146,14 +146,10 @@
         <div class="col-xl-6">{% log_entry_list tapir_user=object %}</div>
     </div>
     <div class="row">
-        <div class="col-xl-6">{% purchase_tracking_card tapir_user=object %}</div>
+        <div class="col-xl-4">{% purchase_tracking_card tapir_user=object %}</div>
         {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
-            <div class="col-xl-6">{% purchase_statistics_card tapir_user=object %}</div>
-        {% endif %}
-    </div>
-    <div class="row justify-content-end">
-        {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
-            <div class="col-xl-6">{% credit_account_card tapir_user=object %}</div>
+            <div class="col-xl-4">{% purchase_statistics_card tapir_user=object %}</div>
+            <div class="col-xl-4">{% credit_account_card tapir_user=object %}</div>
         {% endif %}
     </div>
 {% endblock content %}
