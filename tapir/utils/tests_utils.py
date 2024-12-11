@@ -26,7 +26,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.coop.models import ShareOwnership
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.core.tapir_email_base import TapirEmailBase
 from tapir.shifts.models import (
     ShiftAttendanceTemplate,
@@ -311,3 +313,12 @@ def create_attendance_template_log_entry_in_the_past(
     log_entry.save()
     log_entry.created_date = reference_datetime - datetime.timedelta(days=1)
     log_entry.save()
+
+
+def create_member_that_can_shop(test, reference_time):
+    tapir_user = TapirUserFactory.create(share_owner__is_investing=False)
+    ShareOwnership.objects.update(start_date=reference_time.date())
+    test.assertTrue(
+        MemberCanShopService.can_shop(tapir_user.share_owner, reference_time)
+    )
+    return tapir_user
