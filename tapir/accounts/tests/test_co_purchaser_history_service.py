@@ -48,7 +48,7 @@ class TestCoPurchaserHistoryService(TapirFactoryTestBase):
                 queryset.get(), CoPurchaserHistoryService.ANNOTATION_HAS_CO_PURCHASER
             )
         )
-        self.assertTrue(
+        self.assertEqual(
             self.REFERENCE_TIME,
             getattr(
                 queryset.get(),
@@ -72,7 +72,7 @@ class TestCoPurchaserHistoryService(TapirFactoryTestBase):
                 queryset.get(), CoPurchaserHistoryService.ANNOTATION_HAS_CO_PURCHASER
             )
         )
-        self.assertTrue(
+        self.assertEqual(
             self.REFERENCE_TIME,
             getattr(
                 queryset.get(),
@@ -116,7 +116,7 @@ class TestCoPurchaserHistoryService(TapirFactoryTestBase):
                 queryset.get(), CoPurchaserHistoryService.ANNOTATION_HAS_CO_PURCHASER
             )
         )
-        self.assertTrue(
+        self.assertEqual(
             self.REFERENCE_TIME,
             getattr(
                 queryset.get(),
@@ -160,7 +160,7 @@ class TestCoPurchaserHistoryService(TapirFactoryTestBase):
                 queryset.get(), CoPurchaserHistoryService.ANNOTATION_HAS_CO_PURCHASER
             )
         )
-        self.assertTrue(
+        self.assertEqual(
             self.REFERENCE_TIME,
             getattr(
                 queryset.get(),

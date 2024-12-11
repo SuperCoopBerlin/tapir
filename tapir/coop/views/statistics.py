@@ -347,8 +347,9 @@ class MemberStatusUpdatesJsonView(BaseLineChartView):
 
     @staticmethod
     def get_member_status_updates():
-        filters = Q(old_values__is_investing=False) | Q(old_values__is_investing=True)
-        return UpdateShareOwnerLogEntry.objects.filter(filters)
+        return UpdateShareOwnerLogEntry.objects.filter(
+            old_values__has_key="is_investing"
+        )
 
     @staticmethod
     def filter_status_updates_per_member(updates, member: ShareOwner):
@@ -506,7 +507,7 @@ class NumberOfCoPurchasersJsonView(BaseLineChartView):
         all_tapir_users = TapirUser.objects.all()
         first_update = (
             UpdateTapirUserLogEntry.objects.filter(
-                new_values__co_purchaser__isnull=False,
+                new_values__has_key="co_purchaser",
             )
             .order_by("created_date")
             .first()
@@ -519,7 +520,7 @@ class NumberOfCoPurchasersJsonView(BaseLineChartView):
 
         co_purchaser_updates = (
             UpdateTapirUserLogEntry.objects.filter(
-                new_values__co_purchaser__isnull=False,
+                new_values__has_key="co_purchaser",
             )
             .order_by("created_date")
             .prefetch_related("user")

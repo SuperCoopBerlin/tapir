@@ -63,7 +63,7 @@ class FrozenStatusHistoryService:
                 UpdateShiftUserDataLogEntry.objects.filter(
                     user_id=OuterRef("user_id"),
                     created_date__gte=at_datetime,
-                    old_values__is_frozen__isnull=False,
+                    old_values__has_key="is_frozen",
                 )
                 .order_by("created_date")
                 .values("old_values__is_frozen")[:1],

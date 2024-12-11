@@ -406,7 +406,7 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
     def get_dates(self):
         first_update = (
             UpdateTapirUserLogEntry.objects.filter(
-                new_values__co_purchaser__isnull=False,
+                new_values__has_key="co_purchaser",
             )
             .order_by("created_date")
             .first()
@@ -433,7 +433,7 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
 
         co_purchaser_updates = (
             UpdateTapirUserLogEntry.objects.filter(
-                new_values__co_purchaser__isnull=False,
+                new_values__has_key="co_purchaser",
             )
             .order_by("created_date")
             .select_related("user")

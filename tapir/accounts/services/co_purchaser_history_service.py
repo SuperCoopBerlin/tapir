@@ -35,11 +35,11 @@ class CoPurchaserHistoryService:
             co_purchaser_from_log_entry=Subquery(
                 UpdateTapirUserLogEntry.objects.filter(
                     user_id=OuterRef("id"),
-                    created_date__lte=at_datetime,
-                    new_values__co_purchaser__isnull=False,
+                    created_date__gte=at_datetime,
+                    old_values__has_key="co_purchaser",
                 )
-                .order_by("-created_date")
-                .values("new_values__co_purchaser")[:1],
+                .order_by("created_date")
+                .values("old_values__co_purchaser")[:1],
                 output_field=CharField(),
             )
         )

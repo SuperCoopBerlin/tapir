@@ -2,7 +2,16 @@ from __future__ import annotations
 
 import datetime
 
-from django.db.models import Value, OuterRef, Case, When, QuerySet, Q
+from django.db.models import (
+    Value,
+    OuterRef,
+    Case,
+    When,
+    QuerySet,
+    Subquery,
+    Exists,
+)
+from django.db.models.fields import CharField
 from django.utils import timezone
 
 from tapir.shifts.models import ShiftUserData, UpdateShiftUserDataLogEntry
@@ -45,20 +54,37 @@ class ShiftPartnerHistoryService:
         if at_datetime is None:
             at_datetime = timezone.now()
 
+        relevant_logs = UpdateShiftUserDataLogEntry.objects.filter(
+            user_id=OuterRef("user_id"),
+            created_date__gte=at_datetime,
+            old_values__has_key="shift_partner",
+        )
+        subquery_shift_partner_from_log = Subquery(
+            relevant_logs.order_by("created_date").values("old_values__shift_partner")[
+                :1
+            ],
+            output_field=CharField(),
+        )
+
         queryset = queryset.annotate(
-            shift_partner_at_date=UpdateShiftUserDataLogEntry.objects.filter(
-                user_id=OuterRef("user_id"),
-                created_date__lte=at_datetime,
-                new_values__shift_partner__isnull=False,
-            )
-            .order_by("-created_date")
-            .values("new_values__shift_partner")[:1]
+            shift_partner_from_log=subquery_shift_partner_from_log,
+            shift_partner_log_found=Exists(relevant_logs),
         )
 
         return queryset.annotate(
             **{
                 cls.ANNOTATION_HAS_SHIFT_PARTNER: Case(
-                    When(~Q(shift_partner_at_date="None"), then=True), default=False
+                    When(
+                        shift_partner_log_found=True,
+                        then=Case(
+                            When(
+                                shift_partner_from_log=None,
+                                then=False,
+                            ),
+                            default=True,
+                        ),
+                    ),
+                    default=Case(When(shift_partner=None, then=False), default=True),
                 ),
                 cls.ANNOTATION_HAS_SHIFT_PARTNER_DATE_CHECK: Value(at_datetime),
             },
