@@ -31,6 +31,7 @@ class NumberOfLongTermFrozenMembersAtDateView(DatapointView):
             if not status_change_log_entry:
                 # could not find any log entry, we assume the member is frozen long-term
                 count += 1
+                continue
 
             if (reference_time - status_change_log_entry.created_date).days > 30 * 6:
                 count += 1
