@@ -43,7 +43,11 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
 )
-from tapir.statistics.models import ProcessedPurchaseFiles, PurchaseBasket
+from tapir.statistics.models import (
+    ProcessedPurchaseFiles,
+    PurchaseBasket,
+    FancyGraphCache,
+)
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import (
@@ -468,6 +472,7 @@ def clear_django_db():
         DraftUser,
         ProcessedPurchaseFiles,
         PurchaseBasket,
+        FancyGraphCache,
     ]
     ShareOwnership.objects.update(transferred_from=None)
     for cls in classes:
