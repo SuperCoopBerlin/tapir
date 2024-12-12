@@ -7,7 +7,7 @@ from tapir.coop.models import ShareOwner, ShareOwnership
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.shifts.models import ShiftUserData
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, create_member_that_can_shop
 
 
 class TestMemberCanShopService(TapirFactoryTestBase):
@@ -73,12 +73,7 @@ class TestMemberCanShopService(TapirFactoryTestBase):
     def test_annotateShareOwnerQuerysetWithShoppingStatusAtDatetime_memberCanShop_annotatedWithTrue(
         self,
     ):
-        TapirUserFactory.create(
-            share_owner__nb_shares=1, share_owner__is_investing=False
-        )
-        ShareOwnership.objects.update(
-            start_date=self.REFERENCE_TIME.date() - datetime.timedelta(days=1)
-        )
+        create_member_that_can_shop(self, self.REFERENCE_TIME)
 
         queryset = MemberCanShopService.annotate_share_owner_queryset_with_shopping_status_at_datetime(
             ShareOwner.objects.all(), self.REFERENCE_TIME
