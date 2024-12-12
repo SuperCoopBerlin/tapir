@@ -14,6 +14,7 @@ from tapir.coop.models import (
 from tapir.coop.services.membership_resignation_service import (
     MembershipResignationService,
 )
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.tests.factories import (
     MembershipResignationFactory,
     ShareOwnerFactory,
@@ -89,15 +90,16 @@ class TestMembershipResignationDeleteView(
     def test_membershipResignationDeleteView_sharesWereTransferred_updateTransferredShares(
         self,
     ):
-        actor = self.login_as_vorstand()
+        self.login_as_vorstand()
         member_that_gifts_shares = ShareOwnerFactory.create(nb_shares=3)
         member_that_receives_shares = ShareOwnerFactory.create(nb_shares=1)
+        cancellation_date = timezone.now().date()
 
         data = {
             "share_owner": member_that_gifts_shares.id,
             "cancellation_reason": "Test resignation",
             "cancellation_reason_category": MembershipResignation.CancellationReasons.OTHER,
-            "cancellation_date": timezone.now().date(),
+            "cancellation_date": cancellation_date,
             "resignation_type": MembershipResignation.ResignationType.TRANSFER,
             "transferring_shares_to": member_that_receives_shares.id,
         }
@@ -108,13 +110,31 @@ class TestMembershipResignationDeleteView(
             follow=True,
         )
         self.assertStatusCode(response, HTTPStatus.OK)
-        resignation = MembershipResignation.objects.get()
 
+        self.assertNumberOfSharesAtDate(
+            member_that_receives_shares, 1, cancellation_date
+        )
+        self.assertNumberOfSharesAtDate(member_that_gifts_shares, 3, cancellation_date)
+        new_shares_date = cancellation_date + datetime.timedelta(days=1)
+        self.assertNumberOfSharesAtDate(member_that_receives_shares, 4, new_shares_date)
+        self.assertNumberOfSharesAtDate(member_that_gifts_shares, 0, new_shares_date)
+
+        resignation = MembershipResignation.objects.get()
         response = self.client.post(
             reverse("coop:membership_resignation_delete", args=[resignation.id]),
             follow=True,
         )
         self.assertStatusCode(response, HTTPStatus.OK)
 
-        self.assertEqual(1, member_that_receives_shares.share_ownerships.count())
-        self.assertEqual(3, member_that_gifts_shares.share_ownerships.count())
+        self.assertNumberOfSharesAtDate(
+            member_that_receives_shares, 1, cancellation_date
+        )
+        self.assertNumberOfSharesAtDate(member_that_gifts_shares, 3, cancellation_date)
+        self.assertNumberOfSharesAtDate(member_that_receives_shares, 1, new_shares_date)
+        self.assertNumberOfSharesAtDate(member_that_gifts_shares, 3, new_shares_date)
+
+    def assertNumberOfSharesAtDate(self, member, number_of_shares, date):
+        self.assertEqual(
+            number_of_shares,
+            NumberOfSharesService.get_number_of_active_shares(member, date),
+        )

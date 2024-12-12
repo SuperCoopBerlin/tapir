@@ -123,7 +123,7 @@ class MembershipResignationService:
         )
         started_ownerships = ShareOwnership.objects.filter(
             share_owner=resignation.transferring_shares_to,
-            start_date=resignation.cancellation_date,
+            start_date=resignation.cancellation_date + datetime.timedelta(days=1),
             transferred_from__in=ended_ownerships,
         )
         for started_ownership in started_ownerships:
