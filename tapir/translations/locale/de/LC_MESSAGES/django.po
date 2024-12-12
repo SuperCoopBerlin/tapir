@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-11 17:31+0100\n"
+"POT-Creation-Date: 2024-12-12 11:52+0100\n"
 "PO-Revision-Date: 2024-11-22 08:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2591,7 +2591,7 @@ msgstr ""
 msgid "Investing to active"
 msgstr ""
 
-#: coop/views/statistics.py:487
+#: coop/views/statistics.py:488
 msgid "Number of members with a co-purchaser (X-axis) by month (Y-axis)"
 msgstr ""
 
