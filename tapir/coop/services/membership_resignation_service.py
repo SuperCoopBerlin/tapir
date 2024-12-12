@@ -3,6 +3,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth.models import User
 from django.db import transaction
+from django.db.models import Q
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import MembershipResignation, ShareOwnership, MembershipPause
@@ -21,6 +22,10 @@ class MembershipResignationService:
         resignation: MembershipResignation, actor: TapirUser | User
     ):
         shares = ShareOwnership.objects.filter(share_owner=resignation.share_owner)
+        end_date_null_or_after_cancellation_filter = Q(end_date__isnull=True) | Q(
+            end_date__gte=resignation.cancellation_date
+        )
+        shares = shares.filter(end_date_null_or_after_cancellation_filter)
 
         match resignation.resignation_type:
             case MembershipResignation.ResignationType.BUY_BACK:
@@ -29,6 +34,10 @@ class MembershipResignationService:
                 )
                 resignation.pay_out_day = new_end_date
                 resignation.save()
+                end_date_null_or_after_pay_out_day_filter = Q(
+                    end_date__isnull=True
+                ) | Q(end_date__gte=resignation.pay_out_day)
+                shares = shares.filter(end_date_null_or_after_pay_out_day_filter)
                 shares.update(end_date=new_end_date)
                 return
             case MembershipResignation.ResignationType.GIFT_TO_COOP:
@@ -42,7 +51,8 @@ class MembershipResignationService:
                 shares_to_create = [
                     ShareOwnership(
                         share_owner=resignation.transferring_shares_to,
-                        start_date=resignation.cancellation_date,
+                        start_date=resignation.cancellation_date
+                        + datetime.timedelta(days=1),
                         transferred_from=share,
                     )
                     for share in shares
@@ -92,8 +102,8 @@ class MembershipResignationService:
 
     @classmethod
     def on_resignation_deleted(cls, resignation: MembershipResignation):
-        cls.delete_end_dates(resignation)
         cls.delete_transferred_share_ownerships(resignation)
+        cls.delete_end_dates(resignation)
 
     @staticmethod
     def delete_end_dates(resignation: MembershipResignation):
