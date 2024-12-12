@@ -12,7 +12,7 @@ class NumberOfExemptedMembersAtDateView(DatapointView):
     def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
         reference_date = reference_time.date()
         active_members = ShareOwner.objects.with_status(
-            MemberStatus.ACTIVE, reference_date
+            MemberStatus.ACTIVE, reference_time
         )
 
         active_members = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
@@ -28,10 +28,9 @@ class NumberOfExemptedMembersAtDateView(DatapointView):
         )
 
         exemptions = ShiftExemption.objects.active_temporal(reference_date)
-        exemptions.filter(
-            shift_user_data__user__share_owner__in=members_that_joined_before_date
-        )
 
-        return exemptions.filter(
-            shift_user_data__user__share_owner__in=members_that_joined_before_date
-        ).count()
+        exempted_members = members_that_joined_before_date.filter(
+            user__shift_user_data__shift_exemptions__in=exemptions
+        ).distinct()
+
+        return exempted_members.count()

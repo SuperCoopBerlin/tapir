@@ -62,56 +62,6 @@ urlpatterns = [
         name="basket_sum_evolution_json",
     ),
     path(
-        "shift_cancelling_rate",
-        views.ShiftCancellingRateView.as_view(),
-        name="shift_cancelling_rate",
-    ),
-    path(
-        "shift_cancelling_rate_json",
-        views.ShiftCancellingRateJsonView.as_view(),
-        name="shift_cancelling_rate_json",
-    ),
-    path(
-        "shift_count_by_category_json",
-        views.ShiftCountByCategoryJsonView.as_view(),
-        name="shift_count_by_category_json",
-    ),
-    path(
-        "state_distribution",
-        views.StateDistributionView.as_view(),
-        name="state_distribution",
-    ),
-    path(
-        "state_distribution_json",
-        views.StateDistributionJsonView.as_view(),
-        name="state_distribution_json",
-    ),
-    path(
-        "stats_for_marie",
-        views.StatsForMarieView.as_view(),
-        name="stats_for_marie",
-    ),
-    path(
-        "number_of_frozen_members_per_month_json",
-        views.NumberOfFrozenMembersPerMonthJsonView.as_view(),
-        name="number_of_frozen_members_per_month_json",
-    ),
-    path(
-        "number_of_frozen_members_per_month_csv",
-        views.NumberOfFrozenMembersPerMonthCsvView.as_view(),
-        name="number_of_frozen_members_per_month_csv",
-    ),
-    path(
-        "number_of_purchasing_members_per_month_json",
-        views.NumberOfPurchasingMembersPerMonthJsonView.as_view(),
-        name="number_of_purchasing_members_per_month_json",
-    ),
-    path(
-        "number_of_purchasing_members_per_month_csv",
-        views.NumberOfPurchasingMembersPerMonthCsvView.as_view(),
-        name="number_of_purchasing_members_per_month_csv",
-    ),
-    path(
         "fancy_graph",
         fancy_graph.base_view.FancyGraphView.as_view(),
         name="fancy_graph",

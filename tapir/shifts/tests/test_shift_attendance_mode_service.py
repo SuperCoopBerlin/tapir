@@ -10,14 +10,14 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
     DeleteShiftAttendanceTemplateLogEntry,
-    ShiftTemplate,
-    ShiftAttendanceTemplate,
 )
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import (
+    TapirFactoryTestBase,
+    create_attendance_template_log_entry_in_the_past,
+)
 
 
 class TestShiftAttendanceModeService(TapirFactoryTestBase):
@@ -116,36 +116,16 @@ class TestShiftAttendanceModeService(TapirFactoryTestBase):
             False,
         )
 
-    @staticmethod
-    def create_attendance_template_log_entry_in_the_past(
-        log_class, tapir_user, reference_datetime
-    ):
-        shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        shift_attendance_template = ShiftAttendanceTemplate.objects.create(
-            user=tapir_user, slot_template=shift_template.slot_templates.first()
-        )
-        kwargs = {
-            "actor": None,
-            "tapir_user": tapir_user,
-            "shift_attendance_template": shift_attendance_template,
-        }
-        if log_class == DeleteShiftAttendanceTemplateLogEntry:
-            kwargs["comment"] = "A test comment"
-        log_entry = log_class().populate(**kwargs)
-        log_entry.save()
-        log_entry.created_date = reference_datetime - datetime.timedelta(days=1)
-        log_entry.save()
-
     def test_annotateQuerysetWithHasAbcdAttendanceAtDate_moreDeleteThanCreateEntries_annotatesFalse(
         self,
     ):
         tapir_user = TapirUserFactory.create()
         reference_datetime = timezone.now()
 
-        self.create_attendance_template_log_entry_in_the_past(
+        create_attendance_template_log_entry_in_the_past(
             CreateShiftAttendanceTemplateLogEntry, tapir_user, reference_datetime
         )
-        self.create_attendance_template_log_entry_in_the_past(
+        create_attendance_template_log_entry_in_the_past(
             DeleteShiftAttendanceTemplateLogEntry, tapir_user, reference_datetime
         )
 
@@ -169,10 +149,10 @@ class TestShiftAttendanceModeService(TapirFactoryTestBase):
         reference_datetime = timezone.now()
 
         for _ in range(2):
-            self.create_attendance_template_log_entry_in_the_past(
+            create_attendance_template_log_entry_in_the_past(
                 CreateShiftAttendanceTemplateLogEntry, tapir_user, reference_datetime
             )
-        self.create_attendance_template_log_entry_in_the_past(
+        create_attendance_template_log_entry_in_the_past(
             DeleteShiftAttendanceTemplateLogEntry, tapir_user, reference_datetime
         )
 
@@ -217,7 +197,7 @@ class TestShiftAttendanceModeService(TapirFactoryTestBase):
         tapir_user.shift_user_data.is_frozen = False
         tapir_user.shift_user_data.save()
         reference_datetime = timezone.now()
-        self.create_attendance_template_log_entry_in_the_past(
+        create_attendance_template_log_entry_in_the_past(
             CreateShiftAttendanceTemplateLogEntry, tapir_user, reference_datetime
         )
 

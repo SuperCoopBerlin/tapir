@@ -17,7 +17,6 @@ from tapir.shifts.emails.member_frozen_email import MemberFrozenEmail
 from tapir.shifts.emails.unfreeze_notification_email import UnfreezeNotificationEmail
 from tapir.shifts.models import (
     ShiftUserData,
-    ShiftAttendanceMode,
     UpdateShiftUserDataLogEntry,
     ShiftAttendanceTemplate,
     ShiftAccountEntry,
@@ -179,20 +178,3 @@ class FrozenStatusManagementService:
         )
         email = UnfreezeNotificationEmail()
         email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
-
-    @staticmethod
-    def _get_last_attendance_mode_before_frozen(shift_user_data: ShiftUserData):
-        last_freeze_log_entry = (
-            UpdateShiftUserDataLogEntry.objects.filter(
-                new_values__attendance_mode=ShiftAttendanceMode.FROZEN,
-                user=shift_user_data.user,
-            )
-            .order_by("-created_date")
-            .first()
-        )
-
-        return (
-            last_freeze_log_entry.old_values["attendance_mode"]
-            if last_freeze_log_entry
-            else ShiftAttendanceMode.FLYING
-        )

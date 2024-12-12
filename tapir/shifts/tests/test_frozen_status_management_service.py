@@ -586,24 +586,16 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
     )
     @patch.object(
         FrozenStatusManagementService,
-        "_get_last_attendance_mode_before_frozen",
-    )
-    @patch.object(
-        FrozenStatusManagementService,
         "_update_frozen_status_and_create_log_entry",
     )
     def test_unfreezeAndSendNotificationEmail(
         self,
         mock_update_frozen_status_and_create_log_entry: Mock,
-        mock_get_last_attendance_mode_before_frozen: Mock,
         mock_unfreeze_notification_email_class: Mock,
     ):
         shift_user_data = ShiftUserData()
         shift_user_data.user = TapirUser()
         actor = TapirUser()
-        mock_get_last_attendance_mode_before_frozen.return_value = (
-            ShiftAttendanceMode.REGULAR
-        )
 
         FrozenStatusManagementService.unfreeze_and_send_notification_email(
             shift_user_data, actor
@@ -619,59 +611,3 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
         mock_email.send_to_tapir_user.assert_called_once_with(
             actor=actor, recipient=shift_user_data.user
         )
-
-    @patch(
-        "tapir.shifts.services.frozen_status_management_service.UpdateShiftUserDataLogEntry.objects.filter"
-    )
-    def test_getLastAttendanceModeBeforeFrozen_noLogEntryFound_returnsFlying(
-        self, mock_filter: Mock
-    ):
-        shift_user_data = ShiftUserData()
-        shift_user_data.user = TapirUser()
-        mock_order_by = mock_filter.return_value.order_by
-        mock_first = mock_order_by.return_value.first
-        mock_first.return_value = None
-
-        self.assertEqual(
-            ShiftAttendanceMode.FLYING,
-            FrozenStatusManagementService._get_last_attendance_mode_before_frozen(
-                shift_user_data
-            ),
-        )
-
-        mock_filter.assert_called_once_with(
-            new_values__attendance_mode=ShiftAttendanceMode.FROZEN,
-            user=shift_user_data.user,
-        )
-        mock_order_by.assert_called_once_with("-created_date")
-        mock_first.assert_called_once_with()
-
-    @patch(
-        "tapir.shifts.services.frozen_status_management_service.UpdateShiftUserDataLogEntry.objects.filter"
-    )
-    def test_getLastAttendanceModeBeforeFrozen_default_returnsLastMode(
-        self, mock_filter: Mock
-    ):
-        shift_user_data = ShiftUserData()
-        shift_user_data.user = TapirUser()
-        mock_order_by = mock_filter.return_value.order_by
-        mock_first = mock_order_by.return_value.first
-        mock_first.return_value = Mock()
-        mock_first.return_value.old_values = dict()
-        mock_first.return_value.old_values["attendance_mode"] = (
-            ShiftAttendanceMode.REGULAR
-        )
-
-        self.assertEqual(
-            ShiftAttendanceMode.REGULAR,
-            FrozenStatusManagementService._get_last_attendance_mode_before_frozen(
-                shift_user_data
-            ),
-        )
-
-        mock_filter.assert_called_once_with(
-            new_values__attendance_mode=ShiftAttendanceMode.FROZEN,
-            user=shift_user_data.user,
-        )
-        mock_order_by.assert_called_once_with("-created_date")
-        mock_first.assert_called_once_with()
