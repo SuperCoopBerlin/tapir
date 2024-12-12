@@ -50,7 +50,7 @@ class TestNumberOfShiftPartnersView(TapirFactoryTestBase):
 
         self.assertEqual(0, result)
 
-    def test_calculateDatapoint_memberHasIsWorkingAndHasAPartner_counted(self):
+    def test_calculateDatapoint_memberIsWorkingAndHasAPartner_counted(self):
         member_with_partner = create_member_that_can_shop(self, self.REFERENCE_TIME)
         member_that_is_partner_of = create_member_that_can_shop(
             self, self.REFERENCE_TIME

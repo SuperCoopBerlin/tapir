@@ -22,6 +22,8 @@ class MemberCanShopService:
             return False
         if not share_owner.is_active(at_datetime):
             return False
+        if share_owner.user.date_joined > at_datetime:
+            return False
 
         member_object = share_owner
         if not hasattr(

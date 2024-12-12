@@ -316,7 +316,10 @@ def create_attendance_template_log_entry_in_the_past(
 
 
 def create_member_that_can_shop(test, reference_time):
-    tapir_user = TapirUserFactory.create(share_owner__is_investing=False)
+    tapir_user = TapirUserFactory.create(
+        share_owner__is_investing=False,
+        date_joined=reference_time - datetime.timedelta(hours=1),
+    )
     ShareOwnership.objects.update(start_date=reference_time.date())
     test.assertTrue(
         MemberCanShopService.can_shop(tapir_user.share_owner, reference_time)
