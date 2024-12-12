@@ -54,7 +54,7 @@ class ShiftExpectationService:
         reference_date = reference_time.date()
 
         shift_user_datas_not_frozen = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
-            shift_user_datas, reference_time
+            ShiftUserData.objects.all(), reference_time
         ).filter(
             **{FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE: False}
         )
@@ -62,17 +62,23 @@ class ShiftExpectationService:
             shift_user_datas_not_frozen.values_list("id", flat=True)
         )
 
-        joined_after_reference_time = ShiftUserData.objects.filter(
+        shift_user_datas_joined_before_date = ShiftUserData.objects.filter(
             user__date_joined__lte=reference_time
         )
         joined_after_reference_time_ids = list(
-            joined_after_reference_time.values_list("id", flat=True)
+            shift_user_datas_joined_before_date.values_list("id", flat=True)
         )
 
-        active_member_ids = list(
+        active_member_ids = (
             ShareOwner.objects.filter()
             .with_status(MemberStatus.ACTIVE)
             .values_list("id", flat=True)
+        )
+        shift_user_data_member_active = ShiftUserData.objects.filter(
+            user__share_owner__id__in=active_member_ids
+        )
+        shift_user_data_member_active_ids = list(
+            shift_user_data_member_active.values_list("id", flat=True)
         )
 
         shift_user_data_not_exempted = ShiftExemptionService.annotate_shift_user_data_queryset_with_has_exemption_at_date(
@@ -89,7 +95,7 @@ class ShiftExpectationService:
             shift_user_datas_not_frozen_ids,
             joined_after_reference_time_ids,
             shift_user_data_not_exempted_ids,
-            active_member_ids,
+            shift_user_data_member_active_ids,
         ]:
             all_criteria &= Q(id__in=id_list)
 
