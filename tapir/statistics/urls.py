@@ -5,6 +5,7 @@ import tapir.statistics.views.fancy_graph.number_of_abcd_members_view
 import tapir.statistics.views.fancy_graph.number_of_active_members_view
 import tapir.statistics.views.fancy_graph.number_of_co_purchasers_view
 import tapir.statistics.views.fancy_graph.number_of_created_resignations_view
+import tapir.statistics.views.fancy_graph.number_of_exempted_members_that_work_view
 import tapir.statistics.views.fancy_graph.number_of_exempted_members_view
 import tapir.statistics.views.fancy_graph.number_of_flying_members_view
 import tapir.statistics.views.fancy_graph.number_of_frozen_members_view
@@ -140,5 +141,10 @@ urlpatterns = [
         "number_of_exempted_members_at_date",
         fancy_graph.number_of_exempted_members_view.NumberOfExemptedMembersAtDateView.as_view(),
         name="number_of_exempted_members_at_date",
+    ),
+    path(
+        "number_of_exempted_members_that_work",
+        fancy_graph.number_of_exempted_members_that_work_view.NumberOfExemptedMembersThatWorkView.as_view(),
+        name="number_of_exempted_members_that_work",
     ),
 ]

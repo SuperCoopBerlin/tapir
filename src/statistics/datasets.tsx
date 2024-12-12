@@ -20,6 +20,8 @@ const datasetNumberOfAbcdMembers = "number_of_abcd_members";
 const datasetNumberOfPendingResignations = "number_of_pending_resignations";
 const datasetNumberOfCreatedResignations = "number_of_created_resignations";
 const datasetNumberOfExemptedMembers = "number_of_exempted_members";
+const datasetNumberOfExemptedMembersThatWork =
+  "number_of_exempted_members_that_work";
 
 // Colors from https://mokole.com/palette.html
 // or https://lospec.com/palette-list/syz15
@@ -193,6 +195,17 @@ export const datasets: { [key: string]: Dataset } = {
     chart_type: "line",
     relative: false,
     color: "#223421",
+    pointStyle: "dash",
+  },
+  [datasetNumberOfExemptedMembersThatWork]: {
+    display_name: gettext("Exempted members that work"),
+    description: gettext(
+      "Counting all exempted members (ignoring if they are frozen or investing) that actually did a shift in the past 60 days. Just registering to the shift doesn't count, the attendance must be confirmed. ",
+    ),
+    apiCall: api.statisticsNumberOfExemptedMembersThatWorkRetrieve,
+    chart_type: "line",
+    relative: false,
+    color: "#cc33cc",
     pointStyle: "dash",
   },
 };
