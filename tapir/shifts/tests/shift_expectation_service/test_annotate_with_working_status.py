@@ -5,7 +5,11 @@ from django.utils import timezone
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import ShiftUserData, ShiftExemption
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
-from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
+from tapir.utils.tests_utils import (
+    TapirFactoryTestBase,
+    mock_timezone_now,
+    create_member_that_is_working,
+)
 
 
 class TestAnnotateWithWorkingStatus(TapirFactoryTestBase):
@@ -21,9 +25,7 @@ class TestAnnotateWithWorkingStatus(TapirFactoryTestBase):
     def test_annotateShiftUserDataQuerysetWithWorkingStatusAtDatetime_memberShouldWork_annotatesTrue(
         self,
     ):
-        TapirUserFactory.create(
-            date_joined=self.REFERENCE_DATETIME - datetime.timedelta(days=1)
-        )
+        create_member_that_is_working(self, self.REFERENCE_DATETIME)
 
         result = ShiftExpectationService.annotate_shift_user_data_queryset_with_working_status_at_datetime(
             ShiftUserData.objects.all(), self.REFERENCE_DATETIME

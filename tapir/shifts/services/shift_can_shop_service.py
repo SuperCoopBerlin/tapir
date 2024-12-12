@@ -32,17 +32,18 @@ class ShiftCanShopService:
     def annotate_share_owner_queryset_with_can_shop_at_datetime(
         cls, share_owners: QuerySet[ShareOwner], reference_datetime: datetime.datetime
     ):
-        share_owners = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
+        share_owners_frozen = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
             share_owners, reference_datetime
+        ).filter(
+            **{FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE: True}
         )
+        share_owners_frozen_ids = list(share_owners_frozen.values_list("id", flat=True))
 
         return share_owners.annotate(
             **{
                 cls.ANNOTATION_SHIFT_CAN_SHOP: Case(
                     When(
-                        **{
-                            FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE: True
-                        },
+                        id__in=share_owners_frozen_ids,
                         then=False,
                     ),
                     default=True,

@@ -12,15 +12,20 @@ class NumberOfLongTermFrozenMembersAtDateView(DatapointView):
     permission_required = PERMISSION_COOP_MANAGE
 
     def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
-        share_owners = NumberOfFrozenMembersAtDateView.get_members_frozen_at_datetime(
-            reference_time
-        ).prefetch_related("user")
+        share_owners_frozen = (
+            NumberOfFrozenMembersAtDateView.get_members_frozen_at_datetime(
+                reference_time
+            )
+        )
+        tapir_user_frozen_ids = list(
+            share_owners_frozen.values_list("user__id", flat=True)
+        )
 
         count = 0
-        for share_owner in share_owners:
+        for tapir_user_id in tapir_user_frozen_ids:
             status_change_log_entry = (
                 UpdateShiftUserDataLogEntry.objects.filter(
-                    user=share_owner.user,
+                    user__id=tapir_user_id,
                     created_date__lte=reference_time,
                     new_values__is_frozen="True",
                 )
