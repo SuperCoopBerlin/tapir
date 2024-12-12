@@ -22,30 +22,6 @@ class ShiftPartnerHistoryService:
     ANNOTATION_HAS_SHIFT_PARTNER_DATE_CHECK = "has_shift_partner_date_check"
 
     @classmethod
-    def has_shift_partner(
-        cls, shift_user_data: ShiftUserData, at_datetime: datetime.datetime = None
-    ):
-        if at_datetime is None:
-            at_datetime = timezone.now()
-
-        if not hasattr(shift_user_data, cls.ANNOTATION_HAS_SHIFT_PARTNER):
-            shift_user_data = (
-                cls.annotate_shift_user_data_queryset_with_has_shift_partner_at_date(
-                    ShiftUserData.objects.filter(id=shift_user_data.id), at_datetime
-                ).first()
-            )
-
-        annotated_date = getattr(
-            shift_user_data, cls.ANNOTATION_HAS_SHIFT_PARTNER_DATE_CHECK
-        )
-        if annotated_date != at_datetime:
-            raise ValueError(
-                f"Trying to get 'has shift partner' at date {at_datetime}, but the queryset has been "
-                f"annotated relative to {annotated_date}"
-            )
-        return getattr(shift_user_data, cls.ANNOTATION_HAS_SHIFT_PARTNER)
-
-    @classmethod
     def annotate_shift_user_data_queryset_with_has_shift_partner_at_date(
         cls,
         queryset: QuerySet[ShiftUserData],
