@@ -108,14 +108,14 @@ class MembershipResignationService:
     @staticmethod
     def delete_end_dates(resignation: MembershipResignation):
         resignation.share_owner.share_ownerships.filter(
-            end_date=resignation.cancellation_date
+            end_date__gte=resignation.cancellation_date
         ).update(end_date=None)
 
     @classmethod
     def delete_transferred_share_ownerships(cls, resignation: MembershipResignation):
         if (
-            not resignation.resignation_type
-            == MembershipResignation.ResignationType.TRANSFER
+            resignation.resignation_type
+            != MembershipResignation.ResignationType.TRANSFER
         ):
             return
         ended_ownerships = resignation.share_owner.share_ownerships.filter(
