@@ -2,7 +2,7 @@ import datetime
 
 from django.utils import timezone
 
-from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.coop.models import ShareOwner
 from tapir.shifts.models import CreateShiftAttendanceTemplateLogEntry
 from tapir.statistics.views.fancy_graph.number_of_abcd_members_view import (
     NumberOfAbcdMembersAtDateView,
@@ -11,6 +11,7 @@ from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
     mock_timezone_now,
     create_attendance_template_log_entry_in_the_past,
+    create_member_that_is_working,
 )
 
 
@@ -25,9 +26,8 @@ class TestNumberOfAbcdMembersView(TapirFactoryTestBase):
         self.NOW = mock_timezone_now(self, self.NOW)
 
     def test_calculateDatapoint_memberIsAbcdButIsNotWorking_notCounted(self):
-        tapir_user = TapirUserFactory.create(
-            date_joined=self.REFERENCE_TIME + datetime.timedelta(days=1)
-        )
+        tapir_user = create_member_that_is_working(self, self.REFERENCE_TIME)
+        ShareOwner.objects.update(is_investing=True)
         create_attendance_template_log_entry_in_the_past(
             CreateShiftAttendanceTemplateLogEntry, tapir_user, self.REFERENCE_TIME
         )
@@ -39,9 +39,7 @@ class TestNumberOfAbcdMembersView(TapirFactoryTestBase):
         self.assertEqual(0, result)
 
     def test_calculateDatapoint_memberIsWorkingButIsNotAbcd_notCounted(self):
-        TapirUserFactory.create(
-            date_joined=self.REFERENCE_TIME - datetime.timedelta(days=1)
-        )
+        create_member_that_is_working(self, self.REFERENCE_TIME)
 
         result = NumberOfAbcdMembersAtDateView().calculate_datapoint(
             self.REFERENCE_TIME
@@ -50,9 +48,7 @@ class TestNumberOfAbcdMembersView(TapirFactoryTestBase):
         self.assertEqual(0, result)
 
     def test_calculateDatapoint_memberIsWorkingAndAbcd_counted(self):
-        tapir_user = TapirUserFactory.create(
-            date_joined=self.REFERENCE_TIME - datetime.timedelta(days=1)
-        )
+        tapir_user = create_member_that_is_working(self, self.REFERENCE_TIME)
         create_attendance_template_log_entry_in_the_past(
             CreateShiftAttendanceTemplateLogEntry, tapir_user, self.REFERENCE_TIME
         )

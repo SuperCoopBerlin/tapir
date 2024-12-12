@@ -2,13 +2,15 @@ import datetime
 
 from django.utils import timezone
 
-from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.accounts.models import TapirUser
+from tapir.coop.models import ShareOwner
 from tapir.statistics.views.fancy_graph.number_of_co_purchasers_view import (
     NumberOfCoPurchasersAtDateView,
 )
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
     mock_timezone_now,
+    create_member_that_can_shop,
 )
 
 
@@ -22,11 +24,10 @@ class TestNumberOfCoPurchasersView(TapirFactoryTestBase):
         super().setUp()
         self.NOW = mock_timezone_now(self, self.NOW)
 
-    def test_calculateDatapoint_memberHasCoPurchaserButIsNotWorking_notCounted(self):
-        TapirUserFactory.create(
-            date_joined=self.REFERENCE_TIME + datetime.timedelta(days=1),
-            co_purchaser="A test co-purchaser",
-        )
+    def test_calculateDatapoint_memberHasCoPurchaserButCannotShop_notCounted(self):
+        create_member_that_can_shop(self, self.REFERENCE_TIME)
+        ShareOwner.objects.update(is_investing=True)
+        TapirUser.objects.update(co_purchaser="A test co-purchaser")
 
         result = NumberOfCoPurchasersAtDateView().calculate_datapoint(
             self.REFERENCE_TIME
@@ -34,14 +35,11 @@ class TestNumberOfCoPurchasersView(TapirFactoryTestBase):
 
         self.assertEqual(0, result)
 
-    def test_calculateDatapoint_memberIsWorkingButDoesntHaveACoPurchaser_notCounted(
+    def test_calculateDatapoint_memberCanShopButDoesntHaveACoPurchaser_notCounted(
         self,
     ):
-        TapirUserFactory.create(
-            date_joined=self.REFERENCE_TIME - datetime.timedelta(days=1),
-            share_owner__is_investing=False,
-            co_purchaser="",
-        )
+        create_member_that_can_shop(self, self.REFERENCE_TIME)
+        TapirUser.objects.update(co_purchaser="")
 
         result = NumberOfCoPurchasersAtDateView().calculate_datapoint(
             self.REFERENCE_TIME
@@ -50,11 +48,8 @@ class TestNumberOfCoPurchasersView(TapirFactoryTestBase):
         self.assertEqual(0, result)
 
     def test_calculateDatapoint_memberIsWorkingAndHasCoPurchaser_counted(self):
-        TapirUserFactory.create(
-            date_joined=self.REFERENCE_TIME - datetime.timedelta(days=1),
-            co_purchaser="A test co-purchaser",
-            share_owner__is_investing=False,
-        )
+        create_member_that_can_shop(self, self.REFERENCE_TIME)
+        TapirUser.objects.update(co_purchaser="A test co-purchaser")
 
         result = NumberOfCoPurchasersAtDateView().calculate_datapoint(
             self.REFERENCE_TIME

@@ -34,6 +34,7 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     DeleteShiftAttendanceTemplateLogEntry,
 )
+from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.json_user import JsonUser
@@ -323,5 +324,19 @@ def create_member_that_can_shop(test, reference_time):
     ShareOwnership.objects.update(start_date=reference_time.date())
     test.assertTrue(
         MemberCanShopService.can_shop(tapir_user.share_owner, reference_time)
+    )
+    return tapir_user
+
+
+def create_member_that_is_working(test, reference_time):
+    tapir_user = TapirUserFactory.create(
+        share_owner__is_investing=False,
+        date_joined=reference_time - datetime.timedelta(hours=1),
+    )
+    ShareOwnership.objects.update(start_date=reference_time.date())
+    test.assertTrue(
+        ShiftExpectationService.is_member_expected_to_do_shifts(
+            tapir_user.shift_user_data, reference_time
+        )
     )
     return tapir_user

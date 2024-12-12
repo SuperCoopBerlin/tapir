@@ -3,8 +3,7 @@ import datetime
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
-from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.coop.models import ShareOwnership, ShareOwner
+from tapir.coop.models import ShareOwner
 from tapir.shifts.models import ShiftExemption, ShiftUserData
 from tapir.statistics.views.fancy_graph.number_of_exempted_members_view import (
     NumberOfExemptedMembersAtDateView,
@@ -12,6 +11,7 @@ from tapir.statistics.views.fancy_graph.number_of_exempted_members_view import (
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
     mock_timezone_now,
+    create_member_that_is_working,
 )
 
 
@@ -25,18 +25,11 @@ class TestNumberOfExemptedMembersAtDateView(TapirFactoryTestBase):
         super().setUp()
         self.NOW = mock_timezone_now(self, self.NOW)
 
-    @classmethod
-    def create_member_where_the_only_reason_for_not_working_is_an_exemption(cls):
-        tapir_user = TapirUserFactory.create(
-            date_joined=cls.REFERENCE_TIME - datetime.timedelta(days=1),
-            share_owner__is_investing=False,
-        )
-        ShareOwnership.objects.update(
-            start_date=cls.REFERENCE_TIME.date() - datetime.timedelta(days=1)
-        )
+    def create_member_where_the_only_reason_for_not_working_is_an_exemption(self):
+        tapir_user = create_member_that_is_working(self, self.REFERENCE_TIME)
         ShiftExemption.objects.create(
-            start_date=cls.REFERENCE_TIME.date() - datetime.timedelta(days=1),
-            end_date=cls.REFERENCE_TIME.date() + datetime.timedelta(days=1),
+            start_date=self.REFERENCE_TIME.date() - datetime.timedelta(days=1),
+            end_date=self.REFERENCE_TIME.date() + datetime.timedelta(days=1),
             shift_user_data=tapir_user.shift_user_data,
         )
 

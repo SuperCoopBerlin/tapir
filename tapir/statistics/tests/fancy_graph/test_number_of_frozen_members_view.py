@@ -24,9 +24,7 @@ class TestNumberOfFrozenMembersView(TapirFactoryTestBase):
         self.NOW = mock_timezone_now(self, self.NOW)
 
     def test_calculateDatapoint_memberIsFrozenButIsNotActive_notCounted(self):
-        TapirUserFactory.create(
-            date_joined=self.REFERENCE_TIME + datetime.timedelta(days=1)
-        )
+        TapirUserFactory.create(share_owner__is_investing=True)
         ShiftUserData.objects.update(is_frozen=True)
 
         result = NumberOfFrozenMembersAtDateView().calculate_datapoint(

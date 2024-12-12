@@ -17,7 +17,9 @@ class TestMemberCanShopService(TapirFactoryTestBase):
         self,
     ):
         tapir_user = TapirUserFactory.create(
-            share_owner__nb_shares=1, share_owner__is_investing=False
+            share_owner__nb_shares=1,
+            share_owner__is_investing=False,
+            date_joined=self.REFERENCE_TIME - datetime.timedelta(hours=1),
         )
         ShareOwnership.objects.update(
             start_date=self.REFERENCE_TIME.date() - datetime.timedelta(days=1)

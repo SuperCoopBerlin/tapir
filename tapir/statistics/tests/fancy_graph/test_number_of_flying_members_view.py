@@ -11,6 +11,7 @@ from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
     mock_timezone_now,
     create_attendance_template_log_entry_in_the_past,
+    create_member_that_is_working,
 )
 
 
@@ -36,9 +37,7 @@ class TestNumberOfFlyingMembersView(TapirFactoryTestBase):
         self.assertEqual(0, result)
 
     def test_calculateDatapoint_memberIsWorkingButIsNotFlying_notCounted(self):
-        tapir_user = TapirUserFactory.create(
-            date_joined=self.REFERENCE_TIME - datetime.timedelta(days=1)
-        )
+        tapir_user = create_member_that_is_working(self, self.REFERENCE_TIME)
         create_attendance_template_log_entry_in_the_past(
             CreateShiftAttendanceTemplateLogEntry, tapir_user, self.REFERENCE_TIME
         )
@@ -50,10 +49,7 @@ class TestNumberOfFlyingMembersView(TapirFactoryTestBase):
         self.assertEqual(0, result)
 
     def test_calculateDatapoint_memberIsWorkingAndFlying_counted(self):
-        TapirUserFactory.create(
-            date_joined=self.REFERENCE_TIME - datetime.timedelta(days=1),
-            share_owner__is_investing=False,
-        )
+        create_member_that_is_working(self, self.REFERENCE_TIME)
 
         result = NumberOfFlyingMembersAtDateView().calculate_datapoint(
             self.REFERENCE_TIME

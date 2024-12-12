@@ -8,7 +8,7 @@ from tapir.statistics.views.fancy_graph.number_of_shift_partners_view import (
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
     mock_timezone_now,
-    create_member_that_can_shop,
+    create_member_that_is_working,
 )
 
 
@@ -23,8 +23,8 @@ class TestNumberOfShiftPartnersView(TapirFactoryTestBase):
         self.NOW = mock_timezone_now(self, self.NOW)
 
     def test_calculateDatapoint_memberHasPartnerButIsNotWorking_notCounted(self):
-        member_with_partner = create_member_that_can_shop(self, self.REFERENCE_TIME)
-        member_that_is_partner_of = create_member_that_can_shop(
+        member_with_partner = create_member_that_is_working(self, self.REFERENCE_TIME)
+        member_that_is_partner_of = create_member_that_is_working(
             self, self.REFERENCE_TIME
         )
         member_with_partner.shift_user_data.shift_partner = (
@@ -42,7 +42,7 @@ class TestNumberOfShiftPartnersView(TapirFactoryTestBase):
         self.assertEqual(0, result)
 
     def test_calculateDatapoint_memberIsWorkingButHasNoPartner_notCounted(self):
-        create_member_that_can_shop(self, self.REFERENCE_TIME)
+        create_member_that_is_working(self, self.REFERENCE_TIME)
 
         result = NumberOfShiftPartnersAtDateView().calculate_datapoint(
             self.REFERENCE_TIME
@@ -51,8 +51,8 @@ class TestNumberOfShiftPartnersView(TapirFactoryTestBase):
         self.assertEqual(0, result)
 
     def test_calculateDatapoint_memberIsWorkingAndHasAPartner_counted(self):
-        member_with_partner = create_member_that_can_shop(self, self.REFERENCE_TIME)
-        member_that_is_partner_of = create_member_that_can_shop(
+        member_with_partner = create_member_that_is_working(self, self.REFERENCE_TIME)
+        member_that_is_partner_of = create_member_that_is_working(
             self, self.REFERENCE_TIME
         )
         member_with_partner.shift_user_data.shift_partner = (

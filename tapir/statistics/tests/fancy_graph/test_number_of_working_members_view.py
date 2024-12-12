@@ -9,7 +9,7 @@ from tapir.statistics.views.fancy_graph.number_of_working_members_view import (
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
     mock_timezone_now,
-    create_member_that_can_shop,
+    create_member_that_is_working,
 )
 
 
@@ -24,7 +24,7 @@ class TestNumberOfWorkingMembersView(TapirFactoryTestBase):
         self.NOW = mock_timezone_now(self, self.NOW)
 
     def test_calculateDatapoint_memberIsWorking_counted(self):
-        create_member_that_can_shop(self, self.REFERENCE_TIME)
+        create_member_that_is_working(self, self.REFERENCE_TIME)
 
         result = NumberOfWorkingMembersAtDateView().calculate_datapoint(
             self.REFERENCE_TIME
@@ -33,7 +33,7 @@ class TestNumberOfWorkingMembersView(TapirFactoryTestBase):
         self.assertEqual(1, result)
 
     def test_calculateDatapoint_memberIsNotWorking_notCounted(self):
-        create_member_that_can_shop(self, self.REFERENCE_TIME)
+        create_member_that_is_working(self, self.REFERENCE_TIME)
         ShareOwner.objects.update(is_investing=True)
 
         result = NumberOfWorkingMembersAtDateView().calculate_datapoint(
