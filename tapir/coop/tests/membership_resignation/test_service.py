@@ -335,7 +335,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         # set start date for only one share in order to test that the second share doesn't get affected
         transferred_share = first_recipient.share_ownerships.first()
         transferred_share.transferred_from = resigned_member.share_ownerships.first()
-        transferred_share.start_date = cancellation_date
+        transferred_share.start_date = cancellation_date + datetime.timedelta(days=1)
         transferred_share.save()
 
         second_recipient: ShareOwner = ShareOwnerFactory.create(nb_shares=1)
