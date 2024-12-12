@@ -71,7 +71,7 @@ class ShiftExpectationService:
 
         active_member_ids = (
             ShareOwner.objects.filter()
-            .with_status(MemberStatus.ACTIVE)
+            .with_status(MemberStatus.ACTIVE, reference_time)
             .values_list("id", flat=True)
         )
         shift_user_data_member_active = ShiftUserData.objects.filter(

@@ -37,11 +37,6 @@ class MemberCanShopService:
     def annotate_share_owner_queryset_with_shopping_status_at_datetime(
         cls, share_owners: QuerySet[ShareOwner], reference_datetime: datetime.datetime
     ):
-        members_with_an_account = share_owners.filter(user__isnull=False)
-        members_with_an_account_ids = list(
-            members_with_an_account.values_list("id", flat=True)
-        )
-
         active_members = ShareOwner.objects.with_status(
             MemberStatus.ACTIVE, reference_datetime
         )
@@ -65,7 +60,6 @@ class MemberCanShopService:
 
         all_criteria = Q()
         for id_list in [
-            members_with_an_account_ids,
             active_members_ids,
             members_who_joined_before_date_ids,
             shift_can_shop_members_ids,

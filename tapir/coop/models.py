@@ -130,11 +130,14 @@ class ShareOwner(models.Model):
             members_without_shares = share_owners_with_nb_of_shares.filter(
                 **{NumberOfSharesService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
             )
+            members_without_shares_ids = list(
+                members_without_shares.values_list("id", flat=True)
+            )
 
             if status == MemberStatus.SOLD:
-                return self.filter(id__in=members_without_shares).distinct()
+                return self.filter(id__in=members_without_shares_ids).distinct()
 
-            members_with_valid_shares = self.exclude(id__in=members_without_shares)
+            members_with_valid_shares = self.exclude(id__in=members_without_shares_ids)
 
             members_with_investing_annotation = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
                 ShareOwner.objects.all(), at_datetime
@@ -142,13 +145,15 @@ class ShareOwner(models.Model):
             investing_members = members_with_investing_annotation.filter(
                 **{InvestingStatusService.ANNOTATION_WAS_INVESTING: True}
             )
+            investing_members_ids = list(investing_members.values_list("id", flat=True))
+
             if status == MemberStatus.INVESTING:
                 return members_with_valid_shares.filter(
-                    id__in=investing_members
+                    id__in=investing_members_ids
                 ).distinct()
 
             member_with_shares_and_not_investing: Self = (
-                members_with_valid_shares.exclude(id__in=investing_members)
+                members_with_valid_shares.exclude(id__in=investing_members_ids)
             )
 
             members_with_paused_annotation = MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
@@ -157,15 +162,16 @@ class ShareOwner(models.Model):
             paused_members = members_with_paused_annotation.filter(
                 **{MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE: True}
             )
+            paused_members_ids = list(paused_members.values_list("id", flat=True))
 
             if status == MemberStatus.PAUSED:
                 return member_with_shares_and_not_investing.filter(
-                    id__in=paused_members
+                    id__in=paused_members_ids
                 ).distinct()
 
             if status == MemberStatus.ACTIVE:
                 return member_with_shares_and_not_investing.exclude(
-                    id__in=paused_members
+                    id__in=paused_members_ids
                 ).distinct()
 
             raise TapirException(f"Invalid status : {status}")
