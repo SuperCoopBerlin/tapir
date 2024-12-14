@@ -19,6 +19,7 @@ from tapir.accounts.models import (
 )
 from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
 from tapir.coop.services.investing_status_service import InvestingStatusService
+from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.views import ShareCountEvolutionJsonView
@@ -45,7 +46,7 @@ from tapir.statistics.utils import (
     build_line_chart_data,
     build_bar_chart_data,
 )
-from tapir.utils.shortcuts import get_first_of_next_month
+from tapir.utils.shortcuts import get_first_of_next_month, transfer_attributes
 
 
 class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
@@ -100,7 +101,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
             [
                 share_owner
                 for share_owner in share_owners
-                if share_owner.can_shop(self.reference_time)
+                if MemberCanShopService.can_shop(share_owner, self.reference_time)
             ]
         )
 
@@ -134,7 +135,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         for share_owner in share_owners:
             if not share_owner.user:
                 continue
-            cls.transfer_attributes(
+            transfer_attributes(
                 shift_user_datas[share_owner.user.shift_user_data.id],
                 share_owner.user.shift_user_data,
                 [
@@ -143,11 +144,6 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
                 ],
             )
         return share_owners
-
-    @staticmethod
-    def transfer_attributes(source, target, attributes):
-        for attribute in attributes:
-            setattr(target, attribute, getattr(source, attribute))
 
     def get_working_members_context(self):
         shift_user_datas = (
@@ -170,7 +166,7 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         )
         share_owners = {share_owner.id: share_owner for share_owner in share_owners}
         for shift_user_data in shift_user_datas:
-            self.transfer_attributes(
+            transfer_attributes(
                 share_owners[shift_user_data.user.share_owner.id],
                 shift_user_data.user.share_owner,
                 [
@@ -193,9 +189,10 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
             ]
         )
 
-        context = dict()
-        context["target_count"] = ShiftSlotTemplate.objects.count()
-        context["current_count"] = current_number_of_working_members
+        context = {
+            "target_count": ShiftSlotTemplate.objects.count(),
+            "current_count": current_number_of_working_members,
+        }
         context["missing_count"] = context["target_count"] - context["current_count"]
         context["progress"] = round(
             100 * context["current_count"] / context["target_count"]
@@ -409,7 +406,7 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
     def get_dates(self):
         first_update = (
             UpdateTapirUserLogEntry.objects.filter(
-                new_values__co_purchaser__isnull=False,
+                new_values__has_key="co_purchaser",
             )
             .order_by("created_date")
             .first()
@@ -436,7 +433,7 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
 
         co_purchaser_updates = (
             UpdateTapirUserLogEntry.objects.filter(
-                new_values__co_purchaser__isnull=False,
+                new_values__has_key="co_purchaser",
             )
             .order_by("created_date")
             .select_related("user")

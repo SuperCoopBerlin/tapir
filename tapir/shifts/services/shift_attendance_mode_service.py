@@ -103,22 +103,37 @@ class ShiftAttendanceModeService:
 
         at_datetime = ensure_datetime(at_datetime)
 
-        queryset = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
-            queryset, at_datetime, attendance_mode_prefix
+        shift_user_data_frozen = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
+            ShiftUserData.objects.all(), at_datetime
+        ).filter(
+            **{FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE: True}
+        )
+        shift_user_data_frozen_ids = list(
+            shift_user_data_frozen.values_list("id", flat=True)
         )
 
-        queryset = cls._annotate_queryset_with_has_abcd_attendance_at_datetime(
-            queryset, at_datetime
+        shift_user_data_has_abcd = (
+            cls._annotate_queryset_with_has_abcd_attendance_at_datetime(
+                ShiftUserData.objects.all(), at_datetime
+            ).filter(**{cls.ANNOTATION_HAS_ABCD_ATTENDANCE_AT_DATE: True})
+        )
+        shift_user_data_has_abcd_ids = list(
+            shift_user_data_has_abcd.values_list("id", flat=True)
         )
 
+        filter_argument_name = (
+            "id__in"
+            if attendance_mode_prefix is None
+            else f"{attendance_mode_prefix}__id__in"
+        )
         annotate_kwargs = {
             cls.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE: Case(
                 When(
-                    **{FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE: True},
+                    **{filter_argument_name: shift_user_data_frozen_ids},
                     then=Value(ShiftAttendanceMode.FROZEN),
                 ),
                 When(
-                    **{cls.ANNOTATION_HAS_ABCD_ATTENDANCE_AT_DATE: True},
+                    **{filter_argument_name: shift_user_data_has_abcd_ids},
                     then=Value(ShiftAttendanceMode.REGULAR),
                 ),
                 default=Value(ShiftAttendanceMode.FLYING),

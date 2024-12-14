@@ -38,6 +38,40 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         mock_timezone_now(self, self.NOW)
 
+    def test_updateShiftsAndSharesAndPayOutDay_default_sharesWithEndDateBeforeCancellationAreNotAffected(
+        self,
+    ):
+        actor = self.login_as_member_office_user()
+        share_owner: ShareOwner = ShareOwnerFactory.create(nb_shares=2)
+        shares = share_owner.share_ownerships.all()
+        share_that_end_in_the_past = shares[0]
+        share_that_end_in_the_past.end_date = self.TODAY - datetime.timedelta(days=1)
+        share_that_end_in_the_past.save()
+        share_that_end_in_the_future = shares[1]
+        share_that_end_in_the_future.end_date = self.TODAY + datetime.timedelta(days=1)
+        share_that_end_in_the_future.save()
+
+        resignation = MembershipResignationFactory.create(
+            share_owner=share_owner,
+            resignation_type=MembershipResignation.ResignationType.GIFT_TO_COOP,
+            cancellation_date=self.TODAY,
+        )
+
+        MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
+            resignation=resignation, actor=actor
+        )
+
+        share_that_end_in_the_past.refresh_from_db()
+        self.assertEqual(
+            self.TODAY - datetime.timedelta(days=1),
+            share_that_end_in_the_past.end_date,
+        )
+        share_that_end_in_the_future.refresh_from_db()
+        self.assertEqual(
+            self.TODAY,
+            share_that_end_in_the_future.end_date,
+        )
+
     def test_updateShiftsAndSharesAndPayOutDay_resignationTypeBuyBack_sharesEndDateAndPayOutDaySetToThreeYearsAfterResignation(
         self,
     ):
@@ -61,6 +95,41 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
                 datetime.date(year=2027, month=12, day=31),
                 share.end_date,
             )
+
+    def test_updateShiftsAndSharesAndPayOutDay_resignationTypeBuyBack_sharesThatEndBeforePayOutDayNotAffected(
+        self,
+    ):
+        actor = self.login_as_member_office_user()
+        share_owner: ShareOwner = ShareOwnerFactory.create(nb_shares=2)
+        share_that_end_between_now_and_pay_out_day = (
+            share_owner.share_ownerships.first()
+        )
+        share_that_end_between_now_and_pay_out_day.end_date = (
+            self.TODAY + datetime.timedelta(weeks=10)
+        )
+        share_that_end_between_now_and_pay_out_day.save()
+        resignation = MembershipResignationFactory.create(
+            share_owner=share_owner,
+            resignation_type=MembershipResignation.ResignationType.BUY_BACK,
+            cancellation_date=self.TODAY,
+        )
+
+        MembershipResignationService.update_shifts_and_shares_and_pay_out_day(
+            resignation=resignation, actor=actor
+        )
+
+        resignation.refresh_from_db()
+        expected_pay_out_day = datetime.date(year=2027, month=12, day=31)
+        self.assertEqual(
+            1,
+            share_owner.share_ownerships.filter(
+                end_date=self.TODAY + datetime.timedelta(weeks=10)
+            ).count(),
+        )
+        self.assertEqual(
+            1,
+            share_owner.share_ownerships.filter(end_date=expected_pay_out_day).count(),
+        )
 
     def test_updateShiftsAndSharesAndPayOutDay_resignationTypeGiftToCoop_sharesEndDateAndPayOutDaySetToResignationDate(
         self,
@@ -112,7 +181,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
                 self.assertIsNone(share.transferred_from)
                 continue
             self.assertEqual(None, share.end_date)
-            self.assertEqual(self.TODAY, share.start_date)
+            self.assertEqual(self.TODAY + datetime.timedelta(days=1), share.start_date)
             self.assertIn(share.transferred_from, gifting_member.share_ownerships.all())
             shares_of_gifting_member.remove(
                 share.transferred_from
@@ -266,7 +335,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         # set start date for only one share in order to test that the second share doesn't get affected
         transferred_share = first_recipient.share_ownerships.first()
         transferred_share.transferred_from = resigned_member.share_ownerships.first()
-        transferred_share.start_date = cancellation_date
+        transferred_share.start_date = cancellation_date + datetime.timedelta(days=1)
         transferred_share.save()
 
         second_recipient: ShareOwner = ShareOwnerFactory.create(nb_shares=1)

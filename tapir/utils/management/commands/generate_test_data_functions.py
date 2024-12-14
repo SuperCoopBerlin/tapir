@@ -473,6 +473,7 @@ def clear_django_db():
         DraftUser,
         ProcessedPurchaseFiles,
         PurchaseBasket,
+        FancyGraphCache,
     ]
     ShareOwnership.objects.update(transferred_from=None)
     for cls in classes:

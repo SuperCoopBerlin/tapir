@@ -77,6 +77,9 @@ from tapir.shifts.models import (
     Shift,
     SHIFT_ATTENDANCE_MODE_CHOICES,
 )
+from tapir.shifts.services.shift_attendance_mode_service import (
+    ShiftAttendanceModeService,
+)
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
 from tapir.utils.user_utils import UserUtils
@@ -677,9 +680,14 @@ class ShareOwnerFilter(django_filters.FilterSet):
     def shift_attendance_mode_filter(
         queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
     ):
+        queryset = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_datetime(
+            queryset
+        )
         return queryset.filter(
-            user__in=TapirUser.objects.with_shift_attendance_mode(value)
-        ).distinct()
+            **{
+                ShiftAttendanceModeService.ANNOTATION_SHIFT_ATTENDANCE_MODE_AT_DATE: value
+            }
+        )
 
     @staticmethod
     def registered_to_abcd_slot_with_capability_filter(

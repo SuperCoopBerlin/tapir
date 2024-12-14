@@ -4,7 +4,7 @@ import datetime
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.models import User
-from django.db.models import Q, Value, Count
+from django.db.models import Q, Value, Count, QuerySet
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
@@ -86,7 +86,7 @@ class MembershipPauseService:
 
     @classmethod
     def annotate_share_owner_queryset_with_has_active_pause(
-        cls, queryset: ShareOwner.ShareOwnerQuerySet, at_date: datetime.date = None
+        cls, queryset: QuerySet[ShareOwner], at_date: datetime.date = None
     ):
         if at_date is None:
             at_date = timezone.now().date()

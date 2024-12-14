@@ -13,7 +13,9 @@ class NumberOfMembersAtDateView(DatapointView):
             MemberStatus.PAUSED,
             MemberStatus.INVESTING,
         ]:
-            total_count += ShareOwner.objects.with_status(
-                member_status, reference_date
-            ).count()
+            total_count += (
+                ShareOwner.objects.with_status(member_status, reference_date)
+                .distinct()
+                .count()
+            )
         return total_count

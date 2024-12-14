@@ -69,27 +69,6 @@ const FancyGraphCard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!dateFrom || !dateTo) return;
-
-    let currentDate = new Date(dateFrom);
-    const dates = [];
-    while (currentDate <= dateTo) {
-      dates.push(currentDate);
-      currentDate = new Date(currentDate);
-      currentDate.setDate(currentDate.getDate() + 32);
-      currentDate.setDate(1);
-    }
-    dates.push(currentDate);
-
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    dates.push(tomorrow);
-
-    setDates(dates);
-    setGraphLabels(dates.map((date) => formatDate(date)));
-  }, [dateFrom, dateTo]);
-
-  useEffect(() => {
     fillCachedData();
     buildAndSetGraphData();
     fetchData();
@@ -253,12 +232,14 @@ const FancyGraphCard: React.FC = () => {
               <h5>
                 {gettext("Graph")} {fetching && <Spinner size={"sm"} />}
               </h5>
-              <span className={"d-flex gap-2"}>
+              <span className={"d-flex gap-2 align-items-center"}>
                 <DateRangePicker
                   dateFrom={dateFrom}
                   setDateFrom={setDateFrom}
                   dateTo={dateTo}
                   setDateTo={setDateTo}
+                  setDates={setDates}
+                  setGraphLabels={setGraphLabels}
                 />
                 <TapirButton
                   variant={"outline-secondary"}

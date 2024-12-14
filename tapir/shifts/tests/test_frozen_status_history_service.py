@@ -5,11 +5,10 @@ from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts import config
+from tapir.coop.models import ShareOwner
 from tapir.shifts.models import (
     ShiftUserData,
     UpdateShiftUserDataLogEntry,
-    ShiftAttendanceMode,
 )
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,
@@ -92,123 +91,8 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
             )
         )
 
-    @patch.object(
-        FrozenStatusHistoryService,
-        "_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor",
-    )
-    @patch.object(
-        FrozenStatusHistoryService,
-        "_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor",
-    )
-    def test_annotateShiftUserDataQuerysetWithIsFrozenAtDatetime_givenDateIsBeforeRefactor_useCorrectAnnotationMethod(
-        self,
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor: Mock,
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor: Mock,
-    ):
-        expected_result = Mock()
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor.return_value = (
-            expected_result
-        )
-        reference_datetime = (
-            config.ATTENDANCE_MODE_REFACTOR_DATETIME - datetime.timedelta(days=1)
-        )
-
-        actual_result = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
-            ShiftUserData.objects.none(),
-            reference_datetime,
-        )
-
-        self.assertEqual(actual_result, expected_result)
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor.assert_called_once()
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor.assert_not_called()
-
-    @patch.object(
-        FrozenStatusHistoryService,
-        "_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor",
-    )
-    @patch.object(
-        FrozenStatusHistoryService,
-        "_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor",
-    )
-    def test_annotateShiftUserDataQuerysetWithIsFrozenAtDatetime_givenDateIsAfterRefactor_useCorrectAnnotationMethod(
-        self,
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor: Mock,
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor: Mock,
-    ):
-        expected_result = Mock()
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor.return_value = (
-            expected_result
-        )
-        reference_datetime = (
-            config.ATTENDANCE_MODE_REFACTOR_DATETIME + datetime.timedelta(days=1)
-        )
-
-        actual_result = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
-            ShiftUserData.objects.none(),
-            reference_datetime,
-        )
-
-        self.assertEqual(actual_result, expected_result)
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor.assert_not_called()
-        mock_annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor.assert_called_once()
-
-    def test_annotateShiftUserDataQuerysetWithIsFrozenAtDatetimeBeforeRefactor_noRelevantLogEntry_annotatesCurrentValue(
-        self,
-    ):
-        tapir_user: TapirUser = TapirUserFactory.create()
-        tapir_user.shift_user_data.is_frozen = False
-        tapir_user.shift_user_data.save()
-        reference_datetime = timezone.now()
-        log_entry_in_the_past = UpdateShiftUserDataLogEntry.objects.create(
-            user=tapir_user,
-            old_values={"attendance_mode": ShiftAttendanceMode.FROZEN},
-            new_values={},
-        )
-        log_entry_in_the_past.created_date = reference_datetime - datetime.timedelta(
-            days=1
-        )
-        log_entry_in_the_past.save()
-
-        log_entry_irrelevant = UpdateShiftUserDataLogEntry.objects.create(
-            user=tapir_user,
-            old_values={"shift_partner": "12"},
-            new_values={"shift_partner": "13"},
-        )
-        log_entry_irrelevant.created_date = reference_datetime + datetime.timedelta(
-            days=1
-        )
-        log_entry_irrelevant.save()
-
-        queryset = FrozenStatusHistoryService._annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor(
-            ShiftUserData.objects.all(), reference_datetime
-        )
-
-        shift_user_data = queryset.first()
-        self.assertEqual(
-            getattr(
-                shift_user_data,
-                FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE,
-            ),
-            False,
-        )
-
-    def test_annotateShiftUserDataQuerysetWithIsFrozenAtDatetimeBeforeRefactor_hasRelevantLogEntry_annotatesLogEntryValue(
-        self,
-    ):
-        tapir_user: TapirUser = TapirUserFactory.create()
-        tapir_user.shift_user_data.is_frozen = False
-        tapir_user.shift_user_data.save()
-        reference_datetime = timezone.now()
-        relevant_log_entry = UpdateShiftUserDataLogEntry.objects.create(
-            user=tapir_user,
-            old_values={"attendance_mode": ShiftAttendanceMode.FROZEN},
-            new_values={},
-        )
-        relevant_log_entry.created_date = reference_datetime + datetime.timedelta(
-            days=5
-        )
-        relevant_log_entry.save()
-
+    @staticmethod
+    def create_irrelevant_log_entry(tapir_user, reference_datetime):
         not_relevant_log_entry = UpdateShiftUserDataLogEntry.objects.create(
             user=tapir_user,
             old_values={"shift_partner": 182},
@@ -219,20 +103,7 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
         )
         not_relevant_log_entry.save()
 
-        queryset = FrozenStatusHistoryService._annotate_shift_user_data_queryset_with_is_frozen_at_datetime_before_refactor(
-            ShiftUserData.objects.all(), reference_datetime
-        )
-
-        shift_user_data = queryset.first()
-        self.assertEqual(
-            getattr(
-                shift_user_data,
-                FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE,
-            ),
-            True,
-        )
-
-    def test_annotateShiftUserDataQuerysetWithIsFrozenAtDatetimeAfterRefactor_noRelevantLogEntry_annotatesCurrentValue(
+    def test_annotateShiftUserDataQuerysetWithIsFrozenAtDatetime_noRelevantLogEntry_annotatesCurrentValue(
         self,
     ):
         tapir_user: TapirUser = TapirUserFactory.create()
@@ -249,7 +120,9 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
         )
         log_entry_in_the_past.save()
 
-        queryset = FrozenStatusHistoryService._annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor(
+        self.create_irrelevant_log_entry(tapir_user, reference_datetime)
+
+        queryset = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
             ShiftUserData.objects.all(), reference_datetime
         )
 
@@ -262,7 +135,7 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
             False,
         )
 
-    def test_annotateShiftUserDataQuerysetWithIsFrozenAtDatetimeAfterRefactor_hasRelevantLogEntry_annotatesLogEntryValue(
+    def test_annotateShiftUserDataQuerysetWithIsFrozenAtDatetime_hasRelevantLogEntry_annotatesLogEntryValue(
         self,
     ):
         tapir_user: TapirUser = TapirUserFactory.create()
@@ -275,11 +148,13 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
             new_values={"is_frozen": False},
         )
         log_entry_in_the_past.created_date = reference_datetime + datetime.timedelta(
-            days=1
+            days=5
         )
         log_entry_in_the_past.save()
 
-        queryset = FrozenStatusHistoryService._annotate_shift_user_data_queryset_with_is_frozen_at_datetime_after_refactor(
+        self.create_irrelevant_log_entry(tapir_user, reference_datetime)
+
+        queryset = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
             ShiftUserData.objects.all(), reference_datetime
         )
 
@@ -287,6 +162,25 @@ class TestFrozenStatusHistoryService(TapirFactoryTestBase):
         self.assertEqual(
             getattr(
                 shift_user_data,
+                FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE,
+            ),
+            True,
+        )
+
+    def test_annotateShareOwnerQuerysetWithIsFrozenAtDatetime_memberIsFrozen_annotatesTrue(
+        self,
+    ):
+        TapirUserFactory.create()
+        ShiftUserData.objects.update(is_frozen=True)
+
+        queryset = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
+            ShareOwner.objects.all()
+        )
+
+        share_owner = queryset.first()
+        self.assertEqual(
+            getattr(
+                share_owner,
                 FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE,
             ),
             True,

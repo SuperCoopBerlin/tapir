@@ -12,14 +12,14 @@ from tapir.shifts.models import (
 )
 
 
-class ShiftSlotTemplateFactory(factory.django.DjangoModelFactory):
+class ShiftSlotTemplateFactory(factory.django.DjangoModelFactory[ShiftSlotTemplate]):
     class Meta:
         model = ShiftSlotTemplate
 
     name = factory.Faker("job")
 
 
-class ShiftTemplateFactory(factory.django.DjangoModelFactory):
+class ShiftTemplateFactory(factory.django.DjangoModelFactory[ShiftTemplate]):
     class Meta:
         model = ShiftTemplate
         exclude = ("start_hour", "start_minute", "duration")
@@ -56,14 +56,14 @@ class ShiftTemplateFactory(factory.django.DjangoModelFactory):
         self.save()
 
 
-class ShiftSlotFactory(factory.django.DjangoModelFactory):
+class ShiftSlotFactory(factory.django.DjangoModelFactory[ShiftSlot]):
     class Meta:
         model = ShiftSlot
 
     name = factory.Faker("job")
 
 
-class ShiftFactory(factory.django.DjangoModelFactory):
+class ShiftFactory(factory.django.DjangoModelFactory[Shift]):
     class Meta:
         model = Shift
         exclude = ("start_hour", "start_minute", "duration", "nb_slots")
