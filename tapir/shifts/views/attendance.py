@@ -11,8 +11,10 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     FormView,
+    TemplateView,
 )
 
+from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
@@ -36,6 +38,9 @@ from tapir.shifts.models import (
     UpdateShiftAttendanceStateLogEntry,
     ShiftAttendanceTakenOverLogEntry,
     SolidarityShift,
+)
+from tapir.shifts.services.reasons_cant_self_unregister_service import (
+    ReasonsCantSelfUnregisterService,
 )
 from tapir.shifts.views.views import SelectedUserViewMixin
 from tapir.utils.shortcuts import safe_redirect, get_html_link
@@ -118,8 +123,15 @@ class UpdateShiftAttendanceStateBase(
     model = ShiftAttendance
     get_state_from_kwargs = True
 
+    def __init__(self):
+        super().__init__()
+        self.attendance = None
+
     def get_attendance(self):
-        return ShiftAttendance.objects.get(pk=self.kwargs["pk"])
+        if not self.attendance:
+            self.attendance = ShiftAttendance.objects.get(pk=self.kwargs["pk"])
+
+        return self.attendance
 
     def get_permission_required(self):
         state = self.kwargs["state"]
@@ -129,7 +141,7 @@ class UpdateShiftAttendanceStateBase(
         )
         look_for_standing = (
             state == ShiftAttendance.State.LOOKING_FOR_STAND_IN
-            and self.get_attendance().slot.user_can_look_for_standin(self.request.user)
+            and self.get_attendance().slot.shift.start_time > timezone.now()
         )
         cancel_look_for_standing = (
             state == ShiftAttendance.State.PENDING
@@ -391,3 +403,46 @@ class UpdateShiftAttendanceTemplateCustomTimeView(
             }
         )
         return context
+
+
+class CantAttendView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
+    template_name = "shifts/cant_attend.html"
+
+    def __init__(self):
+        super().__init__()
+        self.attendance = None
+
+    def get_attendance(self):
+        if not self.attendance:
+            self.attendance = get_object_or_404(ShiftAttendance, pk=self.kwargs["pk"])
+
+        return self.attendance
+
+    def get_permission_required(self):
+        attendance = self.get_attendance()
+        if attendance.user == self.request.user:
+            return []
+        return [PERMISSION_SHIFTS_MANAGE]
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data()
+        context_data["attendance"] = self.get_attendance()
+
+        context_data["reasons_why_cant_self_unregister"] = (
+            ReasonsCantSelfUnregisterService.build_reasons_why_cant_self_unregister(
+                self.request.user, self.get_attendance()
+            )
+        )
+        context_data["can_unregister"] = (
+            len(context_data["reasons_why_cant_self_unregister"]) == 0
+        )
+
+        context_data["email_address_member_office"] = (
+            settings.EMAIL_ADDRESS_MEMBER_OFFICE
+        )
+
+        context_data["can_look_for_standin"] = (
+            self.get_attendance().slot.shift.start_time > timezone.now()
+        )
+
+        return context_data

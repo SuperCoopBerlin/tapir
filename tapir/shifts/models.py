@@ -731,16 +731,6 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
             and early_enough
         )
 
-    def user_can_look_for_standin(self, user: TapirUser) -> bool:
-        user_is_registered_to_slot = (
-            self.get_valid_attendance() is not None
-            and self.get_valid_attendance().user == user
-        )
-        early_enough = (
-            self.shift.start_time - timezone.now()
-        ).days >= Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
-        return user_is_registered_to_slot and early_enough
-
     def update_attendance_from_template(self):
         """Updates the attendance of this slot.
 
