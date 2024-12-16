@@ -98,6 +98,6 @@ class UserUtils:
         writer = SVGWriter()
         return (
             EAN13(str(tapir_user.share_owner.get_id_for_biooffice()), writer=writer)
-            .render(writer_options={"module_width": 0.8, "module_height": 60})
+            .render(writer_options={"module_width": 0.75, "module_height": 60})
             .decode("utf-8")
         )

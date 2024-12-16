@@ -2756,6 +2756,7 @@ msgstr ""
 #: financingcampaign/templates/financingcampaign/general.html:111
 #: log/templates/log/log_entry_list_tag.html:23
 #: shifts/templates/shifts/user_shift_account_log.html:26
+#: statistics/templates/statistics/tags/credit_account_card.html:17
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:18
 msgid "Date"
 msgstr "Datum"
@@ -4654,6 +4655,45 @@ msgstr ""
 "Hier könnt ihr den Fortschritt der Finanzierungskampagne verfolgen. Es werden sowohl weitere Anteile gezählt (alle Anteile, die über den Pflichtanteil hinaus gezeichnet werden) als auch Nachrangdarlehen. Der Zeitraum läuft vom 12.09.2023 - 09.12.2023. Was eine:r nicht schafft, schaffen viele!\n"
 "                                    "
 
+#: statistics/templates/statistics/tags/credit_account_card.html:5
+#, fuzzy
+#| msgid "Create account"
+msgid "Credits"
+msgstr "Konto erstellen"
+
+#: statistics/templates/statistics/tags/credit_account_card.html:8
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "                Your average basket per month is %(average)s€.\n"
+#| "            "
+msgid ""
+"\n"
+"                Your current credit is %(credit)s€.\n"
+"            "
+msgstr ""
+"\n"
+"                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
+"            "
+
+#: statistics/templates/statistics/tags/credit_account_card.html:14
+#, fuzzy
+#| msgid "List of the last purchases"
+msgid "List of last charged credits"
+msgstr "Liste der letzten Einkäufe"
+
+#: statistics/templates/statistics/tags/credit_account_card.html:18
+#, fuzzy
+#| msgid "Actions"
+msgid "Action"
+msgstr "Aktionen"
+
+#: statistics/templates/statistics/tags/credit_account_card.html:19
+#, fuzzy
+#| msgid "Create account"
+msgid "Credit amount"
+msgstr "Konto erstellen"
+
 #: statistics/templates/statistics/tags/on_demand_chart.html:5
 msgid "Show graph: "
 msgstr "Grafik anzeigen: "
@@ -5785,30 +5825,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #~| msgid "Shift statistics"
 #~ msgid "Shift status evolution"
 #~ msgstr "Schicht-Statistiken"
-
-#, fuzzy, python-format
-#~| msgid ""
-#~| "\n"
-#~| "                Your average basket per month is %(average)s€.\n"
-#~| "            "
-#~ msgid ""
-#~ "\n"
-#~ "                Your current credit is %(credit)s€.\n"
-#~ "            "
-#~ msgstr ""
-#~ "\n"
-#~ "                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
-#~ "            "
-
-#, fuzzy
-#~| msgid "List of the last purchases"
-#~ msgid "List of last credits"
-#~ msgstr "Liste der letzten Einkäufe"
-
-#, fuzzy
-#~| msgid "Create account"
-#~ msgid "Credit amount"
-#~ msgstr "Konto erstellen"
 
 #, python-format
 #~ msgid "%(name)s is not registered to an ABCD shift yet. Make sure they plan to do it!"
