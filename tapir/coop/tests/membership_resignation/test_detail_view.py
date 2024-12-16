@@ -22,6 +22,7 @@ class TestMembershipResignationDetailView(
             settings.GROUP_VORSTAND,
             settings.GROUP_EMPLOYEES,
             settings.GROUP_MEMBER_OFFICE,
+            settings.GROUP_ACCOUNTING,
         ]
 
     def do_request(self):
