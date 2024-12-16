@@ -48,6 +48,7 @@ from tapir.statistics.models import (
     PurchaseBasket,
     ProcessedCreditFiles,
     CreditAccount,
+    FancyGraphCache,
 )
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info

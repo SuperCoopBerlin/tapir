@@ -43,7 +43,7 @@ class Command(BaseCommand):
             for file_name in files_on_server
             if file_name not in already_processed_files
         ]:
-            self.process_file(sftp_client.open(files_on_server.first()), file_name)
+            self.process_file(sftp_client.open(file_name), file_name)
 
     @classmethod
     @transaction.atomic
