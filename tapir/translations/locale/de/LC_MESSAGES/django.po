@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-12 19:36+0100\n"
+"POT-Creation-Date: 2024-12-16 12:22+0100\n"
 "PO-Revision-Date: 2024-12-06 17:42+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2762,7 +2762,7 @@ msgstr ""
 #: log/templates/log/log_entry_list_tag.html:23
 #: shifts/templates/shifts/user_shift_account_log.html:26
 #: statistics/templates/statistics/tags/credit_account_card.html:17
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:20
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:18
 msgid "Date"
 msgstr "Datum"
 
@@ -4718,15 +4718,15 @@ msgstr ""
 "                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
 "            "
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:17
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:15
 msgid "List of the last purchases"
 msgstr "Liste der letzten Einkäufe"
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:21
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:19
 msgid "Gross amount"
 msgstr ""
 
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:37
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:35
 msgid "Evolution of total spends per month"
 msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
