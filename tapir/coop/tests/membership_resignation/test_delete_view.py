@@ -37,6 +37,7 @@ class TestMembershipResignationDeleteView(
         return [
             settings.GROUP_VORSTAND,
             settings.GROUP_EMPLOYEES,
+            settings.GROUP_MEMBER_OFFICE,
         ]
 
     def do_request(self):
