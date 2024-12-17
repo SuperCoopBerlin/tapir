@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-16 13:20+0100\n"
-"PO-Revision-Date: 2024-12-16 13:21+0100\n"
+"PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -4656,43 +4656,31 @@ msgstr ""
 "                                    "
 
 #: statistics/templates/statistics/tags/credit_account_card.html:5
-#, fuzzy
-#| msgid "Create account"
 msgid "Credits"
-msgstr "Konto erstellen"
+msgstr "Guthaben"
 
 #: statistics/templates/statistics/tags/credit_account_card.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                Your average basket per month is %(average)s€.\n"
-#| "            "
+#, python-format
 msgid ""
 "\n"
 "                Your current credit is %(credit)s€.\n"
 "            "
 msgstr ""
 "\n"
-"                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
+"                Dein aktuelles Guthaben beträgt %(credit)s€.\n"
 "            "
 
 #: statistics/templates/statistics/tags/credit_account_card.html:14
-#, fuzzy
-#| msgid "List of the last purchases"
 msgid "List of last charged credits"
-msgstr "Liste der letzten Einkäufe"
+msgstr "Liste der letzten Guthaben"
 
 #: statistics/templates/statistics/tags/credit_account_card.html:18
-#, fuzzy
-#| msgid "Actions"
 msgid "Action"
-msgstr "Aktionen"
+msgstr "Aktion"
 
 #: statistics/templates/statistics/tags/credit_account_card.html:19
-#, fuzzy
-#| msgid "Create account"
 msgid "Credit amount"
-msgstr "Konto erstellen"
+msgstr "Betrag"
 
 #: statistics/templates/statistics/tags/on_demand_chart.html:5
 msgid "Show graph: "
