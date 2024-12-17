@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-16 12:22+0100\n"
-"PO-Revision-Date: 2024-12-06 17:42+0100\n"
+"POT-Creation-Date: 2024-12-16 13:20+0100\n"
+"PO-Revision-Date: 2024-12-16 13:21+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -2030,19 +2030,14 @@ msgid "List of membership resignations"
 msgstr "Liste der Schicht-Befreiungen"
 
 #: coop/templates/coop/membership_resignation_list.html:33
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                        %(num_banked_shifts)s banked shifts\n"
-#| "                    "
 msgid ""
 "\n"
-"                    Only the vorstand and the employees can create resignations.\n"
+"                    Only the vorstand, the member-office and the employees can create resignations.\n"
 "                "
 msgstr ""
 "\n"
-"                        %(num_banked_shifts)s Schicht(en) gut geschrieben\n"
-"                    "
+"                    Nur der Vorstand, das Mitgliedsbüro und die Mitarbeiter können Kündigungen anlegen.\n"
+"                "
 
 #: coop/templates/coop/membership_resignation_list.html:41
 #, fuzzy
