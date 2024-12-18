@@ -155,7 +155,7 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.statistics.tasks.process_purchase_files",
         "schedule": celery.schedules.crontab(minute=0, hour=2),
     },
-    "process_credit_files": {
+    "process_credit_account": {
         "task": "tapir.statistics.tasks.process_credit_account",
         "schedule": celery.schedules.crontab(minute=0, hour=2),
     },
