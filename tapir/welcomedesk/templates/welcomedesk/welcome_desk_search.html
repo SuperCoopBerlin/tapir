@@ -7,6 +7,7 @@
 {% load querystring from django_tables2 %}
 {% load core %}
 {% block head %}
+    {% vite_asset 'welcome_desk/welcome_desk_entry.tsx' %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
 {% endblock head %}
@@ -14,6 +15,5 @@
     {% translate "Welcome Desk" %}
 {% endblock title %}
 {% block content %}
-    {% vite_asset 'welcome_desk/welcome_desk_entry.tsx' %}
     <span id="welcome_desk"></span>
 {% endblock content %}
