@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-16 13:20+0100\n"
+"POT-Creation-Date: 2024-12-19 19:45+0100\n"
 "PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -476,7 +476,7 @@ msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 msgid "You can only look at your own barcode unless you have member office rights"
 msgstr ""
 
-#: accounts/views.py:246 accounts/views.py:251
+#: accounts/views.py:260 accounts/views.py:265
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr ""
@@ -5714,7 +5714,7 @@ msgid "NO NAME AVAILABLE"
 msgstr ""
 
 #: welcomedesk/apps.py:17 welcomedesk/apps.py:20
-#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:14
+#: welcomedesk/templates/welcomedesk/welcome_desk_search.html:15
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
