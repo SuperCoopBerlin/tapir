@@ -217,8 +217,22 @@ class EditUserLdapGroupsView(
 
     def form_valid(self, form):
         tapir_user = self.get_tapir_user()
+        old_frozen = freeze_for_log(tapir_user)
+        old_frozen["groups"] = ", ".join(tapir_user.get_ldap_user().group_names)
         for group_cn in settings.LDAP_GROUPS:
             set_group_membership([tapir_user], group_cn, form.cleaned_data[group_cn])
+
+        new_frozen = freeze_for_log(tapir_user)
+        new_frozen["groups"] = ", ".join(
+            self.get_tapir_user().get_ldap_user().group_names
+        )
+        if old_frozen != new_frozen:
+            UpdateTapirUserLogEntry().populate(
+                old_frozen=old_frozen,
+                new_frozen=new_frozen,
+                tapir_user=tapir_user,
+                actor=self.request.user,
+            ).save()
 
         return super().form_valid(form)
 
