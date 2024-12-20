@@ -218,13 +218,23 @@ class EditUserLdapGroupsView(
     def form_valid(self, form):
         tapir_user = self.get_tapir_user()
         old_frozen = freeze_for_log(tapir_user)
-        old_frozen["groups"] = ", ".join(tapir_user.get_ldap_user().group_names)
+        old_frozen["groups"] = tapir_user.get_ldap_user().group_names
+        old_frozen["groups"] = (
+            "No group"
+            if not old_frozen["groups"]
+            else ", ".join(tapir_user.get_ldap_user().group_names)
+        )
+
         for group_cn in settings.LDAP_GROUPS:
             set_group_membership([tapir_user], group_cn, form.cleaned_data[group_cn])
 
-        new_frozen = freeze_for_log(tapir_user)
-        new_frozen["groups"] = ", ".join(
-            self.get_tapir_user().get_ldap_user().group_names
+        tapir_user_with_new_groups = self.get_tapir_user()
+        new_frozen = freeze_for_log(tapir_user_with_new_groups)
+        new_frozen["groups"] = tapir_user_with_new_groups.get_ldap_user().group_names
+        new_frozen["groups"] = (
+            "No group"
+            if not new_frozen["groups"]
+            else ", ".join(self.get_tapir_user().get_ldap_user().group_names)
         )
         if old_frozen != new_frozen:
             UpdateTapirUserLogEntry().populate(
