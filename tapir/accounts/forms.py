@@ -113,8 +113,7 @@ class EditUsernameForm(forms.ModelForm):
 class OptionalMailsForm(forms.Form):
 
     optional_mails = forms.MultipleChoiceField(
-        choices=get_mail_types(optional=True, enabled_by_default=True)
-        + get_mail_types(optional=True, enabled_by_default=False),
+        choices=get_mail_types(optional=True, enabled_by_default="both"),
         widget=forms.CheckboxSelectMultiple(),
         label=_("Optional Mails"),
         required=False,
