@@ -23,11 +23,14 @@ MAIL_OPTIONS_ = Literal[True, False, "both"]
 def get_mail_types(
     enabled_by_default: MAIL_OPTIONS_ = True,
     optional: MAIL_OPTIONS_ = True,
+    mail_classes: List = None,
 ) -> List[Tuple[str, str]]:
     """
     default="both" returns both, default and non-default mails.
     default=False returns mails not being sent by default
     """
+    if mail_classes is None:
+        mail_classes = TapirEmailBase.__subclasses__()
 
     def filter_mail(mail):
         return (
@@ -37,7 +40,7 @@ def get_mail_types(
 
     return [
         (mail.get_unique_id(), mail.get_name())
-        for mail in TapirEmailBase.__subclasses__()
+        for mail in mail_classes
         if filter_mail(mail)
     ]
 
