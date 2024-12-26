@@ -26,12 +26,10 @@ class TestOptionalNotDefaultMail(TapirFactoryTestBase):
         self,
     ):
         tapir_user: TapirUser = TapirUserFactory.create()
-
-        self.assertTrue(
+        self.assertFalse(
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
                 user=tapir_user
             )
-            is False
         )
 
     def test_userWantsToOrHasToReceiveMail_mailSubscribedTo_shouldReceiveMail(self):
@@ -39,30 +37,20 @@ class TestOptionalNotDefaultMail(TapirFactoryTestBase):
         m = MailChoice(name=OptionalNonDefaultMail.get_unique_id(), choice=True)
         m.save()
         OptionalMails.objects.create(user=tapir_user, mail=m)
-        print(f"TESSSSSST: {tapir_user.optional_mails_by_user()}")
         self.assertTrue(
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
                 user=tapir_user
             )
         )
 
-    # def test_userWantsToOrHasToReceiveMail_mailIsMandatory_shouldReceiveMail(self):
-    #     tapir_user: TapirUser = TapirUserFactory.create()
-    #     self.assertTrue(TapirAccountCreatedEmail.optional)
-    #
-    #     self.assertTrue(
-    #         TapirAccountCreatedEmail(
-    #             tapir_user=tapir_user
-    #         ).user_wants_to_or_has_to_receive_mail(user=tapir_user)
-    #     )
-
-    def test_mailIsChangedToNotEnabledByDefault(self):
+    def test_userWantsToOrHasToReceiveMail_NotSubscribedTo_shouldNotReceiveMail(
+        self,
+    ):
         OptionalNonDefaultMail.enabled_by_default = False
         tapir_user: TapirUser = TapirUserFactory.create()
 
-        self.assertTrue(
+        self.assertFalse(
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
                 user=tapir_user
             )
-            is False
         )
