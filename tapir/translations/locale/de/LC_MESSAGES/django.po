@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-27 18:26+0100\n"
+"POT-Creation-Date: 2024-12-26 21:47+0100\n"
 "PO-Revision-Date: 2024-09-26 10:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -30,13 +30,13 @@ msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt 
 msgid "This username is not available."
 msgstr ""
 
-#: accounts/forms.py:119
+#: accounts/forms.py:118
 #, fuzzy
 #| msgid "List of all emails"
 msgid "Optional Mails"
 msgstr "Optionale E-Mails"
 
-#: accounts/forms.py:126
+#: accounts/forms.py:125
 msgid "Important Mails"
 msgstr "Wichtige E-Mails"
 
@@ -220,21 +220,6 @@ msgstr ""
 #: accounts/templates/accounts/ldap_group_list.html:7
 #: accounts/templates/accounts/user_detail.html:105
 msgid "Groups"
-msgstr ""
-
-#: accounts/templates/accounts/mailsettings.html:7
-#: coop/templates/coop/confirm_delete_incoming_payment.html:7
-#: coop/templates/coop/confirm_delete_incoming_payment.html:13
-#: coop/templates/coop/confirm_delete_share_ownership.html:6
-#: coop/templates/coop/confirm_delete_share_ownership.html:12
-#: coop/templates/coop/draftuser_detail.html:20
-#: financingcampaign/templates/financingcampaign/confirm_delete.html:6
-#: financingcampaign/templates/financingcampaign/confirm_delete.html:12
-msgid "Confirm delete"
-msgstr ""
-
-#: accounts/templates/accounts/mailsettings.html:13
-msgid "Notification settings"
 msgstr ""
 
 #: accounts/templates/accounts/purchase_tracking_card.html:5
@@ -503,6 +488,11 @@ msgstr ""
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr ""
+
+#: accounts/views.py:349 accounts/views.py:354
+#, python-format
+msgid "Notification settings for %(name)s"
+msgstr "Benachrichtungseinstellungen für %(name)s"
 
 #: coop/apps.py:22 coop/apps.py:33 coop/templates/coop/shareowner_list.html:10
 msgid "Members"
@@ -841,6 +831,16 @@ msgstr ""
 #: coop/templates/coop/active_members_progress_bar.html:11
 msgid "Active Members with a Tapir Account"
 msgstr "Aktive Mitglieder mit Tapir-Konto"
+
+#: coop/templates/coop/confirm_delete_incoming_payment.html:7
+#: coop/templates/coop/confirm_delete_incoming_payment.html:13
+#: coop/templates/coop/confirm_delete_share_ownership.html:6
+#: coop/templates/coop/confirm_delete_share_ownership.html:12
+#: coop/templates/coop/draftuser_detail.html:20
+#: financingcampaign/templates/financingcampaign/confirm_delete.html:6
+#: financingcampaign/templates/financingcampaign/confirm_delete.html:12
+msgid "Confirm delete"
+msgstr ""
 
 #: coop/templates/coop/confirm_delete_incoming_payment.html:31
 #: coop/templates/coop/confirm_delete_share_ownership.html:24
