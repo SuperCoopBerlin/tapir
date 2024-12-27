@@ -23,8 +23,8 @@ MAIL_OPTIONS_ = Literal[True, False, "both"]
 def get_mail_types(
     enabled_by_default: MAIL_OPTIONS_ = True,
     optional: MAIL_OPTIONS_ = True,
-    mail_classes: List = None,
-) -> List[Tuple[str, str]]:
+    mail_classes: List[Type[TapirEmailBase]] = None,
+) -> List[Type[TapirEmailBase]]:
     """
     default="both" returns both, default and non-default mails.
     default=False returns mails not being sent by default
@@ -38,15 +38,14 @@ def get_mail_types(
             or mail.enabled_by_default is enabled_by_default
         ) and (optional == "both" or mail.optional is optional)
 
-    return [
-        (mail.get_unique_id(), mail.get_name())
-        for mail in mail_classes
-        if filter_mail(mail)
-    ]
+    return [mail for mail in mail_classes if filter_mail(mail)]
 
 
 def get_optional_mails() -> List[Tuple[str, str]]:
-    return get_mail_types(optional=True, enabled_by_default="both")
+    return [
+        (mail.get_unique_id(), mail.get_name())
+        for mail in get_mail_types(optional=True, enabled_by_default="both")
+    ]
 
 
 class TapirEmailBase:
@@ -138,7 +137,10 @@ class TapirEmailBase:
     def user_wants_to_or_has_to_receive_mail(self, user: TapirUser):
         return (
             self.get_unique_id() in user.get_optional_mail_ids_user_will_receive()
-        ) or (self.get_unique_id() in [x[0] for x in get_mail_types(optional=False)])
+        ) or (
+            self.get_unique_id()
+            in [x.get_unique_id() for x in get_mail_types(optional=False)]
+        )
 
     def send_to_tapir_user(self, actor: User | None, recipient: TapirUser):
         if not self.user_wants_to_or_has_to_receive_mail(user=recipient):

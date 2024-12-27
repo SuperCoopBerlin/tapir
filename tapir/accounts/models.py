@@ -249,9 +249,9 @@ class TapirUser(AbstractUser):
             )
         )
         other_optional_mails = [
-            x[0]
+            x.get_unique_id()
             for x in get_mail_types(optional=True)
-            if x[0] not in user_mails_not_wanted
+            if x.get_unique_id() not in user_mails_not_wanted
         ]
 
         optional_mails = other_optional_mails + user_mails_wanted
