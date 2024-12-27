@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-20 12:03+0100\n"
+"POT-Creation-Date: 2024-12-26 22:12+0100\n"
 "PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -34,11 +34,11 @@ msgstr "Liste alle E-Mails"
 
 #: accounts/forms.py:25
 msgid "Mandatory Emails"
-msgstr ""
+msgstr "Wichtige Emails"
 
 #: accounts/forms.py:119
 msgid "This username is not available."
-msgstr ""
+msgstr "Dieser Benutzername ist nicht verfügbar"
 
 #: accounts/models.py:63
 msgid "Displayed name"
@@ -89,7 +89,7 @@ msgstr "Miteinkäufer*in"
 
 #: accounts/models.py:78
 msgid "Allow purchase tracking"
-msgstr ""
+msgstr "Erlaube Aufzeichnen deiner Einkäufe"
 
 #: accounts/models.py:92 accounts/templates/accounts/user_detail.html:97
 #: coop/models.py:81 coop/models.py:493
@@ -220,7 +220,7 @@ msgstr ""
 #: accounts/templates/accounts/ldap_group_list.html:7
 #: accounts/templates/accounts/user_detail.html:102
 msgid "Groups"
-msgstr ""
+msgstr "Gruppen"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:5
 msgid "Purchase tracking"
@@ -228,30 +228,30 @@ msgstr ""
 
 #: accounts/templates/accounts/purchase_tracking_card.html:11
 msgid "Get barcode as PDF"
-msgstr ""
+msgstr "Erhalte den Strichcode als PDF"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:17
 msgid "More information"
-msgstr ""
+msgstr "Mehr Informationen"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:25
-msgid "Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst wird dagegen, welche konkreten Produkte du gekauft hast. Auch kannst du bei jedem Einkauf immer noch entscheiden, ob du deine Mitgliedskarte scannen lassen möchtest oder nicht. Mit deiner generellen Zustimmung hier auf Tapir gehst du keine Verpflichtung zum Scannen ein. Die Zustimmung kannst du jederzeit widerrufen, indem du die Checkbox oben deaktivierst. Du hilfst damit Supercoop, die Einkaufsgewohnheiten der Mitglieder besser zu verstehen. Das ist wichtig für die Weiterentwicklung unseres Supermarktes. Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte"
-msgstr ""
+msgid "The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. You can also still decide with each purchase whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by deactivating the checkbox above. With your consent, you help Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: Translated with DeepL.com (free version): https://wiki.supercoop.de/wiki/Mitgliederkarte"
+msgstr "Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst wird dagegen, welche konkreten Produkte du gekauft hast. Auch kannst du bei jedem Einkauf immer noch entscheiden, ob du deine Mitgliedskarte scannen lassen möchtest oder nicht. Mit deiner generellen Zustimmung hier auf Tapir gehst du keine Verpflichtung zum Scannen ein. Die Zustimmung kannst du jederzeit widerrufen, indem du die Checkbox oben deaktivierst. Du hilfst damit Supercoop, die Einkaufsgewohnheiten der Mitglieder besser zu verstehen. Das ist wichtig für die Weiterentwicklung unseres Supermarktes. Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:29
 #: coop/templates/coop/draftuser_detail.html:235
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:168
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
 msgid "Yes,No"
-msgstr ""
+msgstr "Ja, Nein"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:35
 msgid "Disable"
-msgstr ""
+msgstr "Deaktivieren"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:40
 msgid "Enable"
-msgstr ""
+msgstr "Aktivieren"
 
 #: accounts/templates/accounts/user_detail.html:20 coop/models.py:759
 #: coop/templates/coop/draftuser_detail.html:86
@@ -449,7 +449,11 @@ msgid ""
 "                            If you forgot both your email address and your username, email the member office : <a href=\"mailto:%(contact_member_office)s\">%(contact_member_office)s</a>, specifying your full name and, if you know it, your member's number.\n"
 "                        "
 msgstr ""
-
+"\n"
+"                            Nach der Eingabe deiner Emailadresse erhältst du Anweisungen zum Zurücksetzen deines Passworts. <br />\n"
+"                            Diese E-Mail enthält auch deinen Benutzernamen, falls du diesen vergessen hast. <br />\n"
+"                            Falls du deine E-Mail und Benuternamen vergessen hast, sende eine Nachricht an an Mitgliedsbüro : <a href=\"mailto:%(contact_member_office)s\">%(contact_member_office)s</a>, mit der Angabe deines vollen Namens und (falls bekannt) deiner Mitgliedsnummer.\n"
+"                        "
 #: accounts/templates/registration/password_reset_form.html:24
 msgid "Back to login form"
 msgstr "Zurück zum Login"
@@ -474,12 +478,12 @@ msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
 #: accounts/views.py:187
 msgid "You can only look at your own barcode unless you have member office rights"
-msgstr ""
+msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgliedsbüro-Rechte"
 
 #: accounts/views.py:270 accounts/views.py:275
 #, python-format
 msgid "Edit member groups: %(name)s"
-msgstr ""
+msgstr "Bearbeite Gruppen: %(name)s"
 
 #: coop/apps.py:22 coop/apps.py:33 coop/templates/coop/shareowner_list.html:10
 msgid "Members"
@@ -515,7 +519,7 @@ msgstr "Wird an ein Mitglied gesendet, wenn sein neuer Mitkäufer*in in seinem P
 
 #: coop/emails/extra_shares_confirmation_email.py:26
 msgid "Extra shares bought"
-msgstr ""
+msgstr "Extra Anteile gekauft"
 
 #: coop/emails/extra_shares_confirmation_email.py:30
 msgid "Sent when someone who is already a member buys more shares"
@@ -551,7 +555,7 @@ msgstr "Tapir-Konto erstellt"
 
 #: coop/emails/tapir_account_created_email.py:29
 msgid "Sent to a member when the accounts gets created."
-msgstr ""
+msgstr "Wird an ein Mitglied bei Accounterstellung gesendet"
 
 #: coop/forms.py:41
 #: financingcampaign/templates/financingcampaign/general.html:27
@@ -560,7 +564,7 @@ msgstr "Anfangsdatum"
 
 #: coop/forms.py:45
 msgid "Usually, the date on the membership agreement, or today. In the case of sold or gifted shares, can be set in the future."
-msgstr ""
+msgstr "Normalerweise der Tag der Mitgliedschaftserklärung oder heute. Im Falle gekaufter oder geschenkter Anteile kanndas Datum in der Zukunft liegen"
 
 #: coop/forms.py:50
 #: financingcampaign/templates/financingcampaign/general.html:28
@@ -569,7 +573,7 @@ msgstr "Enddatum"
 
 #: coop/forms.py:54
 msgid "Usually left empty. Can be set to a point in the future if it is already known that the shares will be transferred to another member in the future."
-msgstr ""
+msgstr "Wird normalerweise leer gelassen. Das Datum kann in der Zukunft liegen, wenn ein Datum eine Transfers des Anteils auf ein anderes Mitglied bekannt ist. "
 
 #: coop/forms.py:60
 msgid "Number of shares to create"
@@ -577,7 +581,7 @@ msgstr "Anzahl zu erstellender Anteile"
 
 #: coop/forms.py:68
 msgid "The end date must be later than the start date."
-msgstr ""
+msgstr "Das Enddatum muss später als das Start-Datum sein"
 
 #: coop/forms.py:107 coop/models.py:499
 msgid "Number of Shares"
@@ -590,19 +594,19 @@ msgstr ""
 
 #: coop/forms.py:122
 msgid "I would like to join the membership list as an investing member (= sponsoring member)"
-msgstr ""
+msgstr "Ich möchte der Mitliedschaftsliste als investierendes Mitglied beitreten"
 
 #: coop/forms.py:125
 msgid "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
-msgstr ""
+msgstr "<b>Note</b>:Investierende Mitglieder sind Fördermitglieder. Sie besitzen kein Stimmrecht in der Generalversammlung und können die Vorzüge der Kooperative wie normale Mitglieder nicht wahrnehmen. "
 
 #: coop/forms.py:235
 msgid "Usually, the credited member is the same as the paying member. Only if a person if gifting another person a share through the matching program, then the fields can be different."
-msgstr ""
+msgstr "In der Regel ist das gutgeschriebene Mitglied dasselbe wie das zahlende Mitglied. Nur für den Fall, das ein Anteil an eine andere Person verschenkt wird, können die Felder unterschiedliche Werte enthalten."
 
 #: coop/forms.py:257
 msgid "Please not more than 1000 characters."
-msgstr ""
+msgstr "Bitte verwende weniger als 1000 Zeichen"
 
 #: coop/forms.py:260
 msgid "Member to resign"
@@ -630,7 +634,7 @@ msgstr "Wenn das Mitglied sein Geld zurückhaben will, bleibt es noch 3 Jahre la
 
 #: coop/forms.py:348
 msgid "Please pick an option"
-msgstr ""
+msgstr "Bitte wähle eine Option"
 
 #: coop/forms.py:360
 #, fuzzy
@@ -640,19 +644,19 @@ msgstr "Mitglied schon vorhanden."
 
 #: coop/forms.py:372
 msgid "Please select the member that the shares should be transferred to."
-msgstr ""
+msgstr "Bitte wähle ein Mitglied an welches die Anteile überwiesen werden sollen"
 
 #: coop/forms.py:385
 msgid "If the shares don't get transferred to another member, this field should be empty."
-msgstr ""
+msgstr "Wenn die anteile nicht an ein anderes Mitglied überwiesen werden, lass das Feld leer."
 
 #: coop/forms.py:398
 msgid "Sender and receiver of transferring the share(s) cannot be the same."
-msgstr ""
+msgstr "Absender und Empfänger der Übertragung der Anteile können nicht identisch sein"
 
 #: coop/forms.py:410
 msgid "Cannot pay out, because shares have been gifted."
-msgstr ""
+msgstr "Die Anteile können nicht ausgezahlt werden, da sie verschenkt wurden"
 
 #: coop/models.py:54
 msgid "Is company"
@@ -707,7 +711,7 @@ msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 
 #: coop/models.py:382
 msgid "Not a member"
-msgstr ""
+msgstr "Kein Mitlied"
 
 #: coop/models.py:383 coop/templates/coop/draftuser_detail.html:169
 msgid "Investing"
@@ -794,7 +798,7 @@ msgstr "Erstellt durch"
 
 #: coop/models.py:809
 msgid "The cooperative buys the shares back from the member"
-msgstr ""
+msgstr "Die Kooperative kauft die Anteile des Mitglieds zurück."
 
 #: coop/models.py:812
 #, fuzzy
@@ -804,7 +808,7 @@ msgstr "Anzahl zu erstellender Anteile"
 
 #: coop/models.py:814
 msgid "The shares get transferred to another member"
-msgstr ""
+msgstr "Die Anteile werden an ein anderes Mitglied übertragen"
 
 #: coop/models.py:817
 msgid "Financial reasons"
@@ -871,7 +875,7 @@ msgstr "Aktive Mitglieder mit Tapir-Konto"
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:6
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:12
 msgid "Confirm delete"
-msgstr ""
+msgstr "Löschen bestätigen"
 
 #: coop/templates/coop/confirm_delete_incoming_payment.html:31
 #: coop/templates/coop/confirm_delete_share_ownership.html:24
@@ -949,7 +953,7 @@ msgstr "Status"
 
 #: coop/templates/coop/draftuser_detail.html:101
 msgid "I confirm that I have checked that this is not a duplicate."
-msgstr ""
+msgstr "Ich bestätige, dass ich auf Dopplungen überprüft habe."
 
 #: coop/templates/coop/draftuser_detail.html:119
 #: coop/templates/coop/draftuser_detail.html:254
@@ -1074,7 +1078,7 @@ msgstr "Neue Anteile von existierenden Mitglieder erst nach Freigabe in Duo hoch
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:47
 msgid "This email is send automatically every Sunday. Contact the Tapir team on Slack if you have any question."
-msgstr ""
+msgstr "Diese Mail wird automatisch jeden Sonntag verschickt. Kontaktiere das Tapir-Team auf Slack bei Fragen"
 
 #: coop/templates/coop/email/accounting_recap.subject.default.html:2
 msgid ""
@@ -1912,7 +1916,8 @@ msgid ""
 "\n"
 "    New membership pause starting %(start_date)s: %(description)s.\n"
 msgstr ""
-
+"\n"
+"    Eine neue Mitgliedsschaftspause startet am %(start_date)s: %(description)s.\n"
 #: coop/templates/coop/log/create_payment_log_entry.html:2
 #, python-format
 msgid "New Payment: %(amount)s € on %(payment_date)s"
@@ -5711,7 +5716,7 @@ msgstr "Muss eine positive Zahl sein."
 
 #: utils/user_utils.py:42
 msgid "NO NAME AVAILABLE"
-msgstr ""
+msgstr "KEIN NAME VERFÜGBAR"
 
 #: welcomedesk/apps.py:17 welcomedesk/apps.py:20
 #: welcomedesk/templates/welcomedesk/welcome_desk_search.html:15
@@ -5734,12 +5739,12 @@ msgstr "%(name)s ist ein investierendes Mitglied. Um einkaufen zu können, muss 
 #: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:51
 #, python-format
 msgid "%(name)s has been frozen because they missed too many shifts.If they want to shop, they must first be re-activated.Contact a member of the management team."
-msgstr ""
+msgstr "%(name)s wurde eingefroren da zu viele Schichten verpasst wurden. Falls %(name)s einkaufen möchte, müssen erst ausreichend Schichten zur Reaktivierung absolviert werden. Kontaktiere am besten jemanden aus dem Verwaltungsteam."
 
 #: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:56
 #, python-format
 msgid "%(name)s has paused their membership. Contact a member of the management team."
-msgstr ""
+msgstr "%(name)s hat die Tapir-Mitgliedschaft pausiert. Kontaktiere am besten jemanden aus dem Verwaltungsteam."
 
 #: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:59
 #, python-format
