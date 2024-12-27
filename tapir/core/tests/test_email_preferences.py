@@ -1,6 +1,3 @@
-from django.http import HttpRequest
-
-from tapir.accounts.forms import OptionalMailsForm
 from tapir.accounts.models import TapirUser, OptionalMails
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.core.tapir_email_base import TapirEmailBase
@@ -64,7 +61,16 @@ class TestMailSetting(TapirFactoryTestBase):
     def setUp(self):
         TapirEmailBase.register_email(OptionalNonDefaultMail)
 
-    def test_normal_user_cant_access_other_users_mail_setting(self):
+    def enter_OptionalNonDefaultMail_to_forms(self, usr: TapirUser):
+        post_data = {"optional_mails": [OptionalNonDefaultMail.get_unique_id()]}
+        response = self.client.post(
+            reverse("accounts:mail_settings", args=[usr.pk]),
+            post_data,
+            follow=True,
+        )
+        return response
+
+    def test_normal_user_cannot_access_other_users_mail_setting(self):
         tapir_user = TapirUserFactory()
         actor = TapirUserFactory()
         self.login_as_user(actor)
@@ -84,14 +90,8 @@ class TestMailSetting(TapirFactoryTestBase):
             )
         )
 
-        actor = TapirUserFactory()
-        self.login_as_user(actor)
-        post_data = {"optional_mails": OptionalNonDefaultMail.get_unique_id()}
-        response = self.client.post(
-            reverse("accounts:mail_settings", args=[tapir_user.pk]),
-            post_data,
-            follow=True,
-        )
+        self.login_as_user(TapirUserFactory())
+        self.enter_OptionalNonDefaultMail_to_forms(tapir_user)
         self.assertFalse(
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
                 user=tapir_user
@@ -116,12 +116,21 @@ class TestMailSetting(TapirFactoryTestBase):
             )
         )
 
-        post_data = {"optional_mails": [OptionalNonDefaultMail.get_unique_id()]}
-        response = self.client.post(
-            reverse("accounts:mail_settings", args=[tapir_user.pk]),
-            post_data,
-            follow=True,
+        response = self.enter_OptionalNonDefaultMail_to_forms(tapir_user)
+        self.assertEqual(200, response.status_code)
+
+        tapir_user.refresh_from_db()
+        self.assertTrue(
+            OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
+                user=tapir_user
+            )
         )
+
+    def test_memberoffice_can_update_other_members_mail_setting(self):
+        tapir_user = TapirUserFactory()
+        self.login_as_member_office_user()
+
+        response = self.enter_OptionalNonDefaultMail_to_forms(usr=tapir_user)
         self.assertEqual(200, response.status_code)
 
         tapir_user.refresh_from_db()
