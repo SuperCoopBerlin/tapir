@@ -79,8 +79,6 @@ class TestMailSetting(TapirFactoryTestBase):
         )
 
         self.assertEqual(403, response.status_code)
-        # tapir_user.refresh_from_db()
-        # self.assertEqual(False, tapir_user.allows_purchase_tracking)
 
     def test_normal_user_cannot_update_other_users_mail_setting(self):
         tapir_user = TapirUserFactory()
@@ -138,4 +136,40 @@ class TestMailSetting(TapirFactoryTestBase):
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
                 user=tapir_user
             )
+        )
+
+
+class MandatoryMail(TapirEmailBase):
+    optional = False
+
+    @classmethod
+    def get_unique_id(cls) -> str:
+        return "tapir.coop.MandatoryMail"
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "MandatoryMail"
+
+
+class MandatoryMailsTest(TapirFactoryTestBase):
+    def setUp(self):
+        TapirEmailBase.register_email(MandatoryMail)
+
+    def test_user_cannot_edit_mandatory_mail_setting(self):
+        tapir_user: TapirUser = TapirUserFactory.create()
+        self.login_as_user(tapir_user)
+        # Enabled by default and mandatory
+        self.assertTrue(
+            MandatoryMail().user_wants_to_or_has_to_receive_mail(user=tapir_user)
+        )
+
+        post_data = {"mandatory_mails": []}
+        self.client.post(
+            reverse("accounts:mail_settings", args=[tapir_user.pk]),
+            post_data,
+            follow=True,
+        )
+        tapir_user.refresh_from_db()
+        self.assertTrue(
+            MandatoryMail().user_wants_to_or_has_to_receive_mail(user=tapir_user)
         )
