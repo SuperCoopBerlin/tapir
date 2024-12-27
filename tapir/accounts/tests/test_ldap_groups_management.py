@@ -145,4 +145,4 @@ class TestLdapGroupsManagement(TapirFactoryTestBase):
         )
         self.assertStatusCode(response, HTTPStatus.OK)
         self.assertEqual(1, UpdateTapirUserLogEntry.objects.count())
-        self.assertTrue(GROUP_VORSTAND in tapir_user.get_ldap_user().group_names)
+        self.assertIn(GROUP_VORSTAND, tapir_user.get_ldap_user().group_names)
