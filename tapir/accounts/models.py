@@ -234,9 +234,13 @@ class TapirUser(AbstractUser):
             return False
         return True
 
-    def optional_mails_by_user(self) -> List[str]:
+    def get_optional_mail_ids_user_will_receive(self) -> List[str]:
         """
-        unique mail-ids from both lists
+        Mails which are either
+        A) optional but enabled by default or
+        B) optional, not enabled by default but still wanted by user
+
+        :return unique mail-ids from both lists
         """
         user_mails_wanted = list(
             OptionalMails.objects.filter(user=self, mail__choice=True).values_list(
@@ -253,9 +257,7 @@ class TapirUser(AbstractUser):
             for x in get_mail_types(optional=True)
             if x[0] not in user_mails_not_wanted
         ]
-        # Mails which are either
-        # A) optional but enabled by default or
-        # B) optional, not enabled by default but still wanted by user
+
         optional_mails = other_optional_mails + user_mails_wanted
         return list(set(optional_mails))
 

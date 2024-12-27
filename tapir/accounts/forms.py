@@ -133,4 +133,6 @@ class OptionalMailsForm(forms.Form):
         tapir_user: TapirUser = kwargs.pop("tapir_user")
         super().__init__(*args, **kwargs)
         self.fields["mandatory_mails"].disabled = True
-        self.fields["optional_mails"].initial = tapir_user.optional_mails_by_user()
+        self.fields["optional_mails"].initial = (
+            tapir_user.get_optional_mail_ids_user_will_receive()
+        )
