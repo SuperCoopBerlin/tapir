@@ -368,11 +368,7 @@ class MailSettingsView(
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs.update(
-            {
-                "tapir_user": self.get_tapir_user(),
-            }
-        )
+        kwargs["tapir_user"] = self.get_tapir_user()
         return kwargs
 
     def get_success_url(self):
@@ -382,17 +378,12 @@ class MailSettingsView(
         o = OptionalMails.objects.filter(user=self.get_tapir_user())
         o.delete()
         # Save selected optional mails
-        for optional_mail_choices in self.form_class.base_fields[
-            "optional_mails"
-        ].choices:
-            if optional_mail_choices[0] in form.cleaned_data["optional_mails"]:
-                _is_selected = True
-            else:
-                _is_selected = False
-            mail_object, created = MailChoice.objects.get_or_create(
-                name=optional_mail_choices[0], choice=_is_selected
+        for optional_mail_choices in form.fields["optional_mails"].choices:
+            is_selected = (
+                optional_mail_choices[0] in form.cleaned_data["optional_mails"]
             )
-            if created is True:
-                mail_object.save()
+            mail_object, created = MailChoice.objects.get_or_create(
+                name=optional_mail_choices[0], choice=is_selected
+            )
             OptionalMails.objects.create(user=self.get_tapir_user(), mail=mail_object)
         return super().form_valid(form)
