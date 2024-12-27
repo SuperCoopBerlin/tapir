@@ -61,10 +61,6 @@ class TapirUserManager(UserManager.from_queryset(TapirUserQuerySet)):
     use_in_migrations = True
 
 
-def get_optional_mails_enabledbydefault():
-    return [m[0] for m in get_mail_types(optional=True, enabled_by_default=True)]
-
-
 class TapirUser(AbstractUser):
     usage_name = models.CharField(
         _("Displayed name"),
