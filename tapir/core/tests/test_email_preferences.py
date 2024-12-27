@@ -34,7 +34,7 @@ class TestOptionalNotDefaultMail(TapirFactoryTestBase):
 
     def test_userWantsToOrHasToReceiveMail_mailSubscribedTo_shouldReceiveMail(self):
         tapir_user: TapirUser = TapirUserFactory.create()
-        MailChoice.objects.create(
+        m = MailChoice.objects.create(
             name=OptionalNonDefaultMail.get_unique_id(), choice=True
         )
         OptionalMails.objects.create(user=tapir_user, mail=m)
