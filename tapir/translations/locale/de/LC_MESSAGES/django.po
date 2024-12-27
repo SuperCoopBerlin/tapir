@@ -480,7 +480,7 @@ msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 msgid "You can only look at your own barcode unless you have member office rights"
 msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgliedsbüro-Rechte"
 
-#: accounts/views.py:246 accounts/views.py:251
+#: accounts/views.py:270 accounts/views.py:275
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr "Bearbeite Gruppen: %(name)s"
