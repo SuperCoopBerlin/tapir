@@ -1,38 +1,52 @@
-class ChartManager {
-    show_stats_chart(button, url, canvas_id) {
-        const buttonText = button.getElementsByClassName("button-text")[0];
+var ChartManager = /** @class */ (function () {
+    function ChartManager() {
+    }
+    ChartManager.prototype.register_show_chart_button = function (button, url, canvas_id) {
+        var _this = this;
+        button.addEventListener('click', function () {
+            _this.show_stats_chart(button, url, canvas_id);
+        });
+        button.addEventListener('keydown', function (event) {
+            if (event.key === 'Tab')
+                return;
+            _this.show_stats_chart(button, url, canvas_id);
+        });
+    };
+    ChartManager.prototype.show_stats_chart = function (button, url, canvas_id) {
+        var _this = this;
+        var buttonText = button.getElementsByClassName("button-text")[0];
         buttonText.innerText = "Loading...";
         fetch(url)
-            .then(response => {
+            .then(function (response) {
             if (response.ok) {
                 return response.json();
             }
             return Promise.reject(response);
         })
-            .then(data => {
-            this.on_data_loaded(data, button, canvas_id);
+            .then(function (data) {
+            _this.on_data_loaded(data, button, canvas_id);
         })
-            .catch((response) => {
-            this.on_load_error(response, button);
+            .catch(function (response) {
+            _this.on_load_error(response, button);
         });
-    }
-    on_data_loaded(data, button, canvas_id) {
+    };
+    ChartManager.prototype.on_data_loaded = function (data, button, canvas_id) {
         button.style.display = "none";
-        const canvas = document.getElementById(canvas_id);
+        var canvas = document.getElementById(canvas_id);
         canvas.style.display = null;
         new Chart(canvas, data);
-    }
-    on_load_error(response, button) {
+    };
+    ChartManager.prototype.on_load_error = function (response, button) {
         console.log(response);
-        const buttonText = button.getElementsByClassName("button-text")[0];
+        var buttonText = button.getElementsByClassName("button-text")[0];
         buttonText.innerText = "Error";
-        const icon = button.getElementsByClassName("material-icons")[0];
+        var icon = button.getElementsByClassName("material-icons")[0];
         icon.innerText = "error";
         button.classList.remove("btn-outline-secondary");
         button.classList.add("btn-outline-danger");
         button.classList.add("disabled");
         console.error(response.name, response.message);
-    }
-}
-let chartManager = new ChartManager();
-//# sourceMappingURL=tapir_charts.js.map
+    };
+    return ChartManager;
+}());
+var chartManager = new ChartManager();

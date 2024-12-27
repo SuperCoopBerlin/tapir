@@ -48,19 +48,12 @@ body {
   text-transform: uppercase;
 }
 
-/*
-The fonts are from https://github.com/jossef/material-design-icons-iconfont
-The css is from https://google.github.io/material-design-icons/#icon-font-for-the-web
-*/
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(/static/core/material-icons/MaterialIcons-Regular.6.4.2.eot); /* For IE6-8 */
-  src:
-    url(/static/core/material-icons/MaterialIcons-Regular.6.4.2.woff2) format('woff2'),
-    url(/static/core/material-icons/MaterialIcons-Regular.6.4.2.woff) format('woff'),
-    url(/static/core/material-icons/MaterialIcons-Regular.6.4.2.ttf) format('truetype');
+  src: url(/static/core/material-icons/MaterialSymbolsRounded.woff2) format('woff2'),
+       url(/static/core/material-icons/MaterialSymbolsRounded.woff) format('woff');
 }
 
 .material-icons {
@@ -96,7 +89,7 @@ The css is from https://google.github.io/material-design-icons/#icon-font-for-th
 }
 
 .tapir-btn > .material-icons {
-  font-size: 16px;
+  font-size: 20px;
 }
 
 .tapir-tooltip-icon {
@@ -112,4 +105,8 @@ The css is from https://google.github.io/material-design-icons/#icon-font-for-th
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.card-header h5 {
+  margin-bottom: 0;
 }

@@ -76,9 +76,18 @@
                         <td>
                             {% with slot.get_valid_attendance as attendance %}
                                 {% if attendance %}
-                                    {% get_display_name_short attendance.user %}
-                                    {% if attendance.user.pronouns %}({{ attendance.user.pronouns }}){% endif %}
-                                    #{{ attendance.user.share_owner.id }}
+                                    <div>
+                                        {% get_display_name_short attendance.user %}
+                                        {% if attendance.user.pronouns %}({{ attendance.user.pronouns }}){% endif %}
+                                        #{{ attendance.user.share_owner.id }}
+                                    </div>
+                                    {% if shift.flexible_time %}
+                                        {% if attendance.custom_time %}
+                                            <div>{% translate "Expected to come at" %} {{ attendance.custom_time|time:"H:i" }}</div>
+                                        {% else %}
+                                            <div>{% translate "Flexible time not specified" %}</div>
+                                        {% endif %}
+                                    {% endif %}
                                     <br />
                                     {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
                                     {% if shift_partner_enabled and attendance.user.shift_user_data.shift_partner %}

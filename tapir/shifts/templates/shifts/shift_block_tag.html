@@ -1,9 +1,16 @@
 {% load i18n %}
+{% load django_bootstrap5 %}
 <div class="shift-block-container" style="{{ shift.style }}">
     <div id="{% if shift.is_template %}template{% else %}shift{% endif %}_{{ shift.id }}"
          class="shift-block btn btn-outline-dark {{ shift.filter_classes }}"
          style="height:{{ shift.height }}px">
-        <div class="shift-time shift-block-title">{{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}</div>
+        <div class="shift-time shift-block-title">
+            {% if shift.flexible_time %}
+                {% translate "Flexible time" %}
+            {% else %}
+                {{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}
+            {% endif %}
+        </div>
         <div class="shift-date">
             {% if shift.start_date is not None %}
                 {{ shift.start_date|date:"D d/m/y" }}
@@ -11,9 +18,9 @@
                 {{ shift.weekday|slice:":3" }}
             {% endif %}
         </div>
-        <div style="display: flex; flex-direction: column">
+        <div class="d-flex flex-column">
             {% for slot_name, attendances in shift.attendances.items %}
-                <div>
+                <div style="max-width: 220px">
                     {{ slot_name }}:
                     {% for state in attendances %}
                         {% if state == "regular" %}

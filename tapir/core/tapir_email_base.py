@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import List, Type, TYPE_CHECKING, Dict, Tuple, Literal
 
-from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
 from django.utils import translation
@@ -126,7 +125,9 @@ class TapirEmailBase:
 
         return self.context
 
-    def send_to_share_owner(self, actor: User | None, recipient: ShareOwner):
+    def send_to_share_owner(
+        self, actor: TapirUser | User | None, recipient: ShareOwner
+    ):
         self.__send(
             actor=actor,
             share_owner=recipient,
@@ -142,7 +143,7 @@ class TapirEmailBase:
             in [x.get_unique_id() for x in get_mail_types(optional=False)]
         )
 
-    def send_to_tapir_user(self, actor: User | None, recipient: TapirUser):
+    def send_to_tapir_user(self, actor: TapirUser | User | None, recipient: TapirUser):
         if not self.user_wants_to_or_has_to_receive_mail(user=recipient):
             return
 
@@ -176,7 +177,7 @@ class TapirEmailBase:
 
     def __send(
         self,
-        actor: User,
+        actor: TapirUser | User,
         share_owner: ShareOwner,
         member_infos,
         tapir_user: TapirUser,

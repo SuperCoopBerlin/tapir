@@ -10,6 +10,13 @@ from tapir.log.util import freeze_for_log
 
 
 class LogEntry(models.Model):
+    class Meta:
+        indexes = [
+            models.Index(fields=["user"]),
+            models.Index(fields=["share_owner"]),
+            models.Index(fields=["created_date"]),
+        ]
+
     created_date = models.DateTimeField(
         auto_now_add=True, verbose_name=_("Creation Date")
     )

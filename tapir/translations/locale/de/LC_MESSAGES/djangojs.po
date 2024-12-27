@@ -1,0 +1,80 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-05 12:50+0100\n"
+"PO-Revision-Date: 2024-11-05 11:14+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Use the search field on the top right."
+msgstr "Verwende das Suchfeld oben rechts."
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Name"
+msgstr "Name"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Can shop"
+msgstr "Kann einkaufen"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Yes"
+msgstr "Ja"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "No"
+msgstr "Nein"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Member details"
+msgstr "Mitgliedsdetails"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Member"
+msgstr "Mitgleid"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "yes"
+msgstr "ja"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "no"
+msgstr "nein"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Why this member cannot shop: "
+msgstr "Warum kann dieses Mitglied nicht einkaufen: "
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Co-purchaser: "
+msgstr "Miteinkäufer*in: "
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "None"
+msgstr "Keine"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
+msgstr "Hoppla! Es ist was schiefgegangen. Bitte versuche es nochmal. Wenn das wieder passiert, schreib bitte in der #tapir-Kanal bei Slack mit deine aktuelle Suche: "
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Welcome Desk"
+msgstr "Welcome Desk"
+
+#: dist/assets/welcome_desk-CNolcy1C.js:1
+msgid "Name or member ID"
+msgstr "Name oder Mitgliedsnummer"

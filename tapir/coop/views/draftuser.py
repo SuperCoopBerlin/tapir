@@ -37,7 +37,7 @@ from tapir.coop.models import (
     NewMembershipsForAccountingRecap,
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_MANAGE

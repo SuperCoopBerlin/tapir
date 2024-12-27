@@ -18,8 +18,6 @@ from tapir.utils.shortcuts import get_timezone_aware_datetime
 
 
 class Command(BaseCommand):
-    help = "If a new cycle has started, remove one shift point from all active members."
-
     def handle(self, *args, **options):
         env = environ.Env()
         private_key = paramiko.RSAKey.from_private_key(

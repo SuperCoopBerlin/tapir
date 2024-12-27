@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 import tapir.shifts.config
+from tapir.shifts import utils
 from tapir.shifts.models import (
     Shift,
     ShiftTemplate,
@@ -14,7 +15,10 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftUserData,
 )
-from tapir.utils.shortcuts import get_monday
+from tapir.shifts.services.shift_attendance_mode_service import (
+    ShiftAttendanceModeService,
+)
+from tapir.utils.shortcuts import get_monday, ensure_date
 
 register = template.Library()
 
@@ -82,6 +86,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         "id": shift.id,
         "is_template": False,
         "filter_classes": " ".join(get_html_classes_for_filtering(shift)),
+        "flexible_time": shift.flexible_time,
     }
 
 
@@ -221,8 +226,7 @@ def get_week_group(
         # Many tests run without creating any ShiftTemplateGroup but still call get_week_group
         return None
 
-    if isinstance(target_date, datetime.datetime):
-        target_date = target_date.date()
+    target_date = ensure_date(target_date)
     target_date = get_monday(target_date)
 
     if cycle_start_dates is None:
@@ -249,3 +253,10 @@ def get_current_week_group() -> ShiftTemplateGroup:
 @register.simple_tag
 def get_used_solidarity_shifts_current_year(shift_user_data):
     return ShiftUserData.get_used_solidarity_shifts_current_year(shift_user_data)
+
+
+@register.simple_tag
+def get_attendance_mode_display(shift_user_data: ShiftUserData) -> str:
+    return utils.get_attendance_mode_display(
+        ShiftAttendanceModeService.get_attendance_mode(shift_user_data)
+    )

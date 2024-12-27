@@ -4,7 +4,9 @@ from unittest.mock import patch, Mock
 from django.core.management import call_command
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.services.frozen_status_service import FrozenStatusService
+from tapir.shifts.services.frozen_status_management_service import (
+    FrozenStatusManagementService,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -14,7 +16,7 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
         self.mock_get_flag_value = patcher.start()
         self.addCleanup(patcher.stop)
 
-    @patch.object(FrozenStatusService, "should_freeze_member")
+    @patch.object(FrozenStatusManagementService, "should_freeze_member")
     def test_should_freeze_member_gets_called_once_per_member(
         self, mock_should_freeze_member: Mock
     ):
@@ -30,8 +32,8 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
             any_order=True,
         )
 
-    @patch.object(FrozenStatusService, "freeze_member_and_send_email")
-    @patch.object(FrozenStatusService, "should_freeze_member")
+    @patch.object(FrozenStatusManagementService, "freeze_member_and_send_email")
+    @patch.object(FrozenStatusManagementService, "should_freeze_member")
     def test_member_that_should_be_frozen_gets_frozen(
         self, mock_should_freeze_member, mock_freeze_member_and_send_email
     ):
@@ -46,8 +48,8 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
             tapir_user_2.shift_user_data, actor=None
         )
 
-    @patch.object(FrozenStatusService, "should_freeze_member")
-    @patch.object(FrozenStatusService, "should_send_freeze_warning")
+    @patch.object(FrozenStatusManagementService, "should_freeze_member")
+    @patch.object(FrozenStatusManagementService, "should_send_freeze_warning")
     def test_only_relevant_members_get_checked_for_freeze_warning(
         self, mock_should_send_freeze_warning, mock_should_freeze_member
     ):
@@ -62,9 +64,9 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
             tapir_user_2.shift_user_data
         )
 
-    @patch.object(FrozenStatusService, "should_freeze_member")
-    @patch.object(FrozenStatusService, "should_send_freeze_warning")
-    @patch.object(FrozenStatusService, "send_freeze_warning_email")
+    @patch.object(FrozenStatusManagementService, "should_freeze_member")
+    @patch.object(FrozenStatusManagementService, "should_send_freeze_warning")
+    @patch.object(FrozenStatusManagementService, "send_freeze_warning_email")
     def test_member_that_should_receive_freeze_warning_receives_freeze_warning(
         self,
         mock_send_freeze_warning_email,
@@ -83,9 +85,9 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
             tapir_user_1.shift_user_data
         )
 
-    @patch.object(FrozenStatusService, "should_freeze_member")
-    @patch.object(FrozenStatusService, "should_send_freeze_warning")
-    @patch.object(FrozenStatusService, "send_freeze_warning_email")
+    @patch.object(FrozenStatusManagementService, "should_freeze_member")
+    @patch.object(FrozenStatusManagementService, "should_send_freeze_warning")
+    @patch.object(FrozenStatusManagementService, "send_freeze_warning_email")
     def test_member_that_should_get_frozen_does_not_get_warning(
         self,
         mock_send_freeze_warning_email,
@@ -98,9 +100,9 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
         mock_should_send_freeze_warning.assert_not_called()
         mock_send_freeze_warning_email.assert_not_called()
 
-    @patch.object(FrozenStatusService, "should_freeze_member")
-    @patch.object(FrozenStatusService, "should_send_freeze_warning")
-    @patch.object(FrozenStatusService, "should_unfreeze_member")
+    @patch.object(FrozenStatusManagementService, "should_freeze_member")
+    @patch.object(FrozenStatusManagementService, "should_send_freeze_warning")
+    @patch.object(FrozenStatusManagementService, "should_unfreeze_member")
     def test_only_relevant_members_get_checked_for_unfreeze(
         self,
         mock_should_unfreeze_member,
@@ -122,10 +124,10 @@ class TestRunFreezeChecks(TapirFactoryTestBase):
             tapir_user_3.shift_user_data
         )
 
-    @patch.object(FrozenStatusService, "should_freeze_member")
-    @patch.object(FrozenStatusService, "should_send_freeze_warning")
-    @patch.object(FrozenStatusService, "should_unfreeze_member")
-    @patch.object(FrozenStatusService, "unfreeze_and_send_notification_email")
+    @patch.object(FrozenStatusManagementService, "should_freeze_member")
+    @patch.object(FrozenStatusManagementService, "should_send_freeze_warning")
+    @patch.object(FrozenStatusManagementService, "should_unfreeze_member")
+    @patch.object(FrozenStatusManagementService, "unfreeze_and_send_notification_email")
     def test_member_who_should_get_unfrozen_gets_unfrozen(
         self,
         mock_unfreeze_and_send_notification_email,

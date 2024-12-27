@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+{% load django_vite %}
+{% load statistics %}
+{% load core %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% load i18n %}
+{% load utils %}
+{% block title %}
+    {% translate 'Fancy graph' %}
+{% endblock title %}
+{% block content %}
+    {% vite_asset 'statistics/fancy_graph_entry.tsx' %}
+    <div id="fancy_graph">Loading...</div>
+{% endblock content %}

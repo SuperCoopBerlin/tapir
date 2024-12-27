@@ -118,11 +118,6 @@ urlpatterns = [
         name="shift_exemption_list",
     ),
     path(
-        "statistics",
-        views.StatisticsView.as_view(),
-        name="statistics",
-    ),
-    path(
         "members_on_alert",
         views.MembersOnAlertView.as_view(),
         name="members_on_alert",
@@ -173,51 +168,6 @@ urlpatterns = [
         name="generate_shifts_manually",
     ),
     path(
-        "statistics/slot_data_csv",
-        views.slot_data_csv_view,
-        name="slot_data_csv",
-    ),
-    path(
-        "statistics/shift_template_data_csv_export",
-        views.shift_template_data_csv_export,
-        name="shift_template_data_csv_export",
-    ),
-    path(
-        "statistics/shift_slot_template_data_csv_export",
-        views.shift_slot_template_data_csv_export,
-        name="shift_slot_template_data_csv_export",
-    ),
-    path(
-        "statistics/shift_data_csv_export",
-        views.shift_data_csv_export,
-        name="shift_data_csv_export",
-    ),
-    path(
-        "statistics/shift_slot_data_csv_export",
-        views.shift_slot_data_csv_export,
-        name="shift_slot_data_csv_export",
-    ),
-    path(
-        "statistics/attendance_template_data_csv_export",
-        views.attendance_template_data_csv_export,
-        name="attendance_template_data_csv_export",
-    ),
-    path(
-        "statistics/attendance_data_csv_export",
-        views.attendance_data_csv_export,
-        name="attendance_data_csv_export",
-    ),
-    path(
-        "statistics/attendance_update_data_csv_export",
-        views.attendance_update_data_csv_export,
-        name="attendance_update_data_csv_export",
-    ),
-    path(
-        "statistics/attendance_takeover_data_csv_export",
-        views.attendance_takeover_data_csv_export,
-        name="attendance_takeover_data_csv_export",
-    ),
-    path(
         "convert_shift_exemption_to_membership_pause/<int:pk>",
         views.ConvertShiftExemptionToMembershipPauseView.as_view(),
         name="convert_shift_exemption_to_membership_pause",
@@ -248,8 +198,13 @@ urlpatterns = [
         name="used_solidarity_shifts_json",
     ),
     path(
-        "statistics/shift_status_evolution_json",
-        views.ShiftStatusEvolutionJsonView.as_view(),
-        name="shift_status_evolution_json",
+        "attendance/<int:pk>/custom_time",
+        views.UpdateShiftAttendanceCustomTimeView.as_view(),
+        name="attendance_custom_time",
+    ),
+    path(
+        "attendance_template/<int:pk>/custom_time",
+        views.UpdateShiftAttendanceTemplateCustomTimeView.as_view(),
+        name="attendance_template_custom_time",
     ),
 ]

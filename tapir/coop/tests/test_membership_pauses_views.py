@@ -9,7 +9,11 @@ from tapir.coop.models import (
     MembershipPauseUpdatedLogEntry,
 )
 from tapir.coop.tests.factories import ShareOwnerFactory, MembershipPauseFactory
-from tapir.shifts.models import ShiftAttendanceTemplate, ShiftAttendance
+from tapir.shifts.models import (
+    ShiftAttendanceTemplate,
+    ShiftAttendance,
+    DeleteShiftAttendanceTemplateLogEntry,
+)
 from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -58,6 +62,7 @@ class TestMembershipPauseViews(TapirFactoryTestBase):
 
         self.assertRedirects(response, reverse(self.LIST_VIEW))
         self.assertEqual(0, ShiftAttendanceTemplate.objects.count())
+        self.assertEqual(1, DeleteShiftAttendanceTemplateLogEntry.objects.count())
 
     def test_createPause_default_shiftAttendancesDuringThePauseGetCancelled(self):
         tapir_user = self.login_as_member_office_user()

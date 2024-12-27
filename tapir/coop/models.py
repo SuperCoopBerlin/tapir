@@ -13,9 +13,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
-from tapir.coop.services.InvestingStatusService import InvestingStatusService
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
+from tapir.coop.services.investing_status_service import InvestingStatusService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.utils.expection_utils import TapirException
@@ -24,7 +24,10 @@ from tapir.utils.models import (
     CountryField,
     positive_number_validator,
 )
-from tapir.utils.shortcuts import get_html_link
+from tapir.utils.shortcuts import (
+    get_html_link,
+    ensure_datetime,
+)
 from tapir.utils.user_utils import UserUtils
 
 
@@ -34,6 +37,9 @@ class ShareOwner(models.Model):
     Usually, this is just a proxy for the associated user. However, it may also be used to
     represent a person or company that does not have their own account.
     """
+
+    class Meta:
+        indexes = [models.Index(fields=["is_investing"])]
 
     # Only for owners that have a user account
     user = models.OneToOneField(
@@ -110,52 +116,63 @@ class ShareOwner(models.Model):
 
             return self.filter(combined_filters)
 
-        def with_status(self, status: str, date: datetime.date = None):
-            if date is None:
-                date = timezone.now().date()
+        def with_status(
+            self, status: str, at_datetime: datetime.datetime | datetime.date = None
+        ):
+            if at_datetime is None:
+                at_datetime = timezone.now()
+
+            at_datetime = ensure_datetime(at_datetime)
 
             share_owners_with_nb_of_shares = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                self, date
+                ShareOwner.objects.all(), at_datetime.date()
             )
-            share_owners_without_active_shares = share_owners_with_nb_of_shares.filter(
+            members_without_shares = share_owners_with_nb_of_shares.filter(
                 **{NumberOfSharesService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
+            )
+            members_without_shares_ids = list(
+                members_without_shares.values_list("id", flat=True)
             )
 
             if status == MemberStatus.SOLD:
-                return self.filter(id__in=share_owners_without_active_shares)
+                return self.filter(id__in=members_without_shares_ids).distinct()
 
-            members_with_valid_shares = self.exclude(
-                id__in=share_owners_without_active_shares
-            ).distinct()
+            members_with_valid_shares = self.exclude(id__in=members_without_shares_ids)
 
-            members_with_valid_shares = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_date(
-                members_with_valid_shares, date
+            members_with_investing_annotation = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
+                ShareOwner.objects.all(), at_datetime
             )
-            annotation_was_investing = {
-                InvestingStatusService.ANNOTATION_WAS_INVESTING: True
-            }
+            investing_members = members_with_investing_annotation.filter(
+                **{InvestingStatusService.ANNOTATION_WAS_INVESTING: True}
+            )
+            investing_members_ids = list(investing_members.values_list("id", flat=True))
+
             if status == MemberStatus.INVESTING:
-                return members_with_valid_shares.filter(**annotation_was_investing)
+                return members_with_valid_shares.filter(
+                    id__in=investing_members_ids
+                ).distinct()
+
             member_with_shares_and_not_investing: Self = (
-                members_with_valid_shares.exclude(**annotation_was_investing)
+                members_with_valid_shares.exclude(id__in=investing_members_ids)
             )
 
             members_with_paused_annotation = MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
-                member_with_shares_and_not_investing, date
+                ShareOwner.objects.all(), at_datetime.date()
             )
             paused_members = members_with_paused_annotation.filter(
                 **{MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE: True}
             )
+            paused_members_ids = list(paused_members.values_list("id", flat=True))
 
             if status == MemberStatus.PAUSED:
                 return member_with_shares_and_not_investing.filter(
-                    id__in=paused_members
-                )
+                    id__in=paused_members_ids
+                ).distinct()
 
             if status == MemberStatus.ACTIVE:
                 return member_with_shares_and_not_investing.exclude(
-                    id__in=paused_members
-                )
+                    id__in=paused_members_ids
+                ).distinct()
 
             raise TapirException(f"Invalid status : {status}")
 
@@ -252,33 +269,39 @@ class ShareOwner(models.Model):
     def num_shares(self) -> int:
         return NumberOfSharesService.get_number_of_active_shares(self)
 
-    def get_member_status(self, at_date: datetime.date | None = None):
-        if not at_date:
-            at_date = timezone.now().date()
+    def get_member_status(self, at_datetime: datetime.datetime | datetime.date = None):
+        if not at_datetime:
+            at_datetime = timezone.now()
 
-        if not NumberOfSharesService.get_number_of_active_shares(self, at_date) > 0:
+        at_datetime = ensure_datetime(at_datetime)
+
+        if (
+            not NumberOfSharesService.get_number_of_active_shares(
+                self, at_datetime.date()
+            )
+            > 0
+        ):
             return MemberStatus.SOLD
 
-        if InvestingStatusService.is_investing(self, at_date):
+        if InvestingStatusService.is_investing(self, at_datetime):
             return MemberStatus.INVESTING
 
-        if MembershipPauseService.has_active_pause(self, at_date):
+        if MembershipPauseService.has_active_pause(self, at_datetime.date()):
             return MemberStatus.PAUSED
 
         return MemberStatus.ACTIVE
 
-    def can_shop(self):
-        return (
-            self.user is not None
-            and self.is_active()
-            and self.user.shift_user_data.can_shop()
-        )
-
-    def is_active(self) -> bool:
-        return self.get_member_status() == MemberStatus.ACTIVE
+    def is_active(
+        self, at_datetime: datetime.datetime | datetime.date | None = None
+    ) -> bool:
+        return self.get_member_status(at_datetime) == MemberStatus.ACTIVE
 
     def get_total_expected_payment(self) -> float:
-        return COOP_ENTRY_AMOUNT + self.share_ownerships.count() * COOP_SHARE_PRICE
+        return (
+            COOP_ENTRY_AMOUNT
+            + self.share_ownerships.filter(transferred_from__isnull=True).count()
+            * COOP_SHARE_PRICE
+        )
 
     def get_currently_paid_amount(self, at_date: datetime.date | None = None) -> float:
         if at_date is None:
@@ -329,6 +352,9 @@ class ShareOwner(models.Model):
             "start_date__min"
         ]
 
+    def __str__(self):
+        return self.get_info().get_display_name(UserUtils.DISPLAY_NAME_TYPE_FULL)
+
 
 class MemberStatus:
     SOLD = "sold"
@@ -374,7 +400,7 @@ class UpdateShareOwnerLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         share_owner: ShareOwner,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -402,6 +428,8 @@ class ShareOwnership(DurationModelMixin, models.Model):
         max_digits=10,
         decimal_places=2,
     )
+
+    transferred_from = models.OneToOneField("self", null=True, on_delete=models.PROTECT)
 
     def is_fully_paid(self):
         return self.amount_paid >= COOP_SHARE_PRICE
@@ -622,7 +650,7 @@ class CreatePaymentLogEntry(LogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         share_owner: ShareOwner,
         amount: float,
         payment_date: datetime.date,
@@ -640,7 +668,7 @@ class UpdateIncomingPaymentLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         share_owner: ShareOwner,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             old_frozen=old_frozen,
@@ -724,6 +752,9 @@ class ExtraSharesForAccountingRecap(models.Model):
 
 
 class MembershipPause(DurationModelMixin, models.Model):
+    class Meta:
+        indexes = [models.Index(fields=["share_owner"])]
+
     share_owner = models.ForeignKey(
         ShareOwner, on_delete=models.deletion.CASCADE, verbose_name=_("Member")
     )
@@ -735,7 +766,7 @@ class MembershipPauseCreatedLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         pause: MembershipPause,
     ):
         return super().populate_base(
@@ -762,7 +793,7 @@ class MembershipPauseUpdatedLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         pause: MembershipPause,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             actor=actor,
@@ -782,6 +813,13 @@ class MembershipResignation(models.Model):
         )
         TRANSFER = "transfer", _("The shares get transferred to another member")
 
+    class CancellationReasons(models.TextChoices):
+        FINANCIAL = "financial", _("Financial reasons")
+        HEALTH = "health", _("Health reasons")
+        DISTANCE = "distance", _("Distance")
+        STRATEGY = "strategy", _("Strategic orientation of SuperCoop")
+        OTHER = "other", _("Other")
+
     share_owner = models.OneToOneField(
         ShareOwner,
         on_delete=models.deletion.CASCADE,
@@ -792,9 +830,12 @@ class MembershipResignation(models.Model):
         default=timezone.now,
     )
     pay_out_day = models.DateField(null=True)
+    cancellation_reason_category = models.CharField(
+        choices=CancellationReasons.choices, max_length=50
+    )
     cancellation_reason = models.CharField(max_length=1000)
     resignation_type = models.CharField(choices=ResignationType.choices, max_length=50)
-    transferring_shares_to = models.OneToOneField(
+    transferring_shares_to = models.ForeignKey(
         ShareOwner,
         on_delete=models.deletion.PROTECT,
         verbose_name="OwnerToTransfer",
@@ -823,7 +864,7 @@ class MembershipResignationCreateLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: User,
+        actor: TapirUser | User,
         model: MembershipResignation,
     ):
         return super().populate_base(
@@ -839,11 +880,24 @@ class MembershipResignationUpdateLogEntry(UpdateModelLogEntry):
         old_frozen: dict,
         new_frozen: dict,
         model: MembershipResignation,
-        actor: User,
+        actor: TapirUser | User,
     ):
         return super().populate_base(
             actor=actor,
             share_owner=model.share_owner,
             old_frozen=old_frozen,
             new_frozen=new_frozen,
+        )
+
+
+class MembershipResignationDeleteLogEntry(ModelLogEntry):
+    template_name = "coop/log/delete_resignmember_log_entry.html"
+
+    def populate(
+        self,
+        actor: User,
+        model: MembershipResignation,
+    ):
+        return super().populate_base(
+            actor=actor, share_owner=model.share_owner, model=model
         )

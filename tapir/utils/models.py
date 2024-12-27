@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import datetime
 from collections import namedtuple
 
 from django.core.exceptions import ValidationError
@@ -318,6 +317,11 @@ class DurationModelMixin(models.Model):
     class Meta:
         ordering = ["-start_date"]
         abstract = True
+        indexes = [
+            models.Index(fields=["start_date"]),
+            models.Index(fields=["end_date"]),
+            models.Index(fields=["start_date", "end_date"]),
+        ]
 
     ## Return True if the model is currently active, else False
     def is_active(self, effective_date=None) -> bool:

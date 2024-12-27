@@ -46,6 +46,10 @@ def get_first_of_next_month(date: datetime.date):
     return (date.replace(day=1) + datetime.timedelta(days=32)).replace(day=1)
 
 
+def get_last_day_of_month(date: datetime.date):
+    return get_first_of_next_month(date) - datetime.timedelta(days=1)
+
+
 def set_header_for_file_download(response: HttpResponse, filename: str):
     response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
 
@@ -174,7 +178,7 @@ def set_group_membership(
     current_group_members = get_group_members(connection, group_cn)
     groups_exists = (
         len(current_group_members) > 0
-    )  # Empty groups can't exist in LDAP, if get_group_members returns an empty the group has not been found
+    )  # Empty groups can't exist in LDAP, if get_group_members returns an empty list the group has not been found
 
     if not groups_exists:
         if not is_member_of_group:
@@ -225,3 +229,20 @@ def get_admin_ldap_connection():
 
 def is_member_in_group(connection, tapir_user: TapirUser, group_cn: str):
     return tapir_user.build_ldap_dn() in get_group_members(connection, group_cn)
+
+
+def ensure_date(obj: datetime.date | datetime.datetime):
+    if isinstance(obj, datetime.datetime):
+        return obj.date()
+    return obj
+
+
+def ensure_datetime(obj: datetime.date | datetime.datetime):
+    if isinstance(obj, datetime.datetime):
+        return obj
+    return get_timezone_aware_datetime(obj, datetime.time())
+
+
+def transfer_attributes(source, target, attributes):
+    for attribute in attributes:
+        setattr(target, attribute, getattr(source, attribute))

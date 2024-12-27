@@ -1,6 +1,12 @@
+import datetime
+
 from django import forms
 from django.core.exceptions import ValidationError, PermissionDenied
-from django.forms import ModelChoiceField, CheckboxSelectMultiple, BooleanField
+from django.forms import (
+    ModelChoiceField,
+    CheckboxSelectMultiple,
+    BooleanField,
+)
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
 from django_select2.forms import Select2Widget
@@ -37,6 +43,7 @@ class ShiftCreateForm(forms.ModelForm):
             "end_time",
             "num_required_attendances",
             "description",
+            "flexible_time",
         ]
         widgets = {
             "start_time": forms.widgets.DateTimeInput(
@@ -106,6 +113,11 @@ class MissingCapabilitiesWarningMixin(forms.Form):
         widget=HiddenInput,
     )
 
+    def get_required_capabilities(self):
+        raise NotImplementedError(
+            f"Children of {self.__class__} must implement get_required_capabilities()"
+        )
+
     def clean(self):
         super().clean()
         if "user" in self._errors:
@@ -132,13 +144,64 @@ class MissingCapabilitiesWarningMixin(forms.Form):
                 self.fields["confirm_missing_capabilities"].required = True
 
 
-class ShiftAttendanceTemplateForm(MissingCapabilitiesWarningMixin, forms.ModelForm):
+class CustomTimeCleanMixin(forms.Form):
+    custom_time = forms.TimeField(
+        required=False, widget=forms.TimeInput(attrs={"type": "time"}, format="%H:%M")
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.get_shift_object().flexible_time:
+            self.fields["custom_time"].required = True
+        else:
+            self.fields["custom_time"].required = False
+            self.fields["custom_time"].widget = HiddenInput()
+
+    def clean_custom_time(self):
+        custom_time = self.cleaned_data["custom_time"]
+        shift_object = self.get_shift_object()
+        if not shift_object.flexible_time:
+            return custom_time
+
+        error = self.check_custom_time_is_valid(
+            custom_time,
+            shift_object.start_time,
+            shift_object.end_time,
+        )
+        if error:
+            self.add_error("custom_time", error)
+
+        return custom_time
+
+    @staticmethod
+    def check_custom_time_is_valid(chosen_time, start_time, end_time):
+        if isinstance(start_time, datetime.datetime):
+            start_time = start_time.time()
+        if chosen_time < start_time:
+            return _("Please set the chosen time after the start of the shift")
+
+        if isinstance(end_time, datetime.datetime):
+            end_time = end_time.time()
+        if chosen_time > end_time:
+            return _("Please set the chosen time before the end of the shift")
+
+        return None
+
+    def get_shift_object(self) -> Shift | ShiftTemplate:
+        raise NotImplementedError(
+            f"Children of {self.__class__} must implement get_shift_object"
+        )
+
+
+class ShiftAttendanceTemplateForm(
+    MissingCapabilitiesWarningMixin, CustomTimeCleanMixin, forms.ModelForm
+):
     user = TapirUserChoiceField()
     slot_template: ShiftSlotTemplate
 
     class Meta:
         model = ShiftAttendanceTemplate
-        fields = ["user"]
+        fields = ["user", "custom_time"]
 
     def __init__(self, *args, **kwargs):
         self.slot_template = ShiftSlotTemplate.objects.get(
@@ -167,16 +230,20 @@ class ShiftAttendanceTemplateForm(MissingCapabilitiesWarningMixin, forms.ModelFo
     def get_required_capabilities(self):
         return self.slot_template.required_capabilities
 
+    def get_shift_object(self) -> Shift | ShiftTemplate:
+        return self.slot_template.shift_template
 
-class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
+
+class RegisterUserToShiftSlotForm(
+    CustomTimeCleanMixin, MissingCapabilitiesWarningMixin, forms.Form
+):
     user = TapirUserChoiceField()
-    request_user: TapirUser
-    slot: ShiftSlot
     is_solidarity = BooleanField(required=False, label="Mark as a Solidarity Shift")
+    field_order = ["user", "is_solidarity", "custom_time"]
 
     def __init__(self, *args, **kwargs):
-        self.slot = kwargs.pop("slot", None)
-        self.request_user = kwargs.pop("request_user", None)
+        self.slot: ShiftSlot = kwargs.pop("slot")
+        self.request_user: TapirUser = kwargs.pop("request_user")
         super().__init__(*args, **kwargs)
         self.fields["user"].disabled = not self.request_user.has_perm(
             PERMISSION_SHIFTS_MANAGE
@@ -205,11 +272,14 @@ class RegisterUserToShiftSlotForm(MissingCapabilitiesWarningMixin):
             )
         return user_to_register
 
+    def get_shift_object(self) -> Shift | ShiftTemplate:
+        return self.slot.shift
+
 
 class ShiftUserDataForm(forms.ModelForm):
     class Meta:
         model = ShiftUserData
-        fields = ["attendance_mode", "capabilities"]
+        fields = ["is_frozen", "capabilities"]
 
     confirm_delete_abcd_attendance = BooleanField(
         label=_(
@@ -451,6 +521,7 @@ class ShiftTemplateForm(forms.ModelForm):
             "start_time",
             "end_time",
             "start_date",
+            "flexible_time",
         ]
         widgets = {
             "start_time": forms.widgets.TimeInput(
@@ -496,3 +567,21 @@ class ConvertShiftExemptionToMembershipPauseForm(forms.Form):
         ),
         required=True,
     )
+
+
+class ShiftAttendanceCustomTimeForm(CustomTimeCleanMixin, forms.ModelForm):
+    class Meta:
+        model = ShiftAttendance
+        fields = ["custom_time"]
+
+    def get_shift_object(self) -> Shift | ShiftTemplate:
+        return self.instance.slot.shift
+
+
+class ShiftAttendanceTemplateCustomTimeForm(CustomTimeCleanMixin, forms.ModelForm):
+    class Meta:
+        model = ShiftAttendanceTemplate
+        fields = ["custom_time"]
+
+    def get_shift_object(self) -> Shift | ShiftTemplate:
+        return self.instance.slot_template.shift_template

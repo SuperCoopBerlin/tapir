@@ -67,12 +67,16 @@ INSTALLED_APPS = [
     "phonenumber_field",
     "django_extensions",
     "chartjs",
+    "rest_framework",
+    "drf_spectacular",
+    "django_vite",
 ]
 
 if ENABLE_SILK_PROFILING:
     INSTALLED_APPS.append("silk")
 
 MIDDLEWARE = [
+    "tapir.core.middleware.SendExceptionsToSlackMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -82,7 +86,6 @@ MIDDLEWARE = [
     "tapir.accounts.models.language_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "tapir.core.middleware.SendExceptionsToSlackMiddleware",
 ]
 
 if ENABLE_SILK_PROFILING:
@@ -128,11 +131,13 @@ CELERY_BEAT_SCHEDULE = {
     },
     "apply_shift_cycle_start": {
         "task": "tapir.shifts.tasks.apply_shift_cycle_start",
-        "schedule": celery.schedules.crontab(hour="*/2", minute=20),
+        "schedule": celery.schedules.crontab(hour="*/2", minute="20"),
     },
     "send_accounting_recap": {
         "task": "tapir.coop.tasks.send_accounting_recap",
-        "schedule": celery.schedules.crontab(hour=12, minute=0, day_of_week="sunday"),
+        "schedule": celery.schedules.crontab(
+            hour="12", minute="0", day_of_week="sunday"
+        ),
     },
     "generate_shifts": {
         "task": "tapir.shifts.tasks.generate_shifts",
@@ -150,6 +155,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.statistics.tasks.process_purchase_files",
         "schedule": celery.schedules.crontab(minute=0, hour=2),
     },
+    "process_credit_account": {
+        "task": "tapir.statistics.tasks.process_credit_account",
+        "schedule": celery.schedules.crontab(minute=0, hour=2),
+    },
     "send_create_account_reminder": {
         "task": "tapir.accounts.tasks.send_create_account_reminder",
         "schedule": celery.schedules.crontab(minute=0, hour=12),
@@ -157,6 +166,10 @@ CELERY_BEAT_SCHEDULE = {
     "metabase_export": {
         "task": "tapir.core.tasks.metabase_export",
         "schedule": celery.schedules.crontab(minute=0, hour=3),
+    },
+    "send_flying_member_registration_reminder_mails": {
+        "task": "tapir.shifts.tasks.send_flying_member_registration_reminder_mails",
+        "schedule": celery.schedules.crontab(minute=0, hour=4),
     },
 }
 
@@ -227,6 +240,7 @@ SERVER_EMAIL = env("SERVER_EMAIL", default=EMAIL_ADDRESS_MEMBER_OFFICE)
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATICFILES_DIRS = [BASE_DIR / "dist"]
 
 SELECT2_JS = "core/select2/4.0.13/js/select2.min.js"
 SELECT2_CSS = "core/select2/4.0.13/css/select2.min.css"
@@ -250,6 +264,8 @@ PERMISSION_WELCOMEDESK_VIEW = "welcomedesk.view"
 PERMISSION_ACCOUNTING_VIEW = "accounting.view"
 PERMISSION_ACCOUNTING_MANAGE = "accounting.manage"
 PERMISSION_GROUP_MANAGE = "group.manage"
+PERMISSION_RESIGNATION_VIEW = "resignation.view"
+PERMISSION_RESIGNATION_MANAGE = "resignation.manage"
 
 # Groups are stored in the LDAP tree
 GROUP_VORSTAND = "vorstand"
@@ -321,6 +337,17 @@ PERMISSIONS = {
         GROUP_ACCOUNTING,
     },
     PERMISSION_GROUP_MANAGE: {GROUP_VORSTAND, GROUP_EMPLOYEES},
+    PERMISSION_RESIGNATION_VIEW: {
+        GROUP_VORSTAND,
+        GROUP_EMPLOYEES,
+        GROUP_MEMBER_OFFICE,
+        GROUP_ACCOUNTING,
+    },
+    PERMISSION_RESIGNATION_MANAGE: {
+        GROUP_VORSTAND,
+        GROUP_EMPLOYEES,
+        GROUP_MEMBER_OFFICE,
+    },
 }
 
 AUTH_USER_MODEL = "accounts.TapirUser"
@@ -353,3 +380,21 @@ AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
     "(objectClass=top)",
 )
 AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+}
+
+DJANGO_VITE = {
+    "default": {
+        "dev_mode": env("DJANGO_VITE_DEBUG", cast=bool, default=False),
+        "manifest_path": "./dist/manifest.json",
+    }
+}
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

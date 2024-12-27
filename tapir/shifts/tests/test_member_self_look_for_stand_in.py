@@ -13,10 +13,10 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.shifts.tests.utils import register_user_to_shift
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
-class TestMemberSelfLookForStandIn(TapirFactoryTestBase, TapirEmailTestBase):
+class TestMemberSelfLookForStandIn(TapirFactoryTestBase, TapirEmailTestMixin):
     USER_EMAIL_ADDRESS = "test_address@test.net"
 
     def test_member_self_look_for_stand_in(self):

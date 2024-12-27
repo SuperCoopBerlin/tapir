@@ -1,6 +1,6 @@
-from dateutil.relativedelta import relativedelta
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db import models
 from django.forms import DateField, IntegerField
 from django.utils.translation import gettext_lazy as _
 
@@ -257,7 +257,7 @@ class MembershipResignationForm(forms.ModelForm):
             attrs={"rows": 2, "placeholder": _("Please not more than 1000 characters.")}
         ),
     )
-    share_owner = ShareOwnerChoiceField()
+    share_owner = ShareOwnerChoiceField(label=_("Member to resign"))
     transferring_shares_to = ShareOwnerChoiceField(
         required=False,
         label=_("Transferring share(s) to"),
@@ -266,17 +266,46 @@ class MembershipResignationForm(forms.ModelForm):
         ).help_text,
     )
 
+    class SetMemberStatusInvestingChoices(models.TextChoices):
+        NOT_SELECTED = "not_selected", "----------"
+        MEMBER_STAYS_ACTIVE = "member_stays_active", _("The member stays active")
+        MEMBER_BECOMES_INVESTING = "member_becomes_investing", _(
+            "The member becomes investing"
+        )
+
+    set_member_status_investing = forms.ChoiceField(
+        label=_("Member status"),
+        required=False,
+        choices=SetMemberStatusInvestingChoices,
+        help_text=_(
+            "In the case where the member wants their money back, they stay a member for 3 more years. "
+            "However, it is very likely that the member doesn't want to be active anymore. "
+            "If they haven't explicitly mentioned it, please ask them if we can switch them to investing."
+        ),
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if self.instance.pk is not None:
             self.fields["share_owner"].disabled = True
             self.fields["transferring_shares_to"].disabled = True
             self.fields["resignation_type"].disabled = True
+            self.fields["set_member_status_investing"].disabled = True
+            self.fields["set_member_status_investing"].widget = forms.HiddenInput()
+
+        if (
+            self.instance.pk is None
+            or self.instance.resignation_type
+            != MembershipResignation.ResignationType.BUY_BACK
+        ):
+            self.fields["paid_out"].disabled = True
+            self.fields["paid_out"].widget = forms.HiddenInput()
 
     class Meta:
         model = MembershipResignation
         fields = [
             "share_owner",
+            "cancellation_reason_category",
             "cancellation_reason",
             "cancellation_date",
             "resignation_type",
@@ -289,29 +318,43 @@ class MembershipResignationForm(forms.ModelForm):
         cleaned_data = super().clean()
         share_owner: ShareOwner = cleaned_data.get("share_owner")
         resignation_type = cleaned_data.get("resignation_type")
-        cancellation_date = cleaned_data.get("cancellation_date")
         transferring_shares_to = cleaned_data.get("transferring_shares_to")
         paid_out = cleaned_data.get("paid_out")
 
         self.validate_share_owner(share_owner)
         self.validate_transfer_choice(resignation_type, transferring_shares_to)
-        self.validate_duplicates(share_owner, transferring_shares_to)
-        self.validate_if_gifted(resignation_type, paid_out)
-
-        if resignation_type == MembershipResignation.ResignationType.BUY_BACK:
-            self.cleaned_data["pay_out_day"] = cancellation_date + relativedelta(
-                day=31, month=12, years=3
-            )
-        else:
-            self.cleaned_data["pay_out_day"] = cancellation_date
-            self.cleaned_data["paid_out"] = True
+        self.validate_gifting_member_and_receiving_member_are_not_the_same(
+            share_owner, transferring_shares_to
+        )
+        self.validate_paid_out(resignation_type, paid_out)
+        self.validate_set_member_status_investing(
+            cleaned_data.get("set_member_status_investing"), resignation_type
+        )
 
         return cleaned_data
 
+    def validate_set_member_status_investing(
+        self, set_member_status_investing, resignation_type
+    ):
+        if resignation_type != MembershipResignation.ResignationType.BUY_BACK:
+            return
+
+        if (
+            set_member_status_investing
+            == self.SetMemberStatusInvestingChoices.NOT_SELECTED
+        ):
+            self.add_error(
+                "set_member_status_investing",
+                ValidationError(_("Please pick an option")),
+            )
+
     def validate_share_owner(self, share_owner):
-        if MembershipResignation.objects.filter(
-            share_owner__id=share_owner.id
-        ).exists():
+        if (
+            self.instance.pk is None
+            and MembershipResignation.objects.filter(
+                share_owner__id=share_owner.id
+            ).exists()
+        ):
             self.add_error(
                 "share_owner",
                 ValidationError(_("This member is already resigned.")),
@@ -344,7 +387,9 @@ class MembershipResignationForm(forms.ModelForm):
                 ),
             )
 
-    def validate_duplicates(self, share_owner, transferring_shares_to):
+    def validate_gifting_member_and_receiving_member_are_not_the_same(
+        self, share_owner, transferring_shares_to
+    ):
         if transferring_shares_to == share_owner:
             self.add_error(
                 "transferring_shares_to",
@@ -355,15 +400,12 @@ class MembershipResignationForm(forms.ModelForm):
                 ),
             )
 
-    def validate_if_gifted(self, resignation_type, paid_out):
-        if paid_out and (
-            resignation_type
-            in [
-                MembershipResignation.ResignationType.TRANSFER,
-                MembershipResignation.ResignationType.GIFT_TO_COOP,
-            ]
-        ):
-            self.add_error(
-                "paid_out",
-                ValidationError(_("Cannot pay out, because shares have been gifted.")),
-            )
+    def validate_paid_out(self, resignation_type, paid_out):
+        if resignation_type == MembershipResignation.ResignationType.BUY_BACK:
+            return
+        if not paid_out:
+            return
+        self.add_error(
+            "paid_out",
+            ValidationError(_("Cannot pay out, because shares have been gifted.")),
+        )

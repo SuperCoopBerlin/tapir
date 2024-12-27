@@ -3,14 +3,17 @@ import json
 import os
 import pathlib
 import socket
+from http import HTTPStatus
 from typing import Type
 from unittest.mock import patch
 
 import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.mail import EmailMessage
-from django.test import TestCase, override_settings, Client
+from django.test import TestCase, override_settings, Client, SimpleTestCase
 from django.urls import reverse
+from django.utils import timezone
+from parameterized import parameterized
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
@@ -20,13 +23,22 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 
+from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.coop.models import ShareOwnership
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.shifts.models import (
+    ShiftAttendanceTemplate,
+    DeleteShiftAttendanceTemplateLogEntry,
+)
+from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
+from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.json_user import JsonUser
-from tapir.utils.shortcuts import get_admin_ldap_connection
+from tapir.utils.shortcuts import get_admin_ldap_connection, set_group_membership
 
 
 @override_settings(ALLOWED_HOSTS=["*"])
@@ -198,8 +210,15 @@ class TapirFactoryTestBase(TestCase):
         for tapir_user in TapirUser.objects.all():
             connection.delete_s(tapir_user.build_ldap_dn())
 
+    def assertStatusCode(self, response, expected_status_code):
+        self.assertEqual(
+            expected_status_code,
+            response.status_code,
+            f"Unexpected status code, response content : {response.content.decode()}",
+        )
 
-class TapirEmailTestBase(TestCase):
+
+class TapirEmailTestMixin(TestCase):
     def assertEmailOfClass_GotSentTo(
         self,
         expected_class: Type[TapirEmailBase],
@@ -219,11 +238,15 @@ class TapirEmailTestBase(TestCase):
         self.assertEqual(CONTENT_TYPE_PDF, attachment_type)
 
 
-def mock_timezone_now(test: TestCase, now: datetime.datetime) -> None:
+def mock_timezone_now(
+    test: SimpleTestCase, now: datetime.datetime
+) -> datetime.datetime:
+    now = timezone.make_aware(now) if timezone.is_naive(now) else now
     patcher = patch("django.utils.timezone.now")
     test.mock_now = patcher.start()
     test.addCleanup(patcher.stop)
     test.mock_now.return_value = now
+    return now
 
 
 class FeatureFlagTestMixin(TestCase):
@@ -244,3 +267,81 @@ class FeatureFlagTestMixin(TestCase):
             self._enabled_feature_flags.append(flag_name)
         elif not flag_value and flag_name in self._enabled_feature_flags:
             self._enabled_feature_flags.remove(flag_name)
+
+
+class PermissionTestMixin:
+    def get_allowed_groups(self):
+        raise NotImplementedError(
+            "Children of PermissionTestMixin must implement get_allowed_groups to say which groups should have access to the view."
+        )
+
+    def do_request(self):
+        raise NotImplementedError(
+            "Children of PermissionTestMixin must implement do_request, a function that visits the target view and returns the response."
+        )
+
+    @parameterized.expand(settings.LDAP_GROUPS)
+    def test_accessView_loggedInAsMemberOfGroup_accessAsExpected(self, group):
+        user = TapirUserFactory.create()
+
+        set_group_membership(
+            tapir_users=[user], group_cn=group, is_member_of_group=True
+        )
+        self.assertEqual(set([group]), user.get_ldap_user().group_names)
+
+        self.login_as_user(user)
+        response = self.do_request()
+        self.assertStatusCode(
+            response,
+            (
+                HTTPStatus.OK
+                if group in self.get_allowed_groups()
+                else HTTPStatus.FORBIDDEN
+            ),
+        )
+
+
+def create_attendance_template_log_entry_in_the_past(
+    log_class, tapir_user, reference_datetime
+):
+    shift_template = ShiftTemplateFactory.create()
+    shift_attendance_template = ShiftAttendanceTemplate.objects.create(
+        user=tapir_user, slot_template=shift_template.slot_templates.first()
+    )
+    kwargs = {
+        "actor": None,
+        "tapir_user": tapir_user,
+        "shift_attendance_template": shift_attendance_template,
+    }
+    if log_class == DeleteShiftAttendanceTemplateLogEntry:
+        kwargs["comment"] = "A test comment"
+    log_entry = log_class().populate(**kwargs)
+    log_entry.save()
+    log_entry.created_date = reference_datetime - datetime.timedelta(days=1)
+    log_entry.save()
+
+
+def create_member_that_can_shop(test, reference_time):
+    tapir_user = TapirUserFactory.create(
+        share_owner__is_investing=False,
+        date_joined=reference_time - datetime.timedelta(hours=1),
+    )
+    ShareOwnership.objects.update(start_date=reference_time.date())
+    test.assertTrue(
+        MemberCanShopService.can_shop(tapir_user.share_owner, reference_time)
+    )
+    return tapir_user
+
+
+def create_member_that_is_working(test, reference_time):
+    tapir_user = TapirUserFactory.create(
+        share_owner__is_investing=False,
+        date_joined=reference_time - datetime.timedelta(hours=1),
+    )
+    ShareOwnership.objects.update(start_date=reference_time.date())
+    test.assertTrue(
+        ShiftExpectationService.is_member_expected_to_do_shifts(
+            tapir_user.shift_user_data, reference_time
+        )
+    )
+    return tapir_user

@@ -15,11 +15,11 @@
 {% endblock head %}
 {% block content %}
     <div class="card mb-2">
-        <div class="card-header d-flex justify-content-between">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
             <h5>{% translate "Cooperative Members" %}</h5>
             <div class="btn-group">
                 <button type="button"
-                        class="{% tapir_button_link %} btn-sm dropdown-toggle m-1"
+                        class="{% tapir_button_link %} dropdown-toggle m-1"
                         data-bs-toggle="dropdown">{% translate "Export" %}</button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
@@ -41,34 +41,33 @@
                 </div>
             </div>
         </div>
-        {% if filter %}
-            <div class="collapse" id="collapseFilter">
-                <ul class="list-group list-group-flush" id="share_owner_table">
-                    <li class="list-group-item">
-                        <form action="" method="get" class="form member-filter-form">
-                            <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
-                            <div class="member-filter-form-buttons">
-                                <button class="filter-button {% tapir_button_link %}">
-                                    <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
-                                </button>
-                                <a class="{% tapir_button_link %}"
-                                   href="{% url 'coop:shareowner_list' %}">
-                                    <span class="material-icons">clear</span>
-                                    {% translate "Clear all filters" %}
-                                </a>
-                                <div class="ms-2">
-                                    {% blocktranslate %}
+        <ul class="list-group list-group-flush" id="share_owner_table">
+            {% if filter %}
+                <li class="list-group-item collapse" id="collapseFilter">
+                    <form action="" method="get" class="form member-filter-form">
+                        <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
+                        <div class="member-filter-form-buttons">
+                            <button class="{% tapir_button_link %}">
+                                <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
+                            </button>
+                            <a class="{% tapir_button_link %}"
+                               href="{% url 'coop:shareowner_list' %}">
+                                <span class="material-icons">clear</span>
+                                {% translate "Clear all filters" %}
+                            </a>
+                            <div class="ms-2">
+                                {% blocktranslate %}
                                             Filtered {{ filtered_member_count }} of {{ total_member_count }}
                                         {% endblocktranslate %}
-                                </div>
                             </div>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        {% endif %}
-        <ul>
-            <li class="list-group-item">{% render_table table %}</li>
+                        </div>
+                    </form>
+                </li>
+            {% endif %}
+            <li class="list-group-item table-responsive"
+                style="padding-left: 0px;
+                       padding-right: 0px;
+                       padding-top: 0px">{% render_table table %}</li>
         </ul>
     </div>
 {% endblock content %}

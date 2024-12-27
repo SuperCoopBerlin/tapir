@@ -14,7 +14,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.services.shift_cycle_service import ShiftCycleService
 from tapir.shifts.tests.factories import ShiftTemplateFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
 class TestShiftCycleService(TapirFactoryTestBase):
@@ -198,3 +198,35 @@ class TestShiftCycleService(TapirFactoryTestBase):
     ):
         call_command("apply_shift_cycle_start")
         mock_apply_cycles_from.assert_not_called()
+
+    @patch.object(ShiftCycleService, "get_reference_date_for_cycles")
+    def test_getStartDateOfCurrentCycle_default_returnsCorrectDate(
+        self, mock_get_reference_date_for_cycles: Mock
+    ):
+        mock_timezone_now(self, datetime.datetime(year=2024, month=6, day=15))
+
+        mock_get_reference_date_for_cycles.return_value = datetime.date(
+            year=2024, month=5, day=6
+        )
+        result = ShiftCycleService.get_start_date_of_current_cycle()
+
+        self.assertEqual(datetime.date(year=2024, month=6, day=3), result)
+
+    def test_getReferenceDateForCycle_default_returnsCorrectDate(self):
+        mock_timezone_now(self, datetime.datetime(year=2024, month=6, day=15))
+        date_not_valid_anymore = datetime.date(year=2024, month=1, day=15)
+        current_valid_date = datetime.date(year=2024, month=3, day=15)
+        date_not_valid_yet = datetime.date(year=2024, month=9, day=15)
+
+        cycle_start_dates = [
+            date_not_valid_anymore,
+            current_valid_date,
+            date_not_valid_yet,
+        ]
+        with mock.patch(
+            "tapir.shifts.services.shift_cycle_service.cycle_start_dates",
+            cycle_start_dates,
+        ):
+            result = ShiftCycleService.get_reference_date_for_cycles()
+
+        self.assertEqual(current_valid_date, result)

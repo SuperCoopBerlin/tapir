@@ -10,8 +10,8 @@ urlpatterns = [
         name="welcome_desk_search",
     ),
     path(
-        "member/<int:pk>",
-        views.WelcomeDeskShareOwnerView.as_view(),
-        name="welcome_desk_share_owner",
+        "api/search",
+        views.SearchMemberForWelcomeDeskView.as_view(),
+        name="search",
     ),
 ]

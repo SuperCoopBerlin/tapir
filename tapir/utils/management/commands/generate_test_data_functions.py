@@ -10,7 +10,6 @@ from django_auth_ldap.config import LDAPSearch
 from fabric.testing.fixtures import connection
 from faker import Faker
 from ldap.ldapobject import LDAPObject
-from tapir.coop.services.NumberOfSharesService import NumberOfSharesService
 
 from tapir import settings
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
@@ -26,7 +25,8 @@ from tapir.coop.models import (
     MemberStatus,
     MembershipResignation,
 )
-from tapir.coop.services.MembershipPauseService import MembershipPauseService
+from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.log.models import LogEntry
 from tapir.settings import GROUP_VORSTAND, GROUP_MEMBER_OFFICE
 from tapir.shifts.models import (
@@ -40,8 +40,16 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftUserCapability,
     ShiftCycleEntry,
+    ShiftAttendanceMode,
+    CreateShiftAttendanceTemplateLogEntry,
 )
-from tapir.statistics.models import ProcessedPurchaseFiles, PurchaseBasket
+from tapir.statistics.models import (
+    ProcessedPurchaseFiles,
+    PurchaseBasket,
+    ProcessedCreditFiles,
+    CreditAccount,
+    FancyGraphCache,
+)
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import (
@@ -89,6 +97,10 @@ def determine_is_company(randomizer: int) -> bool:
 
 def determine_is_investing(randomizer: int, is_company: bool) -> bool:
     return randomizer % 7 == 0 or is_company
+
+
+def determine_is_abcd(randomizer: int) -> bool:
+    return randomizer % 4 == 0
 
 
 def generate_tapir_users(json_users):
@@ -207,6 +219,10 @@ def generate_shift_user_datas(tapir_users):
     ]
 
     for shift_user_data in shift_user_datas:
+        if random.randint(1, 2) == 1:
+            shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
+        else:
+            shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
         if random.randint(1, 7) == 1:
             shift_user_data.capabilities.append(ShiftUserCapability.SHIFT_COORDINATOR)
         if random.randint(1, 4) == 1:
@@ -240,12 +256,14 @@ def generate_test_users():
 
         is_company = determine_is_company(randomizer)
         is_investing = determine_is_investing(randomizer, is_company)
-        if is_company or is_investing:
+        is_abcd = determine_is_abcd(randomizer)
+        if is_company or is_investing or not is_abcd:
             continue
 
         tapir_user = tapir_users[index]
 
         random_templates = random.choices(shift_templates, k=10)
+        log_entries = []
         for shift_template in random_templates:
             attendance_template_created = False
 
@@ -253,15 +271,32 @@ def generate_test_users():
                 # Attend the first one fit for this user.
                 if not free_slot.user_can_attend(tapir_user):
                     continue
-                ShiftAttendanceTemplate.objects.create(
+                attendance_template = ShiftAttendanceTemplate.objects.create(
                     user=tapir_user, slot_template=free_slot
                 )
-                free_slot.update_future_slot_attendances()
+                log_entry = CreateShiftAttendanceTemplateLogEntry().populate(
+                    actor=None,
+                    tapir_user=tapir_user,
+                    shift_attendance_template=attendance_template,
+                )
+                log_entry.save()
+                log_entries.append(log_entry)
+                free_slot.update_future_slot_attendances(SHIFT_GENERATION_START)
                 attendance_template_created = True
                 break
 
             if attendance_template_created:
                 break
+
+        for log_entry in log_entries:
+            log_entry.created_date = log_entry.user.date_joined + datetime.timedelta(
+                weeks=random.randint(1, 100)
+            )
+            log_entry.created_date = min(timezone.now(), log_entry.created_date)
+        CreateShiftAttendanceTemplateLogEntry.objects.bulk_update(
+            log_entries, ["created_date"]
+        )
+
     print("Created fake users")
 
 
@@ -349,13 +384,16 @@ def generate_test_shift_templates():
     print("Generated test shift templates")
 
 
+SHIFT_GENERATION_START = timezone.now().date() - datetime.timedelta(days=100)
+
+
 def generate_shifts():
     print("Generating shifts")
-    start_day = get_monday(timezone.now().date() - datetime.timedelta(days=20))
+    start_day = get_monday(SHIFT_GENERATION_START)
 
     groups = ShiftTemplateGroup.objects.all()
     groups = {index: group for index, group in enumerate(groups)}
-    for week in range(8):
+    for week in range(20):
         monday = start_day + datetime.timedelta(days=7 * week)
         groups[week % 4].create_shifts(monday)
 
@@ -436,7 +474,9 @@ def clear_django_db():
         DraftUser,
         ProcessedPurchaseFiles,
         PurchaseBasket,
+        FancyGraphCache,
     ]
+    ShareOwnership.objects.update(transferred_from=None)
     for cls in classes:
         cls.objects.all().delete()
     TapirUser.objects.filter(is_staff=False).delete()
@@ -495,7 +535,7 @@ def generate_purchase_baskets():
         purchasing_users = [
             share_owner
             for share_owner in share_owners.with_status(
-                status=MemberStatus.ACTIVE, date=current_date
+                status=MemberStatus.ACTIVE, at_datetime=current_date
             )
             if share_owner.user
         ]
@@ -520,6 +560,75 @@ def generate_purchase_baskets():
         )
 
     PurchaseBasket.objects.bulk_create(baskets)
+
+
+def generate_credit_account():
+    print("Generating credit account")
+    current_date = ShareOwnership.objects.order_by("start_date").first().start_date
+    # starting not too long ago to avoid taking too much time
+    current_date: datetime.date = max(
+        current_date, datetime.date(year=2023, month=1, day=1)
+    )
+    today = timezone.now().date()
+
+    weeks = []
+
+    while current_date < today:
+        weeks.append(current_date)
+        current_date += datetime.timedelta(days=7)
+
+    processed_credit_files = [
+        ProcessedCreditFiles(
+            file_name=f"test_credit_file{current_date.strftime('%d.%m.%Y')}",
+            processed_on=get_timezone_aware_datetime(
+                week, datetime.time(hour=random.randint(0, 23))
+            ),
+        )
+        for week in weeks
+    ]
+    files: list[ProcessedCreditFiles] = ProcessedCreditFiles.objects.bulk_create(
+        processed_credit_files
+    )
+
+    account_credits = []
+    for file in files:
+        current_date = file.processed_on
+        share_owners = ShareOwner.objects.prefetch_related("user")
+        share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            share_owners, current_date
+        )
+        credit_users = [
+            share_owner
+            for share_owner in share_owners.with_status(
+                status=MemberStatus.ACTIVE, at_datetime=current_date
+            )[::2]
+            if share_owner.user
+        ]
+        info = random.choice(["Guthabenkarte", "Einkauf"])
+        credit_amount = (
+            random.randrange(0, 100)
+            if info == "Guthabenkarte"
+            else random.randrange(-100, 0)
+        )
+        account_credits.extend(
+            [
+                CreditAccount(
+                    source_file=file,
+                    credit_date=get_timezone_aware_datetime(
+                        current_date - datetime.timedelta(days=random.randint(0, 6)),
+                        datetime.time(hour=random.randint(0, 23)),
+                    ),
+                    credit_amount=credit_amount,
+                    credit_counter=random.randint(0, 10),
+                    cashier=random.randint(0, 10),
+                    info=info,
+                    tapir_user=share_owner.user,
+                )
+                for share_owner in credit_users
+            ]
+        )
+
+    CreditAccount.objects.bulk_create(account_credits)
 
 
 def generate_log_updates():
@@ -580,6 +689,22 @@ def generate_log_updates():
         logs[tapir_user].append(log)
 
 
+def update_attendances():
+    print("Updating attendances")
+    attendances = [
+        attendance
+        for attendance in ShiftAttendance.objects.filter(
+            slot__shift__start_time__lte=timezone.now()
+        )
+    ]
+    for attendance in attendances:
+        attendance.state = random.choice(ShiftAttendance.State.choices)[0]
+    ShiftAttendance.objects.bulk_update(attendances, ["state"])
+    attendances = ShiftAttendance.objects.all().prefetch_related("account_entry")
+    for attendance in attendances:
+        attendance.update_shift_account_entry()
+
+
 def reset_all_test_data():
     random.seed("supercoop")
     clear_data()
@@ -589,6 +714,8 @@ def reset_all_test_data():
     generate_test_users()
     generate_test_applicants()
     generate_purchase_baskets()
+    generate_credit_account()
     generate_log_updates()
+    update_attendances()
 
     print("Done")

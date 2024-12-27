@@ -40,6 +40,21 @@ class TestShareOwnerPayments(TapirFactoryTestBase):
         self.create_incoming_payment(ShareOwnerFactory.create(), 100)
         self.assertEqual(member.get_currently_paid_amount(), 121)
 
+    def test_getTotalExpectedPayment_oneShareIsFromAGift_onlyRelevantSharesCounted(
+        self,
+    ):
+        receiving_member: ShareOwner = ShareOwnerFactory.create(nb_shares=3)
+        gifting_member: ShareOwner = ShareOwnerFactory.create(nb_shares=1)
+        gifted_share = receiving_member.share_ownerships.first()
+        gifted_share.transferred_from = gifting_member.share_ownerships.first()
+        gifted_share.save()
+
+        self.assertEqual(
+            receiving_member.get_total_expected_payment(),
+            210,
+            "Total expected should be 2x share price + entry fee, or 2x100+10. The gifted share is not counted",
+        )
+
     @staticmethod
     def create_incoming_payment(member: ShareOwner, amount) -> IncomingPayment:
         return IncomingPayment.objects.create(
