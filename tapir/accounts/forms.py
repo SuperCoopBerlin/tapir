@@ -110,13 +110,26 @@ class EditUsernameForm(forms.ModelForm):
         return self.cleaned_data["username"]
 
 
+def get_optional_mail_choices():
+    # this has to be a function so that choices has a callable and is refreshed whenever the form is called
+    return [
+        (mail.get_unique_id(), mail.get_name())
+        for mail in get_mail_types(optional=True, enabled_by_default="both")
+    ]
+
+
+def get_mandatory_mail_choices():
+    # this has to be a function so that choices has a callable and is refreshed whenever the form is called
+    return [
+        (mail.get_unique_id(), mail.get_name())
+        for mail in get_mail_types(enabled_by_default="both", optional=False)
+    ]
+
+
 class OptionalMailsForm(forms.Form):
 
     optional_mails = forms.MultipleChoiceField(
-        choices=[
-            (mail.get_unique_id(), mail.get_name())
-            for mail in get_mail_types(optional=True, enabled_by_default="both")
-        ],
+        choices=get_optional_mail_choices,
         widget=forms.CheckboxSelectMultiple(),
         label=_("Optional Mails"),
         required=False,
@@ -124,10 +137,7 @@ class OptionalMailsForm(forms.Form):
 
     mandatory_mails = forms.MultipleChoiceField(
         required=False,
-        choices=[
-            (mail.get_unique_id(), mail.get_name())
-            for mail in get_mail_types(enabled_by_default="both", optional=False)
-        ],
+        choices=get_mandatory_mail_choices,
         label=_("Important Mails"),
         widget=CheckboxSelectMultiple(),
         initial=[
