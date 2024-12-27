@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-26 21:47+0100\n"
+"POT-Creation-Date: 2024-12-27 19:33+0100\n"
 "PO-Revision-Date: 2024-09-26 10:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -30,25 +30,25 @@ msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt 
 msgid "This username is not available."
 msgstr ""
 
-#: accounts/forms.py:118
+#: accounts/forms.py:134
 #, fuzzy
 #| msgid "List of all emails"
 msgid "Optional Mails"
 msgstr "Optionale E-Mails"
 
-#: accounts/forms.py:125
+#: accounts/forms.py:141
 msgid "Important Mails"
 msgstr "Wichtige E-Mails"
 
-#: accounts/models.py:70
+#: accounts/models.py:66
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:75 coop/models.py:64 coop/models.py:454
+#: accounts/models.py:71 coop/models.py:64 coop/models.py:454
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:76 accounts/templates/accounts/user_detail.html:70
+#: accounts/models.py:72 accounts/templates/accounts/user_detail.html:70
 #: coop/models.py:66 coop/models.py:456
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
@@ -56,49 +56,49 @@ msgstr "Pronomen"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:77 accounts/templates/accounts/user_detail.html:80
+#: accounts/models.py:73 accounts/templates/accounts/user_detail.html:80
 #: coop/models.py:67 coop/models.py:457
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:78 coop/models.py:68 coop/models.py:458
+#: accounts/models.py:74 coop/models.py:68 coop/models.py:458
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:79 coop/models.py:69 coop/models.py:459
+#: accounts/models.py:75 coop/models.py:69 coop/models.py:459
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:80 coop/models.py:70 coop/models.py:460
+#: accounts/models.py:76 coop/models.py:70 coop/models.py:460
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:81 coop/models.py:71 coop/models.py:461
+#: accounts/models.py:77 coop/models.py:71 coop/models.py:461
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:82 coop/models.py:72 coop/models.py:462
+#: accounts/models.py:78 coop/models.py:72 coop/models.py:462
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:83 accounts/templates/accounts/user_detail.html:114
+#: accounts/models.py:79 accounts/templates/accounts/user_detail.html:114
 #: welcomedesk/templates/welcomedesk/welcome_desk_share_owner.html:90
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:85
+#: accounts/models.py:81
 msgid "Allow purchase tracking"
 msgstr ""
 
-#: accounts/models.py:90 accounts/templates/accounts/user_detail.html:100
+#: accounts/models.py:86 accounts/templates/accounts/user_detail.html:100
 #: coop/models.py:75 coop/models.py:465
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:123 accounts/models.py:129
+#: accounts/models.py:119 accounts/models.py:125
 #: coop/views/membership_pause.py:74 shifts/views/exemptions.py:198
 msgid "None"
 msgstr "Keine"
@@ -470,26 +470,26 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:102 accounts/views.py:107 coop/views/shareowner.py:260
+#: accounts/views.py:101 accounts/views.py:106 coop/views/shareowner.py:260
 #: coop/views/shareowner.py:265
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:145
+#: accounts/views.py:144
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:190
+#: accounts/views.py:189
 msgid "You can only look at your own barcode unless you have member office rights"
 msgstr ""
 
-#: accounts/views.py:249 accounts/views.py:254
+#: accounts/views.py:248 accounts/views.py:253
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr ""
 
-#: accounts/views.py:349 accounts/views.py:354
+#: accounts/views.py:347 accounts/views.py:352
 #, python-format
 msgid "Notification settings for %(name)s"
 msgstr "Benachrichtungseinstellungen für %(name)s"
