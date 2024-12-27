@@ -340,7 +340,6 @@ class MailSettingsView(
     TapirFormMixin,
     generic.FormView,
 ):
-    template_name = "accounts/mailsettings.html"
     form_class = OptionalMailsForm
 
     def get_context_data(self, **kwargs):
