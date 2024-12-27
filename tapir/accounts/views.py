@@ -26,7 +26,6 @@ from tapir.accounts.models import (
     TapirUser,
     UpdateTapirUserLogEntry,
     OptionalMails,
-    MailChoice,
 )
 from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
@@ -382,8 +381,9 @@ class MailSettingsView(
             is_selected = (
                 optional_mail_choices[0] in form.cleaned_data["optional_mails"]
             )
-            mail_object, created = MailChoice.objects.get_or_create(
-                name=optional_mail_choices[0], choice=is_selected
+            OptionalMails.objects.create(
+                user=self.get_tapir_user(),
+                mail_id=optional_mail_choices[0],
+                choice=is_selected,
             )
-            OptionalMails.objects.create(user=self.get_tapir_user(), mail=mail_object)
         return super().form_valid(form)

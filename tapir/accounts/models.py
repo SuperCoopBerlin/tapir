@@ -239,13 +239,13 @@ class TapirUser(AbstractUser):
         :return unique mail-ids from both lists
         """
         user_mails_wanted = list(
-            OptionalMails.objects.filter(user=self, mail__choice=True).values_list(
-                "mail__name", flat=True
+            OptionalMails.objects.filter(user=self, choice=True).values_list(
+                "mail_id", flat=True
             )
         )
         user_mails_not_wanted = list(
-            OptionalMails.objects.filter(user=self, mail__choice=False).values_list(
-                "mail__name", flat=True
+            OptionalMails.objects.filter(user=self, choice=False).values_list(
+                "mail_id", flat=True
             )
         )
         other_optional_mails = [
@@ -289,21 +289,6 @@ def language_middleware(get_response):
     return middleware
 
 
-class MailChoice(models.Model):
-    name = models.CharField(max_length=256, blank=False, choices=get_optional_mails)
-    choice = models.BooleanField()
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["name", "choice"], name="mail-name-chosen-constraint"
-            )
-        ]
-
-    def __str__(self):
-        return self.name
-
-
 class OptionalMails(models.Model):
     user = models.ForeignKey(
         "accounts.TapirUser",
@@ -311,14 +296,12 @@ class OptionalMails(models.Model):
         related_name="mail_setting",
         on_delete=models.CASCADE,
     )
-    mail = models.ForeignKey(
-        MailChoice,
-        on_delete=models.CASCADE,
-    )
+    mail_id = models.CharField(max_length=256, blank=False, choices=get_optional_mails)
+    choice = models.BooleanField()
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "mail"], name="user-mail-constraint"
+                fields=["user", "mail_id"], name="user-mail-constraint"
             )
         ]
