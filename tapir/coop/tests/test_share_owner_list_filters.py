@@ -17,7 +17,7 @@ from tapir.shifts.models import (
     ShiftSlot,
 )
 from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 from tapir.utils.user_utils import UserUtils
 
 
@@ -54,6 +54,12 @@ class ShareOwnerFilterTestBase(TapirFactoryTestBase):
 
 
 class TestShareOwnerList(ShareOwnerFilterTestBase):
+    def setUp(self) -> None:
+        mock_timezone_now(
+            self,
+            datetime.datetime(year=2024, month=1, day=1, hour=15, minute=0, second=0),
+        )
+
     def test_requires_permissions(self):
         self.login_as_normal_user()
 
