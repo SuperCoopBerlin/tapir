@@ -1,5 +1,5 @@
-import { defineConfig } from "vite";
-import { join, resolve } from "path";
+import {defineConfig} from "vite";
+import {join, resolve} from "path";
 import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig(() => {
@@ -11,6 +11,7 @@ export default defineConfig(() => {
     root: resolve(INPUT_DIR),
     base: "/static/",
     build: {
+      target: "es6",
       sourcemap: true,
       manifest: "manifest.json",
       emptyOutDir: true,

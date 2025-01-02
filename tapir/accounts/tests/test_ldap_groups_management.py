@@ -1,6 +1,7 @@
 from django.urls import reverse
 
-from tapir.accounts.models import TapirUser
+from http import HTTPStatus
+from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.settings import GROUP_VORSTAND, GROUP_ACCOUNTING
 from tapir.utils.tests_utils import TapirFactoryTestBase
@@ -132,3 +133,16 @@ class TestLdapGroupsManagement(TapirFactoryTestBase):
 
         response = self.client.get(reverse("accounts:ldap_group_list"))
         self.assertEqual(403, response.status_code)
+
+    def test_editUserLdapGroupsView_changingUserGroupsCreatesLogEntry(self):
+        self.login_as_vorstand()
+        tapir_user = TapirUserFactory.create(is_in_vorstand=False)
+        data = {GROUP_VORSTAND: True}
+        response = self.client.post(
+            reverse("accounts:edit_user_ldap_groups", args=[tapir_user.pk]),
+            data,
+            follow=True,
+        )
+        self.assertStatusCode(response, HTTPStatus.OK)
+        self.assertEqual(1, UpdateTapirUserLogEntry.objects.count())
+        self.assertIn(GROUP_VORSTAND, tapir_user.get_ldap_user().group_names)

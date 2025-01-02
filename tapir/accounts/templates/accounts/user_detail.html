@@ -1,11 +1,11 @@
 {% extends "accounts/base.html" %}
-{% load log %}
+{% load tapir_log %}
 {% load django_bootstrap5 %}
 {% load static %}
 {% load i18n %}
 {% load shifts %}
 {% load coop %}
-{% load log %}
+{% load tapir_log %}
 {% load accounts %}
 {% load core %}
 {% load utils %}
@@ -146,9 +146,10 @@
         <div class="col-xl-6">{% log_entry_list tapir_user=object %}</div>
     </div>
     <div class="row">
-        <div class="col-xl-6">{% purchase_tracking_card tapir_user=object %}</div>
+        <div class="col-xl-4">{% purchase_tracking_card tapir_user=object %}</div>
         {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
-            <div class="col-xl-6">{% purchase_statistics_card tapir_user=object %}</div>
+            <div class="col-xl-4">{% purchase_statistics_card tapir_user=object %}</div>
+            <div class="col-xl-4">{% credit_account_card tapir_user=object %}</div>
         {% endif %}
     </div>
 {% endblock content %}

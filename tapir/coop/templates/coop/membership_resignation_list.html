@@ -31,7 +31,7 @@
                     {% endfor %}
                 </div>
                 {% blocktranslate asvar tooltip %}
-                    Only the vorstand and the employees can create resignations.
+                    Only the vorstand, the member-office and the employees can create resignations.
                 {% endblocktranslate %}
                 <span data-bs-toggle="tooltip"
                       title="{% if not perms.resignation.manage %}{{ tooltip }}{% endif %}">

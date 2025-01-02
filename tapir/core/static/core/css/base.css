@@ -52,7 +52,8 @@ body {
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(/static/core/material-icons/MaterialSymbolsRounded.woff2) format('woff2');
+  src: url(/static/core/material-icons/MaterialSymbolsRounded.woff2) format('woff2'),
+       url(/static/core/material-icons/MaterialSymbolsRounded.woff) format('woff');
 }
 
 .material-icons {

@@ -155,6 +155,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.statistics.tasks.process_purchase_files",
         "schedule": celery.schedules.crontab(minute=0, hour=2),
     },
+    "process_credit_account": {
+        "task": "tapir.statistics.tasks.process_credit_account",
+        "schedule": celery.schedules.crontab(minute=0, hour=2),
+    },
     "send_create_account_reminder": {
         "task": "tapir.accounts.tasks.send_create_account_reminder",
         "schedule": celery.schedules.crontab(minute=0, hour=12),
@@ -342,6 +346,7 @@ PERMISSIONS = {
     PERMISSION_RESIGNATION_MANAGE: {
         GROUP_VORSTAND,
         GROUP_EMPLOYEES,
+        GROUP_MEMBER_OFFICE,
     },
 }
 

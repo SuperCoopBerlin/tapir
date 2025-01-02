@@ -178,7 +178,7 @@ def set_group_membership(
     current_group_members = get_group_members(connection, group_cn)
     groups_exists = (
         len(current_group_members) > 0
-    )  # Empty groups can't exist in LDAP, if get_group_members returns an empty the group has not been found
+    )  # Empty groups can't exist in LDAP, if get_group_members returns an empty list the group has not been found
 
     if not groups_exists:
         if not is_member_of_group:
