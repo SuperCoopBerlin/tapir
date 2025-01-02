@@ -39,9 +39,8 @@ from tapir.shifts.models import (
     ShiftAttendanceTakenOverLogEntry,
     SolidarityShift,
 )
-from tapir.shifts.services.reasons_cant_self_unregister_service import (
-    ReasonsCantSelfUnregisterService,
-)
+from tapir.shifts.services.can_look_for_standin_service import CanLookForStandinService
+from tapir.shifts.services.self_unregister_service import SelfUnregisterService
 from tapir.shifts.views.views import SelectedUserViewMixin
 from tapir.utils.shortcuts import safe_redirect, get_html_link
 from tapir.utils.user_utils import UserUtils
@@ -137,11 +136,15 @@ class UpdateShiftAttendanceStateBase(
         state = self.kwargs["state"]
         self_unregister = (
             state == ShiftAttendance.State.CANCELLED
-            and self.get_attendance().slot.user_can_self_unregister(self.request.user)
+            and SelfUnregisterService.user_can_self_unregister(
+                self.request.user, self.get_attendance()
+            )
         )
         look_for_standing = (
             state == ShiftAttendance.State.LOOKING_FOR_STAND_IN
-            and self.get_attendance().slot.shift.start_time > timezone.now()
+            and CanLookForStandinService.can_look_for_a_standin(
+                self.get_attendance().slot
+            )
         )
         cancel_look_for_standing = (
             state == ShiftAttendance.State.PENDING
@@ -429,7 +432,7 @@ class CantAttendView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         context_data["attendance"] = self.get_attendance()
 
         context_data["reasons_why_cant_self_unregister"] = (
-            ReasonsCantSelfUnregisterService.build_reasons_why_cant_self_unregister(
+            SelfUnregisterService.build_reasons_why_cant_self_unregister(
                 self.request.user, self.get_attendance()
             )
         )
@@ -442,7 +445,7 @@ class CantAttendView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         )
 
         context_data["can_look_for_standin"] = (
-            self.get_attendance().slot.shift.start_time > timezone.now()
+            CanLookForStandinService.can_look_for_a_standin(self.get_attendance().slot)
         )
 
         return context_data
