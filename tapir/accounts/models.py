@@ -1,8 +1,8 @@
 import logging
+from typing import List
 
 import ldap
 from django.contrib.auth.models import AbstractUser, UserManager, User
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from django.utils import translation
@@ -16,7 +16,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils, settings
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
-from tapir.core.tapir_email_base import mails_not_mandatory
+from tapir.core.tapir_email_base import get_optional_mails, get_mail_types
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import (
     PERMISSIONS,
@@ -76,15 +76,6 @@ class TapirUser(AbstractUser):
     co_purchaser = models.CharField(_("Co-Purchaser"), max_length=150, blank=True)
     allows_purchase_tracking = models.BooleanField(
         _("Allow purchase tracking"), blank=False, null=False, default=False
-    )
-    additional_mails = ArrayField(
-        models.CharField(
-            max_length=128,
-            blank=False,
-        ),
-        default=mails_not_mandatory,
-        blank=True,
-        null=False,
     )
     excluded_fields_for_logs = ["password"]
 
@@ -236,6 +227,33 @@ class TapirUser(AbstractUser):
             return False
         return True
 
+    def get_optional_mail_ids_user_will_receive(self) -> List[str]:
+        """
+        Mails which are either
+        A) optional but enabled by default or
+        B) optional, not enabled by default but still wanted by user
+
+        :return unique mail-ids from both lists
+        """
+        user_mails_wanted = list(
+            OptionalMails.objects.filter(user=self, choice=True).values_list(
+                "mail_id", flat=True
+            )
+        )
+        user_mails_not_wanted = list(
+            OptionalMails.objects.filter(user=self, choice=False).values_list(
+                "mail_id", flat=True
+            )
+        )
+        other_optional_mails = [
+            x.get_unique_id()
+            for x in get_mail_types(optional=True)
+            if x.get_unique_id() not in user_mails_not_wanted
+        ]
+
+        optional_mails = other_optional_mails + user_mails_wanted
+        return list(set(optional_mails))
+
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
     template_name = "accounts/log/update_tapir_user_log_entry.html"
@@ -266,3 +284,21 @@ def language_middleware(get_response):
         return response
 
     return middleware
+
+
+class OptionalMails(models.Model):
+    user = models.ForeignKey(
+        "accounts.TapirUser",
+        null=False,
+        related_name="mail_setting",
+        on_delete=models.CASCADE,
+    )
+    mail_id = models.CharField(max_length=256, blank=False, choices=get_optional_mails)
+    choice = models.BooleanField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "mail_id"], name="user-mail-constraint"
+            )
+        ]
