@@ -140,6 +140,7 @@ class OptionalMailsForm(forms.Form):
         choices=get_mandatory_mail_choices,
         label=_("Important Mails"),
         widget=CheckboxSelectMultiple(),
+        disabled=True,
         initial=[
             m.get_unique_id()
             for m in get_mail_types(enabled_by_default="both", optional=False)
@@ -149,7 +150,6 @@ class OptionalMailsForm(forms.Form):
     def __init__(self, *args, **kwargs):
         tapir_user: TapirUser = kwargs.pop("tapir_user")
         super().__init__(*args, **kwargs)
-        self.fields["mandatory_mails"].disabled = True
         self.fields["optional_mails"].initial = (
             tapir_user.get_optional_mail_ids_user_will_receive()
         )
