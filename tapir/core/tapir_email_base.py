@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from typing import List, Type, TYPE_CHECKING, Dict, Tuple, Literal
+from warnings import deprecated
 
 from django.core.mail import EmailMultiAlternatives
 from django.template import loader
@@ -38,6 +39,11 @@ def get_mail_types(
         ) and (optional == "both" or mail.optional is optional)
 
     return [mail for mail in mail_classes if filter_mail(mail)]
+
+
+@deprecated("This function is kept for migration. Use get_optional_mails() instead.")
+def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
+    return get_optional_mails()
 
 
 def get_optional_mails() -> List[Tuple[str, str]]:

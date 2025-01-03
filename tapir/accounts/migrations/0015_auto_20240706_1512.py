@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             field=django.contrib.postgres.fields.ArrayField(
                 base_field=models.CharField(max_length=128),
                 blank=True,
-                default=tapir.core.tapir_email_base.get_optional_mails,
+                default=tapir.core.tapir_email_base.mails_not_mandatory,
                 size=None,
             ),
         ),
