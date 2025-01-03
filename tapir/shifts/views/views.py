@@ -236,10 +236,6 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
 
         for slot in slots:
             slot.can_self_register = slot.user_can_attend(self.request.user)
-            slot.can_self_unregister = slot.user_can_self_unregister(self.request.user)
-            slot.can_look_for_stand_in = slot.user_can_look_for_standin(
-                self.request.user
-            )
 
             slot.previous_attendances = ShiftAttendance.objects.filter(slot=slot)
             if slot.get_valid_attendance() is not None:
