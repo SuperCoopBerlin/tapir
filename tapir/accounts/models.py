@@ -16,7 +16,10 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils, settings
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
-from tapir.core.tapir_email_base import get_optional_mails, get_mail_types
+from tapir.core.tapir_email_base import (
+    get_mail_types,
+    OptionalMailService,
+)
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import (
     PERMISSIONS,
@@ -293,7 +296,11 @@ class OptionalMails(models.Model):
         related_name="mail_setting",
         on_delete=models.CASCADE,
     )
-    mail_id = models.CharField(max_length=256, blank=False, choices=get_optional_mails)
+    mail_id = models.CharField(
+        max_length=256,
+        blank=False,
+        choices=OptionalMailService.get_optional_mail_choices,
+    )
     choice = models.BooleanField()
 
     class Meta:

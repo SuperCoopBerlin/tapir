@@ -47,13 +47,6 @@ def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
     return OptionalMailService.get_optional_mail_choices()
 
 
-def get_optional_mails() -> List[Tuple[str, str]]:
-    return [
-        (mail.get_unique_id(), mail.get_name())
-        for mail in get_mail_types(optional=True, enabled_by_default="both")
-    ]
-
-
 class TapirEmailBase:
     enabled_by_default = True  # mails are opt-out by default
     optional = False  # mails are mandatory by default

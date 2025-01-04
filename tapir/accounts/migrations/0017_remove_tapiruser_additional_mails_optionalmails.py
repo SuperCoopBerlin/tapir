@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 (
                     "mail_id",
                     models.CharField(
-                        choices=tapir.core.tapir_email_base.get_optional_mails,
+                        choices=tapir.core.tapir_email_base.OptionalMailService.get_optional_mail_choices,
                         max_length=256,
                     ),
                 ),
