@@ -57,7 +57,9 @@ class TestMailSetting(TapirFactoryTestBase):
             )
         )
 
-    def enter_OptionalNonDefaultMail_to_forms(self, usr: TapirUser):
+    def send_request_add_OptionalNonDefaultMail_to_subscribed_mails(
+        self, usr: TapirUser
+    ):
         post_data = {"optional_mails": [OptionalNonDefaultMail.get_unique_id()]}
         response = self.client.post(
             reverse("accounts:mail_settings", args=[usr.pk]),
@@ -85,7 +87,7 @@ class TestMailSetting(TapirFactoryTestBase):
         )
 
         self.login_as_user(TapirUserFactory())
-        self.enter_OptionalNonDefaultMail_to_forms(tapir_user)
+        self.send_request_add_OptionalNonDefaultMail_to_subscribed_mails(tapir_user)
         self.assertFalse(
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
                 user=tapir_user
@@ -110,7 +112,9 @@ class TestMailSetting(TapirFactoryTestBase):
             )
         )
 
-        response = self.enter_OptionalNonDefaultMail_to_forms(tapir_user)
+        response = self.send_request_add_OptionalNonDefaultMail_to_subscribed_mails(
+            tapir_user
+        )
         self.assertEqual(200, response.status_code)
 
         tapir_user.refresh_from_db()
@@ -124,7 +128,9 @@ class TestMailSetting(TapirFactoryTestBase):
         tapir_user = TapirUserFactory()
         self.login_as_member_office_user()
 
-        response = self.enter_OptionalNonDefaultMail_to_forms(usr=tapir_user)
+        response = self.send_request_add_OptionalNonDefaultMail_to_subscribed_mails(
+            usr=tapir_user
+        )
         self.assertEqual(200, response.status_code)
 
         tapir_user.refresh_from_db()
