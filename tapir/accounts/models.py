@@ -17,7 +17,7 @@ from tapir import utils, settings
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
 from tapir.core.tapir_email_base import (
-    get_mail_types,
+    get_mail_classes,
     OptionalMailService,
 )
 from tapir.log.models import UpdateModelLogEntry
@@ -249,9 +249,9 @@ class TapirUser(AbstractUser):
             )
         )
         other_optional_mails = [
-            mail_type.get_unique_id()
-            for mail_type in get_mail_types(optional=True)
-            if mail_type.get_unique_id() not in user_mails_not_wanted
+            mail_class.get_unique_id()
+            for mail_class in get_mail_classes(optional=True)
+            if mail_class.get_unique_id() not in user_mails_not_wanted
         ]
 
         optional_mails = other_optional_mails + user_mails_wanted

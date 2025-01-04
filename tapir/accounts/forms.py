@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir import settings
 from tapir.accounts.models import TapirUser, OptionalMails
 from tapir.core.tapir_email_base import (
-    get_mail_types,
+    get_mail_classes,
     OptionalMailService,
 )
 from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND
@@ -126,7 +126,7 @@ class OptionalMailsForm(forms.Form):
         disabled=True,
         initial=[
             m.get_unique_id()
-            for m in get_mail_types(enabled_by_default="both", optional=False)
+            for m in get_mail_classes(enabled_by_default="both", optional=False)
         ],
     )
 

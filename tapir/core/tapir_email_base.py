@@ -20,7 +20,7 @@ all_emails: Dict[str, Type[TapirEmailBase]] = {}
 MAIL_OPTIONS_ = Literal[True, False, "both"]
 
 
-def get_mail_types(
+def get_mail_classes(
     enabled_by_default: MAIL_OPTIONS_ = True,
     optional: MAIL_OPTIONS_ = True,
     mail_classes: List[Type[TapirEmailBase]] = None,
@@ -140,7 +140,7 @@ class TapirEmailBase:
             self.get_unique_id() in user.get_optional_mail_ids_user_will_receive()
         ) or (
             self.get_unique_id()
-            in [x.get_unique_id() for x in get_mail_types(optional=False)]
+            in [x.get_unique_id() for x in get_mail_classes(optional=False)]
         )
 
     def send_to_tapir_user(self, actor: TapirUser | User | None, recipient: TapirUser):
@@ -218,7 +218,7 @@ class OptionalMailService:
         # this has to be a function so that choices has a callable and is refreshed whenever the form is called
         return [
             (mail.get_unique_id(), mail.get_name())
-            for mail in get_mail_types(optional=True, enabled_by_default="both")
+            for mail in get_mail_classes(optional=True, enabled_by_default="both")
         ]
 
     @staticmethod
@@ -226,5 +226,5 @@ class OptionalMailService:
         # this has to be a function so that choices has a callable and is refreshed whenever the form is called
         return [
             (mail.get_unique_id(), mail.get_name())
-            for mail in get_mail_types(enabled_by_default="both", optional=False)
+            for mail in get_mail_classes(enabled_by_default="both", optional=False)
         ]
