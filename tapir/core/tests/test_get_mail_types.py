@@ -1,4 +1,5 @@
 import pytest
+from django.test import SimpleTestCase
 
 from tapir.core.tapir_email_base import get_mail_types
 
@@ -46,50 +47,47 @@ class MailTypeC(TapirEmailBase):
         return "Mail Type C"
 
 
-# Tests
-def test_get_mail_types_both():
-    result = get_mail_types(
-        enabled_by_default="both",
-        optional="both",
-        mail_classes=TapirEmailBase.__subclasses__(),
-    )
-    assert result == [MailTypeA, MailTypeB, MailTypeC]
+class TestGetMailClass(SimpleTestCase):
+    # Tests
+    def test_get_mail_types_both(self):
+        result = get_mail_types(
+            enabled_by_default="both",
+            optional="both",
+            mail_classes=TapirEmailBase.__subclasses__(),
+        )
+        assert result == [MailTypeA, MailTypeB, MailTypeC]
 
+    def test_get_mail_types_enabled_by_default_true(self):
+        result = get_mail_types(
+            enabled_by_default=True,
+            optional="both",
+            mail_classes=TapirEmailBase.__subclasses__(),
+        )
+        assert result == [MailTypeA, MailTypeC]
 
-def test_get_mail_types_enabled_by_default_true():
-    result = get_mail_types(
-        enabled_by_default=True,
-        optional="both",
-        mail_classes=TapirEmailBase.__subclasses__(),
-    )
-    assert result == [MailTypeA, MailTypeC]
+    def test_get_mail_types_enabled_by_default_false(self):
+        result = get_mail_types(
+            enabled_by_default=False,
+            optional="both",
+            mail_classes=TapirEmailBase.__subclasses__(),
+        )
+        assert result == [MailTypeB]
 
+    def test_get_mail_types_optional_true(self):
+        result = get_mail_types(
+            enabled_by_default="both",
+            optional=True,
+            mail_classes=TapirEmailBase.__subclasses__(),
+        )
+        assert result == [MailTypeB, MailTypeC]
 
-def test_get_mail_types_enabled_by_default_false():
-    result = get_mail_types(
-        enabled_by_default=False,
-        optional="both",
-        mail_classes=TapirEmailBase.__subclasses__(),
-    )
-    assert result == [MailTypeB]
-
-
-def test_get_mail_types_optional_true():
-    result = get_mail_types(
-        enabled_by_default="both",
-        optional=True,
-        mail_classes=TapirEmailBase.__subclasses__(),
-    )
-    assert result == [MailTypeB, MailTypeC]
-
-
-def test_get_mail_types_optional_false():
-    result = get_mail_types(
-        enabled_by_default="both",
-        optional=False,
-        mail_classes=TapirEmailBase.__subclasses__(),
-    )
-    assert result == [MailTypeA]
+    def test_get_mail_types_optional_false(self):
+        result = get_mail_types(
+            enabled_by_default="both",
+            optional=False,
+            mail_classes=TapirEmailBase.__subclasses__(),
+        )
+        assert result == [MailTypeA]
 
 
 # Führe die Tests aus
