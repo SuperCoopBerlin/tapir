@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-27 20:30+0100\n"
+"POT-Creation-Date: 2025-01-04 14:57+0100\n"
 "PO-Revision-Date: 2024-09-26 10:50+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,29 +26,29 @@ msgstr "Konto erstellen Erinnerung"
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
 msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt noch kein Konto erstellt haben."
 
-#: accounts/forms.py:108
+#: accounts/forms.py:107
 msgid "This username is not available."
 msgstr "Dieser Benutzername ist nicht verfügbar"
 
-#: accounts/forms.py:134
+#: accounts/forms.py:117
 #, fuzzy
 #| msgid "List of all emails"
 msgid "Optional Mails"
 msgstr "Optionale E-Mails"
 
-#: accounts/forms.py:141
+#: accounts/forms.py:124
 msgid "Important Mails"
 msgstr "Wichtige E-Mails"
 
-#: accounts/models.py:63
+#: accounts/models.py:66
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:68 coop/models.py:70 coop/models.py:482
+#: accounts/models.py:71 coop/models.py:70 coop/models.py:482
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:71
+#: accounts/models.py:72 accounts/templates/accounts/user_detail.html:71
 #: coop/models.py:72 coop/models.py:484
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
@@ -56,48 +56,48 @@ msgstr "Pronomen"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:70 accounts/templates/accounts/user_detail.html:81
+#: accounts/models.py:73 accounts/templates/accounts/user_detail.html:81
 #: coop/models.py:73 coop/models.py:485
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:71 coop/models.py:74 coop/models.py:486
+#: accounts/models.py:74 coop/models.py:74 coop/models.py:486
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:72 coop/models.py:75 coop/models.py:487
+#: accounts/models.py:75 coop/models.py:75 coop/models.py:487
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:73 coop/models.py:76 coop/models.py:488
+#: accounts/models.py:76 coop/models.py:76 coop/models.py:488
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:74 coop/models.py:77 coop/models.py:489
+#: accounts/models.py:77 coop/models.py:77 coop/models.py:489
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:75 coop/models.py:78 coop/models.py:490
+#: accounts/models.py:78 coop/models.py:78 coop/models.py:490
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:76 accounts/templates/accounts/user_detail.html:115
+#: accounts/models.py:79 accounts/templates/accounts/user_detail.html:115
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:78
+#: accounts/models.py:81
 msgid "Allow purchase tracking"
 msgstr "Erlaube Aufzeichnen deiner Einkäufe"
 
-#: accounts/models.py:83 accounts/templates/accounts/user_detail.html:101
+#: accounts/models.py:86 accounts/templates/accounts/user_detail.html:101
 #: coop/models.py:81 coop/models.py:493
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:116 accounts/models.py:122
+#: accounts/models.py:119 accounts/models.py:125
 #: coop/views/membership_pause.py:74 shifts/views/exemptions.py:214
 msgid "None"
 msgstr "Keine"
@@ -2931,11 +2931,11 @@ msgstr "Schicht-Erinnerung"
 msgid "Sent to a member {config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT} days before their shift"
 msgstr ""
 
-#: shifts/emails/stand_in_found_email.py:25
+#: shifts/emails/stand_in_found_email.py:23
 msgid "Stand-in found"
 msgstr "Vertretung gefunden"
 
-#: shifts/emails/stand_in_found_email.py:30
+#: shifts/emails/stand_in_found_email.py:28
 msgid "Sent to a member that was looking for a stand-inwhen the corresponding slot is taken over by another member."
 msgstr ""
 
