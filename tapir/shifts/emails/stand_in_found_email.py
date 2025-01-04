@@ -9,8 +9,6 @@ from tapir.shifts.models import Shift
 
 
 class StandInFoundEmail(TapirEmailBase):
-    optional = True
-    enabled_by_default = True
 
     def __init__(self, shift):
         super().__init__()
