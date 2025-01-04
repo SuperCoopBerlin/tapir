@@ -41,9 +41,10 @@ def get_mail_types(
     return [mail for mail in mail_classes if filter_mail(mail)]
 
 
-@deprecated("This function is kept for migration. Use get_optional_mails() instead.")
+@deprecated("Use OptionalMailService.get_optional_mail_choices() instead.")
 def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
-    return get_optional_mails()
+    # Kept for migration.
+    return OptionalMailService.get_optional_mail_choices()
 
 
 def get_optional_mails() -> List[Tuple[str, str]]:
@@ -216,3 +217,21 @@ class TapirEmailBase:
     @classmethod
     def register_email(cls, mail_class: Type[TapirEmailBase]):
         all_emails[mail_class.get_unique_id()] = mail_class
+
+
+class OptionalMailService:
+    @staticmethod
+    def get_optional_mail_choices() -> List[Tuple[str, str]]:
+        # this has to be a function so that choices has a callable and is refreshed whenever the form is called
+        return [
+            (mail.get_unique_id(), mail.get_name())
+            for mail in get_mail_types(optional=True, enabled_by_default="both")
+        ]
+
+    @staticmethod
+    def get_mandatory_mail_choices() -> List[Tuple[str, str]]:
+        # this has to be a function so that choices has a callable and is refreshed whenever the form is called
+        return [
+            (mail.get_unique_id(), mail.get_name())
+            for mail in get_mail_types(enabled_by_default="both", optional=False)
+        ]

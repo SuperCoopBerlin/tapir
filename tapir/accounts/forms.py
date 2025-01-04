@@ -10,6 +10,7 @@ from tapir import settings
 from tapir.accounts.models import TapirUser, OptionalMails
 from tapir.core.tapir_email_base import (
     get_mail_types,
+    OptionalMailService,
 )
 from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
@@ -110,26 +111,10 @@ class EditUsernameForm(forms.ModelForm):
         return self.cleaned_data["username"]
 
 
-def get_optional_mail_choices():
-    # this has to be a function so that choices has a callable and is refreshed whenever the form is called
-    return [
-        (mail.get_unique_id(), mail.get_name())
-        for mail in get_mail_types(optional=True, enabled_by_default="both")
-    ]
-
-
-def get_mandatory_mail_choices():
-    # this has to be a function so that choices has a callable and is refreshed whenever the form is called
-    return [
-        (mail.get_unique_id(), mail.get_name())
-        for mail in get_mail_types(enabled_by_default="both", optional=False)
-    ]
-
-
 class OptionalMailsForm(forms.Form):
 
     optional_mails = forms.MultipleChoiceField(
-        choices=get_optional_mail_choices,
+        choices=OptionalMailService.get_optional_mail_choices,
         widget=forms.CheckboxSelectMultiple(),
         label=_("Optional Mails"),
         required=False,
@@ -137,7 +122,7 @@ class OptionalMailsForm(forms.Form):
 
     mandatory_mails = forms.MultipleChoiceField(
         required=False,
-        choices=get_mandatory_mail_choices,
+        choices=OptionalMailService.get_mandatory_mail_choices,
         label=_("Important Mails"),
         widget=CheckboxSelectMultiple(),
         disabled=True,
