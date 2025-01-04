@@ -70,7 +70,7 @@ class TestMailSetting(TapirFactoryTestBase):
         )
         return response
 
-    def test_normal_user_cannot_access_other_users_mail_setting(self):
+    def test_normalUser_CannotAccessOtherUsersMailSettings(self):
         tapir_user = TapirUserFactory()
         actor = TapirUserFactory()
         self.login_as_user(actor)
@@ -80,7 +80,7 @@ class TestMailSetting(TapirFactoryTestBase):
 
         self.assertEqual(403, response.status_code)
 
-    def test_normal_user_cannot_update_other_users_mail_setting(self):
+    def test_NormalUser_CannotUpdateOtherUsersMailSettings(self):
         tapir_user = TapirUserFactory()
         self.assertFalse(
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
@@ -96,7 +96,7 @@ class TestMailSetting(TapirFactoryTestBase):
             )
         )
 
-    def test_user_can_access_own_settings(self):
+    def test_NormalUser_AccessOwnMailSettings_returnsStatus200(self):
         tapir_user = TapirUserFactory()
         self.login_as_user(tapir_user)
         response = self.client.get(
@@ -104,7 +104,7 @@ class TestMailSetting(TapirFactoryTestBase):
         )
         self.assertTrue(200, response.status_code)
 
-    def test_user_can_update_own_mail_setting(self):
+    def test_NormalUser_UpdateOwnMailSetting_returnsTrue(self):
         tapir_user = TapirUserFactory()
         self.login_as_user(tapir_user)
 
@@ -124,7 +124,7 @@ class TestMailSetting(TapirFactoryTestBase):
             )
         )
 
-    def test_memberoffice_can_update_other_members_mail_setting(self):
+    def test_MemberOffice_canUpdateOtherUsersMailSettings_returnsTrue(self):
         tapir_user = TapirUserFactory()
         self.login_as_member_office_user()
 
@@ -155,7 +155,7 @@ class MandatoryMailsTest(TapirFactoryTestBase):
     def setUp(self):
         TapirEmailBase.register_email(MandatoryMail)
 
-    def test_user_cannot_edit_mandatory_mail_setting(self):
+    def test_NormalUser_CannotUpdateNonOptionalMailSettings(self):
         tapir_user: TapirUser = TapirUserFactory.create()
         self.login_as_user(tapir_user)
         # Enabled by default and mandatory
