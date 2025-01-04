@@ -19,13 +19,26 @@ class OptionalNonDefaultMail(TapirEmailBase):
         return "OptionalNonDefaultMail"
 
 
-class TestOptionalNotDefaultMail(TapirFactoryTestBase):
+class MandatoryMail(TapirEmailBase):
+    optional = False
+
+    @classmethod
+    def get_unique_id(cls) -> str:
+        return "tapir.coop.MandatoryMail"
+
+    @classmethod
+    def get_name(cls) -> str:
+        return "MandatoryMail"
+
+
+class TestMailSetting(TapirFactoryTestBase):
     def setUp(self):
         TapirEmailBase.register_email(OptionalNonDefaultMail)
 
     def test_userWantsToOrHasToReceiveMail_mailNotSubscribedTo_shouldNotReceiveMail(
         self,
     ):
+        assert OptionalNonDefaultMail.enabled_by_default == False
         tapir_user: TapirUser = TapirUserFactory.create()
         self.assertFalse(
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
@@ -43,23 +56,6 @@ class TestOptionalNotDefaultMail(TapirFactoryTestBase):
                 user=tapir_user
             )
         )
-
-    def test_userWantsToOrHasToReceiveMail_NotSubscribedTo_shouldNotReceiveMail(
-        self,
-    ):
-        OptionalNonDefaultMail.enabled_by_default = False
-        tapir_user: TapirUser = TapirUserFactory.create()
-
-        self.assertFalse(
-            OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
-                user=tapir_user
-            )
-        )
-
-
-class TestMailSetting(TapirFactoryTestBase):
-    def setUp(self):
-        TapirEmailBase.register_email(OptionalNonDefaultMail)
 
     def enter_OptionalNonDefaultMail_to_forms(self, usr: TapirUser):
         post_data = {"optional_mails": [OptionalNonDefaultMail.get_unique_id()]}
@@ -137,23 +133,6 @@ class TestMailSetting(TapirFactoryTestBase):
                 user=tapir_user
             )
         )
-
-
-class MandatoryMail(TapirEmailBase):
-    optional = False
-
-    @classmethod
-    def get_unique_id(cls) -> str:
-        return "tapir.coop.MandatoryMail"
-
-    @classmethod
-    def get_name(cls) -> str:
-        return "MandatoryMail"
-
-
-class MandatoryMailsTest(TapirFactoryTestBase):
-    def setUp(self):
-        TapirEmailBase.register_email(MandatoryMail)
 
     def test_NormalUser_CannotUpdateNonOptionalMailSettings(self):
         tapir_user: TapirUser = TapirUserFactory.create()
