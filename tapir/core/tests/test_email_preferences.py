@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from tapir.accounts.models import TapirUser, OptionalMails
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.core.tapir_email_base import TapirEmailBase
@@ -76,7 +78,9 @@ class TestMailSetting(TapirFactoryTestBase):
             reverse("accounts:mail_settings", args=[tapir_user.pk]),
         )
 
-        self.assertEqual(403, response.status_code)
+        self.assertStatusCode(
+            response=response, expected_status_code=HTTPStatus.FORBIDDEN
+        )
 
     def test_NormalUser_CannotUpdateOtherUsersMailSettings(self):
         tapir_user = TapirUserFactory()
@@ -115,7 +119,7 @@ class TestMailSetting(TapirFactoryTestBase):
         response = self.send_request_add_OptionalNonDefaultMail_to_subscribed_mails(
             tapir_user
         )
-        self.assertEqual(200, response.status_code)
+        self.assertStatusCode(response=response, expected_status_code=HTTPStatus.OK)
 
         tapir_user.refresh_from_db()
         self.assertTrue(
@@ -131,7 +135,7 @@ class TestMailSetting(TapirFactoryTestBase):
         response = self.send_request_add_OptionalNonDefaultMail_to_subscribed_mails(
             usr=tapir_user
         )
-        self.assertEqual(200, response.status_code)
+        self.assertStatusCode(response=response, expected_status_code=HTTPStatus.OK)
 
         tapir_user.refresh_from_db()
         self.assertTrue(
