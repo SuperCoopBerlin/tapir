@@ -5,10 +5,11 @@ from django.forms import TextInput, CheckboxSelectMultiple
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
-from tapir.accounts.models import TapirUser, OptionalMails
+from tapir.accounts.models import TapirUser
 from tapir.core.tapir_email_base import (
     get_mail_classes,
     OptionalMailService,
+    MailOption,
 )
 from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
@@ -124,10 +125,7 @@ class OptionalMailsForm(forms.Form):
         label=_("Important Mails"),
         widget=CheckboxSelectMultiple(),
         disabled=True,
-        initial=[
-            m.get_unique_id()
-            for m in get_mail_classes(enabled_by_default="both", optional=False)
-        ],
+        initial=[m.get_unique_id() for m in get_mail_classes(MailOption.MANDATORY)],
     )
 
     def __init__(self, *args, **kwargs):

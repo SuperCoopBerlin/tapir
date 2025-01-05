@@ -19,6 +19,7 @@ from tapir.core.config import help_text_displayed_name
 from tapir.core.tapir_email_base import (
     get_mail_classes,
     OptionalMailService,
+    MailOption,
 )
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import (
@@ -250,7 +251,7 @@ class TapirUser(AbstractUser):
         )
         other_optional_mails = [
             mail_class.get_unique_id()
-            for mail_class in get_mail_classes(optional=True)
+            for mail_class in get_mail_classes(MailOption.OPTIONAL_ENABLED)
             if mail_class.get_unique_id() not in user_mails_not_wanted
         ]
 

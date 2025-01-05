@@ -2,15 +2,14 @@ from http import HTTPStatus
 
 from tapir.accounts.models import TapirUser, OptionalMails
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_base import MailOption, TapirEmailBase
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 from django.urls import reverse
 
 
 class OptionalNonDefaultMail(TapirEmailBase):
-    optional = True
-    enabled_by_default = False
+    option = MailOption.OPTIONAL_DISABLED
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -22,7 +21,7 @@ class OptionalNonDefaultMail(TapirEmailBase):
 
 
 class MandatoryMail(TapirEmailBase):
-    optional = False
+    option = MailOption.MANDATORY
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -36,11 +35,12 @@ class MandatoryMail(TapirEmailBase):
 class TestMailSetting(TapirFactoryTestBase):
     def setUp(self):
         TapirEmailBase.register_email(OptionalNonDefaultMail)
+        TapirEmailBase.register_email(MandatoryMail)
 
     def test_userWantsToOrHasToReceiveMail_mailNotSubscribedTo_shouldNotReceiveMail(
         self,
     ):
-        assert OptionalNonDefaultMail.enabled_by_default == False
+        assert OptionalNonDefaultMail.option == MailOption.OPTIONAL_DISABLED
         tapir_user: TapirUser = TapirUserFactory.create()
         self.assertFalse(
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from enum import Enum
 from typing import List, Type, TYPE_CHECKING, Dict, Tuple, Literal
 from warnings import deprecated
 
@@ -11,18 +12,35 @@ from tapir import settings
 
 if TYPE_CHECKING:
     # ignore at runtime to avoid circular import
-    from tapir.accounts.models import TapirUser, OptionalMails
+    from tapir.accounts.models import TapirUser
     from tapir.coop.models import ShareOwner
 from tapir.log.models import EmailLogEntry
 
 all_emails: Dict[str, Type[TapirEmailBase]] = {}
 
-MAIL_OPTIONS_ = Literal[True, False, "both"]
+
+class MailOption(Enum):
+    OPTIONAL_ENABLED = "optional and enabled by default"
+    OPTIONAL_DISABLED = "optional and disabled by default"
+    MANDATORY = "mandatory"
+
+    def is_optional(self) -> bool:
+        return self in {MailOption.OPTIONAL_ENABLED, MailOption.OPTIONAL_DISABLED}
+
+    @staticmethod
+    def get_optional_options() -> list:
+        return [MailOption.OPTIONAL_ENABLED, MailOption.OPTIONAL_DISABLED]
+
+    @staticmethod
+    def get_all_options() -> list:
+        return list(MailOption)
+
+    def __str__(self):
+        return f"This Mail is {self.name}"
 
 
 def get_mail_classes(
-    enabled_by_default: MAIL_OPTIONS_ = True,
-    optional: MAIL_OPTIONS_ = True,
+    mail_option: MailOption | List[MailOption] = None,
     mail_classes: List[Type[TapirEmailBase]] = None,
 ) -> List[Type[TapirEmailBase]]:
     """
@@ -32,13 +50,10 @@ def get_mail_classes(
     if mail_classes is None:
         mail_classes = TapirEmailBase.__subclasses__()
 
-    def filter_mail(mail):
-        return (
-            enabled_by_default == "both"
-            or mail.enabled_by_default is enabled_by_default
-        ) and (optional == "both" or mail.optional is optional)
+    if isinstance(mail_option, list):
+        return [mail for mail in mail_classes if mail.option in mail_option]
 
-    return [mail for mail in mail_classes if filter_mail(mail)]
+    return [mail for mail in mail_classes if mail.option == mail_option]
 
 
 @deprecated("Use OptionalMailService.get_optional_mail_choices() instead.")
@@ -48,8 +63,7 @@ def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
 
 
 class TapirEmailBase:
-    enabled_by_default = True  # mails are opt-out by default
-    optional = False  # mails are mandatory by default
+    option: MailOption = MailOption.MANDATORY
 
     class Meta:
         abstract = True
@@ -140,7 +154,10 @@ class TapirEmailBase:
             self.get_unique_id() in user.get_optional_mail_ids_user_will_receive()
         ) or (
             self.get_unique_id()
-            in [x.get_unique_id() for x in get_mail_classes(optional=False)]
+            in [
+                mail_class.get_unique_id()
+                for mail_class in get_mail_classes(MailOption.MANDATORY)
+            ]
         )
 
     def send_to_tapir_user(self, actor: TapirUser | User | None, recipient: TapirUser):
@@ -218,7 +235,7 @@ class OptionalMailService:
         # this has to be a function so that choices has a callable and is refreshed whenever the form is called
         return [
             (mail.get_unique_id(), mail.get_name())
-            for mail in get_mail_classes(optional=True, enabled_by_default="both")
+            for mail in get_mail_classes(mail_option=MailOption.get_optional_options())
         ]
 
     @staticmethod
@@ -226,5 +243,5 @@ class OptionalMailService:
         # this has to be a function so that choices has a callable and is refreshed whenever the form is called
         return [
             (mail.get_unique_id(), mail.get_name())
-            for mail in get_mail_classes(enabled_by_default="both", optional=False)
+            for mail in get_mail_classes(mail_option=MailOption.MANDATORY)
         ]

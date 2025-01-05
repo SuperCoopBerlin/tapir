@@ -3,14 +3,13 @@ from typing import List
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_base import TapirEmailBase, MailOption
 from tapir.shifts import config
 from tapir.shifts.models import Shift
 
 
 class ShiftReminderEmail(TapirEmailBase):
-    optional = True
-    enabled_by_default = True
+    option = MailOption.OPTIONAL_ENABLED
 
     def __init__(self, shift):
         super().__init__()
