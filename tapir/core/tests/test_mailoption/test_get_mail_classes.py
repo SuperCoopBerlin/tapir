@@ -51,35 +51,35 @@ class TestGetMailClass(SimpleTestCase):
             mail_option=MailOption.get_all_options(),
             mail_classes=TapirEmailBase.__subclasses__(),
         )
-        assert result == [MailClassA, MailClassB, MailClassC]
+        self.assertEqual(result, [MailClassA, MailClassB, MailClassC])
 
     def test_getMailClass_enabled_by_default_true(self):
         result = get_mail_classes(
             mail_option=MailOption.OPTIONAL_ENABLED,
             mail_classes=TapirEmailBase.__subclasses__(),
         )
-        assert result == [MailClassC]
+        self.assertEqual(result, [MailClassC])
 
     def test_getMailClass_enabled_by_default_false(self):
         result = get_mail_classes(
             mail_option=MailOption.OPTIONAL_DISABLED,
             mail_classes=TapirEmailBase.__subclasses__(),
         )
-        assert result == [MailClassB]
+        self.assertEqual(result, [MailClassB])
 
     def test_getMailClass_optional_true(self):
         result = get_mail_classes(
             mail_option=MailOption.get_optional_options(),
             mail_classes=TapirEmailBase.__subclasses__(),
         )
-        assert result == [MailClassB, MailClassC]
+        self.assertEqual(result, [MailClassB, MailClassC])
 
     def test_getMailClass_optional_false(self):
         result = get_mail_classes(
             mail_option=MailOption.MANDATORY,
             mail_classes=TapirEmailBase.__subclasses__(),
         )
-        assert result == [MailClassA]
+        self.assertEqual(result, [MailClassA])
 
 
 # Führe die Tests aus
