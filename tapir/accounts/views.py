@@ -396,6 +396,7 @@ class MailSettingsView(
     def get_success_url(self):
         return self.get_tapir_user().get_absolute_url()
 
+    @transaction.atomic
     def form_valid(self, form):
         o = OptionalMails.objects.filter(user=self.get_tapir_user())
         o.delete()
