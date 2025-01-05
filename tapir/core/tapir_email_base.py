@@ -56,12 +56,6 @@ def get_mail_classes(
     return [mail for mail in mail_classes if mail.option == mail_option]
 
 
-@deprecated("Use OptionalMailService.get_optional_mail_choices() instead.")
-def mails_not_mandatory(default: bool | None = True) -> List[Tuple[str, str]]:
-    # Kept for migration.
-    return OptionalMailService.get_optional_mail_choices()
-
-
 class TapirEmailBase:
     option: MailOption = MailOption.MANDATORY
 
