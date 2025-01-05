@@ -152,13 +152,7 @@ class TapirEmailBase:
     def user_wants_to_or_has_to_receive_mail(self, user: TapirUser):
         return (
             self.get_unique_id() in user.get_optional_mail_ids_user_will_receive()
-        ) or (
-            self.get_unique_id()
-            in [
-                mail_class.get_unique_id()
-                for mail_class in get_mail_classes(MailOption.MANDATORY)
-            ]
-        )
+        ) or (self.option == MailOption.MANDATORY)
 
     def send_to_tapir_user(self, actor: TapirUser | User | None, recipient: TapirUser):
         if not self.user_wants_to_or_has_to_receive_mail(user=recipient):
