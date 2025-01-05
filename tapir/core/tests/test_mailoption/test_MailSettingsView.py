@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from tapir.accounts.models import TapirUser, OptionalMails
+from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.core.tapir_email_base import MailOption, TapirEmailBase
 from tapir.utils.tests_utils import TapirFactoryTestBase

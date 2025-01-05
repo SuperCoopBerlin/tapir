@@ -6,9 +6,9 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.accounts.models import TapirUser
+from tapir.core.services.optional_mail_service import OptionalMailService
 from tapir.core.tapir_email_base import (
     get_mail_classes,
-    OptionalMailService,
     MailOption,
 )
 from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND

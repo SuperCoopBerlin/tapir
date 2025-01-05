@@ -16,9 +16,9 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils, settings
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
+from tapir.core.services.optional_mail_service import OptionalMailService
 from tapir.core.tapir_email_base import (
     get_mail_classes,
-    OptionalMailService,
     MailOption,
 )
 from tapir.log.models import UpdateModelLogEntry
