@@ -37,11 +37,11 @@ def setup_mails():
     TapirEmailBase.register_email(MandatoryMail)
 
 
-class TestMailSetting(TapirFactoryTestBase):
+class TestMailSettingView(TapirFactoryTestBase):
     def setUp(self):
         setup_mails()
 
-    def test_NormalUser_UpdateOwnMailSetting_returnsTrue(self):
+    def test_permission_NormalUser_canUpdateOwnMailSetting(self):
         tapir_user = TapirUserFactory()
         self.login_as_user(tapir_user)
 
@@ -63,7 +63,7 @@ class TestMailSetting(TapirFactoryTestBase):
             )
         )
 
-    def test_MemberOffice_canUpdateOtherUsersMailSettings_returnsTrue(self):
+    def test_permissions_MemberOffice_canUpdateOtherUsersMailSettings(self):
         tapir_user = TapirUserFactory()
         self.login_as_member_office_user()
 
@@ -90,7 +90,7 @@ class TestMailSetting(TapirFactoryTestBase):
         )
         return response
 
-    def test_normalUser_CannotAccessOtherUsersMailSettings(self):
+    def test_permissions_normalUser_cannotAccessOtherUsersMailSettings(self):
         tapir_user = TapirUserFactory()
         actor = TapirUserFactory()
         self.login_as_user(actor)
@@ -102,7 +102,7 @@ class TestMailSetting(TapirFactoryTestBase):
             response=response, expected_status_code=HTTPStatus.FORBIDDEN
         )
 
-    def test_NormalUser_CannotUpdateOtherUsersMailSettings(self):
+    def test_permissions_NormalUser_CannotUpdateOtherUsersMailSettings(self):
         tapir_user = TapirUserFactory()
         self.assertFalse(
             OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
@@ -118,10 +118,10 @@ class TestMailSetting(TapirFactoryTestBase):
             )
         )
 
-    def test_NormalUser_AccessOwnMailSettings_returnsStatus200(self):
+    def test_permissions_NormalUser_canAccessOwnMailSettings(self):
         tapir_user = TapirUserFactory()
         self.login_as_user(tapir_user)
         response = self.client.get(
             reverse("accounts:mail_settings", args=[tapir_user.pk]),
         )
-        self.assertTrue(200, response.status_code)
+        self.assertStatusCode(response=response, expected_status_code=HTTPStatus.OK)
