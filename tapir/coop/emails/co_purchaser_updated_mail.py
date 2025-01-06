@@ -4,11 +4,11 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.settings import EMAIL_ADDRESS_MEMBER_OFFICE
 
 
-class CoPurchaserUpdatedMail(TapirEmailBase):
+class CoPurchaserUpdatedMail(TapirEmailBuilderBase):
     def __init__(self, tapir_user: TapirUser):
         super().__init__()
         self.tapir_user = tapir_user
@@ -42,7 +42,7 @@ class CoPurchaserUpdatedMail(TapirEmailBase):
         return {"EMAIL_ADDRESS_MEMBER_OFFICE": EMAIL_ADDRESS_MEMBER_OFFICE}
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase | None:
+    def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
         tapir_user = (
             TapirUser.objects.filter(share_owner__isnull=False)
             .exclude(co_purchaser="")

@@ -4,11 +4,11 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.models import Shift
 
 
-class StandInFoundEmail(TapirEmailBase):
+class StandInFoundEmailBuilder(TapirEmailBuilderBase):
 
     def __init__(self, shift):
         super().__init__()
@@ -47,7 +47,7 @@ class StandInFoundEmail(TapirEmailBase):
         }
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase | None:
+    def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
         share_owner = (
             ShareOwner.objects.filter(user__isnull=False).order_by("?").first()
         )

@@ -3,11 +3,11 @@ from typing import List
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts import config
 
 
-class FlyingMemberRegistrationReminderEmail(TapirEmailBase):
+class FlyingMemberRegistrationReminderEmailBuilder(TapirEmailBuilderBase):
     @classmethod
     def get_unique_id(cls) -> str:
         return "tapir.shifts.flying_member_registration_reminder_email"
@@ -36,7 +36,7 @@ class FlyingMemberRegistrationReminderEmail(TapirEmailBase):
         ]
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase | None:
+    def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
         share_owner = (
             ShareOwner.objects.filter(user__isnull=False).order_by("?").first()
         )

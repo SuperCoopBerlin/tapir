@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir import settings
 from tapir.coop.config import URL_MEMBER_MANUAL
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.config import (
     FREEZE_THRESHOLD,
     FREEZE_AFTER_DAYS,
@@ -13,7 +13,7 @@ from tapir.shifts.config import (
 )
 
 
-class MemberFrozenEmail(TapirEmailBase):
+class MemberFrozenEmailBuilder(TapirEmailBuilderBase):
     @classmethod
     def get_unique_id(cls) -> str:
         return "tapir.shifts.member_frozen"
@@ -48,7 +48,7 @@ class MemberFrozenEmail(TapirEmailBase):
         }
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase | None:
+    def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
         share_owner = (
             ShareOwner.objects.filter(user__isnull=False).order_by("?").first()
         )

@@ -4,7 +4,9 @@ from django.urls import reverse
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
-from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
+from tapir.coop.emails.tapir_account_created_email import (
+    TapirAccountCreatedEmailBuilder,
+)
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
@@ -102,7 +104,7 @@ class TestsShareOwnerToTapirUser(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEqual(len(mail.outbox), 1)
         sent_mail = mail.outbox[0]
         self.assertEmailOfClass_GotSentTo(
-            TapirAccountCreatedEmail, user_email_address, sent_mail
+            TapirAccountCreatedEmailBuilder, user_email_address, sent_mail
         )
         self.assertIn(
             TapirUser.objects.all().last().username,

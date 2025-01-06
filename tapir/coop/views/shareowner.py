@@ -32,15 +32,17 @@ from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE, on_welcome_session_attendance_update
 from tapir.coop.emails.extra_shares_confirmation_email import (
-    ExtraSharesConfirmationEmail,
+    ExtraSharesConfirmationEmailBuilder,
 )
 from tapir.coop.emails.membership_confirmation_email_for_active_member import (
-    MembershipConfirmationForActiveMemberEmail,
+    MembershipConfirmationForActiveMemberEmailBuilder,
 )
 from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
-    MembershipConfirmationForInvestingMemberEmail,
+    MembershipConfirmationForInvestingMemberEmailBuilder,
 )
-from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
+from tapir.coop.emails.tapir_account_created_email import (
+    TapirAccountCreatedEmailBuilder,
+)
 from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
@@ -60,6 +62,7 @@ from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
@@ -187,10 +190,12 @@ class ShareOwnershipCreateMultipleView(
                 date=timezone.now().date(),
             )
 
-        email = ExtraSharesConfirmationEmail(
+        email_builder = ExtraSharesConfirmationEmailBuilder(
             num_shares=form.cleaned_data["num_shares"], share_owner=share_owner
         )
-        email.send_to_share_owner(actor=self.request.user, recipient=share_owner)
+        SendMailService.send_to_share_owner(
+            actor=self.request.user, recipient=share_owner, email_builder=email_builder
+        )
 
         return super().form_valid(form)
 
@@ -343,8 +348,10 @@ class CreateUserFromShareOwnerView(
                 user=tapir_user, share_owner=None
             )
         tapir_user.refresh_from_db()
-        email = TapirAccountCreatedEmail(tapir_user=tapir_user)
-        email.send_to_tapir_user(actor=self.request.user, recipient=tapir_user)
+        email_builder = TapirAccountCreatedEmailBuilder(tapir_user=tapir_user)
+        SendMailService.send_to_tapir_user(
+            actor=self.request.user, recipient=tapir_user, email_builder=email_builder
+        )
         return response
 
 
@@ -355,12 +362,14 @@ class CreateUserFromShareOwnerView(
 def send_shareowner_membership_confirmation_welcome_email(request, pk):
     share_owner = get_object_or_404(ShareOwner, pk=pk)
 
-    email = (
-        MembershipConfirmationForInvestingMemberEmail
+    email_builder = (
+        MembershipConfirmationForInvestingMemberEmailBuilder
         if share_owner.is_investing
-        else MembershipConfirmationForActiveMemberEmail
+        else MembershipConfirmationForActiveMemberEmailBuilder
     )(share_owner=share_owner)
-    email.send_to_share_owner(actor=request.user, recipient=share_owner)
+    SendMailService.send_to_share_owner(
+        actor=request.user, recipient=share_owner, email_builder=email_builder
+    )
 
     messages.info(request, _("Membership confirmation email sent."))
 

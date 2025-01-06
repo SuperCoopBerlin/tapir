@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.html import strip_tags
 
 from tapir.coop.emails.extra_shares_confirmation_email import (
-    ExtraSharesConfirmationEmail,
+    ExtraSharesConfirmationEmailBuilder,
 )
 from tapir.coop.models import (
     CreateShareOwnershipsLogEntry,
@@ -107,7 +107,7 @@ class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEqual(len(mail.outbox), 1)
         sent_mail = mail.outbox[0]
         self.assertEmailOfClass_GotSentTo(
-            ExtraSharesConfirmationEmail, email_address, sent_mail
+            ExtraSharesConfirmationEmailBuilder, email_address, sent_mail
         )
 
         self.assertEqual(1, len(sent_mail.attachments))

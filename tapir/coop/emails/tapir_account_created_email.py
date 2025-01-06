@@ -8,10 +8,10 @@ from django.utils.translation import gettext_lazy as _
 from tapir import settings
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 
 
-class TapirAccountCreatedEmail(TapirEmailBase):
+class TapirAccountCreatedEmailBuilder(TapirEmailBuilderBase):
     def __init__(self, tapir_user: TapirUser):
         super().__init__()
         self.tapir_user = tapir_user
@@ -46,7 +46,7 @@ class TapirAccountCreatedEmail(TapirEmailBase):
         }
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase | None:
+    def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
         share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
         mail = cls(tapir_user=share_owner.user)
         mail.get_full_context(

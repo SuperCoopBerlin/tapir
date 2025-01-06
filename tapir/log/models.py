@@ -140,7 +140,7 @@ class EmailLogEntry(LogEntry):
 
     def get_name(self) -> str:
         # Must import locally to avoid import loop.
-        from tapir.core.tapir_email_base import all_emails
+        from tapir.core.tapir_email_builder_base import all_emails
 
         if self.email_id is not None and self.email_id in all_emails.keys():
             return all_emails[self.email_id].get_name()

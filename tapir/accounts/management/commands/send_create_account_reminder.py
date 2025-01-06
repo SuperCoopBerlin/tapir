@@ -6,9 +6,10 @@ from django.db import transaction
 from django.utils import timezone
 
 from tapir.accounts.emails.create_account_reminder_email import (
-    CreateAccountReminderEmail,
+    CreateAccountReminderEmailBuilder,
 )
 from tapir.coop.models import ShareOwner
+from tapir.core.services.send_mail_service import SendMailService
 
 
 class Command(BaseCommand):
@@ -27,8 +28,10 @@ class Command(BaseCommand):
     @staticmethod
     def send_create_account_reminder_for_user(share_owner: ShareOwner):
         with transaction.atomic():
-            mail = CreateAccountReminderEmail(share_owner)
-            mail.send_to_share_owner(actor=None, recipient=share_owner)
+            email_builder = CreateAccountReminderEmailBuilder(share_owner)
+            SendMailService.send_to_share_owner(
+                actor=None, recipient=share_owner, email_builder=email_builder
+            )
             share_owner.create_account_reminder_email_sent = True
             share_owner.save()
         time.sleep(0.1)

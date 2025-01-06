@@ -1,4 +1,4 @@
-from tapir.core.tapir_email_base import MailOption
+from tapir.core.mail_option import MailOption
 
 
 class TestMailOptions:

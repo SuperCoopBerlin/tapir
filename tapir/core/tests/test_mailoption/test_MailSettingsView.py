@@ -1,14 +1,18 @@
 from http import HTTPStatus
 
-from tapir.accounts.models import TapirUser
-from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.core.tapir_email_base import MailOption, TapirEmailBase
-from tapir.utils.tests_utils import TapirFactoryTestBase
-
 from django.urls import reverse
 
+from tapir.accounts.models import TapirUser
+from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.core.mail_option import MailOption
+from tapir.core.services.optional_mails_for_user_service import (
+    OptionalMailsForUserService,
+)
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
-class OptionalNonDefaultMail(TapirEmailBase):
+
+class OptionalNonDefaultMail(TapirEmailBuilderBase):
     option = MailOption.OPTIONAL_DISABLED
 
     @classmethod
@@ -20,7 +24,7 @@ class OptionalNonDefaultMail(TapirEmailBase):
         return "OptionalNonDefaultMail"
 
 
-class MandatoryMail(TapirEmailBase):
+class MandatoryMail(TapirEmailBuilderBase):
     option = MailOption.MANDATORY
 
     @classmethod
@@ -33,8 +37,8 @@ class MandatoryMail(TapirEmailBase):
 
 
 def setup_mails():
-    TapirEmailBase.register_email(OptionalNonDefaultMail)
-    TapirEmailBase.register_email(MandatoryMail)
+    TapirEmailBuilderBase.register_email(OptionalNonDefaultMail)
+    TapirEmailBuilderBase.register_email(MandatoryMail)
 
 
 class TestMailSettingView(TapirFactoryTestBase):
@@ -46,8 +50,8 @@ class TestMailSettingView(TapirFactoryTestBase):
         self.login_as_user(tapir_user)
 
         self.assertFalse(
-            OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
-                user=tapir_user
+            OptionalMailsForUserService.user_wants_to_or_has_to_receive_mail(
+                user=tapir_user, mail_class=OptionalNonDefaultMail
             )
         )
 
@@ -58,8 +62,8 @@ class TestMailSettingView(TapirFactoryTestBase):
 
         tapir_user.refresh_from_db()
         self.assertTrue(
-            OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
-                user=tapir_user
+            OptionalMailsForUserService.user_wants_to_or_has_to_receive_mail(
+                user=tapir_user, mail_class=OptionalNonDefaultMail
             )
         )
 
@@ -74,8 +78,8 @@ class TestMailSettingView(TapirFactoryTestBase):
 
         tapir_user.refresh_from_db()
         self.assertTrue(
-            OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
-                user=tapir_user
+            OptionalMailsForUserService.user_wants_to_or_has_to_receive_mail(
+                user=tapir_user, mail_class=OptionalNonDefaultMail
             )
         )
 
@@ -105,16 +109,16 @@ class TestMailSettingView(TapirFactoryTestBase):
     def test_permissions_NormalUser_CannotUpdateOtherUsersMailSettings(self):
         tapir_user = TapirUserFactory()
         self.assertFalse(
-            OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
-                user=tapir_user
+            OptionalMailsForUserService.user_wants_to_or_has_to_receive_mail(
+                user=tapir_user, mail_class=OptionalNonDefaultMail
             )
         )
 
         self.login_as_user(TapirUserFactory())
         self.send_request_add_OptionalNonDefaultMail_to_subscribed_mails(tapir_user)
         self.assertFalse(
-            OptionalNonDefaultMail().user_wants_to_or_has_to_receive_mail(
-                user=tapir_user
+            OptionalMailsForUserService.user_wants_to_or_has_to_receive_mail(
+                user=tapir_user, mail_class=OptionalNonDefaultMail
             )
         )
 

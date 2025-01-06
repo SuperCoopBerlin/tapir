@@ -1,7 +1,8 @@
 import pytest
 from django.test import SimpleTestCase
 
-from tapir.core.tapir_email_base import get_mail_classes, MailOption
+from tapir.core.mail_option import MailOption
+from tapir.core.services.mail_classes_service import MailClassesService
 
 
 class TapirEmailBase:
@@ -47,35 +48,35 @@ class MailClassC(TapirEmailBase):
 class TestGetMailClass(SimpleTestCase):
     # Tests
     def test_getMailClass_all(self):
-        result = get_mail_classes(
+        result = MailClassesService.get_mail_classes(
             mail_option=MailOption.get_all_options(),
             mail_classes=TapirEmailBase.__subclasses__(),
         )
         self.assertEqual(result, [MailClassA, MailClassB, MailClassC])
 
     def test_getMailClass_enabled_by_default_true(self):
-        result = get_mail_classes(
+        result = MailClassesService.get_mail_classes(
             mail_option=MailOption.OPTIONAL_ENABLED,
             mail_classes=TapirEmailBase.__subclasses__(),
         )
         self.assertEqual(result, [MailClassC])
 
     def test_getMailClass_enabled_by_default_false(self):
-        result = get_mail_classes(
+        result = MailClassesService.get_mail_classes(
             mail_option=MailOption.OPTIONAL_DISABLED,
             mail_classes=TapirEmailBase.__subclasses__(),
         )
         self.assertEqual(result, [MailClassB])
 
     def test_getMailClass_optional_true(self):
-        result = get_mail_classes(
+        result = MailClassesService.get_mail_classes(
             mail_option=MailOption.get_optional_options(),
             mail_classes=TapirEmailBase.__subclasses__(),
         )
         self.assertEqual(result, [MailClassB, MailClassC])
 
     def test_getMailClass_optional_false(self):
-        result = get_mail_classes(
+        result = MailClassesService.get_mail_classes(
             mail_option=MailOption.MANDATORY,
             mail_classes=TapirEmailBase.__subclasses__(),
         )

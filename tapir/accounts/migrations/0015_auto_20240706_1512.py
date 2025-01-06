@@ -3,7 +3,7 @@
 import django.contrib.postgres.fields
 from django.db import migrations, models
 
-import tapir.core.tapir_email_base
+import tapir.core.tapir_email_builder_base
 
 
 class Migration(migrations.Migration):

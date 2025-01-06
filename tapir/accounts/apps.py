@@ -9,9 +9,9 @@ class AccountsConfig(AppConfig):
 
     @staticmethod
     def register_emails():
-        from tapir.core.tapir_email_base import TapirEmailBase
+        from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
         from tapir.accounts.emails.create_account_reminder_email import (
-            CreateAccountReminderEmail,
+            CreateAccountReminderEmailBuilder,
         )
 
-        TapirEmailBase.register_email(CreateAccountReminderEmail)
+        TapirEmailBuilderBase.register_email(CreateAccountReminderEmailBuilder)

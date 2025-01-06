@@ -21,10 +21,10 @@ from django_tables2.export import ExportMixin
 from tapir.coop import pdfs
 from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.emails.membership_confirmation_email_for_active_member import (
-    MembershipConfirmationForActiveMemberEmail,
+    MembershipConfirmationForActiveMemberEmailBuilder,
 )
 from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
-    MembershipConfirmationForInvestingMemberEmail,
+    MembershipConfirmationForInvestingMemberEmailBuilder,
 )
 from tapir.coop.forms import (
     DraftUserForm,
@@ -39,6 +39,7 @@ from tapir.coop.models import (
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.models import copy_user_info
@@ -215,12 +216,14 @@ class CreateShareOwnerFromDraftUserView(
                 date=timezone.now().date(),
             )
 
-            email = (
-                MembershipConfirmationForInvestingMemberEmail
+            email_builder = (
+                MembershipConfirmationForInvestingMemberEmailBuilder
                 if share_owner.is_investing
-                else MembershipConfirmationForActiveMemberEmail
+                else MembershipConfirmationForActiveMemberEmailBuilder
             )(share_owner=share_owner)
-            email.send_to_share_owner(actor=request.user, recipient=share_owner)
+            SendMailService.send_to_share_owner(
+                actor=request.user, recipient=share_owner, email_builder=email_builder
+            )
 
         return super().get(request, args, kwargs)
 
