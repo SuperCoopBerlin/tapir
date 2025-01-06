@@ -44,14 +44,14 @@ class TestMembershipResignationCreateView(
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         mock_timezone_now(self, self.NOW)
 
-    def get_allowed_groups(self):
+    def permission_test_get_allowed_groups(self):
         return [
             settings.GROUP_VORSTAND,
             settings.GROUP_EMPLOYEES,
             settings.GROUP_MEMBER_OFFICE,
         ]
 
-    def do_request(self):
+    def permission_test_do_request(self):
         return self.client.get(reverse("coop:membership_resignation_create"))
 
     def test_membershipResignationCreateView_featureFlagDisabled_accessDenied(self):
