@@ -545,7 +545,6 @@ class Shift(models.Model):
     cancelled_reason = models.CharField(null=True, max_length=1000)
 
     NB_DAYS_FOR_SELF_UNREGISTER = 7
-    NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
 
     def __str__(self):
         display_name = "%s: %s %s-%s" % (
