@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-26 22:12+0100\n"
+"POT-Creation-Date: 2025-01-08 13:38+0100\n"
 "PO-Revision-Date: 2025-01-08 12:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -3709,6 +3709,7 @@ msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
 #: shifts/templates/shifts/shift_calendar_template.html:27
+#: shifts/templates/shifts/shift_template_overview.html:22
 msgid "Legend & Filters"
 msgstr "Legende & Filter"
 
@@ -3717,7 +3718,7 @@ msgid "starting"
 msgstr "beginnt"
 
 #: shifts/templates/shifts/shift_calendar_template.html:51
-#: shifts/templates/shifts/shift_template_overview.html:40
+#: shifts/templates/shifts/shift_template_overview.html:52
 msgid "Week "
 msgstr "Woche "
 
@@ -4069,15 +4070,15 @@ msgstr "ABCD-Wochenkalender"
 msgid "as pdf"
 msgstr "als pdf"
 
-#: shifts/templates/shifts/shift_template_overview.html:12
+#: shifts/templates/shifts/shift_template_overview.html:13
 msgid "ABCD week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
-#: shifts/templates/shifts/shift_template_overview.html:19
+#: shifts/templates/shifts/shift_template_overview.html:30
 msgid "ABCD schedule overview, current week: "
 msgstr "ABCD-Zeitplan Übersicht, laufende Woche: "
 
-#: shifts/templates/shifts/shift_template_overview.html:22
+#: shifts/templates/shifts/shift_template_overview.html:33
 msgid ""
 "\n"
 "                    <p>This is the ABCD shiftplan. It repeats every four weeks. That's why you see only weekdays\n"
@@ -4091,7 +4092,7 @@ msgstr ""
 "<p>Wenn du deine regelmäßige ABCD-Schicht ändern möchtest, wende dich bitte ans Mitgliederbüro.</p>\n"
 " "
 
-#: shifts/templates/shifts/shift_template_overview.html:35
+#: shifts/templates/shifts/shift_template_overview.html:47
 msgid "Calendar of ABCD shifts"
 msgstr "Kalender der ABCD-Schichten"
 
