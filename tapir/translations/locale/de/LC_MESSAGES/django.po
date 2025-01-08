@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-12-26 22:12+0100\n"
-"PO-Revision-Date: 2024-12-17 14:15+0100\n"
+"PO-Revision-Date: 2025-01-08 12:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -454,6 +454,7 @@ msgstr ""
 "                            Diese E-Mail enthält auch deinen Benutzernamen, falls du diesen vergessen hast. <br />\n"
 "                            Falls du deine E-Mail und Benuternamen vergessen hast, sende eine Nachricht an an Mitgliedsbüro : <a href=\"mailto:%(contact_member_office)s\">%(contact_member_office)s</a>, mit der Angabe deines vollen Namens und (falls bekannt) deiner Mitgliedsnummer.\n"
 "                        "
+
 #: accounts/templates/registration/password_reset_form.html:24
 msgid "Back to login form"
 msgstr "Zurück zum Login"
@@ -1918,6 +1919,7 @@ msgid ""
 msgstr ""
 "\n"
 "    Eine neue Mitgliedsschaftspause startet am %(start_date)s: %(description)s.\n"
+
 #: coop/templates/coop/log/create_payment_log_entry.html:2
 #, python-format
 msgid "New Payment: %(amount)s € on %(payment_date)s"
@@ -3004,7 +3006,7 @@ msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die 
 
 #: shifts/forms.py:536
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
-msgstr ""
+msgstr "Ich verstehe, dass die Aktualisierung dieser ABCD-Schicht alle entsprechenden zukünftigen Schichten aktualisiert"
 
 #: shifts/forms.py:557
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
@@ -4464,7 +4466,7 @@ msgstr "ABCD-Schicht erzeugen"
 
 #: shifts/views/management.py:155
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
-msgstr ""
+msgstr "Die Schichten werden jeden Tag um Mitternacht erstellt. Schau morgen wieder vorbei, um deine Schichten zu sehen!"
 
 #: shifts/views/management.py:226
 msgid "Shifts generated."
