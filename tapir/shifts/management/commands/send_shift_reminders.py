@@ -5,8 +5,9 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.utils import timezone
 
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts import config
-from tapir.shifts.emails.shift_reminder_email import ShiftReminderEmail
+from tapir.shifts.emails.shift_reminder_email import ShiftReminderEmailBuilder
 from tapir.shifts.models import ShiftUserData, ShiftAttendance
 
 
@@ -27,8 +28,10 @@ class Command(BaseCommand):
             reminder_email_sent=False,
         ):
             with transaction.atomic():
-                mail = ShiftReminderEmail(shift=attendance.slot.shift)
-                mail.send_to_tapir_user(actor=None, recipient=attendance.user)
+                email_builder = ShiftReminderEmailBuilder(shift=attendance.slot.shift)
+                SendMailService.send_to_tapir_user(
+                    actor=None, recipient=attendance.user, email_builder=email_builder
+                )
 
                 attendance.reminder_email_sent = True
                 attendance.save()

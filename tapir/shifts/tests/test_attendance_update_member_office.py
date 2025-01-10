@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.emails.shift_missed_email import ShiftMissedEmail
+from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
 from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
@@ -28,7 +28,7 @@ class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase, TapirEmailTestMixin
         self.do_test(ShiftAttendance.State.MISSED, -1)
         self.assertEqual(1, len(mail.outbox))
         self.assertEmailOfClass_GotSentTo(
-            ShiftMissedEmail, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+            ShiftMissedEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
 
     def test_update_from_missed_to_attended(self):

@@ -4,10 +4,10 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.coop.models import MembershipResignation
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 
 
-class MembershipResignationTransferredSharesConfirmation(TapirEmailBase):
+class MembershipResignationTransferredSharesConfirmation(TapirEmailBuilderBase):
     def __init__(self, member_resignation: MembershipResignation):
         super().__init__()
         self.member_resignation = member_resignation
@@ -44,7 +44,7 @@ class MembershipResignationTransferredSharesConfirmation(TapirEmailBase):
         }
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase | None:
+    def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
         member_resignation = (
             MembershipResignation.objects.filter(transferring_shares_to__isnull=False)
             .order_by("?")

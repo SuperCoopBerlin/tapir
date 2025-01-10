@@ -5,8 +5,11 @@ from django.views.generic import TemplateView, CreateView
 from django_tables2.views import SingleTableView
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
+from tapir.coop.emails.tapir_account_created_email import (
+    TapirAccountCreatedEmailBuilder,
+)
 from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE, PERMISSION_ACCOUNTS_MANAGE
 from tapir.utils.user_utils import UserUtils
@@ -49,8 +52,10 @@ class CreateGeneralTapirAccountView(
     def form_valid(self, form):
         response = super().form_valid(form)
         tapir_user = form.instance
-        email = TapirAccountCreatedEmail(tapir_user=tapir_user)
-        email.send_to_tapir_user(actor=self.request.user, recipient=tapir_user)
+        email_builder = TapirAccountCreatedEmailBuilder(tapir_user=tapir_user)
+        SendMailService.send_to_tapir_user(
+            actor=self.request.user, recipient=tapir_user, email_builder=email_builder
+        )
         return response
 
 

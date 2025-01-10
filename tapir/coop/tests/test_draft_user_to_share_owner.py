@@ -5,10 +5,10 @@ from django.utils import timezone
 
 from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.emails.membership_confirmation_email_for_active_member import (
-    MembershipConfirmationForActiveMemberEmail,
+    MembershipConfirmationForActiveMemberEmailBuilder,
 )
 from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
-    MembershipConfirmationForInvestingMemberEmail,
+    MembershipConfirmationForInvestingMemberEmailBuilder,
 )
 from tapir.coop.models import (
     ShareOwner,
@@ -132,7 +132,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestMixin):
         self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
         self.assertEqual(1, len(mail.outbox))
         self.assertEmailOfClass_GotSentTo(
-            MembershipConfirmationForActiveMemberEmail,
+            MembershipConfirmationForActiveMemberEmailBuilder,
             self.USER_EMAIL_ADDRESS,
             mail.outbox[0],
         )
@@ -151,7 +151,7 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestMixin):
         self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
         self.assertEqual(1, len(mail.outbox))
         self.assertEmailOfClass_GotSentTo(
-            MembershipConfirmationForInvestingMemberEmail,
+            MembershipConfirmationForInvestingMemberEmailBuilder,
             self.USER_EMAIL_ADDRESS,
             mail.outbox[0],
         )

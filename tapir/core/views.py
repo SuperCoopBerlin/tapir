@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView, ListView, UpdateView
 
 from tapir.core.models import FeatureFlag
-from tapir.core.tapir_email_base import all_emails, TapirEmailBase
+from tapir.core.tapir_email_builder_base import all_emails, TapirEmailBuilderBase
 from tapir.log.models import EmailLogEntry
 from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_ADMIN
 
@@ -31,7 +31,7 @@ class EmailListView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         view_context = super().get_context_data(**kwargs)
         emails_for_template = []
         for index, email in enumerate(all_emails.values()):
-            email: Type[TapirEmailBase]
+            email: Type[TapirEmailBuilderBase]
             dummy = email.get_dummy_version()
 
             example = (

@@ -1,5 +1,4 @@
 import logging
-from typing import List
 
 import ldap
 from django.contrib.auth.models import AbstractUser, UserManager, User
@@ -16,11 +15,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils, settings
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
-from tapir.core.services.optional_mail_service import OptionalMailService
-from tapir.core.tapir_email_base import (
-    get_mail_classes,
-    MailOption,
-)
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import (
     PERMISSIONS,
@@ -231,33 +225,6 @@ class TapirUser(AbstractUser):
             return False
         return True
 
-    def get_optional_mail_ids_user_will_receive(self) -> List[str]:
-        """
-        Mails which are either
-        A) optional but enabled by default or
-        B) optional, not enabled by default but still wanted by user
-
-        :return unique mail-ids from both lists
-        """
-        user_mails_wanted = list(
-            OptionalMails.objects.filter(user=self, choice=True).values_list(
-                "mail_id", flat=True
-            )
-        )
-        user_mails_not_wanted = list(
-            OptionalMails.objects.filter(user=self, choice=False).values_list(
-                "mail_id", flat=True
-            )
-        )
-        other_optional_mails = [
-            mail_class.get_unique_id()
-            for mail_class in get_mail_classes(MailOption.OPTIONAL_ENABLED)
-            if mail_class.get_unique_id() not in user_mails_not_wanted
-        ]
-
-        optional_mails = other_optional_mails + user_mails_wanted
-        return list(set(optional_mails))
-
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
     template_name = "accounts/log/update_tapir_user_log_entry.html"
@@ -290,6 +257,14 @@ def language_middleware(get_response):
     return middleware
 
 
+def get_optional_mail_choices_wrapper():
+    from tapir.core.services.optional_mail_choices_service import (
+        OptionalMailChoicesService,
+    )
+
+    return OptionalMailChoicesService.get_optional_mail_choices
+
+
 class OptionalMails(models.Model):
     user = models.ForeignKey(
         "accounts.TapirUser",
@@ -300,7 +275,7 @@ class OptionalMails(models.Model):
     mail_id = models.CharField(
         max_length=256,
         blank=False,
-        choices=OptionalMailService.get_optional_mail_choices,
+        choices=get_optional_mail_choices_wrapper,
     )
     choice = models.BooleanField()
 
