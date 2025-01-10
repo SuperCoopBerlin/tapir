@@ -33,6 +33,9 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftAttendanceMode,
 )
+from tapir.shifts.services.frozen_status_history_service import (
+    FrozenStatusHistoryService,
+)
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
@@ -96,6 +99,9 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         share_owners = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_datetime(
             share_owners, self.reference_time
         )
+        share_owners = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
+            share_owners, self.reference_time
+        )
 
         current_number_of_purchasing_members = len(
             [
@@ -152,6 +158,10 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
             .prefetch_related("user__share_owner")
             .prefetch_related("user__share_owner__share_ownerships")
             .prefetch_related("shift_exemptions")
+        )
+
+        shift_user_datas = FrozenStatusHistoryService.annotate_shift_user_data_queryset_with_is_frozen_at_datetime(
+            shift_user_datas, self.reference_time
         )
         share_owners = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
             ShareOwner.objects.all(), self.reference_date
