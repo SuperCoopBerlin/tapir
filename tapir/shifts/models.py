@@ -145,8 +145,15 @@ class ShiftTemplateGroup(models.Model):
 
 # Generate weekdays, 0 is Monday, 6 is Sunday
 WEEKDAY_CHOICES = [
-    (i, _(calendar.day_name[i])) for i in calendar.Calendar().iterweekdays()
-]
+    (i, _(calendar.day_name[i])) for i in (calendar.Calendar().iterweekdays())
+][0:6]
+
+MONTHWEEK_CHOICES = {
+    i.isocalendar()[1]: i.isocalendar()[1]
+    for i in calendar.Calendar().itermonthdates(
+        datetime.datetime.now().year, datetime.datetime.now().month
+    )
+}
 
 
 class ShiftTemplate(models.Model):
@@ -175,7 +182,12 @@ class ShiftTemplate(models.Model):
     num_required_attendances = models.PositiveIntegerField(
         null=False, blank=False, default=3
     )
-    weekday = models.IntegerField(blank=True, null=True, choices=WEEKDAY_CHOICES)
+    weekday = models.IntegerField(
+        _("Repeat in weekdays"), blank=True, null=True, choices=WEEKDAY_CHOICES
+    )
+    monthweek = models.IntegerField(
+        _("Repeat in calendar weeks"), blank=True, null=True, choices=MONTHWEEK_CHOICES
+    )
     start_time = models.TimeField(blank=False)
     end_time = models.TimeField(blank=False)
     start_date = models.DateField(

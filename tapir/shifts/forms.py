@@ -9,7 +9,7 @@ from django.forms import (
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -518,6 +518,7 @@ class ShiftTemplateForm(forms.ModelForm):
             "group",
             "num_required_attendances",
             "weekday",
+            "monthweek",
             "start_time",
             "end_time",
             "start_date",
@@ -529,6 +530,8 @@ class ShiftTemplateForm(forms.ModelForm):
             ),
             "end_time": forms.widgets.TimeInput(attrs={"type": "time"}, format="%H:%M"),
             "start_date": DateInputTapir(),
+            "weekday": Select2MultipleWidget(),
+            "monthweek": Select2MultipleWidget(),
         }
 
     check_update_future_shifts = BooleanField(
