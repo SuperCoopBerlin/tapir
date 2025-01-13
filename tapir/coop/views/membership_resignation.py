@@ -32,6 +32,7 @@ from tapir.coop.services.membership_resignation_service import (
 )
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.models import FeatureFlag
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.templatetags.core import tapir_button_link_to_action
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
@@ -268,22 +269,27 @@ class MembershipResignationCreateView(
             actor=self.request.user,
             model=membership_resignation,
         ).save()
-        email = MembershipResignationConfirmation(
+        email_builder_resignation_confirmation = MembershipResignationConfirmation(
             membership_resignation=membership_resignation
         )
-        email.send_to_share_owner(
-            actor=self.request.user, recipient=membership_resignation.share_owner
+        SendMailService.send_to_share_owner(
+            actor=self.request.user,
+            recipient=membership_resignation.share_owner,
+            email_builder=email_builder_resignation_confirmation,
         )
         if (
             membership_resignation.resignation_type
             == MembershipResignation.ResignationType.TRANSFER
         ):
-            email = MembershipResignationTransferredSharesConfirmation(
-                member_resignation=membership_resignation
+            email_builder_transfer_confirmation = (
+                MembershipResignationTransferredSharesConfirmation(
+                    member_resignation=membership_resignation
+                )
             )
-            email.send_to_share_owner(
+            SendMailService.send_to_share_owner(
                 actor=self.request.user,
                 recipient=membership_resignation.transferring_shares_to,
+                email_builder=email_builder_transfer_confirmation,
             )
 
         if (

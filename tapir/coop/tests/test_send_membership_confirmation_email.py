@@ -2,10 +2,10 @@ from django.core import mail
 from django.urls import reverse
 
 from tapir.coop.emails.membership_confirmation_email_for_active_member import (
-    MembershipConfirmationForActiveMemberEmail,
+    MembershipConfirmationForActiveMemberEmailBuilder,
 )
 from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
-    MembershipConfirmationForInvestingMemberEmail,
+    MembershipConfirmationForInvestingMemberEmailBuilder,
 )
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
@@ -49,7 +49,7 @@ class TestSendMembershipConfirmationEmail(TapirFactoryTestBase, TapirEmailTestMi
         self.assertEqual(1, len(mail.outbox))
         sent_mail = mail.outbox[0]
         self.assertEmailOfClass_GotSentTo(
-            MembershipConfirmationForActiveMemberEmail,
+            MembershipConfirmationForActiveMemberEmailBuilder,
             self.USER_EMAIL_ADDRESS,
             sent_mail,
         )
@@ -72,7 +72,7 @@ class TestSendMembershipConfirmationEmail(TapirFactoryTestBase, TapirEmailTestMi
         self.assertEqual(1, len(mail.outbox))
         sent_mail = mail.outbox[0]
         self.assertEmailOfClass_GotSentTo(
-            MembershipConfirmationForInvestingMemberEmail,
+            MembershipConfirmationForInvestingMemberEmailBuilder,
             self.USER_EMAIL_ADDRESS,
             sent_mail,
         )

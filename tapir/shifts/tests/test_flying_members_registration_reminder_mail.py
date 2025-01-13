@@ -8,7 +8,7 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.log.models import EmailLogEntry
 from tapir.shifts.config import FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER
 from tapir.shifts.emails.flying_member_registration_reminder_email import (
-    FlyingMemberRegistrationReminderEmail,
+    FlyingMemberRegistrationReminderEmailBuilder,
 )
 from tapir.shifts.management.commands.send_flying_member_registration_reminder_mails import (
     Command,
@@ -138,7 +138,9 @@ class TestAttendanceUpdateMemberOffice(
         )
         self.assertEqual(1, len(mail.outbox))
         self.assertEmailOfClass_GotSentTo(
-            FlyingMemberRegistrationReminderEmail, tapir_user.email, mail.outbox[0]
+            FlyingMemberRegistrationReminderEmailBuilder,
+            tapir_user.email,
+            mail.outbox[0],
         )
 
     @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
@@ -248,7 +250,7 @@ class TestAttendanceUpdateMemberOffice(
         date_after_the_cycle = cycle_start_date + datetime.timedelta(days=30)
         for date in [date_before_the_cycle, date_after_the_cycle]:
             entry = EmailLogEntry.objects.create(
-                email_id=FlyingMemberRegistrationReminderEmail.get_unique_id(),
+                email_id=FlyingMemberRegistrationReminderEmailBuilder.get_unique_id(),
                 user=tapir_user,
             )
             entry.created_date = date
@@ -267,7 +269,7 @@ class TestAttendanceUpdateMemberOffice(
         cycle_start_date = self.NOW.date()
 
         entry = EmailLogEntry.objects.create(
-            email_id=FlyingMemberRegistrationReminderEmail.get_unique_id(),
+            email_id=FlyingMemberRegistrationReminderEmailBuilder.get_unique_id(),
             user=tapir_user,
         )
         entry.created_date = cycle_start_date + datetime.timedelta(days=1)

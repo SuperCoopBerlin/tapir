@@ -2,7 +2,6 @@ import logging
 
 import ldap
 from django.contrib.auth.models import AbstractUser, UserManager, User
-from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.urls import reverse
 from django.utils import translation
@@ -16,7 +15,6 @@ from phonenumber_field.modelfields import PhoneNumberField
 from tapir import utils, settings
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
-from tapir.core.tapir_email_base import mails_not_mandatory
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import (
     PERMISSIONS,
@@ -76,15 +74,6 @@ class TapirUser(AbstractUser):
     co_purchaser = models.CharField(_("Co-Purchaser"), max_length=150, blank=True)
     allows_purchase_tracking = models.BooleanField(
         _("Allow purchase tracking"), blank=False, null=False, default=False
-    )
-    additional_mails = ArrayField(
-        models.CharField(
-            max_length=128,
-            blank=False,
-        ),
-        default=mails_not_mandatory,
-        blank=True,
-        null=False,
     )
     excluded_fields_for_logs = ["password"]
 
@@ -266,3 +255,33 @@ def language_middleware(get_response):
         return response
 
     return middleware
+
+
+def get_optional_mail_choices_wrapper():
+    from tapir.core.services.optional_mail_choices_service import (
+        OptionalMailChoicesService,
+    )
+
+    return OptionalMailChoicesService.get_optional_mail_choices
+
+
+class OptionalMails(models.Model):
+    user = models.ForeignKey(
+        "accounts.TapirUser",
+        null=False,
+        related_name="mail_setting",
+        on_delete=models.CASCADE,
+    )
+    mail_id = models.CharField(
+        max_length=256,
+        blank=False,
+        choices=get_optional_mail_choices_wrapper,
+    )
+    choice = models.BooleanField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "mail_id"], name="user-mail-constraint"
+            )
+        ]

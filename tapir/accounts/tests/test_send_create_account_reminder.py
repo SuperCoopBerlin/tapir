@@ -6,7 +6,7 @@ from django.core import mail
 from django.core.management import call_command
 
 from tapir.accounts.emails.create_account_reminder_email import (
-    CreateAccountReminderEmail,
+    CreateAccountReminderEmailBuilder,
 )
 from tapir.coop.models import ShareOwner, ShareOwnership
 from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
@@ -65,7 +65,7 @@ class TestCreateAccountReminderMail(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEqual(1, len(mail.outbox))
         sent_mail = mail.outbox[0]
         self.assertEmailOfClass_GotSentTo(
-            CreateAccountReminderEmail,
+            CreateAccountReminderEmailBuilder,
             share_owner.email,
             sent_mail,
         )

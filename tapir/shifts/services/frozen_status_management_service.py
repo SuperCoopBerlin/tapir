@@ -5,6 +5,7 @@ from django.db import transaction
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.log.models import EmailLogEntry
 from tapir.log.util import freeze_for_log
 from tapir.shifts.config import (
@@ -12,9 +13,11 @@ from tapir.shifts.config import (
     FREEZE_AFTER_DAYS,
     NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS,
 )
-from tapir.shifts.emails.freeze_warning_email import FreezeWarningEmail
-from tapir.shifts.emails.member_frozen_email import MemberFrozenEmail
-from tapir.shifts.emails.unfreeze_notification_email import UnfreezeNotificationEmail
+from tapir.shifts.emails.freeze_warning_email import FreezeWarningEmailBuilder
+from tapir.shifts.emails.member_frozen_email import MemberFrozenEmailBuilder
+from tapir.shifts.emails.unfreeze_notification_email import (
+    UnfreezeNotificationEmailBuilder,
+)
 from tapir.shifts.models import (
     ShiftUserData,
     UpdateShiftUserDataLogEntry,
@@ -95,8 +98,10 @@ class FrozenStatusManagementService:
                     comment="Unregistered because frozen",
                 ).save()
             attendance_templates_to_delete.delete()
-        email = MemberFrozenEmail()
-        email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
+        email_builder = MemberFrozenEmailBuilder()
+        SendMailService.send_to_tapir_user(
+            actor=actor, recipient=shift_user_data.user, email_builder=email_builder
+        )
 
     @staticmethod
     def _update_frozen_status_and_create_log_entry(
@@ -133,7 +138,7 @@ class FrozenStatusManagementService:
 
         last_warning = (
             EmailLogEntry.objects.filter(
-                email_id=FreezeWarningEmail.get_unique_id(),
+                email_id=FreezeWarningEmailBuilder.get_unique_id(),
                 user=shift_user_data.user,
             )
             .order_by("-created_date")
@@ -149,8 +154,10 @@ class FrozenStatusManagementService:
 
     @staticmethod
     def send_freeze_warning_email(shift_user_data: ShiftUserData):
-        email = FreezeWarningEmail(shift_user_data)
-        email.send_to_tapir_user(actor=None, recipient=shift_user_data.user)
+        email_builder = FreezeWarningEmailBuilder(shift_user_data)
+        SendMailService.send_to_tapir_user(
+            actor=None, recipient=shift_user_data.user, email_builder=email_builder
+        )
 
     @classmethod
     def should_unfreeze_member(cls, shift_user_data: ShiftUserData):
@@ -176,5 +183,7 @@ class FrozenStatusManagementService:
             actor=actor,
             is_frozen=False,
         )
-        email = UnfreezeNotificationEmail()
-        email.send_to_tapir_user(actor=actor, recipient=shift_user_data.user)
+        email_builder = UnfreezeNotificationEmailBuilder()
+        SendMailService.send_to_tapir_user(
+            actor=actor, recipient=shift_user_data.user, email_builder=email_builder
+        )

@@ -50,6 +50,11 @@ accounts_urlpatterns = [
         views.EditUsernameView.as_view(),
         name="edit_username",
     ),
+    path(
+        "user/<int:pk>/mail_settings",
+        views.MailSettingsView.as_view(),
+        name="mail_settings",
+    ),
 ]
 
 urlpatterns = [

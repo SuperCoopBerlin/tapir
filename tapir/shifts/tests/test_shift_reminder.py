@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.emails.shift_reminder_email import ShiftReminderEmail
+from tapir.shifts.emails.shift_reminder_email import ShiftReminderEmailBuilder
 from tapir.shifts.management.commands.send_shift_reminders import Command
 from tapir.shifts.models import ShiftAttendance, Shift
 from tapir.shifts.tests.factories import ShiftFactory
@@ -72,7 +72,7 @@ class TestShiftReminder(TapirFactoryTestBase, TapirEmailTestMixin):
             "A shift that is in the new future should get a reminder.",
         )
         self.assertEmailOfClass_GotSentTo(
-            ShiftReminderEmail, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+            ShiftReminderEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
         attendance.refresh_from_db()
         self.assertTrue(attendance.reminder_email_sent)

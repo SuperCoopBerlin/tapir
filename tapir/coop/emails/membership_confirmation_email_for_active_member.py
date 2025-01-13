@@ -8,11 +8,11 @@ from tapir.coop import pdfs
 from tapir.coop.models import ShareOwner
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.utils.user_utils import UserUtils
 
 
-class MembershipConfirmationForActiveMemberEmail(TapirEmailBase):
+class MembershipConfirmationForActiveMemberEmailBuilder(TapirEmailBuilderBase):
     def __init__(self, share_owner: ShareOwner):
         super().__init__()
         self.share_owner = share_owner
@@ -66,7 +66,7 @@ class MembershipConfirmationForActiveMemberEmail(TapirEmailBase):
         }
 
     @classmethod
-    def get_dummy_version(cls) -> TapirEmailBase:
+    def get_dummy_version(cls) -> TapirEmailBuilderBase:
         share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
         mail = cls(share_owner=share_owner)
         mail.get_full_context(

@@ -26,29 +26,29 @@ msgstr "Konto erstellen Erinnerung"
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
 msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt noch kein Konto erstellt haben."
 
-#: accounts/forms.py:19
-#, fuzzy
-#| msgid "List of all emails"
-msgid "Additional Emails"
-msgstr "Liste alle E-Mails"
-
-#: accounts/forms.py:25
-msgid "Mandatory Emails"
-msgstr "Wichtige Emails"
-
-#: accounts/forms.py:119
+#: accounts/forms.py:109
 msgid "This username is not available."
 msgstr "Dieser Benutzername ist nicht verfügbar"
 
-#: accounts/models.py:63
+#: accounts/forms.py:119
+#, fuzzy
+#| msgid "List of all emails"
+msgid "Optional Mails"
+msgstr "Optionale E-Mails"
+
+#: accounts/forms.py:126
+msgid "Important Mails"
+msgstr "Wichtige E-Mails"
+
+#: accounts/models.py:61
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:68 coop/models.py:70 coop/models.py:482
+#: accounts/models.py:66 coop/models.py:70 coop/models.py:482
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:67
+#: accounts/models.py:67 accounts/templates/accounts/user_detail.html:71
 #: coop/models.py:72 coop/models.py:484
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
@@ -56,48 +56,48 @@ msgstr "Pronomen"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:70 accounts/templates/accounts/user_detail.html:77
+#: accounts/models.py:68 accounts/templates/accounts/user_detail.html:81
 #: coop/models.py:73 coop/models.py:485
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:71 coop/models.py:74 coop/models.py:486
+#: accounts/models.py:69 coop/models.py:74 coop/models.py:486
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:72 coop/models.py:75 coop/models.py:487
+#: accounts/models.py:70 coop/models.py:75 coop/models.py:487
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:73 coop/models.py:76 coop/models.py:488
+#: accounts/models.py:71 coop/models.py:76 coop/models.py:488
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:74 coop/models.py:77 coop/models.py:489
+#: accounts/models.py:72 coop/models.py:77 coop/models.py:489
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:75 coop/models.py:78 coop/models.py:490
+#: accounts/models.py:73 coop/models.py:78 coop/models.py:490
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:76 accounts/templates/accounts/user_detail.html:111
+#: accounts/models.py:74 accounts/templates/accounts/user_detail.html:115
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:78
+#: accounts/models.py:76
 msgid "Allow purchase tracking"
 msgstr "Erlaube Aufzeichnen deiner Einkäufe"
 
-#: accounts/models.py:92 accounts/templates/accounts/user_detail.html:97
+#: accounts/models.py:81 accounts/templates/accounts/user_detail.html:101
 #: coop/models.py:81 coop/models.py:493
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:125 accounts/models.py:131
+#: accounts/models.py:114 accounts/models.py:120
 #: coop/views/membership_pause.py:74 shifts/views/exemptions.py:214
 msgid "None"
 msgstr "Keine"
@@ -218,7 +218,7 @@ msgstr ""
 "    Vergiss nicht, dich für deine erste Schicht bei SuperCoop anzumelden!\n"
 
 #: accounts/templates/accounts/ldap_group_list.html:7
-#: accounts/templates/accounts/user_detail.html:102
+#: accounts/templates/accounts/user_detail.html:106
 msgid "Groups"
 msgstr "Gruppen"
 
@@ -266,15 +266,21 @@ msgstr "Mitglied"
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
-#: accounts/templates/accounts/user_detail.html:32
+#: accounts/templates/accounts/user_detail.html:31
+#, fuzzy
+#| msgid "Emails"
+msgid "Mails"
+msgstr "E-Mails"
+
+#: accounts/templates/accounts/user_detail.html:36
 msgid "Edit groups"
 msgstr "Gruppen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:37
+#: accounts/templates/accounts/user_detail.html:41
 msgid "Edit username"
 msgstr "Benutzername bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:43
+#: accounts/templates/accounts/user_detail.html:47
 #: coop/templates/coop/draftuser_detail.html:242
 #: coop/templates/coop/membershipresignation_detail.html:107
 #: coop/templates/coop/shareowner_detail.html:30
@@ -289,14 +295,14 @@ msgstr "Benutzername bearbeiten"
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:48
+#: accounts/templates/accounts/user_detail.html:52
 msgid "Edit name and pronouns"
 msgstr "Name und Pronomen bearbeiten"
 
-#: accounts/templates/accounts/user_detail.html:55
+#: accounts/templates/accounts/user_detail.html:59
 #: coop/templates/coop/draftuser_detail.html:70
 #: coop/templates/coop/draftuser_detail.html:130
-#: coop/templates/coop/shareowner_detail.html:43 coop/views/draftuser.py:271
+#: coop/templates/coop/shareowner_detail.html:43 coop/views/draftuser.py:274
 #: core/templates/core/email_list.html:38
 #: core/templates/core/featureflag_list.html:18
 #: financingcampaign/templates/financingcampaign/general.html:25
@@ -304,21 +310,21 @@ msgstr "Name und Pronomen bearbeiten"
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:59
+#: accounts/templates/accounts/user_detail.html:63
 #: coop/templates/coop/draftuser_detail.html:134
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/templates/accounts/user_detail.html:63
+#: accounts/templates/accounts/user_detail.html:67
 #: coop/templates/coop/draftuser_detail.html:73
 #: coop/templates/coop/draftuser_detail.html:138
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:72
-#: accounts/templates/accounts/user_detail.html:82
-#: accounts/templates/accounts/user_detail.html:92
+#: accounts/templates/accounts/user_detail.html:76
+#: accounts/templates/accounts/user_detail.html:86
+#: accounts/templates/accounts/user_detail.html:96
 #: coop/templates/coop/draftuser_detail.html:161
 #: coop/templates/coop/shareowner_detail.html:60
 #: coop/templates/coop/shareowner_detail.html:70
@@ -328,22 +334,22 @@ msgstr "E-Mail-Adresse"
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:87
+#: accounts/templates/accounts/user_detail.html:91
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/draftuser_detail.html:156
 #: coop/templates/coop/shareowner_detail.html:65
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:106
+#: accounts/templates/accounts/user_detail.html:110
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:127
+#: accounts/templates/accounts/user_detail.html:131
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:135
+#: accounts/templates/accounts/user_detail.html:139
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -467,24 +473,29 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:99 accounts/views.py:104 coop/views/shareowner.py:264
-#: coop/views/shareowner.py:269
+#: accounts/views.py:107 accounts/views.py:112 coop/views/shareowner.py:269
+#: coop/views/shareowner.py:274
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:142
+#: accounts/views.py:152
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:187
+#: accounts/views.py:197
 msgid "You can only look at your own barcode unless you have member office rights"
 msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgliedsbüro-Rechte"
 
-#: accounts/views.py:270 accounts/views.py:275
+#: accounts/views.py:280 accounts/views.py:285
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr "Bearbeite Gruppen: %(name)s"
+
+#: accounts/views.py:379 accounts/views.py:384
+#, python-format
+msgid "Notification settings for %(name)s"
+msgstr "Benachrichtungseinstellungen für %(name)s"
 
 #: coop/apps.py:22 coop/apps.py:33 coop/templates/coop/shareowner_list.html:10
 msgid "Members"
@@ -887,8 +898,8 @@ msgstr "Löschen"
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:9
 #: coop/templates/coop/create_user_from_shareowner_form.html:19
-#: coop/templates/coop/shareowner_detail.html:36 coop/views/management.py:45
-#: coop/views/management.py:46
+#: coop/templates/coop/shareowner_detail.html:36 coop/views/management.py:48
+#: coop/views/management.py:49
 msgid "Create Tapir account"
 msgstr "Tapir-Konto erstellen"
 
@@ -947,7 +958,7 @@ msgstr "Liste alle E-Mails"
 #: coop/templates/coop/draftuser_detail.html:69
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:31
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:88
-#: coop/views/shareowner.py:586
+#: coop/views/shareowner.py:595
 #: shifts/templates/shifts/user_shifts_overview_tag.html:21
 msgid "Status"
 msgstr "Status"
@@ -1041,7 +1052,7 @@ msgid "Register"
 msgstr "Anmelden"
 
 #: coop/templates/coop/draftuser_register_form.html:27
-#: coop/views/draftuser.py:58 coop/views/draftuser.py:59
+#: coop/views/draftuser.py:59 coop/views/draftuser.py:60
 msgid "Create applicant"
 msgstr "Bewerber*in erstellen"
 
@@ -2025,7 +2036,7 @@ msgstr ""
 
 #: coop/templates/coop/membership_resignation_form.html:51
 #: coop/templates/coop/membership_resignation_form.html:56
-#: coop/views/membership_resignation.py:255
+#: coop/views/membership_resignation.py:256
 msgid "Resign a new membership"
 msgstr "Ein neues Mitglied kündigen"
 
@@ -2111,12 +2122,12 @@ msgid "Paid out"
 msgstr "Ausbezahlt"
 
 #: coop/templates/coop/membershipresignation_detail.html:82
-#: coop/views/draftuser.py:286
+#: coop/views/draftuser.py:289
 msgid "Yes"
 msgstr "Ja"
 
 #: coop/templates/coop/membershipresignation_detail.html:84
-#: coop/views/draftuser.py:286
+#: coop/views/draftuser.py:289
 msgid "No"
 msgstr "Nein"
 
@@ -2374,16 +2385,16 @@ msgstr "Mitgliedsbestätigung per Mail senden"
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
-#: coop/views/draftuser.py:89 coop/views/draftuser.py:94
+#: coop/views/draftuser.py:90 coop/views/draftuser.py:95
 #, python-format
 msgid "Edit applicant: %(name)s"
 msgstr "Bewerber*innen bearbeiten: %(name)s"
 
-#: coop/views/draftuser.py:198
+#: coop/views/draftuser.py:199
 msgid "Can't create member: "
 msgstr ""
 
-#: coop/views/draftuser.py:276 coop/views/draftuser.py:312
+#: coop/views/draftuser.py:279 coop/views/draftuser.py:315
 msgid "Member can be created"
 msgstr ""
 
@@ -2421,7 +2432,7 @@ msgstr "Zahldatum"
 msgid "Payment deleted"
 msgstr "Zahldatum"
 
-#: coop/views/management.py:39
+#: coop/views/management.py:42
 msgid "Required. Please insert a valid email address."
 msgstr ""
 
@@ -2434,107 +2445,107 @@ msgstr ""
 msgid "Edit membership pause: %(name)s"
 msgstr ""
 
-#: coop/views/membership_resignation.py:111
+#: coop/views/membership_resignation.py:112
 msgid "Share(s) gifted {chr(8594)} SuperCoop"
 msgstr ""
 
-#: coop/views/membership_resignation.py:117
+#: coop/views/membership_resignation.py:118
 #, fuzzy
 #| msgid "Shares requested"
 msgid "Share(s) gifted"
 msgstr "Angeforderte Anteile"
 
-#: coop/views/membership_resignation.py:137
+#: coop/views/membership_resignation.py:138
 #, fuzzy
 #| msgid "Search Members"
 msgid "Search member or ID"
 msgstr "Mitglieder suchen"
 
-#: coop/views/membership_resignation.py:143
+#: coop/views/membership_resignation.py:144
 #, fuzzy
 #| msgid "Cycle start date"
 msgid "Pay out start date"
 msgstr "Anfangsdatum"
 
-#: coop/views/membership_resignation.py:149
+#: coop/views/membership_resignation.py:150
 #, fuzzy
 #| msgid "without end date"
 msgid "Pay out end date"
 msgstr "ohne Endddatum"
 
-#: coop/views/membership_resignation.py:211
-#: coop/views/membership_resignation.py:216
+#: coop/views/membership_resignation.py:212
+#: coop/views/membership_resignation.py:217
 #, fuzzy, python-format
 #| msgid "Edit member: %(name)s"
 msgid "Cancel membership of %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:126 coop/views/shareowner.py:131
+#: coop/views/shareowner.py:129 coop/views/shareowner.py:134
 #, python-format
 msgid "Edit share: %(name)s"
 msgstr "Anteil bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:151 coop/views/shareowner.py:156
+#: coop/views/shareowner.py:154 coop/views/shareowner.py:159
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:365
+#: coop/views/shareowner.py:374
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:587 shifts/templates/shifts/shift_filters.html:45
+#: coop/views/shareowner.py:596 shifts/templates/shifts/shift_filters.html:45
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:592
+#: coop/views/shareowner.py:601
 #: shifts/templates/shifts/user_shifts_overview_tag.html:74
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:600
+#: coop/views/shareowner.py:609
 msgid "Is registered to an ABCD-slot that requires a qualification"
 msgstr "Ist für eine ABCD-Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:608
+#: coop/views/shareowner.py:617
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:616
+#: coop/views/shareowner.py:625
 msgid "Has qualification"
 msgstr "Hat Qualifikation"
 
-#: coop/views/shareowner.py:624
+#: coop/views/shareowner.py:633
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:631
+#: coop/views/shareowner.py:640
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:634
+#: coop/views/shareowner.py:643
 msgid "Has unpaid shares"
 msgstr "Hat unbezahlte Anteile"
 
-#: coop/views/shareowner.py:637
+#: coop/views/shareowner.py:646
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:640
+#: coop/views/shareowner.py:649
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:644
+#: coop/views/shareowner.py:653
 msgid "Is currently exempted from shifts"
 msgstr "Ist derzeit von der Schichtarbeit befreit"
 
-#: coop/views/shareowner.py:649
+#: coop/views/shareowner.py:658
 #, fuzzy
 #| msgid "Shift missed"
 msgid "Shift Name"
 msgstr "Schicht versäumt"
 
-#: coop/views/shareowner.py:927
+#: coop/views/shareowner.py:936
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
@@ -2911,20 +2922,20 @@ msgstr "Schicht versäumt"
 msgid "Sent to a member when the member office marks the shift as missed"
 msgstr ""
 
-#: shifts/emails/shift_reminder_email.py:22
+#: shifts/emails/shift_reminder_email.py:25
 msgid "Shift reminder"
 msgstr "Schicht-Erinnerung"
 
-#: shifts/emails/shift_reminder_email.py:27
+#: shifts/emails/shift_reminder_email.py:30
 #, python-brace-format
 msgid "Sent to a member {config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT} days before their shift"
 msgstr ""
 
-#: shifts/emails/stand_in_found_email.py:22
+#: shifts/emails/stand_in_found_email.py:23
 msgid "Stand-in found"
 msgstr "Vertretung gefunden"
 
-#: shifts/emails/stand_in_found_email.py:27
+#: shifts/emails/stand_in_found_email.py:28
 msgid "Sent to a member that was looking for a stand-inwhen the corresponding slot is taken over by another member."
 msgstr ""
 
@@ -4397,23 +4408,23 @@ msgstr "Allgemein"
 msgid "Unknown mode {attendance_mode}"
 msgstr ""
 
-#: shifts/views/attendance.py:194 shifts/views/attendance.py:336
+#: shifts/views/attendance.py:197 shifts/views/attendance.py:341
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:200 shifts/views/attendance.py:342
+#: shifts/views/attendance.py:203 shifts/views/attendance.py:347
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/attendance.py:376
+#: shifts/views/attendance.py:381
 #, fuzzy, python-format
 #| msgid "Shift attendance: %(name)s"
 msgid "ABCD attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:383
+#: shifts/views/attendance.py:388
 #, fuzzy, python-format
 #| msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"

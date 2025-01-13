@@ -57,18 +57,18 @@ class CoopConfig(AppConfig):
 
     @staticmethod
     def register_emails():
-        from tapir.core.tapir_email_base import TapirEmailBase
+        from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
         from tapir.coop.emails.extra_shares_confirmation_email import (
-            ExtraSharesConfirmationEmail,
+            ExtraSharesConfirmationEmailBuilder,
         )
         from tapir.coop.emails.membership_confirmation_email_for_active_member import (
-            MembershipConfirmationForActiveMemberEmail,
+            MembershipConfirmationForActiveMemberEmailBuilder,
         )
         from tapir.coop.emails.membership_confirmation_email_for_investing_member import (
-            MembershipConfirmationForInvestingMemberEmail,
+            MembershipConfirmationForInvestingMemberEmailBuilder,
         )
         from tapir.coop.emails.tapir_account_created_email import (
-            TapirAccountCreatedEmail,
+            TapirAccountCreatedEmailBuilder,
         )
         from tapir.coop.emails.co_purchaser_updated_mail import (
             CoPurchaserUpdatedMail,
@@ -80,12 +80,16 @@ class CoopConfig(AppConfig):
             MembershipResignationTransferredSharesConfirmation,
         )
 
-        TapirEmailBase.register_email(ExtraSharesConfirmationEmail)
-        TapirEmailBase.register_email(MembershipConfirmationForActiveMemberEmail)
-        TapirEmailBase.register_email(MembershipConfirmationForInvestingMemberEmail)
-        TapirEmailBase.register_email(TapirAccountCreatedEmail)
-        TapirEmailBase.register_email(CoPurchaserUpdatedMail)
-        TapirEmailBase.register_email(MembershipResignationConfirmation)
-        TapirEmailBase.register_email(
+        TapirEmailBuilderBase.register_email(ExtraSharesConfirmationEmailBuilder)
+        TapirEmailBuilderBase.register_email(
+            MembershipConfirmationForActiveMemberEmailBuilder
+        )
+        TapirEmailBuilderBase.register_email(
+            MembershipConfirmationForInvestingMemberEmailBuilder
+        )
+        TapirEmailBuilderBase.register_email(TapirAccountCreatedEmailBuilder)
+        TapirEmailBuilderBase.register_email(CoPurchaserUpdatedMail)
+        TapirEmailBuilderBase.register_email(MembershipResignationConfirmation)
+        TapirEmailBuilderBase.register_email(
             MembershipResignationTransferredSharesConfirmation
         )
