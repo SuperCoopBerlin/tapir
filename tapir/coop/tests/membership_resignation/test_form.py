@@ -1,5 +1,7 @@
 import datetime
 
+from django.utils import translation
+
 from tapir.coop.config import feature_flag_membership_resignation
 from tapir.coop.forms import MembershipResignationForm
 from tapir.coop.models import MembershipResignation
@@ -54,6 +56,8 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
     def test_validateTransferChoice_resignationTypeTransferButNoRecipient_errorIsAddedToForm(
         self,
     ):
+        translation.activate("en")
+
         share_owner = ShareOwnerFactory.create()
         form = MembershipResignationForm(
             data={
@@ -70,6 +74,8 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
     def test_validateTransferChoice_resignationTypeNotTransferButRecipientSent_errorIsAddedToForm(
         self,
     ):
+        translation.activate("en")
+
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.build(
             share_owner=share_owner,
@@ -92,6 +98,8 @@ class TestMembershipResignationForm(FeatureFlagTestMixin, TapirFactoryTestBase):
     def test_validateGiftingMemberAndReceivingMemberAreNotTheSame_giftingAndReceivingMembersAreTheSame_errorIsAddedToForm(
         self,
     ):
+        translation.activate("en")
+
         share_owner = ShareOwnerFactory.create()
         resignation = MembershipResignationFactory.create(
             share_owner=share_owner, transferring_shares_to=share_owner
