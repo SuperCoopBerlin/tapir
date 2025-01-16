@@ -17,6 +17,10 @@
                 <span>
                     <a class="{% tapir_button_link_to_action %}"
                        href="{% url 'shifts:create_slot_template' object.pk %}">
+                        <span class="material-icons">content_copy</span>{% translate 'Duplicate' %}
+                    </a>
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:create_slot_template' object.pk %}">
                         <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
                     </a>
                     <a class="{% tapir_button_link_to_action %}"
