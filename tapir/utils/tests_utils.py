@@ -185,8 +185,8 @@ class TapirFactoryTestBase(TestCase):
         self.login_as_user(user)
         return user
 
-    def login_as_normal_user(self) -> TapirUser:
-        user = TapirUserFactory.create(is_in_member_office=False)
+    def login_as_normal_user(self, **kwargs) -> TapirUser:
+        user = TapirUserFactory.create(is_in_member_office=False, **kwargs)
         self.login_as_user(user)
         return user
 

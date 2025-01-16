@@ -710,6 +710,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
             set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
             and self.shift.is_in_the_future()
             and not self.shift.cancelled
+            and user.share_owner.is_active(self.shift.start_time)
         )
 
     def user_can_self_unregister(self, user: TapirUser) -> bool:

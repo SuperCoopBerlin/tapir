@@ -74,7 +74,7 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase, TapirEmailTestMixin):
             slot=ShiftSlot.objects.filter(shift=shift).first(),
         )
 
-        user_replacing = self.login_as_normal_user()
+        user_replacing = self.login_as_normal_user(share_owner__is_investing=False)
 
         register_user_to_shift(self.client, user_replacing, shift)
         self.assertEqual(

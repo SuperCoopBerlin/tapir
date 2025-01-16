@@ -15,7 +15,7 @@ class TestWelcomeDeskAccess(TapirFactoryTestBase):
     VIEW_NAME_USER_PROFILE = "accounts:user_me"
 
     def test_normal_user_no_access_without_shift(self):
-        normal_user = self.login_as_normal_user()
+        normal_user = self.login_as_normal_user(share_owner__is_investing=False)
 
         self.assertFalse(
             ShiftAttendance.objects.filter(user=normal_user).exists(),
