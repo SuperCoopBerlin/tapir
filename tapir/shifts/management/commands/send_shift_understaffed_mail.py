@@ -20,12 +20,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for shift_watch_data in get_current_shiftwatch():
-            self.send_shift_understaffed_mail(shift_watch_data)
+            if shift_watch_data.shift.is_understaffed():
+                self.send_shift_understaffed_mail(shift_watch_data)
 
     @staticmethod
     def send_shift_understaffed_mail(shift_watches: ShiftWatch):
         for shift_watch in shift_watches.objects.select_related("user", "shift"):
-            # TODO Testen dass die Schicht auch unterbesetzt ist!
             with transaction.atomic():
                 email_builder = ShiftUnderstaffedEmailBuilder(shift=shift_watch.shift)
                 SendMailService.send_to_tapir_user(

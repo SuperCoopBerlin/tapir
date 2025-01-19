@@ -584,6 +584,11 @@ class Shift(models.Model):
     def get_valid_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return self.get_attendances().with_valid_state()
 
+    def is_understaffed(self) -> bool:
+        return (
+            self.get_valid_attendances().count() < self.get_num_required_attendances()
+        )
+
     def is_in_the_future(self) -> bool:
         return self.start_time > timezone.now()
 
