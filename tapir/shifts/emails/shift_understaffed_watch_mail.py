@@ -2,17 +2,11 @@ from typing import List
 
 from django.utils.translation import gettext_lazy as _
 
-from tapir import settings
-from tapir.coop.config import URL_MEMBER_MANUAL
+
 from tapir.coop.models import ShareOwner
 from tapir.core.mail_option import MailOption
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
-from tapir.shifts.config import (
-    FREEZE_THRESHOLD,
-    FREEZE_AFTER_DAYS,
-    NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS,
-)
-from tapir.shifts.models import ShiftUserData, Shift
+from tapir.shifts.models import Shift
 
 
 class ShiftUnderstaffedEmailBuilder(TapirEmailBuilderBase):
