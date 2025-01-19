@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Sum, Count, Q
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse
 from django.utils import timezone
@@ -42,6 +42,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     SHIFT_ATTENDANCE_STATES,
     ShiftTemplate,
+    ShiftWatch,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -353,3 +354,41 @@ class RunFreezeChecksManuallyView(
         call_command("run_freeze_checks")
         messages.info(request, _("Frozen statuses updated."))
         return super().get(request, args, kwargs)
+
+
+# def toggle_shift(request, shift_id):
+#     shift = get_object_or_404(Shift, id=shift_id)
+#     shift.is_active = not shift.is_active  # Toggle the boolean field
+#     shift.save()
+#     return redirect(
+#         "shifts:shift_detail", pk=shift_id
+#     )  # Redirect to a list view or wherever you want
+#
+#
+# def watch_shift(request, shift_id):
+#     shift_to_watch = get_object_or_404(Shift, id=shift_id)
+#     if not request.user.user_watching_shift.filter(shift_watched_id=shift_id).exists():
+#         ShiftWatch.objects.create(user=request.user, shift_watched=shift_to_watch)
+#     return redirect("shifts:shift_detail", pk=shift_id)
+#
+#
+# def unwatch_shift(request, shift_id):
+#     shift_to_unwatch = get_object_or_404(Shift, id=shift_id)
+#     request.user.user_watching_shift.filter(shift_watched_id=shift_id).delete()
+#     return redirect("shifts:shift_detail", pk=shift_id)
+
+
+class WatchShiftView(LoginRequiredMixin, RedirectView):
+    def post(self, request, *args, **kwargs):
+        shift = get_object_or_404(Shift, pk=kwargs["shift_id"])
+        print(f"WATCH SHIFT: {shift}")
+        ShiftWatch.objects.get_or_create(user=request.user, shift_watched=shift)
+        # return redirect("shifts:shift_detail", pk=kwargs["shift_id"])
+        return redirect("shifts:shift_detail", pk=kwargs["shift_id"])
+
+
+class UnwatchShiftView(LoginRequiredMixin, RedirectView):
+    def post(self, request, *args, **kwargs):
+        shift = get_object_or_404(Shift, id=kwargs["shift_id"])
+        ShiftWatch.objects.filter(user=request.user, shift_watched=shift).delete()
+        return redirect("shifts:shift_detail", pk=kwargs["shift_id"])
