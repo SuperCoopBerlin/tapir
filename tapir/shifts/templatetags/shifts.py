@@ -265,4 +265,4 @@ def get_attendance_mode_display(shift_user_data: ShiftUserData) -> str:
 
 @register.filter(name="user_watching_shift")
 def user_watching_shift(user, shift) -> bool:
-    return ShiftWatch.objects.filter(user=user, shift_watched=shift).exists()
+    return ShiftWatch.objects.filter(user=user, shift=shift).exists()

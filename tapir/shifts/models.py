@@ -1211,17 +1211,18 @@ class ShiftWatch(models.Model):
     user = models.ForeignKey(
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
     )
-    shift_watched = models.ForeignKey(Shift, on_delete=models.CASCADE)
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
+    notification_sent = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} is watching {self.shift_watched.name}"
+        return f"{self.user.username} is watching {self.shift.name}"
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["user", "shift_watched"],
+                fields=["user", "shift"],
                 name="shift_watch_constraint",
             )
         ]
