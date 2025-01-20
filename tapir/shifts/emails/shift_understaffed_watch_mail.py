@@ -10,7 +10,7 @@ from tapir.shifts.models import Shift
 
 
 class ShiftUnderstaffedEmailBuilder(TapirEmailBuilderBase):
-    option = MailOption.OPTIONAL_ENABLED
+    option = MailOption.OPTIONAL_DISABLED
 
     def __init__(self, shift):
         super().__init__()
