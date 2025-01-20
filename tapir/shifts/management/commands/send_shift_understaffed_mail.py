@@ -1,13 +1,9 @@
-import datetime
 import time
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from django.db.models import F
-from django.utils import timezone
 
 from tapir.core.services.send_mail_service import SendMailService
-from tapir.shifts import config
 from tapir.shifts.emails.shift_understaffed_watch_mail import (
     ShiftUnderstaffedEmailBuilder,
 )
