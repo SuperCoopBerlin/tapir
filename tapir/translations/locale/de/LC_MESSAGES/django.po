@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-20 08:24+0100\n"
+"POT-Creation-Date: 2025-01-21 20:54+0100\n"
 "PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2320,14 +2320,14 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:56
-#: shifts/models.py:951 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:946 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:292
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
-#: shifts/models.py:950
+#: shifts/models.py:945
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -2663,7 +2663,7 @@ msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
 #: core/templates/core/email_list.html:39 shifts/models.py:513
-#: shifts/models.py:1089 shifts/templates/shifts/user_shift_account_log.html:29
+#: shifts/models.py:1084 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -2934,13 +2934,25 @@ msgstr ""
 #: shifts/emails/shift_understaffed_watch_mail.py:25
 #, fuzzy
 #| msgid "Shift reminder"
-msgid "Shift Understaffed"
+msgid "Watched Shift Understaffed"
 msgstr "Schicht unterbesetzt"
 
 #: shifts/emails/shift_understaffed_watch_mail.py:30
 #, fuzzy
 #| msgid "Sent to a member when their new co-purchaser gets registered on their profile."
-msgid "Sent to a member when a shift is understaffed and the user agreed to receive this kind of mail."
+msgid "Sent to a member when a shift is understaffed and the user is watching this shift."
+msgstr "Wird an ein Mitglied gesendet, wenn eine Schicht unterbesetzt ist und das Mitglied diese Schicht beobachtet."
+
+#: shifts/emails/shift_understaffed_wrap_mail.py:26
+#, fuzzy
+#| msgid "Shift reminder"
+msgid "Shift Understaffed (wrapped)"
+msgstr "Schicht unterbesetzt"
+
+#: shifts/emails/shift_understaffed_wrap_mail.py:31
+#, fuzzy
+#| msgid "Sent to a member when their new co-purchaser gets registered on their profile."
+msgid "Sent to a member when a shift is understaffed and user asked for wrap-ups."
 msgstr "Wird an ein Mitglied gesendet, wenn eine Schicht unterbesetzt ist und das Mitglied dem Mail-Empfang zugestimmt hat."
 
 #: shifts/emails/stand_in_found_email.py:23
@@ -3112,7 +3124,7 @@ msgstr "Zeit flexibel"
 msgid "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
 msgstr ""
 
-#: shifts/models.py:417 shifts/models.py:842
+#: shifts/models.py:417 shifts/models.py:837
 #: shifts/templates/shifts/shift_detail.html:106
 #: shifts/templates/shifts/shift_template_detail.html:42
 msgid "Chosen time"
@@ -3138,50 +3150,50 @@ msgstr ""
 msgid "If 'flexible time' is enabled, then the time component is ignored"
 msgstr ""
 
-#: shifts/models.py:844
+#: shifts/models.py:839
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
 msgstr ""
 
-#: shifts/models.py:952 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:947 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:302
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:953 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:948 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:332
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:954 shifts/templates/shifts/shift_detail.html:340
+#: shifts/models.py:949 shifts/templates/shifts/shift_detail.html:340
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:955 shifts/templates/shifts/shift_day_printable.html:97
+#: shifts/models.py:950 shifts/templates/shifts/shift_day_printable.html:97
 #: shifts/templates/shifts/shift_detail.html:324
 #: shifts/templates/shifts/shift_detail_printable.html:94
 #: shifts/templates/shifts/shift_filters.html:83
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:988
+#: shifts/models.py:983
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:989
+#: shifts/models.py:984
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:990
+#: shifts/models.py:985
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:1021
+#: shifts/models.py:1016
 msgid "Is frozen"
 msgstr ""
 
-#: shifts/models.py:1195
+#: shifts/models.py:1190
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -3534,7 +3546,49 @@ msgstr ""
 "\n"
 "Deine nächste %(coop_name)s Schicht: %(shift_name)s\n"
 
-#: shifts/templates/shifts/email/shift_understaffed.body.html:6
+#: shifts/templates/shifts/email/shift_understaffed_watch.body.html:6
+#, python-format
+msgid ""
+"\n"
+"        <p>\n"
+"            Hi %(display_name_short)s,\n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"            This is an automated email from %(coop_name)s.\n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"            The shift %(shift_display_name)s is understaffed and could need some help.\n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"            You agreed to receive this mail, but if you don't want to get notification mails, you can disable them in your settings.\n"
+"        </p>\n"
+"        <p>\n"
+"            Thank you!\n"
+"        </p>\n"
+"        <p>\n"
+"            Cooperative greetings,<br />\n"
+"            The member office\n"
+"        </p>\n"
+"    "
+msgstr ""
+
+#: shifts/templates/shifts/email/shift_understaffed_watch.subject.html:2
+#: shifts/templates/shifts/email/shift_understaffed_wrap.subject.html:2
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "    Your upcoming %(coop_name)s shift: %(shift_name)s\n"
+msgid ""
+"\n"
+"    The upcoming %(coop_name)s shift %(shift_name)s is understaffed!\n"
+msgstr ""
+"\n"
+"Die nächste %(coop_name)s Schicht %(shift_name)s ist unterbesetzt!\n"
+
+#: shifts/templates/shifts/email/shift_understaffed_wrap.body.html:6
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -3565,10 +3619,6 @@ msgid ""
 "        <p>\n"
 "            The shift %(shift_display_name)s is understaffed and could need some help.\n"
 "        </p>\n"
-"\n"
-"        <p>\n"
-"            You agreed to receive this mail, but if you don't want to get notification mails, you can disable them in your settings.\n"
-"        </p>\n"
 "        <p>\n"
 "            Thank you!\n"
 "        </p>\n"
@@ -3579,18 +3629,6 @@ msgid ""
 "    "
 msgstr ""
 
-
-#: shifts/templates/shifts/email/shift_understaffed.subject.html:2
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "    Your upcoming %(coop_name)s shift: %(shift_name)s\n"
-msgid ""
-"\n"
-"    The upcoming %(coop_name)s shift %(shift_name)s is understaffed!\n"
-msgstr ""
-"\n"
-"Die nächste %(coop_name)s Schicht %(shift_name)s ist unterbesetzt!\n"
 
 #: shifts/templates/shifts/email/stand_in_found.body.html:6
 #, python-format
@@ -4476,7 +4514,7 @@ msgctxt "No shift partner"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templatetags/shifts.py:62 shifts/templatetags/shifts.py:162
+#: shifts/templatetags/shifts.py:62 shifts/templatetags/shifts.py:166
 #: shifts/views/views.py:145
 msgid "General"
 msgstr "Allgemein"
