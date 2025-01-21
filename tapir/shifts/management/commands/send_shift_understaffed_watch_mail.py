@@ -16,12 +16,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for shift_watch_data in get_current_shiftwatch():
-            self.send_shift_understaffed_mail(shift_watch_data)
+            if (
+                shift_watch_data.shift.get_valid_attendances().count()
+                < shift_watch_data.shift.get_num_required_attendances()
+            ):
+                self.send_shift_understaffed_mail(shift_watch_data)
 
     @staticmethod
     def send_shift_understaffed_mail(shift_watches: ShiftWatch):
         for shift_watch in shift_watches.objects.select_related("user", "shift"):
-            # TODO Testen dass die Schicht auch unterbesetzt ist!
             with transaction.atomic():
                 email_builder = ShiftUnderstaffedWatchEmailBuilder(
                     shift=shift_watch.shift
