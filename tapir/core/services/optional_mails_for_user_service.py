@@ -45,3 +45,11 @@ class OptionalMailsForUserService:
             mail_class.get_unique_id()
             in OptionalMailsForUserService.get_optional_mail_ids_user_will_receive(user)
         )
+
+    @staticmethod
+    def get_users_want_to_receive_optional_mail(
+        mail_class: Type[TapirEmailBuilderBase],
+    ) -> List[TapirUser]:
+        return TapirUser.objects.filter(
+            mail_setting__mail_id=mail_class.get_unique_id(), mail_setting__choice=True
+        ).distinct()

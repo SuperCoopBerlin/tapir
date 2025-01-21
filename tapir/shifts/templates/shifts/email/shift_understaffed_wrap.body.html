@@ -1,0 +1,27 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    {% get_display_name_short tapir_user as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short coop_name=coop_name shift_display_name=shift.get_display_name%}
+        <p>
+            Hi {{ display_name_short }},
+        </p>
+
+        <p>
+            This is an automated email from {{ coop_name }}.
+        </p>
+
+        <p>
+            The shift {{ shift_display_name }} is understaffed and could need some help.
+        </p>
+        <p>
+            Thank you!
+        </p>
+        <p>
+            Cooperative greetings,<br />
+            The member office
+        </p>
+    {% endblocktranslate %}
+    {% for shift in shifts %}<li>{{ shift.get_display_name }}</li>{% endfor %}
+{% endblock body %}
