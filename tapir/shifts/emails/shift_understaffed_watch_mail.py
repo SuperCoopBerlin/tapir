@@ -18,7 +18,7 @@ class ShiftUnderstaffedWatchEmailBuilder(TapirEmailBuilderBase):
 
     @classmethod
     def get_unique_id(cls) -> str:
-        return "tapir.shifts.shift_understaffed_wrap_mail"
+        return "tapir.shifts.shift_understaffed_watch_mail"
 
     @classmethod
     def get_name(cls) -> str:
