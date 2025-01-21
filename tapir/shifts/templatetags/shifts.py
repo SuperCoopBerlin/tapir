@@ -120,12 +120,16 @@ def get_html_classes_for_filtering(shift: Shift) -> set:
         return {"is_in_the_past"}
 
     filter_classes = set()
+    num_valid_attendances = 0
     for slot in shift.slots.all():
         valid_attendance = None
         for a in slot.attendances.all():
             if a.is_valid():
                 valid_attendance = a
                 break
+
+        if valid_attendance and valid_attendance.state == ShiftAttendance.State.PENDING:
+            num_valid_attendances += 1
 
         if (
             not valid_attendance
@@ -134,7 +138,7 @@ def get_html_classes_for_filtering(shift: Shift) -> set:
             filter_classes.add("freeslot_any")
             filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
 
-    if shift.is_understaffed():
+    if num_valid_attendances < shift.get_num_required_attendances():
         filter_classes.add("needs_help")
 
     return filter_classes
