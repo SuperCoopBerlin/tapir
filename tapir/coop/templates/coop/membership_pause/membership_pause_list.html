@@ -17,9 +17,9 @@
     <div class="card mb-2">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h5>{% translate "Membership pauses" %}</h5>
-            <div class="btn-group m-1">
+            <div class="btn-group">
                 <button type="button"
-                        class="{% tapir_button_link %} btn dropdown-toggle"
+                        class="{% tapir_button_link %} btn dropdown-toggle m-1"
                         data-bs-toggle="dropdown">{% translate "Export" %}</button>
                 <div class="dropdown-menu dropdown-menu-right">
                     {% for format in view.export_formats %}
@@ -28,13 +28,13 @@
                         </a>
                     {% endfor %}
                 </div>
-                <a class="{% tapir_button_link_to_action %}"
+                <a class="{% tapir_button_link_to_action %} m-1 rounded"
                    href="{% url 'coop:membership_pause_create' %}">
                     <span class="material-icons">add_circle_outline</span>
                     {% translate "Create a new pause" %}
                 </a>
                 <div>
-                    <button class="{% tapir_button_link_to_action %}"
+                    <button class="{% tapir_button_link_to_action %} m-1"
                             type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#collapseFilter"
