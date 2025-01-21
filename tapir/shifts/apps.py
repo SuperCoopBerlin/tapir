@@ -111,7 +111,7 @@ class ShiftConfig(AppConfig):
             FlyingMemberRegistrationReminderEmailBuilder,
         )
         from tapir.shifts.emails.shift_understaffed_watch_mail import (
-            ShiftUnderstaffedEmailBuilder,
+            ShiftUnderstaffedWatchEmailBuilder,
         )
 
         TapirEmailBuilderBase.register_email(ShiftMissedEmailBuilder)
@@ -123,4 +123,4 @@ class ShiftConfig(AppConfig):
         TapirEmailBuilderBase.register_email(
             FlyingMemberRegistrationReminderEmailBuilder
         )
-        TapirEmailBuilderBase.register_email(ShiftUnderstaffedEmailBuilder)
+        TapirEmailBuilderBase.register_email(ShiftUnderstaffedWatchEmailBuilder)

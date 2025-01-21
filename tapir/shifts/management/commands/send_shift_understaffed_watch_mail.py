@@ -5,14 +5,14 @@ from django.db import transaction
 
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_understaffed_watch_mail import (
-    ShiftUnderstaffedEmailBuilder,
+    ShiftUnderstaffedWatchEmailBuilder,
 )
 from tapir.shifts.models import ShiftWatch
 from tapir.shifts.utils import get_current_shiftwatch
 
 
 class Command(BaseCommand):
-    help = "Sends  emails to every member that a certain shift is understaffed"
+    help = "Sends emails to interested members that a certain shift is understaffed"
 
     def handle(self, *args, **options):
         for shift_watch_data in get_current_shiftwatch():
@@ -23,7 +23,9 @@ class Command(BaseCommand):
     def send_shift_understaffed_mail(shift_watches: ShiftWatch):
         for shift_watch in shift_watches.objects.select_related("user", "shift"):
             with transaction.atomic():
-                email_builder = ShiftUnderstaffedEmailBuilder(shift=shift_watch.shift)
+                email_builder = ShiftUnderstaffedWatchEmailBuilder(
+                    shift=shift_watch.shift
+                )
                 SendMailService.send_to_tapir_user(
                     actor=None,
                     recipient=shift_watch.user,

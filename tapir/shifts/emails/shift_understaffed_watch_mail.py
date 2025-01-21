@@ -9,7 +9,7 @@ from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.models import Shift
 
 
-class ShiftUnderstaffedEmailBuilder(TapirEmailBuilderBase):
+class ShiftUnderstaffedWatchEmailBuilder(TapirEmailBuilderBase):
     option = MailOption.OPTIONAL_DISABLED
 
     def __init__(self, shift):
@@ -18,26 +18,26 @@ class ShiftUnderstaffedEmailBuilder(TapirEmailBuilderBase):
 
     @classmethod
     def get_unique_id(cls) -> str:
-        return "tapir.shifts.shift_understaffed_mail"
+        return "tapir.shifts.shift_understaffed_wrap_mail"
 
     @classmethod
     def get_name(cls) -> str:
-        return _("Shift Understaffed")
+        return _("Watched Shift Understaffed")
 
     @classmethod
     def get_description(cls) -> str:
         return _(
-            "Sent to a member when a shift is understaffed and the user agreed to receive this kind of mail."
+            "Sent to a member when a shift is understaffed and the user is watching this shift."
         )
 
     def get_subject_templates(self) -> List:
         return [
-            "shifts/email/shift_understaffed.subject.html",
+            "shifts/email/shift_understaffed_watch.subject.html",
         ]
 
     def get_body_templates(self) -> List:
         return [
-            "shifts/email/shift_understaffed.body.html",
+            "shifts/email/shift_understaffed_watch.body.html",
         ]
 
     def get_extra_context(self) -> dict:
