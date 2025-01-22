@@ -46,7 +46,7 @@ class MembershipPauseTable(django_tables2.Table):
             "start_date",
             "end_date",
         )
-        order_by = "id"
+        order_by = "-id"
         attrs = {"class": TAPIR_TABLE_CLASSES}
 
     edit_button = django_tables2.Column(
