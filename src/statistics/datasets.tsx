@@ -1,6 +1,6 @@
-import { InitOverrideFunction, StatisticsApi } from "../api-client";
-import { ChartType } from "chart.js";
-import { useApi } from "../hooks/useApi.ts";
+import {InitOverrideFunction, StatisticsApi} from "../api-client";
+import {ChartType} from "chart.js";
+import {useApi} from "../hooks/useApi.ts";
 
 declare let gettext: (english_text: string) => string;
 
@@ -112,7 +112,7 @@ export const datasets: { [key: string]: Dataset } = {
   [datasetNumberOfLongTermFrozenMembers]: {
     display_name: gettext("Long-term frozen members"),
     description: gettext(
-      "Members that are frozen since more than 180 days (roughly 6 month)",
+      "Members that are frozen since more than 180 days (roughly 6 month). Long-term frozen members are included in the \"Frozen members\" dataset",
     ),
     apiCall: api.statisticsNumberOfLongTermFrozenMembersAtDateRetrieve,
     chart_type: "line",
