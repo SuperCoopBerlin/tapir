@@ -13,8 +13,11 @@
         </p>
 
         <p>
-            The shift {{ shift_display_name }} is understaffed and could need some help.
+            Following shifts of today and tomorrow are understaffed and could need some help.
         </p>
+        {% endblocktranslate %}
+    {% for shift in shifts %}<li>{{ shift.get_display_name }}</li>{% endfor %}
+    {% blocktranslate%}
         <p>
             Thank you!
         </p>
@@ -23,5 +26,4 @@
             The member office
         </p>
     {% endblocktranslate %}
-    {% for shift in shifts %}<li>{{ shift.get_display_name }}</li>{% endfor %}
 {% endblock body %}
