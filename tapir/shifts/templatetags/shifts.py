@@ -14,6 +14,7 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftSlot,
     ShiftUserData,
+    ShiftWatch,
 )
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
@@ -260,3 +261,8 @@ def get_attendance_mode_display(shift_user_data: ShiftUserData) -> str:
     return utils.get_attendance_mode_display(
         ShiftAttendanceModeService.get_attendance_mode(shift_user_data)
     )
+
+
+@register.filter(name="user_watching_shift")
+def user_watching_shift(user, shift) -> bool:
+    return ShiftWatch.objects.filter(user=user, shift=shift).exists()
