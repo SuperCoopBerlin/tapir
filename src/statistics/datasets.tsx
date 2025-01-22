@@ -92,6 +92,9 @@ export const datasets: { [key: string]: Dataset } = {
   },
   [datasetNumberOfPurchasingMembers]: {
     display_name: gettext("Purchasing members"),
+    description: gettext(
+      "Members who are allowed to shop. To be allowed to shop, a member must be active (see the description for \"Active members\"), have a Tapir account, and not be frozen.",
+    ),
     apiCall: api.statisticsNumberOfPurchasingMembersAtDateRetrieve,
     chart_type: "line",
     relative: false,
