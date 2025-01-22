@@ -171,6 +171,14 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.send_flying_member_registration_reminder_mails",
         "schedule": celery.schedules.crontab(minute=0, hour=4),
     },
+    "send_shift_understaffed_watch_mail": {
+        "task": "tapir.shifts.tasks.send_shift_understaffed_watch_mail",
+        "schedule": celery.schedules.crontab(hour="*/2", minute="0"),
+    },
+    "send_shift_understaffed_wrap_mail": {
+        "task": "tapir.shifts.tasks.send_shift_understaffed_wrap_mail",
+        "schedule": celery.schedules.crontab(minute="0", hour="6"),
+    },
 }
 
 # Password validation
