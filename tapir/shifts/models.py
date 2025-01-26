@@ -227,10 +227,11 @@ class ShiftTemplate(models.Model):
         ).order_by("-start_time")
 
     def get_display_name(self):
-        display_name = "%s %s %s" % (
+        display_name = "%s %s %s - %s" % (
             self.name,
             _(self.get_weekday_display()),
             self.start_time.strftime("%H:%M"),
+            self.end_time.strftime("%H:%M"),
         )
         if self.group:
             display_name = f"{display_name} ({self.group.name})"

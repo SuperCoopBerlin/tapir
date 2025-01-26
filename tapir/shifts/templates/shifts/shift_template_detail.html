@@ -14,9 +14,9 @@
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>{% translate 'ABCD Shift' %}: {{ object.get_display_name }}</span>
             {% if perms.shifts.manage %}
-                <span>
+                <div class="float-right">
                     <a class="{% tapir_button_link_to_action %}"
-                       href="{% url 'shifts:create_slot_template' object.pk %}">
+                       href="{% url 'shifts:shift_template_duplicate' object.pk %}">
                         <span class="material-icons">content_copy</span>{% translate 'Duplicate' %}
                     </a>
                     <a class="{% tapir_button_link_to_action %}"
@@ -28,7 +28,7 @@
                         <span class="material-icons button-icon">edit</span>
                         {% translate "Edit" %}
                     </a>
-                </span>
+                </div>
             {% endif %}
         </h5>
         <ul class="list-group list-group-flush">

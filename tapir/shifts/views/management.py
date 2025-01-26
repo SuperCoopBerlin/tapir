@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, UpdateView, RedirectView
@@ -16,6 +16,7 @@ from tapir.shifts.forms import (
     ShiftCancelForm,
     ShiftTemplateForm,
     ShiftSlotTemplateForm,
+    ShiftTemplateDuplicateForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -24,6 +25,8 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftSlotTemplate,
 )
+
+from icecream import ic
 
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -184,6 +187,55 @@ class ShiftSlotTemplateCreateView(
 
     def get_success_url(self):
         return self.get_shift_template().get_absolute_url()
+
+
+class ShiftTemplateDuplicateCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+):
+    model = ShiftTemplate
+    form_class = ShiftTemplateDuplicateForm
+    permission_required = PERMISSION_SHIFTS_MANAGE
+    success_url = reverse_lazy("shifts:shift_template_overview")
+
+    def get_form_kwargs(self):
+        test = ShiftTemplate.objects.filter(
+            pk=self.kwargs.get("shift_pk")
+        ).prefetch_related(
+            "group",
+            "slot_templates",
+            "slot_templates__attendance_template",
+        )
+
+        ic(test)
+        return super().get_form_kwargs()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = _("Duplicate ABCD-Shift")
+        context["help_text"] = _(
+            "Please choose a new group and weekday. All other fields of the ABCD-Shift will be copied to the new timeslot."
+        )
+        return context
+
+    def form_valid(self, form):
+        existing_entry = ShiftTemplate.objects.get(pk=self.kwargs.get("shift_pk"))
+        existing_entry_related_objects = ShiftTemplate.objects.filter(
+            pk=self.kwargs.get("shift_pk")
+        ).prefetch_related(
+            "group",
+            "slot_templates",
+            "slot_templates__attendance_template",
+        )
+        new_abcd_shift = form.save(commit=False)
+        new_abcd_shift.name = existing_entry.name
+        new_abcd_shift.description = existing_entry.description
+        new_abcd_shift.num_required_attendances = (
+            existing_entry.num_required_attendances
+        )
+        new_abcd_shift.flexible_time = existing_entry.flexible_time
+        form.save()
+        new_abcd_shift.slot_templates.set(existing_entry_related_objects)
+        return super().form_valid(form)
 
 
 class ShiftSlotTemplateEditView(

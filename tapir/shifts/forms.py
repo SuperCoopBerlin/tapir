@@ -4,12 +4,13 @@ from django import forms
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.forms import (
     ModelChoiceField,
+    ModelMultipleChoiceField,
     CheckboxSelectMultiple,
     BooleanField,
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -29,6 +30,7 @@ from tapir.shifts.models import (
     SHIFT_SLOT_WARNING_CHOICES,
     ShiftTemplate,
     ShiftAttendanceMode,
+    WEEKDAY_CHOICES,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -537,6 +539,11 @@ class ShiftTemplateForm(forms.ModelForm):
         ),
         required=True,
     )
+
+
+class ShiftTemplateDuplicateForm(ShiftTemplateForm):
+    class Meta(ShiftTemplateForm.Meta):
+        exclude = ["name", "description", "num_required_attendances", "flexible_time"]
 
 
 class ShiftSlotTemplateForm(forms.ModelForm):
