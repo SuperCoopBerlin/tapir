@@ -197,17 +197,17 @@ class ShiftTemplateDuplicateCreateView(
     permission_required = PERMISSION_SHIFTS_MANAGE
     success_url = reverse_lazy("shifts:shift_template_overview")
 
-    def get_form_kwargs(self):
-        test = ShiftTemplate.objects.filter(
-            pk=self.kwargs.get("shift_pk")
-        ).prefetch_related(
-            "group",
-            "slot_templates",
-            "slot_templates__attendance_template",
-        )
-
-        ic(test)
-        return super().get_form_kwargs()
+    # def get_form_kwargs(self):
+    #     test = ShiftTemplate.objects.filter(
+    #         pk=self.kwargs.get("shift_pk")
+    #     ).prefetch_related(
+    #         "group",
+    #         "slot_templates",
+    #         "slot_templates__attendance_template",
+    #     )
+    #     for template in test.first().slot_templates.values():
+    #         ic(template)
+    #     return super().get_form_kwargs()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -234,7 +234,12 @@ class ShiftTemplateDuplicateCreateView(
         )
         new_abcd_shift.flexible_time = existing_entry.flexible_time
         form.save()
-        new_abcd_shift.slot_templates.set(existing_entry_related_objects)
+        for (
+            slot_template
+        ) in existing_entry_related_objects.first().slot_templates.values():
+            new_abcd_shift.slot_templates.add(
+                ShiftSlotTemplate.objects.get(id=slot_template["id"])
+            )
         return super().form_valid(form)
 
 
