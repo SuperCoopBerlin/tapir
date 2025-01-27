@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-18 20:54+0100\n"
+"POT-Creation-Date: 2025-01-27 11:59+0100\n"
 "PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -2321,14 +2321,14 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:56
-#: shifts/models.py:946 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/models.py:947 shifts/templates/shifts/shift_day_printable.html:56
 #: shifts/templates/shifts/shift_detail.html:272
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
-#: shifts/models.py:945
+#: shifts/models.py:946
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -2664,7 +2664,7 @@ msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
 #: core/templates/core/email_list.html:39 shifts/models.py:513
-#: shifts/models.py:1084 shifts/templates/shifts/user_shift_account_log.html:29
+#: shifts/models.py:1085 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -3101,7 +3101,7 @@ msgstr "Zeit flexibel"
 msgid "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
 msgstr ""
 
-#: shifts/models.py:417 shifts/models.py:837
+#: shifts/models.py:417 shifts/models.py:838
 #: shifts/templates/shifts/shift_detail.html:86
 #: shifts/templates/shifts/shift_template_detail.html:42
 msgid "Chosen time"
@@ -3127,50 +3127,50 @@ msgstr ""
 msgid "If 'flexible time' is enabled, then the time component is ignored"
 msgstr ""
 
-#: shifts/models.py:839
+#: shifts/models.py:840
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
 msgstr ""
 
-#: shifts/models.py:947 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/models.py:948 shifts/templates/shifts/shift_day_printable.html:57
 #: shifts/templates/shifts/shift_detail.html:282
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:948 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/models.py:949 shifts/templates/shifts/shift_day_printable.html:58
 #: shifts/templates/shifts/shift_detail.html:312
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:949 shifts/templates/shifts/shift_detail.html:320
+#: shifts/models.py:950 shifts/templates/shifts/shift_detail.html:320
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:950 shifts/templates/shifts/shift_day_printable.html:97
+#: shifts/models.py:951 shifts/templates/shifts/shift_day_printable.html:97
 #: shifts/templates/shifts/shift_detail.html:304
 #: shifts/templates/shifts/shift_detail_printable.html:94
 #: shifts/templates/shifts/shift_filters.html:83
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:983
+#: shifts/models.py:984
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:984
+#: shifts/models.py:985
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:985
+#: shifts/models.py:986
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:1016
+#: shifts/models.py:1017
 msgid "Is frozen"
 msgstr ""
 
-#: shifts/models.py:1190
+#: shifts/models.py:1191
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
