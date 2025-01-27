@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-26 15:05+0100\n"
+"POT-Creation-Date: 2025-01-18 20:54+0100\n"
 "PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -991,7 +991,7 @@ msgid "Beteiligungserklärung"
 msgstr "Beteiligungserklärung"
 
 #: coop/templates/coop/draftuser_list.html:22
-#: coop/templates/coop/membership_pause/membership_pause_list.html:24
+#: coop/templates/coop/membership_pause/membership_pause_list.html:23
 #: coop/templates/coop/membership_resignation_list.html:25
 #: coop/templates/coop/shareowner_list.html:23
 #: shifts/templates/shifts/members_on_alert_list.html:19
@@ -1000,6 +1000,7 @@ msgid "Export"
 msgstr "Exportieren"
 
 #: coop/templates/coop/draftuser_list.html:42
+#: coop/templates/coop/membership_pause/membership_pause_list.html:43
 #: coop/templates/coop/membership_resignation_list.html:50
 #: coop/templates/coop/shareowner_list.html:38
 #: log/templates/log/log_overview.html:34
@@ -1009,7 +1010,7 @@ msgstr "Filter"
 
 #: coop/templates/coop/draftuser_list.html:55
 #: coop/templates/coop/incoming_payment_list.html:35
-#: coop/templates/coop/membership_pause/membership_pause_list.html:47
+#: coop/templates/coop/membership_pause/membership_pause_list.html:56
 #: coop/templates/coop/membership_resignation_list.html:62
 #: coop/templates/coop/shareowner_list.html:51
 #: log/templates/log/log_overview.html:46
@@ -1020,7 +1021,7 @@ msgstr "Filter"
 
 #: coop/templates/coop/draftuser_list.html:60
 #: coop/templates/coop/incoming_payment_list.html:40
-#: coop/templates/coop/membership_pause/membership_pause_list.html:52
+#: coop/templates/coop/membership_pause/membership_pause_list.html:61
 #: coop/templates/coop/membership_resignation_list.html:67
 #: coop/templates/coop/shareowner_list.html:56
 #: shifts/templates/shifts/shiftexemption_list.html:55
@@ -2022,11 +2023,11 @@ msgid ""
 "                    "
 msgstr ""
 
-#: coop/templates/coop/membership_pause/membership_pause_list.html:36
+#: coop/templates/coop/membership_pause/membership_pause_list.html:34
 msgid "Create a new pause"
 msgstr ""
 
-#: coop/templates/coop/membership_pause/membership_pause_list.html:55
+#: coop/templates/coop/membership_pause/membership_pause_list.html:64
 #, python-format
 msgid ""
 "\n"
