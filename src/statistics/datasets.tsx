@@ -72,7 +72,7 @@ export const datasets: { [key: string]: Dataset } = {
     description: gettext(
       "Same as active members, but also had an account at the given date. Some members declare themselves active when joining the coop but never come to activate their account.",
     ),
-    apiCall: api.statisticsNumberOfActiveMembersAtDateRetrieve,
+    apiCall: api.statisticsNumberOfActiveMembersWithAccountAtDateRetrieve,
     chart_type: "line",
     relative: false,
     color: "#bd3f4f",
