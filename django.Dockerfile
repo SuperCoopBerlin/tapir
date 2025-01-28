@@ -11,6 +11,6 @@ RUN apt-get update -y  \
         postgresql-client  \
         postgresql-client-common \
     && rm -rf /var/lib/apt/lists/*  \
-    && pip install poetry  \
+    && pip install poetry==1.8.4  \
     && poetry install  \
     && poetry run python manage.py compilemessages
