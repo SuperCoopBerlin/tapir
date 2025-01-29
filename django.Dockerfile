@@ -1,5 +1,6 @@
 FROM python:3.13
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1 \
+    POETRY_VERSION=1.8.4
 WORKDIR /app
 COPY . /app
 
@@ -11,6 +12,6 @@ RUN apt-get update -y  \
         postgresql-client  \
         postgresql-client-common \
     && rm -rf /var/lib/apt/lists/*  \
-    && pip install poetry==1.8.4  \
+    && pip install poetry  \
     && poetry install  \
     && poetry run python manage.py compilemessages
