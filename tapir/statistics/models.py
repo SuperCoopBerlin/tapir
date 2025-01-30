@@ -33,7 +33,7 @@ class PurchaseBasket(models.Model):
 
 
 class FancyGraphCache(models.Model):
-    view_name = models.CharField(max_length=255)
+    data_provider_name_name = models.CharField(max_length=500)
     date = models.DateField()
     value = models.IntegerField()
 

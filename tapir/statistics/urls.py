@@ -1,14 +1,11 @@
 from django.urls import path
 
-import tapir.statistics.views.fancy_graph.base_view
 from tapir.statistics import views
-from tapir.statistics.views import fancy_graph
+from tapir.statistics.views.available_columns_view import AvailableColumnsView
 from tapir.statistics.views.available_datasets_view import AvailableDatasetsView
 from tapir.statistics.views.dataset_export_view import DatasetExportView
-from tapir.statistics.views.fancy_export.base_view import (
-    AvailableColumnsView,
-    FancyExportView,
-)
+from tapir.statistics.views.fancy_export_view import FancyExportView
+from tapir.statistics.views.fancy_graph_view import FancyGraphView
 
 app_name = "statistics"
 urlpatterns = [
@@ -54,7 +51,7 @@ urlpatterns = [
     ),
     path(
         "fancy_graph",
-        fancy_graph.base_view.FancyGraphView.as_view(),
+        FancyGraphView.as_view(),
         name="fancy_graph",
     ),
     path(

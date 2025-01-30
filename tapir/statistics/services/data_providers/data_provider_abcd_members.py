@@ -15,7 +15,7 @@ from tapir.statistics.services.data_providers.base_data_provider import BaseData
 class DataProviderAbcdMembers(BaseDataProvider):
     @classmethod
     def get_display_name(cls):
-        return _("Number of ABCD members")
+        return _("ABCD members")
 
     @classmethod
     def get_description(cls):
