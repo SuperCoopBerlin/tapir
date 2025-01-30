@@ -30,9 +30,7 @@ class DatasetGraphPointView(LoginRequiredMixin, PermissionRequiredMixin, APIView
         self, data_provider: Type[BaseDataProvider], reference_time: datetime.datetime
     ):
         reference_date = reference_time.date()
-        data_provider_name = (
-            f"{data_provider.__class__.__module__}.{data_provider.__class__.__name__}"
-        )
+        data_provider_name = f"{data_provider.__module__}.{data_provider.__name__}"
 
         if reference_date < timezone.now().date():
             # Only use the cache for dates in the past:

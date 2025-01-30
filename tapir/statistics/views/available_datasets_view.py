@@ -42,7 +42,7 @@ class AvailableDatasetsView(LoginRequiredMixin, PermissionRequiredMixin, APIView
 
         colors = distinctipy.get_colors(len(datasets), rng=123456)
         for index, dataset in enumerate(datasets):
-            dataset["color"] = colors[index]
+            dataset["color"] = distinctipy.get_hex(colors[index])
             dataset["point_style"] = self.POINT_STYLES[index % len(self.POINT_STYLES)]
 
         return Response(

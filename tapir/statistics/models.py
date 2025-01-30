@@ -33,9 +33,12 @@ class PurchaseBasket(models.Model):
 
 
 class FancyGraphCache(models.Model):
-    data_provider_name_name = models.CharField(max_length=500)
+    data_provider_name = models.CharField(max_length=500)
     date = models.DateField()
     value = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.data_provider_name} - {self.date} - {self.value}"
 
 
 class CreditAccount(models.Model):

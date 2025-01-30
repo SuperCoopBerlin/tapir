@@ -5,6 +5,7 @@ import {
   BarElement,
   CategoryScale,
   Chart as ChartJS,
+  ChartType,
   Colors,
   Legend,
   LinearScale,
@@ -200,7 +201,7 @@ const FancyGraphCard: React.FC = () => {
       );
       return {
         label: dataset!.displayName,
-        type: datasetId.endsWith("_relative") ? "bar" : "line",
+        type: (datasetId.endsWith("_relative") ? "bar" : "line") as ChartType,
         data: data,
         borderColor: dataset!.color,
         backgroundColor: dataset!.color,
