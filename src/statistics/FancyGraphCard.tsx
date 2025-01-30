@@ -23,6 +23,7 @@ import { getFirstOfMonth } from "./utils.tsx";
 import TapirButton from "../components/TapirButton.tsx";
 import { Download } from "react-bootstrap-icons";
 import DateRangePicker from "./components/DateRangePicker.tsx";
+import ColourblindnessTypePicker from "./components/ColourblindnessTypePicker.tsx";
 
 declare let gettext: (english_text: string) => string;
 
@@ -72,16 +73,20 @@ const FancyGraphCard: React.FC = () => {
     useState(false);
   const [availableDatasets, setAvailableDatasets] = useState<Dataset[]>([]);
   const [availableDatasetsError, setAvailableDatasetsError] = useState("");
+  const [selectedColourblindnessType, setSelectedColourblindnessType] =
+    useState("");
 
   useEffect(() => {
     setAvailableDatasetsLoading(true);
 
     api
-      .statisticsAvailableDatasetsList()
+      .statisticsAvailableDatasetsList({
+        colourblindness: selectedColourblindnessType,
+      })
       .then(setAvailableDatasets)
       .catch(setAvailableDatasetsError)
       .finally(() => setAvailableDatasetsLoading(false));
-  }, []);
+  }, [selectedColourblindnessType]);
 
   useEffect(() => {
     const dateFromOnPageLoad = new Date();
@@ -295,6 +300,11 @@ const FancyGraphCard: React.FC = () => {
                   setDateTo={setDateTo}
                   setDates={setDates}
                   setGraphLabels={setGraphLabels}
+                />
+                <ColourblindnessTypePicker
+                  setSelectedColourblindnessType={
+                    setSelectedColourblindnessType
+                  }
                 />
                 <TapirButton
                   variant={"outline-secondary"}

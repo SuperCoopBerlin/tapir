@@ -28,6 +28,10 @@ import {
     DatasetToJSON,
 } from '../models/index';
 
+export interface StatisticsAvailableDatasetsListRequest {
+    colourblindness: string;
+}
+
 export interface StatisticsExportDatasetListRequest {
     atDate: Date;
     dataset: string;
@@ -48,8 +52,45 @@ export class StatisticsApi extends runtime.BaseAPI {
     /**
      * Verify that the current user is authenticated.
      */
-    async statisticsAvailableDatasetsListRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Dataset>>> {
+    async statisticsAvailableColourblindnessTypesRetrieveRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
         const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/available_colourblindness_types`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsAvailableColourblindnessTypesRetrieve(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
+        const response = await this.statisticsAvailableColourblindnessTypesRetrieveRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsAvailableDatasetsListRaw(requestParameters: StatisticsAvailableDatasetsListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Dataset>>> {
+        if (requestParameters['colourblindness'] == null) {
+            throw new runtime.RequiredError(
+                'colourblindness',
+                'Required parameter "colourblindness" was null or undefined when calling statisticsAvailableDatasetsList().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['colourblindness'] != null) {
+            queryParameters['colourblindness'] = requestParameters['colourblindness'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -66,8 +107,8 @@ export class StatisticsApi extends runtime.BaseAPI {
     /**
      * Verify that the current user is authenticated.
      */
-    async statisticsAvailableDatasetsList(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Dataset>> {
-        const response = await this.statisticsAvailableDatasetsListRaw(initOverrides);
+    async statisticsAvailableDatasetsList(requestParameters: StatisticsAvailableDatasetsListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Dataset>> {
+        const response = await this.statisticsAvailableDatasetsListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

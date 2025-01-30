@@ -3,10 +3,33 @@ info:
   title: ''
   version: 0.0.0
 paths:
+  /statistics/available_colourblindness_types:
+    get:
+      operationId: statistics_available_colourblindness_types_retrieve
+      description: Verify that the current user is authenticated.
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+          description: ''
   /statistics/available_datasets:
     get:
       operationId: statistics_available_datasets_list
       description: Verify that the current user is authenticated.
+      parameters:
+      - in: query
+        name: colourblindness
+        schema:
+          type: string
+        required: true
       tags:
       - statistics
       security:

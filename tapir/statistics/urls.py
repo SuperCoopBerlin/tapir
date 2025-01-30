@@ -1,6 +1,9 @@
 from django.urls import path
 
 from tapir.statistics import views
+from tapir.statistics.views.available_colourblindness_types_view import (
+    AvailableColourblindnessTypes,
+)
 from tapir.statistics.views.available_columns_view import AvailableColumnsView
 from tapir.statistics.views.available_datasets_view import AvailableDatasetsView
 from tapir.statistics.views.dataset_export_view import DatasetExportView
@@ -79,5 +82,10 @@ urlpatterns = [
         "graph_point",
         DatasetGraphPointView.as_view(),
         name="graph_point",
+    ),
+    path(
+        "available_colourblindness_types",
+        AvailableColourblindnessTypes.as_view(),
+        name="available_colourblindness_types",
     ),
 ]

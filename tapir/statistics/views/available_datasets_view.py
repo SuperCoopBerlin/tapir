@@ -1,6 +1,6 @@
 from distinctipy import distinctipy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -29,6 +29,9 @@ class AvailableDatasetsView(LoginRequiredMixin, PermissionRequiredMixin, APIView
 
     @extend_schema(
         responses={200: DatasetSerializer(many=True)},
+        parameters=[
+            OpenApiParameter(name="colourblindness", required=True, type=str),
+        ],
     )
     def get(self, request):
         datasets = [
@@ -40,7 +43,11 @@ class AvailableDatasetsView(LoginRequiredMixin, PermissionRequiredMixin, APIView
             for provider_id, provider in data_providers.items()
         ]
 
-        colors = distinctipy.get_colors(len(datasets), rng=123456)
+        colors = distinctipy.get_colors(
+            len(datasets),
+            rng=123456,
+            colorblind_type=request.query_params.get("colourblindness"),
+        )
         for index, dataset in enumerate(datasets):
             dataset["color"] = distinctipy.get_hex(colors[index])
             dataset["point_style"] = self.POINT_STYLES[index % len(self.POINT_STYLES)]
