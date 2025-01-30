@@ -1,6 +1,14 @@
 from rest_framework import serializers
 
 
+class DatasetSerializer(serializers.Serializer):
+    id = serializers.CharField()
+    display_name = serializers.CharField()
+    description = serializers.CharField()
+    color = serializers.CharField()
+    point_style = serializers.CharField()
+
+
 class DatapointExportSerializer(serializers.Serializer):
     member_number = serializers.IntegerField(required=False)
     display_name = serializers.CharField(required=False)

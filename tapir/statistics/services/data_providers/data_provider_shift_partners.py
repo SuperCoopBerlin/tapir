@@ -12,7 +12,7 @@ from tapir.shifts.services.shift_partner_history_service import (
 from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
 
 
-class DataProvider(BaseDataProvider):
+class DataProviderShiftPartners(BaseDataProvider):
     @classmethod
     def get_display_name(cls):
         return _("Shift partners")

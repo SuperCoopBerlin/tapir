@@ -8,7 +8,7 @@ from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
 
 
-class DataProvider(BaseDataProvider):
+class DataProviderPurchasingMembers(BaseDataProvider):
     @classmethod
     def get_display_name(cls):
         return _("Purchasing members")

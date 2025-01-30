@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Badge,
   Card,
   Col,
   FloatingLabel,
@@ -9,70 +10,54 @@ import {
   Table,
 } from "react-bootstrap";
 import { useApi } from "../hooks/useApi.ts";
-import { DatapointExport, StatisticsApi } from "../api-client";
+import { Dataset, StatisticsApi } from "../api-client";
 import { getDateInputValue } from "./utils.tsx";
 import TapirButton from "../components/TapirButton.tsx";
 import { Download } from "react-bootstrap-icons";
+import { DatapointExport } from "../api-client/models/DatapointExport.ts";
 
 declare let gettext: (english_text: string) => string;
 
 const FancyExportCard: React.FC = () => {
   const api = useApi(StatisticsApi);
-  const [error, setError] = useState("");
+  const [availableColumnsError, setAvailableColumnsError] = useState("");
   const [availableColumns, setAvailableColumns] = useState<string[]>([]);
   const [availableColumnsLoading, setAvailableColumnsLoading] = useState(false);
-  const [enabledColumns, setEnabledColumns] = useState<Set<string>>(
-    new Set<string>(),
-  );
   const [date, setDate] = useState<Date>(new Date());
   const [rows, setRows] = useState<DatapointExport[]>([]);
+  const [availableDatasetsError, setAvailableDatasetsError] = useState("");
+  const [availableDatasets, setAvailableDatasets] = useState<Dataset[]>([]);
+  const [availableDatasetsLoading, setAvailableDatasetsLoading] =
+    useState(false);
+  const [selectedDataset, setSelectedDataset] = useState<Dataset | undefined>();
+  const [selectedColumns, setSelectedColumns] = useState<Set<string>>(
+    new Set<string>(),
+  );
 
   useEffect(() => {
     setAvailableColumnsLoading(true);
     api
-      .statisticsAvailableExportColumnsViewList()
+      .statisticsAvailableExportColumnsList()
       .then((columns) => {
         setAvailableColumns(columns.map((column) => column.columnName));
       })
-      .catch(setError)
+      .catch(setAvailableColumnsError)
       .finally(() => {
         setAvailableColumnsLoading(false);
       });
   }, []);
 
-  function buildColumnCheckboxes() {
-    return (
-      <ul>
-        {availableColumns.map((columnName) => (
-          <Form.Check
-            key={columnName}
-            type={"switch"}
-            label={columnName}
-            onChange={(e) => {
-              const newEnabledColumnsSet = new Set(enabledColumns);
-              if (e.target.checked) {
-                newEnabledColumnsSet.add(columnName);
-              } else {
-                newEnabledColumnsSet.delete(columnName);
-              }
-              setEnabledColumns(newEnabledColumnsSet);
-            }}
-          />
-        ))}
-      </ul>
-    );
-  }
+  useEffect(() => {
+    setAvailableDatasetsLoading(true);
 
-  function doDownload() {
     api
-      .statisticsAbcdMemberExportViewList({
-        exportColumns: Array.from(enabledColumns),
-        atDate: date,
-      })
-      .then((rows) => {
-        setRows(rows);
+      .statisticsAvailableDatasetsList()
+      .then(setAvailableDatasets)
+      .catch(setAvailableDatasetsError)
+      .finally(() => {
+        setAvailableDatasetsLoading(false);
       });
-  }
+  }, []);
 
   function snakeCaseToCamelCase(input: string): string {
     return input
@@ -88,6 +73,18 @@ const FancyExportCard: React.FC = () => {
       );
   }
 
+  function addExportColumnToSelection(columnName: string) {
+    const newSelectedColumnsSet = new Set(selectedColumns);
+    newSelectedColumnsSet.add(columnName);
+    setSelectedColumns(newSelectedColumnsSet);
+  }
+
+  function removeExportColumnFromSelection(columnName: string) {
+    const newSelectedColumnsSet = new Set(selectedColumns);
+    newSelectedColumnsSet.delete(columnName);
+    setSelectedColumns(newSelectedColumnsSet);
+  }
+
   return (
     <>
       <Row>
@@ -99,69 +96,126 @@ const FancyExportCard: React.FC = () => {
               <h5>{gettext("Fancy export")}</h5>
             </Card.Header>
             <Card.Body className={"p-2 m-2"}>
-              <div>
-                {error ? (
-                  <div>{error}</div>
-                ) : availableColumnsLoading ? (
-                  <Spinner />
-                ) : (
-                  <ul>{buildColumnCheckboxes()}</ul>
-                )}
-              </div>
-              <div>
-                <Form.Group>
-                  <FloatingLabel label={"Date"}>
-                    <Form.Control
-                      type={"date"}
-                      value={getDateInputValue(date)}
-                      onChange={(event) => {
-                        setDate(new Date(event.target.value));
-                      }}
-                    />
-                  </FloatingLabel>
-                </Form.Group>
-              </div>
-              <div>
-                <TapirButton
-                  variant={"outline-secondary"}
-                  text={"Download active members"}
-                  icon={Download}
-                  onClick={() => {
-                    doDownload();
-                  }}
-                />
-              </div>
-              <div>
-                <Table
-                  className={
-                    "table-striped table-hover table-bordered table-sm"
-                  }
-                >
-                  <thead>
-                    <tr>
-                      {Array.from(enabledColumns).map((columnName) => (
-                        <th key={columnName}>{columnName}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {rows.map((row, index) => (
-                      <tr key={index}>
-                        {Array.from(enabledColumns).map((columnName) => (
-                          <td key={index.toString() + "_" + columnName}>
-                            {
-                              row[
-                                snakeCaseToCamelCase(
-                                  columnName,
-                                ) as keyof DatapointExport
-                              ]
+              <div className={"d-flex flex-column gap-2"}>
+                <div>
+                  {availableDatasetsError ? (
+                    <div>{availableDatasetsError}</div>
+                  ) : availableDatasetsLoading ? (
+                    <Spinner />
+                  ) : (
+                    <Form.Group>
+                      <FloatingLabel label={"Pick a source dataset"}>
+                        <Form.Select
+                          onChange={(event) => {
+                            for (const dataset of availableDatasets) {
+                              if (dataset.id == event.target.value)
+                                setSelectedDataset(dataset);
                             }
-                          </td>
+                          }}
+                        >
+                          <option value={""}></option>
+                          {availableDatasets.map((dataset) => (
+                            <option value={dataset.id}>
+                              {dataset.displayName}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </FloatingLabel>
+                    </Form.Group>
+                  )}
+                </div>
+                <div>
+                  {availableColumnsError ? (
+                    <div>{availableColumnsError}</div>
+                  ) : availableColumnsLoading ? (
+                    <Spinner />
+                  ) : (
+                    <Form.Group>
+                      <FloatingLabel label={"Add columns to the export"}>
+                        <Form.Select
+                          onChange={(event) => {
+                            addExportColumnToSelection(event.target.value);
+                          }}
+                        >
+                          <option value=""></option>
+                          {availableColumns.map((column) => (
+                            <option value={column}>{column}</option>
+                          ))}
+                        </Form.Select>
+                      </FloatingLabel>
+                    </Form.Group>
+                  )}
+                </div>
+                <div className={"d-flex flex-row gap-2"}>
+                  {Array.from(selectedColumns).map((column) => (
+                    <Badge
+                      onClick={() => removeExportColumnFromSelection(column)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {column}
+                    </Badge>
+                  ))}
+                </div>
+                <div>
+                  <Form.Group>
+                    <FloatingLabel label={"Date"}>
+                      <Form.Control
+                        type={"date"}
+                        value={getDateInputValue(date)}
+                        onChange={(event) => {
+                          setDate(new Date(event.target.value));
+                        }}
+                      />
+                    </FloatingLabel>
+                  </Form.Group>
+                </div>
+                <div>
+                  <TapirButton
+                    variant={"outline-secondary"}
+                    text={
+                      selectedDataset
+                        ? "Download " + selectedDataset.displayName
+                        : "Pick a source dataset"
+                    }
+                    icon={Download}
+                    onClick={() => {
+                      alert("Not implemented");
+                    }}
+                    disabled={!selectedDataset}
+                  />
+                </div>
+                <div>
+                  <Table
+                    className={
+                      "table-striped table-hover table-bordered table-sm"
+                    }
+                  >
+                    <thead>
+                      <tr>
+                        {Array.from(selectedColumns).map((columnName) => (
+                          <th key={columnName}>{columnName}</th>
                         ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </Table>
+                    </thead>
+                    <tbody>
+                      {rows.map((row, index) => (
+                        <tr key={index}>
+                          {Array.from(selectedColumns).map((columnName) => (
+                            <td key={index.toString() + "_" + columnName}>
+                              {
+                                row[
+                                  snakeCaseToCamelCase(
+                                    columnName,
+                                  ) as keyof DatapointExport
+                                ]
+                              }
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
               </div>
             </Card.Body>
           </Card>

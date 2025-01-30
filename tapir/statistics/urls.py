@@ -1,28 +1,9 @@
 from django.urls import path
 
 import tapir.statistics.views.fancy_graph.base_view
-import tapir.statistics.views.fancy_graph.number_of_abcd_members_view
-import tapir.statistics.views.fancy_graph.number_of_active_members_view
-import tapir.statistics.views.fancy_graph.number_of_active_members_with_account_view
-import tapir.statistics.views.fancy_graph.number_of_co_purchasers_view
-import tapir.statistics.views.fancy_graph.number_of_created_resignations_view
-import tapir.statistics.views.fancy_graph.number_of_exempted_members_that_work_view
-import tapir.statistics.views.fancy_graph.number_of_exempted_members_view
-import tapir.statistics.views.fancy_graph.number_of_flying_members_view
-import tapir.statistics.views.fancy_graph.number_of_frozen_members_view
-import tapir.statistics.views.fancy_graph.number_of_investing_members_view
-import tapir.statistics.views.fancy_graph.number_of_long_term_frozen_members_view
-import tapir.statistics.views.fancy_graph.number_of_members_view
-import tapir.statistics.views.fancy_graph.number_of_paused_members_view
-import tapir.statistics.views.fancy_graph.number_of_pending_resignations_view
-import tapir.statistics.views.fancy_graph.number_of_purchasing_members_view
-import tapir.statistics.views.fancy_graph.number_of_shift_partners_view
-import tapir.statistics.views.fancy_graph.number_of_working_members_view
 from tapir.statistics import views
 from tapir.statistics.views import fancy_graph
-from tapir.statistics.views.fancy_export.abcd_members_export_view import (
-    AbcdMembersExportView,
-)
+from tapir.statistics.views.available_datasets_view import AvailableDatasetsView
 from tapir.statistics.views.fancy_export.base_view import (
     AvailableColumnsView,
     FancyExportView,
@@ -76,103 +57,18 @@ urlpatterns = [
         name="fancy_graph",
     ),
     path(
-        "number_of_members_at_date",
-        fancy_graph.number_of_members_view.NumberOfMembersAtDateView.as_view(),
-        name="number_of_members_at_date",
-    ),
-    path(
-        "number_of_active_members_at_date",
-        fancy_graph.number_of_active_members_view.NumberOfActiveMembersAtDateView.as_view(),
-        name="number_of_active_members_at_date",
-    ),
-    path(
-        "number_of_active_members_with_account_at_date",
-        fancy_graph.number_of_active_members_with_account_view.NumberOfActiveMembersWithAccountAtDateView.as_view(),
-        name="number_of_active_members_with_account_at_date",
-    ),
-    path(
-        "number_of_working_members_at_date",
-        fancy_graph.number_of_working_members_view.NumberOfWorkingMembersAtDateView.as_view(),
-        name="number_of_working_members_at_date",
-    ),
-    path(
-        "number_of_purchasing_members_at_date",
-        fancy_graph.number_of_purchasing_members_view.NumberOfPurchasingMembersAtDateView.as_view(),
-        name="number_of_purchasing_members_at_date",
-    ),
-    path(
-        "number_of_frozen_members_at_date",
-        fancy_graph.number_of_frozen_members_view.NumberOfFrozenMembersAtDateView.as_view(),
-        name="number_of_frozen_members_at_date",
-    ),
-    path(
-        "number_of_long_term_frozen_members_at_date",
-        fancy_graph.number_of_long_term_frozen_members_view.NumberOfLongTermFrozenMembersAtDateView.as_view(),
-        name="number_of_long_term_frozen_members_at_date",
-    ),
-    path(
-        "number_of_shift_partners_at_date",
-        fancy_graph.number_of_shift_partners_view.NumberOfShiftPartnersAtDateView.as_view(),
-        name="number_of_shift_partners_at_date",
-    ),
-    path(
-        "number_of_co_purchasers_at_date",
-        fancy_graph.number_of_co_purchasers_view.NumberOfCoPurchasersAtDateView.as_view(),
-        name="number_of_co_purchasers_at_date",
-    ),
-    path(
-        "number_of_flying_members_at_date",
-        fancy_graph.number_of_flying_members_view.NumberOfFlyingMembersAtDateView.as_view(),
-        name="number_of_flying_members_at_date",
-    ),
-    path(
-        "number_of_abcd_members_at_date",
-        fancy_graph.number_of_abcd_members_view.NumberOfAbcdMembersAtDateView.as_view(),
-        name="number_of_abcd_members_at_date",
-    ),
-    path(
-        "number_of_investing_members_at_date",
-        fancy_graph.number_of_investing_members_view.NumberOfInvestingMembersAtDateView.as_view(),
-        name="number_of_investing_members_at_date",
-    ),
-    path(
-        "number_of_paused_members_at_date",
-        fancy_graph.number_of_paused_members_view.NumberOfPausedMembersAtDateView.as_view(),
-        name="number_of_paused_members_at_date",
-    ),
-    path(
-        "number_of_pending_resignations_at_date",
-        fancy_graph.number_of_pending_resignations_view.NumberOfPendingResignationsAtDateView.as_view(),
-        name="number_of_pending_resignations_at_date",
-    ),
-    path(
-        "number_of_created_resignations_in_same_month",
-        fancy_graph.number_of_created_resignations_view.NumberOfCreatedResignationsInSameMonthView.as_view(),
-        name="number_of_created_resignations_in_same_month",
-    ),
-    path(
-        "number_of_exempted_members_at_date",
-        fancy_graph.number_of_exempted_members_view.NumberOfExemptedMembersAtDateView.as_view(),
-        name="number_of_exempted_members_at_date",
-    ),
-    path(
-        "number_of_exempted_members_that_work",
-        fancy_graph.number_of_exempted_members_that_work_view.NumberOfExemptedMembersThatWorkView.as_view(),
-        name="number_of_exempted_members_that_work",
-    ),
-    path(
         "fancy_export",
         FancyExportView.as_view(),
         name="fancy_export",
     ),
     path(
-        "available_export_columns_view",
+        "available_export_columns",
         AvailableColumnsView.as_view(),
-        name="available_export_columns_view",
+        name="available_export_columns",
     ),
     path(
-        "abcd_member_export_view",
-        AbcdMembersExportView.as_view(),
-        name="abcd_member_export_view",
+        "available_datasets",
+        AvailableDatasetsView.as_view(),
+        name="available_datasets",
     ),
 ]
