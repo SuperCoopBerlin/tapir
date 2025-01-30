@@ -73,6 +73,38 @@ paths:
                 items:
                   $ref: '#/components/schemas/DatapointExport'
           description: ''
+  /statistics/graph_point:
+    get:
+      operationId: statistics_graph_point_retrieve
+      description: Verify that the current user is authenticated.
+      parameters:
+      - in: query
+        name: at_date
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: dataset
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: relative
+        schema:
+          type: boolean
+        required: true
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: ''
   /welcomedesk/api/search:
     get:
       operationId: welcomedesk_api_search_list

@@ -12,6 +12,8 @@ from tapir.statistics.services.data_providers.base_data_provider import data_pro
 
 class AvailableDatasetsView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
     permission_required = PERMISSION_COOP_MANAGE
+
+    # Point styles from https://www.chartjs.org/docs/latest/configuration/elements.html#info
     POINT_STYLES = [
         "circle",
         "cross",

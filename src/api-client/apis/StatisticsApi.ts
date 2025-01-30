@@ -34,6 +34,12 @@ export interface StatisticsExportDatasetListRequest {
     exportColumns: Array<string>;
 }
 
+export interface StatisticsGraphPointRetrieveRequest {
+    atDate: Date;
+    dataset: string;
+    relative: boolean;
+}
+
 /**
  * 
  */
@@ -147,6 +153,69 @@ export class StatisticsApi extends runtime.BaseAPI {
      */
     async statisticsExportDatasetList(requestParameters: StatisticsExportDatasetListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatapointExport>> {
         const response = await this.statisticsExportDatasetListRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsGraphPointRetrieveRaw(requestParameters: StatisticsGraphPointRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<number>> {
+        if (requestParameters['atDate'] == null) {
+            throw new runtime.RequiredError(
+                'atDate',
+                'Required parameter "atDate" was null or undefined when calling statisticsGraphPointRetrieve().'
+            );
+        }
+
+        if (requestParameters['dataset'] == null) {
+            throw new runtime.RequiredError(
+                'dataset',
+                'Required parameter "dataset" was null or undefined when calling statisticsGraphPointRetrieve().'
+            );
+        }
+
+        if (requestParameters['relative'] == null) {
+            throw new runtime.RequiredError(
+                'relative',
+                'Required parameter "relative" was null or undefined when calling statisticsGraphPointRetrieve().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['atDate'] != null) {
+            queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['dataset'] != null) {
+            queryParameters['dataset'] = requestParameters['dataset'];
+        }
+
+        if (requestParameters['relative'] != null) {
+            queryParameters['relative'] = requestParameters['relative'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/graph_point`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        if (this.isJsonMime(response.headers.get('content-type'))) {
+            return new runtime.JSONApiResponse<number>(response);
+        } else {
+            return new runtime.TextApiResponse(response) as any;
+        }
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsGraphPointRetrieve(requestParameters: StatisticsGraphPointRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
+        const response = await this.statisticsGraphPointRetrieveRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

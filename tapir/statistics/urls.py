@@ -4,6 +4,7 @@ from tapir.statistics import views
 from tapir.statistics.views.available_columns_view import AvailableColumnsView
 from tapir.statistics.views.available_datasets_view import AvailableDatasetsView
 from tapir.statistics.views.dataset_export_view import DatasetExportView
+from tapir.statistics.views.dataset_graph_point_view import DatasetGraphPointView
 from tapir.statistics.views.fancy_export_view import FancyExportView
 from tapir.statistics.views.fancy_graph_view import FancyGraphView
 
@@ -73,5 +74,10 @@ urlpatterns = [
         "export_dataset",
         DatasetExportView.as_view(),
         name="export_dataset",
+    ),
+    path(
+        "graph_point",
+        DatasetGraphPointView.as_view(),
+        name="graph_point",
     ),
 ]
