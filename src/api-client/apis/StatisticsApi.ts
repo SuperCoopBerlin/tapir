@@ -16,14 +16,23 @@
 import * as runtime from '../runtime';
 import type {
   Column,
+  DatapointExport,
   Dataset,
 } from '../models/index';
 import {
     ColumnFromJSON,
     ColumnToJSON,
+    DatapointExportFromJSON,
+    DatapointExportToJSON,
     DatasetFromJSON,
     DatasetToJSON,
 } from '../models/index';
+
+export interface StatisticsExportDatasetListRequest {
+    atDate: Date;
+    dataset: string;
+    exportColumns: Array<string>;
+}
 
 /**
  * 
@@ -79,6 +88,65 @@ export class StatisticsApi extends runtime.BaseAPI {
      */
     async statisticsAvailableExportColumnsList(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Column>> {
         const response = await this.statisticsAvailableExportColumnsListRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsExportDatasetListRaw(requestParameters: StatisticsExportDatasetListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatapointExport>>> {
+        if (requestParameters['atDate'] == null) {
+            throw new runtime.RequiredError(
+                'atDate',
+                'Required parameter "atDate" was null or undefined when calling statisticsExportDatasetList().'
+            );
+        }
+
+        if (requestParameters['dataset'] == null) {
+            throw new runtime.RequiredError(
+                'dataset',
+                'Required parameter "dataset" was null or undefined when calling statisticsExportDatasetList().'
+            );
+        }
+
+        if (requestParameters['exportColumns'] == null) {
+            throw new runtime.RequiredError(
+                'exportColumns',
+                'Required parameter "exportColumns" was null or undefined when calling statisticsExportDatasetList().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['atDate'] != null) {
+            queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['dataset'] != null) {
+            queryParameters['dataset'] = requestParameters['dataset'];
+        }
+
+        if (requestParameters['exportColumns'] != null) {
+            queryParameters['export_columns'] = requestParameters['exportColumns'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/export_dataset`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DatapointExportFromJSON));
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsExportDatasetList(requestParameters: StatisticsExportDatasetListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatapointExport>> {
+        const response = await this.statisticsExportDatasetListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

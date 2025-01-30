@@ -10,11 +10,10 @@ import {
   Table,
 } from "react-bootstrap";
 import { useApi } from "../hooks/useApi.ts";
-import { Dataset, StatisticsApi } from "../api-client";
+import { DatapointExport, Dataset, StatisticsApi } from "../api-client";
 import { getDateInputValue } from "./utils.tsx";
 import TapirButton from "../components/TapirButton.tsx";
-import { Download } from "react-bootstrap-icons";
-import { DatapointExport } from "../api-client/models/DatapointExport.ts";
+import { Copy, Download } from "react-bootstrap-icons";
 
 declare let gettext: (english_text: string) => string;
 
@@ -33,6 +32,8 @@ const FancyExportCard: React.FC = () => {
   const [selectedColumns, setSelectedColumns] = useState<Set<string>>(
     new Set<string>(),
   );
+  const [exportDownloading, setExportDownloading] = useState(false);
+  const [downloadExportError, setDownloadExportError] = useState("");
 
   useEffect(() => {
     setAvailableColumnsLoading(true);
@@ -77,12 +78,64 @@ const FancyExportCard: React.FC = () => {
     const newSelectedColumnsSet = new Set(selectedColumns);
     newSelectedColumnsSet.add(columnName);
     setSelectedColumns(newSelectedColumnsSet);
+    setRows([]);
   }
 
   function removeExportColumnFromSelection(columnName: string) {
     const newSelectedColumnsSet = new Set(selectedColumns);
     newSelectedColumnsSet.delete(columnName);
     setSelectedColumns(newSelectedColumnsSet);
+    setRows([]);
+  }
+
+  function downloadExport() {
+    if (!selectedDataset) {
+      alert("You must first select which dataset you want to export");
+      return;
+    }
+
+    setExportDownloading(true);
+    api
+      .statisticsExportDatasetList({
+        exportColumns: Array.from(selectedColumns),
+        dataset: selectedDataset.id,
+        atDate: date,
+      })
+      .then(setRows)
+      .catch(setDownloadExportError)
+      .finally(() => setExportDownloading(false));
+  }
+
+  function copyExportToClipboard() {
+    let text = Array.from(selectedColumns).join(",");
+    text += "\n" + rows.map((row) => buildRowExport(row)).join("\n");
+    navigator.clipboard.writeText(text).then(() => {
+      alert("Copied");
+    });
+  }
+
+  function buildRowExport(row: DatapointExport): string {
+    return Array.from(selectedColumns)
+      .map((columnName) =>
+        buildColumnExport(
+          row[snakeCaseToCamelCase(columnName) as keyof DatapointExport],
+        ),
+      )
+      .join(",");
+  }
+
+  function buildColumnExport(
+    columnValue: string | number | boolean | string[] | undefined,
+  ): string {
+    if (typeof columnValue === "boolean") {
+      return columnValue ? "True" : "False";
+    }
+
+    if (Array.isArray(columnValue)) {
+      return columnValue.join(" - ");
+    }
+
+    return columnValue ? columnValue.toString() : "N/A";
   }
 
   return (
@@ -108,14 +161,18 @@ const FancyExportCard: React.FC = () => {
                         <Form.Select
                           onChange={(event) => {
                             for (const dataset of availableDatasets) {
-                              if (dataset.id == event.target.value)
+                              if (dataset.id == event.target.value) {
                                 setSelectedDataset(dataset);
+                                setRows([]);
+                                return;
+                              }
                             }
+                            setSelectedDataset(undefined);
                           }}
                         >
                           <option value={""}></option>
                           {availableDatasets.map((dataset) => (
-                            <option value={dataset.id}>
+                            <option value={dataset.id} key={dataset.id}>
                               {dataset.displayName}
                             </option>
                           ))}
@@ -140,7 +197,9 @@ const FancyExportCard: React.FC = () => {
                         >
                           <option value=""></option>
                           {availableColumns.map((column) => (
-                            <option value={column}>{column}</option>
+                            <option value={column} key={column}>
+                              {column}
+                            </option>
                           ))}
                         </Form.Select>
                       </FloatingLabel>
@@ -152,6 +211,7 @@ const FancyExportCard: React.FC = () => {
                     <Badge
                       onClick={() => removeExportColumnFromSelection(column)}
                       style={{ cursor: "pointer" }}
+                      key={column}
                     >
                       {column}
                     </Badge>
@@ -170,52 +230,67 @@ const FancyExportCard: React.FC = () => {
                     </FloatingLabel>
                   </Form.Group>
                 </div>
-                <div>
+                <div className={"d-flex flex-row gap-2"}>
                   <TapirButton
                     variant={"outline-secondary"}
                     text={
                       selectedDataset
-                        ? "Download " + selectedDataset.displayName
+                        ? "Build export for " + selectedDataset.displayName
                         : "Pick a source dataset"
                     }
                     icon={Download}
                     onClick={() => {
-                      alert("Not implemented");
+                      downloadExport();
                     }}
                     disabled={!selectedDataset}
+                    loading={exportDownloading}
                   />
+                  {rows.length > 0 && (
+                    <TapirButton
+                      variant={"outline-secondary"}
+                      text={"Copy export to clipboard"}
+                      icon={Copy}
+                      onClick={() => {
+                        copyExportToClipboard();
+                      }}
+                    />
+                  )}
                 </div>
                 <div>
-                  <Table
-                    className={
-                      "table-striped table-hover table-bordered table-sm"
-                    }
-                  >
-                    <thead>
-                      <tr>
-                        {Array.from(selectedColumns).map((columnName) => (
-                          <th key={columnName}>{columnName}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows.map((row, index) => (
-                        <tr key={index}>
+                  {downloadExportError ? (
+                    downloadExportError
+                  ) : (
+                    <Table
+                      className={
+                        "table-striped table-hover table-bordered table-sm"
+                      }
+                    >
+                      <thead>
+                        <tr>
                           {Array.from(selectedColumns).map((columnName) => (
-                            <td key={index.toString() + "_" + columnName}>
-                              {
-                                row[
-                                  snakeCaseToCamelCase(
-                                    columnName,
-                                  ) as keyof DatapointExport
-                                ]
-                              }
-                            </td>
+                            <th key={columnName}>{columnName}</th>
                           ))}
                         </tr>
-                      ))}
-                    </tbody>
-                  </Table>
+                      </thead>
+                      <tbody>
+                        {rows.map((row, index) => (
+                          <tr key={index}>
+                            {Array.from(selectedColumns).map((columnName) => (
+                              <td key={index.toString() + "_" + columnName}>
+                                {
+                                  row[
+                                    snakeCaseToCamelCase(
+                                      columnName,
+                                    ) as keyof DatapointExport
+                                  ]
+                                }
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  )}
                 </div>
               </div>
             </Card.Body>

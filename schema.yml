@@ -37,6 +37,42 @@ paths:
                 items:
                   $ref: '#/components/schemas/Column'
           description: ''
+  /statistics/export_dataset:
+    get:
+      operationId: statistics_export_dataset_list
+      description: Verify that the current user is authenticated.
+      parameters:
+      - in: query
+        name: at_date
+        schema:
+          type: string
+          format: date
+        required: true
+      - in: query
+        name: dataset
+        schema:
+          type: string
+        required: true
+      - in: query
+        name: export_columns
+        schema:
+          type: array
+          items:
+            type: string
+        required: true
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DatapointExport'
+          description: ''
   /welcomedesk/api/search:
     get:
       operationId: welcomedesk_api_search_list
@@ -69,6 +105,69 @@ components:
           type: string
       required:
       - column_name
+    DatapointExport:
+      type: object
+      properties:
+        member_number:
+          type: integer
+        display_name:
+          type: string
+        is_company:
+          type: boolean
+        company_name:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        usage_name:
+          type: string
+        pronouns:
+          type: string
+        email:
+          type: string
+        phone_number:
+          type: string
+        birthdate:
+          type: string
+        street:
+          type: string
+        street_2:
+          type: string
+        postcode:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        preferred_language:
+          type: string
+        is_investing:
+          type: boolean
+        ratenzahlung:
+          type: boolean
+        attended_welcome_session:
+          type: boolean
+        co_purchaser:
+          type: string
+        allows_purchase_tracking:
+          type: boolean
+        shift_capabilities:
+          type: array
+          items:
+            type: string
+        shift_partner:
+          type: integer
+        shift_status:
+          type: string
+        is_working:
+          type: boolean
+        is_exempted:
+          type: boolean
+        is_paused:
+          type: boolean
+        can_shop:
+          type: boolean
     Dataset:
       type: object
       properties:
