@@ -1,20 +1,31 @@
 import datetime
 
-from django.db.models import Q, QuerySet
+from django.db.models import QuerySet, Q
+from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
-from tapir.shifts.models import ShiftAttendanceMode, ShiftUserData
+from tapir.shifts.models import ShiftUserData, ShiftAttendanceMode
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
-from tapir.statistics.views.fancy_graph.base_view import (
-    DatapointView,
+from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
+from tapir.statistics.services.data_providers.data_provider_abcd_members import (
+    DataProviderAbcdMembers,
 )
 
 
-class NumberOfFlyingMembersAtDateView(DatapointView):
-    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
+class DataProviderFlyingMembers(BaseDataProvider):
+    @classmethod
+    def get_display_name(cls):
+        return _("Flying members")
+
+    @classmethod
+    def get_description(cls):
+        return DataProviderAbcdMembers.get_description()
+
+    @classmethod
+    def get_queryset(cls, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         shift_user_datas = ShiftUserData.objects.all()
 
         shift_user_datas_working = (

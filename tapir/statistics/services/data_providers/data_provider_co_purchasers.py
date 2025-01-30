@@ -1,6 +1,7 @@
 import datetime
 
-from django.db.models import Q, QuerySet
+from django.db.models import QuerySet, Q
+from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.services.co_purchaser_history_service import (
@@ -8,11 +9,22 @@ from tapir.accounts.services.co_purchaser_history_service import (
 )
 from tapir.coop.models import ShareOwner
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
-from tapir.statistics.views.fancy_graph.base_view import DatapointView
+from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
 
 
-class NumberOfCoPurchasersAtDateView(DatapointView):
-    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
+class DataProviderCoPurchasers(BaseDataProvider):
+    @classmethod
+    def get_display_name(cls):
+        return _("Co-purchasers")
+
+    @classmethod
+    def get_description(cls):
+        return _(
+            "Only members who can shop are counted: members that have a co-purchaser but are not allowed to shop are not counted"
+        )
+
+    @classmethod
+    def get_queryset(cls, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         share_owners_that_can_shop = MemberCanShopService.annotate_share_owner_queryset_with_shopping_status_at_datetime(
             ShareOwner.objects.all(), reference_time
         ).filter(

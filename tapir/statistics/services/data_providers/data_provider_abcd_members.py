@@ -1,6 +1,7 @@
 import datetime
 
 from django.db.models import Q, QuerySet
+from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
 from tapir.shifts.models import ShiftAttendanceMode, ShiftUserData
@@ -8,13 +9,22 @@ from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
-from tapir.statistics.views.fancy_graph.base_view import (
-    DatapointView,
-)
+from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
 
 
-class NumberOfAbcdMembersAtDateView(DatapointView):
-    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
+class DataProviderAbcdMembers(BaseDataProvider):
+    @classmethod
+    def get_display_name(cls):
+        return _("Number of ABCD members")
+
+    @classmethod
+    def get_description(cls):
+        return _(
+            "Only members who work are counted: members that are exempted, paused, frozen... are not counted"
+        )
+
+    @classmethod
+    def get_queryset(cls, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         working_members = (
             ShiftExpectationService.annotate_shift_user_data_queryset_with_working_status_at_datetime(
                 ShiftUserData.objects.all(), reference_time

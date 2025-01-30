@@ -1,23 +1,28 @@
 import datetime
 
 from django.db.models import QuerySet
+from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner, MemberStatus
-from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,
 )
-from tapir.statistics.views.fancy_graph.base_view import DatapointView
+from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
 
 
-class NumberOfFrozenMembersAtDateView(DatapointView):
-    permission_required = PERMISSION_COOP_MANAGE
+class DataProviderFrozenMembers(BaseDataProvider):
+    @classmethod
+    def get_display_name(cls):
+        return _("Frozen members")
 
-    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
-        return self.get_members_frozen_at_datetime(reference_time)
+    @classmethod
+    def get_description(cls):
+        return _(
+            "Counted out of 'active' members: paused and investing members not counted."
+        )
 
-    @staticmethod
-    def get_members_frozen_at_datetime(reference_time):
+    @classmethod
+    def get_queryset(cls, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         share_owners = ShareOwner.objects.with_status(
             MemberStatus.ACTIVE, reference_time
         )

@@ -1,6 +1,7 @@
 import datetime
 
-from django.db.models import Q, QuerySet
+from django.db.models import QuerySet, Q
+from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
 from tapir.shifts.models import ShiftUserData
@@ -8,13 +9,22 @@ from tapir.shifts.services.shift_expectation_service import ShiftExpectationServ
 from tapir.shifts.services.shift_partner_history_service import (
     ShiftPartnerHistoryService,
 )
-from tapir.statistics.views.fancy_graph.base_view import (
-    DatapointView,
-)
+from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
 
 
-class NumberOfShiftPartnersAtDateView(DatapointView):
-    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
+class DataProvider(BaseDataProvider):
+    @classmethod
+    def get_display_name(cls):
+        return _("Shift partners")
+
+    @classmethod
+    def get_description(cls):
+        return _(
+            "Counted out of working members only: a frozen member with a shift partner is not counted"
+        )
+
+    @classmethod
+    def get_queryset(cls, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         shift_user_datas_working = (
             ShiftExpectationService.annotate_shift_user_data_queryset_with_working_status_at_datetime(
                 ShiftUserData.objects.all(), reference_time

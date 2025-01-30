@@ -1,17 +1,29 @@
 import datetime
 
-from django.db.models import Q, QuerySet
+from django.db.models import QuerySet, Q
+from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner, MemberStatus
 from tapir.shifts.models import ShiftExemption
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,
 )
-from tapir.statistics.views.fancy_graph.base_view import DatapointView
+from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
 
 
-class NumberOfExemptedMembersAtDateView(DatapointView):
-    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
+class DataProviderExemptedMembers(BaseDataProvider):
+    @classmethod
+    def get_display_name(cls):
+        return _("Exempted members")
+
+    @classmethod
+    def get_description(cls):
+        return _(
+            "Counting only members that would work if they were not exempted: frozen and investing members with an exemption are not counted."
+        )
+
+    @classmethod
+    def get_queryset(cls, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         reference_date = reference_time.date()
 
         active_members = ShareOwner.objects.with_status(

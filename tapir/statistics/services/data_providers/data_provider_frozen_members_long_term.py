@@ -1,25 +1,30 @@
 import datetime
 
 from django.db.models import QuerySet
+from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
-from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.shifts.models import UpdateShiftUserDataLogEntry
-from tapir.statistics.views.fancy_graph.base_view import DatapointView
-from tapir.statistics.views.fancy_graph.number_of_frozen_members_view import (
-    NumberOfFrozenMembersAtDateView,
+from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
+from tapir.statistics.services.data_providers.data_provider_frozen_members import (
+    DataProviderFrozenMembers,
 )
 
 
-class NumberOfLongTermFrozenMembersAtDateView(DatapointView):
-    permission_required = PERMISSION_COOP_MANAGE
+class DataProviderFrozenMembersLongTerm(BaseDataProvider):
+    @classmethod
+    def get_display_name(cls):
+        return _("Long-term frozen members")
 
-    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
-        share_owners_frozen = (
-            NumberOfFrozenMembersAtDateView.get_members_frozen_at_datetime(
-                reference_time
-            )
+    @classmethod
+    def get_description(cls):
+        return _(
+            'Members that are frozen since more than 180 days (roughly 6 month). Long-term frozen members are included in the "Frozen members" dataset'
         )
+
+    @classmethod
+    def get_queryset(cls, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
+        share_owners_frozen = DataProviderFrozenMembers.get_queryset(reference_time)
         tapir_user_frozen_ids = list(
             share_owners_frozen.values_list("user__id", flat=True)
         )
