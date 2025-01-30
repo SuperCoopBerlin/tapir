@@ -2,6 +2,7 @@ import datetime
 from abc import ABC, abstractmethod
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import QuerySet
 from django.utils import timezone
 from django.views import generic
 from drf_spectacular.utils import extend_schema, OpenApiParameter
@@ -9,6 +10,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from tapir.coop.models import ShareOwner
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.statistics.models import FancyGraphCache
 
@@ -27,8 +29,11 @@ class DatapointView(LoginRequiredMixin, PermissionRequiredMixin, APIView, ABC):
     permission_required = PERMISSION_COOP_MANAGE
 
     @abstractmethod
-    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
+    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         pass
+
+    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
+        return self.get_queryset(reference_time).distinct().count()
 
     def get_datapoint(self, reference_time: datetime.datetime):
         reference_date = reference_time.date()

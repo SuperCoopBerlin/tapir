@@ -1,9 +1,11 @@
 import datetime
 from unittest.mock import patch, Mock
 
+from django.db.models import QuerySet
 from django.test import RequestFactory
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.coop.models import ShareOwner
 from tapir.statistics.models import FancyGraphCache
 from tapir.statistics.views.fancy_graph.base_view import DatapointView
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
@@ -18,6 +20,9 @@ class DummyDatapointView(DatapointView):
 
     def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
         return self.VALUES[reference_time.date()]
+
+    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
+        pass
 
 
 class TestDatapointView(TapirFactoryTestBase):

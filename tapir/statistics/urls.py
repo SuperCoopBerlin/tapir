@@ -20,6 +20,13 @@ import tapir.statistics.views.fancy_graph.number_of_shift_partners_view
 import tapir.statistics.views.fancy_graph.number_of_working_members_view
 from tapir.statistics import views
 from tapir.statistics.views import fancy_graph
+from tapir.statistics.views.fancy_export.abcd_members_export_view import (
+    AbcdMembersExportView,
+)
+from tapir.statistics.views.fancy_export.base_view import (
+    AvailableColumnsView,
+    FancyExportView,
+)
 
 app_name = "statistics"
 urlpatterns = [
@@ -152,5 +159,20 @@ urlpatterns = [
         "number_of_exempted_members_that_work",
         fancy_graph.number_of_exempted_members_that_work_view.NumberOfExemptedMembersThatWorkView.as_view(),
         name="number_of_exempted_members_that_work",
+    ),
+    path(
+        "fancy_export",
+        FancyExportView.as_view(),
+        name="fancy_export",
+    ),
+    path(
+        "available_export_columns_view",
+        AvailableColumnsView.as_view(),
+        name="available_export_columns_view",
+    ),
+    path(
+        "abcd_member_export_view",
+        AbcdMembersExportView.as_view(),
+        name="abcd_member_export_view",
     ),
 ]

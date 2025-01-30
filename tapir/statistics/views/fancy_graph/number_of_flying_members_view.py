@@ -1,7 +1,8 @@
 import datetime
 
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 
+from tapir.coop.models import ShareOwner
 from tapir.shifts.models import ShiftAttendanceMode, ShiftUserData
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
@@ -13,7 +14,7 @@ from tapir.statistics.views.fancy_graph.base_view import (
 
 
 class NumberOfFlyingMembersAtDateView(DatapointView):
-    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
+    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         shift_user_datas = ShiftUserData.objects.all()
 
         shift_user_datas_working = (
@@ -36,11 +37,7 @@ class NumberOfFlyingMembersAtDateView(DatapointView):
             shift_user_datas_flying.values_list("id", flat=True)
         )
 
-        return (
-            ShiftUserData.objects.filter(
-                Q(id__in=shift_user_datas_working_ids)
-                & Q(id__in=shift_user_datas_flying_ids)
-            )
-            .distinct()
-            .count()
+        return ShareOwner.objects.filter(
+            Q(user__shift_user_data__id__in=shift_user_datas_working_ids)
+            & Q(user__shift_user_data__id__in=shift_user_datas_flying_ids)
         )

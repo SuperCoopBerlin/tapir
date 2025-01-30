@@ -1,6 +1,6 @@
 import datetime
 
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 
 from tapir.coop.models import ShareOwner
 from tapir.shifts.models import ShiftExemption, ShiftAttendance
@@ -8,7 +8,7 @@ from tapir.statistics.views.fancy_graph.base_view import DatapointView
 
 
 class NumberOfExemptedMembersThatWorkView(DatapointView):
-    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
+    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         reference_date = reference_time.date()
 
         exemptions = ShiftExemption.objects.active_temporal(reference_date)
@@ -25,7 +25,7 @@ class NumberOfExemptedMembersThatWorkView(DatapointView):
         for id_list in [members_exempted_ids, members_that_did_a_shift_ids]:
             all_criteria &= Q(id__in=id_list)
 
-        return ShareOwner.objects.filter(all_criteria).count()
+        return ShareOwner.objects.filter(all_criteria)
 
     @staticmethod
     def get_ids_of_members_that_did_a_shift_lately(reference_time):
@@ -35,7 +35,5 @@ class NumberOfExemptedMembersThatWorkView(DatapointView):
                 slot__shift__start_time__gte=reference_time
                 - datetime.timedelta(days=60),
                 slot__shift__start_time__lte=reference_time,
-            )
-            .values_list("user__share_owner__id", flat=True)
-            .distinct()
+            ).values_list("user__share_owner__id", flat=True)
         )

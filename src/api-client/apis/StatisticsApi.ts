@@ -14,6 +14,21 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  Column,
+  DatapointExport,
+} from '../models/index';
+import {
+    ColumnFromJSON,
+    ColumnToJSON,
+    DatapointExportFromJSON,
+    DatapointExportToJSON,
+} from '../models/index';
+
+export interface StatisticsAbcdMemberExportViewListRequest {
+    atDate: Date;
+    exportColumns: Array<string>;
+}
 
 export interface StatisticsNumberOfAbcdMembersAtDateRetrieveRequest {
     atDate: Date;
@@ -104,6 +119,80 @@ export interface StatisticsNumberOfWorkingMembersAtDateRetrieveRequest {
  * 
  */
 export class StatisticsApi extends runtime.BaseAPI {
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsAbcdMemberExportViewListRaw(requestParameters: StatisticsAbcdMemberExportViewListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatapointExport>>> {
+        if (requestParameters['atDate'] == null) {
+            throw new runtime.RequiredError(
+                'atDate',
+                'Required parameter "atDate" was null or undefined when calling statisticsAbcdMemberExportViewList().'
+            );
+        }
+
+        if (requestParameters['exportColumns'] == null) {
+            throw new runtime.RequiredError(
+                'exportColumns',
+                'Required parameter "exportColumns" was null or undefined when calling statisticsAbcdMemberExportViewList().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['atDate'] != null) {
+            queryParameters['at_date'] = (requestParameters['atDate'] as any).toISOString().substring(0,10);
+        }
+
+        if (requestParameters['exportColumns'] != null) {
+            queryParameters['export_columns'] = requestParameters['exportColumns'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/abcd_member_export_view`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DatapointExportFromJSON));
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsAbcdMemberExportViewList(requestParameters: StatisticsAbcdMemberExportViewListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatapointExport>> {
+        const response = await this.statisticsAbcdMemberExportViewListRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsAvailableExportColumnsViewListRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Column>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/available_export_columns_view`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ColumnFromJSON));
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsAvailableExportColumnsViewList(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Column>> {
+        const response = await this.statisticsAvailableExportColumnsViewListRaw(initOverrides);
+        return await response.value();
+    }
 
     /**
      * Verify that the current user is authenticated.

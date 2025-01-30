@@ -1,6 +1,6 @@
 import datetime
 
-from django.db.models import Q
+from django.db.models import Q, QuerySet
 
 from tapir.coop.models import ShareOwner, MemberStatus
 from tapir.shifts.models import ShiftExemption
@@ -11,7 +11,7 @@ from tapir.statistics.views.fancy_graph.base_view import DatapointView
 
 
 class NumberOfExemptedMembersAtDateView(DatapointView):
-    def calculate_datapoint(self, reference_time: datetime.datetime) -> int:
+    def get_queryset(self, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:
         reference_date = reference_time.date()
 
         active_members = ShareOwner.objects.with_status(
@@ -48,4 +48,4 @@ class NumberOfExemptedMembersAtDateView(DatapointView):
         ]:
             all_criteria &= Q(id__in=id_list)
 
-        return ShareOwner.objects.filter(all_criteria).count()
+        return ShareOwner.objects.filter(all_criteria)
