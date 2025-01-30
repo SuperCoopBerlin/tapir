@@ -103,7 +103,7 @@ const FancyExportCard: React.FC = () => {
                   ) : availableDatasetsLoading ? (
                     <Spinner />
                   ) : (
-                    <Form.Group>
+                    <Form.Group className={"mb-1"}>
                       <FloatingLabel label={"Pick a source dataset"}>
                         <Form.Select
                           onChange={(event) => {
@@ -123,6 +123,7 @@ const FancyExportCard: React.FC = () => {
                       </FloatingLabel>
                     </Form.Group>
                   )}
+                  {selectedDataset && <div>{selectedDataset.description}</div>}
                 </div>
                 <div>
                   {availableColumnsError ? (
