@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-31 11:53+0100\n"
+"POT-Creation-Date: 2025-01-31 12:35+0100\n"
 "PO-Revision-Date: 2024-11-05 11:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,8 +19,48 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.5\n"
 
-#: dist/assets/fancy_export-BeJPoNds.js:3
+#: dist/assets/fancy_export-DavLwnOd.js:3
 msgid "Fancy export"
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "Source dataset"
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "Date"
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop. For all other fields, the value as it is now is exported, not the value as it was at the given date."
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "Add columns to the export"
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "Click on a selected column to deselect it."
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "Build export for "
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "Pick a source dataset"
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "Copy export to clipboard"
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "Build the export to copy it"
+msgstr ""
+
+#: dist/assets/fancy_export-DavLwnOd.js:3
+msgid "Waiting for build"
 msgstr ""
 
 #: dist/assets/welcome_desk-ehnOadaX.js:1
