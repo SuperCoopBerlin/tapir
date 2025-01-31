@@ -6,3 +6,10 @@ export function getFirstOfMonth(date: Date) {
 export function getLastOfMonth(date: Date) {
   return new Date(date.getFullYear(), date.getMonth() + 1, 0);
 }
+
+export function getDateInputValue(date: Date) {
+  if (isNaN(date.getTime())) {
+    return undefined;
+  }
+  return date.toISOString().substring(0, 10);
+}

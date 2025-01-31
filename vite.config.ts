@@ -20,6 +20,7 @@ export default defineConfig(() => {
         input: {
           welcome_desk: join(INPUT_DIR, "/welcome_desk/welcome_desk_entry.tsx"),
           fancy_graph: join(INPUT_DIR, "/statistics/fancy_graph_entry.tsx"),
+          fancy_export: join(INPUT_DIR, "/statistics/fancy_export_entry.tsx"),
         },
       },
     },

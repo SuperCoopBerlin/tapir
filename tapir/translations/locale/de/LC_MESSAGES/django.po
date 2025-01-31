@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-27 11:59+0100\n"
+"POT-Creation-Date: 2025-01-31 11:52+0100\n"
 "PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -4520,6 +4520,160 @@ msgstr ""
 msgid "Statistics"
 msgstr "Statistiken"
 
+#: statistics/services/data_providers/data_provider_abcd_members.py:18
+#, fuzzy
+#| msgid "All members"
+msgid "ABCD members"
+msgstr "Alle Mitglieder"
+
+#: statistics/services/data_providers/data_provider_abcd_members.py:23
+msgid "Only members who work are counted: members that are exempted, paused, frozen... are not counted"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_active_members.py:13
+msgid "Active members"
+msgstr "Aktive Mitglieder"
+
+#: statistics/services/data_providers/data_provider_active_members.py:18
+msgid "Active in the sense of their membership: paused and investing members are not active, but frozen members are active"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_active_members_with_account.py:14
+#, fuzzy
+#| msgid "Active Members with a Tapir Account"
+msgid "Active members with Tapir account"
+msgstr "Aktive Mitglieder mit Tapir-Konto"
+
+#: statistics/services/data_providers/data_provider_active_members_with_account.py:19
+msgid "Same as active members, but also had an account at the given date. Some members declare themselves active when joining the coop but never come to activate their account."
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_co_purchasers.py:18
+#: statistics/templates/statistics/main_statistics.html:139
+msgid "Co-purchasers"
+msgstr "Miteinkäufer*innen"
+
+#: statistics/services/data_providers/data_provider_co_purchasers.py:23
+msgid "Only members who can shop are counted: members that have a co-purchaser but are not allowed to shop are not counted"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_exempted_members.py:17
+#, fuzzy
+#| msgid "Credited member"
+msgid "Exempted members"
+msgstr "Empfangendes Mitglied"
+
+#: statistics/services/data_providers/data_provider_exempted_members.py:22
+msgid "Counting only members that would work if they were not exempted: frozen and investing members with an exemption are not counted."
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_exempted_members_that_work.py:14
+msgid "Exempted members that work"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_exempted_members_that_work.py:19
+msgid "Counting all exempted members (ignoring if they are frozen or investing) that actually did a shift in the past 60 days. Just registering to the shift doesn't count, the attendance must be confirmed."
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_flying_members.py:21
+#, fuzzy
+#| msgid "Paying member"
+msgid "Flying members"
+msgstr "Zahlendes Mitglied"
+
+#: statistics/services/data_providers/data_provider_frozen_members.py:16
+#: statistics/templates/statistics/main_statistics.html:118
+#: statistics/templates/statistics/main_statistics.html:129
+#: statistics/views/main_view.py:392
+msgid "Frozen members"
+msgstr "Eingefrorene Mitglieder"
+
+#: statistics/services/data_providers/data_provider_frozen_members.py:21
+msgid "Counted out of 'active' members: paused and investing members not counted."
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_frozen_members_long_term.py:17
+#, fuzzy
+#| msgid "Frozen members"
+msgid "Long-term frozen members"
+msgstr "Eingefrorene Mitglieder"
+
+#: statistics/services/data_providers/data_provider_frozen_members_long_term.py:22
+msgid "Members that are frozen since more than 180 days (roughly 6 month). Long-term frozen members are included in the \"Frozen members\" dataset"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_investing_members.py:13
+#, fuzzy
+#| msgid "Investing member"
+msgid "Investing members"
+msgstr "Investierendes Mitglied"
+
+#: statistics/services/data_providers/data_provider_paused_members.py:13
+#, fuzzy
+#| msgid "Credited member"
+msgid "Paused members"
+msgstr "Empfangendes Mitglied"
+
+#: statistics/services/data_providers/data_provider_purchasing_members.py:14
+#: statistics/views/main_view.py:392
+msgid "Purchasing members"
+msgstr "Einkaufsberechtigten Mitglieder*innen"
+
+#: statistics/services/data_providers/data_provider_purchasing_members.py:19
+msgid "Members who are allowed to shop. To be allowed to shop, a member must be active (see the description for \"Active members\"), have a Tapir account, and not be frozen."
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_resignations_created.py:13
+#, fuzzy
+#| msgid "Membership confirmation"
+msgid "Created resignations"
+msgstr "Mitgliedsbestätigung"
+
+#: statistics/services/data_providers/data_provider_resignations_created.py:18
+msgid "Regardless of whether the member gifts their share or get their money back, this is relative to when the resignation is created."
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_resignations_pending.py:13
+#, fuzzy
+#| msgid "Membership confirmation"
+msgid "Pending resignations"
+msgstr "Mitgliedsbestätigung"
+
+#: statistics/services/data_providers/data_provider_resignations_pending.py:18
+msgid "Members who want to get their money back and are waiting for the 3 year term"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_shift_partners.py:18
+#, fuzzy
+#| msgid "Shift reminder"
+msgid "Shift partners"
+msgstr "Schicht-Erinnerung"
+
+#: statistics/services/data_providers/data_provider_shift_partners.py:23
+msgid "Counted out of working members only: a frozen member with a shift partner is not counted"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_total_members.py:13
+#, fuzzy
+#| msgid "Not a member"
+msgid "Total members"
+msgstr "Kein Mitlied"
+
+#: statistics/services/data_providers/data_provider_total_members.py:17
+msgid "Ignoring status: investing and paused members are included"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_working_members.py:15
+#: statistics/templates/statistics/main_statistics.html:88
+msgid "Working members"
+msgstr "Mitarbeitende Mitglieder"
+
+#: statistics/templates/statistics/fancy_export.html:10
+#, fuzzy
+#| msgid "Export"
+msgid "Fancy Export"
+msgstr "Exportieren"
+
 #: statistics/templates/statistics/fancy_graph.html:10
 msgid "Fancy graph"
 msgstr ""
@@ -4605,10 +4759,6 @@ msgstr ""
 msgid "Current"
 msgstr "Aktuelle"
 
-#: statistics/templates/statistics/main_statistics.html:88
-msgid "Working members"
-msgstr "Mitarbeitende Mitglieder"
-
 #: statistics/templates/statistics/main_statistics.html:92
 #, python-format
 msgid ""
@@ -4624,12 +4774,6 @@ msgstr ""
 "\n"
 " "
 
-#: statistics/templates/statistics/main_statistics.html:118
-#: statistics/templates/statistics/main_statistics.html:129
-#: statistics/views/main_view.py:392
-msgid "Frozen members"
-msgstr "Eingefrorene Mitglieder"
-
 #: statistics/templates/statistics/main_statistics.html:122
 msgid ""
 "\n"
@@ -4642,10 +4786,6 @@ msgstr ""
 "Alle Mitglieder, die als aktives Mitglied eingetragen sind, aber 4 oder mehr Schichten im Minus sind und deshalb erst wieder einkaufsberechtigt sind, wenn sie sich für die entsprechenden Nachholschichten eintragen.\n"
 "\n"
 " "
-
-#: statistics/templates/statistics/main_statistics.html:139
-msgid "Co-purchasers"
-msgstr "Miteinkäufer*innen"
 
 #: statistics/templates/statistics/main_statistics.html:143
 msgid ""
@@ -4735,10 +4875,6 @@ msgstr "Entwicklung der Gesamtausgaben pro Monat"
 #: statistics/views/main_view.py:342
 msgid "Total spends per month"
 msgstr "Gesamtausgaben pro Monat"
-
-#: statistics/views/main_view.py:392
-msgid "Purchasing members"
-msgstr "Einkaufsberechtigten Mitglieder*innen"
 
 #: statistics/views/main_view.py:410
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
@@ -5841,11 +5977,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #~ msgstr "Schichten"
 
 #, fuzzy
-#~| msgid "Credited member"
-#~ msgid "Resigned members"
-#~ msgstr "Empfangendes Mitglied"
-
-#, fuzzy
 #~| msgid "List of all emails"
 #~ msgid "List of resigned members"
 #~ msgstr "Liste alle E-Mails"
@@ -6151,9 +6282,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 
 #~ msgid "Required number of working members to reach break-even"
 #~ msgstr "Erforderliche Anzahl von mitarbeitende Mitgliedern*innen, um den Break-Even zu erreichen"
-
-#~ msgid "Active members"
-#~ msgstr "Aktive Mitglieder"
 
 #, python-format
 #~ msgid ""

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FloatingLabel, Form } from "react-bootstrap";
-import { getFirstOfMonth, getLastOfMonth } from "../utils.tsx";
+import {
+  getDateInputValue,
+  getFirstOfMonth,
+  getLastOfMonth,
+} from "../utils.tsx";
 import { formatDate } from "../../utils/formatDate.ts";
 
 declare let gettext: (english_text: string) => string;
@@ -69,13 +73,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
       dateAdapter = getLastOfMonth;
     }
     return dateAdapter(date);
-  }
-
-  function getDateInputValue(date: Date) {
-    if (isNaN(date.getTime())) {
-      return undefined;
-    }
-    return date.toISOString().substring(0, 10);
   }
 
   return (
