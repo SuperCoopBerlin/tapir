@@ -4,8 +4,8 @@ from django.utils import timezone
 
 from tapir.coop.models import MembershipPause
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.statistics.views.fancy_graph.number_of_paused_members_view import (
-    NumberOfPausedMembersAtDateView,
+from tapir.statistics.services.data_providers.data_provider_paused_members import (
+    DataProviderPausedMembers,
 )
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
@@ -13,7 +13,7 @@ from tapir.utils.tests_utils import (
 )
 
 
-class TestNumberOfPausedMembersView(TapirFactoryTestBase):
+class TestDataProviderPausedMembers(TapirFactoryTestBase):
     NOW = datetime.datetime(year=2023, month=4, day=1, hour=12)
     REFERENCE_TIME = timezone.make_aware(
         datetime.datetime(year=2022, month=6, day=15, hour=12)
@@ -23,16 +23,14 @@ class TestNumberOfPausedMembersView(TapirFactoryTestBase):
         super().setUp()
         self.NOW = mock_timezone_now(self, self.NOW)
 
-    def test_calculateDatapoint_memberIsNotPaused_notCounted(self):
+    def test_getQueryset_memberIsNotPaused_notIncluded(self):
         ShareOwnerFactory.create()
 
-        result = NumberOfPausedMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderPausedMembers.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, result)
+        self.assertEqual(0, queryset.count())
 
-    def test_calculateDatapoint_memberIsPaused_counted(self):
+    def test_getQueryset_memberIsPaused_included(self):
         share_owner = ShareOwnerFactory.create(is_investing=False)
         MembershipPause.objects.create(
             share_owner=share_owner,
@@ -40,8 +38,7 @@ class TestNumberOfPausedMembersView(TapirFactoryTestBase):
             start_date=self.REFERENCE_TIME.date(),
         )
 
-        result = NumberOfPausedMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderPausedMembers.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(1, result)
+        self.assertEqual(1, queryset.count())
+        self.assertIn(share_owner, queryset)

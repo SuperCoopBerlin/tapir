@@ -5,8 +5,8 @@ from django.utils import timezone
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.shifts.models import ShiftExemption, ShiftUserData
-from tapir.statistics.views.fancy_graph.number_of_exempted_members_view import (
-    NumberOfExemptedMembersAtDateView,
+from tapir.statistics.services.data_providers.data_provider_exempted_members import (
+    DataProviderExemptedMembers,
 )
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
@@ -15,7 +15,7 @@ from tapir.utils.tests_utils import (
 )
 
 
-class TestNumberOfExemptedMembersAtDateView(TapirFactoryTestBase):
+class TestDataProviderExemptedMembersAtDate(TapirFactoryTestBase):
     NOW = datetime.datetime(year=2022, month=7, day=1, hour=12)
     REFERENCE_TIME = timezone.make_aware(
         datetime.datetime(year=2023, month=8, day=15, hour=18)
@@ -32,49 +32,45 @@ class TestNumberOfExemptedMembersAtDateView(TapirFactoryTestBase):
             end_date=self.REFERENCE_TIME.date() + datetime.timedelta(days=1),
             shift_user_data=tapir_user.shift_user_data,
         )
+        return tapir_user
 
-    def test_calculateDatapoint_exemptedMemberThatWouldWorkOtherwise_counted(self):
-        self.create_member_where_the_only_reason_for_not_working_is_an_exemption()
-
-        result = NumberOfExemptedMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
+    def test_getQueryset_exemptedMemberThatWouldWorkOtherwise_included(self):
+        tapir_user = (
+            self.create_member_where_the_only_reason_for_not_working_is_an_exemption()
         )
 
-        self.assertEqual(1, result)
+        queryset = DataProviderExemptedMembers.get_queryset(self.REFERENCE_TIME)
 
-    def test_calculateDatapoint_memberHasExemptionButIsNotActive_notCounted(self):
+        self.assertEqual(1, queryset.count())
+        self.assertIn(tapir_user.share_owner, queryset)
+
+    def test_getQueryset_memberHasExemptionButIsNotActive_notIncluded(self):
         self.create_member_where_the_only_reason_for_not_working_is_an_exemption()
         ShareOwner.objects.update(is_investing=True)
 
-        result = NumberOfExemptedMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderExemptedMembers.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, result)
+        self.assertEqual(0, queryset.count())
 
-    def test_calculateDatapoint_memberHasExemptionButIsFrozen_notCounted(self):
+    def test_getQueryset_memberHasExemptionButIsFrozen_notIncluded(self):
         self.create_member_where_the_only_reason_for_not_working_is_an_exemption()
         ShiftUserData.objects.update(is_frozen=True)
 
-        result = NumberOfExemptedMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderExemptedMembers.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, result)
+        self.assertEqual(0, queryset.count())
 
-    def test_calculateDatapoint_memberHasExemptionButJoinedAfterDate_notCounted(self):
+    def test_getQueryset_memberHasExemptionButJoinedAfterDate_notIncluded(self):
         self.create_member_where_the_only_reason_for_not_working_is_an_exemption()
         TapirUser.objects.update(
             date_joined=self.REFERENCE_TIME + datetime.timedelta(days=1)
         )
 
-        result = NumberOfExemptedMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderExemptedMembers.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, result)
+        self.assertEqual(0, queryset.count())
 
-    def test_calculateDatapoint_memberHasExemptionThatIsNotActiveAtGivenDate_notCounted(
+    def test_getQueryset_memberHasExemptionThatIsNotActiveAtGivenDate_notIncluded(
         self,
     ):
         self.create_member_where_the_only_reason_for_not_working_is_an_exemption()
@@ -83,8 +79,6 @@ class TestNumberOfExemptedMembersAtDateView(TapirFactoryTestBase):
             end_date=self.REFERENCE_TIME.date() + datetime.timedelta(days=2),
         )
 
-        result = NumberOfExemptedMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderExemptedMembers.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, result)
+        self.assertEqual(0, queryset.count())

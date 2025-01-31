@@ -5,8 +5,8 @@ from django.utils import timezone
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import ShareOwnership
 from tapir.shifts.models import ShiftUserData, UpdateShiftUserDataLogEntry
-from tapir.statistics.views.fancy_graph.number_of_long_term_frozen_members_view import (
-    NumberOfLongTermFrozenMembersAtDateView,
+from tapir.statistics.services.data_providers.data_provider_frozen_members_long_term import (
+    DataProviderFrozenMembersLongTerm,
 )
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
@@ -14,7 +14,7 @@ from tapir.utils.tests_utils import (
 )
 
 
-class TestNumberOfLongTermFrozenMembersView(TapirFactoryTestBase):
+class TestDataProviderLongTermFrozenMembers(TapirFactoryTestBase):
     NOW = datetime.datetime(year=2023, month=4, day=1, hour=12)
     REFERENCE_TIME = timezone.make_aware(
         datetime.datetime(year=2022, month=6, day=15, hour=12)
@@ -24,19 +24,17 @@ class TestNumberOfLongTermFrozenMembersView(TapirFactoryTestBase):
         super().setUp()
         self.NOW = mock_timezone_now(self, self.NOW)
 
-    def test_calculateDatapoint_memberIsNotFrozen_notCounted(self):
+    def test_getQueryset_memberIsNotFrozen_notIncluded(self):
         TapirUserFactory.create(
             date_joined=self.REFERENCE_TIME + datetime.timedelta(days=1)
         )
         ShiftUserData.objects.update(is_frozen=False)
 
-        result = NumberOfLongTermFrozenMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderFrozenMembersLongTerm.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, result)
+        self.assertEqual(0, queryset.count())
 
-    def test_calculateDatapoint_memberIsFrozenSinceNotLongEnough_notCounted(self):
+    def test_getQueryset_memberIsFrozenSinceNotLongEnough_notIncluded(self):
         tapir_user = TapirUserFactory.create(
             date_joined=self.REFERENCE_TIME - datetime.timedelta(days=1),
             share_owner__is_investing=False,
@@ -54,13 +52,11 @@ class TestNumberOfLongTermFrozenMembersView(TapirFactoryTestBase):
         log_entry.created_date = self.REFERENCE_TIME - datetime.timedelta(days=150)
         log_entry.save()
 
-        result = NumberOfLongTermFrozenMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderFrozenMembersLongTerm.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, result)
+        self.assertEqual(0, queryset.count())
 
-    def test_calculateDatapoint_memberIsFrozenSinceLongEnough_counted(self):
+    def test_getQueryset_memberIsFrozenSinceLongEnough_included(self):
         tapir_user = TapirUserFactory.create(
             date_joined=self.REFERENCE_TIME + datetime.timedelta(days=1),
             share_owner__is_investing=False,
@@ -78,14 +74,13 @@ class TestNumberOfLongTermFrozenMembersView(TapirFactoryTestBase):
         log_entry.created_date = self.REFERENCE_TIME - datetime.timedelta(days=190)
         log_entry.save()
 
-        result = NumberOfLongTermFrozenMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderFrozenMembersLongTerm.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(1, result)
+        self.assertEqual(1, queryset.count())
+        self.assertIn(tapir_user.share_owner, queryset)
 
-    def test_calculateDatapoint_memberIsFrozenAndHasNoLogs_counted(self):
-        TapirUserFactory.create(
+    def test_getQueryset_memberIsFrozenAndHasNoLogs_included(self):
+        tapir_user = TapirUserFactory.create(
             date_joined=self.REFERENCE_TIME + datetime.timedelta(days=1),
             share_owner__is_investing=False,
         )
@@ -94,8 +89,7 @@ class TestNumberOfLongTermFrozenMembersView(TapirFactoryTestBase):
         )
         ShiftUserData.objects.update(is_frozen=True)
 
-        result = NumberOfLongTermFrozenMembersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderFrozenMembersLongTerm.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(1, result)
+        self.assertEqual(1, queryset.count())
+        self.assertIn(tapir_user.share_owner, queryset)

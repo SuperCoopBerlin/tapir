@@ -4,8 +4,8 @@ from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
-from tapir.statistics.views.fancy_graph.number_of_co_purchasers_view import (
-    NumberOfCoPurchasersAtDateView,
+from tapir.statistics.services.data_providers.data_provider_co_purchasers import (
+    DataProviderCoPurchasers,
 )
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
@@ -14,7 +14,7 @@ from tapir.utils.tests_utils import (
 )
 
 
-class TestNumberOfCoPurchasersView(TapirFactoryTestBase):
+class TestDataProviderCoPurchasers(TapirFactoryTestBase):
     NOW = datetime.datetime(year=2023, month=4, day=1, hour=12)
     REFERENCE_TIME = timezone.make_aware(
         datetime.datetime(year=2022, month=6, day=15, hour=12)
@@ -24,35 +24,30 @@ class TestNumberOfCoPurchasersView(TapirFactoryTestBase):
         super().setUp()
         self.NOW = mock_timezone_now(self, self.NOW)
 
-    def test_calculateDatapoint_memberHasCoPurchaserButCannotShop_notCounted(self):
+    def test_getQueryset_memberHasCoPurchaserButCannotShop_notIncluded(self):
         create_member_that_can_shop(self, self.REFERENCE_TIME)
         ShareOwner.objects.update(is_investing=True)
         TapirUser.objects.update(co_purchaser="A test co-purchaser")
 
-        result = NumberOfCoPurchasersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderCoPurchasers.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, result)
+        self.assertEqual(0, queryset.count())
 
-    def test_calculateDatapoint_memberCanShopButDoesntHaveACoPurchaser_notCounted(
+    def test_getQueryset_memberCanShopButDoesntHaveACoPurchaser_notIncluded(
         self,
     ):
         create_member_that_can_shop(self, self.REFERENCE_TIME)
         TapirUser.objects.update(co_purchaser="")
 
-        result = NumberOfCoPurchasersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderCoPurchasers.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, result)
+        self.assertEqual(0, queryset.count())
 
-    def test_calculateDatapoint_memberIsWorkingAndHasCoPurchaser_counted(self):
-        create_member_that_can_shop(self, self.REFERENCE_TIME)
+    def test_getQueryset_memberIsWorkingAndHasCoPurchaser_included(self):
+        tapir_user = create_member_that_can_shop(self, self.REFERENCE_TIME)
         TapirUser.objects.update(co_purchaser="A test co-purchaser")
 
-        result = NumberOfCoPurchasersAtDateView().calculate_datapoint(
-            self.REFERENCE_TIME
-        )
+        queryset = DataProviderCoPurchasers.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(1, result)
+        self.assertEqual(1, queryset.count())
+        self.assertIn(tapir_user.share_owner, queryset)
