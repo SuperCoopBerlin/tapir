@@ -16,7 +16,7 @@ class DataProviderWorkingMembers(BaseDataProvider):
 
     @classmethod
     def get_description(cls):
-        return _("")
+        return ""
 
     @classmethod
     def get_queryset(cls, reference_time: datetime.datetime) -> QuerySet[ShareOwner]:

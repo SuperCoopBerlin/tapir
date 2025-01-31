@@ -52,7 +52,7 @@ const FancyExportCard: React.FC = () => {
     setAvailableDatasetsLoading(true);
 
     api
-      .statisticsAvailableDatasetsList()
+      .statisticsAvailableDatasetsList({ colourblindness: "" })
       .then(setAvailableDatasets)
       .catch(setAvailableDatasetsError)
       .finally(() => {
