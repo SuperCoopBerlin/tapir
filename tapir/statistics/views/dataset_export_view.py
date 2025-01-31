@@ -32,8 +32,10 @@ class DatasetExportView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
         reference_time = self.get_reference_time(request)
         export_columns = request.query_params.getlist("export_columns")
 
-        queryset = data_providers[request.query_params.get("dataset")].get_queryset(
-            reference_time
+        queryset = (
+            data_providers[request.query_params.get("dataset")]
+            .get_queryset(reference_time)
+            .order_by("id")
         )
 
         return Response(

@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Badge,
-  Card,
-  Col,
-  FloatingLabel,
-  Form,
-  Row,
-  Spinner,
-  Table,
-} from "react-bootstrap";
+import { Badge, Card, Col, Form, Row, Spinner, Table } from "react-bootstrap";
 import { useApi } from "../hooks/useApi.ts";
 import { DatapointExport, Dataset, StatisticsApi } from "../api-client";
 import { getDateInputValue } from "./utils.tsx";
@@ -150,37 +141,57 @@ const FancyExportCard: React.FC = () => {
             </Card.Header>
             <Card.Body className={"p-2 m-2"}>
               <div className={"d-flex flex-column gap-2"}>
-                <div>
+                <div className={"d-flex flex-row gap-2"}>
                   {availableDatasetsError ? (
                     <div>{availableDatasetsError}</div>
                   ) : availableDatasetsLoading ? (
                     <Spinner />
                   ) : (
-                    <Form.Group className={"mb-1"}>
-                      <FloatingLabel label={"Pick a source dataset"}>
-                        <Form.Select
-                          onChange={(event) => {
-                            for (const dataset of availableDatasets) {
-                              if (dataset.id == event.target.value) {
-                                setSelectedDataset(dataset);
-                                setRows([]);
-                                return;
-                              }
+                    <Form.Group
+                      style={{ flexBasis: 0, flexGrow: 1 }}
+                      controlId={"sourceDataset"}
+                    >
+                      <Form.Label>{gettext("Source dataset")}</Form.Label>
+                      <Form.Select
+                        onChange={(event) => {
+                          for (const dataset of availableDatasets) {
+                            if (dataset.id == event.target.value) {
+                              setSelectedDataset(dataset);
+                              setRows([]);
+                              return;
                             }
-                            setSelectedDataset(undefined);
-                          }}
-                        >
-                          <option value={""}></option>
-                          {availableDatasets.map((dataset) => (
-                            <option value={dataset.id} key={dataset.id}>
-                              {dataset.displayName}
-                            </option>
-                          ))}
-                        </Form.Select>
-                      </FloatingLabel>
+                          }
+                          setSelectedDataset(undefined);
+                        }}
+                      >
+                        <option value={""}></option>
+                        {availableDatasets.map((dataset) => (
+                          <option value={dataset.id} key={dataset.id}>
+                            {dataset.displayName}
+                          </option>
+                        ))}
+                      </Form.Select>
+                      {selectedDataset && (
+                        <Form.Text>{selectedDataset.description}</Form.Text>
+                      )}
                     </Form.Group>
                   )}
-                  {selectedDataset && <div>{selectedDataset.description}</div>}
+                  <Form.Group style={{ flexBasis: 0, flexGrow: 1 }}>
+                    <Form.Label>{gettext("Date")}</Form.Label>
+                    <Form.Control
+                      type={"date"}
+                      value={getDateInputValue(date)}
+                      onChange={(event) => {
+                        setDate(new Date(event.target.value));
+                      }}
+                    />
+                    <Form.Text>
+                      {gettext(
+                        "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop. " +
+                          "For all other fields, the value as it is now is exported, not the value as it was at the given date.",
+                      )}
+                    </Form.Text>
+                  </Form.Group>
                 </div>
                 <div>
                   {availableColumnsError ? (
@@ -189,20 +200,26 @@ const FancyExportCard: React.FC = () => {
                     <Spinner />
                   ) : (
                     <Form.Group>
-                      <FloatingLabel label={"Add columns to the export"}>
-                        <Form.Select
-                          onChange={(event) => {
-                            addExportColumnToSelection(event.target.value);
-                          }}
-                        >
-                          <option value=""></option>
-                          {availableColumns.map((column) => (
+                      <Form.Label>
+                        {gettext("Add columns to the export")}
+                      </Form.Label>
+                      <Form.Select
+                        onChange={(event) => {
+                          addExportColumnToSelection(event.target.value);
+                        }}
+                      >
+                        <option value=""></option>
+                        {availableColumns
+                          .filter((column) => !selectedColumns.has(column))
+                          .map((column) => (
                             <option value={column} key={column}>
                               {column}
                             </option>
                           ))}
-                        </Form.Select>
-                      </FloatingLabel>
+                      </Form.Select>
+                      <Form.Text>
+                        {gettext("Click on a selected column to deselect it.")}
+                      </Form.Text>
                     </Form.Group>
                   )}
                 </div>
@@ -217,26 +234,14 @@ const FancyExportCard: React.FC = () => {
                     </Badge>
                   ))}
                 </div>
-                <div>
-                  <Form.Group>
-                    <FloatingLabel label={"Date"}>
-                      <Form.Control
-                        type={"date"}
-                        value={getDateInputValue(date)}
-                        onChange={(event) => {
-                          setDate(new Date(event.target.value));
-                        }}
-                      />
-                    </FloatingLabel>
-                  </Form.Group>
-                </div>
                 <div className={"d-flex flex-row gap-2"}>
                   <TapirButton
                     variant={"outline-secondary"}
                     text={
                       selectedDataset
-                        ? "Build export for " + selectedDataset.displayName
-                        : "Pick a source dataset"
+                        ? gettext("Build export for ") +
+                          selectedDataset.displayName
+                        : gettext("Pick a source dataset")
                     }
                     icon={Download}
                     onClick={() => {
@@ -245,20 +250,25 @@ const FancyExportCard: React.FC = () => {
                     disabled={!selectedDataset}
                     loading={exportDownloading}
                   />
-                  {rows.length > 0 && (
-                    <TapirButton
-                      variant={"outline-secondary"}
-                      text={"Copy export to clipboard"}
-                      icon={Copy}
-                      onClick={() => {
-                        copyExportToClipboard();
-                      }}
-                    />
-                  )}
+                  <TapirButton
+                    variant={"outline-secondary"}
+                    text={
+                      rows.length > 0
+                        ? gettext("Copy export to clipboard")
+                        : gettext("Build the export to copy it")
+                    }
+                    icon={Copy}
+                    onClick={() => {
+                      copyExportToClipboard();
+                    }}
+                    disabled={rows.length === 0}
+                  />
                 </div>
                 <div>
                   {downloadExportError ? (
                     downloadExportError
+                  ) : rows.length === 0 ? (
+                    <div>{gettext("Waiting for build")}</div>
                   ) : (
                     <Table
                       className={
@@ -277,13 +287,13 @@ const FancyExportCard: React.FC = () => {
                           <tr key={index}>
                             {Array.from(selectedColumns).map((columnName) => (
                               <td key={index.toString() + "_" + columnName}>
-                                {
+                                {buildColumnExport(
                                   row[
                                     snakeCaseToCamelCase(
                                       columnName,
                                     ) as keyof DatapointExport
-                                  ]
-                                }
+                                  ],
+                                )}
                               </td>
                             ))}
                           </tr>
