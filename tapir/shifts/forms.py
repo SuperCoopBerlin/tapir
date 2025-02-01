@@ -4,7 +4,6 @@ from django import forms
 from django.core.exceptions import ValidationError, PermissionDenied
 from django.forms import (
     ModelChoiceField,
-    ModelMultipleChoiceField,
     CheckboxSelectMultiple,
     BooleanField,
 )
@@ -24,6 +23,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
     ShiftSlotTemplate,
+    ShiftTemplateGroup,
     ShiftSlot,
     ShiftAccountEntry,
     ShiftExemption,
@@ -541,9 +541,14 @@ class ShiftTemplateForm(forms.ModelForm):
     )
 
 
-class ShiftTemplateDuplicateForm(ShiftTemplateForm):
-    class Meta(ShiftTemplateForm.Meta):
-        exclude = ["name", "description", "num_required_attendances", "flexible_time"]
+class ShiftTemplateDuplicateForm(forms.Form):
+    week_group = forms.ModelChoiceField(queryset=ShiftTemplateGroup.objects.all())
+    weekdays = forms.MultipleChoiceField(
+        choices=WEEKDAY_CHOICES, widget=Select2MultipleWidget
+    )
+    start_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
+    end_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
+    start_date = forms.DateField(widget=DateInputTapir())
 
 
 class ShiftSlotTemplateForm(forms.ModelForm):

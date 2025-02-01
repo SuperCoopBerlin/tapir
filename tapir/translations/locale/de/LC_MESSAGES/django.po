@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-18 20:54+0100\n"
-"PO-Revision-Date: 2024-12-17 14:15+0100\n"
+"POT-Creation-Date: 2025-02-01 11:37+0100\n"
+"PO-Revision-Date: 2025-02-01 11:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -137,6 +137,7 @@ msgstr ""
 #: core/templates/core/tapir_form.html:30
 #: shifts/templates/shifts/convert_exemption_to_pause_form.html:37
 #: shifts/templates/shifts/shift_form.html:35
+#: shifts/templates/shifts/shift_template_duplicate_form.html:25
 #: shifts/templates/shifts/shiftslot_form.html:32
 msgid "Save"
 msgstr "Speichern"
@@ -3020,11 +3021,11 @@ msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die 
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:564
+#: shifts/forms.py:569
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:573
+#: shifts/forms.py:578
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
@@ -4461,43 +4462,43 @@ msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 msgid "Shift exemption converted to membership pause."
 msgstr ""
 
-#: shifts/views/management.py:39
+#: shifts/views/management.py:37
 msgid "Create a shift"
 msgstr "Schicht erzeugen"
 
-#: shifts/views/management.py:79
+#: shifts/views/management.py:77
 msgid "Edit slot: "
 msgstr "Slot bearbeiten: "
 
-#: shifts/views/management.py:123
+#: shifts/views/management.py:121
 #, fuzzy
 #| msgid "Edit shift:"
 msgid "Edit shift: "
 msgstr "Schicht bearbeiten:"
 
-#: shifts/views/management.py:137
+#: shifts/views/management.py:135
 msgid "Edit shift template: "
 msgstr "ABCD-Schicht bearbeiten: "
 
-#: shifts/views/management.py:156
+#: shifts/views/management.py:154
 msgid "Create an ABCD shift"
 msgstr "ABCD-Schicht erzeugen"
 
-#: shifts/views/management.py:158
+#: shifts/views/management.py:156
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
 msgstr ""
 
-#: shifts/views/management.py:214
+#: shifts/views/management.py:200
 #, fuzzy
 #| msgid "Register for ABCD Shift"
 msgid "Duplicate ABCD-Shift"
 msgstr "Für eine ABCD-Schicht anmelden"
 
-#: shifts/views/management.py:216
-msgid "Please choose a new group and weekday. All other fields of the ABCD-Shift will be copied to the new timeslot."
-msgstr ""
+#: shifts/views/management.py:202
+msgid "Please choose more days of the week to copy this ABCD-Shift. All slots will be copied to the new timeslots."
+msgstr "Bitte wähle ein oder mehrere Wochentage aus, um diese ABCD-Schicht zu kopieren. Alle Slots werden in die ausgewählten Wochentage kopiert."
 
-#: shifts/views/management.py:278
+#: shifts/views/management.py:268
 msgid "Shifts generated."
 msgstr ""
 

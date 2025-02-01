@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import CreateView, UpdateView, RedirectView
+from django.views.generic import CreateView, UpdateView, RedirectView, FormView
 
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
@@ -25,8 +25,6 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftSlotTemplate,
 )
-
-from icecream import ic
 
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -189,57 +187,44 @@ class ShiftSlotTemplateCreateView(
         return self.get_shift_template().get_absolute_url()
 
 
-class ShiftTemplateDuplicateCreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+class ShiftTemplateDuplicateFormView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, FormView
 ):
-    model = ShiftTemplate
+    template_name = "shifts/shift_template_duplicate_form.html"
     form_class = ShiftTemplateDuplicateForm
     permission_required = PERMISSION_SHIFTS_MANAGE
     success_url = reverse_lazy("shifts:shift_template_overview")
-
-    # def get_form_kwargs(self):
-    #     test = ShiftTemplate.objects.filter(
-    #         pk=self.kwargs.get("shift_pk")
-    #     ).prefetch_related(
-    #         "group",
-    #         "slot_templates",
-    #         "slot_templates__attendance_template",
-    #     )
-    #     for template in test.first().slot_templates.values():
-    #         ic(template)
-    #     return super().get_form_kwargs()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["card_title"] = _("Duplicate ABCD-Shift")
         context["help_text"] = _(
-            "Please choose a new group and weekday. All other fields of the ABCD-Shift will be copied to the new timeslot."
+            "Please choose more days of the week to copy this ABCD-Shift. All slots will be copied to the new timeslots."
         )
         return context
 
     def form_valid(self, form):
-        existing_entry = ShiftTemplate.objects.get(pk=self.kwargs.get("shift_pk"))
-        existing_entry_related_objects = ShiftTemplate.objects.filter(
+        shift_template_copy_source = ShiftTemplate.objects.get(
             pk=self.kwargs.get("shift_pk")
-        ).prefetch_related(
-            "group",
-            "slot_templates",
-            "slot_templates__attendance_template",
         )
-        new_abcd_shift = form.save(commit=False)
-        new_abcd_shift.name = existing_entry.name
-        new_abcd_shift.description = existing_entry.description
-        new_abcd_shift.num_required_attendances = (
-            existing_entry.num_required_attendances
-        )
-        new_abcd_shift.flexible_time = existing_entry.flexible_time
-        form.save()
-        for (
-            slot_template
-        ) in existing_entry_related_objects.first().slot_templates.values():
-            new_abcd_shift.slot_templates.add(
-                ShiftSlotTemplate.objects.get(id=slot_template["id"])
+        for day in form.cleaned_data["weekdays"]:
+            shift_template_copy_destination = ShiftTemplate.objects.create(
+                name=shift_template_copy_source.name,
+                description=shift_template_copy_source.description,
+                flexible_time=shift_template_copy_source.flexible_time,
+                group=form.cleaned_data["week_group"],
+                weekday=day,
+                start_time=form.cleaned_data["start_time"],
+                end_time=form.cleaned_data["end_time"],
+                start_date=form.cleaned_data["start_date"],
             )
+            for entry in shift_template_copy_source.slot_templates.all():
+                ShiftSlotTemplate.objects.create(
+                    shift_template=shift_template_copy_destination,
+                    name=entry.name,
+                    required_capabilities=entry.required_capabilities,
+                    warnings=entry.warnings,
+                )
         return super().form_valid(form)
 
 
