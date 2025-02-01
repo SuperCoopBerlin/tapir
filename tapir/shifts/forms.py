@@ -9,7 +9,7 @@ from django.forms import (
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -23,12 +23,14 @@ from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
     ShiftSlotTemplate,
+    ShiftTemplateGroup,
     ShiftSlot,
     ShiftAccountEntry,
     ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
     ShiftTemplate,
     ShiftAttendanceMode,
+    WEEKDAY_CHOICES,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -537,6 +539,16 @@ class ShiftTemplateForm(forms.ModelForm):
         ),
         required=True,
     )
+
+
+class ShiftTemplateDuplicateForm(forms.Form):
+    week_group = forms.ModelChoiceField(queryset=ShiftTemplateGroup.objects.all())
+    weekdays = forms.MultipleChoiceField(
+        choices=WEEKDAY_CHOICES, widget=Select2MultipleWidget
+    )
+    start_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
+    end_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
+    start_date = forms.DateField(widget=DateInputTapir())
 
 
 class ShiftSlotTemplateForm(forms.ModelForm):
