@@ -50,6 +50,8 @@ class Command(BaseCommand):
             file_name=file_name[: ProcessedPurchaseFiles.MAX_FILE_NAME_LENGTH],
             processed_on=timezone.now(),
         )
+
+        purchase_baskets = []
         for row in csv.DictReader(file, delimiter=",", quotechar='"'):
             row: Dict
             if row["Kunde"].isnumeric() and not row["Kunde"].startswith("299"):
@@ -64,7 +66,7 @@ class Command(BaseCommand):
                 if row["Kunde"].isnumeric() and len(row["Kunde"]) > 3
                 else None
             )
-            PurchaseBasket.objects.create(
+            purchase_basket = PurchaseBasket(
                 source_file=source_file,
                 purchase_date=purchase_date,
                 cashier=row["cKasse"],
@@ -75,6 +77,9 @@ class Command(BaseCommand):
                 second_net_amount=cls.parse_german_number(row["EKNetto_SUM"]),
                 discount=cls.parse_german_number(row["Rabatt_SUM"]),
             )
+            purchase_baskets.append(purchase_basket)
+
+        PurchaseBasket.objects.bulk_create(purchase_baskets)
 
     @staticmethod
     def parse_german_number(string: str) -> float:

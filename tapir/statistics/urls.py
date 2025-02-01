@@ -3,6 +3,7 @@ from django.urls import path
 import tapir.statistics.views.fancy_graph.base_view
 import tapir.statistics.views.fancy_graph.number_of_abcd_members_view
 import tapir.statistics.views.fancy_graph.number_of_active_members_view
+import tapir.statistics.views.fancy_graph.number_of_active_members_with_account_view
 import tapir.statistics.views.fancy_graph.number_of_co_purchasers_view
 import tapir.statistics.views.fancy_graph.number_of_created_resignations_view
 import tapir.statistics.views.fancy_graph.number_of_exempted_members_that_work_view
@@ -76,6 +77,11 @@ urlpatterns = [
         "number_of_active_members_at_date",
         fancy_graph.number_of_active_members_view.NumberOfActiveMembersAtDateView.as_view(),
         name="number_of_active_members_at_date",
+    ),
+    path(
+        "number_of_active_members_with_account_at_date",
+        fancy_graph.number_of_active_members_with_account_view.NumberOfActiveMembersWithAccountAtDateView.as_view(),
+        name="number_of_active_members_with_account_at_date",
     ),
     path(
         "number_of_working_members_at_date",

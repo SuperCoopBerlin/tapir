@@ -53,6 +53,8 @@ class Command(BaseCommand):
             file_name=file_name[: ProcessedCreditFiles.MAX_FILE_NAME_LENGTH],
             processed_on=timezone.now(),
         )
+
+        credit_accounts = []
         for row in csv.DictReader(file, delimiter=",", quotechar='"'):
             row: Dict
             if row["ID"].isnumeric() and not row["ID"].startswith("299"):
@@ -66,7 +68,7 @@ class Command(BaseCommand):
                 if row["ID"].isnumeric() and len(row["ID"]) > 3
                 else None
             )
-            CreditAccount.objects.create(
+            credit_account = CreditAccount.objects.create(
                 source_file=source_file,
                 credit_date=credit_date,
                 credit_amount=ProcessPurchaseFilesCommand.parse_german_number(
@@ -77,3 +79,6 @@ class Command(BaseCommand):
                 info=row["Info"],
                 tapir_user=tapir_user,
             )
+            credit_accounts.append(credit_account)
+
+        CreditAccount.objects.bulk_create(credit_accounts)

@@ -6,6 +6,7 @@ declare let gettext: (english_text: string) => string;
 
 const datasetNumberOfMembers = "number_of_members";
 const datasetNumberOfActiveMembers = "number_of_active_members";
+const datasetNumberOfActiveMembersWithAccount = "number_of_active_members_with_account";
 const datasetNumberOfInvestingMembers = "number_of_investing_members";
 const datasetNumberOfPausedMembers = "number_of_paused_members";
 const datasetNumberOfWorkingMembers = "number_of_working_members";
@@ -65,6 +66,17 @@ export const datasets: { [key: string]: Dataset } = {
     relative: false,
     color: "#9d1f2f",
     pointStyle: "cross",
+  },
+  [datasetNumberOfActiveMembersWithAccount]: {
+    display_name: gettext("Active members with Tapir account"),
+    description: gettext(
+      "Same as active members, but also had an account at the given date. Some members declare themselves active when joining the coop but never come to activate their account.",
+    ),
+    apiCall: api.statisticsNumberOfActiveMembersWithAccountAtDateRetrieve,
+    chart_type: "line",
+    relative: false,
+    color: "#bd3f4f",
+    pointStyle: "circle",
   },
   [datasetNumberOfInvestingMembers]: {
     display_name: gettext("Investing members"),
