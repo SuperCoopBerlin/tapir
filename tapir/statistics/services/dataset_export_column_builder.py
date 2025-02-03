@@ -12,7 +12,7 @@ from tapir.shifts.services.shift_expectation_service import ShiftExpectationServ
 from tapir.utils.user_utils import UserUtils
 
 
-class DatapointExportColumnBuilder:
+class DatasetExportColumnBuilder:
     @staticmethod
     def build_column_member_number(share_owner: ShareOwner, **_):
         return share_owner.id
@@ -97,36 +97,45 @@ class DatapointExportColumnBuilder:
 
     @staticmethod
     def build_column_co_purchaser(share_owner: ShareOwner, **_):
-        if not hasattr(share_owner, "user"):
+        tapir_user = getattr(share_owner, "user", None)
+        if not tapir_user:
             return ""
         return share_owner.user.co_purchaser
 
     @staticmethod
     def build_column_allows_purchase_tracking(share_owner: ShareOwner, **_):
-        if not hasattr(share_owner, "user"):
-            return ""
+        tapir_user = getattr(share_owner, "user", None)
+        if not tapir_user:
+            return False
         return share_owner.user.allows_purchase_tracking
 
     @staticmethod
     def build_column_shift_capabilities(share_owner: ShareOwner, **_):
-        if not hasattr(share_owner, "user"):
+        tapir_user = getattr(share_owner, "user", None)
+        if not tapir_user:
             return ""
         return share_owner.user.shift_user_data.capabilities
 
     @staticmethod
     def build_column_shift_partner(share_owner: ShareOwner, **_):
-        if not hasattr(share_owner, "user"):
+        tapir_user = getattr(share_owner, "user", None)
+        if not tapir_user:
             return ""
-        return share_owner.user.shift_user_data.shift_partner
+        return UserUtils.build_display_name(
+            share_owner.user.shift_user_data.shift_partner.user,
+            UserUtils.DISPLAY_NAME_TYPE_FULL,
+        )
 
     @staticmethod
     def build_column_shift_status(
         share_owner: ShareOwner, reference_time: datetime.datetime
     ):
-        if not hasattr(
-            share_owner, "user"
-        ) or not ShiftExpectationService.is_member_expected_to_do_shifts(
-            share_owner.user.shift_user_data, reference_time
+        tapir_user = getattr(share_owner, "user", None)
+        if (
+            not tapir_user
+            or not ShiftExpectationService.is_member_expected_to_do_shifts(
+                share_owner.user.shift_user_data, reference_time
+            )
         ):
             return "not working"
         return ShiftAttendanceModeService.get_attendance_mode(
@@ -137,7 +146,8 @@ class DatapointExportColumnBuilder:
     def build_column_is_working(
         share_owner: ShareOwner, reference_time: datetime.datetime
     ):
-        if not hasattr(share_owner, "user"):
+        tapir_user = getattr(share_owner, "user", None)
+        if not tapir_user:
             return False
         return ShiftExpectationService.is_member_expected_to_do_shifts(
             share_owner.user.shift_user_data, reference_time
@@ -147,7 +157,8 @@ class DatapointExportColumnBuilder:
     def build_column_is_exempted(
         share_owner: ShareOwner, reference_time: datetime.datetime
     ):
-        if not hasattr(share_owner, "user"):
+        tapir_user = getattr(share_owner, "user", None)
+        if not tapir_user:
             return False
 
         queryset = ShiftExemptionService.annotate_shift_user_data_queryset_with_has_exemption_at_date(

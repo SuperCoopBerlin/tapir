@@ -12,8 +12,8 @@ from tapir.coop.models import ShareOwner
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.statistics.serializers import DatapointExportSerializer
 from tapir.statistics.services.data_providers.base_data_provider import data_providers
-from tapir.statistics.services.datapoint_export_column_builder import (
-    DatapointExportColumnBuilder,
+from tapir.statistics.services.dataset_export_column_builder import (
+    DatasetExportColumnBuilder,
 )
 
 
@@ -72,7 +72,7 @@ class DatasetExportView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
         share_owner: ShareOwner, column_name: str, reference_time: datetime.datetime
     ):
         function_name = f"build_column_{column_name}"
-        return getattr(DatapointExportColumnBuilder, function_name)(
+        return getattr(DatasetExportColumnBuilder, function_name)(
             share_owner=share_owner, reference_time=reference_time
         )
 
