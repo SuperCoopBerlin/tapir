@@ -3,21 +3,32 @@ info:
   title: ''
   version: 0.0.0
 paths:
-  /statistics/number_of_abcd_members_at_date:
+  /statistics/available_colourblindness_types:
     get:
-      operationId: statistics_number_of_abcd_members_at_date_retrieve
+      operationId: statistics_available_colourblindness_types_retrieve
+      description: Verify that the current user is authenticated.
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+          description: ''
+  /statistics/available_datasets:
+    get:
+      operationId: statistics_available_datasets_list
       description: Verify that the current user is authenticated.
       parameters:
       - in: query
-        name: at_date
+        name: colourblindness
         schema:
           type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
         required: true
       tags:
       - statistics
@@ -28,11 +39,30 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dataset'
           description: ''
-  /statistics/number_of_active_members_at_date:
+  /statistics/available_export_columns:
     get:
-      operationId: statistics_number_of_active_members_at_date_retrieve
+      operationId: statistics_available_export_columns_list
+      description: Verify that the current user is authenticated.
+      tags:
+      - statistics
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Column'
+          description: ''
+  /statistics/export_dataset:
+    get:
+      operationId: statistics_export_dataset_list
       description: Verify that the current user is authenticated.
       parameters:
       - in: query
@@ -42,9 +72,16 @@ paths:
           format: date
         required: true
       - in: query
-        name: relative
+        name: dataset
         schema:
-          type: boolean
+          type: string
+        required: true
+      - in: query
+        name: export_columns
+        schema:
+          type: array
+          items:
+            type: string
         required: true
       tags:
       - statistics
@@ -55,11 +92,13 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
+                type: array
+                items:
+                  $ref: '#/components/schemas/DatapointExport'
           description: ''
-  /statistics/number_of_active_members_with_account_at_date:
+  /statistics/graph_point:
     get:
-      operationId: statistics_number_of_active_members_with_account_at_date_retrieve
+      operationId: statistics_graph_point_retrieve
       description: Verify that the current user is authenticated.
       parameters:
       - in: query
@@ -69,382 +108,9 @@ paths:
           format: date
         required: true
       - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_co_purchasers_at_date:
-    get:
-      operationId: statistics_number_of_co_purchasers_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
+        name: dataset
         schema:
           type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_created_resignations_in_same_month:
-    get:
-      operationId: statistics_number_of_created_resignations_in_same_month_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_exempted_members_at_date:
-    get:
-      operationId: statistics_number_of_exempted_members_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_exempted_members_that_work:
-    get:
-      operationId: statistics_number_of_exempted_members_that_work_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_flying_members_at_date:
-    get:
-      operationId: statistics_number_of_flying_members_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_frozen_members_at_date:
-    get:
-      operationId: statistics_number_of_frozen_members_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_investing_members_at_date:
-    get:
-      operationId: statistics_number_of_investing_members_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_long_term_frozen_members_at_date:
-    get:
-      operationId: statistics_number_of_long_term_frozen_members_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_members_at_date:
-    get:
-      operationId: statistics_number_of_members_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_paused_members_at_date:
-    get:
-      operationId: statistics_number_of_paused_members_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_pending_resignations_at_date:
-    get:
-      operationId: statistics_number_of_pending_resignations_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_purchasing_members_at_date:
-    get:
-      operationId: statistics_number_of_purchasing_members_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_shift_partners_at_date:
-    get:
-      operationId: statistics_number_of_shift_partners_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
-        required: true
-      - in: query
-        name: relative
-        schema:
-          type: boolean
-        required: true
-      tags:
-      - statistics
-      security:
-      - cookieAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: integer
-          description: ''
-  /statistics/number_of_working_members_at_date:
-    get:
-      operationId: statistics_number_of_working_members_at_date_retrieve
-      description: Verify that the current user is authenticated.
-      parameters:
-      - in: query
-        name: at_date
-        schema:
-          type: string
-          format: date
         required: true
       - in: query
         name: relative
@@ -487,6 +153,95 @@ paths:
           description: ''
 components:
   schemas:
+    Column:
+      type: object
+      properties:
+        column_name:
+          type: string
+      required:
+      - column_name
+    DatapointExport:
+      type: object
+      properties:
+        member_number:
+          type: integer
+        display_name:
+          type: string
+        is_company:
+          type: boolean
+        company_name:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        usage_name:
+          type: string
+        pronouns:
+          type: string
+        email:
+          type: string
+        phone_number:
+          type: string
+        birthdate:
+          type: string
+        street:
+          type: string
+        street_2:
+          type: string
+        postcode:
+          type: string
+        city:
+          type: string
+        country:
+          type: string
+        preferred_language:
+          type: string
+        is_investing:
+          type: boolean
+        ratenzahlung:
+          type: boolean
+        attended_welcome_session:
+          type: boolean
+        co_purchaser:
+          type: string
+        allows_purchase_tracking:
+          type: boolean
+        shift_capabilities:
+          type: array
+          items:
+            type: string
+        shift_partner:
+          type: integer
+        shift_status:
+          type: string
+        is_working:
+          type: boolean
+        is_exempted:
+          type: boolean
+        is_paused:
+          type: boolean
+        can_shop:
+          type: boolean
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+        display_name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        point_style:
+          type: string
+      required:
+      - color
+      - description
+      - display_name
+      - id
+      - point_style
     ShareOwnerForWelcomeDesk:
       type: object
       properties:
