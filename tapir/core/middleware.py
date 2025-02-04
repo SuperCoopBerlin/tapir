@@ -3,6 +3,7 @@ import traceback
 from itertools import chain
 
 import requests
+from django.core.exceptions import PermissionDenied
 from django.http import HttpRequest
 from icecream import ic
 
@@ -35,6 +36,12 @@ class SendExceptionsToSlackMiddleware:
     def send_slack_message(
         cls, e: Exception, stacktrace_string: str, request: HttpRequest, source: str
     ):
+        if isinstance(e, PermissionDenied):
+            # PermissionDenied errors are not sent to slack because
+            # they show up even when the member actually has the required permissions.
+            # I couldn't figure out the reasons for it, but we need to reduce the spam in the channel.
+            return
+
         error_text = f"{e}"
         if not error_text:
             error_text = "Could not get exception text"

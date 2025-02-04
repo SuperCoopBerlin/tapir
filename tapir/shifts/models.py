@@ -709,6 +709,8 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
             set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
             and self.shift.is_in_the_future()
             and not self.shift.cancelled
+            and hasattr(user, "share_owner")
+            and user.share_owner.is_active(self.shift.start_time)
         )
 
     def update_attendance_from_template(self):

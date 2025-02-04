@@ -16,7 +16,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 class TestMemberSelfUnregisters(TapirFactoryTestBase):
     def test_member_self_unregisters(self):
-        user = self.login_as_normal_user()
+        user = self.login_as_normal_user(share_owner__is_investing=False)
         start_time = timezone.now() + datetime.timedelta(
             days=Shift.NB_DAYS_FOR_SELF_UNREGISTER + 1
         )
@@ -45,7 +45,7 @@ class TestMemberSelfUnregisters(TapirFactoryTestBase):
         )
 
     def test_member_self_unregisters_threshold(self):
-        user = self.login_as_normal_user()
+        user = self.login_as_normal_user(share_owner__is_investing=False)
         start_time = timezone.now() + datetime.timedelta(
             days=Shift.NB_DAYS_FOR_SELF_UNREGISTER - 1
         )

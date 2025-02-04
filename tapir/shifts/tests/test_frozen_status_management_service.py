@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.log.models import EmailLogEntry
 from tapir.shifts.models import (
     ShiftAttendanceMode,
@@ -271,7 +272,10 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             )
         )
 
-    @patch("tapir.shifts.services.frozen_status_management_service.MemberFrozenEmail")
+    @patch.object(SendMailService, "send_to_tapir_user")
+    @patch(
+        "tapir.shifts.services.frozen_status_management_service.MemberFrozenEmailBuilder"
+    )
     @patch.object(FrozenStatusManagementService, "_cancel_future_attendances_templates")
     @patch.object(
         FrozenStatusManagementService, "_update_frozen_status_and_create_log_entry"
@@ -281,6 +285,7 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
         mock_update_frozen_status_and_create_log_entry: Mock,
         mock_cancel_future_attendances_templates: Mock,
         mock_member_frozen_email_class: Mock,
+        mock_send_to_tapir_user: Mock,
     ):
         tapir_user = TapirUserFactory.create()
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
@@ -288,6 +293,8 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             slot_template=shift_template.slot_templates.first(), user=tapir_user
         )
         actor = TapirUserFactory.create()
+        mock_email_builder = Mock()
+        mock_member_frozen_email_class.return_value = mock_email_builder
 
         FrozenStatusManagementService.freeze_member_and_send_email(
             tapir_user.shift_user_data, actor
@@ -302,8 +309,8 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
         self.assertEqual(0, ShiftAttendanceTemplate.objects.all().count())
         self.assertEqual(1, DeleteShiftAttendanceTemplateLogEntry.objects.count())
         mock_member_frozen_email_class.assert_called_once()
-        mock_member_frozen_email_class.return_value.send_to_tapir_user.assert_called_once_with(
-            actor=actor, recipient=tapir_user
+        mock_send_to_tapir_user.assert_called_once_with(
+            actor=actor, recipient=tapir_user, email_builder=mock_email_builder
         )
 
     @patch(
@@ -481,19 +488,23 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             mock_shift_user_data, self.NOW
         )
 
-    @patch("tapir.shifts.services.frozen_status_management_service.FreezeWarningEmail")
-    def test_send_freeze_warning_email(self, mock_freeze_warning_email_class: Mock):
+    @patch.object(SendMailService, "send_to_tapir_user")
+    @patch(
+        "tapir.shifts.services.frozen_status_management_service.FreezeWarningEmailBuilder"
+    )
+    def test_send_freeze_warning_email(
+        self, mock_freeze_warning_email_class: Mock, mock_send_to_tapir_user: Mock
+    ):
         shift_user_data = ShiftUserData()
         shift_user_data.user = TapirUser()
+        mock_email_builder = Mock()
+        mock_freeze_warning_email_class.return_value = mock_email_builder
 
         FrozenStatusManagementService.send_freeze_warning_email(shift_user_data)
 
         mock_freeze_warning_email_class.assert_called_once_with(shift_user_data)
-        mock_send_to_tapir_user = (
-            mock_freeze_warning_email_class.return_value.send_to_tapir_user
-        )
         mock_send_to_tapir_user.assert_called_once_with(
-            actor=None, recipient=shift_user_data.user
+            actor=None, recipient=shift_user_data.user, email_builder=mock_email_builder
         )
 
     def test_shouldUnfreezeMember_memberIsNotFrozen_returnsFalse(self):
@@ -581,8 +592,9 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             shift_user_data
         )
 
+    @patch.object(SendMailService, "send_to_tapir_user")
     @patch(
-        "tapir.shifts.services.frozen_status_management_service.UnfreezeNotificationEmail"
+        "tapir.shifts.services.frozen_status_management_service.UnfreezeNotificationEmailBuilder"
     )
     @patch.object(
         FrozenStatusManagementService,
@@ -592,10 +604,13 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
         self,
         mock_update_frozen_status_and_create_log_entry: Mock,
         mock_unfreeze_notification_email_class: Mock,
+        mock_send_to_tapir_user: Mock,
     ):
         shift_user_data = ShiftUserData()
         shift_user_data.user = TapirUser()
         actor = TapirUser()
+        mock_email_builder = Mock()
+        mock_unfreeze_notification_email_class.return_value = mock_email_builder
 
         FrozenStatusManagementService.unfreeze_and_send_notification_email(
             shift_user_data, actor
@@ -607,7 +622,9 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             is_frozen=False,
         )
         mock_unfreeze_notification_email_class.assert_called_once_with()
-        mock_email = mock_unfreeze_notification_email_class.return_value
-        mock_email.send_to_tapir_user.assert_called_once_with(
-            actor=actor, recipient=shift_user_data.user
+
+        mock_send_to_tapir_user.assert_called_once_with(
+            actor=actor,
+            recipient=shift_user_data.user,
+            email_builder=mock_email_builder,
         )

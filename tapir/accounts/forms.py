@@ -6,34 +6,24 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.accounts.models import TapirUser
-from tapir.core.tapir_email_base import mails_not_mandatory, mails_mandatory
+from tapir.core.mail_option import MailOption
+from tapir.core.services.mail_classes_service import MailClassesService
+from tapir.core.services.optional_mail_choices_service import OptionalMailChoicesService
+from tapir.core.services.optional_mails_for_user_service import (
+    OptionalMailsForUserService,
+)
 from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 
 class TapirUserSelfUpdateForm(forms.ModelForm):
-    additional_mails = forms.MultipleChoiceField(
-        required=False,
-        choices=mails_not_mandatory(default=None),
-        widget=CheckboxSelectMultiple(),
-        label=_("Additional Emails"),
-    )
-
-    mandatory_mails = forms.MultipleChoiceField(
-        required=False,
-        choices=mails_mandatory(default=None),
-        label=_("Mandatory Emails"),
-        widget=CheckboxSelectMultiple(),
-        initial=[m[0] for m in mails_mandatory(default=None)],
-    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["mandatory_mails"].disabled = True
 
     class Meta:
         model = TapirUser
-        fields = ["usage_name", "pronouns", "additional_mails"]
+        fields = ["usage_name", "pronouns"]
         widgets = {}
 
 
@@ -119,3 +109,34 @@ class EditUsernameForm(forms.ModelForm):
             raise ValidationError(_("This username is not available."))
 
         return self.cleaned_data["username"]
+
+
+class OptionalMailsForm(forms.Form):
+
+    optional_mails = forms.MultipleChoiceField(
+        choices=OptionalMailChoicesService.get_optional_mail_choices,
+        widget=forms.CheckboxSelectMultiple(),
+        label=_("Optional Mails"),
+        required=False,
+    )
+
+    mandatory_mails = forms.MultipleChoiceField(
+        required=False,
+        choices=OptionalMailChoicesService.get_mandatory_mail_choices,
+        label=_("Important Mails"),
+        widget=CheckboxSelectMultiple(),
+        disabled=True,
+        initial=[
+            m.get_unique_id()
+            for m in MailClassesService.get_mail_classes(MailOption.MANDATORY)
+        ],
+    )
+
+    def __init__(self, *args, **kwargs):
+        tapir_user: TapirUser = kwargs.pop("tapir_user")
+        super().__init__(*args, **kwargs)
+        self.fields["optional_mails"].initial = (
+            OptionalMailsForUserService.get_optional_mail_ids_user_will_receive(
+                tapir_user
+            )
+        )

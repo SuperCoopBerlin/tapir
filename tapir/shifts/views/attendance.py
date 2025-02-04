@@ -16,10 +16,11 @@ from django.views.generic import (
 
 from tapir import settings
 from tapir.accounts.models import TapirUser
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
-from tapir.shifts.emails.shift_missed_email import ShiftMissedEmail
-from tapir.shifts.emails.stand_in_found_email import StandInFoundEmail
+from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
+from tapir.shifts.emails.stand_in_found_email import StandInFoundEmailBuilder
 from tapir.shifts.forms import (
     ShiftAttendanceTemplateForm,
     UpdateShiftAttendanceForm,
@@ -175,9 +176,11 @@ class UpdateShiftAttendanceStateBase(
 
             if attendance.state == ShiftAttendance.State.MISSED:
                 attendance = self.get_attendance()
-                mail = ShiftMissedEmail(shift=attendance.slot.shift)
-                mail.send_to_tapir_user(
-                    actor=self.request.user, recipient=attendance.user
+                email_builder = ShiftMissedEmailBuilder(shift=attendance.slot.shift)
+                SendMailService.send_to_tapir_user(
+                    actor=self.request.user,
+                    recipient=attendance.user,
+                    email_builder=email_builder,
                 )
 
             description = None
@@ -298,8 +301,10 @@ class RegisterUserToShiftSlotView(
             actor=actor, tapir_user=attendance.user, attendance=attendance
         ).save()
 
-        email = StandInFoundEmail(attendance.slot.shift)
-        email.send_to_tapir_user(actor=actor, recipient=attendance.user)
+        email_builder = StandInFoundEmailBuilder(attendance.slot.shift)
+        SendMailService.send_to_tapir_user(
+            actor=actor, recipient=attendance.user, email_builder=email_builder
+        )
 
     def form_valid(self, form):
         response = super().form_valid(form)

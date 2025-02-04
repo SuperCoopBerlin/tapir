@@ -40,7 +40,8 @@ class TestFlexibleTime(TapirFactoryTestBase):
         self.assertTimeFieldHidden(response)
 
     def test_registerUserToShiftSlotForm_shiftHasFlexibleTime_timeFieldShown(self):
-        self.login_as_normal_user()
+        self.login_as_normal_user(share_owner__is_investing=False)
+
         shift = ShiftFactory.create(
             flexible_time=True, start_time=self.NOW + datetime.timedelta(days=10)
         )

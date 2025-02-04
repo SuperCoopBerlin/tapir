@@ -3,7 +3,7 @@
 import django.contrib.postgres.fields
 from django.db import migrations, models
 
-import tapir.core.tapir_email_base
+import tapir.core.tapir_email_builder_base
 
 
 class Migration(migrations.Migration):
@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             field=django.contrib.postgres.fields.ArrayField(
                 base_field=models.CharField(max_length=128),
                 blank=True,
-                default=tapir.core.tapir_email_base.mails_not_mandatory,
+                default=None,
                 size=None,
             ),
         ),

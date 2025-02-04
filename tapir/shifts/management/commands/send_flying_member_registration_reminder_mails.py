@@ -4,10 +4,11 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 
 from tapir.core.models import FeatureFlag
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.log.models import EmailLogEntry
 from tapir.shifts.config import FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER
 from tapir.shifts.emails.flying_member_registration_reminder_email import (
-    FlyingMemberRegistrationReminderEmail,
+    FlyingMemberRegistrationReminderEmailBuilder,
 )
 from tapir.shifts.models import (
     ShiftUserData,
@@ -57,8 +58,10 @@ class Command(BaseCommand):
                 shift_user_data, start_date, reference_time
             ):
                 continue
-            FlyingMemberRegistrationReminderEmail().send_to_tapir_user(
-                actor=None, recipient=shift_user_data.user
+
+            email_builder = FlyingMemberRegistrationReminderEmailBuilder()
+            SendMailService.send_to_tapir_user(
+                actor=None, recipient=shift_user_data.user, email_builder=email_builder
             )
 
     @classmethod
@@ -83,7 +86,7 @@ class Command(BaseCommand):
             days=ShiftCycleEntry.SHIFT_CYCLE_DURATION
         )
         return EmailLogEntry.objects.filter(
-            email_id=FlyingMemberRegistrationReminderEmail.get_unique_id(),
+            email_id=FlyingMemberRegistrationReminderEmailBuilder.get_unique_id(),
             user=shift_user_data.user,
             created_date__gte=cycle_start_date,
             created_date__lte=cycle_end_date,

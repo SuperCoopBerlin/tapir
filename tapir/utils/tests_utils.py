@@ -29,7 +29,7 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import ShareOwnership
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
-from tapir.core.tapir_email_base import TapirEmailBase
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     DeleteShiftAttendanceTemplateLogEntry,
@@ -185,8 +185,8 @@ class TapirFactoryTestBase(TestCase):
         self.login_as_user(user)
         return user
 
-    def login_as_normal_user(self) -> TapirUser:
-        user = TapirUserFactory.create(is_in_member_office=False)
+    def login_as_normal_user(self, **kwargs) -> TapirUser:
+        user = TapirUserFactory.create(is_in_member_office=False, **kwargs)
         self.login_as_user(user)
         return user
 
@@ -221,7 +221,7 @@ class TapirFactoryTestBase(TestCase):
 class TapirEmailTestMixin(TestCase):
     def assertEmailOfClass_GotSentTo(
         self,
-        expected_class: Type[TapirEmailBase],
+        expected_class: Type[TapirEmailBuilderBase],
         target_email_address: str,
         mail: EmailMessage,
     ):

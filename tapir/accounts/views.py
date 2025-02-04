@@ -20,14 +20,19 @@ from tapir.accounts.forms import (
     EditUserLdapGroupsForm,
     TapirUserSelfUpdateForm,
     EditUsernameForm,
+    OptionalMailsForm,
 )
 from tapir.accounts.models import (
     TapirUser,
     UpdateTapirUserLogEntry,
+    OptionalMails,
 )
 from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
-from tapir.coop.emails.tapir_account_created_email import TapirAccountCreatedEmail
+from tapir.coop.emails.tapir_account_created_email import (
+    TapirAccountCreatedEmailBuilder,
+)
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
@@ -87,8 +92,11 @@ class TapirUserUpdateBaseView(
             new_co_purchaser = new_frozen.get("co_purchaser", None)
             old_co_purchaser = self.old_object_frozen.get("co_purchaser", None)
             if new_co_purchaser and new_co_purchaser != old_co_purchaser:
-                CoPurchaserUpdatedMail(tapir_user=form.instance).send_to_tapir_user(
-                    actor=self.request.user, recipient=form.instance
+                email_builder = CoPurchaserUpdatedMail(tapir_user=form.instance)
+                SendMailService.send_to_tapir_user(
+                    actor=self.request.user,
+                    recipient=form.instance,
+                    email_builder=email_builder,
                 )
 
             return response
@@ -136,8 +144,10 @@ class PasswordResetView(auth_views.PasswordResetView):
 def send_user_welcome_email(request, pk):
     tapir_user = get_object_or_404(TapirUser, pk=pk)
 
-    email = TapirAccountCreatedEmail(tapir_user)
-    email.send_to_tapir_user(actor=request.user, recipient=tapir_user)
+    email_builder = TapirAccountCreatedEmailBuilder(tapir_user)
+    SendMailService.send_to_tapir_user(
+        actor=request.user, recipient=tapir_user, email_builder=email_builder
+    )
 
     messages.info(request, _("Account welcome email sent."))
 
@@ -354,3 +364,58 @@ class EditUsernameView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
             ).save()
 
         return response
+
+
+class MailSettingsView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    TapirFormMixin,
+    generic.FormView,
+):
+    form_class = OptionalMailsForm
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["page_title"] = _("Notification settings for %(name)s") % {
+            "name": UserUtils.build_display_name_for_viewer(
+                self.get_tapir_user().share_owner, self.request.user
+            )
+        }
+        context_data["card_title"] = _("Notification settings for %(name)s") % {
+            "name": UserUtils.build_display_name_for_viewer(
+                self.get_tapir_user().share_owner, self.request.user
+            )
+        }
+        return context_data
+
+    def get_permission_required(self):
+        if self.request.user.pk == self.get_tapir_user().pk:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
+
+    def get_tapir_user(self) -> TapirUser:
+        return get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["tapir_user"] = self.get_tapir_user()
+        return kwargs
+
+    def get_success_url(self):
+        return self.get_tapir_user().get_absolute_url()
+
+    @transaction.atomic
+    def form_valid(self, form):
+        o = OptionalMails.objects.filter(user=self.get_tapir_user())
+        o.delete()
+        # Save selected optional mails
+        for optional_mail_choices in form.fields["optional_mails"].choices:
+            is_selected = (
+                optional_mail_choices[0] in form.cleaned_data["optional_mails"]
+            )
+            OptionalMails.objects.create(
+                user=self.get_tapir_user(),
+                mail_id=optional_mail_choices[0],
+                choice=is_selected,
+            )
+        return super().form_valid(form)

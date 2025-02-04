@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.emails.stand_in_found_email import StandInFoundEmail
+from tapir.shifts.emails.stand_in_found_email import StandInFoundEmailBuilder
 from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
@@ -69,7 +69,7 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase, TapirEmailTestMixin):
             slot=ShiftSlot.objects.filter(shift=shift).first(),
         )
 
-        user_replacing = self.login_as_normal_user()
+        user_replacing = self.login_as_normal_user(share_owner__is_investing=False)
 
         register_user_to_shift(self.client, user_replacing, shift)
         self.assertEqual(
@@ -88,5 +88,5 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase, TapirEmailTestMixin):
             "An email should have been sent to the email that was looking for a stand-in",
         )
         self.assertEmailOfClass_GotSentTo(
-            StandInFoundEmail, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+            StandInFoundEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )

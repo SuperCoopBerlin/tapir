@@ -88,33 +88,35 @@ class ShiftConfig(AppConfig):
 
     @staticmethod
     def register_emails():
-        from tapir.core.tapir_email_base import TapirEmailBase
+        from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
         from tapir.shifts.emails.shift_missed_email import (
-            ShiftMissedEmail,
+            ShiftMissedEmailBuilder,
         )
         from tapir.shifts.emails.shift_reminder_email import (
-            ShiftReminderEmail,
+            ShiftReminderEmailBuilder,
         )
         from tapir.shifts.emails.stand_in_found_email import (
-            StandInFoundEmail,
+            StandInFoundEmailBuilder,
         )
         from tapir.shifts.emails.member_frozen_email import (
-            MemberFrozenEmail,
+            MemberFrozenEmailBuilder,
         )
         from tapir.shifts.emails.freeze_warning_email import (
-            FreezeWarningEmail,
+            FreezeWarningEmailBuilder,
         )
         from tapir.shifts.emails.unfreeze_notification_email import (
-            UnfreezeNotificationEmail,
+            UnfreezeNotificationEmailBuilder,
         )
         from tapir.shifts.emails.flying_member_registration_reminder_email import (
-            FlyingMemberRegistrationReminderEmail,
+            FlyingMemberRegistrationReminderEmailBuilder,
         )
 
-        TapirEmailBase.register_email(ShiftMissedEmail)
-        TapirEmailBase.register_email(ShiftReminderEmail)
-        TapirEmailBase.register_email(StandInFoundEmail)
-        TapirEmailBase.register_email(MemberFrozenEmail)
-        TapirEmailBase.register_email(FreezeWarningEmail)
-        TapirEmailBase.register_email(UnfreezeNotificationEmail)
-        TapirEmailBase.register_email(FlyingMemberRegistrationReminderEmail)
+        TapirEmailBuilderBase.register_email(ShiftMissedEmailBuilder)
+        TapirEmailBuilderBase.register_email(ShiftReminderEmailBuilder)
+        TapirEmailBuilderBase.register_email(StandInFoundEmailBuilder)
+        TapirEmailBuilderBase.register_email(MemberFrozenEmailBuilder)
+        TapirEmailBuilderBase.register_email(FreezeWarningEmailBuilder)
+        TapirEmailBuilderBase.register_email(UnfreezeNotificationEmailBuilder)
+        TapirEmailBuilderBase.register_email(
+            FlyingMemberRegistrationReminderEmailBuilder
+        )
