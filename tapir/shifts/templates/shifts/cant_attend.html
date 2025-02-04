@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row mb-3">
             <h3 class="col text-center">
-                If you can't attend
+                {% translate "If you can't attend" %}
                 <br />
                 <a href="{{ attendance.slot.shift.get_absolute_url }}">{{ attendance.slot }}</a>
             </h3>
@@ -54,7 +54,7 @@
             </div>
             <div class="col-xl">
                 <div class="card">
-                    <h5 class="card-header">{% translate "Option 2: enable looking for a stand-in" %}</h5>
+                    <h5 class="card-header">{% translate "Option 2: Enable looking for a stand-in" %}</h5>
                     <div class="card-body">
                         {% blocktranslate %}
                             <p>
@@ -78,7 +78,8 @@
                             <p>
                                 If you don't have a valid reason for not coming, you may still get lucky:
                                 someone may take over your shift. The shift calendar shows where someone is looking for a stand-in. <br />
-                                If that happens, you will be notified by email and will not get any negative points. <br />
+                                If that happens, you will be notified by email and will not get any negative points.
+                                You are still obliged to sign up for an alternative shift in this shift cycle. <br />
                                 There is no guarantee that this happens. If your slot is not taken over, you will get negative points.
                             </p>
                         {% endblocktranslate %}
