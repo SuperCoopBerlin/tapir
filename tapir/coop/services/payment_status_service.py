@@ -25,6 +25,7 @@ class PaymentStatusService:
                 cls.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE: Sum(
                     "credited_payments__amount",
                     filter=Q(credited_payments__payment_date__lte=at_date),
+                    default=0,
                 )
             }
         ).filter(pk=OuterRef("pk"))
