@@ -1,8 +1,10 @@
 import datetime
+from decimal import Decimal
 
 from tapir.coop.models import ShareOwner
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.payment_status_service import PaymentStatusService
 from tapir.shifts.models import ShiftUserData
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
@@ -180,3 +182,44 @@ class DatasetExportColumnBuilder:
         share_owner: ShareOwner, reference_time: datetime.datetime
     ):
         return MemberCanShopService.can_shop(share_owner, reference_time)
+
+    @staticmethod
+    def build_column_currently_paid(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        annotated_share_owner = PaymentStatusService.annotate_with_payments_at_date(
+            ShareOwner.objects.filter(id=share_owner.id), reference_time.date()
+        ).get()
+        return getattr(
+            annotated_share_owner,
+            PaymentStatusService.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE,
+        )
+
+    @staticmethod
+    def build_column_expected_payment(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        annotated_share_owner = PaymentStatusService.annotate_with_payments_at_date(
+            ShareOwner.objects.filter(id=share_owner.id), reference_time.date()
+        ).get()
+        return getattr(
+            annotated_share_owner,
+            PaymentStatusService.ANNOTATION_EXPECTED_PAYMENTS_SUM_AT_DATE,
+        )
+
+    @staticmethod
+    def build_column_payment_difference(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        annotated_share_owner = PaymentStatusService.annotate_with_payments_at_date(
+            ShareOwner.objects.filter(id=share_owner.id), reference_time.date()
+        ).get()
+        return Decimal(
+            getattr(
+                annotated_share_owner,
+                PaymentStatusService.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE,
+            )
+        ) - getattr(
+            annotated_share_owner,
+            PaymentStatusService.ANNOTATION_EXPECTED_PAYMENTS_SUM_AT_DATE,
+        )

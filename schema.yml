@@ -223,6 +223,15 @@ components:
           type: boolean
         can_shop:
           type: boolean
+        currently_paid:
+          type: number
+          format: double
+        expected_payment:
+          type: number
+          format: double
+        payment_difference:
+          type: number
+          format: double
     Dataset:
       type: object
       properties:

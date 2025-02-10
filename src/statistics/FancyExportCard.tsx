@@ -122,6 +122,10 @@ const FancyExportCard: React.FC = () => {
       return columnValue ? "True" : "False";
     }
 
+    if (typeof columnValue === "number") {
+      return columnValue.toString();
+    }
+
     if (Array.isArray(columnValue)) {
       return columnValue.join(" - ");
     }
@@ -187,7 +191,8 @@ const FancyExportCard: React.FC = () => {
                     />
                     <Form.Text>
                       {gettext(
-                        "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop. " +
+                        "The date is only relevant for the following fields: " +
+                          "shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference. " +
                           "For all other fields, the value as it is now is exported, not the value as it was at the given date.",
                       )}
                     </Form.Text>

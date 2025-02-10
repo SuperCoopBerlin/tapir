@@ -193,6 +193,24 @@ export interface DatapointExport {
      * @memberof DatapointExport
      */
     canShop?: boolean;
+    /**
+     * 
+     * @type {number}
+     * @memberof DatapointExport
+     */
+    currentlyPaid?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DatapointExport
+     */
+    expectedPayment?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DatapointExport
+     */
+    paymentDifference?: number;
 }
 
 /**
@@ -241,6 +259,9 @@ export function DatapointExportFromJSONTyped(json: any, ignoreDiscriminator: boo
         'isExempted': json['is_exempted'] == null ? undefined : json['is_exempted'],
         'isPaused': json['is_paused'] == null ? undefined : json['is_paused'],
         'canShop': json['can_shop'] == null ? undefined : json['can_shop'],
+        'currentlyPaid': json['currently_paid'] == null ? undefined : json['currently_paid'],
+        'expectedPayment': json['expected_payment'] == null ? undefined : json['expected_payment'],
+        'paymentDifference': json['payment_difference'] == null ? undefined : json['payment_difference'],
     };
 }
 
@@ -284,6 +305,9 @@ export function DatapointExportFromJSONTyped(json: any, ignoreDiscriminator: boo
         'is_exempted': value['isExempted'],
         'is_paused': value['isPaused'],
         'can_shop': value['canShop'],
+        'currently_paid': value['currentlyPaid'],
+        'expected_payment': value['expectedPayment'],
+        'payment_difference': value['paymentDifference'],
     };
 }
 
