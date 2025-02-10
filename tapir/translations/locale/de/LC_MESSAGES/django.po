@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-31 11:52+0100\n"
+"POT-Creation-Date: 2025-02-10 09:44+0100\n"
 "PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -3175,23 +3175,36 @@ msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
 #: shifts/templates/shifts/cancel_shift.html:7
-#: shifts/templates/shifts/cancel_shift.html:13
 msgid "Cancel shift:"
 msgstr "Schicht absagen:"
 
-#: shifts/templates/shifts/cancel_shift.html:17
+#: shifts/templates/shifts/cancel_shift.html:13
+#, fuzzy
+#| msgid "Cancel shift:"
+msgid "Cancel entire shift:"
+msgstr "Ganze Schicht absagen:"
+
+#: shifts/templates/shifts/cancel_shift.html:18
 msgid ""
 "\n"
-"                        Cancelling a shift is used for example for holidays. It has the following consequences :\n"
-"                        <ul>\n"
-"                            <li>It is not possible to register to the shift anymore.</li>\n"
-"                            <li>Members who are registered from their ABCD shift get a shift point.</li>\n"
-"                            <li>Members who registered just to this shift don't get a point.</li>\n"
-"                        </ul>\n"
-"                    "
+"                            This will cancel the entire shift for that day. It will not affect other shifts that come from\n"
+"                            the same ABCD shift.\n"
+"                        "
 msgstr ""
 
-#: shifts/templates/shifts/cancel_shift.html:32
+#: shifts/templates/shifts/cancel_shift.html:24
+msgid ""
+"\n"
+"                            Cancelling a shift is used for example for holidays. It has the following consequences :\n"
+"                            <ul>\n"
+"                                <li>It is not possible to register to the shift anymore.</li>\n"
+"                                <li>Members who are registered from their ABCD shift get a shift point.</li>\n"
+"                                <li>Members who registered just to this shift don't get a point.</li>\n"
+"                            </ul>\n"
+"                        "
+msgstr ""
+
+#: shifts/templates/shifts/cancel_shift.html:40
 msgid "Confirm cancellation"
 msgstr "Absage bestätigen"
 
@@ -3789,8 +3802,8 @@ msgid "Add a slot"
 msgstr "Slot hinzufügen"
 
 #: shifts/templates/shifts/shift_detail.html:49
-msgid "Cancel shift"
-msgstr "Schicht absagen"
+msgid "Cancel the entire shift"
+msgstr "Ganze Schicht absagen"
 
 #: shifts/templates/shifts/shift_detail.html:57
 msgid "Generated from"
