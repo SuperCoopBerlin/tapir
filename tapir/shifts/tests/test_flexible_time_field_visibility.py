@@ -6,14 +6,18 @@ from django.urls import reverse
 
 from tapir.shifts.models import ShiftTemplate
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
+from tapir.utils.tests_utils import (
+    TapirFactoryTestBase,
+    mock_timezone_now,
+    create_member_that_is_working,
+)
 
 
 class TestFlexibleTime(TapirFactoryTestBase):
     NOW = datetime.datetime(year=2024, month=6, day=15)
 
     def setUp(self) -> None:
-        mock_timezone_now(self, self.NOW)
+        self.NOW = mock_timezone_now(self, self.NOW)
 
     def assertTimeFieldShown(self, response):
         field = response.context_data["form"].fields["custom_time"]
@@ -28,7 +32,8 @@ class TestFlexibleTime(TapirFactoryTestBase):
     def test_registerUserToShiftSlotForm_shiftDoesntHaveFlexibleTime_timeFieldHidden(
         self,
     ):
-        self.login_as_normal_user()
+        tapir_user = create_member_that_is_working(self, self.NOW)
+        self.login_as_user(tapir_user)
         shift = ShiftFactory.create(
             flexible_time=False, start_time=self.NOW + datetime.timedelta(days=10)
         )

@@ -410,8 +410,6 @@ def generate_test_applicants():
             draft_user.attended_welcome_session = True
         if randomizer % 4 == 0:
             draft_user.signed_membership_agreement = True
-        if randomizer % 5 == 0:
-            draft_user.paid_membership_fee = True
 
         draft_users.append(draft_user)
 

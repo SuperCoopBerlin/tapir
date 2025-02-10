@@ -49,7 +49,6 @@ class DraftUserFactory(UserDataFactory[DraftUser]):
     ATTRIBUTES = UserDataFactory.ATTRIBUTES + [
         "num_shares",
         "is_investing",
-        "paid_shares",
         "attended_welcome_session",
         "ratenzahlung",
         "paid_membership_fee",
@@ -58,10 +57,8 @@ class DraftUserFactory(UserDataFactory[DraftUser]):
 
     num_shares = factory.Faker("pyint", min_value=1, max_value=20)
     is_investing = factory.Faker("pybool")
-    paid_shares = factory.Faker("pybool")
     attended_welcome_session = factory.Faker("pybool")
     ratenzahlung = factory.Faker("pybool")
-    paid_membership_fee = factory.Faker("pybool")
     signed_membership_agreement = factory.Faker("pybool")
 
 

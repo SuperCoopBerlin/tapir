@@ -91,7 +91,6 @@ class ShareOwner(models.Model):
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
     )
-    paid_membership_fee = models.BooleanField(_("Paid Entrance Fee"), default=True)
     willing_to_gift_a_share = models.DateField(
         _("Is willing to gift a share"), null=True, blank=True
     )
@@ -473,7 +472,6 @@ class DraftUser(models.Model):
         _("Signed Beteiligungserklärung"), default=False
     )
     paid_membership_fee = models.BooleanField(_("Paid Entrance Fee"), default=False)
-    paid_shares = models.BooleanField(_("Paid Shares"), default=False)
 
     ratenzahlung = models.BooleanField(verbose_name=_("Ratenzahlung"), default=False)
 

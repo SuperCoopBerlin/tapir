@@ -164,17 +164,6 @@ def mark_attended_welcome_session(_, pk):
     return redirect(user)
 
 
-@require_POST
-@csrf_protect
-@login_required
-@permission_required(PERMISSION_COOP_MANAGE)
-def register_draftuser_payment(_, pk):
-    draft = get_object_or_404(DraftUser, pk=pk)
-    draft.paid_membership_fee = True
-    draft.save()
-    return redirect(draft.get_absolute_url())
-
-
 class CreateShareOwnerFromDraftUserView(
     LoginRequiredMixin, PermissionRequiredMixin, generic.RedirectView
 ):
@@ -233,7 +222,6 @@ def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> Shar
         is_investing=draft_user.is_investing,
         ratenzahlung=draft_user.ratenzahlung,
         attended_welcome_session=draft_user.attended_welcome_session,
-        paid_membership_fee=draft_user.paid_membership_fee,
     )
 
     copy_user_info(draft_user, share_owner)

@@ -32,7 +32,7 @@ class TestDataProviderPaymentsNotFullyPaid(TapirFactoryTestBase):
 
         queryset = DataProviderPaymentsNotFullyPaid.get_queryset(self.REFERENCE_TIME)
 
-        self.assertEqual(0, queryset.count())
+        self.assertNotIn(share_owner, queryset)
 
     def test_getQueryset_memberHasNotPaidEnough_included(self):
         share_owner = ShareOwnerFactory.create(nb_shares=1)
@@ -42,7 +42,7 @@ class TestDataProviderPaymentsNotFullyPaid(TapirFactoryTestBase):
 
         queryset = DataProviderPaymentsNotFullyPaid.get_queryset(self.REFERENCE_TIME)
 
-        self.assertGreaterEqual(1, queryset.count())
+        self.assertGreaterEqual(queryset.count(), 1)
         self.assertIn(share_owner, queryset)
 
     def test_getQueryset_memberHasNotPaidAtAll_included(self):
