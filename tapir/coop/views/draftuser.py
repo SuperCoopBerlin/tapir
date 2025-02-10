@@ -19,7 +19,6 @@ from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
 from tapir.coop import pdfs
-from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.emails.membership_confirmation_email_for_active_member import (
     MembershipConfirmationForActiveMemberEmailBuilder,
 )
@@ -245,7 +244,6 @@ def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> Shar
             ShareOwnership(
                 share_owner=share_owner,
                 start_date=timezone.now().date(),
-                amount_paid=(COOP_SHARE_PRICE if draft_user.paid_shares else 0),
             )
             for _ in range(0, draft_user.num_shares)
         ]

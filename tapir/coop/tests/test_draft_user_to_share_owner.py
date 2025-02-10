@@ -3,7 +3,6 @@ from django.core import mail
 from django.urls import reverse
 from django.utils import timezone
 
-from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.emails.membership_confirmation_email_for_active_member import (
     MembershipConfirmationForActiveMemberEmailBuilder,
 )
@@ -97,26 +96,6 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestMixin):
             len(messages),
             "An error message should be shown on the draft_user's page.",
         )
-
-    def test_paid_shares(self):
-        self.login_as_member_office_user()
-
-        for paid_shares in [True, False]:
-            draft_user = DraftUserFactory.create(
-                signed_membership_agreement=True, paid_shares=paid_shares
-            )
-            self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
-            share_owner = ShareOwner.objects.get(
-                first_name=draft_user.first_name, last_name=draft_user.last_name
-            )
-            amount_paid = COOP_SHARE_PRICE if paid_shares else 0
-            self.assertEqual(
-                ShareOwnership.objects.filter(
-                    share_owner=share_owner, amount_paid=amount_paid
-                ).count(),
-                draft_user.num_shares,
-                "The created shares should not be paid",
-            )
 
     def test_creating_active_share_owner_sends_the_membership_confirmation_for_active_members_email(
         self,

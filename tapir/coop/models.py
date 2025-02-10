@@ -407,29 +407,7 @@ class ShareOwnership(DurationModelMixin, models.Model):
         on_delete=models.CASCADE,
     )
 
-    amount_paid = models.DecimalField(
-        blank=False,
-        null=False,
-        default=COOP_SHARE_PRICE,
-        max_digits=10,
-        decimal_places=2,
-    )
-
     transferred_from = models.OneToOneField("self", null=True, on_delete=models.PROTECT)
-
-    def is_fully_paid(self):
-        return self.amount_paid >= COOP_SHARE_PRICE
-
-    def clean(self):
-        super().clean()
-        if self.amount_paid < 0:
-            raise ValidationError(_("Amount paid for a share can't be negative"))
-        if self.amount_paid > COOP_SHARE_PRICE:
-            raise ValidationError(
-                _(
-                    f"Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
-                )
-            )
 
     def __str__(self):
         return (

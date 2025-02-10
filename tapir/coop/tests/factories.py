@@ -6,7 +6,6 @@ from faker import Faker
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
-from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.models import (
     ShareOwnership,
     ShareOwner,
@@ -24,7 +23,6 @@ class ShareOwnershipFactory(factory.django.DjangoModelFactory[ShareOwnership]):
         model = ShareOwnership
 
     start_date = factory.Faker("date_object")
-    amount_paid = factory.Faker("pydecimal", min_value=0, max_value=COOP_SHARE_PRICE)
 
 
 class ShareOwnerFactory(UserDataFactory[ShareOwner]):

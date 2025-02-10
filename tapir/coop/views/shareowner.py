@@ -178,7 +178,6 @@ class ShareOwnershipCreateMultipleView(
             ShareOwnership.objects.bulk_create(
                 ShareOwnership(
                     share_owner=share_owner,
-                    amount_paid=0,
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
