@@ -4,7 +4,7 @@ from typing import Self
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q, Sum, Count, F, PositiveIntegerField, Max, Min
+from django.db.models import Q, Sum, PositiveIntegerField, Max, Min
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -175,20 +175,6 @@ class ShareOwner(models.Model):
                 ).distinct()
 
             raise TapirException(f"Invalid status : {status}")
-
-        def with_fully_paid(self, fully_paid: bool):
-            annotated = self.annotate(
-                paid_amount=Sum("credited_payments__amount")
-            ).annotate(
-                expected_payments=Count("share_ownerships", distinct=True)
-                * COOP_SHARE_PRICE
-                + COOP_ENTRY_AMOUNT
-            )
-            if fully_paid:
-                return annotated.filter(paid_amount__gte=F("expected_payments"))
-            return annotated.filter(
-                Q(paid_amount__lt=F("expected_payments")) | Q(paid_amount=None)
-            )
 
     objects = ShareOwnerQuerySet.as_manager()
 
@@ -640,6 +626,9 @@ class IncomingPayment(models.Model):
         blank=False,
         on_delete=models.deletion.PROTECT,
     )
+
+    def __str__(self):
+        return f"From {self.paying_member} to {self.credited_member} at {self.payment_date}, amount {self.amount}"
 
 
 class CreatePaymentLogEntry(LogEntry):
