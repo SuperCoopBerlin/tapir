@@ -28,7 +28,6 @@ class ShareOwnershipForm(forms.ModelForm):
         fields = [
             "start_date",
             "end_date",
-            "amount_paid",
         ]
         widgets = {
             "start_date": DateInputTapir(),
@@ -92,7 +91,6 @@ class DraftUserForm(forms.ModelForm):
             "attended_welcome_session",
             "ratenzahlung",
             "paid_membership_fee",
-            "paid_shares",
             "signed_membership_agreement",
             "num_shares",
         ]

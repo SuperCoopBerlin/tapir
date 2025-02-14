@@ -1,10 +1,12 @@
 import datetime
+from decimal import Decimal
 
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import MembershipPause
 from tapir.coop.tests.factories import ShareOwnerFactory
+from tapir.coop.tests.incoming_payment_factory import IncomingPaymentFactory
 from tapir.shifts.models import ShiftUserCapability, ShiftExemption, ShiftAttendanceMode
 from tapir.statistics.services.dataset_export_column_builder import (
     DatasetExportColumnBuilder,
@@ -339,3 +341,37 @@ class TestDatasetExportColumnBuilder(TapirFactoryTestBase):
         )
 
         self.assertTrue(result)
+
+    def test_buildColumnCurrentlyPaid_default_returnsPaidAmount(self):
+        payment = IncomingPaymentFactory.create(
+            payment_date=self.REFERENCE_TIME.date(), amount=123
+        )
+
+        result = DatasetExportColumnBuilder.build_column_currently_paid(
+            payment.credited_member, self.REFERENCE_TIME
+        )
+
+        self.assertEqual(123, result)
+
+    def test_buildColumnExpectedPayments_default_returnsExpectedPayments(self):
+        share_owner = ShareOwnerFactory.create(nb_shares=3)
+
+        result = DatasetExportColumnBuilder.build_column_expected_payment(
+            share_owner, self.REFERENCE_TIME
+        )
+
+        self.assertEqual(310, result)
+
+    def test_buildColumnPaymentDifference_default_returnsPaymentDifference(self):
+        share_owner = ShareOwnerFactory.create(nb_shares=3)
+        payment = IncomingPaymentFactory.create(
+            payment_date=self.REFERENCE_TIME.date(),
+            amount=250,
+            credited_member=share_owner,
+        )
+
+        result = DatasetExportColumnBuilder.build_column_payment_difference(
+            payment.credited_member, self.REFERENCE_TIME
+        )
+
+        self.assertEqual(Decimal(-60), result)
