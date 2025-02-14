@@ -44,6 +44,7 @@ class DatapointExportSerializer(serializers.Serializer):
     currently_paid = serializers.FloatField(required=False)
     expected_payment = serializers.FloatField(required=False)
     payment_difference = serializers.FloatField(required=False)
+    frozen_since = serializers.DateField(required=False)
 
 
 class ColumnSerializer(serializers.Serializer):

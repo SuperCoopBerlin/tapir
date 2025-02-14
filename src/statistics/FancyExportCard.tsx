@@ -141,7 +141,7 @@ const FancyExportCard: React.FC = () => {
   }
 
   function buildColumnExport(
-    columnValue: string | number | boolean | string[] | undefined,
+    columnValue: string | number | boolean | string[] | undefined | Date,
   ): string {
     if (typeof columnValue === "boolean") {
       return columnValue ? "True" : "False";
@@ -149,6 +149,10 @@ const FancyExportCard: React.FC = () => {
 
     if (typeof columnValue === "number") {
       return columnValue.toString();
+    }
+
+    if (columnValue instanceof Date) {
+      return formatDate(columnValue);
     }
 
     if (Array.isArray(columnValue)) {

@@ -232,6 +232,9 @@ components:
         payment_difference:
           type: number
           format: double
+        frozen_since:
+          type: string
+          format: date
     Dataset:
       type: object
       properties:

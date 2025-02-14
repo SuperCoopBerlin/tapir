@@ -211,6 +211,12 @@ export interface DatapointExport {
      * @memberof DatapointExport
      */
     paymentDifference?: number;
+    /**
+     * 
+     * @type {Date}
+     * @memberof DatapointExport
+     */
+    frozenSince?: Date;
 }
 
 /**
@@ -262,6 +268,7 @@ export function DatapointExportFromJSONTyped(json: any, ignoreDiscriminator: boo
         'currentlyPaid': json['currently_paid'] == null ? undefined : json['currently_paid'],
         'expectedPayment': json['expected_payment'] == null ? undefined : json['expected_payment'],
         'paymentDifference': json['payment_difference'] == null ? undefined : json['payment_difference'],
+        'frozenSince': json['frozen_since'] == null ? undefined : (new Date(json['frozen_since'])),
     };
 }
 
@@ -308,6 +315,7 @@ export function DatapointExportFromJSONTyped(json: any, ignoreDiscriminator: boo
         'currently_paid': value['currentlyPaid'],
         'expected_payment': value['expectedPayment'],
         'payment_difference': value['paymentDifference'],
+        'frozen_since': value['frozenSince'] == null ? undefined : ((value['frozenSince']).toISOString().substring(0,10)),
     };
 }
 
