@@ -542,13 +542,29 @@ class ShiftTemplateForm(forms.ModelForm):
 
 
 class ShiftTemplateDuplicateForm(forms.Form):
-    week_group = forms.ModelChoiceField(queryset=ShiftTemplateGroup.objects.all())
+    week_group = forms.MultipleChoiceField(
+        choices=ShiftTemplateGroup.objects.values_list(),
+        label=_("Weekgroups"),
+        widget=Select2MultipleWidget,
+    )
     weekdays = forms.MultipleChoiceField(
         choices=WEEKDAY_CHOICES, widget=Select2MultipleWidget
     )
     start_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
     end_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
-    start_date = forms.DateField(widget=DateInputTapir())
+    start_date = forms.DateField(widget=DateInputTapir(), required=False)
+
+    def __init__(self, *args, **kwargs):
+        shift_template_copy_source = ShiftTemplate.objects.get(
+            pk=kwargs.pop("shift_pk")
+        )
+        super().__init__(*args, **kwargs)
+        self.fields["start_time"].initial = shift_template_copy_source.start_time
+        self.fields["end_time"].initial = shift_template_copy_source.end_time
+        self.fields["start_date"].initial = shift_template_copy_source.start_date
+        self.fields["start_time"].disabled = True
+        self.fields["end_time"].disabled = True
+        self.fields["start_date"].disabled = True
 
 
 class ShiftSlotTemplateForm(forms.ModelForm):

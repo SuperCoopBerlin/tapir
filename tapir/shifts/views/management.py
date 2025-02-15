@@ -1,3 +1,5 @@
+from itertools import product
+
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.management import call_command
@@ -7,6 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, UpdateView, RedirectView, FormView
+from django.db.models import Q
 
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
@@ -17,6 +20,7 @@ from tapir.shifts.forms import (
     ShiftTemplateForm,
     ShiftSlotTemplateForm,
     ShiftTemplateDuplicateForm,
+    ShiftTemplateGroup,
 )
 from tapir.shifts.models import (
     Shift,
@@ -190,10 +194,14 @@ class ShiftSlotTemplateCreateView(
 class ShiftTemplateDuplicateFormView(
     LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, FormView
 ):
-    template_name = "shifts/shift_template_duplicate_form.html"
     form_class = ShiftTemplateDuplicateForm
     permission_required = PERMISSION_SHIFTS_MANAGE
     success_url = reverse_lazy("shifts:shift_template_overview")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"shift_pk": self.kwargs.get("shift_pk")})
+        return kwargs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -204,27 +212,41 @@ class ShiftTemplateDuplicateFormView(
         return context
 
     def form_valid(self, form):
+        all_templates = ShiftTemplate.objects.all().values()
         shift_template_copy_source = ShiftTemplate.objects.get(
             pk=self.kwargs.get("shift_pk")
         )
-        for day in form.cleaned_data["weekdays"]:
-            shift_template_copy_destination = ShiftTemplate.objects.create(
-                name=shift_template_copy_source.name,
-                description=shift_template_copy_source.description,
-                flexible_time=shift_template_copy_source.flexible_time,
-                group=form.cleaned_data["week_group"],
-                weekday=day,
-                start_time=form.cleaned_data["start_time"],
-                end_time=form.cleaned_data["end_time"],
-                start_date=form.cleaned_data["start_date"],
-            )
-            for entry in shift_template_copy_source.slot_templates.all():
-                ShiftSlotTemplate.objects.create(
-                    shift_template=shift_template_copy_destination,
-                    name=entry.name,
-                    required_capabilities=entry.required_capabilities,
-                    warnings=entry.warnings,
+        for i in product(
+            form.cleaned_data["weekdays"], form.cleaned_data["week_group"]
+        ):
+            day, week = i
+            if (
+                all_templates.filter(start_time=shift_template_copy_source.start_time)
+                .filter(end_time=shift_template_copy_source.end_time)
+                .filter(start_date=shift_template_copy_source.start_date)
+                .filter(weekday=day)
+                .filter(group=week)
+            ).exists():
+                continue
+            else:
+                shift_template_copy_destination = ShiftTemplate.objects.create(
+                    name=shift_template_copy_source.name,
+                    description=shift_template_copy_source.description,
+                    flexible_time=shift_template_copy_source.flexible_time,
+                    group=ShiftTemplateGroup.objects.get(id=week),
+                    num_required_attendances=shift_template_copy_source.num_required_attendances,
+                    weekday=day,
+                    start_time=shift_template_copy_source.start_time,
+                    end_time=shift_template_copy_source.end_time,
+                    start_date=shift_template_copy_source.start_date,
                 )
+                for entry in shift_template_copy_source.slot_templates.all():
+                    ShiftSlotTemplate.objects.create(
+                        shift_template=shift_template_copy_destination,
+                        name=entry.name,
+                        required_capabilities=entry.required_capabilities,
+                        warnings=entry.warnings,
+                    )
         return super().form_valid(form)
 
 
