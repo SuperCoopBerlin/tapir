@@ -4,7 +4,7 @@ import datetime
 from chartjs.colors import next_color, COLORS
 from chartjs.views.lines import BaseLineChartView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Sum, Q
+from django.db.models import Q
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -12,7 +12,6 @@ from django.views import generic
 from django.views.generic import TemplateView
 
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
-from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.models import (
     ShareOwner,
     MemberStatus,
@@ -118,12 +117,6 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
         total_amount_paid = 0
         total_cost = 0
         paid_percentage = "0%"
-        if extra_shares.exists():
-            total_amount_paid = extra_shares.aggregate(Sum("amount_paid"))[
-                "amount_paid__sum"
-            ]
-            total_cost = extra_shares.count() * COOP_SHARE_PRICE
-            paid_percentage = "{:.0%}".format(total_amount_paid / total_cost)
 
         context["total_amount_paid"] = total_amount_paid
         context["total_cost"] = total_cost

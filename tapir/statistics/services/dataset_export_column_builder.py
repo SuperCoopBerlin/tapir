@@ -1,9 +1,14 @@
 import datetime
+from decimal import Decimal
 
 from tapir.coop.models import ShareOwner
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
-from tapir.shifts.models import ShiftUserData
+from tapir.coop.services.payment_status_service import PaymentStatusService
+from tapir.shifts.models import ShiftUserData, UpdateShiftUserDataLogEntry
+from tapir.shifts.services.frozen_status_history_service import (
+    FrozenStatusHistoryService,
+)
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
@@ -180,3 +185,76 @@ class DatasetExportColumnBuilder:
         share_owner: ShareOwner, reference_time: datetime.datetime
     ):
         return MemberCanShopService.can_shop(share_owner, reference_time)
+
+    @staticmethod
+    def build_column_currently_paid(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        annotated_share_owner = PaymentStatusService.annotate_with_payments_at_date(
+            ShareOwner.objects.filter(id=share_owner.id), reference_time.date()
+        ).get()
+        return getattr(
+            annotated_share_owner,
+            PaymentStatusService.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE,
+        )
+
+    @staticmethod
+    def build_column_expected_payment(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        annotated_share_owner = PaymentStatusService.annotate_with_payments_at_date(
+            ShareOwner.objects.filter(id=share_owner.id), reference_time.date()
+        ).get()
+        return getattr(
+            annotated_share_owner,
+            PaymentStatusService.ANNOTATION_EXPECTED_PAYMENTS_SUM_AT_DATE,
+        )
+
+    @staticmethod
+    def build_column_payment_difference(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        annotated_share_owner = PaymentStatusService.annotate_with_payments_at_date(
+            ShareOwner.objects.filter(id=share_owner.id), reference_time.date()
+        ).get()
+        return Decimal(
+            getattr(
+                annotated_share_owner,
+                PaymentStatusService.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE,
+            )
+        ) - getattr(
+            annotated_share_owner,
+            PaymentStatusService.ANNOTATION_EXPECTED_PAYMENTS_SUM_AT_DATE,
+        )
+
+    @staticmethod
+    def build_column_frozen_since(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        tapir_user = getattr(share_owner, "user", None)
+        if not tapir_user:
+            return None
+
+        share_owner = FrozenStatusHistoryService.annotate_share_owner_queryset_with_is_frozen_at_datetime(
+            ShareOwner.objects.filter(id=share_owner.id), reference_time
+        ).first()
+        is_frozen = getattr(
+            share_owner, FrozenStatusHistoryService.ANNOTATION_IS_FROZEN_AT_DATE
+        )
+        if not is_frozen:
+            return None
+
+        log_entry = (
+            UpdateShiftUserDataLogEntry.objects.filter(
+                user_id=tapir_user.id,
+                created_date__lte=reference_time,
+                new_values__has_key="is_frozen",
+            )
+            .order_by("-created_date")
+            .first()
+        )
+
+        if not log_entry:
+            return None
+
+        return log_entry.created_date.date()

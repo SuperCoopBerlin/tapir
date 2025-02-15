@@ -4,7 +4,8 @@ import { useApi } from "../hooks/useApi.ts";
 import { DatapointExport, Dataset, StatisticsApi } from "../api-client";
 import { getDateInputValue } from "./utils.tsx";
 import TapirButton from "../components/TapirButton.tsx";
-import { Copy, Download } from "react-bootstrap-icons";
+import { Copy, DatabaseDown, Download } from "react-bootstrap-icons";
+import { formatDate } from "../utils/formatDate.ts";
 
 declare let gettext: (english_text: string) => string;
 
@@ -97,29 +98,61 @@ const FancyExportCard: React.FC = () => {
       .finally(() => setExportDownloading(false));
   }
 
-  function copyExportToClipboard() {
-    let text = Array.from(selectedColumns).join(",");
-    text += "\n" + rows.map((row) => buildRowExport(row)).join("\n");
-    navigator.clipboard.writeText(text).then(() => {
-      alert("Copied");
+  function buildExport(joinCharacter: string) {
+    let text = Array.from(selectedColumns).join(joinCharacter);
+    text +=
+      "\n" + rows.map((row) => buildRowExport(row, joinCharacter)).join("\n");
+    return text;
+  }
+
+  function downloadCurrentDataAsCsv() {
+    const element = document.createElement("a");
+    element.setAttribute(
+      "href",
+      "data:text/plain;charset=utf-8," + encodeURIComponent(buildExport(",")),
+    );
+    const filename =
+      "Tapir data export " +
+      Array.from(selectedColumns).join(",") +
+      " " +
+      formatDate(date, true) +
+      ".csv";
+    element.setAttribute("download", filename);
+
+    element.style.display = "none";
+    element.click();
+  }
+
+  function copyExportToClipboardAsSpreadsheet() {
+    const spreadsheet = buildExport("\t");
+    navigator.clipboard.writeText(spreadsheet).then(() => {
+      alert("Copied as Spreadsheet");
     });
   }
 
-  function buildRowExport(row: DatapointExport): string {
+  function buildRowExport(row: DatapointExport, joinCharacter: string): string {
     return Array.from(selectedColumns)
       .map((columnName) =>
         buildColumnExport(
           row[snakeCaseToCamelCase(columnName) as keyof DatapointExport],
         ),
       )
-      .join(",");
+      .join(joinCharacter);
   }
 
   function buildColumnExport(
-    columnValue: string | number | boolean | string[] | undefined,
+    columnValue: string | number | boolean | string[] | undefined | Date,
   ): string {
     if (typeof columnValue === "boolean") {
       return columnValue ? "True" : "False";
+    }
+
+    if (typeof columnValue === "number") {
+      return columnValue.toString();
+    }
+
+    if (columnValue instanceof Date) {
+      return formatDate(columnValue);
     }
 
     if (Array.isArray(columnValue)) {
@@ -187,7 +220,8 @@ const FancyExportCard: React.FC = () => {
                     />
                     <Form.Text>
                       {gettext(
-                        "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop. " +
+                        "The date is only relevant for the following fields: " +
+                          "shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference. " +
                           "For all other fields, the value as it is now is exported, not the value as it was at the given date.",
                       )}
                     </Form.Text>
@@ -243,7 +277,7 @@ const FancyExportCard: React.FC = () => {
                           selectedDataset.displayName
                         : gettext("Pick a source dataset")
                     }
-                    icon={Download}
+                    icon={DatabaseDown}
                     onClick={() => {
                       downloadExport();
                     }}
@@ -254,12 +288,25 @@ const FancyExportCard: React.FC = () => {
                     variant={"outline-secondary"}
                     text={
                       rows.length > 0
-                        ? gettext("Copy export to clipboard")
+                        ? gettext("Download as CSV")
+                        : gettext("Build the export to download it")
+                    }
+                    icon={Download}
+                    onClick={() => {
+                      downloadCurrentDataAsCsv();
+                    }}
+                    disabled={rows.length === 0}
+                  />
+                  <TapirButton
+                    variant={"outline-secondary"}
+                    text={
+                      rows.length > 0
+                        ? gettext("Copy for spreadsheets")
                         : gettext("Build the export to copy it")
                     }
                     icon={Copy}
                     onClick={() => {
-                      copyExportToClipboard();
+                      copyExportToClipboardAsSpreadsheet();
                     }}
                     disabled={rows.length === 0}
                   />

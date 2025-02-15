@@ -4,7 +4,7 @@ from typing import Self
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q, Sum, Count, F, PositiveIntegerField, Max, Min
+from django.db.models import Q, Sum, PositiveIntegerField, Max, Min
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -91,7 +91,6 @@ class ShareOwner(models.Model):
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
     )
-    paid_membership_fee = models.BooleanField(_("Paid Entrance Fee"), default=True)
     willing_to_gift_a_share = models.DateField(
         _("Is willing to gift a share"), null=True, blank=True
     )
@@ -175,20 +174,6 @@ class ShareOwner(models.Model):
                 ).distinct()
 
             raise TapirException(f"Invalid status : {status}")
-
-        def with_fully_paid(self, fully_paid: bool):
-            annotated = self.annotate(
-                paid_amount=Sum("credited_payments__amount")
-            ).annotate(
-                expected_payments=Count("share_ownerships", distinct=True)
-                * COOP_SHARE_PRICE
-                + COOP_ENTRY_AMOUNT
-            )
-            if fully_paid:
-                return annotated.filter(paid_amount__gte=F("expected_payments"))
-            return annotated.filter(
-                Q(paid_amount__lt=F("expected_payments")) | Q(paid_amount=None)
-            )
 
     objects = ShareOwnerQuerySet.as_manager()
 
@@ -421,29 +406,7 @@ class ShareOwnership(DurationModelMixin, models.Model):
         on_delete=models.CASCADE,
     )
 
-    amount_paid = models.DecimalField(
-        blank=False,
-        null=False,
-        default=COOP_SHARE_PRICE,
-        max_digits=10,
-        decimal_places=2,
-    )
-
     transferred_from = models.OneToOneField("self", null=True, on_delete=models.PROTECT)
-
-    def is_fully_paid(self):
-        return self.amount_paid >= COOP_SHARE_PRICE
-
-    def clean(self):
-        super().clean()
-        if self.amount_paid < 0:
-            raise ValidationError(_("Amount paid for a share can't be negative"))
-        if self.amount_paid > COOP_SHARE_PRICE:
-            raise ValidationError(
-                _(
-                    f"Amount paid for a share can't more than {COOP_SHARE_PRICE} (the price of a share)"
-                )
-            )
 
     def __str__(self):
         return (
@@ -509,7 +472,6 @@ class DraftUser(models.Model):
         _("Signed Beteiligungserklärung"), default=False
     )
     paid_membership_fee = models.BooleanField(_("Paid Entrance Fee"), default=False)
-    paid_shares = models.BooleanField(_("Paid Shares"), default=False)
 
     ratenzahlung = models.BooleanField(verbose_name=_("Ratenzahlung"), default=False)
 
@@ -640,6 +602,9 @@ class IncomingPayment(models.Model):
         blank=False,
         on_delete=models.deletion.PROTECT,
     )
+
+    def __str__(self):
+        return f"From {self.paying_member} to {self.credited_member} at {self.payment_date}, amount {self.amount}"
 
 
 class CreatePaymentLogEntry(LogEntry):

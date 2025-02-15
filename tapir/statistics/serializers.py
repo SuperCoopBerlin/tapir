@@ -41,6 +41,10 @@ class DatapointExportSerializer(serializers.Serializer):
     is_exempted = serializers.BooleanField(required=False)
     is_paused = serializers.BooleanField(required=False)
     can_shop = serializers.BooleanField(required=False)
+    currently_paid = serializers.FloatField(required=False)
+    expected_payment = serializers.FloatField(required=False)
+    payment_difference = serializers.FloatField(required=False)
+    frozen_since = serializers.DateField(required=False)
 
 
 class ColumnSerializer(serializers.Serializer):
