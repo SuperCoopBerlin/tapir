@@ -230,10 +230,6 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Paid Shares" %}:</div>
-                    <div class="col-9" id="draft_user_paid_shares">{{ object.paid_shares|yesno:_("Yes,No") }}</div>
-                </div>
             </div>
             <div class="card-footer d-flex justify-content-end gap-2">
                 <a class="{% tapir_button_link_to_action %}"

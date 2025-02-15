@@ -12,7 +12,6 @@ class TestRegisterDraftUser(TapirFactoryTestBase):
         mock_draft_user = DraftUserFactory.build(num_shares=1)
         cant_be_set_when_self_registering = [
             "is_investing",
-            "paid_shares",
             "attended_welcome_session",
             "ratenzahlung",
             "paid_membership_fee",

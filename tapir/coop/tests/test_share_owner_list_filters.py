@@ -70,37 +70,6 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
             "Normal users should not have access to the member's list",
         )
 
-    def test_has_unpaid_shares(self):
-        # We must create several members, because if the filters only give one result back
-        # we get redirected to the user's page directly
-        share_owners_with_unpaid_share = []
-        for _ in range(2):
-            share_owner = ShareOwnerFactory.create()
-            share_owners_with_unpaid_share.append(share_owner)
-            shares = ShareOwnership.objects.filter(share_owner=share_owner)
-            for share in shares:
-                share.amount_paid = 0 if share == shares.first() else COOP_SHARE_PRICE
-                share.save()
-
-        share_owners_with_all_paid_share = []
-        for _ in range(2):
-            share_owner = ShareOwnerFactory.create()
-            share_owners_with_all_paid_share.append(share_owner)
-            for share in ShareOwnership.objects.filter(share_owner=share_owner):
-                share.amount_paid = COOP_SHARE_PRICE
-                share.save()
-
-        self.visit_view(
-            {"has_unpaid_shares": True},
-            must_be_in=share_owners_with_unpaid_share,
-            must_be_out=share_owners_with_all_paid_share,
-        )
-        self.visit_view(
-            {"has_unpaid_shares": False},
-            must_be_in=share_owners_with_all_paid_share,
-            must_be_out=share_owners_with_unpaid_share,
-        )
-
     def test_is_fully_paid(self):
         # We must create several members, because if the filters only give one result back
         # we get redirected to the user's page directly
