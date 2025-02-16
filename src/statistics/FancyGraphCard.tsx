@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { Alert, Card, Col, Row, Spinner } from "react-bootstrap";
 import {
   BarController,
   BarElement,
   CategoryScale,
   Chart as ChartJS,
+  ChartType,
   Colors,
   Legend,
   LinearScale,
@@ -14,15 +15,15 @@ import {
   Tooltip,
 } from "chart.js";
 import { useApi } from "../hooks/useApi.ts";
-import { FetchError, StatisticsApi } from "../api-client";
+import { Dataset, FetchError, StatisticsApi } from "../api-client";
 import { Chart } from "react-chartjs-2";
-import { datasets } from "./datasets.tsx";
 import { formatDate } from "../utils/formatDate.ts";
 import DatasetPickerCard from "./components/DatasetPickerCard.tsx";
 import { getFirstOfMonth } from "./utils.tsx";
 import TapirButton from "../components/TapirButton.tsx";
 import { Download } from "react-bootstrap-icons";
 import DateRangePicker from "./components/DateRangePicker.tsx";
+import ColourblindnessTypePicker from "./components/ColourblindnessTypePicker.tsx";
 
 declare let gettext: (english_text: string) => string;
 
@@ -50,17 +51,42 @@ const FancyGraphCard: React.FC = () => {
   const [error, setError] = useState("");
   const [dateFrom, setDateFrom] = useState<Date>(new Date());
   const [dateTo, setDateTo] = useState<Date>(getFirstOfMonth(new Date()));
-  const [enabledDatasets, setEnabledDatasets] = useState<Set<string>>(
-    new Set<string>(),
+  const [enabledNotRelativeDatasets, setEnabledNotRelativeDatasets] = useState<
+    Set<Dataset>
+  >(new Set<Dataset>());
+  const enabledDatasetsNotRelativeRef = useRef<Set<Dataset>>(
+    new Set<Dataset>(),
   );
-  const enabledDatasetsRef = useRef<Set<string>>(new Set<string>());
+  const [enabledRelativeDatasets, setEnabledRelativeDatasets] = useState<
+    Set<Dataset>
+  >(new Set<Dataset>());
+  const enabledRelativeDatasetsRef = useRef<Set<Dataset>>(new Set<Dataset>());
   const [graphData, setGraphData] = useState<GraphData>({});
   const [graphLabels, setGraphLabels] = useState<string[]>([]);
   const [dates, setDates] = useState<Date[]>([]);
   const [fetching, setFetching] = useState(false);
   const [datapickerExpanded, setDatapickerExpanded] = useState(false);
-  const cachedData = useRef<CachedData>({});
+  const cachedDataNotRelative = useRef<CachedData>({});
+  const cachedDataRelative = useRef<CachedData>({});
   const api = useApi(StatisticsApi);
+  const [availableDatasetsLoading, setAvailableDatasetsLoading] =
+    useState(false);
+  const [availableDatasets, setAvailableDatasets] = useState<Dataset[]>([]);
+  const [availableDatasetsError, setAvailableDatasetsError] = useState("");
+  const [selectedColourblindnessType, setSelectedColourblindnessType] =
+    useState("");
+
+  useEffect(() => {
+    setAvailableDatasetsLoading(true);
+
+    api
+      .statisticsAvailableDatasetsList({
+        colourblindness: selectedColourblindnessType,
+      })
+      .then(setAvailableDatasets)
+      .catch(setAvailableDatasetsError)
+      .finally(() => setAvailableDatasetsLoading(false));
+  }, [selectedColourblindnessType]);
 
   useEffect(() => {
     const dateFromOnPageLoad = new Date();
@@ -69,21 +95,27 @@ const FancyGraphCard: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    fillCachedData();
+    fillCachedData(enabledDatasetsNotRelativeRef, cachedDataNotRelative);
+    fillCachedData(enabledRelativeDatasetsRef, cachedDataRelative);
     buildAndSetGraphData();
     fetchData();
-  }, [dates, enabledDatasets]);
+  }, [dates, enabledNotRelativeDatasets, enabledRelativeDatasets]);
 
-  function fillCachedData() {
-    for (const datasetId of enabledDatasetsRef.current) {
-      if (!Object.keys(cachedData.current).includes(datasetId)) {
-        cachedData.current[datasetId] = {};
+  function fillCachedData(
+    datasetsRef: MutableRefObject<Set<Dataset>>,
+    cachedDataRef: MutableRefObject<CachedData>,
+  ) {
+    for (const dataset of datasetsRef.current) {
+      if (!Object.keys(cachedDataRef.current).includes(dataset.id)) {
+        cachedDataRef.current[dataset.id] = {};
       }
       for (const date of dates) {
         if (
-          !Object.keys(cachedData.current[datasetId]).includes(formatDate(date))
+          !Object.keys(cachedDataRef.current[dataset.id]).includes(
+            formatDate(date),
+          )
         ) {
-          cachedData.current[datasetId][formatDate(date)] = null;
+          cachedDataRef.current[dataset.id][formatDate(date)] = null;
         }
       }
     }
@@ -91,9 +123,14 @@ const FancyGraphCard: React.FC = () => {
 
   function buildAndSetGraphData() {
     const newGraphData: GraphData = {};
-    for (const datasetId of enabledDatasetsRef.current) {
-      newGraphData[datasetId] = dates.map(
-        (date) => cachedData.current[datasetId][formatDate(date)],
+    for (const dataset of enabledDatasetsNotRelativeRef.current) {
+      newGraphData[dataset.id] = dates.map(
+        (date) => cachedDataNotRelative.current[dataset.id][formatDate(date)],
+      );
+    }
+    for (const dataset of enabledRelativeDatasetsRef.current) {
+      newGraphData[dataset.id + "_relative"] = dates.map(
+        (date) => cachedDataRelative.current[dataset.id][formatDate(date)],
       );
     }
     setGraphData(newGraphData);
@@ -108,7 +145,7 @@ const FancyGraphCard: React.FC = () => {
     setError("");
     setFetching(true);
 
-    const [datasetId, dateString] = nextDataToFetch;
+    const [datasetId, dateString, relative] = nextDataToFetch;
 
     const date = new Date();
     const [day, month, year] = dateString.split(".");
@@ -118,10 +155,16 @@ const FancyGraphCard: React.FC = () => {
     date.setHours(12);
     date.setMinutes(0);
 
-    datasets[datasetId].apiCall
-      .call(api, { atDate: date, relative: datasets[datasetId].relative })
+    api
+      .statisticsGraphPointRetrieve({
+        atDate: date,
+        relative: relative,
+        dataset: datasetId,
+      })
       .then((value: number) => {
-        cachedData.current[datasetId][dateString] = value;
+        (relative ? cachedDataRelative : cachedDataNotRelative).current[
+          datasetId
+        ][dateString] = value;
         buildAndSetGraphData();
         setFetching(false);
         fetchData();
@@ -133,11 +176,21 @@ const FancyGraphCard: React.FC = () => {
       });
   }
 
-  function getNextDataToFetch() {
-    for (const datasetId of enabledDatasetsRef.current) {
-      for (const date of Object.keys(cachedData.current[datasetId])) {
-        if (cachedData.current[datasetId][date] === null) {
-          return [datasetId, date];
+  function getNextDataToFetch(): [string, string, boolean] | null {
+    for (const dataset of enabledDatasetsNotRelativeRef.current) {
+      for (const date of Object.keys(
+        cachedDataNotRelative.current[dataset.id],
+      )) {
+        if (cachedDataNotRelative.current[dataset.id][date] === null) {
+          return [dataset.id, date, false];
+        }
+      }
+    }
+
+    for (const dataset of enabledRelativeDatasetsRef.current) {
+      for (const date of Object.keys(cachedDataRelative.current[dataset.id])) {
+        if (cachedDataRelative.current[dataset.id][date] === null) {
+          return [dataset.id, date, true];
         }
       }
     }
@@ -148,14 +201,16 @@ const FancyGraphCard: React.FC = () => {
   const data = {
     labels: graphLabels,
     datasets: Object.entries(graphData).map(([datasetId, data]) => {
-      const dataset = datasets[datasetId];
+      const dataset = availableDatasets.find(
+        (dataset) => dataset.id === datasetId.replace("_relative", ""),
+      );
       return {
-        label: dataset.display_name,
-        type: dataset.chart_type,
+        label: dataset!.displayName,
+        type: (datasetId.endsWith("_relative") ? "bar" : "line") as ChartType,
         data: data,
-        borderColor: dataset.color,
-        backgroundColor: dataset.color,
-        pointStyle: dataset.pointStyle,
+        borderColor: dataset!.color,
+        backgroundColor: dataset!.color,
+        pointStyle: dataset!.pointStyle,
         radius: 5,
       };
     }),
@@ -218,10 +273,15 @@ const FancyGraphCard: React.FC = () => {
       <Row>
         <Col className={"mb-2 " + (datapickerExpanded ? "" : "col-xxl-3")}>
           <DatasetPickerCard
-            setEnabledDatasets={setEnabledDatasets}
-            enabledDatasetsRef={enabledDatasetsRef}
+            setEnabledDatasets={setEnabledNotRelativeDatasets}
+            enabledDatasetsRef={enabledDatasetsNotRelativeRef}
+            setEnabledRelativeDatasets={setEnabledRelativeDatasets}
+            enabledRelativeDatasetsRef={enabledRelativeDatasetsRef}
             isExpanded={datapickerExpanded}
             setIsExpanded={setDatapickerExpanded}
+            availableDatasets={availableDatasets}
+            availableDatasetsError={availableDatasetsError}
+            availableDatasetsLoading={availableDatasetsLoading}
           />
         </Col>
         <Col>
@@ -240,6 +300,11 @@ const FancyGraphCard: React.FC = () => {
                   setDateTo={setDateTo}
                   setDates={setDates}
                   setGraphLabels={setGraphLabels}
+                />
+                <ColourblindnessTypePicker
+                  setSelectedColourblindnessType={
+                    setSelectedColourblindnessType
+                  }
                 />
                 <TapirButton
                   variant={"outline-secondary"}

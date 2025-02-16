@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.db import transaction
-from django.db.models import Q
+from django.db.models import Q, F
 from django.http import (
     HttpResponse,
     HttpResponseForbidden,
@@ -30,7 +30,7 @@ from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
-from tapir.coop.config import COOP_SHARE_PRICE, on_welcome_session_attendance_update
+from tapir.coop.config import on_welcome_session_attendance_update
 from tapir.coop.emails.extra_shares_confirmation_email import (
     ExtraSharesConfirmationEmailBuilder,
 )
@@ -61,6 +61,7 @@ from tapir.coop.models import (
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
+from tapir.coop.services.payment_status_service import PaymentStatusService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
@@ -177,7 +178,6 @@ class ShareOwnershipCreateMultipleView(
             ShareOwnership.objects.bulk_create(
                 ShareOwnership(
                     share_owner=share_owner,
-                    amount_paid=0,
                     start_date=form.cleaned_data["start_date"],
                     end_date=form.cleaned_data["end_date"],
                 )
@@ -639,9 +639,6 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="abcd_week_filter",
         label=_("ABCD Week"),
     )
-    has_unpaid_shares = BooleanFilter(
-        method="has_unpaid_shares_filter", label=_("Has unpaid shares")
-    )
     is_fully_paid = BooleanFilter(
         method="is_fully_paid_filter", label=_("Is fully paid")
     )
@@ -745,23 +742,19 @@ class ShareOwnerFilter(django_filters.FilterSet):
         ).distinct()
 
     @staticmethod
-    def has_unpaid_shares_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
-    ):
-        unpaid_shares = ShareOwnership.objects.filter(
-            amount_paid__lt=COOP_SHARE_PRICE, share_owner__in=queryset
-        )
-
-        if value:
-            return queryset.filter(share_ownerships__in=unpaid_shares).distinct()
-        else:
-            return queryset.exclude(share_ownerships__in=unpaid_shares).distinct()
-
-    @staticmethod
     def is_fully_paid_filter(
         queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
     ):
-        return queryset.with_fully_paid(value)
+        payment_filter = {
+            f"{PaymentStatusService.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE}__gte": F(
+                PaymentStatusService.ANNOTATION_EXPECTED_PAYMENTS_SUM_AT_DATE
+            )
+        }
+        queryset = PaymentStatusService.annotate_with_payments_at_date(queryset)
+        if value:
+            return queryset.filter(**payment_filter)
+        else:
+            return queryset.exclude(**payment_filter)
 
     @staticmethod
     def is_currently_exempted_from_shifts_filter(

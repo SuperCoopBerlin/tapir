@@ -39,7 +39,6 @@ class TestShareOwnership(TapirFactoryTestBase):
             {
                 "start_date": share_ownership.start_date,
                 "end_date": end_date,
-                "amount_paid": share_ownership.amount_paid,
             },
             follow=True,
         )

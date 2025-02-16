@@ -6,7 +6,6 @@ from faker import Faker
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
-from tapir.coop.config import COOP_SHARE_PRICE
 from tapir.coop.models import (
     ShareOwnership,
     ShareOwner,
@@ -24,7 +23,6 @@ class ShareOwnershipFactory(factory.django.DjangoModelFactory[ShareOwnership]):
         model = ShareOwnership
 
     start_date = factory.Faker("date_object")
-    amount_paid = factory.Faker("pydecimal", min_value=0, max_value=COOP_SHARE_PRICE)
 
 
 class ShareOwnerFactory(UserDataFactory[ShareOwner]):
@@ -51,7 +49,6 @@ class DraftUserFactory(UserDataFactory[DraftUser]):
     ATTRIBUTES = UserDataFactory.ATTRIBUTES + [
         "num_shares",
         "is_investing",
-        "paid_shares",
         "attended_welcome_session",
         "ratenzahlung",
         "paid_membership_fee",
@@ -60,10 +57,8 @@ class DraftUserFactory(UserDataFactory[DraftUser]):
 
     num_shares = factory.Faker("pyint", min_value=1, max_value=20)
     is_investing = factory.Faker("pybool")
-    paid_shares = factory.Faker("pybool")
     attended_welcome_session = factory.Faker("pybool")
     ratenzahlung = factory.Faker("pybool")
-    paid_membership_fee = factory.Faker("pybool")
     signed_membership_agreement = factory.Faker("pybool")
 
 

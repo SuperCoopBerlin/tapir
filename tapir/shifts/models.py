@@ -543,7 +543,9 @@ class Shift(models.Model):
     )
 
     cancelled = models.BooleanField(default=False)
-    cancelled_reason = models.CharField(null=True, max_length=1000)
+    cancelled_reason = models.CharField(
+        null=True, max_length=1000, verbose_name=_("Cancellation reason")
+    )
 
     NB_DAYS_FOR_SELF_UNREGISTER = 7
     NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2

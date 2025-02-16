@@ -75,6 +75,5 @@ class TestCreateAccountReminderMail(TapirFactoryTestBase, TapirEmailTestMixin):
         share_ownership = ShareOwnership.objects.create(
             share_owner=share_owner,
             start_date=self.NOW - timedelta(days=days_delta),
-            amount_paid=1,
         )
         share_ownership.save()

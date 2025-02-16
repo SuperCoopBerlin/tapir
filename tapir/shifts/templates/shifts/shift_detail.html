@@ -46,7 +46,7 @@
                         {% if not shift.cancelled %}
                             <a class="{% tapir_button_link_to_action %}"
                                href="{% url 'shifts:cancel_shift' shift.pk %}">
-                                <span class="material-icons">cancel</span>{% translate 'Cancel shift' %}
+                                <span class="material-icons">cancel</span>{% translate 'Cancel the entire shift' %}
                             </a>
                         {% endif %}
                     </span>
