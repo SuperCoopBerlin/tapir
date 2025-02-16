@@ -207,7 +207,7 @@ class ShiftTemplateDuplicateFormView(
         context = super().get_context_data(**kwargs)
         context["card_title"] = _("Duplicate ABCD-Shift")
         context["help_text"] = _(
-            "Please choose more days of the week to copy this ABCD-Shift. All slots will be copied to the new timeslots."
+            "Please choose other weekdays and weekgroups this ABCD-Shift should be copied to. All slots will be copied."
         )
         return context
 

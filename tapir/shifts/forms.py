@@ -548,7 +548,7 @@ class ShiftTemplateDuplicateForm(forms.Form):
         widget=Select2MultipleWidget,
     )
     weekdays = forms.MultipleChoiceField(
-        choices=WEEKDAY_CHOICES, widget=Select2MultipleWidget
+        choices=WEEKDAY_CHOICES, label=_("Weekdays"), widget=Select2MultipleWidget
     )
     start_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
     end_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
