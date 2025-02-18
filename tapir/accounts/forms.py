@@ -30,6 +30,12 @@ class TapirUserSelfUpdateForm(forms.ModelForm):
 class TapirUserForm(TapirUserSelfUpdateForm):
     phone_number = TapirPhoneNumberField(required=False)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        instance = getattr(self, "instance", None)
+        if instance.share_owner.is_investing:
+            self.fields["co_purchaser"].disabled = True
+
     class Meta(TapirUserSelfUpdateForm.Meta):
         # model = TapirUser
         fields = [
