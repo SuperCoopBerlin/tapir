@@ -204,7 +204,10 @@ USE_I18N = True
 USE_TZ = True
 
 EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
-EMAIL_ADDRESS_ACCOUNTING = "accounting@supercoop.de"
+EMAIL_ADDRESS_ACCOUNTING_TEAM = "accounting@supercoop.de"
+EMAIL_ADDRESS_ACCOUNTING_SOFTWARE = env.str(
+    "EMAIL_ADDRESS_ACCOUNTING_SOFTWARE", default=None
+)
 EMAIL_ADDRESS_MANAGEMENT = "contact@supercoop.de"
 EMAIL_ADDRESS_SUPERVISORS = "aufsichtsrat@supercoop.de"
 
