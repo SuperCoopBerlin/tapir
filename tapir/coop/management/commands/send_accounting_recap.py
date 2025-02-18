@@ -1,8 +1,11 @@
+from tempfile import SpooledTemporaryFile
+
 from django.core.mail import EmailMultiAlternatives
 from django.core.management import BaseCommand
 from django.template import loader
 
 from tapir import settings
+from tapir.coop import pdfs
 from tapir.coop.models import (
     ShareOwnership,
     NewMembershipsForAccountingRecap,
@@ -55,11 +58,44 @@ class Command(BaseCommand):
         email = EmailMultiAlternatives(
             subject="".join(subject.splitlines()),
             body=body,
-            to=[settings.EMAIL_ADDRESS_ACCOUNTING],
+            to=[settings.EMAIL_ADDRESS_ACCOUNTING_TEAM],
             cc=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
             from_email=settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         )
+        if settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE:
+            email.cc.append(settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE)
         email.content_subtype = "html"
+
+        for entry in new_membership_entries:
+            pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+                entry.member,
+                num_shares=entry.number_of_shares,
+                date=entry.date,
+            )
+            temp_file = SpooledTemporaryFile()
+            temp_file.write(pdf.write_pdf())
+            temp_file.seek(0)
+            email.attach(
+                f"New membership #{entry.member.get_member_number()}.pdf",
+                temp_file.read(),
+                "application/pdf",
+            )
+
+        for entry in extra_share_entries:
+            pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+                entry.member,
+                num_shares=entry.number_of_shares,
+                date=entry.date,
+            )
+            temp_file = SpooledTemporaryFile()
+            temp_file.write(pdf.write_pdf())
+            temp_file.seek(0)
+            email.attach(
+                f"Extra shares #{entry.member.get_member_number()}.pdf",
+                temp_file.read(),
+                "application/pdf",
+            )
+
         email.send()
 
         for entry in new_membership_entries:
