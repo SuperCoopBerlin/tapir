@@ -50,7 +50,7 @@ class TestSendAccountingRecap(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
         self.assertEqual(1, len(mail.outbox))
         sent_mail = mail.outbox[0]
-        self.assertEqual([settings.EMAIL_ADDRESS_ACCOUNTING], sent_mail.to)
+        self.assertEqual([settings.EMAIL_ADDRESS_ACCOUNTING_TEAM], sent_mail.to)
 
         self.assertIn(member_1.get_info().usage_name, sent_mail.body)
         url_member_1 = (
