@@ -13,11 +13,11 @@ from fabric import Connection
 from paramiko.sftp_file import SFTPFile
 
 from tapir.accounts.models import TapirUser
-from tapir.statistics.models import ProcessedCreditFiles, CreditAccount
-from tapir.utils.shortcuts import get_timezone_aware_datetime
 from tapir.statistics.management.commands.process_purchase_files import (
     Command as ProcessPurchaseFilesCommand,
 )
+from tapir.statistics.models import ProcessedCreditFiles, CreditAccount
+from tapir.utils.shortcuts import get_timezone_aware_datetime
 
 
 class Command(BaseCommand):
@@ -68,7 +68,7 @@ class Command(BaseCommand):
                 if row["ID"].isnumeric() and len(row["ID"]) > 3
                 else None
             )
-            credit_account = CreditAccount.objects.create(
+            credit_account = CreditAccount(
                 source_file=source_file,
                 credit_date=credit_date,
                 credit_amount=ProcessPurchaseFilesCommand.parse_german_number(
