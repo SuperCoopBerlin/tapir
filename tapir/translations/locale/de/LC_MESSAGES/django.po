@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-19 12:58+0100\n"
+"POT-Creation-Date: 2025-02-24 17:30+0100\n"
 "PO-Revision-Date: 2025-02-19 13:01+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -3003,19 +3003,19 @@ msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die 
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:547
+#: shifts/forms.py:546
 msgid "Weekgroups"
 msgstr "Wochengruppen"
 
-#: shifts/forms.py:551
+#: shifts/forms.py:550
 msgid "Weekdays"
 msgstr "Wochentage"
 
-#: shifts/forms.py:585
+#: shifts/forms.py:591
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:594
+#: shifts/forms.py:600
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
