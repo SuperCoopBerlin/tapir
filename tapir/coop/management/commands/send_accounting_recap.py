@@ -11,6 +11,7 @@ from tapir.coop.models import (
     NewMembershipsForAccountingRecap,
     ExtraSharesForAccountingRecap,
 )
+from tapir.utils.user_utils import UserUtils
 
 
 class Command(BaseCommand):
@@ -59,7 +60,7 @@ class Command(BaseCommand):
             subject="".join(subject.splitlines()),
             body=body,
             to=[settings.EMAIL_ADDRESS_ACCOUNTING_TEAM],
-            cc=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
+            cc=[settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE],
             from_email=settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         )
         if settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE:
@@ -76,7 +77,7 @@ class Command(BaseCommand):
             temp_file.write(pdf.write_pdf())
             temp_file.seek(0)
             email.attach(
-                f"New membership #{entry.member.get_member_number()}.pdf",
+                f"New membership #{UserUtils.build_display_name(entry.member, UserUtils.DISPLAY_NAME_TYPE_FULL)}.pdf",
                 temp_file.read(),
                 "application/pdf",
             )
