@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -4896,7 +4896,7 @@ msgstr "Gesamtausgaben pro Monat"
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views/main_view.py:562
+#: statistics/views/main_view.py:563
 msgid "Purchase data updated"
 msgstr "Kaufdaten aktualisiert"
 
