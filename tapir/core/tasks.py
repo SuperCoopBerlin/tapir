@@ -13,10 +13,12 @@ def metabase_export():
 
 @task_failure.connect()
 def celery_task_failure_email(**kwargs):
-    subject = "[Django][{queue_name}@{host}] Error: Task {sender.name} ({task_id}): {exception}".format(
-        queue_name="celery",  # `sender.queue` doesn't exist in 4.1?
-        host=socket.gethostname(),
-        **kwargs
+    subject = (
+        "[Django][{queue_name}@{host}] Error: Task {sender.name} ({task_id})".format(
+            queue_name="celery",  # `sender.queue` doesn't exist in 4.1?
+            host=socket.gethostname(),
+            **kwargs
+        )
     )
     message = """Task {sender.name} with id {task_id} raised exception: {exception!r}
                  Task was called with args: {args} kwargs: {kwargs}.
