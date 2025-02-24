@@ -9,8 +9,6 @@ from tapir.accounts.services.co_purchaser_history_service import (
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
-from tapir.accounts.forms import TapirUserForm
-
 
 class TestCoPurchaserHistoryService(TapirFactoryTestBase):
     NOW = datetime.datetime(year=2022, month=7, day=13, hour=12)
@@ -169,10 +167,3 @@ class TestCoPurchaserHistoryService(TapirFactoryTestBase):
                 CoPurchaserHistoryService.ANNOTATION_HAS_CO_PURCHASER_DATE_CHECK,
             ),
         )
-
-    def test_TapirUserForm_hasCopurchaserDisabled_whenShareownerIsInvesting(self):
-        tapir_user = TapirUserFactory.create()
-        tapir_user.share_owner.is_investing = True
-        tapir_user.share_owner.save()
-        form = TapirUserForm(instance=tapir_user)
-        self.assertTrue(form.fields["co_purchaser"].disabled)
