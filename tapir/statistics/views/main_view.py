@@ -559,6 +559,7 @@ class UpdatePurchaseDataManuallyView(
         try:
             ProcessedPurchaseFiles.objects.all().delete()
             call_command("process_purchase_files")
+            call_command("process_credit_account")
             messages.info(request, _("Purchase data updated"))
         except Exception:
             messages.error(request, "Failed to update purchase data.")
