@@ -208,7 +208,7 @@ class ShiftTemplateDuplicateFormView(
             pk=self.kwargs.get("shift_pk")
         )
         context = super().get_context_data(**kwargs)
-        context["card_title"] = _("Duplicate ABCD-Shift" + template.get_display_name())
+        context["card_title"] = _("Duplicate ABCD-Shift " + template.get_display_name())
         context["help_text"] = _(
             "Please choose other weekdays and weekgroups this ABCD-Shift should be copied to. These slots will be copied: "
             + f"{", ".join(str(i) for i in template.slot_templates.values_list("name", flat=True).distinct())}"
