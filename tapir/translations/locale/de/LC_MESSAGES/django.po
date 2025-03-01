@@ -26,17 +26,17 @@ msgstr "Konto erstellen Erinnerung"
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
 msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt noch kein Konto erstellt haben."
 
-#: accounts/forms.py:109
+#: accounts/forms.py:115
 msgid "This username is not available."
 msgstr "Dieser Benutzername ist nicht verfügbar"
 
-#: accounts/forms.py:119
+#: accounts/forms.py:125
 #, fuzzy
 #| msgid "List of all emails"
 msgid "Optional Mails"
 msgstr "Optionale E-Mails"
 
-#: accounts/forms.py:126
+#: accounts/forms.py:132
 msgid "Important Mails"
 msgstr "Wichtige E-Mails"
 

@@ -153,11 +153,11 @@ CELERY_BEAT_SCHEDULE = {
     },
     "process_purchase_files": {
         "task": "tapir.statistics.tasks.process_purchase_files",
-        "schedule": celery.schedules.crontab(minute=0, hour=2),
+        "schedule": celery.schedules.crontab(minute=0, hour=3),
     },
     "process_credit_account": {
         "task": "tapir.statistics.tasks.process_credit_account",
-        "schedule": celery.schedules.crontab(minute=0, hour=2),
+        "schedule": celery.schedules.crontab(minute=0, hour=3),
     },
     "send_create_account_reminder": {
         "task": "tapir.accounts.tasks.send_create_account_reminder",
