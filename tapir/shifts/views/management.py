@@ -1,12 +1,15 @@
+from itertools import product
+
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import CreateView, UpdateView, RedirectView
+from django.views.generic import CreateView, UpdateView, RedirectView, FormView
+from django.db.models import Q
 
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
@@ -16,6 +19,8 @@ from tapir.shifts.forms import (
     ShiftCancelForm,
     ShiftTemplateForm,
     ShiftSlotTemplateForm,
+    ShiftTemplateDuplicateForm,
+    ShiftTemplateGroup,
 )
 from tapir.shifts.models import (
     Shift,
@@ -184,6 +189,67 @@ class ShiftSlotTemplateCreateView(
 
     def get_success_url(self):
         return self.get_shift_template().get_absolute_url()
+
+
+class ShiftTemplateDuplicateFormView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, FormView
+):
+    form_class = ShiftTemplateDuplicateForm
+    permission_required = PERMISSION_SHIFTS_MANAGE
+    success_url = reverse_lazy("shifts:shift_template_overview")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({"shift_pk": self.kwargs.get("shift_pk")})
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        template: ShiftTemplate = ShiftTemplate.objects.get(
+            pk=self.kwargs.get("shift_pk")
+        )
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = _("Duplicate ABCD-Shift " + template.get_display_name())
+        context["help_text"] = _(
+            "Please choose other weekdays and weekgroups this ABCD-Shift should be copied to. These slots will be copied: "
+            + f"{", ".join(str(i) for i in template.slot_templates.values_list("name", flat=True).distinct())}"
+        )
+        return context
+
+    def form_valid(self, form):
+        all_templates = ShiftTemplate.objects.all()
+        shift_template_copy_source = ShiftTemplate.objects.get(
+            pk=self.kwargs.get("shift_pk")
+        )
+        for day, week in product(
+            form.cleaned_data["weekdays"], form.cleaned_data["week_group"]
+        ):
+            if (
+                all_templates.filter(start_time=shift_template_copy_source.start_time)
+                .filter(end_time=shift_template_copy_source.end_time)
+                .filter(start_date=shift_template_copy_source.start_date)
+                .filter(weekday=day)
+                .filter(group=week)
+            ).exists():
+                continue
+            shift_template_copy_destination = ShiftTemplate.objects.create(
+                name=shift_template_copy_source.name,
+                description=shift_template_copy_source.description,
+                flexible_time=shift_template_copy_source.flexible_time,
+                group=ShiftTemplateGroup.objects.get(id=week),
+                num_required_attendances=shift_template_copy_source.num_required_attendances,
+                weekday=day,
+                start_time=shift_template_copy_source.start_time,
+                end_time=shift_template_copy_source.end_time,
+                start_date=shift_template_copy_source.start_date,
+            )
+            for entry in shift_template_copy_source.slot_templates.all():
+                ShiftSlotTemplate.objects.create(
+                    shift_template=shift_template_copy_destination,
+                    name=entry.name,
+                    required_capabilities=entry.required_capabilities,
+                    warnings=entry.warnings,
+                )
+        return super().form_valid(form)
 
 
 class ShiftSlotTemplateEditView(
