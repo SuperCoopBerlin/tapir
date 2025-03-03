@@ -30,7 +30,7 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
 )
 
-from tapir.shifts.tasks import generate_shifts
+from tapir.shifts.utils import generate_shifts_up_to
 
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -251,7 +251,10 @@ class ShiftTemplateDuplicateFormView(
                     required_capabilities=entry.required_capabilities,
                     warnings=entry.warnings,
                 )
-        generate_shifts()
+        generate_shifts_up_to(
+            timezone.now().date()
+            + timezone.timedelta(days=len(form.cleaned_data["weekdays"]))
+        )
         return super().form_valid(form)
 
 
