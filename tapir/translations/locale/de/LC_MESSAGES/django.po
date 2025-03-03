@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-01 21:10+0100\n"
+"POT-Creation-Date: 2025-03-03 12:35+0100\n"
 "PO-Revision-Date: 2025-03-01 21:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -4463,41 +4463,41 @@ msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 msgid "Shift exemption converted to membership pause."
 msgstr ""
 
-#: shifts/views/management.py:41
+#: shifts/views/management.py:43
 msgid "Create a shift"
 msgstr "Schicht erzeugen"
 
-#: shifts/views/management.py:81
+#: shifts/views/management.py:83
 msgid "Edit slot: "
 msgstr "Slot bearbeiten: "
 
-#: shifts/views/management.py:125
+#: shifts/views/management.py:127
 #, fuzzy
 #| msgid "Edit shift:"
 msgid "Edit shift: "
 msgstr "Schicht bearbeiten:"
 
-#: shifts/views/management.py:139
+#: shifts/views/management.py:141
 msgid "Edit shift template: "
 msgstr "ABCD-Schicht bearbeiten: "
 
-#: shifts/views/management.py:158
+#: shifts/views/management.py:160
 msgid "Create an ABCD shift"
 msgstr "ABCD-Schicht erzeugen"
 
-#: shifts/views/management.py:160
+#: shifts/views/management.py:162
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
 msgstr ""
 
-#: shifts/views/management.py:211
+#: shifts/views/management.py:213
 msgid "Duplicate ABCD-Shift "
 msgstr "Dupliziere ABCD-Schicht "
 
-#: shifts/views/management.py:213
+#: shifts/views/management.py:215
 msgid "Please choose other weekdays and weekgroups this ABCD-Shift should be copied to. These slots will be copied: "
 msgstr "Bitte wähle weitere Wochentage und Wochengruppen aus, in die diese ABCD-Schicht kopiert werden soll. Diese Slots werden mitkopiert: "
 
-#: shifts/views/management.py:292
+#: shifts/views/management.py:298
 msgid "Shifts generated."
 msgstr ""
 
