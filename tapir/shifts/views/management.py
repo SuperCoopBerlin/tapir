@@ -30,6 +30,8 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
 )
 
+from tapir.shifts.tasks import generate_shifts
+
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Shift
@@ -249,6 +251,7 @@ class ShiftTemplateDuplicateFormView(
                     required_capabilities=entry.required_capabilities,
                     warnings=entry.warnings,
                 )
+        generate_shifts()
         return super().form_valid(form)
 
 
