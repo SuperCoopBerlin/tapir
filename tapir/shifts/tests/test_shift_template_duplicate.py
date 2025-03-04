@@ -68,7 +68,7 @@ class TestShiftTemplateDuplicate(TapirFactoryTestBase):
                 source_template.required_capabilities,
             )
 
-    def test_shiftTemplateDuplicateForm_originalTemplateNotDuplcated(self):
+    def test_shiftTemplateDuplicateForm_originalTemplateNotDuplicated(self):
         self.login_as_member_office_user()
         ShiftTemplateGroup.objects.bulk_create(
             [
