@@ -49,7 +49,7 @@ urlpatterns = [
     ),
     path(
         "shift_template_duplicate/<int:shift_pk>/create",
-        views.ShiftTemplateDuplicateFormView.as_view(),
+        views.ShiftTemplateDuplicateView.as_view(),
         name="shift_template_duplicate",
     ),
     path(
