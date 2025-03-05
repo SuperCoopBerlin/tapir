@@ -193,7 +193,7 @@ class ShiftSlotTemplateCreateView(
         return self.get_shift_template().get_absolute_url()
 
 
-class ShiftTemplateDuplicateFormView(
+class ShiftTemplateDuplicateView(
     LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, FormView
 ):
     form_class = ShiftTemplateDuplicateForm
@@ -251,8 +251,9 @@ class ShiftTemplateDuplicateFormView(
                     required_capabilities=entry.required_capabilities,
                     warnings=entry.warnings,
                 )
-                monday = get_monday(shift_template_copy_destination.start_date)
-                shift_template_copy_destination.group.create_shifts(monday)
+                shift_template_copy_destination.create_shift(
+                    shift_template_copy_destination.start_date
+                )
         return super().form_valid(form)
 
 
