@@ -5,6 +5,7 @@ from django.urls import reverse
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
 from tapir.utils.tests_utils import TapirFactoryTestBase, FeatureFlagTestMixin
+from django.utils import translation
 
 
 class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
@@ -143,11 +144,11 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self,
     ):
         self.login_as_member_office_user()
-        member = TapirUserFactory.create(preferred_language="en")
+        translation.activate("en")
+        member = TapirUserFactory.create()
         shift_partner = TapirUserFactory.create(share_owner__is_investing=False)
         member.shift_user_data.shift_partner = shift_partner.shift_user_data
         member.shift_user_data.save()
-
         response = self.client.post(
             reverse("shifts:edit_shift_user_data", args=[member.shift_user_data.id]),
             data={
@@ -157,7 +158,7 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.assertEqual(200, response.status_code)
         self.assertIn("shift_partner", response.context_data["form"].errors)
         self.assertIn(
-            "Das ausgewählte Mitglied muss ein investierendes Mitglied sein.",
+            "The selected member must be an investing member.",
             response.context_data["form"].errors["shift_partner"],
         )
 
