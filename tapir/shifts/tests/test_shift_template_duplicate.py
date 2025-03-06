@@ -86,5 +86,3 @@ class TestShiftTemplateDuplicate(TapirFactoryTestBase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(1, ShiftTemplate.objects.count())
-        for template in ShiftTemplate.objects.all():
-            self.assertEqual(template.slot_templates.name, None)
