@@ -43,6 +43,7 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
 )
+from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.statistics.models import (
     ProcessedPurchaseFiles,
     PurchaseBasket,
@@ -391,11 +392,9 @@ def generate_shifts():
     print("Generating shifts")
     start_day = get_monday(SHIFT_GENERATION_START)
 
-    groups = ShiftTemplateGroup.objects.all()
-    groups = {index: group for index, group in enumerate(groups)}
     for week in range(20):
         monday = start_day + datetime.timedelta(days=7 * week)
-        groups[week % 4].create_shifts(monday)
+        get_week_group(monday).create_shifts(monday)
 
 
 def generate_test_applicants():
