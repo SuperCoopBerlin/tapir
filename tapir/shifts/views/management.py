@@ -9,7 +9,6 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, UpdateView, RedirectView, FormView
-from django.db.models import Q
 
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
@@ -21,6 +20,7 @@ from tapir.shifts.forms import (
     ShiftSlotTemplateForm,
     ShiftTemplateDuplicateForm,
     ShiftTemplateGroup,
+    ShiftDeleteForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -126,6 +126,35 @@ class EditShiftView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context["card_title"] = _("Edit shift: ") + self.object.get_display_name()
         return context
+
+
+class DeleteShiftView(LoginRequiredMixin, PermissionRequiredMixin, FormView):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+    model = Shift
+    form_class = ShiftDeleteForm
+    template_name = "shifts/shift_confirm_delete.html"
+
+    def get_shift(self):
+        return get_object_or_404(Shift, pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data()
+        context_data["shift"] = self.get_shift()
+        return context_data
+
+    def get_success_url(self):
+        return reverse("shifts:calendar")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["shift"] = self.get_shift()
+        return kwargs
+
+    def form_valid(self, form):
+        shift = self.get_shift()
+        shift.deleted = True
+        shift.save()
+        return super().form_valid(form)
 
 
 class EditShiftTemplateView(
