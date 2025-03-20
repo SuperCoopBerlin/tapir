@@ -46,6 +46,7 @@ class PaymentStatusService:
                     "credited_payments__amount",
                     filter=Q(credited_payments__payment_date__lte=at_date),
                     default=0,
+                    distinct=True,
                 )
             }
         ).filter(pk=OuterRef("pk"))
