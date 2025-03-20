@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-19 11:57+0100\n"
+"POT-Creation-Date: 2025-03-20 19:43+0100\n"
 "PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -4601,6 +4601,14 @@ msgstr "Miteinkäufer*innen"
 
 #: statistics/services/data_providers/data_provider_co_purchasers.py:23
 msgid "Only members who can shop are counted: members that have a co-purchaser but are not allowed to shop are not counted"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_everyone.py:11
+msgid "Everyone"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_everyone.py:15
+msgid "Every past, present or future members. Anyone that is in the system."
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_exempted_members.py:17
