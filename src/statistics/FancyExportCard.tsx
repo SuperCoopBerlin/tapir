@@ -221,7 +221,9 @@ const FancyExportCard: React.FC = () => {
                     <Form.Text>
                       {gettext(
                         "The date is only relevant for the following fields: " +
-                          "shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference. " +
+                          "shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference," +
+                          "member_status, is_member_since, compulsory_share, additional_shares, amount_paid, amount_paid_for_entry_fee, " +
+                          "amount_paid_for_shares, number_of_paid_shares, number_of_unpaid_shares. " +
                           "For all other fields, the value as it is now is exported, not the value as it was at the given date.",
                       )}
                     </Form.Text>
