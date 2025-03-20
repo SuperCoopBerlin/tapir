@@ -13,6 +13,26 @@ class PaymentStatusService:
     ANNOTATION_PAYMENT_DATE_CHECK = "payments_sum_date_check"
 
     @classmethod
+    def get_amount_paid_at_date(
+        cls, share_owner: ShareOwner, at_date: datetime.date | None = None
+    ):
+        if at_date is None:
+            at_date = timezone.now().date()
+
+        if not hasattr(share_owner, cls.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE):
+            share_owner = cls.annotate_with_payments_at_date(
+                ShareOwner.objects.filter(id=share_owner.id), at_date
+            ).first()
+
+        date_check = getattr(share_owner, cls.ANNOTATION_PAYMENT_DATE_CHECK)
+        if date_check != at_date:
+            raise ValueError(
+                f"Trying to get the credited payments at date {at_date}, but the queryset has been "
+                f"annotated relative to {date_check}"
+            )
+        return getattr(share_owner, cls.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE)
+
+    @classmethod
     def annotate_with_payments_at_date(
         cls, queryset: QuerySet[ShareOwner], at_date: datetime.date | None = None
     ) -> QuerySet[ShareOwner]:
