@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -288,8 +288,8 @@ msgstr "Benutzername bearbeiten"
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:113
 #: core/templates/core/featureflag_list.html:30
 #: shifts/templates/shifts/shift_detail.html:44
-#: shifts/templates/shifts/shift_template_detail.html:25
-#: shifts/templates/shifts/shift_template_detail.html:113
+#: shifts/templates/shifts/shift_template_detail.html:29
+#: shifts/templates/shifts/shift_template_detail.html:117
 #: shifts/templates/shifts/user_shifts_overview_tag.html:14
 msgid "Edit"
 msgstr "Bearbeiten"
@@ -2088,7 +2088,7 @@ msgid "Share owner"
 msgstr "Mitglied bearbeiten"
 
 #: coop/templates/coop/membershipresignation_detail.html:61
-#: shifts/models.py:546
+#: shifts/models.py:547
 msgid "Cancellation reason"
 msgstr "Grund der Kündigung"
 
@@ -2316,7 +2316,7 @@ msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
-#: shifts/models.py:948
+#: shifts/models.py:949
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -2647,8 +2647,8 @@ msgstr ""
 msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
-#: core/templates/core/email_list.html:39 shifts/models.py:513
-#: shifts/models.py:1087 shifts/templates/shifts/user_shift_account_log.html:29
+#: core/templates/core/email_list.html:39 shifts/models.py:514
+#: shifts/models.py:1088 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -2932,7 +2932,7 @@ msgstr ""
 msgid "Sent to a member when their shift status gets set from frozen to flying."
 msgstr ""
 
-#: shifts/forms.py:60
+#: shifts/forms.py:62
 msgid "The shift must end after it starts."
 msgstr "Die Schicht muss nach ihrem Start enden."
 
@@ -3092,12 +3092,12 @@ msgstr "Mir ist klar, dass ich möglicherweise in großer Höhe arbeiten muss, z
 msgid "This determines from which date shifts should be generated from this ABCD shift."
 msgstr ""
 
-#: shifts/models.py:189 shifts/models.py:521
+#: shifts/models.py:189 shifts/models.py:522
 #: shifts/templates/shifts/shift_block_tag.html:9
 msgid "Flexible time"
 msgstr "Zeit flexibel"
 
-#: shifts/models.py:191 shifts/models.py:523
+#: shifts/models.py:191 shifts/models.py:524
 msgid "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
 msgstr ""
 
@@ -3107,27 +3107,27 @@ msgstr ""
 msgid "Chosen time"
 msgstr ""
 
-#: shifts/models.py:419
+#: shifts/models.py:420
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come.Setting or updating this field will set the time for all individual shifts generated from this ABCD shift.You can update the time of a single shift individually and at any time on the shift page."
 msgstr ""
 
-#: shifts/models.py:503
+#: shifts/models.py:504
 msgid "Number of required attendances"
 msgstr "Anzahl notwendiger Teilnehmender"
 
-#: shifts/models.py:505
+#: shifts/models.py:506
 msgid "If there are less members registered to a shift than that number, it will be highlighted in the shift calendar."
 msgstr ""
 
-#: shifts/models.py:514
+#: shifts/models.py:515
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:534 shifts/models.py:540
+#: shifts/models.py:535 shifts/models.py:541
 msgid "If 'flexible time' is enabled, then the time component is ignored"
 msgstr ""
 
-#: shifts/models.py:842
+#: shifts/models.py:843
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
 msgstr ""
 
@@ -3154,23 +3154,23 @@ msgstr "Abgesagt"
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:986
+#: shifts/models.py:987
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:987
+#: shifts/models.py:988
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:988
+#: shifts/models.py:989
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:1019
+#: shifts/models.py:1020
 msgid "Is frozen"
 msgstr ""
 
-#: shifts/models.py:1193
+#: shifts/models.py:1194
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
@@ -3734,6 +3734,7 @@ msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
 #: shifts/templates/shifts/shift_calendar_template.html:27
+#: shifts/templates/shifts/shift_template_overview.html:22
 msgid "Legend & Filters"
 msgstr "Legende & Filter"
 
@@ -3742,7 +3743,7 @@ msgid "starting"
 msgstr "beginnt"
 
 #: shifts/templates/shifts/shift_calendar_template.html:51
-#: shifts/templates/shifts/shift_template_overview.html:40
+#: shifts/templates/shifts/shift_template_overview.html:52
 msgid "Week "
 msgstr "Woche "
 
@@ -3801,7 +3802,7 @@ msgstr ""
 #: shifts/templates/shifts/shift_day_printable.html:94
 #: shifts/templates/shifts/shift_detail.html:122
 #: shifts/templates/shifts/shift_detail_printable.html:90
-#: shifts/templates/shifts/shift_template_detail.html:64
+#: shifts/templates/shifts/shift_template_detail.html:68
 msgid "Shift partner: "
 msgstr "Schicht-Partner: "
 
@@ -3820,7 +3821,7 @@ msgid "Get printable version"
 msgstr "Druckversion erhalten"
 
 #: shifts/templates/shifts/shift_detail.html:39
-#: shifts/templates/shifts/shift_template_detail.html:20
+#: shifts/templates/shifts/shift_template_detail.html:24
 msgid "Add a slot"
 msgstr "Slot hinzufügen"
 
@@ -4098,23 +4099,27 @@ msgstr ""
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
-#: shifts/templates/shifts/shift_template_detail.html:34
+#: shifts/templates/shifts/shift_template_detail.html:20
+msgid "Duplicate"
+msgstr "Dupliziere"
+
+#: shifts/templates/shifts/shift_template_detail.html:38
 msgid "List of slots for this ABCD shifts"
 msgstr "Liste des Slots für diese ABCD-Schicht"
 
-#: shifts/templates/shifts/shift_template_detail.html:39
+#: shifts/templates/shifts/shift_template_detail.html:43
 msgid "Requirements"
 msgstr ""
 
-#: shifts/templates/shifts/shift_template_detail.html:73
+#: shifts/templates/shifts/shift_template_detail.html:77
 msgid "Unregister"
 msgstr "Abmelden"
 
-#: shifts/templates/shifts/shift_template_detail.html:122
+#: shifts/templates/shifts/shift_template_detail.html:126
 msgid "Future generated Shifts"
 msgstr "Zukünftige erstellte Schichten"
 
-#: shifts/templates/shifts/shift_template_detail.html:132
+#: shifts/templates/shifts/shift_template_detail.html:136
 msgid "Past generated Shifts"
 msgstr "Vergangene Schichten"
 
@@ -4127,15 +4132,15 @@ msgstr "ABCD-Wochenkalender"
 msgid "as pdf"
 msgstr "als pdf"
 
-#: shifts/templates/shifts/shift_template_overview.html:12
+#: shifts/templates/shifts/shift_template_overview.html:13
 msgid "ABCD week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
-#: shifts/templates/shifts/shift_template_overview.html:19
+#: shifts/templates/shifts/shift_template_overview.html:30
 msgid "ABCD schedule overview, current week: "
 msgstr "ABCD-Zeitplan Übersicht, laufende Woche: "
 
-#: shifts/templates/shifts/shift_template_overview.html:22
+#: shifts/templates/shifts/shift_template_overview.html:33
 msgid ""
 "\n"
 "                    <p>This is the ABCD shiftplan. It repeats every four weeks. That's why you see only weekdays\n"
@@ -4149,7 +4154,7 @@ msgstr ""
 "<p>Wenn du deine regelmäßige ABCD-Schicht ändern möchtest, wende dich bitte ans Mitgliederbüro.</p>\n"
 " "
 
-#: shifts/templates/shifts/shift_template_overview.html:35
+#: shifts/templates/shifts/shift_template_overview.html:47
 msgid "Calendar of ABCD shifts"
 msgstr "Kalender der ABCD-Schichten"
 
@@ -4514,19 +4519,27 @@ msgstr "Slot bearbeiten: "
 msgid "Edit shift: "
 msgstr "Schicht bearbeiten:"
 
-#: shifts/views/management.py:169
+#: shifts/views/management.py:141
 msgid "Edit shift template: "
 msgstr "ABCD-Schicht bearbeiten: "
 
-#: shifts/views/management.py:188
+#: shifts/views/management.py:160
 msgid "Create an ABCD shift"
 msgstr "ABCD-Schicht erzeugen"
 
-#: shifts/views/management.py:190
+#: shifts/views/management.py:162
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
 msgstr ""
 
-#: shifts/views/management.py:261
+#: shifts/views/management.py:213
+msgid "Duplicate ABCD-Shift "
+msgstr "Dupliziere ABCD-Schicht "
+
+#: shifts/views/management.py:215
+msgid "Please choose other weekdays and weekgroups this ABCD-Shift should be copied to. These slots will be copied: "
+msgstr "Bitte wähle weitere Wochentage und Wochengruppen aus, in die diese ABCD-Schicht kopiert werden soll. Diese Slots werden mitkopiert: "
+
+#: shifts/views/management.py:297
 msgid "Shifts generated."
 msgstr ""
 
