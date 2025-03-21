@@ -10,18 +10,26 @@
     <div class="container">
         <div class="card mb-2">
             <h5 class="card-header bg-warning">
-                {% translate "Cancel shift:" %} <a href="{{ form.instance.get_absolute_url }}">{{ form.instance }}</a>
+                {% translate "Cancel entire shift:" %} <a href="{{ form.instance.get_absolute_url }}">{{ form.instance }}</a>
             </h5>
             <div class="card-body">
                 <div>
-                    {% blocktranslate %}
-                        Cancelling a shift is used for example for holidays. It has the following consequences :
-                        <ul>
-                            <li>It is not possible to register to the shift anymore.</li>
-                            <li>Members who are registered from their ABCD shift get a shift point.</li>
-                            <li>Members who registered just to this shift don't get a point.</li>
-                        </ul>
-                    {% endblocktranslate %}
+                    <p>
+                        {% blocktranslate %}
+                            This will cancel the entire shift for that day. It will not affect other shifts that come from
+                            the same ABCD shift.
+                        {% endblocktranslate %}
+                    </p>
+                    <p>
+                        {% blocktranslate %}
+                            Cancelling a shift is used for example for holidays. It has the following consequences :
+                            <ul>
+                                <li>It is not possible to register to the shift anymore.</li>
+                                <li>Members who are registered from their ABCD shift get a shift point.</li>
+                                <li>Members who registered just to this shift don't get a point.</li>
+                            </ul>
+                        {% endblocktranslate %}
+                    </p>
                 </div>
                 <form role="form" method="post">
                     {% csrf_token %}

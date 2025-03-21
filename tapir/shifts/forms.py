@@ -64,6 +64,40 @@ class ShiftCreateForm(forms.ModelForm):
         return self.cleaned_data["end_time"]
 
 
+class ShiftDeleteForm(forms.ModelForm):
+    class Meta:
+        model = Shift
+        fields = []
+
+    confirm_understood = BooleanField(
+        label=_("I understand the consequences of deleting a shift"),
+        required=True,
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.shift = kwargs.pop("shift")
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        attendances_not_cancelled = ShiftAttendance.objects.filter(
+            slot__shift=self.shift
+        ).exclude(state=ShiftAttendance.State.CANCELLED)
+        if attendances_not_cancelled.exists():
+            members = [
+                UserUtils.build_display_name(
+                    attendance.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+                )
+                for attendance in attendances_not_cancelled
+            ]
+            raise ValidationError(
+                _(
+                    f"In order to delete a shift, all member attendances must be set to 'Cancelled'. "
+                    f"The following attendances must be updated: {", ".join(members)}"
+                )
+            )
+        return super().clean()
+
+
 class ShiftSlotForm(forms.ModelForm):
     class Meta:
         model = ShiftSlot
@@ -275,11 +309,18 @@ class RegisterUserToShiftSlotForm(
     def get_shift_object(self) -> Shift | ShiftTemplate:
         return self.slot.shift
 
+    def clean(self):
+        if self.get_shift_object().deleted:
+            raise ValidationError(
+                _("This shift has been deleted. It is not possible to register to it.")
+            )
+        return super().clean()
+
 
 class ShiftUserDataForm(forms.ModelForm):
     class Meta:
         model = ShiftUserData
-        fields = ["is_frozen", "capabilities"]
+        fields = ["capabilities"]
 
     confirm_delete_abcd_attendance = BooleanField(
         label=_(
@@ -507,6 +548,13 @@ class ShiftCancelForm(forms.ModelForm):
     class Meta:
         model = Shift
         fields = ["cancelled_reason"]
+
+    def clean(self):
+        if self.instance.deleted:
+            raise ValidationError(
+                _("This shift has been deleted. It is not possible to cancel it.")
+            )
+        return super().clean()
 
 
 class ShiftTemplateForm(forms.ModelForm):

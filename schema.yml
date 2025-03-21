@@ -223,6 +223,41 @@ components:
           type: boolean
         can_shop:
           type: boolean
+        currently_paid:
+          type: number
+          format: double
+        expected_payment:
+          type: number
+          format: double
+        payment_difference:
+          type: number
+          format: double
+        frozen_since:
+          type: string
+          format: date
+        member_status:
+          type: string
+        is_member_since:
+          type: string
+          format: date
+        legal_name:
+          type: string
+        full_address:
+          type: string
+        compulsory_share:
+          type: integer
+        additional_shares:
+          type: integer
+        amount_paid_for_entry_fee:
+          type: number
+          format: double
+        amount_paid_for_shares:
+          type: number
+          format: double
+        number_of_paid_shares:
+          type: integer
+        number_of_unpaid_shares:
+          type: integer
     Dataset:
       type: object
       properties:

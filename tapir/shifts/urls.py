@@ -23,6 +23,11 @@ urlpatterns = [
         name="shift_edit",
     ),
     path(
+        "shift/<int:pk>/delete",
+        views.DeleteShiftView.as_view(),
+        name="shift_delete",
+    ),
+    path(
         "shift_template/<int:pk>/edit",
         views.EditShiftTemplateView.as_view(),
         name="shift_template_edit",

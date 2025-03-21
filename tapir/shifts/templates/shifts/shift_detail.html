@@ -43,10 +43,16 @@
                            id="shift_edit_button">
                             <span class="material-icons">edit</span>{% translate 'Edit' %}
                         </a>
-                        {% if not shift.cancelled %}
+                        {% if not shift.cancelled and not shift.deleted %}
                             <a class="{% tapir_button_link_to_action %}"
                                href="{% url 'shifts:cancel_shift' shift.pk %}">
-                                <span class="material-icons">cancel</span>{% translate 'Cancel shift' %}
+                                <span class="material-icons">cancel</span>{% translate 'Cancel the entire shift' %}
+                            </a>
+                        {% endif %}
+                        {% if not shift.deleted %}
+                            <a class="{% tapir_button_link_to_action %}"
+                               href="{% url 'shifts:shift_delete' shift.pk %}">
+                                <span class="material-icons">delete</span>{% translate 'Delete the entire shift' %}
                             </a>
                         {% endif %}
                     </span>
@@ -67,6 +73,9 @@
                     {% translate 'This shift has been cancelled: ' %}
                     {{ shift.cancelled_reason }}
                 </li>
+            {% endif %}
+            {% if shift.deleted %}
+                <li class="list-group-item bg-danger">{% translate 'This shift has been deleted.' %}</li>
             {% endif %}
             <li class="list-group-item table-responsive"
                 style="padding-left: 0px;

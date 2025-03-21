@@ -41,6 +41,20 @@ class DatapointExportSerializer(serializers.Serializer):
     is_exempted = serializers.BooleanField(required=False)
     is_paused = serializers.BooleanField(required=False)
     can_shop = serializers.BooleanField(required=False)
+    currently_paid = serializers.FloatField(required=False)
+    expected_payment = serializers.FloatField(required=False)
+    payment_difference = serializers.FloatField(required=False)
+    frozen_since = serializers.DateField(required=False)
+    member_status = serializers.CharField(required=False)
+    is_member_since = serializers.DateField(required=False)
+    legal_name = serializers.CharField(required=False)
+    full_address = serializers.CharField(required=False)
+    compulsory_share = serializers.IntegerField(required=False)
+    additional_shares = serializers.IntegerField(required=False)
+    amount_paid_for_entry_fee = serializers.FloatField(required=False)
+    amount_paid_for_shares = serializers.FloatField(required=False)
+    number_of_paid_shares = serializers.IntegerField(required=False)
+    number_of_unpaid_shares = serializers.IntegerField(required=False)
 
 
 class ColumnSerializer(serializers.Serializer):

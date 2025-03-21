@@ -153,11 +153,11 @@ CELERY_BEAT_SCHEDULE = {
     },
     "process_purchase_files": {
         "task": "tapir.statistics.tasks.process_purchase_files",
-        "schedule": celery.schedules.crontab(minute=0, hour=2),
+        "schedule": celery.schedules.crontab(minute=0, hour=3),
     },
     "process_credit_account": {
         "task": "tapir.statistics.tasks.process_credit_account",
-        "schedule": celery.schedules.crontab(minute=0, hour=2),
+        "schedule": celery.schedules.crontab(minute=0, hour=3),
     },
     "send_create_account_reminder": {
         "task": "tapir.accounts.tasks.send_create_account_reminder",
@@ -204,7 +204,10 @@ USE_I18N = True
 USE_TZ = True
 
 EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de"
-EMAIL_ADDRESS_ACCOUNTING = "accounting@supercoop.de"
+EMAIL_ADDRESS_ACCOUNTING_TEAM = "accounting@supercoop.de"
+EMAIL_ADDRESS_ACCOUNTING_SOFTWARE = env.str(
+    "EMAIL_ADDRESS_ACCOUNTING_SOFTWARE", default=None
+)
 EMAIL_ADDRESS_MANAGEMENT = "contact@supercoop.de"
 EMAIL_ADDRESS_SUPERVISORS = "aufsichtsrat@supercoop.de"
 

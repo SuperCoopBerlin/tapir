@@ -1,13 +1,17 @@
+from tempfile import SpooledTemporaryFile
+
 from django.core.mail import EmailMultiAlternatives
 from django.core.management import BaseCommand
 from django.template import loader
 
 from tapir import settings
+from tapir.coop import pdfs
 from tapir.coop.models import (
     ShareOwnership,
     NewMembershipsForAccountingRecap,
     ExtraSharesForAccountingRecap,
 )
+from tapir.utils.user_utils import UserUtils
 
 
 class Command(BaseCommand):
@@ -55,11 +59,43 @@ class Command(BaseCommand):
         email = EmailMultiAlternatives(
             subject="".join(subject.splitlines()),
             body=body,
-            to=[settings.EMAIL_ADDRESS_ACCOUNTING],
-            cc=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
+            to=[settings.EMAIL_ADDRESS_ACCOUNTING_TEAM],
             from_email=settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         )
+        if settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE:
+            email.to.append(settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE)
         email.content_subtype = "html"
+
+        for entry in new_membership_entries:
+            pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+                entry.member,
+                num_shares=entry.number_of_shares,
+                date=entry.date,
+            )
+            temp_file = SpooledTemporaryFile()
+            temp_file.write(pdf.write_pdf())
+            temp_file.seek(0)
+            email.attach(
+                f"New membership #{UserUtils.build_display_name(entry.member, UserUtils.DISPLAY_NAME_TYPE_FULL)}.pdf",
+                temp_file.read(),
+                "application/pdf",
+            )
+
+        for entry in extra_share_entries:
+            pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+                entry.member,
+                num_shares=entry.number_of_shares,
+                date=entry.date,
+            )
+            temp_file = SpooledTemporaryFile()
+            temp_file.write(pdf.write_pdf())
+            temp_file.seek(0)
+            email.attach(
+                f"Extra shares #{entry.member.get_member_number()}.pdf",
+                temp_file.read(),
+                "application/pdf",
+            )
+
         email.send()
 
         for entry in new_membership_entries:
