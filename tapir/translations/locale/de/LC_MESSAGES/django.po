@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-20 19:43+0100\n"
+"POT-Creation-Date: 2025-03-21 10:39+0100\n"
 "PO-Revision-Date: 2024-12-17 14:15+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1034,7 +1034,7 @@ msgstr "Bewerber*in erzeugen"
 #: coop/templates/coop/draftuser_register_form.html:29
 #: shifts/templates/shifts/register_user_to_shift_slot.html:27
 #: shifts/templates/shifts/register_user_to_shift_slot_template.html:26
-#: shifts/templates/shifts/shift_detail.html:226
+#: shifts/templates/shifts/shift_detail.html:187
 #: shifts/templates/shifts/shift_template_detail.html:84
 msgid "Register"
 msgstr "Anmelden"
@@ -2309,14 +2309,14 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:56
-#: shifts/models.py:949 shifts/templates/shifts/shift_day_printable.html:56
-#: shifts/templates/shifts/shift_detail.html:281
+#: shifts/models.py:919 shifts/templates/shifts/shift_day_printable.html:56
+#: shifts/templates/shifts/shift_detail.html:242
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
-#: shifts/models.py:948
+#: shifts/models.py:918
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -2648,7 +2648,7 @@ msgid "List of all emails"
 msgstr "Liste alle E-Mails"
 
 #: core/templates/core/email_list.html:39 shifts/models.py:513
-#: shifts/models.py:1087 shifts/templates/shifts/user_shift_account_log.html:29
+#: shifts/models.py:1057 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -3101,7 +3101,7 @@ msgstr "Zeit flexibel"
 msgid "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
 msgstr ""
 
-#: shifts/models.py:417 shifts/models.py:840
+#: shifts/models.py:417 shifts/models.py:810
 #: shifts/templates/shifts/shift_detail.html:95
 #: shifts/templates/shifts/shift_template_detail.html:42
 msgid "Chosen time"
@@ -3127,52 +3127,60 @@ msgstr ""
 msgid "If 'flexible time' is enabled, then the time component is ignored"
 msgstr ""
 
-#: shifts/models.py:842
+#: shifts/models.py:812
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
 msgstr ""
 
-#: shifts/models.py:950 shifts/templates/shifts/shift_day_printable.html:57
-#: shifts/templates/shifts/shift_detail.html:291
+#: shifts/models.py:920 shifts/templates/shifts/shift_day_printable.html:57
+#: shifts/templates/shifts/shift_detail.html:252
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:951 shifts/templates/shifts/shift_day_printable.html:58
-#: shifts/templates/shifts/shift_detail.html:321
+#: shifts/models.py:921 shifts/templates/shifts/shift_day_printable.html:58
+#: shifts/templates/shifts/shift_detail.html:282
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:952 shifts/templates/shifts/shift_detail.html:329
+#: shifts/models.py:922 shifts/templates/shifts/shift_detail.html:290
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:953 shifts/templates/shifts/shift_day_printable.html:97
-#: shifts/templates/shifts/shift_detail.html:313
+#: shifts/models.py:923 shifts/templates/shifts/shift_day_printable.html:97
+#: shifts/templates/shifts/shift_detail.html:274
 #: shifts/templates/shifts/shift_detail_printable.html:94
 #: shifts/templates/shifts/shift_filters.html:83
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:986
+#: shifts/models.py:956
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:987
+#: shifts/models.py:957
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:988
+#: shifts/models.py:958
 msgid "❄ Frozen"
 msgstr ""
 
-#: shifts/models.py:1019
+#: shifts/models.py:989
 msgid "Is frozen"
 msgstr ""
 
-#: shifts/models.py:1193
+#: shifts/models.py:1163
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
+
+#: shifts/services/self_unregister_service.py:59
+msgid "It is not possible to unregister from a shift that comes from your ABCD shift."
+msgstr "Es ist nicht möglich, sich von einer Schicht abzumelden, die aus einer ABCD-Schicht stammt."
+
+#: shifts/services/self_unregister_service.py:62
+msgid "It is only possible to unregister from a shift at least 7 days before the shift."
+msgstr "Es ist nur möglich, sich von einer Schicht abzumelden, wenn dies mindestens 7 Tage vor der Schicht geschieht."
 
 #: shifts/templates/shifts/cancel_shift.html:7
 msgid "Cancel shift:"
@@ -3207,6 +3215,111 @@ msgstr ""
 #: shifts/templates/shifts/cancel_shift.html:40
 msgid "Confirm cancellation"
 msgstr "Absage bestätigen"
+
+#: shifts/templates/shifts/cant_attend.html:7
+msgid "Can't attend:"
+msgstr ""
+
+#: shifts/templates/shifts/cant_attend.html:13
+msgid "If you can't attend"
+msgstr "Wenn du an diese Schicht nicht teilnehmen kannst"
+
+#: shifts/templates/shifts/cant_attend.html:21
+#, fuzzy
+#| msgid "Unregister"
+msgid "Option 1: unregister"
+msgstr "Option 1: Abmelden"
+
+#: shifts/templates/shifts/cant_attend.html:25
+msgid ""
+"\n"
+"                                    You can unregister from this shift.\n"
+"                                    You will be removed from the attendance list and won't get any negative\n"
+"                                    point.\n"
+"                                "
+msgstr ""
+"\n"
+"                            Du kannst dich von dieser Schicht abmelden.\n"
+"                            Du wirst aus der Anwesenheitsliste entfernt und bekommst keine negative Punkte.\n"
+"                        "
+
+#: shifts/templates/shifts/cant_attend.html:31
+msgid ""
+"\n"
+"                                    You cannot unregister from this shift. <br />\n"
+"                                    The reasons are:\n"
+"                                "
+msgstr ""
+"\n"
+"                                    Du kannst dich nicht von dieser Schicht abmelden. <br />\n"
+"                                    Die Gründe dafür sind:\n"
+"                                "
+
+#: shifts/templates/shifts/cant_attend.html:48
+#: shifts/templates/shifts/shift_template_detail.html:73
+msgid "Unregister"
+msgstr "Abmelden"
+
+#: shifts/templates/shifts/cant_attend.html:57
+msgid "Option 2: Enable looking for a stand-in"
+msgstr "Option 2: Suche nach einem Ersatz aktivieren"
+
+#: shifts/templates/shifts/cant_attend.html:59
+#, python-format
+msgid ""
+"\n"
+"                            <p>\n"
+"                                If you cannot unregister from the shift, your other option is to look for a replacement (\"stand-in\").\n"
+"                                This will notify the team that you can't come, and will allow other members to take over your slot.\n"
+"                                Please enable this as soon as you know you won't be able to come to your shift.\n"
+"                            </p>\n"
+"                            <p>\n"
+"                                This is always possible up to the time of the shift.\n"
+"                            </p>\n"
+"                            <p>\n"
+"                                After enabling this, it is still absolutely necessary that you contact the member office\n"
+"                                (<a href=\"mailto:%(email_address_member_office)s\">%(email_address_member_office)s</a>)\n"
+"                                as soon as possible.\n"
+"                            </p>\n"
+"                            <p>\n"
+"                                If you have a valid reason for not coming (see the\n"
+"                                <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?tab=t.0#heading=h.vxvgxkgmyf1w\">Member Manual</a>),\n"
+"                                the member office will unregister you from the shift and you won't get any negative points.\n"
+"                            </p>\n"
+"                            <p>\n"
+"                                If you don't have a valid reason for not coming, you may still get lucky:\n"
+"                                someone may take over your shift. The shift calendar shows where someone is looking for a stand-in. <br />\n"
+"                                If that happens, you will be notified by email and will not get any negative points.\n"
+"                                You are still obliged to sign up for an alternative shift in this shift cycle. <br />\n"
+"                                There is no guarantee that this happens. If your slot is not taken over, you will get negative points.\n"
+"                            </p>\n"
+"                        "
+msgstr ""
+"\n"
+"                            <p>\n"
+"                                Wenn du dich nicht von der Schicht abmelden kannst, besteht eine andere Möglichkeit darin, einen Ersatz zu suchen („stand-in“). Damit teilst du dem Team mit, dass du nicht kommen kannst und ermöglichst es anderen Mitgliedern, deinen Platz einzunehmen. Bitte aktiviere dies, sobald du weißt, dass du nicht zu deiner Schicht kommen kannst.                            </p>\n"
+"                            <p>\n"
+"                                Dies ist immer bis zum Zeitpunkt der Schicht möglich.\n"
+"                            </p>\n"
+"                            <p>\n"
+"                                Auch nach der Aktivierung ist es unbedingt erforderlich, dass du das Mitgliederbüro \n"
+"                                (<a href=\"mailto:%(email_address_member_office)s\">%(email_address_member_office)s</a>)\n"
+"                                so schnell wie möglich kontaktierst.\n"
+"                            </p>\n"
+"                            <p>\n"
+"                                Wenn du einen triftigen Grund für Ihr Nichterscheinen hast (siehe \n"
+"                                <a href=\"https://docs.google.com/document/d/12qqzJxgDIilSnVrh4yVJhqA_AJ6PLGpkw4JGDe3nBRg/edit?usp=sharing\">Mitgliederhandbuch</a>),\n"
+"                                wird das Mitgliederbüro dich von der Schicht abmelden und du erhältst keine Minuspunkte.\n"
+"                            </p>\n"
+"                            <p>\n"
+"                                Wenn du keinen triftigen Grund für dein Nichterscheinen hast, kannst du trotzdem Glück haben: Vielleicht übernimmt jemand deine Schicht. Der Schichtkalender zeigt an, wo jemand eine Vertretung sucht. Wenn das passiert, wirst du per E-Mail benachrichtigt und erhältst keine Minuspunkte. Du bist dann trotzdem verpflichtet, dich für eine alternative Schicht in diesem Schichtzyklus anzumelden. <br />\n"
+"                                Es gibt keine Garantie, dass ein Mitglied deine Schicht übernimmt. Wenn dies nicht geschieht, bekommst du Minuspunkte.\n"
+"                            </p>\n"
+"                        "
+
+#: shifts/templates/shifts/cant_attend.html:93
+msgid "Look for a stand-in"
+msgstr "Suche nach Vertretung"
 
 #: shifts/templates/shifts/convert_exemption_to_pause_form.html:12
 #: shifts/templates/shifts/convert_exemption_to_pause_form.html:18
@@ -3894,61 +4007,15 @@ msgid "Cancels the search for a stand-in. Use this if you want to attend the shi
 msgstr "Beendet die Suche nach Vertretung. Benutze dies, wenn du die Schicht wahrnehmen möchtest."
 
 #: shifts/templates/shifts/shift_detail.html:162
-#: shifts/templates/shifts/shift_detail.html:302
+#: shifts/templates/shifts/shift_detail.html:263
 msgid "Cancel looking for a stand-in"
 msgstr "Beende die Suche nach Vertretung"
 
-#: shifts/templates/shifts/shift_detail.html:170
-#, fuzzy, python-format
-#| msgid ""
-#| "You can only look for a\n"
-#| "                                                    stand-in\n"
-#| "                                                    %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s days before the shift. If\n"
-#| "                                                    you can't\n"
-#| "                                                    attend, contact your shift leader as soon as\n"
-#| "                                                    possible."
-msgid ""
-"You can only look for\n"
-"                                                            a\n"
-"                                                            stand-in\n"
-"                                                            %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s days before the\n"
-"                                                            shift. If\n"
-"                                                            you can't\n"
-"                                                            attend, contact your shift leader as soon as\n"
-"                                                            possible."
-msgstr "Du kannst nur bis %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s Tage vor der Schicht nach einer Vertretung suchen. Wenn du die Schicht nicht wahrnehmen kannst, wende dich bitte schnellstmöglich an die Teamleitung."
+#: shifts/templates/shifts/shift_detail.html:169
+msgid "I can't attend this shift"
+msgstr "Ich kann nicht teilnehmen"
 
-#: shifts/templates/shifts/shift_detail.html:183
-msgid "Look for a stand-in"
-msgstr "Suche nach Vertretung"
-
-#: shifts/templates/shifts/shift_detail.html:192
-#, fuzzy, python-format
-#| msgid ""
-#| "You can only unregister\n"
-#| "                                                yourself\n"
-#| "                                                %(NB_DAYS_FOR_SELF_UNREGISTER)s days before the shift. Also,\n"
-#| "                                                ABCD-Shifts\n"
-#| "                                                can't be unregistered from. If you can't\n"
-#| "                                                attend, look for a stand-in or contact your shift leader as soon as\n"
-#| "                                                possible."
-msgid ""
-"You can only\n"
-"                                                        unregister\n"
-"                                                        yourself\n"
-"                                                        %(NB_DAYS_FOR_SELF_UNREGISTER)s days before the shift. Also,\n"
-"                                                        ABCD-Shifts\n"
-"                                                        can't be unregistered from. If you can't\n"
-"                                                        attend, look for a stand-in or contact your shift leader as soon\n"
-"                                                        as\n"
-"                                                        possible."
-msgstr "Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner Schicht abmelden. Von ABCD-Schichten kannst du dich überhaupt nicht abmelden. Wenn du die Schicht nicht wahrnehmen kannst, suche bitte eine Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung."
-
-#: shifts/templates/shifts/shift_detail.html:207
-msgid "Unregister myself"
-msgstr "Melde mich ab"
-
-#: shifts/templates/shifts/shift_detail.html:212
+#: shifts/templates/shifts/shift_detail.html:173
 #, fuzzy
 #| msgid ""
 #| "You can only register\n"
@@ -3977,12 +4044,12 @@ msgstr ""
 "- die Schicht in der Zukunft liegt\n"
 " "
 
-#: shifts/templates/shifts/shift_detail.html:254
+#: shifts/templates/shifts/shift_detail.html:215
 #: shifts/templates/shifts/shift_template_detail.html:95
 msgid "Not specified"
 msgstr ""
 
-#: shifts/templates/shifts/shift_detail.html:337
+#: shifts/templates/shifts/shift_detail.html:298
 msgid "Edit slot"
 msgstr "Slot bearbeiten"
 
@@ -4105,10 +4172,6 @@ msgstr "Liste des Slots für diese ABCD-Schicht"
 #: shifts/templates/shifts/shift_template_detail.html:39
 msgid "Requirements"
 msgstr ""
-
-#: shifts/templates/shifts/shift_template_detail.html:73
-msgid "Unregister"
-msgstr "Abmelden"
 
 #: shifts/templates/shifts/shift_template_detail.html:122
 msgid "Future generated Shifts"
@@ -4455,23 +4518,23 @@ msgstr "Allgemein"
 msgid "Unknown mode {attendance_mode}"
 msgstr ""
 
-#: shifts/views/attendance.py:197 shifts/views/attendance.py:341
+#: shifts/views/attendance.py:212 shifts/views/attendance.py:356
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:203 shifts/views/attendance.py:347
+#: shifts/views/attendance.py:218 shifts/views/attendance.py:362
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/attendance.py:381
+#: shifts/views/attendance.py:396
 #, fuzzy, python-format
 #| msgid "Shift attendance: %(name)s"
 msgid "ABCD attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:388
+#: shifts/views/attendance.py:403
 #, fuzzy, python-format
 #| msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
@@ -4558,7 +4621,7 @@ msgstr "Schichtkonto-Protokoll für: %(name)s"
 msgid "Create manual shift account entry for: %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:354
+#: shifts/views/views.py:347
 msgid "Frozen statuses updated."
 msgstr ""
 
@@ -5979,6 +6042,49 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy, python-format
+#~| msgid ""
+#~| "You can only look for a\n"
+#~| "                                                    stand-in\n"
+#~| "                                                    %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s days before the shift. If\n"
+#~| "                                                    you can't\n"
+#~| "                                                    attend, contact your shift leader as soon as\n"
+#~| "                                                    possible."
+#~ msgid ""
+#~ "You can only look for\n"
+#~ "                                                            a\n"
+#~ "                                                            stand-in\n"
+#~ "                                                            %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s days before the\n"
+#~ "                                                            shift. If\n"
+#~ "                                                            you can't\n"
+#~ "                                                            attend, contact your shift leader as soon as\n"
+#~ "                                                            possible."
+#~ msgstr "Du kannst nur bis %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s Tage vor der Schicht nach einer Vertretung suchen. Wenn du die Schicht nicht wahrnehmen kannst, wende dich bitte schnellstmöglich an die Teamleitung."
+
+#, fuzzy, python-format
+#~| msgid ""
+#~| "You can only unregister\n"
+#~| "                                                yourself\n"
+#~| "                                                %(NB_DAYS_FOR_SELF_UNREGISTER)s days before the shift. Also,\n"
+#~| "                                                ABCD-Shifts\n"
+#~| "                                                can't be unregistered from. If you can't\n"
+#~| "                                                attend, look for a stand-in or contact your shift leader as soon as\n"
+#~| "                                                possible."
+#~ msgid ""
+#~ "You can only\n"
+#~ "                                                        unregister\n"
+#~ "                                                        yourself\n"
+#~ "                                                        %(NB_DAYS_FOR_SELF_UNREGISTER)s days before the shift. Also,\n"
+#~ "                                                        ABCD-Shifts\n"
+#~ "                                                        can't be unregistered from. If you can't\n"
+#~ "                                                        attend, look for a stand-in or contact your shift leader as soon\n"
+#~ "                                                        as\n"
+#~ "                                                        possible."
+#~ msgstr "Du kannst dich nur bis %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor deiner Schicht abmelden. Von ABCD-Schichten kannst du dich überhaupt nicht abmelden. Wenn du die Schicht nicht wahrnehmen kannst, suche bitte eine Vertretung oder melde dich schnellstmöglich bei deiner Teamleitung."
+
+#~ msgid "Unregister myself"
+#~ msgstr "Melde mich ab"
 
 #~ msgid "Paid Shares"
 #~ msgstr "Anteil(e) bezahlt"
