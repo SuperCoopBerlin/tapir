@@ -3225,8 +3225,6 @@ msgid "If you can't attend"
 msgstr "Wenn du an diese Schicht nicht teilnehmen kannst"
 
 #: shifts/templates/shifts/cant_attend.html:21
-#, fuzzy
-#| msgid "Unregister"
 msgid "Option 1: unregister"
 msgstr "Option 1: Abmelden"
 
