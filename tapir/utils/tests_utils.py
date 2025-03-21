@@ -272,12 +272,12 @@ class FeatureFlagTestMixin(TestCase):
 class PermissionTestMixin:
     def permission_test_get_allowed_groups(self):
         raise NotImplementedError(
-            "Children of PermissionTestMixin must implement get_allowed_groups to say which groups should have access to the view."
+            "Children of PermissionTestMixin must implement permission_test_get_allowed_groups to say which groups should have access to the view."
         )
 
     def permission_test_do_request(self):
         raise NotImplementedError(
-            "Children of PermissionTestMixin must implement do_request, a function that visits the target view and returns the response."
+            "Children of PermissionTestMixin must implement permission_test_do_request, a function that visits the target view and returns the response."
         )
 
     @parameterized.expand(settings.LDAP_GROUPS)

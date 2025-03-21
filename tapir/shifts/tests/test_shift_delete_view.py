@@ -6,7 +6,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, PermissionTestMixin
 
 
 class TestShiftDeleteForm(PermissionTestMixin, TapirFactoryTestBase):
-    def get_allowed_groups(self):
+    def permission_test_get_allowed_groups(self):
         return [
             settings.GROUP_VORSTAND,
             settings.GROUP_EMPLOYEES,
@@ -14,7 +14,7 @@ class TestShiftDeleteForm(PermissionTestMixin, TapirFactoryTestBase):
             settings.GROUP_SHIFT_MANAGER,
         ]
 
-    def do_request(self):
+    def permission_test_do_request(self):
         shift = ShiftFactory.create()
 
         return self.client.get(reverse("shifts:shift_delete", args=[shift.id]))
