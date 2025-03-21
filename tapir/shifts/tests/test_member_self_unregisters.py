@@ -18,19 +18,21 @@ class TestMemberSelfUnregisters(TapirFactoryTestBase):
     def test_member_self_unregisters(self):
         user = self.login_as_normal_user(share_owner__is_investing=False)
         start_time = timezone.now() + datetime.timedelta(
-            days=Shift.NB_DAYS_FOR_SELF_UNREGISTER, hours=1
+            days=Shift.NB_DAYS_FOR_SELF_UNREGISTER + 1
         )
         shift = ShiftFactory.create(start_time=start_time)
 
         register_user_to_shift(self.client, user, shift)
         attendance = ShiftAttendance.objects.get(slot__shift=shift, user=user)
-        self.client.post(
+        response = self.client.post(
             reverse(
                 "shifts:update_shift_attendance_state",
                 args=[attendance.id, ShiftAttendance.State.CANCELLED],
-            )
+            ),
+            follow=True,
         )
 
+        self.assertStatusCode(response, 200)
         self.assertEqual(
             ShiftAttendance.objects.get(slot__shift=shift, user=user).state,
             ShiftAttendance.State.CANCELLED,

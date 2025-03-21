@@ -163,51 +163,12 @@
                                                         </button>
                                                     </form>
                                                 {% else %}
-                                                    <form style="display: inline"
-                                                          method="post"
-                                                          action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance_states.LOOKING_FOR_STAND_IN %}">
-                                                        {% csrf_token %}
-                                                        {% blocktranslate asvar stand_in_tooltip %}You can only look for
-                                                            a
-                                                            stand-in
-                                                            {{ NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN }} days before the
-                                                            shift. If
-                                                            you can't
-                                                            attend, contact your shift leader as soon as
-                                                            possible.{% endblocktranslate %}
-                                                        <span {% if not slot.can_look_for_stand_in %}data-bs-toggle="tooltip" title="{{ stand_in_tooltip }}"{% endif %}>
-                                                            <button type="submit"
-                                                                    class="{% tapir_button_custom 'warning' %} btn-sm {% if not slot.can_look_for_stand_in %}disabled{% endif %}"
-                                                                    id="self_look_for_stand_in_button">
-                                                                <span class="material-icons">sync</span>
-                                                                {% translate "Look for a stand-in" %}
-                                                            </button>
-                                                        </span>
-                                                    </form>
+                                                    <a class="{% tapir_button_link_to_action %}"
+                                                       href="{% url "shifts:attendance_cant_attend" attendance.id %}">
+                                                        <span class="material-icons">event_busy</span>
+                                                        {% translate "I can't attend this shift" %}
+                                                    </a>
                                                 {% endif %}
-                                                <form style="display: inline"
-                                                      method="post"
-                                                      action="{% url 'shifts:update_shift_attendance_state' attendance.pk|default:1 attendance_states.CANCELLED %}">
-                                                    {% csrf_token %}
-                                                    {% blocktranslate asvar self_unregister_tooltip %}You can only
-                                                        unregister
-                                                        yourself
-                                                        {{ NB_DAYS_FOR_SELF_UNREGISTER }} days before the shift. Also,
-                                                        ABCD-Shifts
-                                                        can't be unregistered from. If you can't
-                                                        attend, look for a stand-in or contact your shift leader as soon
-                                                        as
-                                                        possible.{% endblocktranslate %}
-                                                    <span {% if not slot.can_self_unregister %}data-bs-toggle="tooltip" title="{{ self_unregister_tooltip }}"{% endif %}>
-                                                        <button type="submit"
-                                                                class="{% tapir_button_custom 'danger' %} btn-sm"
-                                                                id="unregister_self_button"
-                                                                {% if not slot.can_self_unregister %}disabled style="pointer-events: none;"{% endif %}>
-                                                            <span class="material-icons">person_remove</span>
-                                                            {% translate "Unregister myself" %}
-                                                        </button>
-                                                    </span>
-                                                </form>
                                             {% elif not slot.is_occupied %}
                                                 {% blocktranslate asvar self_register_tooltip %}You can only register
                                                     yourself
