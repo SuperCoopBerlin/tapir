@@ -25,7 +25,6 @@ class DataProviderPaymentsNotFullyPaid(BaseDataProvider):
         queryset = PaymentStatusService.annotate_with_payments_at_date(
             ShareOwner.objects.all(), reference_time.date()
         )
-        ic(queryset.count())
 
         return ic(
             queryset.filter(

@@ -217,6 +217,66 @@ export interface DatapointExport {
      * @memberof DatapointExport
      */
     frozenSince?: Date;
+    /**
+     * 
+     * @type {string}
+     * @memberof DatapointExport
+     */
+    memberStatus?: string;
+    /**
+     * 
+     * @type {Date}
+     * @memberof DatapointExport
+     */
+    isMemberSince?: Date;
+    /**
+     * 
+     * @type {string}
+     * @memberof DatapointExport
+     */
+    legalName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DatapointExport
+     */
+    fullAddress?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof DatapointExport
+     */
+    compulsoryShare?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DatapointExport
+     */
+    additionalShares?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DatapointExport
+     */
+    amountPaidForEntryFee?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DatapointExport
+     */
+    amountPaidForShares?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DatapointExport
+     */
+    numberOfPaidShares?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DatapointExport
+     */
+    numberOfUnpaidShares?: number;
 }
 
 /**
@@ -269,6 +329,16 @@ export function DatapointExportFromJSONTyped(json: any, ignoreDiscriminator: boo
         'expectedPayment': json['expected_payment'] == null ? undefined : json['expected_payment'],
         'paymentDifference': json['payment_difference'] == null ? undefined : json['payment_difference'],
         'frozenSince': json['frozen_since'] == null ? undefined : (new Date(json['frozen_since'])),
+        'memberStatus': json['member_status'] == null ? undefined : json['member_status'],
+        'isMemberSince': json['is_member_since'] == null ? undefined : (new Date(json['is_member_since'])),
+        'legalName': json['legal_name'] == null ? undefined : json['legal_name'],
+        'fullAddress': json['full_address'] == null ? undefined : json['full_address'],
+        'compulsoryShare': json['compulsory_share'] == null ? undefined : json['compulsory_share'],
+        'additionalShares': json['additional_shares'] == null ? undefined : json['additional_shares'],
+        'amountPaidForEntryFee': json['amount_paid_for_entry_fee'] == null ? undefined : json['amount_paid_for_entry_fee'],
+        'amountPaidForShares': json['amount_paid_for_shares'] == null ? undefined : json['amount_paid_for_shares'],
+        'numberOfPaidShares': json['number_of_paid_shares'] == null ? undefined : json['number_of_paid_shares'],
+        'numberOfUnpaidShares': json['number_of_unpaid_shares'] == null ? undefined : json['number_of_unpaid_shares'],
     };
 }
 
@@ -316,6 +386,16 @@ export function DatapointExportFromJSONTyped(json: any, ignoreDiscriminator: boo
         'expected_payment': value['expectedPayment'],
         'payment_difference': value['paymentDifference'],
         'frozen_since': value['frozenSince'] == null ? undefined : ((value['frozenSince']).toISOString().substring(0,10)),
+        'member_status': value['memberStatus'],
+        'is_member_since': value['isMemberSince'] == null ? undefined : ((value['isMemberSince']).toISOString().substring(0,10)),
+        'legal_name': value['legalName'],
+        'full_address': value['fullAddress'],
+        'compulsory_share': value['compulsoryShare'],
+        'additional_shares': value['additionalShares'],
+        'amount_paid_for_entry_fee': value['amountPaidForEntryFee'],
+        'amount_paid_for_shares': value['amountPaidForShares'],
+        'number_of_paid_shares': value['numberOfPaidShares'],
+        'number_of_unpaid_shares': value['numberOfUnpaidShares'],
     };
 }
 
