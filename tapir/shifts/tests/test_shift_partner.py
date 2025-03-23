@@ -144,7 +144,6 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self,
     ):
         self.login_as_member_office_user()
-        translation.activate("en")
         member = TapirUserFactory.create(
             share_owner__is_investing=False, preferred_language="en"
         )
@@ -160,7 +159,7 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.assertStatusCode(response, 200)
         self.assertIn("shift_partner", response.context_data["form"].errors)
         self.assertIn(
-            "The selected member must be an investing member.",
+            "Das ausgewählte Mitglied muss ein investierendes Mitglied sein.",
             response.context_data["form"].errors["shift_partner"],
         )
 
