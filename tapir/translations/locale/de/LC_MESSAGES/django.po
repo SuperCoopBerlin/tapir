@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-23 13:25+0100\n"
-"PO-Revision-Date: 2025-03-01 19:30+0100\n"
+"POT-Creation-Date: 2025-03-31 20:44+0200\n"
+"PO-Revision-Date: 2025-03-31 20:44+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
 #: accounts/emails/create_account_reminder_email.py:20
 msgid "Create account reminder"
@@ -2985,62 +2985,58 @@ msgstr ""
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
-#: shifts/forms.py:367
+#: shifts/forms.py:369
 #, python-brace-format
 msgid "{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
 msgstr ""
 
-#: shifts/forms.py:378
+#: shifts/forms.py:380
 msgid "The selected member must be an investing member."
 msgstr "Das ausgewählte Mitglied muss ein investierendes Mitglied sein."
 
-#: shifts/forms.py:434
+#: shifts/forms.py:436
 msgid "This member is registered to at least one ABCD shift. Please confirm the change of attendance mode with the checkbox below."
 msgstr ""
 
-#: shifts/forms.py:479
+#: shifts/forms.py:481
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:486
+#: shifts/forms.py:488
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:519
+#: shifts/forms.py:521
 #, python-brace-format
 msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
 msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerhalb der Befreiung sind : {attendances_display}"
 
-#: shifts/forms.py:544
+#: shifts/forms.py:546
 #, python-format
 msgid "The user will be unregistered from the following ABCD shifts because the exemption is longer than %(number_of_cycles)s cycles: %(attendances_display)s "
 msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s "
 
-#: shifts/forms.py:565
+#: shifts/forms.py:567
 msgid "This shift has been deleted. It is not possible to cancel it."
 msgstr ""
 
-#: shifts/forms.py:594
+#: shifts/forms.py:596
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:594
-#, fuzzy
-#| msgid "Groups"
+#: shifts/forms.py:604
 msgid "Weekgroups"
-msgstr "Gruppen"
+msgstr "Wochen"
 
-#: shifts/forms.py:598
-#, fuzzy
-#| msgid "Week "
+#: shifts/forms.py:608
 msgid "Weekdays"
-msgstr "Woche "
+msgstr "Wochentage"
 
-#: shifts/forms.py:637
+#: shifts/forms.py:647
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:624
+#: shifts/forms.py:656
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
