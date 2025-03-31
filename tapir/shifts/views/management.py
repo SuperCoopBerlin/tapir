@@ -251,9 +251,8 @@ class ShiftTemplateDuplicateView(
                     required_capabilities=entry.required_capabilities,
                     warnings=entry.warnings,
                 )
-                shift_template_copy_destination.group.create_shifts(
-                    get_monday(shift_template_copy_destination.start_date)
-                )
+                for shift in shift_template_copy_source.generated_shifts.all():
+                    shift_template_copy_destination.create_shift(shift.start_date)
         return super().form_valid(form)
 
 
