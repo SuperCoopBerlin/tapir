@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 from typing import TYPE_CHECKING
 
-from django.db.models import Count, Q, Value, QuerySet
+from django.db.models import Count, Q, Value, QuerySet, OuterRef, Subquery
 from django.utils import timezone
 
 if TYPE_CHECKING:
@@ -46,9 +46,18 @@ class NumberOfSharesService:
             | Q(share_ownerships__end_date__isnull=True)
         )
 
+        num_shares_queryset = queryset.annotate(
+            **{
+                cls.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: Count(
+                    "share_ownerships",
+                    filter=filters,
+                )
+            }
+        ).filter(pk=OuterRef("pk"))
+
         annotate_kwargs = {
-            cls.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: Count(
-                "share_ownerships", filter=filters
+            cls.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: Subquery(
+                num_shares_queryset.values(cls.ANNOTATION_NUMBER_OF_ACTIVE_SHARES)
             ),
             cls.ANNOTATION_SHARES_ACTIVE_AT_DATE: Value(at_date),
         }

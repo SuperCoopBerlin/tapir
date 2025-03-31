@@ -82,6 +82,9 @@ class StatsConfig(AppConfig):
         from tapir.statistics.services.data_providers.data_provider_payments_paid_too_much import (
             DataProviderPaymentsPaidTooMuch,
         )
+        from tapir.statistics.services.data_providers.data_provider_everyone import (
+            DataProviderEveryone,
+        )
 
         data_providers = [
             DataProviderAbcdMembers,
@@ -103,6 +106,7 @@ class StatsConfig(AppConfig):
             DataProviderWorkingMembers,
             DataProviderPaymentsPaidTooMuch,
             DataProviderPaymentsNotFullyPaid,
+            DataProviderEveryone,
         ]
 
         from tapir.statistics.services.data_providers.base_data_provider import (

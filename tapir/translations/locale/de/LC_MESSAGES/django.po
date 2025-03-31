@@ -4628,6 +4628,14 @@ msgstr "Miteinkäufer*innen"
 msgid "Only members who can shop are counted: members that have a co-purchaser but are not allowed to shop are not counted"
 msgstr ""
 
+#: statistics/services/data_providers/data_provider_everyone.py:11
+msgid "Everyone"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_everyone.py:15
+msgid "Every past, present or future members. Anyone that is in the system."
+msgstr ""
+
 #: statistics/services/data_providers/data_provider_exempted_members.py:17
 #, fuzzy
 #| msgid "Credited member"
