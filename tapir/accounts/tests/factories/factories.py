@@ -66,6 +66,15 @@ class TapirUserFactory(UserDataFactory[TapirUser]):
         set_group_membership([self], settings.GROUP_EMPLOYEES, is_employee)
 
     @factory.post_generation
+    def is_welcome_desk_account(self: TapirUser, create, is_welcome_desk_account):
+        if not create:
+            return
+
+        set_group_membership(
+            [self], settings.GROUP_WELCOME_DESK, is_welcome_desk_account
+        )
+
+    @factory.post_generation
     def shift_capabilities(self: TapirUser, create, shift_capabilities, **kwargs):
         if not create:
             return

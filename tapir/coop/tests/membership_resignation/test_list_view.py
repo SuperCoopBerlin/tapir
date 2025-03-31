@@ -15,7 +15,7 @@ class TestMembershipResignationListView(
     PermissionTestMixin, FeatureFlagTestMixin, TapirFactoryTestBase
 ):
 
-    def get_allowed_groups(self):
+    def permission_test_get_allowed_groups(self):
         return [
             settings.GROUP_VORSTAND,
             settings.GROUP_EMPLOYEES,
@@ -23,7 +23,7 @@ class TestMembershipResignationListView(
             settings.GROUP_ACCOUNTING,
         ]
 
-    def do_request(self):
+    def permission_test_do_request(self):
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
         return self.client.get(reverse("coop:membership_resignation_list"))
 

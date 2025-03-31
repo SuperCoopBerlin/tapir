@@ -1,0 +1,102 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+{% block title %}
+    {% translate "Can't attend:" %} {{ attendance }}
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="row mb-3">
+            <h3 class="col text-center">
+                {% translate "If you can't attend" %}
+                <br />
+                <a href="{{ attendance.slot.shift.get_absolute_url }}">{{ attendance.slot }}</a>
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-xl mb-2">
+                <div class="card">
+                    <h5 class="card-header">{% translate "Option 1: unregister" %}</h5>
+                    <div class="card-body">
+                        <div>
+                            {% if can_unregister %}
+                                {% blocktranslate %}
+                                    You can unregister from this shift.
+                                    You will be removed from the attendance list and won't get any negative
+                                    point.
+                                {% endblocktranslate %}
+                            {% else %}
+                                {% blocktranslate %}
+                                    You cannot unregister from this shift. <br />
+                                    The reasons are:
+                                {% endblocktranslate %}
+                                <ul>
+                                    {% for reason in reasons_why_cant_self_unregister %}<li>{{ reason }}</li>{% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+                        <form role="form"
+                              method="post"
+                              action="{% url 'shifts:update_shift_attendance_state' attendance.id attendance.State.CANCELLED %}">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-end">
+                                <button type="submit"
+                                        class="{% tapir_button_action %} {% if not can_unregister %}disabled{% endif %}">
+                                    <span class="material-icons">event_busy</span>
+                                    {% translate 'Unregister' %}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl">
+                <div class="card">
+                    <h5 class="card-header">{% translate "Option 2: Enable looking for a stand-in" %}</h5>
+                    <div class="card-body">
+                        {% blocktranslate %}
+                            <p>
+                                If you cannot unregister from the shift, your other option is to look for a replacement ("stand-in").
+                                This will notify the team that you can't come, and will allow other members to take over your slot.
+                                Please enable this as soon as you know you won't be able to come to your shift.
+                            </p>
+                            <p>
+                                This is always possible up to the time of the shift.
+                            </p>
+                            <p>
+                                After enabling this, it is still absolutely necessary that you contact the member office
+                                (<a href="mailto:{{ email_address_member_office }}">{{ email_address_member_office }}</a>)
+                                as soon as possible.
+                            </p>
+                            <p>
+                                If you have a valid reason for not coming (see the
+                                <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?tab=t.0#heading=h.vxvgxkgmyf1w">Member Manual</a>),
+                                the member office will unregister you from the shift and you won't get any negative points.
+                            </p>
+                            <p>
+                                If you don't have a valid reason for not coming, you may still get lucky:
+                                someone may take over your shift. The shift calendar shows where someone is looking for a stand-in. <br />
+                                If that happens, you will be notified by email and will not get any negative points.
+                                You are still obliged to sign up for an alternative shift in this shift cycle. <br />
+                                There is no guarantee that this happens. If your slot is not taken over, you will get negative points.
+                            </p>
+                        {% endblocktranslate %}
+                        <form role="form"
+                              method="post"
+                              action="{% url 'shifts:update_shift_attendance_state' attendance.id attendance.State.LOOKING_FOR_STAND_IN %}">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="{% tapir_button_action %}">
+                                    <span class="material-icons">sync</span>
+                                    {% translate 'Look for a stand-in' %}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

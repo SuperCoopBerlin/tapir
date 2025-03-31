@@ -547,7 +547,6 @@ class Shift(models.Model):
     )
 
     NB_DAYS_FOR_SELF_UNREGISTER = 7
-    NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
 
     def __str__(self):
         display_name = "%s: %s %s-%s" % (
@@ -715,35 +714,6 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
             and hasattr(user, "share_owner")
             and user.share_owner.is_active(self.shift.start_time)
         )
-
-    def user_can_self_unregister(self, user: TapirUser) -> bool:
-        user_is_registered_to_slot = (
-            self.get_valid_attendance() is not None
-            and self.get_valid_attendance().user == user
-        )
-        user_is_not_registered_to_slot_template = (
-            self.slot_template is None
-            or not hasattr(self.slot_template, "attendance_template")
-            or not self.slot_template.attendance_template.user == user
-        )
-        early_enough = (
-            self.shift.start_time.date() - timezone.now().date()
-        ).days >= Shift.NB_DAYS_FOR_SELF_UNREGISTER
-        return (
-            user_is_registered_to_slot
-            and user_is_not_registered_to_slot_template
-            and early_enough
-        )
-
-    def user_can_look_for_standin(self, user: TapirUser) -> bool:
-        user_is_registered_to_slot = (
-            self.get_valid_attendance() is not None
-            and self.get_valid_attendance().user == user
-        )
-        early_enough = (
-            self.shift.start_time - timezone.now()
-        ).days >= Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
-        return user_is_registered_to_slot and early_enough
 
     def update_attendance_from_template(self):
         """Updates the attendance of this slot.

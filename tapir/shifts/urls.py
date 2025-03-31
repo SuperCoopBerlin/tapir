@@ -212,4 +212,9 @@ urlpatterns = [
         views.UpdateShiftAttendanceTemplateCustomTimeView.as_view(),
         name="attendance_template_custom_time",
     ),
+    path(
+        "attendance/<int:pk>/cant_attend",
+        views.CantAttendView.as_view(),
+        name="attendance_cant_attend",
+    ),
 ]
