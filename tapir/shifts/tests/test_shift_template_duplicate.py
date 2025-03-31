@@ -19,6 +19,7 @@ class TestShiftTemplateDuplicate(TapirFactoryTestBase):
         shift_template_source = ShiftTemplateFactory.create(
             start_date=datetime.date.today() + datetime.timedelta(days=1),
             group=ShiftTemplateGroup.objects.get(name="A"),
+            nb_slots=1,
             weekday=1,
         )
 
@@ -39,6 +40,7 @@ class TestShiftTemplateDuplicate(TapirFactoryTestBase):
         self.assertEqual(
             shift_template_duplicate.description, shift_template_source.description
         )
+        self.assertEqual(shift_template_duplicate.group, shift_template_source.group)
         self.assertEqual(
             shift_template_source.flexible_time, shift_template_duplicate.flexible_time
         )
@@ -58,17 +60,17 @@ class TestShiftTemplateDuplicate(TapirFactoryTestBase):
             shift_template_duplicate.end_time,
         )
         self.assertEqual(
+            shift_template_source.generated_shifts.count(),
+            shift_template_duplicate.generated_shifts.count(),
+        )
+        self.assertEqual(
             shift_template_source.slot_templates.count(),
             shift_template_duplicate.slot_templates.count(),
         )
-        for slot_template_source, slot_template_duplicate in product(
-            shift_template_source.slot_templates.all(),
-            shift_template_duplicate.slot_templates.all(),
-        ):
-            self.assertEqual(
-                slot_template_source.name,
-                slot_template_duplicate.name,
-            )
+        self.assertEqual(
+            shift_template_source.slot_templates.first().name,
+            shift_template_duplicate.slot_templates.first().name,
+        )
 
     def test_shiftTemplateDuplicateView_duplicateSingleTemplate_originalTemplateGetsNotDuplicated(
         self,
