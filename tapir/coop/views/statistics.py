@@ -208,7 +208,7 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
             current_date = max(current_date, min_date)
         end_date = timezone.now().date() + datetime.timedelta(days=1)
         dates = []
-        while current_date < end_date:
+        while current_date <= end_date:
             dates.append(current_date - datetime.timedelta(days=1))
             current_date = get_first_of_next_month(current_date)
 

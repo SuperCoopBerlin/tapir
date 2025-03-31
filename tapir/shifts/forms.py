@@ -347,6 +347,9 @@ class ShiftUserDataForm(forms.ModelForm):
             self.fields["shift_partner"].widget = HiddenInput()
             return
 
+        if self.instance.user.share_owner.is_investing:
+            self.fields["shift_partner"].disabled = True
+
         shift_partner_of: ShiftUserData | None = getattr(
             self.instance, "shift_partner_of", None
         )
@@ -369,6 +372,13 @@ class ShiftUserDataForm(forms.ModelForm):
     def clean_shift_partner(self):
         shift_partner: TapirUser | None = self.cleaned_data.get("shift_partner", None)
         if not shift_partner:
+            return shift_partner
+
+        if not shift_partner.share_owner.is_investing:
+            self.add_error(
+                "shift_partner",
+                _("The selected member must be an investing member."),
+            )
             return shift_partner
 
         partner_of_partner = getattr(

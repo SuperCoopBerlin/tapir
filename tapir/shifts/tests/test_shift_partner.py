@@ -5,6 +5,7 @@ from django.urls import reverse
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
 from tapir.utils.tests_utils import TapirFactoryTestBase, FeatureFlagTestMixin
+from django.utils import translation
 
 
 class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
@@ -29,8 +30,8 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self,
     ):
         self.login_as_member_office_user()
-        member_1 = TapirUserFactory.create()
-        member_2 = TapirUserFactory.create()
+        member_1 = TapirUserFactory.create(share_owner__is_investing=False)
+        member_2 = TapirUserFactory.create(share_owner__is_investing=False)
         member_1.shift_user_data.shift_partner = member_2.shift_user_data
         member_1.shift_user_data.save()
 
@@ -43,7 +44,7 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.assertTrue(shift_partner_field.disabled)
 
         # Try sending a shift partner update as if the field was enabled
-        member_3 = TapirUserFactory.create()
+        member_3 = TapirUserFactory.create(share_owner__is_investing=True)
         response: TemplateResponse = self.client.post(
             reverse("shifts:edit_shift_user_data", args=[member_2.shift_user_data.id]),
             data={
@@ -60,11 +61,11 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self,
     ):
         self.login_as_member_office_user()
-        member_1 = TapirUserFactory.create()
-        member_2 = TapirUserFactory.create()
+        member_1 = TapirUserFactory.create(share_owner__is_investing=False)
+        member_2 = TapirUserFactory.create(share_owner__is_investing=False)
         member_1.shift_user_data.shift_partner = member_2.shift_user_data
         member_1.shift_user_data.save()
-        member_3 = TapirUserFactory.create()
+        member_3 = TapirUserFactory.create(share_owner__is_investing=False)
 
         response: TemplateResponse = self.client.post(
             reverse("shifts:edit_shift_user_data", args=[member_3.shift_user_data.id]),
@@ -82,11 +83,11 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self,
     ):
         self.login_as_member_office_user()
-        member_1 = TapirUserFactory.create()
-        member_2 = TapirUserFactory.create()
+        member_1 = TapirUserFactory.create(share_owner__is_investing=False)
+        member_2 = TapirUserFactory.create(share_owner__is_investing=False)
         member_1.shift_user_data.shift_partner = member_2.shift_user_data
         member_1.shift_user_data.save()
-        member_3 = TapirUserFactory.create()
+        member_3 = TapirUserFactory.create(share_owner__is_investing=False)
 
         response: TemplateResponse = self.client.post(
             reverse("shifts:edit_shift_user_data", args=[member_3.shift_user_data.id]),
@@ -104,8 +105,8 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self,
     ):
         self.login_as_member_office_user()
-        member_1 = TapirUserFactory.create()
-        member_2 = TapirUserFactory.create()
+        member_1 = TapirUserFactory.create(share_owner__is_investing=False)
+        member_2 = TapirUserFactory.create(share_owner__is_investing=True)
 
         response = self.client.post(
             reverse("shifts:edit_shift_user_data", args=[member_1.shift_user_data.id]),
@@ -124,8 +125,8 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         self,
     ):
         self.login_as_member_office_user()
-        member_1 = TapirUserFactory.create()
-        member_2 = TapirUserFactory.create()
+        member_1 = TapirUserFactory.create(share_owner__is_investing=False)
+        member_2 = TapirUserFactory.create(share_owner__is_investing=False)
         member_1.shift_user_data.shift_partner = member_2.shift_user_data
         member_1.shift_user_data.save()
 
@@ -138,3 +139,36 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
             member_2.id,
             response.context_data["form"].initial["shift_partner"],
         )
+
+    def test_EditShiftUserDataView_shiftPartnerIsNotInvesting_formErrorRaised(
+        self,
+    ):
+        self.login_as_member_office_user()
+        member = TapirUserFactory.create(
+            share_owner__is_investing=False, preferred_language="en"
+        )
+        shift_partner = TapirUserFactory.create(
+            share_owner__is_investing=False, preferred_language="en"
+        )
+        response = self.client.post(
+            reverse("shifts:edit_shift_user_data", args=[member.shift_user_data.id]),
+            data={
+                "shift_partner": shift_partner.id,
+            },
+        )
+        self.assertStatusCode(response, 200)
+        self.assertIn("shift_partner", response.context_data["form"].errors)
+        self.assertIn(
+            "Das ausgewählte Mitglied muss ein investierendes Mitglied sein.",
+            response.context_data["form"].errors["shift_partner"],
+        )
+
+    def test_EditShiftUserDataView_memberIsInvesting_shiftPartnerFieldDisabled(self):
+        self.login_as_member_office_user()
+        member = TapirUserFactory.create(share_owner__is_investing=True)
+
+        response = self.client.get(
+            reverse("shifts:edit_shift_user_data", args=[member.shift_user_data.id])
+        )
+        self.assertStatusCode(response, 200)
+        self.assertTrue(response.context_data["form"].fields["shift_partner"].disabled)

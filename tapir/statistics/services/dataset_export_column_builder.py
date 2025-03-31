@@ -1,9 +1,12 @@
 import datetime
+import math
 from decimal import Decimal
 
+from tapir.coop.config import COOP_ENTRY_AMOUNT, COOP_SHARE_PRICE
 from tapir.coop.models import ShareOwner
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.services.payment_status_service import PaymentStatusService
 from tapir.shifts.models import ShiftUserData, UpdateShiftUserDataLogEntry
 from tapir.shifts.services.frozen_status_history_service import (
@@ -190,12 +193,8 @@ class DatasetExportColumnBuilder:
     def build_column_currently_paid(
         share_owner: ShareOwner, reference_time: datetime.datetime
     ):
-        annotated_share_owner = PaymentStatusService.annotate_with_payments_at_date(
-            ShareOwner.objects.filter(id=share_owner.id), reference_time.date()
-        ).get()
-        return getattr(
-            annotated_share_owner,
-            PaymentStatusService.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE,
+        return PaymentStatusService.get_amount_paid_at_date(
+            share_owner, reference_time.date()
         )
 
     @staticmethod
@@ -258,3 +257,96 @@ class DatasetExportColumnBuilder:
             return None
 
         return log_entry.created_date.date()
+
+    @staticmethod
+    def build_column_member_status(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        return share_owner.get_member_status(reference_time)
+
+    @staticmethod
+    def build_column_is_member_since(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        shares_that_exist_at_date = share_owner.share_ownerships.filter(
+            start_date__lte=reference_time.date()
+        )
+        if not shares_that_exist_at_date.exists():
+            return None
+
+        return shares_that_exist_at_date.order_by("start_date").first().start_date
+
+    @staticmethod
+    def build_column_legal_name(share_owner: ShareOwner, **_):
+        return UserUtils.build_display_name_legal(share_owner)
+
+    @staticmethod
+    def build_column_full_address(share_owner: ShareOwner, **_):
+        info = share_owner.get_info()
+        return UserUtils.build_display_address(
+            info.street,
+            info.street_2,
+            info.postcode,
+            info.city,
+        )
+
+    @staticmethod
+    def build_column_compulsory_share(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        return (
+            1
+            if NumberOfSharesService.get_number_of_active_shares(
+                share_owner, reference_time.date()
+            )
+            else 0
+        )
+
+    @staticmethod
+    def build_column_additional_shares(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        number_of_shares = NumberOfSharesService.get_number_of_active_shares(
+            share_owner, reference_time.date()
+        )
+        return max(0, number_of_shares - 1)
+
+    @staticmethod
+    def build_column_amount_paid_for_entry_fee(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        amount_paid = PaymentStatusService.get_amount_paid_at_date(
+            share_owner, reference_time.date()
+        )
+        return min(amount_paid, COOP_ENTRY_AMOUNT)
+
+    @staticmethod
+    def build_column_amount_paid_for_shares(
+        share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        amount_paid = PaymentStatusService.get_amount_paid_at_date(
+            share_owner, reference_time.date()
+        )
+        return max(0, amount_paid - float(COOP_ENTRY_AMOUNT))
+
+    @classmethod
+    def build_column_number_of_paid_shares(
+        cls, share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        amount_paid = cls.build_column_amount_paid_for_shares(
+            share_owner, reference_time
+        )
+        return min(
+            math.floor(amount_paid / float(COOP_SHARE_PRICE)),
+            NumberOfSharesService.get_number_of_active_shares(
+                share_owner, reference_time.date()
+            ),
+        )
+
+    @classmethod
+    def build_column_number_of_unpaid_shares(
+        cls, share_owner: ShareOwner, reference_time: datetime.datetime
+    ):
+        return NumberOfSharesService.get_number_of_active_shares(
+            share_owner, reference_time.date()
+        ) - cls.build_column_number_of_paid_shares(share_owner, reference_time)
