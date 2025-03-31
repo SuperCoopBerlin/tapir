@@ -60,11 +60,10 @@ class Command(BaseCommand):
             subject="".join(subject.splitlines()),
             body=body,
             to=[settings.EMAIL_ADDRESS_ACCOUNTING_TEAM],
-            cc=[settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE],
             from_email=settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         )
         if settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE:
-            email.cc.append(settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE)
+            email.to.append(settings.EMAIL_ADDRESS_ACCOUNTING_SOFTWARE)
         email.content_subtype = "html"
 
         for entry in new_membership_entries:

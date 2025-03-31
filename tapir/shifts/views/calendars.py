@@ -61,6 +61,7 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
             .filter(
                 start_time__gte=date_from,
                 start_time__lt=date_to + datetime.timedelta(days=1),
+                deleted=False,
             )
             .order_by("start_time")
         )
