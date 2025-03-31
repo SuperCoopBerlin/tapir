@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-05 20:45+0100\n"
+"POT-Creation-Date: 2025-03-31 20:00+0200\n"
 "PO-Revision-Date: 2025-03-01 21:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -4497,7 +4497,7 @@ msgstr "Dupliziere ABCD-Schicht "
 msgid "Please choose other weekdays and weekgroups this ABCD-Shift should be copied to. These slots will be copied: "
 msgstr "Bitte wähle weitere Wochentage und Wochengruppen aus, in die diese ABCD-Schicht kopiert werden soll. Diese Slots werden mitkopiert: "
 
-#: shifts/views/management.py:297
+#: shifts/views/management.py:296
 msgid "Shifts generated."
 msgstr ""
 
