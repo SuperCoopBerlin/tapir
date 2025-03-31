@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-20 19:43+0100\n"
-"PO-Revision-Date: 2024-12-17 14:15+0100\n"
+"POT-Creation-Date: 2025-03-23 13:25+0100\n"
+"PO-Revision-Date: 2025-03-01 19:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -2985,46 +2985,50 @@ msgstr ""
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
-#: shifts/forms.py:364
+#: shifts/forms.py:367
 #, python-brace-format
 msgid "{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
 msgstr ""
 
-#: shifts/forms.py:424
+#: shifts/forms.py:378
+msgid "The selected member must be an investing member."
+msgstr "Das ausgewählte Mitglied muss ein investierendes Mitglied sein."
+
+#: shifts/forms.py:434
 msgid "This member is registered to at least one ABCD shift. Please confirm the change of attendance mode with the checkbox below."
 msgstr ""
 
-#: shifts/forms.py:469
+#: shifts/forms.py:479
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:476
+#: shifts/forms.py:486
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:509
+#: shifts/forms.py:519
 #, python-brace-format
 msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
 msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerhalb der Befreiung sind : {attendances_display}"
 
-#: shifts/forms.py:534
+#: shifts/forms.py:544
 #, python-format
 msgid "The user will be unregistered from the following ABCD shifts because the exemption is longer than %(number_of_cycles)s cycles: %(attendances_display)s "
 msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s "
 
-#: shifts/forms.py:555
+#: shifts/forms.py:565
 msgid "This shift has been deleted. It is not possible to cancel it."
 msgstr ""
 
-#: shifts/forms.py:584
+#: shifts/forms.py:594
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:605
+#: shifts/forms.py:615
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:614
+#: shifts/forms.py:624
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
@@ -4418,13 +4422,13 @@ msgstr ""
 "                            <p>Zurzeit sind keine Solidaritäts-Schichten verfügbar</p>\n"
 "                        "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:213
+#: shifts/templates/shifts/user_shifts_overview_tag.html:214
 #, fuzzy
 #| msgid "Shift reminder"
 msgid "Shift partner"
 msgstr "Schicht-Erinnerung"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:220
+#: shifts/templates/shifts/user_shifts_overview_tag.html:221
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -4440,7 +4444,7 @@ msgstr ""
 "\n"
 "Jedes Mitglied kann eine Person (egal, ob im eigenen Haushalt oder nicht) bestimmen, die unter der gleichen Mitgliedsnummer einkaufen kann. Das können investierende Mitglieder oder Nichtmitglieder sein. "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:225
+#: shifts/templates/shifts/user_shifts_overview_tag.html:226
 msgctxt "No shift partner"
 msgid "None"
 msgstr "Keine"
