@@ -42,9 +42,10 @@ class DatasetGraphPointView(LoginRequiredMixin, PermissionRequiredMixin, APIView
                 return cached_value.value
 
         value = self.calculate_datapoint(data_provider, reference_time)
-        FancyGraphCache.objects.create(
-            data_provider_name=data_provider_name, date=reference_date, value=value
-        )
+        if reference_date < timezone.now().date():
+            FancyGraphCache.objects.create(
+                data_provider_name=data_provider_name, date=reference_date, value=value
+            )
         return value
 
     @staticmethod
