@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-03 11:55+0200\n"
+"POT-Creation-Date: 2025-04-08 10:26+0200\n"
 "PO-Revision-Date: 2025-03-01 19:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -615,57 +615,67 @@ msgstr "<b>Note</b>:Investierende Mitglieder sind Fördermitglieder. Sie besitze
 msgid "Usually, the credited member is the same as the paying member. Only if a person if gifting another person a share through the matching program, then the fields can be different."
 msgstr "In der Regel ist das gutgeschriebene Mitglied dasselbe wie das zahlende Mitglied. Nur für den Fall, das ein Anteil an eine andere Person verschenkt wird, können die Felder unterschiedliche Werte enthalten."
 
-#: coop/forms.py:255
-msgid "Please not more than 1000 characters."
-msgstr "Bitte verwende weniger als 1000 Zeichen"
-
-#: coop/forms.py:258
-msgid "Member to resign"
-msgstr "Mitglied"
-
-#: coop/forms.py:261
-msgid "Transferring share(s) to"
-msgstr "Anteil(e) übertragen auf"
-
-#: coop/forms.py:269
+#: coop/forms.py:268
 msgid "The member stays active"
 msgstr "Das Mitglied bleibt aktiv"
 
-#: coop/forms.py:271
+#: coop/forms.py:270
 msgid "The member becomes investing"
 msgstr "Das Mitglied auf investierend stellen"
 
 #: coop/forms.py:275
+msgid "Please not more than 1000 characters."
+msgstr "Bitte verwende weniger als 1000 Zeichen"
+
+#: coop/forms.py:278
+msgid "Member to resign"
+msgstr "Mitglied"
+
+#: coop/forms.py:281
+msgid "Transferring share(s) to"
+msgstr "Anteil(e) übertragen auf"
+
+#: coop/forms.py:287
 msgid "Member status"
 msgstr "Status"
 
-#: coop/forms.py:279
+#: coop/forms.py:291
 msgid "In the case where the member wants their money back, they stay a member for 3 more years. However, it is very likely that the member doesn't want to be active anymore. If they haven't explicitly mentioned it, please ask them if we can switch them to investing."
 msgstr "Wenn das Mitglied sein Geld zurückhaben will, bleibt es noch 3 Jahre lang Mitglied. Es ist jedoch sehr wahrscheinlich, dass das Mitglied nicht mehr aktiv sein möchte. Wenn sie es nicht ausdrücklich erwähnt haben, frag sie bitte, ob wir sie auf „investierend“ stellen sollen."
 
-#: coop/forms.py:346
+#: coop/forms.py:316
+#, fuzzy
+#| msgid "Send membership confirmation email"
+msgid "Send confirmation mails"
+msgstr "Mitgliedsbestätigung per Mail senden"
+
+#: coop/forms.py:320
+msgid "If enabled, the resigned member and if applicable the member receiving shares will receive confirmation emails."
+msgstr ""
+
+#: coop/forms.py:355
 msgid "Please pick an option"
 msgstr "Bitte wähle eine Option"
 
-#: coop/forms.py:358
+#: coop/forms.py:367
 #, fuzzy
 #| msgid "Member already created."
 msgid "This member is already resigned."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/forms.py:370
+#: coop/forms.py:379
 msgid "Please select the member that the shares should be transferred to."
 msgstr "Bitte wähle ein Mitglied an welches die Anteile überwiesen werden sollen"
 
-#: coop/forms.py:383
+#: coop/forms.py:392
 msgid "If the shares don't get transferred to another member, this field should be empty."
 msgstr "Wenn die anteile nicht an ein anderes Mitglied überwiesen werden, lass das Feld leer."
 
-#: coop/forms.py:396
+#: coop/forms.py:405
 msgid "Sender and receiver of transferring the share(s) cannot be the same."
 msgstr "Absender und Empfänger der Übertragung der Anteile können nicht identisch sein"
 
-#: coop/forms.py:408
+#: coop/forms.py:417
 msgid "Cannot pay out, because shares have been gifted."
 msgstr "Die Anteile können nicht ausgezahlt werden, da sie verschenkt wurden"
 
