@@ -227,9 +227,15 @@ class TapirUser(AbstractUser):
         return True
 
     def clean(self):
-        if TapirUser.objects.filter(username__iexact=self.username).exists():
-            # It is important to check case-insensitive because the ldap auth uses case-insensitive search to look for users.
-            raise ValidationError({"username": _("This username is already taken.")})
+        user_with_same_username = TapirUser.objects.filter(
+            username__iexact=self.username
+        ).first()
+        if user_with_same_username is None:
+            return
+        if user_with_same_username.id == self.id:
+            return
+        # It is important to check case-insensitive because the ldap auth uses case-insensitive search to look for users.
+        raise ValidationError({"username": _("This username is already taken.")})
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):
