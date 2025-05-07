@@ -250,6 +250,26 @@ class MembershipPauseForm(forms.ModelForm):
 
 
 class MembershipResignationForm(forms.ModelForm):
+    class Meta:
+        model = MembershipResignation
+        fields = [
+            "share_owner",
+            "cancellation_reason_category",
+            "cancellation_reason",
+            "cancellation_date",
+            "resignation_type",
+            "transferring_shares_to",
+            "paid_out",
+        ]
+        widgets = {"cancellation_date": DateInputTapir()}
+
+    class SetMemberStatusInvestingChoices(models.TextChoices):
+        NOT_SELECTED = "not_selected", "----------"
+        MEMBER_STAYS_ACTIVE = "member_stays_active", _("The member stays active")
+        MEMBER_BECOMES_INVESTING = "member_becomes_investing", _(
+            "The member becomes investing"
+        )
+
     cancellation_reason = forms.CharField(
         widget=forms.Textarea(
             attrs={"rows": 2, "placeholder": _("Please not more than 1000 characters.")}
@@ -263,14 +283,6 @@ class MembershipResignationForm(forms.ModelForm):
             "transferring_shares_to"
         ).help_text,
     )
-
-    class SetMemberStatusInvestingChoices(models.TextChoices):
-        NOT_SELECTED = "not_selected", "----------"
-        MEMBER_STAYS_ACTIVE = "member_stays_active", _("The member stays active")
-        MEMBER_BECOMES_INVESTING = "member_becomes_investing", _(
-            "The member becomes investing"
-        )
-
     set_member_status_investing = forms.ChoiceField(
         label=_("Member status"),
         required=False,
@@ -299,18 +311,15 @@ class MembershipResignationForm(forms.ModelForm):
             self.fields["paid_out"].disabled = True
             self.fields["paid_out"].widget = forms.HiddenInput()
 
-    class Meta:
-        model = MembershipResignation
-        fields = [
-            "share_owner",
-            "cancellation_reason_category",
-            "cancellation_reason",
-            "cancellation_date",
-            "resignation_type",
-            "transferring_shares_to",
-            "paid_out",
-        ]
-        widgets = {"cancellation_date": DateInputTapir()}
+        if self.instance.pk is None:
+            self.fields["send_confirmation_mails"] = forms.BooleanField(
+                label=_("Send confirmation mails"),
+                required=False,
+                initial=True,
+                help_text=_(
+                    "If enabled, the resigned member and if applicable the member receiving shares will receive confirmation emails."
+                ),
+            )
 
     def clean(self):
         cleaned_data = super().clean()

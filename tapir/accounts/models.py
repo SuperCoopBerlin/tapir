@@ -2,6 +2,7 @@ import logging
 
 import ldap
 from django.contrib.auth.models import AbstractUser, UserManager, User
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import translation
@@ -224,6 +225,17 @@ class TapirUser(AbstractUser):
         except ldap.INVALID_CREDENTIALS:
             return False
         return True
+
+    def clean(self):
+        user_with_same_username = TapirUser.objects.filter(
+            username__iexact=self.username
+        ).first()
+        if user_with_same_username is None:
+            return
+        if user_with_same_username.id == self.id:
+            return
+        # It is important to check case-insensitive because the ldap auth uses case-insensitive search to look for users.
+        raise ValidationError({"username": _("This username is already taken.")})
 
 
 class UpdateTapirUserLogEntry(UpdateModelLogEntry):

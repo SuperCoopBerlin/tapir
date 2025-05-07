@@ -540,7 +540,7 @@ class Shift(models.Model):
             "If 'flexible time' is enabled, then the time component is ignored"
         ),
     )
-
+    deleted = models.BooleanField(default=False)
     cancelled = models.BooleanField(default=False)
     cancelled_reason = models.CharField(
         null=True, max_length=1000, verbose_name=_("Cancellation reason")
@@ -878,7 +878,7 @@ class ShiftAttendance(models.Model):
     )
 
     def __str__(self):
-        return f"State:{self.get_state_display()} Slot:{self.slot.get_display_name()} (#{self.id})"
+        return f"Member:{self.user} State:{self.get_state_display()} Slot:{self.slot.get_display_name()} (#{self.id})"
 
     def get_state_display(self):
         return SHIFT_ATTENDANCE_STATES[self.state]

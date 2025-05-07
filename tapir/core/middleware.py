@@ -2,10 +2,10 @@ import logging
 import traceback
 from itertools import chain
 
-import requests
 from django.core.exceptions import PermissionDenied
 from django.http import HttpRequest
-from icecream import ic
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
 
 from tapir import settings
 
@@ -36,11 +36,16 @@ class SendExceptionsToSlackMiddleware:
     def send_slack_message(
         cls, e: Exception, stacktrace_string: str, request: HttpRequest, source: str
     ):
+        if settings.DEBUG:
+            return
+
         if isinstance(e, PermissionDenied):
             # PermissionDenied errors are not sent to slack because
             # they show up even when the member actually has the required permissions.
             # I couldn't figure out the reasons for it, but we need to reduce the spam in the channel.
             return
+
+        client = WebClient(token=settings.SLACK_BOT_TOKEN)
 
         error_text = f"{e}"
         if not error_text:
@@ -62,7 +67,6 @@ class SendExceptionsToSlackMiddleware:
                 f"Request Body: {request.body.decode() if not request._read_started else 'Cannot access body'}"
             ),
             cls.build_section(f"Error: {error_text}", is_markdown=True),
-            cls.build_section(stacktrace_string),
         ]
         sections_and_dividers = list(
             chain.from_iterable(({"type": "divider"}, section) for section in sections)
@@ -73,20 +77,27 @@ class SendExceptionsToSlackMiddleware:
             "blocks": sections_and_dividers,
         }
 
-        if settings.DEBUG:
-            ic(data)
+        try:
+            client.chat_postMessage(channel="C079AQN3HE2", blocks=sections_and_dividers)
+        except SlackApiError as e:
+            LOG.error(
+                f"Failed to send slack message. Response from slack: {e.response["error"]}"
+            )
             return
 
-        url = "https://slack.com/api/chat.postMessage"
-        headers = {
-            "Content-type": "application/json; charset=utf-8",
-            "Authorization": f"Bearer {settings.SLACK_BOT_TOKEN}",
-        }
-        response = requests.post(url, json=data, headers=headers)
-        if not response.json().get("ok", False):
-            LOG.error(
-                f"Failed to send slack message. Response from slack: {response.text}"
+        try:
+            client.files_upload_v2(
+                filename="stacktrace.txt",
+                content=stacktrace_string,
+                channel="C079AQN3HE2",
+                title="Stacktrace",
+                initial_comment="The stacktrace for the error above",
             )
+        except SlackApiError as e:
+            LOG.error(
+                f"Failed upload stacktrace. Response from slack: {e.response["error"]}, {e}"
+            )
+            return
 
     @staticmethod
     def build_section(text: str, is_markdown=False):

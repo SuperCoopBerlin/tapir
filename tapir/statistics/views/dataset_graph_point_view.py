@@ -31,8 +31,8 @@ class DatasetGraphPointView(LoginRequiredMixin, PermissionRequiredMixin, APIView
     ):
         reference_date = reference_time.date()
         data_provider_name = f"{data_provider.__module__}.{data_provider.__name__}"
-
-        if reference_date < timezone.now().date():
+        use_cache = reference_date < timezone.now().date()
+        if use_cache:
             # Only use the cache for dates in the past:
             # someone may make changes and check the results on the graph on the same day.
             cached_value = FancyGraphCache.objects.filter(
@@ -42,9 +42,10 @@ class DatasetGraphPointView(LoginRequiredMixin, PermissionRequiredMixin, APIView
                 return cached_value.value
 
         value = self.calculate_datapoint(data_provider, reference_time)
-        FancyGraphCache.objects.create(
-            data_provider_name=data_provider_name, date=reference_date, value=value
-        )
+        if use_cache:
+            FancyGraphCache.objects.create(
+                data_provider_name=data_provider_name, date=reference_date, value=value
+            )
         return value
 
     @staticmethod

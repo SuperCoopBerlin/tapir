@@ -217,8 +217,8 @@ if EMAIL_ENV == "dev" or EMAIL_ENV == "test":
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 elif EMAIL_ENV == "prod":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = env("EMAIL_HOST", default="smtp-relay.gmail.com")
-    EMAIL_HOST_USER = env("EMAIL_HOST_USER", default=EMAIL_ADDRESS_MEMBER_OFFICE)
+    EMAIL_HOST = env("EMAIL_HOST", default="mail.your-server.de")
+    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True

@@ -64,3 +64,49 @@ class TestUsernameChange(TapirFactoryTestBase):
             {"username": self.NEW_USERNAME},
             follow=True,
         )
+
+    def test_cannot_create_duplicate_username_case_sensitive(self):
+        target = TapirUserFactory.create(username="lisa")
+        TapirUserFactory.create(username="bart")
+        self.login_as_member_office_user()
+
+        response = self.client.post(
+            reverse("accounts:edit_username", args=[target.id]),
+            {"username": "bart"},
+        )
+        self.assertEqual(200, response.status_code)
+
+        self.assertIn("username", response.context["form"].errors.keys())
+        target.refresh_from_db()
+        self.assertEqual("lisa", target.username)
+        self.assertTrue(self.client.login(username="lisa", password="lisa"))
+
+    def test_cannot_create_duplicate_username_case_insensitive(self):
+        target = TapirUserFactory.create(username="lisa")
+        TapirUserFactory.create(username="bart")
+        self.login_as_member_office_user()
+
+        response = self.client.post(
+            reverse("accounts:edit_username", args=[target.id]),
+            {"username": "Bart"},
+        )
+        self.assertEqual(200, response.status_code)
+
+        self.assertIn("username", response.context["form"].errors.keys())
+        target.refresh_from_db()
+        self.assertEqual("lisa", target.username)
+        self.assertTrue(self.client.login(username="lisa", password="lisa"))
+
+    def test_user_can_update_own_username_with_just_casing_changes(self):
+        lisa = TapirUserFactory.create(username="lisa")
+        self.login_as_user(lisa)
+
+        response = self.client.post(
+            reverse("accounts:edit_username", args=[lisa.id]),
+            {"username": "Lisa"},
+        )
+        self.assertEqual(302, response.status_code)
+
+        lisa.refresh_from_db()
+        self.assertEqual("Lisa", lisa.username)
+        self.assertTrue(self.client.login(username="Lisa", password="lisa"))
