@@ -37,9 +37,9 @@ class Command(BaseCommand):
             year=date.year,
             month=date.month,
             day=date.day,
-            hour=date.hour,
-            minute=date.minute,
-            second=date.second,
+            hour=23,
+            minute=59,
+            second=59,
         )
 
         members = ShareOwner.objects.all().order_by("id")
