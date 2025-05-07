@@ -1,6 +1,9 @@
 import csv
+import datetime
 import io
+from argparse import ArgumentTypeError
 
+from django.core.management import BaseCommand
 from django.utils import timezone
 
 from tapir.coop.models import (
@@ -15,11 +18,28 @@ from tapir.statistics.services.dataset_export_column_builder import (
 )
 
 
-class Command:
-    @staticmethod
-    def handle():
+class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument("date", nargs=1, type=str)
+
+    def handle(self, *args, **options):
+        # While this could run on the fancy export,
+        # it takes too long to do it with a long list of users and triggers timeouts
+        # So this is a command to be run manually
+
+        date_as_string = options["date"][0]
+        try:
+            date = datetime.datetime.fromisoformat(date_as_string)
+        except Exception:
+            raise ArgumentTypeError(f"Invalid date: {date_as_string}")
+
         reference_datetime = timezone.now().replace(
-            year=2021, month=12, day=31, hour=23, minute=59, second=59
+            year=date.year,
+            month=date.month,
+            day=date.day,
+            hour=date.hour,
+            minute=date.minute,
+            second=date.second,
         )
 
         members = ShareOwner.objects.all().order_by("id")
@@ -105,6 +125,3 @@ class Command:
             )
 
         print(result.getvalue())
-
-
-Command.handle()
