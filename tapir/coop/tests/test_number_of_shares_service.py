@@ -6,7 +6,7 @@ from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
-class TestMemberInfoService(TapirFactoryTestBase):
+class TestNumberOfSharesService(TapirFactoryTestBase):
     NOW = datetime.datetime(year=2023, month=8, day=7, hour=10, minute=7)
     TODAY = NOW.date()
 
