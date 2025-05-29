@@ -318,16 +318,28 @@ class DatasetExportColumnBuilder:
         amount_paid = PaymentStatusService.get_amount_paid_at_date(
             share_owner, reference_time.date()
         )
-        return min(amount_paid, COOP_ENTRY_AMOUNT)
+        number_of_shares = NumberOfSharesService.get_number_of_active_shares(
+            share_owner, reference_time.date()
+        )
+        expected_payment_for_shares = COOP_SHARE_PRICE * number_of_shares
+        if amount_paid <= expected_payment_for_shares:
+            return 0
+        return min(amount_paid - expected_payment_for_shares, COOP_ENTRY_AMOUNT)
 
     @staticmethod
     def build_column_amount_paid_for_shares(
         share_owner: ShareOwner, reference_time: datetime.datetime
     ):
+        number_of_shares = NumberOfSharesService.get_number_of_active_shares(
+            share_owner, reference_time.date()
+        )
+        expected_payment_for_shares = COOP_SHARE_PRICE * number_of_shares
         amount_paid = PaymentStatusService.get_amount_paid_at_date(
             share_owner, reference_time.date()
         )
-        return max(0, amount_paid - float(COOP_ENTRY_AMOUNT))
+        if amount_paid > expected_payment_for_shares + COOP_ENTRY_AMOUNT:
+            return amount_paid - COOP_ENTRY_AMOUNT
+        return min(amount_paid, expected_payment_for_shares)
 
     @classmethod
     def build_column_number_of_paid_shares(
