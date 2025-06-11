@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
@@ -14,6 +15,9 @@ class WelcomedeskConfig(AppConfig):
 
     @staticmethod
     def register_sidebar_link_groups():
+        if settings.SHIFTS_ONLY:
+            return
+
         welcomedesk_group = sidebar_link_groups.get_group(_("Welcome Desk"), 3)
 
         welcomedesk_group.add_link(
