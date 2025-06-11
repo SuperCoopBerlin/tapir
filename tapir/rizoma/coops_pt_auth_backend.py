@@ -25,9 +25,13 @@ class CoopsPtAuthBackend(BaseBackend):
         if password is None:
             raise BadRequest(f"Missing 'password' parameter")
 
-        access_token, refresh_token = self.remote_login(
+        success, access_token, refresh_token = self.remote_login(
             email=email, password=password, request=request
         )
+        if not success:
+            messages.info(request, _("Invalid username or password"))
+            return None
+
         if access_token is None or refresh_token is None:
             raise TapirException("Invalid response from login server")
 
@@ -49,7 +53,7 @@ class CoopsPtAuthBackend(BaseBackend):
         )
         if response.status_code != 200:
             raise TapirException(
-                "Failed to get user from external API, error: " + response.text
+                f"Failed to get user from external API, error: '{response.status_code}' '{response.text}'"
             )
 
         tapir_user = CoopsPtUserCreator.build_tapir_user_from_api_response(
@@ -67,10 +71,9 @@ class CoopsPtAuthBackend(BaseBackend):
             data=f'{{"email": "{email}", "password": "{password}"}}',
         )
         if response.status_code != 200:
-            messages.info(request, _("Invalid username or password"))
-            return None
+            return False, None, None
 
         response_content = response.json()
         access_token = response_content.get("access", None)
         refresh_token = response_content.get("refresh", None)
-        return access_token, refresh_token
+        return True, access_token, refresh_token
