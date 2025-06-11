@@ -182,6 +182,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.send_flying_member_registration_reminder_mails",
         "schedule": celery.schedules.crontab(minute=0, hour=4),
     },
+    "fetch_users_from_coops_pt": {
+        "task": "tapir.rizoma.tasks.fetch_users_from_coops_pt",
+        "schedule": celery.schedules.crontab(hour="*", minute="0"),
+    },
 }
 
 # Password validation
@@ -425,3 +429,5 @@ if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
     COOPS_PT_API_BASE_URL = env.str("COOPS_PT_API_BASE_URL")
     COOPS_PT_ADMIN_EMAIL = env.str("COOPS_PT_ADMIN_EMAIL")
     COOPS_PT_ADMIN_PASSWORD = env.str("COOPS_PT_ADMIN_PASSWORD")
+
+SHIFTS_ONLY = env.bool("SHIFTS_ONLY", default=False)
