@@ -4,7 +4,6 @@ import calendar
 import datetime
 
 from django.contrib.auth.models import User
-from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Sum, Q
@@ -39,33 +38,6 @@ class ShiftUserCapabilityTranslation(models.Model):
     name = models.CharField(_("Name"), max_length=255)
     description = models.TextField(_("Description"))
     capability = models.ForeignKey(ShiftUserCapability, on_delete=models.CASCADE)
-
-
-class ShiftSlotWarning:
-    IN_THE_MORNING_EVERYONE_HELPS_STORAGE = "in_the_morning_everyone_helps_storage"
-    IN_THE_EVENING_EVERYONE_HELPS_CLEAN = "in_the_evening_everyone_helps_clean"
-    BREAD_PICKUP_NEEDS_A_VEHICLE = "bread_picked_needs_a_vehicle"
-    MUST_BE_ABLE_TO_CARRY_HEAVY_WEIGHTS = "must_be_able_to_carry_heavy_weights"
-    MUST_NOT_BE_SCARED_OF_HEIGHTS = "must_not_be_scared_of_heights"
-
-
-SHIFT_SLOT_WARNING_CHOICES = {
-    ShiftSlotWarning.IN_THE_MORNING_EVERYONE_HELPS_STORAGE: _(
-        "I understand that all working groups help the Warenannahme & Lager working group until the shop opens."
-    ),
-    ShiftSlotWarning.IN_THE_EVENING_EVERYONE_HELPS_CLEAN: _(
-        "I understand that all working groups help the Reinigung & Aufräumen working group after the shop closes."
-    ),
-    ShiftSlotWarning.BREAD_PICKUP_NEEDS_A_VEHICLE: _(
-        "I understand that I need my own vehicle in order to pick up the bread. A cargo bike can be borrowed, more infos in Slack in the #cargobike channel"
-    ),
-    ShiftSlotWarning.MUST_BE_ABLE_TO_CARRY_HEAVY_WEIGHTS: _(
-        "I understand that I may need to carry heavy weights for this shift."
-    ),
-    ShiftSlotWarning.MUST_NOT_BE_SCARED_OF_HEIGHTS: _(
-        "I understand that I may need to work high, for example up a ladder. I do not suffer from fear of heights."
-    ),
-}
 
 
 class ShiftSlotWarningNew(models.Model):
@@ -355,17 +327,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
     )
 
     required_capabilities = models.ManyToManyField(ShiftUserCapability)
-
-    warnings = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_SLOT_WARNING_CHOICES.items(), blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
-
-    warnings_new = models.ManyToManyField(ShiftSlotWarningNew)
+    warnings = models.ManyToManyField(ShiftSlotWarningNew)
 
     def __str__(self):
         return f"{self.name}, {self.shift_template} (#{self.id})"
@@ -673,16 +635,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
     )
 
     required_capabilities = models.ManyToManyField(ShiftUserCapability)
-
-    warnings = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_SLOT_WARNING_CHOICES.items(), blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
-    warnings_new = models.ManyToManyField(ShiftSlotWarningNew)
+    warnings = models.ManyToManyField(ShiftSlotWarningNew)
 
     def get_display_name(self):
         display_name = self.shift.get_display_name()

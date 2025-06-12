@@ -25,7 +25,6 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftAccountEntry,
     ShiftExemption,
-    SHIFT_SLOT_WARNING_CHOICES,
     ShiftTemplate,
     ShiftAttendanceMode,
 )
@@ -100,12 +99,7 @@ class ShiftDeleteForm(forms.ModelForm):
 class ShiftSlotForm(forms.ModelForm):
     class Meta:
         model = ShiftSlot
-        fields = ["name", "warnings"]
-        widgets = {
-            "warnings": forms.widgets.CheckboxSelectMultiple(
-                choices=SHIFT_SLOT_WARNING_CHOICES.items()
-            ),
-        }
+        fields = ["name"]
 
 
 class TapirUserChoiceField(ModelChoiceField):
@@ -595,12 +589,7 @@ class ShiftTemplateForm(forms.ModelForm):
 class ShiftSlotTemplateForm(forms.ModelForm):
     class Meta:
         model = ShiftSlotTemplate
-        fields = ["name", "warnings"]
-        widgets = {
-            "warnings": forms.widgets.CheckboxSelectMultiple(
-                choices=SHIFT_SLOT_WARNING_CHOICES.items()
-            ),
-        }
+        fields = ["name"]
 
     check_update_future_shifts = BooleanField(
         label=_(
