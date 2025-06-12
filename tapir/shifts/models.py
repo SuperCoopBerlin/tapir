@@ -20,7 +20,7 @@ from tapir.utils.models import DurationModelMixin, PREFERRED_LANGUAGES
 from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
 
 
-class ShiftUserCapabilityNew(models.Model):
+class ShiftUserCapability(models.Model):
     def get_current_translation(self):
         current_language = get_language()
         for translation in self.shiftusercapabilitytranslation_set.all():
@@ -38,7 +38,7 @@ class ShiftUserCapabilityTranslation(models.Model):
     )
     name = models.CharField(_("Name"), max_length=255)
     description = models.TextField(_("Description"))
-    capability = models.ForeignKey(ShiftUserCapabilityNew, on_delete=models.CASCADE)
+    capability = models.ForeignKey(ShiftUserCapability, on_delete=models.CASCADE)
 
 
 class ShiftSlotWarning:
@@ -66,6 +66,27 @@ SHIFT_SLOT_WARNING_CHOICES = {
         "I understand that I may need to work high, for example up a ladder. I do not suffer from fear of heights."
     ),
 }
+
+
+class ShiftSlotWarningNew(models.Model):
+    def get_current_translation(self):
+        current_language = get_language()
+        for translation in self.shiftslotwarningtranslation_set.all():
+            if translation.language == current_language or not current_language:
+                return translation
+        return None
+
+
+class ShiftSlotWarningTranslation(models.Model):
+    language = models.CharField(
+        _("Language"),
+        choices=PREFERRED_LANGUAGES,
+        default="de",
+        max_length=16,
+    )
+    name = models.CharField(_("Name"), max_length=255)
+    description = models.TextField(_("Description"))
+    warning = models.ForeignKey(ShiftSlotWarningNew, on_delete=models.CASCADE)
 
 
 class ShiftNames:
@@ -333,7 +354,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         on_delete=models.CASCADE,
     )
 
-    required_capabilities = models.ManyToManyField(ShiftUserCapabilityNew)
+    required_capabilities = models.ManyToManyField(ShiftUserCapability)
 
     warnings = ArrayField(
         models.CharField(
@@ -343,6 +364,8 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         blank=True,
         null=False,
     )
+
+    warnings_new = models.ManyToManyField(ShiftSlotWarningNew)
 
     def __str__(self):
         return f"{self.name}, {self.shift_template} (#{self.id})"
@@ -649,7 +672,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         Shift, related_name="slots", null=False, blank=False, on_delete=models.CASCADE
     )
 
-    required_capabilities = models.ManyToManyField(ShiftUserCapabilityNew)
+    required_capabilities = models.ManyToManyField(ShiftUserCapability)
 
     warnings = ArrayField(
         models.CharField(
@@ -659,6 +682,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         blank=True,
         null=False,
     )
+    warnings_new = models.ManyToManyField(ShiftSlotWarningNew)
 
     def get_display_name(self):
         display_name = self.shift.get_display_name()
@@ -985,7 +1009,7 @@ class ShiftUserData(models.Model):
     user = models.OneToOneField(
         TapirUser, null=False, on_delete=models.CASCADE, related_name="shift_user_data"
     )
-    capabilities = models.ManyToManyField(ShiftUserCapabilityNew)
+    capabilities = models.ManyToManyField(ShiftUserCapability)
     shift_partner = models.OneToOneField(
         "self",
         on_delete=models.SET_NULL,
