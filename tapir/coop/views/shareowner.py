@@ -75,7 +75,6 @@ from tapir.settings import (
     PERMISSION_COOP_VIEW,
 )
 from tapir.shifts.models import (
-    SHIFT_USER_CAPABILITY_CHOICES,
     ShiftExemption,
     ShiftTemplateGroup,
     Shift,
@@ -599,38 +598,6 @@ class ShareOwnerFilter(django_filters.FilterSet):
         choices=SHIFT_ATTENDANCE_MODE_CHOICES,
         method="shift_attendance_mode_filter",
         label=_("Shift Status"),
-    )
-    registered_to_abcd_slot_with_capability = ChoiceFilter(
-        choices=[
-            (capability, capability_name)
-            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
-        ],
-        method="registered_to_abcd_slot_with_capability_filter",
-        label=_("Is registered to an ABCD-slot that requires a qualification"),
-    )
-    registered_to_slot_with_capability = ChoiceFilter(
-        choices=[
-            (capability, capability_name)
-            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
-        ],
-        method="registered_to_slot_with_capability_filter",
-        label=_("Is registered to a slot that requires a qualification"),
-    )
-    has_capability = ChoiceFilter(
-        choices=[
-            (capability, capability_name)
-            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
-        ],
-        method="has_capability_filter",
-        label=_("Has qualification"),
-    )
-    not_has_capability = ChoiceFilter(
-        choices=[
-            (capability, capability_name)
-            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
-        ],
-        method="not_has_capability_filter",
-        label=_("Does not have qualification"),
     )
     has_tapir_account = BooleanFilter(
         method="has_tapir_account_filter", label="Has a Tapir account"

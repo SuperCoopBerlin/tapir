@@ -20,35 +20,6 @@ from tapir.utils.models import DurationModelMixin, PREFERRED_LANGUAGES
 from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
 
 
-class ShiftUserCapability:
-    SHIFT_COORDINATOR = "shift_coordinator"
-    CASHIER = "cashier"
-    MEMBER_OFFICE = "member_office"
-    BREAD_DELIVERY = "bread_delivery"
-    RED_CARD = "red_card"
-    FIRST_AID = "first_aid"
-    WELCOME_SESSION = "welcome_session"
-    HANDLING_CHEESE = "handling_cheese"
-    TRAIN_CHEESE_HANDLERS = "train_cheese_handlers"
-    INVENTORY = "inventory"
-    NEBENAN_DE_SUPPORT = "nebenan_de_support"
-
-
-SHIFT_USER_CAPABILITY_CHOICES = {
-    ShiftUserCapability.SHIFT_COORDINATOR: _("Teamleader"),
-    ShiftUserCapability.CASHIER: _("Cashier"),
-    ShiftUserCapability.MEMBER_OFFICE: _("Member Office"),
-    ShiftUserCapability.BREAD_DELIVERY: _("Bread Delivery"),
-    ShiftUserCapability.RED_CARD: _("Red Card"),
-    ShiftUserCapability.FIRST_AID: _("First Aid"),
-    ShiftUserCapability.WELCOME_SESSION: _("Welcome Session"),
-    ShiftUserCapability.HANDLING_CHEESE: _("Handling Cheese"),
-    ShiftUserCapability.TRAIN_CHEESE_HANDLERS: _("Train cheese handlers"),
-    ShiftUserCapability.INVENTORY: _("Inventory"),
-    ShiftUserCapability.NEBENAN_DE_SUPPORT: _("Nebenan.de-Support"),
-}
-
-
 class ShiftUserCapabilityNew(models.Model):
     def get_current_translation(self):
         current_language = get_language()
@@ -334,7 +305,7 @@ class RequiredCapabilitiesMixin:
         return ", ".join(
             [
                 capability.get_current_translation().name
-                for capability in self.required_capabilities_new.all().prefetch_related(
+                for capability in self.required_capabilities.all().prefetch_related(
                     "shift_user_capability_translation__set"
                 )
             ]
@@ -346,7 +317,7 @@ class RequiredCapabilitiesMixin:
         """
         return {
             capability.id: capability.get_current_translation().name
-            for capability in self.required_capabilities_new.all().prefetch_related(
+            for capability in self.required_capabilities.all().prefetch_related(
                 "shift_user_capability_translation__set"
             )
         }
@@ -362,15 +333,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         on_delete=models.CASCADE,
     )
 
-    required_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
-    required_capabilities_new = models.ManyToManyField(ShiftUserCapabilityNew)
+    required_capabilities = models.ManyToManyField(ShiftUserCapabilityNew)
 
     warnings = ArrayField(
         models.CharField(
@@ -686,15 +649,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         Shift, related_name="slots", null=False, blank=False, on_delete=models.CASCADE
     )
 
-    required_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
-    required_capabilities_new = models.ManyToManyField(ShiftUserCapabilityNew)
+    required_capabilities = models.ManyToManyField(ShiftUserCapabilityNew)
 
     warnings = ArrayField(
         models.CharField(
@@ -1030,13 +985,7 @@ class ShiftUserData(models.Model):
     user = models.OneToOneField(
         TapirUser, null=False, on_delete=models.CASCADE, related_name="shift_user_data"
     )
-    capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
-        ),
-        default=list,
-    )
-    capabilities_new = models.ManyToManyField(ShiftUserCapabilityNew)
+    capabilities = models.ManyToManyField(ShiftUserCapabilityNew)
     shift_partner = models.OneToOneField(
         "self",
         on_delete=models.SET_NULL,
@@ -1050,7 +999,12 @@ class ShiftUserData(models.Model):
 
     def get_capabilities_display(self):
         return ", ".join(
-            [str(SHIFT_USER_CAPABILITY_CHOICES[c]) for c in self.capabilities]
+            [
+                capability.get_current_translation().name
+                for capability in self.capabilities.all().prefetch_related(
+                    "shift_user_capability_translation__set"
+                )
+            ]
         )
 
     def get_upcoming_shift_attendances(self):

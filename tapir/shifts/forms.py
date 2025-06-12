@@ -21,7 +21,6 @@ from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendance,
     ShiftUserData,
-    SHIFT_USER_CAPABILITY_CHOICES,
     ShiftSlotTemplate,
     ShiftSlot,
     ShiftAccountEntry,
@@ -101,11 +100,8 @@ class ShiftDeleteForm(forms.ModelForm):
 class ShiftSlotForm(forms.ModelForm):
     class Meta:
         model = ShiftSlot
-        fields = ["name", "required_capabilities", "warnings"]
+        fields = ["name", "warnings"]
         widgets = {
-            "required_capabilities": forms.widgets.CheckboxSelectMultiple(
-                choices=SHIFT_USER_CAPABILITY_CHOICES.items()
-            ),
             "warnings": forms.widgets.CheckboxSelectMultiple(
                 choices=SHIFT_SLOT_WARNING_CHOICES.items()
             ),
@@ -331,7 +327,6 @@ class ShiftUserDataForm(forms.ModelForm):
     )
     capabilities = forms.MultipleChoiceField(
         required=False,
-        choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
         widget=CheckboxSelectMultiple,
         label=_("Qualifications"),
     )
@@ -600,11 +595,8 @@ class ShiftTemplateForm(forms.ModelForm):
 class ShiftSlotTemplateForm(forms.ModelForm):
     class Meta:
         model = ShiftSlotTemplate
-        fields = ["name", "required_capabilities", "warnings"]
+        fields = ["name", "warnings"]
         widgets = {
-            "required_capabilities": forms.widgets.CheckboxSelectMultiple(
-                choices=SHIFT_USER_CAPABILITY_CHOICES.items()
-            ),
             "warnings": forms.widgets.CheckboxSelectMultiple(
                 choices=SHIFT_SLOT_WARNING_CHOICES.items()
             ),

@@ -2,10 +2,9 @@
 
 from django.db import migrations
 from django.db.models import Model
-from icecream import ic
 
 
-class ShiftUserCapability:
+class ShiftUserCapabilityOld:
     SHIFT_COORDINATOR = "shift_coordinator"
     CASHIER = "cashier"
     MEMBER_OFFICE = "member_office"
@@ -19,18 +18,18 @@ class ShiftUserCapability:
     NEBENAN_DE_SUPPORT = "nebenan_de_support"
 
 
-SHIFT_USER_CAPABILITY_CHOICES = {
-    ShiftUserCapability.SHIFT_COORDINATOR: "Teamleader",
-    ShiftUserCapability.CASHIER: "Cashier",
-    ShiftUserCapability.MEMBER_OFFICE: "Member Office",
-    ShiftUserCapability.BREAD_DELIVERY: "Bread Delivery",
-    ShiftUserCapability.RED_CARD: "Red Card",
-    ShiftUserCapability.FIRST_AID: "First Aid",
-    ShiftUserCapability.WELCOME_SESSION: "Welcome Session",
-    ShiftUserCapability.HANDLING_CHEESE: "Handling Cheese",
-    ShiftUserCapability.TRAIN_CHEESE_HANDLERS: "Train cheese handlers",
-    ShiftUserCapability.INVENTORY: "Inventory",
-    ShiftUserCapability.NEBENAN_DE_SUPPORT: "Nebenan.de-Support",
+SHIFT_USER_CAPABILITY_CHOICES_OLD = {
+    ShiftUserCapabilityOld.SHIFT_COORDINATOR: "Teamleader",
+    ShiftUserCapabilityOld.CASHIER: "Cashier",
+    ShiftUserCapabilityOld.MEMBER_OFFICE: "Member Office",
+    ShiftUserCapabilityOld.BREAD_DELIVERY: "Bread Delivery",
+    ShiftUserCapabilityOld.RED_CARD: "Red Card",
+    ShiftUserCapabilityOld.FIRST_AID: "First Aid",
+    ShiftUserCapabilityOld.WELCOME_SESSION: "Welcome Session",
+    ShiftUserCapabilityOld.HANDLING_CHEESE: "Handling Cheese",
+    ShiftUserCapabilityOld.TRAIN_CHEESE_HANDLERS: "Train cheese handlers",
+    ShiftUserCapabilityOld.INVENTORY: "Inventory",
+    ShiftUserCapabilityOld.NEBENAN_DE_SUPPORT: "Nebenan.de-Support",
 }
 
 TRANSLATIONS = {
@@ -53,7 +52,7 @@ def create_new_capability_and_translations(apps, capability_old_id: str):
         "shifts", "ShiftUserCapabilityTranslation"
     )
     new_capability = shift_user_capability_new_model.objects.create()
-    english_name = SHIFT_USER_CAPABILITY_CHOICES[capability_old_id]
+    english_name = SHIFT_USER_CAPABILITY_CHOICES_OLD[capability_old_id]
     german_name = TRANSLATIONS[english_name]
     shift_user_capability_translation_model.objects.bulk_create(
         [
@@ -84,12 +83,6 @@ def populate_capabilities_generic(
 
     for obj in model.objects.all():
         must_save_object = False
-        ic(
-            obj,
-            old_field_name,
-            getattr(obj, old_field_name),
-            getattr(model, old_field_name),
-        )
         for capability_old_id in getattr(obj, old_field_name):
             if capability_old_id not in new_capabilities_by_old_id.keys():
                 new_capabilities_by_old_id[capability_old_id] = (
