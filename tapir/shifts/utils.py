@@ -9,7 +9,6 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftAccountEntry,
     ShiftAttendance,
-    ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
@@ -146,9 +145,7 @@ def update_shift_account_depending_on_welcome_session_status(share_owner: ShareO
     )
 
 
-def get_ids_of_users_registered_to_a_shift_with_capability(
-    capability: ShiftUserCapability,
-):
+def get_ids_of_users_registered_to_a_shift_with_capability(capability):
     return (
         ShiftAttendance.objects.filter(
             slot__required_capabilities__contains=[capability],

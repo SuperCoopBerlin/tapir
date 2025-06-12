@@ -11,6 +11,9 @@ class FinancingcampaignConfig(AppConfig):
     name = "tapir.financingcampaign"
 
     def ready(self):
+        if settings.SHIFTS_ONLY:
+            return
+
         management_group = sidebar_link_groups.get_group(_("Management"), 2)
         management_group.add_link(
             display_name=_("Financing campaigns"),

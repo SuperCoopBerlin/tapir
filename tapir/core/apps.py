@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
@@ -31,6 +32,15 @@ class CoreConfig(AppConfig):
         )
 
         misc_group = sidebar_link_groups.get_group(_("Miscellaneous"), 5)
+
+        if settings.ENABLE_RIZOMA_CONTENT:
+            misc_group.add_link(
+                display_name=_("About Rizoma"),
+                material_icon="info",
+                url="https://www.rizomacoop.pt/",
+                ordering=2,
+            )
+            return
 
         misc_group.add_link(
             display_name=_("Wiki"),

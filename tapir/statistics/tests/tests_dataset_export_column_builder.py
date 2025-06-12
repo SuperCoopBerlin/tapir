@@ -8,11 +8,11 @@ from tapir.coop.models import MembershipPause
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.coop.tests.incoming_payment_factory import IncomingPaymentFactory
 from tapir.shifts.models import (
-    ShiftUserCapability,
     ShiftExemption,
     ShiftAttendanceMode,
     UpdateShiftUserDataLogEntry,
 )
+from tapir.shifts.tests.factories import ShiftUserCapabilityFactory
 from tapir.statistics.services.dataset_export_column_builder import (
     DatasetExportColumnBuilder,
 )
@@ -210,13 +210,13 @@ class TestDatasetExportColumnBuilder(TapirFactoryTestBase):
         self.assertFalse(result)
 
     def test_buildColumnShiftCapabilities_default_returnsCapabilities(self):
-        share_owner = TapirUserFactory.create(
-            shift_capabilities=[ShiftUserCapability.BREAD_DELIVERY]
-        ).share_owner
+        share_owner = TapirUserFactory.create().share_owner
+        capability = ShiftUserCapabilityFactory.create()
+        share_owner.user.shift_user_data.capabilities.set([capability])
 
         result = DatasetExportColumnBuilder.build_column_shift_capabilities(share_owner)
 
-        self.assertEqual([ShiftUserCapability.BREAD_DELIVERY], result)
+        self.assertEqual(capability.get_current_translation().name, result)
 
     def test_buildColumnShiftCapabilities_noAccount_returnsEmptyString(self):
         share_owner = ShareOwnerFactory.create()

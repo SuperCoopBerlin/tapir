@@ -22,8 +22,9 @@
         <div class="row gy-4">
             <div class="col-12 col-sm fw-bold text-sm-end"
                  data-bs-toggle="tooltip"
-                 title="{% translate 'The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. You can also still decide with each purchase whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by deactivating the checkbox above. With your consent, you help Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: Translated with DeepL.com (free version): https://wiki.supercoop.de/wiki/Mitgliederkarte' %}">
-                Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an der Kasse gescannt und somit mein Einkauf erfasst und gespeichert wird:
+                 title="{% translate 'The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. You can also still decide with each purchase whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by deactivating the checkbox above. With your consent, you help Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: https://wiki.supercoop.de/wiki/Mitgliederkarte' %}">
+                Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an der Kasse gescannt und somit mein
+                Einkauf erfasst und gespeichert wird:
             </div>
             <div class="col-12 col-sm d-flex align-content-center gap-1">
                 <span>{{ tapir_user.allows_purchase_tracking|yesno:_("Yes,No") }}</span>

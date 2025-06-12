@@ -4,12 +4,14 @@ from django.urls import reverse
 from django.utils import timezone
 
 from tapir.shifts.models import (
-    ShiftUserCapability,
-    ShiftSlotWarning,
     ShiftTemplate,
     ShiftSlotTemplate,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory
+from tapir.shifts.tests.factories import (
+    ShiftTemplateFactory,
+    ShiftUserCapabilityFactory,
+    ShiftSlotWarningFactory,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -21,19 +23,18 @@ class TestSlotTemplateEdit(TapirFactoryTestBase):
 
         shift_template: ShiftTemplate = ShiftTemplateFactory.create(nb_slots=1)
         slot_template: ShiftSlotTemplate = shift_template.slot_templates.first()
-        slot_template.required_capabilities = []
-        slot_template.warnings = []
-        slot_template.save()
+        slot_template.required_capabilities.set([])
+        slot_template.warnings.set([])
         shift = shift_template.create_shift(
             timezone.now().date() + datetime.timedelta(days=10)
         )
         slot = shift.slots.first()
-        self.assertEqual([], slot.required_capabilities)
-        self.assertEqual([], slot.warnings)
+        self.assertFalse(slot.required_capabilities.exists())
+        self.assertFalse(slot.warnings.exists())
 
         name = "Name after"
-        required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
-        warnings = [ShiftSlotWarning.BREAD_PICKUP_NEEDS_A_VEHICLE]
+        required_capabilities = [ShiftUserCapabilityFactory.create().id]
+        warnings = [ShiftSlotWarningFactory.create().id]
 
         response = self.client.post(
             reverse(self.SLOT_TEMPLATE_EDIT_VIEW, args=[slot_template.id]),
@@ -50,13 +51,21 @@ class TestSlotTemplateEdit(TapirFactoryTestBase):
 
         slot_template.refresh_from_db()
         self.assertEqual(slot_template.name, name)
-        self.assertEqual(slot_template.required_capabilities, required_capabilities)
-        self.assertEqual(slot_template.warnings, warnings)
+        self.assertEqual(
+            list(slot_template.required_capabilities.values_list("id", flat=True)),
+            required_capabilities,
+        )
+        self.assertEqual(
+            list(slot_template.warnings.values_list("id", flat=True)), warnings
+        )
 
         slot.refresh_from_db()
         self.assertEqual(slot.name, name)
-        self.assertEqual(slot.required_capabilities, required_capabilities)
-        self.assertEqual(slot.warnings, warnings)
+        self.assertEqual(
+            list(slot.required_capabilities.values_list("id", flat=True)),
+            required_capabilities,
+        )
+        self.assertEqual(list(slot.warnings.values_list("id", flat=True)), warnings)
 
     def test_normal_user_access_denied(self):
         self.login_as_normal_user()

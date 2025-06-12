@@ -8,10 +8,12 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftAttendanceTemplate,
     ShiftSlot,
-    ShiftUserCapability,
 )
 from tapir.shifts.services.slot_modification_service import SlotModificationService
-from tapir.shifts.tests.factories import ShiftTemplateFactory
+from tapir.shifts.tests.factories import (
+    ShiftTemplateFactory,
+    ShiftUserCapabilityFactory,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -287,10 +289,10 @@ class TestSlotModificationService(TapirFactoryTestBase):
         shift_template.create_shift(timezone.now().date())
         slot_template = shift_template.slot_templates.get()
 
-        capabilities = [ShiftUserCapability.CASHIER]
-        slot_template.required_capabilities = capabilities
-        slot_template.save()
-        slot_template.generated_slots.update(required_capabilities=capabilities)
+        capabilities = [ShiftUserCapabilityFactory.create()]
+        slot_template.required_capabilities.set(capabilities)
+        for slot in slot_template.generated_slots.all():
+            slot.required_capabilities.set(capabilities)
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
@@ -302,9 +304,12 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         SlotModificationService.apply_change(parameter_set, slot_template)
 
-        self.assertEqual(capabilities, ShiftSlot.objects.get().required_capabilities)
         self.assertEqual(
-            capabilities, ShiftSlotTemplate.objects.get().required_capabilities
+            capabilities, list(ShiftSlot.objects.get().required_capabilities.all())
+        )
+        self.assertEqual(
+            capabilities,
+            list(ShiftSlotTemplate.objects.get().required_capabilities.all()),
         )
 
     def test_applyChange_targetCapabilitiesIsEmpty_capabilitiesNotRequiredAnymore(self):
@@ -313,10 +318,10 @@ class TestSlotModificationService(TapirFactoryTestBase):
         shift_template.create_shift(timezone.now().date())
         slot_template = shift_template.slot_templates.get()
 
-        capabilities = [ShiftUserCapability.CASHIER]
-        slot_template.required_capabilities = capabilities
-        slot_template.save()
-        slot_template.generated_slots.update(required_capabilities=capabilities)
+        capabilities = [ShiftUserCapabilityFactory.create()]
+        slot_template.required_capabilities.set(capabilities)
+        for slot in slot_template.generated_slots.all():
+            slot.required_capabilities.set(capabilities)
 
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
@@ -328,8 +333,8 @@ class TestSlotModificationService(TapirFactoryTestBase):
 
         SlotModificationService.apply_change(parameter_set, slot_template)
 
-        self.assertEqual([], ShiftSlot.objects.get().required_capabilities)
-        self.assertEqual([], ShiftSlotTemplate.objects.get().required_capabilities)
+        self.assertFalse(ShiftSlot.objects.get().required_capabilities.exists())
+        self.assertFalse(ShiftSlotTemplate.objects.get().required_capabilities.exists())
 
     def test_applyChange_targetCapabilitiesIsNotEmpty_capabilitiesUpdated(self):
         targeted_time = datetime.time(hour=10, minute=45)
@@ -337,14 +342,14 @@ class TestSlotModificationService(TapirFactoryTestBase):
         shift_template.create_shift(timezone.now().date())
         slot_template = shift_template.slot_templates.get()
 
-        capabilities_before = [ShiftUserCapability.CASHIER]
-        slot_template.required_capabilities = capabilities_before
-        slot_template.save()
-        slot_template.generated_slots.update(required_capabilities=capabilities_before)
+        capabilities_before = [ShiftUserCapabilityFactory.create()]
+        slot_template.required_capabilities.set(capabilities_before)
+        for slot in slot_template.generated_slots.all():
+            slot.required_capabilities.set(capabilities_before)
 
         capabilities_after = [
-            ShiftUserCapability.RED_CARD,
-            ShiftUserCapability.MEMBER_OFFICE,
+            ShiftUserCapabilityFactory.create(),
+            ShiftUserCapabilityFactory.create(),
         ]
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",
@@ -357,11 +362,12 @@ class TestSlotModificationService(TapirFactoryTestBase):
         SlotModificationService.apply_change(parameter_set, slot_template)
 
         self.assertEqual(
-            set(capabilities_after), set(ShiftSlot.objects.get().required_capabilities)
+            set(capabilities_after),
+            set(ShiftSlot.objects.get().required_capabilities.all()),
         )
         self.assertEqual(
             set(capabilities_after),
-            set(ShiftSlotTemplate.objects.get().required_capabilities),
+            set(ShiftSlotTemplate.objects.get().required_capabilities.all()),
         )
 
     def test_applyChange_default_doesNotAffectPastShifts(self):

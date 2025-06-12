@@ -42,6 +42,8 @@ from tapir.shifts.models import (
     ShiftCycleEntry,
     ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
+    ShiftUserCapabilityTranslation,
+    ShiftSlotWarning,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.statistics.models import (
@@ -219,17 +221,27 @@ def generate_shift_user_datas(tapir_users):
         if tapir_user is not None
     ]
 
+    capability_teamleader = ShiftUserCapabilityTranslation.objects.get(
+        name="Teamleader"
+    ).capability
+    capability_cashier = ShiftUserCapabilityTranslation.objects.get(
+        name="Cashier"
+    ).capability
+
     for shift_user_data in shift_user_datas:
         if random.randint(1, 2) == 1:
             shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
         else:
             shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
-        if random.randint(1, 7) == 1:
-            shift_user_data.capabilities.append(ShiftUserCapability.SHIFT_COORDINATOR)
-        if random.randint(1, 4) == 1:
-            shift_user_data.capabilities.append(ShiftUserCapability.CASHIER)
 
-    return ShiftUserData.objects.bulk_create(shift_user_datas)
+    shift_user_datas = ShiftUserData.objects.bulk_create(shift_user_datas)
+    for shift_user_data in shift_user_datas:
+        if random.randint(1, 7) == 1:
+            shift_user_data.capabilities.add(capability_teamleader)
+        if random.randint(1, 4) == 1:
+            shift_user_data.capabilities.add(capability_cashier)
+
+    return shift_user_datas
 
 
 def generate_test_users():
@@ -357,6 +369,15 @@ def generate_test_shift_templates():
                 )
 
     shift_templates = ShiftTemplate.objects.bulk_create(shift_templates)
+    teamleader_capability = ShiftUserCapability.objects.create()
+    ShiftUserCapabilityTranslation.objects.create(
+        capability=teamleader_capability, language="en", name="Teamleader"
+    )
+
+    cashier_capability = ShiftUserCapability.objects.create()
+    ShiftUserCapabilityTranslation.objects.create(
+        capability=cashier_capability, language="en", name="Cashier"
+    )
 
     slot_templates = []
     for shift_template in shift_templates:
@@ -367,20 +388,20 @@ def generate_test_shift_templates():
             slots = last_shift_slots
 
         for slot_name, slot_quantity in slots.items():
-            capabilities = []
-            if slot_name == "Teamleitung":
-                capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
-            if slot_name == "Kasse":
-                capabilities = [ShiftUserCapability.CASHIER]
             for _ in range(slot_quantity):
                 slot_templates.append(
                     ShiftSlotTemplate(
                         name=slot_name,
                         shift_template=shift_template,
-                        required_capabilities=capabilities,
                     )
                 )
-    ShiftSlotTemplate.objects.bulk_create(slot_templates)
+
+    slot_templates = ShiftSlotTemplate.objects.bulk_create(slot_templates)
+    for slot_template in slot_templates:
+        if slot_template.name == "Teamleitung":
+            slot_template.required_capabilities.set([teamleader_capability])
+        if slot_template.name == "Kasse":
+            slot_template.required_capabilities.set([cashier_capability])
 
     print("Generated test shift templates")
 
@@ -472,6 +493,8 @@ def clear_django_db():
         ProcessedPurchaseFiles,
         PurchaseBasket,
         FancyGraphCache,
+        ShiftUserCapability,
+        ShiftSlotWarning,
     ]
     ShareOwnership.objects.update(transferred_from=None)
     for cls in classes:

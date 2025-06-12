@@ -1,5 +1,6 @@
 import datetime
 
+from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -42,6 +43,9 @@ class TestWelcomeDeskAccess(TapirFactoryTestBase):
         )
 
     def test_normal_user_access_with_shift(self):
+        if settings.SHIFTS_ONLY:
+            self.skipTest("The welcome desk is not shown in shifts only mode")
+
         start_time = timezone.now() - datetime.timedelta(hours=1)
         shift_now = ShiftFactory.create(
             start_time=start_time, end_time=start_time + datetime.timedelta(hours=3)
@@ -65,6 +69,9 @@ class TestWelcomeDeskAccess(TapirFactoryTestBase):
         )
 
     def test_member_office_user(self):
+        if settings.SHIFTS_ONLY:
+            self.skipTest("The welcome desk is not shown in shifts only mode")
+
         member_office_user = self.login_as_member_office_user()
 
         self.assertFalse(

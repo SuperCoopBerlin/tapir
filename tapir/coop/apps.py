@@ -1,4 +1,5 @@
 from django.apps import AppConfig
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
@@ -22,19 +23,22 @@ class CoopConfig(AppConfig):
         members_group = sidebar_link_groups.get_group(_("Members"), 1)
 
         members_group.add_link(
-            display_name=_("Applicants"),
-            material_icon="group_add",
-            url=reverse_lazy("coop:draftuser_list"),
-            ordering=1,
-            required_permissions=[PERMISSION_COOP_MANAGE],
-        )
-
-        members_group.add_link(
             display_name=_("Members"),
             material_icon="groups",
             url=reverse_lazy("coop:shareowner_list"),
             ordering=2,
             required_permissions=[PERMISSION_COOP_VIEW],
+        )
+
+        if settings.SHIFTS_ONLY:
+            return
+
+        members_group.add_link(
+            display_name=_("Applicants"),
+            material_icon="group_add",
+            url=reverse_lazy("coop:draftuser_list"),
+            ordering=1,
+            required_permissions=[PERMISSION_COOP_MANAGE],
         )
 
         members_group.add_link(

@@ -103,8 +103,12 @@ class EditShiftUserDataView(
     def form_valid(self, form):
         response = super().form_valid(form)
 
-        tapir_user = form.cleaned_data["shift_partner"]
-        form.instance.shift_partner = tapir_user.shift_user_data if tapir_user else None
+        tapir_user_id = form.cleaned_data["shift_partner"]
+        form.instance.shift_partner = (
+            TapirUser.objects.get(id=tapir_user_id).shift_user_data
+            if tapir_user_id
+            else None
+        )
         form.instance.save()
 
         new_frozen = freeze_for_log(form.instance)
