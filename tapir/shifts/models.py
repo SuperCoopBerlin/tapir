@@ -12,11 +12,11 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, get_language
 
 from tapir.accounts.models import TapirUser
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
-from tapir.utils.models import DurationModelMixin
+from tapir.utils.models import DurationModelMixin, PREFERRED_LANGUAGES
 from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
 
 
@@ -47,6 +47,27 @@ SHIFT_USER_CAPABILITY_CHOICES = {
     ShiftUserCapability.INVENTORY: _("Inventory"),
     ShiftUserCapability.NEBENAN_DE_SUPPORT: _("Nebenan.de-Support"),
 }
+
+
+class ShiftUserCapabilityNew(models.Model):
+    def get_current_translation(self):
+        current_language = get_language()
+        for translation in self.shiftusercapabilitytranslation_set.all():
+            if translation.language == current_language or not current_language:
+                return translation
+        return None
+
+
+class ShiftUserCapabilityTranslation(models.Model):
+    language = models.CharField(
+        _("Language"),
+        choices=PREFERRED_LANGUAGES,
+        default="de",
+        max_length=16,
+    )
+    name = models.CharField(_("Name"), max_length=255)
+    description = models.TextField(_("Description"))
+    capability = models.ForeignKey(ShiftUserCapabilityNew, on_delete=models.CASCADE)
 
 
 class ShiftSlotWarning:
@@ -309,21 +330,25 @@ class ShiftTemplate(models.Model):
 class RequiredCapabilitiesMixin:
     # Théo 23.12.22 the required_capabilities field could be moved to this class, but we'd need to migrate
     # the data from ShiftSlot and ShiftSlotTemplate to it first
-    def get_required_capabilities_display(self):
+    def get_required_capabilities_display(self: ShiftSlotTemplate | ShiftSlot):
         return ", ".join(
             [
-                str(SHIFT_USER_CAPABILITY_CHOICES[capability])
-                for capability in self.required_capabilities
+                capability.get_current_translation().name
+                for capability in self.required_capabilities_new.all().prefetch_related(
+                    "shift_user_capability_translation__set"
+                )
             ]
         )
 
-    def get_required_capabilities_dict(self):
+    def get_required_capabilities_dict(self: ShiftSlotTemplate | ShiftSlot):
         """
-        returns required capabilites as dictionary with corresponding translatiom
+        returns required capabilities as dictionary with corresponding translation
         """
         return {
-            capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
-            for capability in self.required_capabilities
+            capability.id: capability.get_current_translation().name
+            for capability in self.required_capabilities_new.all().prefetch_related(
+                "shift_user_capability_translation__set"
+            )
         }
 
 
@@ -345,6 +370,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         blank=True,
         null=False,
     )
+    required_capabilities_new = models.ManyToManyField(ShiftUserCapabilityNew)
 
     warnings = ArrayField(
         models.CharField(
@@ -668,6 +694,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         blank=True,
         null=False,
     )
+    required_capabilities_new = models.ManyToManyField(ShiftUserCapabilityNew)
 
     warnings = ArrayField(
         models.CharField(
@@ -1009,6 +1036,7 @@ class ShiftUserData(models.Model):
         ),
         default=list,
     )
+    capabilities_new = models.ManyToManyField(ShiftUserCapabilityNew)
     shift_partner = models.OneToOneField(
         "self",
         on_delete=models.SET_NULL,
