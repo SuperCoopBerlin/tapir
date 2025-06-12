@@ -4,12 +4,14 @@ from django.urls import reverse
 from django.utils import timezone
 
 from tapir.shifts.models import (
-    ShiftUserCapability,
-    ShiftSlotWarning,
     ShiftSlot,
     ShiftTemplate,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory
+from tapir.shifts.tests.factories import (
+    ShiftTemplateFactory,
+    ShiftUserCapabilityFactory,
+    ShiftSlotWarningFactory,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -25,8 +27,8 @@ class TestSlotTemplateCreate(TapirFactoryTestBase):
             timezone.now().date() + datetime.timedelta(days=10)
         )
 
-        required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
-        warnings = [ShiftSlotWarning.BREAD_PICKUP_NEEDS_A_VEHICLE]
+        required_capabilities = [ShiftUserCapabilityFactory.create().id]
+        warnings = [ShiftSlotWarningFactory.create().id]
 
         response = self.client.post(
             reverse(self.SLOT_TEMPLATE_CREATE_VIEW, args=[shift_template.id]),
@@ -48,8 +50,11 @@ class TestSlotTemplateCreate(TapirFactoryTestBase):
 
         slot: ShiftSlot = shift.slots.first()
         self.assertEqual(slot.name, self.SLOT_TEMPLATE_NAME)
-        self.assertEqual(slot.required_capabilities, required_capabilities)
-        self.assertEqual(slot.warnings, warnings)
+        self.assertEqual(
+            list(slot.required_capabilities.values_list("id", flat=True)),
+            required_capabilities,
+        )
+        self.assertEqual(list(slot.warnings.values_list("id", flat=True)), warnings)
 
     def test_normal_user_access_denied(self):
         self.login_as_normal_user()

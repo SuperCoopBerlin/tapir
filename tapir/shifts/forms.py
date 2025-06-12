@@ -27,6 +27,8 @@ from tapir.shifts.models import (
     ShiftExemption,
     ShiftTemplate,
     ShiftAttendanceMode,
+    ShiftUserCapability,
+    ShiftSlotWarning,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -99,7 +101,39 @@ class ShiftDeleteForm(forms.ModelForm):
 class ShiftSlotForm(forms.ModelForm):
     class Meta:
         model = ShiftSlot
-        fields = ["name"]
+        fields = ["name", "required_capabilities", "warnings"]
+
+    required_capabilities = forms.MultipleChoiceField(
+        required=False,
+        widget=CheckboxSelectMultiple,
+        label=_("Qualifications"),
+    )
+    warnings = forms.MultipleChoiceField(
+        required=False,
+        widget=CheckboxSelectMultiple,
+        label=_("Warnings"),
+    )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.fields["required_capabilities"].choices = {
+            capability.id: capability.get_current_translation().name
+            for capability in ShiftUserCapability.objects.all()
+        }
+        if self.instance and self.instance.id:
+            self.fields["required_capabilities"].initial = (
+                self.instance.required_capabilities.values_list("id", flat=True)
+            )
+
+        self.fields["warnings"].choices = {
+            warning.id: warning.get_current_translation().name
+            for warning in ShiftSlotWarning.objects.all()
+        }
+        if self.instance and self.instance.id:
+            self.fields["warnings"].initial = self.instance.warnings.values_list(
+                "id", flat=True
+            )
 
 
 class TapirUserChoiceField(ModelChoiceField):
@@ -152,10 +186,11 @@ class MissingCapabilitiesWarningMixin(forms.Form):
             "confirm_missing_capabilities" in self.cleaned_data
             and not self.cleaned_data["confirm_missing_capabilities"]
         ):
+            user_capabilities = set(user_to_register.shift_user_data.capabilities.all())
             missing_capabilities = [
-                _(SHIFT_USER_CAPABILITY_CHOICES[capability])
+                capability
                 for capability in self.get_required_capabilities()
-                if capability not in user_to_register.shift_user_data.capabilities
+                if capability not in user_capabilities
             ]
             if len(missing_capabilities) > 0:
                 error_msg = _(
@@ -232,9 +267,9 @@ class ShiftAttendanceTemplateForm(
             pk=kwargs.pop("slot_template_pk", None)
         )
         super().__init__(*args, **kwargs)
-        for warning in self.slot_template.warnings:
-            self.fields[f"warning_{warning}"] = forms.BooleanField(
-                label=SHIFT_SLOT_WARNING_CHOICES[warning]
+        for warning in self.slot_template.warnings.all():
+            self.fields[f"warning_{warning.id}"] = forms.BooleanField(
+                label=warning.get_current_translation().name
             )
 
     def clean_user(self):
@@ -252,7 +287,7 @@ class ShiftAttendanceTemplateForm(
         return user
 
     def get_required_capabilities(self):
-        return self.slot_template.required_capabilities
+        return self.slot_template.required_capabilities.all()
 
     def get_shift_object(self) -> Shift | ShiftTemplate:
         return self.slot_template.shift_template
@@ -272,13 +307,13 @@ class RegisterUserToShiftSlotForm(
         self.fields["user"].disabled = not self.request_user.has_perm(
             PERMISSION_SHIFTS_MANAGE
         )
-        for warning in self.slot.warnings:
-            self.fields[f"warning_{warning}"] = forms.BooleanField(
-                label=SHIFT_SLOT_WARNING_CHOICES[warning]
+        for warning in self.slot.warnings.all():
+            self.fields[f"warning_{warning.id}"] = forms.BooleanField(
+                label=warning.get_current_translation().name
             )
 
     def get_required_capabilities(self):
-        return self.slot.required_capabilities
+        return self.slot.required_capabilities.all()
 
     def clean_user_to_register(self):
         user_to_register = self.cleaned_data["user"]
@@ -310,7 +345,7 @@ class RegisterUserToShiftSlotForm(
 class ShiftUserDataForm(forms.ModelForm):
     class Meta:
         model = ShiftUserData
-        fields = ["capabilities"]
+        fields = ["capabilities", "shift_partner"]
 
     confirm_delete_abcd_attendance = BooleanField(
         label=_(
@@ -329,6 +364,15 @@ class ShiftUserDataForm(forms.ModelForm):
     def __init__(self, **kwargs):
         self.request_user = kwargs.pop("request_user", None)
         super().__init__(**kwargs)
+
+        self.fields["capabilities"].choices = {
+            capability.id: capability.get_current_translation().name
+            for capability in ShiftUserCapability.objects.all()
+        }
+        self.fields["capabilities"].initial = [
+            capability.id for capability in self.instance.capabilities.all()
+        ]
+
         if not FeatureFlag.get_flag_value(FEATURE_FLAG_SHIFT_PARTNER):
             self.fields["shift_partner"].disabled = True
             self.fields["shift_partner"].widget = HiddenInput()
@@ -359,14 +403,14 @@ class ShiftUserDataForm(forms.ModelForm):
     def clean_shift_partner(self):
         shift_partner: TapirUser | None = self.cleaned_data.get("shift_partner", None)
         if not shift_partner:
-            return shift_partner
+            return None
 
         if not shift_partner.share_owner.is_investing:
             self.add_error(
                 "shift_partner",
                 _("The selected member must be an investing member."),
             )
-            return shift_partner
+            return None
 
         partner_of_partner = getattr(
             shift_partner.shift_user_data, "shift_partner", None
@@ -383,13 +427,13 @@ class ShiftUserDataForm(forms.ModelForm):
                 "shift_partner",
                 f"{target_partner_name} is already the partner of {partner_of_partner_name}",
             )
-            return shift_partner
+            return None
 
         partner_is_partner_of: ShiftUserData | None = getattr(
             shift_partner.shift_user_data, "shift_partner_of", None
         )
         if not partner_is_partner_of or partner_is_partner_of == self.instance:
-            return shift_partner
+            return shift_partner.id
 
         partner_name = UserUtils.build_display_name_for_viewer(
             shift_partner, self.request_user
@@ -402,7 +446,7 @@ class ShiftUserDataForm(forms.ModelForm):
             "shift_partner",
             f"{partner_name} is already the partner of {partner_of_name}",
         )
-        return shift_partner
+        return None
 
     def clean(self):
         result = super().clean()
@@ -589,7 +633,7 @@ class ShiftTemplateForm(forms.ModelForm):
 class ShiftSlotTemplateForm(forms.ModelForm):
     class Meta:
         model = ShiftSlotTemplate
-        fields = ["name"]
+        fields = ["name", "required_capabilities", "warnings"]
 
     check_update_future_shifts = BooleanField(
         label=_(
@@ -597,6 +641,36 @@ class ShiftSlotTemplateForm(forms.ModelForm):
         ),
         required=True,
     )
+    required_capabilities = forms.MultipleChoiceField(
+        required=False,
+        widget=CheckboxSelectMultiple,
+        label=_("Qualifications"),
+    )
+    warnings = forms.MultipleChoiceField(
+        required=False,
+        widget=CheckboxSelectMultiple,
+        label=_("Warnings"),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["required_capabilities"].choices = {
+            capability.id: capability.get_current_translation().name
+            for capability in ShiftUserCapability.objects.all()
+        }
+        if self.instance and self.instance.id:
+            self.fields["required_capabilities"].initial = (
+                self.instance.required_capabilities.values_list("id", flat=True)
+            )
+
+        self.fields["warnings"].choices = {
+            warning.id: warning.get_current_translation().name
+            for warning in ShiftSlotWarning.objects.all()
+        }
+        if self.instance and self.instance.id:
+            self.fields["warnings"].initial = self.instance.warnings.values_list(
+                "id", flat=True
+            )
 
 
 class ConvertShiftExemptionToMembershipPauseForm(forms.Form):

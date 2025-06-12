@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import calendar
 import datetime
+from functools import cmp_to_key
+from locale import strcoll
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -19,13 +21,28 @@ from tapir.utils.models import DurationModelMixin, PREFERRED_LANGUAGES
 from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
 
 
+def compare_languages_english_goes_first(a, b):
+    if a.language == "en":
+        return -1
+    if b.language == "en":
+        return 1
+    return strcoll(a.language, b.language)
+
+
 class ShiftUserCapability(models.Model):
-    def get_current_translation(self):
+    def get_current_translation(self) -> ShiftUserCapabilityTranslation | None:
         current_language = get_language()
-        for translation in self.shiftusercapabilitytranslation_set.all():
+        translations = list(self.shiftusercapabilitytranslation_set.all())
+
+        if len(translations) == 0:
+            return None
+
+        for translation in translations:
             if translation.language == current_language or not current_language:
                 return translation
-        return None
+
+        translations.sort(key=cmp_to_key(compare_languages_english_goes_first))
+        return translations[0]
 
 
 class ShiftUserCapabilityTranslation(models.Model):
@@ -40,13 +57,20 @@ class ShiftUserCapabilityTranslation(models.Model):
     capability = models.ForeignKey(ShiftUserCapability, on_delete=models.CASCADE)
 
 
-class ShiftSlotWarningNew(models.Model):
-    def get_current_translation(self):
+class ShiftSlotWarning(models.Model):
+    def get_current_translation(self) -> ShiftUserCapabilityTranslation | None:
         current_language = get_language()
-        for translation in self.shiftslotwarningtranslation_set.all():
+        translations = list(self.shiftslotwarningtranslation_set.all())
+
+        if len(translations) == 0:
+            return None
+
+        for translation in translations:
             if translation.language == current_language or not current_language:
                 return translation
-        return None
+
+        translations.sort(key=cmp_to_key(compare_languages_english_goes_first))
+        return translations[0]
 
 
 class ShiftSlotWarningTranslation(models.Model):
@@ -58,7 +82,7 @@ class ShiftSlotWarningTranslation(models.Model):
     )
     name = models.CharField(_("Name"), max_length=255)
     description = models.TextField(_("Description"))
-    warning = models.ForeignKey(ShiftSlotWarningNew, on_delete=models.CASCADE)
+    warning = models.ForeignKey(ShiftSlotWarning, on_delete=models.CASCADE)
 
 
 class ShiftNames:
@@ -299,7 +323,7 @@ class RequiredCapabilitiesMixin:
             [
                 capability.get_current_translation().name
                 for capability in self.required_capabilities.all().prefetch_related(
-                    "shift_user_capability_translation__set"
+                    "shiftusercapabilitytranslation_set"
                 )
             ]
         )
@@ -311,7 +335,7 @@ class RequiredCapabilitiesMixin:
         return {
             capability.id: capability.get_current_translation().name
             for capability in self.required_capabilities.all().prefetch_related(
-                "shift_user_capability_translation__set"
+                "shiftusercapabilitytranslation_set"
             )
         }
 
@@ -327,7 +351,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
     )
 
     required_capabilities = models.ManyToManyField(ShiftUserCapability)
-    warnings = models.ManyToManyField(ShiftSlotWarningNew)
+    warnings = models.ManyToManyField(ShiftSlotWarning)
 
     def __str__(self):
         return f"{self.name}, {self.shift_template} (#{self.id})"
@@ -349,7 +373,9 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
             .exists()
             and
             # User must have all required capabilities
-            set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
+            set(self.required_capabilities.all()).issubset(
+                user.shift_user_data.capabilities.all()
+            )
         )
 
     def get_attendance_template(self):
@@ -369,13 +395,14 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
             slot.update_attendance_from_template()
 
     def create_slot_from_template(self, shift: Shift):
-        return ShiftSlot.objects.create(
+        slot = ShiftSlot.objects.create(
             slot_template=self,
             name=self.name,
             shift=shift,
-            required_capabilities=self.required_capabilities,
-            warnings=self.warnings,
         )
+        slot.required_capabilities.set(self.required_capabilities.all())
+        slot.warnings.set(self.warnings.all())
+        return slot
 
 
 class ShiftAttendanceTemplate(models.Model):
@@ -635,7 +662,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
     )
 
     required_capabilities = models.ManyToManyField(ShiftUserCapability)
-    warnings = models.ManyToManyField(ShiftSlotWarningNew)
+    warnings = models.ManyToManyField(ShiftSlotWarning)
 
     def get_display_name(self):
         display_name = self.shift.get_display_name()
@@ -662,13 +689,19 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
             )
             and
             # User isn't already registered for this shift
-            not self.shift.get_attendances()
-            .filter(user=user)
-            .with_valid_state()
-            .exists()
+            not (
+                self.shift.get_attendances()
+                .filter(user=user)
+                .with_valid_state()
+                .exists()
+            )
             and
             # User must have all required capabilities
-            set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
+            (
+                set(self.required_capabilities.all()).issubset(
+                    set(user.shift_user_data.capabilities.all())
+                )
+            )
             and self.shift.is_in_the_future()
             and not self.shift.cancelled
             and hasattr(user, "share_owner")
@@ -742,12 +775,12 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
 
     def update_slot_from_template(self):
         self.name = self.slot_template.name
-        self.required_capabilities = self.slot_template.required_capabilities
-        self.warnings = self.slot_template.warnings
+        self.required_capabilities.set(self.slot_template.required_capabilities.all())
+        self.warnings.set(self.slot_template.warnings.all())
         self.save()
 
     def __str__(self):
-        return f"{self.name}, {self.shift} (#{self.id})"
+        return f"{self.name}, {getattr(self, "shift", "No shift")} (#{self.id})"
 
 
 class ShiftAccountEntry(models.Model):
@@ -979,7 +1012,7 @@ class ShiftUserData(models.Model):
             [
                 capability.get_current_translation().name
                 for capability in self.capabilities.all().prefetch_related(
-                    "shift_user_capability_translation__set"
+                    "shiftusercapabilitytranslation_set"
                 )
             ]
         )

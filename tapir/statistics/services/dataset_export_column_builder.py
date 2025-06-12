@@ -122,7 +122,7 @@ class DatasetExportColumnBuilder:
         tapir_user = getattr(share_owner, "user", None)
         if not tapir_user:
             return ""
-        return share_owner.user.shift_user_data.capabilities
+        return share_owner.user.shift_user_data.get_capabilities_display()
 
     @staticmethod
     def build_column_shift_partner(share_owner: ShareOwner, **_):
