@@ -1,8 +1,13 @@
 import datetime
 
 import jwt
+import requests
+from django.conf import settings
 
 from tapir.accounts.models import TapirUser
+from tapir.coop.models import ShareOwner
+from tapir.rizoma.services.coops_pt_login_manager import CoopsPtLoginManager
+from tapir.utils.expection_utils import TapirException
 
 
 class CoopsPtUserCreator:
@@ -30,6 +35,42 @@ class CoopsPtUserCreator:
             first_name=user_json["firstName"],
             last_name=user_json["lastName"],
             preferred_language="pt",
+            external_id=user_json["_id"],
+            is_superuser=user_json["type"] == "admin",
+        )
+
+    @classmethod
+    def fetch_and_create_share_owner(cls, external_member_id, tapir_user):
+        share_owner = ShareOwner.objects.filter(
+            external_member_id=external_member_id
+        ).first()
+        if share_owner is not None:
+            if tapir_user.external_id != share_owner.user.external_id:
+                share_owner.user = tapir_user
+                share_owner.save()
+            return
+
+        success, access_token, refresh_token = CoopsPtLoginManager.remote_login(
+            email=settings.COOPS_PT_ADMIN_EMAIL,
+            password=settings.COOPS_PT_ADMIN_PASSWORD,
+        )
+        if not success:
+            raise TapirException(
+                "Failed to login as admin in order to to get member data"
+            )
+
+        response = requests.get(
+            url=f"{settings.COOPS_PT_API_BASE_URL}/members/{external_member_id}",
+            headers={
+                "Accept": "application/json",
+                "Authorization": f"Bearer {access_token}",
+            },
+        )
+
+        member_number = response.json()["data"]["number"]
+
+        ShareOwner.objects.create(
+            id=member_number, user=tapir_user, external_id=external_member_id
         )
 
     @classmethod

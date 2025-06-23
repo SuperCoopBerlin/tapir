@@ -86,6 +86,7 @@ class TapirUser(AbstractUser):
         default="de",
         max_length=16,
     )
+    external_id = models.CharField(max_length=255, null=True, unique=True)
 
     objects = TapirUserManager()
 

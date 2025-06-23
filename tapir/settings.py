@@ -182,11 +182,15 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.send_flying_member_registration_reminder_mails",
         "schedule": celery.schedules.crontab(minute=0, hour=4),
     },
-    "fetch_users_from_coops_pt": {
-        "task": "tapir.rizoma.tasks.fetch_users_from_coops_pt",
-        "schedule": celery.schedules.crontab(hour="*", minute="0"),
-    },
 }
+
+if ENABLE_RIZOMA_CONTENT:
+    CELERY_BEAT_SCHEDULE["fetch_users_from_coops_pt"] = (
+        {
+            "task": "tapir.rizoma.tasks.fetch_users_from_coops_pt",
+            "schedule": celery.schedules.crontab(hour="*", minute="0"),
+        },
+    )
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

@@ -7,7 +7,7 @@ from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner
+from tapir.rizoma.services.coops_pt_login_manager import CoopsPtLoginManager
 from tapir.rizoma.services.coops_pt_user_creator import CoopsPtUserCreator
 from tapir.utils.expection_utils import TapirException
 
@@ -27,7 +27,7 @@ class CoopsPtAuthBackend(BaseBackend):
         if password is None:
             raise BadRequest(f"Missing 'password' parameter")
 
-        success, access_token, refresh_token = self.remote_login(
+        success, access_token, refresh_token = CoopsPtLoginManager.remote_login(
             email=email, password=password
         )
         if not success:
@@ -41,15 +41,18 @@ class CoopsPtAuthBackend(BaseBackend):
             )
             return None
 
-        user = TapirUser.objects.filter(email=email).first()
-
-        if user is not None:
-            self.update_admin_status(user, access_token)
-            return user
-
         external_user_id = CoopsPtUserCreator.get_external_user_id_from_access_token(
             access_token
         )
+
+        user = TapirUser.objects.filter(external_id=external_user_id).first()
+
+        if user is not None:
+            if self.update_admin_status(
+                user, role=CoopsPtUserCreator.get_role_from_access_token(access_token)
+            ):
+                user.save()
+            return user
 
         response = requests.get(
             url=f"{settings.COOPS_PT_API_BASE_URL}/users/{external_user_id}",  # the request fails if the search param is missing
@@ -70,58 +73,21 @@ class CoopsPtAuthBackend(BaseBackend):
                 user_data
             )
             tapir_user.save()
-            self.create_share_owner(user_data["memberId"], tapir_user)
+            CoopsPtUserCreator.fetch_and_create_share_owner(
+                user_data["memberId"], tapir_user
+            )
 
         if user_data["memberId"] is not None:
             pass
 
         return tapir_user
 
-    @staticmethod
-    def remote_login(email, password):
-        response = requests.post(
-            url=f"{settings.COOPS_PT_API_BASE_URL}/auth",
-            headers={"Accept": "application/json"},
-            data=f'{{"email": "{email}", "password": "{password}"}}',
-        )
-        if response.status_code != 200:
-            return False, None, None
-
-        response_content = response.json()
-        access_token = response_content.get("access", None)
-        refresh_token = response_content.get("refresh", None)
-        return True, access_token, refresh_token
-
     @classmethod
-    def update_admin_status(cls, user: TapirUser, access_token):
-        role = CoopsPtUserCreator.get_role_from_access_token(access_token)
+    def update_admin_status(cls, user: TapirUser, role):
         should_be_admin = role == "admin"
 
         if should_be_admin == user.is_superuser:
-            return
+            return False
 
         user.is_superuser = should_be_admin
-        user.save()
-
-    @classmethod
-    def create_share_owner(cls, external_member_id, tapir_user):
-        success, access_token, refresh_token = cls.remote_login(
-            email=settings.COOPS_PT_ADMIN_EMAIL,
-            password=settings.COOPS_PT_ADMIN_PASSWORD,
-        )
-        if not success:
-            raise TapirException(
-                "Failed to login as admin in order to to get member data"
-            )
-
-        response = requests.get(
-            url=f"{settings.COOPS_PT_API_BASE_URL}/members/{external_member_id}",
-            headers={
-                "Accept": "application/json",
-                "Authorization": f"Bearer {access_token}",
-            },
-        )
-
-        member_number = response.json()["data"]["number"]
-
-        ShareOwner.objects.create(id=member_number, user=tapir_user)
+        return True
