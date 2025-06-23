@@ -22,6 +22,7 @@ from tapir.settings import (
     REG_PERSON_BASE_DN,
     REG_PERSON_OBJECT_CLASSES,
     AUTH_LDAP_SERVER_URI,
+    LOGIN_BACKEND_LDAP,
 )
 from tapir.utils.models import CountryField
 from tapir.utils.shortcuts import get_html_link, get_admin_ldap_connection
@@ -116,6 +117,9 @@ class TapirUser(AbstractUser):
         return ", ".join(user_perms)
 
     def get_groups_display(self):
+        if settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP:
+            return ""
+
         group_names = self.get_ldap_user().group_names
         if len(group_names) == 0:
             return _("None")
@@ -132,6 +136,8 @@ class TapirUser(AbstractUser):
 
     def __build_cached_perms(self):
         self.__cached_perms = {}
+        if settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP:
+            return
         for (
             permission_name,
             groups_that_have_this_permission,
@@ -199,6 +205,8 @@ class TapirUser(AbstractUser):
 
     def save(self, **kwargs):
         super().save(**kwargs)
+        if settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP:
+            return
         ldap_user = self.get_ldap_user()
         if ldap_user:
             self.get_ldap_user().connection.modify_s(

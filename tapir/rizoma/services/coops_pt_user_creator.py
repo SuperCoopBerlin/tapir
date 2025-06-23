@@ -7,50 +7,29 @@ from tapir.accounts.models import TapirUser
 
 class CoopsPtUserCreator:
     # Example user json from the coops.pt API:
-    # {'_created_at': '2025-05-27T15:44:47.514Z',
-    #  '_currentState': None,
-    #  '_currentStateDate': None,
-    #  '_deleted_at': None,
-    #  '_firstEmail': None,
-    #  '_firstMobile': '9637973395',
-    #  '_firstPhone': None,
-    #  '_fullAddress': 'Travessa dos Girassóis<br/>84565',
-    #  '_id': 'ff758a55-5169-41e6-bd9c-d59905370056',
-    #  '_isActiveSince': None,
-    #  '_photoId': None,
-    #  '_updated_at': '2025-05-27T15:45:20.161Z',
-    #  'address': 'Travessa dos Girassóis',
-    #  'birthday': '1938-06-07T03:11:33Z',
-    #  'city': 'Vale das Montanhas',
-    #  'countryId': 239,
-    #  'educationalQualifications': 'Profound',
-    #  'fiscalNumber': '1788219629960569403',
-    #  'idCardNumber': '12713805059784738425',
-    #  'name': 'Rui Soares',
-    #  'nationalityId': 176,
-    #  'notes': 'Practically anger horde murder certain few is how down '
-    #           'architect rhythm deliberately under here her those '
-    #           'already my these several.',
-    #  'number': 96,
-    #  'occupation': 'Coordinator',
-    #  'placeOfBirth': 'Birmingham',
-    #  'zip': '84565'}
+    #  {'data': {'_created_at': '2025-06-17T10:03:33.387Z',
+    #       '_deleted_at': None,
+    #       '_id': '332fc8ab-79e2-4446-9464-90ff9d31c9d6',
+    #       '_memberName': None,
+    #       '_updated_at': '2025-06-20T11:06:42.967Z',
+    #       'email': 'devanfisher@lowe.biz',
+    #       'firstName': 'Abe',
+    #       'lastName': 'Hoppe',
+    #       'memberId': None,
+    #       'recover_string': None,
+    #       'suspended': False,
+    #       'type': 'member'},
+    #  'meta': {}}
 
     @classmethod
     def build_tapir_user_from_api_response(cls, user_json: dict) -> TapirUser:
-        phone_number = user_json.get("_firstPhone", None)
-        if phone_number is None:
-            phone_number = ""
 
         return TapirUser(
             date_joined=datetime.datetime.fromisoformat(user_json["_created_at"]),
-            username=user_json["_firstEmail"],
-            email=user_json["_firstEmail"],
-            phone_number=phone_number,
-            street=user_json["address"],
-            postcode=user_json["zip"],
-            city=user_json["city"],
-            birthdate=datetime.datetime.fromisoformat(user_json["birthday"]),
+            username=user_json["email"],
+            email=user_json["email"],
+            first_name=user_json["firstName"],
+            last_name=user_json["lastName"],
         )
 
     @classmethod

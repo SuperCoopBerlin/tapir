@@ -45,7 +45,7 @@ class CoopsPtAuthBackend(BaseBackend):
         )
 
         response = requests.get(
-            url=f"{settings.COOPS_PT_API_BASE_URL}/members/{external_user_id}",  # the request fails if the search param is missing
+            url=f"{settings.COOPS_PT_API_BASE_URL}/users/{external_user_id}",  # the request fails if the search param is missing
             headers={
                 "Accept": "application/json",
                 "Authorization": f"Bearer {access_token}",
@@ -57,7 +57,7 @@ class CoopsPtAuthBackend(BaseBackend):
             )
 
         tapir_user = CoopsPtUserCreator.build_tapir_user_from_api_response(
-            response.json()
+            response.json()["data"]
         )
         tapir_user.save()
 
