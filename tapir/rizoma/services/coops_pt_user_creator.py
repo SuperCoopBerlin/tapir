@@ -30,6 +30,7 @@ class CoopsPtUserCreator:
             email=user_json["email"],
             first_name=user_json["firstName"],
             last_name=user_json["lastName"],
+            preferred_language="pt",
         )
 
     @classmethod
@@ -49,3 +50,13 @@ class CoopsPtUserCreator:
         )
 
         return token_data["CustomUserInfo"]["ID"]
+
+    @classmethod
+    def get_role_from_access_token(cls, access_token: str) -> str:
+        token_data = jwt.decode(
+            access_token,
+            algorithms=["HS256"],
+            options={"verify_signature": False},
+        )
+
+        return token_data["CustomUserInfo"]["Role"]

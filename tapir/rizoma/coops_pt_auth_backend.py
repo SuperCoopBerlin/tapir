@@ -38,6 +38,7 @@ class CoopsPtAuthBackend(BaseBackend):
         user = TapirUser.objects.filter(email=email).first()
 
         if user is not None:
+            self.update_admin_status(user, access_token)
             return user
 
         external_user_id = CoopsPtUserCreator.get_external_user_id_from_access_token(
@@ -77,3 +78,14 @@ class CoopsPtAuthBackend(BaseBackend):
         access_token = response_content.get("access", None)
         refresh_token = response_content.get("refresh", None)
         return True, access_token, refresh_token
+
+    @classmethod
+    def update_admin_status(cls, user: TapirUser, access_token):
+        role = CoopsPtUserCreator.get_role_from_access_token(access_token)
+        should_be_admin = role == "admin"
+
+        if should_be_admin == user.is_superuser:
+            return
+
+        user.is_superuser = should_be_admin
+        user.save()
