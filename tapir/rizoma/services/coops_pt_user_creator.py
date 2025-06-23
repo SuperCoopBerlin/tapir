@@ -23,7 +23,6 @@ class CoopsPtUserCreator:
 
     @classmethod
     def build_tapir_user_from_api_response(cls, user_json: dict) -> TapirUser:
-
         return TapirUser(
             date_joined=datetime.datetime.fromisoformat(user_json["_created_at"]),
             username=user_json["email"],
