@@ -6,6 +6,7 @@ from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.rizoma.coops_pt_auth_backend import CoopsPtAuthBackend
 from tapir.rizoma.services.coops_pt_user_creator import CoopsPtUserCreator
+from tapir.shifts.models import ShiftUserData
 from tapir.utils.expection_utils import TapirException
 
 
@@ -88,7 +89,8 @@ class Command(BaseCommand):
             if external_member_id is not None:
                 external_member_id_to_user_id_map[external_member_id] = external_user_id
 
-        TapirUser.objects.bulk_create(users_to_create)
+        users = TapirUser.objects.bulk_create(users_to_create)
+        ShiftUserData.objects.bulk_create([ShiftUserData(user=user) for user in users])
         TapirUser.objects.bulk_update(
             users_to_update, ["first_name", "last_name", "is_superuser"]
         )

@@ -14,7 +14,7 @@ from tapir.utils.expection_utils import TapirException
 
 class CoopsPtAuthBackend(BaseBackend):
     def get_user(self, user_id):
-        return TapirUser.objects.get(id=user_id)
+        return TapirUser.objects.filter(id=user_id).first()
 
     def authenticate(self, request, **kwargs):
         email = kwargs.get("email", None)

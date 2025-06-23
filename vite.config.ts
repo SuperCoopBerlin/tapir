@@ -1,5 +1,5 @@
-import {defineConfig} from "vite";
-import {join, resolve} from "path";
+import { defineConfig } from "vite";
+import { join, resolve } from "path";
 import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig(() => {
@@ -21,6 +21,10 @@ export default defineConfig(() => {
           welcome_desk: join(INPUT_DIR, "/welcome_desk/welcome_desk_entry.tsx"),
           fancy_graph: join(INPUT_DIR, "/statistics/fancy_graph_entry.tsx"),
           fancy_export: join(INPUT_DIR, "/statistics/fancy_export_entry.tsx"),
+          shift_management: join(
+            INPUT_DIR,
+            "/shift_management/shift_management_entry.tsx",
+          ),
         },
       },
     },
