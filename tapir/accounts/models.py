@@ -2,7 +2,7 @@ import logging
 
 import ldap
 from django.contrib.auth.models import AbstractUser, UserManager, User
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ImproperlyConfigured
 from django.db import models
 from django.urls import reverse
 from django.utils import translation
@@ -22,6 +22,8 @@ from tapir.settings import (
     REG_PERSON_BASE_DN,
     REG_PERSON_OBJECT_CLASSES,
     AUTH_LDAP_SERVER_URI,
+    LOGIN_BACKEND_LDAP,
+    LOGIN_BACKEND_COOPS_PT,
 )
 from tapir.utils.models import CountryField
 from tapir.utils.shortcuts import get_html_link, get_admin_ldap_connection
@@ -84,6 +86,7 @@ class TapirUser(AbstractUser):
         default="de",
         max_length=16,
     )
+    external_id = models.CharField(max_length=255, null=True, unique=True)
 
     objects = TapirUserManager()
 
@@ -116,10 +119,20 @@ class TapirUser(AbstractUser):
         return ", ".join(user_perms)
 
     def get_groups_display(self):
-        group_names = self.get_ldap_user().group_names
-        if len(group_names) == 0:
-            return _("None")
-        return ", ".join(group_names)
+        if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
+            if self.is_superuser:
+                return "admin"
+            return ""
+
+        if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_LDAP:
+            group_names = self.get_ldap_user().group_names
+            if len(group_names) == 0:
+                return _("None")
+            return ", ".join(group_names)
+
+        raise ImproperlyConfigured(
+            "Unknown login backend " + settings.ACTIVE_LOGIN_BACKEND
+        )
 
     def has_perm(self, perm, obj=None):
         if perm in self.client_perms:
@@ -132,15 +145,19 @@ class TapirUser(AbstractUser):
 
     def __build_cached_perms(self):
         self.__cached_perms = {}
-        for (
-            permission_name,
-            groups_that_have_this_permission,
-        ) in settings.PERMISSIONS.items():
-            self.__cached_perms[permission_name] = (
-                not groups_that_have_this_permission.isdisjoint(
-                    self.get_ldap_user().group_names
+        if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
+            for permission_name in settings.PERMISSIONS.keys():
+                self.__cached_perms[permission_name] = self.is_superuser
+        if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_LDAP:
+            for (
+                permission_name,
+                groups_that_have_this_permission,
+            ) in settings.PERMISSIONS.items():
+                self.__cached_perms[permission_name] = (
+                    not groups_that_have_this_permission.isdisjoint(
+                        self.get_ldap_user().group_names
+                    )
                 )
-            )
 
     def get_member_number(self):
         if not hasattr(self, "share_owner") or not self.share_owner:
@@ -199,6 +216,8 @@ class TapirUser(AbstractUser):
 
     def save(self, **kwargs):
         super().save(**kwargs)
+        if settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP:
+            return
         ldap_user = self.get_ldap_user()
         if ldap_user:
             self.get_ldap_user().connection.modify_s(

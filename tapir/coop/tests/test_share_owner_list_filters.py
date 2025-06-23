@@ -12,7 +12,6 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftSlotTemplate,
     ShiftAttendanceTemplate,
-    ShiftUserCapability,
     ShiftAttendance,
     ShiftSlot,
 )
@@ -210,27 +209,6 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
             {"abcd_week": "A"},
             must_be_in=owners_in_group,
             must_be_out=owners_not_in_group,
-        )
-
-    def test_has_qualification(self):
-        share_owners_with_capability = [
-            TapirUserFactory.create(
-                shift_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR]
-            ).share_owner
-            for _ in range(2)
-        ]
-
-        share_owners_without_capability = [
-            TapirUserFactory.create(
-                shift_capabilities=[ShiftUserCapability.CASHIER]
-            ).share_owner,
-            TapirUserFactory.create(shift_capabilities=[]).share_owner,
-        ]
-
-        self.visit_view(
-            {"has_capability": ShiftUserCapability.SHIFT_COORDINATOR},
-            must_be_in=share_owners_with_capability,
-            must_be_out=share_owners_without_capability,
         )
 
     def test_has_status(self):

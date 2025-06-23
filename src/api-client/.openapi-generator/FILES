@@ -1,10 +1,17 @@
+apis/ShiftsApi.ts
 apis/StatisticsApi.ts
 apis/WelcomedeskApi.ts
 apis/index.ts
 index.ts
 models/Column.ts
+models/CreateShiftSlotWarningRequest.ts
 models/DatapointExport.ts
 models/Dataset.ts
+models/Language.ts
+models/LanguageEnum.ts
+models/PatchedUpdateShiftSlotWarningRequest.ts
 models/ShareOwnerForWelcomeDesk.ts
+models/ShiftSlotWarning.ts
+models/ShiftSlotWarningTranslation.ts
 models/index.ts
 runtime.ts

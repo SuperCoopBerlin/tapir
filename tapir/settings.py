@@ -26,6 +26,8 @@ env = environ.Env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -40,6 +42,8 @@ DEBUG = env("DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
 
 ENABLE_SILK_PROFILING = False
+
+ENABLE_RIZOMA_CONTENT = env.bool("ENABLE_RIZOMA_CONTENT", default=False)
 
 # Application definition
 INSTALLED_APPS = [
@@ -71,6 +75,9 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "django_vite",
 ]
+
+if ENABLE_RIZOMA_CONTENT:
+    INSTALLED_APPS.append("tapir.rizoma")
 
 if ENABLE_SILK_PROFILING:
     INSTALLED_APPS.append("silk")
@@ -116,12 +123,16 @@ WSGI_APPLICATION = "tapir.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+DB_DOCKER_SERVICE_NAME = env.str(var="DB_DOCKER_SERVICE_NAME", default="db")
 DATABASES = {
-    "default": env.db(default="postgresql://tapir:tapir@db:5432/tapir"),
+    "default": env.db(
+        default=f"postgresql://tapir:tapir@{DB_DOCKER_SERVICE_NAME}:5432/tapir"
+    ),
 }
 
-CELERY_BROKER_URL = "redis://redis:6379"
-CELERY_RESULT_BACKEND = "redis://redis:6379"
+REDIS_DOCKER_SERVICE_NAME = env.str(var="REDIS_DOCKER_SERVICE_NAME", default="redis")
+CELERY_BROKER_URL = f"redis://{REDIS_DOCKER_SERVICE_NAME}:6379"
+CELERY_RESULT_BACKEND = f"redis://{REDIS_DOCKER_SERVICE_NAME}:6379"
 CELERY_BEAT_SCHEDULE = {
     "send_shift_reminders": {
         "task": "tapir.shifts.tasks.send_shift_reminders",
@@ -172,6 +183,14 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": celery.schedules.crontab(minute=0, hour=4),
     },
 }
+
+if ENABLE_RIZOMA_CONTENT:
+    CELERY_BEAT_SCHEDULE["fetch_users_from_coops_pt"] = (
+        {
+            "task": "tapir.rizoma.tasks.fetch_users_from_coops_pt",
+            "schedule": celery.schedules.crontab(hour="*", minute="0"),
+        },
+    )
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -370,7 +389,15 @@ if ENABLE_SILK_PROFILING:
 
 SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
 
-AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
+LOGIN_BACKEND_LDAP = "ldap"
+LOGIN_BACKEND_COOPS_PT = "coops.pt"
+ACTIVE_LOGIN_BACKEND = env.str("ACTIVE_LOGIN_BACKEND", default=LOGIN_BACKEND_LDAP)
+
+if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_LDAP:
+    AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
+if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
+    AUTHENTICATION_BACKENDS = ["tapir.rizoma.coops_pt_auth_backend.CoopsPtAuthBackend"]
+
 LDAP_DOCKER_SERVICE_NAME = env("LDAP_DOCKER_SERVICE_NAME", cast=str, default="openldap")
 AUTH_LDAP_SERVER_URI = f"ldap://{LDAP_DOCKER_SERVICE_NAME}"
 AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=supercoop,dc=de"
@@ -401,3 +428,10 @@ DJANGO_VITE = {
 }
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
+    COOPS_PT_API_BASE_URL = env.str("COOPS_PT_API_BASE_URL")
+    COOPS_PT_ADMIN_EMAIL = env.str("COOPS_PT_ADMIN_EMAIL")
+    COOPS_PT_ADMIN_PASSWORD = env.str("COOPS_PT_ADMIN_PASSWORD")
+
+SHIFTS_ONLY = env.bool("SHIFTS_ONLY", default=False)

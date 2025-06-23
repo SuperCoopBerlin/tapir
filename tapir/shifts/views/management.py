@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.management import call_command
@@ -12,6 +13,10 @@ from django.views.generic import (
     RedirectView,
     FormView,
 )
+from drf_spectacular.utils import extend_schema, OpenApiParameter
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
@@ -29,7 +34,16 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftTemplate,
     ShiftSlotTemplate,
+    ShiftSlotWarning,
+    ShiftSlotWarningTranslation,
 )
+from tapir.shifts.serializers import (
+    ShiftSlotWarningSerializer,
+    CreateShiftSlotWarningRequestSerializer,
+    UpdateShiftSlotWarningRequestSerializer,
+    LanguageSerializer,
+)
+from tapir.utils.models import PREFERRED_LANGUAGES
 
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -260,3 +274,89 @@ class GenerateShiftsManuallyView(
         call_command("generate_shifts")
         messages.info(request, _("Shifts generated."))
         return super().get(request, args, kwargs)
+
+
+class ShiftSlotWarningViewSet(PermissionRequiredMixin, ReadOnlyModelViewSet):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+    queryset = ShiftSlotWarning.objects.all()
+    serializer_class = ShiftSlotWarningSerializer
+
+
+class ShiftSlotWarningApiView(PermissionRequiredMixin, APIView):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    @extend_schema(
+        responses={200: int}, request=CreateShiftSlotWarningRequestSerializer
+    )
+    def post(self, request):
+        serializer = CreateShiftSlotWarningRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        with transaction.atomic():
+            warning = ShiftSlotWarning.objects.create()
+            translations = [
+                ShiftSlotWarningTranslation(
+                    warning=warning, language=language, name=name, description=""
+                )
+                for language, name in serializer.validated_data["translations"].items()
+            ]
+            ShiftSlotWarningTranslation.objects.bulk_create(translations)
+
+        return Response(warning.id)
+
+    @extend_schema(
+        responses={200: str}, request=UpdateShiftSlotWarningRequestSerializer
+    )
+    def patch(self, request):
+        serializer = UpdateShiftSlotWarningRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        warning = get_object_or_404(
+            ShiftSlotWarning, id=serializer.validated_data["id"]
+        )
+        warning.shiftslotwarningtranslation_set.all().delete()
+
+        with transaction.atomic():
+            translations = [
+                ShiftSlotWarningTranslation(
+                    warning=warning, language=language, name=name, description=""
+                )
+                for language, name in serializer.validated_data["translations"].items()
+            ]
+            ShiftSlotWarningTranslation.objects.bulk_create(translations)
+
+        return Response("OK")
+
+    @extend_schema(
+        responses={200: str},
+        parameters=[OpenApiParameter(name="id", required=True, type=int)],
+    )
+    def delete(self, request):
+        warning = get_object_or_404(ShiftSlotWarning, id=request.query_params.get("id"))
+        warning.delete()
+        return Response("OK")
+
+
+class GetLanguagesView(PermissionRequiredMixin, APIView):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    @extend_schema(responses={200: LanguageSerializer(many=True)})
+    def get(self, request):
+        german = PREFERRED_LANGUAGES[0]
+        english = PREFERRED_LANGUAGES[1]
+        portuguese = PREFERRED_LANGUAGES[2]
+
+        if settings.ENABLE_RIZOMA_CONTENT:
+            languages = [english, portuguese]
+        else:
+            languages = [english, german]
+
+        return Response(
+            LanguageSerializer(
+                [
+                    {"short_name": language[0], "display_name": language[1]}
+                    for language in languages
+                ],
+                many=True,
+            ).data
+        )

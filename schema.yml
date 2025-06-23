@@ -3,6 +3,134 @@ info:
   title: ''
   version: 0.0.0
 paths:
+  /shifts/api/languages:
+    get:
+      operationId: shifts_api_languages_list
+      description: Verify that the current user has all specified permissions.
+      tags:
+      - shifts
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+          description: ''
+  /shifts/api/shift_slot_warning:
+    post:
+      operationId: shifts_api_shift_slot_warning_create
+      description: Verify that the current user has all specified permissions.
+      tags:
+      - shifts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShiftSlotWarningRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateShiftSlotWarningRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateShiftSlotWarningRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: ''
+    patch:
+      operationId: shifts_api_shift_slot_warning_partial_update
+      description: Verify that the current user has all specified permissions.
+      tags:
+      - shifts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateShiftSlotWarningRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateShiftSlotWarningRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateShiftSlotWarningRequest'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: ''
+    delete:
+      operationId: shifts_api_shift_slot_warning_destroy
+      description: Verify that the current user has all specified permissions.
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - shifts
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: ''
+  /shifts/shift_slot_warnings/:
+    get:
+      operationId: shifts_shift_slot_warnings_list
+      description: Verify that the current user has all specified permissions.
+      tags:
+      - shifts
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShiftSlotWarning'
+          description: ''
+  /shifts/shift_slot_warnings/{id}/:
+    get:
+      operationId: shifts_shift_slot_warnings_retrieve
+      description: Verify that the current user has all specified permissions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this shift slot warning.
+        required: true
+      tags:
+      - shifts
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftSlotWarning'
+          description: ''
   /statistics/available_colourblindness_types:
     get:
       operationId: statistics_available_colourblindness_types_retrieve
@@ -160,6 +288,14 @@ components:
           type: string
       required:
       - column_name
+    CreateShiftSlotWarningRequest:
+      type: object
+      properties:
+        translations:
+          type: object
+          additionalProperties: {}
+      required:
+      - translations
     DatapointExport:
       type: object
       properties:
@@ -277,6 +413,34 @@ components:
       - display_name
       - id
       - point_style
+    Language:
+      type: object
+      properties:
+        short_name:
+          type: string
+        display_name:
+          type: string
+      required:
+      - display_name
+      - short_name
+    LanguageEnum:
+      enum:
+      - de
+      - en
+      - pt
+      type: string
+      description: |-
+        * `de` - 🇩🇪 Deutsch
+        * `en` - 🇬🇧 English
+        * `pt` - 🇵🇹 Portugal
+    PatchedUpdateShiftSlotWarningRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        translations:
+          type: object
+          additionalProperties: {}
     ShareOwnerForWelcomeDesk:
       type: object
       properties:
@@ -310,6 +474,37 @@ components:
       - id
       - reasons_cannot_shop
       - warnings
+    ShiftSlotWarning:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShiftSlotWarningTranslation'
+          readOnly: true
+      required:
+      - id
+      - translations
+    ShiftSlotWarningTranslation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        language:
+          $ref: '#/components/schemas/LanguageEnum'
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+      required:
+      - description
+      - id
+      - name
   securitySchemes:
     cookieAuth:
       type: apiKey

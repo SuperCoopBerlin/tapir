@@ -25,10 +25,13 @@ SuperCoop members can access the system at [https://members.supercoop.de](https:
 ## Getting started
 
 ### Prerequisites
+
 - Docker
 - [Poetry](https://python-poetry.org/docs/)
 
-Please note that while the actual program runs in a Docker container, you're adviced to install packages locally in order to use your IDE properly. For that you need a C Compiler such as gcc for Linux or the Visual C++ Build tools.
+Please note that while the actual program runs in a Docker container, you're adviced to install packages locally in
+order to use your IDE properly. For that you need a C Compiler such as gcc for Linux or the Visual C++ Build tools.
+
 ### Install
 
 1. Clone the project.
@@ -49,8 +52,8 @@ For local development and testing, set up the test database and load test data
 ```sh
 # Create tables
 docker compose exec web poetry run python manage.py migrate
-# Load admin (password: admin) account
-docker compose exec web poetry run python manage.py loaddata admin_account
+# Copy the .env file
+docker compose exec web cp .env.test .env
 # Load lots of test users & shifts
 docker compose exec web poetry run python manage.py generate_test_data --reset_all
 ```

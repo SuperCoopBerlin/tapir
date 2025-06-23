@@ -6,11 +6,14 @@ from django.utils import timezone
 from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
-    ShiftSlotWarning,
-    ShiftUserCapability,
     ShiftAttendanceTemplate,
 )
-from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
+from tapir.shifts.tests.factories import (
+    ShiftFactory,
+    ShiftTemplateFactory,
+    ShiftSlotWarningFactory,
+    ShiftUserCapabilityFactory,
+)
 from tapir.shifts.tests.utils import (
     register_user_to_shift,
     check_registration_successful,
@@ -30,21 +33,20 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
     def test_member_self_registers_with_warning(self):
         shift = self.create_shift_in_the_future()
         slot = ShiftSlot.objects.filter(shift=shift, attendances__isnull=True).first()
-        warning = ShiftSlotWarning.MUST_BE_ABLE_TO_CARRY_HEAVY_WEIGHTS
-        slot.warnings = [warning]
-        slot.save()
+        warning = ShiftSlotWarningFactory.create()
+        slot.warnings.set([warning])
 
-        user = self.login_as_normal_user()
+        user = self.login_as_normal_user(share_owner__is_investing=False)
         response = self.client.get(reverse("shifts:slot_register", args=[slot.id]))
         self.assertIn(
-            f"warning_{warning}",
+            f"warning_{warning.id}",
             response.content.decode(),
             "The register page should display the warning.",
         )
 
         self.client.post(
             reverse("shifts:slot_register", args=[slot.id]),
-            {"user": user.id, f"warning_{warning}": False},
+            {"user": user.id, f"warning_{warning.id}": False},
         )
         self.assertEqual(
             ShiftAttendance.objects.filter(user=user, slot__shift=shift).count(),
@@ -54,20 +56,18 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
 
         response = self.client.post(
             reverse("shifts:slot_register", args=[slot.id]),
-            {"user": user.id, f"warning_{warning}": True},
+            {"user": user.id, f"warning_{warning.id}": True},
         )
         check_registration_successful(self, response, user, shift)
 
     def test_member_self_registers_with_capability(self):
         shift = self.create_shift_in_the_future()
         slot = ShiftSlot.objects.filter(shift=shift, attendances__isnull=True).first()
-        capability = ShiftUserCapability.SHIFT_COORDINATOR
-        slot.required_capabilities = [capability]
-        slot.save()
+        capability = ShiftUserCapabilityFactory.create()
+        slot.required_capabilities.set([capability])
 
-        user = self.login_as_normal_user()
-        user.shift_user_data.capabilities = [capability]
-        user.shift_user_data.save()
+        user = self.login_as_normal_user(share_owner__is_investing=False)
+        user.shift_user_data.capabilities.set([capability])
 
         response = register_user_to_shift(self.client, user, shift)
         check_registration_successful(self, response, user, shift)
@@ -75,13 +75,11 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
     def test_member_self_registers_without_capability(self):
         shift = self.create_shift_in_the_future()
         slot = ShiftSlot.objects.filter(shift=shift, attendances__isnull=True).first()
-        capability = ShiftUserCapability.SHIFT_COORDINATOR
-        slot.required_capabilities = [capability]
-        slot.save()
+        capability = ShiftUserCapabilityFactory.create()
+        slot.required_capabilities.set([capability])
 
         user = self.login_as_normal_user()
-        user.shift_user_data.capabilities = []
-        user.shift_user_data.save()
+        user.shift_user_data.capabilities.set([])
 
         response = register_user_to_shift(self.client, user, shift)
         self.assertEqual(
