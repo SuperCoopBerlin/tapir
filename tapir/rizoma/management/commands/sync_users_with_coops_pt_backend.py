@@ -88,7 +88,7 @@ class Command(BaseCommand):
             if external_member_id is not None:
                 external_member_id_to_user_id_map[external_member_id] = external_user_id
 
-        len(TapirUser.objects.bulk_create(users_to_create))
+        TapirUser.objects.bulk_create(users_to_create)
         TapirUser.objects.bulk_update(
             users_to_update, ["first_name", "last_name", "is_superuser"]
         )
@@ -137,7 +137,7 @@ class Command(BaseCommand):
                 ShareOwner(id=member_number, external_id=external_id)
             )
 
-        len(ShareOwner.objects.bulk_create(share_owners_to_create))
+        ShareOwner.objects.bulk_create(share_owners_to_create)
 
         external_ids_to_delete = external_ids_present_in_tapir_db.difference(
             external_ids_present_in_coops_pt
