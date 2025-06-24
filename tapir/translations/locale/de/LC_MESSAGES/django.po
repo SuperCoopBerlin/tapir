@@ -1130,7 +1130,7 @@ msgstr ""
 "            dies ist eine automatische E-Mail von SuperCoop. Wir möchten dich darüber informieren, dass soeben ein*e Miteinkäufer*in zu deinem Tapir-Konto hinzugefügt wurde.\n"
 "        </p>\n"
 "        <p>\n"
-"            Von nun an können folgende Personen %(co_purchaser_name)s mit deiner Mitgliedsnummer im Laden einkaufen.\n"
+"            Von nun an können folgende Personen mit deiner Mitgliedsnummer im Laden einkaufen.\n"
 "        </p>\n"
 "    "
 
