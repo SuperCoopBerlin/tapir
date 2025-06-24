@@ -145,10 +145,10 @@ def update_shift_account_depending_on_welcome_session_status(share_owner: ShareO
     )
 
 
-def get_ids_of_users_registered_to_a_shift_with_capability(capability):
+def get_ids_of_users_registered_to_a_shift_with_capability(capability_id):
     return (
         ShiftAttendance.objects.filter(
-            slot__required_capabilities__contains=[capability],
+            slot__required_capabilities__id=capability_id,
             state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
         )
         .distinct()

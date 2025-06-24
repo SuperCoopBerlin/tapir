@@ -38,21 +38,22 @@ class TapirUserQuerySet(models.QuerySet):
             shift_attendance_templates__slot_template__name=slot_name
         ).distinct()
 
-    def registered_to_abcd_shift_slot_with_capability(self, capability: str):
+    def registered_to_abcd_shift_slot_with_capability(self, capability_id):
         return self.filter(
-            shift_attendance_templates__slot_template__required_capabilities__contains=[
-                capability
-            ]
+            shift_attendance_templates__slot_template__required_capabilities__id=capability_id
         ).distinct()
 
-    def registered_to_shift_slot_with_capability(self, capability: str):
-        user_ids = get_ids_of_users_registered_to_a_shift_with_capability[0](capability)
+    def registered_to_shift_slot_with_capability(self, capability_id):
+        user_ids = get_ids_of_users_registered_to_a_shift_with_capability[0](
+            capability_id
+        )
         return self.filter(id__in=user_ids).distinct()
 
-    def has_capability(self, capability: str):
-        return self.filter(
-            shift_user_data__capabilities__contains=[capability]
-        ).distinct()
+    def has_capability(self, capability_id):
+        from tapir.shifts.models import ShiftUserCapability
+
+        capability: ShiftUserCapability
+        return self.filter(shift_user_data__capabilities__id=capability_id).distinct()
 
 
 class TapirUserManager(UserManager.from_queryset(TapirUserQuerySet)):
