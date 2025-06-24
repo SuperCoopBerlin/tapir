@@ -4976,7 +4976,7 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"                Ihr durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
+"                Dein durchschnittlicher Warenkorb pro Monat beträgt %(average)s€.\n"
 "            "
 
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:15
