@@ -73,6 +73,9 @@ class TapirUser(AbstractUser):
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
     co_purchaser = models.CharField(_("Co-Purchaser"), max_length=150, blank=True)
+    co_purchaser_2 = models.CharField(
+        _("Second co-Purchaser"), max_length=150, blank=True
+    )
     allows_purchase_tracking = models.BooleanField(
         _("Allow purchase tracking"), blank=False, null=False, default=False
     )

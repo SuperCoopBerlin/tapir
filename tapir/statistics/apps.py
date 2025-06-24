@@ -37,6 +37,9 @@ class StatsConfig(AppConfig):
         from tapir.statistics.services.data_providers.data_provider_co_purchasers import (
             DataProviderCoPurchasers,
         )
+        from tapir.statistics.services.data_providers.data_provider_co_purchasers_2 import (
+            DataProviderCoPurchasers2,
+        )
         from tapir.statistics.services.data_providers.data_provider_exempted_members import (
             DataProviderExemptedMembers,
         )
@@ -91,6 +94,7 @@ class StatsConfig(AppConfig):
             DataProviderActiveMembers,
             DataProviderActiveMembersWithAccount,
             DataProviderCoPurchasers,
+            DataProviderCoPurchasers2,
             DataProviderExemptedMembers,
             DataProviderExemptedMembersThatWork,
             DataProviderFlyingMembers,

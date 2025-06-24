@@ -91,7 +91,14 @@ class TapirUserUpdateBaseView(
                 ).save()
             new_co_purchaser = new_frozen.get("co_purchaser", None)
             old_co_purchaser = self.old_object_frozen.get("co_purchaser", None)
-            if new_co_purchaser and new_co_purchaser != old_co_purchaser:
+            new_co_purchaser_2 = new_frozen.get("co_purchaser_2", None)
+            old_co_purchaser_2 = self.old_object_frozen.get("co_purchaser_2", None)
+            if (
+                new_co_purchaser
+                and new_co_purchaser != old_co_purchaser
+                or new_co_purchaser_2
+                and new_co_purchaser_2 != old_co_purchaser_2
+            ):
                 email_builder = CoPurchaserUpdatedMail(tapir_user=form.instance)
                 SendMailService.send_to_tapir_user(
                     actor=self.request.user,

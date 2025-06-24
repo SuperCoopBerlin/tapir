@@ -293,6 +293,10 @@ components:
           type: string
           nullable: true
           readOnly: true
+        co_purchaser_2:
+          type: string
+          nullable: true
+          readOnly: true
         warnings:
           type: array
           items:
@@ -306,6 +310,7 @@ components:
       required:
       - can_shop
       - co_purchaser
+      - co_purchaser_2
       - display_name
       - id
       - reasons_cannot_shop
