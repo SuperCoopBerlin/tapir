@@ -39,6 +39,12 @@ export interface ShiftSlotWarning {
      * @memberof ShiftSlotWarning
      */
     readonly translations: Array<ShiftSlotWarningTranslation>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof ShiftSlotWarning
+     */
+    readonly shifts: Array<string>;
 }
 
 /**
@@ -47,6 +53,7 @@ export interface ShiftSlotWarning {
 export function instanceOfShiftSlotWarning(value: object): value is ShiftSlotWarning {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('translations' in value) || value['translations'] === undefined) return false;
+    if (!('shifts' in value) || value['shifts'] === undefined) return false;
     return true;
 }
 
@@ -62,6 +69,7 @@ export function ShiftSlotWarningFromJSONTyped(json: any, ignoreDiscriminator: bo
         
         'id': json['id'],
         'translations': ((json['translations'] as Array<any>).map(ShiftSlotWarningTranslationFromJSON)),
+        'shifts': json['shifts'],
     };
 }
 
@@ -69,7 +77,7 @@ export function ShiftSlotWarningFromJSONTyped(json: any, ignoreDiscriminator: bo
       return ShiftSlotWarningToJSONTyped(json, false);
   }
 
-  export function ShiftSlotWarningToJSONTyped(value?: Omit<ShiftSlotWarning, 'id'|'translations'> | null, ignoreDiscriminator: boolean = false): any {
+  export function ShiftSlotWarningToJSONTyped(value?: Omit<ShiftSlotWarning, 'id'|'translations'|'shifts'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

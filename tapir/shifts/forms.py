@@ -103,15 +103,17 @@ class ShiftSlotForm(forms.ModelForm):
         model = ShiftSlot
         fields = ["name", "required_capabilities", "warnings"]
 
-    required_capabilities = forms.MultipleChoiceField(
-        required=False,
+    required_capabilities = forms.ModelMultipleChoiceField(
+        queryset=ShiftUserCapability.objects.all(),
         widget=CheckboxSelectMultiple,
         label=_("Qualifications"),
-    )
-    warnings = forms.MultipleChoiceField(
         required=False,
+    )
+    warnings = forms.ModelMultipleChoiceField(
+        queryset=ShiftSlotWarning.objects.all(),
         widget=CheckboxSelectMultiple,
         label=_("Warnings"),
+        required=False,
     )
 
     def __init__(self, **kwargs):
@@ -641,15 +643,17 @@ class ShiftSlotTemplateForm(forms.ModelForm):
         ),
         required=True,
     )
-    required_capabilities = forms.MultipleChoiceField(
-        required=False,
+    required_capabilities = forms.ModelMultipleChoiceField(
+        queryset=ShiftUserCapability.objects.all(),
         widget=CheckboxSelectMultiple,
+        required=False,
         label=_("Qualifications"),
     )
-    warnings = forms.MultipleChoiceField(
-        required=False,
+    warnings = forms.ModelMultipleChoiceField(
+        queryset=ShiftSlotWarning.objects.all(),
         widget=CheckboxSelectMultiple,
         label=_("Warnings"),
+        required=False,
     )
 
     def __init__(self, *args, **kwargs):

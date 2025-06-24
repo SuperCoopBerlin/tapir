@@ -41,9 +41,7 @@ class CoopsPtUserCreator:
 
     @classmethod
     def fetch_and_create_share_owner(cls, external_member_id, tapir_user):
-        share_owner = ShareOwner.objects.filter(
-            external_member_id=external_member_id
-        ).first()
+        share_owner = ShareOwner.objects.filter(external_id=external_member_id).first()
         if share_owner is not None:
             if tapir_user.external_id != share_owner.user.external_id:
                 share_owner.user = tapir_user

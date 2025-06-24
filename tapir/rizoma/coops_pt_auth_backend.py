@@ -73,9 +73,11 @@ class CoopsPtAuthBackend(BaseBackend):
                 user_data
             )
             tapir_user.save()
-            CoopsPtUserCreator.fetch_and_create_share_owner(
-                user_data["memberId"], tapir_user
-            )
+            external_member_id = user_data["memberId"]
+            if external_member_id is not None:
+                CoopsPtUserCreator.fetch_and_create_share_owner(
+                    external_member_id, tapir_user
+                )
 
         if user_data["memberId"] is not None:
             pass
