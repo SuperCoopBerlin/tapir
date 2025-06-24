@@ -356,10 +356,11 @@ class ShiftUserDataForm(forms.ModelForm):
         required=False,
         widget=HiddenInput,
     )
-    capabilities = forms.MultipleChoiceField(
-        required=False,
+    capabilities = forms.ModelMultipleChoiceField(
+        queryset=ShiftUserCapability.objects.all(),
         widget=CheckboxSelectMultiple,
         label=_("Qualifications"),
+        required=False,
     )
     shift_partner = TapirUserChoiceField(required=False)
 
