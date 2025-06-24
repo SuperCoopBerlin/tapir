@@ -51,6 +51,7 @@ class TapirUserForm(TapirUserSelfUpdateForm):
             "city",
             "preferred_language",
             "co_purchaser",
+            "co_purchaser_2",
         ] + TapirUserSelfUpdateForm.Meta.fields
 
         widgets = TapirUserSelfUpdateForm.Meta.widgets | {
