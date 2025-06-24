@@ -1,7 +1,12 @@
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
-from tapir.shifts.models import ShiftSlotWarning, ShiftSlotWarningTranslation
+from tapir.shifts.models import (
+    ShiftSlotWarning,
+    ShiftSlotWarningTranslation,
+    ShiftUserCapabilityTranslation,
+    ShiftUserCapability,
+)
 
 
 class ShiftSlotWarningTranslationSerializer(serializers.ModelSerializer):
@@ -43,3 +48,39 @@ class UpdateShiftSlotWarningRequestSerializer(serializers.Serializer):
 class LanguageSerializer(serializers.Serializer):
     short_name = serializers.CharField()
     display_name = serializers.CharField()
+
+
+class ShiftUserCapabilityTranslationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShiftUserCapabilityTranslation
+        exclude = ["capability"]
+
+
+class ShiftUserCapabilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShiftUserCapability
+        fields = ["id", "translations", "shifts"]
+
+    translations = serializers.SerializerMethodField()
+    shifts = serializers.SerializerMethodField()
+
+    @extend_schema_field(ShiftUserCapabilityTranslationSerializer(many=True))
+    def get_translations(self, capability: ShiftUserCapability):
+        return ShiftUserCapabilityTranslationSerializer(
+            capability.shiftusercapabilitytranslation_set.all(), many=True
+        ).data
+
+    @staticmethod
+    def get_shifts(capability: ShiftUserCapability) -> list[str]:
+        all_slots = list(capability.shiftslottemplate_set.all())
+        all_slots.extend(list(capability.shiftslot_set.all()))
+        return [slot.get_display_name() for slot in all_slots]
+
+
+class CreateShiftUserCapabilityRequestSerializer(serializers.Serializer):
+    translations = serializers.DictField()  # map language -> name
+
+
+class UpdateShiftUserCapabilityRequestSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    translations = serializers.DictField()  # map language -> name

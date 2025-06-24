@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 14:23+0200\n"
+"POT-Creation-Date: 2025-06-24 15:09+0200\n"
 "PO-Revision-Date: 2024-11-05 11:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -71,44 +71,64 @@ msgstr ""
 msgid "Waiting for build"
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Cancel"
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Confirm deletion"
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Delete"
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "no name"
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Are you sure you want to delete the following warning: "
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "This warning is not used in any slot."
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "This warning is used in the following slots: "
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Edit shift warnings"
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Add a warning"
 msgstr ""
 
-#: dist/assets/shift_management-DzmtWw0f.js:1
+#: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Edit warnings"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Are you sure you want to delete the following qualification: "
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "This qualification is not used in any slot."
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "This qualification is used in the following slots: "
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Edit qualifications"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Add a qualification"
 msgstr ""
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1

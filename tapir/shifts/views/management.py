@@ -36,12 +36,17 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     ShiftSlotWarning,
     ShiftSlotWarningTranslation,
+    ShiftUserCapability,
+    ShiftUserCapabilityTranslation,
 )
 from tapir.shifts.serializers import (
     ShiftSlotWarningSerializer,
     CreateShiftSlotWarningRequestSerializer,
     UpdateShiftSlotWarningRequestSerializer,
     LanguageSerializer,
+    CreateShiftUserCapabilityRequestSerializer,
+    UpdateShiftUserCapabilityRequestSerializer,
+    ShiftUserCapabilitySerializer,
 )
 from tapir.utils.models import PREFERRED_LANGUAGES
 
@@ -360,3 +365,72 @@ class GetLanguagesView(PermissionRequiredMixin, APIView):
                 many=True,
             ).data
         )
+
+
+class ShiftUserCapabilityViewSet(PermissionRequiredMixin, ReadOnlyModelViewSet):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+    queryset = ShiftUserCapability.objects.all()
+    serializer_class = ShiftUserCapabilitySerializer
+
+
+class ShiftUserCapabilityApiView(PermissionRequiredMixin, APIView):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+
+    @extend_schema(
+        responses={200: int}, request=CreateShiftUserCapabilityRequestSerializer
+    )
+    def post(self, request):
+        serializer = CreateShiftUserCapabilityRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        with transaction.atomic():
+            capability = ShiftUserCapability.objects.create()
+            translations = [
+                ShiftUserCapabilityTranslation(
+                    capability=capability,
+                    language=language,
+                    name=name,
+                    description="",
+                )
+                for language, name in serializer.validated_data["translations"].items()
+            ]
+            ShiftUserCapabilityTranslation.objects.bulk_create(translations)
+
+        return Response(capability.id)
+
+    @extend_schema(
+        responses={200: str}, request=UpdateShiftUserCapabilityRequestSerializer
+    )
+    def patch(self, request):
+        serializer = UpdateShiftUserCapabilityRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        capability = get_object_or_404(
+            ShiftUserCapability, id=serializer.validated_data["id"]
+        )
+        capability.shiftusercapabilitytranslation_set.all().delete()
+
+        with transaction.atomic():
+            translations = [
+                ShiftUserCapabilityTranslation(
+                    capability=capability,
+                    language=language,
+                    name=name,
+                    description="",
+                )
+                for language, name in serializer.validated_data["translations"].items()
+            ]
+            ShiftUserCapabilityTranslation.objects.bulk_create(translations)
+
+        return Response("OK")
+
+    @extend_schema(
+        responses={200: str},
+        parameters=[OpenApiParameter(name="id", required=True, type=int)],
+    )
+    def delete(self, request):
+        capability = get_object_or_404(
+            ShiftUserCapability, id=request.query_params.get("id")
+        )
+        capability.delete()
+        return Response("OK")

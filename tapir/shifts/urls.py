@@ -218,6 +218,11 @@ urlpatterns = [
         views.ShiftSlotWarningApiView.as_view(),
         name="shift_slot_warning",
     ),
+    path(
+        "api/shift_user_capability",
+        views.ShiftUserCapabilityApiView.as_view(),
+        name="shift_user_capability",
+    ),
     path("api/languages", views.GetLanguagesView.as_view(), name="languages"),
 ]
 
@@ -226,5 +231,10 @@ router.register(
     r"shift_slot_warnings",
     views.ShiftSlotWarningViewSet,
     basename="shift_slot_warnings",
+)
+router.register(
+    r"shift_user_capabilities",
+    views.ShiftUserCapabilityViewSet,
+    basename="shift_user_capabilities",
 )
 urlpatterns += router.urls

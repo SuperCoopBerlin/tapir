@@ -92,6 +92,78 @@ paths:
               schema:
                 type: string
           description: ''
+  /shifts/api/shift_user_capability:
+    post:
+      operationId: shifts_api_shift_user_capability_create
+      description: Verify that the current user has all specified permissions.
+      tags:
+      - shifts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateShiftUserCapabilityRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateShiftUserCapabilityRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateShiftUserCapabilityRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: integer
+          description: ''
+    patch:
+      operationId: shifts_api_shift_user_capability_partial_update
+      description: Verify that the current user has all specified permissions.
+      tags:
+      - shifts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateShiftUserCapabilityRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateShiftUserCapabilityRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUpdateShiftUserCapabilityRequest'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: ''
+    delete:
+      operationId: shifts_api_shift_user_capability_destroy
+      description: Verify that the current user has all specified permissions.
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - shifts
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: ''
   /shifts/shift_slot_warnings/:
     get:
       operationId: shifts_shift_slot_warnings_list
@@ -130,6 +202,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ShiftSlotWarning'
+          description: ''
+  /shifts/shift_user_capabilities/:
+    get:
+      operationId: shifts_shift_user_capabilities_list
+      description: Verify that the current user has all specified permissions.
+      tags:
+      - shifts
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ShiftUserCapability'
+          description: ''
+  /shifts/shift_user_capabilities/{id}/:
+    get:
+      operationId: shifts_shift_user_capabilities_retrieve
+      description: Verify that the current user has all specified permissions.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this shift user capability.
+        required: true
+      tags:
+      - shifts
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShiftUserCapability'
           description: ''
   /statistics/available_colourblindness_types:
     get:
@@ -296,6 +407,14 @@ components:
           additionalProperties: {}
       required:
       - translations
+    CreateShiftUserCapabilityRequest:
+      type: object
+      properties:
+        translations:
+          type: object
+          additionalProperties: {}
+      required:
+      - translations
     DatapointExport:
       type: object
       properties:
@@ -441,6 +560,14 @@ components:
         translations:
           type: object
           additionalProperties: {}
+    PatchedUpdateShiftUserCapabilityRequest:
+      type: object
+      properties:
+        id:
+          type: integer
+        translations:
+          type: object
+          additionalProperties: {}
     ShareOwnerForWelcomeDesk:
       type: object
       properties:
@@ -495,6 +622,44 @@ components:
       - shifts
       - translations
     ShiftSlotWarningTranslation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        language:
+          $ref: '#/components/schemas/LanguageEnum'
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+          title: Beschreibung
+      required:
+      - description
+      - id
+      - name
+    ShiftUserCapability:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ShiftUserCapabilityTranslation'
+          readOnly: true
+        shifts:
+          type: array
+          items:
+            type: string
+          readOnly: true
+      required:
+      - id
+      - shifts
+      - translations
+    ShiftUserCapabilityTranslation:
       type: object
       properties:
         id:

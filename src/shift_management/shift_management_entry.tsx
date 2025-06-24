@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
-import TapirButton from "../components/TapirButton.tsx";
 import WarningsEditBase from "./WarningsEditBase.tsx";
+import CapabilitiesEditBase from "./CapabilitiesEditBase.tsx";
 
 const warningsElement = document.getElementById("warnings");
 if (warningsElement) {
@@ -13,9 +13,7 @@ if (warningsElement) {
 const qualificationsElement = document.getElementById("qualifications");
 if (qualificationsElement) {
   const root = createRoot(qualificationsElement);
-  root.render(
-    <TapirButton text={"qualifications"} variant={"outline-primary"} />,
-  );
+  root.render(<CapabilitiesEditBase />);
 } else {
   console.error("Failed to render qualifications from React");
 }

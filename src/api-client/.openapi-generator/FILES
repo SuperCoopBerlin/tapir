@@ -5,13 +5,17 @@ apis/index.ts
 index.ts
 models/Column.ts
 models/CreateShiftSlotWarningRequest.ts
+models/CreateShiftUserCapabilityRequest.ts
 models/DatapointExport.ts
 models/Dataset.ts
 models/Language.ts
 models/LanguageEnum.ts
 models/PatchedUpdateShiftSlotWarningRequest.ts
+models/PatchedUpdateShiftUserCapabilityRequest.ts
 models/ShareOwnerForWelcomeDesk.ts
 models/ShiftSlotWarning.ts
 models/ShiftSlotWarningTranslation.ts
+models/ShiftUserCapability.ts
+models/ShiftUserCapabilityTranslation.ts
 models/index.ts
 runtime.ts
