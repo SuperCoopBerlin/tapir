@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 10:33+0200\n"
+"POT-Creation-Date: 2025-06-24 10:52+0200\n"
 "PO-Revision-Date: 2025-03-01 19:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -26,17 +26,17 @@ msgstr "Konto erstellen Erinnerung"
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
 msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt noch kein Konto erstellt haben."
 
-#: accounts/forms.py:115
+#: accounts/forms.py:116
 msgid "This username is not available."
 msgstr "Dieser Benutzername ist nicht verfügbar"
 
-#: accounts/forms.py:125
+#: accounts/forms.py:126
 #, fuzzy
 #| msgid "List of all emails"
 msgid "Optional Mails"
 msgstr "Optionale E-Mails"
 
-#: accounts/forms.py:132
+#: accounts/forms.py:133
 msgid "Important Mails"
 msgstr "Wichtige E-Mails"
 
