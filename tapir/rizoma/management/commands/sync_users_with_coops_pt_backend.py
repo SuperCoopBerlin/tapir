@@ -135,8 +135,21 @@ class Command(BaseCommand):
             external_ids_present_in_coops_pt.add(external_id)
             if external_id in external_ids_present_in_tapir_db:
                 continue
+            name = share_owner_json["name"]
+            name_parts = name.split(" ")
+            first_name = None
+            if len(name_parts) > 0:
+                first_name = name_parts[0]
+            last_name = None
+            if len(name_parts) > 1:
+                last_name = name_parts[1]
             share_owners_to_create.append(
-                ShareOwner(id=member_number, external_id=external_id)
+                ShareOwner(
+                    id=member_number,
+                    external_id=external_id,
+                    first_name=first_name,
+                    last_name=last_name,
+                )
             )
 
         ShareOwner.objects.bulk_create(share_owners_to_create)
