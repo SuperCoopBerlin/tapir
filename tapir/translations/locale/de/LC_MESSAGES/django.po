@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-07 08:07+0200\n"
+"POT-Creation-Date: 2025-06-24 10:26+0200\n"
 "PO-Revision-Date: 2025-03-01 19:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -48,7 +48,7 @@ msgstr "Angezeigter Name"
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:68 accounts/templates/accounts/user_detail.html:71
+#: accounts/models.py:68 accounts/templates/accounts/user_detail.html:72
 #: coop/models.py:72 coop/models.py:447
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
@@ -56,7 +56,7 @@ msgstr "Pronomen"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:81
+#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:82
 #: coop/models.py:73 coop/models.py:448
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
@@ -83,26 +83,30 @@ msgstr "Ort"
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:75 accounts/templates/accounts/user_detail.html:115
+#: accounts/models.py:75 accounts/templates/accounts/user_detail.html:116
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
 #: accounts/models.py:77
+msgid "Second co-Purchaser"
+msgstr "2. Miteinkäufer*in"
+
+#: accounts/models.py:80
 msgid "Allow purchase tracking"
 msgstr "Erlaube Aufzeichnen deiner Einkäufe"
 
-#: accounts/models.py:82 accounts/templates/accounts/user_detail.html:101
+#: accounts/models.py:85 accounts/templates/accounts/user_detail.html:102
 #: coop/models.py:81 coop/models.py:456
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:115 accounts/models.py:121
+#: accounts/models.py:118 accounts/models.py:124
 #: coop/views/membership_pause.py:74 shifts/views/exemptions.py:214
 msgid "None"
 msgstr "Keine"
 
-#: accounts/models.py:238
+#: accounts/models.py:241
 #, fuzzy
 #| msgid "Member already created."
 msgid "This username is already taken."
@@ -224,7 +228,7 @@ msgstr ""
 "    Vergiss nicht, dich für deine erste Schicht bei SuperCoop anzumelden!\n"
 
 #: accounts/templates/accounts/ldap_group_list.html:7
-#: accounts/templates/accounts/user_detail.html:106
+#: accounts/templates/accounts/user_detail.html:107
 msgid "Groups"
 msgstr "Gruppen"
 
@@ -315,21 +319,21 @@ msgstr "Name und Pronomen bearbeiten"
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:63
+#: accounts/templates/accounts/user_detail.html:64
 #: coop/templates/coop/draftuser_detail.html:134
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/templates/accounts/user_detail.html:67
+#: accounts/templates/accounts/user_detail.html:68
 #: coop/templates/coop/draftuser_detail.html:73
 #: coop/templates/coop/draftuser_detail.html:138
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:76
-#: accounts/templates/accounts/user_detail.html:86
-#: accounts/templates/accounts/user_detail.html:96
+#: accounts/templates/accounts/user_detail.html:77
+#: accounts/templates/accounts/user_detail.html:87
+#: accounts/templates/accounts/user_detail.html:97
 #: coop/templates/coop/draftuser_detail.html:161
 #: coop/templates/coop/shareowner_detail.html:60
 #: coop/templates/coop/shareowner_detail.html:70
@@ -339,22 +343,26 @@ msgstr "E-Mail-Adresse"
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:91
+#: accounts/templates/accounts/user_detail.html:92
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/draftuser_detail.html:156
 #: coop/templates/coop/shareowner_detail.html:65
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:110
+#: accounts/templates/accounts/user_detail.html:111
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:131
+#: accounts/templates/accounts/user_detail.html:126
+msgid "Second co-purchaser"
+msgstr "2. Miteinkäufer*innen"
+
+#: accounts/templates/accounts/user_detail.html:142
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:139
+#: accounts/templates/accounts/user_detail.html:151
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -478,26 +486,26 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:107 accounts/views.py:112 coop/views/shareowner.py:269
+#: accounts/views.py:114 accounts/views.py:119 coop/views/shareowner.py:269
 #: coop/views/shareowner.py:274
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:152
+#: accounts/views.py:159
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:197
+#: accounts/views.py:204
 msgid "You can only look at your own barcode unless you have member office rights"
 msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgliedsbüro-Rechte"
 
-#: accounts/views.py:280 accounts/views.py:285
+#: accounts/views.py:287 accounts/views.py:292
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr "Bearbeite Gruppen: %(name)s"
 
-#: accounts/views.py:379 accounts/views.py:384
+#: accounts/views.py:386 accounts/views.py:391
 #, python-format
 msgid "Notification settings for %(name)s"
 msgstr "Benachrichtungseinstellungen für %(name)s"
@@ -1103,7 +1111,6 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/email/co_purchaser_updated.body.html:6
-#, python-format
 msgid ""
 "\n"
 "        <p>Hello %(display_name_short)s,</p>\n"
@@ -1112,15 +1119,7 @@ msgid ""
 "            added to your Tapir account.\n"
 "        </p>\n"
 "        <p>\n"
-"            From now on %(co_purchaser_name)s can shop in the store using your membership number.\n"
-"        </p>\n"
-"        <p>\n"
-"            If this is an error and does not correspond to your request, please send a short\n"
-"            <a href=\"mailto:%(email_address_member_office)s\">email to the Member Office</a> to let us know.\n"
-"        </p>\n"
-"        <p>\n"
-"            Cooperative greetings,<br />\n"
-"            The Member Office\n"
+"            From now on the following persons can shop in the store using your membership number:\n"
 "        </p>\n"
 "    "
 msgstr ""
@@ -1130,8 +1129,24 @@ msgstr ""
 "            dies ist eine automatische E-Mail von SuperCoop. Wir möchten dich darüber informieren, dass soeben ein*e Miteinkäufer*in zu deinem Tapir-Konto hinzugefügt wurde.\n"
 "        </p>\n"
 "        <p>\n"
-"            Von nun an kann %(co_purchaser_name)s mit deiner Mitgliedsnummer im Laden einkaufen.\n"
+"            Von nun an können folgende Personen %(co_purchaser_name)s mit deiner Mitgliedsnummer im Laden einkaufen.\n"
 "        </p>\n"
+"    "
+
+#: coop/templates/coop/email/co_purchaser_updated.body.html:24
+msgid ""
+"\n"
+"        <p style=\"margin-top: 10px;\">\n"
+"            If this is an error and does not correspond to your request, please send a short\n"
+"            <a href=\"mailto:%(email_address_member_office)s\">email to the Member Office</a> to let us know.\n"
+"        </p>\n"
+"        <p>\n"
+"            Cooperative greetings,<br/>\n"
+"            The Member Office\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
 "        <p>\n"
 "            Sollte dies ein Fehler sein und nicht deiner Anfrage entsprechen, sende bitte eine kurze E-Mail an <a href=\"mailto:%(email_address_member_office)s\">das Mitgliederbüro</a>, um uns dies mitzuteilen.\n"
 "        </p>\n"
@@ -4621,6 +4636,14 @@ msgstr "Miteinkäufer*innen"
 
 #: statistics/services/data_providers/data_provider_co_purchasers.py:23
 msgid "Only members who can shop are counted: members that have a co-purchaser but are not allowed to shop are not counted"
+msgstr ""
+
+#: statistics/services/data_providers/data_provider_co_purchasers_2.py:18
+msgid "Second co-purchasers"
+msgstr "2. Miteinkäufer*innen"
+
+#: statistics/services/data_providers/data_provider_co_purchasers_2.py:23
+msgid "Only members who can shop are counted: members that have a second co-purchaser but are not allowed to shop are not counted"
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_everyone.py:11
