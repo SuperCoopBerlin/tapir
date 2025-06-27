@@ -243,6 +243,40 @@ class TestAttendanceUpdateMemberOffice(
             shift_user_data, start_date
         )
 
+    @patch.object(Command, "is_users_first_cycle")
+    @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
+    @patch.object(Command, "has_user_received_reminder_this_cycle")
+    @patch.object(Command, "is_member_registered_to_a_shift_this_cycle")
+    def test_shouldMemberReceiveReminderMail_firstCycleForThisUser_returnsFalse(
+        self,
+        mock_is_member_registered_to_a_shift_this_cycle: Mock,
+        mock_has_user_received_reminder_this_cycle: Mock,
+        mock_is_member_expected_to_do_shifts: Mock,
+        mock_is_users_first_cycle: Mock,
+    ):
+        shift_user_data = Mock()
+        mock_is_member_expected_to_do_shifts.return_value = True
+        mock_has_user_received_reminder_this_cycle.return_value = False
+        mock_is_member_registered_to_a_shift_this_cycle.return_value = False
+        start_date = datetime.date(year=2024, month=6, day=8)
+        mock_is_users_first_cycle.return_value = True
+
+        result = Command.should_member_receive_reminder_mail(
+            shift_user_data, start_date, self.NOW
+        )
+
+        self.assertFalse(result)
+        mock_is_member_expected_to_do_shifts.assert_called_once_with(
+            shift_user_data, self.NOW
+        )
+        mock_has_user_received_reminder_this_cycle.assert_called_once_with(
+            shift_user_data, start_date
+        )
+        mock_is_member_registered_to_a_shift_this_cycle.assert_called_once_with(
+            shift_user_data, start_date
+        )
+
+    @patch.object(Command, "is_users_first_cycle")
     @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
     @patch.object(Command, "has_user_received_reminder_this_cycle")
     @patch.object(Command, "is_member_registered_to_a_shift_this_cycle")
@@ -251,12 +285,14 @@ class TestAttendanceUpdateMemberOffice(
         mock_is_member_registered_to_a_shift_this_cycle: Mock,
         mock_has_user_received_reminder_this_cycle: Mock,
         mock_is_member_expected_to_do_shifts: Mock,
+        mock_is_users_first_cycle: Mock,
     ):
         shift_user_data = Mock()
         mock_is_member_expected_to_do_shifts.return_value = True
         mock_has_user_received_reminder_this_cycle.return_value = False
         mock_is_member_registered_to_a_shift_this_cycle.return_value = False
         start_date = datetime.date(year=2024, month=6, day=8)
+        mock_is_users_first_cycle.return_value = False
 
         result = Command.should_member_receive_reminder_mail(
             shift_user_data, start_date, self.NOW
@@ -355,4 +391,26 @@ class TestAttendanceUpdateMemberOffice(
             Command.is_member_registered_to_a_shift_this_cycle(
                 tapir_user.shift_user_data, cycle_start_date
             )
+        )
+
+    def test_isUsersFirstCycle_givenDateIsTheStartDateOfTheFirstCycleAfterTheMemberJoined_returnTrue(
+        self,
+    ):
+        shift_user_data = Mock()
+        shift_user_data.user.date_joined = datetime.date(year=2025, month=6, day=10)
+        cycle_start_date = datetime.date(year=2025, month=6, day=30)
+        self.assertTrue(Command.is_users_first_cycle(shift_user_data, cycle_start_date))
+
+    def test_isUsersFirstCycle_givenDateIsNotTheStartDateOfTheFirstCycleAfterTheMemberJoined_returnFalse(
+        self,
+    ):
+        shift_user_data = Mock()
+        shift_user_data.user.date_joined = datetime.date(year=2025, month=6, day=10)
+        cycle_start_date = datetime.date(year=2025, month=6, day=2)
+        self.assertFalse(
+            Command.is_users_first_cycle(shift_user_data, cycle_start_date)
+        )
+        cycle_start_date = datetime.date(year=2025, month=7, day=28)
+        self.assertFalse(
+            Command.is_users_first_cycle(shift_user_data, cycle_start_date)
         )
