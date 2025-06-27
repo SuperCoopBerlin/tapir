@@ -216,6 +216,36 @@ class TestAttendanceUpdateMemberOffice(
     @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
     @patch.object(Command, "has_user_received_reminder_this_cycle")
     @patch.object(Command, "is_member_registered_to_a_shift_this_cycle")
+    def test_shouldMemberReceiveReminderMail_tooEarlyInTheCycle_returnsFalse(
+        self,
+        mock_is_member_registered_to_a_shift_this_cycle: Mock,
+        mock_has_user_received_reminder_this_cycle: Mock,
+        mock_is_member_expected_to_do_shifts: Mock,
+    ):
+        shift_user_data = Mock()
+        mock_is_member_expected_to_do_shifts.return_value = True
+        mock_has_user_received_reminder_this_cycle.return_value = False
+        mock_is_member_registered_to_a_shift_this_cycle.return_value = False
+        start_date = datetime.date(year=2024, month=6, day=9)
+
+        result = Command.should_member_receive_reminder_mail(
+            shift_user_data, start_date, self.NOW
+        )
+
+        self.assertFalse(result)
+        mock_is_member_expected_to_do_shifts.assert_called_once_with(
+            shift_user_data, self.NOW
+        )
+        mock_has_user_received_reminder_this_cycle.assert_called_once_with(
+            shift_user_data, start_date
+        )
+        mock_is_member_registered_to_a_shift_this_cycle.assert_called_once_with(
+            shift_user_data, start_date
+        )
+
+    @patch.object(ShiftExpectationService, "is_member_expected_to_do_shifts")
+    @patch.object(Command, "has_user_received_reminder_this_cycle")
+    @patch.object(Command, "is_member_registered_to_a_shift_this_cycle")
     def test_shouldMemberReceiveReminderMail_noReasonNotToSend_returnsTrue(
         self,
         mock_is_member_registered_to_a_shift_this_cycle: Mock,
@@ -226,7 +256,7 @@ class TestAttendanceUpdateMemberOffice(
         mock_is_member_expected_to_do_shifts.return_value = True
         mock_has_user_received_reminder_this_cycle.return_value = False
         mock_is_member_registered_to_a_shift_this_cycle.return_value = False
-        start_date = Mock()
+        start_date = datetime.date(year=2024, month=6, day=8)
 
         result = Command.should_member_receive_reminder_mail(
             shift_user_data, start_date, self.NOW

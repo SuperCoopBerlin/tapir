@@ -76,6 +76,8 @@ class Command(BaseCommand):
             return False
         if cls.is_member_registered_to_a_shift_this_cycle(shift_user_data, start_date):
             return False
+        if start_date + datetime.timedelta(days=7) > timezone.now().date():
+            return False
         return True
 
     @staticmethod
