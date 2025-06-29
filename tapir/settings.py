@@ -370,7 +370,7 @@ if ENABLE_SILK_PROFILING:
 
 SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
 
-AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
+AUTHENTICATION_BACKENDS = ["tapir.accounts.custom_ldap_backend.CustomLdapBackend"]
 LDAP_DOCKER_SERVICE_NAME = env("LDAP_DOCKER_SERVICE_NAME", cast=str, default="openldap")
 AUTH_LDAP_SERVER_URI = f"ldap://{LDAP_DOCKER_SERVICE_NAME}"
 AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=supercoop,dc=de"
