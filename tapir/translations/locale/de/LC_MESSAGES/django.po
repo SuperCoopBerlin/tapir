@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 10:52+0200\n"
+"POT-Creation-Date: 2025-06-29 12:59+0200\n"
 "PO-Revision-Date: 2025-03-01 19:30+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.5\n"
+
+#: accounts/custom_ldap_backend.py:11
+msgid "Invalid username or password"
+msgstr ""
 
 #: accounts/emails/create_account_reminder_email.py:20
 msgid "Create account reminder"
