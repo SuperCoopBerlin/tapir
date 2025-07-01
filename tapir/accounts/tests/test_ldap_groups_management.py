@@ -1,12 +1,19 @@
+from http import HTTPStatus
+
+import pytest
+from django.conf import settings
 from django.urls import reverse
 
-from http import HTTPStatus
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.settings import GROUP_VORSTAND, GROUP_ACCOUNTING
+from tapir.settings import GROUP_VORSTAND, GROUP_ACCOUNTING, LOGIN_BACKEND_LDAP
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
+@pytest.mark.skipif(
+    settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP,
+    reason="These tests are exclusive to the ldap login backend",
+)
 class TestLdapGroupsManagement(TapirFactoryTestBase):
     def test_vorstand_can_edit_groups(self):
         self.login_as_vorstand()

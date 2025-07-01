@@ -5,13 +5,13 @@ import pathlib
 import random
 
 import ldap
+from django.conf import settings
 from django.utils import timezone
 from django_auth_ldap.config import LDAPSearch
 from fabric.testing.fixtures import connection
 from faker import Faker
 from ldap.ldapobject import LDAPObject
 
-from tapir import settings
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
@@ -28,7 +28,7 @@ from tapir.coop.models import (
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.log.models import LogEntry
-from tapir.settings import GROUP_VORSTAND, GROUP_MEMBER_OFFICE
+from tapir.settings import GROUP_VORSTAND, GROUP_MEMBER_OFFICE, LOGIN_BACKEND_LDAP
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -131,8 +131,9 @@ def generate_tapir_users(json_users):
 
     tapir_users = [tapir_user for tapir_user in result if tapir_user is not None]
     tapir_users = TapirUser.objects.bulk_create(tapir_users)
-    for tapir_user in tapir_users:
-        tapir_user.create_ldap()
+    if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_LDAP:
+        for tapir_user in tapir_users:
+            tapir_user.create_ldap()
 
     for tapir_user in tapir_users:
         tapir_user.set_password(tapir_user.username)
@@ -453,6 +454,8 @@ def remove_users_from_group(connection: LDAPObject, group_name: str, tapir_users
 
 
 def clear_ldap():
+    if settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP:
+        return
     tapir_users = TapirUser.objects.all()
     connection = get_admin_ldap_connection()
     for group_name in settings.LDAP_GROUPS:

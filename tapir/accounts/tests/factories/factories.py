@@ -35,12 +35,18 @@ class TapirUserFactory(UserDataFactory[TapirUser]):
         if not create:
             return
 
+        if is_in_vorstand is None:
+            is_in_vorstand = False
+
         set_group_membership([self], settings.GROUP_VORSTAND, is_in_vorstand)
 
     @factory.post_generation
     def is_in_member_office(self: TapirUser, create, is_in_member_office, **kwargs):
         if not create:
             return
+
+        if is_in_member_office is None:
+            is_in_member_office = False
 
         set_group_membership([self], settings.GROUP_MEMBER_OFFICE, is_in_member_office)
 
@@ -49,6 +55,9 @@ class TapirUserFactory(UserDataFactory[TapirUser]):
         if not create:
             return
 
+        if is_in_accounting_team is None:
+            is_in_accounting_team = False
+
         set_group_membership([self], settings.GROUP_ACCOUNTING, is_in_accounting_team)
 
     @factory.post_generation
@@ -56,12 +65,18 @@ class TapirUserFactory(UserDataFactory[TapirUser]):
         if not create:
             return
 
+        if is_shift_manager is None:
+            is_shift_manager = False
+
         set_group_membership([self], settings.GROUP_SHIFT_MANAGER, is_shift_manager)
 
     @factory.post_generation
     def is_employee(self: TapirUser, create, is_employee):
         if not create:
             return
+
+        if is_employee is None:
+            is_employee = False
 
         set_group_membership([self], settings.GROUP_EMPLOYEES, is_employee)
 

@@ -1,5 +1,7 @@
 import datetime
 
+import pytest
+from django.conf import settings
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils import timezone
@@ -11,6 +13,7 @@ from tapir.coop.models import (
     DeleteShareOwnershipLogEntry,
 )
 from tapir.coop.tests.factories import ShareOwnerFactory
+from tapir.settings import LOGIN_BACKEND_COOPS_PT
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -64,6 +67,10 @@ class TestShareOwnership(TapirFactoryTestBase):
             strip_tags(response.context_data["card_title"]),
         )
 
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT,
+        reason="The coops pt login backend doesn't differentiate between groups, all group members are admin",
+    )
     def test_shareOwnershipDelete_loggedInAsMemberOffice_notAuthorized(self):
         self.login_as_member_office_user()
         share_owner = ShareOwnerFactory.create(nb_shares=2)
@@ -90,6 +97,10 @@ class TestShareOwnership(TapirFactoryTestBase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(share_owner.share_ownerships.count(), 1)
 
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT,
+        reason="The coops pt login backend doesn't differentiate between groups, all group members are admin",
+    )
     def test_shareOwnershipDelete_loggedInAsMemberOffice_deleteButtonNotShown(
         self,
     ):

@@ -8,6 +8,7 @@ from typing import Type
 from unittest.mock import patch
 
 import factory.random
+import pytest
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.mail import EmailMessage
 from django.test import TestCase, override_settings, Client, SimpleTestCase
@@ -30,6 +31,7 @@ from tapir.coop.models import ShareOwnership
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
+from tapir.settings import LOGIN_BACKEND_LDAP, LOGIN_BACKEND_COOPS_PT
 from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     DeleteShiftAttendanceTemplateLogEntry,
@@ -167,6 +169,10 @@ class TapirSeleniumTestBase(StaticLiveServerTestCase):
 class TapirFactoryTestBase(TestCase):
     client: Client
 
+    @pytest.fixture(autouse=True)
+    def configure_settings(self, settings):
+        settings.RUNNING_TESTS = True
+
     def setUp(self) -> None:
         factory.random.reseed_random(self.__class__.__name__)
         self.client = Client()
@@ -206,9 +212,10 @@ class TapirFactoryTestBase(TestCase):
         return user
 
     def tearDown(self):
-        connection = get_admin_ldap_connection()
-        for tapir_user in TapirUser.objects.all():
-            connection.delete_s(tapir_user.build_ldap_dn())
+        if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_LDAP:
+            connection = get_admin_ldap_connection()
+            for tapir_user in TapirUser.objects.all():
+                connection.delete_s(tapir_user.build_ldap_dn())
 
     def assertStatusCode(self, response, expected_status_code):
         self.assertEqual(
@@ -281,6 +288,10 @@ class PermissionTestMixin:
         )
 
     @parameterized.expand(settings.LDAP_GROUPS)
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP,
+        reason="These tests are exclusive to the ldap login backend",
+    )
     def test_accessView_loggedInAsMemberOfGroup_accessAsExpected(self, group):
         user = TapirUserFactory.create()
 
@@ -298,6 +309,32 @@ class PermissionTestMixin:
                 if group in self.get_allowed_groups()
                 else HTTPStatus.FORBIDDEN
             ),
+        )
+
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_COOPS_PT,
+        reason="These tests are exclusive to the coops pt login backend",
+    )
+    def test_accessView_loggedInAsAdmin_hasAccess(self):
+        user = TapirUserFactory.create(is_superuser=True)
+        self.login_as_user(user)
+        response = self.do_request()
+        self.assertStatusCode(
+            response,
+            HTTPStatus.OK,
+        )
+
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_COOPS_PT,
+        reason="These tests are exclusive to the coops pt login backend",
+    )
+    def test_accessView_loggedInAsNotAdmin_doesntHaveAccess(self):
+        user = TapirUserFactory.create(is_superuser=False)
+        self.login_as_user(user)
+        response = self.do_request()
+        self.assertStatusCode(
+            response,
+            HTTPStatus.FORBIDDEN,
         )
 
 

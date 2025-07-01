@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+from django.conf import settings
 from django.core.management import call_command
 from django.urls import reverse
 
@@ -8,9 +10,14 @@ from tapir.accounts.management.commands.update_purchase_tracking_list import (
 )
 from tapir.accounts.models import UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.settings import LOGIN_BACKEND_LDAP
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
+@pytest.mark.skipif(
+    settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP,
+    reason="These tests are exclusive to the ldap login backend",
+)
 class TestPurchaseTrackingSetting(TapirFactoryTestBase):
     EXPORT_FILE = Path(UpdatePurchaseTrackingListCommand.FILE_NAME)
 

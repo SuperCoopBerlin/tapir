@@ -27,11 +27,20 @@ class CoopsPtAuthBackend(BaseBackend):
         if password is None:
             raise BadRequest(f"Missing 'password' parameter")
 
+        if settings.RUNNING_TESTS:
+            user = TapirUser.objects.filter(username=email).first()
+            if user is None:
+                return None
+            if user.check_password(password):
+                return user
+            return None
+
         success, access_token, refresh_token = CoopsPtLoginManager.remote_login(
             email=email, password=password
         )
         if not success:
-            messages.info(request, _("Invalid username or password"))
+            if request is not None:
+                messages.info(request, _("Invalid username or password"))
             return None
 
         if access_token is None or refresh_token is None:

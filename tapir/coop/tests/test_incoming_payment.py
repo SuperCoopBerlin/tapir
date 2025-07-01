@@ -1,3 +1,5 @@
+import pytest
+from django.conf import settings
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils import timezone
@@ -11,6 +13,7 @@ from tapir.coop.models import (
     DeleteIncomingPaymentLogEntry,
 )
 from tapir.coop.tests.incoming_payment_factory import IncomingPaymentFactory
+from tapir.settings import LOGIN_BACKEND_COOPS_PT
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -161,6 +164,10 @@ class TestIncomingPayments(TapirFactoryTestBase):
         self.assertEqual(log_entry.amount, 100)
         self.assertEqual(log_entry.payment_date, timezone.now().date())
 
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT,
+        reason="The coops pt login backend doesn't differentiate between groups, all group members are admin",
+    )
     def test_member_office_cannot_create_payment(self):
         self.login_as_user(self.member_office_member)
         response = self.client.post(
@@ -176,6 +183,10 @@ class TestIncomingPayments(TapirFactoryTestBase):
 
         self.assertEqual(response.status_code, 403)
 
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT,
+        reason="The coops pt login backend doesn't differentiate between groups, all group members are admin",
+    )
     def test_incomingPaymentListView_loggedInAsAccounting_actionColumnNotShowing(self):
         self.login_as_accounting_team()
 
@@ -194,6 +205,10 @@ class TestIncomingPayments(TapirFactoryTestBase):
 
         self.assertIn("Actions", response.content.decode())
 
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT,
+        reason="The coops pt login backend doesn't differentiate between groups, all group members are admin",
+    )
     def test_incomingPaymentEditView_loggedInAsAccountingTeam_notAuthorized(self):
         self.login_as_accounting_team()
         payment = IncomingPaymentFactory.create()
@@ -223,6 +238,10 @@ class TestIncomingPayments(TapirFactoryTestBase):
         self.assertEqual(payment.amount, 200)
         self.assertEqual(UpdateIncomingPaymentLogEntry.objects.count(), 1)
 
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT,
+        reason="The coops pt login backend doesn't differentiate between groups, all group members are admin",
+    )
     def test_incomingPaymentDeleteView_loggedInAsAccountingTeam_notAuthorized(self):
         self.login_as_accounting_team()
         payment = IncomingPaymentFactory.create()

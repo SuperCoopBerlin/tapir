@@ -1,11 +1,14 @@
 import datetime
 from http import HTTPStatus
 
+import pytest
+from django.conf import settings
 from django.urls import reverse
 from django.utils import translation, timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.settings import LOGIN_BACKEND_COOPS_PT
 from tapir.shifts.models import (
     ShiftExemption,
     ShiftAttendance,
@@ -281,6 +284,10 @@ class TestExemptions(TapirFactoryTestBase):
         self.assertEqual(log_entry.actor, actor)
         self.assertEqual(log_entry.user, user)
 
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT,
+        reason="The coops pt login backend doesn't differentiate between groups, all group members are admin",
+    )
     def test_edit_shift_exemption_requires_member_office_access(self):
         user = self.login_as_normal_user()
         shift_template = ShiftTemplateFactory.create()
@@ -455,6 +462,10 @@ class TestExemptions(TapirFactoryTestBase):
         self.assertNotIn(other_user.last_name, response_content)
         self.assertIn(logged_in_user.last_name, response_content)
 
+    @pytest.mark.skipif(
+        settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT,
+        reason="The coops pt login backend doesn't differentiate between groups, all group members are admin",
+    )
     def test_shift_manager_can_only_see_own_exemptions(self):
         other_user = TapirUserFactory.create()
         ShiftExemption.objects.create(

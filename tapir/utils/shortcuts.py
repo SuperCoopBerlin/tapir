@@ -6,6 +6,7 @@ from typing import Type, Callable, List, TYPE_CHECKING
 
 import environ
 import ldap
+from django.conf import settings
 from django.db import models
 from django.db.models import QuerySet
 from django.http import HttpResponse
@@ -17,8 +18,12 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django_auth_ldap.config import LDAPSearch
 from ldap import modlist
 
-from tapir import settings
-from tapir.settings import AUTH_LDAP_BIND_PASSWORD, AUTH_LDAP_SERVER_URI
+from tapir.settings import (
+    AUTH_LDAP_BIND_PASSWORD,
+    AUTH_LDAP_SERVER_URI,
+    LOGIN_BACKEND_COOPS_PT,
+)
+from tapir.utils.expection_utils import TapirException
 
 if TYPE_CHECKING:
     from tapir.accounts.models import TapirUser
@@ -173,6 +178,23 @@ def create_ldap_group(connection, group_cn, tapir_users: List[TapirUser]):
 def set_group_membership(
     tapir_users: List[TapirUser], group_cn, is_member_of_group: bool
 ):
+    if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
+        if not settings.RUNNING_TESTS:
+            raise TapirException(
+                "Can't set group membership for login backend coops pt"
+            )
+
+        from tapir.accounts.models import TapirUser
+
+        TapirUser.objects.filter(
+            id__in=[tapir_user.id for tapir_user in tapir_users]
+        ).exclude(is_superuser=True).update(is_superuser=is_member_of_group)
+        for tapir_user in tapir_users:
+            if tapir_user.is_superuser:
+                continue
+            tapir_user.is_superuser = is_member_of_group
+        return
+
     connection = get_admin_ldap_connection()
 
     current_group_members = get_group_members(connection, group_cn)

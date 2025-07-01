@@ -1,10 +1,17 @@
+import pytest
+from django.conf import settings
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.settings import LOGIN_BACKEND_LDAP
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
+@pytest.mark.skipif(
+    settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP,
+    reason="These tests are exclusive to the ldap login backend",
+)
 class TestUsernameChange(TapirFactoryTestBase):
     OLD_USERNAME = "old.username"
     NEW_USERNAME = "new.username"

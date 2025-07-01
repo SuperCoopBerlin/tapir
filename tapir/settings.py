@@ -130,6 +130,8 @@ DATABASES = {
     ),
 }
 
+SHIFTS_ONLY = env.bool("SHIFTS_ONLY", default=False)
+
 REDIS_DOCKER_SERVICE_NAME = env.str(var="REDIS_DOCKER_SERVICE_NAME", default="redis")
 CELERY_BROKER_URL = f"redis://{REDIS_DOCKER_SERVICE_NAME}:6379"
 CELERY_RESULT_BACKEND = f"redis://{REDIS_DOCKER_SERVICE_NAME}:6379"
@@ -144,45 +146,51 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.apply_shift_cycle_start",
         "schedule": celery.schedules.crontab(hour="*/2", minute="20"),
     },
-    "send_accounting_recap": {
-        "task": "tapir.coop.tasks.send_accounting_recap",
-        "schedule": celery.schedules.crontab(
-            hour="12", minute="0", day_of_week="sunday"
-        ),
-    },
     "generate_shifts": {
         "task": "tapir.shifts.tasks.generate_shifts",
         "schedule": celery.schedules.crontab(minute=0, hour=0),
     },
-    "update_purchase_tracking_list": {
-        "task": "tapir.accounts.tasks.update_purchase_tracking_list",
-        "schedule": celery.schedules.crontab(minute=0, hour=23),
-    },
     "run_freeze_checks": {
         "task": "tapir.shifts.tasks.run_freeze_checks",
         "schedule": celery.schedules.crontab(minute=0, hour=1),
-    },
-    "process_purchase_files": {
-        "task": "tapir.statistics.tasks.process_purchase_files",
-        "schedule": celery.schedules.crontab(minute=0, hour=3),
-    },
-    "process_credit_account": {
-        "task": "tapir.statistics.tasks.process_credit_account",
-        "schedule": celery.schedules.crontab(minute=0, hour=3),
-    },
-    "send_create_account_reminder": {
-        "task": "tapir.accounts.tasks.send_create_account_reminder",
-        "schedule": celery.schedules.crontab(minute=0, hour=12),
-    },
-    "metabase_export": {
-        "task": "tapir.core.tasks.metabase_export",
-        "schedule": celery.schedules.crontab(minute=0, hour=3),
     },
     "send_flying_member_registration_reminder_mails": {
         "task": "tapir.shifts.tasks.send_flying_member_registration_reminder_mails",
         "schedule": celery.schedules.crontab(minute=0, hour=4),
     },
 }
+
+if not SHIFTS_ONLY:
+    CELERY_BEAT_SCHEDULE.update(
+        {
+            "send_accounting_recap": {
+                "task": "tapir.coop.tasks.send_accounting_recap",
+                "schedule": celery.schedules.crontab(
+                    hour="12", minute="0", day_of_week="sunday"
+                ),
+            },
+            "update_purchase_tracking_list": {
+                "task": "tapir.accounts.tasks.update_purchase_tracking_list",
+                "schedule": celery.schedules.crontab(minute=0, hour=23),
+            },
+            "process_purchase_files": {
+                "task": "tapir.statistics.tasks.process_purchase_files",
+                "schedule": celery.schedules.crontab(minute=0, hour=3),
+            },
+            "process_credit_account": {
+                "task": "tapir.statistics.tasks.process_credit_account",
+                "schedule": celery.schedules.crontab(minute=0, hour=3),
+            },
+            "send_create_account_reminder": {
+                "task": "tapir.accounts.tasks.send_create_account_reminder",
+                "schedule": celery.schedules.crontab(minute=0, hour=12),
+            },
+            "metabase_export": {
+                "task": "tapir.core.tasks.metabase_export",
+                "schedule": celery.schedules.crontab(minute=0, hour=3),
+            },
+        }
+    )
 
 if ENABLE_RIZOMA_CONTENT:
     CELERY_BEAT_SCHEDULE["fetch_users_from_coops_pt"] = (
@@ -434,4 +442,7 @@ if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
     COOPS_PT_ADMIN_EMAIL = env.str("COOPS_PT_ADMIN_EMAIL")
     COOPS_PT_ADMIN_PASSWORD = env.str("COOPS_PT_ADMIN_PASSWORD")
 
-SHIFTS_ONLY = env.bool("SHIFTS_ONLY", default=False)
+
+RUNNING_TESTS = False
+
+RSA_PUBLIC_KEY_DEMO_COOPS_PT = b"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jUQA5ktXjBA+1PRoRtm\nL3re+yw3l2algOHNxRSceFq+DJ7LROAQXbOvaNraInPxoA2pBJX+whSJ3YuE9XVd\n8QPj6HQFxYzzxIRavnGqQSBK8yJEoexS90ZWNr8BxHk7wxmmvhyidgFQrp/y0cVL\nzIcD9m9YP8N6jZjFfmQnodVGMpAlXtgd9w2sDCeiVAYpEv3FH5n0XaJRrh+hEjfe\n1pDTsmGT156QdnTBdQjPry/jifntwdIuGPjwB0S+OMdpyriRdCLuIohVkJy28kpz\nuoicxgSYhQJXb4wzF4n//OdqAARo/Sz0xPzwnp/nNptsd+dYXWllwMp0BW0RIyPH\nuwIDAQAB\n-----END PUBLIC KEY----"

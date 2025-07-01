@@ -83,8 +83,9 @@ class CoopsPtUserCreator:
 
         token_data = jwt.decode(
             access_token,
-            algorithms=["HS256"],
-            options={"verify_signature": False},
+            algorithms=["RS256"],
+            options={"verify_signature": True},
+            key=settings.RSA_PUBLIC_KEY_DEMO_COOPS_PT,
         )
 
         return token_data["CustomUserInfo"]["ID"]
@@ -93,8 +94,9 @@ class CoopsPtUserCreator:
     def get_role_from_access_token(cls, access_token: str) -> str:
         token_data = jwt.decode(
             access_token,
-            algorithms=["HS256"],
-            options={"verify_signature": False},
+            algorithms=["RS256"],
+            options={"verify_signature": True},
+            key=settings.RSA_PUBLIC_KEY_DEMO_COOPS_PT,
         )
 
         return token_data["CustomUserInfo"]["Role"]

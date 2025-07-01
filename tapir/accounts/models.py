@@ -1,6 +1,7 @@
 import logging
 
 import ldap
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager, User
 from django.core.exceptions import ValidationError, ImproperlyConfigured
 from django.db import models
@@ -13,18 +14,11 @@ from ldap import modlist
 from ldap.ldapobject import LDAPObject
 from phonenumber_field.modelfields import PhoneNumberField
 
-from tapir import utils, settings
+from tapir import utils
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry
-from tapir.settings import (
-    PERMISSIONS,
-    REG_PERSON_BASE_DN,
-    REG_PERSON_OBJECT_CLASSES,
-    AUTH_LDAP_SERVER_URI,
-    LOGIN_BACKEND_LDAP,
-    LOGIN_BACKEND_COOPS_PT,
-)
+from tapir.utils.expection_utils import TapirException
 from tapir.utils.models import CountryField
 from tapir.utils.shortcuts import get_html_link, get_admin_ldap_connection
 from tapir.utils.user_utils import UserUtils
@@ -114,18 +108,18 @@ class TapirUser(AbstractUser):
         return reverse("accounts:user_detail", args=[self.pk])
 
     def get_permissions_display(self):
-        user_perms = [perm for perm in PERMISSIONS if self.has_perm(perm)]
+        user_perms = [perm for perm in settings.PERMISSIONS if self.has_perm(perm)]
         if len(user_perms) == 0:
             return _("None")
         return ", ".join(user_perms)
 
     def get_groups_display(self):
-        if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
+        if settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_COOPS_PT:
             if self.is_superuser:
                 return "admin"
             return ""
 
-        if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_LDAP:
+        if settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_LDAP:
             group_names = self.get_ldap_user().group_names
             if len(group_names) == 0:
                 return _("None")
@@ -136,6 +130,7 @@ class TapirUser(AbstractUser):
         )
 
     def has_perm(self, perm, obj=None):
+
         if perm in self.client_perms:
             return True
 
@@ -146,10 +141,10 @@ class TapirUser(AbstractUser):
 
     def __build_cached_perms(self):
         self.__cached_perms = {}
-        if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
+        if settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_COOPS_PT:
             for permission_name in settings.PERMISSIONS.keys():
                 self.__cached_perms[permission_name] = self.is_superuser
-        if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_LDAP:
+        if settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_LDAP:
             for (
                 permission_name,
                 groups_that_have_this_permission,
@@ -190,7 +185,7 @@ class TapirUser(AbstractUser):
         return self.ldap_user
 
     def build_ldap_dn(self):
-        return f"uid={self.username},{REG_PERSON_BASE_DN}"
+        return f"uid={self.username},{settings.REG_PERSON_BASE_DN}"
 
     def build_ldap_modlist(self):
         user_modlist = {
@@ -200,7 +195,7 @@ class TapirUser(AbstractUser):
                 UserUtils.build_display_name(self, UserUtils.DISPLAY_NAME_TYPE_FULL)
             ],
             "mail": [self.email],
-            "objectclass": REG_PERSON_OBJECT_CLASSES,
+            "objectclass": settings.REG_PERSON_OBJECT_CLASSES,
         }
         user_modlist = {
             key: [value_in_list.encode("utf-8") for value_in_list in value_list]
@@ -217,7 +212,7 @@ class TapirUser(AbstractUser):
 
     def save(self, **kwargs):
         super().save(**kwargs)
-        if settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP:
+        if settings.ACTIVE_LOGIN_BACKEND != settings.LOGIN_BACKEND_LDAP:
             return
         ldap_user = self.get_ldap_user()
         if ldap_user:
@@ -231,20 +226,34 @@ class TapirUser(AbstractUser):
             self.create_ldap()
 
     def set_password(self, raw_password):
-        # force null Django password (will use LDAP password)
-        self.set_unusable_password()
-
-        ldap_user = self.get_ldap_user()
-        connection: LDAPObject = ldap_user.connection
-        connection.passwd_s(self.build_ldap_dn(), None, raw_password)
+        if settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_LDAP:
+            # force null Django password (will use LDAP password)
+            self.set_unusable_password()
+            ldap_user = self.get_ldap_user()
+            connection: LDAPObject = ldap_user.connection
+            connection.passwd_s(self.build_ldap_dn(), None, raw_password)
+        if settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_COOPS_PT:
+            if not settings.RUNNING_TESTS:
+                raise TapirException("Can't set passwords of coops.pt login backend")
+            super().set_password(raw_password)
+            self.save()
 
     def check_password(self, raw_password):
-        connection = ldap.initialize(AUTH_LDAP_SERVER_URI)
-        try:
-            connection.simple_bind_s(self.build_ldap_dn(), raw_password)
-        except ldap.INVALID_CREDENTIALS:
-            return False
-        return True
+        if (
+            settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_COOPS_PT
+            and settings.RUNNING_TESTS
+        ):
+            return super().check_password(raw_password)
+
+        if settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_LDAP:
+            connection = ldap.initialize(settings.AUTH_LDAP_SERVER_URI)
+            try:
+                connection.simple_bind_s(self.build_ldap_dn(), raw_password)
+            except ldap.INVALID_CREDENTIALS:
+                return False
+            return True
+
+        raise TapirException("Should not check password manually")
 
     def clean(self):
         user_with_same_username = TapirUser.objects.filter(

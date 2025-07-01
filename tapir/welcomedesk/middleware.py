@@ -1,15 +1,19 @@
 import datetime
 
+from django.conf import settings
 from django.utils import timezone
 from django.utils.deprecation import MiddlewareMixin
 
-from tapir.settings import PERMISSION_WELCOMEDESK_VIEW
+from tapir.settings import PERMISSION_WELCOMEDESK_VIEW, LOGIN_BACKEND_LDAP
 from tapir.shifts.models import Shift, ShiftAttendance
 
 
 class WelcomeDeskPermsMiddleware(MiddlewareMixin):
     def process_request(self, request):
         if request.user.is_anonymous:
+            return
+
+        if settings.ACTIVE_LOGIN_BACKEND != LOGIN_BACKEND_LDAP:
             return
 
         current_shifts = Shift.objects.filter(
