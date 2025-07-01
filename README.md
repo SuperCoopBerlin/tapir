@@ -25,10 +25,13 @@ SuperCoop members can access the system at [https://members.supercoop.de](https:
 ## Getting started
 
 ### Prerequisites
+
 - Docker
 - [Poetry](https://python-poetry.org/docs/)
 
-Please note that while the actual program runs in a Docker container, you're adviced to install packages locally in order to use your IDE properly. For that you need a C Compiler such as gcc for Linux or the Visual C++ Build tools.
+Please note that while the actual program runs in a Docker container, you're adviced to install packages locally in
+order to use your IDE properly. For that you need a C Compiler such as gcc for Linux or the Visual C++ Build tools.
+
 ### Install
 
 1. Clone the project.
@@ -73,4 +76,8 @@ You can do so **without any programming or Python knowledge**! Just choose a tas
 ## Troubleshooting
 
 * On macOS, in order to set up a local Python `venv`, you might have to install Postgresql to get `psycopg2` working.
-  Use `brew install postgresql` for that. 
+  Use `brew install postgresql` for that.
+
+## Translations
+
+We are currently setting up [Weblate](https://weblate.org) for community translations!
