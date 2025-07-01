@@ -77,7 +77,3 @@ You can do so **without any programming or Python knowledge**! Just choose a tas
 
 * On macOS, in order to set up a local Python `venv`, you might have to install Postgresql to get `psycopg2` working.
   Use `brew install postgresql` for that.
-
-## Translations
-
-We are currently setting up [Weblate](https://weblate.org) for community translations!
