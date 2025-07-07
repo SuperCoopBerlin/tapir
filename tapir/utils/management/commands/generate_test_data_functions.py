@@ -134,9 +134,7 @@ def generate_tapir_users(json_users):
     if settings.ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_LDAP:
         for tapir_user in tapir_users:
             tapir_user.create_ldap()
-
-    for tapir_user in tapir_users:
-        tapir_user.set_password(tapir_user.username)
+            tapir_user.set_password(tapir_user.username)
 
     vorstand_users = []
     member_office_users = []
