@@ -1,4 +1,5 @@
 import django.contrib.auth.views as auth_views
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -12,7 +13,6 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 
-from tapir import settings
 from tapir.accounts import pdfs
 from tapir.accounts.forms import (
     TapirUserForm,
@@ -62,6 +62,11 @@ class TapirUserDetailView(
         if self.request.user.pk == self.kwargs["pk"]:
             return []
         return [PERMISSION_ACCOUNTS_VIEW]
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["shifts_only"] = settings.SHIFTS_ONLY
+        return context_data
 
 
 class TapirUserMeView(LoginRequiredMixin, generic.RedirectView):
