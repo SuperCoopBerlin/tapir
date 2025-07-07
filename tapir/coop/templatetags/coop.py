@@ -1,6 +1,7 @@
 import datetime
 
 from django import template
+from django.conf import settings
 
 from tapir.coop.models import (
     ShareOwner,
@@ -16,6 +17,7 @@ register = template.Library()
 )
 def share_owner_ownership_list(context, share_owner: ShareOwner):
     context["share_owner"] = share_owner
+    context["shifts_only"] = settings.SHIFTS_ONLY
     return context
 
 

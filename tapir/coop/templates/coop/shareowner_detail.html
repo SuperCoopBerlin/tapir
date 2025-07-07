@@ -96,7 +96,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-6">{% share_owner_ownership_list object %}</div>
+        {% if not shifts_only %}
+            <div class="col-xl-6">{% share_owner_ownership_list object %}</div>
+        {% endif %}
         <div class="col-xl">{% log_entry_list share_owner=object %}</div>
     </div>
 {% endblock content %}

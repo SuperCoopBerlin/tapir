@@ -236,6 +236,11 @@ class ShareOwnerDetailView(
             return redirect(self.object.user)
         return super().get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["shifts_only"] = settings.SHIFTS_ONLY
+        return context_data
+
 
 class ShareOwnerUpdateView(
     LoginRequiredMixin,
@@ -432,25 +437,43 @@ class ShareOwnerTable(django_tables2.Table):
     class Meta:
         model = ShareOwner
         template_name = TAPIR_TABLE_TEMPLATE
-        fields = [
-            "id",
-            "attended_welcome_session",
-            "ratenzahlung",
-            "is_company",
-        ]
+        fields = (
+            ["id"]
+            if settings.SHIFTS_ONLY
+            else [
+                "id",
+                "attended_welcome_session",
+                "ratenzahlung",
+                "is_company",
+            ]
+        )
         sequence = (
-            "id",
-            "display_name",
-            "first_name",
-            "last_name",
-            "street",
-            "postcode",
-            "city",
-            "country",
-            "status",
-            "attended_welcome_session",
-            "ratenzahlung",
-            "is_company",
+            (
+                "id",
+                "display_name",
+                "first_name",
+                "last_name",
+                "street",
+                "postcode",
+                "city",
+                "country",
+                "status",
+            )
+            if settings.SHIFTS_ONLY
+            else (
+                "id",
+                "display_name",
+                "first_name",
+                "last_name",
+                "street",
+                "postcode",
+                "city",
+                "country",
+                "status",
+                "attended_welcome_session",
+                "ratenzahlung",
+                "is_company",
+            )
         )
         order_by = "id"
         attrs = {"class": TAPIR_TABLE_CLASSES}
@@ -464,7 +487,9 @@ class ShareOwnerTable(django_tables2.Table):
     postcode = django_tables2.Column(empty_values=(), orderable=False, visible=False)
     city = django_tables2.Column(empty_values=(), orderable=False, visible=False)
     country = django_tables2.Column(empty_values=(), orderable=False, visible=False)
-    status = django_tables2.Column(empty_values=(), orderable=False)
+    status = django_tables2.Column(
+        empty_values=(), orderable=False, visible=not settings.SHIFTS_ONLY
+    )
     email = django_tables2.Column(empty_values=(), orderable=False, visible=False)
     phone_number = django_tables2.Column(
         empty_values=(), orderable=False, visible=False

@@ -81,15 +81,15 @@
                 <table class="table"
                        aria-label="{% translate 'List of shares owned by this member' %}">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">{% translate "Starts at" %}</th>
-                            <th scope="col">{% translate "Ends at" %}</th>
-                            <th scope="col">{% translate "Status" %}</th>
-                            {% if perms.coop.manage %}
-                                <th scope="col">{% translate 'Edit' %}</th>
-                            {% endif %}
-                        </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{% translate "Starts at" %}</th>
+                        <th scope="col">{% translate "Ends at" %}</th>
+                        <th scope="col">{% translate "Status" %}</th>
+                        {% if perms.coop.manage %}
+                            <th scope="col">{% translate 'Edit' %}</th>
+                        {% endif %}
+                    </tr>
                     </thead>
                     {% for o in share_owner.share_ownerships.all %}
                         <tr>
@@ -125,15 +125,16 @@
                                                    href="{% url 'coop:shareownership_delete' o.pk %}">
                                                     <span class="dropdown-item " style="white-space: normal" href="#">
                                                         <span class="text-danger">{% translate "Delete" %}</span>
-                                                        <br />
+                                                        <br/>
                                                         <small class="text-muted">
                                                             {% blocktrans %}
-                                                            Only use this to correct mistakes, i.e. if the share was
-                                                            erroneously
-                                                            entered into the system and the person never actually
-                                                            bought it. If the person simply sold their share back to the
-                                                            coop, please mark the share as sold instead.
-                                                        {% endblocktrans %}
+                                                                Only use this to correct mistakes, i.e. if the share was
+                                                                erroneously
+                                                                entered into the system and the person never actually
+                                                                bought it. If the person simply sold their share back to
+                                                                the
+                                                                coop, please mark the share as sold instead.
+                                                            {% endblocktrans %}
                                                         </small>
                                                     </span>
                                                 </a>
