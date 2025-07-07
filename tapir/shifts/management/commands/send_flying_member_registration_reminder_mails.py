@@ -90,7 +90,7 @@ class Command(BaseCommand):
     ):
         return (
             ShiftCycleService.get_start_date_of_current_cycle(
-                today=shift_user_data.user.date_joined
+                today=shift_user_data.user.date_joined.date()
             )
             + datetime.timedelta(days=ShiftCycleEntry.SHIFT_CYCLE_DURATION)
             == cycle_start_date
