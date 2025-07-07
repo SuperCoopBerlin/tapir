@@ -397,7 +397,7 @@ class TestAttendanceUpdateMemberOffice(
         self,
     ):
         shift_user_data = Mock()
-        shift_user_data.user.date_joined = datetime.date(year=2025, month=6, day=10)
+        shift_user_data.user.date_joined = datetime.datetime(year=2025, month=6, day=10)
         cycle_start_date = datetime.date(year=2025, month=6, day=30)
         self.assertTrue(Command.is_users_first_cycle(shift_user_data, cycle_start_date))
 
@@ -405,7 +405,7 @@ class TestAttendanceUpdateMemberOffice(
         self,
     ):
         shift_user_data = Mock()
-        shift_user_data.user.date_joined = datetime.date(year=2025, month=6, day=10)
+        shift_user_data.user.date_joined = datetime.datetime(year=2025, month=6, day=10)
         cycle_start_date = datetime.date(year=2025, month=6, day=2)
         self.assertFalse(
             Command.is_users_first_cycle(shift_user_data, cycle_start_date)
