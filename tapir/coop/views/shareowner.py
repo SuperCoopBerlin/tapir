@@ -4,6 +4,7 @@ from tempfile import SpooledTemporaryFile
 
 import django_filters
 import django_tables2
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
@@ -18,6 +19,7 @@ from django.http import (
 from django.shortcuts import get_object_or_404, redirect
 from django.template import Template, Context
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic, View
 from django.views.decorators.csrf import csrf_protect
@@ -68,6 +70,7 @@ from tapir.core.views import TapirFormMixin
 from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
+from tapir.rizoma.templatetags.rizoma import rizoma_photo_url
 from tapir.settings import (
     PERMISSION_COOP_MANAGE,
     PERMISSION_COOP_ADMIN,
@@ -490,6 +493,16 @@ class ShareOwnerTable(django_tables2.Table):
         return UserUtils.build_display_name(record, self.request.user)
 
     @staticmethod
+    def render_photo(value, record: ShareOwner):
+        rizoma_member_data = getattr(record, "rizoma_member_data", None)
+        if rizoma_member_data is None or rizoma_member_data.photo_id is None:
+            return ""
+
+        return mark_safe(
+            f"<img src='{rizoma_photo_url(rizoma_member_data.photo_id)}' alt='Member photo' style='max-width:50px; max-height:50px;'/>"
+        )
+
+    @staticmethod
     def value_first_name(value, record: ShareOwner):
         return record.get_info().first_name
 
@@ -815,6 +828,18 @@ class ShareOwnerListView(
         kwargs = super().get_table_kwargs()
         kwargs["reference_date"] = self.reference_date
         kwargs["reference_time"] = self.reference_time
+        if settings.ENABLE_RIZOMA_CONTENT:
+            kwargs["extra_columns"] = [
+                (
+                    "photo",
+                    django_tables2.Column(
+                        empty_values=(),
+                        verbose_name="Photo",
+                        orderable=False,
+                        exclude_from_export=True,
+                    ),
+                )
+            ]
         return kwargs
 
     def get_queryset(self):

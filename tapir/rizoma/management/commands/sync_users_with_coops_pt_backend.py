@@ -5,6 +5,7 @@ from django.core.management import BaseCommand
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.rizoma.coops_pt_auth_backend import CoopsPtAuthBackend
+from tapir.rizoma.models import RizomaMemberData
 from tapir.rizoma.services.coops_pt_user_creator import CoopsPtUserCreator
 from tapir.shifts.models import ShiftUserData
 from tapir.utils.expection_utils import TapirException
@@ -121,6 +122,7 @@ class Command(BaseCommand):
         )
         external_ids_present_in_coops_pt = set()
         used_member_numbers = set()
+        member_number_to_photo_id_map = {}
 
         for share_owner_json in response_content["data"]:
             member_number = share_owner_json["number"]
@@ -151,8 +153,20 @@ class Command(BaseCommand):
                     last_name=last_name,
                 )
             )
+            member_number_to_photo_id_map[member_number] = share_owner_json.get(
+                "_photoId", None
+            )
 
-        ShareOwner.objects.bulk_create(share_owners_to_create)
+        share_owners = ShareOwner.objects.bulk_create(share_owners_to_create)
+        RizomaMemberData.objects.bulk_create(
+            [
+                RizomaMemberData(
+                    share_owner=share_owner,
+                    photo_id=member_number_to_photo_id_map[share_owner.id],
+                )
+                for share_owner in share_owners
+            ]
+        )
 
         external_ids_to_delete = external_ids_present_in_tapir_db.difference(
             external_ids_present_in_coops_pt

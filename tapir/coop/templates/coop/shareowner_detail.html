@@ -6,6 +6,7 @@
 {% load accounts %}
 {% load core %}
 {% load utils %}
+{% load rizoma %}
 {% block title %}
     {% translate "Member" %}: {% get_display_name_for_viewer object request.user %}
 {% endblock title %}
@@ -39,41 +40,58 @@
                     {% endif %}
                 </h5>
                 <div class="card-body">
-                    <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                        <div class="col-8" id="share_owner_display_name">{% get_display_name_for_viewer object request.user %}</div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Email" %}:</div>
-                        <div class="col-8" id="share_owner_email">{{ object.get_info.email }}</div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Phone number" %}:</div>
-                        <div class="col-8" id="share_owner_phone_number">{{ object.get_info.phone_number|format_phone_number }}</div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Birthdate" %}:</div>
-                        <div class="col-8" id="share_owner_birthdate">
-                            {% if object.get_info.birthdate %}
-                                {{ object.get_info.birthdate|date:"d.m.Y" }}
-                            {% else %}
-                                <span class="text-danger">{% translate "Missing" %}</span>
-                            {% endif %}
+                    <div class="row">
+                        <div class="col">
+                            <div class="row m-1">
+                                <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
+                                <div class="col-8"
+                                     id="share_owner_display_name">{% get_display_name_for_viewer object request.user %}</div>
+                            </div>
+                            <div class="row m-1">
+                                <div class="col-4 fw-bold text-end">{% translate "Email" %}:</div>
+                                <div class="col-8" id="share_owner_email">{{ object.get_info.email }}</div>
+                            </div>
+                            <div class="row m-1">
+                                <div class="col-4 fw-bold text-end">{% translate "Phone number" %}:</div>
+                                <div class="col-8"
+                                     id="share_owner_phone_number">{{ object.get_info.phone_number|format_phone_number }}</div>
+                            </div>
+                            <div class="row m-1">
+                                <div class="col-4 fw-bold text-end">{% translate "Birthdate" %}:</div>
+                                <div class="col-8" id="share_owner_birthdate">
+                                    {% if object.get_info.birthdate %}
+                                        {{ object.get_info.birthdate|date:"d.m.Y" }}
+                                    {% else %}
+                                        <span class="text-danger">{% translate "Missing" %}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row m-1">
+                                <div class="col-4 fw-bold text-end">{% translate "Address" %}:</div>
+                                <div class="col-8" id="share_owner_address">
+                                    {% if object.street and object.city %}
+                                        {{ object.get_display_address }}
+                                    {% else %}
+                                        <span class="text-danger">{% translate "Missing" %}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="row m-1">
+                                <div class="col-4 fw-bold text-end">{% translate "Preferred Language" %}:</div>
+                                <div class="col-8"
+                                     id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Address" %}:</div>
-                        <div class="col-8" id="share_owner_address">
-                            {% if object.street and object.city %}
-                                {{ object.get_display_address }}
-                            {% else %}
-                                <span class="text-danger">{% translate "Missing" %}</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="row m-1">
-                        <div class="col-4 fw-bold text-end">{% translate "Preferred Language" %}:</div>
-                        <div class="col-8" id="share_owner_email">{{ object.get_info.get_preferred_language_display }}</div>
+                        {% if object.rizoma_member_data and object.rizoma_member_data.photo_id %}
+                            <div class="col">
+                                <div class="d-flex align-content-center align-items-center justify-content-center"
+                                     style="height: 100%">
+                                    <img src="{% rizoma_photo_url object.rizoma_member_data.photo_id %}"
+                                         alt="{% translate 'Member photo' %}"
+                                         style="max-width: 10vw; max-height: 10vw; display: block;"/>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
