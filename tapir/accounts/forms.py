@@ -33,7 +33,8 @@ class TapirUserForm(TapirUserSelfUpdateForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         instance = getattr(self, "instance", None)
-        if instance.share_owner.is_investing:
+        share_owner = getattr(instance, "share_owner", None)
+        if share_owner is not None and instance.share_owner.is_investing:
             self.fields["co_purchaser"].disabled = True
 
     class Meta(TapirUserSelfUpdateForm.Meta):

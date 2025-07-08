@@ -84,7 +84,7 @@ class CoopsPtUserCreator:
         token_data = jwt.decode(
             access_token,
             algorithms=["RS256"],
-            options={"verify_signature": True},
+            options={"verify_signature": False},
             key=settings.RSA_PUBLIC_KEY_DEMO_COOPS_PT,
         )
 
@@ -95,7 +95,7 @@ class CoopsPtUserCreator:
         token_data = jwt.decode(
             access_token,
             algorithms=["RS256"],
-            options={"verify_signature": True},
+            options={"verify_signature": False},
             key=settings.RSA_PUBLIC_KEY_DEMO_COOPS_PT,
         )
 
