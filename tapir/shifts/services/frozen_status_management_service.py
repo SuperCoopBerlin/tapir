@@ -78,7 +78,11 @@ class FrozenStatusManagementService:
             slot__shift__start_time__lt=timezone.now()
             + datetime.timedelta(weeks=NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS),
         )
-        return upcoming_shifts.count() >= -shift_user_data.get_account_balance()
+
+        return (
+            upcoming_shifts.count() + shift_user_data.get_account_balance()
+            > FREEZE_THRESHOLD
+        )
 
     @classmethod
     def freeze_member_and_send_email(
