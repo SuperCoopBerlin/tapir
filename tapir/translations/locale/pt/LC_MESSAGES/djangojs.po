@@ -1,0 +1,190 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-28 12:57+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Fancy export"
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Source dataset"
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Date"
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference,member_status, is_member_since, compulsory_share, additional_shares, amount_paid, amount_paid_for_entry_fee, amount_paid_for_shares, number_of_paid_shares, number_of_unpaid_shares. For all other fields, the value as it is now is exported, not the value as it was at the given date."
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Add columns to the export"
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Click on a selected column to deselect it."
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Build export for "
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Pick a source dataset"
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Download as CSV"
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Build the export to download it"
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Copy for spreadsheets"
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Build the export to copy it"
+msgstr ""
+
+#: dist/assets/fancy_export-RsOcUVRw.js:3
+msgid "Waiting for build"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Cancel"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Confirm deletion"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Delete"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "no name"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Are you sure you want to delete the following warning: "
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "This warning is not used in any slot."
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "This warning is used in the following slots: "
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Edit shift warnings"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Add a warning"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Edit warnings"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Are you sure you want to delete the following qualification: "
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "This qualification is not used in any slot."
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "This qualification is used in the following slots: "
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Edit qualifications"
+msgstr ""
+
+#: dist/assets/shift_management-CCdqoXYD.js:1
+msgid "Add a qualification"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Use the search field on the top right."
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Name"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Can shop"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Yes"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "No"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Member details"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Member"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "yes"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "no"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Why this member cannot shop: "
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Co-purchaser: "
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "None"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Welcome Desk"
+msgstr ""
+
+#: dist/assets/welcome_desk-OgiTR3jj.js:1
+msgid "Name or member ID"
+msgstr ""
