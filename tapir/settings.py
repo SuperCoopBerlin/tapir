@@ -193,11 +193,13 @@ if not SHIFTS_ONLY:
     )
 
 if ENABLE_RIZOMA_CONTENT:
-    CELERY_BEAT_SCHEDULE["fetch_users_from_coops_pt"] = (
+    CELERY_BEAT_SCHEDULE.update(
         {
-            "task": "tapir.rizoma.tasks.fetch_users_from_coops_pt",
-            "schedule": celery.schedules.crontab(hour="*", minute="0"),
-        },
+            "sync_users_with_coops_pt_backend": {
+                "task": "tapir.rizoma.tasks.sync_users_with_coops_pt_backend",
+                "schedule": celery.schedules.crontab(hour="*", minute="0"),
+            },
+        }
     )
 
 # Password validation

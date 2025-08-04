@@ -3,5 +3,5 @@ from django.core.management import call_command
 
 
 @shared_task
-def fetch_users_from_coops_pt():
-    call_command("fetch_users_from_coops_pt")
+def sync_users_with_coops_pt_backend():
+    call_command("sync_users_with_coops_pt_backend")
