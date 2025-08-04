@@ -1,13 +1,9 @@
 import datetime
 
-import jwt
-import requests
-from django.conf import settings
-
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
-from tapir.rizoma.services.coops_pt_login_manager import CoopsPtLoginManager
-from tapir.utils.expection_utils import TapirException
+from tapir.rizoma.exceptions import CoopsPtRequestException
+from tapir.rizoma.services.coops_pt_request_handler import CoopsPtRequestHandler
 
 
 class CoopsPtUserCreator:
@@ -48,55 +44,16 @@ class CoopsPtUserCreator:
                 share_owner.save()
             return
 
-        success, access_token, refresh_token = CoopsPtLoginManager.remote_login(
-            email=settings.COOPS_PT_ADMIN_EMAIL,
-            password=settings.COOPS_PT_ADMIN_PASSWORD,
+        response = CoopsPtRequestHandler.get(
+            url=f"members/{external_member_id}",
         )
-        if not success:
-            raise TapirException(
-                "Failed to login as admin in order to to get member data"
+        if response.status_code != 200:
+            raise CoopsPtRequestException(
+                f"Failed to get member data with external ID {external_member_id}"
             )
-
-        response = requests.get(
-            url=f"{settings.COOPS_PT_API_BASE_URL}/members/{external_member_id}",
-            headers={
-                "Accept": "application/json",
-                "Authorization": f"Bearer {access_token}",
-            },
-        )
 
         member_number = response.json()["data"]["number"]
 
         ShareOwner.objects.create(
             id=member_number, user=tapir_user, external_id=external_member_id
         )
-
-    @classmethod
-    def get_external_user_id_from_access_token(cls, access_token: str) -> str:
-        # Expected format after decoding the access token:
-        # {'CustomUserInfo': {'ID': '2372b571-10e8-45e7-9579-0095dc87566e',
-        #  'Name': 'admin',
-        #  'Role': 'admin'},
-        #  'exp': 1749649873,
-        #  'iat': 1749648973,
-        #  'iss': 'admin'}
-
-        token_data = jwt.decode(
-            access_token,
-            algorithms=["RS256"],
-            options={"verify_signature": False},
-            key=settings.RSA_PUBLIC_KEY_DEMO_COOPS_PT,
-        )
-
-        return token_data["CustomUserInfo"]["ID"]
-
-    @classmethod
-    def get_role_from_access_token(cls, access_token: str) -> str:
-        token_data = jwt.decode(
-            access_token,
-            algorithms=["RS256"],
-            options={"verify_signature": False},
-            key=settings.RSA_PUBLIC_KEY_DEMO_COOPS_PT,
-        )
-
-        return token_data["CustomUserInfo"]["Role"]

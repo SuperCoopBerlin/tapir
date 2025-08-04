@@ -1,4 +1,3 @@
-import requests
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.backends import BaseBackend
@@ -7,9 +6,10 @@ from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
+from tapir.rizoma.exceptions import CoopsPtRequestException
 from tapir.rizoma.services.coops_pt_login_manager import CoopsPtLoginManager
+from tapir.rizoma.services.coops_pt_request_handler import CoopsPtRequestHandler
 from tapir.rizoma.services.coops_pt_user_creator import CoopsPtUserCreator
-from tapir.utils.expection_utils import TapirException
 
 
 class CoopsPtAuthBackend(BaseBackend):
@@ -50,7 +50,7 @@ class CoopsPtAuthBackend(BaseBackend):
             )
             return None
 
-        external_user_id = CoopsPtUserCreator.get_external_user_id_from_access_token(
+        external_user_id = CoopsPtLoginManager.get_external_user_id_from_access_token(
             access_token
         )
 
@@ -58,20 +58,14 @@ class CoopsPtAuthBackend(BaseBackend):
 
         if user is not None:
             if self.update_admin_status(
-                user, role=CoopsPtUserCreator.get_role_from_access_token(access_token)
+                user, role=CoopsPtLoginManager.get_role_from_access_token(access_token)
             ):
                 user.save()
             return user
 
-        response = requests.get(
-            url=f"{settings.COOPS_PT_API_BASE_URL}/users/{external_user_id}",  # the request fails if the search param is missing
-            headers={
-                "Accept": "application/json",
-                "Authorization": f"Bearer {access_token}",
-            },
-        )
+        response = CoopsPtRequestHandler.get(f"users/{external_user_id}")
         if response.status_code != 200:
-            raise TapirException(
+            raise CoopsPtRequestException(
                 f"Failed to get user from external API, error: '{response.status_code}' '{response.text}'"
             )
 
@@ -87,9 +81,6 @@ class CoopsPtAuthBackend(BaseBackend):
                 CoopsPtUserCreator.fetch_and_create_share_owner(
                     external_member_id, tapir_user
                 )
-
-        if user_data["memberId"] is not None:
-            pass
 
         return tapir_user
 

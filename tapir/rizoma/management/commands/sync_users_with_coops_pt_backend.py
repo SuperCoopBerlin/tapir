@@ -1,46 +1,27 @@
-import requests
 from django.conf import settings
 from django.core.management import BaseCommand
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.rizoma.coops_pt_auth_backend import CoopsPtAuthBackend
+from tapir.rizoma.exceptions import CoopsPtRequestException
 from tapir.rizoma.models import RizomaMemberData
+from tapir.rizoma.services.coops_pt_request_handler import CoopsPtRequestHandler
 from tapir.rizoma.services.coops_pt_user_creator import CoopsPtUserCreator
 from tapir.shifts.models import ShiftUserData
-from tapir.utils.expection_utils import TapirException
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        response = requests.post(
-            url=f"{settings.COOPS_PT_API_BASE_URL}/auth",
-            headers={"Accept": "application/json"},
-            data=f'{{"email": "{settings.COOPS_PT_ADMIN_EMAIL}", "password": "{settings.COOPS_PT_ADMIN_PASSWORD}"}}',
-        )
-        if response.status_code != 200:
-            raise TapirException(
-                "Failed to login to coops.pt with admin credentials from settings"
-            )
-
-        response_content = response.json()
-        access_token = response_content.get("access", None)
-
-        self.sync_members(access_token)
-        external_member_id_to_user_id_map = self.sync_users(access_token)
+        self.sync_members()
+        external_member_id_to_user_id_map = self.sync_users()
         self.sync_link_share_owner_to_user(external_member_id_to_user_id_map)
 
     @classmethod
-    def sync_users(cls, access_token):
-        response = requests.get(
-            url=f"{settings.COOPS_PT_API_BASE_URL}/users?_search=",
-            headers={
-                "Accept": "application/json",
-                "Authorization": f"Bearer {access_token}",
-            },
-        )
+    def sync_users(cls):
+        response = CoopsPtRequestHandler.get("users?_search=")
         if response.status_code != 200:
-            raise TapirException("Failed to get user list from coops.pt")
+            raise CoopsPtRequestException("Failed to get user list from coops.pt")
 
         # Example element from the response.data list:
         # {'_created_at': '2025-06-20T12:52:36.373Z',
@@ -104,16 +85,10 @@ class Command(BaseCommand):
         return external_member_id_to_user_id_map
 
     @classmethod
-    def sync_members(cls, access_token):
-        response = requests.get(
-            url=f"{settings.COOPS_PT_API_BASE_URL}/members?_search=",
-            headers={
-                "Accept": "application/json",
-                "Authorization": f"Bearer {access_token}",
-            },
-        )
+    def sync_members(cls):
+        response = CoopsPtRequestHandler.get("members?_search=")
         if response.status_code != 200:
-            raise TapirException("Failed to get user list from coops.pt")
+            raise CoopsPtRequestException("Failed to get user list from coops.pt")
 
         response_content = response.json()
         share_owners_to_create = []
@@ -145,6 +120,7 @@ class Command(BaseCommand):
             last_name = None
             if len(name_parts) > 1:
                 last_name = name_parts[1]
+
             share_owners_to_create.append(
                 ShareOwner(
                     id=member_number,
