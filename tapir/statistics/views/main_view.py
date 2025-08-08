@@ -76,6 +76,23 @@ class MainStatisticsView(LoginRequiredMixin, generic.TemplateView):
         context_data["working_members"] = self.get_working_members_context()
         context_data["target_average_monthly_basket"] = 225
 
+        past_shifts = Shift.objects.filter(end_time__lt=timezone.now())
+        context_data["no_of_past_shifts"] = len(past_shifts)
+
+        # Sum valid attendances for related shifts
+        total_valid_attendances = sum(
+            s.get_valid_attendances().count() for s in past_shifts
+        )
+        context_data["total_valid_attendances"] = total_valid_attendances
+        # Calculate total working hours
+        total_hours = sum(
+            (s.end_time - s.start_time).total_seconds()
+            * s.get_valid_attendances().count()
+            / 3600
+            for s in past_shifts
+        )
+        context_data["total_hours"] = total_hours
+
         return context_data
 
     def get_purchasing_members_context(self):
