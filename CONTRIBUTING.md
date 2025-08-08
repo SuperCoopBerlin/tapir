@@ -80,6 +80,10 @@ inside docker to have an LDAP server. But PyCharm is still pretty cool).
 We use the `Black` package, which "can be viewed as a strict subset of PEP 8". When you installed the pre-commit
 correctly as mentioned above, the style guide should be enforced automatically with every commit.
 
+## Debugging
+
+You can use the Python-werkzeug-debugger, if something fails. The PIN is `1234`, as declared in docker-compose.yml.
+
 # Documentation
 
 ## Technologies used
