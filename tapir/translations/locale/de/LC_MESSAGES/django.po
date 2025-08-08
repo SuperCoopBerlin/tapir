@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 12:59+0200\n"
+"POT-Creation-Date: 2025-08-08 08:36+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
-"Language-Team: German <http://weblate.seriousdino.org/projects/tapir/"
-"tapir-python-translations/de/>\n"
+"Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +52,7 @@ msgstr "Angezeigter Name"
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:68 accounts/templates/accounts/user_detail.html:72
+#: accounts/models.py:68 accounts/templates/accounts/user_detail.html:71
 #: coop/models.py:72 coop/models.py:447
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
@@ -61,7 +60,7 @@ msgstr "Pronomen"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:82
+#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:81
 #: coop/models.py:73 coop/models.py:448
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
@@ -88,7 +87,7 @@ msgstr "Ort"
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:75 accounts/templates/accounts/user_detail.html:116
+#: accounts/models.py:75 accounts/templates/accounts/user_detail.html:115
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
@@ -100,7 +99,7 @@ msgstr "2. Miteinkäufer*in"
 msgid "Allow purchase tracking"
 msgstr "Erlaube Aufzeichnen deiner Einkäufe"
 
-#: accounts/models.py:85 accounts/templates/accounts/user_detail.html:102
+#: accounts/models.py:85 accounts/templates/accounts/user_detail.html:101
 #: coop/models.py:81 coop/models.py:456
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
@@ -233,7 +232,7 @@ msgstr ""
 "    Vergiss nicht, dich für deine erste Schicht bei SuperCoop anzumelden!\n"
 
 #: accounts/templates/accounts/ldap_group_list.html:7
-#: accounts/templates/accounts/user_detail.html:107
+#: accounts/templates/accounts/user_detail.html:106
 msgid "Groups"
 msgstr "Gruppen"
 
@@ -324,21 +323,21 @@ msgstr "Name und Pronomen bearbeiten"
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:64
+#: accounts/templates/accounts/user_detail.html:63
 #: coop/templates/coop/draftuser_detail.html:134
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/templates/accounts/user_detail.html:68
+#: accounts/templates/accounts/user_detail.html:67
 #: coop/templates/coop/draftuser_detail.html:73
 #: coop/templates/coop/draftuser_detail.html:138
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:77
-#: accounts/templates/accounts/user_detail.html:87
-#: accounts/templates/accounts/user_detail.html:97
+#: accounts/templates/accounts/user_detail.html:76
+#: accounts/templates/accounts/user_detail.html:86
+#: accounts/templates/accounts/user_detail.html:96
 #: coop/templates/coop/draftuser_detail.html:161
 #: coop/templates/coop/shareowner_detail.html:60
 #: coop/templates/coop/shareowner_detail.html:70
@@ -348,26 +347,26 @@ msgstr "E-Mail-Adresse"
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:92
+#: accounts/templates/accounts/user_detail.html:91
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/draftuser_detail.html:156
 #: coop/templates/coop/shareowner_detail.html:65
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:111
+#: accounts/templates/accounts/user_detail.html:110
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:126
+#: accounts/templates/accounts/user_detail.html:125
 msgid "Second co-purchaser"
 msgstr "2. Miteinkäufer*innen"
 
-#: accounts/templates/accounts/user_detail.html:142
+#: accounts/templates/accounts/user_detail.html:141
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:151
+#: accounts/templates/accounts/user_detail.html:149
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -501,16 +500,18 @@ msgstr "Mitglied bearbeiten: %(name)s"
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:204
-msgid "You can only look at your own barcode unless you have member office rights"
+#: accounts/views.py:203
+#, fuzzy
+#| msgid "You can only look at your own barcode unless you have member office rights"
+msgid "You can only look at your own barcode unless you have admin rights"
 msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgliedsbüro-Rechte"
 
-#: accounts/views.py:287 accounts/views.py:292
+#: accounts/views.py:285 accounts/views.py:290
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr "Bearbeite Gruppen: %(name)s"
 
-#: accounts/views.py:386 accounts/views.py:391
+#: accounts/views.py:384 accounts/views.py:389
 #, python-format
 msgid "Notification settings for %(name)s"
 msgstr "Benachrichtungseinstellungen für %(name)s"
