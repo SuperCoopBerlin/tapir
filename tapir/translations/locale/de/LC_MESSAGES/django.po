@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-22 15:09+0200\n"
+"POT-Creation-Date: 2025-08-08 16:45+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2984,84 +2984,99 @@ msgstr ""
 msgid "The shift must end after it starts."
 msgstr "Die Schicht muss nach ihrem Start enden."
 
-#: shifts/forms.py:73
+#: shifts/forms.py:83
 msgid "I understand the consequences of deleting a shift"
 msgstr ""
 
-#: shifts/forms.py:94
+#: shifts/forms.py:104
 msgid "In order to delete a shift, all member attendances must be set to 'Cancelled'. "
 msgstr ""
 
-#: shifts/forms.py:144
+#: shifts/forms.py:154
 msgid "I have read the warning about the missing qualification and confirm that the user should get registered to the shift"
 msgstr "Ich habe die Warnung über die fehlende Qualifikation gelesen und bestätige, dass Benutzer*in für die Schicht registriert werden sollte"
 
-#: shifts/forms.py:215
+#: shifts/forms.py:182
+#, python-brace-format
+msgid "The selected user is missing the required qualification for this shift : {missing_capabilities}"
+msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Qualifikation für diese Schicht: {missing_capabilities}"
+
+#: shifts/forms.py:225
 msgid "Please set the chosen time after the start of the shift"
 msgstr ""
 
-#: shifts/forms.py:220
+#: shifts/forms.py:230
 msgid "Please set the chosen time before the end of the shift"
 msgstr ""
 
-#: shifts/forms.py:257
+#: shifts/forms.py:267
 msgid "This user is already registered to another slot in this ABCD shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser ABCD-Schicht registriert."
 
-#: shifts/forms.py:300
+#: shifts/forms.py:310
 msgid "You need the shifts.manage permission to do this."
 msgstr ""
 
-#: shifts/forms.py:304
+#: shifts/forms.py:314
 msgid "This user is already registered to another slot in this shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht registriert."
 
-#: shifts/forms.py:315
+#: shifts/forms.py:325
 msgid "This shift has been deleted. It is not possible to register to it."
 msgstr ""
 
-#: shifts/forms.py:327
+#: shifts/forms.py:337
 msgid "I am aware that the member will be unregistered from their ABCD shift"
 msgstr ""
 
-#: shifts/forms.py:336 shifts/templates/shifts/user_shifts_overview_tag.html:93
+#: shifts/forms.py:346 shifts/templates/shifts/user_shifts_overview_tag.html:93
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
-#: shifts/forms.py:378
+#: shifts/forms.py:377
+#, python-brace-format
+msgid "{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
+msgstr ""
+
+#: shifts/forms.py:388
 msgid "The selected member must be an investing member."
 msgstr "Das ausgewählte Mitglied muss ein investierendes Mitglied sein."
 
-#: shifts/forms.py:434
+#: shifts/forms.py:444
 msgid "This member is registered to at least one ABCD shift. Please confirm the change of attendance mode with the checkbox below."
 msgstr ""
 
-#: shifts/forms.py:479
+#: shifts/forms.py:489
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:486
+#: shifts/forms.py:496
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:544
+#: shifts/forms.py:529
+#, python-brace-format
+msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
+msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerhalb der Befreiung sind : {attendances_display}"
+
+#: shifts/forms.py:554
 #, python-format
 msgid "The user will be unregistered from the following ABCD shifts because the exemption is longer than %(number_of_cycles)s cycles: %(attendances_display)s "
 msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s "
 
-#: shifts/forms.py:565
+#: shifts/forms.py:575
 msgid "This shift has been deleted. It is not possible to cancel it."
 msgstr ""
 
-#: shifts/forms.py:594
+#: shifts/forms.py:604
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:615
+#: shifts/forms.py:637
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:624
+#: shifts/forms.py:646
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
