@@ -64,6 +64,11 @@
                         <a href="{{ shift.shift_template.get_absolute_url }}">{{ shift.shift_template.get_display_name }}</a>
                     </span>
                 {% endif %}
+                {% if total_valid_attendances and total_hours and no_of_past_shifts %}
+                    <p>
+                        {% blocktranslate %}{{ total_valid_attendances }} people worked {{ total_hours }} hours in {{ no_of_past_shifts }} shifts so far.{% endblocktranslate %}
+                    </p>
+                {% endif %}
             </div>
         </div>
         <ul class="list-group list-group-flush">
