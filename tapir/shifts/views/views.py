@@ -234,6 +234,27 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             .prefetch_related("slot_template__attendance_template__user")
         )
 
+        # Get all past shifts related to the same ShiftTemplate
+        if shift.shift_template:
+            past_shifts = Shift.objects.filter(
+                shift_template=shift.shift_template, end_time__lt=timezone.now()
+            ).exclude(id=shift.id)
+            context["no_of_past_shifts"] = len(past_shifts)
+
+            # Sum valid attendances for related shifts
+            total_valid_attendances = sum(
+                s.get_valid_attendances().count() for s in past_shifts
+            )
+            context["total_valid_attendances"] = total_valid_attendances
+            # Calculate total working hours
+            total_hours = sum(
+                (s.end_time - s.start_time).total_seconds()
+                * s.get_valid_attendances().count()
+                / 3600
+                for s in past_shifts
+            )
+            context["total_hours"] = total_hours
+
         for slot in slots:
             slot.can_self_register = slot.user_can_attend(self.request.user)
             slot.can_self_unregister = slot.user_can_self_unregister(self.request.user)
@@ -254,6 +275,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
         )
         context["SHIFT_ATTENDANCE_STATES"] = SHIFT_ATTENDANCE_STATES
+
         return context
 
 
