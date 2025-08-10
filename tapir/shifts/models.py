@@ -1214,3 +1214,23 @@ class SolidarityShift(models.Model):
     is_used_up = models.BooleanField(default=False)
     date_gifted = models.DateField(auto_now_add=True)
     date_used = models.DateField(null=True)
+
+
+class ShiftWatch(models.Model):
+    user = models.ForeignKey(
+        TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
+    )
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
+    notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
+    notification_sent = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} is watching {self.shift.name}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "shift"],
+                name="shift_watch_constraint",
+            )
+        ]
