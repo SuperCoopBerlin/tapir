@@ -1,7 +1,7 @@
 import datetime
 
 import pytest
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
@@ -26,3 +26,5 @@ class TestShiftWatch(TapirFactoryTestBase):
         current_shiftwatches = get_current_shiftwatch()
         assert current_shiftwatches.count() == 1
         assert current_shiftwatches.first() == shift_watch
+
+    # TODO test that mail to one user was not send twice
