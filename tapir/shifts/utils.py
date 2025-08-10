@@ -1,6 +1,7 @@
 from calendar import HTMLCalendar, month_name, day_abbr
 from datetime import datetime, timedelta, date
 
+from django.db.models import F, QuerySet
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -11,6 +12,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
+    ShiftWatch,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
@@ -164,3 +166,11 @@ def get_attendance_mode_display(attendance_mode: str) -> str:
         if mode_choice[0] == attendance_mode:
             return mode_choice[1]
     return _(f"Unknown mode {attendance_mode}")
+
+
+def get_current_shiftwatch(notification_sent: bool = False) -> QuerySet[ShiftWatch]:
+    return ShiftWatch.objects.filter(
+        shift__start_time__gte=timezone.now(),
+        shift__start_time__lte=timezone.now() + F("notification_timedelta"),
+        notification_sent=notification_sent,
+    )
