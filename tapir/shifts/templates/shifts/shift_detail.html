@@ -29,27 +29,27 @@
                 <h5>
                     <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 </h5>
-                {% if perms.shifts.manage %}
-                    <span class="d-flex justify-content-end flex-wrap gap-2">
-                        {% if request.user|user_watching_shift:shift.id %}
-                            <form style="display: inline"
-                                  method="post"
-                                  action="{% url 'shifts:unwatch_shift' shift.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="{% tapir_button_custom 'secondary' %} ">
-                                    <span class="material-icons">visibility_off</span>{% translate 'Unwatch' %}
-                                </button>
-                            </form>
-                        {% else %}
-                            <form style="display: inline"
-                                  method="post"
-                                  action="{% url 'shifts:watch_shift' shift.pk %}">
-                                {% csrf_token %}
-                                <button type="submit" class="{% tapir_button_custom 'secondary' %}">
-                                    <span class="material-icons">visibility</span>{% translate 'Watch' %}
-                                </button>
-                            </form>
-                        {% endif %}
+                <span class="d-flex justify-content-end flex-wrap gap-2">
+                    {% if request.user|user_watching_shift:shift.id %}
+                        <form style="display: inline"
+                              method="post"
+                              action="{% url 'shifts:unwatch_shift' shift.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="{% tapir_button_custom 'secondary' %} ">
+                                <span class="material-icons">visibility_off</span>{% translate 'Unwatch' %}
+                            </button>
+                        </form>
+                    {% else %}
+                        <form style="display: inline"
+                              method="post"
+                              action="{% url 'shifts:watch_shift' shift.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="{% tapir_button_custom 'secondary' %}">
+                                <span class="material-icons">visibility</span>{% translate 'Watch' %}
+                            </button>
+                        </form>
+                    {% endif %}
+                    {% if perms.shifts.manage %}
                         <a class="{% tapir_button_link %}"
                            href="{% url 'shifts:shift_detail_printable' shift.pk %}">
                             <span class="material-icons">print</span>{% translate 'Get printable version' %}
