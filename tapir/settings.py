@@ -173,7 +173,7 @@ CELERY_BEAT_SCHEDULE = {
     },
     "send_shift_watch_mail": {
         "task": "tapir.shifts.tasks.send_shift_watch_mail",
-        "schedule": celery.schedules.crontab(hour="*/6", minute="0"),
+        "schedule": celery.schedules.crontab(hour="0", minute="*/15"),
     },
 }
 

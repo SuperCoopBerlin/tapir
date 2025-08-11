@@ -1216,11 +1216,46 @@ class SolidarityShift(models.Model):
     date_used = models.DateField(null=True)
 
 
+class StaffingStatus(models.TextChoices):
+    ALMOST_FULL = "AF", _("Shift is almost full:")
+    FULL = "F", _("Shift is full now:")
+    FREE_SLOT = "FS", _("A slot became free or somebody searches for a stand-in:")
+    UNDERSTAFFED = "U", _("The Shift is now understaffed!")
+    __empty__ = _("(Unknown)")
+
+
+def get_statuses():
+    return StaffingStatus.choices
+
+
+# def get_status(shift: Shift) -> StaffingStatus | None:
+#     if (
+#             shift.get_valid_attendances().count()
+#             < shift.get_num_required_attendances()
+#     ):
+#         return StaffingStatus.UNDERSTAFFED
+#     elif shift.get_valid_attendances().count():
+#         return StaffingStatus.ALMOST_FULL
+#     return None
+
+
+class ShiftStaffingStatus(models.Model):
+    shift = models.OneToOneField(Shift, on_delete=models.CASCADE, primary_key=True)
+    staffing_status = models.CharField(
+        max_length=2, choices=get_statuses, default=StaffingStatus.__empty__
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class ShiftWatch(models.Model):
     user = models.ForeignKey(
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
     )
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
+    last_reason_for_notification = models.CharField(
+        max_length=2,
+        choices=get_statuses,
+    )
     notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
     notification_sent = models.BooleanField(default=False)
 
