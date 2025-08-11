@@ -1220,7 +1220,7 @@ class StaffingStatus(models.TextChoices):
     ALMOST_FULL = "AF", _("Shift is almost full:")
     FULL = "F", _("Shift is full now:")
     UNDERSTAFFED = "U", _("The Shift is now understaffed!")
-    ALL_CLEAR = "AC", (
+    ALL_CLEAR = "AC", _(
         "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
     )
     __empty__ = _("(Unknown)")
