@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-10 17:17+0200\n"
+"POT-Creation-Date: 2025-08-11 17:09+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2963,7 +2963,7 @@ msgstr "Letzte Änderungen"
 msgid "Sent to a member when a shift staffing is changed relevantely and the user is watching this shift."
 msgstr "Wird an ein Mitglied gesendet, wenn sich die Schichtbesetzung relevant ändert und das Mitglied das wissen möchte."
 
-#: shifts/emails/shift_watch_mail.py:55
+#: shifts/emails/shift_watch_mail.py:56
 msgid "Understaffed shift: {shift.get_display_name()}"
 msgstr "Schicht braucht Hilfe: {shift.get_display_name()}"
 
@@ -3083,12 +3083,6 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/management/commands/send_shift_watch_mail.py:32
-#, fuzzy
-#| msgid "{{ shift_display_name }} is still understaffed!"
-msgid "Understaffed shift: {shift_watch.shift.get_display_name()}"
-msgstr "{{ shift_display_name }} braucht noch Hilfe!"
-
 #: shifts/models.py:38
 msgid "Teamleader"
 msgstr "Teamleiter*in"
@@ -3154,7 +3148,7 @@ msgid "This determines from which date shifts should be generated from this ABCD
 msgstr ""
 
 #: shifts/models.py:189 shifts/models.py:521
-#: shifts/templates/shifts/shift_block_tag.html:9
+#: shifts/templates/shifts/shift_block_tag.html:10
 msgid "Flexible time"
 msgstr "Zeit flexibel"
 
@@ -3234,6 +3228,28 @@ msgstr ""
 #: shifts/models.py:1193
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
+
+#: shifts/models.py:1214
+msgid "Shift is almost full:"
+msgstr "Die Schicht ist beinahe voll:"
+
+#: shifts/models.py:1215
+msgid "Shift is full now:"
+msgstr "Die Schicht ist jetzt voll:"
+
+#: shifts/models.py:1216
+#, fuzzy
+#| msgid "This upcoming shift is understaffed!"
+msgid "The Shift is now understaffed!"
+msgstr "Die kommende Schicht ist unterbesetzt!"
+
+#: shifts/models.py:1218
+msgid "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
+msgstr "Entwarnung. Die Schicht ist nicht mehr unterbesetzt, aber auch noch nicht gut gefüllt..."
+
+#: shifts/models.py:1220
+msgid "(Unknown)"
+msgstr ""
 
 #: shifts/templates/shifts/cancel_shift.html:7
 msgid "Cancel shift:"
@@ -3940,11 +3956,11 @@ msgstr "Hat Qualifikationen : "
 msgid "Shift"
 msgstr "Schicht"
 
-#: shifts/templates/shifts/shift_detail.html:40
+#: shifts/templates/shifts/shift_detail.html:39
 msgid "Unwatch"
 msgstr "Nicht beobachten"
 
-#: shifts/templates/shifts/shift_detail.html:49
+#: shifts/templates/shifts/shift_detail.html:48
 msgid "Watch"
 msgstr "Beobachten"
 
@@ -4583,7 +4599,7 @@ msgstr "Keine"
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/utils.py:168
+#: shifts/utils.py:170
 #, python-brace-format
 msgid "Unknown mode {attendance_mode}"
 msgstr ""
@@ -6123,11 +6139,13 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 
 #, fuzzy
 #~| msgid "{{ shift_display_name }} is still understaffed!"
+#~ msgid "Understaffed shift: {shift_watch.shift.get_display_name()}"
+#~ msgstr "{{ shift_display_name }} braucht noch Hilfe!"
+
+#, fuzzy
+#~| msgid "{{ shift_display_name }} is still understaffed!"
 #~ msgid "{shift.get_display_name()} is still understaffed!"
 #~ msgstr "{shift.get_display_name()} braucht noch Hilfe!"
-
-#~ msgid "This upcoming shift is understaffed!"
-#~ msgstr "Die kommende Schicht ist unterbesetzt!"
 
 #~ msgid "Paid Shares"
 #~ msgstr "Anteil(e) bezahlt"
