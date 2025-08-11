@@ -178,11 +178,13 @@ def get_current_shiftwatch(notification_sent: bool = False) -> QuerySet[ShiftWat
     )
 
 
-def get_staffing_status(shift: Shift):
+def get_staffing_status(shift: Shift, last_status: str):
     if shift.get_valid_attendances().count() < shift.get_num_required_attendances():
         return StaffingStatus.UNDERSTAFFED
     elif shift.slots.count() - shift.get_valid_attendances().count() == 1:
         return StaffingStatus.ALMOST_FULL
     elif shift.slots.count() - shift.get_valid_attendances().count() == 0:
         return StaffingStatus.FULL
-    return None
+    elif last_status == StaffingStatus.UNDERSTAFFED:
+        return StaffingStatus.ALL_CLEAR
+    return StaffingStatus.__empty__
