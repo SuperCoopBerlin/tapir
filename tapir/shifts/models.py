@@ -1219,24 +1219,12 @@ class SolidarityShift(models.Model):
 class StaffingStatus(models.TextChoices):
     ALMOST_FULL = "AF", _("Shift is almost full:")
     FULL = "F", _("Shift is full now:")
-    FREE_SLOT = "FS", _("A slot became free or somebody searches for a stand-in:")
     UNDERSTAFFED = "U", _("The Shift is now understaffed!")
     __empty__ = _("(Unknown)")
 
 
 def get_statuses():
     return StaffingStatus.choices
-
-
-# def get_status(shift: Shift) -> StaffingStatus | None:
-#     if (
-#             shift.get_valid_attendances().count()
-#             < shift.get_num_required_attendances()
-#     ):
-#         return StaffingStatus.UNDERSTAFFED
-#     elif shift.get_valid_attendances().count():
-#         return StaffingStatus.ALMOST_FULL
-#     return None
 
 
 class ShiftStaffingStatus(models.Model):
