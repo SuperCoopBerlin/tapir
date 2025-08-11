@@ -2,7 +2,6 @@ import time
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from django.utils.translation import gettext_lazy as _
 
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_watch_mail import (
@@ -10,15 +9,6 @@ from tapir.shifts.emails.shift_watch_mail import (
 )
 from tapir.shifts.models import ShiftWatch, StaffingStatus, Shift, ShiftStaffingStatus
 from tapir.shifts.utils import get_current_shiftwatch
-
-
-def calculate_status(shift: Shift):
-
-    if shift.get_valid_attendances().count() < shift.get_num_required_attendances():
-        return StaffingStatus.UNDERSTAFFED
-    elif shift.get_valid_attendances().count():
-        return StaffingStatus.ALMOST_FULL
-    return None
 
 
 class Command(BaseCommand):

@@ -13,6 +13,8 @@ from tapir.shifts.models import (
     ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
     ShiftWatch,
+    StaffingStatus,
+    Shift,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
@@ -174,3 +176,13 @@ def get_current_shiftwatch(notification_sent: bool = False) -> QuerySet[ShiftWat
         shift__start_time__lte=timezone.now() + F("notification_timedelta"),
         notification_sent=notification_sent,
     )
+
+
+def get_staffing_status(shift: Shift):
+    if shift.get_valid_attendances().count() < shift.get_num_required_attendances():
+        return StaffingStatus.UNDERSTAFFED
+    elif shift.slots.count() - shift.get_valid_attendances().count() == 1:
+        return StaffingStatus.ALMOST_FULL
+    elif shift.slots.count() - shift.get_valid_attendances().count() == 0:
+        return StaffingStatus.FULL
+    return None
