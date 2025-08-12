@@ -27,7 +27,6 @@ services:
       VIRTUAL_HOST: localhost
       DEBUG: 1
       DJANGO_VITE_DEBUG: 1
-      WERKZEUG_DEBUG_PIN: 1234
     depends_on:
       - openldap
       - db
