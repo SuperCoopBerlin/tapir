@@ -32,6 +32,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     ShiftSlotTemplate,
     ShiftAttendanceMode,
+    Shift,
 )
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,
