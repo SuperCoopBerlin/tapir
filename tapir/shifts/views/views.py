@@ -245,7 +245,9 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             total_valid_attendances = sum(
                 s.get_valid_attendances().count() for s in past_shifts
             )
-            context["total_valid_attendances"] = total_valid_attendances
+            if total_valid_attendances > 1:
+                context["total_valid_attendances"] = total_valid_attendances
+
             # Calculate total working hours
             total_hours = sum(
                 (s.end_time - s.start_time).total_seconds()
