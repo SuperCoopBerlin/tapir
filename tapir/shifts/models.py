@@ -1230,14 +1230,6 @@ def get_statuses():
     return StaffingStatus.choices
 
 
-# class ShiftStaffingStatus(models.Model):
-#     shift = models.OneToOneField(Shift, on_delete=models.CASCADE, primary_key=True)
-#     staffing_status = models.CharField(
-#         max_length=2, choices=get_statuses, default=StaffingStatus.__empty__
-#     )
-#     created_at = models.DateTimeField(auto_now_add=True)
-
-
 class ShiftWatch(models.Model):
     user = models.ForeignKey(
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
