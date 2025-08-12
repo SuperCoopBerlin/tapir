@@ -63,6 +63,15 @@ class ShiftCreateForm(forms.ModelForm):
 
         return self.cleaned_data["end_time"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set the max value for num_required_attendances based on available ShiftSlotTemplates
+        if self.instance and self.instance.id:
+            shift_slot_count = ShiftSlot.objects.filter(shift=self.instance).count()
+            self.fields["num_required_attendances"].widget.attrs[
+                "max"
+            ] = shift_slot_count
+
 
 class ShiftDeleteForm(forms.ModelForm):
     class Meta:
@@ -595,6 +604,17 @@ class ShiftTemplateForm(forms.ModelForm):
         ),
         required=True,
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set the max value for num_required_attendances based on available ShiftSlotTemplates
+        if self.instance and self.instance.id:
+            shift_slot_count = ShiftSlotTemplate.objects.filter(
+                shift_template=self.instance
+            ).count()
+            self.fields["num_required_attendances"].widget.attrs[
+                "max"
+            ] = shift_slot_count
 
 
 class ShiftSlotTemplateForm(forms.ModelForm):
