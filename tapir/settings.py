@@ -401,3 +401,20 @@ DJANGO_VITE = {
 }
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+if DEBUG:
+    LOGGING = {
+        "version": 1,
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+            },
+        },
+        "loggers": {
+            "werkzeug": {
+                "handlers": ["console"],
+                "level": "DEBUG",
+                "propagate": True,
+            },
+        },
+    }
