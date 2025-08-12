@@ -65,7 +65,6 @@ class ShiftCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["num_required_attendances"].initial = 0
         # Set the max value for num_required_attendances based on available ShiftSlotTemplates
         if self.instance and self.instance.id:
             shift_slot_count = ShiftSlot.objects.filter(shift=self.instance).count()
@@ -608,7 +607,6 @@ class ShiftTemplateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["num_required_attendances"].initial = 0
         # Set the max value for num_required_attendances based on available ShiftSlotTemplates
         if self.instance and self.instance.id:
             shift_slot_count = ShiftSlotTemplate.objects.filter(
