@@ -1217,11 +1217,17 @@ class SolidarityShift(models.Model):
 
 
 class StaffingStatus(models.TextChoices):
-    ALMOST_FULL = "AF", _("Shift is almost full:")
-    FULL = "F", _("Shift is full now:")
-    UNDERSTAFFED = "U", _("The Shift is now understaffed!")
-    ALL_CLEAR = "AC", _(
+    ALMOST_FULL = "ALMOST_FULL", _("Shift is almost full:")
+    FULL = "FULL", _("Shift is full now:")
+    UNDERSTAFFED = "UNDERSTAFFED", _("The Shift is now understaffed!")
+    ALL_CLEAR = "ALL_CLEAR", _(
         "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
+    )
+    ATTENDANCE_PLUS = "SLOTS_PLUS", _(
+        "A new attendance registered, but the shift is neither understaffed nor full or almost full."
+    )
+    ATTENDANCE_MINUS = "SLOTS_MINUS", _(
+        "An attendance un-registered, but the shift is neither understaffed nor full or almost full."
     )
     __empty__ = _("(Unknown)")
 
@@ -1236,9 +1242,10 @@ class ShiftWatch(models.Model):
     )
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     last_reason_for_notification = models.CharField(
-        max_length=2,
+        max_length=30,
         choices=get_statuses,
     )
+    last_number_of_attendances = models.PositiveIntegerField()
     notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
     notification_sent = models.BooleanField(default=False)
 
