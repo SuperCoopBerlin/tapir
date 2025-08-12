@@ -28,6 +28,11 @@
                 <h5>
                     <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 </h5>
+                {% if total_valid_attendances and total_hours and no_of_past_shifts %}
+                    <span data-bs-toggle="tooltip"
+                          title="{% blocktranslate %}Statistics to date: {{ total_valid_attendances }} people worked {{ total_hours }} hours in {{ no_of_past_shifts }} shifts so far.{% endblocktranslate %}">
+                    </span>
+                {% endif %}
                 {% if perms.shifts.manage %}
                     <span class="d-flex justify-content-end flex-wrap gap-2">
                         <a class="{% tapir_button_link %}"
@@ -63,11 +68,6 @@
                     <span>{% translate "Generated from" %}:
                         <a href="{{ shift.shift_template.get_absolute_url }}">{{ shift.shift_template.get_display_name }}</a>
                     </span>
-                {% endif %}
-                {% if total_valid_attendances and total_hours and no_of_past_shifts %}
-                    <p>
-                        {% blocktranslate %}{{ total_valid_attendances }} people worked {{ total_hours }} hours in {{ no_of_past_shifts }} shifts so far.{% endblocktranslate %}
-                    </p>
                 {% endif %}
             </div>
         </div>
