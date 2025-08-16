@@ -6,9 +6,11 @@ from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.core.services.send_mail_service import SendMailService
+from tapir.shifts.management.commands.send_shift_watch_mail import (
+    get_current_shiftwatch,
+)
 from tapir.shifts.models import ShiftWatch
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.shifts.utils import get_current_shiftwatch
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

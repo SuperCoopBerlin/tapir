@@ -1,7 +1,6 @@
 from calendar import HTMLCalendar, month_name, day_abbr
 from datetime import datetime, timedelta, date
 
-from django.db.models import F, QuerySet
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -12,7 +11,6 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
-    ShiftWatch,
     StaffingEventsChoices,
     Shift,
 )
@@ -168,29 +166,3 @@ def get_attendance_mode_display(attendance_mode: str) -> str:
         if mode_choice[0] == attendance_mode:
             return mode_choice[1]
     return _(f"Unknown mode {attendance_mode}")
-
-
-def get_current_shiftwatch(notification_sent: bool = False) -> QuerySet[ShiftWatch]:
-    return ShiftWatch.objects.filter(
-        shift__start_time__gte=timezone.now(),
-        shift__start_time__lte=timezone.now() + F("notification_timedelta"),
-        notification_sent=notification_sent,
-    )
-
-
-def get_staffing_status(
-    shift: Shift, last_status: str, last_number_of_attendances: int
-):
-    if shift.get_valid_attendances().count() < shift.get_num_required_attendances():
-        return StaffingEventsChoices.UNDERSTAFFED
-    elif shift.slots.count() - shift.get_valid_attendances().count() == 1:
-        return StaffingEventsChoices.ALMOST_FULL
-    elif shift.slots.count() - shift.get_valid_attendances().count() == 0:
-        return StaffingEventsChoices.FULL
-    elif last_status == StaffingEventsChoices.UNDERSTAFFED:
-        return StaffingEventsChoices.ALL_CLEAR
-    elif shift.get_valid_attendances().count() > last_number_of_attendances:
-        return StaffingEventsChoices.ATTENDANCE_PLUS
-    elif shift.get_valid_attendances().count() < last_number_of_attendances:
-        return StaffingEventsChoices.ATTENDANCE_MINUS
-    return StaffingEventsChoices.__empty__
