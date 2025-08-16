@@ -8,13 +8,15 @@ from django.db import transaction
 from django.db.models import Sum, Count, Q
 from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views import generic
 from django.views.generic import (
     CreateView,
     UpdateView,
     RedirectView,
+    FormView,
 )
 from django.views.generic import DetailView, TemplateView
 from django_tables2 import SingleTableView
@@ -36,6 +38,7 @@ from tapir.settings import (
 from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
+    ShiftWatchForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -356,15 +359,29 @@ class RunFreezeChecksManuallyView(
         return super().get(request, args, kwargs)
 
 
-class WatchShiftView(LoginRequiredMixin, RedirectView):
-    def post(self, request, *args, **kwargs):
-        shift = get_object_or_404(Shift, pk=kwargs["shift_id"])
-        ShiftWatch.objects.get_or_create(user=request.user, shift=shift)
-        return redirect("shifts:shift_detail", pk=kwargs["shift_id"])
+# class WatchShiftView(LoginRequiredMixin, RedirectView):
+#     def post(self, request, *args, **kwargs):
+#         shift = get_object_or_404(Shift, pk=kwargs["shift_id"])
+#         ShiftWatch.objects.get_or_create(user=request.user, shift=shift)
+#         return redirect("shifts:shift_detail", pk=kwargs["shift_id"])
+#
 
 
 class UnwatchShiftView(LoginRequiredMixin, RedirectView):
     def post(self, request, *args, **kwargs):
-        shift = get_object_or_404(Shift, id=kwargs["shift_id"])
+        shift = get_object_or_404(Shift, id=kwargs["shift"])
         ShiftWatch.objects.filter(user=request.user, shift=shift).delete()
-        return redirect("shifts:shift_detail", pk=kwargs["shift_id"])
+        return redirect("shifts:shift_detail", pk=kwargs["shift"])
+
+
+class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
+    model = ShiftWatch
+    form_class = ShiftWatchForm
+
+    def get_success_url(self):
+        return reverse_lazy("shifts:shift_detail", args=[self.kwargs["shift"]])
+
+    def form_valid(self, form):
+        form.instance.shift = Shift.objects.get(id=self.kwargs["shift"])
+        form.instance.user = self.request.user
+        return super().form_valid(form)

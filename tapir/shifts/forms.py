@@ -29,6 +29,10 @@ from tapir.shifts.models import (
     SHIFT_SLOT_WARNING_CHOICES,
     ShiftTemplate,
     ShiftAttendanceMode,
+    ShiftWatch,
+    StaffingEventsChoices,
+    get_staffingevent_defaults,
+    get_staffingevent_choices,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -663,3 +667,18 @@ class ShiftAttendanceTemplateCustomTimeForm(CustomTimeCleanMixin, forms.ModelFor
 
     def get_shift_object(self) -> Shift | ShiftTemplate:
         return self.instance.slot_template.shift_template
+
+
+class ShiftWatchForm(forms.ModelForm):
+    class Meta:
+        model = ShiftWatch
+        fields = ["staffing_events"]
+
+    statuses = forms.MultipleChoiceField(
+        required=False,
+        choices=get_staffingevent_choices,
+        label=_("Which shift-events do you want to subscribe to?"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+        initial=get_staffingevent_defaults,
+    )
