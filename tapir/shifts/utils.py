@@ -13,7 +13,7 @@ from tapir.shifts.models import (
     ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
     ShiftWatch,
-    StaffingStatus,
+    StaffingEventsChoices,
     Shift,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
@@ -182,15 +182,15 @@ def get_staffing_status(
     shift: Shift, last_status: str, last_number_of_attendances: int
 ):
     if shift.get_valid_attendances().count() < shift.get_num_required_attendances():
-        return StaffingStatus.UNDERSTAFFED
+        return StaffingEventsChoices.UNDERSTAFFED
     elif shift.slots.count() - shift.get_valid_attendances().count() == 1:
-        return StaffingStatus.ALMOST_FULL
+        return StaffingEventsChoices.ALMOST_FULL
     elif shift.slots.count() - shift.get_valid_attendances().count() == 0:
-        return StaffingStatus.FULL
-    elif last_status == StaffingStatus.UNDERSTAFFED:
-        return StaffingStatus.ALL_CLEAR
+        return StaffingEventsChoices.FULL
+    elif last_status == StaffingEventsChoices.UNDERSTAFFED:
+        return StaffingEventsChoices.ALL_CLEAR
     elif shift.get_valid_attendances().count() > last_number_of_attendances:
-        return StaffingStatus.ATTENDANCE_PLUS
+        return StaffingEventsChoices.ATTENDANCE_PLUS
     elif shift.get_valid_attendances().count() < last_number_of_attendances:
-        return StaffingStatus.ATTENDANCE_MINUS
-    return StaffingStatus.__empty__
+        return StaffingEventsChoices.ATTENDANCE_MINUS
+    return StaffingEventsChoices.__empty__

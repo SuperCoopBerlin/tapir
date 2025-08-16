@@ -51,9 +51,9 @@ For local development and testing, set up the test database and load test data
 
 ```sh
 # Create tables
-docker compose exec web poetry run python manage.py migrate
+docker compose exec web poetry run python manage.py migrate && \
 # Load admin (password: admin) account
-docker compose exec web poetry run python manage.py loaddata admin_account
+docker compose exec web poetry run python manage.py loaddata admin_account && \
 # Load lots of test users & shifts
 docker compose exec web poetry run python manage.py generate_test_data --reset_all
 ```

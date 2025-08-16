@@ -40,14 +40,10 @@
                             </button>
                         </form>
                     {% else %}
-                        <form style="display: inline"
-                              method="post"
-                              action="{% url 'shifts:watch_shift' shift.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="{% tapir_button_custom 'secondary' %}">
-                                <span class="material-icons">visibility</span>{% translate 'Watch' %}
-                            </button>
-                        </form>
+                        <a class="{% tapir_button_link %}"
+                           href="{% url 'shifts:watch_shift' shift.pk %}">
+                            <span class="material-icons">visibility</span>{% translate 'Watch' %}
+                        </a>
                     {% endif %}
                     {% if perms.shifts.manage %}
                         <a class="{% tapir_button_link %}"
