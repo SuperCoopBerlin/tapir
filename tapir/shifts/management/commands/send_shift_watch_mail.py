@@ -7,7 +7,7 @@ from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_watch_mail import (
     ShiftWatchEmailBuilder,
 )
-from tapir.shifts.models import ShiftWatch, StaffingStatus
+from tapir.shifts.models import ShiftWatch, StaffingEventsChoices
 from tapir.shifts.utils import get_current_shiftwatch, get_staffing_status
 
 
@@ -22,9 +22,11 @@ class Command(BaseCommand):
                 last_number_of_attendances=shift_watch_data.last_number_of_attendances,
             )
             if (shift_watch_data.last_reason_for_notification != current_status) and (
-                current_status != StaffingStatus.__empty__
+                current_status != StaffingEventsChoices.__empty__
             ):
-                self.send_shift_watch_mail(shift_watch_data, reason=current_status)
+                if current_status in shift_watch_data.staffing_events:
+                    self.send_shift_watch_mail(shift_watch_data, reason=current_status)
+
                 with transaction.atomic():
                     shift_watch_data.last_reason_for_notification = current_status
                     shift_watch_data.last_number_of_attendances = (
