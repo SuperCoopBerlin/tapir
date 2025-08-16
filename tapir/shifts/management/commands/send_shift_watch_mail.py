@@ -2,13 +2,41 @@ import time
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
+from django.db.models import F, QuerySet
+from django.utils import timezone
 
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_watch_mail import (
     ShiftWatchEmailBuilder,
 )
-from tapir.shifts.models import ShiftWatch, StaffingEventsChoices
-from tapir.shifts.utils import get_current_shiftwatch, get_staffing_status
+from tapir.shifts.models import ShiftWatch, StaffingEventsChoices, Shift
+
+
+def get_staffing_status(
+    shift: Shift, last_status: str, last_number_of_attendances: int
+):
+    if shift.get_valid_attendances().count() < shift.get_num_required_attendances():
+        return StaffingEventsChoices.UNDERSTAFFED
+    elif shift.slots.count() - shift.get_valid_attendances().count() == 1:
+        return StaffingEventsChoices.ALMOST_FULL
+    elif shift.slots.count() - shift.get_valid_attendances().count() == 0:
+        return StaffingEventsChoices.FULL
+    elif last_status == StaffingEventsChoices.UNDERSTAFFED:
+        return StaffingEventsChoices.ALL_CLEAR
+    elif shift.get_valid_attendances().count() > last_number_of_attendances:
+        return StaffingEventsChoices.ATTENDANCE_PLUS
+    elif shift.get_valid_attendances().count() < last_number_of_attendances:
+        return StaffingEventsChoices.ATTENDANCE_MINUS
+    else:
+        return None
+
+
+def get_current_shiftwatch(notification_sent: bool = False) -> QuerySet[ShiftWatch]:
+    return ShiftWatch.objects.filter(
+        shift__start_time__gte=timezone.now(),
+        shift__start_time__lte=timezone.now() + F("notification_timedelta"),
+        notification_sent=notification_sent,
+    )
 
 
 class Command(BaseCommand):
@@ -22,7 +50,7 @@ class Command(BaseCommand):
                 last_number_of_attendances=shift_watch_data.last_number_of_attendances,
             )
             if (shift_watch_data.last_reason_for_notification != current_status) and (
-                current_status != StaffingEventsChoices.__empty__
+                current_status is not None
             ):
                 if current_status in shift_watch_data.staffing_events:
                     self.send_shift_watch_mail(shift_watch_data, reason=current_status)
