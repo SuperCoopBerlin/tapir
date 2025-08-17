@@ -52,12 +52,12 @@ jobs:
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Create Tag
-#        run: |
-#          git config --local user.email "action@github.com"
-#          git config --local user.name "GitHub Action"
-#          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
-#          git push origin "v${{ github.run_number }}"
+      - name: Create Tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
+          git push origin "v${{ github.run_number }}"
 #
       - name: Draft release with changelog
         id: create_release
@@ -65,8 +65,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: Tapir version ${{ github.run_number }}
+          tag_name: ${{ github.ref }}
+          release_name: Tapir ${{ github.ref }}
           body: ${{steps.build_changelog.outputs.changelog}}
   build-and-push-image:
     runs-on: ubuntu-latest
