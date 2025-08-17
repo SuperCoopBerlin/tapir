@@ -8,17 +8,66 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  create-tag:
+  prepare-changelog-and-changelog:
+    # if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Create Tag
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
-          git push origin "v${{ github.run_number }}"
-
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Get latest published release tag
+        id: get_latest_release
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          repository: ${{ github.repository }}
+      - name: Build Changelog
+        uses: mikepenz/release-changelog-builder-action@v5
+        id: build_changelog
+        with:
+          fromTag: ${{ steps.get_latest_release.outputs.release }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          configurationJson: |
+            {
+              "template": "#{{CHANGELOG}}",
+              "categories": [
+                {
+                    "title": "## Feature",
+                    "labels": ["feat", "feature"]
+                },
+                {
+                    "title": "## Fix",
+                    "labels": ["fix", "bug"]
+                },
+                {
+                    "title": "## Other",
+                    "labels": []
+                }
+              ],
+              "label_extractor": [
+                {
+                  "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
+                  "on_property": "title",
+                  "target": "$1"
+                }
+              ]
+            }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Create Tag
+#        run: |
+#          git config --local user.email "action@github.com"
+#          git config --local user.name "GitHub Action"
+#          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
+#          git push origin "v${{ github.run_number }}"
+#
+      - name: Draft release with changelog
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.run_number }}
+          release_name: Tapir version ${{ github.run_number }}
+          body: ${{steps.build_changelog.outputs.changelog}}
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
