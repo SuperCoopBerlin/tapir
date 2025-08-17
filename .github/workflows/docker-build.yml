@@ -8,6 +8,17 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create Tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
+          git push origin "v${{ github.run_number }}"
+
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
