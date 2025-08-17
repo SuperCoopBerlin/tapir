@@ -175,6 +175,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.send_shift_watch_mail",
         "schedule": celery.schedules.crontab(minute="*/15"),
     },
+    "send_understaffed_shift_reminder_mail": {
+        "task": "tapir.shifts.tasks.send_understaffed_shift_reminder_mail",
+        "schedule": celery.schedules.crontab(hour=18, minute="15"),
+    },
 }
 
 # Password validation

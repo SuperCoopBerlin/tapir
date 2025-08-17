@@ -28,5 +28,10 @@ def send_flying_member_registration_reminder_mails():
 
 
 @shared_task
+def send_understaffed_shift_reminder_mail():
+    call_command("send_understaffed_shift_reminder_mail")
+
+
+@shared_task
 def send_shift_watch_mail():
     call_command("send_shift_watch_mail")
