@@ -14,11 +14,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Get latest published release tag
-        id: get_latest_release
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          repository: ${{ github.repository }}
+#      - name: Get latest published release tag
+#        id: get_latest_release
+#        uses: pozetroninc/github-action-get-latest-release@master
+#        with:
+#          repository: ${{ github.repository }}
       - name: Create Tag
         run: |
           git config --local user.email "action@github.com"
@@ -26,48 +26,21 @@ jobs:
           git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
           git push origin "v${{ github.run_number }}"
       - name: Build Changelog
-        uses: mikepenz/release-changelog-builder-action@v5
+        uses: orhun/git-cliff-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
         id: build_changelog
-        with:
-          fromTag: ${{ steps.get_latest_release.outputs.release }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          mode: "COMMIT"
-          configurationJson: |
-            {
-              "template": "#{{CHANGELOG}}",
-              "categories": [
-                {
-                    "title": "## Feature",
-                    "labels": ["feat", "feature"]
-                },
-                {
-                    "title": "## Fix",
-                    "labels": ["fix", "bug"]
-                },
-                {
-                    "title": "## Other",
-                    "labels": []
-                }
-              ],
-              "label_extractor": [
-                {
-                  "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\\([\\w\\-\\.]+\\))?(!)?: ([\\w ])+([\\s\\S]*)",
-                  "on_property": "title",
-                  "target": "$1"
-                }
-              ]
-            }
+
       - name: Draft release with changelog
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.build_changelog.outputs.toTag }}
-          release_name: Tapir ${{ steps.build_changelog.outputs.toTag }}
-          body: ${{steps.build_changelog.outputs.changelog}}
+          tag_name: ${{ steps.build_changelog.outputs.version }}
+          release_name: Tapir ${{ steps.build_changelog.outputs.version }}
+          body: ${{steps.build_changelog.outputs.content}}
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
