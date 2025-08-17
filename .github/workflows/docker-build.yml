@@ -65,8 +65,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Tapir ${{ github.ref }}
+          tag_name: ${{ gsteps.build_changelog.outputs.toTag }}
+          release_name: Tapir ${{ steps.build_changelog.outputs.toTag }}
           body: ${{steps.build_changelog.outputs.changelog}}
   build-and-push-image:
     runs-on: ubuntu-latest
