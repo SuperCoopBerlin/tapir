@@ -1244,14 +1244,14 @@ class ShiftWatch(models.Model):
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
     )
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
-    last_reason_for_notification = models.CharField(
-        max_length=30,
-        choices=get_staffingevent_choices,
-    )
     staffing_events = ArrayField(
         models.CharField(max_length=30, choices=get_staffingevent_choices),
         blank=False,
         default=get_staffingevent_defaults,
+    )
+    last_reason_for_notification = models.CharField(
+        max_length=30,
+        choices=get_staffingevent_choices,
     )
     last_number_of_attendances = models.PositiveIntegerField(default=0)
     notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
