@@ -31,19 +31,11 @@ def get_staffing_status(
         return None
 
 
-def get_current_shiftwatch(notification_sent: bool = False) -> QuerySet[ShiftWatch]:
-    return ShiftWatch.objects.filter(
-        shift__start_time__gte=timezone.now(),
-        shift__start_time__lte=timezone.now() + F("notification_timedelta"),
-        notification_sent=notification_sent,
-    )
-
-
 class Command(BaseCommand):
     help = "Sent to a member when there is a relevant change in shift staffing and the member wants to know about it."
 
     def handle(self, *args, **options):
-        for shift_watch_data in get_current_shiftwatch():
+        for shift_watch_data in ShiftWatch.objects.select_related("user", "shift"):
             current_status = get_staffing_status(
                 shift=shift_watch_data.shift,
                 last_status=shift_watch_data.last_reason_for_notification,
@@ -63,18 +55,16 @@ class Command(BaseCommand):
                     shift_watch_data.save()
 
     @staticmethod
-    def send_shift_watch_mail(shift_watches: ShiftWatch, reason: str):
-        for shift_watch in shift_watches.objects.select_related("user", "shift"):
-            with transaction.atomic():
-                email_builder = ShiftWatchEmailBuilder(
-                    shift=shift_watch.shift,
-                    reason=f"{reason}: {shift_watch.shift.get_display_name()}",
-                )
-                SendMailService.send_to_tapir_user(
-                    actor=None,
-                    recipient=shift_watch.user,
-                    email_builder=email_builder,
-                )
-                shift_watch.notification_sent = True
-                shift_watch.save()
-            time.sleep(0.1)
+    def send_shift_watch_mail(shift_watch: ShiftWatch, reason: str):
+        with transaction.atomic():
+            email_builder = ShiftWatchEmailBuilder(
+                shift=shift_watch.shift,
+                reason=f"{reason}: {shift_watch.shift.get_display_name()}",
+            )
+            SendMailService.send_to_tapir_user(
+                actor=None,
+                recipient=shift_watch.user,
+                email_builder=email_builder,
+            )
+            shift_watch.save()
+        time.sleep(0.1)
