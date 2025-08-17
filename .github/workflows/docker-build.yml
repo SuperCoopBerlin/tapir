@@ -19,8 +19,16 @@ jobs:
         uses: pozetroninc/github-action-get-latest-release@master
         with:
           repository: ${{ github.repository }}
+      - name: Create Tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
+          git push origin "v${{ github.run_number }}"
       - name: Build Changelog
         uses: mikepenz/release-changelog-builder-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         id: build_changelog
         with:
           fromTag: ${{ steps.get_latest_release.outputs.release }}
@@ -51,15 +59,6 @@ jobs:
                 }
               ]
             }
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create Tag
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
-          git push origin "v${{ github.run_number }}"
-#
       - name: Draft release with changelog
         id: create_release
         uses: actions/create-release@v1
