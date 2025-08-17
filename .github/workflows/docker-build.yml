@@ -10,15 +10,10 @@ env:
 jobs:
   prepare-changelog-and-changelog:
     # if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-#      - name: Get latest published release tag
-#        id: get_latest_release
-#        uses: pozetroninc/github-action-get-latest-release@master
-#        with:
-#          repository: ${{ github.repository }}
       - name: Create Tag
         run: |
           git config --local user.email "action@github.com"
@@ -26,11 +21,14 @@ jobs:
           git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
           git push origin "v${{ github.run_number }}"
       - name: Build Changelog
-        uses: orhun/git-cliff-action@v3
+        uses: orhun/git-cliff-action@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
         id: build_changelog
+        with:
+          config: https://github.com/orhun/git-cliff/blob/main/examples/github.toml
+          args: --verbose
 
       - name: Draft release with changelog
         id: create_release
