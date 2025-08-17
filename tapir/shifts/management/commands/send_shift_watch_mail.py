@@ -2,8 +2,6 @@ import time
 
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from django.db.models import F, QuerySet
-from django.utils import timezone
 
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_watch_mail import (
