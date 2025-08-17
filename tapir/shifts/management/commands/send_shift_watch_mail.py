@@ -41,18 +41,19 @@ class Command(BaseCommand):
                 last_status=shift_watch_data.last_reason_for_notification,
                 last_number_of_attendances=shift_watch_data.last_number_of_attendances,
             )
-            if (shift_watch_data.last_reason_for_notification != current_status) and (
-                current_status is not None
+            if (shift_watch_data.last_reason_for_notification == current_status) or (
+                current_status is None
             ):
-                if current_status in shift_watch_data.staffing_events:
-                    self.send_shift_watch_mail(shift_watch_data, reason=current_status)
+                continue
+            if current_status in shift_watch_data.staffing_events:
+                self.send_shift_watch_mail(shift_watch_data, reason=current_status)
 
-                with transaction.atomic():
-                    shift_watch_data.last_reason_for_notification = current_status
-                    shift_watch_data.last_number_of_attendances = (
-                        shift_watch_data.shift.get_valid_attendances().count()
-                    )
-                    shift_watch_data.save()
+            with transaction.atomic():
+                shift_watch_data.last_reason_for_notification = current_status
+                shift_watch_data.last_number_of_attendances = (
+                    shift_watch_data.shift.get_valid_attendances().count()
+                )
+                shift_watch_data.save()
 
     @staticmethod
     def send_shift_watch_mail(shift_watch: ShiftWatch, reason: str):
