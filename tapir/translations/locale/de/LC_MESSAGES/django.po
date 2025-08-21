@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-29 12:59+0200\n"
+"POT-Creation-Date: 2025-08-21 14:30+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
-"Language-Team: German <http://weblate.seriousdino.org/projects/tapir/"
-"tapir-python-translations/de/>\n"
+"Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,17 +30,25 @@ msgstr "Konto erstellen Erinnerung"
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
 msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt noch kein Konto erstellt haben."
 
-#: accounts/forms.py:116
+#: accounts/forms.py:74
+msgid "If there is not co-purchaser then the co-purchaser-mail field must also be empty"
+msgstr ""
+
+#: accounts/forms.py:86
+msgid "If there is not co-purchaser 2 then the co-purchaser-mail 2 field must also be empty"
+msgstr ""
+
+#: accounts/forms.py:145
 msgid "This username is not available."
 msgstr "Dieser Benutzername ist nicht verfügbar"
 
-#: accounts/forms.py:126
+#: accounts/forms.py:155
 #, fuzzy
 #| msgid "List of all emails"
 msgid "Optional Mails"
 msgstr "Optionale E-Mails"
 
-#: accounts/forms.py:133
+#: accounts/forms.py:162
 msgid "Important Mails"
 msgstr "Wichtige E-Mails"
 
@@ -92,26 +99,38 @@ msgstr "Land"
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:77
+#: accounts/models.py:76
+#, fuzzy
+#| msgid "Co-Purchaser"
+msgid "Co-Purchaser mail"
+msgstr "Miteinkäufer*in"
+
+#: accounts/models.py:78
 msgid "Second co-Purchaser"
 msgstr "2. Miteinkäufer*in"
 
 #: accounts/models.py:80
+#, fuzzy
+#| msgid "Co-Purchaser"
+msgid "Co-Purchaser mail 2"
+msgstr "Miteinkäufer*in"
+
+#: accounts/models.py:82
 msgid "Allow purchase tracking"
 msgstr "Erlaube Aufzeichnen deiner Einkäufe"
 
-#: accounts/models.py:85 accounts/templates/accounts/user_detail.html:102
+#: accounts/models.py:87 accounts/templates/accounts/user_detail.html:102
 #: coop/models.py:81 coop/models.py:456
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:118 accounts/models.py:124
+#: accounts/models.py:120 accounts/models.py:126
 #: coop/views/membership_pause.py:74 shifts/views/exemptions.py:214
 msgid "None"
 msgstr "Keine"
 
-#: accounts/models.py:241
+#: accounts/models.py:243
 #, fuzzy
 #| msgid "Member already created."
 msgid "This username is already taken."
