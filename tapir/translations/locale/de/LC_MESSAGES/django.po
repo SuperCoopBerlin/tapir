@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-21 14:30+0200\n"
+"POT-Creation-Date: 2025-08-22 15:09+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2491,10 +2491,6 @@ msgstr ""
 msgid "Edit membership pause: %(name)s"
 msgstr ""
 
-#: coop/views/membership_resignation.py:112
-msgid "Share(s) gifted {chr(8594)} SuperCoop"
-msgstr ""
-
 #: coop/views/membership_resignation.py:118
 #, fuzzy
 #| msgid "Shares requested"
@@ -2968,11 +2964,6 @@ msgstr ""
 msgid "Shift reminder"
 msgstr "Schicht-Erinnerung"
 
-#: shifts/emails/shift_reminder_email.py:30
-#, python-brace-format
-msgid "Sent to a member {config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT} days before their shift"
-msgstr ""
-
 #: shifts/emails/stand_in_found_email.py:23
 msgid "Stand-in found"
 msgstr "Vertretung gefunden"
@@ -3004,11 +2995,6 @@ msgstr ""
 #: shifts/forms.py:144
 msgid "I have read the warning about the missing qualification and confirm that the user should get registered to the shift"
 msgstr "Ich habe die Warnung über die fehlende Qualifikation gelesen und bestätige, dass Benutzer*in für die Schicht registriert werden sollte"
-
-#: shifts/forms.py:172
-#, python-brace-format
-msgid "The selected user is missing the required qualification for this shift : {missing_capabilities}"
-msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Qualifikation für diese Schicht: {missing_capabilities}"
 
 #: shifts/forms.py:215
 msgid "Please set the chosen time after the start of the shift"
@@ -3042,11 +3028,6 @@ msgstr ""
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
-#: shifts/forms.py:367
-#, python-brace-format
-msgid "{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
-msgstr ""
-
 #: shifts/forms.py:378
 msgid "The selected member must be an investing member."
 msgstr "Das ausgewählte Mitglied muss ein investierendes Mitglied sein."
@@ -3062,11 +3043,6 @@ msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und
 #: shifts/forms.py:486
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
-
-#: shifts/forms.py:519
-#, python-brace-format
-msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
-msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerhalb der Befreiung sind : {attendances_display}"
 
 #: shifts/forms.py:544
 #, python-format
@@ -4510,11 +4486,6 @@ msgstr "Keine"
 #: shifts/views/views.py:144
 msgid "General"
 msgstr "Allgemein"
-
-#: shifts/utils.py:166
-#, python-brace-format
-msgid "Unknown mode {attendance_mode}"
-msgstr ""
 
 #: shifts/views/attendance.py:197 shifts/views/attendance.py:341
 #, python-format
@@ -6048,6 +6019,14 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, python-brace-format
+#~ msgid "The selected user is missing the required qualification for this shift : {missing_capabilities}"
+#~ msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Qualifikation für diese Schicht: {missing_capabilities}"
+
+#, python-brace-format
+#~ msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
+#~ msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerhalb der Befreiung sind : {attendances_display}"
 
 #~ msgid "Paid Shares"
 #~ msgstr "Anteil(e) bezahlt"

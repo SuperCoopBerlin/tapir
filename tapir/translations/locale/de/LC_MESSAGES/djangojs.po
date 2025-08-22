@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-24 10:26+0200\n"
+"POT-Creation-Date: 2025-08-22 15:10+0200\n"
 "PO-Revision-Date: 2024-11-05 11:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -69,6 +69,26 @@ msgstr ""
 
 #: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Waiting for build"
+msgstr ""
+
+#: dist/assets/fancy_graph-BIk5PbUJ.js:18
+msgid "Pick which data to display"
+msgstr ""
+
+#: dist/assets/fancy_graph-BIk5PbUJ.js:18
+msgid "First of month"
+msgstr ""
+
+#: dist/assets/fancy_graph-BIk5PbUJ.js:18
+msgid "Last of month"
+msgstr ""
+
+#: dist/assets/fancy_graph-BIk5PbUJ.js:18
+msgid "No colourblindness"
+msgstr ""
+
+#: dist/assets/fancy_graph-BIk5PbUJ.js:20
+msgid "Graph"
 msgstr ""
 
 #: dist/assets/welcome_desk-CK_6aZ7w.js:1
