@@ -32,7 +32,7 @@ msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt 
 
 #: accounts/forms.py:74
 msgid "If there is not co-purchaser then the co-purchaser-mail field must also be empty"
-msgstr ""
+msgstr "Wenn es keine:n Miteinkäufer:in gibt, muss das entsprechende Mail-Feld leer bleiben."
 
 #: accounts/forms.py:86
 msgid "If there is not co-purchaser 2 then the co-purchaser-mail 2 field must also be empty"
@@ -258,7 +258,7 @@ msgstr "Gruppen"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:5
 msgid "Purchase tracking"
-msgstr ""
+msgstr "Vergangene Einkäufe"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:11
 msgid "Get barcode as PDF"
@@ -2004,7 +2004,7 @@ msgstr "Bewerber*in erstellen"
 
 #: coop/templates/coop/log/update_membership_pause_log_entry.html:2
 msgid "Updated membership pause:"
-msgstr ""
+msgstr "Aktualisierte Mitgliedschaftspause"
 
 #: coop/templates/coop/log/update_resignmember_log_entry.html:2
 #, fuzzy
@@ -2035,7 +2035,7 @@ msgstr ""
 #: coop/templates/coop/member_management.html:16
 #: shifts/templates/shifts/shift_management.html:29
 msgid "Lists"
-msgstr ""
+msgstr "Listen"
 
 #: coop/templates/coop/member_management.html:21
 msgid "Access right groups"
@@ -2045,7 +2045,7 @@ msgstr ""
 #: coop/templates/coop/membership_pause/membership_pause_list.html:10
 #: coop/templates/coop/membership_pause/membership_pause_list.html:19
 msgid "Membership pauses"
-msgstr ""
+msgstr "Mitgliedschaft pausiert"
 
 #: coop/templates/coop/member_management.html:36
 #, fuzzy
@@ -2305,7 +2305,7 @@ msgstr "Entwicklung der Mitgliederzahl"
 
 #: coop/templates/coop/statistics.html:74
 msgid "Member age distribution"
-msgstr ""
+msgstr "Verteilung des Mitgliederalters"
 
 #: coop/templates/coop/statistics.html:82
 msgid "Statistics on shares"
@@ -2313,7 +2313,7 @@ msgstr "Anteile-Statistiken"
 
 #: coop/templates/coop/statistics.html:126
 msgid "Evolution of the number of shares"
-msgstr ""
+msgstr "Entwicklung der Anzahl Anteile"
 
 #: coop/templates/coop/statistics.html:134
 msgid "Members who bought extra shares"
@@ -2743,7 +2743,7 @@ msgstr "Ziel: "
 
 #: core/views.py:47 core/views.py:49 log/models.py:147
 msgid "Not available"
-msgstr ""
+msgstr "Nicht verfügbar"
 
 #: core/views.py:85
 #, python-format
@@ -2760,7 +2760,7 @@ msgstr ""
 
 #: financingcampaign/templates/financingcampaign/general.html:12
 msgid "Campaigns"
-msgstr ""
+msgstr "Finanzierungskampagnen"
 
 #: financingcampaign/templates/financingcampaign/general.html:16
 msgid "Create campaign"
@@ -2768,7 +2768,7 @@ msgstr ""
 
 #: financingcampaign/templates/financingcampaign/general.html:22
 msgid "The list of all financing campaigns"
-msgstr ""
+msgstr "Liste aller Finanzierungskampagnen"
 
 #: financingcampaign/templates/financingcampaign/general.html:26
 msgid "Goal"
