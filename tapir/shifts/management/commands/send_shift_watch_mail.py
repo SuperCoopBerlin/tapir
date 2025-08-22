@@ -1,6 +1,5 @@
 import time
 
-from IPython.utils.wildcard import is_type
 from django.core.management.base import BaseCommand
 from django.db import transaction
 from django.db.models import Q
@@ -51,6 +50,8 @@ class Command(BaseCommand):
         for shift_watch_data in ShiftWatch.objects.select_related("user", "shift"):
 
             notification_reasons = []
+
+            # General staffing notifications
             current_status = get_staffing_status(
                 shift=shift_watch_data.shift,
                 last_status=shift_watch_data.last_reason_for_notification,
@@ -61,7 +62,7 @@ class Command(BaseCommand):
             ):
                 notification_reasons.append(current_status)
 
-            # Team-leader/Shift-Coordinator checking
+            # Team-leader/Shift-Coordinator notifications
             this_valid_slot_ids = [
                 s.slot_id for s in shift_watch_data.shift.get_valid_attendances()
             ]
@@ -78,10 +79,10 @@ class Command(BaseCommand):
                     StaffingEventsChoices.SHIFT_COORDINATOR_PLUS
                 )
 
-            for reason in shift_watch_data.staffing_events:
-                if reason in shift_watch_data.staffing_events:
+            for reason in notification_reasons:
+                if reason.value in shift_watch_data.staffing_events:
                     self.send_shift_watch_mail(
-                        shift_watch=shift_watch_data, reason=reason
+                        shift_watch=shift_watch_data, reason=reason.label
                     )
 
             with transaction.atomic():
