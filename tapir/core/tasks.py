@@ -17,7 +17,7 @@ def celery_task_failure_email(**kwargs):
         "[Django][{queue_name}@{host}] Error: Task {sender.name} ({task_id})".format(
             queue_name="celery",  # `sender.queue` doesn't exist in 4.1?
             host=socket.gethostname(),
-            **kwargs
+            **kwargs,
         )
     )
     message = """Task {sender.name} with id {task_id} raised exception: {exception!r}
