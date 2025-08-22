@@ -3,6 +3,7 @@ name = "tapir"
 version = "0.1.0"
 description = ""
 authors = [
+    {name= "Théophile Madet", email= "theo.madet@posteo.net"},
     {name = "crosspolar",email = "18083323+crosspolar@users.noreply.github.com"}
 ]
 license = {text = "AGPL"}
