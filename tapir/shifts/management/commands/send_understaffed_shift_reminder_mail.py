@@ -32,7 +32,7 @@ class Command(BaseCommand):
             current_status = get_staffing_status(
                 shift=shift_watch_data.shift,
                 last_status=shift_watch_data.last_reason_for_notification,
-                last_number_of_attendances=shift_watch_data.last_number_of_attendances,
+                last_number_of_attendances=len(shift_watch_data.last_valid_slot_ids),
             )
             if current_status == StaffingEventsChoices.UNDERSTAFFED:
                 self.send_shift_watch_mail(shift_watch_data, reason=current_status)
