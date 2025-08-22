@@ -1259,7 +1259,6 @@ class ShiftWatch(models.Model):
         max_length=30,
         choices=get_staffingevent_choices,
     )
-    last_number_of_attendances = models.PositiveIntegerField(default=0)
     notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
     last_valid_slot_ids = ArrayField(
         models.IntegerField(),
