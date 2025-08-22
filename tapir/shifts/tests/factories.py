@@ -71,7 +71,7 @@ class ShiftFactory(factory.django.DjangoModelFactory[Shift]):
     name = factory.Faker("bs")
 
     duration = factory.Faker("pyint", min_value=1, max_value=4)
-    start_time = factory.Faker("date_time")
+    start_time = factory.Faker("date_time", tzinfo=datetime.UTC)
     end_time = factory.LazyAttribute(
         lambda shift_template: shift_template.start_time
         + datetime.timedelta(hours=shift_template.duration)
