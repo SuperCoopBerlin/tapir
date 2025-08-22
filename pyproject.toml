@@ -1,42 +1,47 @@
-[tool.poetry]
+[project]
 name = "tapir"
 version = "0.1.0"
 description = ""
-authors = ["Leon Handreke <leonh@ndreke.de>, Théophile Madet <theo.madet@posteo.net>"]
+authors = [
+    {name = "crosspolar",email = "18083323+crosspolar@users.noreply.github.com"}
+]
+license = {text = "AGPL"}
+readme = "README.md"
+requires-python = ">=3.13,<4.0"
+dependencies = [
+    "django (>=5.1.3,<6.0.0)",
+    "django-weasyprint (>=2.3.0,<3.0.0)",
+    "django-extensions (>=3.2.3,<4.0.0)",
+    "django-bootstrap-datepicker-plus (>=5.0.5,<6.0.0)",
+    "psycopg2 (>=2.9.10,<3.0.0)",
+    "django-tables2 (>=2.7.0,<3.0.0)",
+    "django-filter (>=23.5,<24.0)",
+    "tablib (>=3.7.0,<4.0.0)",
+    "django-phonenumber-field (>=8.0.0,<9.0.0)",
+    "phonenumbers (>=8.13.50,<9.0.0)",
+    "weasyprint (>=62.3,<63.0)",
+    "django-select2 (>=8.2.1,<9.0.0)",
+    "django-silk (>=5.3.1,<6.0.0)",
+    "gunicorn (>=22.0.0,<23.0.0)",
+    "django-environ (>=0.11.2,<0.12.0)",
+    "django-bootstrap5 (>=23.4,<24.0)",
+    "celery (>=5.4.0,<6.0.0)",
+    "redis (>=5.2.0,<6.0.0)",
+    "ipython (>=8.29.0,<9.0.0)",
+    "django-chartjs (>=2.3.0,<3.0.0)",
+    "unidecode (>=1.3.8,<2.0.0)",
+    "python-barcode (>=0.15.1,<0.16.0)",
+    "fabric (>=3.2.2,<4.0.0)",
+    "requests (>=2.32.3,<3.0.0)",
+    "django-auth-ldap (>=4.8.0,<5.0.0)",
+    "djangorestframework (>=3.15.2,<4.0.0)",
+    "django-vite (>=3.0.5,<4.0.0)",
+    "django-cors-headers (>=4.6.0,<5.0.0)",
+    "parameterized (>=0.9.0,<0.10.0)",
+    "distinctipy[extras] (==1.3.4)",
+    "slack-sdk (>=3.35.0,<4.0.0)",
 
-[tool.poetry.dependencies]
-python = "^3.13"
-Django = "^5.1.3"
-django-weasyprint = "^2.3.0"
-django-extensions = "^3.2.3"
-django-bootstrap-datepicker-plus = "^5.0.5"
-psycopg2 = "^2.9.10"
-django-tables2 = "^2.7.0"
-django-filter = "^23.5"
-tablib = "^3.7.0"
-django-phonenumber-field = "^8.0.0"
-phonenumbers = "^8.13.50"
-weasyprint = "^62.3"
-django-select2 = "^8.2.1"
-django-silk = "^5.3.1"
-gunicorn = "^22.0.0"
-django-environ = "^0.11.2"
-django-bootstrap5 = "^23.4"
-celery = "^5.4.0"
-redis = "^5.2.0"
-ipython = "^8.29.0"
-django-chartjs = "^2.3.0"
-unidecode = "^1.3.8"
-python-barcode = "^0.15.1"
-fabric = "^3.2.2"
-requests = "^2.32.3"
-django-auth-ldap = "^4.8.0"
-djangorestframework = "^3.15.2"
-django-vite = "^3.0.5"
-django-cors-headers = "^4.6.0"
-parameterized = "^0.9.0"
-distinctipy = {extras = ["extras"], version = "^1.3.4"}
-slack-sdk = "^3.35.0"
+]
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.10.0"
@@ -56,7 +61,7 @@ django-upgrade = "^1.22.1"
 drf-spectacular = "^0.27.2"
 
 [build-system]
-requires = ["poetry-core>=1.2.0"]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.djlint]
