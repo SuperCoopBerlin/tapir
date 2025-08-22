@@ -1251,6 +1251,7 @@ class ShiftWatch(models.Model):
     )
     last_reason_for_notification = models.CharField(
         max_length=30,
+        null=True,
         choices=get_staffingevent_choices,
     )
     notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
