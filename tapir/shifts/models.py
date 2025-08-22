@@ -1208,3 +1208,66 @@ class SolidarityShift(models.Model):
     is_used_up = models.BooleanField(default=False)
     date_gifted = models.DateField(auto_now_add=True)
     date_used = models.DateField(null=True)
+
+
+class StaffingEventsChoices(models.TextChoices):
+    ALMOST_FULL = "ALMOST_FULL", _("Shift is almost full, only one spot left.")
+    FULL = "FULL", _("Shift is full now.")
+    UNDERSTAFFED = "UNDERSTAFFED", _("The Shift is understaffed!")
+    ALL_CLEAR = "ALL_CLEAR", _(
+        "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
+    )
+    ATTENDANCE_PLUS = "SLOTS_PLUS", _(
+        "One new attendance or more registered, but the shift is neither understaffed nor full or almost full."
+    )
+    ATTENDANCE_MINUS = "SLOTS_MINUS", _(
+        "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
+    )
+    SHIFT_COORDINATOR_MINUS = "SHIFT_COORDINATOR_MINUS", _(
+        "The Shift Coordinator has unregistered"
+    )
+    SHIFT_COORDINATOR_PLUS = "SHIFT_COORDINATOR_PLUS", _(
+        "A Shift Coordinator has registered"
+    )
+
+
+def get_staffingevent_choices():
+    return StaffingEventsChoices
+
+
+def get_staffingevent_defaults():
+    return [StaffingEventsChoices.FULL, StaffingEventsChoices.UNDERSTAFFED]
+
+
+class ShiftWatch(models.Model):
+    user = models.ForeignKey(
+        TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
+    )
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
+    staffing_events = ArrayField(
+        models.CharField(max_length=30, choices=get_staffingevent_choices),
+        blank=False,
+        default=get_staffingevent_defaults,
+    )
+    last_reason_for_notification = models.CharField(
+        max_length=30,
+        null=True,
+        choices=get_staffingevent_choices,
+    )
+    notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
+    last_valid_slot_ids = ArrayField(
+        models.IntegerField(),
+        blank=True,
+        default=list,
+    )
+
+    def __str__(self):
+        return f"{self.user.username} is watching {self.shift.id} for changes of {[event for event in self.staffing_events]}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "shift"],
+                name="shift_watch_constraint",
+            )
+        ]
