@@ -10,6 +10,7 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftUserCapability,
     get_staffingevent_choices,
+    ShiftAttendance,
 )
 
 from tapir.shifts.tests.factories import ShiftFactory
@@ -24,6 +25,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.user = TapirUserFactory.create(email=self.USER_EMAIL_ADDRESS)
         self.shift = ShiftFactory.create(nb_slots=3, num_required_attendances=2)
 
+    def test_handle_understaffed_notification(self):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift,
@@ -32,7 +34,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             staffing_events=[event.value for event in get_staffingevent_choices()],
         )
 
-    def test_handle_understaffed_notification(self):
         register_user_to_shift(self.client, TapirUserFactory.create(), self.shift)
 
         self.assertEqual(0, len(mail.outbox))
@@ -46,23 +47,29 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
 
-    def test_handle_shift_coordinator_notification(self):
+    def test_handle_shift_coordinator_registered_notification(self):
+        self.shift_watch = ShiftWatch.objects.create(
+            user=self.user,
+            shift=self.shift,
+            last_reason_for_notification=None,
+            last_valid_slot_ids=[],
+            staffing_events=[StaffingEventsChoices.SHIFT_COORDINATOR_PLUS.value],
+        )
 
         self.shift.num_required_attendances = 0  # 0 required
-        self.shift.save()
-        self.assertEqual(0, len(mail.outbox))
-        Command().handle()
-        self.assertEqual(0, len(mail.outbox))
-
         slot = ShiftSlot.objects.filter(
             shift=self.shift, attendances__isnull=True
         ).first()
         slot.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
         slot.save()
-
-        self.assertEqual(0, len(mail.outbox))
         Command().handle()
-        self.assertEqual(1, len(mail.outbox))
+        self.assertEqual(0, len(mail.outbox))
+
+        # Register teamleader
+        ShiftAttendance.objects.create(user=TapirUserFactory.create(), slot=slot)
+        Command().handle()
+
+        self.assertEqual(1, len(mail.outbox))  # SHIFT_PLUS und SHIFT_COORDINATOR_PLUS
         self.assertIn(
             str(StaffingEventsChoices.SHIFT_COORDINATOR_PLUS.label), mail.outbox[0].body
         )
