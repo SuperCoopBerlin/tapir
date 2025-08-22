@@ -1229,6 +1229,12 @@ class StaffingEventsChoices(models.TextChoices):
     ATTENDANCE_MINUS = "SLOTS_MINUS", _(
         "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
     )
+    SHIFT_COORDINATOR_MINUS = "SHIFT_COORDINATOR_MINUS", _(
+        "The Shift Coordinator has unregistered"
+    )
+    SHIFT_COORDINATOR_PLUS = "SHIFT_COORDINATOR_PLUS", _(
+        "A Shift Coordinator has registered"
+    )
 
 
 def get_staffingevent_choices():
@@ -1255,6 +1261,11 @@ class ShiftWatch(models.Model):
     )
     last_number_of_attendances = models.PositiveIntegerField(default=0)
     notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
+    last_valid_slot_ids = ArrayField(
+        models.IntegerField(),
+        blank=True,
+        default=list,
+    )
 
     def __str__(self):
         return f"{self.user.username} is watching {self.shift.id} for changes of {[event for event in self.staffing_events]}"
