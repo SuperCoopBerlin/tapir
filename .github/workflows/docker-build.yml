@@ -2,10 +2,11 @@ name: Create and publish Docker image
 
 on:
   workflow_dispatch:
-    release_tag:
-      description: 'Release tag'
-      required: false
-      default: ${{ github.run_number }}
+    inputs:
+      release_tag:
+        description: 'Release tag'
+        required: false
+        default: ${{ github.run_number }}
 
 env:
   REGISTRY: ghcr.io
