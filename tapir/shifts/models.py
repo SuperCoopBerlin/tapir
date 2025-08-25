@@ -173,7 +173,13 @@ class ShiftTemplate(models.Model):
         on_delete=models.PROTECT,
     )
     num_required_attendances = models.PositiveIntegerField(
-        null=False, blank=False, default=3
+        null=False,
+        blank=False,
+        default=0,
+        help_text=_(
+            "If there are less members registered to a shift than that number, "
+            "it will be highlighted in the shift calendar. The number of required attendances can't be higher than the slots in the resp. shift."
+        ),
     )
     weekday = models.IntegerField(blank=True, null=True, choices=WEEKDAY_CHOICES)
     start_time = models.TimeField(blank=False)
@@ -503,11 +509,11 @@ class Shift(models.Model):
         verbose_name=_("Number of required attendances"),
         help_text=_(
             "If there are less members registered to a shift than that number, "
-            "it will be highlighted in the shift calendar."
+            "it will be highlighted in the shift calendar. The number of required attendances can't be higher than the slots in the resp. shift."
         ),
         null=True,
         blank=False,
-        default=3,
+        default=0,
     )
     description = models.TextField(
         verbose_name=_("Description"),
