@@ -2,6 +2,10 @@ name: Create and publish Docker image
 
 on:
   workflow_dispatch:
+    release_tag:
+      description: 'Release tag'
+      required: false
+      default: ${{ github.run_number }}
 
 env:
   REGISTRY: ghcr.io
@@ -9,7 +13,7 @@ env:
 
 jobs:
   prepare-changelog-and-changelog:
-    if: github.ref == 'refs/heads/master'
+    # if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,8 +22,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
-          git push origin "v${{ github.run_number }}"
+          git tag -a "v${{ github.event.inputs.release_tag }" -m "Release v$${{ github.event.inputs.release_tag }"
+          git push origin "v${{ github.event.inputs.release_tag }"
       - name: Build Changelog
         uses: orhun/git-cliff-action@v4
         env:
