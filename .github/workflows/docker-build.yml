@@ -2,12 +2,48 @@ name: Create and publish Docker image
 
 on:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag'
+        required: false
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  RELEASE_TAG: ${{ github.event.inputs.release_tag || github.run_number }}
 
 jobs:
+  prepare-changelog-and-changelog:
+    # if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Create Tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "${{ env.RELEASE_TAG }}" -m "Release ${{ env.RELEASE_TAG }}"
+          git push origin "${{ env.RELEASE_TAG }}"
+      - name: Build Changelog
+        uses: orhun/git-cliff-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+        id: build_changelog
+        with:
+          config: https://github.com/orhun/git-cliff/blob/main/examples/github.toml
+          args: --verbose
+
+      - name: Draft release with changelog
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.build_changelog.outputs.version }}
+          release_name: Tapir ${{ steps.build_changelog.outputs.version }}
+          body: ${{steps.build_changelog.outputs.content}}
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
