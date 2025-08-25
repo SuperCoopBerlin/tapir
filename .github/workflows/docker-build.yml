@@ -6,11 +6,11 @@ on:
       release_tag:
         description: 'Release tag'
         required: false
-        default: ${{ github.run_number }}
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  RELEASE_TAG: ${{ github.event.inputs.release_tag || github.run_number }}
 
 jobs:
   prepare-changelog-and-changelog:
@@ -23,8 +23,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git tag -a "v${{ github.event.inputs.release_tag }" -m "Release v$${{ github.event.inputs.release_tag }}"
-          git push origin "v${{ github.event.inputs.release_tag }}"
+          git tag -a "v${{ env.RELEASE_TAG }}" -m "Release v${{ env.RELEASE_TAG }}"
+          git push origin "v${{ env.RELEASE_TAG }}"
       - name: Build Changelog
         uses: orhun/git-cliff-action@v4
         env:
