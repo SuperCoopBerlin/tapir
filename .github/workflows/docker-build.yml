@@ -22,8 +22,8 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git tag -a "v${{ github.event.inputs.release_tag }" -m "Release v$${{ github.event.inputs.release_tag }"
-          git push origin "v${{ github.event.inputs.release_tag }"
+          git tag -a "v${{ github.event.inputs.release_tag }" -m "Release v$${{ github.event.inputs.release_tag }}"
+          git push origin "v${{ github.event.inputs.release_tag }}"
       - name: Build Changelog
         uses: orhun/git-cliff-action@v4
         env:
