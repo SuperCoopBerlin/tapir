@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-12 18:43+0200\n"
+"POT-Creation-Date: 2025-08-25 21:46+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2996,11 +2996,6 @@ msgstr ""
 msgid "I have read the warning about the missing qualification and confirm that the user should get registered to the shift"
 msgstr "Ich habe die Warnung über die fehlende Qualifikation gelesen und bestätige, dass Benutzer*in für die Schicht registriert werden sollte"
 
-#: shifts/forms.py:181
-#, python-brace-format
-msgid "The selected user is missing the required qualification for this shift : {missing_capabilities}"
-msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Qualifikation für diese Schicht: {missing_capabilities}"
-
 #: shifts/forms.py:224
 msgid "Please set the chosen time after the start of the shift"
 msgstr ""
@@ -3033,11 +3028,6 @@ msgstr "Ich bin mir bewusst, dass das Mitglied von der ABCD-Schicht abgemeldet w
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
-#: shifts/forms.py:376
-#, python-brace-format
-msgid "{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
-msgstr "{own_name} ist bereits Partner von {partner_of_name}, sie können nicht Partner von sich selbst sein"
-
 #: shifts/forms.py:387
 msgid "The selected member must be an investing member."
 msgstr "Das ausgewählte Mitglied muss ein investierendes Mitglied sein."
@@ -3053,11 +3043,6 @@ msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und
 #: shifts/forms.py:495
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
-
-#: shifts/forms.py:528
-#, python-brace-format
-msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
-msgstr "Das Mitglied wird abgemeldet von der folgende Schichten weil die innerhalb der Befreiung sind : {attendances_display}"
 
 #: shifts/forms.py:553
 #, python-format
@@ -6038,6 +6023,10 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #, python-brace-format
 #~ msgid "The selected user is missing the required qualification for this shift : {missing_capabilities}"
 #~ msgstr "Ausgewählte Nutzer*in hat nicht die erforderliche Qualifikation für diese Schicht: {missing_capabilities}"
+
+#, python-brace-format
+#~ msgid "{own_name} is already partner of {partner_of_name}, they can't have a partner of their own"
+#~ msgstr "{own_name} ist bereits Partner von {partner_of_name}, sie können nicht Partner von sich selbst sein"
 
 #, python-brace-format
 #~ msgid "The member will be unregistered from the following shifts because they are within the range of the exemption : {attendances_display}"
