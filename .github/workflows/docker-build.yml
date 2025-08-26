@@ -35,7 +35,7 @@ jobs:
         id: build_changelog
         with:
           config: https://github.com/orhun/git-cliff/blob/main/examples/github.toml
-          args: --verbose
+          args: --verbose --latest --strip header
 
       - name: Draft release with changelog
         id: create_release
