@@ -31,15 +31,13 @@ class Command(BaseCommand):
 
     @staticmethod
     def send_shift_watch_mail(shift_watch: ShiftWatch, reason: str):
-        with transaction.atomic():
-            email_builder = ShiftWatchEmailBuilder(
-                shift=shift_watch.shift,
-                reason=f"Reminder {reason}: {shift_watch.shift.get_display_name()}",
-            )
-            SendMailService.send_to_tapir_user(
-                actor=None,
-                recipient=shift_watch.user,
-                email_builder=email_builder,
-            )
-            shift_watch.save()
+        email_builder = ShiftWatchEmailBuilder(
+            shift=shift_watch.shift,
+            reason=f"Reminder {reason}: {shift_watch.shift.get_display_name()}",
+        )
+        SendMailService.send_to_tapir_user(
+            actor=None,
+            recipient=shift_watch.user,
+            email_builder=email_builder,
+        )
         time.sleep(0.1)
