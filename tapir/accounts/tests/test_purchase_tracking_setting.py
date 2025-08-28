@@ -9,7 +9,11 @@ from tapir.accounts.management.commands.update_purchase_tracking_list import (
 )
 from tapir.accounts.models import UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, PermissionTestMixin
+from tapir.utils.tests_utils import (
+    TapirFactoryTestBase,
+    PermissionTestMixin,
+    FeatureFlagTestMixin,
+)
 
 
 class TestPurchaseTrackingSetting(TapirFactoryTestBase):
@@ -89,27 +93,20 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         self.EXPORT_FILE.unlink()
 
 
-# Test 1: User kann es selbst sein
-# Test 2: Member-office kann keine financial matters sehen
-# Test 3: Vorstand kann financial matters sehen
+class TestFinancialMattersOnUserDetailView(
+    PermissionTestMixin, FeatureFlagTestMixin, TapirFactoryTestBase
+):
 
+    def get_allowed_groups(self):
+        return [
+            settings.GROUP_VORSTAND,
+        ]
 
-class TestFinancialMattersOnUserDetailView(TapirFactoryTestBase):
-
-    # def get_allowed_groups(self):
-    #     return [
-    #         settings.GROUP_VORSTAND,
-    #         settings.GROUP_EMPLOYEES,
-    #         settings.GROUP_MEMBER_OFFICE,
-    #     ]
-    #
-    # def do_request(self):
-    #     tapir_user = TapirUserFactory(allows_purchase_tracking=True)
-    #     response = self.client.get(
-    #         reverse("accounts:member_card_barcode_pdf", args=[tapir_user.id])
-    #     )
-    #
-    #     return response
+    def do_request(self):
+        tapir_user = TapirUserFactory(allows_purchase_tracking=True)
+        return self.client.get(
+            reverse("accounts:member_card_barcode_pdf", args=[tapir_user.id])
+        )
 
     def test_user_can_see(self):
         tapir_user = TapirUserFactory(allows_purchase_tracking=True)
