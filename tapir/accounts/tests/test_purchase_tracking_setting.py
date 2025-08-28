@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from tapir import settings
 from django.core.management import call_command
 from django.urls import reverse
 
@@ -8,7 +9,7 @@ from tapir.accounts.management.commands.update_purchase_tracking_list import (
 )
 from tapir.accounts.models import UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, PermissionTestMixin
 
 
 class TestPurchaseTrackingSetting(TapirFactoryTestBase):
@@ -86,3 +87,51 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         list_content = self.EXPORT_FILE.read_text()
         self.assertNotIn(tapir_user.last_name, list_content)
         self.EXPORT_FILE.unlink()
+
+
+# Test 1: User kann es selbst sein
+# Test 2: Member-office kann keine financial matters sehen
+# Test 3: Vorstand kann financial matters sehen
+
+
+class TestFinancialMattersOnUserDetailView(TapirFactoryTestBase):
+
+    # def get_allowed_groups(self):
+    #     return [
+    #         settings.GROUP_VORSTAND,
+    #         settings.GROUP_EMPLOYEES,
+    #         settings.GROUP_MEMBER_OFFICE,
+    #     ]
+    #
+    # def do_request(self):
+    #     tapir_user = TapirUserFactory(allows_purchase_tracking=True)
+    #     response = self.client.get(
+    #         reverse("accounts:member_card_barcode_pdf", args=[tapir_user.id])
+    #     )
+    #
+    #     return response
+
+    def test_user_can_see(self):
+        tapir_user = TapirUserFactory(allows_purchase_tracking=True)
+        self.login_as_user(tapir_user)
+        response = self.client.get(
+            reverse("accounts:user_detail", args=[tapir_user.id])
+        )
+        print(response)
+        # self.assertContains(response, "Purchase tracking")
+        self.assertContains(response, "purchases-card")
+
+    def test_memberoffice_cannot_see(self):
+        tapir_user = TapirUserFactory(allows_purchase_tracking=True)
+        self.login_as_member_office_user()
+        response = self.client.get(
+            reverse("accounts:user_detail", args=[tapir_user.id])
+        )
+        print(response)
+        # self.assertContains(response, "Purchase tracking")
+        self.assertNotContains(response, "purchases-card")
+
+        self.assertContains(
+            response,
+            "You can only look at your own barcode unless you have admin right",
+        )
