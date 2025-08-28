@@ -4,7 +4,7 @@
     <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span>{% translate 'Purchase tracking' %}</span>
         <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
-            {#            "Use of both and and or clauses within the same tag is allowed, with and having higher precedence than or" #}
+            {# "Use of both and and or clauses within the same tag is allowed, with and having higher precedence than or" #}
             {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking and tapir_user.pk == request.user.pk or perms.coop.admin %}
                 <a class="{% tapir_button_link %}"
                    href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">
