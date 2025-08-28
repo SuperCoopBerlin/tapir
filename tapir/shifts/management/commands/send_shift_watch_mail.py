@@ -38,9 +38,9 @@ def get_staffing_events(
 
 def is_shift_coordinator_available(slot_ids: list[int]):
     return ShiftSlot.objects.filter(
-        Q(id__in=slot_ids)
-        & Q(required_capabilities__contains=[ShiftUserCapability.SHIFT_COORDINATOR])
-    ).exists()
+        id__in=slot_ids,
+        required_capabilities__contains=[ShiftUserCapability.SHIFT_COORDINATOR],
+    )
 
 
 class Command(BaseCommand):
