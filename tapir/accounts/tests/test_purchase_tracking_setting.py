@@ -108,7 +108,9 @@ class TestFinancialMattersOnUserDetailView(
             reverse("accounts:member_card_barcode_pdf", args=[tapir_user.id])
         )
 
-    def test_user_can_see(self):
+    def test_financialMattersOnUserDetailPage_loggedInAsRespectiveUser_isAllowedToSee(
+        self,
+    ):
         tapir_user = TapirUserFactory(allows_purchase_tracking=True)
         self.login_as_user(tapir_user)
         response = self.client.get(
@@ -119,7 +121,7 @@ class TestFinancialMattersOnUserDetailView(
         self.assertContains(response, "purchases-card")
         self.assertContains(response, "card-account-card")
 
-    def test_admins_should_see(self):
+    def test_financialMattersOnUserDetailPage_loggedInAsVorstand_isAllowedToSee(self):
         tapir_user = TapirUserFactory(allows_purchase_tracking=True)
         self.login_as_vorstand()
         response = self.client.get(
@@ -130,7 +132,9 @@ class TestFinancialMattersOnUserDetailView(
         self.assertContains(response, "purchases-card")
         self.assertContains(response, "card-account-card")
 
-    def test_memberoffice_cannot_see(self):
+    def test_financialMattersOnUserDetailPage_loggedInAsMemberOffice_isNotAllowedToSee(
+        self,
+    ):
         tapir_user = TapirUserFactory(allows_purchase_tracking=True)
         self.login_as_member_office_user()
         response = self.client.get(
