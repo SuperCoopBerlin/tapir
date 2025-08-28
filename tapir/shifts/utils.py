@@ -1,5 +1,5 @@
+import datetime
 from calendar import HTMLCalendar, month_name, day_abbr
-from datetime import datetime, timedelta, date
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -20,12 +20,11 @@ def generate_shifts_up_to(end_date: datetime.date, start_date=None):
         start_date = timezone.now().date()
     last_monday = get_monday(end_date)
     current_monday = get_monday(start_date)
-    print(f"{start_date} {current_monday}")
 
     while current_monday < last_monday:
         group = get_week_group(current_monday)
         group.create_shifts(current_monday)
-        current_monday += timedelta(days=7)
+        current_monday += datetime.timedelta(days=7)
 
 
 # override HTMLCalender method to use colors
@@ -140,7 +139,7 @@ def update_shift_account_depending_on_welcome_session_status(share_owner: ShareO
         is_from_welcome_session=True,
         user=tapir_user,
         description="Welcome session / Willkommenstreffen",
-        date=datetime.today(),
+        date=datetime.date.today(),
         value=1,
     )
 
