@@ -17,7 +17,7 @@ from tapir.shifts.models import (
 )
 
 
-def get_staffing_status(
+def get_staffing_events(
     shift: Shift, last_status: str, last_number_of_attendances: int
 ):
     if shift.get_valid_attendances().count() < shift.get_num_required_attendances():
@@ -52,7 +52,7 @@ class Command(BaseCommand):
             notification_reasons = []
 
             # General staffing notifications
-            current_status = get_staffing_status(
+            current_status = get_staffing_events(
                 shift=shift_watch_data.shift,
                 last_status=shift_watch_data.last_reason_for_notification,
                 last_number_of_attendances=len(shift_watch_data.last_valid_slot_ids),

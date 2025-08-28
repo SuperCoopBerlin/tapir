@@ -9,7 +9,7 @@ from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_watch_mail import (
     ShiftWatchEmailBuilder,
 )
-from tapir.shifts.management.commands.send_shift_watch_mail import get_staffing_status
+from tapir.shifts.management.commands.send_shift_watch_mail import get_staffing_events
 from tapir.shifts.models import ShiftWatch, StaffingEventsChoices
 
 
@@ -29,7 +29,7 @@ class Command(BaseCommand):
         )
 
         for shift_watch_data in shifts_tomorrow:
-            current_status = get_staffing_status(
+            current_status = get_staffing_events(
                 shift=shift_watch_data.shift,
                 last_status=shift_watch_data.last_reason_for_notification,
                 last_number_of_attendances=len(shift_watch_data.last_valid_slot_ids),
