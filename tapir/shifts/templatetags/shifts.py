@@ -18,6 +18,7 @@ from tapir.shifts.models import (
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
+from tapir.shifts.utils import sort_slots_by_name, get_week_group
 from tapir.utils.shortcuts import get_monday, ensure_date
 
 register = template.Library()
@@ -48,12 +49,7 @@ def shift_name_as_class(shift_name: str) -> str:
 def shift_to_block_object(shift: Shift, fill_parent: bool):
     attendances = {}
 
-    # order by length of name so that the shift name does not interfere with header
-    # we can't use shift.slots.all().order_by(Length("name").asc()),
-    # because we that would load the slots again from the database.
-    # Instead, we want to use the preloaded slots coming from prefetch_related() in the view
-    slots = [slot for slot in shift.slots.all()]
-    slots.sort(key=lambda slot: len(slot.name))
+    slots = sort_slots_by_name(list(shift.slots.all()))
 
     for slot in slots:
         slot_name = slot.name
@@ -150,14 +146,7 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
 
     num_attendances = 0
 
-    # order by length of name so that the shift name does not interfere with header
-    # we can't use shift_template.slot_templates.all().order_by(...)
-    # because we that would load the slots again from the database.
-    # Instead, we want to use the preloaded slots coming from prefetch_related() in the view
-    slot_templates = [
-        slot_template for slot_template in shift_template.slot_templates.all()
-    ]
-    slot_templates.sort(key=lambda slot_template: len(slot_template.name))
+    slot_templates = sort_slots_by_name(list(shift_template.slot_templates.all()))
 
     for slot_template in slot_templates:
         slot_name = slot_template.name
@@ -216,7 +205,7 @@ def shift_filters(context):
 
 
 @register.simple_tag
-def get_week_group(
+def get_week_group_tag(
     target_date, cycle_start_dates=None, shift_groups_count: int | None = None
 ) -> ShiftTemplateGroup | None:
     if shift_groups_count is None:

@@ -1,18 +1,22 @@
 import datetime
 from calendar import HTMLCalendar, month_name, day_abbr
+from functools import cmp_to_key
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+import tapir
 from tapir.coop.models import ShareOwner
+from tapir.shifts.config import DEFAULT_SLOT_ORDER
 from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftAccountEntry,
     ShiftAttendance,
     SHIFT_ATTENDANCE_MODE_CHOICES,
+    ShiftSlotTemplate,
+    ShiftSlot,
 )
-from tapir.shifts.templatetags.shifts import get_week_group
-from tapir.utils.shortcuts import get_monday
+from tapir.utils.shortcuts import get_monday, ensure_date
 
 
 def generate_shifts_up_to(end_date: datetime.date, start_date=None):
@@ -59,7 +63,7 @@ class ColorHTMLCalendar(HTMLCalendar):
         for week in self.monthdays2calendar(theyear, themonth):
             # for every week, find first day (which of course can be in previous month)
             first_day_of_week_within_month = [day for day in week if day[0] != 0][0]
-            d = date(theyear, themonth, first_day_of_week_within_month[0])
+            d = datetime.date(theyear, themonth, first_day_of_week_within_month[0])
             a(self.formatweek(week, monday=get_monday(d)))
             a("\n")
         a("</table>")
@@ -160,3 +164,52 @@ def get_attendance_mode_display(attendance_mode: str) -> str:
         if mode_choice[0] == attendance_mode:
             return mode_choice[1]
     return _(f"Unknown mode {attendance_mode}")
+
+
+def sort_slots_by_name(slots: list[ShiftSlot] | list[ShiftSlotTemplate]):
+    def compare_slots_by_name(slot_a, slot_b):
+        name_a = slot_a.name.casefold()
+        name_b = slot_b.name.casefold()
+
+        if name_a in DEFAULT_SLOT_ORDER and name_b not in DEFAULT_SLOT_ORDER:
+            return -1
+        if name_a not in DEFAULT_SLOT_ORDER and name_b in DEFAULT_SLOT_ORDER:
+            return 1
+        if name_a in DEFAULT_SLOT_ORDER and name_b in DEFAULT_SLOT_ORDER:
+            return DEFAULT_SLOT_ORDER.index(name_a) - DEFAULT_SLOT_ORDER.index(name_b)
+        if name_a < name_b:
+            return -1
+        if name_b < name_a:
+            return 1
+        return 0
+
+    return sorted(slots, key=cmp_to_key(compare_slots_by_name))
+
+
+def get_week_group(
+    target_date, cycle_start_dates=None, shift_groups_count: int | None = None
+) -> ShiftTemplateGroup | None:
+    if shift_groups_count is None:
+        shift_groups_count = ShiftTemplateGroup.objects.count()
+
+    if shift_groups_count == 0:
+        # Many tests run without creating any ShiftTemplateGroup but still call get_week_group
+        return None
+
+    target_date = ensure_date(target_date)
+    target_date = get_monday(target_date)
+
+    if cycle_start_dates is None:
+        cycle_start_dates = tapir.shifts.config.cycle_start_dates
+
+    if cycle_start_dates[0] > target_date:
+        ref_date = cycle_start_dates[0]
+    else:
+        # Get the highest date that is before target_date
+        ref_date = [
+            get_monday(cycle_start_date)
+            for cycle_start_date in cycle_start_dates
+            if cycle_start_date <= target_date
+        ][-1]
+    delta_weeks = ((target_date - ref_date).days / 7) % shift_groups_count
+    return ShiftTemplateGroup.get_group_from_index(delta_weeks)

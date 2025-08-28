@@ -16,8 +16,7 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftTemplate,
 )
-from tapir.shifts.templatetags.shifts import get_week_group
-from tapir.shifts.utils import ColorHTMLCalendar
+from tapir.shifts.utils import ColorHTMLCalendar, get_week_group
 from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
 from tapir.utils.shortcuts import get_monday, set_header_for_file_download
 

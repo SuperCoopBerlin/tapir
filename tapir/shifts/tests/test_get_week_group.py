@@ -3,7 +3,7 @@ import datetime
 from tapir.shifts.models import (
     ShiftTemplateGroup,
 )
-from tapir.shifts.templatetags.shifts import get_week_group
+from tapir.shifts.utils import get_week_group
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

@@ -45,7 +45,7 @@ from tapir.shifts.models import (
     ShiftUserCapabilityTranslation,
     ShiftSlotWarning,
 )
-from tapir.shifts.templatetags.shifts import get_week_group
+from tapir.shifts.utils import get_week_group
 from tapir.statistics.models import (
     ProcessedPurchaseFiles,
     PurchaseBasket,
