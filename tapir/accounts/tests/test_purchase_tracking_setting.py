@@ -118,8 +118,20 @@ class TestFinancialMattersOnUserDetailView(TapirFactoryTestBase):
             reverse("accounts:user_detail", args=[tapir_user.id])
         )
         print(response)
-        # self.assertContains(response, "Purchase tracking")
+        self.assertContains(response, "purchases-tracking-card")
         self.assertContains(response, "purchases-card")
+        self.assertContains(response, "card-account-card")
+
+    def test_admins_should_see(self):
+        tapir_user = TapirUserFactory(allows_purchase_tracking=True)
+        self.login_as_vorstand()
+        response = self.client.get(
+            reverse("accounts:user_detail", args=[tapir_user.id])
+        )
+        print(response)
+        self.assertContains(response, "purchases-tracking-card")
+        self.assertContains(response, "purchases-card")
+        self.assertContains(response, "card-account-card")
 
     def test_memberoffice_cannot_see(self):
         tapir_user = TapirUserFactory(allows_purchase_tracking=True)
@@ -127,8 +139,10 @@ class TestFinancialMattersOnUserDetailView(TapirFactoryTestBase):
         response = self.client.get(
             reverse("accounts:user_detail", args=[tapir_user.id])
         )
-        print(response)
-        # self.assertContains(response, "Purchase tracking")
+        self.assertContains(
+            response, "purchases-tracking-card"
+        )  # header should be shown
+        self.assertNotContains(response, "card-account-card")
         self.assertNotContains(response, "purchases-card")
 
         self.assertContains(
