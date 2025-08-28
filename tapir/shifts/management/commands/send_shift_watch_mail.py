@@ -102,5 +102,4 @@ class Command(BaseCommand):
                 recipient=shift_watch.user,
                 email_builder=email_builder,
             )
-            shift_watch.save()
         time.sleep(0.1)
