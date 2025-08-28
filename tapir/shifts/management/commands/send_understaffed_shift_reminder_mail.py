@@ -17,16 +17,8 @@ class Command(BaseCommand):
     help = "Sent as reminder to a member that a shift is still understaffed."
 
     def handle(self, *args, **options):
-        tomorrow = timezone.now() + timedelta(days=1)
-
-        start_of_tomorrow = tomorrow.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_of_tomorrow = tomorrow.replace(
-            hour=23, minute=59, second=59, microsecond=999999
-        )
-
-        shifts_tomorrow = ShiftWatch.objects.filter(
-            shift__end_time__range=(start_of_tomorrow, end_of_tomorrow)
-        )
+        tomorrow = timezone.now().date() + timedelta(days=1)
+        shifts_tomorrow = ShiftWatch.objects.filter(shift__end_time__date=tomorrow)
 
         for shift_watch_data in shifts_tomorrow:
             current_status = get_staffing_events(
