@@ -2,22 +2,28 @@ import csv
 import datetime
 
 from django.core.management import BaseCommand
+from django.db import transaction
 from django.utils import timezone
+from icecream import ic
 
+from tapir.accounts.models import TapirUser
 from tapir.shifts.management.commands.generate_shifts import GENERATE_UP_TO
 from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftTemplate,
     ShiftSlotTemplate,
     Shift,
+    ShiftAttendanceTemplate,
 )
 from tapir.shifts.utils import generate_shifts_up_to
+from tapir.utils.expection_utils import TapirException
 
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("file_name", type=str)
 
+    @transaction.atomic
     def handle(self, *args, **options):
         ShiftTemplate.objects.all().delete()
         Shift.objects.all().delete()
@@ -26,6 +32,7 @@ class Command(BaseCommand):
         shift_templates = self.create_shift_templates(shift_data)
         grouped_shift_templates = self.group_shift_templates(shift_templates)
         self.create_slot_template(shift_data, grouped_shift_templates)
+        self.create_attendance_templates(shift_data)
 
         generate_shifts_up_to(timezone.now().date() + GENERATE_UP_TO)
 
@@ -145,3 +152,78 @@ class Command(BaseCommand):
                     }
 
         return by_week_group
+
+    @classmethod
+    def create_attendance_templates(cls, shift_data):
+        members_by_name = {
+            f"{tapir_user.first_name} {tapir_user.last_name}": tapir_user
+            for tapir_user in TapirUser.objects.all()
+        }
+
+        attendance_templates = []
+        slot_ids_already_taken = []
+        for week_group, by_day_index in shift_data.items():
+            for day_index, by_start_time in by_day_index.items():
+                for start_time, by_slot_name in by_start_time.items():
+                    for slot_name, slot_data in by_slot_name.items():
+                        for member_name in slot_data[
+                            "name_of_the_registered_members"
+                        ].split(","):
+                            member_name = member_name.strip()
+                            if member_name == "":
+                                continue
+                            if member_name not in members_by_name.keys():
+                                ic("Unknown member name", member_name, slot_data)
+                                continue
+
+                            attendance_templates.append(
+                                cls.build_attendance_template(
+                                    day_index,
+                                    member_name,
+                                    members_by_name,
+                                    slot_data,
+                                    slot_ids_already_taken,
+                                    slot_name,
+                                    start_time,
+                                    week_group,
+                                )
+                            )
+
+        return ShiftAttendanceTemplate.objects.bulk_create(attendance_templates)
+
+    @classmethod
+    def build_attendance_template(
+        cls,
+        day_index,
+        member_name,
+        members_by_name,
+        slot_data,
+        slot_ids_already_taken,
+        slot_name,
+        start_time,
+        week_group,
+    ):
+        slot = (
+            ShiftSlotTemplate.objects.filter(
+                shift_template__group=week_group,
+                shift_template__weekday=day_index,
+                shift_template__start_time=start_time,
+                name=slot_name,
+            )
+            .exclude(id__in=slot_ids_already_taken)
+            .first()
+        )
+        if slot is None:
+            ic(
+                week_group,
+                day_index,
+                start_time,
+                slot_name,
+                slot_data,
+            )
+            raise TapirException("No available slot for: " + member_name)
+        slot_ids_already_taken.append(slot.id)
+        return ShiftAttendanceTemplate(
+            user=members_by_name[member_name],
+            slot_template=slot,
+        )
