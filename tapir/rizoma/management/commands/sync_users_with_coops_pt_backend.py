@@ -164,10 +164,10 @@ class Command(BaseCommand):
             name_parts = name.split(maxsplit=1)
             first_name = None
             if len(name_parts) > 0:
-                first_name = name_parts[0]
+                first_name = name_parts[0].strip()
             last_name = None
             if len(name_parts) > 1:
-                last_name = name_parts[1]
+                last_name = name_parts[1].strip()
             birthday = None
             if share_owner_json["birthday"] is not None:
                 birthday = datetime.datetime.fromisoformat(share_owner_json["birthday"])
