@@ -66,7 +66,7 @@ class ExtraSharesConfirmationEmailBuilder(TapirEmailBuilderBase):
         share_owner = (
             ShareOwner.objects.filter(user__isnull=False).order_by("?").first()
         )
-        if not ShareOwner:
+        if share_owner is None:
             return None
         mail = cls(num_shares=3, share_owner=share_owner)
         mail.get_full_context(
