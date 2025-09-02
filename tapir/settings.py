@@ -228,6 +228,8 @@ PASSWORD_RESET_TIMEOUT = (
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = "de"
+if ENABLE_RIZOMA_CONTENT:
+    LANGUAGE_CODE = "en"
 TIME_ZONE = "Europe/Berlin"
 USE_I18N = True
 USE_TZ = True
@@ -389,6 +391,8 @@ SITE_URL = env("SITE_URL", default="http://localhost:8000")
 CSRF_TRUSTED_ORIGINS = [SITE_URL]
 
 PHONENUMBER_DEFAULT_REGION = "DE"
+if ENABLE_RIZOMA_CONTENT:
+    PHONENUMBER_DEFAULT_REGION = "PT"
 
 LOCALE_PATHS = [os.path.join(BASE_DIR, "tapir/translations/locale")]
 
