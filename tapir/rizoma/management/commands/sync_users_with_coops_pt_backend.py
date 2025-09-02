@@ -16,8 +16,19 @@ from tapir.utils.models import copy_user_info
 
 
 class Command(BaseCommand):
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--reset",
+            help="Deletes all ShareOwners and TapirUsers before syncing",
+            action="store_true",
+        )
+
     def handle(self, *args, **options):
         with transaction.atomic():
+            if options["reset"]:
+                ShareOwner.objects.all().delete()
+                TapirUser.objects.all().delete()
+
             self.sync_members()
             external_member_id_to_user_id_map = self.sync_users()
             self.sync_link_share_owner_to_user(external_member_id_to_user_id_map)
