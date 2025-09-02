@@ -147,16 +147,17 @@
                                 {% endif %}
                             </div>
                         </div>
-                    </div>{% if object.rizoma_member_data and object.rizoma_member_data.photo_id %}
-                    <div class="col">
-                        <div class="d-flex align-content-center align-items-center justify-content-center"
-                             style="height: 100%">
-                            <img src="{% rizoma_photo_url object.rizoma_member_data.photo_id %}"
-                                 alt="{% translate 'Member photo' %}"
-                                 style="max-width: 10vw; max-height: 10vw; display: block;"/>
-                        </div>
+                        {% if object.share_owner.rizoma_member_data and object.share_owner.rizoma_member_data.photo_id %}
+                            <div class="col">
+                                <div class="d-flex align-content-center align-items-center justify-content-center"
+                                     style="height: 100%">
+                                    <img src="{% rizoma_photo_url object.share_owner.rizoma_member_data.photo_id %}"
+                                         alt="{% translate 'Member photo' %}"
+                                         style="max-width: 10vw; max-height: 10vw; display: block;"/>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
-                {% endif %}
                 </div>
             </div>
         </div>
