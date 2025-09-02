@@ -47,7 +47,11 @@ class TapirAccountCreatedEmailBuilder(TapirEmailBuilderBase):
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
-        share_owner = ShareOwner.objects.filter(user__isnull=False).order_by("?")[0]
+        share_owner = (
+            ShareOwner.objects.filter(user__isnull=False).order_by("?").first()
+        )
+        if share_owner is None:
+            return None
         mail = cls(tapir_user=share_owner.user)
         mail.get_full_context(
             share_owner=share_owner,
