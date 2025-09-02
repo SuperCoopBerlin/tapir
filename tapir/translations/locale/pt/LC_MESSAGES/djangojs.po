@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-28 12:57+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2025-08-20 21:59+0000\n"
+"Last-Translator: Lara Carvalho <laracjcarvalho@gmail.com>\n"
+"Language-Team: Portuguese <http://weblate.seriousdino.org/projects/tapir/"
+"tapir-javascript-translations/pt/>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 5.12.2\n"
+
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Fancy export"
 msgstr ""
@@ -27,7 +29,7 @@ msgstr ""
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference,member_status, is_member_since, compulsory_share, additional_shares, amount_paid, amount_paid_for_entry_fee, amount_paid_for_shares, number_of_paid_shares, number_of_unpaid_shares. For all other fields, the value as it is now is exported, not the value as it was at the given date."
@@ -35,7 +37,7 @@ msgstr ""
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Add columns to the export"
-msgstr ""
+msgstr "Adicionar colunas à exportação"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Click on a selected column to deselect it."
@@ -47,11 +49,11 @@ msgstr ""
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Pick a source dataset"
-msgstr ""
+msgstr "Escolhe um dataset de origem"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Download as CSV"
-msgstr ""
+msgstr "Guardar como CSV"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Build the export to download it"
@@ -71,7 +73,7 @@ msgstr ""
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Confirm deletion"
