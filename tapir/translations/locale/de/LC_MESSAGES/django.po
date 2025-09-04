@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-26 18:10+0200\n"
+"POT-Creation-Date: 2025-09-04 09:21+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -1275,7 +1275,7 @@ msgid ""
 "        <h2>3. Hygiene Training</h2>\n"
 "        <p>\n"
 "            New members must complete an online hygiene training from METRO BEFORE their first shift:\n"
-"            <a href=\"https://kw.my/jEM8PK/#/\">https://kw.my/jEM8PK/#/</a>. The training takes about 30 minutes and ends with\n"
+"            <a href=\"https://kw.my/EGz21d/#/\">https://kw.my/EGz21d/#/</a>. The training takes about 30 minutes and ends with\n"
 "            a short questionnaire. If you answer\n"
 "            80%% of the questions correctly, you will receive a certificate. Please show this to an employee during your\n"
 "            first shift.\n"
@@ -1488,7 +1488,7 @@ msgstr ""
 "        <h2>3. Hygiene Schulung</h2>\n"
 "    <p>\n"
 "        Neue Mitglieder müssen VOR ihrer ersten Schicht eine Online-Hygienschulung von METRO absolvieren:\n"
-"        <a href=\"https://kw.my/jEM8PK/#/\">https://kw.my/jEM8PK/#/</a>. Die Schulung dauert ca. 30 Minuten und endet mit\n"
+"        <a href=\"https://kw.my/EGz21d/#/\">https://kw.my/EGz21d/#/</a>. Die Schulung dauert ca. 30 Minuten und endet mit\n"
 "        einem kurzen Fragebogen. Wenn du 80%%\n"
 "        der Fragen richtig beantwortest, erhältst du ein Zertifikat. Bitte zeige dieses bei deiner ersten Schicht\n"
 "        einer*m Angestellter*n.\n"
