@@ -1,0 +1,64 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% load i18n %}
+{% load core %}
+{% block title %}
+{% translate "Login" %}
+{% endblock title %}
+{% block head %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}">
+{% endblock head %}
+{% block content %}
+<div class="d-flex justify-content-center tapir-authentication">
+  <div class="card tapir-login mt-4" id="login-card">
+    <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Sign in" %}</h5>
+    <div class="card-body">
+      <form role="form" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label" for="id_username">Nutzer*innenname</label>
+          <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150"
+            class="form-control" placeholder="Nutzer*innenname" required="" id="id_username" autocomplete="off">
+        </div>
+        <div class="mb-3">
+          <label class="form-label" for="id_password">Passwort</label>
+          <div class="input-group" id="custom_password_group">
+            <input type="password" name="password" autocomplete="current-password" class="form-control"
+              placeholder="Passwort" required="" id="id_password">
+            <div class="input-group-append" style="cursor: pointer;">
+              <span title="{% translate 'Click here to show/hide the password' %}" class="{% tapir_button_link %}"
+                id="password_toggle" style="height: 100%">
+                <span id="password_toggle_icon" class="material-icons">visibility</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <p>
+          <a href="{% url "password_reset" %}">{% translate "Forgot your password or your username?" %}</a>
+        </p>
+        <button type="submit" class="{% tapir_button_action %} btn-block">
+          <span class="material-icons">login</span>
+          {% translate "Sign in" %}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  const passwordInput = document.getElementById('id_password');
+  const passwordToggleIcon = document.getElementById('password_toggle_icon');
+
+  document.getElementById('password_toggle').addEventListener('click', () => {
+    if (passwordInput.type == 'password') {
+      passwordInput.type = "text";
+      passwordToggleIcon.innerText = "visibility_off"
+    } else {
+      passwordInput.type = "password";
+      passwordToggleIcon.innerText = "visibility"
+    }
+
+  })
+</script>
+{% endblock content %}
