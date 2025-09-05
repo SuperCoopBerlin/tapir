@@ -1260,7 +1260,6 @@ class ShiftWatch(models.Model):
         null=True,
         choices=get_staffingevent_choices,
     )
-    notification_timedelta = models.DurationField(default=datetime.timedelta(days=2))
     last_valid_slot_ids = ArrayField(
         models.IntegerField(),
         blank=True,
