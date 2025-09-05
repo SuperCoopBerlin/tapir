@@ -85,10 +85,9 @@ class Command(BaseCommand):
                         shift_watch=shift_watch_data, reason=reason.label
                     )
 
-            with transaction.atomic():
-                shift_watch_data.last_reason_for_notification = current_status
-                shift_watch_data.last_valid_slot_ids = this_valid_slot_ids
-                shift_watch_data.save()
+            shift_watch_data.last_reason_for_notification = current_status
+            shift_watch_data.last_valid_slot_ids = this_valid_slot_ids
+            shift_watch_data.save()
 
     @staticmethod
     def send_shift_watch_mail(shift_watch: ShiftWatch, reason: str):
