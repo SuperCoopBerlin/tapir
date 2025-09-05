@@ -30,7 +30,7 @@
                     <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 </h5>
                 <span class="d-flex justify-content-end flex-wrap gap-2">
-                    {% if request.user|user_watching_shift:shift.id %}
+                    {% if request.user|user_watching_shift:shift %}
                         <form style="display: inline"
                               method="post"
                               action="{% url 'shifts:unwatch_shift' shift.pk %}">
