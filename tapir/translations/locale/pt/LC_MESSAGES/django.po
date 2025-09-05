@@ -3,23 +3,25 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-28 12:56+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2025-08-20 21:59+0000\n"
+"Last-Translator: Lara Carvalho <laracjcarvalho@gmail.com>\n"
+"Language-Team: Portuguese <http://weblate.seriousdino.org/projects/tapir/"
+"tapir-python-translations/pt/>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 5.12.2\n"
+
 #: accounts/emails/create_account_reminder_email.py:20
 msgid "Create account reminder"
-msgstr ""
+msgstr "Lembrete para criar conta"
 
 #: accounts/emails/create_account_reminder_email.py:25
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
@@ -27,15 +29,15 @@ msgstr ""
 
 #: accounts/forms.py:116
 msgid "This username is not available."
-msgstr ""
+msgstr "Este username não está disponível."
 
 #: accounts/forms.py:126
 msgid "Optional Mails"
-msgstr ""
+msgstr "Emails opcionais"
 
 #: accounts/forms.py:133
 msgid "Important Mails"
-msgstr ""
+msgstr "Emails importantes"
 
 #: accounts/models.py:59
 msgid "Displayed name"
@@ -43,7 +45,7 @@ msgstr ""
 
 #: accounts/models.py:64 coop/models.py:70 coop/models.py:446
 msgid "Pronouns"
-msgstr ""
+msgstr "Pronomes"
 
 #: accounts/models.py:65 accounts/templates/accounts/user_detail.html:75
 #: coop/models.py:72 coop/models.py:448
@@ -51,18 +53,18 @@ msgstr ""
 #: coop/templates/coop/draftuser_detail.html:142
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Phone number"
-msgstr ""
+msgstr "Número de telefone"
 
 #: accounts/models.py:66 accounts/templates/accounts/user_detail.html:85
 #: coop/models.py:73 coop/models.py:449
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:60
 msgid "Birthdate"
-msgstr ""
+msgstr "Data de nascimento"
 
 #: accounts/models.py:67 coop/models.py:74 coop/models.py:450
 msgid "Street and house number"
-msgstr ""
+msgstr "Rua e número"
 
 #: accounts/models.py:68 coop/models.py:75 coop/models.py:451
 msgid "Extra address line"
@@ -70,15 +72,15 @@ msgstr ""
 
 #: accounts/models.py:69 coop/models.py:76 coop/models.py:452
 msgid "Postcode"
-msgstr ""
+msgstr "Código postal"
 
 #: accounts/models.py:70 coop/models.py:77 coop/models.py:453
 msgid "City"
-msgstr ""
+msgstr "Cidade"
 
 #: accounts/models.py:71 coop/models.py:78 coop/models.py:454
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #: accounts/models.py:72 accounts/templates/accounts/user_detail.html:119
 msgid "Co-Purchaser"
@@ -2258,7 +2260,7 @@ msgstr ""
 #: statistics/templates/statistics/tags/credit_account_card.html:17
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:18
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: financingcampaign/templates/financingcampaign/general.html:112
 #: shifts/templates/shifts/user_shift_account_log.html:27
@@ -3592,7 +3594,7 @@ msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:172
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:175
 msgid "Confirm"
