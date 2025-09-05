@@ -35,12 +35,12 @@
                               method="post"
                               action="{% url 'shifts:unwatch_shift' shift.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="{% tapir_button_custom 'secondary' %} ">
+                            <button type="submit" class="{% tapir_button_action %} ">
                                 <span class="material-icons">visibility_off</span>{% translate 'Unwatch' %}
                             </button>
                         </form>
                     {% else %}
-                        <a class="{% tapir_button_link %}"
+                        <a class="{% tapir_button_link_to_action %}"
                            href="{% url 'shifts:watch_shift' shift.pk %}">
                             <span class="material-icons">visibility</span>{% translate 'Watch' %}
                         </a>
