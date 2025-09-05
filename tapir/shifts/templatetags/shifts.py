@@ -1,6 +1,7 @@
 import datetime
 
 from django import template
+from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -88,6 +89,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         "is_template": False,
         "filter_classes": " ".join(get_html_classes_for_filtering(shift)),
         "flexible_time": shift.flexible_time,
+        "is_watching": shift.is_watching,
     }
 
 
@@ -264,5 +266,5 @@ def get_attendance_mode_display(shift_user_data: ShiftUserData) -> str:
 
 
 @register.filter(name="user_watching_shift")
-def user_watching_shift(user, shift) -> bool:
-    return ShiftWatch.objects.filter(user=user, shift=shift).exists()
+def user_watching_shift(user, shift) -> QuerySet:
+    return ShiftWatch.objects.filter(user=user, shift=shift)

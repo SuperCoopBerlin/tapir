@@ -11,9 +11,7 @@
             {% else %}
                 {{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}
             {% endif %}
-            {% if request.user|user_watching_shift:shift.id %}
-                <div style="vertical-align: text-bottom" class="material-icons">visibility</div>
-            {% endif %}
+            {% if shift.is_watching %}<div style="vertical-align: text-bottom" class="material-icons">visibility</div>{% endif %}
         </div>
         <div class="shift-date">
             {% if shift.start_date is not None %}
