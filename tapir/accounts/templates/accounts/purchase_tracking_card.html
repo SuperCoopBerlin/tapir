@@ -5,12 +5,14 @@
         <span>{% translate 'Purchase tracking' %}</span>
         <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
             {# "Use of both and and or clauses within the same tag is allowed, with and having higher precedence than or" #}
-            {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking and tapir_user.pk == request.user.pk or perms.coop.admin %}
-                <a class="{% tapir_button_link %}"
-                   href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">
-                    <span class="material-icons">download</span>
-                    {% translate 'Get barcode as PDF' %}
-                </a>
+            {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
+                {% if tapir_user.pk == request.user.pk or perms.coop.admin %}
+                    <a class="{% tapir_button_link %}"
+                       href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">
+                        <span class="material-icons">download</span>
+                        {% translate 'Get barcode as PDF' %}
+                    </a>
+                {% endif %}
             {% endif %}
             <a class="{% tapir_button_link %}"
                href="https://wiki.supercoop.de/wiki/Mitgliederkarte">

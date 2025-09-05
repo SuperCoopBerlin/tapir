@@ -116,7 +116,6 @@ class TestFinancialMattersOnUserDetailView(
         response = self.client.get(
             reverse("accounts:user_detail", args=[tapir_user.id])
         )
-        print(response)
         self.assertContains(response, "purchases-tracking-card")
         self.assertContains(response, "purchases-card")
         self.assertContains(response, "card-account-card")
@@ -127,7 +126,6 @@ class TestFinancialMattersOnUserDetailView(
         response = self.client.get(
             reverse("accounts:user_detail", args=[tapir_user.id])
         )
-        print(response)
         self.assertContains(response, "purchases-tracking-card")
         self.assertContains(response, "purchases-card")
         self.assertContains(response, "card-account-card")
@@ -150,3 +148,19 @@ class TestFinancialMattersOnUserDetailView(
             response,
             "You can only look at your own barcode unless you have admin right",
         )
+
+    def test_financialMattersOnUserDetailPage_loggedInAsVorstand_hideCardsAfterDisablingPurchaseTracking(
+        self,
+    ):
+        tapir_user = TapirUserFactory(allows_purchase_tracking=True)
+        tapir_user.allows_purchase_tracking = False
+        tapir_user.save()
+        self.login_as_vorstand()
+        response = self.client.get(
+            reverse("accounts:user_detail", args=[tapir_user.id])
+        )
+        self.assertContains(
+            response, "purchases-tracking-card"
+        )  # header should be shown
+        self.assertNotContains(response, "card-account-card")
+        self.assertNotContains(response, "purchases-card")
