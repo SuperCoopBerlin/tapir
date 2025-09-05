@@ -359,14 +359,6 @@ class RunFreezeChecksManuallyView(
         return super().get(request, args, kwargs)
 
 
-# class WatchShiftView(LoginRequiredMixin, RedirectView):
-#     def post(self, request, *args, **kwargs):
-#         shift = get_object_or_404(Shift, pk=kwargs["shift_id"])
-#         ShiftWatch.objects.get_or_create(user=request.user, shift=shift)
-#         return redirect("shifts:shift_detail", pk=kwargs["shift_id"])
-#
-
-
 class UnwatchShiftView(LoginRequiredMixin, RedirectView):
     def post(self, request, *args, **kwargs):
         shift = get_object_or_404(Shift, id=kwargs["shift"])
