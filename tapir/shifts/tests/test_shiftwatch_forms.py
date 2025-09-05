@@ -30,8 +30,13 @@ class TestShiftCancel(TapirFactoryTestBase):
             msg_prefix="The request should redirect to the shift's page.",
         )
 
-        assert ShiftWatch.objects.count() == 1
+        self.assertEqual(
+            ShiftWatch.objects.count(),
+            1,
+        )
         shift_watch_instance = ShiftWatch.objects.first()
-        assert shift_watch_instance.user == user
-        assert shift_watch_instance.shift == shift
-        assert set(shift_watch_instance.staffing_events) == set(staffing_event_choices)
+        self.assertEqual(shift_watch_instance.user, user)
+        self.assertEqual(shift_watch_instance.shift, shift)
+        self.assertEqual(
+            set(shift_watch_instance.staffing_events), set(staffing_event_choices)
+        )
