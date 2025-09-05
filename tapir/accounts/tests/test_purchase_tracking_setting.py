@@ -8,7 +8,9 @@ from tapir.accounts.management.commands.update_purchase_tracking_list import (
 )
 from tapir.accounts.models import UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import (
+    TapirFactoryTestBase,
+)
 
 
 class TestPurchaseTrackingSetting(TapirFactoryTestBase):
