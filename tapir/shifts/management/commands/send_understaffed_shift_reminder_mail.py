@@ -2,7 +2,6 @@ import time
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand
-from django.db import transaction
 from django.utils import timezone
 
 from tapir.core.services.send_mail_service import SendMailService
@@ -21,19 +20,28 @@ class Command(BaseCommand):
         shifts_tomorrow = ShiftWatch.objects.filter(shift__end_time__date=tomorrow)
 
         for shift_watch_data in shifts_tomorrow:
+            this_valid_slot_ids = [
+                s.slot_id for s in shift_watch_data.shift.get_valid_attendances()
+            ]
+            number_of_available_slots = shift_watch_data.shift.slots.count()
+            valid_attendances_count = len(this_valid_slot_ids)
+            required_attendances_count = (
+                shift_watch_data.shift.get_num_required_attendances()
+            )
             current_status = get_staffing_status(
-                shift=shift_watch_data.shift,
-                last_status=shift_watch_data.last_reason_for_notification,
-                last_number_of_attendances=len(shift_watch_data.last_valid_slot_ids),
+                number_of_available_slots=number_of_available_slots,
+                valid_attendances=valid_attendances_count,
+                required_attendances=required_attendances_count,
+                last_status=shift_watch_data.last_staffing_status,
             )
             if current_status == StaffingStatusChoices.UNDERSTAFFED:
                 self.send_shift_watch_mail(shift_watch_data, reason=current_status)
 
     @staticmethod
-    def send_shift_watch_mail(shift_watch: ShiftWatch, reason: str):
+    def send_shift_watch_mail(shift_watch: ShiftWatch, reason: StaffingStatusChoices):
         email_builder = ShiftWatchEmailBuilder(
-            shift=shift_watch.shift,
-            reason=f"Reminder {reason}: {shift_watch.shift.get_display_name()}",
+            shift_watch=shift_watch,
+            staffing_status=reason,
         )
         SendMailService.send_to_tapir_user(
             actor=None,
