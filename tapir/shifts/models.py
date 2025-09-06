@@ -1261,6 +1261,11 @@ class ShiftWatch(models.Model):
         blank=True,
         default=list,
     )
+    last_staffing_status = models.CharField(
+        max_length=30,
+        null=True,
+        choices=get_staffingevent_choices,
+    )
 
     def __str__(self):
         return f"{self.user.username} is watching {self.shift.id} for changes of {[event for event in self.staffing_events]}"

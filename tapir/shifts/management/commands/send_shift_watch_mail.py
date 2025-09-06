@@ -81,14 +81,11 @@ class Command(BaseCommand):
                 number_of_available_slots=number_of_available_slots,
                 valid_attendances=valid_attendances_count,
                 required_attendances=required_attendances_count,
-                last_status=get_staffing_status(
-                    number_of_available_slots=number_of_available_slots,
-                    valid_attendances=len(shift_watch_data.last_valid_slot_ids),
-                    required_attendances=required_attendances_count,
-                ),
+                last_status=shift_watch_data.last_staffing_status,
             )
             if current_status:
                 notification_reasons.append(current_status)
+                shift_watch_data.last_staffing_status = current_status
 
             # Check shift coordinator status
             if (
@@ -101,11 +98,9 @@ class Command(BaseCommand):
             # General attendance change notifications
             if not notification_reasons:
                 # If no other status like "Understaffed" or "teamleader registered" appeared, inform user about general change
-                if shift_watch_data.shift.get_valid_attendances().count() > len(
-                    shift_watch_data.last_valid_slot_ids
-                ):
+                if valid_attendances_count > len(shift_watch_data.last_valid_slot_ids):
                     notification_reasons.append(StaffingEventsChoices.ATTENDANCE_PLUS)
-                elif shift_watch_data.shift.get_valid_attendances().count() < len(
+                elif valid_attendances_count < len(
                     shift_watch_data.last_valid_slot_ids
                 ):
                     notification_reasons.append(StaffingEventsChoices.ATTENDANCE_MINUS)
