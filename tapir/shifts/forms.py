@@ -677,7 +677,7 @@ class ShiftWatchForm(forms.ModelForm):
     staffing_status = forms.MultipleChoiceField(
         required=False,
         choices=get_staffingstatus_choices,
-        label=_("Which shift-events do you want to subscribe to?"),
+        label=_("Shift changes you would like to be informed about"),
         widget=CheckboxSelectMultiple(),
         disabled=False,
     )
