@@ -370,6 +370,12 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
     model = ShiftWatch
     form_class = ShiftWatchForm
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["page_title"] = _("Shift changes you would like to be informed about")
+        context["card_title"] = _("Shift changes you would like to be informed about")
+        return context
+
     def get_success_url(self):
         return reverse_lazy("shifts:shift_detail", args=[self.kwargs["shift"]])
 
