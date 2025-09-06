@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 
-from tapir.shifts.models import StaffingEventsChoices, ShiftWatch
+from tapir.shifts.models import StaffingStatusChoices, ShiftWatch
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -12,14 +12,14 @@ class TestShiftCancel(TapirFactoryTestBase):
         user = self.login_as_normal_user()
         shift = ShiftFactory.create()
 
-        staffing_event_choices = [
-            StaffingEventsChoices.FULL,
-            StaffingEventsChoices.UNDERSTAFFED,
+        staffing_status_choices = [
+            StaffingStatusChoices.FULL,
+            StaffingStatusChoices.UNDERSTAFFED,
         ]
         response = self.client.post(
             reverse(viewname="shifts:watch_shift", args=[shift.id]),
             data={
-                "staffing_events": staffing_event_choices,
+                "staffing_status": staffing_status_choices,
             },
         )
         print(ShiftWatch.objects.all().values())
@@ -37,5 +37,5 @@ class TestShiftCancel(TapirFactoryTestBase):
         self.assertEqual(shift_watch_instance.user, user)
         self.assertEqual(shift_watch_instance.shift, shift)
         self.assertEqual(
-            set(shift_watch_instance.staffing_events), set(staffing_event_choices)
+            set(shift_watch_instance.staffing_status), set(staffing_status_choices)
         )

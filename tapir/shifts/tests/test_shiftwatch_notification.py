@@ -6,10 +6,10 @@ from tapir.shifts.emails.shift_watch_mail import ShiftWatchEmailBuilder
 from tapir.shifts.management.commands.send_shift_watch_mail import Command
 from tapir.shifts.models import (
     ShiftWatch,
-    StaffingEventsChoices,
+    StaffingStatusChoices,
     ShiftSlot,
     ShiftUserCapability,
-    get_staffingevent_choices,
+    get_staffingstatus_choices,
     ShiftAttendance,
 )
 
@@ -30,7 +30,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             user=self.user,
             shift=self.shift,
             last_valid_slot_ids=[],
-            staffing_events=[event.value for event in get_staffingevent_choices()],
+            staffing_status=[event.value for event in get_staffingstatus_choices()],
         )
 
         register_user_to_shift(self.client, TapirUserFactory.create(), self.shift)
@@ -40,7 +40,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEqual(1, len(mail.outbox))
 
         self.assertIn(
-            str(StaffingEventsChoices.UNDERSTAFFED.label), mail.outbox[0].body
+            str(StaffingStatusChoices.UNDERSTAFFED.label), mail.outbox[0].body
         )
         self.assertEmailOfClass_GotSentTo(
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
@@ -51,7 +51,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             user=self.user,
             shift=self.shift,
             last_valid_slot_ids=[],
-            staffing_events=[StaffingEventsChoices.SHIFT_COORDINATOR_PLUS.value],
+            staffing_status=[StaffingStatusChoices.SHIFT_COORDINATOR_PLUS.value],
         )
 
         self.shift.num_required_attendances = 0  # 0 required
@@ -69,7 +69,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
         self.assertEqual(1, len(mail.outbox))  # SHIFT_PLUS und SHIFT_COORDINATOR_PLUS
         self.assertIn(
-            str(StaffingEventsChoices.SHIFT_COORDINATOR_PLUS.label), mail.outbox[0].body
+            str(StaffingStatusChoices.SHIFT_COORDINATOR_PLUS.label), mail.outbox[0].body
         )
         self.assertEmailOfClass_GotSentTo(
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]

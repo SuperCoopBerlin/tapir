@@ -9,8 +9,8 @@ from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_watch_mail import (
     ShiftWatchEmailBuilder,
 )
-from tapir.shifts.management.commands.send_shift_watch_mail import get_staffing_events
-from tapir.shifts.models import ShiftWatch, StaffingEventsChoices
+from tapir.shifts.management.commands.send_shift_watch_mail import get_staffing_status
+from tapir.shifts.models import ShiftWatch, StaffingStatusChoices
 
 
 class Command(BaseCommand):
@@ -21,12 +21,12 @@ class Command(BaseCommand):
         shifts_tomorrow = ShiftWatch.objects.filter(shift__end_time__date=tomorrow)
 
         for shift_watch_data in shifts_tomorrow:
-            current_status = get_staffing_events(
+            current_status = get_staffing_status(
                 shift=shift_watch_data.shift,
                 last_status=shift_watch_data.last_reason_for_notification,
                 last_number_of_attendances=len(shift_watch_data.last_valid_slot_ids),
             )
-            if current_status == StaffingEventsChoices.UNDERSTAFFED:
+            if current_status == StaffingStatusChoices.UNDERSTAFFED:
                 self.send_shift_watch_mail(shift_watch_data, reason=current_status)
 
     @staticmethod
