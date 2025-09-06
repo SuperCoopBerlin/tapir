@@ -22,7 +22,6 @@ class TestShiftCancel(TapirFactoryTestBase):
                 "staffing_status": staffing_status_choices,
             },
         )
-        print(ShiftWatch.objects.all().values())
         self.assertRedirects(
             response,
             shift.get_absolute_url(),
