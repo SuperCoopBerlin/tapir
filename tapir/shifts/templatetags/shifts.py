@@ -89,7 +89,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         "is_template": False,
         "filter_classes": " ".join(get_html_classes_for_filtering(shift)),
         "flexible_time": shift.flexible_time,
-        "is_watching": shift.is_watching,
+        "is_watching": getattr(shift, "is_watching", False),
     }
 
 
