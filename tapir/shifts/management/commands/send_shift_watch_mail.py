@@ -109,18 +109,18 @@ class Command(BaseCommand):
         # Send notifications
         for reason in notification_reasons:
             if reason.value in shift_watch_data.staffing_events:
-                self.send_shift_watch_mail(
-                    shift_watch=shift_watch_data, reason=reason.label
-                )
+                self.send_shift_watch_mail(shift_watch=shift_watch_data, reason=reason)
 
         shift_watch_data.last_valid_slot_ids = this_valid_slot_ids
         shift_watch_data.save()
 
     @staticmethod
-    def send_shift_watch_mail(shift_watch: ShiftWatch, reason: str):
+    def send_shift_watch_mail(
+        shift_watch: ShiftWatch, staffing_event: StaffingEventsChoices
+    ):
         email_builder = ShiftWatchEmailBuilder(
             shift=shift_watch.shift,
-            reason=f"{reason}: {shift_watch.shift.get_display_name()}",
+            staffing_event=staffing_event,
         )
         SendMailService.send_to_tapir_user(
             actor=None,
