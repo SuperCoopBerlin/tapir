@@ -66,54 +66,55 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for shift_watch_data in ShiftWatch.objects.select_related("user", "shift"):
-            notification_reasons = []
-            this_valid_slot_ids = [
-                s.slot_id for s in shift_watch_data.shift.get_valid_attendances()
-            ]
-            valid_attendances_count = len(this_valid_slot_ids)
-            required_attendances_count = (
-                shift_watch_data.shift.get_num_required_attendances()
-            )
-            number_of_available_slots = shift_watch_data.shift.slots.count()
+            self.send_shift_watch_mail_per_user_and_shift(shift_watch_data)
 
-            # Determine staffing status
-            current_status = get_staffing_status(
-                number_of_available_slots=number_of_available_slots,
-                valid_attendances=valid_attendances_count,
-                required_attendances=required_attendances_count,
-                last_status=shift_watch_data.last_staffing_status,
-            )
-            if current_status:
-                notification_reasons.append(current_status)
-                shift_watch_data.last_staffing_status = current_status
+    def send_shift_watch_mail_per_user_and_shift(self, shift_watch_data: ShiftWatch):
+        notification_reasons = []
+        this_valid_slot_ids = [
+            s.slot_id for s in shift_watch_data.shift.get_valid_attendances()
+        ]
+        valid_attendances_count = len(this_valid_slot_ids)
+        required_attendances_count = (
+            shift_watch_data.shift.get_num_required_attendances()
+        )
+        number_of_available_slots = shift_watch_data.shift.slots.count()
 
-            # Check shift coordinator status
-            if (
-                result := get_shift_coordinator_status(
-                    this_valid_slot_ids, shift_watch_data.last_valid_slot_ids
+        # Determine staffing status
+        current_status = get_staffing_status(
+            number_of_available_slots=number_of_available_slots,
+            valid_attendances=valid_attendances_count,
+            required_attendances=required_attendances_count,
+            last_status=shift_watch_data.last_staffing_status,
+        )
+        if current_status:
+            notification_reasons.append(current_status)
+            shift_watch_data.last_staffing_status = current_status
+
+        # Check shift coordinator status
+        if (
+            result := get_shift_coordinator_status(
+                this_valid_slot_ids, shift_watch_data.last_valid_slot_ids
+            )
+        ) is not None:
+            notification_reasons.append(result)
+
+        # General attendance change notifications
+        if not notification_reasons:
+            # If no other status like "Understaffed" or "teamleader registered" appeared, inform user about general change
+            if valid_attendances_count > len(shift_watch_data.last_valid_slot_ids):
+                notification_reasons.append(StaffingEventsChoices.ATTENDANCE_PLUS)
+            elif valid_attendances_count < len(shift_watch_data.last_valid_slot_ids):
+                notification_reasons.append(StaffingEventsChoices.ATTENDANCE_MINUS)
+
+        # Send notifications
+        for reason in notification_reasons:
+            if reason.value in shift_watch_data.staffing_events:
+                self.send_shift_watch_mail(
+                    shift_watch=shift_watch_data, reason=reason.label
                 )
-            ) is not None:
-                notification_reasons.append(result)
 
-            # General attendance change notifications
-            if not notification_reasons:
-                # If no other status like "Understaffed" or "teamleader registered" appeared, inform user about general change
-                if valid_attendances_count > len(shift_watch_data.last_valid_slot_ids):
-                    notification_reasons.append(StaffingEventsChoices.ATTENDANCE_PLUS)
-                elif valid_attendances_count < len(
-                    shift_watch_data.last_valid_slot_ids
-                ):
-                    notification_reasons.append(StaffingEventsChoices.ATTENDANCE_MINUS)
-
-            # Send notifications
-            for reason in notification_reasons:
-                if reason.value in shift_watch_data.staffing_events:
-                    self.send_shift_watch_mail(
-                        shift_watch=shift_watch_data, reason=reason.label
-                    )
-
-            shift_watch_data.last_valid_slot_ids = this_valid_slot_ids
-            shift_watch_data.save()
+        shift_watch_data.last_valid_slot_ids = this_valid_slot_ids
+        shift_watch_data.save()
 
     @staticmethod
     def send_shift_watch_mail(shift_watch: ShiftWatch, reason: str):
