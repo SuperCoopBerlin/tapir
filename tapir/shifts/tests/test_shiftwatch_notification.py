@@ -29,7 +29,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift,
-            last_reason_for_notification=None,
             last_valid_slot_ids=[],
             staffing_events=[event.value for event in get_staffingevent_choices()],
         )
@@ -51,7 +50,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift,
-            last_reason_for_notification=None,
             last_valid_slot_ids=[],
             staffing_events=[StaffingEventsChoices.SHIFT_COORDINATOR_PLUS.value],
         )

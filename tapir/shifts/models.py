@@ -1255,11 +1255,7 @@ class ShiftWatch(models.Model):
         blank=False,
         default=get_staffingevent_defaults,
     )
-    last_reason_for_notification = models.CharField(
-        max_length=30,
-        null=True,
-        choices=get_staffingevent_choices,
-    )
+
     last_valid_slot_ids = ArrayField(
         models.IntegerField(),
         blank=True,
