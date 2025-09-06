@@ -1,6 +1,8 @@
 import datetime
 
+import pytest
 from celery.states import state
+from django.core.management import call_command
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
@@ -15,9 +17,12 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
     def test_getPastShiftsData_DifferentStatesOfAttendandance_onlyCountDoneState(self):
         user_done = TapirUserFactory.create()
         user_excused = TapirUserFactory.create()
+
         shift_template: ShiftTemplate = ShiftTemplateFactory.create(nb_slots=2)
-        shift = shift_template.create_shift(
-            timezone.now().date() - datetime.timedelta(days=2)
+        shift = ShiftFactory(
+            start_time=timezone.now() - datetime.timedelta(days=1),
+            nb_slots=2,
+            shift_template=shift_template,
         )
 
         ShiftAttendance.objects.create(
@@ -28,10 +33,8 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
             user=user_excused,
             slot=shift.slots.all()[1],
         )
-        print(ShiftAttendance.objects.all().values())
 
-        context = {}
-        ShiftDetailView.get_past_shifts_data(shift, context=context)
+        context = ShiftDetailView.get_past_shifts_data(shift)
         self.assertEqual(context["no_of_past_shifts"], 1)
         self.assertEqual(context["total_valid_attendances"], 1)
         self.assertEqual(
@@ -39,13 +42,14 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
             (shift.end_time - shift.start_time).total_seconds() / 3600,
         )
 
-    #
     def test_getPastShiftsData_MultipleAttendandances_correctValues(self):
-        users = [TapirUserFactory.create(is_in_member_office=False) for _ in range(5)]
+        users = [TapirUserFactory.create() for _ in range(5)]
         shift_template = ShiftTemplateFactory.create(nb_slots=len(users))
         shifts = [
-            shift_template.create_shift(
-                timezone.now().date() - datetime.timedelta(days=i)
+            ShiftFactory(
+                start_time=timezone.now() - datetime.timedelta(days=i + 1),
+                nb_slots=len(users),
+                shift_template=shift_template,
             )
             for i in range(5)
         ]
@@ -56,9 +60,7 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
                 ShiftAttendance.objects.create(
                     state=ShiftAttendance.State.DONE, user=user, slot=slots[i]
                 )
-
-        context = {}
-        ShiftDetailView.get_past_shifts_data(shifts[-1], context=context)
+        context = ShiftDetailView.get_past_shifts_data(shifts[-1])
 
         self.assertEqual(context["no_of_past_shifts"], len(shifts))
         self.assertEqual(context["total_valid_attendances"], len(users) * len(shifts))
