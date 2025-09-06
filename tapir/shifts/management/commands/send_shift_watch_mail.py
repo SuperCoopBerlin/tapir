@@ -36,7 +36,10 @@ def get_staffing_status(
         and last_status != StaffingStatusChoices.FULL
     ):
         return StaffingStatusChoices.FULL
-    elif last_status == StaffingStatusChoices.UNDERSTAFFED:
+    elif (
+        valid_attendances >= required_attendances
+        and last_status == StaffingStatusChoices.UNDERSTAFFED
+    ):
         # When it's ok now but last status was understaffed
         return StaffingStatusChoices.ALL_CLEAR
     return None
