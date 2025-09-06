@@ -6,16 +6,16 @@ from django.utils.translation import gettext_lazy as _
 from tapir.coop.models import ShareOwner
 from tapir.core.mail_option import MailOption
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
-from tapir.shifts.models import Shift, ShiftWatch, StaffingEventsChoices
+from tapir.shifts.models import ShiftWatch, StaffingStatusChoices
 
 
 class ShiftWatchEmailBuilder(TapirEmailBuilderBase):
     option = MailOption.OPTIONAL_ENABLED
 
-    def __init__(self, shift_watch: ShiftWatch, staffing_event: StaffingEventsChoices):
+    def __init__(self, shift_watch: ShiftWatch, staffing_status: StaffingStatusChoices):
         super().__init__()
         self.shift = shift_watch.shift
-        self.reason = f"{staffing_event.label}: {shift_watch.shift.get_display_name()}"
+        self.reason = f"{staffing_status.label}: {shift_watch.shift.get_display_name()}"
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -53,7 +53,7 @@ class ShiftWatchEmailBuilder(TapirEmailBuilderBase):
         if not share_owner or not shift_watch:
             return None
         mail = cls(
-            shift_watch=shift_watch, staffing_event=StaffingEventsChoices.UNDERSTAFFED
+            shift_watch=shift_watch, staffing_status=StaffingStatusChoices.UNDERSTAFFED
         )
         mail.get_full_context(
             share_owner=share_owner,

@@ -1216,7 +1216,7 @@ class SolidarityShift(models.Model):
     date_used = models.DateField(null=True)
 
 
-class StaffingEventsChoices(models.TextChoices):
+class StaffingStatusChoices(models.TextChoices):
     ALMOST_FULL = "ALMOST_FULL", _("Shift is almost full, only one spot left.")
     FULL = "FULL", _("Shift is full now.")
     UNDERSTAFFED = "UNDERSTAFFED", _("The Shift is understaffed!")
@@ -1237,12 +1237,12 @@ class StaffingEventsChoices(models.TextChoices):
     )
 
 
-def get_staffingevent_choices():
-    return StaffingEventsChoices
+def get_staffingstatus_choices():
+    return StaffingStatusChoices
 
 
-def get_staffingevent_defaults():
-    return [StaffingEventsChoices.FULL, StaffingEventsChoices.UNDERSTAFFED]
+def get_staffingstatus_defaults():
+    return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
 
 
 class ShiftWatch(models.Model):
@@ -1250,10 +1250,10 @@ class ShiftWatch(models.Model):
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
     )
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
-    staffing_events = ArrayField(
-        models.CharField(max_length=30, choices=get_staffingevent_choices),
+    staffing_status = ArrayField(
+        models.CharField(max_length=30, choices=get_staffingstatus_choices),
         blank=False,
-        default=get_staffingevent_defaults,
+        default=get_staffingstatus_defaults,
     )
 
     last_valid_slot_ids = ArrayField(
@@ -1264,11 +1264,11 @@ class ShiftWatch(models.Model):
     last_staffing_status = models.CharField(
         max_length=30,
         null=True,
-        choices=get_staffingevent_choices,
+        choices=get_staffingstatus_choices,
     )
 
     def __str__(self):
-        return f"{self.user.username} is watching {self.shift.id} for changes of {[event for event in self.staffing_events]}"
+        return f"{self.user.username} is watching {self.shift.id} for changes of {[status for status in self.staffing_status]}"
 
     class Meta:
         constraints = [

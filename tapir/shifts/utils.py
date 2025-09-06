@@ -11,7 +11,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
-    StaffingEventsChoices,
+    StaffingStatusChoices,
     Shift,
 )
 from tapir.shifts.templatetags.shifts import get_week_group

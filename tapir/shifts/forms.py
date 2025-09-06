@@ -30,9 +30,9 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftAttendanceMode,
     ShiftWatch,
-    StaffingEventsChoices,
-    get_staffingevent_defaults,
-    get_staffingevent_choices,
+    StaffingStatusChoices,
+    get_staffingstatus_defaults,
+    get_staffingstatus_choices,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -672,13 +672,13 @@ class ShiftAttendanceTemplateCustomTimeForm(CustomTimeCleanMixin, forms.ModelFor
 class ShiftWatchForm(forms.ModelForm):
     class Meta:
         model = ShiftWatch
-        fields = ["staffing_events"]
+        fields = ["staffing_status"]
 
-    staffing_events = forms.MultipleChoiceField(
+    staffing_status = forms.MultipleChoiceField(
         required=False,
-        choices=get_staffingevent_choices,
+        choices=get_staffingstatus_choices,
         label=_("Which shift-events do you want to subscribe to?"),
         widget=CheckboxSelectMultiple(),
         disabled=False,
-        initial=get_staffingevent_defaults,
+        initial=get_staffingstatus_defaults,
     )

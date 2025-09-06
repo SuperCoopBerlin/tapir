@@ -8,7 +8,7 @@ from tapir.shifts.emails.shift_watch_mail import (
 )
 from tapir.shifts.models import (
     ShiftWatch,
-    StaffingEventsChoices,
+    StaffingStatusChoices,
     ShiftUserCapability,
     ShiftSlot,
 )
@@ -23,22 +23,22 @@ def get_staffing_status(
     """Determine the staffing status based on attendance counts."""
     if (
         valid_attendances < required_attendances
-        and last_status != StaffingEventsChoices.UNDERSTAFFED
+        and last_status != StaffingStatusChoices.UNDERSTAFFED
     ):
-        return StaffingEventsChoices.UNDERSTAFFED
+        return StaffingStatusChoices.UNDERSTAFFED
     elif (
         number_of_available_slots - valid_attendances == 1
-        and last_status != StaffingEventsChoices.ALMOST_FULL
+        and last_status != StaffingStatusChoices.ALMOST_FULL
     ):
-        return StaffingEventsChoices.ALMOST_FULL
+        return StaffingStatusChoices.ALMOST_FULL
     elif (
         number_of_available_slots - valid_attendances == 0
-        and last_status != StaffingEventsChoices.FULL
+        and last_status != StaffingStatusChoices.FULL
     ):
-        return StaffingEventsChoices.FULL
-    elif last_status == StaffingEventsChoices.UNDERSTAFFED:
+        return StaffingStatusChoices.FULL
+    elif last_status == StaffingStatusChoices.UNDERSTAFFED:
         # When it's ok now but last status was understaffed
-        return StaffingEventsChoices.ALL_CLEAR
+        return StaffingStatusChoices.ALL_CLEAR
     return None
 
 
@@ -55,9 +55,9 @@ def get_shift_coordinator_status(
     this_sc_available = is_shift_coordinator_available(this_valid_slot_ids)
     last_sc_available = is_shift_coordinator_available(last_valid_slot_ids)
     if not this_sc_available and last_sc_available:
-        return StaffingEventsChoices.SHIFT_COORDINATOR_MINUS
+        return StaffingStatusChoices.SHIFT_COORDINATOR_MINUS
     elif this_sc_available and not last_sc_available:
-        return StaffingEventsChoices.SHIFT_COORDINATOR_PLUS
+        return StaffingStatusChoices.SHIFT_COORDINATOR_PLUS
     return None
 
 
@@ -69,7 +69,7 @@ class Command(BaseCommand):
             self.send_shift_watch_mail_per_user_and_shift(shift_watch_data)
 
     def send_shift_watch_mail_per_user_and_shift(self, shift_watch_data: ShiftWatch):
-        notification_reasons = []
+        notification_reasons: list[StaffingStatusChoices] = []
         this_valid_slot_ids = [
             s.slot_id for s in shift_watch_data.shift.get_valid_attendances()
         ]
@@ -102,25 +102,27 @@ class Command(BaseCommand):
         if not notification_reasons:
             # If no other status like "Understaffed" or "teamleader registered" appeared, inform user about general change
             if valid_attendances_count > len(shift_watch_data.last_valid_slot_ids):
-                notification_reasons.append(StaffingEventsChoices.ATTENDANCE_PLUS)
+                notification_reasons.append(StaffingStatusChoices.ATTENDANCE_PLUS)
             elif valid_attendances_count < len(shift_watch_data.last_valid_slot_ids):
-                notification_reasons.append(StaffingEventsChoices.ATTENDANCE_MINUS)
+                notification_reasons.append(StaffingStatusChoices.ATTENDANCE_MINUS)
 
         # Send notifications
         for reason in notification_reasons:
-            if reason.value in shift_watch_data.staffing_events:
-                self.send_shift_watch_mail(shift_watch=shift_watch_data, reason=reason)
+            if reason.value in shift_watch_data.staffing_status:
+                self.send_shift_watch_mail(
+                    shift_watch=shift_watch_data, staffing_status=reason
+                )
 
         shift_watch_data.last_valid_slot_ids = this_valid_slot_ids
         shift_watch_data.save()
 
     @staticmethod
     def send_shift_watch_mail(
-        shift_watch: ShiftWatch, staffing_event: StaffingEventsChoices
+        shift_watch: ShiftWatch, staffing_status: StaffingStatusChoices
     ):
         email_builder = ShiftWatchEmailBuilder(
-            shift=shift_watch.shift,
-            staffing_event=staffing_event,
+            shift_watch=shift_watch,
+            staffing_status=staffing_status,
         )
         SendMailService.send_to_tapir_user(
             actor=None,
