@@ -261,7 +261,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         return context
 
     @staticmethod
-    def get_past_shifts_data(shift: Shift, context: dict):
+    def get_past_shifts_data(shift: Shift, context: dict = {}):
         past_shifts = Shift.objects.filter(
             shift_template=shift.shift_template, end_time__lt=timezone.now()
         ).annotate(
@@ -289,6 +289,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             for s in past_shifts
         )
         context["total_hours"] = total_hours
+        return context
 
 
 class ShiftDayPrintableView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
