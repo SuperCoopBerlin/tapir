@@ -238,20 +238,27 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         if shift.shift_template:
             past_shifts = Shift.objects.filter(
                 shift_template=shift.shift_template, end_time__lt=timezone.now()
-            ).exclude(id=shift.id)
-            context["no_of_past_shifts"] = len(past_shifts)
+            ).annotate(
+                valid_attendance_count=Count(
+                    "slots__attendances",
+                    filter=Q(
+                        slots__attendances__state__in=[
+                            ShiftAttendance.State.DONE,
+                        ]
+                    ),
+                )
+            )
+            context["no_of_past_shifts"] = past_shifts.count()
 
             # Sum valid attendances for related shifts
-            total_valid_attendances = sum(
-                s.get_valid_attendances().count() for s in past_shifts
-            )
+            total_valid_attendances = sum(s.valid_attendance_count for s in past_shifts)
             if total_valid_attendances > 1:
                 context["total_valid_attendances"] = total_valid_attendances
 
             # Calculate total working hours
             total_hours = sum(
                 (s.end_time - s.start_time).total_seconds()
-                * s.get_valid_attendances().count()
+                * s.valid_attendance_count
                 / 3600
                 for s in past_shifts
             )
