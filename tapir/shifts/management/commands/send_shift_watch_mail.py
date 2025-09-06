@@ -1,8 +1,6 @@
 import time
 
 from django.core.management.base import BaseCommand
-from django.db import transaction
-from django.db.models import Q
 
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_watch_mail import (
@@ -11,29 +9,37 @@ from tapir.shifts.emails.shift_watch_mail import (
 from tapir.shifts.models import (
     ShiftWatch,
     StaffingEventsChoices,
-    Shift,
     ShiftUserCapability,
     ShiftSlot,
 )
 
 
-def get_staffing_events(
-    shift: Shift, last_status: str, last_number_of_attendances: int
+def get_staffing_status(
+    number_of_available_slots: int,
+    valid_attendances: int,
+    required_attendances: int,
+    last_status: str = None,
 ):
-    if shift.get_valid_attendances().count() < shift.get_num_required_attendances():
+    """Determine the staffing status based on attendance counts."""
+    if (
+        valid_attendances < required_attendances
+        and last_status != StaffingEventsChoices.UNDERSTAFFED
+    ):
         return StaffingEventsChoices.UNDERSTAFFED
-    elif shift.slots.count() - shift.get_valid_attendances().count() == 1:
+    elif (
+        number_of_available_slots - valid_attendances == 1
+        and last_status != StaffingEventsChoices.ALMOST_FULL
+    ):
         return StaffingEventsChoices.ALMOST_FULL
-    elif shift.slots.count() - shift.get_valid_attendances().count() == 0:
+    elif (
+        number_of_available_slots - valid_attendances == 0
+        and last_status != StaffingEventsChoices.FULL
+    ):
         return StaffingEventsChoices.FULL
     elif last_status == StaffingEventsChoices.UNDERSTAFFED:
+        # When it's ok now but last status was understaffed
         return StaffingEventsChoices.ALL_CLEAR
-    elif shift.get_valid_attendances().count() > last_number_of_attendances:
-        return StaffingEventsChoices.ATTENDANCE_PLUS
-    elif shift.get_valid_attendances().count() < last_number_of_attendances:
-        return StaffingEventsChoices.ATTENDANCE_MINUS
-    else:
-        return None
+    return None
 
 
 def get_shift_coordinator_status(
@@ -60,27 +66,31 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for shift_watch_data in ShiftWatch.objects.select_related("user", "shift"):
-
             notification_reasons = []
-
-            last_status_by_attendances = get_by_attendances(
-                valid_att=len(shift_watch_data.last_valid_slot_ids),
-                no_of_slots=shift_watch_data.shift.slots.count(),
-                req_att=shift_watch_data.shift.get_num_required_attendances(),
-            )
-            # General staffing notifications
-            current_status = get_staffing_events(
-                shift=shift_watch_data.shift,
-                last_status=last_status_by_attendances,
-                last_number_of_attendances=len(shift_watch_data.last_valid_slot_ids),
-            )
-            if (last_status_by_attendances != current_status) and (
-                current_status is not None
-            ):
-                notification_reasons.append(current_status)
             this_valid_slot_ids = [
                 s.slot_id for s in shift_watch_data.shift.get_valid_attendances()
             ]
+            valid_attendances_count = len(this_valid_slot_ids)
+            required_attendances_count = (
+                shift_watch_data.shift.get_num_required_attendances()
+            )
+            number_of_available_slots = shift_watch_data.shift.slots.count()
+
+            # Determine staffing status
+            current_status = get_staffing_status(
+                number_of_available_slots=number_of_available_slots,
+                valid_attendances=valid_attendances_count,
+                required_attendances=required_attendances_count,
+                last_status=get_staffing_status(
+                    number_of_available_slots=number_of_available_slots,
+                    valid_attendances=len(shift_watch_data.last_valid_slot_ids),
+                    required_attendances=required_attendances_count,
+                ),
+            )
+            if current_status:
+                notification_reasons.append(current_status)
+
+            # Check shift coordinator status
             if (
                 result := get_shift_coordinator_status(
                     this_valid_slot_ids, shift_watch_data.last_valid_slot_ids
@@ -88,13 +98,25 @@ class Command(BaseCommand):
             ) is not None:
                 notification_reasons.append(result)
 
+            # General attendance change notifications
+            if not notification_reasons:
+                # If no other status like "Understaffed" or "teamleader registered" appeared, inform user about general change
+                if shift_watch_data.shift.get_valid_attendances().count() > len(
+                    shift_watch_data.last_valid_slot_ids
+                ):
+                    notification_reasons.append(StaffingEventsChoices.ATTENDANCE_PLUS)
+                elif shift_watch_data.shift.get_valid_attendances().count() < len(
+                    shift_watch_data.last_valid_slot_ids
+                ):
+                    notification_reasons.append(StaffingEventsChoices.ATTENDANCE_MINUS)
+
+            # Send notifications
             for reason in notification_reasons:
                 if reason.value in shift_watch_data.staffing_events:
                     self.send_shift_watch_mail(
                         shift_watch=shift_watch_data, reason=reason.label
                     )
 
-            shift_watch_data.last_reason_for_notification = current_status
             shift_watch_data.last_valid_slot_ids = this_valid_slot_ids
             shift_watch_data.save()
 
