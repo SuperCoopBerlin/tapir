@@ -36,11 +36,23 @@ def get_staffing_events(
         return None
 
 
-def is_shift_coordinator_available(slot_ids: list[int]):
-    return ShiftSlot.objects.filter(
-        id__in=slot_ids,
-        required_capabilities__contains=[ShiftUserCapability.SHIFT_COORDINATOR],
-    )
+def get_shift_coordinator_status(
+    this_valid_slot_ids: list[int], last_valid_slot_ids: list[int]
+):
+    # Team-leader/Shift-Coordinator notifications
+    def is_shift_coordinator_available(slot_ids: list[int]):
+        return ShiftSlot.objects.filter(
+            id__in=slot_ids,
+            required_capabilities__contains=[ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+
+    this_sc_available = is_shift_coordinator_available(this_valid_slot_ids)
+    last_sc_available = is_shift_coordinator_available(last_valid_slot_ids)
+    if not this_sc_available and last_sc_available:
+        return StaffingEventsChoices.SHIFT_COORDINATOR_MINUS
+    elif this_sc_available and not last_sc_available:
+        return StaffingEventsChoices.SHIFT_COORDINATOR_PLUS
+    return None
 
 
 class Command(BaseCommand):
@@ -51,33 +63,30 @@ class Command(BaseCommand):
 
             notification_reasons = []
 
+            last_status_by_attendances = get_by_attendances(
+                valid_att=len(shift_watch_data.last_valid_slot_ids),
+                no_of_slots=shift_watch_data.shift.slots.count(),
+                req_att=shift_watch_data.shift.get_num_required_attendances(),
+            )
             # General staffing notifications
             current_status = get_staffing_events(
                 shift=shift_watch_data.shift,
-                last_status=shift_watch_data.last_reason_for_notification,
+                last_status=last_status_by_attendances,
                 last_number_of_attendances=len(shift_watch_data.last_valid_slot_ids),
             )
-            if (shift_watch_data.last_reason_for_notification != current_status) and (
+            if (last_status_by_attendances != current_status) and (
                 current_status is not None
             ):
                 notification_reasons.append(current_status)
-
-            # Team-leader/Shift-Coordinator notifications
             this_valid_slot_ids = [
                 s.slot_id for s in shift_watch_data.shift.get_valid_attendances()
             ]
-            this_sc_available = is_shift_coordinator_available(this_valid_slot_ids)
-            last_sc_available = is_shift_coordinator_available(
-                shift_watch_data.last_valid_slot_ids
-            )
-            if not this_sc_available and last_sc_available:
-                notification_reasons.append(
-                    StaffingEventsChoices.SHIFT_COORDINATOR_MINUS
+            if (
+                result := get_shift_coordinator_status(
+                    this_valid_slot_ids, shift_watch_data.last_valid_slot_ids
                 )
-            elif this_sc_available and not last_sc_available:
-                notification_reasons.append(
-                    StaffingEventsChoices.SHIFT_COORDINATOR_PLUS
-                )
+            ) is not None:
+                notification_reasons.append(result)
 
             for reason in notification_reasons:
                 if reason.value in shift_watch_data.staffing_events:
