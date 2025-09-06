@@ -210,6 +210,34 @@ class CreateShiftAccountEntryView(
         return self.get_target_user().get_absolute_url()
 
 
+def get_past_shifts_data(shift: Shift, context: dict):
+    past_shifts = Shift.objects.filter(
+        shift_template=shift.shift_template, end_time__lt=timezone.now()
+    ).annotate(
+        valid_attendance_count=Count(
+            "slots__attendances",
+            filter=Q(
+                slots__attendances__state__in=[
+                    ShiftAttendance.State.DONE,
+                ]
+            ),
+        )
+    )
+    context["no_of_past_shifts"] = past_shifts.count()
+
+    # Sum valid attendances for related shifts
+    total_valid_attendances = sum(s.valid_attendance_count for s in past_shifts)
+    if total_valid_attendances > 1:
+        context["total_valid_attendances"] = total_valid_attendances
+
+    # Calculate total working hours
+    total_hours = sum(
+        (s.end_time - s.start_time).total_seconds() * s.valid_attendance_count / 3600
+        for s in past_shifts
+    )
+    context["total_hours"] = total_hours
+
+
 class ShiftDetailView(LoginRequiredMixin, DetailView):
     model = Shift
     template_name = "shifts/shift_detail.html"
@@ -234,35 +262,8 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             .prefetch_related("slot_template__attendance_template__user")
         )
 
-        # Get all past shifts related to the same ShiftTemplate
         if shift.shift_template:
-            past_shifts = Shift.objects.filter(
-                shift_template=shift.shift_template, end_time__lt=timezone.now()
-            ).annotate(
-                valid_attendance_count=Count(
-                    "slots__attendances",
-                    filter=Q(
-                        slots__attendances__state__in=[
-                            ShiftAttendance.State.DONE,
-                        ]
-                    ),
-                )
-            )
-            context["no_of_past_shifts"] = past_shifts.count()
-
-            # Sum valid attendances for related shifts
-            total_valid_attendances = sum(s.valid_attendance_count for s in past_shifts)
-            if total_valid_attendances > 1:
-                context["total_valid_attendances"] = total_valid_attendances
-
-            # Calculate total working hours
-            total_hours = sum(
-                (s.end_time - s.start_time).total_seconds()
-                * s.valid_attendance_count
-                / 3600
-                for s in past_shifts
-            )
-            context["total_hours"] = total_hours
+            get_past_shifts_data(shift, context)
 
         for slot in slots:
             slot.can_self_register = slot.user_can_attend(self.request.user)
