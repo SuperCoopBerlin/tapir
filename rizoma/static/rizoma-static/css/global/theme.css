@@ -86,6 +86,7 @@
   /* Bootstrap overrides */
   --bs-primary: #316bf2;
   --bs-primary-rgb: 47,107,242;
+  --bs-body-bg: #ffffff;
 
   --bs-font-sans-serif: "Inter",Arial,sans-serif;
   --bs-font-monospace: "Inter",Arial,sans-serif;

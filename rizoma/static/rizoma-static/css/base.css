@@ -9,6 +9,7 @@
 @import url("./components/navbar.css");
 @import url("./components/sidebar.css");
 @import url("./components/link.css");
+@import url("./components/table.css");
 
 /* Pages */
 @import url("./pages/about.css");
