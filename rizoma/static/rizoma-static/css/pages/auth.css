@@ -1,0 +1,43 @@
+.tapir-authentication #password_toggle {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-group-append {
+  /* display: none; */
+}
+
+#custom_password_group {
+  display: flex;
+}
+
+#custom_password_group input#id_password {
+  flex: 1;
+  border-radius: var(--bs-border-radius);
+}
+
+#custom_password_group .input-group-append {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 2.5rem;
+  padding: 0;
+  z-index: 10;
+}
+
+#custom_password_group #password_toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#custom_password_group #password_toggle_icon {
+  font-size: var(--riz-large-font-size);
+  color: var(--bs-body-color);
+  color: var(--riz-color-gray-medium);
+}
+
+/* #custom_password_group .input-group-append .btn {
+  border: none;
+} */
