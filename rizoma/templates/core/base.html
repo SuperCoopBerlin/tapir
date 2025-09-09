@@ -49,7 +49,7 @@
         <script src="{% url 'core:javascript-catalog' %}"></script>
     </head>
     <body>
-        <header class="navbar bg-white sticky-top shadow px-3 py-2">
+        <header class="navbar bg-white sticky-top shadow py-2 px-0 px-md-3">
             <div class="container-fluid">
                 <a href="/" class="navbar-brand">
                     <img alt="SuperCoop Berlin Logo" height=30" src="{% static 'rizoma-static/images/light-logo.svg' %}">
@@ -57,24 +57,34 @@
 
                 <!-- Don't show the navbar toggler if the user is not authenticated (only login link) -->
                 {% if request.user.is_authenticated %}
-                    <button class="navbar-toggler"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target=".multi-collapse"
-                            aria-controls="tapirNavbar tapirSidebar"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                    <div class="d-flex justify-content-end gap-1">
+                        <button
+                                class="navbar-toggler d-block d-md-none border-0 p-2 shadow-none d-flex align-items-center justify-content-center"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target=".navbar-collapse"
+                                aria-controls="tapirNavbar tapirSidebar"
+                                aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            
+                            <span class="material-icons">person</span>
+                        </button>
+
+                        <button
+                                class="navbar-toggler d-block d-md-none border-0 p-2 shadow-none d-flex align-items-center justify-content-center"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target=".sidebar-collapse"
+                                aria-controls="tapirNavbar tapirSidebar"
+                                aria-expanded="false"
+                                aria-label="Toggle navigation">
+                                
+                            <span class="material-icons">menu</span>
+                        </button>
+                    </div>
                 {% endif %}
-                <div class="collapse multi-collapse navbar-collapse"
-                     id="tapirNavbar"
-                     style="justify-content: flex-end">
-                    <ul class="navbar-nav">
-                        {% feature_flag_enabled "feature_flags.statistics.updated_stats_page_09_23" as is_enabled %}
-                        {% if is_enabled %}
-                            <div>{% campaign_progress_bar %}</div>
-                        {% endif %}
+
+                <ul class="navbar-nav desktop-profile-links d-none d-md-flex flex-row gap-4">
                         {% if perms.coop.view %}
                             <li class="nav-item">
                                 <form class="form-inline"
@@ -91,14 +101,54 @@
                                 </form>
                             </li>
                         {% endif %}
+
                         {% if request.user.is_authenticated %}
                             <li class="nav-item">
-                                <a class="text-light nav-link" href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
+                                <a class="nav-link small" href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link text-primary" href="{% url 'login' %}">Login</a>
+                            </li>
+                        {% endif %}
+                </ul>
+
+                <div class="collapse navbar-collapse"
+                     id="tapirNavbar"
+                     style="justify-content: flex-end">
+                    <ul class="navbar-nav">
+                        {% feature_flag_enabled "feature_flags.statistics.updated_stats_page_09_23" as is_enabled %}
+                        {% if is_enabled %}
+                            <div>{% campaign_progress_bar %}</div>
+                        {% endif %}
+                         {% if perms.coop.view %}
+                            <li class="nav-item py-2">
+                                <form class="form-inline"
+                                      method="get"
+                                      action="{% url 'coop:shareowner_list' %}">
+                                    <span class="mr-5">
+                                        <input id="member_search"
+                                               name="display_name"
+                                               type="text"
+                                               aria-label="{% translate 'Use this form to search for members' %}"
+                                               placeholder="{% translate 'Search Members' %}"
+                                               class="form-control  ">
+                                    </span>
+                                </form>
+                            </li>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="text-dark nav-link" href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
                             </li>
                             <li class="nav-item">
                                 <form method="post" action="{% url 'logout' %}">
                                     {% csrf_token %}
-                                    <a class="text-light nav-link" href="#" id="logout">Logout</a>
+                                    <a class="text-dark nav-link" href="#" id="logout">Logout</a>
                                     <script>
                                         document.getElementById("logout").addEventListener("click", (event) => {event.target.parentNode.submit()})
                                     </script>
@@ -117,7 +167,7 @@
             <div class="row d-flex">
                 {% if request.user.is_authenticated %}
                     <nav id="tapirSidebar"
-                        class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse multi-collapse">
+                        class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse sidebar-collapse">
                     <div class="sidebar-sticky">
 
                         <!-- Pushes the links down so that they don't go under the navbar -->

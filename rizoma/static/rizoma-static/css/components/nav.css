@@ -1,4 +1,18 @@
+/* Navbar */
+.nav {
+  /* --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-font-weight: ;
+  --bs-nav-link-color: var(--bs-link-color);
+  --bs-nav-link-hover-color: var(--bs-link-hover-color);
+  --bs-nav-link-disabled-color: var(--bs-secondary-color); */ 
+}
 
+.nav-link {
+  --bs-nav-link-font-size: 0.9rem;
+}
+
+/* Sidebar */
 .sidebar {
   position: fixed;
   top: 0;
