@@ -63,6 +63,16 @@ class TapirUserDetailView(
             return []
         return [PERMISSION_ACCOUNTS_VIEW]
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tapir_user: TapirUser = self.object
+
+        context["is_allowed_to_see_purchase_tracking"] = (
+            tapir_user == self.request.user
+            or self.request.user.has_perm(PERMISSION_COOP_ADMIN)
+        )
+        return context
+
 
 class TapirUserMeView(LoginRequiredMixin, generic.RedirectView):
     def get_redirect_url(self, *args, **kwargs):
