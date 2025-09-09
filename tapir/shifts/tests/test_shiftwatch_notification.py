@@ -46,6 +46,24 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
 
+    def test_handle_watchedShiftIsAlright_noNotificationIsSent(self):
+
+        for _ in range(3):
+            slot = ShiftSlot.objects.create(shift=self.shift, name="cheese-making")
+            user = TapirUserFactory.create()
+            ShiftAttendance.objects.create(user=user, slot=slot)
+
+        print(ShiftAttendance.objects.all().values())
+
+        self.shift_watch = ShiftWatch.objects.create(
+            user=self.user,
+            shift=self.shift,
+            last_valid_slot_ids=[slot.id for slot in self.shift.slots.all()[:3]],
+            staffing_status=[event.value for event in get_staffingstatus_choices()],
+        )
+        Command().handle()
+        self.assertEqual(0, len(mail.outbox))
+
     def test_handle_watchingCoordinatorChanges_coordinatorNotificationsGetSent(self):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
@@ -74,3 +92,65 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEmailOfClass_GotSentTo(
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
+
+    def test_handle_triggeredMultipleTimes_onlyOneMailIsSend(self):
+        self.shift_watch = ShiftWatch.objects.create(
+            user=self.user,
+            shift=self.shift,
+            last_valid_slot_ids=[],
+            staffing_status=[event.value for event in get_staffingstatus_choices()],
+        )
+
+        register_user_to_shift(self.client, TapirUserFactory.create(), self.shift)
+
+        self.assertEqual(0, len(mail.outbox))
+        Command().handle()
+        Command().handle()
+        Command().handle()
+        self.assertEqual(1, len(mail.outbox))
+
+        self.assertIn(
+            str(StaffingStatusChoices.UNDERSTAFFED.label), mail.outbox[0].body
+        )
+        self.assertEmailOfClass_GotSentTo(
+            ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+        )
+
+    def test_handle_triggeredMultipleTimes_onlyOneMailIsSend(self):
+        self.shift_watch = ShiftWatch.objects.create(
+            user=self.user,
+            shift=self.shift,
+            last_valid_slot_ids=[],
+            staffing_status=[event.value for event in get_staffingstatus_choices()],
+        )
+
+        register_user_to_shift(self.client, TapirUserFactory.create(), self.shift)
+
+        self.assertEqual(0, len(mail.outbox))
+        Command().handle()
+        Command().handle()
+        Command().handle()
+        self.assertEqual(1, len(mail.outbox))
+
+        self.assertIn(
+            str(StaffingStatusChoices.UNDERSTAFFED.label), mail.outbox[0].body
+        )
+        self.assertEmailOfClass_GotSentTo(
+            ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+        )
+
+    # def test_handle_ATTENDANCE_PLUS_onlySentIfThereAreNoOtherChanges(self):
+    #     self.shift_watch = ShiftWatch.objects.create(
+    #         user=self.user,
+    #         shift=self.shift,
+    #         last_valid_slot_ids=[],
+    #         staffing_status=[event.value for event in get_staffingstatus_choices()],
+    #     )
+    #
+    #     for _ in range(3):
+    #         register_user_to_shift(self.client, TapirUserFactory.create(), self.shift)
+    #     ShiftAttendance.objects.create(
+    #         user=user_looking,
+    #         state=ShiftAttendance.State.LOOKING_FOR_STAND_IN,
+    #         slot=ShiftSlot.objects.filter(shift=shift).first(),
+    #     )
