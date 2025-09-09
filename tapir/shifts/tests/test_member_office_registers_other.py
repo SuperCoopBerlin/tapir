@@ -1,10 +1,14 @@
 import datetime
+from unittest.mock import patch, Mock
 
 from django.urls import reverse
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.rizoma.services.google_calendar_event_manager import (
+    GoogleCalendarEventManager,
+)
 from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
@@ -28,13 +32,16 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class TestMemberRegistersOther(TapirFactoryTestBase):
-    def test_member_registers_other_flying(self):
+    @patch.object(GoogleCalendarEventManager, "create_calendar_event")
+    def test_member_registers_other_flying(self, mock_create_calendar_event: Mock):
         user = TapirUserFactory.create()
         shift = ShiftFactory.create()
 
         self.login_as_member_office_user()
         response = register_user_to_shift(self.client, user, shift)
+
         check_registration_successful(self, response, user, shift)
+        mock_create_calendar_event.assert_called_once()
 
     def test_member_registers_other_flying_warning_no_capability(self):
         user = TapirUserFactory.create()

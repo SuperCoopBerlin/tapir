@@ -429,12 +429,17 @@ class ShiftAttendanceTemplate(models.Model):
         self.slot_template.update_future_slot_attendances()
 
     def cancel_attendances(self, starting_from: datetime.datetime):
+        from tapir.rizoma.services.google_calendar_event_manager import (
+            GoogleCalendarEventManager,
+        )
+
         for attendance in ShiftAttendance.objects.filter(
             slot__in=self.slot_template.generated_slots.all(),
             user=self.user,
             slot__shift__start_time__gte=starting_from,
         ):
             attendance.state = ShiftAttendance.State.CANCELLED
+            GoogleCalendarEventManager.delete_calendar_event(attendance)
             attendance.save()
 
 
@@ -768,7 +773,12 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
 
         attendance = self.attendances.filter(user=attendance_template.user).first()
         if attendance is None:
+            from tapir.rizoma.services.google_calendar_event_manager import (
+                GoogleCalendarEventManager,
+            )
+
             attendance = ShiftAttendance(user=attendance_template.user, slot=self)
+            GoogleCalendarEventManager.create_calendar_event(attendance)
         attendance.custom_time = attendance_template.custom_time
         attendance.state = ShiftAttendance.State.PENDING
         attendance.save()
@@ -835,6 +845,9 @@ class ShiftAttendance(models.Model):
             "In order to help organising the attendance, please specify when you expect to come."
         ),
     )
+    external_event_id = models.CharField(
+        null=True, max_length=255
+    )  # Can contain the ID of a calendar event on a CalDAV calendar or a google calendar
 
     class State(models.IntegerChoices):
         PENDING = 1

@@ -16,6 +16,9 @@ from tapir.coop.tests.factories import (
     ShareOwnerFactory,
     MembershipPauseFactory,
 )
+from tapir.rizoma.services.google_calendar_event_manager import (
+    GoogleCalendarEventManager,
+)
 from tapir.shifts.models import (
     ShiftAttendance,
     ShiftAttendanceTemplate,
@@ -30,13 +33,13 @@ from tapir.utils.tests_utils import (
 
 
 class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBase):
-    NOW = datetime.datetime(year=2024, month=9, day=15)
-    TODAY = NOW.date()
-
     def setUp(self) -> None:
         super().setUp()
         self.given_feature_flag_value(feature_flag_membership_resignation, True)
-        mock_timezone_now(self, self.NOW)
+        self.NOW = mock_timezone_now(
+            self, datetime.datetime(year=2024, month=9, day=15)
+        )
+        self.TODAY = self.NOW.date()
 
     def test_updateShiftsAndSharesAndPayOutDay_default_sharesWithEndDateBeforeCancellationAreNotAffected(
         self,
@@ -193,15 +196,19 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             self.assertEqual(self.TODAY, share.end_date)
             self.assertIsNone(share.transferred_from)
 
+    @patch.object(GoogleCalendarEventManager, "delete_calendar_event")
     def test_updateShifts_resigningMemberHasAttendanceInTheFuture_attendanceCancelled(
-        self,
+        self, mock_delete_calendar_event: Mock
     ):
         tapir_user = TapirUserFactory.create()
         resignation = MembershipResignationFactory.create(
-            share_owner=tapir_user.share_owner
+            share_owner=tapir_user.share_owner,
+            cancellation_date=self.TODAY - datetime.timedelta(days=1),
         )
         shift = ShiftFactory.create(start_time=self.NOW + datetime.timedelta(days=1))
-        ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
+        attendance = ShiftAttendance.objects.create(
+            user=tapir_user, slot=shift.slots.first()
+        )
 
         MembershipResignationService.update_shifts(
             tapir_user=tapir_user,
@@ -209,11 +216,12 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             actor=TapirUserFactory.create(),
         )
 
-        self.assertEqual(ShiftAttendanceTemplate.objects.count(), 0)
         self.assertEqual(
             ShiftAttendance.objects.get(user=tapir_user).state,
             ShiftAttendance.State.CANCELLED,
         )
+
+        mock_delete_calendar_event.assert_called_once_with(attendance)
 
     def test_updateShifts_resigningMemberHasAttendanceTemplate_attendanceTemplateDeleted(
         self,
@@ -236,8 +244,9 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
         self.assertEqual(ShiftAttendanceTemplate.objects.count(), 0)
         self.assertEqual(DeleteShiftAttendanceTemplateLogEntry.objects.count(), 1)
 
+    @patch.object(GoogleCalendarEventManager, "delete_calendar_event")
     def test_updateShifts_resigningMemberHasAttendancesBeforeResignationDate_attendancesNotUpdated(
-        self,
+        self, mock_delete_calendar_event: Mock
     ):
         tapir_user = TapirUserFactory.create()
         resignation = MembershipResignationFactory.create(
@@ -260,6 +269,7 @@ class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBas
             ShiftAttendance.objects.get(user=tapir_user).state,
             ShiftAttendance.State.PENDING,
         )
+        mock_delete_calendar_event.assert_not_called()
 
     @patch.object(MembershipResignationService, "delete_end_dates")
     @patch.object(MembershipResignationService, "delete_transferred_share_ownerships")

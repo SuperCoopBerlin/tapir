@@ -16,6 +16,9 @@ from django.views.generic import (
 from tapir.accounts.models import TapirUser
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
+from tapir.rizoma.services.google_calendar_event_manager import (
+    GoogleCalendarEventManager,
+)
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
 from tapir.shifts.emails.stand_in_found_email import StandInFoundEmailBuilder
@@ -145,35 +148,37 @@ class UpdateShiftAttendanceStateBase(
         return self.get_object().slot.shift.get_absolute_url()
 
     def form_valid(self, form):
+        response = super().form_valid(form)
         with transaction.atomic():
-            response = super().form_valid(form)
+            self.apply_changes(form)
+        return response
 
-            attendance = self.get_attendance()
-            if self.get_state_from_kwargs:
-                attendance.state = self.kwargs["state"]
-                attendance.save()
+    def apply_changes(self, form):
+        attendance = self.get_attendance()
+        if self.get_state_from_kwargs:
+            attendance.state = self.kwargs["state"]
+            attendance.save()
 
-            UpdateShiftAttendanceStateLogEntry().populate(
+        UpdateShiftAttendanceStateLogEntry().populate(
+            actor=self.request.user,
+            tapir_user=attendance.user,
+            attendance=attendance,
+        ).save()
+
+        if attendance.state == ShiftAttendance.State.MISSED:
+            email_builder = ShiftMissedEmailBuilder(shift=attendance.slot.shift)
+            SendMailService.send_to_tapir_user(
                 actor=self.request.user,
-                tapir_user=attendance.user,
-                attendance=attendance,
-            ).save()
+                recipient=attendance.user,
+                email_builder=email_builder,
+            )
 
-            if attendance.state == ShiftAttendance.State.MISSED:
-                attendance = self.get_attendance()
-                email_builder = ShiftMissedEmailBuilder(shift=attendance.slot.shift)
-                SendMailService.send_to_tapir_user(
-                    actor=self.request.user,
-                    recipient=attendance.user,
-                    email_builder=email_builder,
-                )
+        description = None
+        if "description" in form.data:
+            description = form.data["description"]
+        attendance.update_shift_account_entry(description)
 
-            description = None
-            if "description" in form.data:
-                description = form.data["description"]
-            attendance.update_shift_account_entry(description)
-
-            return response
+        GoogleCalendarEventManager.on_attendance_state_changed(attendance)
 
 
 class UpdateShiftAttendanceStateView(UpdateShiftAttendanceStateBase):
@@ -313,6 +318,7 @@ class RegisterUserToShiftSlotView(
                 tapir_user=user_to_register,
                 attendance=attendance,
             ).save()
+            GoogleCalendarEventManager.create_calendar_event(attendance)
 
         return response
 

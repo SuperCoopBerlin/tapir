@@ -1,10 +1,14 @@
 import datetime
+from unittest.mock import patch, Mock
 
 from django.core import mail
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.rizoma.services.google_calendar_event_manager import (
+    GoogleCalendarEventManager,
+)
 from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
 from tapir.shifts.models import (
     ShiftSlot,
@@ -17,19 +21,25 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase, TapirEmailTestMixin):
     USER_EMAIL_ADDRESS = "test_address@test.net"
 
-    def test_shift_attended(self):
+    @patch.object(GoogleCalendarEventManager, "on_attendance_state_changed")
+    def test_shift_attended(self, mock_on_attendance_state_changed: Mock):
         self.do_test(ShiftAttendance.State.DONE, 1)
+        mock_on_attendance_state_changed.assert_called_once()
 
-    def test_shift_excused(self):
+    @patch.object(GoogleCalendarEventManager, "on_attendance_state_changed")
+    def test_shift_excused(self, mock_on_attendance_state_changed: Mock):
         self.do_test(ShiftAttendance.State.MISSED_EXCUSED, 1)
+        mock_on_attendance_state_changed.assert_called_once()
 
-    def test_shift_missed(self):
+    @patch.object(GoogleCalendarEventManager, "on_attendance_state_changed")
+    def test_shift_missed(self, mock_on_attendance_state_changed: Mock):
         self.assertEqual(0, len(mail.outbox))
         self.do_test(ShiftAttendance.State.MISSED, -1)
         self.assertEqual(1, len(mail.outbox))
         self.assertEmailOfClass_GotSentTo(
             ShiftMissedEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
+        mock_on_attendance_state_changed.assert_called_once()
 
     def test_update_from_missed_to_attended(self):
         user: TapirUser = TapirUserFactory.create()

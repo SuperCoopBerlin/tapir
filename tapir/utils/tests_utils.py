@@ -3,6 +3,7 @@ import json
 import os
 import pathlib
 import socket
+import unittest
 from http import HTTPStatus
 from typing import Type
 from unittest.mock import patch
@@ -256,7 +257,7 @@ def mock_timezone_now(
     return now
 
 
-class FeatureFlagTestMixin(TestCase):
+class FeatureFlagTestMixin(unittest.TestCase):
     def __init__(self, methodName="runTest"):
         super().__init__(methodName=methodName)
         self._enabled_feature_flags = []

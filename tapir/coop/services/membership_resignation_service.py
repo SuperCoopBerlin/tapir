@@ -7,6 +7,9 @@ from django.db.models import Q
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import MembershipResignation, ShareOwnership, MembershipPause
+from tapir.rizoma.services.google_calendar_event_manager import (
+    GoogleCalendarEventManager,
+)
 from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendance,
@@ -98,7 +101,13 @@ class MembershipResignationService:
             slot__shift__start_time__gte=start_date,
             state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
         )
+        cancelled_attendances = list(
+            attendances
+        )  # we must evaluate the queryset before the update
         attendances.update(state=ShiftAttendance.State.CANCELLED)
+
+        for attendance in cancelled_attendances:
+            GoogleCalendarEventManager.delete_calendar_event(attendance)
 
     @classmethod
     def on_resignation_deleted(cls, resignation: MembershipResignation):

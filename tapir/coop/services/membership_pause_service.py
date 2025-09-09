@@ -8,6 +8,9 @@ from django.db.models import Q, Value, Count, QuerySet
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
+from tapir.rizoma.services.google_calendar_event_manager import (
+    GoogleCalendarEventManager,
+)
 from tapir.shifts.models import (
     ShiftAttendanceTemplate,
     ShiftAttendance,
@@ -64,6 +67,7 @@ class MembershipPauseService:
 
         for attendance in attendances:
             attendance.state = ShiftAttendance.State.CANCELLED
+            GoogleCalendarEventManager.delete_calendar_event(attendance)
             attendance.save()
 
     @classmethod

@@ -450,3 +450,7 @@ if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
 
 
 RUNNING_TESTS = False
+
+GOOGLE_CREDENTIALS_FILE = env.str(
+    "GOOGLE_CREDENTIALS_FILE", default="google_credentials.json"
+)
