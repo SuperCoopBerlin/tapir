@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-05 09:31+0200\n"
+"POT-Creation-Date: 2025-09-09 07:54+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -260,33 +260,33 @@ msgstr "Gruppen"
 msgid "Purchase tracking"
 msgstr "Vergangene Einkäufe"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:13
+#: accounts/templates/accounts/purchase_tracking_card.html:11
 msgid "Get barcode as PDF"
 msgstr "Erhalte den Strichcode als PDF"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:20
+#: accounts/templates/accounts/purchase_tracking_card.html:17
 msgid "More information"
 msgstr "Mehr Informationen"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:29
+#: accounts/templates/accounts/purchase_tracking_card.html:26
 msgid "The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. You can also still decide with each purchase whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by deactivating the checkbox above. With your consent, you help Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: Translated with DeepL.com (free version): https://wiki.supercoop.de/wiki/Mitgliederkarte"
 msgstr "Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst wird dagegen, welche konkreten Produkte du gekauft hast. Auch kannst du bei jedem Einkauf immer noch entscheiden, ob du deine Mitgliedskarte scannen lassen möchtest oder nicht. Mit deiner generellen Zustimmung hier auf Tapir gehst du keine Verpflichtung zum Scannen ein. Die Zustimmung kannst du jederzeit widerrufen, indem du die Checkbox oben deaktivierst. Du hilfst damit Supercoop, die Einkaufsgewohnheiten der Mitglieder besser zu verstehen. Das ist wichtig für die Weiterentwicklung unseres Supermarktes. Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:33
+#: accounts/templates/accounts/purchase_tracking_card.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:168
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
 msgid "Yes,No"
 msgstr "Ja, Nein"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:39
+#: accounts/templates/accounts/purchase_tracking_card.html:36
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:44
+#: accounts/templates/accounts/purchase_tracking_card.html:41
 msgid "Enable"
 msgstr "Aktivieren"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:61
+#: accounts/templates/accounts/purchase_tracking_card.html:58
 #, fuzzy
 #| msgid "You can only look at your own barcode unless you have member office rights"
 msgid "You can only look at your own barcode unless you have admin right"
@@ -516,28 +516,28 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:114 accounts/views.py:119 coop/views/shareowner.py:269
+#: accounts/views.py:124 accounts/views.py:129 coop/views/shareowner.py:269
 #: coop/views/shareowner.py:274
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:159
+#: accounts/views.py:169
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:203
+#: accounts/views.py:213
 #, fuzzy
 #| msgid "You can only look at your own barcode unless you have member office rights"
 msgid "You can only look at your own barcode unless you have admin rights"
 msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgliedsbüro-Rechte"
 
-#: accounts/views.py:285 accounts/views.py:290
+#: accounts/views.py:295 accounts/views.py:300
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr "Bearbeite Gruppen: %(name)s"
 
-#: accounts/views.py:384 accounts/views.py:389
+#: accounts/views.py:394 accounts/views.py:399
 #, python-format
 msgid "Notification settings for %(name)s"
 msgstr "Benachrichtungseinstellungen für %(name)s"
