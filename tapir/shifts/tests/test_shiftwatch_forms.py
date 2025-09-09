@@ -6,7 +6,7 @@ from tapir.shifts.tests.factories import ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
-class TestShiftCancel(TapirFactoryTestBase):
+class TestShiftWatchForm(TapirFactoryTestBase):
 
     def test_shiftWatchForm_shiftWatch_instanceIsCreated(self):
         user = self.login_as_normal_user()

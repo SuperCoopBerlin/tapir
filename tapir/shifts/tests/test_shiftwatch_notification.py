@@ -25,7 +25,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.user = TapirUserFactory.create(email=self.USER_EMAIL_ADDRESS)
         self.shift = ShiftFactory.create(nb_slots=3, num_required_attendances=2)
 
-    def test_handle_understaffed_notification(self):
+    def test_handle_watchedShiftIsUnderstaffed_correctNotificationIsSent(self):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift,
@@ -46,7 +46,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
 
-    def test_handle_shift_coordinator_registered_notification(self):
+    def test_handle_watchingCoordinatorChanges_coordinatorNotificationsGetSent(self):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift,
@@ -67,7 +67,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         ShiftAttendance.objects.create(user=TapirUserFactory.create(), slot=slot)
         Command().handle()
 
-        self.assertEqual(1, len(mail.outbox))  # SHIFT_PLUS und SHIFT_COORDINATOR_PLUS
+        self.assertEqual(1, len(mail.outbox))
         self.assertIn(
             str(StaffingStatusChoices.SHIFT_COORDINATOR_PLUS.label), mail.outbox[0].body
         )
