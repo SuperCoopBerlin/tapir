@@ -686,11 +686,10 @@ class ShiftWatchForm(forms.ModelForm):
         request_user: TapirUser = kwargs.pop("request_user")
         super().__init__(*args, **kwargs)
 
-        if request_user:
-            last_shiftwatch = (
-                ShiftWatch.objects.filter(user=request_user).order_by("-id").first()
-            )
-            if last_shiftwatch:
-                self.initial["staffing_status"] = last_shiftwatch.staffing_status
-            else:
-                self.initial["staffing_status"] = get_staffingstatus_defaults()
+        last_shiftwatch = (
+            ShiftWatch.objects.filter(user=request_user).order_by("-id").first()
+        )
+        if last_shiftwatch:
+            self.initial["staffing_status"] = last_shiftwatch.staffing_status
+        else:
+            self.initial["staffing_status"] = get_staffingstatus_defaults()
