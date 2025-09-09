@@ -94,12 +94,11 @@ class Command(BaseCommand):
             shift_watch_data.last_staffing_status = current_status
 
         # Check shift coordinator status
-        if (
-            result := get_shift_coordinator_status(
-                this_valid_slot_ids, shift_watch_data.last_valid_slot_ids
-            )
-        ) is not None:
-            notification_reasons.append(result)
+        shift_coordinator_status = get_shift_coordinator_status(
+            this_valid_slot_ids, shift_watch_data.last_valid_slot_ids
+        )
+        if shift_coordinator_status is not None:
+            notification_reasons.append(shift_coordinator_status)
 
         # General attendance change notifications
         if not notification_reasons:
