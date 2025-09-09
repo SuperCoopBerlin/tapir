@@ -1,5 +1,8 @@
+import datetime
+
 import pytest
 from django.core import mail
+from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.emails.shift_watch_mail import ShiftWatchEmailBuilder
@@ -11,6 +14,7 @@ from tapir.shifts.models import (
     ShiftUserCapability,
     get_staffingstatus_choices,
     ShiftAttendance,
+    Shift,
 )
 
 from tapir.shifts.tests.factories import ShiftFactory
@@ -20,10 +24,15 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
     USER_EMAIL_ADDRESS = "test_address@test.net"
+    NUM_REQUIRED_ATTENDANCE = 2
 
     def setUp(self):
         self.user = TapirUserFactory.create(email=self.USER_EMAIL_ADDRESS)
-        self.shift = ShiftFactory.create(nb_slots=3, num_required_attendances=2)
+        self.shift = ShiftFactory.create(
+            nb_slots=3,
+            num_required_attendances=self.NUM_REQUIRED_ATTENDANCE,
+            start_time=timezone.now() + datetime.timedelta(days=1),
+        )
 
     def test_handle_watchedShiftIsUnderstaffed_correctNotificationIsSent(self):
         self.shift_watch = ShiftWatch.objects.create(
@@ -47,18 +56,17 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         )
 
     def test_handle_watchedShiftIsAlright_noNotificationIsSent(self):
-
-        for _ in range(3):
+        slots = []
+        for _ in range(self.NUM_REQUIRED_ATTENDANCE):
             slot = ShiftSlot.objects.create(shift=self.shift, name="cheese-making")
             user = TapirUserFactory.create()
             ShiftAttendance.objects.create(user=user, slot=slot)
-
-        print(ShiftAttendance.objects.all().values())
+            slots.append(slot)
 
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift,
-            last_valid_slot_ids=[slot.id for slot in self.shift.slots.all()[:3]],
+            last_valid_slot_ids=[slot.id for slot in slots],
             staffing_status=[event.value for event in get_staffingstatus_choices()],
         )
         Command().handle()
@@ -139,18 +147,58 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
 
+    def test_handle_shiftInThePast_noNotification(self):
+        self.shift.start_time = timezone.now() - datetime.timedelta(days=10)
+        self.shift.save()
+        self.shift_watch = ShiftWatch.objects.create(
+            user=self.user,
+            shift=self.shift,
+            last_valid_slot_ids=[],
+            staffing_status=[event.value for event in get_staffingstatus_choices()],
+        )
+
+        register_user_to_shift(self.client, TapirUserFactory.create(), self.shift)
+        print(Shift.objects.all().values())
+        Command().handle()
+        self.assertEqual(0, len(mail.outbox))
+
     # def test_handle_ATTENDANCE_PLUS_onlySentIfThereAreNoOtherChanges(self):
+    #     slots = []
+    #     for _ in range(self.NUM_REQUIRED_ATTENDANCE):
+    #         slot = ShiftSlot.objects.create(shift=self.shift, name="cheese-making")
+    #         user = TapirUserFactory.create()
+    #         ShiftAttendance.objects.create(user=user, slot=slot)
+    #         slots.append(slot)
+    #
     #     self.shift_watch = ShiftWatch.objects.create(
     #         user=self.user,
     #         shift=self.shift,
-    #         last_valid_slot_ids=[],
+    #         last_valid_slot_ids=[slot.id for slot in slots],
     #         staffing_status=[event.value for event in get_staffingstatus_choices()],
     #     )
     #
-    #     for _ in range(3):
-    #         register_user_to_shift(self.client, TapirUserFactory.create(), self.shift)
-    #     ShiftAttendance.objects.create(
-    #         user=user_looking,
-    #         state=ShiftAttendance.State.LOOKING_FOR_STAND_IN,
-    #         slot=ShiftSlot.objects.filter(shift=shift).first(),
+    #     # register one extra slot
+    #     slot = ShiftSlot.objects.create(shift=self.shift, name="cheese-making")
+    #     user = TapirUserFactory.create()
+    #     attendance = ShiftAttendance.objects.create(user=user, slot=slot)
+    #     Command().handle()
+    #
+    #     self.assertIn(
+    #         str(StaffingStatusChoices.ATTENDANCE_PLUS.label), mail.outbox[0].body
+    #     )
+    #     self.assertEmailOfClass_GotSentTo(
+    #         ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+    #     )
+    #     print(ShiftWatch.objects.all().values())
+    #
+    #     attendance.state = ShiftAttendance.State.LOOKING_FOR_STAND_IN
+    #     attendance.save()
+    #     print(ShiftAttendance.objects.all().values())
+    #
+    #     Command().handle()
+    #     self.assertIn(
+    #         str(StaffingStatusChoices.ATTENDANCE_MINUS.label), mail.outbox[0].body
+    #     )
+    #     self.assertEmailOfClass_GotSentTo(
+    #         ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
     #     )

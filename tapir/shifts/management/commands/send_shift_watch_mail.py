@@ -1,6 +1,7 @@
 import time
 
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_watch_mail import (
@@ -69,7 +70,9 @@ class Command(BaseCommand):
     help = "Sent to a member when there is a relevant change in shift staffing and the member wants to know about it."
 
     def handle(self, *args, **options):
-        for shift_watch_data in ShiftWatch.objects.select_related("user", "shift"):
+        for shift_watch_data in ShiftWatch.objects.filter(
+            shift__start_time__gte=timezone.now()
+        ).select_related("user", "shift"):
             self.send_shift_watch_mail_per_user_and_shift(shift_watch_data)
 
     def send_shift_watch_mail_per_user_and_shift(self, shift_watch_data: ShiftWatch):

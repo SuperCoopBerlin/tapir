@@ -6,7 +6,12 @@ from django.utils import timezone
 
 from send_shift_watch_mail import Command as SendShiftWatchCommand
 from tapir.shifts.management.commands.send_shift_watch_mail import get_staffing_status
-from tapir.shifts.models import ShiftWatch, StaffingStatusChoices
+from tapir.shifts.models import (
+    ShiftWatch,
+    StaffingStatusChoices,
+    ShiftSlot,
+    ShiftAttendance,
+)
 
 
 class Command(BaseCommand):
@@ -14,12 +19,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         tomorrow = timezone.now().date() + timedelta(days=1)
-        shifts_tomorrow = ShiftWatch.objects.filter(shift__end_time__date=tomorrow)
 
-        for shift_watch_data in shifts_tomorrow:
-            this_valid_slot_ids = [
-                s.slot_id for s in shift_watch_data.shift.get_valid_attendances()
-            ]
+        for shift_watch_data in ShiftWatch.objects.filter(
+            shift__end_time__date=tomorrow
+        ):
+            this_valid_slot_ids = list(
+                ShiftSlot.objects.filter(
+                    shift=shift_watch_data.shift,
+                    attendances__state=ShiftAttendance.State.PENDING,
+                ).values_list("id", flat=True)
+            )
             number_of_available_slots = shift_watch_data.shift.slots.count()
             valid_attendances_count = len(this_valid_slot_ids)
             required_attendances_count = (
