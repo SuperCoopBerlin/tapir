@@ -158,47 +158,58 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         )
 
         register_user_to_shift(self.client, TapirUserFactory.create(), self.shift)
-        print(Shift.objects.all().values())
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
-    # def test_handle_ATTENDANCE_PLUS_onlySentIfThereAreNoOtherChanges(self):
-    #     slots = []
-    #     for _ in range(self.NUM_REQUIRED_ATTENDANCE):
-    #         slot = ShiftSlot.objects.create(shift=self.shift, name="cheese-making")
-    #         user = TapirUserFactory.create()
-    #         ShiftAttendance.objects.create(user=user, slot=slot)
-    #         slots.append(slot)
-    #
-    #     self.shift_watch = ShiftWatch.objects.create(
-    #         user=self.user,
-    #         shift=self.shift,
-    #         last_valid_slot_ids=[slot.id for slot in slots],
-    #         staffing_status=[event.value for event in get_staffingstatus_choices()],
-    #     )
-    #
-    #     # register one extra slot
-    #     slot = ShiftSlot.objects.create(shift=self.shift, name="cheese-making")
-    #     user = TapirUserFactory.create()
-    #     attendance = ShiftAttendance.objects.create(user=user, slot=slot)
-    #     Command().handle()
-    #
-    #     self.assertIn(
-    #         str(StaffingStatusChoices.ATTENDANCE_PLUS.label), mail.outbox[0].body
-    #     )
-    #     self.assertEmailOfClass_GotSentTo(
-    #         ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
-    #     )
-    #     print(ShiftWatch.objects.all().values())
-    #
-    #     attendance.state = ShiftAttendance.State.LOOKING_FOR_STAND_IN
-    #     attendance.save()
-    #     print(ShiftAttendance.objects.all().values())
-    #
-    #     Command().handle()
-    #     self.assertIn(
-    #         str(StaffingStatusChoices.ATTENDANCE_MINUS.label), mail.outbox[0].body
-    #     )
-    #     self.assertEmailOfClass_GotSentTo(
-    #         ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
-    #     )
+    def test_handle_ATTENDANCE_PLUS_onlySentIfThereAreNoOtherChanges(self):
+        slots = []
+        for _ in range(self.NUM_REQUIRED_ATTENDANCE):
+            slot = ShiftSlot.objects.create(shift=self.shift, name="cheese-making")
+            user = TapirUserFactory.create()
+            ShiftAttendance.objects.create(user=user, slot=slot)
+            slots.append(slot)
+
+        self.shift_watch = ShiftWatch.objects.create(
+            user=self.user,
+            shift=self.shift,
+            last_valid_slot_ids=[slot.id for slot in slots],
+            staffing_status=[event.value for event in get_staffingstatus_choices()],
+        )
+
+        # register one extra slot
+        slot = ShiftSlot.objects.create(shift=self.shift, name="cheese-making")
+        user = TapirUserFactory.create()
+        ShiftAttendance.objects.create(user=user, slot=slot)
+        Command().handle()
+
+        self.assertIn(
+            str(StaffingStatusChoices.ATTENDANCE_PLUS.label), mail.outbox[0].body
+        )
+        self.assertEmailOfClass_GotSentTo(
+            ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+        )
+
+    def test_handle_ATTENDANCE_MINUS_onlySentIfThereAreNoOtherChanges(self):
+        slots = []
+        for _ in range(self.NUM_REQUIRED_ATTENDANCE + 1):
+            slot = ShiftSlot.objects.create(shift=self.shift, name="cheese-making")
+            user = TapirUserFactory.create()
+            attendance = ShiftAttendance.objects.create(user=user, slot=slot)
+            slots.append(slot)
+
+        self.shift_watch = ShiftWatch.objects.create(
+            user=self.user,
+            shift=self.shift,
+            last_valid_slot_ids=[slot.id for slot in slots],
+            staffing_status=[event.value for event in get_staffingstatus_choices()],
+        )
+        attendance.state = ShiftAttendance.State.LOOKING_FOR_STAND_IN
+        attendance.save()
+
+        Command().handle()
+        self.assertIn(
+            str(StaffingStatusChoices.ATTENDANCE_MINUS.label), mail.outbox[0].body
+        )
+        self.assertEmailOfClass_GotSentTo(
+            ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+        )
