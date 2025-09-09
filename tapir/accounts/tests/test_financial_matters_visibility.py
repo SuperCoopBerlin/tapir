@@ -65,10 +65,12 @@ class TestFinancialMattersVisibility(
             "You can only look at your own barcode unless you have admin right",
         )
 
-    def test_financialMattersOnUserDetailPage_loggedInAsVorstand_hideCardsAfterDisablingPurchaseTracking(
+    def test_financialMattersOnUserDetailPage_loggedInAsVorstand_hideCardsAfterDisablingPurchaseTrackingwithEnabledBefore(
         self,
     ):
+        # first allow Purchase-Tracking
         tapir_user = TapirUserFactory(allows_purchase_tracking=True)
+        # Then disable it
         tapir_user.allows_purchase_tracking = False
         tapir_user.save()
         self.login_as_vorstand()
