@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-04 09:21+0200\n"
+"POT-Creation-Date: 2025-09-09 07:54+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -60,7 +60,7 @@ msgstr "Angezeigter Name"
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:68 accounts/templates/accounts/user_detail.html:72
+#: accounts/models.py:68 accounts/templates/accounts/user_detail.html:71
 #: coop/models.py:72 coop/models.py:447
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
@@ -68,7 +68,7 @@ msgstr "Pronomen"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:82
+#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:81
 #: coop/models.py:73 coop/models.py:448
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
@@ -95,7 +95,7 @@ msgstr "Ort"
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:75 accounts/templates/accounts/user_detail.html:116
+#: accounts/models.py:75 accounts/templates/accounts/user_detail.html:115
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
@@ -119,7 +119,7 @@ msgstr "Miteinkäufer*in"
 msgid "Allow purchase tracking"
 msgstr "Erlaube Aufzeichnen deiner Einkäufe"
 
-#: accounts/models.py:87 accounts/templates/accounts/user_detail.html:102
+#: accounts/models.py:87 accounts/templates/accounts/user_detail.html:101
 #: coop/models.py:81 coop/models.py:456
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
@@ -252,7 +252,7 @@ msgstr ""
 "    Vergiss nicht, dich für deine erste Schicht bei SuperCoop anzumelden!\n"
 
 #: accounts/templates/accounts/ldap_group_list.html:7
-#: accounts/templates/accounts/user_detail.html:107
+#: accounts/templates/accounts/user_detail.html:106
 msgid "Groups"
 msgstr "Gruppen"
 
@@ -268,23 +268,29 @@ msgstr "Erhalte den Strichcode als PDF"
 msgid "More information"
 msgstr "Mehr Informationen"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:25
+#: accounts/templates/accounts/purchase_tracking_card.html:26
 msgid "The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. You can also still decide with each purchase whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by deactivating the checkbox above. With your consent, you help Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: Translated with DeepL.com (free version): https://wiki.supercoop.de/wiki/Mitgliederkarte"
 msgstr "Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst wird dagegen, welche konkreten Produkte du gekauft hast. Auch kannst du bei jedem Einkauf immer noch entscheiden, ob du deine Mitgliedskarte scannen lassen möchtest oder nicht. Mit deiner generellen Zustimmung hier auf Tapir gehst du keine Verpflichtung zum Scannen ein. Die Zustimmung kannst du jederzeit widerrufen, indem du die Checkbox oben deaktivierst. Du hilfst damit Supercoop, die Einkaufsgewohnheiten der Mitglieder besser zu verstehen. Das ist wichtig für die Weiterentwicklung unseres Supermarktes. Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:29
+#: accounts/templates/accounts/purchase_tracking_card.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:168
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
 msgid "Yes,No"
 msgstr "Ja, Nein"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:35
+#: accounts/templates/accounts/purchase_tracking_card.html:36
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: accounts/templates/accounts/purchase_tracking_card.html:40
+#: accounts/templates/accounts/purchase_tracking_card.html:41
 msgid "Enable"
 msgstr "Aktivieren"
+
+#: accounts/templates/accounts/purchase_tracking_card.html:58
+#, fuzzy
+#| msgid "You can only look at your own barcode unless you have member office rights"
+msgid "You can only look at your own barcode unless you have admin right"
+msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgliedsbüro-Rechte"
 
 #: accounts/templates/accounts/user_detail.html:20 coop/models.py:724
 #: coop/templates/coop/draftuser_detail.html:86
@@ -343,21 +349,21 @@ msgstr "Name und Pronomen bearbeiten"
 msgid "Name"
 msgstr "Name"
 
-#: accounts/templates/accounts/user_detail.html:64
+#: accounts/templates/accounts/user_detail.html:63
 #: coop/templates/coop/draftuser_detail.html:134
 msgid "Username"
 msgstr "Nutzer*innenname"
 
-#: accounts/templates/accounts/user_detail.html:68
+#: accounts/templates/accounts/user_detail.html:67
 #: coop/templates/coop/draftuser_detail.html:73
 #: coop/templates/coop/draftuser_detail.html:138
 #: coop/templates/coop/shareowner_detail.html:47
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
-#: accounts/templates/accounts/user_detail.html:77
-#: accounts/templates/accounts/user_detail.html:87
-#: accounts/templates/accounts/user_detail.html:97
+#: accounts/templates/accounts/user_detail.html:76
+#: accounts/templates/accounts/user_detail.html:86
+#: accounts/templates/accounts/user_detail.html:96
 #: coop/templates/coop/draftuser_detail.html:161
 #: coop/templates/coop/shareowner_detail.html:60
 #: coop/templates/coop/shareowner_detail.html:70
@@ -367,26 +373,26 @@ msgstr "E-Mail-Adresse"
 msgid "Missing"
 msgstr "Fehlend"
 
-#: accounts/templates/accounts/user_detail.html:92
+#: accounts/templates/accounts/user_detail.html:91
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/draftuser_detail.html:156
 #: coop/templates/coop/shareowner_detail.html:65
 msgid "Address"
 msgstr "Adresse"
 
-#: accounts/templates/accounts/user_detail.html:111
+#: accounts/templates/accounts/user_detail.html:110
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: accounts/templates/accounts/user_detail.html:126
+#: accounts/templates/accounts/user_detail.html:125
 msgid "Second co-purchaser"
 msgstr "2. Miteinkäufer*innen"
 
-#: accounts/templates/accounts/user_detail.html:142
+#: accounts/templates/accounts/user_detail.html:141
 msgid "Resend account activation email"
 msgstr "Konto-Aktivierungs-E-Mail erneut senden"
 
-#: accounts/templates/accounts/user_detail.html:151
+#: accounts/templates/accounts/user_detail.html:149
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -510,26 +516,28 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:114 accounts/views.py:119 coop/views/shareowner.py:269
+#: accounts/views.py:124 accounts/views.py:129 coop/views/shareowner.py:269
 #: coop/views/shareowner.py:274
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:159
+#: accounts/views.py:169
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:204
-msgid "You can only look at your own barcode unless you have member office rights"
+#: accounts/views.py:213
+#, fuzzy
+#| msgid "You can only look at your own barcode unless you have member office rights"
+msgid "You can only look at your own barcode unless you have admin rights"
 msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgliedsbüro-Rechte"
 
-#: accounts/views.py:287 accounts/views.py:292
+#: accounts/views.py:295 accounts/views.py:300
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr "Bearbeite Gruppen: %(name)s"
 
-#: accounts/views.py:386 accounts/views.py:391
+#: accounts/views.py:394 accounts/views.py:399
 #, python-format
 msgid "Notification settings for %(name)s"
 msgstr "Benachrichtungseinstellungen für %(name)s"

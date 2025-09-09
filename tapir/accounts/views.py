@@ -63,6 +63,16 @@ class TapirUserDetailView(
             return []
         return [PERMISSION_ACCOUNTS_VIEW]
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tapir_user: TapirUser = self.object
+
+        context["is_allowed_to_see_purchase_tracking"] = (
+            tapir_user == self.request.user
+            or self.request.user.has_perm(PERMISSION_COOP_ADMIN)
+        )
+        return context
+
 
 class TapirUserMeView(LoginRequiredMixin, generic.RedirectView):
     def get_redirect_url(self, *args, **kwargs):
@@ -197,12 +207,10 @@ def member_card_barcode_pdf(request, pk):
     tapir_user = get_object_or_404(TapirUser, pk=pk)
 
     if request.user.pk != tapir_user.pk and not request.user.has_perm(
-        PERMISSION_ACCOUNTS_MANAGE
+        PERMISSION_COOP_ADMIN
     ):
         return HttpResponseForbidden(
-            _(
-                "You can only look at your own barcode unless you have member office rights"
-            )
+            _("You can only look at your own barcode unless you have admin rights")
         )
 
     filename = "Member card barcode %s.pdf" % UserUtils.build_display_name_for_viewer(

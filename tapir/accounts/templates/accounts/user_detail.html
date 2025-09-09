@@ -57,8 +57,7 @@
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Name" %}:</div>
-                        <div class="col-12 col-sm-8"
-                             id="tapir_user_display_name">{% get_display_name_full object %}</div>
+                        <div class="col-12 col-sm-8" id="tapir_user_display_name">{% get_display_name_full object %}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Username" %}:</div>
@@ -147,8 +146,7 @@
                         {% if object.pk == request.user.pk %}
                             <div class="ms-1">
                                 <a class="{% tapir_button_link_to_action %} ms-1"
-                                   href="{% url 'password_change' %}"><span
-                                        class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
+                                   href="{% url 'password_change' %}"><span class="material-icons">vpn_key</span>{% translate "Change Password" %}</a>
                             </div>
                         {% endif %}
                     </div>
@@ -163,7 +161,7 @@
     </div>
     <div class="row">
         <div class="col-xl-4">{% purchase_tracking_card tapir_user=object %}</div>
-        {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
+        {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking and is_allowed_to_see_purchase_tracking %}
             <div class="col-xl-4">{% purchase_statistics_card tapir_user=object %}</div>
             <div class="col-xl-4">{% credit_account_card tapir_user=object %}</div>
         {% endif %}
