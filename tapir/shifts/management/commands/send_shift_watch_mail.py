@@ -11,6 +11,7 @@ from tapir.shifts.models import (
     StaffingStatusChoices,
     ShiftUserCapability,
     ShiftSlot,
+    ShiftAttendance,
 )
 
 
@@ -73,9 +74,14 @@ class Command(BaseCommand):
 
     def send_shift_watch_mail_per_user_and_shift(self, shift_watch_data: ShiftWatch):
         notification_reasons: list[StaffingStatusChoices] = []
-        this_valid_slot_ids = [
-            s.slot_id for s in shift_watch_data.shift.get_valid_attendances()
-        ]
+
+        this_valid_slot_ids = list(
+            ShiftSlot.objects.filter(
+                shift=shift_watch_data.shift,
+                attendances__state=ShiftAttendance.State.PENDING,
+            ).values_list("id", flat=True)
+        )
+
         valid_attendances_count = len(this_valid_slot_ids)
         required_attendances_count = (
             shift_watch_data.shift.get_num_required_attendances()
