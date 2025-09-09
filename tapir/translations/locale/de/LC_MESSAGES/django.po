@@ -3859,7 +3859,7 @@ msgstr "Schicht"
 #: shifts/templates/shifts/shift_detail.html:33
 #, python-format
 msgid "Statistics to date: %(total_valid_attendances)s people worked %(total_hours)s hours in %(no_of_past_shifts)s shifts so far."
-msgstr "Bis heute": %(total_valid_attendances)s Leute haben %(total_hours)s Stunden in %(no_of_past_shifts)s Schichten gearbeitet."
+msgstr "Bis heute: %(total_valid_attendances)s Leute haben %(total_hours)s Stunden in %(no_of_past_shifts)s Schichten gearbeitet."
 
 #: shifts/templates/shifts/shift_detail.html:40
 msgid "Get printable version"
