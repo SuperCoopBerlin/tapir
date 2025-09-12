@@ -102,7 +102,6 @@ msgstr "Nenhum"
 #: accounts/models.py:267
 msgid "This username is already taken."
 msgstr "Este nome de utilizador já está em uso."
-msgstr ""
 
 #: accounts/templates/accounts/edit_username.default.html:13
 #, python-format
@@ -3928,6 +3927,7 @@ msgid ""
 "                            <p>Slots can be added to the shift after it has been created.</p>\n"
 "                        "
 msgstr ""
+"\n"
 "<p>Tenha cuidado ao criar um turno, pois não poderá eliminá-lo mais tarde.</p>\n"
 "<p>Os lugares podem ser adicionados ao turno depois de criado.</p>"
 
@@ -3964,6 +3964,7 @@ msgid ""
 "                                purposes or to accelerate a status update.</p>\n"
 "                        "
 msgstr ""
+"\n"
 "<p>Para cada membro, verifica se deve ser colocado como congelado, descongelado, ou avisado de que será congelado em breve.</p>\n"
 "<p>Este comando é executado automaticamente uma vez por dia. Pode acioná-lo manualmente aqui para testes ou para acelerar uma atualização de estado.</p>"
 
@@ -3979,6 +3980,7 @@ msgid ""
 "                            faster.</p>\n"
 "                    "
 msgstr ""
+"\n"
 "<p>Isto gera turnos para os próximos 200 dias de acordo com o calendário ABCD.</p>\n"
 "<p>Este comando é executado automaticamente uma vez por dia. Pode acioná-lo manualmente para ver resultados mais rapidamente.</p>"
 
@@ -4043,6 +4045,7 @@ msgid ""
 "                    <p>If you would like to change your regular ABCD shift, please contact the Member Office.</p>\n"
 "                "
 msgstr ""
+"\n"
 "<p>Este é o plano de turnos ABCD. Ele repete-se a cada quatro semanas. É por isso que vê apenas os dias da semana (segunda-feira, terça-feira...) e a semana (A, B, C ou D), em vez de datas específicas (ex: 23.8.2021).</p>\n"
 "<p>Para ver a data do seu próximo turno, vá ao seu perfil. Se quiser alterar o seu turno ABCD regular, contacte o Escritório de Membros.</p>"
 
@@ -4071,7 +4074,8 @@ msgid ""
 "                            Be careful when creating a shift slot, as you won't be able to delete it afterwards.\n"
 "                        "
 msgstr ""
-"Tenha cuidado ao criar um lugar de turno, pois não poderá eliminá-lo depois."
+"\n"
+"                            Tenha cuidado ao criar um lugar de turno, pois não poderá eliminá-lo depois."
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:14
 msgid "Available"
@@ -4085,7 +4089,8 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"<p>Existe %(available_solidarity_shifts)s turno solidário disponível de momento</p>\n"
+"                        <p>Existe %(available_solidarity_shifts)s turno solidário disponível de momento</p>\n"
+"                        "
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:21
 #, python-format
@@ -4095,7 +4100,8 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"<p>Existem %(available_solidarity_shifts)s turnos solidários disponíveis de momento</p>\n"
+"                        <p>Existem %(available_solidarity_shifts)s turnos solidários disponíveis de momento</p>\n"
+"                        "
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:30
 msgid "Used"
@@ -4110,6 +4116,7 @@ msgid ""
 msgstr ""
 "\n"
 "<p>%(used_solidarity_shifts_total)s turno solidário foi utilizado no total</p>\n"
+"                        "
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:37
 #, python-format
@@ -4120,6 +4127,7 @@ msgid ""
 msgstr ""
 "\n"
 "<p>%(used_solidarity_shifts_total)s turnos solidários foram utilizados no total</p>\n"
+"                        "
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:41
 #: shifts/views/solidarity.py:208
