@@ -14,111 +14,179 @@
         }
     }
 
-    table, th, td {
-        border: 2px solid black;
-        border-collapse: collapse;
-        text-align: center;
-        padding: 5px;
+    body {
+        margin: 0;
+        font-family: sans-serif;
+        font-size: 12px;
     }
 
-    th {
-        font-weight: bold;
-    }
-
-    table {
+    .shift-container {
         width: 100%;
-        font-size: 14px;
-        page-break-inside: avoid;
+        box-sizing: border-box;
+        padding: 8px;
     }
 
     h1 {
         text-align: center;
+        margin: 6px 0 8px 0;
+        font-size: 16px;
+    }
+
+    .shift-block {
+        border: 2px solid black;
+        margin-bottom: 10px;
+        padding: 6px;
+        page-break-inside: avoid;
+    }
+
+    .shift-header {
+        background-color: #ccc;
+        padding: 4px 6px;
+        font-weight: bold;
+        text-align: center;
+        border: 2px solid black;
+        margin-bottom: 6px;
+        font-size: 13px;
+    }
+
+    .slots-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    /* kompakte Variante: kleinere Schrift, weniger Padding, feste Höhe */
+    .slot-row {
+        display: flex;
+        align-items: center;
+        border: 2px solid black;
+        padding: 4px;
+        box-sizing: border-box;
+        height: 48px; /* feste, niedrige Zeilenhöhe */
+        page-break-inside: avoid;
+    }
+
+    .slot-index {
+        width: 6%;
+        min-width: 36px;
+        text-align: center;
+        font-weight: bold;
+        border-right: 2px solid black;
+        padding-right: 6px;
+        font-size: 12px;
+    }
+
+    .slot-info {
+        width: 34%;
+        padding-left: 6px;
+        border-right: 2px solid black;
+        text-align: left;
+        font-size: 12px;
+        overflow: hidden;
+    }
+
+    .member-info {
+        width: 44%;
+        padding-left: 6px;
+        border-right: 2px solid black;
+        text-align: left;
+        font-size: 11px;
+        overflow: hidden;
+    }
+
+    .attendance-controls {
+        width: 16%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding-left: 6px;
+    }
+
+    .att-checkbox {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 10px;
+    }
+
+    .att-checkbox input[type="checkbox"] {
+        width: 14px;
+        height: 14px;
+        margin-bottom: 2px;
     }
 
     .small-text {
         font-size: 10px;
     }
-
-
 </style>
-<h1>{{ shifts.0.start_time|date:'d.m.y' }}</h1>
-{% for shift in shifts %}
-    <p>
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="6" style="background-color: #ccc;">{{ shift.get_display_name }}</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th>{% translate 'Slot' %}</th>
-                    <th>{% translate 'Member' %}</th>
-                    <th style="width: 20%;">{% translate 'Attended' %}</th>
-                    <th style="width: 20%;">{% translate 'Missed' %}</th>
-                    <th style="width: 20%;">{% translate 'Excused' %}</th>
-                </tr>
-            </thead>
-            <tbody>
+<div class="shift-container">
+    <h1>{{ shifts.0.start_time|date:'d.m.y' }}</h1>
+    {% for shift in shifts %}
+        <div class="shift-block">
+            <div class="shift-header">{{ shift.get_display_name }}</div>
+            <div class="slots-list">
                 {% for slot in shift.slots.all %}
-                    <tr>
-                        <td>
-                            <h5>#{{ forloop.counter }}</h5>
-                        </td>
-                        <td>
-                            {{ slot.name }}
-                            <br />
-                            <span class="small-text">
+                    <div class="slot-row">
+                        <div class="slot-index">#{{ forloop.counter }}</div>
+                        <div class="slot-info">
+                            <div style="line-height:1.0;">{{ slot.name }}</div>
+                            <div class="small-text" style="line-height:1.0;">
                                 {% if slot.required_capabilities|length > 0 %}
                                     {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
                                 {% endif %}
-                            </span>
-                        </td>
-                        <td>
+                            </div>
+                        </div>
+                        <div class="member-info">
                             {% with slot.get_valid_attendance as attendance %}
                                 {% if attendance %}
-                                    <div>
+                                    <div style="line-height:1.0;">
                                         {% get_display_name_short attendance.user %}
                                         {% if attendance.user.pronouns %}({{ attendance.user.pronouns }}){% endif %}
                                         #{{ attendance.user.share_owner.id }}
                                     </div>
                                     {% if shift.flexible_time %}
                                         {% if attendance.custom_time %}
-                                            <div>{% translate "Expected to come at" %} {{ attendance.custom_time|time:"H:i" }}</div>
+                                            <div class="small-text" style="line-height:1.0;">
+                                                {% translate "Expected to come at" %} {{ attendance.custom_time|time:"H:i" }}
+                                            </div>
                                         {% else %}
-                                            <div>{% translate "Flexible time not specified" %}</div>
+                                            <div class="small-text" style="line-height:1.0;">{% translate "Flexible time not specified" %}</div>
                                         {% endif %}
                                     {% endif %}
-                                    <br />
                                     {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
                                     {% if shift_partner_enabled and attendance.user.shift_user_data.shift_partner %}
-                                        <span>({% translate "Shift partner: " %}{% get_display_name_short attendance.user.shift_user_data.shift_partner.user %} #{{ attendance.user.shift_user_data.shift_partner.user.get_member_number }})</span>
+                                        <div class="small-text" style="line-height:1.0;">
+                                            ({% translate "Shift partner: " %}{% get_display_name_short attendance.user.shift_user_data.shift_partner.user %} #{{ attendance.user.shift_user_data.shift_partner.user.get_member_number }})
+                                        </div>
                                     {% endif %}
                                     {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
-                                        ({% translate "Looking for a stand-in" %})
+                                        <div class="small-text" style="line-height:1.0;">({% translate "Looking for a stand-in" %})</div>
                                     {% endif %}
-                                    <br />
-                                    <br />
-                                    <br />
-                                    {% if attendance.user.shift_user_data.capabilities|length > 0 %}
-                                        <span class="small-text">
+                                    <div class="small-text" style="line-height:1.0;">
+                                        {% if attendance.user.shift_user_data.capabilities|length > 0 %}
                                             {% translate 'Has qualifications: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
-                                        </span>
-                                    {% endif %}
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
                             {% endwith %}
-                        </td>
-                        <td>
-                            <!-- Attended -->
-                        </td>
-                        <td>
-                            <!-- Missed -->
-                        </td>
-                        <td>
-                            <!-- Excused -->
-                        </td>
-                    </tr>
+                        </div>
+                        <div class="attendance-controls">
+                            <label class="att-checkbox">
+                                <input type="checkbox" name="attendance_{{ slot.id }}_attended" />
+                                <span>{% translate 'Attended' %}</span>
+                            </label>
+                            <label class="att-checkbox">
+                                <input type="checkbox" name="attendance_{{ slot.id }}_missed" />
+                                <span>{% translate 'Missed' %}</span>
+                            </label>
+                            <label class="att-checkbox">
+                                <input type="checkbox" name="attendance_{{ slot.id }}_excused" />
+                                <span>{% translate 'Excused' %}</span>
+                            </label>
+                        </div>
+                    </div>
                 {% endfor %}
-            </tbody>
-        </table>
-    </p>
-{% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
