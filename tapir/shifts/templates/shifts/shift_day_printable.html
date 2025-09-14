@@ -49,6 +49,37 @@
         font-size: 13px;
     }
 
+    /* Header für Checkbox-Spalten */
+    .att-controls-header {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 11px;
+        font-weight: bold;
+        border-left: 2px solid black;
+        padding: 4px 6px;
+        box-sizing: border-box;
+        margin-bottom: 6px;
+    }
+    .att-controls-header div {
+        text-align: center;
+        width: 20%;
+        max-width: 20%;
+    }
+    .att-controls-header .label-set {
+        width: 20%;
+        display: flex;
+        justify-content: space-around;
+        gap: 6px;
+        margin-left: auto;
+        box-sizing: border-box;
+    }
+    .att-controls-header .label-set div {
+        width: 33%;
+        text-align: center;
+    }
+
     .slots-list {
         display: flex;
         flex-direction: column;
@@ -76,8 +107,9 @@
         font-size: 12px;
     }
 
+    /* Schicht-Name leicht schmaler */
     .slot-info {
-        width: 34%;
+        width: 28%; /* vorher 30% */
         padding-left: 6px;
         border-right: 2px solid black;
         text-align: left;
@@ -85,8 +117,9 @@
         overflow: hidden;
     }
 
+    /* Member-Spalte etwas schmaler */
     .member-info {
-        width: 44%;
+        width: 46%; /* vorher 48% */
         padding-left: 6px;
         border-right: 2px solid black;
         text-align: left;
@@ -94,24 +127,28 @@
         overflow: hidden;
     }
 
+    /* Checkbox-Spalte breiter gemacht */
     .attendance-controls {
-        width: 16%;
+        width: 20%; /* vorher 16% */
         display: flex;
         justify-content: space-around;
         align-items: center;
         padding-left: 6px;
     }
 
+    /* Verstecke die individuellen Labeltexte unter den Checkboxen (wir haben eine Header-Zeile) */
     .att-checkbox {
         display: flex;
         flex-direction: column;
         align-items: center;
-        font-size: 10px;
+        font-size: 0; /* Label-Texte verstecken */
     }
 
+    .att-checkbox span { display: none; }
+
     .att-checkbox input[type="checkbox"] {
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
         margin-bottom: 2px;
     }
 
@@ -124,6 +161,16 @@
     {% for shift in shifts %}
         <div class="shift-block">
             <div class="shift-header">{{ shift.get_display_name }}</div>
+            <!-- Einmalige Kopfzeile für die drei Checkbox-Spalten -->
+            <div class="att-controls-header" aria-hidden="true">
+                <div style="flex:1"></div>
+                <!-- Platzhalter links -->
+                <div class="label-set">
+                    <div>{% translate 'Attended' %}</div>
+                    <div>{% translate 'Missed' %}</div>
+                    <div>{% translate 'Excused' %}</div>
+                </div>
+            </div>
             <div class="slots-list">
                 {% for slot in shift.slots.all %}
                     <div class="slot-row">
