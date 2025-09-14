@@ -2,7 +2,6 @@
 {% load i18n %}
 {% load utils %}
 <style>
-    /* Seite / Druck */
     @page {
         size: A4 portrait;
         margin: 8mm;
@@ -15,7 +14,6 @@
         }
     }
 
-    /* Schrift & Basis */
     body {
         margin: 0;
         font-family: "Arial Narrow", Arial, sans-serif;
@@ -23,8 +21,7 @@
         color: #000;
     }
 
-    /* Zweispaltiges Layout: jede Kolonne füllt eine Spalte.
-       Falls du lieber eine Spalte willst, setze column-count:1; */
+
     .shift-container {
         width: 100%;
         box-sizing: border-box;
@@ -41,10 +38,9 @@
     }
 
     .shift-block {
-        /* Schichten dürfen über Spalten/Seiten umgebrochen werden */
         page-break-inside: auto;
         break-inside: auto;
-        display: block; /* stabiler in mehrspaltigen Layouts als inline-block */
+        display: block;
         width: 100%;
         box-sizing: border-box;
         margin: 4px 0;
@@ -62,7 +58,6 @@
         font-size: 12px;
     }
 
-    /* Kopfzeile für die kurzen Checkbox‑Labels (Legende für A/M/E) */
     .att-controls-header {
         width: 100%;
         display: flex;
@@ -103,7 +98,6 @@
         gap: 6px;
     }
 
-    /* Kompakte Slot‑Zeile */
     .slot-row {
         display: flex;
         align-items: center;
@@ -132,12 +126,11 @@
         text-align: left;
         font-size: 11px;
         overflow: hidden;
-        /* Erlaube Umbrüche statt Ellipsis */
         white-space: normal;
         word-wrap: break-word;
         hyphens: auto;
         line-height: 1.05;
-        max-height: 2.1em; /* maximal 2 Zeilen sichtbar (je ~1.05em Höhe) */
+        max-height: 2.1em;
     }
 
     .member-info {
@@ -159,12 +152,11 @@
         gap: 6px;
     }
 
-    /* Kürzere Checkbox‑Darstellung: nur Kästchen, Labels in Kopfzeile */
     .att-checkbox {
         display: flex;
         flex-direction: column;
         align-items: center;
-        font-size: 0; /* versteckt untere Labels */
+        font-size: 0;
     }
 
     .att-checkbox span {
@@ -178,10 +170,9 @@
     }
 
     .small-text {
-        font-size: 9.5px;
+        font-size: 10px;
     }
 
-    /* Legende (kurze Labels) oben auf der Seite, sichtbar beim Drucken */
     .legend {
         font-size: 10px;
         margin: 4px 0 8px 0;
@@ -194,7 +185,6 @@
         font-weight: bold;
     }
 
-    /* Feinheiten für Druck: weniger Tinte */
     .shift-header, .att-controls-header {
         background: #f0f0f0;
     }
@@ -225,9 +215,9 @@
                         <div class="slot-info" title="{{ slot.name }}">
                             <div style="line-height:1.0;">{{ slot.name }}</div>
                             <div class="small-text" style="line-height:1.0;">
-                                {#                                {% if slot.required_capabilities|length > 0 %}#}
-                                {#                                    {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}#}
-                                {#                                {% endif %}#}
+                                {% if slot.required_capabilities|length > 0 %}
+                                    {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
+                                {% endif %}
                             </div>
                         </div>
                         <div class="member-info">
