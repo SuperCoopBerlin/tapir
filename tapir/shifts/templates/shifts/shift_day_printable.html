@@ -41,14 +41,15 @@
     }
 
     .shift-block {
-        border: 1px solid #000;
-        margin: 4px 0;
-        padding: 4px;
-        page-break-inside: avoid;
-        break-inside: avoid-column;
-        display: inline-block; /* necessary for columns to place blocks */
+        /* Schichten dürfen über Spalten/Seiten umgebrochen werden */
+        page-break-inside: auto;
+        break-inside: auto;
+        display: block; /* stabiler in mehrspaltigen Layouts als inline-block */
         width: 100%;
         box-sizing: border-box;
+        margin: 4px 0;
+        padding: 4px;
+        border: 1px solid #000;
     }
 
     .shift-header {
