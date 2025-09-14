@@ -2,9 +2,10 @@
 {% load i18n %}
 {% load utils %}
 <style>
+    /* Seite / Druck */
     @page {
         size: A4 portrait;
-        margin: 20;
+        margin: 8mm;
     }
 
     @media print {
@@ -14,59 +15,72 @@
         }
     }
 
+    /* Schrift & Basis */
     body {
         margin: 0;
-        font-family: sans-serif;
-        font-size: 12px;
+        font-family: "Arial Narrow", Arial, sans-serif;
+        font-size: 11px;
+        color: #000;
     }
 
+    /* Zweispaltiges Layout: jede Kolonne füllt eine Spalte.
+       Falls du lieber eine Spalte willst, setze column-count:1; */
     .shift-container {
         width: 100%;
         box-sizing: border-box;
-        padding: 8px;
+        padding: 6px;
+        column-count: 2;
+        column-gap: 8mm;
     }
 
     h1 {
         text-align: center;
-        margin: 6px 0 8px 0;
-        font-size: 16px;
+        margin: 4px 0 6px 0;
+        font-size: 14px;
+        break-inside: avoid;
     }
 
     .shift-block {
-        border: 2px solid black;
-        margin-bottom: 10px;
-        padding: 6px;
+        border: 1px solid #000;
+        margin: 4px 0;
+        padding: 4px;
         page-break-inside: avoid;
+        break-inside: avoid-column;
+        display: inline-block; /* necessary for columns to place blocks */
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .shift-header {
-        background-color: #ccc;
-        padding: 4px 6px;
+        background-color: #e6e6e6;
+        padding: 3px 6px;
         font-weight: bold;
         text-align: center;
-        border: 2px solid black;
+        border: 1px solid #000;
         margin-bottom: 6px;
-        font-size: 13px;
+        font-size: 12px;
     }
 
-    /* Header für Checkbox-Spalten */
+    /* Kopfzeile für die kurzen Checkbox‑Labels (Legende für A/M/E) */
     .att-controls-header {
         width: 100%;
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: bold;
-        border-left: 2px solid black;
-        padding: 4px 6px;
+        border-left: 1px solid #000;
+        padding: 3px 6px;
         box-sizing: border-box;
         margin-bottom: 6px;
     }
+
     .att-controls-header div {
         text-align: center;
         width: 20%;
         max-width: 20%;
     }
+
     .att-controls-header .label-set {
         width: 20%;
         display: flex;
@@ -74,7 +88,9 @@
         gap: 6px;
         margin-left: auto;
         box-sizing: border-box;
+        font-size: 11px;
     }
+
     .att-controls-header .label-set div {
         width: 33%;
         text-align: center;
@@ -86,107 +102,140 @@
         gap: 6px;
     }
 
-    /* kompakte Variante: kleinere Schrift, weniger Padding, feste Höhe */
+    /* Kompakte Slot‑Zeile */
     .slot-row {
         display: flex;
         align-items: center;
-        border: 2px solid black;
-        padding: 4px;
+        border: 1px solid #000;
+        padding: 3px;
         box-sizing: border-box;
-        height: 48px; /* feste, niedrige Zeilenhöhe */
+        height: 40px;
         page-break-inside: avoid;
+        break-inside: avoid-column;
     }
 
     .slot-index {
         width: 6%;
-        min-width: 36px;
+        min-width: 28px;
         text-align: center;
         font-weight: bold;
-        border-right: 2px solid black;
+        border-right: 1px solid #000;
         padding-right: 6px;
-        font-size: 12px;
+        font-size: 11px;
     }
 
-    /* Schicht-Name leicht schmaler */
     .slot-info {
-        width: 28%; /* vorher 30% */
+        width: 24%;
         padding-left: 6px;
-        border-right: 2px solid black;
-        text-align: left;
-        font-size: 12px;
-        overflow: hidden;
-    }
-
-    /* Member-Spalte etwas schmaler */
-    .member-info {
-        width: 46%; /* vorher 48% */
-        padding-left: 6px;
-        border-right: 2px solid black;
+        border-right: 1px solid #000;
         text-align: left;
         font-size: 11px;
         overflow: hidden;
+        /* Erlaube Umbrüche statt Ellipsis */
+        white-space: normal;
+        word-wrap: break-word;
+        hyphens: auto;
+        line-height: 1.05;
+        max-height: 2.1em; /* maximal 2 Zeilen sichtbar (je ~1.05em Höhe) */
     }
 
-    /* Checkbox-Spalte breiter gemacht */
+    .member-info {
+        width: 46%;
+        padding-left: 6px;
+        border-right: 1px solid #000;
+        text-align: left;
+        font-size: 10px;
+        overflow: hidden;
+        line-height: 1.0;
+    }
+
     .attendance-controls {
-        width: 20%; /* vorher 16% */
+        width: 24%;
         display: flex;
         justify-content: space-around;
         align-items: center;
         padding-left: 6px;
+        gap: 6px;
     }
 
-    /* Verstecke die individuellen Labeltexte unter den Checkboxen (wir haben eine Header-Zeile) */
+    /* Kürzere Checkbox‑Darstellung: nur Kästchen, Labels in Kopfzeile */
     .att-checkbox {
         display: flex;
         flex-direction: column;
         align-items: center;
-        font-size: 0; /* Label-Texte verstecken */
+        font-size: 0; /* versteckt untere Labels */
     }
 
-    .att-checkbox span { display: none; }
+    .att-checkbox span {
+        display: none;
+    }
 
     .att-checkbox input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
-        margin-bottom: 2px;
+        width: 12px;
+        height: 12px;
+        margin-bottom: 0;
     }
 
     .small-text {
+        font-size: 9.5px;
+    }
+
+    /* Legende (kurze Labels) oben auf der Seite, sichtbar beim Drucken */
+    .legend {
         font-size: 10px;
+        margin: 4px 0 8px 0;
+        text-align: right;
+        break-inside: avoid;
+    }
+
+    .legend span {
+        margin-left: 8px;
+        font-weight: bold;
+    }
+
+    /* Feinheiten für Druck: weniger Tinte */
+    .shift-header, .att-controls-header {
+        background: #f0f0f0;
     }
 </style>
 <div class="shift-container">
     <h1>{{ shifts.0.start_time|date:'d.m.y' }}</h1>
+    <div class="legend" aria-hidden="true">
+        <span>A</span> {% translate 'Attended' %} &nbsp; • &nbsp;
+        <span>M</span> {% translate 'Missed' %} &nbsp; • &nbsp;
+        <span>E</span> {% translate 'Excused' %}
+    </div>
     {% for shift in shifts %}
         <div class="shift-block">
             <div class="shift-header">{{ shift.get_display_name }}</div>
             <!-- Einmalige Kopfzeile für die drei Checkbox-Spalten -->
             <div class="att-controls-header" aria-hidden="true">
                 <div style="flex:1"></div>
-                <!-- Platzhalter links -->
                 <div class="label-set">
-                    <div>{% translate 'Attended' %}</div>
-                    <div>{% translate 'Missed' %}</div>
-                    <div>{% translate 'Excused' %}</div>
+                    <div>A</div>
+                    <div>M</div>
+                    <div>E</div>
                 </div>
             </div>
             <div class="slots-list">
                 {% for slot in shift.slots.all %}
                     <div class="slot-row">
                         <div class="slot-index">#{{ forloop.counter }}</div>
-                        <div class="slot-info">
+                        <div class="slot-info" title="{{ slot.name }}">
                             <div style="line-height:1.0;">{{ slot.name }}</div>
                             <div class="small-text" style="line-height:1.0;">
-                                {% if slot.required_capabilities|length > 0 %}
-                                    {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
-                                {% endif %}
+                                {#                                {% if slot.required_capabilities|length > 0 %}#}
+                                {#                                    {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}#}
+                                {#                                {% endif %}#}
                             </div>
                         </div>
                         <div class="member-info">
                             {% with slot.get_valid_attendance as attendance %}
                                 {% if attendance %}
-                                    <div style="line-height:1.0;">
+                                    <div style="line-height:1.0;
+                                                white-space:nowrap;
+                                                overflow:hidden;
+                                                text-overflow:ellipsis">
                                         {% get_display_name_short attendance.user %}
                                         {% if attendance.user.pronouns %}({{ attendance.user.pronouns }}){% endif %}
                                         #{{ attendance.user.share_owner.id }}
@@ -203,7 +252,8 @@
                                     {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
                                     {% if shift_partner_enabled and attendance.user.shift_user_data.shift_partner %}
                                         <div class="small-text" style="line-height:1.0;">
-                                            ({% translate "Shift partner: " %}{% get_display_name_short attendance.user.shift_user_data.shift_partner.user %} #{{ attendance.user.shift_user_data.shift_partner.user.get_member_number }})
+                                            ({% translate "Shift partner: " %}{% get_display_name_short attendance.user.shift_user_data.shift_partner.user %}
+                                            #{{ attendance.user.shift_user_data.shift_partner.user.get_member_number }})
                                         </div>
                                     {% endif %}
                                     {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
@@ -217,16 +267,16 @@
                                 {% endif %}
                             {% endwith %}
                         </div>
-                        <div class="attendance-controls">
-                            <label class="att-checkbox">
+                        <div class="attendance-controls" aria-label="attendance controls">
+                            <label class="att-checkbox" title="{% translate 'Attended' %}">
                                 <input type="checkbox" name="attendance_{{ slot.id }}_attended" />
                                 <span>{% translate 'Attended' %}</span>
                             </label>
-                            <label class="att-checkbox">
+                            <label class="att-checkbox" title="{% translate 'Missed' %}">
                                 <input type="checkbox" name="attendance_{{ slot.id }}_missed" />
                                 <span>{% translate 'Missed' %}</span>
                             </label>
-                            <label class="att-checkbox">
+                            <label class="att-checkbox" title="{% translate 'Excused' %}">
                                 <input type="checkbox" name="attendance_{{ slot.id }}_excused" />
                                 <span>{% translate 'Excused' %}</span>
                             </label>
