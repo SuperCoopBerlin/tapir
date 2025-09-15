@@ -19,172 +19,172 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Fancy export"
-msgstr ""
+msgstr "Exportação avançada"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Source dataset"
-msgstr ""
+msgstr "Conjunto de dados de origem"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference,member_status, is_member_since, compulsory_share, additional_shares, amount_paid, amount_paid_for_entry_fee, amount_paid_for_shares, number_of_paid_shares, number_of_unpaid_shares. For all other fields, the value as it is now is exported, not the value as it was at the given date."
-msgstr ""
+msgstr "A data só é relevante para os seguintes campos: shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference, member_status, is_member_since, compulsory_share, additional_shares, amount_paid, amount_paid_for_entry_fee, amount_paid_for_shares, number_of_paid_shares, number_of_unpaid_shares. Para todos os outros campos, é exportado o valor atual, não o valor na data indicada."
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Add columns to the export"
-msgstr ""
+msgstr "Adicionar colunas à exportação"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Click on a selected column to deselect it."
-msgstr ""
+msgstr "Clique numa coluna selecionada para a desmarcar."
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Build export for "
-msgstr ""
+msgstr "Gerar exportação para "
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Pick a source dataset"
-msgstr ""
+msgstr "Escolha um conjunto de dados de origem"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Download as CSV"
-msgstr ""
+msgstr "Descarregar como CSV"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Build the export to download it"
-msgstr ""
+msgstr "Gerar a exportação para a descarregar"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Copy for spreadsheets"
-msgstr ""
+msgstr "Copiar para folhas de cálculo"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Build the export to copy it"
-msgstr ""
+msgstr "Gerar a exportação para a copiar"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Waiting for build"
-msgstr ""
+msgstr "A aguardar geração"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Confirm deletion"
-msgstr ""
+msgstr "Confirmar eliminação"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "no name"
-msgstr ""
+msgstr "sem nome"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Are you sure you want to delete the following warning: "
-msgstr ""
+msgstr "Tem a certeza de que deseja eliminar o seguinte aviso: "
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "This warning is not used in any slot."
-msgstr ""
+msgstr "Este aviso não é utilizado em nenhum turno."
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "This warning is used in the following slots: "
-msgstr ""
+msgstr "Este aviso é utilizado nos seguintes turnos: "
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Edit shift warnings"
-msgstr ""
+msgstr "Editar avisos de turno"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Add a warning"
-msgstr ""
+msgstr "Adicionar um aviso"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Edit warnings"
-msgstr ""
+msgstr "Editar avisos"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Are you sure you want to delete the following qualification: "
-msgstr ""
+msgstr "Tem a certeza de que deseja eliminar a seguinte qualificação: "
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "This qualification is not used in any slot."
-msgstr ""
+msgstr "Esta qualificação não é utilizada em nenhum turno."
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "This qualification is used in the following slots: "
-msgstr ""
+msgstr "Esta qualificação é utilizada nos seguintes turnos: "
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Edit qualifications"
-msgstr ""
+msgstr "Editar qualificações"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Add a qualification"
-msgstr ""
+msgstr "Adicionar uma qualificação"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Use the search field on the top right."
-msgstr ""
+msgstr "Use o campo de pesquisa no canto superior direito."
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Can shop"
-msgstr ""
+msgstr "Pode comprar"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Yes"
-msgstr ""
+msgstr "Sim"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "No"
-msgstr ""
+msgstr "Não"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Member details"
-msgstr ""
+msgstr "Detalhes do membro"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Member"
-msgstr ""
+msgstr "Membro"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "yes"
-msgstr ""
+msgstr "sim"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "no"
-msgstr ""
+msgstr "não"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Why this member cannot shop: "
-msgstr ""
+msgstr "Por que motivo este membro não pode comprar: "
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Co-purchaser: "
-msgstr ""
+msgstr "Co-comprador: "
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
-msgstr ""
+msgstr "Ups! Algo correu mal. Por favor, tente novamente. Se o problema persistir, escreva no canal #tapir do Slack com a sua pesquisa atual: "
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Welcome Desk"
-msgstr ""
+msgstr "Welcome Desk"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Name or member ID"
-msgstr ""
+msgstr "Nome ou ID do membro"
