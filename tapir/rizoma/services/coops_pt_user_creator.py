@@ -24,16 +24,22 @@ class CoopsPtUserCreator:
 
     @classmethod
     def build_tapir_user_from_api_response(cls, user_json: dict) -> TapirUser:
-        return TapirUser(
-            date_joined=datetime.datetime.fromisoformat(user_json["_created_at"]),
-            username=user_json["email"],
-            email=user_json["email"],
-            first_name=user_json["firstName"],
-            last_name=user_json["lastName"],
-            preferred_language="pt",
-            external_id=user_json["_id"],
-            is_superuser=user_json["type"] == "admin",
+        tapir_user = TapirUser()
+        cls.set_attributes_from_api_response(tapir_user=tapir_user, user_json=user_json)
+        return tapir_user
+
+    @classmethod
+    def set_attributes_from_api_response(cls, tapir_user: TapirUser, user_json: dict):
+        tapir_user.date_joined = datetime.datetime.fromisoformat(
+            user_json["_created_at"]
         )
+        tapir_user.username = user_json["email"]
+        tapir_user.email = user_json["email"]
+        tapir_user.first_name = user_json["firstName"]
+        tapir_user.last_name = user_json["lastName"]
+        tapir_user.preferred_language = "pt"
+        tapir_user.external_id = user_json["_id"]
+        tapir_user.is_superuser = user_json["type"] == "admin"
 
     @classmethod
     def fetch_and_create_share_owner(cls, external_member_id, tapir_user):
