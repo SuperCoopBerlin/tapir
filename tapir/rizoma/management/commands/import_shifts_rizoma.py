@@ -156,7 +156,7 @@ class Command(BaseCommand):
     @classmethod
     def create_attendance_templates(cls, shift_data):
         members_by_name = {
-            f"{tapir_user.first_name} {tapir_user.last_name}": tapir_user
+            f"{tapir_user.first_name} {tapir_user.last_name}".casefold(): tapir_user
             for tapir_user in TapirUser.objects.all()
         }
 
@@ -169,7 +169,7 @@ class Command(BaseCommand):
                         for member_name in slot_data[
                             "name_of_the_registered_members"
                         ].split(","):
-                            member_name = member_name.strip()
+                            member_name = member_name.strip().casefold()
                             if member_name == "":
                                 continue
                             if member_name not in members_by_name.keys():
