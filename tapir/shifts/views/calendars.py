@@ -3,6 +3,7 @@ from calendar import MONDAY
 from collections import OrderedDict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import OuterRef, Exists
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
@@ -15,8 +16,9 @@ from tapir.shifts.models import (
     WEEKDAY_CHOICES,
     ShiftTemplateGroup,
     ShiftTemplate,
+    ShiftWatch,
 )
-from tapir.shifts.templatetags.shifts import get_week_group
+from tapir.shifts.templatetags.shifts import get_week_group, user_watching_shift
 from tapir.shifts.utils import ColorHTMLCalendar
 from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
 from tapir.utils.shortcuts import get_monday, set_header_for_file_download
@@ -49,6 +51,9 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
         context_data["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
         # Because the shift views show a lot of shifts,
         # we preload all related objects to avoid doing many database requests.
+        user_watching = user_watching_shift(
+            user=self.request.user, shift=OuterRef("pk")
+        )
         shifts = (
             Shift.objects.prefetch_related("slots")
             .prefetch_related("slots__attendances")
@@ -63,6 +68,7 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
                 start_time__lt=date_to + datetime.timedelta(days=1),
                 deleted=False,
             )
+            .annotate(is_watching=Exists(user_watching))
             .order_by("start_time")
         )
 
@@ -83,7 +89,6 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
                 week_to_group[shift_week_monday] = shift.shift_template.group
 
         context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
-
         context_data["shift_slot_names"] = get_shift_slot_names()
         context_data["week_to_group"] = week_to_group
 

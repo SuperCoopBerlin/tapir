@@ -1,3 +1,4 @@
+{% load shifts %}
 {% load i18n %}
 {% load django_bootstrap5 %}
 <div class="shift-block-container" style="{{ shift.style }}">
@@ -10,6 +11,7 @@
             {% else %}
                 {{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}
             {% endif %}
+            {% if shift.is_watching %}<div style="vertical-align: text-bottom" class="material-icons">visibility</div>{% endif %}
         </div>
         <div class="shift-date">
             {% if shift.start_date is not None %}

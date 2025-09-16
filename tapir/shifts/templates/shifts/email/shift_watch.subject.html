@@ -1,0 +1,4 @@
+{% load i18n %}
+{% blocktranslate with shift_display_name=shift.get_display_name reason=reason %}
+    {{ reason }}
+{% endblocktranslate %}
