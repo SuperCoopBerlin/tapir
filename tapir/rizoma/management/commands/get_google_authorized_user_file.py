@@ -14,7 +14,7 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         flow = InstalledAppFlow.from_client_secrets_file(
-            settings.GOOGLE_CLIENT_SECRET,
+            settings.PATH_TO_GOOGLE_CLIENT_SECRET_FILE,
             GoogleCalendarEventManager.SCOPES,
         )
         credentials = flow.run_local_server(port=0)

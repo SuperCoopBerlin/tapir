@@ -451,6 +451,6 @@ if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
 
 RUNNING_TESTS = False
 
-GOOGLE_CLIENT_SECRET = env.str(
-    "GOOGLE_CLIENT_SECRET", default="google_client_secret_desktop.json"
+PATH_TO_GOOGLE_CLIENT_SECRET_FILE = env.str(
+    "PATH_TO_GOOGLE_CLIENT_SECRET_FILE", default="google_client_secret_desktop.json"
 )
