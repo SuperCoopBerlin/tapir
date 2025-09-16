@@ -62,7 +62,7 @@ class TestFinancialMattersVisibility(
 
         self.assertContains(
             response,
-            "You can only look at your own barcode unless you have admin right",
+            "You can only look at your own barcode unless you have admin rights",
         )
 
     def test_financialMattersOnUserDetailPage_loggedInAsVorstand_hideCardsAfterDisablingPurchaseTrackingwithEnabledBefore(
