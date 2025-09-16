@@ -46,7 +46,7 @@ class Command(BaseCommand):
                     all_shift_templates.append(
                         ShiftTemplate(
                             group=week_group,
-                            name="Test Rizoma",
+                            name="Rizoma",
                             weekday=day_index,
                             start_time=start_time,
                             end_time=any_slot["end_time"],

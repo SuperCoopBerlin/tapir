@@ -1,17 +1,21 @@
-from django.conf import settings
+import os
+import os.path
+
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
-from icecream import ic
-from oauth2client.service_account import ServiceAccountCredentials
 
 from tapir.core.models import FeatureFlag
 from tapir.rizoma.config import FEATURE_FLAG_GOOGLE_CALENDAR_EVENTS_FOR_SHIFTS
 from tapir.shifts.models import ShiftAttendance
 from tapir.utils.expection_utils import TapirException
+from tapir.utils.user_utils import UserUtils
 
 
 class GoogleCalendarEventManager:
     SCOPES = ["https://www.googleapis.com/auth/calendar.events.owned"]
     CALENDAR_ID = "primary"
+    AUTHORIZED_USER_FILE = "google_user_token.json"
 
     @classmethod
     def on_attendance_state_changed(cls, attendance: ShiftAttendance):
@@ -32,11 +36,12 @@ class GoogleCalendarEventManager:
         if attendance.external_event_id is None:
             return
 
-        cls.get_api_client().events().delete(
-            calendarId=cls.CALENDAR_ID,
-            eventId=attendance.external_event_id,
-            sendUpdates=True,
-        ).execute()
+        with cls.get_api_client() as client:
+            client.events().delete(
+                calendarId=cls.CALENDAR_ID,
+                eventId=attendance.external_event_id,
+                sendUpdates="all",
+            ).execute()
 
         attendance.external_event_id = None
         attendance.save()
@@ -51,20 +56,18 @@ class GoogleCalendarEventManager:
         if attendance.external_event_id is not None:
             return
 
-        result = (
-            cls.get_api_client()
-            .events()
-            .insert(
-                calendarId=cls.CALENDAR_ID,
-                body=cls.build_request_body(attendance),
+        with cls.get_api_client() as client:
+            result = (
+                client.events()
+                .insert(
+                    calendarId=cls.CALENDAR_ID,
+                    body=cls.build_request_body(attendance),
+                )
+                .execute()
             )
-            .execute()
-        )
 
         attendance.external_event_id = result["id"]
         attendance.save()
-
-        ic(result)
 
     @classmethod
     def update_calendar_event(cls, attendance: ShiftAttendance):
@@ -75,12 +78,12 @@ class GoogleCalendarEventManager:
 
         if attendance.external_event_id is None:
             return
-
-        cls.get_api_client().events().update(
-            calendarId=cls.CALENDAR_ID,
-            eventId=attendance.external_event_id,
-            body=cls.build_request_body(attendance),
-        ).execute()
+        with cls.get_api_client() as client:
+            client.events().update(
+                calendarId=cls.CALENDAR_ID,
+                eventId=attendance.external_event_id,
+                body=cls.build_request_body(attendance),
+            ).execute()
 
     @classmethod
     def build_request_body(cls, attendance: ShiftAttendance):
@@ -88,8 +91,16 @@ class GoogleCalendarEventManager:
             "start": {"dateTime": attendance.slot.shift.start_time.isoformat()},
             "end": {"dateTime": attendance.slot.shift.end_time.isoformat()},
             "description": attendance.slot.shift.description,
-            "name": attendance.slot.shift.name,
+            "summary": attendance.slot.shift.name,
             "visibility": "private",
+            "attendees": [
+                {
+                    "displayName": attendance.user.get_display_name(
+                        UserUtils.DISPLAY_NAME_TYPE_FULL
+                    ),
+                    "email": attendance.user.email,
+                }
+            ],
         }
 
     @classmethod
@@ -98,11 +109,22 @@ class GoogleCalendarEventManager:
 
     @classmethod
     def get_credential(cls):
-        credential = ServiceAccountCredentials.from_json_keyfile_name(
-            settings.GOOGLE_CREDENTIALS_FILE, cls.SCOPES
+        if not os.path.exists(cls.AUTHORIZED_USER_FILE):
+            raise TapirException(
+                "Missing google authorized user file, user the 'get_google_authorized_user_file' command from a local instance to get it."
+            )
+
+        credentials = Credentials.from_authorized_user_file(
+            cls.AUTHORIZED_USER_FILE, GoogleCalendarEventManager.SCOPES
         )
 
-        if not credential or credential.invalid:
-            raise TapirException("Unable to authenticate using service account key.")
+        if credentials.valid:
+            return credentials
 
-        return credential
+        if credentials.expired and credentials.refresh_token:
+            credentials.refresh(Request())
+            with open(cls.AUTHORIZED_USER_FILE, "w") as user_file:
+                user_file.write(credentials.to_json())
+            return credentials
+
+        raise TapirException("Invalid google token")
