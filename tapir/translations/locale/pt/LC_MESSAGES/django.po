@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: accounts/emails/create_account_reminder_email.py:20
 msgid "Create account reminder"
-msgstr "Lembrete de criação de conta"
+msgstr "Lembrete para criar conta"
 
 #: accounts/emails/create_account_reminder_email.py:25
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
@@ -27,7 +27,7 @@ msgstr "Enviado a membros ativos caso não tenham criado a conta 1 mês após se
 
 #: accounts/forms.py:116
 msgid "This username is not available."
-msgstr "Este nome de utilizador não está disponível."
+msgstr "Este username não está disponível."
 
 #: accounts/forms.py:126
 msgid "Optional Mails"
@@ -62,7 +62,7 @@ msgstr "Data de nascimento"
 
 #: accounts/models.py:67 coop/models.py:74 coop/models.py:450
 msgid "Street and house number"
-msgstr "Rua e número da casa"
+msgstr "Rua e número"
 
 #: accounts/models.py:68 coop/models.py:75 coop/models.py:451
 msgid "Extra address line"
