@@ -126,10 +126,9 @@ class MembershipResignationTable(django_tables2.Table):
 
     def render_add_buttons(self, value, record: MembershipResignation):
         return format_html(
-            "<a href='{}' class='{}'>{}</a>",
+            "<a href='{}' class='{}'><span class='material-icons'>more_horiz</span></a>",
             reverse_lazy("coop:membership_resignation_detail", args=[record.pk]),
             tapir_button_link_to_action(),
-            format_html("<span class='material-icons'>more_horiz</span>"),
         )
 
 

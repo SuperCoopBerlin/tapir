@@ -75,10 +75,9 @@ class MembershipPauseTable(django_tables2.Table):
 
     def render_edit_button(self, value, record: MembershipPause):
         return format_html(
-            "<a href='{}' class='{}'>{}</a>",
+            "<a href='{}' class='{}'><span class='material-icons'>edit</span></a>",
             reverse_lazy("coop:membership_pause_edit", args=[record.pk]),
             tapir_button_link_to_action(),
-            format_html("<span class='material-icons'>edit</span>"),
         )
 
 
