@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-06 11:24+0200\n"
+"POT-Creation-Date: 2025-09-16 10:54+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2085,7 +2085,7 @@ msgstr ""
 
 #: coop/templates/coop/membership_resignation_form.html:51
 #: coop/templates/coop/membership_resignation_form.html:56
-#: coop/views/membership_resignation.py:256
+#: coop/views/membership_resignation.py:255
 msgid "Resign a new membership"
 msgstr "Ein neues Mitglied kündigen"
 
@@ -2486,11 +2486,11 @@ msgstr "Zahldatum"
 msgid "Required. Please insert a valid email address."
 msgstr ""
 
-#: coop/views/membership_pause.py:139
+#: coop/views/membership_pause.py:138
 msgid "Create a new membership pause"
 msgstr ""
 
-#: coop/views/membership_pause.py:173 coop/views/membership_pause.py:178
+#: coop/views/membership_pause.py:172 coop/views/membership_pause.py:177
 #, python-format
 msgid "Edit membership pause: %(name)s"
 msgstr ""
@@ -2501,26 +2501,26 @@ msgstr ""
 msgid "Share(s) gifted"
 msgstr "Angeforderte Anteile"
 
-#: coop/views/membership_resignation.py:138
+#: coop/views/membership_resignation.py:137
 #, fuzzy
 #| msgid "Search Members"
 msgid "Search member or ID"
 msgstr "Mitglieder suchen"
 
-#: coop/views/membership_resignation.py:144
+#: coop/views/membership_resignation.py:143
 #, fuzzy
 #| msgid "Cycle start date"
 msgid "Pay out start date"
 msgstr "Anfangsdatum"
 
-#: coop/views/membership_resignation.py:150
+#: coop/views/membership_resignation.py:149
 #, fuzzy
 #| msgid "without end date"
 msgid "Pay out end date"
 msgstr "ohne Endddatum"
 
-#: coop/views/membership_resignation.py:212
-#: coop/views/membership_resignation.py:217
+#: coop/views/membership_resignation.py:211
+#: coop/views/membership_resignation.py:216
 #, fuzzy, python-format
 #| msgid "Edit member: %(name)s"
 msgid "Cancel membership of %(name)s"
