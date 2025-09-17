@@ -458,7 +458,7 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: TapirUser | User,
+        actor: TapirUser | User | None,
         tapir_user: TapirUser,
         shift_attendance_template: ShiftAttendanceTemplate,
     ):
