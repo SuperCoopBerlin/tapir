@@ -1,10 +1,11 @@
-import time
 from datetime import timedelta
 
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from send_shift_watch_mail import Command as SendShiftWatchCommand
+from tapir.shifts.management.commands.send_shift_watch_mail import (
+    Command as SendShiftWatchCommand,
+)
 from tapir.shifts.management.commands.send_shift_watch_mail import get_staffing_status
 from tapir.shifts.models import (
     ShiftWatch,
