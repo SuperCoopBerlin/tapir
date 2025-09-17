@@ -1,5 +1,3 @@
-import datetime
-
 from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
@@ -168,9 +166,6 @@ class Command(BaseCommand):
             last_name = None
             if len(name_parts) > 1:
                 last_name = name_parts[1].strip()
-            birthday = None
-            if share_owner_json["birthday"] is not None:
-                birthday = datetime.datetime.fromisoformat(share_owner_json["birthday"])
 
             share_owners_to_create.append(
                 ShareOwner(
@@ -179,11 +174,10 @@ class Command(BaseCommand):
                     first_name=first_name,
                     last_name=last_name,
                     email=share_owner_json["_firstEmail"],
-                    birthdate=birthday,
-                    street=share_owner_json["address"],
                     postcode=share_owner_json["zip"],
                     city=share_owner_json["city"][:50],
                     preferred_language="pt",
+                    phone_number=share_owner_json["_firstMobile"],
                 )
             )
             member_number_to_photo_id_map[member_number] = share_owner_json.get(
