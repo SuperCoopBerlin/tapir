@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-28 12:57+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2025-09-17 21:59+0000\n"
+"Last-Translator: Lara Carvalho <laracjcarvalho@gmail.com>\n"
+"Language-Team: Portuguese <http://weblate.seriousdino.org/projects/tapir/"
+"tapir-javascript-translations/pt/>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 5.12.2\n"
+
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Fancy export"
 msgstr "Exportação avançada"
@@ -175,7 +177,7 @@ msgstr "Co-comprador: "
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "None"
-msgstr "Nenhum"
+msgstr "Nenhum(a)"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
