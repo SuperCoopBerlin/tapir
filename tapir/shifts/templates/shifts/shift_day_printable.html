@@ -211,7 +211,7 @@
                     <div class="slot-row">
                         <div class="slot-index">#{{ forloop.counter }}</div>
                         <div class="slot-info" title="{{ slot.name }}">
-                            <div style="line-height:1.0;">{{ slot.name }}</div>
+                            <div style="line-height:1.0;font-weight: bold;">{{ slot.name }}</div>
                             <div class="small-text" style="line-height:1.0;">
                                 {% if slot.required_capabilities|length > 0 %}
                                     {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
@@ -224,6 +224,7 @@
                                     <div style="line-height:1.0;
                                                 white-space:nowrap;
                                                 overflow:hidden;
+                                                font-weight: bold;
                                                 text-overflow:ellipsis">
                                         {% get_display_name_short attendance.user %}
                                         {% if attendance.user.pronouns %}({{ attendance.user.pronouns }}){% endif %}
