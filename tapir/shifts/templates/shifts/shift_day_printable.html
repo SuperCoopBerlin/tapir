@@ -21,7 +21,6 @@
         color: #000;
     }
 
-
     .shift-container {
         width: 100%;
         box-sizing: border-box;
@@ -104,7 +103,8 @@
         border: 1px solid #000;
         padding: 3px;
         box-sizing: border-box;
-        height: 40px;
+        height: auto; /* Erlaubt Flexibilität */
+        min-height: 40px; /* Mindesthöhe für die Zeilen */
         page-break-inside: avoid;
         break-inside: avoid-column;
     }
@@ -128,8 +128,7 @@
         white-space: normal;
         word-wrap: break-word;
         hyphens: auto;
-        line-height: 1.05;
-        max-height: 2.1em;
+        line-height: 1.2; /* Erhöhte Zeilenhöhe für mehr Platz */
     }
 
     .member-info {
@@ -139,7 +138,7 @@
         text-align: left;
         font-size: 10px;
         overflow: hidden;
-        line-height: 1.0;
+        line-height: 1.2; /* Erhöhte Zeilenhöhe für mehr Platz */
     }
 
     .attendance-controls {
