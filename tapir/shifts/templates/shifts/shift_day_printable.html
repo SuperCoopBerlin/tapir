@@ -195,18 +195,18 @@
         <span>M</span> {% translate 'Missed' %} &nbsp; • &nbsp;
         <span>E</span> {% translate 'Excused' %}
     </div>
+    <!-- Einmalige Kopfzeile für die drei Checkbox-Spalten -->
+    <div class="att-controls-header" aria-hidden="true">
+        <div style="flex:1"></div>
+        <div class="label-set">
+            <div>A</div>
+            <div>M</div>
+            <div>E</div>
+        </div>
+    </div>
     {% for shift in shifts %}
         <div class="shift-block">
             <div class="shift-header">{{ shift.get_display_name }}</div>
-            <!-- Einmalige Kopfzeile für die drei Checkbox-Spalten -->
-            <div class="att-controls-header" aria-hidden="true">
-                <div style="flex:1"></div>
-                <div class="label-set">
-                    <div>A</div>
-                    <div>M</div>
-                    <div>E</div>
-                </div>
-            </div>
             <div class="slots-list">
                 {% for slot in shift.slots.all %}
                     <div class="slot-row">
