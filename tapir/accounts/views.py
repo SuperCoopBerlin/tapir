@@ -69,7 +69,7 @@ class TapirUserDetailView(
 
         context["is_allowed_to_see_purchase_tracking"] = (
             tapir_user == self.request.user
-            or self.request.user.has_perm(PERMISSION_COOP_ADMIN)
+            or self.request.user.has_perm(PERMISSION_GROUP_MANAGE)
         )
         return context
 
