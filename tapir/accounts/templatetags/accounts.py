@@ -5,7 +5,7 @@ from django.template.defaultfilters import stringfilter
 from phonenumbers import PhoneNumberFormat
 
 from tapir.accounts.models import TapirUser
-from tapir.settings import PERMISSION_COOP_ADMIN
+from tapir.settings import PERMISSION_GROUP_MANAGE
 from tapir.utils.user_utils import UserUtils
 
 register = template.Library()
@@ -37,6 +37,6 @@ def purchase_tracking_card(context, tapir_user: TapirUser):
     context["tapir_user"] = tapir_user
     request = context["request"]
     context["is_allowed_to_see_purchase_tracking"] = (
-        tapir_user == request.user or request.user.has_perm(PERMISSION_COOP_ADMIN)
+        tapir_user == request.user or request.user.has_perm(PERMISSION_GROUP_MANAGE)
     )
     return context
