@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-28 12:56+0200\n"
-"PO-Revision-Date: 2025-09-17 21:59+0000\n"
+"PO-Revision-Date: 2025-09-21 12:59+0000\n"
 "Last-Translator: Lara Carvalho <laracjcarvalho@gmail.com>\n"
 "Language-Team: Portuguese <http://weblate.seriousdino.org/projects/tapir/"
 "tapir-python-translations/pt/>\n"
@@ -25,7 +25,9 @@ msgstr "Lembrete para criar conta"
 
 #: accounts/emails/create_account_reminder_email.py:25
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
-msgstr "Enviado a membros ativos caso não tenham criado a conta 1 mês após se tornarem membros."
+msgstr ""
+"Enviado a membros ativos caso não tenham criado conta 1 mês após se tornarem "
+"membros."
 
 #: accounts/forms.py:116
 msgid "This username is not available."
@@ -64,7 +66,7 @@ msgstr "Data de nascimento"
 
 #: accounts/models.py:67 coop/models.py:74 coop/models.py:450
 msgid "Street and house number"
-msgstr "Rua e número"
+msgstr "Rua/Avenida e número"
 
 #: accounts/models.py:68 coop/models.py:75 coop/models.py:451
 msgid "Extra address line"
@@ -106,7 +108,7 @@ msgid "This username is already taken."
 msgstr "Este nome de utilizador já está em uso."
 
 #: accounts/templates/accounts/edit_username.default.html:13
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "        Edit username: %(display_name_full)s\n"
@@ -117,7 +119,7 @@ msgstr ""
 "    "
 
 #: accounts/templates/accounts/edit_username.default.html:22
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "                    Edit username: %(display_name_full)s\n"
@@ -128,7 +130,7 @@ msgstr ""
 "                "
 
 #: accounts/templates/accounts/edit_username.default.html:28
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "                        <p>Your old username is %(old_username)s.</p>\n"
@@ -137,8 +139,8 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                        <p>O seu antigo nome de utilizador é %(old_username)s.</p>\n"
-"                        <p>Se alguma vez atualizou a wiki, por favor contacte a equipa da Wiki no Slack <a href=\"https://supercoopberlin.slack.com/archives/C01UCL82XMF\">#wiki</a> para manter a sua página de membro e o histórico das suas alterações.</p>\n"
+"                        <p>O teu antigo nome de utilizador é "
+"%(old_username)s.</p>\n"
 "                    "
 
 #: accounts/templates/accounts/edit_username.default.html:41
@@ -155,7 +157,7 @@ msgid "Save"
 msgstr "Guardar"
 
 #: accounts/templates/accounts/email/create_account_reminder.body.html:6
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "\n"
 "        <p>Hi %(display_name_short)s,</p>\n"
@@ -188,40 +190,10 @@ msgid ""
 "            The Member Office\n"
 "        </p>\n"
 "    "
-msgstr ""
-"\n"
-"        <p>Olá %(display_name_short)s,</p>\n"
-"        <p>Notámos que já é membro da SuperCoop há um mês/semana, mas ainda não criou uma conta Tapir para se inscrever no seu primeiro turno.</p>\n"
-"        <p>\n"
-"            Como lembrete, para se inscrever no seu primeiro turno (ou indicar que tem direito a uma\n"
-"            <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.rjj2v2m92fqa\">isenção</a>),\n"
-"            visite o Escritório de Membros na nossa loja.\n"
-"            Lá será criada uma conta para si no Tapir, o nosso sistema online de gestão de turnos, \n"
-"            e será guiado nos passos para escolher o seu turno e grupo de trabalho.\n"
-"        </p>\n"
-"        <p>\n"
-"            Para perguntas gerais sobre a sua adesão, contacte o Escritório de Membros por email <a href=\"mailto:mitglied@supercoop.de\">(mitglied@supercoop.de)</a>\n"
-"            ou visite a <a href=\"https://www.google.com/maps/place/SuperCoop+Berlin/@52.553371,13.3585897,15z/data=!4m5!3m4!1s0x0:0x72e80db955fa8d3!8m2!3d52.5533091!4d13.3586012\">SuperCoop</a>.\n"
-"            Sinta-se à vontade para passar e conhecer outros SuperCoopies em pessoa! O horário de abertura é:\n"
-"        <ul>\n"
-"            <li>Segunda - Sexta das 16:30 às 19:30</li>\n"
-"            <li>Sábados das 11:00 às 14:00</li>\n"
-"        </ul>\n"
-"        </p>\n"
-"        <p>\n"
-"            Como encontrar a SuperCoop?\n"
-"        </p>\n"
-"        <p>\n"
-"            Pode encontrar a nossa loja na Oudenarder Straße 16, 13347 Berlim, na esquina com a Seestraße. \n"
-"            Existe também uma entrada traseira, acessível através do antigo Osramhöfe. Esta entrada é acessível a pessoas com mobilidade reduzida.\n"
-"        </p>\n"
-"        <p>\n"
-"            Saudações cooperativas,<br />\n"
-"            O Escritório de Membros\n"
-"        </p>\n"
-"    "
+msgstr " "
 
 #: accounts/templates/accounts/email/create_account_reminder.subject.html:2
+#, fuzzy
 msgid ""
 "\n"
 "    Don't forget to sign up for your first shift at SuperCoop!\n"
