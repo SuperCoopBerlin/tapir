@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-28 12:57+0200\n"
-"PO-Revision-Date: 2025-09-21 12:59+0000\n"
+"PO-Revision-Date: 2025-09-22 15:59+0000\n"
 "Last-Translator: Lara Carvalho <laracjcarvalho@gmail.com>\n"
 "Language-Team: Portuguese <http://weblate.seriousdino.org/projects/tapir/"
 "tapir-javascript-translations/pt/>\n"
@@ -133,7 +133,7 @@ msgstr "Adicionar uma qualificação"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Use the search field on the top right."
-msgstr "Use o campo de pesquisa no canto superior direito."
+msgstr "Usa o campo de pesquisa no canto superior direito."
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Name"
@@ -153,7 +153,7 @@ msgstr "Não"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Member details"
-msgstr "Detalhes do membro"
+msgstr "Detalhes de membro"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Member"
@@ -180,12 +180,15 @@ msgid "None"
 msgstr "Nenhum(a)"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
+#, fuzzy
 msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
-msgstr "Ups! Algo correu mal. Por favor, tente novamente. Se o problema persistir, escreva no canal #tapir do Slack com a sua pesquisa atual: "
+msgstr ""
+"Ups! Algo correu mal. Por favor, tenta novamente. Se o problema persistir, "
+"escreva no canal #tapir do Slack com a sua pesquisa atual: "
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Welcome Desk"
-msgstr "Welcome Desk"
+msgstr ""
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Name or member ID"
