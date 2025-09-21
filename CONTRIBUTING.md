@@ -66,6 +66,9 @@ Fork-and-Branch Git Workflow" (see for
 example [here](https://github.com/vicente-gonzalez-ruiz/fork_and_branch_git_workflow)).
 
 Find instructions on how to start on our [README.md](README.md).
+
+
+
 ##### IDE
 
 We mostly use [PyCharm](https://www.jetbrains.com/pycharm/) for development. You can fully use it for developement.
@@ -77,8 +80,9 @@ inside docker to have an LDAP server. But PyCharm is still pretty cool).
 
 ## Style guide/code conventions
 
-We use the `Black` package, which "can be viewed as a strict subset of PEP 8". When you installed the pre-commit
+- We use the `Black` package, which "can be viewed as a strict subset of PEP 8". When you installed the pre-commit
 correctly as mentioned above, the style guide should be enforced automatically with every commit.
+- We use [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for creating automatic Release-notes.
 
 # Documentation
 

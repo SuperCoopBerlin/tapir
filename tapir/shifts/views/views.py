@@ -6,15 +6,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Sum, Count, Q
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.views import generic
 from django.views.generic import (
     CreateView,
     UpdateView,
     RedirectView,
+    FormView,
 )
 from django.views.generic import DetailView, TemplateView
 from django_tables2 import SingleTableView
@@ -36,12 +38,14 @@ from tapir.settings import (
 from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
+    ShiftWatchForm,
 )
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
     SHIFT_ATTENDANCE_STATES,
     ShiftTemplate,
+    ShiftWatch,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -388,3 +392,38 @@ class RunFreezeChecksManuallyView(
         call_command("run_freeze_checks")
         messages.info(request, _("Frozen statuses updated."))
         return super().get(request, args, kwargs)
+
+
+class UnwatchShiftView(LoginRequiredMixin, RedirectView):
+    def post(self, request, *args, **kwargs):
+        shift = get_object_or_404(Shift, id=kwargs["shift"])
+        ShiftWatch.objects.filter(user=request.user, shift=shift).delete()
+        return redirect("shifts:shift_detail", pk=kwargs["shift"])
+
+
+class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
+    model = ShiftWatch
+    form_class = ShiftWatchForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["page_title"] = _("Shift changes you would like to be informed about")
+        context["card_title"] = _("Shift changes you would like to be informed about")
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update(
+            {
+                "request_user": self.request.user,
+            }
+        )
+        return kwargs
+
+    def get_success_url(self):
+        return reverse_lazy("shifts:shift_detail", args=[self.kwargs["shift"]])
+
+    def form_valid(self, form):
+        form.instance.shift = Shift.objects.get(id=self.kwargs["shift"])
+        form.instance.user = self.request.user
+        return super().form_valid(form)

@@ -212,4 +212,12 @@ urlpatterns = [
         views.UpdateShiftAttendanceTemplateCustomTimeView.as_view(),
         name="attendance_template_custom_time",
     ),
+    path(
+        "watch_shift/<int:shift>/", views.WatchShiftView.as_view(), name="watch_shift"
+    ),
+    path(
+        "unwatch_shift/<int:shift>/",
+        views.UnwatchShiftView.as_view(),
+        name="unwatch_shift",
+    ),
 ]

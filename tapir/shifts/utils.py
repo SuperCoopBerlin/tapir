@@ -11,6 +11,8 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
+    StaffingStatusChoices,
+    Shift,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
