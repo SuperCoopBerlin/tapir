@@ -1,0 +1,15 @@
+@import url("./global/theme.css");
+@import url("./components/fonts.css");
+
+/* Components */
+@import url("./components/icons.css");
+@import url("./components/tooltips.css");
+@import url("./components/buttons.css");
+@import url("./components/card.css");
+@import url("./components/nav.css");
+@import url("./components/link.css");
+@import url("./components/table.css");
+
+/* Pages */
+@import url("./pages/about.css");
+@import url("./pages/auth.css");

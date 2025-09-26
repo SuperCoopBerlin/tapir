@@ -105,7 +105,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "tapir/templates")],
+        "DIRS": [
+            os.path.join(BASE_DIR, "rizoma/templates"),
+            os.path.join(BASE_DIR, "tapir/templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -274,7 +277,10 @@ SERVER_EMAIL = env("SERVER_EMAIL", default=EMAIL_ADDRESS_MEMBER_OFFICE)
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = [BASE_DIR / "dist"]
+STATICFILES_DIRS = [
+    BASE_DIR / "dist",
+    BASE_DIR / "rizoma" / "static",
+]
 
 SELECT2_JS = "core/select2/4.0.13/js/select2.min.js"
 SELECT2_CSS = "core/select2/4.0.13/css/select2.min.css"
