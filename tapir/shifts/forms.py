@@ -13,6 +13,7 @@ from django_select2.forms import Select2Widget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
+from tapir.core.config import feature_flag_solidarity_shifts
 from tapir.core.models import FeatureFlag
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
@@ -313,6 +314,9 @@ class RegisterUserToShiftSlotForm(
             self.fields[f"warning_{warning.id}"] = forms.BooleanField(
                 label=warning.get_current_translation().name
             )
+
+        if not FeatureFlag.get_flag_value(feature_flag_solidarity_shifts):
+            self.fields["is_solidarity"].widget = forms.HiddenInput()
 
     def get_required_capabilities(self):
         return self.slot.required_capabilities.all()
