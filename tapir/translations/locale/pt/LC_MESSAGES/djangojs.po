@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-28 12:57+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2025-09-22 15:59+0000\n"
+"Last-Translator: Lara Carvalho <laracjcarvalho@gmail.com>\n"
+"Language-Team: Portuguese <http://weblate.seriousdino.org/projects/tapir/"
+"tapir-javascript-translations/pt/>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Weblate 5.12.2\n"
+
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Fancy export"
 msgstr "Exportação avançada"
@@ -39,7 +41,7 @@ msgstr "Adicionar colunas à exportação"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Click on a selected column to deselect it."
-msgstr "Clique numa coluna selecionada para a desmarcar."
+msgstr "Clica numa coluna selecionada para a desmarcar."
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Build export for "
@@ -47,7 +49,7 @@ msgstr "Gerar exportação para "
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Pick a source dataset"
-msgstr "Escolha um conjunto de dados de origem"
+msgstr "Escolhe um conjunto de dados de origem"
 
 #: dist/assets/fancy_export-RsOcUVRw.js:3
 msgid "Download as CSV"
@@ -111,7 +113,7 @@ msgstr "Editar avisos"
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "Are you sure you want to delete the following qualification: "
-msgstr "Tem a certeza de que deseja eliminar a seguinte qualificação: "
+msgstr "Tens a certeza de que queres eliminar a seguinte qualificação: "
 
 #: dist/assets/shift_management-CCdqoXYD.js:1
 msgid "This qualification is not used in any slot."
@@ -131,7 +133,7 @@ msgstr "Adicionar uma qualificação"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Use the search field on the top right."
-msgstr "Use o campo de pesquisa no canto superior direito."
+msgstr "Usa o campo de pesquisa no canto superior direito."
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Name"
@@ -151,7 +153,7 @@ msgstr "Não"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Member details"
-msgstr "Detalhes do membro"
+msgstr "Detalhes de membro"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Member"
@@ -175,15 +177,18 @@ msgstr "Co-comprador: "
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "None"
-msgstr "Nenhum"
+msgstr "Nenhum(a)"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
+#, fuzzy
 msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
-msgstr "Ups! Algo correu mal. Por favor, tente novamente. Se o problema persistir, escreva no canal #tapir do Slack com a sua pesquisa atual: "
+msgstr ""
+"Ups! Algo correu mal. Por favor, tenta novamente. Se o problema persistir, "
+"escreva no canal #tapir do Slack com a sua pesquisa atual: "
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Welcome Desk"
-msgstr "Welcome Desk"
+msgstr ""
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Name or member ID"
