@@ -49,7 +49,7 @@ def shift_name_as_class(shift_name: str) -> str:
 def shift_to_block_object(shift: Shift, fill_parent: bool):
     attendances = {}
 
-    slots = sort_slots_by_name(list(shift.slots.all()))
+    slots = sort_slots_by_name(list(shift.slots.filter(deleted=False)))
 
     for slot in slots:
         slot_name = slot.name

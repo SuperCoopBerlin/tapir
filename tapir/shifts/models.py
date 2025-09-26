@@ -665,6 +665,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
     shift = models.ForeignKey(
         Shift, related_name="slots", null=False, blank=False, on_delete=models.CASCADE
     )
+    deleted = models.BooleanField(default=False)
 
     required_capabilities = models.ManyToManyField(ShiftUserCapability)
     warnings = models.ManyToManyField(ShiftSlotWarning)

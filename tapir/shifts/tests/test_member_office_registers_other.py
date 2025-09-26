@@ -242,3 +242,20 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
             ShiftAttendance.objects.filter(user=user, slot__shift=shift_3).exists(),
             "There third shift is after the exemption, it should have an attendance.",
         )
+
+    def test_registerUserToShiftSlotView_slotIsDeleted_returnsError(self):
+        user = TapirUserFactory.create()
+        shift = ShiftFactory.create()
+        slot = ShiftSlot.objects.filter(shift=shift).first()
+        slot.deleted = True
+        slot.save()
+        self.login_as_member_office_user()
+
+        response = self.client.post(
+            reverse("shifts:slot_register", args=[slot.id]), {"user": user.id}
+        )
+
+        self.assertStatusCode(response, 200)
+        self.assertFalse(ShiftAttendance.objects.exists())
+        self.assertEqual(1, len(response.context["form"].errors))
+        self.assertEqual(1, len(response.context["form"].errors["__all__"]))

@@ -287,6 +287,7 @@ REG_PERSON_OBJECT_CLASSES = ["inetOrgPerson", "organizationalPerson", "person"]
 REG_GROUP_BASE_DN = "ou=groups,dc=supercoop,dc=de"
 REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
+PERMISSION_SHIFTS_ADMIN = "shifts.admin"
 PERMISSION_SHIFTS_MANAGE = "shifts.manage"
 PERMISSION_SHIFTS_EXEMPTIONS = "shifts.exemptions"
 PERMISSION_COOP_VIEW = "coop.view"
@@ -320,6 +321,10 @@ LDAP_GROUPS = {
 
 
 PERMISSIONS = {
+    PERMISSION_SHIFTS_ADMIN: {
+        GROUP_VORSTAND,
+        GROUP_EMPLOYEES,
+    },
     PERMISSION_SHIFTS_MANAGE: {
         GROUP_VORSTAND,
         GROUP_MEMBER_OFFICE,

@@ -1,0 +1,275 @@
+SHIFT,Type,Day,Week,Start time,Shift duration,End time,Tipo,Cooperantes,Membros assigned,Membros Max,Availability,Turnos perdidos,Start date,Shift cycle (in days),Next shift
+Organização / ,Organização,,,#ERROR!,,#ERROR!,,"Jessica Roberts,Filipe Ruão Marques Teixeira,Maria Teresa Seixas Valério,Xavier Lacey,Chiara Maria Grilli,Diana Soeiro Maia Vicente",6,20,14 AVAILABLE,,,,#ERROR!
+#ERROR!,,,,#ERROR!,,#ERROR!,,,0,,AVAILABLE,,,,#ERROR!
+Quero ser dispensado/a,Excepção,Flex,,#ERROR!,,#ERROR!,,,0,30,30 AVAILABLE,,,,#ERROR!
+A - Segunda 11:45-14:45 / Caixa,Regular,Segunda,A,11:45,3,14:45,Caixa,,0,1,1 AVAILABLE,,1/5/2023 11:45,28,13/10/2025 11:45
+A - Segunda 11:45-14:45 / Rizobar,Regular,Segunda,A,11:45,3,14:45,Rizobar,André Fontelonga de Lemos,1,1,FULL,,1/5/2023 11:45,28,13/10/2025 11:45
+A - Segunda 11:45-14:45 / Mercearia,Regular,Segunda,A,11:45,3,14:45,Mercearia,,0,1,1 AVAILABLE,,1/5/2023 11:45,28,13/10/2025 11:45
+A - Terça 11:45-14:45 / Caixa,Regular,Terça,A,11:45,3,14:45,Caixa,Miguel José Dias Baião dos Santos Martinho,1,1,FULL,21/1/2022,19/10/2021 11:45,28,16/9/2025 11:45
+A - Terça 11:45-14:45 / Rizobar,Regular,Terça,A,11:45,3,14:45,Rizobar,"Jonathan Howell,Carlotta Defenu",2,2,FULL,,31/5/2022 11:45,,31/5/2022 11:45
+A - Terça 11:45-14:45 / Mercearia,Regular,Terça,A,11:45,3,14:45,Mercearia,Monét Davis,1,2,1 AVAILABLE,5/4/2022,19/10/2021 11:45,28,16/9/2025 11:45
+A - Terça 14:30-17:30 / Caixa,Regular,Terça,A,14:30,3,17:30,Caixa,Tina Magazzini,1,1,FULL,,19/10/2021 14:30,28,16/9/2025 14:30
+A - Terça 14:30-17:30 / Rizobar,Regular,Terça,A,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,3/5/2022,19/10/2021 14:30,28,16/9/2025 14:30
+A - Terça 14:30-17:30 / Mercearia,Regular,Terça,A,14:30,3,17:30,Mercearia,"Rúben Filipe Botelho Cordeiro,Emanuel André Pais Saramago",2,2,FULL,,31/5/2022 14:30,28,16/9/2025 14:30
+A - Terça 17:15-20:15 / Caixa,Regular,Terça,A,17:15,3,20:15,Caixa,Catarina Inês Rosa Valencia,1,1,FULL,,19/10/2021 17:15,28,16/9/2025 17:15
+A - Terça 17:15-20:15 / Rizobar,Regular,Terça,A,17:15,3,20:15,Rizobar,Marco Carpentieri,1,1,FULL,10/21/2021,19/10/2021 17:15,28,16/9/2025 17:15
+A - Terça 17:15-20:15 / Mercearia,Regular,Terça,A,17:15,3,20:15,Mercearia,"José Manuel Ferreira Xavier Beirão,Bernini Tiphaine",2,2,FULL,,31/5/2022 17:15,28,16/9/2025 17:15
+A - Terça 17:15-20:15 / Rizochef,Regular,Terça,A,17:15,3,20:15,Rizochef,"Benjamin Kampmann,Pedro Afonso Dias da Silva Fonseca Lopes",2,2,FULL,,19/10/2021 17:15,28,16/9/2025 17:15
+A - Quarta 11:45-14:45 / Caixa,Regular,Quarta,A,11:45,3,14:45,Caixa,Benjamin Tirone Nunes,1,1,FULL,,7/4/2021 11:45,28,17/9/2025 11:45
+A - Quarta 11:45-14:45 / Rizobar,Regular,Quarta,A,11:45,3,14:45,Rizobar,Mari Galicer,1,2,1 AVAILABLE,"5/5/2021, 8/25/2021, 11/17/2021, 1/12/2022, 6/4/2022",7/4/2021 11:45,28,17/9/2025 11:45
+A - Quarta 11:45-14:45 / Mercearia,Regular,Quarta,A,11:45,3,14:45,Mercearia,"Sílvia Maria Valadas Soares,Lisa Adam ",2,2,FULL,"5/5/2021, 8/25/2021, 11/17/2021, 1/12/2022, 6/4/2022",7/4/2021 11:45,28,17/9/2025 11:45
+A - Quarta 14:30-17:30 / Caixa,Regular,Quarta,A,14:30,3,17:30,Caixa,João Carlos de Carvalho Salgado Pereira Bento,1,1,FULL,,7/4/2021 14:30,28,17/9/2025 14:30
+A - Quarta 14:30-17:30 / Rizobar,Regular,Quarta,A,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,"30/6/2021, 28/7/2021, 22/9/2021, 15/12/2021, 9/2/2022, 9/2/2022, 6/4/2022, 6/4/2022",7/4/2021 14:30,28,17/9/2025 14:30
+A - Quarta 14:30-17:30 / Mercearia,Regular,Quarta,A,14:30,3,17:30,Mercearia,Gerusa Roberta Martinelli de Almeida ,1,1,FULL,,1/6/2022 14:30,28,17/9/2025 14:30
+A - Quarta 17:15-20:15 / Caixa,Regular,Quarta,A,17:15,3,20:15,Caixa,"Laura Diaz Sufuentes,Inês Correia",2,2,FULL,1/12/2022,2/6/2021 17:15,28,17/9/2025 17:15
+A - Quarta 17:15-20:15 / Rizobar,Regular,Quarta,A,17:15,3,20:15,Rizobar,Martina Yael Altalef,1,1,FULL,12/1/2022,2/6/2021 17:15,28,17/9/2025 17:15
+A - Quarta 17:15-20:15 / Mercearia,Regular,Quarta,A,17:15,3,20:15,Mercearia,"Catarina Martins Ribeiro,Carolina Filipa Fernandes Gonçalves ",2,2,FULL,12/1/2022,2/6/2021 17:15,28,17/9/2025 17:15
+A - Quarta 17:15-20:15 / Rizochef,Regular,Quarta,A,17:15,3,20:15,Rizochef,"Helena Loução ,Adi Dagan",2,2,FULL,,20/10/2021 17:15,28,17/9/2025 17:15
+A - Quinta 11:45-14:45 / Caixa,Regular,Quinta,A,11:45,3,14:45,Caixa,,0,1,1 AVAILABLE,"9/23/2021, 18/11/2021, 1/13/2022",11/2/2021 11:45,28,18/9/2025 11:45
+A - Quinta 11:45-14:45 / Rizobar,Regular,Quinta,A,11:45,3,14:45,Rizobar,Vincent Richeux,1,2,1 AVAILABLE,,2/6/2022 11:45,28,18/9/2025 11:45
+A - Quinta 11:45-14:45 / Mercearia,Regular,Quinta,A,11:45,3,14:45,Mercearia,"Henrique Rodrigues de Freitas ,Carol Getaz",2,2,FULL,7/29/2021,11/2/2021 11:45,28,18/9/2025 11:45
+A - Quinta 14:30-17:30 / Caixa,Regular,Quinta,A,14:30,3,17:30,Caixa,,0,1,1 AVAILABLE,7/4/2022,11/2/2021 14:30,28,18/9/2025 14:30
+A - Quinta 14:30-17:30 / Rizobar,Regular,Quinta,A,14:30,3,17:30,Rizobar,"Tania Barberán Soler,Maria Leonor Rodrigues Rolo Duarte",2,2,FULL,10/2/2022,11/2/2021 14:30,28,18/9/2025 14:30
+A - Quinta 14:30-17:30 / Mercearia,Regular,Quinta,A,14:30,3,17:30,Mercearia,"Maxi Kammbach,Teresa Rox",2,2,FULL,10/2/2022,11/2/2021 14:30,28,18/9/2025 14:30
+A - Quinta 17:15-20:15 / Caixa,Regular,Quinta,A,17:15,3,20:15,Caixa,"Vera Martins Peres de Almeida,Manuel António Banza Rodrigues",2,2,FULL,,6/5/2021 17:15,28,18/9/2025 17:15
+A - Quinta 17:15-20:15 / Rizobar,Regular,Quinta,A,17:15,3,20:15,Rizobar,"Andreia Gonçalves de Sousa,Saskia Hadley ",2,2,FULL,,2/6/2022 17:15,28,18/9/2025 17:15
+A - Quinta 17:15-20:15 / Mercearia,Regular,Quinta,A,17:15,3,20:15,Mercearia,,0,1,1 AVAILABLE,,6/5/2021 17:15,28,18/9/2025 17:15
+A - Quinta 17:15-20:15 / Rizochef,Regular,Quinta,A,17:15,3,20:15,Rizochef,,0,2,2 AVAILABLE,,19/10/2021 17:15,28,16/9/2025 17:15
+A - Quinta 20:00-23:00 / Caixa,Regular,Quinta,A,20:00,3,23:00,Caixa,Luís João Ferreira Vieira,1,1,FULL,,4/5/2023 20:00,28,18/9/2025 20:00
+A - Quinta 20:00-23:00 / Rizobar,Regular,Quinta,A,20:00,3,23:00,Rizobar,Marta Nieto Romero,1,1,FULL,,4/5/2023 20:00,28,18/9/2025 20:00
+A - Quinta 20:00-23:00 / Mercearia,Regular,Quinta,A,20:00,3,23:00,Mercearia,Joana Pinto Simões Figueira Canada,1,1,FULL,,4/5/2023 20:00,28,18/9/2025 20:00
+A - Sexta 11:45-14:45 / Caixa,Regular,Sexta,A,11:45,3,14:45,Caixa,"Laura Gonçalves ,Andreia Barbosa",2,2,FULL,,22/10/2021 11:45,28,19/9/2025 11:45
+A - Sexta 11:45-14:45 / Rizobar,Regular,Sexta,A,11:45,3,14:45,Rizobar,"Zara Quiroga e Gama de Oliveira,João Pedro Soares Fernandes Dias De Brangança Farinha",2,2,FULL,,3/6/2022 11:45,28,19/9/2025 11:45
+A - Sexta 11:45-14:45 / Mercearia,Regular,Sexta,A,11:45,3,14:45,Mercearia,"Carolin Weisser,Aviv Adashi",2,2,FULL,19/11/2021,22/10/2021 11:45,28,19/9/2025 11:45
+A - Sexta 14:30-17:30 / Caixa,Regular,Sexta,A,14:30,3,17:30,Caixa,Astrid Hardeel,1,1,FULL,,12/2/2021 14:30,28,19/9/2025 14:30
+A - Sexta 14:30-17:30 / Rizobar,Regular,Sexta,A,14:30,3,17:30,Rizobar,Teresa Gaspar Mendes Fernandes,1,1,FULL,"17/12/2021, 8/4/2022",12/2/2021 14:30,28,19/9/2025 14:30
+A - Sexta 14:30-17:30 / Mercearia,Regular,Sexta,A,14:30,3,17:30,Mercearia,"Audrey Bideau,Rachel Piner",2,2,FULL,"17/12/2021, 8/4/2022",12/2/2021 14:30,28,19/9/2025 14:30
+A - Sexta 17:15-20:15 / Caixa,Regular,Sexta,A,17:15,3,20:15,Caixa,Claire Harvey,1,1,FULL,,12/2/2021 17:15,28,19/9/2025 17:15
+A - Sexta 17:15-20:15 / Rizobar,Regular,Sexta,A,17:15,3,20:15,Rizobar,"Judit Morello Bullón,Joana Portugal Pereira",2,2,FULL,,3/6/2022 17:15,28,19/9/2025 17:15
+A - Sexta 17:15-20:15 / Mercearia,Regular,Sexta,A,17:15,3,20:15,Mercearia,"Monica Giromini,Sara Dias Faustino Pinho",2,2,FULL,"4/2/2021, 8/27/2021, 8/27/2021, 11/19/2021, 17/12/2021",12/2/2021 17:15,28,19/9/2025 17:15
+A - Sexta 17:15-20:15 / Rizochef,Regular,Sexta,A,17:15,3,20:15,Rizochef,Cyrielle Marchetti,1,2,1 AVAILABLE,,20/10/2023 17:15,,20/10/2023 17:15
+A - Sexta 20:00-23:00 / Caixa,Regular,Sexta,A,20:00,3,23:00,Caixa,"Emilio Fernando Martins e Martin da Fonseca,Gustavo Manuel Lourenço Amaro",2,2,FULL,,22/10/2021 20:00,28,19/9/2025 20:00
+A - Sexta 20:00-23:00 / Rizobar,Regular,Sexta,A,20:00,3,23:00,Rizobar,,0,1,1 AVAILABLE,,22/10/2021 20:00,28,19/9/2025 20:00
+A - Sexta 20:00-23:00 / Mercearia,Regular,Sexta,A,20:00,3,23:00,Mercearia,Maria Cristina Frazão Pissarra Gouveia,1,1,FULL,,22/10/2021 20:00,28,19/9/2025 20:00
+A - Sabado 11:45-14:45 / Caixa,Regular,Sabado,A,11:45,3,14:45,Caixa,Nuno Óscar Gomes Fernandes,1,1,FULL,,13/2/2021 11:45,28,20/9/2025 11:45
+A - Sabado 11:45-14:45 / Rizobar,Regular,Sabado,A,11:45,3,14:45,Rizobar,"Dora Sofia Neves Ribeiro,Maria Teresa Pinto do Amaral Coelho de Mendonça",2,2,FULL,"31/7/2021, 25/9/2021, 15/1/2022, 12/2/2022, 12/2/2022",13/2/2021 11:45,28,20/9/2025 11:45
+A - Sabado 11:45-14:45 / Mercearia,Regular,Sabado,A,11:45,3,14:45,Mercearia,Emília do Nascimento Dias Ribeiro,1,1,FULL,"31/7/2021, 25/9/2021, 15/1/2022, 12/2/2022, 12/2/2022",13/2/2021 11:45,28,20/9/2025 11:45
+A - Sabado 14:30-17:30 / Caixa,Regular,Sabado,A,14:30,3,17:30,Caixa,,0,1,1 AVAILABLE,"23/10/2021, 18/12/2021",10/4/2021 14:30,28,20/9/2025 14:30
+A - Sabado 14:30-17:30 / Rizobar,Regular,Sabado,A,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,4/6/2022 14:30,28,20/9/2025 14:30
+A - Sabado 14:30-17:30 / Mercearia,Regular,Sabado,A,14:30,3,17:30,Mercearia,,0,1,1 AVAILABLE,"6/5/2021, 7/31/2021, 8/28/2021",10/4/2021 14:30,28,20/9/2025 14:30
+A - Sabado 17:15-20:15 / Caixa,Regular,Sabado,A,17:15,3,20:15,Caixa,Laura Vanessa de Freitas da Silva,1,1,FULL,,6/5/2023 17:15,28,20/9/2025 17:15
+A - Sabado 17:15-20:15 / Rizobar,Regular,Sabado,A,17:15,3,20:15,Rizobar,,0,1,1 AVAILABLE,,6/5/2023 17:15,28,20/9/2025 17:15
+A - Sabado 17:15-20:15 / Mercearia,Regular,Sabado,A,17:15,3,20:15,Mercearia,Mara Casimiro Ribeiro,1,1,FULL,,6/5/2023 17:15,28,20/9/2025 17:15
+A - Domingo 11:45-14:45 / Caixa,Regular,Domingo,A,11:45,3,14:45,Caixa,Margarida Maria Valadas Soares,1,1,FULL,4/7/2021,14/3/2021 11:45,28,21/9/2025 11:45
+A - Domingo 11:45-14:45 / Rizobar,Regular,Domingo,A,11:45,3,14:45,Rizobar,Beatriz Berger,1,1,FULL,"16/1/2022, 16/1/2022",14/3/2021 11:45,28,21/9/2025 11:45
+A - Domingo 11:45-14:45 / Mercearia,Regular,Domingo,A,11:45,3,14:45,Mercearia,Catherine Savage,1,1,FULL,"16/1/2022, 16/1/2022",14/3/2021 11:45,28,21/9/2025 11:45
+A - Domingo 14:30-17:30 / Caixa,Regular,Domingo,A,14:30,3,17:30,Caixa,Renata Gonçalves,1,1,FULL,"5/9/2021, 9/25/2021, 16/1/2022",14/3/2021 14:30,28,21/9/2025 14:30
+A - Domingo 14:30-17:30 / Rizobar,Regular,Domingo,A,14:30,3,17:30,Rizobar,Ben Norskov,1,1,FULL,,5/6/2022 14:30,28,21/9/2025 14:30
+A - Domingo 14:30-17:30 / Mercearia,Regular,Domingo,A,14:30,3,17:30,Mercearia,,0,1,1 AVAILABLE,"10/24/2021, 19/12/2021, 16/1/2022, 13/2/2022, 10/4/2022",14/3/2021 14:30,28,21/9/2025 14:30
+A - Domingo 17:15-20:15 / Caixa,Regular,Domingo,A,17:15,3,20:15,Caixa,Francisco Lisboa Outeiro,1,1,FULL,,7/5/2023 17:15,28,21/9/2025 17:15
+A - Domingo 17:15-20:15 / Rizobar,Regular,Domingo,A,17:15,3,20:15,Rizobar,,0,1,1 AVAILABLE,,7/5/2023 17:15,28,21/9/2025 17:15
+A - Domingo 17:15-20:15 / Mercearia,Regular,Domingo,A,17:15,3,20:15,Mercearia,Carolina Custódio Fernandes Miguel,1,1,FULL,,7/5/2023 17:15,28,21/9/2025 17:15
+B - Segunda 11:45-14:45 / Caixa,Regular,Segunda,B,11:45,3,14:45,Caixa,,0,1,1 AVAILABLE,,8/5/2023 11:45,28,22/9/2025 11:45
+B - Segunda 11:45-14:45 / Rizobar,Regular,Segunda,B,11:45,3,14:45,Rizobar,,0,1,1 AVAILABLE,,8/5/2023 11:45,28,22/9/2025 11:45
+B - Segunda 11:45-14:45 / Mercearia,Regular,Segunda,B,11:45,3,14:45,Mercearia,Beatriz Martín-Barbadillo,1,1,FULL,,8/5/2023 11:45,28,22/9/2025 11:45
+B - Terça 11:45-14:45 / Caixa,Regular,Terça,B,11:45,3,14:45,Caixa,Émilie Tran Phong,1,1,FULL,,26/10/2021 11:45,28,23/9/2025 11:45
+B - Terça 11:45-14:45 / Rizobar,Regular,Terça,B,11:45,3,14:45,Rizobar,Maria Teresa Braga Paixao de Almeida Leitao,1,2,1 AVAILABLE,,26/10/2021 11:45,28,23/9/2025 11:45
+B - Terça 11:45-14:45 / Mercearia,Regular,Terça,B,11:45,3,14:45,Mercearia,Maria Teresa Janela Pinto,1,2,1 AVAILABLE,,26/10/2021 11:45,28,23/9/2025 11:45
+B - Terça 14:30-17:30 / Caixa,Regular,Terça,B,14:30,3,17:30,Caixa,Maria Luisa Fernandes,1,1,FULL,,26/10/2021 14:30,28,23/9/2025 14:30
+B - Terça 14:30-17:30 / Rizobar,Regular,Terça,B,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,"18/1/2022, 15/2/2022",26/10/2021 14:30,28,23/9/2025 14:30
+B - Terça 14:30-17:30 / Mercearia,Regular,Terça,B,14:30,3,17:30,Mercearia,Omer Ori,1,2,1 AVAILABLE,"18/1/2022, 15/2/2022",26/10/2021 14:30,28,23/9/2025 14:30
+B - Terça 17:15-20:15 / Caixa,Regular,Terça,B,17:15,3,20:15,Caixa,Maria Inês Soares da Costa,1,1,FULL,18/1/2022,26/10/2021 17:15,28,23/9/2025 17:15
+B - Terça 17:15-20:15 / Rizobar,Regular,Terça,B,17:15,3,20:15,Rizobar,Filipe Doutel Pinheiro,1,1,FULL,,26/10/2021 17:15,28,23/9/2025 17:15
+B - Terça 17:15-20:15 / Mercearia,Regular,Terça,B,17:15,3,20:15,Mercearia,,0,1,1 AVAILABLE,,7/6/2022 17:15,28,23/9/2025 17:15
+B - Terça 17:15-20:15 / Rizochef,Regular,Terça,B,17:15,3,20:15,Rizochef,"Aaron Ostrovsky,Agata Ballaun",2,2,FULL,,11/5/2021 17:15,28,23/9/2025 17:15
+B - Quarta 11:45-14:45 / Caixa,Regular,Quarta,B,11:45,3,14:45,Caixa,Mónica Ferreira de Melo Taipina,1,1,FULL,29/9/2021,14/4/2021 11:45,28,24/9/2025 11:45
+B - Quarta 11:45-14:45 / Rizobar,Regular,Quarta,B,11:45,3,14:45,Rizobar,"Jonathan Luyts,Karina Ribeiro de Andrade",2,2,FULL,"19/1/2022, 19/1/2022, 16/2/2022",14/4/2021 11:45,28,24/9/2025 11:45
+B - Quarta 11:45-14:45 / Mercearia,Regular,Quarta,B,11:45,3,14:45,Mercearia,Elliot Elam,1,1,FULL,"19/1/2022, 19/1/2022, 16/2/2022",14/4/2021 11:45,28,24/9/2025 11:45
+B - Quarta 14:30-14:30 / Caixa,,Quarta,B,14:30,,14:30,Caixa,,0,1,1 AVAILABLE,,9/7/2025 14:30,,9/7/2025 14:30
+B - Quarta 14:30-17:30 / Rizobar,Regular,Quarta,B,14:30,3,17:30,Rizobar,Michaela Primus,1,1,FULL,,8/6/2022 14:30,28,24/9/2025 14:30
+B - Quarta 14:30-17:30 / Mercearia,Regular,Quarta,B,14:30,3,17:30,Mercearia,Enrico Leon,1,1,FULL,"11/23/2021, 15/2/2022",14/4/2021 14:30,28,24/9/2025 14:30
+B - Quarta 17:15-20:15 / Caixa,Regular,Quarta,B,17:15,3,20:15,Caixa,João Alexandre dos Santos Martins,1,1,FULL,,12/5/2021 17:15,28,24/9/2025 17:15
+B - Quarta 17:15-20:15 / Rizobar,Regular,Quarta,B,17:15,3,20:15,Rizobar,"Amy Joanne Gardner ,Iona Maria Pereira Heseltine",2,2,FULL,7/7/2021,12/5/2021 17:15,28,24/9/2025 17:15
+B - Quarta 17:15-20:15 / Mercearia,Regular,Quarta,B,17:15,3,20:15,Mercearia,"Carlos Eleazar Agelvis Ibarra,Carlota de Macedo Santos",2,2,FULL,,8/6/2022 17:15,28,24/9/2025 17:15
+B - Quarta 17:15-20:15 / Rizochef,Regular,Quarta,B,17:15,3,20:15,Rizochef,"Aiden Zucker,John Noah Walton",2,2,FULL,,26/10/2022 17:15,28,24/9/2025 17:15
+B - Quinta 11:45-14:45 / Caixa,Regular,Quinta,B,11:45,3,14:45,Caixa,,0,1,1 AVAILABLE,8/7/2021,18/2/2021 11:45,28,25/9/2025 11:45
+B - Quinta 11:45-14:45 / Rizobar,Regular,Quinta,B,11:45,3,14:45,Rizobar,Maria Rita Perdigão Velez,1,2,1 AVAILABLE,9/2/2021,18/2/2021 11:45,28,25/9/2025 11:45
+B - Quinta 11:45-14:45 / Mercearia,Regular,Quinta,B,11:45,3,14:45,Mercearia,"Rita Filipe Saraiva Cabral Caldeira,Sarah Jornsay-Silverberg",2,2,FULL,9/2/2021,18/2/2021 11:45,28,25/9/2025 11:45
+B - Quinta 14:30-17:30 / Caixa,Regular,Quinta,B,14:30,3,17:30,Caixa,,0,1,1 AVAILABLE,,18/2/2021 14:30,28,25/9/2025 14:30
+B - Quinta 14:30-17:30 / Rizobar,Regular,Quinta,B,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,9/6/2022 14:30,28,25/9/2025 14:30
+B - Quinta 14:30-17:30 / Mercearia,Regular,Quinta,B,14:30,3,17:30,Mercearia,Uriel Orlow,1,2,1 AVAILABLE,"8/7/2021, 1/20/2022",18/2/2021 14:30,28,25/9/2025 14:30
+B - Quinta 17:15-20:15 / Caixa,Regular,Quinta,B,17:15,3,20:15,Caixa,"Laurent Grima,Vasco Ferreira da Cruz",2,2,FULL,,13/5/2021 17:15,28,25/9/2025 17:15
+B - Quinta 17:15-20:15 / Rizobar,Regular,Quinta,B,17:15,3,20:15,Rizobar,,0,1,1 AVAILABLE,,9/6/2022 17:15,28,25/9/2025 17:15
+B - Quinta 17:15-20:15 / Mercearia,Regular,Quinta,B,17:15,3,20:15,Mercearia,,0,1,1 AVAILABLE,28/10/2021,13/5/2021 17:15,28,25/9/2025 17:15
+B - Quinta 17:15-20:15 / Rizochef,Regular,Quinta,B,17:15,3,20:15,Rizochef,"Vattani Saray,Carolina Machado Ribeiro",2,2,FULL,,11/5/2021 17:15,28,23/9/2025 17:15
+B - Quinta 20:00-23:00 / Caixa,Regular,Quinta,B,20:00,3,23:00,Caixa,"Tiago Paulo Franco,Catarina Martins Soares",2,2,FULL,,11/5/2023 20:00,28,25/9/2025 20:00
+B - Quinta 20:00-23:00 / Rizobar,Regular,Quinta,B,20:00,3,23:00,Rizobar,Maria Flamino Cabeça,1,1,FULL,,11/5/2023 20:00,28,25/9/2025 20:00
+B - Quinta 20:00-23:00 / Mercearia,Regular,Quinta,B,20:00,3,23:00,Mercearia,Fanny Cloarec ,1,1,FULL,,11/5/2023 20:00,28,25/9/2025 20:00
+B - Sexta 11:45-14:45 / Caixa,Regular,Sexta,B,11:45,3,14:45,Caixa,"Clara Barilani,Inês Queirós Torres Ribeiro",2,2,FULL,,29/10/2021 11:45,28,26/9/2025 11:45
+B - Sexta 11:45-14:45 / Rizobar,Regular,Sexta,B,11:45,3,14:45,Rizobar,Barbara Moreira Del Colletto,1,2,1 AVAILABLE,,29/10/2021 11:45,28,26/9/2025 11:45
+B - Sexta 11:45-14:45 / Mercearia,Regular,Sexta,B,11:45,3,14:45,Mercearia,"Isadora Borges Nolasco Oliveira,Carlota Teixeira Loureiro",2,2,FULL,,29/10/2021 11:45,28,26/9/2025 11:45
+B - Sexta 14:30-17:30 / Caixa,Regular,Sexta,B,14:30,3,17:30,Caixa,João Ricardo Corredoura Fanha,1,1,FULL,"8/13/2021, 10/29/2021",19/2/2021 14:30,28,26/9/2025 14:30
+B - Sexta 14:30-17:30 / Rizobar,Regular,Sexta,B,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,10/6/2022 14:30,28,26/9/2025 14:30
+B - Sexta 14:30-17:30 / Mercearia,Regular,Sexta,B,14:30,3,17:30,Mercearia,Daniela Cabral,1,1,FULL,"21/1/2022, 18/2/2022",19/2/2021 14:30,28,26/9/2025 14:30
+B - Sexta 17:15-20:15 / Caixa,Regular,Sexta,B,17:15,3,20:15,Caixa,"Antoine Clerc,Marta Couto Martins",2,2,FULL,,19/2/2021 17:15,28,26/9/2025 17:15
+B - Sexta 17:15-20:15 / Rizobar,Regular,Sexta,B,17:15,3,20:15,Rizobar,Marion Oberhuber,1,1,FULL,9/7/2021,19/2/2021 17:15,28,26/9/2025 17:15
+B - Sexta 17:15-20:15 / Mercearia,Regular,Sexta,B,17:15,3,20:15,Mercearia,Bernardo Maria Castilho Baptista Fernandes,1,1,FULL,9/7/2021,19/2/2021 17:15,28,26/9/2025 17:15
+B - Sexta 17:15-20:15 / Rizochef,Regular,Sexta,B,17:15,3,20:15,Rizochef,,0,2,2 AVAILABLE,,29/9/2023 17:15,,29/9/2023 17:15
+B - Sexta 20:00-23:00 / Caixa,Regular,Sexta,B,20:00,3,23:00,Caixa,"Jeanne Chomarat,Catarina Farinha",2,2,FULL,,29/10/2021 20:00,28,26/9/2025 20:00
+B - Sexta 20:00-23:00 / Rizobar,Regular,Sexta,B,20:00,3,23:00,Rizobar,Victor Manuel Pinto Lamberto Silva,1,1,FULL,18/2/2022,29/10/2021 20:00,28,26/9/2025 20:00
+B - Sexta 20:00-23:00 / Mercearia,Regular,Sexta,B,20:00,3,23:00,Mercearia,Grégoire Sébastien Lepault,1,1,FULL,18/2/2022,29/10/2021 20:00,28,26/9/2025 20:00
+B - Sabado 11:45-14:45 / Caixa,Regular,Sabado,B,11:45,3,14:45,Caixa,Ana Filipa Soares da Silva Fernandes,1,1,FULL,,20/2/2021 11:45,28,27/9/2025 11:45
+B - Sabado 11:45-14:45 / Rizobar,Regular,Sabado,B,11:45,3,14:45,Rizobar,"Bruno Guimarães,Rita de Sousa Braga e Sá",2,2,FULL,,20/2/2021 11:45,28,27/9/2025 11:45
+B - Sabado 11:45-14:45 / Mercearia,Regular,Sabado,B,11:45,3,14:45,Mercearia,Henrique Belo,1,2,1 AVAILABLE,,20/2/2021 11:45,28,27/9/2025 11:45
+B - Sabado 14:30-17:30 / Caixa,Regular,Sabado,B,14:30,3,17:30,Caixa,,0,1,1 AVAILABLE,2/18/2022,17/4/2021 14:30,28,27/9/2025 14:30
+B - Sabado 14:30-17:30 / Rizobar,Regular,Sabado,B,14:30,3,17:30,Rizobar,Monica Paolizzi,1,1,FULL,"4/9/2021, 4/9/2021, 4/9/2021",17/4/2021 14:30,28,27/9/2025 14:30
+B - Sabado 14:30-17:30 / Mercearia,Regular,Sabado,B,14:30,3,17:30,Mercearia,Teresa Isabel de Freitas Cerdeira,1,1,FULL,"4/9/2021, 4/9/2021, 4/9/2021",17/4/2021 14:30,28,27/9/2025 14:30
+B - Sabado 17:15-20:15 / Caixa,Regular,Sabado,B,17:15,3,20:15,Caixa,,0,1,1 AVAILABLE,,13/5/2023 17:15,28,27/9/2025 17:15
+B - Sabado 17:15-20:15 / Rizobar,Regular,Sabado,B,17:15,3,20:15,Rizobar,,0,1,1 AVAILABLE,,13/5/2023 17:15,28,27/9/2025 17:15
+B - Sabado 17:15-20:15 / Mercearia,Regular,Sabado,B,17:15,3,20:15,Mercearia,Thrinisha Mohandas ,1,1,FULL,,13/5/2023 17:15,28,27/9/2025 17:15
+B - Domingo 11:45-14:45 / Caixa,Regular,Domingo,B,11:45,3,14:45,Caixa,Maria Inês Passos Duarte,1,1,FULL,23/1/2022,21/3/2021 11:45,28,28/9/2025 11:45
+B - Domingo 11:45-14:45 / Rizobar,Regular,Domingo,B,11:45,3,14:45,Rizobar,Filipe Emanuel dos Santos Albuquerque Barroso,1,1,FULL,,12/6/2022 11:45,28,28/9/2025 11:45
+B - Domingo 11:45-14:45 / Mercearia,Regular,Domingo,B,11:45,3,14:45,Mercearia,Maria Angela Gomes Araujo Lacerda Nobre,1,1,FULL,"5/9/2021, 5/9/2021, 10/3/2021",21/3/2021 11:45,28,28/9/2025 11:45
+B - Domingo 14:30-17:30 / Caixa,Regular,Domingo,B,14:30,3,17:30,Caixa,Flávio Rafael Miguel Mocho,1,1,FULL,"5/16/2021, 9/5/2021, 28/11/2021, 23/1/2022",21/3/2021 14:30,28,28/9/2025 14:30
+B - Domingo 14:30-17:30 / Rizobar,Regular,Domingo,B,14:30,3,17:30,Rizobar,Joanne Stilges,1,1,FULL,,12/6/2022 14:30,28,28/9/2025 14:30
+B - Domingo 14:30-17:30 / Mercearia,Regular,Domingo,B,14:30,3,17:30,Mercearia,,0,1,1 AVAILABLE,"11/7/2021, 3/10/2021, 20/2/2022, 20/2/2022",21/3/2021 14:30,28,28/9/2025 14:30
+B - Domingo 17:15-20:15 / Caixa,Regular,Domingo,B,17:15,3,20:15,Caixa,Margarida Beiral,1,1,FULL,,14/5/2023 17:15,28,28/9/2025 17:15
+B - Domingo 17:15-20:15 / Rizobar,Regular,Domingo,B,17:15,3,20:15,Rizobar,Ana Maria Farinha,1,1,FULL,,14/5/2023 17:15,28,28/9/2025 17:15
+B - Domingo 17:15-20:15 / Mercearia,Regular,Domingo,B,17:15,3,20:15,Mercearia,Maria Manuel Martins de Sousa,1,1,FULL,,14/5/2023 17:15,28,28/9/2025 17:15
+C - Segunda 11:45-14:45 / Caixa,Regular,Segunda,C,11:45,3,14:45,Caixa,Clarisse Pineau,1,1,FULL,,17/4/2023 11:45,28,29/9/2025 11:45
+C - Segunda 11:45-14:45 / Rizobar,Regular,Segunda,C,11:45,3,14:45,Rizobar,Fran Scapinello,1,1,FULL,,17/4/2023 11:45,28,29/9/2025 11:45
+C - Segunda 11:45-14:45 / Mercearia,Regular,Segunda,C,11:45,3,14:45,Mercearia,"Freya Dutta,Connor Scott",2,2,FULL,,17/4/2023 11:45,28,29/9/2025 11:45
+C - Terça 11:45-14:45 / Caixa,Regular,Terça,C,11:45,3,14:45,Caixa,Shreya Krishnan,1,1,FULL,,2/11/2021 11:45,28,30/9/2025 11:45
+C - Terça 11:45-14:45 / Rizobar,Regular,Terça,C,11:45,3,14:45,Rizobar,,0,2,2 AVAILABLE,,2/11/2021 11:45,28,30/9/2025 11:45
+C - Terça 11:45-14:45 / Mercearia,Regular,Terça,C,11:45,3,14:45,Mercearia,"Svenja Beller,Millad Khonsorkh",2,2,FULL,,2/11/2021 11:45,28,30/9/2025 11:45
+C - Terça 14:30-17:30 / Caixa,Regular,Terça,C,14:30,3,17:30,Caixa,Mariana Cristina Rydin,1,1,FULL,,2/11/2021 14:30,28,30/9/2025 14:30
+C - Terça 14:30-17:30 / Rizobar,Regular,Terça,C,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,14/6/2022 14:30,28,30/9/2025 14:30
+C - Terça 14:30-17:30 / Mercearia,Regular,Terça,C,14:30,3,17:30,Mercearia,"Karl Wienhold,Graciete Berta de Sousa Nobre ",2,2,FULL,,2/11/2021 14:30,28,30/9/2025 14:30
+C - Terça 17:15-20:15 / Caixa,Regular,Terça,C,17:15,3,20:15,Caixa,Márcia Lopes Sousa da Silva Pereira,1,1,FULL,2/21/2022,2/11/2021 17:15,28,30/9/2025 17:15
+C - Terça 17:15-20:15 / Rizobar,Regular,Terça,C,17:15,3,20:15,Rizobar,Laura Demaude,1,1,FULL,,2/11/2021 17:15,28,30/9/2025 17:15
+C - Terça 17:15-20:15 / Mercearia,Regular,Terça,C,17:15,3,20:15,Mercearia,"Fiona Kinniburgh,Mafalda Maria Cruz Soares de Azevedo",2,2,FULL,,2/11/2021 17:15,28,30/9/2025 17:15
+C - Terça 17:15-20:15 / Rizochef,Regular,Terça,C,17:15,3,20:15,Rizochef,,0,2,2 AVAILABLE,,20/4/2021 17:15,28,30/9/2025 17:15
+C - Quarta 11:45-14:45 / Caixa,Regular,Quarta,C,11:45,3,14:45,Caixa,Cândida Castelino da Silva Regalo ,1,1,FULL,"11/8/2021, 1/12/2021",21/4/2021 11:45,28,1/10/2025 11:45
+C - Quarta 11:45-14:45 / Rizobar,Regular,Quarta,C,11:45,3,14:45,Rizobar,,0,2,2 AVAILABLE,"8/9/2021, 8/9/2021, 6/10/2021",21/4/2021 11:45,28,1/10/2025 11:45
+C - Quarta 11:45-14:45 / Mercearia,Regular,Quarta,C,11:45,3,14:45,Mercearia,"Rui Eduardo Pedroso de Araújo Regalo ,Pierre-Olivier France",2,2,FULL,"8/9/2021, 8/9/2021, 6/10/2021",21/4/2021 11:45,28,1/10/2025 11:45
+C - Quarta 14:30-17:30 / Caixa,Regular,Quarta,C,14:30,3,17:30,Caixa,Ana Teresa Simões Queirós,1,1,FULL,"8/9/2021, 3/11/2021",21/4/2021 14:30,28,1/10/2025 14:30
+C - Quarta 14:30-17:30 / Rizobar,Regular,Quarta,C,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,26/1/2022,21/4/2021 14:30,28,1/10/2025 14:30
+C - Quarta 14:30-17:30 / Mercearia,Regular,Quarta,C,14:30,3,17:30,Mercearia,"António Augusto Diniz Veloso,Sílvia Florbela Castro Barros Marques Moutinho Carreira",2,2,FULL,,15/6/2022 14:30,28,1/10/2025 14:30
+C - Quarta 17:15-20:15 / Caixa,Regular,Quarta,C,17:15,3,20:15,Caixa,"Francesco Rocca,Amélie Boudon",2,2,FULL,"8/9/2021, 6/10/2021",19/5/2021 17:15,28,1/10/2025 17:15
+C - Quarta 17:15-20:15 / Rizobar,Regular,Quarta,C,17:15,3,20:15,Rizobar,"Grégoire Devoucoux,Margarida Muralha Schweikert Farinha",2,2,FULL,"6/16/2021, 10/6/2021, 2/23/2022, 20/4/2022",19/5/2021 17:15,28,1/10/2025 17:15
+C - Quarta 17:15-20:15 / Mercearia,Regular,Quarta,C,17:15,3,20:15,Mercearia,Gonçalo da Silva Rosa Loff Sérgio,1,2,1 AVAILABLE,"6/16/2021, 10/6/2021, 2/23/2022, 20/4/2022",19/5/2021 17:15,28,1/10/2025 17:15
+C - Quarta 17:15-20:15 / Rizochef,Regular,Quarta,C,17:15,3,20:15,Rizochef,"Alex Herzog,Melaina Louise Barnes",2,2,FULL,,2/11/2022 17:15,28,1/10/2025 17:15
+C - Quinta 11:45-14:45 / Caixa,Regular,Quinta,C,11:45,3,14:45,Caixa,"Gustavo Garrido da Silva Gonzalez Briz,Fabrizio Cossutta",2,2,FULL,,25/2/2021 11:45,28,2/10/2025 11:45
+C - Quinta 11:45-14:45 / Rizobar,Regular,Quinta,C,11:45,3,14:45,Rizobar,Rosa Clarke,1,2,1 AVAILABLE,,16/6/2022 11:45,28,2/10/2025 11:45
+C - Quinta 11:45-14:45 / Mercearia,Regular,Quinta,C,11:45,3,14:45,Mercearia,,0,2,2 AVAILABLE,,25/2/2021 11:45,28,2/10/2025 11:45
+C - Quinta 14:30-17:30 / Caixa,Regular,Quinta,C,14:30,3,17:30,Caixa,,0,1,1 AVAILABLE,,25/2/2021 14:30,28,2/10/2025 14:30
+C - Quinta 14:30-17:30 / Rizobar,Regular,Quinta,C,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,16/6/2022 14:30,28,2/10/2025 14:30
+C - Quinta 14:30-17:30 / Mercearia,Regular,Quinta,C,14:30,3,17:30,Mercearia,,0,2,2 AVAILABLE,,25/2/2021 14:30,28,2/10/2025 14:30
+C - Quinta 17:15-20:15 / Caixa,Regular,Quinta,C,17:15,3,20:15,Caixa,"Stéphane Badertscher,Lara Cristina de Jesus Carvalho",2,2,FULL,,20/5/2021 17:15,28,2/10/2025 17:15
+C - Quinta 17:15-20:15 / Rizobar,Regular,Quinta,C,17:15,3,20:15,Rizobar,Sylvain Lucien Papyon,1,1,FULL,"7/10/2021, 27/1/2022, 24/2/2022, 24/2/2022",20/5/2021 17:15,28,2/10/2025 17:15
+C - Quinta 17:15-20:15 / Mercearia,Regular,Quinta,C,17:15,3,20:15,Mercearia,,0,1,1 AVAILABLE,,16/6/2022 17:15,28,2/10/2025 17:15
+C - Quinta 17:15-20:15 / Rizochef,Regular,Quinta,C,17:15,3,20:15,Rizochef,,0,2,2 AVAILABLE,,20/4/2021 17:15,28,30/9/2025 17:15
+C - Quinta 20:00-23:00 / Caixa,Regular,Quinta,C,20:00,3,23:00,Caixa,Inês Maria Petiz de Castro Viana,1,1,FULL,,18/5/2023 20:00,28,2/10/2025 20:00
+C - Quinta 20:00-23:00 / Rizobar,Regular,Quinta,C,20:00,3,23:00,Rizobar,João Pedro Faria da Silva Santos,1,1,FULL,,18/5/2023 20:00,28,2/10/2025 20:00
+C - Quinta 20:00-23:00 / Mercearia,Regular,Quinta,C,20:00,3,23:00,Mercearia,Julia Fernandes Hachiya de Azevedo,1,1,FULL,,18/5/2023 20:00,28,2/10/2025 20:00
+C - Sexta 11:45-14:45 / Caixa,Regular,Sexta,C,11:45,3,14:45,Caixa,"Eleanor Atkins,Filipa Soeiro Maia Vicente",2,2,FULL,25/2/2022,3/12/2021 11:45,28,3/10/2025 11:45
+C - Sexta 11:45-14:45 / Rizobar,Regular,Sexta,C,11:45,3,14:45,Rizobar,"Marcela Rocha Aroeira,Juliana Moita Fernandes",2,2,FULL,,17/6/2022 11:45,28,3/10/2025 11:45
+C - Sexta 11:45-14:45 / Mercearia,Regular,Sexta,C,11:45,3,14:45,Mercearia,,0,1,1 AVAILABLE,2/25/2022,15/10/2021 11:45,28,10/10/2025 11:45
+C - Sexta 14:30-17:30 / Caixa,Regular,Sexta,C,14:30,3,17:30,Caixa,Enriqueta Josefina Herrera Bravo de Salazar,1,1,FULL,6/18/2021,26/2/2021 14:30,28,3/10/2025 14:30
+C - Sexta 14:30-17:30 / Rizobar,Regular,Sexta,C,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,"5/14/2021, 10/9/2021, 10/8/2021, 12/3/2021, 25/2/2022",26/2/2021 14:30,28,3/10/2025 14:30
+C - Sexta 14:30-17:30 / Mercearia,Regular,Sexta,C,14:30,3,17:30,Mercearia,Chloé Gastine ,1,1,FULL,,17/6/2022 14:30,28,3/10/2025 14:30
+C - Sexta 17:15-20:15 / Caixa,Regular,Sexta,C,17:15,3,20:15,Caixa,"Rui Filipe do Nascimento Gonçalves,Inês Telles de Menezes Marques Tavares",2,2,FULL,,26/2/2021 17:15,28,3/10/2025 17:15
+C - Sexta 17:15-20:15 / Rizobar,Regular,Sexta,C,17:15,3,20:15,Rizobar,Charlotte Seegers,1,1,FULL,8/13/2021,26/2/2021 17:15,28,3/10/2025 17:15
+C - Sexta 17:15-20:15 / Mercearia,Regular,Sexta,C,17:15,3,20:15,Mercearia,Julia Mantwill,1,1,FULL,8/13/2021,26/2/2021 17:15,28,3/10/2025 17:15
+C - Sexta 17:15-20:15 / Rizochef,Regular,Sexta,C,17:15,3,20:15,Rizochef,"Irina Andreia Nunes Lima,João Braga de Oliveira Lopes",2,2,FULL,,6/10/2023 17:15,,6/10/2023 17:15
+C - Sexta 20:00-23:00 / Caixa,Regular,Sexta,C,20:00,3,23:00,Caixa,Paola Guardini,1,1,FULL,,5/11/2021 20:00,28,3/10/2025 20:00
+C - Sexta 20:00-23:00 / Rizobar,Regular,Sexta,C,20:00,3,23:00,Rizobar,Sérgio Filipe Arrais Cassiano Vieira ,1,1,FULL,12/3/2021,28/1/2022 20:00,28,3/10/2025 20:00
+C - Sexta 20:00-23:00 / Mercearia,Regular,Sexta,C,20:00,3,23:00,Mercearia,,0,1,1 AVAILABLE,12/3/2021,28/1/2022 20:00,28,3/10/2025 20:00
+C - Sabado 11:45-14:45 / Caixa,Regular,Sabado,C,11:45,3,14:45,Caixa,Afonso Malheiro,1,1,FULL,"29/1/2022, 2/20/2022",27/2/2021 11:45,28,4/10/2025 11:45
+C - Sabado 11:45-14:45 / Rizobar,Regular,Sabado,C,11:45,3,14:45,Rizobar,Barbara Peric,1,1,FULL,2/26/2022,27/2/2021 11:45,28,4/10/2025 11:45
+C - Sabado 11:45-14:45 / Mercearia,Regular,Sabado,C,11:45,3,14:45,Mercearia,Cinzia Loreti,1,2,1 AVAILABLE,,18/6/2022 11:45,28,4/10/2025 11:45
+C - Sabado 14:30-17:30 / Caixa,Regular,Sabado,C,14:30,3,17:30,Caixa,José Paulo Alves Pinto Barbosa,1,1,FULL,"11/6/2021, 29/1/2022",24/4/2021 14:30,28,4/10/2025 14:30
+C - Sabado 14:30-17:30 / Rizobar,Regular,Sabado,C,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,18/6/2022 14:30,28,4/10/2025 14:30
+C - Sabado 14:30-17:30 / Mercearia,Regular,Sabado,C,14:30,3,17:30,Mercearia,Mónica Almeida Santos,1,1,FULL,12/4/2021,24/4/2021 14:30,28,4/10/2025 14:30
+C - Sabado 17:15-20:15 / Caixa,Regular,Sabado,C,17:15,3,20:15,Caixa,,0,1,1 AVAILABLE,,20/5/2023 17:15,28,4/10/2025 17:15
+C - Sabado 17:15-20:15 / Rizobar,Regular,Sabado,C,17:15,3,20:15,Rizobar,,0,1,1 AVAILABLE,,20/5/2023 17:15,28,4/10/2025 17:15
+C - Sabado 17:15-20:15 / Mercearia,Regular,Sabado,C,17:15,3,20:15,Mercearia,,0,1,1 AVAILABLE,,20/5/2023 17:15,28,4/10/2025 17:15
+C - Domingo 11:45-14:45 / Caixa,Regular,Domingo,C,11:45,3,14:45,Caixa,João Pedro Dionísio Narciso,1,1,FULL,,28/3/2021 11:45,28,5/10/2025 11:45
+C - Domingo 11:45-14:45 / Rizobar,Regular,Domingo,C,11:45,3,14:45,Rizobar,Barbara Gonçalves Arita,1,1,FULL,,28/3/2021 11:45,28,5/10/2025 11:45
+C - Domingo 11:45-14:45 / Mercearia,Regular,Domingo,C,11:45,3,14:45,Mercearia,,0,1,1 AVAILABLE,,28/3/2021 11:45,28,5/10/2025 11:45
+C - Domingo 14:30-17:30 / Caixa,Regular,Domingo,C,14:30,3,17:30,Caixa,António Joaquim Amaral Gomes,1,1,FULL,10/10/2021,28/3/2021 14:30,28,5/10/2025 14:30
+C - Domingo 14:30-17:30 / Rizobar,Regular,Domingo,C,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,19/6/2022 14:30,28,5/10/2025 14:30
+C - Domingo 14:30-17:30 / Mercearia,Regular,Domingo,C,14:30,3,17:30,Mercearia,,0,1,1 AVAILABLE,,28/3/2021 14:30,28,5/10/2025 14:30
+C - Domingo 17:15-20:15 / Caixa,Regular,Domingo,C,17:15,3,20:15,Caixa,João André Viegas Morais,1,1,FULL,,21/5/2023 17:15,28,5/10/2025 17:15
+C - Domingo 17:15-20:15 / Rizobar,Regular,Domingo,C,17:15,3,20:15,Rizobar,,0,1,1 AVAILABLE,,21/5/2023 17:15,28,5/10/2025 17:15
+C - Domingo 17:15-20:15 / Mercearia,Regular,Domingo,C,17:15,3,20:15,Mercearia,Edward Mancey,1,1,FULL,,21/5/2023 17:15,28,5/10/2025 17:15
+D - Segunda 11:45-14:45 / Caixa,Regular,Segunda,D,11:45,3,14:45,Caixa,,0,1,1 AVAILABLE,,24/4/2023 11:45,28,6/10/2025 11:45
+D - Segunda 11:45-14:45 / Rizobar,Regular,Segunda,D,11:45,3,14:45,Rizobar,Diana Guerra,1,1,FULL,,24/4/2023 11:45,28,6/10/2025 11:45
+D - Segunda 11:45-14:45 / Mercearia,Regular,Segunda,D,11:45,3,14:45,Mercearia,,0,1,1 AVAILABLE,,24/4/2023 11:45,28,6/10/2025 11:45
+D - Terça 11:45-14:45 / Caixa,Regular,Terça,D,11:45,3,14:45,Caixa,,0,1,1 AVAILABLE,,12/10/2021 11:45,28,7/10/2025 11:45
+D - Terça 11:45-14:45 / Rizobar,Regular,Terça,D,11:45,3,14:45,Rizobar,Mariana Barbosa Camacho,1,2,1 AVAILABLE,,24/5/2022 11:45,28,7/10/2025 11:45
+D - Terça 11:45-14:45 / Mercearia,Regular,Terça,D,11:45,3,14:45,Mercearia,Hannes Robert Rüter,1,2,1 AVAILABLE,,12/10/2021 11:45,28,7/10/2025 11:45
+D - Terça 14:30-17:30 / Caixa,Regular,Terça,D,14:30,3,17:30,Caixa,"Catarina Isabel Silva Coelho,Irene Tolu",2,2,FULL,,12/10/2021 14:30,28,7/10/2025 14:30
+D - Terça 14:30-17:30 / Rizobar,Regular,Terça,D,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,12/10/2021 14:30,28,7/10/2025 14:30
+D - Terça 14:30-17:30 / Mercearia,Regular,Terça,D,14:30,3,17:30,Mercearia,José Pedro Lira de Mesquita e Sousa,1,2,1 AVAILABLE,,12/10/2021 14:30,28,7/10/2025 14:30
+D - Terça 17:15-20:15 / Caixa,Regular,Terça,D,17:15,3,20:15,Caixa,"Claraluz Lannes Keiser,Joana Vitorino Synek",2,2,FULL,,12/10/2021 17:15,28,7/10/2025 17:15
+D - Terça 17:15-20:15 / Rizobar,Regular,Terça,D,17:15,3,20:15,Rizobar,Maria Magalhães Ressano Garcia,1,1,FULL,,24/5/2022 17:15,28,7/10/2025 17:15
+D - Terça 17:15-20:15 / Mercearia,Regular,Terça,D,17:15,3,20:15,Mercearia,Diogo Carmo dos Lóios Lipari Pinto,1,1,FULL,1/4/2022,12/10/2021 17:15,28,7/10/2025 17:15
+D - Terça 17:15-20:15 / Rizochef,Regular,Terça,D,17:15,3,20:15,Rizochef,"Kanika Singhal,Abia Karim ",2,2,FULL,,27/4/2021 17:15,28,7/10/2025 17:15
+D - Quarta 11:45-14:45 / Caixa,Regular,Quarta,D,11:45,3,14:45,Caixa,,0,1,1 AVAILABLE,7/21/2021,28/4/2021 11:45,28,8/10/2025 11:45
+D - Quarta 11:45-14:45 / Rizobar,Regular,Quarta,D,11:45,3,14:45,Rizobar,Vitor Manuel Peixoto Apolónia,1,2,1 AVAILABLE,1/5/2022,28/4/2021 11:45,28,8/10/2025 11:45
+D - Quarta 11:45-14:45 / Mercearia,Regular,Quarta,D,11:45,3,14:45,Mercearia,"Devina Shah,Takahiro Hosoya",2,2,FULL,1/5/2022,28/4/2021 11:45,28,8/10/2025 11:45
+D - Quarta 14:30-17:30 / Caixa,Regular,Quarta,D,14:30,3,17:30,Caixa,Pilar Do Campo,1,1,FULL,13/10/2021,28/4/2021 14:30,28,8/10/2025 14:30
+D - Quarta 14:30-17:30 / Rizobar,Regular,Quarta,D,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,28/4/2021 14:30,28,8/10/2025 14:30
+D - Quarta 14:30-17:30 / Mercearia,Regular,Quarta,D,14:30,3,17:30,Mercearia,,0,1,1 AVAILABLE,,28/4/2021 14:30,28,8/10/2025 14:30
+D - Quarta 17:15-20:15 / Caixa,Regular,Quarta,D,17:15,3,20:15,Caixa,Hélio Emídio Cerqueira Morais,1,1,FULL,"9/15/2021, 10/11/2021",26/5/2021 17:15,28,8/10/2025 17:15
+D - Quarta 17:15-20:15 / Rizobar,Regular,Quarta,D,17:15,3,20:15,Rizobar,"Isabelle Robinson ,Esmeralda Rosa Soares Prates do Rosário",2,2,FULL,"8/18/2021, 10/8/2021, 9/15/2021, 1/5/2022",26/5/2021 17:15,28,8/10/2025 17:15
+D - Quarta 17:15-20:15 / Mercearia,Regular,Quarta,D,17:15,3,20:15,Mercearia,Rebecca Tawata Tamachiro,1,2,1 AVAILABLE,"8/18/2021, 10/8/2021, 9/15/2 oi 021, 1/5/2022",26/5/2021 17:15,28,8/10/2025 17:15
+D - Quarta 17:15-20:15 / Rizochef,Regular,Quarta,D,17:15,3,20:15,Rizochef,,0,2,2 AVAILABLE,,9/11/2022 17:15,28,8/10/2025 17:15
+D - Quinta 11:45-14:45 / Caixa,Regular,Quinta,D,11:45,3,14:45,Caixa,,0,1,1 AVAILABLE,,4/3/2021 11:45,28,9/10/2025 11:45
+D - Quinta 11:45-14:45 / Rizobar,Regular,Quinta,D,11:45,3,14:45,Rizobar,,0,2,2 AVAILABLE,"10/14/2021, 3/2/2022",4/3/2021 11:45,28,9/10/2025 11:45
+D - Quinta 11:45-14:45 / Mercearia,Regular,Quinta,D,11:45,3,14:45,Mercearia,Sara Marina Franco Finote,1,2,1 AVAILABLE,"10/14/2021, 3/2/2022",4/3/2021 11:45,28,9/10/2025 11:45
+D - Quinta 14:30-17:30 / Caixa,Regular,Quinta,D,14:30,3,17:30,Caixa,Rachel Ben-Menachem,1,1,FULL,,4/3/2021 14:30,28,9/10/2025 14:30
+D - Quinta 14:30-17:30 / Rizobar,Regular,Quinta,D,14:30,3,17:30,Rizobar,Léo Berthe ,1,1,FULL,,26/5/2022 14:30,28,9/10/2025 14:30
+D - Quinta 14:30-17:30 / Mercearia,Regular,Quinta,D,14:30,3,17:30,Mercearia,"Carlo Guadagno,Marion Duval",2,2,FULL,"9/16/2021, 10/14/2021, 9/16/2021",4/3/2021 14:30,28,9/10/2025 14:30
+D - Quinta 17:15-20:15 / Caixa,Regular,Quinta,D,17:15,3,20:15,Caixa,"Anastasia Lukovnikova,André Rosa Alcalde Marques",2,2,FULL,,27/5/2021 17:15,28,9/10/2025 17:15
+D - Quinta 17:15-20:15 / Rizobar,Regular,Quinta,D,17:15,3,20:15,Rizobar,"Véronique Lerch,Lionel Palacin",2,2,FULL,"9/23/2021, 12/9/2021, 6/1/2022, 3/2/2022, 3/2/2022",27/5/2021 17:15,28,9/10/2025 17:15
+D - Quinta 17:15-20:15 / Mercearia,Regular,Quinta,D,17:15,3,20:15,Mercearia,Bernadette Maria Karmasin,1,1,FULL,"9/23/2021, 12/9/2021, 6/1/2022, 3/2/2022, 3/2/2022",27/5/2021 17:15,28,9/10/2025 17:15
+D - Quinta 17:15-20:15 / Rizochef,Regular,Quinta,D,17:15,3,20:15,Rizochef,"Isabella Permanschlager,Nicola Franchini",2,2,FULL,,27/4/2021 17:15,28,7/10/2025 17:15
+D - Quinta 20:00-23:00 / Caixa,Regular,Quinta,D,20:00,3,23:00,Caixa,Anna Matteoli,1,1,FULL,,25/5/2023 20:00,28,9/10/2025 20:00
+D - Quinta 20:00-23:00 / Rizobar,Regular,Quinta,D,20:00,3,23:00,Rizobar,"José Ricardo da Silva Gomes Josué,John Gmerek Huerta",2,2,FULL,,25/5/2023 20:00,28,9/10/2025 20:00
+D - Quinta 20:00-23:00 / Mercearia,Regular,Quinta,D,20:00,3,23:00,Mercearia,Inês Pereira Lopes,1,1,FULL,,25/5/2023 20:00,28,9/10/2025 20:00
+D - Sexta 11:45-14:45 / Caixa,Regular,Sexta,D,11:45,3,14:45,Caixa,Rita Bairrão de Carvalho,1,1,FULL,,15/10/2021 11:45,28,10/10/2025 11:45
+D - Sexta 11:45-14:45 / Rizobar,Regular,Sexta,D,11:45,3,14:45,Rizobar,Vanessa Guerreiro Rodrigues,1,2,1 AVAILABLE,,27/5/2022 11:45,28,10/10/2025 11:45
+D - Sexta 11:45-14:45 / Mercearia,Regular,Sexta,D,11:45,3,14:45,Mercearia,Antonino Faibene,1,1,FULL,4/2/2022,15/10/2021 11:45,28,10/10/2025 11:45
+D - Sexta 14:30-17:30 / Caixa,Regular,Sexta,D,14:30,3,17:30,Caixa,Bertrand Lacoste,1,1,FULL,"23/7/2021, 17/9/2021, 15/10/2021",5/3/2021 14:30,28,10/10/2025 14:30
+D - Sexta 14:30-17:30 / Rizobar,Regular,Sexta,D,14:30,3,17:30,Rizobar,"Mariana Costa Fernandes,Leon Ingelse",2,2,FULL,4/2/2022,5/3/2021 14:30,28,10/10/2025 14:30
+D - Sexta 14:30-17:30 / Mercearia,Regular,Sexta,D,14:30,3,17:30,Mercearia,Anders Chen,1,1,FULL,4/2/2022,5/3/2021 14:30,28,10/10/2025 14:30
+D - Sexta 17:15-20:15 / Caixa,Regular,Sexta,D,17:15,3,20:15,Caixa,"Laura Pereira de Macedo,Eelke André Verhagen",2,2,FULL,8/20/2021,5/3/2021 17:15,28,10/10/2025 17:15
+D - Sexta 17:15-20:15 / Rizobar,Regular,Sexta,D,17:15,3,20:15,Rizobar,"Ana Rita Aguiar Soares Pereira,Elodie Bouny",2,2,FULL,8/20/2021,5/3/2021 17:15,28,10/10/2025 17:15
+D - Sexta 17:15-20:15 / Mercearia,Regular,Sexta,D,17:15,3,20:15,Mercearia,João Ricardo Corredoura Fanha,1,1,FULL,,27/5/2022 17:15,28,10/10/2025 17:15
+D - Sexta 17:15-20:15 / Rizochef,Regular,Sexta,D,17:15,3,20:15,Rizochef,"Magdalena Narewska,Miguel Pinto dos Santos Ferreira ",2,2,FULL,,13/10/2023 17:15,,13/10/2023 17:15
+D - Sexta 20:00-23:00 / Caixa,Regular,Sexta,D,20:00,3,23:00,Caixa,"Alice Carreira de Almeida Figueiredo,Gil Perdigão Gonçalves",2,2,FULL,,12/11/2021 20:00,28,10/10/2025 20:00
+D - Sexta 20:00-23:00 / Rizobar,Regular,Sexta,D,20:00,3,23:00,Rizobar,Afonso Miguel dos Santos Anjos ,1,1,FULL,4/2/2022,12/11/2021 20:00,28,10/10/2025 20:00
+D - Sexta 20:00-23:00 / Mercearia,Regular,Sexta,D,20:00,3,23:00,Mercearia,,0,1,1 AVAILABLE,4/2/2022,12/11/2021 20:00,28,10/10/2025 20:00
+D - Sabado 11:45-14:45 / Caixa,Regular,Sabado,D,11:45,3,14:45,Caixa,Beatriz Matias Vicente,1,1,FULL,13/11/2021,6/3/2021 11:45,28,11/10/2025 11:45
+D - Sabado 11:45-14:45 / Rizobar,Regular,Sabado,D,11:45,3,14:45,Rizobar,,0,1,1 AVAILABLE,"7/24/2021, 9/18/2021, 11/13/2021, 12/11/2021",6/3/2021 11:45,28,11/10/2025 11:45
+D - Sabado 11:45-14:45 / Mercearia,Regular,Sabado,D,11:45,3,14:45,Mercearia,Ana Montanha,1,2,1 AVAILABLE,,28/5/2022 11:45,28,11/10/2025 11:45
+D - Sabado 14:30-17:30 / Caixa,Regular,Sabado,D,14:30,3,17:30,Caixa,Elisabete Esmeralda Martins Serra,1,1,FULL,,1/5/2021 14:30,28,11/10/2025 14:30
+D - Sabado 14:30-17:30 / Rizobar,Regular,Sabado,D,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,"8/21/2021, 12/11/2021, 8/1/2022",1/5/2021 14:30,28,11/10/2025 14:30
+D - Sabado 14:30-17:30 / Mercearia,Regular,Sabado,D,14:30,3,17:30,Mercearia,,0,1,1 AVAILABLE,"8/21/2021, 12/11/2021, 8/1/2022",1/5/2021 14:30,28,11/10/2025 14:30
+D - Sabado 17:15-20:15 / Caixa,Regular,Sabado,D,17:15,3,20:15,Caixa,Beatriz Ribeiro dos Santos Franco Afonso,1,1,FULL,,27/5/2023 17:15,28,11/10/2025 17:15
+D - Sabado 17:15-20:15 / Rizobar,Regular,Sabado,D,17:15,3,20:15,Rizobar,,0,1,1 AVAILABLE,,27/5/2023 17:15,28,11/10/2025 17:15
+D - Sabado 17:15-20:15 / Mercearia,Regular,Sabado,D,17:15,3,20:15,Mercearia,Rogério Castelo Castanheira da Silva,1,1,FULL,,27/5/2023 17:15,28,11/10/2025 17:15
+D - Domingo 11:45-14:45 / Caixa,Regular,Domingo,D,11:45,3,14:45,Caixa,Ana Isabel Ribeiro Garcia,1,1,FULL,"17/10/2021, 2/5/2022",4/4/2021 11:45,28,12/10/2025 11:45
+D - Domingo 11:45-14:45 / Rizobar,Regular,Domingo,D,11:45,3,14:45,Rizobar,Beatrice Piletti,1,1,FULL,"12/11/2021, 12/12/2021",4/4/2021 11:45,28,12/10/2025 11:45
+D - Domingo 11:45-14:45 / Mercearia,Regular,Domingo,D,11:45,3,14:45,Mercearia,"Tânia Salvaterra ,Sónia Queiroga",2,2,FULL,"12/11/2021, 12/12/2021",4/4/2021 11:45,28,12/10/2025 11:45
+D - Domingo 14:30-17:30 / Caixa,Regular,Domingo,D,14:30,3,17:30,Caixa,Marta Archibald Cabral,1,1,FULL,"5/30/2021, 1/9/2022",4/4/2021 14:30,28,12/10/2025 14:30
+D - Domingo 14:30-17:30 / Rizobar,Regular,Domingo,D,14:30,3,17:30,Rizobar,,0,1,1 AVAILABLE,,29/5/2022 14:30,28,12/10/2025 14:30
+D - Domingo 14:30-17:30 / Mercearia,Regular,Domingo,D,14:30,3,17:30,Mercearia,Gonçalo Nuno Ferreira Salema de Matos,1,1,FULL,"9/19/2021, 6/2/2022",4/4/2021 14:30,28,12/10/2025 14:30
+D - Domingo 17:15-20:15 / Caixa,Regular,Domingo,D,17:15,3,20:15,Caixa,Helena Alexandra Ribeiro de Carvalho Pinheiro,1,1,FULL,,28/5/2023 17:15,28,12/10/2025 17:15
+D - Domingo 17:15-20:15 / Rizobar,Regular,Domingo,D,17:15,3,20:15,Rizobar,Francisco Gonçalves Dias Cardoso Diogo,1,1,FULL,,28/5/2023 17:15,28,12/10/2025 17:15
+D - Domingo 17:15-20:15 / Mercearia,Regular,Domingo,D,17:15,3,20:15,Mercearia,Mariana Seixas Lopes Nunes Catalão,1,1,FULL,,28/5/2023 17:15,28,12/10/2025 17:15
+Flex / Flex Caixa,Flex,Flex,ABCD,00:00,,00:00,Flex Caixa,"Joke Langens,Anne Fauquet ,Miguel Décio Passos Duarte,Lidia Mello,Bárbara Mendes,Marisa Cesária Ereira Cardoso,Andre Filipe Prazeres Amorim,Ana Catarina Lopes Pinheiro ,Catarina Sofia Domingues Gomes,Sara Filipa Almeida de Andrade,Julie Bauwens,Telma Patrícia Rodrigues Carvalho,Mafalda Sofia Martins Saraiva ,Sara Huberty Nogueira Ramos,Tiago Pereira Martins De Castro Nabais,Aurore Delaunay,João Sousa Fialho,Joana Margarida Gaspar Cação Ribeiro,Filipa Carlota Pereira Fernandes Marques ,Francisca Sottomayor,Kelli Silver,Vanja Phoenix Favetta,Hugo Charbonnier,Márcio Arduin Saraiva",24,30,6 AVAILABLE,,1/11/2021 00:00,,1/11/2021 00:00
+Flex / Flex Mercearia,Flex,Flex,ABCD,00:00,,00:00,Flex Mercearia,"Pia Stoepper,Maria Inês Costa Areosa Rodrigues,Anne Fauquet ,Ana Catarina Lopes Pinheiro ,Joana Luísa Nogueira Amorim,Catarina Sofia Domingues Gomes,Gonçalo Miguel Natário de Lourenço Caiado,Sofia Vieira Paredes,Mafalda Sofia Martins Saraiva ,Sara Huberty Nogueira Ramos,Chris Yeoward,Jean-François Gaudy,Carla Sofia Franco Luis,Inês Alexandra Teixeira Mestre ,Daniele Grosso,Maria de Arcelis Henriques Claudino,Aurore Delaunay,Elvia Vasconcelos,Andrea Sozzi,Eleonor Soares de Albergaria e Silva,Miguel Antunes,Maria João Guerreiro Vaz,Jucimara Araujo Cavalcante Souza,Kitti Baracsi,Catarina das Neves Batista Cerqueira",25,30,5 AVAILABLE,,1/11/2021 00:00,,1/11/2021 00:00
+Flex / Flex Rizobar,Flex,Flex,ABCD,00:00,,00:00,Flex Rizobar,"Ana Margarida Silvestre Botelho,Angela Maria Gallus,Anne Fauquet ,Mariana Stichaner Lacasta Macedo ,Ana Catarina Lopes Pinheiro ,Catarina Sofia Domingues Gomes,Lulu Falcão,Mafalda Sofia Martins Saraiva ,Sara Huberty Nogueira Ramos,Claudia Rita Almeida de Andrade,Lígia Martins Gomes,Aurore Delaunay,Wim Forceville,Francisca Sottomayor,Inês Esteves Ribeiro ,António Silva,Mathilde Gallien,Joana Marques Batista,Miguel Rosal Martins ,Talita Caselato,Peter Joseph,Julia Ribeiro",22,30,8 AVAILABLE,,1/11/2021 00:00,,1/11/2021 00:00

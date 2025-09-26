@@ -19,7 +19,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from tapir.core.views import TapirFormMixin
-from tapir.settings import PERMISSION_SHIFTS_MANAGE
+from tapir.settings import PERMISSION_SHIFTS_MANAGE, PERMISSION_SHIFTS_ADMIN
 from tapir.shifts.forms import (
     ShiftCreateForm,
     ShiftSlotForm,
@@ -27,6 +27,7 @@ from tapir.shifts.forms import (
     ShiftTemplateForm,
     ShiftSlotTemplateForm,
     ShiftDeleteForm,
+    ShiftSlotDeleteForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -434,3 +435,32 @@ class ShiftUserCapabilityApiView(PermissionRequiredMixin, APIView):
         )
         capability.delete()
         return Response("OK")
+
+
+class DeleteShiftSlotView(LoginRequiredMixin, PermissionRequiredMixin, FormView):
+    permission_required = PERMISSION_SHIFTS_ADMIN
+
+    form_class = ShiftSlotDeleteForm
+    template_name = "shifts/shift_slot_confirm_delete.html"
+
+    def get_slot(self):
+        return get_object_or_404(ShiftSlot, pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data()
+        context_data["slot"] = self.get_slot()
+        return context_data
+
+    def get_success_url(self):
+        return self.get_slot().shift.get_absolute_url()
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["slot"] = self.get_slot()
+        return kwargs
+
+    def form_valid(self, form):
+        slot = self.get_slot()
+        slot.deleted = True
+        slot.save()
+        return super().form_valid(form)

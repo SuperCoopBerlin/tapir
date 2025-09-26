@@ -67,7 +67,8 @@
             </div>
         </div>
         <ul class="list-group list-group-flush">
-            {% if shift.description %}<li class="list-group-item">{{ shift.description }}</li>{% endif %}
+            {% if shift.description %}
+                <li class="list-group-item">{{ shift.description }}</li>{% endif %}
             {% if shift.cancelled %}
                 <li class="list-group-item bg-warning">
                     {% translate 'This shift has been cancelled: ' %}
@@ -84,46 +85,47 @@
                        id="attendance_table"
                        aria-label="{% translate 'List of slots for this shift' %}">
                     <thead>
-                        <tr>
-                            <th>{% translate "Slot" %}-{% translate 'Number' %}</th>
-                            <th>{% translate 'Details' %}</th>
-                            <th>{% translate 'Registered user' %}</th>
-                            <th>{% translate 'Attendance' %}</th>
-                            <th>{% translate 'Actions' %}</th>
-                            <th>{% translate 'Do you meet the requirements?' %}</th>
-                            {% if shift.flexible_time %}
-                                <th>{% translate "Chosen time" %}</th>
-                            {% endif %}
-                            {% if perms.shifts.manage %}
-                                <th>{% translate 'Member-Office actions' %}</th>
-                                <th>{% translate 'Previous attendances' %}</th>
-                            {% endif %}
-                        </tr>
+                    <tr>
+                        <th>{% translate "Slot" %}-{% translate 'Number' %}</th>
+                        <th>{% translate 'Details' %}</th>
+                        <th>{% translate 'Registered user' %}</th>
+                        <th>{% translate 'Attendance' %}</th>
+                        <th>{% translate 'Actions' %}</th>
+                        <th>{% translate 'Do you meet the requirements?' %}</th>
+                        {% if shift.flexible_time %}
+                            <th>{% translate "Chosen time" %}</th>
+                        {% endif %}
+                        {% if perms.shifts.manage %}
+                            <th>{% translate 'Member-Office actions' %}</th>
+                            <th>{% translate 'Previous attendances' %}</th>
+                        {% endif %}
+                    </tr>
                     </thead>
                     <tbody>
-                        {% for slot in slots %}
-                            <tr>
-                                <td>
+                    {% for slot in slots %}
+                        <tr>
+                            <td>
                                     <span class="shift-centered-content">
                                         <h5>#{{ forloop.counter }}</h5>
                                     </span>
-                                </td>
-                                <td>
-                                    <span class="shift-centered-content text-break">{{ slot.name }}</span>
-                                </td>
-                                {% with slot.get_valid_attendance as attendance %}
-                                    {% if attendance %}
-                                        <td>
+                            </td>
+                            <td>
+                                <span class="shift-centered-content text-break">{{ slot.name }}</span>
+                            </td>
+                            {% with slot.get_valid_attendance as attendance %}
+                                {% if attendance %}
+                                    <td>
                                             <span class="shift-centered-content">
                                                 <span class="shift-user">{% get_html_link_or_just_name attendance.user request.user %}</span>
-                                                {% if attendance.user.pronouns %}<span>({{ attendance.user.pronouns }})</span>{% endif %}
+                                                {% if attendance.user.pronouns %}
+                                                    <span>({{ attendance.user.pronouns }})</span>{% endif %}
                                                 {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
                                                 {% if shift_partner_enabled and attendance.user.shift_user_data.shift_partner %}
                                                     <span>({% translate "Shift partner: " %}{% get_html_link_or_just_name attendance.user.shift_user_data.shift_partner.user request.user %})</span>
                                                 {% endif %}
                                             </span>
-                                        </td>
-                                        <td>
+                                    </td>
+                                    <td>
                                             <span class="shift-centered-content">
                                                 {{ attendance.get_state_display }}
                                                 {% if attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
@@ -137,15 +139,15 @@
                                                     </a>
                                                 {% endif %}
                                             </span>
-                                        </td>
-                                    {% else %}
-                                        <td>
-                                            <span class="shift-centered-content">{% translate "Vacant" %}</span>
-                                        </td>
-                                        <td></td>
-                                    {% endif %}
-                                    <!-- Actions -->
+                                    </td>
+                                {% else %}
                                     <td>
+                                        <span class="shift-centered-content">{% translate "Vacant" %}</span>
+                                    </td>
+                                    <td></td>
+                                {% endif %}
+                                <!-- Actions -->
+                                <td>
                                         <span class="shift-centered-content">
                                             {% if attendance.user == request.user %}
                                                 {% if attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
@@ -175,7 +177,8 @@
                                                             you can't
                                                             attend, contact your shift leader as soon as
                                                             possible.{% endblocktranslate %}
-                                                        <span {% if not slot.can_look_for_stand_in %}data-bs-toggle="tooltip" title="{{ stand_in_tooltip }}"{% endif %}>
+                                                        <span {% if not slot.can_look_for_stand_in %}data-bs-toggle="tooltip"
+                                                              title="{{ stand_in_tooltip }}"{% endif %}>
                                                             <button type="submit"
                                                                     class="{% tapir_button_custom 'warning' %} btn-sm {% if not slot.can_look_for_stand_in %}disabled{% endif %}"
                                                                     id="self_look_for_stand_in_button">
@@ -198,11 +201,13 @@
                                                         attend, look for a stand-in or contact your shift leader as soon
                                                         as
                                                         possible.{% endblocktranslate %}
-                                                    <span {% if not slot.can_self_unregister %}data-bs-toggle="tooltip" title="{{ self_unregister_tooltip }}"{% endif %}>
+                                                    <span {% if not slot.can_self_unregister %}data-bs-toggle="tooltip"
+                                                          title="{{ self_unregister_tooltip }}"{% endif %}>
                                                         <button type="submit"
                                                                 class="{% tapir_button_custom 'danger' %} btn-sm"
                                                                 id="unregister_self_button"
-                                                                {% if not slot.can_self_unregister %}disabled style="pointer-events: none;"{% endif %}>
+                                                                {% if not slot.can_self_unregister %}disabled
+                                                                style="pointer-events: none;"{% endif %}>
                                                             <span class="material-icons">person_remove</span>
                                                             {% translate "Unregister myself" %}
                                                         </button>
@@ -211,15 +216,18 @@
                                             {% elif not slot.is_occupied %}
                                                 {% blocktranslate asvar self_register_tooltip %}You can only register
                                                     yourself
-                                                    for a shift if:<br />
-                                                    -You are not registered to another slot in that shift<br />
+                                                    for a shift if:<br/>
+                                                    -You are not registered to another slot in that shift<br/>
                                                     -You have the required qualification (if you want to get a
-                                                    qualification, contact the member office)<br />
-                                                    -The shift is in the future<br />
-                                                    -The shift is not cancelled (holidays...)<br />
+                                                    qualification, contact the member office)<br/>
+                                                    -The shift is in the future<br/>
+                                                    -The shift is not cancelled (holidays...)<br/>
                                                 {% endblocktranslate %}
                                                 {% autoescape off %}
-                                                    <span {% if not slot.can_self_register and not perms.shifts.manage %} data-bs-toggle="tooltip" data-bs-html="true" title="{{ self_register_tooltip }}"{% endif %}>
+                                                    <span
+                                                            {% if not slot.can_self_register and not perms.shifts.manage %}
+                                                                data-bs-toggle="tooltip" data-bs-html="true"
+                                                                title="{{ self_register_tooltip }}"{% endif %}>
                                                         <a href="{% url 'shifts:slot_register' slot.pk %}"
                                                            class="{% tapir_button_link_to_action %} register-to-slot-button {% if not slot.can_self_register and not perms.shifts.manage %}disabled{% endif %}">
                                                             <span class="material-icons">person_add</span>
@@ -229,44 +237,47 @@
                                                 {% endautoescape %}
                                             {% endif %}
                                         </span>
-                                    </td>
-                                {% endwith %}
-                                <!-- Requirements -->
-                                <td>
-                                    {% for key, value in slot.get_required_capabilities_dict.items %}
-                                        {% if key in request.user.shift_user_data.capabilities %}
-                                            <span class="d-flex align-items-center"><span class="material-icons">check</span><span>{{ value }}</span></span>
-                                        {% else %}
-                                            <span class="d-flex align-items-center"><span class="material-icons">close</span><span>{{ value }}</span></span>
-                                        {% endif %}
-                                    {% empty %}
-                                        <span class="d-flex align-items-center"><span class="material-icons">check</span></span>
-                                    {% endfor %}
                                 </td>
-                                <!-- Chosen time -->
-                                {% if shift.flexible_time %}
-                                    <td>
-                                        {% with slot.get_valid_attendance as attendance %}
-                                            {% if attendance %}
-                                                {% if attendance.custom_time %}
-                                                    <span>{{ attendance.custom_time|time:"H:i" }}</span>
-                                                {% else %}
-                                                    <span>{% translate "Not specified" %}</span>
-                                                {% endif %}
-                                                {% if request.user == attendance.user or perms.shifts.manage %}
-                                                    <a href="{% url 'shifts:attendance_custom_time' attendance.id %}">
-                                                        <button class="{% tapir_button_link_to_action %}">
-                                                            <span class="material-icons button-icon">edit</span>
-                                                        </button>
-                                                    </a>
-                                                {% endif %}
+                            {% endwith %}
+                            <!-- Requirements -->
+                            <td>
+                                {% for key, value in slot.get_required_capabilities_dict.items %}
+                                    {% if key in request.user.shift_user_data.capabilities %}
+                                        <span class="d-flex align-items-center"><span
+                                                class="material-icons">check</span><span>{{ value }}</span></span>
+                                    {% else %}
+                                        <span class="d-flex align-items-center"><span
+                                                class="material-icons">close</span><span>{{ value }}</span></span>
+                                    {% endif %}
+                                {% empty %}
+                                    <span class="d-flex align-items-center"><span
+                                            class="material-icons">check</span></span>
+                                {% endfor %}
+                            </td>
+                            <!-- Chosen time -->
+                            {% if shift.flexible_time %}
+                                <td>
+                                    {% with slot.get_valid_attendance as attendance %}
+                                        {% if attendance %}
+                                            {% if attendance.custom_time %}
+                                                <span>{{ attendance.custom_time|time:"H:i" }}</span>
+                                            {% else %}
+                                                <span>{% translate "Not specified" %}</span>
                                             {% endif %}
-                                        {% endwith %}
-                                    </td>
-                                {% endif %}
-                                <!-- Member-Office actions -->
-                                {% if perms.shifts.manage %}
-                                    <td>
+                                            {% if request.user == attendance.user or perms.shifts.manage %}
+                                                <a href="{% url 'shifts:attendance_custom_time' attendance.id %}">
+                                                    <button class="{% tapir_button_link_to_action %}">
+                                                        <span class="material-icons button-icon">edit</span>
+                                                    </button>
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endwith %}
+                                </td>
+                            {% endif %}
+                            <!-- Member-Office actions -->
+                            {% if perms.shifts.manage %}
+                                <td>
                                         <span class="shift-centered-content">
                                             {% if slot.get_valid_attendance is not None %}
                                                 {% with slot.get_valid_attendance as attendance %}
@@ -324,7 +335,8 @@
                                                               method="post"
                                                               action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance.State.CANCELLED %}">
                                                             {% csrf_token %}
-                                                            <button type="submit" class="{% tapir_button_custom 'secondary' %}">
+                                                            <button type="submit"
+                                                                    class="{% tapir_button_custom 'secondary' %}">
                                                                 <span class="material-icons">person_remove</span>
                                                                 {% translate "Cancelled" %}
                                                             </button>
@@ -336,9 +348,15 @@
                                                href="{% url 'shifts:edit_slot' slot.pk %}">
                                                 <span class="material-icons">edit</span>{% translate 'Edit slot' %}
                                             </a>
+                                            {% if perms.shifts.admin %}
+                                                <a class="{% tapir_button_link_to_action %}"
+                                                   href="{% url 'shifts:shift_slot_delete' slot.pk %}">
+                                                <span class="material-icons">delete</span>{% translate 'Delete slot' %}
+                                            </a>
+                                            {% endif %}
                                         </span>
-                                    </td>
-                                    <td>
+                                </td>
+                                <td>
                                         <span class="shift-centered-content">
                                             {% for previous_attendance in slot.previous_attendances %}
                                                 <p>
@@ -351,10 +369,10 @@
                                                 </p>
                                             {% endfor %}
                                         </span>
-                                    </td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </li>

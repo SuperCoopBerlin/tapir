@@ -99,6 +99,40 @@ class ShiftDeleteForm(forms.ModelForm):
         return super().clean()
 
 
+class ShiftSlotDeleteForm(forms.ModelForm):
+    class Meta:
+        model = ShiftSlot
+        fields = []
+
+    confirm_understood = BooleanField(
+        label=_("I understand the consequences of deleting a shift slot"),
+        required=True,
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.slot = kwargs.pop("slot")
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        attendances_not_cancelled = ShiftAttendance.objects.filter(
+            slot=self.slot
+        ).exclude(state=ShiftAttendance.State.CANCELLED)
+        if attendances_not_cancelled.exists():
+            members = [
+                UserUtils.build_display_name(
+                    attendance.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+                )
+                for attendance in attendances_not_cancelled
+            ]
+            raise ValidationError(
+                _(
+                    f"In order to delete a shift slot, all member attendances must be set to 'Cancelled'. "
+                    f"The following attendances must be updated: {", ".join(members)}"
+                )
+            )
+        return super().clean()
+
+
 class ShiftSlotForm(forms.ModelForm):
     class Meta:
         model = ShiftSlot
@@ -341,6 +375,10 @@ class RegisterUserToShiftSlotForm(
         return self.slot.shift
 
     def clean(self):
+        if self.slot.deleted:
+            raise ValidationError(
+                _("This slot is deleted, it is not possible to register to it.")
+            )
         if self.get_shift_object().deleted:
             raise ValidationError(
                 _("This shift has been deleted. It is not possible to register to it.")

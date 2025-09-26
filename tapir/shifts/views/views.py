@@ -224,7 +224,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         shift: Shift = context["shift"]
         slots = (
-            shift.slots.all()
+            shift.slots.filter(deleted=False)
             .annotate(
                 is_occupied=Count(
                     "attendances",
