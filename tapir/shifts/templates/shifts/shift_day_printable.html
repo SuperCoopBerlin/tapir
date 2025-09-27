@@ -1,6 +1,9 @@
 {% load core %}
 {% load i18n %}
 {% load utils %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+<!--Bestimmt falsch-->
 <style>
     @page {
         size: A4 portrait;
@@ -196,6 +199,13 @@
     <h1>{{ shifts.0.start_time|date:'d.m.y' }}</h1>
     <div class="att-controls-header" aria-hidden="true">
         <div style="flex:1"></div>
+        <div class="legend"
+             style="flex: 1;
+                    display: flex;
+                    align-items: left;
+                    white-space: nowrap">
+            <span><i class="material-icons small-text" style="vertical-align: middle;">school</i> - {% translate 'Qualifications' %}</span>
+        </div>
         <div class="label-set">
             <div class="attendance-label">{% translate 'Attended' %}</div>
             <div class="attendance-label">{% translate 'Missed' %}</div>
@@ -213,7 +223,7 @@
                             <div style="line-height:1.0;font-weight: bold;">{{ slot.name }}</div>
                             <div class="small-text" style="line-height:1.0;">
                                 {% if slot.required_capabilities|length > 0 %}
-                                    {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
+                                    <i class="material-icons small-text" style="vertical-align: middle;">school</i> {{ slot.get_required_capabilities_display }}
                                 {% endif %}
                             </div>
                         </div>
@@ -250,7 +260,7 @@
                                     {% endif %}
                                     <div class="small-text" style="line-height:1.0;">
                                         {% if attendance.user.shift_user_data.capabilities|length > 0 %}
-                                            {% translate 'Has qualifications: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
+                                            <i class="material-icons small-text" style="vertical-align: middle;">school</i> {{ attendance.user.shift_user_data.get_capabilities_display }}
                                         {% endif %}
                                     </div>
                                 {% endif %}
