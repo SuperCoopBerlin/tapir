@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
@@ -27,6 +28,9 @@ class TestCreateGeneralAccount(TapirFactoryTestBase):
         )
 
     def test_create_general_account(self):
+        if settings.LOGIN_BACKEND_COOPS_PT:
+            self.skipTest("Can't create user with this login backend")
+
         self.login_as_member_office_user()
         mock_general_account = GeneralAccountFactory.build()
         response = self.visit_view(mock_general_account)

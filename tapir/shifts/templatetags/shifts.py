@@ -146,7 +146,9 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
 
     num_attendances = 0
 
-    slot_templates = sort_slots_by_name(list(shift_template.slot_templates.all()))
+    slot_templates = sort_slots_by_name(
+        list(shift_template.slot_templates.filter(deleted=False))
+    )
 
     for slot_template in slot_templates:
         slot_name = slot_template.name

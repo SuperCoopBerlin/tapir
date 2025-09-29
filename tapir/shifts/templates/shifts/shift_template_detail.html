@@ -82,6 +82,8 @@
                                         {% if perms.shifts.manage %}
                                             <a class="{% tapir_button_link_to_action %}"
                                                href="
+
+
                                                        {% url 'shifts:slottemplate_register' slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
                                                 <span class="material-icons">person_add</span>
                                                 {% translate "Register" %}
@@ -114,6 +116,12 @@
                                        href="{% url 'shifts:edit_slot_template' slot.pk %}">
                                         <span class="material-icons">edit</span>
                                         {% translate "Edit" %}
+                                    </a>
+                                {% endif %}
+                                {% if perms.shifts.admin %}
+                                    <a class="{% tapir_button_link_to_action %}"
+                                       href="{% url 'shifts:shift_slot_template_delete' slot.pk %}">
+                                        <span class="material-icons">delete</span>{% translate 'Delete' %}
                                     </a>
                                 {% endif %}
                             </td>

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
@@ -7,6 +8,9 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 class TestTapirUserSelfUpdate(TapirFactoryTestBase):
     def test_normal_user_can_self_update(self):
+        if settings.SHIFTS_ONLY:
+            self.skipTest("Can't edit users in shift only mode")
+
         actor: TapirUser = TapirUserFactory.create()
 
         response = self.try_update(actor=actor, target=actor)
@@ -17,6 +21,9 @@ class TestTapirUserSelfUpdate(TapirFactoryTestBase):
         self.assertEqual("new pronouns", actor.pronouns)
 
     def test_normal_user_cannot_edit_other_user(self):
+        if settings.SHIFTS_ONLY:
+            self.skipTest("Can't edit users in shift only mode")
+
         target: TapirUser = TapirUserFactory.create()
         actor: TapirUser = TapirUserFactory.create()
 

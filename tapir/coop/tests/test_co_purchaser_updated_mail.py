@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core import mail
 from django.urls import reverse
 
@@ -8,6 +9,9 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 class TestCoPurchaserUpdatedMail(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_setCoPurchaserToBlank_noEmailSent(self):
+        if settings.SHIFTS_ONLY:
+            self.skipTest("Can't edit users in shift only mode")
+
         self.login_as_member_office_user()
         tapir_user = TapirUserFactory.create(co_purchaser="A test co-purchaser")
 
@@ -31,6 +35,9 @@ class TestCoPurchaserUpdatedMail(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEqual(0, len(mail.outbox))
 
     def test_setCoPurchaserToNotBlank_emailSent(self):
+        if settings.SHIFTS_ONLY:
+            self.skipTest("Can't edit users in shift only mode")
+
         self.login_as_member_office_user()
         tapir_user = TapirUserFactory.create(co_purchaser="Old co-purchased")
         co_purchaser_name = "A test co-purchaser"

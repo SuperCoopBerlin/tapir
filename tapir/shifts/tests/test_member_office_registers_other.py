@@ -102,16 +102,17 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         shift_template = ShiftTemplateFactory.create()
         slot_template = ShiftSlotTemplate.objects.filter(
             shift_template=shift_template
-        ).first()
+        ).get()
         slot_template.required_capabilities.set([ShiftUserCapabilityFactory.create()])
         slot_template.save()
 
         self.login_as_member_office_user()
         response = register_user_to_shift_template(self.client, user, shift_template)
+        response_content = response.content.decode()
 
         self.assertIn(
             "confirm_missing_capabilities",
-            response.content.decode(),
+            response_content,
             "There should be a warning about missing capabilities.",
         )
         self.assertFalse(
@@ -259,3 +260,22 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         self.assertFalse(ShiftAttendance.objects.exists())
         self.assertEqual(1, len(response.context["form"].errors))
         self.assertEqual(1, len(response.context["form"].errors["__all__"]))
+
+    def test_registerUserToShiftSlotTemplateView_slotTemplateIsDeleted_returnsError(
+        self,
+    ):
+        shift_template = ShiftTemplateFactory.create()
+
+        user = self.login_as_member_office_user()
+        slot_template = ShiftSlotTemplate.objects.filter(
+            shift_template=shift_template
+        ).first()
+        slot_template.deleted = True
+        slot_template.save()
+
+        self.client.post(
+            reverse("shifts:slottemplate_register", args=[slot_template.id]),
+            data={"user": user.id},
+        )
+
+        self.assertFalse(ShiftAttendanceTemplate.objects.exists())

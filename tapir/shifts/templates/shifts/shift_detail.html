@@ -351,8 +351,8 @@
                                             {% if perms.shifts.admin %}
                                                 <a class="{% tapir_button_link_to_action %}"
                                                    href="{% url 'shifts:shift_slot_delete' slot.pk %}">
-                                                <span class="material-icons">delete</span>{% translate 'Delete slot' %}
-                                            </a>
+                                                    <span class="material-icons">delete</span>{% translate 'Delete slot' %}
+                                                </a>
                                             {% endif %}
                                         </span>
                                 </td>

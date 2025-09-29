@@ -289,7 +289,7 @@ class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView)
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         context_data["slots"] = sort_slots_by_name(
-            list(self.get_object().slot_templates.all())
+            list(self.get_object().slot_templates.filter(deleted=False))
         )
         return context_data
 

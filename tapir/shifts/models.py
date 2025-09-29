@@ -280,7 +280,7 @@ class ShiftTemplate(models.Model):
         generated_shift.save()
         shift = generated_shift
 
-        for slot_template in self.slot_templates.all().select_related(
+        for slot_template in self.slot_templates.filter(deleted=False).select_related(
             "attendance_template"
         ):
             slot = slot_template.create_slot_from_template(shift)
@@ -293,7 +293,7 @@ class ShiftTemplate(models.Model):
             slot_template.update_future_slot_attendances(now)
 
     def add_slot_template_and_update_future_shifts(
-        self, slot_name: str, required_capabilities: []
+        self, slot_name: str, required_capabilities: list
     ):
         slot_template = ShiftSlotTemplate.objects.create(
             name=slot_name,
@@ -349,6 +349,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         blank=False,
         on_delete=models.CASCADE,
     )
+    deleted = models.BooleanField(default=False)
 
     required_capabilities = models.ManyToManyField(ShiftUserCapability)
     warnings = models.ManyToManyField(ShiftSlotWarning)

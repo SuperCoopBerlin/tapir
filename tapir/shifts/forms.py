@@ -8,6 +8,7 @@ from django.forms import (
     BooleanField,
 )
 from django.forms.widgets import HiddenInput
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_select2.forms import Select2Widget
 
@@ -130,6 +131,61 @@ class ShiftSlotDeleteForm(forms.ModelForm):
                     f"The following attendances must be updated: {", ".join(members)}"
                 )
             )
+        return super().clean()
+
+
+class ShiftSlotTemplateDeleteForm(forms.ModelForm):
+    class Meta:
+        model = ShiftSlotTemplate
+        fields = []
+
+    confirm_understood = BooleanField(
+        label=_("I understand the consequences of deleting an ABCD shift slot"),
+        required=True,
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.slot_template: ShiftSlotTemplate = kwargs.pop("slot_template")
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        attendances_not_cancelled = ShiftAttendanceTemplate.objects.filter(
+            slot_template=self.slot_template
+        )
+        if attendances_not_cancelled.exists():
+            members = [
+                UserUtils.build_display_name(
+                    attendance.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+                )
+                for attendance in attendances_not_cancelled
+            ]
+            raise ValidationError(
+                _(
+                    f"In order to delete an ABCD shift slot, no member must be registered to it. "
+                    f"The following attendances must be removed: {", ".join(members)}"
+                )
+            )
+
+        future_slots = self.slot_template.generated_slots.filter(
+            shift__start_time__gt=timezone.now()
+        )
+        attendances_not_cancelled = ShiftAttendance.objects.filter(
+            slot__in=future_slots
+        ).exclude(state=ShiftAttendance.State.CANCELLED)
+        if attendances_not_cancelled.exists():
+            members = [
+                f"{UserUtils.build_display_name(
+                    attendance.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+                )} {attendance.slot.shift.start_time.strftime("%d.%m.%Y %H:%M")}"
+                for attendance in attendances_not_cancelled
+            ]
+            raise ValidationError(
+                _(
+                    f"In order to delete an ABCD shift slot, all attendances on future slots must be cancelled. "
+                    f"The following attendances must be cancelled: {", ".join(members)}"
+                )
+            )
+
         return super().clean()
 
 
@@ -328,6 +384,13 @@ class ShiftAttendanceTemplateForm(
 
     def get_shift_object(self) -> Shift | ShiftTemplate:
         return self.slot_template.shift_template
+
+    def clean(self):
+        super().clean()
+        if self.slot_template.deleted:
+            raise ValidationError(
+                _("This ABCD slot is deleted, it is not possible to register to it.")
+            )
 
 
 class RegisterUserToShiftSlotForm(

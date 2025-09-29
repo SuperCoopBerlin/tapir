@@ -28,6 +28,7 @@ from tapir.shifts.forms import (
     ShiftSlotTemplateForm,
     ShiftDeleteForm,
     ShiftSlotDeleteForm,
+    ShiftSlotTemplateDeleteForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -463,4 +464,38 @@ class DeleteShiftSlotView(LoginRequiredMixin, PermissionRequiredMixin, FormView)
         slot = self.get_slot()
         slot.deleted = True
         slot.save()
+        return super().form_valid(form)
+
+
+class DeleteShiftSlotTemplateView(
+    LoginRequiredMixin, PermissionRequiredMixin, FormView
+):
+    permission_required = PERMISSION_SHIFTS_ADMIN
+
+    form_class = ShiftSlotTemplateDeleteForm
+    template_name = "shifts/shift_slot_template_confirm_delete.html"
+
+    def get_slot_template(self):
+        return get_object_or_404(ShiftSlotTemplate, pk=self.kwargs["pk"])
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data()
+        context_data["slot_template"] = self.get_slot_template()
+        return context_data
+
+    def get_success_url(self):
+        return self.get_slot_template().shift_template.get_absolute_url()
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["slot_template"] = self.get_slot_template()
+        return kwargs
+
+    def form_valid(self, form):
+        slot_template = self.get_slot_template()
+        slot_template.deleted = True
+        slot_template.save()
+        slot_template.generated_slots.filter(
+            shift__start_time__gt=timezone.now()
+        ).update(deleted=True)
         return super().form_valid(form)
