@@ -4,21 +4,22 @@
 {% load core %}
 {% load utils %}
 {% block title %}
-    {% translate 'Delete ABCD shift slot' %}: {{ slot_template.get_display_name }}
+    {% translate 'Delete ABCD shift' %}: {{ shift_template.get_display_name }}
 {% endblock title %}
 {% block content %}
     <form method="post">
         {% csrf_token %}
         <div class="card border-danger">
             <div class="card-header bg-danger">
-                <h5>{% translate "Confirm ABCD shift slot deletion:" %} {{ slot_template.get_display_name }}</h5>
+                <h5>{% translate "Confirm ABCD shift deletion:" %} {{ shift_template.get_display_name }}</h5>
             </div>
             <div class="card-body">
                 {% blocktranslate %}
-                    <p>Are you sure you want to delete this ABCD slot?</p>
-                    <p>All future non-ABCD slots that come from this ABCD-Slot will be deleted too. Past slots won't be
+                    <p>Are you sure you want to delete this ABCD shift?</p>
+                    <p>All future non-ABCD shifts that come from this ABCD-Shift will be deleted too. Past shifts won't
+                        be
                         deleted.</p>
-                    <p>If is only possible to delete a slot if there are no members registered to it.</p>
+                    <p>If is only possible to delete a shift if there are no members registered to it.</p>
                 {% endblocktranslate %}
                 {% bootstrap_form form %}
             </div>

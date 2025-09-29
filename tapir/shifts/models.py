@@ -204,6 +204,7 @@ class ShiftTemplate(models.Model):
         blank=False,
         null=False,
     )
+    deleted = models.BooleanField(default=False)
 
     def __str__(self):
         display_name = "%s: %s %s %s-%s" % (
@@ -309,10 +310,15 @@ class ShiftTemplate(models.Model):
                 shift.update_to_fit_template()
 
     def clean(self):
-        if self.start_time >= self.end_time:
+        if (
+            self.start_time is not None
+            and self.end_time is not None
+            and self.start_time >= self.end_time
+        ):
             raise ValidationError(
                 f"The shift must end after it starts. Given start time: {self.start_time}. Given end time: {self.end_time}"
             )
+        return self
 
 
 class RequiredCapabilitiesMixin:

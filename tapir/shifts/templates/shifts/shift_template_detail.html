@@ -24,12 +24,21 @@
                         <span class="material-icons button-icon">edit</span>
                         {% translate "Edit" %}
                     </a>
+                    {% if not object.deleted %}
+                        <a class="{% tapir_button_link_to_action %}"
+                           href="{% url 'shifts:shift_template_delete' object.pk %}">
+                                <span class="material-icons">delete</span>{% translate 'Delete the entire ABCD-shift' %}
+                            </a>
+                    {% endif %}
                 </span>
             {% endif %}
         </h5>
         <ul class="list-group list-group-flush">
             {% if object.description %}
                 <li class="list-group-item">{{ object.description }}</li>{% endif %}
+            {% if object.deleted %}
+                <li class="list-group-item bg-danger">{% translate 'This ABCD-shift has been deleted.' %}</li>
+            {% endif %}
             <li class="list-group-item">
                 <table class="{% tapir_table_classes %}"
                        aria-label="{% translate 'List of slots for this ABCD shifts' %}">
@@ -82,6 +91,11 @@
                                         {% if perms.shifts.manage %}
                                             <a class="{% tapir_button_link_to_action %}"
                                                href="
+
+
+
+
+
 
 
                                                        {% url 'shifts:slottemplate_register' slot.pk %}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
