@@ -1,5 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.postgres.fields import HStoreField
+from django.contrib.postgres.indexes import GinIndex
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
 from django.db import models
@@ -171,6 +172,14 @@ class UpdateModelLogEntry(LogEntry):
 
     class Meta:
         abstract = True
+        indexes = [
+            GinIndex(
+                fields=["old_values"],
+            ),
+            GinIndex(
+                fields=["new_values"],
+            ),
+        ]
 
     def populate_base(
         self,
