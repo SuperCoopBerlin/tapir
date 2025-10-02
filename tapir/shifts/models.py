@@ -845,6 +845,7 @@ class ShiftAttendance(models.Model):
         ShiftSlot, related_name="attendances", on_delete=models.CASCADE
     )
     reminder_email_sent = models.BooleanField(default=False)
+    second_reminder_email_sent = models.BooleanField(default=False)
     is_solidarity = models.BooleanField(default=False)
     custom_time = models.TimeField(
         blank=False,

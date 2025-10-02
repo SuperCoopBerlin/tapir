@@ -61,6 +61,9 @@ class CoopConfig(AppConfig):
 
     @staticmethod
     def register_emails():
+        if settings.SHIFTS_ONLY:
+            return
+
         from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
         from tapir.coop.emails.extra_shares_confirmation_email import (
             ExtraSharesConfirmationEmailBuilder,

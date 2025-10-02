@@ -410,12 +410,12 @@ class MailSettingsView(
         context_data = super().get_context_data(**kwargs)
         context_data["page_title"] = _("Notification settings for %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
-                self.get_tapir_user().share_owner, self.request.user
+                self.get_tapir_user(), self.request.user
             )
         }
         context_data["card_title"] = _("Notification settings for %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
-                self.get_tapir_user().share_owner, self.request.user
+                self.get_tapir_user(), self.request.user
             )
         }
         return context_data
