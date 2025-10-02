@@ -13,6 +13,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.translation import gettext_lazy as _, get_language
 
 from tapir.accounts.models import TapirUser
@@ -581,9 +582,10 @@ class Shift(models.Model):
         return f"{display_name} (#{self.id})"
 
     def get_display_name(self):
-        display_name = "%s %s - %s" % (
+        display_name = "%s %s %s - %s" % (
             self.name,
-            timezone.localtime(self.start_time).strftime("%a, %d %b %Y %H:%M"),
+            date_format(timezone.localtime(self.start_time)),
+            timezone.localtime(self.start_time).strftime("%H:%M"),
             timezone.localtime(self.end_time).strftime("%H:%M"),
         )
         if self.shift_template and self.shift_template.group:
