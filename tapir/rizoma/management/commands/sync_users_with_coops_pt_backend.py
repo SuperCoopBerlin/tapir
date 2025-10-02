@@ -142,6 +142,7 @@ class Command(BaseCommand):
             if (
                 share_owner_json["_deleted_at"] is not None
                 or share_owner_json["_firstEmail"] is None
+                or share_owner_json["_isActiveSince"] is None
             ):
                 continue
 
@@ -198,7 +199,17 @@ class Command(BaseCommand):
         external_ids_to_delete = external_ids_present_in_tapir_db.difference(
             external_ids_present_in_coops_pt
         )
-        ShareOwner.objects.filter(id__in=external_ids_to_delete).delete()
+
+        share_owners_to_delete = ShareOwner.objects.filter(
+            external_id__in=external_ids_to_delete
+        )
+        tapir_users_ids_to_delete = list(
+            TapirUser.objects.filter(
+                share_owner__in=share_owners_to_delete
+            ).values_list("id", flat=True)
+        )
+        share_owners_to_delete.delete()
+        TapirUser.objects.filter(id__in=tapir_users_ids_to_delete).delete()
 
     @classmethod
     def sync_link_share_owner_to_user(cls, external_member_id_to_user_id_map):
