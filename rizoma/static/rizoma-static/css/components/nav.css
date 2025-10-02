@@ -1,0 +1,80 @@
+/* Navbar */
+.nav {
+  /* --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-font-weight: ;
+  --bs-nav-link-color: var(--bs-link-color);
+  --bs-nav-link-hover-color: var(--bs-link-hover-color);
+  --bs-nav-link-disabled-color: var(--bs-secondary-color); */ 
+}
+
+.nav-link {
+  --bs-nav-link-font-size: 0.95rem;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100; /* Behind the navbar */
+  padding: 48px 0 0; /* Height of navbar */
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding: 2rem 1rem 0;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+  .sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+}
+
+.sidebar .nav-item {
+  height: 2.5rem;
+}
+
+.nav {
+  --bs-nav-link-padding-x: .5rem;
+  --bs-nav-link-padding-y: .5rem;
+}
+
+.sidebar .nav-link {
+  font-weight: 500;
+  color: var(--bs-black);
+  height: 2.5rem;
+  display: flex;
+  border-radius: var(--bs-border-radius);
+  line-height: .95em;
+  /* padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x); */
+}
+
+.sidebar .nav-link.active {
+  background-color: var(--riz-color-gray-light);
+
+}
+
+.sidebar .nav-link:hover {
+  color: #007bff;
+}
+
+.sidebar .sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+  color: var(--riz-color-gray-medium);
+  font-weight: 500;
+  padding-left: 1rem;
+}
+

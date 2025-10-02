@@ -1,0 +1,79 @@
+{% extends "shifts/base.html" %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% load shifts %}
+{% load i18n %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
+    <script src="{% static 'shifts/ShiftFiltersManager.js' %}?version=2" defer></script>
+{% endblock head %}
+{% block title %}
+    {% translate 'ABCD week-plan' %}
+{% endblock title %}
+{% block content %}
+    <div class="card-group mb-2">
+        <div class="card">
+            <h5 class="card-header">
+                {% get_current_week_group as group %}
+                {% translate "ABCD schedule overview, current week: " %}{{ group.name }}
+            </h5>
+            <div class="card-body">
+                {% blocktranslate %}
+                    <p>This is the ABCD shiftplan. It repeats every four weeks. That's why you see only weekdays
+                        (Monday, Tuesday...) and the week (A,B,C or D), instead of specific dates (e.g. 23.8.2021).
+                        To see the date of your next shift, please go to your profile.</p>
+                    <p>If you would like to change your regular ABCD shift, please contact the Member Office.</p>
+                {% endblocktranslate %}
+            </div>
+        </div>
+        {% shift_filters %}
+    </div>
+    <div class="card mb-2">
+        <table class="table"
+               id="repeated-shift-overview-table"
+               aria-label="{% translate 'Calendar of ABCD shifts' %}">
+            <thead>
+                <tr>
+                    <th class="text-center">Time</th>
+                    {% for group in shift_template_groups %}
+                        <th class="text-center">{% translate 'Week ' %}{{ group }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for day, day_group in day_groups.items %}
+                    <tr>
+                        <td></td>
+                        <td class="text-center" colspan="{{ shift_template_groups|length }}">
+                            <h4 class="fw-bold">{{ day }}</h4>
+                        </td>
+                    </tr>
+                    {% for time, time_group in day_group.items %}
+                        <tr>
+                            <td>{{ time }}</td>
+                            {% for template_group_group in time_group.values %}
+                                <td>
+                                    <div class="d-flex flex-column" style="gap: 10px;">
+                                        {% for shift_template in template_group_group.values %}
+                                            {% if shift_template != None %}
+                                                {% block shift_template %}
+                                                    <a href="    {{ shift_template.get_absolute_url }}{% if selected_user %}?selected_user={{ selected_user.pk|urlencode }}{% endif %}">
+                                                        {% shift_template_block shift_template %}
+                                                    </a>
+                                                {% endblock shift_template %}
+                                            {% else %}
+                                                <div class="shift-template-block-container"></div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

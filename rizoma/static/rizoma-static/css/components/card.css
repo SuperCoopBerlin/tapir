@@ -1,0 +1,38 @@
+/*
+  Default props
+  --bs-card-spacer-y: 1rem;
+  --bs-card-spacer-x: 1rem;
+  --bs-card-title-spacer-y: 0.5rem;
+  --bs-card-border-width: 1px;
+  --bs-card-border-color: var(--bs-border-color-translucent);
+  --bs-card-border-radius: 0.375rem;
+  --bs-card-box-shadow: ;
+  --bs-card-inner-border-radius: calc(0.375rem - 1px);
+  --bs-card-cap-padding-y: 0.5rem;
+  --bs-card-cap-padding-x: 1rem;
+  --bs-card-cap-bg: #00000008;
+  --bs-card-cap-color: ;
+  --bs-card-height: ;
+  --bs-card-color: ;
+  --bs-card-bg: #fff;
+  --bs-card-img-overlay-padding: 1rem;
+  --bs-card-group-margin: 0.75rem;
+*/
+
+.card {
+  --bs-card-cap-bg: var(--riz-color-gray-lighter);
+  --bs-card-cap-padding-y: .85rem;
+  --bs-card-cap-padding-x: 1rem;
+  --bs-card-border-color: var(--riz-color-gray-light);
+  --bs-card-color: var(--riz-color-gray-dark);
+}
+
+h5.card-header {
+  margin-bottom: 0;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.card-body {
+  font-size: var(--riz-body-font-size);
+}
