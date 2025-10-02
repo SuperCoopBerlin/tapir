@@ -57,6 +57,9 @@ class ShiftUserCapabilityTranslation(models.Model):
     description = models.TextField(_("Description"))
     capability = models.ForeignKey(ShiftUserCapability, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.name} - {self.language}"
+
 
 class ShiftSlotWarning(models.Model):
     def get_current_translation(self) -> ShiftUserCapabilityTranslation | None:
