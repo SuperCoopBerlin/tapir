@@ -17,16 +17,9 @@ from pathlib import Path
 
 import celery.schedules
 import django_auth_ldap
-import environ
 import ldap
 from django_auth_ldap.config import LDAPSearch, GroupOfNamesType, NestedGroupOfNamesType
-
-env = environ.Env()
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
+from .env import (env, BASE_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -42,8 +35,6 @@ DEBUG = env("DEBUG", cast=bool, default=False)
 ALLOWED_HOSTS = env("ALLOWED_HOSTS", cast=list, default=["*"])
 
 ENABLE_SILK_PROFILING = False
-
-ENABLE_RIZOMA_CONTENT = env.bool("ENABLE_RIZOMA_CONTENT", default=False)
 
 # Application definition
 INSTALLED_APPS = [
@@ -76,9 +67,6 @@ INSTALLED_APPS = [
     "django_vite",
 ]
 
-if ENABLE_RIZOMA_CONTENT:
-    INSTALLED_APPS.append("tapir.rizoma")
-
 if ENABLE_SILK_PROFILING:
     INSTALLED_APPS.append("silk")
 
@@ -98,6 +86,7 @@ MIDDLEWARE = [
 if ENABLE_SILK_PROFILING:
     MIDDLEWARE = ["silk.middleware.SilkyMiddleware"] + MIDDLEWARE
 
+LOGIN_BACKEND_COOPS_PT = "coops.pt"
 ROOT_URLCONF = "tapir.urls"
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
@@ -195,15 +184,6 @@ if not SHIFTS_ONLY:
         }
     )
 
-if ENABLE_RIZOMA_CONTENT:
-    CELERY_BEAT_SCHEDULE.update(
-        {
-            "sync_users_with_coops_pt_backend": {
-                "task": "tapir.rizoma.tasks.sync_users_with_coops_pt_backend",
-                "schedule": celery.schedules.crontab(hour="*", minute="0"),
-            },
-        }
-    )
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -231,8 +211,6 @@ PASSWORD_RESET_TIMEOUT = (
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = "de"
-if ENABLE_RIZOMA_CONTENT:
-    LANGUAGE_CODE = "en"
 TIME_ZONE = "Europe/Berlin"
 USE_I18N = True
 USE_TZ = True
@@ -396,14 +374,12 @@ PERMISSIONS = {
 }
 
 AUTH_USER_MODEL = "accounts.TapirUser"
-LOGIN_REDIRECT_URL = "accounts:user_me"
+LOGIN_REDIRECT_URL = "/accounts/"
 
 SITE_URL = env("SITE_URL", default="http://localhost:8000")
 CSRF_TRUSTED_ORIGINS = [SITE_URL]
 
 PHONENUMBER_DEFAULT_REGION = "DE"
-if ENABLE_RIZOMA_CONTENT:
-    PHONENUMBER_DEFAULT_REGION = "PT"
 
 LOCALE_PATHS = [os.path.join(BASE_DIR, "tapir/translations/locale")]
 
@@ -415,13 +391,10 @@ if ENABLE_SILK_PROFILING:
 SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
 
 LOGIN_BACKEND_LDAP = "ldap"
-LOGIN_BACKEND_COOPS_PT = "coops.pt"
 ACTIVE_LOGIN_BACKEND = env.str("ACTIVE_LOGIN_BACKEND", default=LOGIN_BACKEND_LDAP)
 
 if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_LDAP:
     AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
-if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
-    AUTHENTICATION_BACKENDS = ["tapir.rizoma.coops_pt_auth_backend.CoopsPtAuthBackend"]
 
 LDAP_DOCKER_SERVICE_NAME = env("LDAP_DOCKER_SERVICE_NAME", cast=str, default="openldap")
 AUTH_LDAP_SERVER_URI = f"ldap://{LDAP_DOCKER_SERVICE_NAME}"
@@ -453,11 +426,6 @@ DJANGO_VITE = {
 }
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
-if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
-    COOPS_PT_API_BASE_URL = env.str("COOPS_PT_API_BASE_URL")
-    COOPS_PT_API_KEY = env.str("COOPS_PT_API_KEY")
-    COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH = env.str("COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH")
 
 
 RUNNING_TESTS = False

@@ -26,6 +26,30 @@
         <div class="card mb-2" id="tapir_user_detail_card">
             <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <span>{% translate "Personal Data" %}</span>
+                <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
+                    <a class="{% tapir_button_link_to_action %}" href="{% url 'accounts:mail_settings' object.pk %}">
+                        <span class="material-icons">mail</span>{% translate 'Mails' %}
+                    </a>
+                    {% if perms.group.manage %}
+                    <a class="{% tapir_button_link_to_action %}"
+                        href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
+                        <span class="material-icons">badge</span>{% translate 'Edit groups' %}
+                    </a>
+                    {% endif %}
+                    <a class="{% tapir_button_link_to_action %}" href="{% url 'accounts:edit_username' object.pk %}">
+                        <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
+                    </a>
+                    {% if perms.accounts.manage %}
+                    <a class="{% tapir_button_link_to_action %}" href="{% url 'accounts:user_update' object.pk %}"
+                        id="tapir_user_edit_button">
+                        <span class="material-icons">edit</span>{% translate 'Edit' %}
+                    </a>
+                    {% else %}
+                    <a class="{% tapir_button_link_to_action %}" href="{% url 'accounts:user_update_self' object.pk %}">
+                        <span class="material-icons">edit</span>{% translate 'Edit name and pronouns' %}
+                    </a>
+                    {% endif %}
+                </span>
             </h5>
             <div class="card-body">
                 <div class="row">
@@ -52,7 +76,27 @@
                                 <span class="text-danger">{% translate "Missing" %}</span>
                                 {% endif %}
                             </div>
-                        </div>                        
+                        </div>
+                        <div class="row m-1">
+                            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Birthdate" %}:</div>
+                            <div class="col-12 col-sm-8" id="tapir_user_birthdate">
+                                {% if object.birthdate %}
+                                {{ object.birthdate|date:"d.m.Y" }}
+                                {% else %}
+                                <span class="text-danger">{% translate "Missing" %}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row m-1">
+                            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Address" %}:</div>
+                            <div class="col-12 col-sm-8" id="tapir_user_address">
+                                {% if object.street and object.city %}
+                                {{ object.get_display_address }}
+                                {% else %}
+                                <span class="text-danger">{% translate "Missing" %}</span>
+                                {% endif %}
+                            </div>
+                        </div>
                         <div class="row m-1">
                             <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Preferred Language" %}:</div>
                             <div class="col-12 col-sm-8">{{ object.get_preferred_language_display }}</div>
@@ -76,6 +120,27 @@
                                 -
                                 {% endif %}
                             </div>
+                        </div>
+                        <div class="d-flex justify-content-end flex-fill flex-wrap gap-2 m-1 mt-3">
+                            {% if perms.accounts.manage %}
+                            <div class="ms-1">
+                                <form method="post" action="{% url 'accounts:send_user_welcome_email' object.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="{% tapir_button_action %} ms-3">
+                                        <span class="material-icons">send</span>{% translate "Resend account activation
+                                        email" %}
+                                    </button>
+                                </form>
+                            </div>
+                            {% endif %}
+                            {% if object.pk == request.user.pk %}
+                            <div class="ms-1">
+                                <a class="{% tapir_button_link_to_action %} ms-1"
+                                    href="{% url 'password_change' %}"><span class="material-icons">vpn_key</span>{%
+                                    translate "Change Password" %}
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                     {% if object.share_owner.rizoma_member_data and object.share_owner.rizoma_member_data.photo_id %}

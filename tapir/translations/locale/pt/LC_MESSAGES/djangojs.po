@@ -188,7 +188,7 @@ msgstr ""
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Welcome Desk"
-msgstr ""
+msgstr "Welcome Desk"
 
 #: dist/assets/welcome_desk-OgiTR3jj.js:1
 msgid "Name or member ID"

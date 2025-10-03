@@ -220,7 +220,7 @@ msgstr "Mais informações"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:25
 msgid "The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. You can also still decide with each purchase whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by deactivating the checkbox above. With your consent, you help Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: https://wiki.supercoop.de/wiki/Mitgliederkarte"
-msgstr ""
+msgstr "O sistema de caixa associa a sua compra à sua conta de membro. O valor total da sua compra é guardado em cada transação. No entanto, não são registados os produtos específicos que comprou. Pode também decidir, em cada compra, se deseja ou não que o seu cartão de membro seja lido. Ao dar o seu consentimento geral aqui no Tapir, não assume nenhuma obrigação de leitura. Pode revogar o seu consentimento a qualquer momento, desmarcando a caixa acima. Com o seu consentimento, ajuda a Supercoop a compreender melhor os hábitos de compra dos seus membros. Isto é importante para o desenvolvimento futuro do nosso supermercado. Mais informações: https://wiki.supercoop.de/wiki/Mitgliederkarte"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:169
@@ -675,7 +675,7 @@ msgstr "Estado do membro"
 
 #: coop/forms.py:291
 msgid "In the case where the member wants their money back, they stay a member for 3 more years. However, it is very likely that the member doesn't want to be active anymore. If they haven't explicitly mentioned it, please ask them if we can switch them to investing."
-msgstr ""
+msgstr "No caso de o membro querer o reembolso, permanece como membro por mais 3 anos. No entanto, é muito provável que o membro não queira mais estar ativo. Se não tiverem mencionado explicitamente, pergunte se podemos convertê-lo em membro investidor."
 
 #: coop/forms.py:316
 msgid "Send confirmation mails"
@@ -1148,7 +1148,7 @@ msgstr "título(s)"
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:33
 msgid "New shares for existing members upload only after approval in Duo"
-msgstr ""
+msgstr "Novas ações para membros existentes são carregadas apenas após aprovação no Duo"
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:47
 #, fuzzy
@@ -1399,7 +1399,7 @@ msgid ""
 "            updated. You may change working groups as needed.\n"
 "        </p>\n"
 "        <p>\n"
-"            You also have opportunities to get involved at SuperCoop in addition to your regular shift. To make it as easy\n"
+"            You also have opportunities to get involved at SuperCoop in addition to your regular shift. To make it as easy\n" 
 "            as\n"
 "            possible for you to get started, we have summarized all <a href=\"https://wiki.supercoop.de/wiki/Working_Groups\">additional\n"
 "            working groups</a> in the wiki. Please see the Wiki for further information on how to get involved.\n"
@@ -5000,7 +5000,6 @@ msgstr ""
 "\n"
 "                O seu crédito atual é %(credit)s€.\n"
 "            "
-
 #: statistics/templates/statistics/tags/credit_account_card.html:14
 msgid "List of last charged credits"
 msgstr "Lista dos últimos créditos carregados"
@@ -6047,7 +6046,7 @@ msgstr "NOME INDISPONÍVEL"
 #: welcomedesk/apps.py:21 welcomedesk/apps.py:24
 #: welcomedesk/templates/welcomedesk/welcome_desk_search.html:14
 msgid "Welcome Desk"
-msgstr ""
+msgstr "Welcome Desk"
 
 #: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:44
 #, python-format
