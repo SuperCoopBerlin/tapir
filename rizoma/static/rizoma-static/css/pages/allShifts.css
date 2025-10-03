@@ -1,0 +1,37 @@
+
+/* Fix duplicated data */
+
+.all-shifts-page .attendances-table {
+  table-layout: fixed;
+  max-width: 1200px;
+}
+
+.all-shifts-page .attendances-table th {
+  background-color: var(--riz-color-gray-lighter);
+}
+
+.all-shifts-page .attendances-table td:first-child {
+  background-color: var(--riz-color-gray-lighter);
+}
+
+.all-shifts-page .attendances-table th, .all-shifts-page .attendances-table td, .all-shifts-page .attendances-table tr {
+  border: 1px solid var(--bs-border-color);
+}
+
+.all-shifts-page .shift-attendances > div:not(:first-child) {
+  display: none !important;
+}
+
+.all-shifts-page .shift-attendances {
+  font-size: 1rem;
+}
+
+.all-shifts-page .date-picker .btn-group > .btn:first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.all-shifts-page .date-picker .btn-group > .btn-last {
+  border-top-right-radius: var(--bs-border-radius);
+  border-bottom-right-radius: var(--bs-border-radius);
+}
