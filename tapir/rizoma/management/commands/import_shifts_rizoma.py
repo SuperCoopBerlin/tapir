@@ -7,34 +7,56 @@ from django.utils import timezone
 from icecream import ic
 
 from tapir.accounts.models import TapirUser
-from tapir.shifts.management.commands.generate_shifts import GENERATE_UP_TO
+from tapir.core.models import FeatureFlag
+from tapir.rizoma.config import FEATURE_FLAG_GOOGLE_CALENDAR_EVENTS_FOR_SHIFTS
 from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftTemplate,
     ShiftSlotTemplate,
     Shift,
     ShiftAttendanceTemplate,
+    ShiftUserCapability,
+    ShiftUserCapabilityTranslation,
+    CreateShiftAttendanceTemplateLogEntry,
 )
 from tapir.shifts.utils import generate_shifts_up_to
 from tapir.utils.expection_utils import TapirException
+from tapir.utils.shortcuts import get_monday
 
 
 class Command(BaseCommand):
+    QUALIFICATION_TRANSLATIONS = {
+        "en": {"Caixa": "Cashier", "Mercearia": "Shop"},
+        "de": {"Caixa": "Kasse", "Mercearia": "Laden"},
+    }
+
     def add_arguments(self, parser):
         parser.add_argument("file_name", type=str)
 
     @transaction.atomic
     def handle(self, *args, **options):
+        if FeatureFlag.get_flag_value(FEATURE_FLAG_GOOGLE_CALENDAR_EVENTS_FOR_SHIFTS):
+            answer = input(
+                "Invites via Google calendar are enabled, importing shifts will send invites by mail, are you sure you want to continue? (y/n)"
+            )
+            if answer.lower() not in ["y", "yes"]:
+                print("Cancelled import")
+                return
+
         ShiftTemplate.objects.all().delete()
-        Shift.objects.all().delete()
+        Shift.objects.filter(
+            start_time__date__gte=get_monday(timezone.now().date())
+        ).delete()
 
         shift_data = self.build_shift_data(options["file_name"])
         shift_templates = self.create_shift_templates(shift_data)
         grouped_shift_templates = self.group_shift_templates(shift_templates)
         self.create_slot_template(shift_data, grouped_shift_templates)
+        self.assign_shift_user_capabilities_to_slot_templates()
         self.create_attendance_templates(shift_data)
+        self.add_capabilities_to_users()
 
-        generate_shifts_up_to(timezone.now().date() + GENERATE_UP_TO)
+        generate_shifts_up_to(timezone.now().date() + datetime.timedelta(days=30))
 
     @staticmethod
     def create_shift_templates(shift_data):
@@ -46,7 +68,7 @@ class Command(BaseCommand):
                     all_shift_templates.append(
                         ShiftTemplate(
                             group=week_group,
-                            name="Test Rizoma",
+                            name="Rizoma",
                             weekday=day_index,
                             start_time=start_time,
                             end_time=any_slot["end_time"],
@@ -76,8 +98,8 @@ class Command(BaseCommand):
 
         return shift_templates_by_week_group
 
-    @staticmethod
-    def create_slot_template(shift_data, grouped_shift_templates):
+    @classmethod
+    def create_slot_template(cls, shift_data, grouped_shift_templates):
         all_slot_templates = []
         for week_group, by_day_index in shift_data.items():
             for day_index, by_start_time in by_day_index.items():
@@ -94,6 +116,62 @@ class Command(BaseCommand):
                             )
 
         return ShiftSlotTemplate.objects.bulk_create(all_slot_templates)
+
+    @classmethod
+    def assign_shift_user_capabilities_to_slot_templates(cls):
+        existing_qualifications = {
+            capability.shiftusercapabilitytranslation_set.get(
+                language="pt"
+            ).name: capability
+            for capability in ShiftUserCapability.objects.all()
+        }
+        many_to_many_links = []
+        for slot_template in ShiftSlotTemplate.objects.all():
+            capability = cls.get_or_create_capability(
+                portuguese_name=slot_template.name,
+                existing_qualifications=existing_qualifications,
+            )
+            many_to_many_links.append(
+                ShiftSlotTemplate.required_capabilities.through(
+                    shiftusercapability=capability, shiftslottemplate=slot_template
+                )
+            )
+
+        ShiftSlotTemplate.required_capabilities.through.objects.bulk_create(
+            many_to_many_links
+        )
+
+    @classmethod
+    def get_or_create_capability(
+        cls, portuguese_name: str, existing_qualifications: dict
+    ) -> ShiftUserCapability:
+        if portuguese_name in existing_qualifications.keys():
+            return existing_qualifications[portuguese_name]
+
+        capability = ShiftUserCapability.objects.create()
+        translations = [
+            ShiftUserCapabilityTranslation(
+                capability=capability, language="pt", name=portuguese_name
+            )
+        ]
+        for language in cls.QUALIFICATION_TRANSLATIONS.keys():
+            translated_name = cls.QUALIFICATION_TRANSLATIONS[language].get(
+                portuguese_name, None
+            )
+            if translated_name is not None:
+                translations.append(
+                    ShiftUserCapabilityTranslation(
+                        capability=capability,
+                        language=language,
+                        name=translated_name,
+                    )
+                )
+
+        ShiftUserCapabilityTranslation.objects.bulk_create(translations)
+
+        existing_qualifications[portuguese_name] = capability
+
+        return capability
 
     @staticmethod
     def build_shift_data(file_name):
@@ -156,7 +234,7 @@ class Command(BaseCommand):
     @classmethod
     def create_attendance_templates(cls, shift_data):
         members_by_name = {
-            f"{tapir_user.first_name} {tapir_user.last_name}": tapir_user
+            f"{tapir_user.first_name} {tapir_user.last_name}".casefold(): tapir_user
             for tapir_user in TapirUser.objects.all()
         }
 
@@ -169,7 +247,7 @@ class Command(BaseCommand):
                         for member_name in slot_data[
                             "name_of_the_registered_members"
                         ].split(","):
-                            member_name = member_name.strip()
+                            member_name = member_name.strip().casefold()
                             if member_name == "":
                                 continue
                             if member_name not in members_by_name.keys():
@@ -181,15 +259,21 @@ class Command(BaseCommand):
                                     day_index,
                                     member_name,
                                     members_by_name,
-                                    slot_data,
                                     slot_ids_already_taken,
                                     slot_name,
                                     start_time,
                                     week_group,
                                 )
                             )
-
-        return ShiftAttendanceTemplate.objects.bulk_create(attendance_templates)
+        attendance_templates = ShiftAttendanceTemplate.objects.bulk_create(
+            attendance_templates
+        )
+        for attendance_template in attendance_templates:
+            CreateShiftAttendanceTemplateLogEntry().populate(
+                actor=None,
+                tapir_user=attendance_template.user,
+                shift_attendance_template=attendance_template,
+            ).save()
 
     @classmethod
     def build_attendance_template(
@@ -197,7 +281,6 @@ class Command(BaseCommand):
         day_index,
         member_name,
         members_by_name,
-        slot_data,
         slot_ids_already_taken,
         slot_name,
         start_time,
@@ -214,16 +297,33 @@ class Command(BaseCommand):
             .first()
         )
         if slot is None:
-            ic(
-                week_group,
-                day_index,
-                start_time,
-                slot_name,
-                slot_data,
-            )
             raise TapirException("No available slot for: " + member_name)
         slot_ids_already_taken.append(slot.id)
         return ShiftAttendanceTemplate(
             user=members_by_name[member_name],
             slot_template=slot,
         )
+
+    @classmethod
+    def add_capabilities_to_users(cls):
+        existing_qualifications = {
+            capability.shiftusercapabilitytranslation_set.get(
+                language="pt"
+            ).name: capability
+            for capability in ShiftUserCapability.objects.all()
+        }
+        for attendance_template in ShiftAttendanceTemplate.objects.prefetch_related(
+            "user",
+            "user__shift_user_data",
+            "user__shift_user_data__capabilities",
+            "slot_template",
+        ):
+            qualification = existing_qualifications[
+                attendance_template.slot_template.name
+            ]
+            if (
+                qualification
+                in attendance_template.user.shift_user_data.capabilities.all()
+            ):
+                continue
+            attendance_template.user.shift_user_data.capabilities.add(qualification)

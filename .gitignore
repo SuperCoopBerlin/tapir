@@ -147,4 +147,5 @@ dist-ssr
 /members-current.csv
 
 rsa_keys/
-google_credentials.json
+/google_client_secret_desktop.json
+/google_user_token.json

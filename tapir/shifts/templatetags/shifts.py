@@ -49,7 +49,9 @@ def shift_name_as_class(shift_name: str) -> str:
 def shift_to_block_object(shift: Shift, fill_parent: bool):
     attendances = {}
 
-    slots = sort_slots_by_name(list(shift.slots.all()))
+    slots = shift.slots.all()
+    slots = [slot for slot in slots if not slot.deleted]
+    slots = sort_slots_by_name(slots)
 
     for slot in slots:
         slot_name = slot.name
@@ -88,6 +90,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
 
 def get_attendance_state_for_html_icon(slot: ShiftSlot) -> str:
     attendance = None
+
     for a in slot.attendances.all():
         if a.is_valid():
             attendance = a
@@ -98,10 +101,11 @@ def get_attendance_state_for_html_icon(slot: ShiftSlot) -> str:
 
     if attendance.state == ShiftAttendance.State.LOOKING_FOR_STAND_IN:
         return "standin"
+
     if (
         slot.slot_template is not None
         and hasattr(slot.slot_template, "attendance_template")
-        and slot.slot_template.attendance_template.user == attendance.user
+        and slot.slot_template.attendance_template.user_id == attendance.user_id
     ):
         return "regular"
     return "single"
@@ -146,7 +150,11 @@ def shift_template_to_block_object(shift_template: ShiftTemplate, fill_parent: b
 
     num_attendances = 0
 
-    slot_templates = sort_slots_by_name(list(shift_template.slot_templates.all()))
+    slot_templates = shift_template.slot_templates.all()
+    slot_templates = [
+        slot_template for slot_template in slot_templates if not slot_template.deleted
+    ]
+    slot_templates = sort_slots_by_name(slot_templates)
 
     for slot_template in slot_templates:
         slot_name = slot_template.name

@@ -77,6 +77,7 @@ class RegisterUserToShiftSlotTemplateView(
 
     def form_valid(self, form):
         form.instance.slot_template = self.get_slot_template()
+
         with transaction.atomic():
             response = super().form_valid(form)
 

@@ -293,6 +293,7 @@ REG_PERSON_OBJECT_CLASSES = ["inetOrgPerson", "organizationalPerson", "person"]
 REG_GROUP_BASE_DN = "ou=groups,dc=supercoop,dc=de"
 REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
+PERMISSION_SHIFTS_ADMIN = "shifts.admin"
 PERMISSION_SHIFTS_MANAGE = "shifts.manage"
 PERMISSION_SHIFTS_EXEMPTIONS = "shifts.exemptions"
 PERMISSION_COOP_VIEW = "coop.view"
@@ -326,6 +327,10 @@ LDAP_GROUPS = {
 
 
 PERMISSIONS = {
+    PERMISSION_SHIFTS_ADMIN: {
+        GROUP_VORSTAND,
+        GROUP_EMPLOYEES,
+    },
     PERMISSION_SHIFTS_MANAGE: {
         GROUP_VORSTAND,
         GROUP_MEMBER_OFFICE,
@@ -457,6 +462,6 @@ if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
 
 RUNNING_TESTS = False
 
-GOOGLE_CREDENTIALS_FILE = env.str(
-    "GOOGLE_CREDENTIALS_FILE", default="google_credentials.json"
+PATH_TO_GOOGLE_CLIENT_SECRET_FILE = env.str(
+    "PATH_TO_GOOGLE_CLIENT_SECRET_FILE", default="google_client_secret_desktop.json"
 )

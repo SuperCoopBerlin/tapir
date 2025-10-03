@@ -71,6 +71,16 @@ class CoopsPtAuthBackend(BaseBackend):
 
         user_data = response.json()["data"]
 
+        email = user_data["email"]
+        tapir_user = TapirUser.objects.filter(username=email, is_active=False).first()
+        if tapir_user is not None:
+            CoopsPtUserCreator.set_attributes_from_api_response(
+                tapir_user=tapir_user, user_json=user_data
+            )
+            tapir_user.is_active = True
+            tapir_user.save()
+            return tapir_user
+
         with transaction.atomic():
             tapir_user = CoopsPtUserCreator.build_tapir_user_from_api_response(
                 user_data

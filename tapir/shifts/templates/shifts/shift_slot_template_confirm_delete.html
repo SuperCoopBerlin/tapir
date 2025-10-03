@@ -1,0 +1,35 @@
+{% extends "shifts/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load core %}
+{% load utils %}
+{% block title %}
+    {% translate 'Delete ABCD shift slot' %}: {{ slot_template.get_display_name }}
+{% endblock title %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="card border-danger">
+            <div class="card-header bg-danger">
+                <h5>{% translate "Confirm ABCD shift slot deletion:" %} {{ slot_template.get_display_name }}</h5>
+            </div>
+            <div class="card-body">
+                {% blocktranslate %}
+                    <p>Are you sure you want to delete this ABCD slot?</p>
+                    <p>All future non-ABCD slots that come from this ABCD-Slot will be deleted too. Past slots won't be
+                        deleted.</p>
+                    <p>If is only possible to delete a slot if there are no members registered to it.</p>
+                {% endblocktranslate %}
+                {% bootstrap_form form %}
+            </div>
+            <div class="card-footer">
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn tapir-btn btn-danger">
+                        <span class="material-icons">delete</span>
+                        {% translate 'Delete' %}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock content %}

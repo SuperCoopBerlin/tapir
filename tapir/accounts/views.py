@@ -43,6 +43,7 @@ from tapir.settings import (
     PERMISSION_GROUP_MANAGE,
     GROUP_VORSTAND,
 )
+from tapir.utils.expection_utils import TapirException
 from tapir.utils.shortcuts import (
     set_header_for_file_download,
     set_group_membership,
@@ -126,13 +127,25 @@ class TapirUserUpdateAdminView(TapirUserUpdateBaseView, PermissionRequiredMixin)
     permission_required = PERMISSION_ACCOUNTS_MANAGE
     form_class = TapirUserForm
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if settings.SHIFTS_ONLY:
+            raise TapirException(
+                "This instance is in shift only mode, editing users is not possible."
+            )
+
 
 class TapirUserUpdateSelfView(TapirUserUpdateBaseView, PermissionRequiredMixin):
     form_class = TapirUserSelfUpdateForm
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if settings.SHIFTS_ONLY:
+            raise TapirException(
+                "This instance is in shift only mode, editing users is not possible."
+            )
+
     def get_permission_required(self):
-        print(self.request.user.pk)
-        print(self.kwargs["pk"])
         if self.request.user.pk == self.kwargs["pk"]:
             return []
         return [PERMISSION_ACCOUNTS_MANAGE]
@@ -223,6 +236,13 @@ class EditUserLdapGroupsView(
 ):
     form_class = EditUserLdapGroupsForm
     permission_required = PERMISSION_GROUP_MANAGE
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if settings.SHIFTS_ONLY:
+            raise TapirException(
+                "This instance is in shift only mode, editing user groups is not possible."
+            )
 
     def get_tapir_user(self) -> TapirUser:
         return get_object_or_404(TapirUser, pk=self.kwargs["pk"])
@@ -336,6 +356,13 @@ class EditUsernameView(LoginRequiredMixin, PermissionRequiredMixin, generic.Upda
     form_class = EditUsernameForm
     model = TapirUser
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if settings.SHIFTS_ONLY:
+            raise TapirException(
+                "This instance is in shift only mode, editing usernames is not possible."
+            )
+
     def get_target_user(self) -> TapirUser:
         return TapirUser.objects.get(pk=self.kwargs["pk"])
 
@@ -383,12 +410,12 @@ class MailSettingsView(
         context_data = super().get_context_data(**kwargs)
         context_data["page_title"] = _("Notification settings for %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
-                self.get_tapir_user().share_owner, self.request.user
+                self.get_tapir_user(), self.request.user
             )
         }
         context_data["card_title"] = _("Notification settings for %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
-                self.get_tapir_user().share_owner, self.request.user
+                self.get_tapir_user(), self.request.user
             )
         }
         return context_data

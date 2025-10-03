@@ -13,6 +13,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.translation import gettext_lazy as _, get_language
 
 from tapir.accounts.models import TapirUser
@@ -55,6 +56,9 @@ class ShiftUserCapabilityTranslation(models.Model):
     name = models.CharField(_("Name"), max_length=255)
     description = models.TextField(_("Description"))
     capability = models.ForeignKey(ShiftUserCapability, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} - {self.language}"
 
 
 class ShiftSlotWarning(models.Model):
@@ -204,6 +208,7 @@ class ShiftTemplate(models.Model):
         blank=False,
         null=False,
     )
+    deleted = models.BooleanField(default=False)
 
     def __str__(self):
         display_name = "%s: %s %s %s-%s" % (
@@ -280,7 +285,7 @@ class ShiftTemplate(models.Model):
         generated_shift.save()
         shift = generated_shift
 
-        for slot_template in self.slot_templates.all().select_related(
+        for slot_template in self.slot_templates.filter(deleted=False).select_related(
             "attendance_template"
         ):
             slot = slot_template.create_slot_from_template(shift)
@@ -293,7 +298,7 @@ class ShiftTemplate(models.Model):
             slot_template.update_future_slot_attendances(now)
 
     def add_slot_template_and_update_future_shifts(
-        self, slot_name: str, required_capabilities: []
+        self, slot_name: str, required_capabilities: list
     ):
         slot_template = ShiftSlotTemplate.objects.create(
             name=slot_name,
@@ -309,10 +314,15 @@ class ShiftTemplate(models.Model):
                 shift.update_to_fit_template()
 
     def clean(self):
-        if self.start_time >= self.end_time:
+        if (
+            self.start_time is not None
+            and self.end_time is not None
+            and self.start_time >= self.end_time
+        ):
             raise ValidationError(
                 f"The shift must end after it starts. Given start time: {self.start_time}. Given end time: {self.end_time}"
             )
+        return self
 
 
 class RequiredCapabilitiesMixin:
@@ -349,6 +359,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         blank=False,
         on_delete=models.CASCADE,
     )
+    deleted = models.BooleanField(default=False)
 
     required_capabilities = models.ManyToManyField(ShiftUserCapability)
     warnings = models.ManyToManyField(ShiftSlotWarning)
@@ -458,7 +469,7 @@ class ShiftAttendanceTemplateLogEntry(ModelLogEntry):
 
     def populate(
         self,
-        actor: TapirUser | User,
+        actor: TapirUser | User | None,
         tapir_user: TapirUser,
         shift_attendance_template: ShiftAttendanceTemplate,
     ):
@@ -574,9 +585,10 @@ class Shift(models.Model):
         return f"{display_name} (#{self.id})"
 
     def get_display_name(self):
-        display_name = "%s %s - %s" % (
+        display_name = "%s %s %s - %s" % (
             self.name,
-            timezone.localtime(self.start_time).strftime("%a, %d %b %Y %H:%M"),
+            date_format(timezone.localtime(self.start_time)),
+            timezone.localtime(self.start_time).strftime("%H:%M"),
             timezone.localtime(self.end_time).strftime("%H:%M"),
         )
         if self.shift_template and self.shift_template.group:
@@ -665,6 +677,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
     shift = models.ForeignKey(
         Shift, related_name="slots", null=False, blank=False, on_delete=models.CASCADE
     )
+    deleted = models.BooleanField(default=False)
 
     required_capabilities = models.ManyToManyField(ShiftUserCapability)
     warnings = models.ManyToManyField(ShiftSlotWarning)
@@ -835,6 +848,7 @@ class ShiftAttendance(models.Model):
         ShiftSlot, related_name="attendances", on_delete=models.CASCADE
     )
     reminder_email_sent = models.BooleanField(default=False)
+    second_reminder_email_sent = models.BooleanField(default=False)
     is_solidarity = models.BooleanField(default=False)
     custom_time = models.TimeField(
         blank=False,
