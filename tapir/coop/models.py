@@ -95,6 +95,7 @@ class ShareOwner(models.Model):
         _("Is willing to gift a share"), null=True, blank=True
     )
     create_account_reminder_email_sent = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, blank=True)  # Soft-Delete
 
     class ShareOwnerQuerySet(models.QuerySet):
         def with_name(self, search_string: str):
@@ -176,6 +177,14 @@ class ShareOwner(models.Model):
             raise TapirException(f"Invalid status : {status}")
 
     objects = ShareOwnerQuerySet.as_manager()
+
+    def delete(self, using=None, keep_parents=False):
+        self.deleted_at = timezone.now()
+        self.save()
+
+    def restore(self):
+        self.deleted_at = None
+        self.save()
 
     def blank_info_fields(self):
         """Used after a ShareOwner is linked to a user, which is used as the source for user info instead."""
