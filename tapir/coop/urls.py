@@ -136,6 +136,11 @@ urlpatterns = [
         name="shareowner_update",
     ),
     path(
+        "member/<int:pk>/delete",
+        views.ShareOwnerDeleteView.as_view(),
+        name="shareowner_delete",
+    ),
+    path(
         "statistics",
         views.StatisticsView.as_view(),
         name="statistics",

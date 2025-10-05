@@ -7,6 +7,7 @@ import django_tables2
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import Q, F
 from django.http import (
@@ -17,6 +18,7 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.template import Template, Context
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic, View
@@ -57,6 +59,7 @@ from tapir.coop.models import (
     CreateShareOwnershipsLogEntry,
     UpdateShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
+    ShareOwnerQuerySet,
 )
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
@@ -272,6 +275,47 @@ class ShareOwnerUpdateView(
             )
         }
         context["card_title"] = _("Edit member: %(name)s") % {
+            "name": UserUtils.build_html_link_for_viewer(share_owner, self.request.user)
+        }
+        return context
+
+
+class ShareOwnerDeleteView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    generic.DeleteView,
+):
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
+    model = ShareOwner
+
+    def get_object(self, queryset=None):
+        share_owner = super().get_object(queryset)
+        if self.request.user == share_owner.user:
+            raise PermissionDenied("You cannot delete your own account.")
+        return share_owner
+
+    def get_success_url(self):
+        return reverse("coop:shareowner_list")
+
+    def delete(self, request, *args, **kwargs):
+        with transaction.atomic():
+            self.object = self.get_object()
+            self.object.delete()
+
+            for callback in on_welcome_session_attendance_update:
+                callback(self.object)
+
+        return super().delete(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        share_owner = self.object
+        context["page_title"] = _("Delete member: %(name)s") % {
+            "name": UserUtils.build_display_name_for_viewer(
+                share_owner, self.request.user
+            )
+        }
+        context["card_title"] = _("Are you sure you want to delete: %(name)s?") % {
             "name": UserUtils.build_html_link_for_viewer(share_owner, self.request.user)
         }
         return context
@@ -662,7 +706,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     )
 
     @staticmethod
-    def shift_slot_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
+    def shift_slot_filter(queryset: ShareOwnerQuerySet, name, value: str):
         return queryset.filter(
             # Find all Tapir-Users currently enrolled in that shift-name "value"
             user__in=Shift.objects.filter(
@@ -671,7 +715,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
         ).distinct()
 
     @staticmethod
-    def display_name_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
+    def display_name_filter(queryset: ShareOwnerQuerySet, name, value: str):
         # This is an ugly hack to enable searching by Mitgliedsnummer from the
         # one-stop search box in the top right
         if value.isdigit():
@@ -679,13 +723,11 @@ class ShareOwnerFilter(django_filters.FilterSet):
 
         return queryset.with_name(value).distinct()
 
-    def status_filter(self, queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
+    def status_filter(self, queryset: ShareOwnerQuerySet, name, value: str):
         return queryset.with_status(value, self.reference_time).distinct()
 
     @staticmethod
-    def shift_attendance_mode_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
-    ):
+    def shift_attendance_mode_filter(queryset: ShareOwnerQuerySet, name, value: str):
         queryset = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_datetime(
             queryset
         )
@@ -697,7 +739,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
 
     @staticmethod
     def registered_to_abcd_slot_with_capability_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+        queryset: ShareOwnerQuerySet, name, value: str
     ):
         return queryset.filter(
             user__in=TapirUser.objects.registered_to_abcd_shift_slot_with_capability(
@@ -707,44 +749,36 @@ class ShareOwnerFilter(django_filters.FilterSet):
 
     @staticmethod
     def registered_to_slot_with_capability_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+        queryset: ShareOwnerQuerySet, name, value: str
     ):
         return queryset.filter(
             user__in=TapirUser.objects.registered_to_shift_slot_with_capability(value)
         ).distinct()
 
     @staticmethod
-    def has_capability_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
-    ):
+    def has_capability_filter(queryset: ShareOwnerQuerySet, name, value: str):
         return queryset.filter(
             user__in=TapirUser.objects.has_capability(value)
         ).distinct()
 
     @staticmethod
-    def not_has_capability_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
-    ):
+    def not_has_capability_filter(queryset: ShareOwnerQuerySet, name, value: str):
         return queryset.exclude(
             user__in=TapirUser.objects.has_capability(value)
         ).distinct()
 
     @staticmethod
-    def has_tapir_account_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
-    ):
+    def has_tapir_account_filter(queryset: ShareOwnerQuerySet, name, value: bool):
         return queryset.exclude(user__isnull=value).distinct()
 
     @staticmethod
-    def abcd_week_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
+    def abcd_week_filter(queryset: ShareOwnerQuerySet, name, value: str):
         return queryset.filter(
             user__shift_attendance_templates__slot_template__shift_template__group__name=value
         ).distinct()
 
     @staticmethod
-    def is_fully_paid_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
-    ):
+    def is_fully_paid_filter(queryset: ShareOwnerQuerySet, name, value: bool):
         payment_filter = {
             f"{PaymentStatusService.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE}__gte": F(
                 PaymentStatusService.ANNOTATION_EXPECTED_PAYMENTS_SUM_AT_DATE
@@ -758,7 +792,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
 
     @staticmethod
     def is_currently_exempted_from_shifts_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
+        queryset: ShareOwnerQuerySet, name, value: bool
     ):
         exemption_filter = Q(
             user__shift_user_data__shift_exemptions__in=ShiftExemption.objects.active_temporal()
@@ -768,15 +802,11 @@ class ShareOwnerFilter(django_filters.FilterSet):
         return queryset.filter(exemption_filter).distinct()
 
     @staticmethod
-    def has_shift_partner_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
-    ):
+    def has_shift_partner_filter(queryset: ShareOwnerQuerySet, name, value: bool):
         return queryset.filter(user__shift_user_data__shift_partner__isnull=not value)
 
     @staticmethod
-    def is_shift_partner_of_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: bool
-    ):
+    def is_shift_partner_of_filter(queryset: ShareOwnerQuerySet, name, value: bool):
         return queryset.filter(
             user__shift_user_data__shift_partner_of__isnull=not value
         )
