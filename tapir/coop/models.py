@@ -31,6 +31,95 @@ from tapir.utils.shortcuts import (
 from tapir.utils.user_utils import UserUtils
 
 
+class ShareOwnerQuerySet(models.QuerySet):
+    def with_name(self, search_string: str):
+        searches = [s for s in search_string.split(" ") if s != ""]
+
+        combined_filters = Q(last_name__icontains="")
+        for search in searches:
+            word_filter = (
+                Q(last_name__unaccent__icontains=search)
+                | Q(first_name__unaccent__icontains=search)
+                | Q(usage_name__unaccent__icontains=search)
+                | Q(user__first_name__unaccent__icontains=search)
+                | Q(user__usage_name__unaccent__icontains=search)
+                | Q(user__last_name__unaccent__icontains=search)
+                | Q(company_name__unaccent__icontains=search)
+            )
+            combined_filters = combined_filters & word_filter
+
+        return self.filter(combined_filters)
+
+    def with_status(
+        self, status: str, at_datetime: datetime.datetime | datetime.date = None
+    ):
+        if at_datetime is None:
+            at_datetime = timezone.now()
+
+        at_datetime = ensure_datetime(at_datetime)
+
+        share_owners_with_nb_of_shares = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
+            ShareOwner.objects.all(), at_datetime.date()
+        )
+        members_without_shares = share_owners_with_nb_of_shares.filter(
+            **{NumberOfSharesService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
+        )
+        members_without_shares_ids = list(
+            members_without_shares.values_list("id", flat=True)
+        )
+
+        if status == MemberStatus.SOLD:
+            return self.filter(id__in=members_without_shares_ids).distinct()
+
+        members_with_valid_shares = self.exclude(id__in=members_without_shares_ids)
+
+        members_with_investing_annotation = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
+            ShareOwner.objects.all(), at_datetime
+        )
+        investing_members = members_with_investing_annotation.filter(
+            **{InvestingStatusService.ANNOTATION_WAS_INVESTING: True}
+        )
+        investing_members_ids = list(investing_members.values_list("id", flat=True))
+
+        if status == MemberStatus.INVESTING:
+            return members_with_valid_shares.filter(
+                id__in=investing_members_ids
+            ).distinct()
+
+        member_with_shares_and_not_investing: Self = members_with_valid_shares.exclude(
+            id__in=investing_members_ids
+        )
+
+        members_with_paused_annotation = (
+            MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
+                ShareOwner.objects.all(), at_datetime.date()
+            )
+        )
+        paused_members = members_with_paused_annotation.filter(
+            **{MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE: True}
+        )
+        paused_members_ids = list(paused_members.values_list("id", flat=True))
+
+        if status == MemberStatus.PAUSED:
+            return member_with_shares_and_not_investing.filter(
+                id__in=paused_members_ids
+            ).distinct()
+
+        if status == MemberStatus.ACTIVE:
+            return member_with_shares_and_not_investing.exclude(
+                id__in=paused_members_ids
+            ).distinct()
+
+        raise TapirException(f"Invalid status : {status}")
+
+
+class NonDeleted(models.Manager):
+    def get_queryset(self):
+        return ShareOwnerQuerySet(self.model, using=self._db).filter(
+            deleted_at__isnull=True
+        )
+
+
 class ShareOwner(models.Model):
     """ShareOwner represents a share_owner of a ShareOwnership.
 
@@ -97,86 +186,8 @@ class ShareOwner(models.Model):
     create_account_reminder_email_sent = models.BooleanField(default=False)
     deleted_at = models.DateTimeField(null=True, blank=True)  # Soft-Delete
 
-    class ShareOwnerQuerySet(models.QuerySet):
-        def with_name(self, search_string: str):
-            searches = [s for s in search_string.split(" ") if s != ""]
-
-            combined_filters = Q(last_name__icontains="")
-            for search in searches:
-                word_filter = (
-                    Q(last_name__unaccent__icontains=search)
-                    | Q(first_name__unaccent__icontains=search)
-                    | Q(usage_name__unaccent__icontains=search)
-                    | Q(user__first_name__unaccent__icontains=search)
-                    | Q(user__usage_name__unaccent__icontains=search)
-                    | Q(user__last_name__unaccent__icontains=search)
-                    | Q(company_name__unaccent__icontains=search)
-                )
-                combined_filters = combined_filters & word_filter
-
-            return self.filter(combined_filters)
-
-        def with_status(
-            self, status: str, at_datetime: datetime.datetime | datetime.date = None
-        ):
-            if at_datetime is None:
-                at_datetime = timezone.now()
-
-            at_datetime = ensure_datetime(at_datetime)
-
-            share_owners_with_nb_of_shares = NumberOfSharesService.annotate_share_owner_queryset_with_nb_of_active_shares(
-                ShareOwner.objects.all(), at_datetime.date()
-            )
-            members_without_shares = share_owners_with_nb_of_shares.filter(
-                **{NumberOfSharesService.ANNOTATION_NUMBER_OF_ACTIVE_SHARES: 0}
-            )
-            members_without_shares_ids = list(
-                members_without_shares.values_list("id", flat=True)
-            )
-
-            if status == MemberStatus.SOLD:
-                return self.filter(id__in=members_without_shares_ids).distinct()
-
-            members_with_valid_shares = self.exclude(id__in=members_without_shares_ids)
-
-            members_with_investing_annotation = InvestingStatusService.annotate_share_owner_queryset_with_investing_status_at_datetime(
-                ShareOwner.objects.all(), at_datetime
-            )
-            investing_members = members_with_investing_annotation.filter(
-                **{InvestingStatusService.ANNOTATION_WAS_INVESTING: True}
-            )
-            investing_members_ids = list(investing_members.values_list("id", flat=True))
-
-            if status == MemberStatus.INVESTING:
-                return members_with_valid_shares.filter(
-                    id__in=investing_members_ids
-                ).distinct()
-
-            member_with_shares_and_not_investing: Self = (
-                members_with_valid_shares.exclude(id__in=investing_members_ids)
-            )
-
-            members_with_paused_annotation = MembershipPauseService.annotate_share_owner_queryset_with_has_active_pause(
-                ShareOwner.objects.all(), at_datetime.date()
-            )
-            paused_members = members_with_paused_annotation.filter(
-                **{MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE: True}
-            )
-            paused_members_ids = list(paused_members.values_list("id", flat=True))
-
-            if status == MemberStatus.PAUSED:
-                return member_with_shares_and_not_investing.filter(
-                    id__in=paused_members_ids
-                ).distinct()
-
-            if status == MemberStatus.ACTIVE:
-                return member_with_shares_and_not_investing.exclude(
-                    id__in=paused_members_ids
-                ).distinct()
-
-            raise TapirException(f"Invalid status : {status}")
-
-    objects = ShareOwnerQuerySet.as_manager()
+    everything = models.Manager()
+    objects = NonDeleted()
 
     def delete(self, using=None, keep_parents=False):
         self.deleted_at = timezone.now()
