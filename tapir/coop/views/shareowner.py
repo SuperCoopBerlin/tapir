@@ -7,6 +7,7 @@ import django_tables2
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import Q, F
 from django.http import (
@@ -17,6 +18,7 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.template import Template, Context
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic, View
@@ -273,6 +275,47 @@ class ShareOwnerUpdateView(
             )
         }
         context["card_title"] = _("Edit member: %(name)s") % {
+            "name": UserUtils.build_html_link_for_viewer(share_owner, self.request.user)
+        }
+        return context
+
+
+class ShareOwnerDeleteView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    generic.DeleteView,
+):
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
+    model = ShareOwner
+
+    def get_object(self, queryset=None):
+        share_owner = super().get_object(queryset)
+        if self.request.user == share_owner.user:
+            raise PermissionDenied("You cannot delete your own account.")
+        return share_owner
+
+    def get_success_url(self):
+        return reverse("coop:shareowner_list")
+
+    def delete(self, request, *args, **kwargs):
+        with transaction.atomic():
+            self.object = self.get_object()
+            self.object.delete()
+
+            for callback in on_welcome_session_attendance_update:
+                callback(self.object)
+
+        return super().delete(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        share_owner = self.object
+        context["page_title"] = _("Delete member: %(name)s") % {
+            "name": UserUtils.build_display_name_for_viewer(
+                share_owner, self.request.user
+            )
+        }
+        context["card_title"] = _("Are you sure you want to delete: %(name)s?") % {
             "name": UserUtils.build_html_link_for_viewer(share_owner, self.request.user)
         }
         return context

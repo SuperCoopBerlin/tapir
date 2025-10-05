@@ -21,6 +21,11 @@
                        id="share_owner_edit_button">
                         <span class="material-icons">edit</span>{% translate 'Edit' %}
                     </a>
+                    <a class="{% tapir_button_custom 'danger' %}"
+                       href="{% url 'coop:shareowner_delete' share_owner.pk %}"
+                       id="share_owner_delete_button">
+                        <span class="material-icons">delete</span>{% translate 'Delete' %}
+                    </a>
                 </span>
             {% endif %}
         {% endif %}
