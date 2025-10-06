@@ -1,0 +1,92 @@
+services:
+
+  tapir:
+    build:
+      context: ../
+      dockerfile: django.Dockerfile
+    environment:
+      ALLOWED_HOSTS: ${SERVER_DOMAIN:?}
+      SITE_URL: "https://${SERVER_DOMAIN:?}"
+      DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
+    # Run collectstatic at startup to possibly copy to a shared volume to be served by the webproxy
+    command: bash -c "poetry run python ./manage.py collectstatic --clear --noinput && poetry run python ./manage.py migrate && poetry run gunicorn -b 0.0.0.0:80 tapir.wsgi:application"
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '200m'
+        max-file: '5'
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      # This volume is also mounted by nginx to serve static files
+      - 'tapir-web-static:/app/static'
+    ports:
+      - 80
+
+  celery:
+    build:
+      context: ../
+      dockerfile: django.Dockerfile
+    restart: unless-stopped
+    command: bash -c "poetry install && poetry run celery -A tapir worker -l info"
+    environment:
+      ALLOWED_HOSTS: ${SERVER_DOMAIN:?}
+      SITE_URL: "https://${SERVER_DOMAIN:?}"
+      DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
+    depends_on:
+      - redis
+
+  celery-beat:
+    build:
+      context: ../
+      dockerfile: django.Dockerfile
+    restart: unless-stopped
+    command: bash -c "poetry install && poetry run celery -A tapir beat -l info"
+    environment:
+      ALLOWED_HOSTS: ${SERVER_DOMAIN:?}
+      SITE_URL: "https://${SERVER_DOMAIN:?}"
+      DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
+      DEBUG: 0
+    depends_on:
+      - redis
+
+  static-http:
+    # serve static files, because django does not
+    image: joseluisq/static-web-server:2-alpine
+    restart: unless-stopped
+    volumes:
+      - "tapir-web-static:/static:ro"
+    depends_on:
+      - tapir
+    environment:
+      - SERVER_ROOT=/static
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tapir-statics-server.rule=Host(`${SERVER_DOMAIN:?}`) && PathPrefix(`/static`)"
+      - "traefik.http.routers.tapir-statics-server.entryPoints=http"
+
+  db:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: tapir
+      POSTGRES_USER: tapir
+      POSTGRES_PASSWORD: ${TAPIR_POSTGRES_PASSWORD:-tapir}
+    healthcheck:
+      test: pg_isready -d tapir -U tapir
+      interval: 30s
+      timeout: 15s
+      retries: 5
+    volumes:
+      - 'tapir-db-data:/var/lib/postgresql/data/pgdata'
+
+  # Backend for Celery task queue
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+
+volumes:
+  tapir-db-data:
+  tapir-web-static:
