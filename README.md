@@ -107,7 +107,7 @@ TEMPLATE_SUB_FOLDER=rizoma
 
 You need to define 2 environment variables for the user sync to work.
 
-- The API key `COOPS_PT_API_KEY`, with you should get from [...].coops.pt/developers
+- The API key `COOPS_PT_API_KEY`, which you should get from [...].coops.pt/developers
 - The path to the RSA public key file `COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH`.
   This key is used to validate the JWT tokens returned by the coops.pt API when logging in.
   The key in the file should be in the "PKCS#1 PEM-encoded"-Format.
