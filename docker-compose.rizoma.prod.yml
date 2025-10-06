@@ -2,7 +2,7 @@ services:
 
   tapir:
     build:
-      context: ../
+      context: .
       dockerfile: django.Dockerfile
     environment:
       ALLOWED_HOSTS: ${SERVER_DOMAIN:?}
@@ -26,7 +26,7 @@ services:
 
   celery:
     build:
-      context: ../
+      context: .
       dockerfile: django.Dockerfile
     restart: unless-stopped
     command: bash -c "poetry install && poetry run celery -A tapir worker -l info"
@@ -39,7 +39,7 @@ services:
 
   celery-beat:
     build:
-      context: ../
+      context: .
       dockerfile: django.Dockerfile
     restart: unless-stopped
     command: bash -c "poetry install && poetry run celery -A tapir beat -l info"
