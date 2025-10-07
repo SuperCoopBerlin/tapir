@@ -36,7 +36,7 @@ if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
     COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH = env.str("COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH", default="")
 
 # we prefix all templates with our custom rizoma templates
-TEMPLATES[0][|"DIRS"] =  [
+TEMPLATES[0]["DIRS"] =  [
         # prepend rizoma templates to overwrite with
         os.path.join(BASE_DIR, "rizoma/templates"),
         os.path.join(BASE_DIR, "tapir/templates"),
