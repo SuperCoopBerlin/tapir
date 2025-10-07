@@ -9,7 +9,7 @@ services:
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR},localhost
       SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
-      STATIC_URL: "${SERVICE_URL_STATIC_HTTP}/"
+      STATIC_URL: "${SERVICE_URL_STATIC_HTTP}/static/"
       ENABLE_RIZOMA_CONTENT: "1"
     command: bash -c "poetry run python ./manage.py collectstatic --clear --noinput && poetry run python ./manage.py migrate && poetry run gunicorn -b 0.0.0.0:80 tapir.wsgi:application"
     logging:
@@ -72,11 +72,11 @@ services:
     image: joseluisq/static-web-server:2-alpine
     restart: unless-stopped
     volumes:
-      - "tapir-web-static:/static:ro"
+      - "tapir-web-static:/public/static:ro"
     depends_on:
       - tapir
     environment:
-      - SERVER_ROOT=/static
+      - SERVER_ROOT=/public
 
   db:
     image: postgres:14-alpine
