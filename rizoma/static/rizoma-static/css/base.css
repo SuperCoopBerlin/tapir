@@ -1,5 +1,5 @@
 @import url("./global/theme.css");
-@import url("./components/fonts.css");
+@import url("./global/fonts.css");
 
 /* Components */
 @import url("./components/icons.css");
