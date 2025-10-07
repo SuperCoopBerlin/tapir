@@ -8,7 +8,7 @@ services:
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
       SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
-      STATIC_URL: "${SERVICE_URL_STATIC_HTTP}"
+      STATIC_URL: "${SERVICE_URL_STATIC_HTTP}/"
       ENABLE_RIZOMA_CONTENT: "1"
     command: bash -c "poetry run python ./manage.py collectstatic --clear --noinput && poetry run python ./manage.py migrate && poetry run gunicorn -b 0.0.0.0:80 tapir.wsgi:application"
     logging:
