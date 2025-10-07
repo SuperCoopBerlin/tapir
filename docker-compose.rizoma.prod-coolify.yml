@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: tapir.Dockerfile
     environment:
-      ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
+      ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR},localhost
       SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
       STATIC_URL: "${SERVICE_URL_STATIC_HTTP}/"
