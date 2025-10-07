@@ -5,10 +5,11 @@ services:
       context: .
       dockerfile: django.Dockerfile
     environment:
-      ALLOWED_HOSTS: ${SERVER_DOMAIN:?}
-      SITE_URL: "https://${SERVER_DOMAIN:?}"
+      ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
+      SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
-    # Run collectstatic at startup to possibly copy to a shared volume to be served by the webproxy
+      STATIC_URL: "${SERVICE_URL_STATIC_HTTP}"
+      ENABLE_RIZOMA_CONTENT: "1"
     command: bash -c "poetry run python ./manage.py collectstatic --clear --noinput && poetry run python ./manage.py migrate && poetry run gunicorn -b 0.0.0.0:80 tapir.wsgi:application"
     logging:
       driver: 'json-file'
@@ -21,6 +22,7 @@ services:
     volumes:
       # This volume is also mounted by nginx to serve static files
       - 'tapir-web-static:/app/static'
+      - ./rizoma/deploy.env:/app.env:ro
     ports:
       - 80
 
@@ -30,10 +32,13 @@ services:
       dockerfile: django.Dockerfile
     restart: unless-stopped
     command: bash -c "poetry install && poetry run celery -A tapir worker -l info"
+    volumes:
+      - ./rizoma/deploy.env:/app.env:ro
     environment:
-      ALLOWED_HOSTS: ${SERVER_DOMAIN:?}
-      SITE_URL: "https://${SERVER_DOMAIN:?}"
+      ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
+      SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
+      ENABLE_RIZOMA_CONTENT: "1"
     depends_on:
       - redis
 
@@ -44,9 +49,10 @@ services:
     restart: unless-stopped
     command: bash -c "poetry install && poetry run celery -A tapir beat -l info"
     environment:
-      ALLOWED_HOSTS: ${SERVER_DOMAIN:?}
-      SITE_URL: "https://${SERVER_DOMAIN:?}"
+      ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
+      SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
+      ENABLE_RIZOMA_CONTENT: "1"
       DEBUG: 0
     depends_on:
       - redis
@@ -61,10 +67,6 @@ services:
       - tapir
     environment:
       - SERVER_ROOT=/static
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.tapir-statics-server.rule=Host(`${SERVER_DOMAIN:?}`) && PathPrefix(`/static`)"
-      - "traefik.http.routers.tapir-statics-server.entryPoints=http"
 
   db:
     image: postgres:14-alpine
