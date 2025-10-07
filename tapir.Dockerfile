@@ -34,4 +34,4 @@ RUN poetry run python manage.py compilemessages
 
 # fetching the vite build files
 COPY --from=vite-build /app/dist /app/dist
-
+EXPOSE 80

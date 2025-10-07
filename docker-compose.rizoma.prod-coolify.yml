@@ -24,8 +24,6 @@ services:
       # This volume is also mounted by nginx to serve static files
       - 'tapir-web-static:/app/static'
       - ./rizoma/deploy.env:/app.env:ro
-    ports:
-      - 80
 
     healthcheck:
       test: curl --fail http://localhost:80/ || exit 1
