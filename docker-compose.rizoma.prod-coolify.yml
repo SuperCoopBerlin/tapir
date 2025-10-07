@@ -1,9 +1,10 @@
 services:
 
   tapir:
+    image: tapir-local
     build:
       context: .
-      dockerfile: django.Dockerfile
+      dockerfile: tapir.Dockerfile
     environment:
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
       SITE_URL: "${SERVICE_URL_TAPIR}"
@@ -26,10 +27,18 @@ services:
     ports:
       - 80
 
+    healthcheck:
+      test: curl --fail http://localhost:80/ || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
   celery:
+    image: tapir-local
     build:
       context: .
-      dockerfile: django.Dockerfile
+      dockerfile: tapir.Dockerfile
     restart: unless-stopped
     command: bash -c "poetry install && poetry run celery -A tapir worker -l info"
     volumes:
@@ -41,11 +50,13 @@ services:
       ENABLE_RIZOMA_CONTENT: "1"
     depends_on:
       - redis
+      - tapir
 
   celery-beat:
+    image: tapir-local
     build:
       context: .
-      dockerfile: django.Dockerfile
+      dockerfile: tapir.Dockerfile
     restart: unless-stopped
     command: bash -c "poetry install && poetry run celery -A tapir beat -l info"
     environment:
@@ -56,6 +67,7 @@ services:
       DEBUG: 0
     depends_on:
       - redis
+      - tapir
 
   static-http:
     # serve static files, because django does not
