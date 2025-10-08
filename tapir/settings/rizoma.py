@@ -33,7 +33,11 @@ if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
     AUTHENTICATION_BACKENDS = ["tapir.rizoma.coops_pt_auth_backend.CoopsPtAuthBackend"]
 
     COOPS_PT_API_BASE_URL = env.str("COOPS_PT_API_BASE_URL", default="")
-    COOPS_PT_API_KEY = env.str("COOPS_PT_API_KEY", default="invalid_key")
+    if not COOPS_PT_API_BASE_URL:
+        raise Exception("environment COOPS_PT_API_BASE_URL must be set if using coops backend!")
+    COOPS_PT_API_KEY = env.str("COOPS_PT_API_KEY", default="")
+    if not COOPS_PT_API_KEY:
+        raise Exception("environment COOPS_PT_API_KEY must be set if using coops backend!")
     COOPS_PT_RSA_PUBLIC_KEY = env.str("COOPS_PT_RSA_PUBLIC_KEY",  multiline=True, default="")
     if not COOPS_PT_RSA_PUBLIC_KEY:
         COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH = env.str("COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH", default="")

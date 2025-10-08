@@ -97,9 +97,11 @@ COOPS_PT_API_BASE_URL=https://invalid_url.com
 ENABLE_RIZOMA_CONTENT=True
 SHIFTS_ONLY=True
 COOPS_PT_API_KEY=invalid_api_key
-COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH=invalid_path
+COOPS_PT_RSA_PUBLIC_KEY=MULTI_LINED_RSA_PUB_FILE_CONTENT_WITH_DOUBLE_SLASH_N_FOR_LINEBREASk
 TEMPLATE_SUB_FOLDER=rizoma
 ```
+
+The RSA Public key is expected in the [multiline string that django-environ can parse](https://django-environ.readthedocs.io/en/latest/tips.html#multiline-value), meaning each line break should be replaced with a `\\n` (`double slash n`).
 
 ### User synchronization with coops.pt
 
