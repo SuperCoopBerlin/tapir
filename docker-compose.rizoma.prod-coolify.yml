@@ -40,8 +40,6 @@ services:
       dockerfile: tapir.Dockerfile
     restart: unless-stopped
     command: bash -c "poetry install && poetry run celery -A tapir worker -l info"
-    volumes:
-      - ./rizoma/deploy.env:/app/.env:ro
     environment:
       ENV_FILE_PATH: '/app/rizoma/deploy.env'
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
