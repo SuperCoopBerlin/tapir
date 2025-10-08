@@ -97,6 +97,12 @@
 
 /** Custom buttons */
 
+.tapir-btn {
+  width: fit-content;
+  padding: 0.375rem 0.75rem;
+  font-size: 1em;
+}
+
 .tapir-btn, .tapir-tooltip-item {
   display: inline-flex;
   gap: 5px;
@@ -106,4 +112,5 @@
 
 .tapir-btn > .material-icons {
   font-size: 20px;
+  margin-right: 0.25rem;
 }

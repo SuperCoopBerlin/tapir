@@ -15,436 +15,408 @@
 {% block content %}
 
 {% comment %}
-
-#####                            #####                                   
-#     # #    # # ###### #####    #     # #####   ##   ##### #    #  ####  
-#       #    # # #        #      #         #    #  #    #   #    # #      
- #####  ###### # #####    #       #####    #   #    #   #   #    #  ####  
-      # #    # # #        #            #   #   ######   #   #    #      # 
-#     # #    # # #        #      #     #   #   #    #   #   #    # #    # 
- #####  #    # # #        #       #####    #   #    #   #    ####   ####  
-                                                                          
+ Intro card
 
  copied from user_shifts_overview_tag
-
 {% endcomment %}
 
-<div class="card mb-2">
-    <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2"
-        id="user_shift_card">
-        {% translate "Shifts" %}
-        <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
-            {% if perms.shifts.manage and user.shift_user_data %}
-                <a class="{% tapir_button_link_to_action %}"
-                   id="edit_shift_user_data_button"
-                   href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
-                    <span class="material-icons button-icon">edit</span>{% translate 'Edit' %}
+<div class="container m-0">
+    <div class="card mb-4" id="user_shift_summary_card">
+        {% if perms.shifts.manage and user.shift_user_data %}
+                <a class="p-3 font-size-sm d-flex gap-2 text-decoration-none align-items-center"
+                    id="edit_shift_user_data_button"
+                    href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
+                    <span class="material-icons button-icon">edit</span>
+                    {% blocktranslate with name='' %}Edit user shift data: {{ name }}{% endblocktranslate %}
+                    {% get_display_name_full user %}
                 </a>
-            {% endif %}
-        </span>
-    </h5>
-    <div class="card-body">
-        <div class="row m-1">
-            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Status" %}:</div>
-            <div class="col-12 col-sm-8">{% get_attendance_mode_display user.shift_user_data %}</div>
-        </div>
-        <div class="row m-1">
-            {% if user.shift_attendance_templates.count > 0 %}
-                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "ABCD Shift" %}:</div>
-                <div class="col-12 col-sm-8">
-                    {% for shift_attendance_template in user.shift_attendance_templates.all %}
-                        <span>
-                            <a href="{{ shift_attendance_template.slot_template.shift_template.get_absolute_url }}">
-                                {{ shift_attendance_template.slot_template.get_display_name }}
-                            </a>
-                        </span>
-                        {% if not forloop.last %},{% endif %}
-                    {% endfor %}
-                </div>
-            {% elif user.shift_user_data.attendance_mode == 'regular' %}
-                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "ABCD Shift" %}:</div>
-                <div class="col-12 col-sm-8">
-                    <span class="text-danger">{% translate "Missing" %}</span>
-                    {% if perms.shifts.manage %}
-                        <a class="{% tapir_button_link %} btn-sm"
-                           href="{% url 'shifts:shift_template_overview' %}?selected_user={{ user.pk|urlencode }}"
-                           id="find_abcd_shift_button">
-                            <span class="material-icons">search</span>{% translate "Find an ABCD shift" %}
-                        </a>
-                    {% endif %}
-                </div>
-            {% endif %}
-        </div>
-        <div class="row m-1">
-            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Upcoming Shift" %}:</div>
-            <div class="col-12 col-sm-8">
-                {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
-                    {% if next_slot %}
-                        <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.get_display_name }}</a>
-                        (in {{ next_slot.shift.start_time|timeuntil }})
-                        <br />
-                        <a data-bs-toggle="collapse" href="#upcoming-shifts">{% translate "Show more" %}</a>
-                        <div class="collapse" id="upcoming-shifts">
-                            {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
-                                <a href="{% url 'shifts:shift_detail' shift_attendance.slot.shift.pk %}">
-                                    {% shift_block shift_attendance.slot.shift %}
+            {% endif %} 
+        <div class="card-body d-flex justify-content-between gap-4">
+
+            {# ——— Status (étiquette + valeur) ——— #}
+            <div class="kpi">
+                <div class="kpi-label">{% translate "Status" %}:</div>
+                <div class="kpi-value">{% get_attendance_mode_display user.shift_user_data %}</div>
+            </div>
+
+            {# ——— ABCD Shift ——— #}
+            <div class="kpi">
+                <div class="kpi-label">{% translate "ABCD Shift" %}:</div>
+                <div class="kpi-value">
+                    {% if user.shift_attendance_templates.count > 0 %}
+                        {% for shift_attendance_template in user.shift_attendance_templates.all %}
+                            <span>
+                                <a href="{{ shift_attendance_template.slot_template.shift_template.get_absolute_url }}">
+                                    {{ shift_attendance_template.slot_template.get_display_name }}
                                 </a>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <span class="text-danger">{% translate "None" context "No upcoming shift" %}</span>
+                            </span>{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    {% elif user.shift_user_data.attendance_mode == 'regular' %}
+                        <span class="text-danger">{% translate "Missing" %}</span>
+                        {% if perms.shifts.manage %}
+                            <a class="{% tapir_button_link %} btn-sm"
+                            href="{% url 'shifts:shift_template_overview' %}?selected_user={{ user.pk|urlencode }}"
+                            id="find_abcd_shift_button">
+                                <span class="material-icons">search</span>{% translate "Find an ABCD shift" %}
+                            </a>
+                        {% endif %}
                     {% endif %}
-                {% endwith %}
+                </div>
             </div>
-        </div>
-        <div class="row m-1">
-            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Shift Status" %}:</div>
-            <div class="col-12 col-sm-8 d-flex gap-2" id="user-shift-status">
-                {% if user.shift_user_data.is_balance_ok %}
-                    <span class="text-success">{% translate "OK" %}</span>
-                    {% if user.shift_user_data.get_account_balance < 0 %}
-                        ({% translate "Shift for ongoing cycle pending" %})
-                    {% elif user.shift_user_data.get_account_balance > 0 %}
-                        ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_account_balance %}
-                        {{ num_banked_shifts }} banked shifts
-                    {% endblocktranslate %})
-                    {% endif %}
-                {% else %}
-                    <span class="text-danger">{% translate "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
-                {% endif %}
-                <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
-                   class="{% tapir_button_link %} btn-sm"><span class="material-icons">visibility</span>{% translate 'log' %}</a>
-            </div>
-        </div>
-        <div class="row m-1">
-            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Qualifications" %}:</div>
-            <div class="col-12 col-sm-8">
-                {% if user.shift_user_data.capabilities %}
-                    {{ user.shift_user_data.get_capabilities_display }}
-                {% else %}
-                    {% translate "None" context "No qualifications" %}
-                {% endif %}
-            </div>
-        </div>
-        <div class="row m-1">
-            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Exemption" %}:</div>
-            <div class="col-12 col-sm-8">
-                <span id="shift_exemption_value">
-                    {% with exemption=user.shift_user_data.get_current_shift_exemption %}
-                        {% if exemption %}
-                            {{ exemption.description }} {% translate 'until' %}
-                            {% if exemption.end_date %}
-                                {{ user.shift_user_data.get_current_shift_exemption.end_date|date:"d.m.y" }}
-                            {% else %}
-                                ∞
-                            {% endif %}
+
+            {# ——— Upcoming Shift ——— #}
+            <div class="kpi">
+                <div class="kpi-label">{% translate "Upcoming Shift" %}:</div>
+                <div class="kpi-value">
+                    {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
+                        {% if next_slot %}
+                            <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.shift.start_time|date:"d/m/Y H\hm" }} - {{ next_slot.shift.name }}</a>
+                            {% comment %} (in {{ next_slot.shift.start_time|timeuntil }})
+                            <a data-bs-toggle="collapse" href="#upcoming-shifts">{% translate "Show more" %}</a>
+                            <div class="collapse mt-2" id="upcoming-shifts">
+                                {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
+                                    <a href="{% url 'shifts:shift_detail' shift_attendance.slot.shift.pk %}">
+                                        {% shift_block shift_attendance.slot.shift %}
+                                    </a>
+                                {% endfor %}
+                            </div> {% endcomment %}
                         {% else %}
-                            {% translate "None" context "No shift exemption" %}
+                            <span class="text-danger">{% translate "None" context "No upcoming shift" %}</span>
                         {% endif %}
                     {% endwith %}
-                </span>
-                <a href="{% url 'shifts:shift_exemption_list' %}?shift_user_data_id={{ user.shift_user_data.id }}"
-                   class="{% tapir_button_link %} btn-sm"
-                   id="shift_exemption_list_button">
-                    <span class="material-icons">visibility</span>
-                    {% translate 'View all' %}
-                </a>
+                </div>
             </div>
-        </div>
-        {% feature_flag_enabled "Enable Solidarity Shifts" as solidarity_shifts_enabled %}
-        {% if solidarity_shifts_enabled %}
-            <div class="row m-1">
-                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Solidarity" %}:</div>
-                <div class="col-12 col-sm-8 d-flex gap-1">
-                    <form method="post"
-                          action="{% url 'shifts:solidarity_shift_used' object.pk %}">
-                        {% csrf_token %}
-                        <button type="submit"
-                                class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_receive_solidarity user %}">
-                            <span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}
-                        </button>
-                    </form>
-                    <form method="post"
-                          action="{% url 'shifts:solidarity_shift_given' object.pk %}">
-                        {% csrf_token %}
-                        <button type="button"
-                                class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalSubmitGiveSolidarity">
-                            <span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}
-                        </button>
-                        <div class="modal fade"
-                             id="modalSubmitGiveSolidarity"
-                             tabindex="-1"
-                             aria-labelledby="submitGiveSolidarityModalLabel"
-                             aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="submitGiveSolidarityModalLabel">
-                                            Give Solidarity
-                                            Shift
-                                        </h1>
-                                        <button type="button"
-                                                class="btn-close"
-                                                data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        {% translate 'One of your banked shifts will be donated as a solidarity shift. Do you want to continue?' %}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button"
-                                                class="{% tapir_button_link %} btn-sm"
-                                                data-bs-dismiss="modal">{% translate 'Cancel' %}</button>
-                                        <button type="submit"
-                                                class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}">
-                                            {% translate 'Confirm' %}
-                                        </button>
+
+            {# ——— Shift Status (solde) ——— #}
+            <div class="kpi">
+                <div class="kpi-label">{% translate "Shift Status" %}:</div>
+                <div class="kpi-value d-flex flex-column gap-2" id="user-shift-status">
+                    <div>
+                    {% if user.shift_user_data.is_balance_ok %}
+                        <span class="text-success">{% translate "OK" %}</span>
+                        {% if user.shift_user_data.get_account_balance < 0 %}
+                            ({% translate "Shift for ongoing cycle pending" %})
+                        {% elif user.shift_user_data.get_account_balance > 0 %}
+                            ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_account_balance %}{{ num_banked_shifts }} banked shifts{% endblocktranslate %})
+                        {% endif %}
+                    {% else %}
+                        <span class="text-danger">
+                            {% translate "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})
+                        </span>
+                    {% endif %}
+                    </div>
+                    <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
+                    class="{% tapir_button_link %} btn-sm">
+                        <span class="material-icons">visibility</span>{% translate 'log' %}
+                    </a>
+                </div>
+            </div>
+
+            {# ——— Qualifications ——— #}
+            <div class="kpi">
+                <div class="kpi-label">{% translate "Qualifications" %}:</div>
+                <div class="kpi-value">
+                    {% if user.shift_user_data.capabilities %}
+                        {{ user.shift_user_data.get_capabilities_display }}
+                    {% else %}
+                        {% translate "None" context "No qualifications" %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {# ——— Exemption ——— #}
+            <div class="kpi">
+                <div class="kpi-label">{% translate "Exemption" %}:</div>
+                <div class="kpi-value d-flex flex-column gap-2">
+                    <span id="shift_exemption_value">
+                        {% with exemption=user.shift_user_data.get_current_shift_exemption %}
+                            {% if exemption %}
+                                {{ exemption.description }} {% translate 'until' %}
+                                {% if exemption.end_date %}
+                                    {{ user.shift_user_data.get_current_shift_exemption.end_date|date:"d.m.y" }}
+                                {% else %}
+                                    ∞
+                                {% endif %}
+                            {% else %}
+                                {% translate "None" context "No shift exemption" %}
+                            {% endif %}
+                        {% endwith %}
+                    </span>
+                    <a href="{% url 'shifts:shift_exemption_list' %}?shift_user_data_id={{ user.shift_user_data.id }}"
+                    class="{% tapir_button_link %} btn-sm"
+                    id="shift_exemption_list_button">
+                        <span class="material-icons">visibility</span>
+                        {% translate 'View all' %}
+                    </a>
+                </div>
+            </div>
+
+            {% feature_flag_enabled "Enable Solidarity Shifts" as solidarity_shifts_enabled %}
+            {% if solidarity_shifts_enabled %}
+                {# ——— Solidarity (actions) ——— #}
+                <div class="kpi">
+                    <div class="kpi-label">{% translate "Solidarity" %}:</div>
+                    <div class="kpi-value d-flex flex-wrap gap-2">
+                        <form method="post"
+                            action="{% url 'shifts:solidarity_shift_used' object.pk %}">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_receive_solidarity user %}">
+                                <span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}
+                            </button>
+                        </form>
+                        <form method="post"
+                            action="{% url 'shifts:solidarity_shift_given' object.pk %}">
+                            {% csrf_token %}
+                            <button type="button"
+                                    class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalSubmitGiveSolidarity">
+                                <span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}
+                            </button>
+                            <div class="modal fade"
+                                id="modalSubmitGiveSolidarity"
+                                tabindex="-1"
+                                aria-labelledby="submitGiveSolidarityModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="submitGiveSolidarityModalLabel">
+                                                Give Solidarity
+                                                Shift
+                                            </h1>
+                                            <button type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% translate 'One of your banked shifts will be donated as a solidarity shift. Do you want to continue?' %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button"
+                                                    class="{% tapir_button_link %} btn-sm"
+                                                    data-bs-dismiss="modal">{% translate 'Cancel' %}</button>
+                                            <button type="submit"
+                                                    class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}">
+                                                {% translate 'Confirm' %}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="row m-1">
-                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Solidarity Status" %}:</div>
-                <div class="col-12 col-sm-8 d-flex">
-                    {% get_used_solidarity_shifts_current_year user.shift_user_data as used_solidarity_shifts_current_year %}
-                    {% if used_solidarity_shifts_current_year >= 2 %}
-                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
-                            <p>You already used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts
-                                this year</p>
-                        {% endblocktranslate %}
-                    {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
-                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
-                            <p>There are Solidarity Shifts available for you to use. You
-                                used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
-                        {% endblocktranslate %}
-                    {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance <= 0 %}
-                        {% blocktranslate %}
-                            <p data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Solidarity Shifts can only be received while having a negative balance">
-                                You cannot receive a Solidarity Shift at the moment</p>
-                        {% endblocktranslate %}
-                    {% elif not user.shift_user_data.get_available_solidarity_shifts %}
-                        {% blocktranslate %}
-                            <p>There are no Solidarity Shifts available at the moment</p>
-                        {% endblocktranslate %}
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
-        {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
-        {% if shift_partner_enabled %}
-            <div class="row m-1">
-                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Shift partner" %}:</div>
-                <div class="col-12 col-sm-8 d-flex">
-                    {% if user.shift_user_data.shift_partner_of %}
-                        <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner_of.user request.user %}</span>
-                    {% elif user.shift_user_data.shift_partner %}
-                        <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner.user request.user %}</span>
-                    {% else %}
-                        {% blocktranslate asvar tooltip %}
-                                You can email the member office to ask for a shift partner to be registered. <br />
-                                See member manual section III.F.6
-                            {% endblocktranslate %}
-                        <span data-bs-toggle="tooltip" data-bs-html="true" title="{{ tooltip }}">
-                            {% translate "None" context "No shift partner" %}
-                        </span>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
-    </div>
-</div>
-
-{% comment %}
-
-#     #                                                 #####                               
-#     # #####   ####   ####  #    # # #    #  ####     #     # #    # # ###### #####  ####  
-#     # #    # #    # #    # ##  ## # ##   # #    #    #       #    # # #        #   #      
-#     # #    # #      #    # # ## # # # #  # #          #####  ###### # #####    #    ####  
-#     # #####  #      #    # #    # # #  # # #  ###          # #    # # #        #        # 
-#     # #      #    # #    # #    # # #   ## #    #    #     # #    # # #        #   #    # 
- #####  #       ####   ####  #    # # #    #  ####      #####  #    # # #        #    ####  
-    
- 
- stolen from user_shifts_overview_tag.html and adapted
-
-{% endcomment %}
-
-<div class="card mb-2" id="user_shift_account_log">
-    <h5 class="card-header d-flex justify-content-between align-items-center">
-        <span>
-            {% translate 'Upcoming Shifts: ' %}
-        </span>
-    </h5>
-    <div class="card-body">
-        {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
-            {% with next_slot=shift_attendance.slot %}
-                {% if next_slot %}
-                    <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.get_display_name }}</a>
-                    (in {{ next_slot.shift.start_time|timeuntil }})
-                    <br />
-                    <a data-bs-toggle="collapse" href="#upcoming-shifts">{% translate "Show more" %}</a>
-                    <div class="collapse" id="upcoming-shifts">
-                        {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
-                            <a href="{% url 'shifts:shift_detail' shift_attendance.slot.shift.pk %}">
-                                {% shift_block shift_attendance.slot.shift %}
-                            </a>
-                        {% endfor %}
+                        </form>
                     </div>
-                {% else %}
-                    <span class="text-danger">{% translate "None" context "No upcoming shift" %}</span>
-                {% endif %}
-            {% endwith %}
-        {% endfor %}
+                </div>
+
+                {# ——— Solidarity Status ——— #}
+                <div class="kpi">
+                    <div class="kpi-label">{% translate "Solidarity Status" %}:</div>
+                    <div class="kpi-value">
+                        {% get_used_solidarity_shifts_current_year user.shift_user_data as used_solidarity_shifts_current_year %}
+                        {% if used_solidarity_shifts_current_year >= 2 %}
+                            {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
+                                <p>You already used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts
+                                    this year</p>
+                            {% endblocktranslate %}
+                        {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
+                            {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
+                                <p>There are Solidarity Shifts available for you to use. You
+                                    used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
+                            {% endblocktranslate %}
+                        {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance <= 0 %}
+                            {% blocktranslate %}
+                                <p data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Solidarity Shifts can only be received while having a negative balance">
+                                    You cannot receive a Solidarity Shift at the moment</p>
+                            {% endblocktranslate %}
+                        {% elif not user.shift_user_data.get_available_solidarity_shifts %}
+                            {% blocktranslate %}
+                                <p>There are no Solidarity Shifts available at the moment</p>
+                            {% endblocktranslate %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
+            {% if shift_partner_enabled %}
+                {# ——— Shift partner ——— #}
+                <div class="kpi">
+                    <div class="kpi-label">{% translate "Shift partner" %}:</div>
+                    <div class="kpi-value">
+                        {% if user.shift_user_data.shift_partner_of %}
+                            <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner_of.user request.user %}</span>
+                        {% elif user.shift_user_data.shift_partner %}
+                            <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner.user request.user %}</span>
+                        {% else %}
+                            {% blocktranslate asvar tooltip %}
+                                    You can email the member office to ask for a shift partner to be registered. <br />
+                                    See member manual section III.F.6
+                                {% endblocktranslate %}
+                            <span data-bs-toggle="tooltip" data-bs-html="true" title="{{ tooltip }}">
+                                {% translate "None" context "No shift partner" %}
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
     </div>
-</div>
 
-{% comment %}
+    {% comment %}
 
-######                          #####                               
-#     #   ##    ####  #####    #     # #    # # ###### #####  ####  
-#     #  #  #  #        #      #       #    # # #        #   #      
-######  #    #  ####    #       #####  ###### # #####    #    ####  
-#       ######      #   #            # #    # # #        #        # 
-#       #    # #    #   #      #     # #    # # #        #   #    # 
-#       #    #  ####    #       #####  #    # # #        #    ####  
-                                                                    
+        Upcoming Shifts
+    
+    stolen from user_shifts_overview_tag.html and adapted
 
-copied from user_shift_account_log.html
+    {% endcomment %}
 
-{% endcomment %}
+    <div class="mb-4" id="user_upcoming_shifts">
+            <h2 class="h3">
+                {% translate 'Upcoming Shifts' %}
+            </h2>
+
+            {% comment %} <div class="tab-links mb-4">
+                <span class="tab-link tab-link__active">{{_("Upcoming")}}</span>
+                <a href="{% url 'shifts:shift_template_group_calendar' %}" class="tab-link disabled">{{_("Past")}}</a>
+            </div> {% endcomment %}
+
+            <table class="table">
+                <tbody>
+            {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
+                {% with next_slot=shift_attendance.slot %}
+                    {% if next_slot %}
+                        {% comment %} {% <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.get_display_name }}</a>
+                        (in {{ next_slot.shift.start_time|timeuntil }}) {% endcomment %}
+                        <tr>
+                            {% comment %} {{ next_slot.shift.start_time|date:"d/m/Y H\hm" }} - {{ next_slot.shift.name }}</a> {% endcomment %}
+                            {% comment %} (in {{ next_slot.shift.start_time|timeuntil }}) {% endcomment %}
+
+                            <td>
+                                <a href="{{ next_slot.shift.get_absolute_url }}" class="light-link" id="upcoming_shift">{{ next_slot.shift.name }}</a>
+                            </td>
+                            <td>
+                                {{ next_slot.shift.start_time|date:"d/m/Y" }}
+                            </td>
+                            <td>
+                                {{ next_slot.shift.start_time|date:"H\hm" }}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="text-danger">{% translate "None" context "No upcoming shift" %}</td>
+                        </tr>
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+                </tbody>
+            </table>
+    </div>
 
 
-<div class="card mb-2" id="user_shift_account_log">
-    <h5 class="card-header d-flex justify-content-between align-items-center">
-        <span>
-            {% translate 'Shift account log for: ' %}
-            <a href="{{ user.get_absolute_url }}">{% get_display_name_for_viewer user request.user %}</a>
-        </span>
-        {% if perms.shifts.manage %}
-            <a class="{% tapir_button_link_to_action %}"
-               href="{% url 'shifts:create_shift_account_entry' user.pk %}">
-                <span class="material-icons">add_circle_outline</span>{% translate 'Add a manual entry' %}
-            </a>
-        {% endif %}
-    </h5>
-    <div class="card-body">
-        <table class="{% tapir_table_classes %}"
-               id="attendance_table"
-               aria-label="{% translate 'List of changes to this members shift account ' %}">
-            <thead>
-                <tr>
-                    <th>{% translate 'Date' %}</th>
-                    <th>{% translate 'Value' %}</th>
-                    <th>{% translate 'Balance at date' %}</th>
-                    <th>{% translate 'Description' %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for entry_data in entries_data %}
+
+    {% comment %}
+
+    Past Shifts / Shift account
+
+    copied from user_shift_account_log.html
+
+    {% endcomment %}
+    <div class="position-relative mb-4" id="user_shift_account_log">
+        <h2 class="h3">
+            {% translate 'Shift account' %}
+        </h2>
+
+        <div>
+            {% if perms.shifts.manage %}
+            <div>
+                <a class="p-2 font-size-sm d-flex gap-2 text-decoration-none align-items-center"
+                href="{% url 'shifts:create_shift_account_entry' user.pk %}">
+                    <span class="material-icons">add_circle_outline</span>{% translate 'Add a manual entry' %}
+                </a>
+            </div>
+            {% endif %}
+
+            <table class="table"
+                id="attendance_table"
+                aria-label="{% translate 'List of changes to this members shift account ' %}">
+                <thead>
                     <tr>
-                        <td>{{ entry_data.entry.date|date:"d.m.Y H:i" }}</td>
-                        <td>{{ entry_data.entry.value }}</td>
-                        <td>{{ entry_data.balance_at_date }}</td>
-                        <td class="description">{{ entry_data.entry.description }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-
-{% comment %}
-
-#######                               #####                               
-#       #    # #####  ##### #   #    #     # #    # # ###### #####  ####  
-#       ##  ## #    #   #    # #     #       #    # # #        #   #      
-#####   # ## # #    #   #     #       #####  ###### # #####    #    ####  
-#       #    # #####    #     #            # #    # # #        #        # 
-#       #    # #        #     #      #     # #    # # #        #   #    # 
-####### #    # #        #     #       #####  #    # # #        #    ####  
-                                                                          
- started from shift_calendar_template.html
-
-
-{% endcomment %}
-
-
-{% if urgent_shifts %}
-<div class="card mb-2">
-    <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
-        <h5 style="margin-bottom: 0">
-            {% translate "Urgent Shifts" %}
-            <small class="text-muted">({{ total_urgent_slots }} {% translate "slots need coverage" %})</small>
-        </h5>
-    </div>
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">{% translate "Type" %}</th>
-                        <th scope="col">{% translate "Date" %}</th>
-                        <th scope="col">{% translate "Time" %}</th>
-                        <th scope="col">{% translate "Note" %}</th>
-                        <th scope="col" class="text-center">{% translate "Action" %}</th>
+                        <th>{% translate 'Date' %}</th>
+                        <th>{% translate 'Value' %}</th>
+                        <th>{% translate 'Balance at date' %}</th>
+                        <th>{% translate 'Description' %}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for shift in urgent_shifts %}
-                        {% for slot in shift.attendable_slots %}
-                            <tr>
-                                <td class="fw-bold">
-                                    {% if slot.name %}
-                                        {{ slot.name }}
-                                    {% else %}
-                                        {{ shift.name }}
-                                    {% endif %}
-                                </td>
-                                <td>{{ shift.start_time|date:"D, M d" }}</td>
-                                <td>{{ shift.start_time|date:"H:i" }} - {{ shift.end_time|date:"H:i" }}</td>
-                                <td>
-                                    {% if shift.description %}
-                                        <small class="text-muted">{{ shift.description|truncatechars:50 }}</small>
-                                    {% else %}
-                                        <span class="text-muted">-</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    <a href="{% url 'shifts:shift_detail' shift.pk %}" 
-                                        class="btn btn-sm btn-outline-primary">
-                                        <span class="material-icons" style="font-size: 16px;">add_circle_outline</span>
-                                        {% translate "Join" %}
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                    {% for entry_data in entries_data %}
+                        <tr>
+                            <td>{{ entry_data.entry.date|date:"d.m.Y H:i" }}</td>
+                            <td>{{ entry_data.entry.value }}</td>
+                            <td>{{ entry_data.balance_at_date }}</td>
+                            <td class="description">{{ entry_data.entry.description }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4">{% translate "No entries found" %}</td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-</div>
-{% endif %}
 
+    {% comment %}
+        Empty shifts                                                                   
+    started from shift_calendar_template.html
+    {% endcomment %}
 
-<div class="card mb-2">
-    <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
-        <h5 style="margin-bottom: 0">
-            {% translate "Available Shifts" %}
-            <small class="text-muted">({{ total_available_slots }} {% translate "slots available" %})</small>
-        </h5>
-    </div>
-    <div class="card-body p-0">
-        {% if shifts %}
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-light">
+    {% if urgent_shifts %}
+    <div class="mb-4">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="h3">
+            {% translate "Empty Shifts" %}
+            </h2>
+        </div>
+
+        <div class="tab-links nav nav-tabs mb-4" id="nav-tab" role="tablist">
+            <li class="nav-item">
+                <a
+                    href="#urgent-shifts"
+                    class="tab-link active"
+                    id="urgent-shifts-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#urgent-shifts"
+                    type="button"
+                    role="tab"
+                    aria-controls="urgent-shifts"
+                    aria-selected="true"
+                >{{_("Urgent Shifts")}}</a>
+            </li>
+            <li class="nav-item">
+                <a
+                    href="#available-shifts"
+                    class="tab-link"
+                    id="available-shifts-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#available-shifts"
+                    type="button"
+                    role="tab"
+                    aria-controls="available-shifts"
+                    aria-selected="true"
+                >{{_("Available Shifts")}}</a>
+            </li>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="urgent-shifts" role="tabpanel" aria-labelledby="urgent-shifts-tab">
+                <div class="d-flex">
+                    <span class="text-muted">{{ total_urgent_slots }} {% translate "slots need coverage" %}</span>
+                </div>
+                <table class="table">
+                    <thead>
                         <tr>
                             <th scope="col">{% translate "Type" %}</th>
                             <th scope="col">{% translate "Date" %}</th>
@@ -454,18 +426,22 @@ copied from user_shift_account_log.html
                         </tr>
                     </thead>
                     <tbody>
-                        {% for shift in shifts %}
-                            {% for slot in shift.attendable_slots %}
+                        {% for shift in urgent_shifts %}
+                            {% for slot in shift.attendable_slots|slice:":20" %}
                                 <tr>
-                                    <td class="fw-bold">
+                                    <td>
                                         {% if slot.name %}
                                             {{ slot.name }}
                                         {% else %}
                                             {{ shift.name }}
                                         {% endif %}
                                     </td>
-                                    <td>{{ shift.start_time|date:"D, M d" }}</td>
-                                    <td>{{ shift.start_time|date:"H:i" }} - {{ shift.end_time|date:"H:i" }}</td>
+                                    <td>
+                                        {{ shift.start_time|date:"d/m/Y" }}
+                                    </td>
+                                    <td>
+                                        {{ shift.start_time|date:"H\hm" }}
+                                    </td>
                                     <td>
                                         {% if shift.description %}
                                             <small class="text-muted">{{ shift.description|truncatechars:50 }}</small>
@@ -475,8 +451,8 @@ copied from user_shift_account_log.html
                                     </td>
                                     <td class="text-center">
                                         <a href="{% url 'shifts:shift_detail' shift.pk %}" 
-                                           class="btn btn-sm btn-outline-primary">
-                                            <span class="material-icons" style="font-size: 16px;">add_circle_outline</span>
+                                            class="light-link">
+                                            <span class="material-icons">add_circle_outline</span>
                                             {% translate "Join" %}
                                         </a>
                                     </td>
@@ -486,16 +462,70 @@ copied from user_shift_account_log.html
                     </tbody>
                 </table>
             </div>
-        {% else %}
-            <div class="text-center py-4">
-                <div class="text-muted">
-                    <span class="material-icons" style="font-size: 48px; opacity: 0.5;">event_busy</span>
-                    <p class="mt-2">{% translate "No available shifts found for the selected period." %}</p>
-                    <small>{% translate "Try adjusting your date range or check back later." %}</small>
-                </div>
+            <div class="tab-pane fade show" id="available-shifts" role="tabpanel" aria-labelledby="available-shifts-tab">
+                {% if shifts %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">{% translate "Type" %}</th>
+                                <th scope="col">{% translate "Date" %}</th>
+                                <th scope="col">{% translate "Time" %}</th>
+                                <th scope="col">{% translate "Note" %}</th>
+                                <th scope="col" class="text-center">{% translate "Action" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for shift in shifts %}
+                                {% for slot in shift.attendable_slots %}
+                                    <tr>
+                                        <td>
+                                            {% if slot.name %}
+                                                {{ slot.name }}
+                                            {% else %}
+                                                {{ shift.name }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ next_slot.shift.start_time|date:"d/m/Y" }}
+                                        </td>
+                                        <td>
+                                            {{ next_slot.shift.start_time|date:"H\h:m" }}
+                                        </td>
+                                        <td>
+                                            {% if shift.description %}
+                                                <small class="text-muted">{{ shift.description|truncatechars:50 }}</small>
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{% url 'shifts:shift_detail' shift.pk %}" 
+                                            class="light-link">
+                                                <span class="material-icons" style="font-size: 16px;">add_circle_outline</span>
+                                                {% translate "Join" %}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="text-center py-4">
+                        <div class="text-muted">
+                            <span class="material-icons">event_busy</span>
+                            <p class="mt-2">{% translate "No available shifts found for the selected period." %}</p>
+                            <small>{% translate "Try adjusting your date range or check back later." %}</small>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
-    </div>
-</div>
+        </div>
 
-{% endblock content %}
+    </div>
+    {% endif %}
+
+    {% endblock content %}
+
+
+</div>

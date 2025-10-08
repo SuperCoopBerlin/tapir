@@ -2,7 +2,7 @@ from django.apps import AppConfig
 from tapir.core.config import sidebar_link_groups
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse_lazy
-from tapir.settings import PERMISSION_COOP_ADMIN
+from tapir.settings import PERMISSION_COOP_ADMIN, PERMISSION_COOP_VIEW
 
 class RizomaConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
@@ -22,4 +22,13 @@ class RizomaConfig(AppConfig):
             url=reverse_lazy("rizoma:all_shifts"),
             ordering=1,
             required_permissions=[PERMISSION_COOP_ADMIN],
+        )
+
+        me_group = sidebar_link_groups.get_group(_("Me"), 0)
+        me_group.add_link(
+            display_name=_("My shifts"),
+            material_icon="calendar_today",
+            url=reverse_lazy("shifts:dashboard"),
+            ordering=1,
+            required_permissions=[PERMISSION_COOP_VIEW],
         )

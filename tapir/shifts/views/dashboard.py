@@ -106,6 +106,7 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
             .filter(
                 start_time__gte=date_from,
                 start_time__lt=date_to + datetime.timedelta(days=1),
+                
                 deleted=False,
                 cancelled=False,
                 # Shift has available slots (not completely full)
@@ -118,7 +119,7 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
                 slots__attendances__user=user,
                 slots__attendances__state__in=ShiftAttendance.VALID_STATES
             )
-            .order_by("start_time")
+            .order_by("start_time")[:200]
         )
         
         # Since we already filtered at database level, we just need to add attendable slots info
@@ -157,7 +158,7 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
             shift for shift in shifts 
             if (shift.start_time <= urgent_cutoff and 
                 shift.occupied_slots == 0)  # Use the database annotation
-        ]
+        ][:50]
         
         regular_shifts = [
             shift for shift in shifts 

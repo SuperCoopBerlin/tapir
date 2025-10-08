@@ -14,5 +14,5 @@
 /* Pages */
 @import url("./pages/about.css");
 @import url("./pages/auth.css");
-
+@import url("./pages/myShifts.css");
 @import url("./pages/allShifts.css");

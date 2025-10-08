@@ -5,7 +5,16 @@ a {
 .tab-links {
   display: flex;
   gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 
+.tab-links li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
 }
 
 .tab-link {
@@ -15,7 +24,22 @@ a {
   font-weight: 700;
 }
 
-.tab-link__active {
+.tab-link.active {
   color: var(--bs-primary);
   border-bottom: 4px solid var(--bs-primary);
+}
+
+.light-link {
+  color: var(--bs-primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.light-link .material-icons {
+  margin-right: .25rem;
+}
+
+.light-link:hover {
+  color: var(--bs-secondary);
 }

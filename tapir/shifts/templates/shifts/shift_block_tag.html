@@ -11,6 +11,7 @@
                 {{ shift.start_time|time:"H:i" }} - {{ shift.end_time|time:"H:i" }}
             {% endif %}
         </div>
+        <br />
         <div class="shift-date">
             {% if shift.start_date is not None %}
                 {{ shift.start_date|date:"D d/m/y" }}
