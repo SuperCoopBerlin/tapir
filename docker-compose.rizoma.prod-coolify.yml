@@ -12,8 +12,8 @@ services:
       STATIC_URL: "${SERVICE_URL_STATIC_HTTP}/static/"
       COOPS_PT_API_KEY: "${COOPS_PT_API_KEY:?}"
       COOPS_PT_API_BASE_URL: "${COOPS_PT_API_BASE_URL:?}"
-      COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH: '/app/rizoma/coops_pt_pub_key.pem'
-      ENV_FILE_PATH: '/app/rizoma/deploy.env'
+      COOPS_PT_RSA_PUBLIC_KEY: "${COOPS_PT_RSA_PUBLIC_KEY:?}"
+      ENV_FILE_PATH: "/app/rizoma/deploy.env"
     command: bash -c "poetry run python ./manage.py collectstatic --clear --noinput && poetry run python ./manage.py migrate && poetry run gunicorn -b 0.0.0.0:80 tapir.wsgi:application"
     logging:
       driver: 'json-file'
@@ -47,7 +47,7 @@ services:
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
       COOPS_PT_API_KEY: "${COOPS_PT_API_KEY:?}"
       COOPS_PT_API_BASE_URL: "${COOPS_PT_API_BASE_URL:?}"
-      COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH: '/app/rizoma/coops_pt_pub_key.pem'
+      COOPS_PT_RSA_PUBLIC_KEY: "${COOPS_PT_RSA_PUBLIC_KEY:?}"
     depends_on:
       - redis
       - tapir

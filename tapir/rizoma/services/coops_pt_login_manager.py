@@ -5,8 +5,6 @@ from tapir.rizoma.services.coops_pt_request_handler import CoopsPtRequestHandler
 
 
 class CoopsPtLoginManager:
-    RSA_PUBLIC_KEY = None
-    RSA_PUBLIC_KEY_FILE_PATH = None
 
     @classmethod
     def remote_login(cls, email, password):
@@ -35,17 +33,7 @@ class CoopsPtLoginManager:
 
     @classmethod
     def get_rsa_public_key(cls):
-        if (
-            cls.RSA_PUBLIC_KEY is None
-            or cls.RSA_PUBLIC_KEY_FILE_PATH
-            != settings.COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH
-        ):
-            with open(settings.COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH, "r") as file:
-                cls.RSA_PUBLIC_KEY = file.read()
-                cls.RSA_PUBLIC_KEY_FILE_PATH = (
-                    settings.COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH
-                )
-        return cls.RSA_PUBLIC_KEY
+        return settings.COOPS_PT_RSA_PUBLIC_KEY
 
     @classmethod
     def get_external_user_id_from_access_token(cls, access_token: str) -> str:

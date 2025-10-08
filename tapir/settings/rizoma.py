@@ -9,13 +9,13 @@ TIME_ZONE = "Europe/Lisbon"
 
 # FIXME: we probably need to update these for rizoma
 
-EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@rizomacoop.pt "
-EMAIL_ADDRESS_ACCOUNTING_TEAM = "accounting@rizomacoop.pt "
+EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@rizomacoop.pt"
+EMAIL_ADDRESS_ACCOUNTING_TEAM = "accounting@rizomacoop.pt"
 EMAIL_ADDRESS_ACCOUNTING_SOFTWARE = env.str(
     "EMAIL_ADDRESS_ACCOUNTING_SOFTWARE", default=None
 )
-EMAIL_ADDRESS_MANAGEMENT = "contact@rizomacoop.pt "
-EMAIL_ADDRESS_SUPERVISORS = "aufsichtsrat@rizomacoop.pt "
+EMAIL_ADDRESS_MANAGEMENT = "geral@rizomacoop.pt"
+EMAIL_ADDRESS_SUPERVISORS = "geral@rizomacoop.pt"
 
 COOP_NAME = "Rizoma"
 COOP_FULL_NAME = "Rizoma Cooperativa Integral "
@@ -31,9 +31,17 @@ INSTALLED_APPS.append("tapir.rizoma")
 ACTIVE_LOGIN_BACKEND = env.str("ACTIVE_LOGIN_BACKEND", default="coops.pt")
 if ACTIVE_LOGIN_BACKEND == LOGIN_BACKEND_COOPS_PT:
     AUTHENTICATION_BACKENDS = ["tapir.rizoma.coops_pt_auth_backend.CoopsPtAuthBackend"]
-    COOPS_PT_API_BASE_URL = env.str("COOPS_PT_API_BASE_URL", default="https://api.demo.coops.pt")
+
+    COOPS_PT_API_BASE_URL = env.str("COOPS_PT_API_BASE_URL", default="")
     COOPS_PT_API_KEY = env.str("COOPS_PT_API_KEY", default="invalid_key")
-    COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH = env.str("COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH", default="")
+    COOPS_PT_RSA_PUBLIC_KEY = env.str("COOPS_PT_RSA_PUBLIC_KEY", default="")
+    if not COOPS_PT_RSA_PUBLIC_KEY:
+        COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH = env.str("COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH", default="")
+        if not COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH:
+            raise Exception("environment COOPS_PT_RSA_PUBLIC_KEY or COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH  must be set!")
+
+        with open(COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH, "r") as file:
+            COOPS_PT_RSA_PUBLIC_KEY = file.read()
 
 # we prefix all templates with our custom rizoma templates
 TEMPLATES[0]["DIRS"] =  [
