@@ -687,6 +687,9 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         if self.name:
             display_name = "{} {}".format(self.name, display_name)
         return display_name
+    
+    def get_short_display_name(self):
+        return self.shift.name + " - " + self.shift.start_time.strftime("%d/%m/%Y %H:%M")
 
     def get_html_link(self):
         return get_html_link(self.shift.get_absolute_url(), self.get_display_name())

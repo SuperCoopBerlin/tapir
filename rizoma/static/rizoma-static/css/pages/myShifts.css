@@ -1,0 +1,36 @@
+
+.kpi {
+  display:flex;
+  flex-direction:column;
+  gap:.25rem;
+  margin-bottom:1rem;
+}
+.kpi .kpi-label {
+  font-size:1rem;
+  color:#000000;
+  opacity: 0.4;
+  font-weight: bold;
+}
+.kpi .kpi-value {
+  /* font-weight: 600; */
+  font-size: 1.125em;
+  line-height: 1.2;
+}
+.kpi-grid {
+  display:flex;
+  flex-wrap:wrap;
+  gap:1.25rem 2rem;
+  align-items:center;
+}
+.kpi-grid .kpi {
+  margin-bottom:0;
+}
+
+
+#user_shift_summary_card .card-body {
+  gap:.5rem;
+}
+#user-shift-status .text-success, 
+#user-shift-status .text-danger {
+  font-weight:600;
+}
