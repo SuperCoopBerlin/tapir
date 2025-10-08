@@ -4,7 +4,8 @@
 [![Python code test coverage](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=coverage)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
 [![Lines of python code](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
 
-Tapir is a member and shift management system for [SuperCoop Berlin](https://supercoop.de) and [Rizoma](https://www.rizomacoop.pt/)
+Tapir is a member and shift management system for [SuperCoop Berlin](https://supercoop.de)
+and [Rizoma](https://www.rizomacoop.pt/)
 Our Vorstand and member office uses Tapir to manage shifts and members, for example their personal data, capabilities,
 payments and shift statuses. It is also used for automatic mails and evaluate new applicants.
 Members can use Tapir to register or unregister for shifts, search for a stand-in and see their shift status as well as
@@ -14,13 +15,16 @@ upcoming shifts.
 <img src="https://user-images.githubusercontent.com/18083323/179391686-4cfa724f-4847-4859-aba4-f074722d69ca.png" width="68%"/> <img src="https://user-images.githubusercontent.com/18083323/179391799-96f4e204-9bd2-4739-b8f9-3bc25a70f717.JPG" width="22.6%"/>
 
 The Tapir project is developed by SuperCoop members and is licensed under the terms of the [AGPL license](LICENSE.md).
-If you're interested in using Tapir for your own coop, please contact [Théo](https://github.com/Theophile-Madet) or [SuperCoop](https://supercoop.de/en/contact/), we'll be very happy to help!
+If you're interested in using Tapir for your own coop, please contact [Théo](https://github.com/Theophile-Madet)
+or [SuperCoop](https://supercoop.de/en/contact/), we'll be very happy to help!
 
 SuperCoop members can access the system at [https://members.supercoop.de](https://members.supercoop.de).
 
-Tapir (/ˈteɪpər/) was original inspired by the french coop [L'éléfan](https://github.com/elefan-grenoble/gestion-compte), thanks to them for the inspiration.
- 
-A fork for community supported agriculture organization exists [here](https://github.com/FoodCoopX/wirgarten-tapir). While they stil both use the name Tapir, they have diverged a lot and don't share any code anymore.
+Tapir (/ˈteɪpər/) was original inspired by the french
+coop [L'éléfan](https://github.com/elefan-grenoble/gestion-compte), thanks to them for the inspiration.
+
+A fork for community supported agriculture organization exists [here](https://github.com/FoodCoopX/wirgarten-tapir).
+While they stil both use the name Tapir, they have diverged a lot and don't share any code anymore.
 
 ## Getting started
 
@@ -76,13 +80,15 @@ You can do so **without any programming or Python knowledge**! Just choose a tas
 ## Troubleshooting
 
 * On macOS, in order to set up a local Python `venv`, you might have to install Postgresql to get `psycopg2` working.
-  Use `brew install postgresql` for that. 
+  Use `brew install postgresql` for that.
 
 ## Rizoma version
 
 Currently, two versions of Tapir exist: for SuperCoop on the `master` branch and for Rizoma under the `rizoma` branch.
 If you keep the .env file as is, you'll get the SuperCoop version, which has member management and shift management.
-By setting the .env file like this, you'll get the rizoma version, which concentrates on shifts and uses an external identity provider.
+By setting the .env file like this, you'll get the rizoma version, which concentrates on shifts and uses an external
+identity provider.
+
 ```dotenv
 DEBUG=True
 DJANGO_VITE_DEBUG=
@@ -95,21 +101,38 @@ COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH=invalid_path
 TEMPLATE_SUB_FOLDER=rizoma
 ```
 
-### User synchronization
-Every hour, a celery task (`tapir.rizoma.tasks.sync_users_with_coops_pt_backend`) synchronizes the user list and the member list from coops.pt instance (env var `COOPS_PT_API_BASE_URL`) int the Tapir DB.
-Changes done in Tapir are not reflected back to coops.pt.
+### User synchronization with coops.pt
 
-Newly created users can be used to log in right away, there is no need to wait for a sync.
+#### Setup
 
-You can also run `manage.py sync_users_with_coops_pt_backend` to trigger a sync manually.
+You need to define 2 environment variables for the user sync to work.
+
+- The API key `COOPS_PT_API_KEY`, which you should get from [...].coops.pt/developers
+- The path to the RSA public key file `COOPS_PT_RSA_PUBLIC_KEY_FILE_PATH`.
+  This key is used to validate the JWT tokens returned by the coops.pt API when logging in.
+  The key in the file should be in the "PKCS#1 PEM-encoded"-Format.
+
+#### Automated sync
+
+- Every hour, a celery task (`tapir.rizoma.tasks.sync_users_with_coops_pt_backend`) synchronizes the user list and the
+  member list from coops.pt instance (env var `COOPS_PT_API_BASE_URL`) in the Tapir DB.
+- Changes done in Tapir are not reflected back to coops.pt.
+- Members deleted from the coops.pt instance will be deleted from the Tapir instance.
+- Newly created users can be used to log in right away, there is no need to wait for a sync.
+- You can also run `manage.py sync_users_with_coops_pt_backend` to trigger a sync manually.
 
 ### Google calendar invites
+
 When members register to a shift, it is possible to send them an invitation to a Google calendar event by mail.
 This requires running local instance and the following setup:
- - get a google secret json file from your Google app (see [the docs](https://developers.google.com/workspace/calendar/api/quickstart/python))
- - on your local machine, set the env var PATH_TO_GOOGLE_CLIENT_SECRET_FILE as path to that file and start your local instance
- - run `manage.py get_google_authorized_user_file`, login if necessary and authorize the app 
- - this will create a `google_user_token.json` file
- - copy that file to your server, with the same name and relative path
- - on the feature flag page (.../core/featureflag_list), enable the relevant flag: `feature_flags.shifts.google_calendar_events_for_shifts`
- - done!
+
+- get a google secret json file from your Google app (
+  see [the docs](https://developers.google.com/workspace/calendar/api/quickstart/python))
+- on your local machine, set the env var PATH_TO_GOOGLE_CLIENT_SECRET_FILE as path to that file and start your local
+  instance
+- run `manage.py get_google_authorized_user_file`, login if necessary and authorize the app
+- this will create a `google_user_token.json` file
+- copy that file to your server, with the same name and relative path
+- on the feature flag page (.../core/featureflag_list), enable the relevant flag:
+  `feature_flags.shifts.google_calendar_events_for_shifts`
+- done!
