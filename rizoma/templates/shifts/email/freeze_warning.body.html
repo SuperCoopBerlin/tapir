@@ -1,0 +1,74 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+{% get_display_name_short tapir_user as display_name_short %}
+
+<p>
+    Olá {{ display_name_short }},
+</p>
+
+<p>
+    Esta é uma mensagem automática da {{ coop_name }}. Vimos informar-te de que o teu <strong>registo de turnos atingiu
+        {{ account_balance }}</strong>.
+</p>
+
+<p>
+    Tens agora <strong>{{ freeze_after_days }} dias para te inscreveres em turnos de compensação</strong>.
+    Estes turnos devem realizar-se <strong>dentro das próximas {{ nb_weeks_in_the_future }} semanas</strong>.
+</p>
+<p>
+    <strong>⚠️ Atenção</strong>: se não te inscreveres nos turnos de compensação dentro dos próximos {{
+    freeze_after_days
+    }} dias, a tua <strong>conta será temporariamente suspensa</strong>. Isto significa que <strong>não poderás fazer
+        compras na
+        mercearia nem no rizobar</strong>. Por isso, inscreve-te nos teus turnos de compensação assim que possível!
+</p>
+<p>
+    Para mais informações sobre o sistema de turnos, consulta o <a
+        href="https://docs.google.com/document/d/1BxEWHsJ2y6o3c4z7a-ShwRXMXdQwx_BPOIfVB3igvwg/edit?usp=drive_link">Manual
+        de Membros</a>.
+</p>
+<p>
+    Obrigada pela tua compreensão e pela tua colaboração 💚
+</p>
+<p>
+    Saudações rizomáticas,<br />
+    <strong>GTT-membros</strong>
+</p>
+
+<hr>
+
+<p>
+    Hi {{ display_name_short }},
+</p>
+
+<p>
+    This is an automated email from {{ coop_name }}. This is to kindly inform you that <strong>your shift log has
+        reached {{ account_balance }}</strong>.
+</p>
+
+<p>
+    You now have <strong>{{ freeze_after_days }} days to register for the outstanding shifts as make-up shifts</strong>.
+    These shifts
+    must be within the next {{ nb_weeks_in_the_future }} weeks.
+</p>
+<p>
+    <strong>⚠️ Please note</strong>: If you do not sign up for your catch-up shifts within the next {{ freeze_after_days
+    }} days,
+    your account will be frozen. This means you will not be able to shop at the grocery store/rizobar. So please sign up
+    for your make-up shifts as soon as possible!
+</p>
+<p>
+    For more information on the shift system, please see the <a
+        href="https://docs.google.com/document/d/1BxEWHsJ2y6o3c4z7a-ShwRXMXdQwx_BPOIfVB3igvwg/edit?usp=drive_link">Members
+        Manual</a>.
+</p>
+<p>
+    Thanks for your understanding and cooperation 💚
+</p>
+<p>
+    Rizomatic greetings,<br />
+    <strong>GTT-membros</strong>
+</p>
+{% endblock body %}

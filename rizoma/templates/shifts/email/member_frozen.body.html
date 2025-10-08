@@ -1,0 +1,68 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+{% get_display_name_short tapir_user as display_name_short %}
+
+<p>Olá {{ display_name_short }},</p>
+<p>
+    Esta é uma mensagem automática da <strong>{{ coop_name }}</strong>.
+</p>
+<p>
+    Vimos por este meio informar-te que a tua <strong>conta Tapir na Rizoma foi temporariamente
+        suspensa</strong>.Infelizmente, o teu registo de turnos está <strong>abaixo de {{ freeze_threshold }}
+        turnos há mais de {{ freeze_after_days }} dias</strong>.
+</p>
+<p>
+    Enquanto a tua conta estiver suspensa, <strong>não poderás fazer compras na mercearia nem no rizobar</strong>.
+</p>
+<p>
+    Para reativar a tua conta, basta <strong>inscreveres-te em turnos vazios</strong>.Atenção: estes turnos devem
+    ocorrer <strong> dentro das próximas {{ nb_weeks_in_the_future_for_make_up_shifts }} semanas</strong>.
+</p>
+<p>
+    Por isso, compensa os teus turnos em falta assim que possível. Para mais informações sobre o sistema de turnos,
+    consulta o <a
+        href="https://docs.google.com/document/d/1BxEWHsJ2y6o3c4z7a-ShwRXMXdQwx_BPOIfVB3igvwg/edit?usp=drive_link">Manual
+        de Membros</a>.
+</p>
+<p>
+    Muito obrigada!
+</p>
+<p>
+    Saudações cooperativas,<br />
+    <strong>GTT-membros</strong>
+</p>
+
+<hr>
+
+<p>Hi {{ display_name_short }},</p>
+<p>
+    This is an automated message from <strong>{{ coop_name }}</strong>.
+</p>
+<p>
+    We’d like to let you know that your <strong>Tapir account at Rizoma has been temporarily frozen</strong>, as your
+    shift balance has been <strong>below {{ freeze_threshold }}
+        shifts for more than {{ freeze_after_days }} days</strong>.
+</p>
+<p>
+    While your account is frozen, <strong>you won’t be able to shop at the grocery store or Rizobar</strong>.
+</p>
+<p>
+    To unfreeze your account, simply <strong>sign up for available shifts</strong> — please note that these must take
+    place within the next {{ nb_weeks_in_the_future_for_make_up_shifts }} weeks.
+</p>
+<p>
+    So please make sure to sign up for your missing shifts as soon as possible. You can find more details about how the
+    shift system works in the <a
+        href="https://docs.google.com/document/d/1BxEWHsJ2y6o3c4z7a-ShwRXMXdQwx_BPOIfVB3igvwg/edit?usp=drive_link">Members
+        Manual</a>.
+</p>
+<p>
+    Thank you for your understanding and cooperation 💚
+</p>
+<p>
+    Cooperative greetings,<br />
+    <strong>GTT-membros</strong>
+</p>
+{% endblock body %}
