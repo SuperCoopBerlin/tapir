@@ -11,6 +11,27 @@
 <link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}">
 {% endblock head %}
 {% block content %}
+<div class="d-flex justify-content-center">
+  <div class="card mt-4">
+    <h5 class="card-header d-flex justify-content-between align-items-center text-white bg-info">{% translate "Welcome to Tapir!" %}</h5>
+    
+<div class="card-body">
+                {% blocktranslate %}
+  <p>This is the new Shift Management System for Rizoma Consumo</p>
+  <p>If this is the first time you are using this, you probably have to do the following first</p><p>
+  </p><ol>
+    <li>First <a href="">reset the password for your email address here</a>. This will send you an email with a link allowing you to reset the password</li>
+    <li>Consult the <a href="">Members Manual</a> to learn how to use the new system, and what rules have changed</li>
+  </ol>
+  
+  <p>If you are facing any issues, you can use the "💬 button" on the bottom right to contact us directly and we will try to help you as soon as we can, or you can write us at <a href="mailto:support@rizomacoop.pt">support@rizomacoop.pt</a></p>
+      
+                {% endblocktranslate %}
+    </div>
+
+  </div>
+</div>
+
 <div class="d-flex justify-content-center tapir-authentication">
   <div class="card tapir-login mt-4" id="login-card">
     <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Sign in" %}</h5>
@@ -28,15 +49,15 @@
             <input type="password" name="password" autocomplete="current-password" class="form-control"
               placeholder="Passwort" required="" id="id_password">
             <div class="input-group-append" style="cursor: pointer;">
-              <span title="{% translate 'Click here to show/hide the password' %}"
-                id="password_toggle" style="height: 100%">
+              <span title="{% translate 'Click here to show/hide the password' %}" id="password_toggle"
+                style="height: 100%">
                 <span id="password_toggle_icon" class="material-icons">visibility</span>
               </span>
             </div>
           </div>
         </div>
         <p>
-          <a href="{% url "password_reset" %}">{% translate "Forgot your password or your username?" %}</a>
+          <a href="https://rizoma.coops.pt/autorizacao/loginporlink" target="_blank">{% translate "Forgot your password or your username?" %}</a>
         </p>
         <button type="submit" class="{% tapir_button_action %} btn-block">
           <span class="material-icons">login</span>
