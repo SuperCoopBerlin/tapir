@@ -167,10 +167,10 @@
         </div>
     </div>
     <button id="open-chat" class="open-zammad-chat"
-        style="position: fixed;bottom: 0.5em;right: 0.5em;width: 2em;height: 2em;font-size: 2.5em;border-radius: 0.5em;background: var(--bs-primary);border-color: var(--bs-primary);">💬</button>
+        style="display:none; position: fixed;bottom: 0.5em;right: 0.5em;width: 2em;height: 2em;font-size: 2.5em;border-radius: 0.5em;background: var(--bs-primary);border-color: var(--bs-primary);">💬</button>
 
     <button id="feedback-form" class="chatclosed"
-        style="position: fixed;bottom: 0.5em;right: 0.5em;width: 2em;height: 2em;font-size: 2.5em;border-radius: 0.5em;background: var(--bs-primary);border-color: var(--bs-primary);">💬</button>
+        style="display:none; position: fixed;bottom: 0.5em;right: 0.5em;width: 2em;height: 2em;font-size: 2.5em;border-radius: 0.5em;background: var(--bs-primary);border-color: var(--bs-primary);">💬</button>
 </body>
 <script src="{% static 'rizoma-static/libs/bootstrap/5.3.8/bootstrap.bundle.min.js' %}"></script>
 
@@ -203,8 +203,6 @@
             var x = document.getElementById('open-chat');
             if (window.getComputedStyle(x).display === "none") {
                 document.getElementsByClassName('chatclosed')[0].
-                    style.display = 'block';
-                document.getElementsByClassName('chatclosed')[1].
                     style.display = 'block';
             };
         }, 3000);
