@@ -3,9 +3,10 @@ from __future__ import annotations
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.utils import translation
-
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
+from tapir.core.config import feature_flag_automated_mails
+from tapir.core.models import FeatureFlag
 from tapir.core.services.optional_mails_for_user_service import (
     OptionalMailsForUserService,
 )
@@ -60,9 +61,11 @@ class SendMailService:
             from_email=email_builder.get_from_email(),
             attachments=email_builder.get_attachments(),
         )
-
         email.content_subtype = "html"
-        email.send()
+
+        if FeatureFlag.get_flag_value(feature_flag_automated_mails):
+            email.send()
+
         cls.create_log_entry(
             email=email,
             actor=actor,
