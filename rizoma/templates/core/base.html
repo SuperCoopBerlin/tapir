@@ -167,7 +167,7 @@
         </div>
     </div>
     <button id="open-chat" class="open-zammad-chat"
-        style="display:none; position: fixed;bottom: 0.5em;right: 0.5em;width: 2em;height: 2em;font-size: 2.5em;border-radius: 0.5em;background: var(--bs-primary);border-color: var(--bs-primary);">💬</button>
+        style="position: fixed;bottom: 0.5em;right: 0.5em;width: 2em;height: 2em;font-size: 2.5em;border-radius: 0.5em;background: var(--bs-primary);border-color: var(--bs-primary);">💬</button>
 
     <button id="feedback-form" class="chatclosed"
         style="display:none; position: fixed;bottom: 0.5em;right: 0.5em;width: 2em;height: 2em;font-size: 2.5em;border-radius: 0.5em;background: var(--bs-primary);border-color: var(--bs-primary);">💬</button>
@@ -185,28 +185,20 @@
                 chatId: 1,
                 show: false
             });
-        })();
-</script>
-<script>
-    $(function () {
-        $('#feedback-form').ZammadForm({
-            messageTitle: 'Leave a message',
-            messageSubmit: 'Submit',
-            messageThankYou: "Thank you. We'll get back to you as soon as possible.",
-            modal: true
+            $('#feedback-form').ZammadForm({
+                messageTitle: 'Leave a message',
+                messageSubmit: 'Submit',
+                messageThankYou: "Thank you. We'll get back to you as soon as possible.",
+                modal: true
+            });
+            setTimeout(function () {
+                var x = document.getElementById('open-chat');
+                if (window.getComputedStyle(x).display === "none") {
+                    document.getElementsByClassName('chatclosed')[0].
+                        style.display = 'block';
+                };
+            }, 3000);
         });
-    });
-</script>
-<script>
-    $(function () {
-        setTimeout(function () {
-            var x = document.getElementById('open-chat');
-            if (window.getComputedStyle(x).display === "none") {
-                document.getElementsByClassName('chatclosed')[0].
-                    style.display = 'block';
-            };
-        }, 3000);
-    });
 </script>
 
 </html>
