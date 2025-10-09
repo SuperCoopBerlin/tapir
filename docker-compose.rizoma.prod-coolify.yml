@@ -7,6 +7,7 @@ services:
       dockerfile: tapir.Dockerfile
     environment:
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR},localhost
+      DEBUG: ${TAPIR_DEBUG:-0}
       SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
       STATIC_URL: "${SERVICE_URL_STATIC_HTTP}/static/"
@@ -43,6 +44,7 @@ services:
     command: bash -c "poetry install && poetry run celery -A tapir worker -l info"
     environment:
       ENV_FILE_PATH: '/app/rizoma/deploy.env'
+      DEBUG: ${TAPIR_DEBUG:-0}
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
       SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
@@ -62,12 +64,11 @@ services:
     restart: unless-stopped
     command: bash -c "poetry install && poetry run celery -A tapir beat -l info"
     environment:
+      DEBUG: ${TAPIR_DEBUG:-0}
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
       SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
-      ENABLE_RIZOMA_CONTENT: "1"
       ENV_FILE_PATH: '/app/rizoma/deploy.env'
-      DEBUG: 0
     depends_on:
       - redis
       - tapir
