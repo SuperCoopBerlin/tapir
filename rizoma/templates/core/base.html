@@ -90,8 +90,7 @@
 
                 {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link small" href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user
-                        %}</a>
+                    <a class="nav-link small" href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
                 </li>
 
                 <li class="nav-item">
@@ -123,8 +122,7 @@
                     {% endif %}
                     {% if request.user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="text-dark nav-link" href="{% url 'accounts:user_me' %}">{% get_display_name_full
-                            request.user %}</a>
+                        <a class="text-dark nav-link" href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
                     </li>
                     <li class="nav-item">
                         <form method="post" action="{% url 'logout' %}">
