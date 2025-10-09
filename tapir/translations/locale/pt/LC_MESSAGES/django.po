@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-28 12:56+0200\n"
-"PO-Revision-Date: 2025-09-29 08:38+0000\n"
+"PO-Revision-Date: 2025-10-08 17:59+0000\n"
 "Last-Translator: Lara Carvalho <laracjcarvalho@gmail.com>\n"
 "Language-Team: Portuguese <http://weblate.seriousdino.org/projects/tapir/"
 "tapir-python-translations/pt/>\n"
@@ -2679,7 +2679,7 @@ msgstr "Diversos"
 
 #: core/apps.py:38
 msgid "About Rizoma"
-msgstr "Sobre o Rizoma"
+msgstr "Sobre a Rizoma"
 
 #: core/apps.py:46
 msgid "Wiki"
@@ -3843,10 +3843,15 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"        <p>Abaixo encontra todos os turnos futuros e quem está registado em cada um.</p>\n"
-"        <p>Pode inscrever-se em qualquer turno que tenha vagas no TAPIR. Pode também cancelar a inscrição pelo menos %(nb_days_for_self_unregister)s dias antes do turno.<br />\n"
-"            Ao inscrever-se num destes turnos, compromete-se apenas com esse dia específico.</p>\n"
-"        <p>Para se registar num turno ABCD regular, contacte o Member Office.</p>\n"
+"        <p>Abaixo encontras todos os turnos futuros e quem está registado em "
+"cada um.</p>\n"
+"        <p>Podes inscrever-te em qualquer turno que tenha vagas no TAPIR. "
+"Podes também cancelar a inscrição pelo menos %(nb_days_for_self_unregister)s "
+"dias antes do turno.<br />\n"
+"            Ao te inscreveres num destes turnos, comprometes-te apenas com "
+"esse dia específico.</p>\n"
+"        <p>Para te registares num turno ABCD regular, contacta o GTT-"
+"membros.</p>\n"
 "    "
 
 #: shifts/templates/shifts/shift_calendar_past.html:4
@@ -3993,7 +3998,7 @@ msgstr "Cumpre os requisitos?"
 #: shifts/templates/shifts/shift_detail.html:98
 #: shifts/templates/shifts/shift_template_detail.html:46
 msgid "Member-Office actions"
-msgstr "Ações do Escritório de Membros"
+msgstr "Acções do GTT- Membros"
 
 #: shifts/templates/shifts/shift_detail.html:99
 msgid "Previous attendances"
@@ -4063,11 +4068,13 @@ msgid ""
 "                                                    -The shift is not cancelled (holidays...)<br />\n"
 "                                                "
 msgstr ""
-"Só pode inscrever-se num turno se:<br />\n"
-"- Não estiver já registado noutro lugar desse turno<br />\n"
-"- Tiver a qualificação necessária (se desejar obter uma qualificação, contacte o Escritório de Membros)<br />\n"
+"Só podes inscrever-te num turno se:<br />\n"
+"- Não estiveres já registado noutro lugar desse turno<br />\n"
+"- Tiveres a qualificação necessária (se quiseres obter uma qualificação, "
+"contacta o GTT-membros)<br />\n"
 "- O turno for no futuro<br />\n"
-"- O turno não tiver sido cancelado (férias, etc.)<br />"
+"- O turno não tiver sido cancelado (férias, etc.)<br />\n"
+"                                                "
 
 #: shifts/templates/shifts/shift_detail.html:254
 #: shifts/templates/shifts/shift_template_detail.html:98
@@ -4080,7 +4087,7 @@ msgstr "Editar lugar"
 
 #: shifts/templates/shifts/shift_filters.html:7
 msgid "Use the buttons below to filter the shifts that are relevant to you."
-msgstr "Use os botões abaixo para filtrar os turnos relevantes para si."
+msgstr "Usas os botões abaixo para filtrar os turnos relevantes para ti."
 
 #: shifts/templates/shifts/shift_filters.html:16
 msgid "No filter"
@@ -4122,7 +4129,7 @@ msgstr "Presença ABCD"
 
 #: shifts/templates/shifts/shift_filters.html:80
 msgid "Flying attendance"
-msgstr "Presença volante"
+msgstr "Presença flex"
 
 #: shifts/templates/shifts/shift_form.html:20
 msgid ""
@@ -4132,8 +4139,10 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"<p>Tenha cuidado ao criar um turno, pois não poderá eliminá-lo mais tarde.</p>\n"
-"<p>Os lugares podem ser adicionados ao turno depois de criado.</p>"
+"                            <p>Tem cuidado ao criar um turno, pois não "
+"poderás eliminá-lo mais tarde.</p>\n"
+"<p>Os lugares podem ser adicionados ao turno depois de criado.</p>\n"
+"                        "
 
 #: shifts/templates/shifts/shift_management.html:20
 msgid "Add shifts"
@@ -4255,8 +4264,13 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"<p>Este é o plano de turnos ABCD. Ele repete-se a cada quatro semanas. É por isso que vê apenas os dias da semana (segunda-feira, terça-feira...) e a semana (A, B, C ou D), em vez de datas específicas (ex: 23.8.2021).</p>\n"
-"<p>Para ver a data do seu próximo turno, vá ao seu perfil. Se quiser alterar o seu turno ABCD regular, contacte o Escritório de Membros.</p>"
+"                    <p>Este é o plano de turnos ABCD. Ele repete-se a cada "
+"quatro semanas. É por isso que vês apenas os dias da semana (segunda-feira, "
+"terça-feira...) e a semana (A, B, C ou D), em vez de datas específicas (ex: "
+"23.8.2021).</p>\n"
+"<p>Para veres a data do teu próximo turno, vai ao seu perfil. Se quiseres "
+"alterar o teu turno ABCD regular, contacta o GTT-membros.</p>\n"
+"                "
 
 #: shifts/templates/shifts/shift_template_overview.html:35
 msgid "Calendar of ABCD shifts"
@@ -4284,7 +4298,9 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"                            Tenha cuidado ao criar um lugar de turno, pois não poderá eliminá-lo depois."
+"                            Tem cuidado ao criar uma entrada de turno, pois "
+"não poderás eliminá-la depois.\n"
+"                        "
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:14
 msgid "Available"
