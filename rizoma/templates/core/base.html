@@ -166,11 +166,16 @@
             </main>
         </div>
     </div>
-    <button class="open-zammad-chat">Need help?</button>
+    <button class="open-zammad-chat"
+        style="position: fixed;bottom: 0.5em;right: 0.5em;width: 2em;height: 2em;font-size: 2.5em;border-radius: 0.5em;background: var(--bs-primary);border-color: var(--bs-primary);">💬</button>
+
+    <button id="feedback-form" class="chatclosed"
+        style="position: fixed;bottom: 0.5em;right: 0.5em;width: 2em;height: 2em;font-size: 2.5em;border-radius: 0.5em;background: var(--bs-primary);border-color: var(--bs-primary);">💬</button>
 </body>
 <script src="{% static 'rizoma-static/libs/bootstrap/5.3.8/bootstrap.bundle.min.js' %}"></script>
 
 <script src="https://help.rizoma.pt/assets/chat/chat-no-jquery.min.js"></script>
+<script id="zammad_form_script" src="https://help.rizoma.pt/assets/form/form.js"></script>
 <script>
         (function () {
             new ZammadChat({
@@ -181,6 +186,29 @@
                 show: false
             });
         })();
+</script>
+<script>
+    $(function () {
+        $('#feedback-form').ZammadForm({
+            messageTitle: 'Leave a message',
+            messageSubmit: 'Submit',
+            messageThankYou: "Thank you. We'll get back to you as soon as possible.",
+            modal: true
+        });
+    });
+</script>
+<script>
+    $(function () {
+        setTimeout(function () {
+            var x = document.getElementById('open-chat');
+            if (window.getComputedStyle(x).display === "none") {
+                document.getElementsByClassName('chatclosed')[0].
+                    style.display = 'block';
+                document.getElementsByClassName('chatclosed')[1].
+                    style.display = 'block';
+            };
+        }, 3000);
+    });
 </script>
 
 </html>
