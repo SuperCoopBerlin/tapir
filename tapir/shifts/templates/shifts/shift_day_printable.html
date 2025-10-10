@@ -266,10 +266,12 @@
                             {% endwith %}
                         </div>
                         <div class="attendance-controls" aria-label="attendance controls">
-                            <label class="att-checkbox" title="{% translate 'Attended' %}">
-                                <input type="checkbox" name="attendance_{{ slot.id }}_attended" />
-                                <span>{% translate 'Attended' %}</span>
-                            </label>
+                            <div class="signature-box"
+                                 title="{% translate 'Attended' %}"
+                                 style="width: 80%;
+                                        height: 20px;
+                                        border: 1px solid #000;
+                                        text-align: center"></div>
                             <label class="att-checkbox" title="{% translate 'Excused' %}">
                                 <input type="checkbox" name="attendance_{{ slot.id }}_excused" />
                                 <span>{% translate 'Excused' %}</span>
