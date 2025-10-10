@@ -289,15 +289,15 @@ class ShareOwnerDeleteView(
     model = ShareOwner
 
     def get_object(self, queryset=None):
-        share_owner = super().get_object(queryset)
-        if self.request.user == share_owner.user:
-            raise PermissionDenied("You cannot delete your own account.")
-        return share_owner
+        return super().get_object(queryset)
 
     def get_success_url(self):
         return reverse("coop:shareowner_list")
 
     def form_valid(self, form):
+        share_owner = self.get_object()
+        if self.request.user == share_owner.user:
+            raise PermissionDenied("You cannot delete your own account.")
         self.get_object().soft_delete()
         return super().form_valid(form)
 
