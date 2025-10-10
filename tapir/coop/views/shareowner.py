@@ -298,7 +298,7 @@ class ShareOwnerDeleteView(
         return reverse("coop:shareowner_list")
 
     def form_valid(self, form):
-        self.get_object().delete()
+        self.get_object().soft_delete()
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

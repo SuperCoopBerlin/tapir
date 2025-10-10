@@ -189,7 +189,7 @@ class ShareOwner(models.Model):
     everything = models.Manager()
     objects = NonDeleted()
 
-    def delete(self, using=None, keep_parents=False):
+    def soft_delete(self):
         self.deleted_at = timezone.now()
         self.save()
 
