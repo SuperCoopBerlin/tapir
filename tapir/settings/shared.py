@@ -432,3 +432,5 @@ RUNNING_TESTS = False
 PATH_TO_GOOGLE_CLIENT_SECRET_FILE = env.str(
     "PATH_TO_GOOGLE_CLIENT_SECRET_FILE", default="google_client_secret_desktop.json"
 )
+
+GOOGLE_AUTHORIZED_USER_FILE_PATH = "google_user_token.json"
