@@ -10,26 +10,25 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
     def test_softDelete_DeletedAt_isNotNone(self):
         share_owner = ShareOwnerFactory.create()
 
-        assert share_owner.deleted_at is None
-
+        self.assertIsNone(share_owner.deleted_at)
         share_owner.soft_delete()
 
         share_owner.refresh_from_db()
 
-        assert share_owner.deleted_at is not None
-        assert share_owner.deleted_at <= timezone.now()
+        self.assertIsNotNone(share_owner.deleted_at)
+        self.assertLessEqual(share_owner.deleted_at, timezone.now())
 
     def test_softDelete_restoreDeleted_isNone(self):
         share_owner = ShareOwnerFactory.create()
 
         share_owner.soft_delete()
         share_owner.refresh_from_db()
-        assert share_owner.deleted_at is not None
+        self.assertIsNotNone(share_owner.deleted_at)
 
         share_owner.restore()
         share_owner.refresh_from_db()
 
-        assert share_owner.deleted_at is None
+        self.assertIsNone(share_owner.deleted_at)
 
     def test_softDelete_nonDeletedManager_containsNotDeletedShareowners(self):
         active_owner = ShareOwnerFactory.create()
@@ -38,9 +37,8 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
         soft_deleted_owner.soft_delete()
 
         non_deleted_owners = ShareOwner.objects.all()
-
-        assert active_owner in non_deleted_owners
-        assert soft_deleted_owner not in non_deleted_owners
+        self.assertIn(active_owner, non_deleted_owners)
+        self.assertNotIn(soft_deleted_owner, non_deleted_owners)
 
     def test_softDelete_everythingManager_containsAlsoDeletedShareowners(self):
         owner1 = ShareOwnerFactory.create()
@@ -50,15 +48,14 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
 
         all_owners = ShareOwner.everything.all()
 
-        assert owner1 in all_owners
-        assert owner2 in all_owners
+        self.assertIn(owner1, all_owners)
+        self.assertIn(owner2, all_owners)
 
     def test_hardDelete_shareOwner_isfullyDeleted(self):
         share_owner = ShareOwnerFactory.create()
         all_users = ShareOwner.everything.all()
-        assert share_owner in all_users
-
+        self.assertIn(share_owner, all_users)
         share_owner.delete()
 
         all_users = ShareOwner.everything.all()
-        assert share_owner not in all_users
+        self.assertNotIn(share_owner, all_users)
