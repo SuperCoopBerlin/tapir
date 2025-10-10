@@ -298,9 +298,7 @@ class ShareOwnerDeleteView(
         return reverse("coop:shareowner_list")
 
     def delete(self, request, *args, **kwargs):
-        with transaction.atomic():
-            self.object = self.get_object()
-            self.object.delete()
+        self.get_object().delete()
 
         return super().delete(request, *args, **kwargs)
 
