@@ -1,6 +1,8 @@
 import pytest
+from django.urls import reverse
 from django.utils import timezone
 
+from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
@@ -59,3 +61,11 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
 
         all_users = ShareOwner.everything.all()
         self.assertNotIn(share_owner, all_users)
+
+    def test_delete_cannotDeleteOwnAccount(self):
+        vorstand_user = self.login_as_vorstand()
+        response = self.client.post(
+            reverse("coop:shareowner_delete", args=[vorstand_user.share_owner.id])
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertIn(vorstand_user.share_owner, ShareOwner.everything.all())
