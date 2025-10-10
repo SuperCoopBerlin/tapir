@@ -18,8 +18,8 @@ services:
       SECRET_KEY: "${SECRET_KEY:?}"
       EMAIL_ENV: "${EMAIL_ENV:-test}"
       EMAIL_HOST: "${EMAIL_HOST:?}"
-      EMAIL_USER: "${EMAIL_USER:?}"
-      EMAIL_PASSWORD: "${EMAIL_PASSWORD:?}"
+      EMAIL_HOST_USER: "${EMAIL_USER:?}"
+      EMAIL_HOST_PASSWORD: "${EMAIL_PASSWORD:?}"
       COOPS_PT_RSA_PUBLIC_KEY: |-
         "${COOPS_PT_RSA_PUBLIC_KEY:?}"
     command: bash -c "poetry run python ./manage.py collectstatic --clear --noinput && poetry run python ./manage.py migrate && poetry run gunicorn -b 0.0.0.0:80 tapir.wsgi:application"
@@ -63,8 +63,8 @@ services:
       SECRET_KEY: "${SECRET_KEY:?}"
       EMAIL_ENV: "${EMAIL_ENV:-test}"
       EMAIL_HOST: "${EMAIL_HOST:?}"
-      EMAIL_USER: "${EMAIL_USER:?}"
-      EMAIL_PASSWORD: "${EMAIL_PASSWORD:?}"
+      EMAIL_HOST_USER: "${EMAIL_USER:?}"
+      EMAIL_HOST_PASSWORD: "${EMAIL_PASSWORD:?}"
       COOPS_PT_RSA_PUBLIC_KEY: |-
         "${COOPS_PT_RSA_PUBLIC_KEY:?}"
     depends_on:
@@ -88,8 +88,8 @@ services:
       ENV_FILE_PATH: '/app/rizoma/deploy.env'
       EMAIL_ENV: "${EMAIL_ENV:-test}"
       EMAIL_HOST: "${EMAIL_HOST:?}"
-      EMAIL_USER: "${EMAIL_USER:?}"
-      EMAIL_PASSWORD: "${EMAIL_PASSWORD:?}"
+      EMAIL_HOST_USER: "${EMAIL_USER:?}"
+      EMAIL_HOST_PASSWORD: "${EMAIL_PASSWORD:?}"
     depends_on:
       - redis
       - tapir
