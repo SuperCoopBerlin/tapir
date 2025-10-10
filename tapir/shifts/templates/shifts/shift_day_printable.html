@@ -3,7 +3,6 @@
 {% load utils %}
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-<!--Bestimmt falsch-->
 <style>
     @page {
         size: A4 portrait;
@@ -106,8 +105,8 @@
         border: 1px solid #000;
         padding: 3px;
         box-sizing: border-box;
-        height: auto; /* Erlaubt Flexibilität */
-        min-height: 40px; /* Mindesthöhe für die Zeilen */
+        height: auto;
+        min-height: 40px;
         page-break-inside: avoid;
         break-inside: avoid-column;
     }
@@ -130,7 +129,7 @@
         white-space: normal;
         word-wrap: break-word;
         hyphens: auto;
-        line-height: 1.2; /* Erhöhte Zeilenhöhe für mehr Platz */
+        line-height: 1.2;
     }
 
     .member-info {
@@ -140,7 +139,7 @@
         text-align: left;
         font-size: 10px;
         overflow: hidden;
-        line-height: 1.2; /* Erhöhte Zeilenhöhe für mehr Platz */
+        line-height: 1.2;
     }
 
     .attendance-controls {
@@ -188,6 +187,7 @@
     .shift-header, .att-controls-header {
         background: #f0f0f0;
     }
+
     .attendance-label {
         transform: rotate(-30deg);
         transform-origin: left bottom;
@@ -208,7 +208,6 @@
         </div>
         <div class="label-set">
             <div class="attendance-label">{% translate 'Attended' %}</div>
-            <div class="attendance-label">{% translate 'Missed' %}</div>
             <div class="attendance-label">{% translate 'Excused' %}</div>
         </div>
     </div>
@@ -270,10 +269,6 @@
                             <label class="att-checkbox" title="{% translate 'Attended' %}">
                                 <input type="checkbox" name="attendance_{{ slot.id }}_attended" />
                                 <span>{% translate 'Attended' %}</span>
-                            </label>
-                            <label class="att-checkbox" title="{% translate 'Missed' %}">
-                                <input type="checkbox" name="attendance_{{ slot.id }}_missed" />
-                                <span>{% translate 'Missed' %}</span>
                             </label>
                             <label class="att-checkbox" title="{% translate 'Excused' %}">
                                 <input type="checkbox" name="attendance_{{ slot.id }}_excused" />
