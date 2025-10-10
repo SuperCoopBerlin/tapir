@@ -302,9 +302,6 @@ class ShareOwnerDeleteView(
             self.object = self.get_object()
             self.object.delete()
 
-            for callback in on_welcome_session_attendance_update:
-                callback(self.object)
-
         return super().delete(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
