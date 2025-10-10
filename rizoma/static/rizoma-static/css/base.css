@@ -9,7 +9,10 @@
 @import url("./components/nav.css");
 @import url("./components/link.css");
 @import url("./components/table.css");
+@import url("./components/typography.css");
 
 /* Pages */
 @import url("./pages/about.css");
 @import url("./pages/auth.css");
+
+@import url("./pages/allShifts.css");

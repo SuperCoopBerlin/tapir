@@ -48,7 +48,7 @@
         {% vite_react_refresh %}
         <script src="{% url 'core:javascript-catalog' %}"></script>
     </head>
-    <body>
+    <body class="{% block body_class %}{% endblock %}">
         <header class="navbar bg-white sticky-top shadow py-2 px-0 px-md-3">
             <div class="container-fluid">
                 <a href="/" class="navbar-brand">

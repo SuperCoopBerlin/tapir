@@ -19,7 +19,7 @@ class RizomaConfig(AppConfig):
         admin_group.add_link(
             display_name=_("All shifts"),
             material_icon="calendar_today",
-            url=reverse_lazy("shifts:calendar"),
+            url=reverse_lazy("rizoma:all_shifts"),
             ordering=1,
             required_permissions=[PERMISSION_COOP_ADMIN],
         )

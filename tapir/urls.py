@@ -23,10 +23,11 @@ from django.views import generic
 from tapir.settings import ENABLE_SILK_PROFILING
 
 urlpatterns = [
-    path("", generic.RedirectView.as_view(pattern_name="accounts:index")),
+    path("", generic.RedirectView.as_view(url=settings.LOGIN_REDIRECT_URL)),
     path("admin/", admin.site.urls),
     path("accounts/", include("tapir.accounts.urls")),
     path("shifts/", include("tapir.shifts.urls")),
+    path("rizoma/", include("tapir.rizoma.urls")),
     path("coop/", include("tapir.coop.urls")),
     path("log/", include("tapir.log.urls")),
     path("core/", include("tapir.core.urls")),

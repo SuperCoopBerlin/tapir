@@ -1,3 +1,21 @@
 a {
   color: var(--bs-primary);
 }
+
+.tab-links {
+  display: flex;
+  gap: 1rem;
+
+}
+
+.tab-link {
+  color: var(--riz-color-gray-medium);
+  padding: .3rem 1.1rem;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.tab-link__active {
+  color: var(--bs-primary);
+  border-bottom: 4px solid var(--bs-primary);
+}

@@ -9,7 +9,7 @@
 }
 
 .nav-link {
-  --bs-nav-link-font-size: 0.95rem;
+  --bs-nav-link-font-size: 1rem;
 }
 
 /* Sidebar */
@@ -59,6 +59,11 @@
   border-radius: var(--bs-border-radius);
   line-height: .95em;
   /* padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x); */
+}
+
+.sidebar .nav-link .material-icons {
+  font-size: 1.25rem;
+  margin-right: .25rem;
 }
 
 .sidebar .nav-link.active {
