@@ -16,17 +16,22 @@
     <h5 class="card-header d-flex justify-content-between align-items-center text-white bg-info">{% translate "Welcome to Tapir!" %}</h5>
     
 <div class="card-body">
-                {% blocktranslate %}
-  <p>This is the new Shift Management System for Rizoma Consumo</p>
-  <p>If this is the first time you are using this, you probably have to do the following first</p><p>
-  </p><ol>
-    <li>First <a href="">reset the password for your email address here</a>. This will send you an email with a link allowing you to reset the password</li>
-    <li>Consult the <a href="">Members Manual</a> to learn how to use the new system, and what rules have changed</li>
-  </ol>
-  
-  <p>If you are facing any issues, you can use the "💬 button" on the bottom right to contact us directly and we will try to help you as soon as we can, or you can write us at <a href="mailto:support@rizomacoop.pt">support@rizomacoop.pt</a></p>
-      
-                {% endblocktranslate %}
+  {% blocktranslate %}
+    <p>This is the new Shift Management System for Consumption Section (“Secção Consumo”) at Rizoma!</p>
+    <p>If this is the first time you are using this system, you probably have to do the following first:</p><p>
+    </p>
+    <ol>
+      <li>
+        First <a href="https://rizoma.coops.pt/autorizacao/loginporlink">reset the password for your email address here</a>. This will send you an email with a link allowing you to reset the password.
+      </li>
+      <li>
+        <strong>Consult the <a href="https://docs.google.com/document/d/1BxEWHsJ2y6o3c4z7a-ShwRXMXdQwx_BPOIfVB3igvwg/edit?tab=t.0#heading=h.y3i060nt8f2g">Members Manual</a></strong> to learn how to use the new system and more about the updated rules.
+        </li>
+    </ol>
+
+    <p>If you are facing any issues, you can use the "💬 button" on the bottom right to contact us directly and we will try to help you as soon as we can, or you can write us at <a href="mailto:support@rizomacoop.pt">support@rizomacoop.pt</a></p>
+
+  {% endblocktranslate %}
     </div>
 
   </div>
@@ -39,15 +44,15 @@
       <form role="form" method="post">
         {% csrf_token %}
         <div class="mb-3">
-          <label class="form-label" for="id_username">Nutzer*innenname</label>
+          <label class="form-label" for="id_username">{% translate "Email" %}</label>
           <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150"
-            class="form-control" placeholder="Nutzer*innenname" required="" id="id_username" autocomplete="off">
+            class="form-control" placeholder="{% translate "Email" %}" required="" id="id_username" autocomplete="off">
         </div>
         <div class="mb-3">
-          <label class="form-label" for="id_password">Passwort</label>
+          <label class="form-label" for="id_password">{% translate "Password" %}</label>
           <div class="input-group" id="custom_password_group">
             <input type="password" name="password" autocomplete="current-password" class="form-control"
-              placeholder="Passwort" required="" id="id_password">
+              placeholder="{% translate "Password" %}" required="" id="id_password">
             <div class="input-group-append" style="cursor: pointer;">
               <span title="{% translate 'Click here to show/hide the password' %}" id="password_toggle"
                 style="height: 100%">
