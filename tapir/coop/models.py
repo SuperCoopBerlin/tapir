@@ -115,9 +115,7 @@ class ShareOwnerQuerySet(models.QuerySet):
 
 class NonDeleted(models.Manager):
     def get_queryset(self):
-        return ShareOwnerQuerySet(self.model, using=self._db).filter(
-            deleted_at__isnull=True
-        )
+        return super().get_queryset().filter(deleted_at__isnull=True)
 
 
 class ShareOwner(models.Model):
@@ -187,7 +185,7 @@ class ShareOwner(models.Model):
     deleted_at = models.DateTimeField(null=True, blank=True)  # Soft-Delete
 
     everything = models.Manager()
-    objects = NonDeleted()
+    objects = NonDeleted.from_queryset(ShareOwnerQuerySet)()
 
     def soft_delete(self):
         self.deleted_at = timezone.now()
