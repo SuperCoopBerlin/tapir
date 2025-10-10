@@ -206,7 +206,9 @@
         <div style="flex:1"></div>
         <div class="label-set">
             <div class="attendance-label">{% translate 'Attended' %}</div>
-            <div class="attendance-label">{% translate 'Excused' %}</div>
+            <div class="attendance-label">
+                {% translate 'Excused' %} <span style="color: red;">*</span>
+            </div>
         </div>
     </div>
     {% for shift in shifts %}
@@ -280,7 +282,11 @@
             </div>
         </div>
     {% endfor %}
-    <div class="legend" style="text-align: right;">
-        <span><i class="material-icons small-text" style="vertical-align: middle;">school</i> - {% translate 'Qualifications' %}</span>
+    <div class="legend" style="text-align: right; font-size: 10px;">
+        <span>
+            <i class="material-icons small-text" style="vertical-align: middle;">school</i>
+            - {% translate 'Qualifications' %}
+            <span style="margin: 0 4px;"></span>
+            <span style="margin-left: 4px;">* {% translate 'Only to be filled in by the member office.' %}</span>
+        </div>
     </div>
-</div>
