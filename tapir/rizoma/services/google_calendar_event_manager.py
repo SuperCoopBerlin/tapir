@@ -10,12 +10,13 @@ from tapir.rizoma.config import FEATURE_FLAG_GOOGLE_CALENDAR_EVENTS_FOR_SHIFTS
 from tapir.shifts.models import ShiftAttendance
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.user_utils import UserUtils
+from django.conf import settings
 
 
 class GoogleCalendarEventManager:
     SCOPES = ["https://www.googleapis.com/auth/calendar.events.owned"]
     CALENDAR_ID = "primary"
-    AUTHORIZED_USER_FILE = "google_user_token.json"
+    AUTHORIZED_USER_FILE = settings.GOOGLE_AUTHORIZED_USER_FILE_PATH
 
     @classmethod
     def on_attendance_state_changed(cls, attendance: ShiftAttendance):

@@ -64,6 +64,15 @@ CELERY_BEAT_SCHEDULE.update(
     }
 )
 
+PATH_TO_GOOGLE_CLIENT_SECRET_FILE = ""
+GOOGLE_AUTHORIZED_USER_FILE_PATH = ""
+GOOGLE_CLIENT_CONFIG_PATH = env.str("GOOGLE_CLIENT_CONFIG_PATH", default="")
+if GOOGLE_CLIENT_CONFIG_PATH:
+    PATH_TO_GOOGLE_CLIENT_SECRET_FILE = os.path.join(GOOGLE_CLIENT_CONFIG_PATH, "credentials.json")
+    GOOGLE_AUTHORIZED_USER_FILE_PATH = os.path.join(GOOGLE_CLIENT_CONFIG_PATH, "google_user_token.json")
+else:
+    print("GOOGLE_CLIENT_CONFIG_PATH not found. Google Calendars Sync disabled.")
+
 LOGIN_REDIRECT_URL = "/shifts/dashboard"
 
 

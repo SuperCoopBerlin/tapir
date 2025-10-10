@@ -14,6 +14,7 @@ services:
       COOPS_PT_API_KEY: "${COOPS_PT_API_KEY:?}"
       COOPS_PT_API_BASE_URL: "${COOPS_PT_API_BASE_URL:?}"
       ENV_FILE_PATH: "/app/rizoma/deploy.env"
+      GOOGLE_CLIENT_CONFIG_PATH: '/config/google/'
       SECRET_KEY: "${SECRET_KEY:?}"
       EMAIL_ENV: "${EMAIL_ENV:-test}"
       EMAIL_HOST: "${EMAIL_HOST:?}"
@@ -33,6 +34,7 @@ services:
     volumes:
       # This volume is also mounted by nginx to serve static files
       - 'tapir-web-static:/app/static'
+      - 'tapir-google-config:/config/google:rw'
     healthcheck:
       test: curl --fail http://localhost:80/ || exit 1
       interval: 30s
@@ -46,9 +48,12 @@ services:
       context: .
       dockerfile: tapir.Dockerfile
     restart: unless-stopped
+    volumes:
+      - 'tapir-google-config:/config/google:ro'
     command: bash -c "poetry install && poetry run celery -A tapir worker -l info"
     environment:
       ENV_FILE_PATH: '/app/rizoma/deploy.env'
+      GOOGLE_CLIENT_CONFIG_PATH: '/config/google/'
       DEBUG: ${TAPIR_DEBUG:-0}
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
       SITE_URL: "${SERVICE_URL_TAPIR}"
@@ -74,6 +79,7 @@ services:
     restart: unless-stopped
     command: bash -c "poetry install && poetry run celery -A tapir beat -l info"
     environment:
+      GOOGLE_CLIENT_CONFIG_PATH: '/config/google/'
       DEBUG: ${TAPIR_DEBUG:-0}
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
       SITE_URL: "${SERVICE_URL_TAPIR}"
@@ -87,6 +93,8 @@ services:
     depends_on:
       - redis
       - tapir
+    volumes:
+      - 'tapir-google-config:/config/google:ro'
 
   static-http:
     # serve static files, because django does not
@@ -124,3 +132,4 @@ services:
 volumes:
   tapir-db-data:
   tapir-web-static:
+  tapir-google-config:
