@@ -5,6 +5,7 @@ import datetime
 from functools import cmp_to_key
 from locale import strcoll
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
@@ -343,7 +344,7 @@ class RequiredCapabilitiesMixin:
         returns required capabilities as dictionary with corresponding translation
         """
         return {
-            capability.id: capability.get_current_translation().name
+            capability: capability.get_current_translation().name
             for capability in self.required_capabilities.all().prefetch_related(
                 "shiftusercapabilitytranslation_set"
             )
@@ -563,9 +564,6 @@ class Shift(models.Model):
         null=True, max_length=1000, verbose_name=_("Cancellation reason")
     )
 
-    NB_DAYS_FOR_SELF_UNREGISTER = 7
-    NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
-
     def __str__(self):
         display_name = "%s: %s %s-%s" % (
             self.__class__.__name__,
@@ -701,61 +699,74 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         return self.valid_attendance
 
     def user_can_attend(self, user):
-        return (
+        if (
+            self.get_valid_attendance() is not None
+            and self.get_valid_attendance().state
+            != ShiftAttendance.State.LOOKING_FOR_STAND_IN
+        ):
             # Slot must not be attended yet
-            (
-                not self.get_valid_attendance()
-                or self.get_valid_attendance().state
-                == ShiftAttendance.State.LOOKING_FOR_STAND_IN
-            )
-            and
+            return False
+
+        if self.shift.get_attendances().filter(user=user).with_valid_state().exists():
             # User isn't already registered for this shift
-            not (
-                self.shift.get_attendances()
-                .filter(user=user)
-                .with_valid_state()
-                .exists()
-            )
-            and
+            return False
+
+        if not set(self.required_capabilities.all()).issubset(
+            set(user.shift_user_data.capabilities.all())
+        ):
             # User must have all required capabilities
-            (
-                set(self.required_capabilities.all()).issubset(
-                    set(user.shift_user_data.capabilities.all())
-                )
-            )
-            and self.shift.is_in_the_future()
-            and not self.shift.cancelled
-            and hasattr(user, "share_owner")
-            and user.share_owner.is_active(self.shift.start_time)
-        )
+            return False
+
+        if not self.shift.is_in_the_future():
+            return False
+
+        if self.shift.cancelled:
+            return False
+
+        if not hasattr(user, "share_owner") or user.share_owner is None:
+            return False
+
+        from tapir.coop.models import MemberStatus
+
+        if (
+            user.share_owner.get_member_status(self.shift.start_time)
+            != MemberStatus.ACTIVE
+        ):
+            return False
+
+        return True
 
     def user_can_self_unregister(self, user: TapirUser) -> bool:
         user_is_registered_to_slot = (
             self.get_valid_attendance() is not None
             and self.get_valid_attendance().user == user
         )
-        user_is_not_registered_to_slot_template = (
-            self.slot_template is None
-            or not hasattr(self.slot_template, "attendance_template")
-            or not self.slot_template.attendance_template.user == user
-        )
-        early_enough = (
-            self.shift.start_time.date() - timezone.now().date()
-        ).days >= Shift.NB_DAYS_FOR_SELF_UNREGISTER
-        return (
-            user_is_registered_to_slot
-            and user_is_not_registered_to_slot_template
-            and early_enough
-        )
+        if not user_is_registered_to_slot:
+            return False
+
+        if not settings.ENABLE_RIZOMA_CONTENT:
+            user_is_registered_to_slot_template = (
+                self.slot_template is not None
+                and hasattr(self.slot_template, "attendance_template")
+                and self.slot_template.attendance_template.user == user
+            )
+            if user_is_registered_to_slot_template:
+                return False
+
+        hours = (self.shift.start_time - timezone.now()).total_seconds() / 3600
+        early_enough = hours >= settings.NB_HOURS_FOR_SELF_UNREGISTER
+        if not early_enough:
+            return False
+
+        return True
 
     def user_can_look_for_standin(self, user: TapirUser) -> bool:
         user_is_registered_to_slot = (
             self.get_valid_attendance() is not None
             and self.get_valid_attendance().user == user
         )
-        early_enough = (
-            self.shift.start_time - timezone.now()
-        ).days >= Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
+        hours = (self.shift.start_time - timezone.now()).total_seconds() / 3600
+        early_enough = hours >= settings.NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN
         return user_is_registered_to_slot and early_enough
 
     def update_attendance_from_template(self):

@@ -1,10 +1,10 @@
 import datetime
 
+from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
 
 from tapir.shifts.models import (
-    Shift,
     ShiftAttendance,
     ShiftSlotTemplate,
     ShiftAttendanceTemplate,
@@ -18,7 +18,7 @@ class TestMemberSelfUnregisters(TapirFactoryTestBase):
     def test_member_self_unregisters(self):
         user = self.login_as_normal_user(share_owner__is_investing=False)
         start_time = timezone.now() + datetime.timedelta(
-            days=Shift.NB_DAYS_FOR_SELF_UNREGISTER, hours=1
+            hours=settings.NB_HOURS_FOR_SELF_UNREGISTER + 1
         )
         shift = ShiftFactory.create(start_time=start_time)
 
@@ -45,7 +45,7 @@ class TestMemberSelfUnregisters(TapirFactoryTestBase):
     def test_member_self_unregisters_threshold(self):
         user = self.login_as_normal_user(share_owner__is_investing=False)
         start_time = timezone.now() + datetime.timedelta(
-            days=Shift.NB_DAYS_FOR_SELF_UNREGISTER - 1
+            hours=settings.NB_HOURS_FOR_SELF_UNREGISTER - 1
         )
         shift = ShiftFactory.create(start_time=start_time)
 
@@ -73,7 +73,7 @@ class TestMemberSelfUnregisters(TapirFactoryTestBase):
         ShiftAttendanceTemplate.objects.create(slot_template=slot_template, user=user)
         shift = shift_template.create_shift(
             timezone.now()
-            + datetime.timedelta(days=Shift.NB_DAYS_FOR_SELF_UNREGISTER + 1)
+            + datetime.timedelta(hours=settings.NB_HOURS_FOR_SELF_UNREGISTER + 1)
         )
 
         attendance = ShiftAttendance.objects.get(slot__shift=shift, user=user)

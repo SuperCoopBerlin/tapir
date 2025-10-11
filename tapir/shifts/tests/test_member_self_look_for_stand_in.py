@@ -1,5 +1,6 @@
 import datetime
 
+from django.conf import settings
 from django.core import mail
 from django.urls import reverse
 from django.utils import timezone
@@ -9,7 +10,6 @@ from tapir.shifts.emails.stand_in_found_email import StandInFoundEmailBuilder
 from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
-    Shift,
 )
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.shifts.tests.utils import register_user_to_shift
@@ -22,7 +22,7 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_member_self_look_for_stand_in(self):
         user = self.login_as_normal_user()
         start_time = timezone.now() + datetime.timedelta(
-            days=Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN, hours=1
+            hours=settings.NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN + 1
         )
         shift = ShiftFactory.create(start_time=start_time)
 
@@ -44,7 +44,7 @@ class TestMemberSelfLookForStandIn(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_member_self_look_for_stand_in_threshold(self):
         user = self.login_as_normal_user()
         start_time = timezone.now() + datetime.timedelta(
-            days=Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN, hours=-1
+            hours=settings.NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN - 1
         )
         shift = ShiftFactory.create(start_time=start_time)
 
