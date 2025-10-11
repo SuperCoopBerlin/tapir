@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-28 12:56+0200\n"
-"PO-Revision-Date: 2025-10-08 17:59+0000\n"
-"Last-Translator: Lara Carvalho <laracjcarvalho@gmail.com>\n"
+"PO-Revision-Date: 2025-10-11 10:59+0000\n"
+"Last-Translator: Emanuel Saramago <rizoma@emanuelsaramago.com>\n"
 "Language-Team: Portuguese <http://weblate.seriousdino.org/projects/tapir/"
 "tapir-python-translations/pt/>\n"
 "Language: pt\n"
@@ -35,11 +35,11 @@ msgstr "Este nome de utilizador não está disponível."
 
 #: accounts/forms.py:126
 msgid "Optional Mails"
-msgstr "Emails opcionais"
+msgstr "E-mails opcionais"
 
 #: accounts/forms.py:133
 msgid "Important Mails"
-msgstr "Emails importantes"
+msgstr "E-mails importantes"
 
 #: accounts/models.py:59
 msgid "Displayed name"
@@ -90,7 +90,7 @@ msgstr "Co-comprador"
 
 #: accounts/models.py:74
 msgid "Allow purchase tracking"
-msgstr "Permitir rastreamento de compras"
+msgstr "Permitir acompanhamento de compras"
 
 #: accounts/models.py:79 accounts/templates/accounts/user_detail.html:105
 #: coop/models.py:81 coop/models.py:457
@@ -208,7 +208,7 @@ msgstr "Grupos"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:5
 msgid "Purchase tracking"
-msgstr "Rastreamento de compras"
+msgstr "Acompanhamento de compras"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:11
 msgid "Get barcode as PDF"
@@ -251,7 +251,7 @@ msgstr "Dados pessoais"
 
 #: accounts/templates/accounts/user_detail.html:32
 msgid "Mails"
-msgstr "Emails"
+msgstr "E-mails"
 
 #: accounts/templates/accounts/user_detail.html:37
 msgid "Edit groups"
@@ -691,7 +691,6 @@ msgstr ""
 "patrocinador)"
 
 #: coop/forms.py:123
-#, fuzzy
 msgid "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
 msgstr ""
 "<b>Nota</b>: Os membros investidores são membros patrocinadores. Não têm "
@@ -734,7 +733,11 @@ msgstr "Estado do membro"
 
 #: coop/forms.py:291
 msgid "In the case where the member wants their money back, they stay a member for 3 more years. However, it is very likely that the member doesn't want to be active anymore. If they haven't explicitly mentioned it, please ask them if we can switch them to investing."
-msgstr "No caso de o membro querer o reembolso, permanece como membro por mais 3 anos. No entanto, é muito provável que o membro não queira mais estar ativo. Se não tiverem mencionado explicitamente, pergunte se podemos convertê-lo em membro investidor."
+msgstr ""
+"No caso de o membro desejar o seu dinheiro de volta, ele permanecerá como "
+"membro por mais 3 anos. No entanto, é muito provável que o membro não queira "
+"mais ser ativo. Se ele não tiver mencionado isso explicitamente, pergunte se "
+"podemos transferi-lo para a modalidade de investimento."
 
 #: coop/forms.py:316
 msgid "Send confirmation mails"
