@@ -198,7 +198,7 @@ class Command(BaseCommand):
                 if row[1] != "Regular":
                     continue
                 
-                print("Parsing line {count}")
+                print(f"Parsing line {count}")
 
                 week_group = week_groups_by_name[row[3]]
                 day_index = portuguese_day_name_to_day_index[row[2]]

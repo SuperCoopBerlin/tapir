@@ -36,8 +36,11 @@ class Command(BaseCommand):
 
         user_capabilities = []
 
+        count = 0
         with open(file_name) as csvfile:
             for row in csv.reader(csvfile):
+                count +=1
+                print(f"Parsing line {count}")
                 member_id = int(row[2])
                 capabilities_as_string = row[4].split(",")
                 capabilities_as_string = [
