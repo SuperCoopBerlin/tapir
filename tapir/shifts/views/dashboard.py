@@ -1,5 +1,6 @@
 import datetime
 from django.shortcuts import render
+from django.conf import settings
 from calendar import MONDAY
 from collections import OrderedDict
 from django.views.generic import TemplateView
