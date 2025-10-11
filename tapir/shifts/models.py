@@ -5,6 +5,7 @@ import datetime
 from functools import cmp_to_key
 from locale import strcoll
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
@@ -563,9 +564,6 @@ class Shift(models.Model):
         null=True, max_length=1000, verbose_name=_("Cancellation reason")
     )
 
-    NB_DAYS_FOR_SELF_UNREGISTER = 7
-    NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
-
     def __str__(self):
         display_name = "%s: %s %s-%s" % (
             self.__class__.__name__,
@@ -745,9 +743,8 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
             or not hasattr(self.slot_template, "attendance_template")
             or not self.slot_template.attendance_template.user == user
         )
-        early_enough = (
-            self.shift.start_time.date() - timezone.now().date()
-        ).days >= Shift.NB_DAYS_FOR_SELF_UNREGISTER
+        hours = (self.shift.start_time - timezone.now()).total_seconds() / 3600
+        early_enough = hours >= settings.NB_HOURS_FOR_SELF_UNREGISTER
         return (
             user_is_registered_to_slot
             and user_is_not_registered_to_slot_template
@@ -759,9 +756,8 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
             self.get_valid_attendance() is not None
             and self.get_valid_attendance().user == user
         )
-        early_enough = (
-            self.shift.start_time - timezone.now()
-        ).days >= Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
+        hours = (self.shift.start_time - timezone.now()).total_seconds() / 3600
+        early_enough = hours >= settings.NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN
         return user_is_registered_to_slot and early_enough
 
     def update_attendance_from_template(self):

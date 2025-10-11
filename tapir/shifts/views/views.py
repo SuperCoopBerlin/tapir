@@ -1,6 +1,7 @@
 import datetime
 
 import django_tables2
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
@@ -255,9 +256,11 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
 
         context["slots"] = slots
         context["attendance_states"] = ShiftAttendance.State
-        context["NB_DAYS_FOR_SELF_UNREGISTER"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
-        context["NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN"] = (
-            Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
+        context["NB_DAYS_FOR_SELF_UNREGISTER"] = int(
+            settings.NB_HOURS_FOR_SELF_UNREGISTER / 24
+        )
+        context["NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN"] = (
+            settings.NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN
         )
         context["SHIFT_ATTENDANCE_STATES"] = SHIFT_ATTENDANCE_STATES
         return context

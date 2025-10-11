@@ -465,3 +465,8 @@ RUNNING_TESTS = False
 PATH_TO_GOOGLE_CLIENT_SECRET_FILE = env.str(
     "PATH_TO_GOOGLE_CLIENT_SECRET_FILE", default="google_client_secret_desktop.json"
 )
+
+NB_HOURS_FOR_SELF_UNREGISTER = env.int("NB_HOURS_FOR_SELF_UNREGISTER", default=7 * 24)
+NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN = env.int(
+    "NB_HOURS_FOR_SELF_UNREGISTER", default=2 * 24
+)
