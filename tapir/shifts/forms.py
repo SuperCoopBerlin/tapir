@@ -339,7 +339,7 @@ class MissingCapabilitiesWarningMixin(forms.Form):
         ):
             user_capabilities = set(user_to_register.shift_user_data.capabilities.all())
             missing_capabilities = [
-                capability
+                capability.get_current_translation().name
                 for capability in self.get_required_capabilities()
                 if capability not in user_capabilities
             ]

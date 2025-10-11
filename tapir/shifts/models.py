@@ -343,7 +343,7 @@ class RequiredCapabilitiesMixin:
         returns required capabilities as dictionary with corresponding translation
         """
         return {
-            capability.id: capability.get_current_translation().name
+            capability: capability.get_current_translation().name
             for capability in self.required_capabilities.all().prefetch_related(
                 "shiftusercapabilitytranslation_set"
             )
@@ -698,33 +698,42 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         return self.valid_attendance
 
     def user_can_attend(self, user):
-        return (
+        if (
+            self.get_valid_attendance() is not None
+            and self.get_valid_attendance().state
+            != ShiftAttendance.State.LOOKING_FOR_STAND_IN
+        ):
             # Slot must not be attended yet
-            (
-                not self.get_valid_attendance()
-                or self.get_valid_attendance().state
-                == ShiftAttendance.State.LOOKING_FOR_STAND_IN
-            )
-            and
+            return False
+
+        if self.shift.get_attendances().filter(user=user).with_valid_state().exists():
             # User isn't already registered for this shift
-            not (
-                self.shift.get_attendances()
-                .filter(user=user)
-                .with_valid_state()
-                .exists()
-            )
-            and
+            return False
+
+        if not set(self.required_capabilities.all()).issubset(
+            set(user.shift_user_data.capabilities.all())
+        ):
             # User must have all required capabilities
-            (
-                set(self.required_capabilities.all()).issubset(
-                    set(user.shift_user_data.capabilities.all())
-                )
-            )
-            and self.shift.is_in_the_future()
-            and not self.shift.cancelled
-            and hasattr(user, "share_owner")
-            and user.share_owner.is_active(self.shift.start_time)
-        )
+            return False
+
+        if not self.shift.is_in_the_future():
+            return False
+
+        if self.shift.cancelled:
+            return False
+
+        if not hasattr(user, "share_owner") or user.share_owner is None:
+            return False
+
+        from tapir.coop.models import MemberStatus
+
+        if (
+            user.share_owner.get_member_status(self.shift.start_time)
+            != MemberStatus.ACTIVE
+        ):
+            return False
+
+        return True
 
     def user_can_self_unregister(self, user: TapirUser) -> bool:
         user_is_registered_to_slot = (
