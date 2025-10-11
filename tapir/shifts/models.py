@@ -738,18 +738,24 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
             self.get_valid_attendance() is not None
             and self.get_valid_attendance().user == user
         )
-        user_is_not_registered_to_slot_template = (
-            self.slot_template is None
-            or not hasattr(self.slot_template, "attendance_template")
-            or not self.slot_template.attendance_template.user == user
-        )
+        if not user_is_registered_to_slot:
+            return False
+
+        if not settings.ENABLE_RIZOMA_CONTENT:
+            user_is_registered_to_slot_template = (
+                self.slot_template is not None
+                and hasattr(self.slot_template, "attendance_template")
+                and self.slot_template.attendance_template.user == user
+            )
+            if user_is_registered_to_slot_template:
+                return False
+
         hours = (self.shift.start_time - timezone.now()).total_seconds() / 3600
         early_enough = hours >= settings.NB_HOURS_FOR_SELF_UNREGISTER
-        return (
-            user_is_registered_to_slot
-            and user_is_not_registered_to_slot_template
-            and early_enough
-        )
+        if not early_enough:
+            return False
+
+        return True
 
     def user_can_look_for_standin(self, user: TapirUser) -> bool:
         user_is_registered_to_slot = (
