@@ -11,6 +11,7 @@ services:
       SITE_URL: "${SERVICE_URL_TAPIR}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
       STATIC_URL: "${SERVICE_URL_STATIC_HTTP}/static/"
+      GOOGLE_CALENDAR_ID: "${GOOGLE_CALENDAR_ID}"
       COOPS_PT_API_KEY: "${COOPS_PT_API_KEY:?}"
       COOPS_PT_API_BASE_URL: "${COOPS_PT_API_BASE_URL:?}"
       ENV_FILE_PATH: "/app/rizoma/deploy.env"
@@ -57,6 +58,7 @@ services:
       DEBUG: ${TAPIR_DEBUG:-0}
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
       SITE_URL: "${SERVICE_URL_TAPIR}"
+      GOOGLE_CALENDAR_ID: "${GOOGLE_CALENDAR_ID}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
       COOPS_PT_API_KEY: "${COOPS_PT_API_KEY:?}"
       COOPS_PT_API_BASE_URL: "${COOPS_PT_API_BASE_URL:?}"
@@ -83,6 +85,7 @@ services:
       DEBUG: ${TAPIR_DEBUG:-0}
       ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
       SITE_URL: "${SERVICE_URL_TAPIR}"
+      GOOGLE_CALENDAR_ID: "${GOOGLE_CALENDAR_ID}"
       DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
       SECRET_KEY: "${SECRET_KEY:?}"
       ENV_FILE_PATH: '/app/rizoma/deploy.env'

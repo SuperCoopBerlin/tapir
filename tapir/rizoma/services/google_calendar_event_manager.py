@@ -15,7 +15,7 @@ from django.conf import settings
 
 class GoogleCalendarEventManager:
     SCOPES = ["https://www.googleapis.com/auth/calendar.events.owned"]
-    CALENDAR_ID = "primary"
+    CALENDAR_ID = settings.GOOGLE_CALENDAR_ID
     AUTHORIZED_USER_FILE = settings.GOOGLE_AUTHORIZED_USER_FILE_PATH
 
     @classmethod
