@@ -15,7 +15,7 @@ from django.views.decorators.http import require_POST, require_GET
 
 from tapir import settings
 from tapir.accounts import pdfs
-from tapir.accounts.config import feature_flag_open_door
+from tapir.accounts.config import feature_flag_open_door, cache_key_open_door
 from tapir.core.models import FeatureFlag
 from tapir.accounts.forms import (
     TapirUserForm,
@@ -53,8 +53,6 @@ from tapir.utils.shortcuts import (
     get_admin_ldap_connection,
 )
 from tapir.utils.user_utils import UserUtils
-
-CACHE_KEY_OPEN_DOOR = "open_door"
 
 class TapirUserDetailView(
     LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
@@ -453,7 +451,7 @@ def open_door_action(request, pk):
         raise PermissionDenied("The door opening feature is disabled.")
     
     # Set cache key with 10-second TTL
-    cache.set(CACHE_KEY_OPEN_DOOR, True, 10)
+    cache.set(cache_key_open_door, True, 10)
     return HttpResponse(status=200)
 
 
@@ -469,11 +467,11 @@ def get_open_door_status(request):
         return HttpResponse(status=403)
     
     # Get the current value
-    door_status = cache.get(CACHE_KEY_OPEN_DOOR)
+    door_status = cache.get(cache_key_open_door)
     
     # Delete the cache key if it exists
     if door_status is not None:
-        cache.delete(CACHE_KEY_OPEN_DOOR)
+        cache.delete(cache_key_open_door)
     
     # Return status code based on cache value
     if door_status is True:
