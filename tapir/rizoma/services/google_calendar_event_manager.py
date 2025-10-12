@@ -41,7 +41,7 @@ class GoogleCalendarEventManager:
             client.events().delete(
                 calendarId=cls.CALENDAR_ID,
                 eventId=attendance.external_event_id,
-                sendUpdates="all",
+                sendUpdates="none",
             ).execute()
 
         attendance.external_event_id = None
@@ -63,6 +63,7 @@ class GoogleCalendarEventManager:
                 .insert(
                     calendarId=cls.CALENDAR_ID,
                     body=cls.build_request_body(attendance),
+                    sendUpdates="none"
                 )
                 .execute()
             )
@@ -84,6 +85,7 @@ class GoogleCalendarEventManager:
                 calendarId=cls.CALENDAR_ID,
                 eventId=attendance.external_event_id,
                 body=cls.build_request_body(attendance),
+                sendUpdates="none"
             ).execute()
 
     @classmethod
