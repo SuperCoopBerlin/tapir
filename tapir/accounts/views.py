@@ -2,6 +2,7 @@ import django.contrib.auth.views as auth_views
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden
@@ -51,6 +52,7 @@ from tapir.utils.shortcuts import (
 )
 from tapir.utils.user_utils import UserUtils
 
+CACHE_KEY_OPEN_DOOR = "open_door"
 
 class TapirUserDetailView(
     LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
@@ -434,3 +436,39 @@ class MailSettingsView(
                 choice=is_selected,
             )
         return super().form_valid(form)
+        
+
+@require_POST
+@login_required
+@csrf_protect
+def open_door_action(request, pk):
+    """POST endpoint to trigger door opening.
+    
+    Sets cache key 'open_door' to True with 10-second TTL.
+    Requires authentication and CSRF protection.
+    """
+    # Set cache key with 10-second TTL
+    cache.set(CACHE_KEY_OPEN_DOOR, True, 10)
+    return HttpResponse(status=200)
+
+
+@require_GET
+def get_open_door_status(request):
+    """GET endpoint to check door status.
+    
+    Returns 200 if cache key is True, otherwise returns 403.
+    Deletes the cache key after checking (one-time use).
+    No authentication required.
+    """
+    # Get the current value
+    door_status = cache.get(CACHE_KEY_OPEN_DOOR)
+    
+    # Delete the cache key if it exists
+    if door_status is not None:
+        cache.delete(CACHE_KEY_OPEN_DOOR)
+    
+    # Return status code based on cache value
+    if door_status is True:
+        return HttpResponse(status=200)
+    else:
+        return HttpResponse(status=403)

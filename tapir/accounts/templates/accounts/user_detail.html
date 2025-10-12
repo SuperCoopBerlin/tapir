@@ -166,4 +166,44 @@
             <div class="col-xl-4">{% credit_account_card tapir_user=object %}</div>
         {% endif %}
     </div>
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-2">
+                <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <span>{% translate "Open Door" %}</span>
+                </h5>
+                <div class="card-body">
+                    <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
+                        <button type="button" id="open-door-button" class="{% tapir_button_action %}">
+                            <span class="material-icons">lock_open</span>{% translate "Open Door" %}
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('open-door-button');
+            const icon = btn.querySelector('span.material-icons');
+            
+            btn?.addEventListener('click', async () => {
+                btn.disabled = true;
+                icon.textContent = 'hourglass_empty';
+                
+                try {
+                    const res = await fetch('{% url "accounts:open_door_action" object.pk %}', {
+                        method: 'POST',
+                        headers: {'X-CSRFToken': '{{ csrf_token }}'}
+                    });
+                    icon.textContent = res.ok ? 'check_circle' : 'error';
+                } catch {
+                    icon.textContent = 'error';
+                } finally {
+                    btn.disabled = false;
+                    setTimeout(() => icon.textContent = 'lock_open', 2000);
+                }
+            });
+        });
+    </script>
 {% endblock content %}

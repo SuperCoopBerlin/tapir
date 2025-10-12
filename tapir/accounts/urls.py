@@ -55,6 +55,16 @@ accounts_urlpatterns = [
         views.MailSettingsView.as_view(),
         name="mail_settings",
     ),
+    path(
+        "user/<int:pk>/open_door",
+        views.open_door_action,
+        name="open_door_action",
+    ),
+    path(
+        "open_door_status",
+        views.get_open_door_status,
+        name="open_door_status",
+    ),
 ]
 
 urlpatterns = [
