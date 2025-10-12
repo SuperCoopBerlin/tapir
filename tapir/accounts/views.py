@@ -15,6 +15,8 @@ from django.views.decorators.http import require_POST, require_GET
 
 from tapir import settings
 from tapir.accounts import pdfs
+from tapir.accounts.config import feature_flag_open_door
+from tapir.core.models import FeatureFlag
 from tapir.accounts.forms import (
     TapirUserForm,
     PasswordResetForm,
@@ -447,6 +449,9 @@ def open_door_action(request, pk):
     Sets cache key 'open_door' to True with 10-second TTL.
     Requires authentication and CSRF protection.
     """
+    if not FeatureFlag.get_flag_value(feature_flag_open_door):
+        raise PermissionDenied("The door opening feature is disabled.")
+    
     # Set cache key with 10-second TTL
     cache.set(CACHE_KEY_OPEN_DOOR, True, 10)
     return HttpResponse(status=200)
@@ -460,6 +465,9 @@ def get_open_door_status(request):
     Deletes the cache key after checking (one-time use).
     No authentication required.
     """
+    if not FeatureFlag.get_flag_value(feature_flag_open_door):
+        return HttpResponse(status=403)
+    
     # Get the current value
     door_status = cache.get(CACHE_KEY_OPEN_DOOR)
     

@@ -166,6 +166,8 @@
             <div class="col-xl-4">{% credit_account_card tapir_user=object %}</div>
         {% endif %}
     </div>
+    {% feature_flag_enabled "feature_flags.accounts.open_door" as door_opening_enabled %}
+    {% if door_opening_enabled %}
     <div class="row">
         <div class="col-xl-6">
             <div class="card mb-2">
@@ -206,4 +208,5 @@
             });
         });
     </script>
+    {% endif %}
 {% endblock content %}
