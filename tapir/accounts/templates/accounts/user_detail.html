@@ -194,7 +194,7 @@
                 icon.textContent = 'hourglass_empty';
                 
                 try {
-                    const res = await fetch('{% url "accounts:open_door_action" object.pk %}', {
+                    const res = await fetch('{% url "accounts:open_door" %}', {
                         method: 'POST',
                         headers: {'X-CSRFToken': '{{ csrf_token }}'}
                     });

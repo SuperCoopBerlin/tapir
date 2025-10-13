@@ -16,7 +16,7 @@ class TestOpenDoorFeature(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.login_as_user(user)
         
         response = self.client.post(
-            reverse("accounts:open_door_action", args=[user.pk])
+            reverse("accounts:open_door")
         )
         self.assertEqual(200, response.status_code)
 
@@ -28,7 +28,7 @@ class TestOpenDoorFeature(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.login_as_user(user)
         
         response = self.client.post(
-            reverse("accounts:open_door_action", args=[user.pk])
+            reverse("accounts:open_door")
         )
         self.assertEqual(403, response.status_code)
 
@@ -37,14 +37,14 @@ class TestOpenDoorFeature(FeatureFlagTestMixin, TapirFactoryTestBase):
         self.given_feature_flag_value(feature_flag_open_door, True)
         
         # Status should be 403 when no door opening was triggered
-        response = self.client.get(reverse("accounts:open_door_status"))
+        response = self.client.get(reverse("accounts:open_door"))
         self.assertEqual(403, response.status_code)
 
     def test_get_open_door_status_with_feature_disabled(self):
         """Test that status endpoint returns 403 when feature flag is disabled."""
         self.given_feature_flag_value(feature_flag_open_door, False)
         
-        response = self.client.get(reverse("accounts:open_door_status"))
+        response = self.client.get(reverse("accounts:open_door"))
         self.assertEqual(403, response.status_code)
 
     def test_open_door_requires_authentication(self):
@@ -55,7 +55,7 @@ class TestOpenDoorFeature(FeatureFlagTestMixin, TapirFactoryTestBase):
         
         # Try without login
         response = self.client.post(
-            reverse("accounts:open_door_action", args=[user.pk])
+            reverse("accounts:open_door")
         )
         # Should redirect to login page
         self.assertEqual(302, response.status_code)
