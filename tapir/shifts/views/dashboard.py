@@ -1,5 +1,6 @@
 import datetime
 from django.shortcuts import render
+from django.conf import settings
 from calendar import MONDAY
 from collections import OrderedDict
 from django.views.generic import TemplateView
@@ -51,7 +52,9 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
         context["date_from"] = date_from.strftime(self.DATE_FORMAT)
         context["date_to"] = date_to.strftime(self.DATE_FORMAT)
 
-        context["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
+        context["nb_days_for_self_unregister"] = int(
+            settings.NB_HOURS_FOR_SELF_UNREGISTER / 24
+        )
         # Because the shift views show a lot of shifts,
         # we preload all related objects to avoid doing many database requests.
         # Filter for upcoming shifts the user can attend but isn't already attending

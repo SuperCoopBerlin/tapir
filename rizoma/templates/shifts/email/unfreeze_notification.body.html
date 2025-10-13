@@ -1,0 +1,50 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+{% get_display_name_short tapir_user as display_name_short %}
+
+
+<p>Olá {{ display_name_short }},</p>
+<p>
+    A tua conta Tapir na {{ coop_name }} foi reativada! Bem-vinde de volta! 🙂
+</p>
+<p>
+    Podes agora voltar a fazer compras na mais linda mercearia do bairro! 😉
+</p>
+<p>
+    No futuro, procura recuperar atempadamente os turnos em falta.
+</p>
+<p>
+    Para mais informações, consulta o <a
+        href="https://docs.google.com/document/d/1BxEWHsJ2y6o3c4z7a-ShwRXMXdQwx_BPOIfVB3igvwg/edit?usp=drive_link">Manual
+        de Membros</a>.
+</p>
+<p>
+    Saudações cooperativas,<br />
+    <strong>GTT-membros</strong>
+</p>
+
+<hr>
+
+
+<p>Hi {{ display_name_short }},</p>
+<p>
+    Your Tapir account at {{ coop_name }} has been reactivated! Welcome back! 🙂
+</p>
+<p>
+    You can now shop again at the most beautiful grocery store in the neighborhood! 😉
+</p>
+<p>
+    In the future, please make sure to make up for any missed shifts on time.
+</p>
+<p>
+    For more information, please check the <a
+        href="https://docs.google.com/document/d/1BxEWHsJ2y6o3c4z7a-ShwRXMXdQwx_BPOIfVB3igvwg/edit?usp=drive_link">Members
+        Manual</a>.
+</p>
+<p>
+    Cooperative Greetings,<br />
+    <strong>GTT-membros</strong>
+</p>
+{% endblock body %}

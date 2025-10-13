@@ -127,8 +127,7 @@
                                 <form method="post" action="{% url 'accounts:send_user_welcome_email' object.pk %}">
                                     {% csrf_token %}
                                     <button type="submit" class="{% tapir_button_action %} ms-3">
-                                        <span class="material-icons">send</span>{% translate "Resend account activation
-                                        email" %}
+                                        <span class="material-icons">send</span>{% translate "Resend account activation email" %}
                                     </button>
                                 </form>
                             </div>

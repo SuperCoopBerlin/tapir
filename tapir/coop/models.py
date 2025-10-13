@@ -1,6 +1,7 @@
 import datetime
 from typing import Self
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -261,16 +262,17 @@ class ShareOwner(models.Model):
 
         at_datetime = ensure_datetime(at_datetime)
 
-        if (
-            not NumberOfSharesService.get_number_of_active_shares(
-                self, at_datetime.date()
-            )
-            > 0
-        ):
-            return MemberStatus.SOLD
+        if not settings.SHIFTS_ONLY:
+            if (
+                not NumberOfSharesService.get_number_of_active_shares(
+                    self, at_datetime.date()
+                )
+                > 0
+            ):
+                return MemberStatus.SOLD
 
-        if InvestingStatusService.is_investing(self, at_datetime):
-            return MemberStatus.INVESTING
+            if InvestingStatusService.is_investing(self, at_datetime):
+                return MemberStatus.INVESTING
 
         if MembershipPauseService.has_active_pause(self, at_datetime.date()):
             return MemberStatus.PAUSED

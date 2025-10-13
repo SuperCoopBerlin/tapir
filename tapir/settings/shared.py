@@ -95,7 +95,6 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR, "rizoma/templates"),
             os.path.join(BASE_DIR, "tapir/templates"),
         ],
         "APP_DIRS": True,
@@ -253,7 +252,7 @@ SERVER_EMAIL = env("SERVER_EMAIL", default=EMAIL_ADDRESS_MEMBER_OFFICE)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = env("STATIC_URL", default="/static/")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_DIRS = [
     BASE_DIR / "dist",
@@ -432,4 +431,12 @@ RUNNING_TESTS = False
 
 PATH_TO_GOOGLE_CLIENT_SECRET_FILE = env.str(
     "PATH_TO_GOOGLE_CLIENT_SECRET_FILE", default="google_client_secret_desktop.json"
+)
+
+GOOGLE_AUTHORIZED_USER_FILE_PATH = "google_user_token.json"
+GOOGLE_CALENDAR_ID = env.str("GOOGLE_CALENDAR_ID", default="primary")
+
+NB_HOURS_FOR_SELF_UNREGISTER = env.int("NB_HOURS_FOR_SELF_UNREGISTER", default=7 * 24)
+NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN = env.int(
+    "NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN", default=2 * 24
 )

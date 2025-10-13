@@ -1,0 +1,138 @@
+services:
+
+  tapir:
+    image: tapir-local
+    build:
+      context: .
+      dockerfile: tapir.Dockerfile
+    environment:
+      ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR},localhost
+      DEBUG: ${TAPIR_DEBUG:-0}
+      SITE_URL: "${SERVICE_URL_TAPIR}"
+      DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
+      STATIC_URL: "${SERVICE_URL_STATIC_HTTP}/static/"
+      GOOGLE_CALENDAR_ID: "${GOOGLE_CALENDAR_ID}"
+      COOPS_PT_API_KEY: "${COOPS_PT_API_KEY:?}"
+      COOPS_PT_API_BASE_URL: "${COOPS_PT_API_BASE_URL:?}"
+      ENV_FILE_PATH: "/app/rizoma/deploy.env"
+      GOOGLE_CLIENT_CONFIG_PATH: '/config/google/'
+      SECRET_KEY: "${SECRET_KEY:?}"
+      EMAIL_ENV: "${EMAIL_ENV:-test}"
+      EMAIL_HOST: "${EMAIL_HOST:?}"
+      EMAIL_HOST_USER: "${EMAIL_HOST_USER:?}"
+      EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD:?}"
+      COOPS_PT_RSA_PUBLIC_KEY: |-
+        "${COOPS_PT_RSA_PUBLIC_KEY:?}"
+    command: bash -c "poetry run python ./manage.py collectstatic --clear --noinput && poetry run python ./manage.py migrate && poetry run gunicorn -b 0.0.0.0:80 tapir.wsgi:application"
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '200m'
+        max-file: '5'
+    restart: unless-stopped
+    depends_on:
+      - db
+    volumes:
+      # This volume is also mounted by nginx to serve static files
+      - 'tapir-web-static:/app/static'
+      - 'tapir-google-config:/config/google:rw'
+    healthcheck:
+      test: curl --fail http://localhost:80/ || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  celery:
+    image: tapir-local
+    build:
+      context: .
+      dockerfile: tapir.Dockerfile
+    restart: unless-stopped
+    volumes:
+      - 'tapir-google-config:/config/google:ro'
+    command: bash -c "poetry install && poetry run celery -A tapir worker -l info"
+    environment:
+      ENV_FILE_PATH: '/app/rizoma/deploy.env'
+      GOOGLE_CLIENT_CONFIG_PATH: '/config/google/'
+      DEBUG: ${TAPIR_DEBUG:-0}
+      ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
+      SITE_URL: "${SERVICE_URL_TAPIR}"
+      GOOGLE_CALENDAR_ID: "${GOOGLE_CALENDAR_ID}"
+      DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
+      COOPS_PT_API_KEY: "${COOPS_PT_API_KEY:?}"
+      COOPS_PT_API_BASE_URL: "${COOPS_PT_API_BASE_URL:?}"
+      SECRET_KEY: "${SECRET_KEY:?}"
+      EMAIL_ENV: "${EMAIL_ENV:-test}"
+      EMAIL_HOST: "${EMAIL_HOST:?}"
+      EMAIL_HOST_USER: "${EMAIL_HOST_USER:?}"
+      EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD:?}"
+      COOPS_PT_RSA_PUBLIC_KEY: |-
+        "${COOPS_PT_RSA_PUBLIC_KEY:?}"
+    depends_on:
+      - redis
+      - tapir
+
+  celery-beat:
+    image: tapir-local
+    build:
+      context: .
+      dockerfile: tapir.Dockerfile
+    restart: unless-stopped
+    command: bash -c "poetry install && poetry run celery -A tapir beat -l info"
+    environment:
+      GOOGLE_CLIENT_CONFIG_PATH: '/config/google/'
+      DEBUG: ${TAPIR_DEBUG:-0}
+      ALLOWED_HOSTS: ${SERVICE_FQDN_TAPIR}
+      SITE_URL: "${SERVICE_URL_TAPIR}"
+      GOOGLE_CALENDAR_ID: "${GOOGLE_CALENDAR_ID}"
+      DATABASE_URL: "postgresql://tapir:${TAPIR_POSTGRES_PASSWORD:-tapir}@db/tapir"
+      SECRET_KEY: "${SECRET_KEY:?}"
+      ENV_FILE_PATH: '/app/rizoma/deploy.env'
+      EMAIL_ENV: "${EMAIL_ENV:-test}"
+      EMAIL_HOST: "${EMAIL_HOST:?}"
+      EMAIL_HOST_USER: "${EMAIL_HOST_USER:?}"
+      EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD:?}"
+    depends_on:
+      - redis
+      - tapir
+    volumes:
+      - 'tapir-google-config:/config/google:ro'
+
+  static-http:
+    # serve static files, because django does not
+    image: joseluisq/static-web-server:2-alpine
+    restart: unless-stopped
+    volumes:
+      - "tapir-web-static:/public/static:ro"
+    depends_on:
+      - tapir
+    environment:
+      - SERVER_ROOT=/public
+      - SERVER_CORS_ALLOW_ORIGINS=https://${SERVICE_FQDN_TAPIR}
+
+  db:
+    image: postgres:14-alpine
+    restart: unless-stopped
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: tapir
+      POSTGRES_USER: tapir
+      POSTGRES_PASSWORD: ${TAPIR_POSTGRES_PASSWORD:-tapir}
+    healthcheck:
+      test: pg_isready -d tapir -U tapir
+      interval: 30s
+      timeout: 15s
+      retries: 5
+    volumes:
+      - 'tapir-db-data:/var/lib/postgresql/data/pgdata'
+
+  # Backend for Celery task queue
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+
+volumes:
+  tapir-db-data:
+  tapir-web-static:
+  tapir-google-config:

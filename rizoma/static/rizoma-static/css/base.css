@@ -1,5 +1,5 @@
 @import url("./global/theme.css");
-@import url("./components/fonts.css");
+@import url("./global/fonts.css");
 
 /* Components */
 @import url("./components/icons.css");
@@ -16,4 +16,3 @@
 @import url("./pages/auth.css");
 @import url("./pages/myShifts.css");
 @import url("./pages/allShifts.css");
-

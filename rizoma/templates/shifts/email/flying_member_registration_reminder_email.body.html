@@ -1,0 +1,52 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+{% get_display_name_short member_infos as display_name_short %}
+
+<p>Olá {{ display_name_short }},</p>
+
+<p>
+    Gostaríamos de te relembrar para <a href="https://turnos.rizomacoop.pt/shifts/calendar">te registares no teu próximo
+        turno</a>.
+</p>
+<p>
+    Um novo ciclo semanal de turnos já começou há uma semana e reparámos que <strong>ainda não te inscreveste num
+        turno</strong>. Como
+    membro <strong>flex</strong>, ao contrário dos membros com turno regular ABCD, és responsável por tratar deste
+    registo a <strong>cada quatro
+        semanas</strong>.
+</p>
+<p>
+    Dá uma olhadela no <a href="https://turnos.rizomacoop.pt/shifts/calendar">calendário de turnos no Tapir</a>
+    e inscreve-te num dos turnos. Vai consultando regularmente este calendário, pois os turnos disponíveis são muito
+    dinâmicos e novas vagas ficam disponíveis com frequência! 😉
+</p>
+<p>
+    Cooperative greetings,<br />
+    <strong>GTT-membros</strong>
+</p>
+
+<hr>
+
+<p>Hi {{ display_name_short }},</p>
+
+<p>
+    we would like to remind you about your next <a href="https://turnos.rizomacoop.pt/shifts/calendar">shift
+        registration</a>.
+</p>
+<p>
+    A new shift cycle has been running for a week and we have noticed that you have not yet registered for a suitable
+    shift. As a flex member, unlike members with a regular ABCD shift, you have to take care of this yourself every four
+    weeks.
+</p>
+<p>
+    So take a look at the <a href="https://turnos.rizomacoop.pt/shifts/calendar">shift calendar on Tapir</a>
+    and register for one of the shifts. Keep checking this calendar, as shifts are very dynamic and new ones keep
+    becoming available! 😉
+</p>
+<p>
+    Cooperative greetings,<br />
+    <strong>GTT-membros</strong>
+</p>
+{% endblock body %}

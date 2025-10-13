@@ -51,8 +51,8 @@ class Command(BaseCommand):
         #    'recover_string': None,
         #    'suspended': False,
         #    'type': 'member'},
-
         response_content = response.json()
+        
         users_to_create = []
         users_to_update = set()
         tapir_users_by_external_id = {

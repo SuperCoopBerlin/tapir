@@ -172,7 +172,7 @@
                                                         {% blocktranslate asvar stand_in_tooltip %}You can only look for
                                                             a
                                                             stand-in
-                                                            {{ NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN }} days before the
+                                                            {{ NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN }} hours before the
                                                             shift. If
                                                             you can't
                                                             attend, contact your shift leader as soon as
@@ -241,13 +241,13 @@
                             {% endwith %}
                             <!-- Requirements -->
                             <td>
-                                {% for key, value in slot.get_required_capabilities_dict.items %}
-                                    {% if key in request.user.shift_user_data.capabilities %}
+                                {% for capability, capability_name in slot.get_required_capabilities_dict.items %}
+                                    {% if capability in request.user.shift_user_data.capabilities.all %}
                                         <span class="d-flex align-items-center"><span
-                                                class="material-icons">check</span><span>{{ value }}</span></span>
+                                                class="material-icons">check</span><span>{{ capability_name }}</span></span>
                                     {% else %}
                                         <span class="d-flex align-items-center"><span
-                                                class="material-icons">close</span><span>{{ value }}</span></span>
+                                                class="material-icons">close</span><span>{{ capability_name }}</span></span>
                                     {% endif %}
                                 {% empty %}
                                     <span class="d-flex align-items-center"><span

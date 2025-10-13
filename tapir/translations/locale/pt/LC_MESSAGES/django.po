@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-07-28 12:56+0200\n"
-"PO-Revision-Date: 2025-09-29 08:38+0000\n"
-"Last-Translator: Lara Carvalho <laracjcarvalho@gmail.com>\n"
+"PO-Revision-Date: 2025-10-11 10:59+0000\n"
+"Last-Translator: Emanuel Saramago <rizoma@emanuelsaramago.com>\n"
 "Language-Team: Portuguese <http://weblate.seriousdino.org/projects/tapir/"
 "tapir-python-translations/pt/>\n"
 "Language: pt\n"
@@ -35,11 +35,11 @@ msgstr "Este nome de utilizador não está disponível."
 
 #: accounts/forms.py:126
 msgid "Optional Mails"
-msgstr "Emails opcionais"
+msgstr "E-mails opcionais"
 
 #: accounts/forms.py:133
 msgid "Important Mails"
-msgstr "Emails importantes"
+msgstr "E-mails importantes"
 
 #: accounts/models.py:59
 msgid "Displayed name"
@@ -90,7 +90,7 @@ msgstr "Co-comprador"
 
 #: accounts/models.py:74
 msgid "Allow purchase tracking"
-msgstr "Permitir rastreamento de compras"
+msgstr "Permitir acompanhamento de compras"
 
 #: accounts/models.py:79 accounts/templates/accounts/user_detail.html:105
 #: coop/models.py:81 coop/models.py:457
@@ -208,7 +208,7 @@ msgstr "Grupos"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:5
 msgid "Purchase tracking"
-msgstr "Rastreamento de compras"
+msgstr "Acompanhamento de compras"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:11
 msgid "Get barcode as PDF"
@@ -251,7 +251,7 @@ msgstr "Dados pessoais"
 
 #: accounts/templates/accounts/user_detail.html:32
 msgid "Mails"
-msgstr "Emails"
+msgstr "E-mails"
 
 #: accounts/templates/accounts/user_detail.html:37
 msgid "Edit groups"
@@ -378,6 +378,65 @@ msgid ""
 msgstr ""
 "\n"
 "    Redefine a tua palavra-passe\n"
+
+
+#: rizoma/templates/registration/login.html:16
+msgid "Welcome to Tapir!"
+msgstr "Bem-vinde ao Tapir!"
+
+#: rizoma/templates/registration/login.html:19
+msgid ""
+"\n"
+"    <p>This is the new Shift Management System for Consumption Section "
+"(“Secção Consumo”) at Rizoma!</p>\n"
+"    <p>If this is the first time you are using this system, you probably "
+"have to do the following first:</p><p>\n"
+"    </p>\n"
+"    <ol>\n"
+"      <li>\n"
+"        First <a href=\"https://rizoma.coops.pt/autorizacao/"
+"loginporlink\">reset the password for your email address here</a>. This will "
+"send you an email with a link allowing you to reset the password.\n"
+"      </li>\n"
+"      <li>\n"
+"        <strong>Consult the <a href=\"https://docs.google.com/document/d/"
+"1BxEWHsJ2y6o3c4z7a-ShwRXMXdQwx_BPOIfVB3igvwg/edit?"
+"tab=t.0#heading=h.y3i060nt8f2g\">Members Manual</a></strong> to learn how to "
+"use the new system and more about the updated rules.\n"
+"        </li>\n"
+"    </ol>\n"
+"\n"
+"    <p>If you are facing any issues, you can use the \"💬 button\" on the "
+"bottom right to contact us directly and we will try to help you as soon as "
+"we can, or you can write us at <a "
+"href=\"mailto:support@rizomacoop.pt\">support@rizomacoop.pt</a></p>\n"
+"\n"
+"  "
+msgstr ""
+"\n"
+"    <p>Este é o novo sistema de gestão de turnos da Secção Consumo da Rizoma!</p>\n"
+"    <p>Se é a primeira vez que entras no novo sistema, podes seguir estes passos simples:</p><p>\n"
+"    </p>\n"
+"    <ol>\n"
+"      <li>\n"
+"        <a href=\"https://rizoma.coops.pt/autorizacao/"
+"loginporlink\">Redefine a tua palavra-passe aqui</a>. Em seguida receberás um email"
+" com um link que te permitirá redefinir uma nova password.\n"
+"      </li>\n"
+"      <li>\n"
+"        <strong>Consulta o <a href=\"https://docs.google.com/document/d/"
+"1BxEWHsJ2y6o3c4z7a-ShwRXMXdQwx_BPOIfVB3igvwg/edit?"
+"tab=t.0#heading=h.y3i060nt8f2g\">Manual de Membros</a></strong> para conhecer melhor"
+" o novo sistema e ficar a par das regras que foram atualizadas..\n"
+"        </li>\n"
+"    </ol>\n"
+"\n"
+"    <p>Se tiveres alguma dúvida ou dificuldade: 💬 Usa o botão de chat no canto"
+"inferior direito para falar connosco diretamente — responderemos o mais rápido"
+" possível. Ou, se preferires, envia-nos um email para <a "
+"href=\"mailto:support@rizomacoop.pt\">support@rizomacoop.pt</a></p>\n"
+"\n"
+"  "
 
 #: accounts/templates/registration/login.html:7
 msgid "Login"
@@ -632,7 +691,6 @@ msgstr ""
 "patrocinador)"
 
 #: coop/forms.py:123
-#, fuzzy
 msgid "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
 msgstr ""
 "<b>Nota</b>: Os membros investidores são membros patrocinadores. Não têm "
@@ -675,7 +733,11 @@ msgstr "Estado do membro"
 
 #: coop/forms.py:291
 msgid "In the case where the member wants their money back, they stay a member for 3 more years. However, it is very likely that the member doesn't want to be active anymore. If they haven't explicitly mentioned it, please ask them if we can switch them to investing."
-msgstr "No caso de o membro querer o reembolso, permanece como membro por mais 3 anos. No entanto, é muito provável que o membro não queira mais estar ativo. Se não tiverem mencionado explicitamente, pergunte se podemos convertê-lo em membro investidor."
+msgstr ""
+"No caso de o membro desejar o seu dinheiro de volta, ele permanecerá como "
+"membro por mais 3 anos. No entanto, é muito provável que o membro não queira "
+"mais ser ativo. Se ele não tiver mencionado isso explicitamente, pergunte se "
+"podemos transferi-lo para a modalidade de investimento."
 
 #: coop/forms.py:316
 msgid "Send confirmation mails"
@@ -2679,7 +2741,7 @@ msgstr "Diversos"
 
 #: core/apps.py:38
 msgid "About Rizoma"
-msgstr "Sobre o Rizoma"
+msgstr "Sobre a Rizoma"
 
 #: core/apps.py:46
 msgid "Wiki"
@@ -3843,10 +3905,15 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"        <p>Abaixo encontra todos os turnos futuros e quem está registado em cada um.</p>\n"
-"        <p>Pode inscrever-se em qualquer turno que tenha vagas no TAPIR. Pode também cancelar a inscrição pelo menos %(nb_days_for_self_unregister)s dias antes do turno.<br />\n"
-"            Ao inscrever-se num destes turnos, compromete-se apenas com esse dia específico.</p>\n"
-"        <p>Para se registar num turno ABCD regular, contacte o Member Office.</p>\n"
+"        <p>Abaixo encontras todos os turnos futuros e quem está registado em "
+"cada um.</p>\n"
+"        <p>Podes inscrever-te em qualquer turno que tenha vagas no TAPIR. "
+"Podes também cancelar a inscrição pelo menos %(nb_days_for_self_unregister)s "
+"dias antes do turno.<br />\n"
+"            Ao te inscreveres num destes turnos, comprometes-te apenas com "
+"esse dia específico.</p>\n"
+"        <p>Para te registares num turno ABCD regular, contacta o GTT-"
+"membros.</p>\n"
 "    "
 
 #: shifts/templates/shifts/shift_calendar_past.html:4
@@ -3993,7 +4060,7 @@ msgstr "Cumpre os requisitos?"
 #: shifts/templates/shifts/shift_detail.html:98
 #: shifts/templates/shifts/shift_template_detail.html:46
 msgid "Member-Office actions"
-msgstr "Ações do Escritório de Membros"
+msgstr "Acções do GTT- Membros"
 
 #: shifts/templates/shifts/shift_detail.html:99
 msgid "Previous attendances"
@@ -4063,11 +4130,13 @@ msgid ""
 "                                                    -The shift is not cancelled (holidays...)<br />\n"
 "                                                "
 msgstr ""
-"Só pode inscrever-se num turno se:<br />\n"
-"- Não estiver já registado noutro lugar desse turno<br />\n"
-"- Tiver a qualificação necessária (se desejar obter uma qualificação, contacte o Escritório de Membros)<br />\n"
+"Só podes inscrever-te num turno se:<br />\n"
+"- Não estiveres já registado noutro lugar desse turno<br />\n"
+"- Tiveres a qualificação necessária (se quiseres obter uma qualificação, "
+"contacta o GTT-membros)<br />\n"
 "- O turno for no futuro<br />\n"
-"- O turno não tiver sido cancelado (férias, etc.)<br />"
+"- O turno não tiver sido cancelado (férias, etc.)<br />\n"
+"                                                "
 
 #: shifts/templates/shifts/shift_detail.html:254
 #: shifts/templates/shifts/shift_template_detail.html:98
@@ -4080,7 +4149,7 @@ msgstr "Editar lugar"
 
 #: shifts/templates/shifts/shift_filters.html:7
 msgid "Use the buttons below to filter the shifts that are relevant to you."
-msgstr "Use os botões abaixo para filtrar os turnos relevantes para si."
+msgstr "Usas os botões abaixo para filtrar os turnos relevantes para ti."
 
 #: shifts/templates/shifts/shift_filters.html:16
 msgid "No filter"
@@ -4122,7 +4191,7 @@ msgstr "Presença ABCD"
 
 #: shifts/templates/shifts/shift_filters.html:80
 msgid "Flying attendance"
-msgstr "Presença volante"
+msgstr "Presença flex"
 
 #: shifts/templates/shifts/shift_form.html:20
 msgid ""
@@ -4132,8 +4201,10 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"<p>Tenha cuidado ao criar um turno, pois não poderá eliminá-lo mais tarde.</p>\n"
-"<p>Os lugares podem ser adicionados ao turno depois de criado.</p>"
+"                            <p>Tem cuidado ao criar um turno, pois não "
+"poderás eliminá-lo mais tarde.</p>\n"
+"<p>Os lugares podem ser adicionados ao turno depois de criado.</p>\n"
+"                        "
 
 #: shifts/templates/shifts/shift_management.html:20
 msgid "Add shifts"
@@ -4255,8 +4326,13 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"<p>Este é o plano de turnos ABCD. Ele repete-se a cada quatro semanas. É por isso que vê apenas os dias da semana (segunda-feira, terça-feira...) e a semana (A, B, C ou D), em vez de datas específicas (ex: 23.8.2021).</p>\n"
-"<p>Para ver a data do seu próximo turno, vá ao seu perfil. Se quiser alterar o seu turno ABCD regular, contacte o Escritório de Membros.</p>"
+"                    <p>Este é o plano de turnos ABCD. Ele repete-se a cada "
+"quatro semanas. É por isso que vês apenas os dias da semana (segunda-feira, "
+"terça-feira...) e a semana (A, B, C ou D), em vez de datas específicas (ex: "
+"23.8.2021).</p>\n"
+"<p>Para veres a data do teu próximo turno, vai ao seu perfil. Se quiseres "
+"alterar o teu turno ABCD regular, contacta o GTT-membros.</p>\n"
+"                "
 
 #: shifts/templates/shifts/shift_template_overview.html:35
 msgid "Calendar of ABCD shifts"
@@ -4284,7 +4360,9 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"                            Tenha cuidado ao criar um lugar de turno, pois não poderá eliminá-lo depois."
+"                            Tem cuidado ao criar uma entrada de turno, pois "
+"não poderás eliminá-la depois.\n"
+"                        "
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:14
 msgid "Available"

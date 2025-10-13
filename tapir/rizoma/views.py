@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 import datetime
 from django.utils import timezone
+from django.conf import settings
 from collections import OrderedDict
 from tapir.shifts.models import Shift
 from tapir.shifts.models import ShiftSlot
@@ -44,7 +45,9 @@ class RizomaAllShiftsView(LoginRequiredMixin, TemplateView):
         context_data["date_from"] = date_from.strftime(self.DATE_FORMAT)
         context_data["date_to"] = date_to.strftime(self.DATE_FORMAT)
 
-        context_data["nb_days_for_self_unregister"] = Shift.NB_DAYS_FOR_SELF_UNREGISTER
+        context_data["nb_days_for_self_unregister"] = int(
+            settings.NB_HOURS_FOR_SELF_UNREGISTER / 24
+        )
         # Because the shift views show a lot of shifts,
         # we preload all related objects to avoid doing many database requests.
         shifts = (

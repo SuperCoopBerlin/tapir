@@ -1,0 +1,37 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+{% get_display_name_short member_infos as display_name_short %}
+
+<p>Caro(a) {{ display_name_short }},</p>
+
+<p>Este é um e-mail automático da <strong>{{ coop_name }}</strong>.</p>
+<p>
+    Procuravas alguém para te substituir no seguinte turno: <strong>{{ shift.get_display_name }}</strong>. Felizmente,
+    outra pessoa assumiu a tua slot para esse turno! 🙂
+</p>
+
+<p>Se ainda não o fizeste, não te esqueças de marcar outro turno para compensar o que vais faltar!</p>
+<p>
+    Saudações cooperativas,<br />
+    <strong>GTT-membros</strong>
+</p>
+
+<hr>
+<p>Dear {{ display_name_short }},</p>
+
+<p>This is an automated email from <strong>{{ coop_name }}</strong>.</p>
+<p>
+    You were looking for someone to cover your shift: <strong>{{ shift.get_display_name }}</strong>. Fortunately,
+    another
+    person has taken
+    your slot for that shift! 🙂
+</p>
+
+<p>If you haven’t done so yet, don’t forget to schedule another shift to make up for the one you’ll be missing!</p>
+<p>
+    Cooperative greetings,<br />
+    <strong>GTT-membros</strong>
+</p>
+{% endblock body %}

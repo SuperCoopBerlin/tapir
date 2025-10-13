@@ -36,8 +36,11 @@ class Command(BaseCommand):
 
         user_capabilities = []
 
+        count = 0
         with open(file_name) as csvfile:
             for row in csv.reader(csvfile):
+                count +=1
+                print(f"Parsing line {count}")
                 member_id = int(row[2])
                 capabilities_as_string = row[4].split(",")
                 capabilities_as_string = [
@@ -46,11 +49,11 @@ class Command(BaseCommand):
                 ]
                 for capability_name in capabilities_as_string:
                     if capability_name not in capabilities_by_portuguese_name.keys():
-                        raise TapirException(
-                            "Can't find capability with name: " + capability_name
-                        )
+                        print(f"skipping {count}: Can't find capability with name: {capability_name}")
+                        continue
                     if member_id not in shift_user_data_by_member_id.keys():
-                        raise TapirException(f"Can't find member with id: {member_id}")
+                        print(f"skipping {count}: Can't find member with id: {member_id}")
+                        continue
 
                     user_capabilities.append(
                         ShiftUserData.capabilities.through(

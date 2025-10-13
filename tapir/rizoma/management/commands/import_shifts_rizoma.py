@@ -191,10 +191,14 @@ class Command(BaseCommand):
         }
 
         by_week_group = {}
+        count = 0
         with open(file_name) as csvfile:
             for row in csv.reader(csvfile):
+                count +=1
                 if row[1] != "Regular":
                     continue
+                
+                print(f"Parsing line {count}")
 
                 week_group = week_groups_by_name[row[3]]
                 day_index = portuguese_day_name_to_day_index[row[2]]
@@ -203,13 +207,13 @@ class Command(BaseCommand):
                     hour=int(start_time_as_string[0]),
                     minute=int(start_time_as_string[1]),
                 )
-                end_time_as_string = row[6].split(":")
+                end_time_as_string = row[5].split(":")
                 end_time = datetime.time(
                     hour=int(end_time_as_string[0]), minute=int(end_time_as_string[1])
                 )
-                slot_name = row[7]
-                name_of_the_registered_members = row[8]
-                nb_slots = int(row[10])
+                slot_name = row[6]
+                name_of_the_registered_members = row[7]
+                nb_slots = int(row[9])
                 start_date = datetime.datetime.strptime(row[13], "%d/%m/%Y %H:%M")
 
                 if week_group not in by_week_group.keys():
