@@ -291,7 +291,7 @@
                         {% comment %} {% <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.get_display_name }}</a>
                         (in {{ next_slot.shift.start_time|timeuntil }}) {% endcomment %}
                         <tr>
-                            {% comment %} {{ next_slot.shift.start_time|date:"d/m/Y H\hm" }} - {{ next_slot.shift.name }}</a> {% endcomment %}
+                            {% comment %} {{ next_slot.shift.start_time|date:"d/m/Y H\hi" }} - {{ next_slot.shift.name }}</a> {% endcomment %}
                             {% comment %} (in {{ next_slot.shift.start_time|timeuntil }}) {% endcomment %}
 
                             <td>
@@ -301,7 +301,7 @@
                                 {{ next_slot.shift.start_time|date:"d/m/Y" }}
                             </td>
                             <td>
-                                {{ next_slot.shift.start_time|date:"H\hm" }}
+                                {{ next_slot.shift.start_time|date:"H\hi" }}
                             </td>
                         </tr>
                     {% else %}
@@ -453,7 +453,7 @@
                                         {{ shift.start_time|date:"d/m/Y" }}
                                     </td>
                                     <td>
-                                        {{ shift.start_time|date:"H\hm" }}
+                                        {{ shift.start_time|date:"H\hi" }}
                                     </td>
                                     <td>
                                         {% if shift.description %}
