@@ -70,7 +70,7 @@
                 <div class="kpi-value">
                     {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
                         {% if next_slot %}
-                            <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.shift.start_time|date:"d/m/Y H\hm" }} - {{ next_slot.shift.name }}</a>
+                            <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.shift.start_time|date:"DATE_FORMAT" }} - {{ next_slot.shift.name }}</a>
                             {% comment %} (in {{ next_slot.shift.start_time|timeuntil }})
                             <a data-bs-toggle="collapse" href="#upcoming-shifts">{% translate "Show more" %}</a>
                             <div class="collapse mt-2" id="upcoming-shifts">
