@@ -64,23 +64,6 @@ class RizomaAllShiftsView(LoginRequiredMixin, TemplateView):
             .order_by("start_time")
         )
 
-        # A nested dict containing weeks (indexed by the Monday of the week), then days, then a list of shifts
-        # OrderedDict[OrderedDict[list]]
-        shifts_by_weeks_and_days = OrderedDict()
-        week_to_group = {}
-        for shift in shifts:
-            shift_day = shift.start_time.date()
-            shift_week_monday = shift_day - datetime.timedelta(days=shift_day.weekday())
-
-            # Ensure the nested OrderedDict[OrderedDict[list]] dictionary has the right data structures for the new item
-            shifts_by_weeks_and_days.setdefault(shift_week_monday, OrderedDict())
-            shifts_by_weeks_and_days[shift_week_monday].setdefault(shift_day, [])
-
-            shifts_by_weeks_and_days[shift_week_monday][shift_day].append(shift)
-
-            if shift.shift_template is not None:
-                week_to_group[shift_week_monday] = shift.shift_template.group
-
         # A dict containing the shifts times and the shifts names for each day
         shifts_infos_by_day = OrderedDict()
         for shift in shifts:
@@ -89,7 +72,7 @@ class RizomaAllShiftsView(LoginRequiredMixin, TemplateView):
             if shifts_infos_by_day.get(shift_day) is None:
                 shifts_infos_by_day[shift_day] = {
                     "times": [],
-                    "names": [],
+                    "shifts_types": [],
                     "shifts": [],
                 }
 
@@ -103,15 +86,12 @@ class RizomaAllShiftsView(LoginRequiredMixin, TemplateView):
             if not has_this_shift_time:
                 shifts_infos_by_day[shift_day]["times"].append(shift_times)
 
-            if shift.slots.first().name not in infos["names"]:
-                shifts_infos_by_day[shift_day]["names"].append(shift.slots.first().name)
+            # browser all the slot's names and add them to the types list
+            for slot in shift.slots.all():
+                if slot.name not in infos["shifts_types"]:
+                    shifts_infos_by_day[shift_day]["shifts_types"].append(slot.name)
 
             shifts_infos_by_day[shift_day]["shifts"].append(format_shift_for_template(shift, False))
-
-        context_data["shifts_by_weeks_and_days"] = shifts_by_weeks_and_days
-
-        context_data["shift_slot_names"] = get_shift_slot_names()
-        context_data["week_to_group"] = week_to_group
 
         context_data["shifts_infos_by_day"] = shifts_infos_by_day
 
@@ -142,18 +122,6 @@ class RizomaAllShiftsView(LoginRequiredMixin, TemplateView):
         }
 
         return context_data
-        
-def get_shift_slot_names():
-    shift_slot_names = (
-        ShiftSlot.objects.filter(shift__start_time__gt=timezone.now())
-        .values_list("name", flat=True)
-        .distinct()
-    )
-    shift_slot_names = [
-        (shift_name_as_class(name), _(name)) for name in shift_slot_names if name != ""
-    ]
-    shift_slot_names.append(("", _("General")))
-    return shift_slot_names
 
 
 def get_week_ranges(current_week_range):

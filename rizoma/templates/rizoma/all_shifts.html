@@ -35,7 +35,7 @@
     </h1>
 
     <div class="tab-links mb-4">
-      <span class="tab-link tab-link__active">{{_("Upcoming")}}</span>
+      <span class="tab-link tab-link active">{{_("Upcoming")}}</span>
       <a href="{% url 'shifts:shift_template_group_calendar' %}" class="tab-link">{{_("Recurring")}}</a>
     </div>
 
@@ -83,7 +83,9 @@
                 {% endfor %}
               </thead>
               <tbody>
-                {% for name in shift_infos.names %}
+
+                {% comment %} One line per shift type (Caixa, Mercearia, etc.) {% endcomment %}
+                {% for name in shift_infos.shifts_types %}
                   <tr>
                     <td>{{ name }}</td>
 
