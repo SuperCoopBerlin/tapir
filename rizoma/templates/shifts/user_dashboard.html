@@ -6,6 +6,7 @@
 {% load shifts %}
 {% load core %}
 {% load i18n %}
+{% load rizoma %}
 {% block head %}
     {{ block.super }}
 {% endblock head %}
@@ -46,8 +47,20 @@
                     {% if user.shift_attendance_templates.count > 0 %}
                         {% for shift_attendance_template in user.shift_attendance_templates.all %}
                             <span>
-                                <a href="{{ shift_attendance_template.slot_template.shift_template.get_absolute_url }}">
-                                    {{ shift_attendance_template.slot_template.get_display_name }}
+
+                                {{ shift_attendance_template.slot_template.shift_template.name }} {{ shift_attendance_template.slot_template.name }}
+                                <br />
+                                {% format_shift_template_date shift_attendance_template.slot_template.shift_template %}
+                                <br />
+                                {% format_shift_template_time shift_attendance_template.slot_template.shift_template %}
+                                <br />
+
+                                <a
+                                    href="{{ shift_attendance_template.slot_template.shift_template.get_absolute_url }}"
+                                    class="mt-2 font-size-sm d-flex gap-2 text-decoration-none align-items-center"
+                                >
+                                    <span class="material-icons">visibility</span>
+                                    {% translate "View shift" %}
                                 </a>
                             </span>{% if not forloop.last %},{% endif %}
                         {% endfor %}
@@ -69,17 +82,21 @@
                 <div class="kpi-label">{% translate "Upcoming Shift" %}:</div>
                 <div class="kpi-value">
                     {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
+                    
                         {% if next_slot %}
-                            <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.shift.start_time|date:"DATE_FORMAT" }} - {{ next_slot.shift.name }}</a>
-                            {% comment %} (in {{ next_slot.shift.start_time|timeuntil }})
-                            <a data-bs-toggle="collapse" href="#upcoming-shifts">{% translate "Show more" %}</a>
-                            <div class="collapse mt-2" id="upcoming-shifts">
-                                {% for shift_attendance in user.shift_user_data.get_upcoming_shift_attendances %}
-                                    <a href="{% url 'shifts:shift_detail' shift_attendance.slot.shift.pk %}">
-                                        {% shift_block shift_attendance.slot.shift %}
-                                    </a>
-                                {% endfor %}
-                            </div> {% endcomment %}
+
+                            {{ next_slot.shift.name }} {{ next_slot.name }}
+                            <br />
+                            {% format_shift_date next_slot.shift %}
+                            <br />
+                            {% format_shift_time next_slot.shift %}
+                            <br />
+
+                            <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift"
+                                class="mt-2 font-size-sm d-flex gap-2 text-decoration-none align-items-center">
+                                <span class="material-icons">visibility</span>
+                                {% translate "View shift" %}
+                            </a>
                         {% else %}
                             <span class="text-danger">{% translate "No upcoming shift" %}</span>
                         {% endif %}
@@ -106,7 +123,7 @@
                     {% endif %}
                     </div>
                     <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
-                    class="font-size-sm d-flex gap-2 text-decoration-none align-items-center">
+                    class="mt-2 font-size-sm d-flex gap-2 text-decoration-none align-items-center">
                         <span class="material-icons">visibility</span>
                         {% translate 'View all' %}
                     </a>
@@ -144,7 +161,7 @@
                         {% endwith %}
                     </span>
                     <a href="{% url 'shifts:shift_exemption_list' %}?shift_user_data_id={{ user.shift_user_data.id }}"
-                    class="font-size-sm d-flex gap-2 text-decoration-none align-items-center"
+                    class="mt-2 font-size-sm d-flex gap-2 text-decoration-none align-items-center"
                     id="shift_exemption_list_button">
                         <span class="material-icons">visibility</span>
                         {% translate 'View all' %}
@@ -295,7 +312,9 @@
                             {% comment %} (in {{ next_slot.shift.start_time|timeuntil }}) {% endcomment %}
 
                             <td>
-                                <a href="{{ next_slot.shift.get_absolute_url }}" class="light-link" id="upcoming_shift">{{ next_slot.shift.name }}</a>
+                                <a href="{{ next_slot.shift.get_absolute_url }}" class="light-link" id="upcoming_shift">
+                                    {% format_shift_slot_name next_slot %}
+                                </a>
                             </td>
                             <td>
                                 {{ next_slot.shift.start_time|date:"d/m/Y" }}
@@ -499,10 +518,10 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            {{ next_slot.shift.start_time|date:"d/m/Y" }}
+                                            {{ slot.shift.start_time|date:"d/m/Y" }}
                                         </td>
                                         <td>
-                                            {{ next_slot.shift.start_time|date:"H\h:m" }}
+                                            {{ slot.shift.start_time|date:"H\h:m" }}
                                         </td>
                                         <td>
                                             {% if shift.description %}

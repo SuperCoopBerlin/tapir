@@ -125,6 +125,9 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
             )
             .order_by("start_time")[:200]
         )
+
+        print("> user.shift_attendance_templates")
+        print(user.shift_attendance_templates.all()[0].slot_template.shift_template)
         
         # Since we already filtered at database level, we just need to add attendable slots info
         # and deduplicate by slot type for display

@@ -9,7 +9,7 @@
 }
 
 .nav-link {
-  --bs-nav-link-font-size: 1rem;
+  --bs-nav-link-font-size: 0.9rem;
 }
 
 /* Sidebar */
@@ -57,7 +57,7 @@
   height: 2.5rem;
   display: flex;
   border-radius: var(--bs-border-radius);
-  line-height: .95em;
+  line-height: 1.1em;
   /* padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x); */
 }
 
