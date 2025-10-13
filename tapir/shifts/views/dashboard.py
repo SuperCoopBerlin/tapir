@@ -19,6 +19,7 @@ from tapir.shifts.templatetags.shifts import shift_name_as_class
 from tapir.shifts.utils import sort_slots_by_name
 from tapir.shifts.utils import ColorHTMLCalendar, get_week_group
 from tapir.utils.shortcuts import get_monday, set_header_for_file_download
+from tapir.shifts.models import ShiftAccountEntry
 
 
 # FIXME: should not be in views.py
@@ -175,5 +176,15 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
         context["total_available_slots"] = total_available_slots
         context["total_urgent_slots"] = total_urgent_slots
         context["shift_slot_names"] = get_shift_slot_names()
+
+        context["shift_account_entries"] = [
+            {
+                "entry": entry,
+                "balance_at_date": user.shift_user_data.get_account_balance(
+                    at_date=entry.date
+                ),
+            }
+            for entry in ShiftAccountEntry.objects.filter(user=user).order_by("-date")
+        ][:10]
         
         return context

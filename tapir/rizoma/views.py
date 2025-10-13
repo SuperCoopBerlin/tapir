@@ -9,7 +9,7 @@ from tapir.shifts.models import ShiftSlot
 from tapir.shifts.templatetags.shifts import shift_name_as_class
 from django.utils.translation import gettext_lazy as _
 from tapir.rizoma.utils import format_shift_for_template
-
+from tapir.shifts.models import ShiftAccountEntry
 from datetime import date, timedelta
 from django.urls import reverse
 

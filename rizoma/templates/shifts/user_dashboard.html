@@ -106,8 +106,9 @@
                     {% endif %}
                     </div>
                     <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
-                    class="{% tapir_button_link %} btn-sm">
-                        <span class="material-icons">visibility</span>{% translate 'log' %}
+                    class="font-size-sm d-flex gap-2 text-decoration-none align-items-center">
+                        <span class="material-icons">visibility</span>
+                        {% translate 'View all' %}
                     </a>
                 </div>
             </div>
@@ -143,7 +144,7 @@
                         {% endwith %}
                     </span>
                     <a href="{% url 'shifts:shift_exemption_list' %}?shift_user_data_id={{ user.shift_user_data.id }}"
-                    class="{% tapir_button_link %} btn-sm"
+                    class="font-size-sm d-flex gap-2 text-decoration-none align-items-center"
                     id="shift_exemption_list_button">
                         <span class="material-icons">visibility</span>
                         {% translate 'View all' %}
@@ -309,6 +310,11 @@
                         </tr>
                     {% endif %}
                 {% endwith %}
+
+                {% empty %}
+                    <tr>
+                        <td colspan="3">{% translate "No upcoming shift" %}</td>
+                    </tr>
             {% endfor %}
                 </tbody>
             </table>
@@ -330,7 +336,14 @@
 
         <div>
             {% if perms.shifts.manage %}
-            <div>
+            <div class="d-flex gap-2">
+
+                <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
+                class="p-2 font-size-sm d-flex gap-2 text-decoration-none align-items-center">
+                        <span class="material-icons">visibility</span>
+                        {% translate 'View all' %}
+                    </a>
+
                 <a class="p-2 font-size-sm d-flex gap-2 text-decoration-none align-items-center"
                 href="{% url 'shifts:create_shift_account_entry' user.pk %}">
                     <span class="material-icons">add_circle_outline</span>{% translate 'Add a manual entry' %}
@@ -350,7 +363,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for entry_data in entries_data %}
+                    {% for entry_data in shift_account_entries %}
                         <tr>
                             <td>{{ entry_data.entry.date|date:"d.m.Y H:i" }}</td>
                             <td>{{ entry_data.entry.value }}</td>
