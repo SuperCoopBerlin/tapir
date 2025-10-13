@@ -310,7 +310,7 @@ class ShareOwnerDeleteView(
             )
         }
         context["card_title"] = _("Are you sure you want to delete: %(name)s?") % {
-            "name": UserUtils.build_html_link_for_viewer(share_owner, self.request.user)
+            "name": share_owner
         }
         return context
 
