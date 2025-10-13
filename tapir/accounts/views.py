@@ -446,7 +446,6 @@ class OpenDoorView(generic.View):
     GET: Check door status (no authentication required)
     """
     
-    @method_decorator(csrf_protect)
     @method_decorator(login_required)
     def post(self, request):
         """POST endpoint to trigger door opening.
