@@ -135,15 +135,6 @@ docker compose run --rm web poetry run pytest
 The `--rm` option will delete the temporary containers created to run the tests. Omit it if you want to keep the
 containers.
 
-To regenerate the test data fixtures:
-
-```sh
-docker compose up --force-recreate
-docker compose exec web poetry run python manage.py migrate
-docker compose exec web poetry run python manage.py generate_test_data --reset_all
-docker compose exec web poetry run python manage.py dumpdata accounts.TapirUser shifts.ShiftTemplateGroup shifts.ShiftTemplate shifts.ShiftSlotTemplate shifts.ShiftAttendanceTemplate coop.ShareOwner coop.ShareOwnership > tapir/utils/fixtures/test_data.json
-```
-
 #### Selenium Tests
 
 You can connect to the selenium container via VNC for debugging purpose. The address is localhost:5900, password :
