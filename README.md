@@ -24,8 +24,7 @@ If you're interested in using Tapir for your own cooperative, we'd be happy to h
 > some tricks!
 
 ## Getting started
-
-Check this [wiki page](https://github.com/SuperCoopBerlin/tapir/wiki/Setting-up-you-development-environment) to run Tapir on your machine and how to setup your IDE.
+We have a [wiki](https://github.com/SuperCoopBerlin/tapir/wiki) on GitHub. In particular, check [this page](https://github.com/SuperCoopBerlin/tapir/wiki/Setting-up-you-development-environment) to run Tapir on your machine and how to setup your IDE.
 
 For more information, have a look at our [:book: Documentation](CONTRIBUTING.md#documentation).
 
