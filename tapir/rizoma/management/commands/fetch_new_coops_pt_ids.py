@@ -22,10 +22,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         with transaction.atomic():
-            if options["reset"]:
-                ShareOwner.objects.all().delete()
-                TapirUser.objects.all().delete()
-
             self.update_share_owner_external_ids()
             self.update_tapir_user_external_ids()
 
