@@ -258,10 +258,10 @@ elif EMAIL_ENV == "prod":
     EMAIL_USE_TLS = True
 
 
-COOP_NAME = "SuperCoop Berlin"
-COOP_FULL_NAME = "SuperCoop Berlin eG"
-COOP_STREET = "Oudenarder Straße 16"
-COOP_PLACE = "13347 Berlin"
+COOP_NAME = env.str("COOP_NAME", default="SuperCoop Berlin")
+COOP_FULL_NAME = env.str("COOP_FULL_NAME", default="SuperCoop Berlin eG")
+COOP_STREET = env.str("COOP_STREET", default="Oudenarder Straße 16")
+COOP_PLACE = env.str("COOP_PLACE", default="13347 Berlin")
 FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 
