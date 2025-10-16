@@ -90,5 +90,5 @@ class Command(BaseCommand):
             tapir_users_by_mail_address[email_address].external_id = user_json["_id"]
 
         TapirUser.objects.bulk_update(
-            tapir_users_by_mail_address.values, ["external_id"]
+            tapir_users_by_mail_address.values(), ["external_id"]
         )
