@@ -229,5 +229,20 @@
                 </div>
             </div>
         {% endif %}
+        <div class="row m-1">
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Watched Shifts" %}:</div>
+            <div class="col-12 col-sm-8">
+                {% with watched_shifts=user.user_watching_shift.all %}
+                    {% if watched_shifts %}
+                        {% for shift_watch in watched_shifts %}
+                            <a href="{{ shift_watch.shift.get_absolute_url }}">{{ shift_watch.shift.get_display_name }}</a>
+                            <br>
+                        {% endfor %}
+                    {% else %}
+                        <span class="text-danger">{% translate "None" context "No watched shifts" %}</span>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
     </div>
 </div>
