@@ -32,6 +32,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             nb_slots=3,
             num_required_attendances=self.NUM_REQUIRED_ATTENDANCE,
             start_time=timezone.now() + datetime.timedelta(days=1),
+            end_time=timezone.now() + datetime.timedelta(days=1, hours=2),
         )
 
     def test_handle_watchedShiftIsUnderstaffed_correctNotificationIsSent(self):
@@ -126,6 +127,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
     def test_handle_shiftInThePast_noNotification(self):
         self.shift.start_time = timezone.now() - datetime.timedelta(days=10)
+        self.shift.end_time = timezone.now() - datetime.timedelta(days=9, hours=22)
         self.shift.save()
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
@@ -186,6 +188,29 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
         self.assertIn(
             str(StaffingStatusChoices.ATTENDANCE_MINUS.label), mail.outbox[0].body
+        )
+        self.assertEmailOfClass_GotSentTo(
+            ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
+        )
+
+    def test_handle_watchedShiftIsCurrentlyRunning_correctNotificationIsSent(self):
+        self.shift.start_time = timezone.now() - datetime.timedelta(hours=2)
+        self.shift.end_time = timezone.now() + datetime.timedelta(hours=2)
+        self.shift_watch = ShiftWatch.objects.create(
+            user=self.user,
+            shift=self.shift,
+            last_valid_slot_ids=[],
+            staffing_status=[event.value for event in get_staffingstatus_choices()],
+        )
+
+        register_user_to_shift(self.client, TapirUserFactory.create(), self.shift)
+
+        self.assertEqual(0, len(mail.outbox))
+        Command().handle()
+        self.assertEqual(1, len(mail.outbox))
+
+        self.assertIn(
+            str(StaffingStatusChoices.UNDERSTAFFED.label), mail.outbox[0].body
         )
         self.assertEmailOfClass_GotSentTo(
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
