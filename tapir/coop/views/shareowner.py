@@ -76,6 +76,7 @@ from tapir.settings import (
     PERMISSION_COOP_ADMIN,
     PERMISSION_ACCOUNTS_MANAGE,
     PERMISSION_COOP_VIEW,
+    PERMISSION_GROUP_MANAGE,
 )
 from tapir.shifts.models import (
     SHIFT_USER_CAPABILITY_CHOICES,
@@ -285,7 +286,7 @@ class ShareOwnerDeleteView(
     PermissionRequiredMixin,
     generic.DeleteView,
 ):
-    permission_required = PERMISSION_ACCOUNTS_MANAGE
+    permission_required = PERMISSION_GROUP_MANAGE
     model = ShareOwner
 
     def get_object(self, queryset=None):
