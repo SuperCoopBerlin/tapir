@@ -301,19 +301,6 @@ class ShareOwnerDeleteView(
         self.get_object().soft_delete()
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        share_owner = self.object
-        context["page_title"] = _("Delete member: %(name)s") % {
-            "name": UserUtils.build_display_name_for_viewer(
-                share_owner, self.request.user
-            )
-        }
-        context["card_title"] = _("Are you sure you want to delete: %(name)s?") % {
-            "name": share_owner
-        }
-        return context
-
 
 @require_POST
 @csrf_protect

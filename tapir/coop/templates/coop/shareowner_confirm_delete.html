@@ -4,25 +4,31 @@
 {% load i18n %}
 {% load core %}
 {% block title %}
-    {% translate "Confirm delete" %} {{ object }}
+    {% translate "Confirm Delete" %}: {% get_display_name_for_viewer object request.user %}
 {% endblock title %}
 {% block content %}
     <div class="container">
-        <h1>{{ page_title }}</h1>
-        <div class="alert alert-warning">
-            <p>Are you sure you want to delete this member?</p>
-            <p>
-                <strong>Name:</strong> {{ card_title }}
-            </p>
+        <div class="card mb-2" id="share_owner_confirm_delete_card">
+            <h5 class="card-header">
+                <span>{% translate "Confirm Delete" %}: {% get_display_name_for_viewer object request.user %}</span>
+            </h5>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <p>Are you sure you want to delete this member?</p>
+                    <p>
+                        <strong>Name:</strong> {{ object }}
+                    </p>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="{% tapir_button_custom 'danger' %}">
+                        <span class="material-icons">delete</span>
+                        {% translate 'Delete' %}
+                    </button>
+                    <a href="{% url 'coop:shareowner_list' %}"
+                       class="{% tapir_button_custom 'secondary' %}">{% translate 'Cancel' %}</a>
+                </form>
+            </div>
         </div>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit"  class="{% tapir_button_custom 'danger' %}">
-                <span class="material-icons">delete</span>
-                {% translate 'Delete' %}
-            </button>
-            <a href="{% url 'coop:shareowner_list' %}"
-               class="{% tapir_button_custom 'secondary' %}">{% translate 'Cancel' %}</a>
-        </form>
     </div>
 {% endblock content %}
