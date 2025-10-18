@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-12 08:24+0200\n"
+"POT-Creation-Date: 2025-10-18 21:06+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -523,8 +523,8 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:124 accounts/views.py:129 coop/views/shareowner.py:272
-#: coop/views/shareowner.py:277
+#: accounts/views.py:124 accounts/views.py:129 coop/views/shareowner.py:273
+#: coop/views/shareowner.py:278
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
@@ -923,15 +923,14 @@ msgstr "Aktive Mitglieder mit Tapir-Konto"
 #: coop/templates/coop/confirm_delete_share_ownership.html:6
 #: coop/templates/coop/confirm_delete_share_ownership.html:12
 #: coop/templates/coop/draftuser_detail.html:20
-#: coop/templates/coop/shareowner_confirm_delete.html:7
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:6
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:12
 msgid "Confirm delete"
 msgstr "Löschen bestätigen"
 
 #: coop/templates/coop/confirm_delete_incoming_payment.html:31
-#: coop/templates/coop/confirm_delete_share_ownership.html:24
-#: coop/templates/coop/shareowner_confirm_delete.html:22
+#: coop/templates/coop/confirm_delete_share_ownership.html:25
+#: coop/templates/coop/shareowner_confirm_delete.html:26
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:136
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:24
@@ -1001,7 +1000,7 @@ msgstr "Liste alle E-Mails"
 #: coop/templates/coop/draftuser_detail.html:69
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:40
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:97
-#: coop/views/shareowner.py:633
+#: coop/views/shareowner.py:621
 #: shifts/templates/shifts/user_shifts_overview_tag.html:21
 msgid "Status"
 msgstr "Status"
@@ -2282,7 +2281,14 @@ msgstr ""
 msgid "Organisation logo"
 msgstr ""
 
-#: coop/templates/coop/shareowner_confirm_delete.html:25
+#: coop/templates/coop/shareowner_confirm_delete.html:7
+#: coop/templates/coop/shareowner_confirm_delete.html:13
+#, fuzzy
+#| msgid "Confirm delete"
+msgid "Confirm Delete"
+msgstr "Löschen bestätigen"
+
+#: coop/templates/coop/shareowner_confirm_delete.html:29
 #: shifts/templates/shifts/user_shifts_overview_tag.html:172
 msgid "Cancel"
 msgstr "Abmelden"
@@ -2546,79 +2552,68 @@ msgstr "ohne Endddatum"
 msgid "Cancel membership of %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:133 coop/views/shareowner.py:138
+#: coop/views/shareowner.py:134 coop/views/shareowner.py:139
 #, python-format
 msgid "Edit share: %(name)s"
 msgstr "Anteil bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:158 coop/views/shareowner.py:163
+#: coop/views/shareowner.py:159 coop/views/shareowner.py:164
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:307
-#, fuzzy, python-format
-#| msgid "Edit member: %(name)s"
-msgid "Delete member: %(name)s"
-msgstr "Mitglied bearbeiten: %(name)s"
-
-#: coop/views/shareowner.py:312
-#, python-format
-msgid "Are you sure you want to delete: %(name)s?"
-msgstr ""
-
-#: coop/views/shareowner.py:412
+#: coop/views/shareowner.py:400
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:634 shifts/templates/shifts/shift_filters.html:45
+#: coop/views/shareowner.py:622 shifts/templates/shifts/shift_filters.html:45
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:639
+#: coop/views/shareowner.py:627
 #: shifts/templates/shifts/user_shifts_overview_tag.html:74
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:647
+#: coop/views/shareowner.py:635
 msgid "Is registered to an ABCD-slot that requires a qualification"
 msgstr "Ist für eine ABCD-Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:655
+#: coop/views/shareowner.py:643
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:663
+#: coop/views/shareowner.py:651
 msgid "Has qualification"
 msgstr "Hat Qualifikation"
 
-#: coop/views/shareowner.py:671
+#: coop/views/shareowner.py:659
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:678
+#: coop/views/shareowner.py:666
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:681
+#: coop/views/shareowner.py:669
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:684
+#: coop/views/shareowner.py:672
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:688
+#: coop/views/shareowner.py:676
 msgid "Is currently exempted from shifts"
 msgstr "Ist derzeit von der Schichtarbeit befreit"
 
-#: coop/views/shareowner.py:693
+#: coop/views/shareowner.py:681
 #, fuzzy
 #| msgid "Shift missed"
 msgid "Shift Name"
 msgstr "Schicht versäumt"
 
-#: coop/views/shareowner.py:953
+#: coop/views/shareowner.py:941
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
@@ -6172,6 +6167,11 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy, python-format
+#~| msgid "Edit member: %(name)s"
+#~ msgid "Delete member: %(name)s"
+#~ msgstr "Mitglied bearbeiten: %(name)s"
 
 #~ msgid "Purchase tracking"
 #~ msgstr "Vergangene Einkäufe"
