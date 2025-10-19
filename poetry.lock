@@ -1133,18 +1133,18 @@ django = "*"
 
 [[package]]
 name = "django-auth-ldap"
-version = "4.8.0"
+version = "5.2.0"
 description = "Django LDAP authentication backend"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "django-auth-ldap-4.8.0.tar.gz", hash = "sha256:604250938ddc9fda619f247c7a59b0b2f06e53a7d3f46a156f28aa30dd71a738"},
-    {file = "django_auth_ldap-4.8.0-py3-none-any.whl", hash = "sha256:4b4b944f3c28bce362f33fb6e8db68429ed8fd8f12f0c0c4b1a4344a7ef225ce"},
+    {file = "django_auth_ldap-5.2.0-py3-none-any.whl", hash = "sha256:7dc6eb576ba36051850b580e4bdf4464e04bbe7367c3827a3121b4d7c51fb175"},
+    {file = "django_auth_ldap-5.2.0.tar.gz", hash = "sha256:08ba6efc0340d9874725a962311b14991e29a33593eb150a8fb640709dbfa80f"},
 ]
 
 [package.dependencies]
-Django = ">=3.2"
+Django = ">=4.2"
 python-ldap = ">=3.1"
 
 [[package]]
@@ -4098,4 +4098,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0"
-content-hash = "5e599eda341c2292297dc119f925b62e43b257cd09be3914880b50c25c8b94a0"
+content-hash = "d312432421714829ff76225aa1043d02f8c8fc4cc07b62831c8e7a7c0c407130"
