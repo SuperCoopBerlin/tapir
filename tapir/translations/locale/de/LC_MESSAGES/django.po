@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-10 15:20+0200\n"
+"POT-Creation-Date: 2025-10-22 08:53+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -296,7 +296,8 @@ msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgl
 #: accounts/templates/accounts/user_detail.html:20 coop/models.py:724
 #: coop/templates/coop/draftuser_detail.html:86
 #: coop/templates/coop/shareowner_detail.html:10 log/views.py:94
-#: log/views.py:152
+#: log/views.py:152 shifts/templates/shifts/shift_day_printable_v0.html:55
+#: shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Member"
 msgstr "Mitglied"
 
@@ -2366,7 +2367,9 @@ msgstr ""
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:56
 #: shifts/models.py:955 shifts/templates/shifts/shift_day_printable.html:208
 #: shifts/templates/shifts/shift_day_printable.html:270
+#: shifts/templates/shifts/shift_day_printable_v0.html:56
 #: shifts/templates/shifts/shift_detail.html:297
+#: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
 msgstr "Teilgenommen"
 
@@ -3179,14 +3182,18 @@ msgstr ""
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
 msgstr ""
 
-#: shifts/models.py:956 shifts/templates/shifts/shift_detail.html:307
+#: shifts/models.py:956 shifts/templates/shifts/shift_day_printable_v0.html:57
+#: shifts/templates/shifts/shift_detail.html:307
+#: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
 #: shifts/models.py:957 shifts/templates/shifts/shift_day_printable.html:210
 #: shifts/templates/shifts/shift_day_printable.html:275
 #: shifts/templates/shifts/shift_day_printable.html:277
+#: shifts/templates/shifts/shift_day_printable_v0.html:58
 #: shifts/templates/shifts/shift_detail.html:337
+#: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
 msgstr "Entschuldigt"
 
@@ -3195,8 +3202,9 @@ msgid "Cancelled"
 msgstr "Abgesagt"
 
 #: shifts/models.py:959 shifts/templates/shifts/shift_day_printable.html:258
+#: shifts/templates/shifts/shift_day_printable_v0.html:97
 #: shifts/templates/shifts/shift_detail.html:329
-#: shifts/templates/shifts/shift_detail_printable.html:139
+#: shifts/templates/shifts/shift_detail_printable.html:94
 #: shifts/templates/shifts/shift_filters.html:83
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
@@ -3921,18 +3929,21 @@ msgid ""
 msgstr ""
 
 #: shifts/templates/shifts/shift_day_printable.html:244
-#: shifts/templates/shifts/shift_detail_printable.html:126
+#: shifts/templates/shifts/shift_day_printable_v0.html:86
+#: shifts/templates/shifts/shift_detail_printable.html:82
 msgid "Expected to come at"
 msgstr ""
 
 #: shifts/templates/shifts/shift_day_printable.html:247
-#: shifts/templates/shifts/shift_detail_printable.html:128
+#: shifts/templates/shifts/shift_day_printable_v0.html:88
+#: shifts/templates/shifts/shift_detail_printable.html:84
 msgid "Flexible time not specified"
 msgstr ""
 
 #: shifts/templates/shifts/shift_day_printable.html:253
+#: shifts/templates/shifts/shift_day_printable_v0.html:94
 #: shifts/templates/shifts/shift_detail.html:138
-#: shifts/templates/shifts/shift_detail_printable.html:134
+#: shifts/templates/shifts/shift_detail_printable.html:90
 #: shifts/templates/shifts/shift_template_detail.html:64
 msgid "Shift partner: "
 msgstr "Schicht-Partner: "
@@ -3940,6 +3951,22 @@ msgstr "Schicht-Partner: "
 #: shifts/templates/shifts/shift_day_printable.html:290
 msgid "Only to be filled in by the member office."
 msgstr "Nur vom Mitgliederbüro auszufüllen."
+
+#: shifts/templates/shifts/shift_day_printable_v0.html:54
+#: shifts/templates/shifts/shift_detail.html:104
+#: shifts/templates/shifts/shift_detail_printable.html:49
+msgid "Slot"
+msgstr "Platz"
+
+#: shifts/templates/shifts/shift_day_printable_v0.html:72
+#: shifts/templates/shifts/shift_detail_printable.html:68
+msgid "Required qualifications: "
+msgstr "Erforderliche Qualifikation: "
+
+#: shifts/templates/shifts/shift_day_printable_v0.html:104
+#: shifts/templates/shifts/shift_detail_printable.html:100
+msgid "Has qualifications: "
+msgstr "Hat Qualifikationen : "
 
 #: shifts/templates/shifts/shift_detail.html:8
 #: shifts/templates/shifts/shift_detail.html:30
@@ -3988,10 +4015,6 @@ msgstr ""
 #: shifts/templates/shifts/shift_detail.html:101
 msgid "List of slots for this shift"
 msgstr "Liste der Slots für diese Schicht"
-
-#: shifts/templates/shifts/shift_detail.html:104
-msgid "Slot"
-msgstr "Platz"
 
 #: shifts/templates/shifts/shift_detail.html:104
 msgid "Number"
@@ -4128,14 +4151,6 @@ msgstr ""
 #: shifts/templates/shifts/shift_detail.html:353
 msgid "Edit slot"
 msgstr "Slot bearbeiten"
-
-#: shifts/templates/shifts/shift_detail_printable.html:112
-msgid "Required qualifications: "
-msgstr "Erforderliche Qualifikation: "
-
-#: shifts/templates/shifts/shift_detail_printable.html:143
-msgid "Has qualifications: "
-msgstr "Hat Qualifikationen : "
 
 #: shifts/templates/shifts/shift_filters.html:7
 msgid "Use the buttons below to filter the shifts that are relevant to you."
