@@ -52,15 +52,15 @@ msgstr "Optionale E-Mails"
 msgid "Important Mails"
 msgstr "Wichtige E-Mails"
 
-#: accounts/models.py:62
+#: accounts/models.py:65
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:67 coop/models.py:70 coop/models.py:445
+#: accounts/models.py:70 coop/models.py:70 coop/models.py:445
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:68 accounts/templates/accounts/user_detail.html:71
+#: accounts/models.py:71 accounts/templates/accounts/user_detail.html:71
 #: coop/models.py:72 coop/models.py:447
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
@@ -68,69 +68,69 @@ msgstr "Pronomen"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:81
+#: accounts/models.py:72 accounts/templates/accounts/user_detail.html:81
 #: coop/models.py:73 coop/models.py:448
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:70 coop/models.py:74 coop/models.py:449
+#: accounts/models.py:73 coop/models.py:74 coop/models.py:449
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:71 coop/models.py:75 coop/models.py:450
+#: accounts/models.py:74 coop/models.py:75 coop/models.py:450
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:72 coop/models.py:76 coop/models.py:451
+#: accounts/models.py:75 coop/models.py:76 coop/models.py:451
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:73 coop/models.py:77 coop/models.py:452
+#: accounts/models.py:76 coop/models.py:77 coop/models.py:452
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:74 coop/models.py:78 coop/models.py:453
+#: accounts/models.py:77 coop/models.py:78 coop/models.py:453
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:75 accounts/templates/accounts/user_detail.html:115
+#: accounts/models.py:78 accounts/templates/accounts/user_detail.html:115
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:76
+#: accounts/models.py:79
 #, fuzzy
 #| msgid "Co-Purchaser"
 msgid "Co-Purchaser mail"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:78
+#: accounts/models.py:81
 msgid "Second co-Purchaser"
 msgstr "2. Miteinkäufer*in"
 
-#: accounts/models.py:80
+#: accounts/models.py:83
 #, fuzzy
 #| msgid "Co-Purchaser"
 msgid "Co-Purchaser mail 2"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:82
+#: accounts/models.py:85
 msgid "Allow purchase tracking"
 msgstr "Erlaube Aufzeichnen deiner Einkäufe"
 
-#: accounts/models.py:87 accounts/templates/accounts/user_detail.html:101
+#: accounts/models.py:90 accounts/templates/accounts/user_detail.html:101
 #: coop/models.py:81 coop/models.py:456
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:120 accounts/models.py:126
+#: accounts/models.py:123 accounts/models.py:129
 #: coop/views/membership_pause.py:74 shifts/views/exemptions.py:214
 msgid "None"
 msgstr "Keine"
 
-#: accounts/models.py:243
+#: accounts/models.py:246
 #, fuzzy
 #| msgid "Member already created."
 msgid "This username is already taken."
@@ -257,8 +257,10 @@ msgid "Groups"
 msgstr "Gruppen"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:5
-msgid "Purchase tracking"
-msgstr "Vergangene Einkäufe"
+#, fuzzy
+#| msgid "Member"
+msgid "Member card"
+msgstr "Mitgliedskarte"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:11
 msgid "Get barcode as PDF"
@@ -271,6 +273,10 @@ msgstr "Mehr Informationen"
 #: accounts/templates/accounts/purchase_tracking_card.html:26
 msgid "The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. You can also still decide with each purchase whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by deactivating the checkbox above. With your consent, you help Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: Translated with DeepL.com (free version): https://wiki.supercoop.de/wiki/Mitgliederkarte"
 msgstr "Das Kassensystem verknüpft deinen Einkauf mit deinem Mitgliedskonto. Dabei wird jedesmal der Gesamtbetrag deines Einkaufs gespeichert. Nicht erfasst wird dagegen, welche konkreten Produkte du gekauft hast. Auch kannst du bei jedem Einkauf immer noch entscheiden, ob du deine Mitgliedskarte scannen lassen möchtest oder nicht. Mit deiner generellen Zustimmung hier auf Tapir gehst du keine Verpflichtung zum Scannen ein. Die Zustimmung kannst du jederzeit widerrufen, indem du die Checkbox oben deaktivierst. Du hilfst damit Supercoop, die Einkaufsgewohnheiten der Mitglieder besser zu verstehen. Das ist wichtig für die Weiterentwicklung unseres Supermarktes. Mehr Informationen: https://wiki.supercoop.de/wiki/Mitgliederkarte"
+
+#: accounts/templates/accounts/purchase_tracking_card.html:27
+msgid "I agree that my membership card will be scanned at the checkout when I make a purchase, thereby recording and storing my purchase:"
+msgstr "Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an der Kasse gescannt und somit mein Einkauf erfasst und gespeichert wird:"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:168
@@ -291,7 +297,7 @@ msgstr "Aktivieren"
 #, fuzzy
 #| msgid "You can only look at your own barcode unless you have member office rights"
 msgid "You can only look at your own barcode unless you have admin rights"
-msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Mitgliedsbüro-Rechte"
+msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Admin-Rechte"
 
 #: accounts/templates/accounts/user_detail.html:20 coop/models.py:724
 #: coop/templates/coop/draftuser_detail.html:86
@@ -1157,8 +1163,19 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: coop/templates/coop/email/co_purchaser_updated.body.html:24
-#, python-format
+#: coop/templates/coop/email/co_purchaser_updated.body.html:20
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        <p style=\"margin-top: 10px;\">\n"
+#| "            If this is an error and does not correspond to your request, please send a short\n"
+#| "            <a href=\"mailto:%(email_address_member_office)s\">email to the Member Office</a> to let us know.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            Cooperative greetings,<br/>\n"
+#| "            The Member Office\n"
+#| "        </p>\n"
+#| "    "
 msgid ""
 "\n"
 "        <p style=\"margin-top: 10px;\">\n"
@@ -1166,7 +1183,7 @@ msgid ""
 "            <a href=\"mailto:%(email_address_member_office)s\">email to the Member Office</a> to let us know.\n"
 "        </p>\n"
 "        <p>\n"
-"            Cooperative greetings,<br/>\n"
+"            Cooperative greetings,<br />\n"
 "            The Member Office\n"
 "        </p>\n"
 "    "
@@ -2742,7 +2759,7 @@ msgstr "Klicke hier um mehr zu erfahren."
 msgid "Goal: "
 msgstr "Ziel: "
 
-#: core/views.py:47 core/views.py:49 log/models.py:147
+#: core/views.py:47 core/views.py:49 log/models.py:148
 msgid "Not available"
 msgstr "Nicht verfügbar"
 
@@ -2858,7 +2875,7 @@ msgstr ""
 msgid "Logs"
 msgstr ""
 
-#: log/models.py:21
+#: log/models.py:22
 msgid "Creation Date"
 msgstr "Erstellungsdatum"
 
@@ -3148,7 +3165,7 @@ msgid "This determines from which date shifts should be generated from this ABCD
 msgstr ""
 
 #: shifts/models.py:195 shifts/models.py:527
-#: shifts/templates/shifts/shift_block_tag.html:10
+#: shifts/templates/shifts/shift_block_tag.html:11
 msgid "Flexible time"
 msgstr "Zeit flexibel"
 
@@ -6154,6 +6171,9 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#~ msgid "Purchase tracking"
+#~ msgstr "Vergangene Einkäufe"
 
 #, fuzzy
 #~| msgid "You can only look at your own barcode unless you have member office rights"

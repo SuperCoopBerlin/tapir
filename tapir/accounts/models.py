@@ -58,6 +58,9 @@ class TapirUserManager(UserManager.from_queryset(TapirUserQuerySet)):
 
 
 class TapirUser(AbstractUser):
+    class Meta:
+        indexes = [models.Index(fields=["date_joined"])]
+
     usage_name = models.CharField(
         _("Displayed name"),
         max_length=150,

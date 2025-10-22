@@ -14,7 +14,6 @@ services:
     command: --copy-service
 
   web:
-    image: tapir-image
     build:
       context: .
       dockerfile: ./django.Dockerfile
@@ -66,25 +65,19 @@ services:
     image: redis:alpine
 
   celery:
-    image: tapir-image
+    extends:
+      service: web
     command: bash -c "poetry install &&
                       poetry run celery -A tapir worker -l info"
-    volumes:
-      - .:/app
-    environment:
-      DEBUG: 1
     depends_on:
       - redis
 
   celery-beat:
-    image: tapir-image
+    extends:
+      service: web
     # --schedule to avoid polluting the app directory
     command: bash -c "poetry install &&
                       poetry run celery -A tapir beat -l info --schedule /tmp/celerybeat-schedule"
-    volumes:
-      - .:/app
-    environment:
-      DEBUG: 1
     depends_on:
       - redis
 

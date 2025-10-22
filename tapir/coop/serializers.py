@@ -9,3 +9,10 @@ class TapirUserSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     country = serializers.CharField()
+
+
+class MemberRegistrationRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    number_of_coop_shares = serializers.IntegerField()

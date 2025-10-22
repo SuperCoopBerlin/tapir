@@ -14,12 +14,8 @@
         </p>
     {% endblocktranslate %}
     <ul>
-        {% if tapir_user.co_purchaser %}
-            <li>{{ tapir_user.co_purchaser }}</li>
-        {% endif %}
-        {% if tapir_user.co_purchaser_2 %}
-            <li>{{ tapir_user.co_purchaser_2 }}</li>
-        {% endif %}
+        {% if tapir_user.co_purchaser %}<li>{{ tapir_user.co_purchaser }}</li>{% endif %}
+        {% if tapir_user.co_purchaser_2 %}<li>{{ tapir_user.co_purchaser_2 }}</li>{% endif %}
     </ul>
     {% blocktranslate with email_address_member_office=EMAIL_ADDRESS_MEMBER_OFFICE %}
         <p style="margin-top: 10px;">
@@ -27,7 +23,7 @@
             <a href="mailto:{{ email_address_member_office }}">email to the Member Office</a> to let us know.
         </p>
         <p>
-            Cooperative greetings,<br/>
+            Cooperative greetings,<br />
             The Member Office
         </p>
     {% endblocktranslate %}

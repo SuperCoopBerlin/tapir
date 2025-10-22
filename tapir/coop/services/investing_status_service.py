@@ -62,8 +62,8 @@ class InvestingStatusService:
 
         queryset = queryset.annotate(
             was_investing_as_bool=Case(
-                When(was_investing_as_string__startswith="True", then=True),
-                When(was_investing_as_string__startswith="False", then=False),
+                When(was_investing_as_string="True", then=True),
+                When(was_investing_as_string="False", then=False),
                 default=None,
             )
         )
