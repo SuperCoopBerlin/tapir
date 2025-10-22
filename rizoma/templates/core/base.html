@@ -106,10 +106,15 @@
                             <li class="nav-item">
                                 <a class="nav-link small" href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
-                            </li>
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <li class="nav-item">
+                                    <a class="nav-link text-danger" href="#" id="logout2">Logout</a>
+                                </li>
+                                <script>
+                                    document.getElementById("logout2").addEventListener("click", (event) => {event.target.parentNode.parentNode.submit()})
+                                </script>
+                            </form>
                         {% else %}
                             <li class="nav-item">
                                 <a class="nav-link text-primary" href="{% url 'login' %}">Login</a>
