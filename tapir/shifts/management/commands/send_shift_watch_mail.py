@@ -71,7 +71,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for shift_watch_data in ShiftWatch.objects.filter(
-            shift__start_time__gte=timezone.now()
+            shift__end_time__gte=timezone.now()  # end_time not start_time because flexible-shifts can be running the whole day
         ).select_related("user", "shift"):
             self.send_shift_watch_mail_per_user_and_shift(shift_watch_data)
 
