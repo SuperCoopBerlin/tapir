@@ -11,21 +11,22 @@
             <h5 class="card-header">
                 <span>{% translate "Confirm delete" %}</span>
             </h5>
-            <div class="card-body">
-                <form method="post">
-                    {% csrf_token %}
-                    <p>
-                        Are you sure you want to delete the following share? <b>{{ object }}</b>
-                    </p>
-                    {{ form }}
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn tapir-btn btn-danger">
-                            <span class="material-icons">delete</span>
-                            {% translate 'Delete' %}
-                        </button>
-                    </div>
-                </form>
+            <h5 class="card-header">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <p>
+                            Are you sure you want to delete the following share? <b>{{ object }}</b>
+                        </p>
+                        {{ form }}
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn tapir-btn btn-danger">
+                                <span class="material-icons">delete</span>
+                                {% translate 'Delete' %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-{% endblock content %}
+    {% endblock content %}
