@@ -98,7 +98,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <a class="text-dark nav-link" href="#" id="logout">Logout</a>
+                        <script>
+                            document.getElementById("logout").addEventListener("click", (event) => {event.target.parentNode.submit()})
+                        </script>
+                    </form>
                 </li>
                 {% else %}
                 <li class="nav-item">
