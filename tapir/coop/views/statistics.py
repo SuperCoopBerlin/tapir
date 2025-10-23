@@ -1,5 +1,6 @@
 import csv
 import datetime
+import os
 
 from chartjs.colors import next_color, COLORS
 from chartjs.views.lines import BaseLineChartView
@@ -9,7 +10,6 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
-from django.views.generic import TemplateView
 
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.coop.models import (
@@ -261,8 +261,13 @@ class MemberAgeDistributionJsonView(BaseLineChartView):
         return self.age_to_number_of_members_map
 
 
-class AboutView(TemplateView):
+class AboutView(generic.TemplateView):
     template_name = "coop/about.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tapir_version"] = os.getenv("TAPIR_VERSION")
+        return context
 
 
 class MemberStatusUpdatesJsonView(BaseLineChartView):

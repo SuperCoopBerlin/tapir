@@ -12,6 +12,11 @@
             </h5>
             <div class="card-body">
                 <p>Tapir has been made with love by SuperCoop Berlin members.</p>
+                {% if tapir_version %}
+                    <p>
+                        You’re running version <a href="https://github.com/SuperCoopBerlin/tapir/releases/tag/{{ tapir_version }}">{{ tapir_version }}</a>.
+                    </p>
+                {% endif %}
                 <p>
                     The source code and list of contributors is available on GitHub : <a href="https://github.com/SuperCoopBerlin/tapir">https://github.com/SuperCoopBerlin/tapir</a>
                 </p>
