@@ -39,7 +39,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.build_changelog.outputs.version }}
-          release_name: Tapir ${{ steps.build_changelog.outputs.version }}
+          name: Tapir ${{ steps.build_changelog.outputs.version }}
           body: ${{steps.build_changelog.outputs.content}}
           token: ${{ secrets.GITHUB_TOKEN }}
 
