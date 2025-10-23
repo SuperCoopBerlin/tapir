@@ -1,3 +1,5 @@
+import os
+
 from django.apps import AppConfig
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -73,3 +75,10 @@ class CoreConfig(AppConfig):
             url=reverse_lazy("coop:about"),
             ordering=7,
         )
+        if os.getenv("TAPIR_VERSION"):
+            misc_group.add_link(
+                display_name=_(f"Tapir version {os.getenv('TAPIR_VERSION')}"),
+                material_icon="label",
+                url=f"https://github.com/SuperCoopBerlin/tapir/releases/tag/{os.getenv('TAPIR_VERSION')}",
+                ordering=8,
+            )
