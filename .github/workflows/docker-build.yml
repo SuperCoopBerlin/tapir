@@ -45,6 +45,7 @@ jobs:
 
   build-and-push-image:
     runs-on: ubuntu-latest
+    needs: [prepare-changelog-and-changelog]
     permissions:
       contents: read
       packages: write
@@ -77,6 +78,8 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: |
+            version=${{ steps.build_changelog.outputs.version }}
+            ${{ steps.meta.outputs.labels }}
           no-cache: true
           file: django.Dockerfile
