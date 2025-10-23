@@ -196,6 +196,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_handle_watchedShiftIsCurrentlyRunning_correctNotificationIsSent(self):
         self.shift.start_time = timezone.now() - datetime.timedelta(hours=2)
         self.shift.end_time = timezone.now() + datetime.timedelta(hours=2)
+        self.shift.save()
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift,
