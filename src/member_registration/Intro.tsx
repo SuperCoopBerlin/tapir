@@ -15,6 +15,7 @@ Welcome to SuperCoop! We're excited to welcome you as a new member of our cooper
 Please fill out the form below so we can process your application.
 `)}
       </p>
+      <hr />
     </div>
   );
 }

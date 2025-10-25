@@ -4,3 +4,4 @@ export const COOP_NAME = "SuperCoop Berlin eG";
 export const COOP_STREET = "Oudenarder Straße 16";
 export const COOP_PLACE = "13347 Berlin";
 export const MIN_REGISTRATION_AGE = 18;
+export const EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de";

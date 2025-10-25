@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Card, Form } from "react-bootstrap";
 import { useApi } from "../hooks/useApi.ts";
 import { CoopApi } from "../api-client/index.ts";
@@ -12,40 +12,47 @@ import ContactInfo from "./form_parts/ContactInfo.tsx";
 import Overview from "./Overview.tsx";
 import Declarations from "./Declarations.tsx";
 import Intro from "./Intro.tsx";
+import Success from "./Success.tsx";
+import Error from "./Error.tsx";
 
 declare let gettext: (english_text: string) => string;
 
 enum RegistrationStage {
   ONE,
   TWO,
+  SUCCESS,
+  ERROR,
 }
 
 const MemberRegistration: React.FC = () => {
   const coopApi = useApi(CoopApi);
-  const [name, setName] = useState("");
-  const [companyName, setCompanyName] = useState("");
+  const [stage, setStage] = useState<RegistrationStage>(RegistrationStage.ONE);
 
+  const [shares, setShares] = useState(1);
+  const [isCompany, setIsCompany] = useState<boolean | null>(null);
+  const [isInvesting, setIsInvesting] = useState(false);
+  const [name, setName] = useState("");
+
+  const [companyName, setCompanyName] = useState("");
   const [preferredName, setPreferredName] = useState("");
   const [pronouns, setPronouns] = useState("");
   const [dob, setDOB] = useState("");
 
-  const [email, setEmail] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [postcode, setPostcode] = useState("");
   const [country, setCountry] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [shares, setShares] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [isCompany, setIsCompany] = useState<boolean | null>(null);
-  const [isInvesting, setIsInvesting] = useState(false);
-  const [stage, setStage] = useState<RegistrationStage>(RegistrationStage.ONE);
+
   const [acceptsMembership, setAcceptsMembership] = useState(false);
   const [acceptsPeriod, setAcceptsPeriod] = useState(false);
   const [acceptsConstitution, setAcceptsConstitution] = useState(false);
   const [acceptsPayment, setAcceptsPayment] = useState(false);
   const [acceptsPrivacy, setAcceptsPrivacy] = useState(false);
   const [otherComments, setOtherComments] = useState("");
+
   const [validated, setValidated] = useState(false);
 
   const topRef = useRef<HTMLHeadingElement | null>(null);
@@ -59,7 +66,7 @@ const MemberRegistration: React.FC = () => {
     }
   }, [stage]);
 
-  function onConfirmRegister() {
+  const onConfirmRegister = useCallback(() => {
     setLoading(true);
 
     coopApi
@@ -68,22 +75,22 @@ const MemberRegistration: React.FC = () => {
           email: email,
           firstName: "placeholder",
           lastName: "placeholder",
-          numberOfCoopShares: -1,
+          numberOfCoopShares: shares,
         },
       })
       .then((result) => {
         if (result) {
-          alert("Success!");
+          setStage(RegistrationStage.SUCCESS);
         } else {
-          alert("Failed!");
+          setStage(RegistrationStage.ERROR);
         }
       })
       .catch((error) => {
-        alert("Request failed! Check the console log");
+        setStage(RegistrationStage.ERROR);
         console.error(error);
       })
       .finally(() => setLoading(false));
-  }
+  }, [coopApi, email, shares]);
 
   return (
     <Card>
@@ -91,7 +98,9 @@ const MemberRegistration: React.FC = () => {
         <h5 ref={topRef}>{gettext("Become a SuperCoop Member!")}</h5>
       </Card.Header>
       <Card.Body>
-        <Intro />
+        {[RegistrationStage.ONE, RegistrationStage.TWO].includes(stage) && (
+          <Intro />
+        )}
         {stage === RegistrationStage.ONE && (
           <Form
             noValidate
@@ -251,6 +260,10 @@ const MemberRegistration: React.FC = () => {
             </div>
           </Form>
         )}
+        {stage === RegistrationStage.SUCCESS && (
+          <Success name={preferredName || name} />
+        )}
+        {stage === RegistrationStage.ERROR && <Error />}
       </Card.Body>
     </Card>
   );
