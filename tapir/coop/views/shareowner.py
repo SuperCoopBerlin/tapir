@@ -93,6 +93,7 @@ from tapir.shifts.services.shift_attendance_mode_service import (
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
 from tapir.utils.user_utils import UserUtils
+from tapir.utils.forms import DateFromToRangeFilterTapir
 
 
 class ShareOwnershipViewMixin:
@@ -666,6 +667,9 @@ class ShareOwnerFilter(django_filters.FilterSet):
     is_shift_partner_of = BooleanFilter(
         method="is_shift_partner_of_filter", label="Is the shift partner of someone"
     )
+    join_date = DateFromToRangeFilterTapir(
+        method="filter_by_join_date", label="Join date"
+    )
 
     @staticmethod
     def shift_slot_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
@@ -786,6 +790,15 @@ class ShareOwnerFilter(django_filters.FilterSet):
         return queryset.filter(
             user__shift_user_data__shift_partner_of__isnull=not value
         )
+    
+    @staticmethod
+    def filter_by_join_date(queryset: ShareOwner.ShareOwnerQuerySet, name, value):
+        if value.start and value.stop:
+            queryset = queryset.filter(
+            share_ownerships__start_date__gte=value.start,
+            share_ownerships__start_date__lte=value.stop
+        )
+        return queryset.distinct()
 
 
 class ShareOwnerListView(
