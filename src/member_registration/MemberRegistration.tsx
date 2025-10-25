@@ -11,6 +11,7 @@ import JoiningAs from "./form_parts/JoiningAs.tsx";
 import ContactInfo from "./form_parts/ContactInfo.tsx";
 import Overview from "./Overview.tsx";
 import Declarations from "./Declarations.tsx";
+import Intro from "./Intro.tsx";
 
 declare let gettext: (english_text: string) => string;
 
@@ -78,20 +79,7 @@ const MemberRegistration: React.FC = () => {
         <h5>{gettext("Become a SuperCoop Member!")}</h5>
       </Card.Header>
       <Card.Body>
-        <div className="mb-4">
-          <p>
-            <img
-              style={{ width: "100%", maxWidth: "800px" }}
-              src="https://supercoop.de/wp-content/uploads/supercoop-header.jpg"
-            />
-          </p>
-          <p>
-            {gettext(`
-Welcome to SuperCoop! We're excited to welcome you as a new member of our cooperative.
-Please fill out the form below so we can process your application.
-  `)}
-          </p>
-        </div>
+        <Intro />
         <Form
           className={"mt-2"}
           style={{ width: "100%", maxWidth: "700px" }}
