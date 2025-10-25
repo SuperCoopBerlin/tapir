@@ -1,10 +1,10 @@
 import { createRoot } from "react-dom/client";
-import MemberRegistrationCard from "./MemberRegistrationCard.tsx";
+import MemberRegistration from "./MemberRegistration.tsx";
 
 const domNode = document.getElementById("member_registration");
 if (domNode) {
   const root = createRoot(domNode);
-  root.render(<MemberRegistrationCard />);
+  root.render(<MemberRegistration />);
 } else {
   console.error("Failed to render member registration from React");
 }
