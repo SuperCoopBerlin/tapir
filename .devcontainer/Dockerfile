@@ -26,17 +26,11 @@ RUN apt-get update \
        libssl-dev \
        libcairo2 \
        libpango-1.0-0 \
+       python3-poetry \
        shared-mime-info \
        poppler-utils \
        fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
-
-# Install Poetry (official installer)
-RUN curl -sSL https://install.python-poetry.org | python3 - \
-    && ln -s /opt/poetry/bin/poetry /usr/local/bin/poetry \
-    && chmod -R a+rx /opt/poetry \
-    && chmod a+rx /usr/local/bin/poetry \
-    && poetry --version
 
 # Set poetry to not create virtualenvs by default (so dependencies go into the container python)
 RUN poetry config virtualenvs.create false
