@@ -231,7 +231,6 @@ const MemberRegistration: React.FC = () => {
                 variant={"primary"}
                 onClick={(event) => {
                   event.preventDefault();
-                  console.log("test", event.currentTarget.form);
 
                   if (!event.currentTarget.form?.checkValidity()) {
                     setValidated(true);
