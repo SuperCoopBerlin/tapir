@@ -19,6 +19,9 @@ export default function CompanyInfo({ companyName, setCompanyName }: Props) {
         onChange={(event) => setCompanyName(event.target.value)}
         required
       />
+      <Form.Control.Feedback type="invalid">
+        {gettext("Please specify the official company name.")}
+      </Form.Control.Feedback>
     </Form.Group>
   );
 }

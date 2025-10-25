@@ -47,11 +47,11 @@ export default function Overview({
         <>
           <div style={{ display: "flex", gap: "1ch" }}>
             <dt>{gettext("Preferred name:")}</dt>
-            <dd>{preferredName}</dd>
+            <dd>{preferredName || "-"}</dd>
           </div>
           <div style={{ display: "flex", gap: "1ch" }}>
             <dt>{gettext("Pronouns:")}</dt>
-            <dd>{pronouns}</dd>
+            <dd>{pronouns || "-"}</dd>
           </div>
           <div style={{ display: "flex", gap: "1ch" }}>
             <dt>{gettext("Date of birth:")}</dt>
@@ -65,7 +65,7 @@ export default function Overview({
       </div>
       <div style={{ display: "flex", gap: "1ch" }}>
         <dt>{gettext("Phone:")}</dt>
-        <dd>{phone}</dd>
+        <dd>{phone || "-"}</dd>
       </div>
       <div style={{ display: "flex", gap: "1ch" }}>
         <dt>{gettext("Address:")}</dt>

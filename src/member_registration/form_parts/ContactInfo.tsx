@@ -42,7 +42,11 @@ export default function ContactInfo({
           autoComplete="street-address"
           name="street"
           onChange={(event) => setStreet(event.target.value)}
+          required
         />
+        <Form.Control.Feedback type="invalid">
+          {gettext("Please specify the street address.")}
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("Postcode")}</Form.Label>
@@ -52,7 +56,11 @@ export default function ContactInfo({
           autoComplete="postal-code"
           name="postcode"
           onChange={(event) => setPostcode(event.target.value)}
+          required
         />
+        <Form.Control.Feedback type="invalid">
+          {gettext("Please specify the postal code.")}
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("City")}</Form.Label>
@@ -62,7 +70,11 @@ export default function ContactInfo({
           name="city"
           autoComplete="address-level2"
           onChange={(event) => setCity(event.target.value)}
+          required
         />
+        <Form.Control.Feedback type="invalid">
+          {gettext("Please specify the town or city name.")}
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("Country")}</Form.Label>
@@ -72,7 +84,11 @@ export default function ContactInfo({
           name="country"
           autoComplete="country-name"
           onChange={(event) => setCountry(event.target.value)}
+          required
         />
+        <Form.Control.Feedback type="invalid">
+          {gettext("Please specify the country name.")}
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("E-mail")}</Form.Label>
@@ -84,6 +100,9 @@ export default function ContactInfo({
           autoComplete="email"
           required
         />
+        <Form.Control.Feedback type="invalid">
+          {gettext("Please provide a valid e-mail address.")}
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("Phone number")}</Form.Label>

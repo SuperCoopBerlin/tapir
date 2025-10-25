@@ -1,6 +1,5 @@
-import { Alert, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { SHARE_PRICE } from "../constants";
-import { InfoCircle } from "react-bootstrap-icons";
 
 declare let gettext: (english_text: string) => string;
 
@@ -32,13 +31,18 @@ export default function Membership({
           type={"number"}
           value={shares}
           name="shares"
+          min="1"
+          max="1000"
           onChange={(event) => setShares(parseInt(event.target.value))}
           required
         />
-        <p className="mt-2">
+        <Form.Control.Feedback type="invalid">
+          {gettext("You have to join with 1 or more shares.")}
+        </Form.Control.Feedback>
+        <Form.Text className="mt-2">
           {gettext("You are joining with")}{" "}
           <strong>{shares * SHARE_PRICE}€</strong> {gettext("worth of shares.")}
-        </p>
+        </Form.Text>
       </Form.Group>
       <h6 className="mt-4 mb-3">{gettext("Choose your membership type")}</h6>
       <Form.Group className={"mt-2"}>
@@ -60,15 +64,12 @@ export default function Membership({
           onChange={(event) => setIsInvesting(event.target.checked)}
           required
         />
+        <Form.Text>
+          {gettext(
+            `Investing members are supporters of the Cooperative. They cannot vote in the General Assembly and cannot use the services of the Cooperative.`,
+          )}
+        </Form.Text>
       </Form.Group>
-      <Alert variant="info" style={{ display: "flex", gap: "0.5rem" }}>
-        <div>
-          <InfoCircle />
-        </div>
-        {gettext(
-          `Investing members are supporters of the Cooperative. They cannot vote in the General Assembly and cannot use the services of the Cooperative.`,
-        )}
-      </Alert>
       <h6 className="mt-4 mb-3">{gettext("Personal details")}</h6>
       <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("What is your name?")}</Form.Label>
@@ -81,6 +82,9 @@ export default function Membership({
           autoComplete="name"
           required
         />
+        <Form.Control.Feedback type="invalid">
+          {gettext("Please specify your full name.")}
+        </Form.Control.Feedback>
       </Form.Group>
     </>
   );

@@ -54,6 +54,9 @@ export default function PersonalInfo({
           autoComplete="bday"
           required
         />
+        <Form.Control.Feedback type="invalid">
+          {gettext("Please specify your date of birth.")}
+        </Form.Control.Feedback>
       </Form.Group>
     </>
   );
