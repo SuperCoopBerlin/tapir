@@ -79,6 +79,10 @@
                                    class="{% tapir_button_link %}">
                                     <span class="material-icons">print</span>
                                 </a>
+                                <a href="{% url 'shifts:shift_day_printable' day|date:'d-m-y' %}"
+                                   class="{% tapir_button_link_to_action %}">
+                                    <span class="material-icons">cancel</span>{% translate 'Cancel shifts for entire day' %}
+                                </a>
                             {% endif %}
                         </h6>
                         {% for shift in shift_infos %}

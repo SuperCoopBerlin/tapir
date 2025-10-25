@@ -6377,7 +6377,7 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #~ msgid ""
 #~ "\n"
 #~ "        <p>Dear %(user_display_name)s,</p>\n"
-#~ "        <p>\n"
+#~ "        <p>\nhome/ph/dev/tapir/tapir/"
 #~ "            we've just created an account for you in our %(coop_name)s member system. Here you can view your upcoming shifts,\n"
 #~ "            book an additional shift if you'd like or mark your shift as “looking for a stand-in” (for example when you go\n"
 #~ "            on vacation).\n"
@@ -6731,3 +6731,7 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 
 #~ msgid "Please enter your email address, we will send you instructions to reset your password."
 #~ msgstr "Bitte gib deine E-Mail-Adresse ein. Wir schicken dir dann eine Anleitung, wie du dein Passwort zurücksetzen kannst."
+
+#: shifts/templates/shifts/shift_calendar_template.html:85
+msgid "Cancel shifts for entire day"
+msgstr "Alle Schichten für den Tag absagen"
