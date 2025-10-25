@@ -41,9 +41,6 @@ export default function Declarations({
           type={"checkbox"}
           id="accepts-membership"
           label={`${gettext("I hereby request membership in the SuperCoop. I would like to take part with")} ${shares} ${gettext("share(s).")}`}
-          //           label={gettext(`
-          // Ich beantrage hiermit die Aufnahme in die SuperCoop. Ich möchte mich mit insgesamt ${shares} Anteil(en) an der Genossenschaft beteiligen.
-          // `)}
           checked={acceptsMembership}
           name="accepts-membership"
           onChange={(event) => setAcceptsMembership(event.target.checked)}
@@ -52,18 +49,15 @@ export default function Declarations({
         <p className="ms-4 mt-2">
           {gettext(
             "In accordance with the bylaws and the law, I agree to purchase shares at a price of",
-            // "Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen in Höhe von",
           )}{" "}
           <strong>{SHARE_PRICE}€</strong>
           {gettext(" per share, as well as the membership fee of ")}
-          {/*{gettext(" je Geschäftsanteil plus einem Eintrittsgeld in Höhe von ")}*/}
           <strong>{MEMBERSHIP_FEE}€</strong>
           {gettext(
             ", which will be used to cover administrative costs. I agree to transfer ",
-            // " zu leisten, das der Deckung von Verwaltungskosten dient. Insgesamt verpflichte ich mich daher, ",
           )}{" "}
           <strong>{shares * SHARE_PRICE + MEMBERSHIP_FEE}€</strong>
-          {gettext(" in total")}.{/*{gettext(" zu leisten")}.*/}
+          {gettext(" in total")}.
         </p>
       </Form.Group>
       <Form.Group className={"mt-2"}>
@@ -73,7 +67,6 @@ export default function Declarations({
           label={gettext(
             `I have been provided with a copy of the Bylaws of SuperCoop (either in digital or print form), which can be accessed below:`,
           )}
-          // label={gettext(`Die Satzung von SuperCoop ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:`)}
           checked={acceptsConstitution}
           name="accepts-constitution"
           onChange={(event) => setAcceptsConstitution(event.target.checked)}
@@ -95,12 +88,6 @@ The long membership period helps secure financial stability and is an important 
 which is oriented towards long-term goals. A transfer of shares in the Cooperative in accordance with the Bylaws is allowed before the
 end of the minimum membership period.
 `)}
-          //           label={gettext(`
-          // Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von 3 Jahren zum Ende des Geschäftsjahres
-          // bestimmt. Die lange Laufzeit dient zur finanziellen Stabilität und ist ein wesentlicher Kern des
-          // Genossenschaftsprinzips, das auf langfristige Ziele ausgerichtet ist. Eine Übertragung von Geschäftsanteilen
-          // ist auch vorher bereits möglich und in der Satzung geregelt.
-          // `)}
           checked={acceptsPeriod}
           name="accepts-period"
           onChange={(event) => setAcceptsPeriod(event.target.checked)}
@@ -114,7 +101,6 @@ end of the minimum membership period.
           label={gettext(
             `I agree to pay the payment(s) via bank transfer to the account specified below:`,
           )}
-          // label={gettext(`Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen:`)}
           checked={acceptsPayment}
           name="accepts-payment"
           onChange={(event) => setAcceptsPayment(event.target.checked)}

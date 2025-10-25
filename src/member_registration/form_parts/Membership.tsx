@@ -63,7 +63,6 @@ export default function Membership({
       <p>
         {gettext(
           `Investing members are supporters of the Cooperative. They cannot vote in the General Assembly and cannot use the services of the Cooperative.`,
-          // `Investierende Mitglieder sind fördernde Mitglieder. Sie haben kein Stimmrecht in der Generalversammlung und können die Leistungen der Genossenschaft nicht nutzen.`,
         )}
       </p>
       <h6 className="mt-4 mb-3">{gettext("Personal details")}</h6>

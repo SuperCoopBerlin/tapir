@@ -8,7 +8,11 @@ type Props = {
   setIsInvesting: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function JoiningAs({ isCompany, setIsCompany }: Props) {
+export default function JoiningAs({
+  isCompany,
+  setIsCompany,
+  setIsInvesting,
+}: Props) {
   return (
     <Form.Group className={"mt-3 mb-3"}>
       <h6 className="mt-4 mb-3">

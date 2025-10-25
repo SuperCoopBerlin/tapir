@@ -38,7 +38,7 @@ export default function Overview({
       {isCompany && (
         <>
           <div style={{ display: "flex", gap: "1ch" }}>
-            <dt>{gettext("CompanyName:")}</dt>
+            <dt>{gettext("Company Name:")}</dt>
             <dd>{companyName}</dd>
           </div>
         </>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 14:21+0200\n"
+"POT-Creation-Date: 2025-10-25 18:48+0200\n"
 "PO-Revision-Date: 2024-11-05 11:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -91,73 +91,259 @@ msgstr ""
 msgid "Graph"
 msgstr ""
 
-#: dist/assets/member_registration-Bwxov6eP.js:1
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "How would you like to be addressed? (optional)"
+msgstr "Wie möchtest du angesprochen werden? (optional)"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Your preferred name or nickname"
+msgstr "Dein preferierter Name oder Spitzname"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "What are your pronouns?"
+msgstr "Welche sind deine Pronomen?"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "(Optional)"
+msgstr "(optional)"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "What is your date of birth?"
+msgstr "Was ist dein Geburtsdatum?"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "What is your company name?"
+msgstr "Wie heißt deine Firma?"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Please enter the official company name"
+msgstr "Bitte, gebe den offiziellen Name der Firma an"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Choose your entry shares"
+msgstr "Mitgliedschaftsanteile"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "How many shares would you like to join with?"
+msgstr "Mit wie vielen Anteilen möchtest du die Genossenschaft beitreten?"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "You are joining with"
+msgstr "Du tretest die Genossenschaft mit Anteil(en) im Wert von"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "worth of shares."
+msgstr ""
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Choose your membership type"
+msgstr "Wähle deinen Mitgliedschaftsstatus"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Active member"
+msgstr "Aktives Mitglied"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Investing member"
+msgstr "Investierendes Mitglied"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Investing members are supporters of the Cooperative. They cannot vote in the General Assembly and cannot use the services of the Cooperative."
+msgstr "Investierende Mitglieder sind fördernde Mitglieder. Sie haben kein Stimmrecht in der Generalversammlung und können die Leistungen der Genossenschaft nicht nutzen."
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+#, fuzzy
+#| msgid "Member details"
+msgid "Personal details"
+msgstr "Mitgliedsdetails"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "What is your name?"
+msgstr "Was ist dein Name?"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "First name and last name"
+msgstr "Vor- und Nachname"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Are you joining as an individual or company?"
+msgstr "Beteiligst du dich als Einzelperson oder Firma?"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Individual"
+msgstr "Einzelperson"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Company"
+msgstr "Firma"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Address & Contact Info"
+msgstr "Adresse & Kontakt"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Street & house number"
+msgstr "Straße & Hausnummer"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Postcode"
+msgstr "PLZ"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "City"
+msgstr "Ort"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Country"
+msgstr "Land"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "E-mail"
+msgstr "E-mail"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Phone number"
+msgstr "Telefonnummer"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+#, fuzzy
+#| msgid "Name"
+msgid "Name:"
+msgstr "Name"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Company Name:"
+msgstr "Firmenname:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Preferred name:"
+msgstr "Preferierter Name:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Pronouns:"
+msgstr "Pronomen:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Date of birth:"
+msgstr "Geburtsdatum:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "E-mail:"
+msgstr "E-mail:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Phone:"
+msgstr "Telefonnummer:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Address:"
+msgstr "Adresse:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Declarations"
+msgstr "Erklärungen"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "I hereby request membership in the SuperCoop. I would like to take part with "
+msgstr "Ich beantrage hiermit die Aufnahme in die SuperCoop. Ich möchte mich mit insgesamt "
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid " share(s)."
+msgstr " Anteil(en) an der Genossenschaft beteiligen."
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "In accordance with the bylaws and the law, I agree to purchase shares at a price of"
+msgstr "Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen in Höhe von"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid " per share, as well as the membership fee of "
+msgstr " je Geschäftsanteil plus einem Eintrittsgeld in Höhe von "
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid ", which will be used to cover administrative costs. I agree to transfer "
+msgstr " zu leisten, das der Deckung von Verwaltungskosten dient. Insgesamt verpflichte ich mich daher, "
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid " in total"
+msgstr " zu leisten"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "I have been provided with a copy of the Bylaws of SuperCoop (either in digital or print form), which can be accessed below:"
+msgstr "Die Satzung von SuperCoop ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid "Bylaws"
+msgstr ""
+
+#: dist/assets/member_registration-oNNkl2WY.js:1
+msgid ""
+"\n"
+"I accept that the Bylaws set a minimum membership period of three years, up to the end of the third accounting year.\n"
+"The long membership period helps secure financial stability and is an important part of the cooperative principle,\n"
+"which is oriented towards long-term goals. A transfer of shares in the Cooperative in accordance with the Bylaws is allowed before the\n"
+"end of the minimum membership period.\n"
+msgstr ""
+"\n"
+"Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von 3 Jahren zum Ende des Geschäftsjahres"
+"bestimmt. Die lange Laufzeit dient zur finanziellen Stabilität und ist ein wesentlicher Kern des"
+"Genossenschaftsprinzips, das auf langfristige Ziele ausgerichtet ist. Eine Übertragung von Geschäftsanteilen"
+"ist auch vorher bereits möglich und in der Satzung geregelt.\n"
+
+#: dist/assets/member_registration-oNNkl2WY.js:6
+msgid "I agree to pay the payment(s) via bank transfer to the account specified below:"
+msgstr "Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:6
+msgid "Account Owner"
+msgstr "Kontoinhaber"
+
+#: dist/assets/member_registration-oNNkl2WY.js:6
+msgid "Subject"
+msgstr "Betreff"
+
+#: dist/assets/member_registration-oNNkl2WY.js:6
+msgid ""
+"\n"
+"I accept the Data Processing Agreement listed below:\n"
+msgstr "Ich nehme die Datenschutzerklärung zur Kenntnis:"
+
+#: dist/assets/member_registration-oNNkl2WY.js:8
+msgid ""
+"\n"
+"Welcome to SuperCoop! We're excited to welcome you as a new member of our cooperative.\n"
+"Please fill out the form below so we can process your application.\n"
+msgstr ""
+"\n"
+"Herzlich Wilkommen bei SuperCoop! Wir freuen uns, dich als Mitglied unserer Genossenschaft begrüßen zu dürfen.\n"
+"Bitte, fülle das folgende Formular aus, damit wir deinen Antrag bearbeiten können.\n"
+
+#: dist/assets/member_registration-oNNkl2WY.js:11
 msgid "Become a SuperCoop Member!"
 msgstr "Werde SuperCoop-Mitglied!"
 
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "member_registration_welcome_text"
-msgstr ""
+#: dist/assets/member_registration-oNNkl2WY.js:11
+msgid "Step 1 - Your Membership"
+msgstr "Schritt 1 - Deine Mitgliedschaft"
 
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "What is your name?"
-msgstr ""
+#: dist/assets/member_registration-oNNkl2WY.js:11
+msgid "Next - Overview & Declarations"
+msgstr "Weiter zur Übersicht und Erklärungen"
 
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "First name and last name"
-msgstr ""
+#: dist/assets/member_registration-oNNkl2WY.js:11
+msgid "Step 2 - Overview & Declarations"
+msgstr "Schritt 2 - Übersicht & Erklärungen"
 
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "How would you like to be addressed?"
-msgstr ""
+#: dist/assets/member_registration-oNNkl2WY.js:11
+msgid "e.g. payment in installments, including payment periods"
+msgstr "z.B. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle"
 
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "Your preferred name or nickname"
-msgstr ""
+#: dist/assets/member_registration-oNNkl2WY.js:11
+msgid "Back"
+msgstr "Zurück"
 
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "What are your pronouns?"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "(Optional)"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "What is your date of birth?"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "What is your address?"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "Street & house number"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "Postcode"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "City"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "Country"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "Contact info"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "E-mail"
-msgstr ""
-
-#: dist/assets/member_registration-Bwxov6eP.js:1
-msgid "Phone number"
-msgstr ""
+#: dist/assets/member_registration-oNNkl2WY.js:11
+msgid "Submit your application"
+msgstr "Kostenpflichtig absenden"
 
 #: dist/assets/welcome_desk-Bf3fsVAG.js:1
 msgid "Use the search field on the top right."

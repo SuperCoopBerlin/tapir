@@ -136,7 +136,7 @@ const MemberRegistration: React.FC = () => {
                   <Form.Group className={"mt-5"}>
                     <TapirButton
                       icon={ChevronRight}
-                      text={gettext("Next")}
+                      text={gettext("Next - Overview & Declarations")}
                       variant={"primary"}
                       onClick={() => setStage(RegistrationStage.TWO)}
                     />
@@ -185,7 +185,6 @@ const MemberRegistration: React.FC = () => {
                   as="textarea"
                   id="other-comments"
                   placeholder={`(${gettext("e.g. payment in installments, including payment periods")})`}
-                  // placeholder={`(${gettext("z.B. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle")})`}
                   value={otherComments}
                   name="other-comments"
                   onChange={(event) => setOtherComments(event.target.value)}
@@ -204,7 +203,7 @@ const MemberRegistration: React.FC = () => {
                 />
                 <TapirButton
                   icon={Send}
-                  text={gettext("Kostenpflichting absenden")}
+                  text={gettext("Submit your application")}
                   variant={"primary"}
                   onClick={onConfirmRegister}
                   disabled={
