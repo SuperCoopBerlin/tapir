@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { Form } from "react-bootstrap";
+import { MIN_REGISTRATION_AGE } from "../constants";
 
 declare let gettext: (english_text: string) => string;
 
@@ -19,6 +21,16 @@ export default function PersonalInfo({
   dob,
   setDOB,
 }: Props) {
+  const dobMax = useMemo(() => {
+    const max = new Date();
+    max.setFullYear(max.getFullYear() - MIN_REGISTRATION_AGE);
+
+    const yyyy = max.getFullYear().toString().padStart(4, "0");
+    const mm = max.getMonth().toString().padStart(2, "0");
+    const dd = max.getDay().toString().padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  }, []);
+
   return (
     <>
       <Form.Group className={"mt-2"}>
@@ -52,10 +64,13 @@ export default function PersonalInfo({
           name="dob"
           onChange={(event) => setDOB(event.target.value)}
           autoComplete="bday"
+          max={dobMax}
           required
         />
         <Form.Control.Feedback type="invalid">
-          {gettext("Please specify your date of birth.")}
+          {gettext(
+            "Please specify your date of birth. You must be 18 years or older to become a member.",
+          )}
         </Form.Control.Feedback>
       </Form.Group>
     </>

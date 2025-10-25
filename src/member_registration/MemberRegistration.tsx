@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Card, Form } from "react-bootstrap";
 import { useApi } from "../hooks/useApi.ts";
 import { CoopApi } from "../api-client/index.ts";
@@ -47,6 +47,16 @@ const MemberRegistration: React.FC = () => {
   const [acceptsPrivacy, setAcceptsPrivacy] = useState(false);
   const [otherComments, setOtherComments] = useState("");
   const [validated, setValidated] = useState(false);
+
+  const stageTwoForm = useRef<HTMLFormElement | null>(null);
+
+  useEffect(() => {
+    if (stageTwoForm.current && stage === RegistrationStage.TWO) {
+      (stageTwoForm.current as HTMLFormElement).scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  }, [stage]);
 
   function onConfirmRegister() {
     setLoading(true);
@@ -158,6 +168,7 @@ const MemberRegistration: React.FC = () => {
         )}
         {stage === RegistrationStage.TWO && (
           <Form
+            ref={stageTwoForm}
             className={"mt-2"}
             style={{ width: "100%", maxWidth: "700px" }}
             autoComplete="on"
