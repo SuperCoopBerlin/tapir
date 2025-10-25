@@ -292,3 +292,21 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
             must_be_in=owners_who_attended,
             must_be_out=owners_who_did_not_attend,
         )
+
+    def test_join_date_filter(self):
+        # Create ShareOwners with different share ownership start dates
+        share_owner_1 = ShareOwnerFactory.create()
+        ShareOwnership.objects.create(share_owner=share_owner_1, start_date=datetime.date(2023, 1, 1))
+        
+        share_owner_2 = ShareOwnerFactory.create()
+        ShareOwnership.objects.create(share_owner=share_owner_2, start_date=datetime.date(2023, 6, 1))
+        
+        share_owner_3 = ShareOwnerFactory.create()
+        ShareOwnership.objects.create(share_owner=share_owner_3, start_date=datetime.date(2024, 1, 1))
+    
+        # Test filtering by share ownership start date range
+        self.visit_view(
+            {"join_date_start": "2023-01-01", "join_date_end": "2023-12-31"},
+            must_be_in=[share_owner_1, share_owner_2],
+            must_be_out=[share_owner_3],
+        )
