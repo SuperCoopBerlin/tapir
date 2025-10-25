@@ -343,7 +343,7 @@ msgid ""
 "Please fill out the form below so we can process your application.\n"
 msgstr ""
 "\n"
-"Herzlich Wilkommen bei SuperCoop! Wir freuen uns, dich als Mitglied unserer Genossenschaft begrüßen zu dürfen.\n"
+"Herzlich Willkommen bei SuperCoop! Wir freuen uns, dich bald als Mitglied unserer Genossenschaft begrüßen zu dürfen.\n"
 "Bitte, fülle das folgende Formular aus, damit wir deinen Antrag bearbeiten können.\n"
 
 #: dist/assets/member_registration-BE6qeNen.js:11
