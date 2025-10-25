@@ -141,6 +141,11 @@ urlpatterns = [
         name="statistics",
     ),
     path(
+        "product_wishlist",
+        views.product_wishlistView.as_view(),
+        name="product_wishlist",
+    ),
+    path(
         "about",
         views.AboutView.as_view(),
         name="about",

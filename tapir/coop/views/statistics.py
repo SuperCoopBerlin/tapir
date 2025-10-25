@@ -265,6 +265,10 @@ class AboutView(TemplateView):
     template_name = "coop/about.html"
 
 
+class product_wishlistView(TemplateView):
+    template_name = "coop/product_wishlist.html"
+
+
 class MemberStatusUpdatesJsonView(BaseLineChartView):
     dates_from_first_share_to_today = None
 

@@ -1,0 +1,31 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% block title %}
+    {% translate "About Tapir" %}
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="card mb-2">
+            <h5 class="card-header">
+                <span>{% translate "Product Wishes" %}</span>
+            </h5>
+            <div class="card-body">
+                <p>Dear comrades,</p>
+                <p>
+                    Product wishes can be entered in the SuperCoop next to the glass door at the cash registers. Please write down all the details you can think of — whether organic/conventional, package size or unpackaged, brand, or desired price.
+                </p>
+                <p>There is currently no digital way to express product wishes. We are working on it!</p>
+                <p>
+                    Currently, wishes are digitalised by the welcome desk and processed by the working group product wishes. On the digitised list, you can see the status of each individual request. This is where we need your help: if your wish has not interpreted correctly or more information are needed, please add comments to the list!
+                </p>
+                <p>
+                    The link to the google sheets for product wishes: <a href="https://docs.google.com/spreadsheets/d/1ry66YxaD2XEQLBu4GP7hmzPX-dM1dTgUX3qJO8fM8Wk/edit?usp=share_link">product wish list</a>
+                </p>
+                <p>
+                    Even if not every single product makes it into the store, this allows us to learn about your requests and tailor our product range even better.
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

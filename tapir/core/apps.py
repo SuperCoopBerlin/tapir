@@ -68,8 +68,15 @@ class CoreConfig(AppConfig):
         )
 
         misc_group.add_link(
+            display_name=_("product wish list"),
+            material_icon="feed",
+            url=reverse_lazy("coop:product_wishlist"),
+            ordering=7,
+        )
+
+        misc_group.add_link(
             display_name=_("About tapir"),
             material_icon="help",
             url=reverse_lazy("coop:about"),
-            ordering=7,
+            ordering=8,
         )
