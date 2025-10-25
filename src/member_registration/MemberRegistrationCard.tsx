@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, Send } from "react-bootstrap-icons";
 declare let gettext: (english_text: string) => string;
 
 const SHARE_PRICE = 100;
+const MEMBERSHIP_FEE = 10;
 
 enum RegistrationStage {
   ONE,
@@ -26,11 +27,18 @@ const MemberRegistrationCard: React.FC = () => {
   const [postcode, setPostcode] = useState("");
   const [country, setCountry] = useState("");
   const [dob, setDOB] = useState("");
+  const [phone, setPhone] = useState("");
   const [shares, setShares] = useState(1);
   const [loading, setLoading] = useState(false);
   const [isCompany, setIsCompany] = useState<boolean | null>(null);
   const [isInvesting, setIsInvesting] = useState(false);
   const [stage, setStage] = useState<RegistrationStage>(RegistrationStage.ONE);
+  const [acceptsMembership, setAcceptsMembership] = useState(false);
+  const [acceptsPeriod, setAcceptsPeriod] = useState(false);
+  const [acceptsConstitution, setAcceptsConstitution] = useState(false);
+  const [acceptsPayment, setAcceptsPayment] = useState(false);
+  const [acceptsPrivacy, setAcceptsPrivacy] = useState(false);
+  const [otherComments, setOtherComments] = useState("");
 
   function onConfirmRegister() {
     setLoading(true);
@@ -80,11 +88,12 @@ const MemberRegistrationCard: React.FC = () => {
         </div>
         <Form
           className={"mt-2"}
-          style={{ width: "100%", maxWidth: "500px" }}
+          style={{ width: "100%", maxWidth: "700px" }}
           autoComplete="on"
         >
           {stage === RegistrationStage.ONE && (
             <>
+              <h5>{gettext("Step 1 - Your Membership")}</h5>
               <Form.Group className={"mt-3 mb-3"}>
                 <h6 className="mt-4 mb-3">
                   {gettext("Are you joining as an individual or company?")}
@@ -299,11 +308,11 @@ const MemberRegistrationCard: React.FC = () => {
                   <Form.Group className={"mt-2"}>
                     <Form.Label>{gettext("Phone number")}</Form.Label>
                     <Form.Control
-                      type={"email"}
-                      value={email}
-                      name="email"
-                      onChange={(event) => setEmail(event.target.value)}
-                      autoComplete="email"
+                      type={"text"}
+                      value={phone}
+                      name="phone"
+                      onChange={(event) => setPhone(event.target.value)}
+                      autoComplete="tel"
                     />
                   </Form.Group>
                   <Form.Group className={"mt-5"}>
@@ -320,14 +329,158 @@ const MemberRegistrationCard: React.FC = () => {
           )}
           {stage === RegistrationStage.TWO && (
             <div className="">
+              <h5 className="mb-3">
+                {gettext("Step 2 - Overview & Declarations")}
+              </h5>
+              <dl>
+                <div style={{ display: "flex", gap: "1ch" }}>
+                  <dt>{gettext("Name:")}</dt>
+                  <dd>{name}</dd>
+                </div>
+                <div style={{ display: "flex", gap: "1ch" }}>
+                  <dt>{gettext("Preferred name:")}</dt>
+                  <dd>{preferredName}</dd>
+                </div>
+                <div style={{ display: "flex", gap: "1ch" }}>
+                  <dt>{gettext("Pronouns:")}</dt>
+                  <dd>{pronouns}</dd>
+                </div>
+                <div style={{ display: "flex", gap: "1ch" }}>
+                  <dt>{gettext("Date of birth:")}</dt>
+                  <dd>{new Date(dob).toLocaleDateString()}</dd>
+                </div>
+                <div style={{ display: "flex", gap: "1ch" }}>
+                  <dt>{gettext("E-mail:")}</dt>
+                  <dd>{email}</dd>
+                </div>
+                <div style={{ display: "flex", gap: "1ch" }}>
+                  <dt>{gettext("Phone:")}</dt>
+                  <dd>{phone}</dd>
+                </div>
+                <div style={{ display: "flex", gap: "1ch" }}>
+                  <dt>{gettext("Address:")}</dt>
+                  <dd>{[street, postcode, city, country].join(", ")}</dd>
+                </div>
+              </dl>
+              <h6 className="mt-4 mb-3">{gettext("Declarations")}</h6>
               <Form.Group className={"mt-2"}>
-                <Form.Label>{gettext("Phone number")}</Form.Label>
+                <Form.Check
+                  type={"checkbox"}
+                  id="accepts-membership"
+                  label={gettext(`
+Ich beantrage hiermit die Aufnahme in die SuperCoop. Ich möchte mich mit insgesamt ${shares} Anteil(en) an der Genossenschaft beteiligen.
+`)}
+                  checked={acceptsMembership}
+                  name="accepts-membership"
+                  onChange={(event) =>
+                    setAcceptsMembership(event.target.checked)
+                  }
+                  required
+                />
+                <p className="ms-4 mt-2">
+                  Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen
+                  Zahlungen in Höhe von <strong>{SHARE_PRICE}€</strong> je
+                  Geschäftsanteil plus einem Eintrittsgeld in Höhe von{" "}
+                  <strong>{MEMBERSHIP_FEE}€</strong> zu leisten, das der Deckung
+                  von Verwaltungskosten dient. Insgesamt verpflichte ich mich
+                  daher,{" "}
+                  <strong>{shares * SHARE_PRICE + MEMBERSHIP_FEE}€</strong> zu
+                  leisten.
+                </p>
+              </Form.Group>
+              <Form.Group className={"mt-2"}>
+                <Form.Check
+                  type={"checkbox"}
+                  id="accepts-constitution"
+                  label={gettext(`
+  Die Satzung von SuperCoop ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
+`)}
+                  checked={acceptsConstitution}
+                  name="accepts-constitution"
+                  onChange={(event) =>
+                    setAcceptsConstitution(event.target.checked)
+                  }
+                  required
+                />
+                <p className="ms-4 mt-2">
+                  <a
+                    href="https://supercoop.de/unsere-genossenschaft/"
+                    target="_blank"
+                  >
+                    SuperCoop - Satzung
+                  </a>
+                </p>
+              </Form.Group>
+              <Form.Group className={"mt-2"}>
+                <Form.Check
+                  type={"checkbox"}
+                  id="accepts-period"
+                  label={gettext(`
+Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von 3 Jahren zum Ende des Geschäftsjahres
+bestimmt. Die lange Laufzeit dient zur finanziellen Stabilität und ist ein wesentlicher Kern des
+Genossenschaftsprinzips, das auf langfristige Ziele ausgerichtet ist. Eine Übertragung von Geschäftsanteilen
+ist auch vorher bereits möglich und in der Satzung geregelt.
+`)}
+                  checked={acceptsPeriod}
+                  name="accepts-period"
+                  onChange={(event) => setAcceptsPeriod(event.target.checked)}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className={"mt-2"}>
+                <Form.Check
+                  type={"checkbox"}
+                  id="accepts-payment"
+                  label={gettext(`
+Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen:
+`)}
+                  checked={acceptsPayment}
+                  name="accepts-payment"
+                  onChange={(event) => setAcceptsPayment(event.target.checked)}
+                  required
+                />
+                <p className="ms-4 mt-2">
+                  <strong>Kontoinhaber:</strong> SuperCoop Berlin eG
+                  <br />
+                  <strong>IBAN:</strong> DE98 4306 0967 1121 3790 00
+                  <br />
+                  <strong>BIC:</strong> GENODEM1GLS
+                  <br />
+                  <strong>Betreff:</strong> {name}: Anteil und Eintrittsgeld
+                  <br />
+                </p>
+              </Form.Group>
+              <Form.Group className={"mt-2"}>
+                <Form.Check
+                  type={"checkbox"}
+                  id="accepts-privacy"
+                  label={gettext(`
+Ich nehme die Datenschutzerklärung zur Kenntnis:
+`)}
+                  checked={acceptsPrivacy}
+                  name="accepts-privacy"
+                  onChange={(event) => setAcceptsPrivacy(event.target.checked)}
+                  required
+                />
+                <p className="ms-4 mt-2">
+                  <a
+                    href="https://supercoop.de/Datenschutzerklaerung/"
+                    target="_blank"
+                  >
+                    Datenschutzerklärung
+                  </a>
+                </p>
+              </Form.Group>
+              <Form.Group className={"mt-2"}>
+                <Form.Label>Other comments</Form.Label>
                 <Form.Control
-                  type={"email"}
-                  value={email}
-                  name="email"
-                  onChange={(event) => setEmail(event.target.value)}
-                  autoComplete="email"
+                  as="textarea"
+                  id="other-comments"
+                  placeholder="(z.B. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle)"
+                  value={otherComments}
+                  name="other-comments"
+                  onChange={(event) => setOtherComments(event.target.value)}
+                  required
                 />
               </Form.Group>
               <div
@@ -345,7 +498,13 @@ const MemberRegistrationCard: React.FC = () => {
                   text={gettext("Kostenpflichting absenden")}
                   variant={"primary"}
                   onClick={onConfirmRegister}
-                  disabled={email.length === 0}
+                  disabled={
+                    !acceptsConstitution ||
+                    !acceptsMembership ||
+                    !acceptsPayment ||
+                    !acceptsPeriod ||
+                    !acceptsPrivacy
+                  }
                   loading={loading}
                 />
               </div>
