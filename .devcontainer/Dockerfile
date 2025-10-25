@@ -6,8 +6,7 @@ ARG USER_UID=1000
 ARG USER_GID=1000
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    PATH=/root/.local/bin:$PATH \
-    POETRY_HOME=/opt/poetry
+    PATH=/root/.local/bin:$PATH
 
 # Install system dependencies commonly required for building packages used in this repo
 RUN apt-get update \
@@ -19,6 +18,8 @@ RUN apt-get update \
        gcc \
        libpq-dev \
        libjpeg-dev \
+       libldap2-dev \
+       libsasl2-dev \
        zlib1g-dev \
        libxml2-dev \
        libxslt1-dev \
@@ -31,9 +32,6 @@ RUN apt-get update \
        poppler-utils \
        fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
-
-# Set poetry to not create virtualenvs by default (so dependencies go into the container python)
-RUN poetry config virtualenvs.create false
 
 # Create a non-root user to match VS Code's default "vscode" username
 RUN groupadd --gid ${USER_GID} ${USERNAME} \

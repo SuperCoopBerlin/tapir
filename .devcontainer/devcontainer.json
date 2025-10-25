@@ -25,10 +25,10 @@
     }
   },
   "settings": {
-    "python.defaultInterpreterPath": "/usr/local/bin/python",
+    "python.defaultInterpreterPath": "/workspace/.venv/bin/python",
     "python.formatting.provider": "black",
     "editor.formatOnSave": true
   },
-  "postCreateCommand": "poetry config virtualenvs.create false && poetry install --no-interaction",
+  "postCreateCommand": "poetry config virtualenvs.create true --local && poetry config virtualenvs.in-project true --local && poetry install --no-interaction --with dev",
   "shutdownAction": "stopContainer"
 }
