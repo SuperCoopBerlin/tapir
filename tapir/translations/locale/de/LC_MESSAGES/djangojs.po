@@ -113,7 +113,7 @@ msgstr "Was ist dein Geburtsdatum?"
 
 #: dist/assets/member_registration-DAYt42qV.js:1
 msgid "Please specify your date of birth. You must be 18 years or older to become a member."
-msgstr ""
+msgstr "Bitte gib dein Geburtsdatum an. Du musst mindestens 18 Jahre alt sein, um Mitglied zu werden."
 
 #: dist/assets/member_registration-DAYt42qV.js:1
 msgid "What is your company name?"
