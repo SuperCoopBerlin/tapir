@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-23 11:07+0200\n"
+"POT-Creation-Date: 2025-10-25 17:02+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2972,6 +2972,18 @@ msgstr ""
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
 msgstr ""
 
+#: shifts/emails/shift_confirmed_email.py:22
+#, fuzzy
+#| msgid "Shift missed"
+msgid "Shift confirmed"
+msgstr "Schicht versäumt"
+
+#: shifts/emails/shift_confirmed_email.py:26
+#, fuzzy
+#| msgid "Sent to a member when the accounts gets created."
+msgid "Sent to a member when the member office marks the shift as confirmed"
+msgstr "Wird an ein Mitglied bei Accounterstellung gesendet"
+
 #: shifts/emails/shift_missed_email.py:22
 msgid "Shift missed"
 msgstr "Schicht versäumt"
@@ -3506,6 +3518,47 @@ msgid ""
 msgstr ""
 "\n"
 "    Dein Tapir-Konto wurde eingefroren\n"
+
+#: shifts/templates/shifts/email/shift_confirmed.body.html:6
+#, fuzzy, python-format
+msgid ""
+"\n"
+"        <p>Hi %(display_name_short)s,</p>\n"
+"\n"
+"        <p>This is an automated email from SuperCoop.</p>\n"
+"\n"
+"        <p>\n"
+"        You successfully completed your shift on %(shift_display_name)s! Thank you for your work and for keeping our SuperCoop running. The shift has bin credited to your Tapir account. \n"
+"        See you next time!\n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"            Cooperative Greetings,<br />\n"
+"            The Membership Office\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
+"    <p>Hallo %(display_name_short)s,</p>\n"
+"\n"
+"    <p>Dies ist eine automatische E-Mail von %(coop_name)s.</p>\n"
+"\n"
+"    <p>\n"
+"        Du hast deine Schicht am %(shift_display_name)s erfolgreich erledigt! Danke, dass du dabei warst und unsere SuperCoop am Laufen hältst. Die Schicht wurde dir in deinem Tapir-Account gutgeschrieben. s.<br/>\n"
+"        Bis zum nächsten Mal!\n"
+"    </p>\n"
+"\n"
+"    <p>Kooperative Grüße,<br /> \n"
+"            Das Mitgliederbüro\n"
+"        </p> "
+
+#: shifts/templates/shifts/email/shift_confirmed.subject.html:2
+msgid ""
+"\n"
+"    You completed your shift\n"
+msgstr ""
+"\n"
+" Du hast eine Schicht erledigt!\n"
 
 #: shifts/templates/shifts/email/shift_missed.body.html:6
 #, python-format
@@ -4629,23 +4682,23 @@ msgstr "Keine"
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views/attendance.py:197 shifts/views/attendance.py:341
+#: shifts/views/attendance.py:206 shifts/views/attendance.py:350
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:203 shifts/views/attendance.py:347
+#: shifts/views/attendance.py:212 shifts/views/attendance.py:356
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/attendance.py:381
+#: shifts/views/attendance.py:390
 #, fuzzy, python-format
 #| msgid "Shift attendance: %(name)s"
 msgid "ABCD attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:388
+#: shifts/views/attendance.py:397
 #, fuzzy, python-format
 #| msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
