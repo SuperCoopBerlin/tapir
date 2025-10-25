@@ -1,5 +1,6 @@
-import { Form } from "react-bootstrap";
+import { Alert, Form } from "react-bootstrap";
 import { SHARE_PRICE } from "../constants";
+import { InfoCircle } from "react-bootstrap-icons";
 
 declare let gettext: (english_text: string) => string;
 
@@ -60,11 +61,14 @@ export default function Membership({
           required
         />
       </Form.Group>
-      <p>
+      <Alert variant="info" style={{ display: "flex", gap: "0.5rem" }}>
+        <div>
+          <InfoCircle />
+        </div>
         {gettext(
           `Investing members are supporters of the Cooperative. They cannot vote in the General Assembly and cannot use the services of the Cooperative.`,
         )}
-      </p>
+      </Alert>
       <h6 className="mt-4 mb-3">{gettext("Personal details")}</h6>
       <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("What is your name?")}</Form.Label>
