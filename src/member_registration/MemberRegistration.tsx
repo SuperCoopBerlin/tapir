@@ -48,12 +48,13 @@ const MemberRegistration: React.FC = () => {
   const [otherComments, setOtherComments] = useState("");
   const [validated, setValidated] = useState(false);
 
-  const stageTwoForm = useRef<HTMLFormElement | null>(null);
+  const topRef = useRef<HTMLHeadingElement | null>(null);
 
   useEffect(() => {
-    if (stageTwoForm.current && stage === RegistrationStage.TWO) {
-      (stageTwoForm.current as HTMLFormElement).scrollIntoView({
+    if (topRef.current) {
+      (topRef.current as HTMLHeadingElement).scrollIntoView({
         behavior: "smooth",
+        block: "start",
       });
     }
   }, [stage]);
@@ -87,7 +88,7 @@ const MemberRegistration: React.FC = () => {
   return (
     <Card>
       <Card.Header>
-        <h5>{gettext("Become a SuperCoop Member!")}</h5>
+        <h5 ref={topRef}>{gettext("Become a SuperCoop Member!")}</h5>
       </Card.Header>
       <Card.Body>
         <Intro />
@@ -168,7 +169,6 @@ const MemberRegistration: React.FC = () => {
         )}
         {stage === RegistrationStage.TWO && (
           <Form
-            ref={stageTwoForm}
             className={"mt-2"}
             style={{ width: "100%", maxWidth: "700px" }}
             autoComplete="on"

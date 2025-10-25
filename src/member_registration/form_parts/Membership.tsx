@@ -33,6 +33,7 @@ export default function Membership({
           name="shares"
           min="1"
           max="1000"
+          style={{ width: "auto" }}
           onChange={(event) => setShares(parseInt(event.target.value))}
           required
         />

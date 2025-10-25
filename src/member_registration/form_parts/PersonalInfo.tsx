@@ -65,6 +65,7 @@ export default function PersonalInfo({
           onChange={(event) => setDOB(event.target.value)}
           autoComplete="bday"
           max={dobMax}
+          style={{ width: "auto" }}
           required
         />
         <Form.Control.Feedback type="invalid">
