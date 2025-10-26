@@ -4,11 +4,23 @@ from tapir.shifts.models import Shift, ShiftAttendance
 
 
 class ShiftCancellationService:
-    """Logic for cancelling shifts handles logic for setting attendance of
-    shift attendees"""
+    """Service for handling canceling a shift and updating attendances for the registered users."""
 
     @staticmethod
     def cancel(shift: Shift):
+        """Cancels the given shift and updates attendances accordingly.
+
+        If the attendance is for an ABCD shift (i.e. has an attendance template
+        linked to the slot template), the attendance is marked as MISSED_EXCUSED.
+        Otherwise, it is marked as CANCELLED.
+
+        Note that the cancellation reason must be set by the caller on the shift
+        object before calling this method. This method saves the modified shift
+        object.
+
+        Args:
+            shift (Shift): The shift to cancel.
+        """
         with transaction.atomic():
             shift.cancelled = True
             shift.save()
