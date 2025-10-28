@@ -11,10 +11,10 @@ RUN apt-get update -y  \
         python3-poetry  \
     && rm -rf /var/lib/apt/lists/*
 
+RUN useradd -m developer
 WORKDIR /app
-COPY . /app
+COPY --chown=developer:developer . /app
 
-RUN useradd -m developer && chown -R developer /app
 USER developer
 
 RUN poetry install  \
