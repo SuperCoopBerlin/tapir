@@ -7,6 +7,7 @@ models/Column.ts
 models/DatapointExport.ts
 models/Dataset.ts
 models/MemberRegistrationRequest.ts
+models/PreferredLanguageEnum.ts
 models/ShareOwnerForWelcomeDesk.ts
 models/index.ts
 runtime.ts

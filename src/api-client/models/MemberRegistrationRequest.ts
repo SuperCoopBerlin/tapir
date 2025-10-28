@@ -13,18 +13,20 @@
  */
 
 import { mapValues } from '../runtime';
+import type { PreferredLanguageEnum } from './PreferredLanguageEnum';
+import {
+    PreferredLanguageEnumFromJSON,
+    PreferredLanguageEnumFromJSONTyped,
+    PreferredLanguageEnumToJSON,
+    PreferredLanguageEnumToJSONTyped,
+} from './PreferredLanguageEnum';
+
 /**
  * 
  * @export
  * @interface MemberRegistrationRequest
  */
 export interface MemberRegistrationRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof MemberRegistrationRequest
-     */
-    email: string;
     /**
      * 
      * @type {string}
@@ -39,20 +41,114 @@ export interface MemberRegistrationRequest {
     lastName: string;
     /**
      * 
+     * @type {boolean}
+     * @memberof MemberRegistrationRequest
+     */
+    isCompany: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof MemberRegistrationRequest
+     */
+    isInvesting: boolean;
+    /**
+     * 
      * @type {number}
      * @memberof MemberRegistrationRequest
      */
-    numberOfCoopShares: number;
+    numShares: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    companyName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    usageName?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    pronouns?: string;
+    /**
+     * 
+     * @type {Date}
+     * @memberof MemberRegistrationRequest
+     */
+    birthdate: Date;
+    /**
+     * 
+     * @type {PreferredLanguageEnum}
+     * @memberof MemberRegistrationRequest
+     */
+    preferredLanguage: PreferredLanguageEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    street: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    city: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    postcode: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    country: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    email: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    phone?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MemberRegistrationRequest
+     */
+    otherComments?: string;
 }
+
+
 
 /**
  * Check if a given object implements the MemberRegistrationRequest interface.
  */
 export function instanceOfMemberRegistrationRequest(value: object): value is MemberRegistrationRequest {
-    if (!('email' in value) || value['email'] === undefined) return false;
     if (!('firstName' in value) || value['firstName'] === undefined) return false;
     if (!('lastName' in value) || value['lastName'] === undefined) return false;
-    if (!('numberOfCoopShares' in value) || value['numberOfCoopShares'] === undefined) return false;
+    if (!('isCompany' in value) || value['isCompany'] === undefined) return false;
+    if (!('isInvesting' in value) || value['isInvesting'] === undefined) return false;
+    if (!('numShares' in value) || value['numShares'] === undefined) return false;
+    if (!('birthdate' in value) || value['birthdate'] === undefined) return false;
+    if (!('preferredLanguage' in value) || value['preferredLanguage'] === undefined) return false;
+    if (!('street' in value) || value['street'] === undefined) return false;
+    if (!('city' in value) || value['city'] === undefined) return false;
+    if (!('postcode' in value) || value['postcode'] === undefined) return false;
+    if (!('country' in value) || value['country'] === undefined) return false;
+    if (!('email' in value) || value['email'] === undefined) return false;
     return true;
 }
 
@@ -66,10 +162,23 @@ export function MemberRegistrationRequestFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'email': json['email'],
         'firstName': json['first_name'],
         'lastName': json['last_name'],
-        'numberOfCoopShares': json['number_of_coop_shares'],
+        'isCompany': json['is_company'],
+        'isInvesting': json['is_investing'],
+        'numShares': json['num_shares'],
+        'companyName': json['company_name'] == null ? undefined : json['company_name'],
+        'usageName': json['usage_name'] == null ? undefined : json['usage_name'],
+        'pronouns': json['pronouns'] == null ? undefined : json['pronouns'],
+        'birthdate': (new Date(json['birthdate'])),
+        'preferredLanguage': PreferredLanguageEnumFromJSON(json['preferred_language']),
+        'street': json['street'],
+        'city': json['city'],
+        'postcode': json['postcode'],
+        'country': json['country'],
+        'email': json['email'],
+        'phone': json['phone'] == null ? undefined : json['phone'],
+        'otherComments': json['other_comments'] == null ? undefined : json['other_comments'],
     };
 }
 
@@ -84,10 +193,23 @@ export function MemberRegistrationRequestFromJSONTyped(json: any, ignoreDiscrimi
 
     return {
         
-        'email': value['email'],
         'first_name': value['firstName'],
         'last_name': value['lastName'],
-        'number_of_coop_shares': value['numberOfCoopShares'],
+        'is_company': value['isCompany'],
+        'is_investing': value['isInvesting'],
+        'num_shares': value['numShares'],
+        'company_name': value['companyName'],
+        'usage_name': value['usageName'],
+        'pronouns': value['pronouns'],
+        'birthdate': ((value['birthdate']).toISOString().substring(0,10)),
+        'preferred_language': PreferredLanguageEnumToJSON(value['preferredLanguage']),
+        'street': value['street'],
+        'city': value['city'],
+        'postcode': value['postcode'],
+        'country': value['country'],
+        'email': value['email'],
+        'phone': value['phone'],
+        'other_comments': value['otherComments'],
     };
 }
 

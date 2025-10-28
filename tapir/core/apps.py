@@ -73,3 +73,10 @@ class CoreConfig(AppConfig):
             url=reverse_lazy("coop:about"),
             ordering=7,
         )
+
+        misc_group.add_link(
+            display_name=_("Become a Member"),
+            material_icon="person_add",
+            url=reverse_lazy("coop:member_self_registration"),
+            ordering=8,
+        )

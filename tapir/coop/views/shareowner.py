@@ -54,6 +54,7 @@ from tapir.coop.forms import (
     ShareOwnershipCreateMultipleForm,
 )
 from tapir.coop.models import (
+    DraftUser,
     ShareOwnership,
     ShareOwner,
     UpdateShareOwnerLogEntry,
@@ -979,5 +980,26 @@ class MemberSelfRegisterApiView(APIView):
             or ShareOwner.objects.filter(email=email).exists()
         ):
             return Response(False)
+
+        user = DraftUser(
+            first_name=serializer.validated_data["first_name"],
+            last_name=serializer.validated_data["last_name"],
+            usage_name=serializer.validated_data.get("usage_name"),
+            pronouns=serializer.validated_data.get("pronouns"),
+            email=serializer.validated_data["email"],
+            phone_number=serializer.validated_data.get("phone"),
+            birthdate=serializer.validated_data["birthdate"],
+            street=serializer.validated_data["street"],
+            postcode=serializer.validated_data["postcode"],
+            city=serializer.validated_data["city"],
+            country=serializer.validated_data["country"],
+            num_shares=serializer.validated_data["num_shares"],
+            is_investing=serializer.validated_data["is_investing"],
+            # TODO: what to do about companies?
+            # is_company=serializer.validated_data["is_company"],
+            preferred_language=serializer.validated_data["preferred_language"],
+        )
+
+        user.save()
 
         return Response(True)
