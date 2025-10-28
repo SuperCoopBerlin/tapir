@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 21:21+0200\n"
+"POT-Creation-Date: 2025-10-28 10:20+0100\n"
 "PO-Revision-Date: 2024-11-05 11:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,295 +19,307 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.5\n"
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Fancy export"
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Source dataset"
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Date"
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference,member_status, is_member_since, compulsory_share, additional_shares, amount_paid, amount_paid_for_entry_fee, amount_paid_for_shares, number_of_paid_shares, number_of_unpaid_shares. For all other fields, the value as it is now is exported, not the value as it was at the given date."
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Add columns to the export"
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Click on a selected column to deselect it."
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Build export for "
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Pick a source dataset"
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Download as CSV"
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Build the export to download it"
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Copy for spreadsheets"
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Build the export to copy it"
 msgstr ""
 
-#: dist/assets/fancy_export-DhZo0sqW.js:3
+#: dist/assets/fancy_export-ByaQoQZ2.js:3
 msgid "Waiting for build"
 msgstr ""
 
-#: dist/assets/fancy_graph-CDgYPUHN.js:18
+#: dist/assets/fancy_graph-DUjb2Yns.js:18
 msgid "Pick which data to display"
 msgstr ""
 
-#: dist/assets/fancy_graph-CDgYPUHN.js:18
+#: dist/assets/fancy_graph-DUjb2Yns.js:18
 msgid "First of month"
 msgstr ""
 
-#: dist/assets/fancy_graph-CDgYPUHN.js:18
+#: dist/assets/fancy_graph-DUjb2Yns.js:18
 msgid "Last of month"
 msgstr ""
 
-#: dist/assets/fancy_graph-CDgYPUHN.js:18
+#: dist/assets/fancy_graph-DUjb2Yns.js:18
 msgid "No colourblindness"
 msgstr ""
 
-#: dist/assets/fancy_graph-CDgYPUHN.js:20
+#: dist/assets/fancy_graph-DUjb2Yns.js:20
 msgid "Graph"
 msgstr ""
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "How would you like to be addressed? (optional)"
 msgstr "Wie möchtest du angesprochen werden? (optional)"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Your preferred name or nickname"
 msgstr "Dein preferierter Name oder Spitzname"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "What are your pronouns?"
 msgstr "Welche sind deine Pronomen?"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "(Optional)"
 msgstr "(optional)"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "What is your date of birth?"
 msgstr "Was ist dein Geburtsdatum?"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Please specify your date of birth. You must be 18 years or older to become a member."
 msgstr "Bitte gib dein Geburtsdatum an. Du musst mindestens 18 Jahre alt sein, um Mitglied zu werden."
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
+msgid "What is your preferred language?"
+msgstr "Welche Sprache bevorzugst du?"
+
+#: dist/assets/member_registration-joocSXhT.js:1
+msgid "Please specify your preferred language."
+msgstr "Bitte gebe deine bevorzugte Sprache an."
+
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "What is your company name?"
 msgstr "Wie heißt deine Firma?"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Please enter the official company name"
 msgstr "Bitte, gebe den offiziellen Name der Firma an"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Please specify the official company name."
 msgstr "Bitte, gebe den offiziellen Name der Firma an"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Choose your entry shares"
 msgstr "Mitgliedschaftsanteile"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "How many shares would you like to join with?"
 msgstr "Mit wie vielen Anteilen möchtest du die Genossenschaft beitreten?"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "You have to join with 1 or more shares."
 msgstr ""
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "You are joining with"
 msgstr "Du tretest die Genossenschaft mit Anteil(en) im Wert von"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "worth of shares."
 msgstr "bei."
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Choose your membership type"
 msgstr "Wähle deinen Mitgliedschaftsstatus"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Active member"
 msgstr "Aktives Mitglied"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Investing member"
 msgstr "Investierendes Mitglied"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Investing members are supporters of the Cooperative. They cannot vote in the General Assembly and cannot use the services of the Cooperative."
 msgstr "Investierende Mitglieder sind fördernde Mitglieder. Sie haben kein Stimmrecht in der Generalversammlung und können die Leistungen der Genossenschaft nicht nutzen."
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Personal details"
 msgstr "Persönliche Angaben"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
-msgid "What is your name?"
-msgstr "Was ist dein Name?"
+#: dist/assets/member_registration-joocSXhT.js:1
+msgid "First name"
+msgstr "Vorname"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
-msgid "First name and last name"
-msgstr "Vor- und Nachname"
+#: dist/assets/member_registration-joocSXhT.js:1
+msgid "Please specify your first name."
+msgstr "Bitte gebe deinen Vornamen an."
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
-msgid "Please specify your full name."
-msgstr "Bitte gebe deinen vollständigen Namen an."
+#: dist/assets/member_registration-joocSXhT.js:1
+msgid "Last name"
+msgstr "Nachname"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
+msgid "Please specify your last name."
+msgstr "Bitte gebe deinen Nachnamen an."
+
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Are you joining as an individual or company?"
 msgstr "Beteiligst du dich als Einzelperson oder Firma?"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Individual"
 msgstr "Einzelperson"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Company"
 msgstr "Firma"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Address & Contact Info"
 msgstr "Adresse & Kontakt"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Street & house number"
 msgstr "Straße & Hausnummer"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Please specify the street address."
 msgstr "Bitte gebe die Straße und Hausnummer an."
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Postcode"
 msgstr "PLZ"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Please specify the postal code."
 msgstr "Bitte gebe die PLZ an."
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "City"
 msgstr "Ort"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Please specify the town or city name."
 msgstr "Bitte gebe den Wohnort an."
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Country"
 msgstr "Land"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Please specify the country name."
 msgstr "Bitte, gebe den Staat, wo du wohnst an"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "E-mail"
 msgstr "E-mail"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Please provide a valid e-mail address."
 msgstr "Bitte gebe eine gültige E-Mail-Adresse."
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Name:"
 msgstr "Name"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Company Name:"
 msgstr "Firmenname:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Preferred name:"
 msgstr "Preferierter Name:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Pronouns:"
 msgstr "Pronomen:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Date of birth:"
 msgstr "Geburtsdatum:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "E-mail:"
 msgstr "E-mail:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Phone:"
 msgstr "Telefonnummer:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Address:"
 msgstr "Adresse:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Declarations"
 msgstr "Erklärungen"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "I hereby request membership in the SuperCoop. I would like to take part with"
 msgstr "Ich beantrage hiermit die Aufnahme in die SuperCoop. Ich möchte mich mit insgesamt "
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "share(s)."
 msgstr " Anteil(en) an der Genossenschaft beteiligen."
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "In accordance with the bylaws and the law, I agree to purchase shares at a price of"
 msgstr "Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen in Höhe von"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid " per share, as well as the membership fee of "
 msgstr " je Geschäftsanteil plus einem Eintrittsgeld in Höhe von "
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid ", which will be used to cover administrative costs. I agree to transfer "
 msgstr " zu leisten, das der Deckung von Verwaltungskosten dient. Insgesamt verpflichte ich mich daher, "
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid " in total"
 msgstr " zu leisten"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "I have been provided with a copy of the Bylaws of SuperCoop (either in digital or print form), which can be accessed below:"
 msgstr "Die Satzung von SuperCoop ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid "Bylaws"
 msgstr "Satzung"
 
-#: dist/assets/member_registration-CxlMmOZg.js:1
+#: dist/assets/member_registration-joocSXhT.js:1
 msgid ""
 "\n"
 "I accept that the Bylaws set a minimum membership period of three years, up to the end of the third accounting year.\n"
@@ -318,25 +330,29 @@ msgstr ""
 "\n"
 "Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von 3 Jahren zum Ende des Geschäftsjahresbestimmt. Die lange Laufzeit dient zur finanziellen Stabilität und ist ein wesentlicher Kern desGenossenschaftsprinzips, das auf langfristige Ziele ausgerichtet ist. Eine Übertragung von Geschäftsanteilenist auch vorher bereits möglich und in der Satzung geregelt.\n"
 
-#: dist/assets/member_registration-CxlMmOZg.js:6
+#: dist/assets/member_registration-joocSXhT.js:6
 msgid "I agree to pay the payment(s) via bank transfer to the account specified below:"
 msgstr "Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:6
+#: dist/assets/member_registration-joocSXhT.js:6
 msgid "Account Owner"
 msgstr "Kontoinhaber"
 
-#: dist/assets/member_registration-CxlMmOZg.js:6
+#: dist/assets/member_registration-joocSXhT.js:6
 msgid "Subject"
 msgstr "Betreff"
 
-#: dist/assets/member_registration-CxlMmOZg.js:6
+#: dist/assets/member_registration-joocSXhT.js:6
+msgid "Amount"
+msgstr "Summe"
+
+#: dist/assets/member_registration-joocSXhT.js:6
 msgid ""
 "\n"
 "I accept the Data Processing Agreement listed below:\n"
 msgstr "Ich nehme die Datenschutzerklärung zur Kenntnis:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:8
+#: dist/assets/member_registration-joocSXhT.js:8
 msgid ""
 "\n"
 "Welcome to SuperCoop! We're excited to welcome you as a new member of our cooperative.\n"
@@ -346,123 +362,124 @@ msgstr ""
 "Herzlich Willkommen bei SuperCoop! Wir freuen uns, dich bald als Mitglied unserer Genossenschaft begrüßen zu dürfen.\n"
 "Bitte, fülle das folgende Formular aus, damit wir deinen Antrag bearbeiten können.\n"
 
-#: dist/assets/member_registration-CxlMmOZg.js:11
+#: dist/assets/member_registration-joocSXhT.js:11
 msgid "Thank you for joining"
 msgstr "Danke für deinen Antrag"
 
-#: dist/assets/member_registration-CxlMmOZg.js:11
+#: dist/assets/member_registration-joocSXhT.js:11
 msgid ""
 "We have received your application and will let you know via e-mail once it has been processed.\n"
 "          Should you have any questions about your membership, please write to"
-msgstr ""
-"Wir haben deine Daten empfangen und sagen dir per E-Mail Bescheid, sobald wir sie bearbeitet haben."
-"Solltest du weitere Fragen zu deiner Mitgliedschaft haben, melde dich bitte bei"
+msgstr "Wir haben deine Daten empfangen und sagen dir per E-Mail Bescheid, sobald wir sie bearbeitet haben.Solltest du weitere Fragen zu deiner Mitgliedschaft haben, melde dich bitte bei"
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "Oops! We could not process your application :("
 msgstr "Hoppla! Bei der Bearbeitung deines Auftrags ist etwas schief gelaufen :("
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "Please try again later. If you keep having issues, please contact the Members Office at"
 msgstr "Versuche es bitte eine Weile später. Sollte wieder ein Fehler auftauchen, melde dich bitte beim Mitgliederbüro:"
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "Become a SuperCoop Member!"
 msgstr "Werde SuperCoop-Mitglied!"
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "Step 1 - Your Membership"
 msgstr "Schritt 1 - Deine Mitgliedschaft"
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "Next - Overview & Declarations"
 msgstr "Weiter zur Übersicht und Erklärungen"
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "Step 2 - Overview & Declarations"
 msgstr "Schritt 2 - Übersicht & Erklärungen"
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "Other comments"
 msgstr "Zusatzinformationen"
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "e.g. payment in installments, including payment periods"
 msgstr "z.B. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle"
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "Back"
 msgstr "Zurück"
 
-#: dist/assets/member_registration-CxlMmOZg.js:12
+#: dist/assets/member_registration-joocSXhT.js:12
 msgid "Submit your application"
 msgstr "Kostenpflichtig absenden"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Use the search field on the top right."
 msgstr "Verwende das Suchfeld oben rechts."
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Name"
 msgstr "Name"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Can shop"
 msgstr "Kann einkaufen"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Yes"
 msgstr "Ja"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "No"
 msgstr "Nein"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Member details"
 msgstr "Mitgliedsdetails"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Member"
 msgstr "Mitgleid"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "yes"
 msgstr "ja"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "no"
 msgstr "nein"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Why this member cannot shop: "
 msgstr "Warum kann dieses Mitglied nicht einkaufen: "
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Co-purchaser: "
 msgstr "Miteinkäufer*in: "
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "None"
 msgstr "Keine"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 #, fuzzy
 #| msgid "Co-purchaser: "
 msgid "Co-purchaser 2: "
 msgstr "Miteinkäufer*in: "
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
 msgstr "Hoppla! Es ist was schiefgegangen. Bitte versuche es nochmal. Wenn das wieder passiert, schreib bitte in der #tapir-Kanal bei Slack mit deine aktuelle Suche: "
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
-#: dist/assets/welcome_desk-Bf3fsVAG.js:1
+#: dist/assets/welcome_desk-BLDFMo7B.js:1
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
+
+#~ msgid "First name and last name"
+#~ msgstr "Vor- und Nachname"
 
 #, fuzzy
 #~| msgid "What is your date of birth?"

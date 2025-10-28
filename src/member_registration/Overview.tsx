@@ -2,7 +2,8 @@ declare let gettext: (english_text: string) => string;
 
 type Props = {
   isCompany: boolean | null;
-  name: string;
+  firstName: string;
+  lastName: string;
   preferredName: string;
   pronouns: string;
   dob: string;
@@ -17,7 +18,8 @@ type Props = {
 
 export default function Overview({
   isCompany,
-  name,
+  firstName,
+  lastName,
   preferredName,
   pronouns,
   dob,
@@ -33,7 +35,7 @@ export default function Overview({
     <dl>
       <div style={{ display: "flex", gap: "1ch" }}>
         <dt>{gettext("Name:")}</dt>
-        <dd>{name}</dd>
+        <dd>{[firstName, lastName].join(" ")}</dd>
       </div>
       {isCompany && (
         <>

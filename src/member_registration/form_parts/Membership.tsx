@@ -1,11 +1,13 @@
-import { Form } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import { SHARE_PRICE } from "../constants";
 
 declare let gettext: (english_text: string) => string;
 
 type Props = {
-  name: string;
-  setName: React.Dispatch<React.SetStateAction<string>>;
+  firstName: string;
+  setFirstName: React.Dispatch<React.SetStateAction<string>>;
+  lastName: string;
+  setLastName: React.Dispatch<React.SetStateAction<string>>;
   shares: number;
   setShares: React.Dispatch<React.SetStateAction<number>>;
   isInvesting: boolean;
@@ -13,8 +15,10 @@ type Props = {
 };
 
 export default function Membership({
-  name,
-  setName,
+  firstName,
+  setFirstName,
+  lastName,
+  setLastName,
   shares,
   setShares,
   isInvesting,
@@ -73,19 +77,36 @@ export default function Membership({
       </Form.Group>
       <h6 className="mt-4 mb-3">{gettext("Personal details")}</h6>
       <Form.Group className={"mt-2"}>
-        <Form.Label>{gettext("What is your name?")}</Form.Label>
-        <Form.Control
-          type={"text"}
-          placeholder={gettext("First name and last name")}
-          value={name}
-          name="name"
-          onChange={(event) => setName(event.target.value)}
-          autoComplete="name"
-          required
-        />
-        <Form.Control.Feedback type="invalid">
-          {gettext("Please specify your full name.")}
-        </Form.Control.Feedback>
+        <Row>
+          <Col>
+            <Form.Control
+              type={"text"}
+              placeholder={gettext("First name")}
+              value={firstName}
+              name="firstName"
+              onChange={(event) => setFirstName(event.target.value)}
+              autoComplete="first-name"
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              {gettext("Please specify your first name.")}
+            </Form.Control.Feedback>
+          </Col>
+          <Col>
+            <Form.Control
+              type={"text"}
+              placeholder={gettext("Last name")}
+              value={lastName}
+              name="lastName"
+              onChange={(event) => setLastName(event.target.value)}
+              autoComplete="last-name"
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              {gettext("Please specify your last name.")}
+            </Form.Control.Feedback>
+          </Col>
+        </Row>
       </Form.Group>
     </>
   );

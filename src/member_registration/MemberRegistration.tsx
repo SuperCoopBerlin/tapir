@@ -14,6 +14,8 @@ import Declarations from "./Declarations.tsx";
 import Intro from "./Intro.tsx";
 import Success from "./Success.tsx";
 import Error from "./Error.tsx";
+import { OTHER_COMMENTS_MAX_LENGTH, PreferredLanguage } from "./constants.ts";
+import { getNavigatorLanguage } from "./util.ts";
 
 declare let gettext: (english_text: string) => string;
 
@@ -31,12 +33,16 @@ const MemberRegistration: React.FC = () => {
   const [shares, setShares] = useState(1);
   const [isCompany, setIsCompany] = useState<boolean | null>(null);
   const [isInvesting, setIsInvesting] = useState(false);
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const [companyName, setCompanyName] = useState("");
   const [preferredName, setPreferredName] = useState("");
   const [pronouns, setPronouns] = useState("");
   const [dob, setDOB] = useState("");
+  const [preferredLanguage, setPreferredLanguage] = useState(
+    getNavigatorLanguage() || PreferredLanguage.GERMAN,
+  );
 
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
@@ -72,10 +78,27 @@ const MemberRegistration: React.FC = () => {
     coopApi
       .coopMemberSelfRegisterCreate({
         memberRegistrationRequest: {
-          email: email,
-          firstName: "placeholder",
-          lastName: "placeholder",
-          numberOfCoopShares: shares,
+          firstName,
+          lastName,
+          isCompany: !!isCompany,
+          isInvesting,
+          numShares: shares,
+
+          companyName,
+          usageName: preferredName,
+          pronouns,
+          birthdate: new Date(dob),
+          preferredLanguage,
+
+          street,
+          city,
+          postcode,
+          country,
+
+          email,
+          phone,
+
+          otherComments,
         },
       })
       .then((result) => {
@@ -90,7 +113,26 @@ const MemberRegistration: React.FC = () => {
         console.error(error);
       })
       .finally(() => setLoading(false));
-  }, [coopApi, email, shares]);
+  }, [
+    city,
+    companyName,
+    coopApi,
+    country,
+    dob,
+    email,
+    firstName,
+    isCompany,
+    isInvesting,
+    lastName,
+    otherComments,
+    phone,
+    postcode,
+    preferredLanguage,
+    preferredName,
+    pronouns,
+    shares,
+    street,
+  ]);
 
   return (
     <Card>
@@ -118,8 +160,10 @@ const MemberRegistration: React.FC = () => {
             {isCompany !== null && (
               <>
                 <Membership
-                  name={name}
-                  setName={setName}
+                  firstName={firstName}
+                  setFirstName={setFirstName}
+                  lastName={lastName}
+                  setLastName={setLastName}
                   shares={shares}
                   setShares={setShares}
                   isInvesting={isInvesting}
@@ -133,6 +177,8 @@ const MemberRegistration: React.FC = () => {
                     setPronouns={setPronouns}
                     dob={dob}
                     setDOB={setDOB}
+                    preferredLanguage={preferredLanguage}
+                    setPreferredLanguage={setPreferredLanguage}
                   />
                 )}
                 {isCompany && (
@@ -189,7 +235,8 @@ const MemberRegistration: React.FC = () => {
             </h5>
             <Overview
               isCompany={isCompany}
-              name={name}
+              firstName={firstName}
+              lastName={lastName}
               preferredName={preferredName}
               pronouns={pronouns}
               dob={dob}
@@ -202,7 +249,8 @@ const MemberRegistration: React.FC = () => {
               phone={phone}
             />
             <Declarations
-              name={name}
+              firstName={firstName}
+              lastName={lastName}
               shares={shares}
               acceptsMembership={acceptsMembership}
               setAcceptsMembership={setAcceptsMembership}
@@ -224,6 +272,7 @@ const MemberRegistration: React.FC = () => {
                 placeholder={`(${gettext("e.g. payment in installments, including payment periods")})`}
                 value={otherComments}
                 name="other-comments"
+                maxLength={OTHER_COMMENTS_MAX_LENGTH}
                 onChange={(event) => setOtherComments(event.target.value)}
               />
             </Form.Group>
@@ -261,7 +310,7 @@ const MemberRegistration: React.FC = () => {
           </Form>
         )}
         {stage === RegistrationStage.SUCCESS && (
-          <Success name={preferredName || name} />
+          <Success name={preferredName || [firstName, lastName].join(" ")} />
         )}
         {stage === RegistrationStage.ERROR && <Error />}
       </Card.Body>

@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Form } from "react-bootstrap";
-import { MIN_REGISTRATION_AGE } from "../constants";
+import { MIN_REGISTRATION_AGE, PreferredLanguage } from "../constants";
 
 declare let gettext: (english_text: string) => string;
 
@@ -11,6 +11,8 @@ type Props = {
   setPronouns: React.Dispatch<React.SetStateAction<string>>;
   dob: string;
   setDOB: React.Dispatch<React.SetStateAction<string>>;
+  preferredLanguage: PreferredLanguage;
+  setPreferredLanguage: React.Dispatch<React.SetStateAction<PreferredLanguage>>;
 };
 
 export default function PersonalInfo({
@@ -20,6 +22,8 @@ export default function PersonalInfo({
   setPronouns,
   dob,
   setDOB,
+  preferredLanguage,
+  setPreferredLanguage,
 }: Props) {
   const dobMax = useMemo(() => {
     const max = new Date();
@@ -53,6 +57,7 @@ export default function PersonalInfo({
           placeholder={gettext("(Optional)")}
           value={pronouns}
           name="pronouns"
+          autoComplete="off"
           onChange={(event) => setPronouns(event.target.value)}
         />
       </Form.Group>
@@ -72,6 +77,24 @@ export default function PersonalInfo({
           {gettext(
             "Please specify your date of birth. You must be 18 years or older to become a member.",
           )}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group className={"mt-2"}>
+        <Form.Label>{gettext("What is your preferred language?")}</Form.Label>
+        <Form.Select
+          value={preferredLanguage}
+          name="preferredLanguage"
+          onChange={(event) =>
+            setPreferredLanguage(event.target.value as PreferredLanguage)
+          }
+          style={{ width: "auto" }}
+          required
+        >
+          <option value={PreferredLanguage.GERMAN}>🇩🇪 Deutsch</option>
+          <option value={PreferredLanguage.ENGLISH}>🇬🇧 English</option>
+        </Form.Select>
+        <Form.Control.Feedback type="invalid">
+          {gettext("Please specify your preferred language.")}
         </Form.Control.Feedback>
       </Form.Group>
     </>

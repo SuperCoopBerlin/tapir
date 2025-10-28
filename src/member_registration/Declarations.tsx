@@ -1,11 +1,13 @@
 import { Form } from "react-bootstrap";
 import { MEMBERSHIP_FEE, SHARE_PRICE, COOP_NAME } from "./constants";
 import DataProcessingAgreement from "./DataProcessingAgreement";
+import { useMemo } from "react";
 
 declare let gettext: (english_text: string) => string;
 
 type Props = {
-  name: string;
+  firstName: string;
+  lastName: string;
   shares: number;
   acceptsMembership: boolean;
   setAcceptsMembership: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +22,8 @@ type Props = {
 };
 
 export default function Declarations({
-  name,
+  firstName,
+  lastName,
   shares,
   acceptsMembership,
   setAcceptsMembership,
@@ -33,6 +36,11 @@ export default function Declarations({
   acceptsPrivacy,
   setAcceptsPrivacy,
 }: Props) {
+  const paymentTotal = useMemo(
+    () => shares * SHARE_PRICE + MEMBERSHIP_FEE,
+    [shares],
+  );
+
   return (
     <>
       <h6 className="mt-4 mb-3">{gettext("Declarations")}</h6>
@@ -56,7 +64,7 @@ export default function Declarations({
           {gettext(
             ", which will be used to cover administrative costs. I agree to transfer ",
           )}{" "}
-          <strong>{shares * SHARE_PRICE + MEMBERSHIP_FEE}€</strong>
+          <strong>{paymentTotal}€</strong>
           {gettext(" in total")}.
         </p>
       </Form.Group>
@@ -114,7 +122,9 @@ end of the minimum membership period.
           <strong>BIC:</strong> GENODEM1GLS
           <br />
           <strong>{gettext("Subject")}:</strong>{" "}
-          <em>{name}: Anteil und Eintrittsgeld</em>
+          <em>{[firstName, lastName].join(" ")}: Anteil und Eintrittsgeld</em>
+          <br />
+          <strong>{gettext("Amount")}:</strong> {paymentTotal}€
           <br />
         </p>
       </Form.Group>

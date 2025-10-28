@@ -5,3 +5,9 @@ export const COOP_STREET = "Oudenarder Straße 16";
 export const COOP_PLACE = "13347 Berlin";
 export const MIN_REGISTRATION_AGE = 18;
 export const EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@supercoop.de";
+export const OTHER_COMMENTS_MAX_LENGTH = 10_000;
+
+export enum PreferredLanguage {
+  ENGLISH = "en",
+  GERMAN = "de",
+}

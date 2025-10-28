@@ -306,20 +306,63 @@ components:
     MemberRegistrationRequest:
       type: object
       properties:
-        email:
-          type: string
-          format: email
         first_name:
           type: string
         last_name:
           type: string
-        number_of_coop_shares:
+        is_company:
+          type: boolean
+        is_investing:
+          type: boolean
+        num_shares:
           type: integer
+        company_name:
+          type: string
+        usage_name:
+          type: string
+        pronouns:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        preferred_language:
+          $ref: '#/components/schemas/PreferredLanguageEnum'
+        street:
+          type: string
+        city:
+          type: string
+        postcode:
+          type: string
+        country:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        other_comments:
+          type: string
       required:
+      - birthdate
+      - city
+      - country
       - email
       - first_name
+      - is_company
+      - is_investing
       - last_name
-      - number_of_coop_shares
+      - num_shares
+      - postcode
+      - preferred_language
+      - street
+    PreferredLanguageEnum:
+      enum:
+      - de
+      - en
+      type: string
+      description: |-
+        * `de` - 🇩🇪 Deutsch
+        * `en` - 🇬🇧 English
     ShareOwnerForWelcomeDesk:
       type: object
       properties:
