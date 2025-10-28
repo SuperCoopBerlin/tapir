@@ -1,34 +1,23 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-docker-compose
 {
-  "name": "tapir (Python 3.13)",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
-  "workspaceFolder": "/workspace",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
-  "remoteUser": "vscode",
-  "forwardPorts": [8000],
-  "containerEnv": {
-    "PYTHONFAULTHANDLER": "1",
-    "POETRY_NO_INTERACTION": "1"
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.black-formatter",
-        "njpwerner.autodocstring",
-        "ms-azuretools.vscode-docker",
-        "ms-python.isort"
-      ]
-    }
-  },
-  "settings": {
-    "python.defaultInterpreterPath": "/workspace/.venv/bin/python",
-    "python.formatting.provider": "black",
-    "editor.formatOnSave": true
-  },
-  "postCreateCommand": "poetry config virtualenvs.create true --local && poetry config virtualenvs.in-project true --local && poetry install --no-interaction --with dev",
-  "shutdownAction": "stopContainer"
+    "name": "tapir",
+
+	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
+	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+	"dockerComposeFile": [
+		"../docker-compose.yml",
+        "docker-compose.dev.override.yml"
+	],
+
+	// The 'service' property is the name of the service for the container that VS Code should
+	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+	"service": "web",
+
+	// The optional 'workspaceFolder' property is the path VS Code should open by default when
+	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
+	"workspaceFolder": "/app",
+    "remoteUser": "developer",
+    "postCreateCommand": "poetry install --with dev",
+    "shutdownAction": "stopCompose",
 }
