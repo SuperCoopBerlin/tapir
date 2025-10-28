@@ -1,6 +1,14 @@
 import { Form } from "react-bootstrap";
+import { countries } from "../constants";
 
 declare let gettext: (english_text: string) => string;
+
+const displayNames = new Intl.DisplayNames(
+  [document.documentElement.getAttribute("lang") ?? navigator.language],
+  {
+    type: "region",
+  },
+);
 
 type Props = {
   street: string;
@@ -78,14 +86,19 @@ export default function ContactInfo({
       </Form.Group>
       <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("Country")}</Form.Label>
-        <Form.Control
-          type="text"
+        <Form.Select
           value={country}
           name="country"
-          autoComplete="country-name"
+          autoComplete="country"
           onChange={(event) => setCountry(event.target.value)}
           required
-        />
+        >
+          {countries.map((code) => (
+            <option key={code} value={code}>
+              {displayNames.of(code)}
+            </option>
+          ))}
+        </Form.Select>
         <Form.Control.Feedback type="invalid">
           {gettext("Please specify the country name.")}
         </Form.Control.Feedback>
@@ -113,6 +126,11 @@ export default function ContactInfo({
           onChange={(event) => setPhone(event.target.value)}
           autoComplete="tel"
         />
+        <Form.Text>
+          {gettext(
+            "German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. +12125552368)",
+          )}
+        </Form.Text>
       </Form.Group>
     </>
   );

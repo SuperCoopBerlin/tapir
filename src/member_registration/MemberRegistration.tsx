@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Card, Form } from "react-bootstrap";
 import { useApi } from "../hooks/useApi.ts";
-import { CoopApi } from "../api-client/index.ts";
+import { CoopApi, MemberRegistrationRequest } from "../api-client/index.ts";
 import TapirButton from "../components/TapirButton.tsx";
 import { ChevronLeft, ChevronRight, Send } from "react-bootstrap-icons";
 import PersonalInfo from "./form_parts/PersonalInfo.tsx";
@@ -45,9 +45,9 @@ const MemberRegistration: React.FC = () => {
   );
 
   const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("Berlin");
   const [postcode, setPostcode] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState("DE");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
@@ -75,31 +75,33 @@ const MemberRegistration: React.FC = () => {
   const onConfirmRegister = useCallback(() => {
     setLoading(true);
 
+    const memberRegistrationRequest: MemberRegistrationRequest = {
+      firstName,
+      lastName,
+      isCompany: !!isCompany,
+      isInvesting,
+      numShares: shares,
+
+      birthdate: new Date(dob),
+      usageName: preferredName,
+      pronouns,
+      preferredLanguage,
+
+      street,
+      city,
+      postcode,
+      country,
+
+      email,
+      phone,
+    };
+
+    if (companyName) memberRegistrationRequest.companyName = companyName;
+    if (otherComments) memberRegistrationRequest.otherComments = otherComments;
+
     coopApi
       .coopMemberSelfRegisterCreate({
-        memberRegistrationRequest: {
-          firstName,
-          lastName,
-          isCompany: !!isCompany,
-          isInvesting,
-          numShares: shares,
-
-          companyName,
-          usageName: preferredName,
-          pronouns,
-          birthdate: new Date(dob),
-          preferredLanguage,
-
-          street,
-          city,
-          postcode,
-          country,
-
-          email,
-          phone,
-
-          otherComments,
-        },
+        memberRegistrationRequest,
       })
       .then((result) => {
         if (result) {

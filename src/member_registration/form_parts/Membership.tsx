@@ -77,6 +77,7 @@ export default function Membership({
       </Form.Group>
       <h6 className="mt-4 mb-3">{gettext("Personal details")}</h6>
       <Form.Group className={"mt-2"}>
+        <Form.Label>{gettext("What is your name?")}</Form.Label>
         <Row>
           <Col>
             <Form.Control
