@@ -1,6 +1,7 @@
 import os
 import os.path
 
+from django.conf import settings
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -90,12 +91,16 @@ class GoogleCalendarEventManager:
 
     @classmethod
     def build_request_body(cls, attendance: ShiftAttendance):
+        description = f"{attendance.slot.shift.get_absolute_url()} {attendance.slot.shift.description}"
+        summary = f"{attendance.slot.shift.name} {attendance.slot.name}"
+        location = f"{settings.COOP_NAME} {settings.COOP_STREET} {settings.COOP_PLACE}"
         return {
             "start": {"dateTime": attendance.slot.shift.start_time.isoformat()},
             "end": {"dateTime": attendance.slot.shift.end_time.isoformat()},
-            "description": attendance.slot.shift.description,
-            "summary": attendance.slot.shift.name,
+            "description": description,
+            "summary": summary,
             "visibility": "private",
+            "location": location,
             "attendees": [
                 {
                     "displayName": attendance.user.get_display_name(

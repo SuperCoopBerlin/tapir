@@ -9,7 +9,7 @@ TIME_ZONE = "Europe/Lisbon"
 
 # FIXME: we probably need to update these for rizoma
 
-EMAIL_ADDRESS_MEMBER_OFFICE = "mitglied@rizomacoop.pt"
+EMAIL_ADDRESS_MEMBER_OFFICE = "gt-membros@rizomacoop.pt"
 EMAIL_ADDRESS_ACCOUNTING_TEAM = "accounting@rizomacoop.pt"
 EMAIL_ADDRESS_ACCOUNTING_SOFTWARE = env.str(
     "EMAIL_ADDRESS_ACCOUNTING_SOFTWARE", default=None
