@@ -58,17 +58,17 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
         # Because the shift views show a lot of shifts,
         # we preload all related objects to avoid doing many database requests.
         # Filter for upcoming shifts the user can attend but isn't already attending
-        
+
         # Create subquery to check if user has required capabilities for any slot in the shift
         user_capabilities = user.shift_user_data.capabilities.values_list('id', flat=True)
-        
+
         # Subquery to find shifts where user can attend at least one slot
         attendable_slots_subquery = ShiftSlot.objects.filter(
             # Slot is available (no valid attendance or looking for stand-in)
-            Q(attendances__isnull=True) | 
+            Q(attendances__isnull=True) |
             Q(attendances__state=ShiftAttendance.State.LOOKING_FOR_STAND_IN),
             # User has required capabilities (if any required)
-            Q(required_capabilities__isnull=True) | 
+            Q(required_capabilities__isnull=True) |
             Q(required_capabilities__in=user_capabilities),
             # User is active member
             shift__start_time__gt=timezone.now(),
@@ -78,7 +78,7 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
             shift__slots__attendances__user=user,
             shift__slots__attendances__state__in=ShiftAttendance.VALID_STATES
         )
-        
+
         # Get upcoming shifts with database-level filtering for availability and user eligibility
         shifts = (
             Shift.objects.prefetch_related("slots")
@@ -110,7 +110,7 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
             .filter(
                 start_time__gte=date_from,
                 start_time__lt=date_to + datetime.timedelta(days=1),
-                
+
                 deleted=False,
                 cancelled=False,
                 # Shift has available slots (not completely full)
@@ -125,55 +125,53 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
             )
             .order_by("start_time")[:200]
         )
-        
+
         # Since we already filtered at database level, we just need to add attendable slots info
         # and deduplicate by slot type for display
         for shift in shifts:
             # Get unique slot types that user can attend
             attendable_slots = []
             seen_slot_types = set()
-            
+
             # Use prefetched data to avoid additional queries
             for slot in shift.slots.all():
                 # Quick check using prefetched data - most filtering already done at DB level
-                if (not slot.get_valid_attendance() or 
-                    slot.get_valid_attendance().state == ShiftAttendance.State.LOOKING_FOR_STAND_IN):
-                    
+                if not slot.get_valid_attendance(): # or
+                    # slot.get_valid_attendance().state == ShiftAttendance.State.LOOKING_FOR_STAND_IN):
+
                     # Use slot name as the type identifier, fallback to shift name if slot has no name
                     slot_type = slot.name if slot.name else shift.name
-                    
+
                     # Only add if we haven't seen this slot type yet for this shift
                     if slot_type not in seen_slot_types:
                         attendable_slots.append(slot)
                         seen_slot_types.add(slot_type)
-            
+
             # Add the attendable slots as an attribute for template use
             shift.attendable_slots = attendable_slots
 
         # Sort shifts by start time for the table display
         shifts = sorted(shifts, key=lambda s: s.start_time)
-        
+
         # Separate urgent shifts (within 7 days and all slots empty) - use database annotation
         now = timezone.now()
         urgent_cutoff = now + datetime.timedelta(days=7)
-        
+
         # Use list comprehension for better performance
         urgent_shifts = [
-            shift for shift in shifts 
-            if (shift.start_time <= urgent_cutoff and 
-                shift.occupied_slots == 0)  # Use the database annotation
-        ][:50]
-        
-        regular_shifts = [
-            shift for shift in shifts 
-            if not (shift.start_time <= urgent_cutoff and 
-                   shift.occupied_slots == 0)
+            shift for shift in shifts
+            if shift.start_time <= urgent_cutoff
         ]
-        
+
+        regular_shifts = [
+            shift for shift in shifts
+            if shift.start_time > urgent_cutoff # and
+            ][:20]
+
         # Calculate total available slots for each category
         total_available_slots = sum(len(shift.attendable_slots) for shift in regular_shifts)
         total_urgent_slots = sum(len(shift.attendable_slots) for shift in urgent_shifts)
-        
+
         context["shifts"] = regular_shifts
         context["urgent_shifts"] = urgent_shifts
         context["total_available_slots"] = total_available_slots
@@ -189,5 +187,5 @@ class UserDashboardView(LoginRequiredMixin,TemplateView):
             }
             for entry in ShiftAccountEntry.objects.filter(user=user).order_by("-date")
         ][:10]
-        
+
         return context

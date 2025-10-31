@@ -31,7 +31,7 @@
                     {% blocktranslate with name='' %}Edit user shift data: {{ name }}{% endblocktranslate %}
                     {% get_display_name_full user %}
                 </a>
-            {% endif %} 
+            {% endif %}
         <div class="card-body d-flex justify-content-between gap-4">
 
             {# ——— Status (étiquette + valeur) ——— #}
@@ -82,7 +82,7 @@
                 <div class="kpi-label">{% translate "Upcoming Shift" %}:</div>
                 <div class="kpi-value">
                     {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
-                    
+
                         {% if next_slot %}
 
                             {{ next_slot.shift.name }} {{ next_slot.name }}
@@ -285,14 +285,14 @@
     {% comment %}
 
         Upcoming Shifts
-    
+
     stolen from user_shifts_overview_tag.html and adapted
 
     {% endcomment %}
 
-    <div class="mb-4" id="user_upcoming_shifts">
-            <h2 class="h3">
-                {% translate 'Upcoming Shifts' %}
+    <div class="mb-5" id="user_upcoming_shifts">
+            <h2 class="h3 mb-3">
+                {% translate 'Your upcoming Shifts' %}
             </h2>
 
             {% comment %} <div class="tab-links mb-4">
@@ -317,7 +317,7 @@
                                 </a>
                             </td>
                             <td>
-                                {{ next_slot.shift.start_time|date:"d/m/Y" }}
+                                {{ next_slot.shift.start_time|date:"D, j. M. y" }}
                             </td>
                             <td>
                                 {{ next_slot.shift.start_time|date:"H\hi" }}
@@ -339,7 +339,152 @@
             </table>
     </div>
 
+    {% comment %}
+        Empty shifts
+    started from shift_calendar_template.html
+    {% endcomment %}
 
+    <div class="mb-4 mt-8">
+
+        <div class="mb-4 d-flex justify-content-between align-items-center">
+            <h2 class="h3">
+            {% translate "Shifts looking for someone" %}
+            </h2>
+        </div>
+
+        <div class="tab-links nav nav-tabs mb-4" id="nav-tab" role="tablist">
+            <li class="nav-item">
+                <a
+                    href="#urgent-shifts"
+                    class="tab-link active"
+                    id="urgent-shifts-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#urgent-shifts"
+                    type="button"
+                    role="tab"
+                    aria-controls="urgent-shifts"
+                    aria-selected="true"
+                >{{_("Urgent Shifts")}}</a>
+            </li>
+            <li class="nav-item">
+                <a
+                    href="#available-shifts"
+                    class="tab-link"
+                    id="available-shifts-tab"
+                    data-bs-toggle="tab"
+                    data-bs-target="#available-shifts"
+                    type="button"
+                    role="tab"
+                    aria-controls="available-shifts"
+                    aria-selected="true"
+                >{{_("Available Shifts")}}</a>
+            </li>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="urgent-shifts" role="tabpanel" aria-labelledby="urgent-shifts-tab">
+                {% if urgent_shifts %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">{% translate "Type" %}</th>
+                            <th scope="col">{% translate "Date" %}</th>
+                            <th scope="col">{% translate "Time" %}</th>
+                            <th scope="col" class="text-center">{% translate "Action" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for shift in urgent_shifts %}
+                            {% for slot in shift.attendable_slots|slice:":20" %}
+                                <tr>
+                                    <td>
+                                        {% if slot.name %}
+                                            {{ slot.name }}
+                                        {% else %}
+                                            {{ shift.name }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ shift.start_time|date:"D, j. M. y" }}
+                                    </td>
+                                    <td>
+                                        {{ shift.start_time|date:"H\hi" }}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{% url 'shifts:shift_detail' shift.pk %}"
+                                            class="light-link">
+                                            <span class="material-icons">add_circle_outline</span>
+                                            {% translate "Join" %}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {% else %}
+                    <div class="text-center py-4">
+                        <div class="text-muted">
+                            <span class="material-icons">check_circle_outline</span>
+                            <p class="mt-2">{% translate "There are no shifts in urgent need of someone." %}</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="tab-pane fade show" id="available-shifts" role="tabpanel" aria-labelledby="available-shifts-tab">
+                {% if shifts %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">{% translate "Type" %}</th>
+                                <th scope="col">{% translate "Date" %}</th>
+                                <th scope="col">{% translate "Time" %}</th>
+                                <th scope="col" class="text-center">{% translate "Action" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for shift in shifts %}
+                                {% for slot in shift.attendable_slots %}
+                                    <tr>
+                                        <td>
+                                            {% if slot.name %}
+                                                {{ slot.name }}
+                                            {% else %}
+                                                {{ shift.name }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {{ slot.shift.start_time|date:"D, j. M. y" }}
+                                        </td>
+                                        <td>
+                                            {{ slot.shift.start_time|date:"H\hi" }}
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{% url 'shifts:shift_detail' shift.pk %}"
+                                            class="light-link">
+                                                <span class="material-icons" style="font-size: 16px;">add_circle_outline</span>
+                                                {% translate "Join" %}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="text-center py-4">
+                        <div class="text-muted">
+                            <span class="material-icons">event_busy</span>
+                            <p class="mt-2">{% translate "No available shifts found for the selected period." %}</p>
+                            <small>{% translate "Try adjusting your date range or check back later." %}</small>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
 
     {% comment %}
 
@@ -348,9 +493,9 @@
     copied from user_shift_account_log.html
 
     {% endcomment %}
-    <div class="position-relative mb-4" id="user_shift_account_log">
-        <h2 class="h3">
-            {% translate 'Shift account' %}
+    <div class="position-relative mb-5" id="user_shift_account_log">
+        <h2 class="h3 mb-3">
+            {% translate 'Your shift account' %}
         </h2>
 
         <div>
@@ -399,163 +544,6 @@
         </div>
     </div>
 
-    {% comment %}
-        Empty shifts                                                                   
-    started from shift_calendar_template.html
-    {% endcomment %}
-
-    {% if urgent_shifts %}
-    <div class="mb-4">
-
-        <div class="d-flex justify-content-between align-items-center">
-            <h2 class="h3">
-            {% translate "Empty Shifts" %}
-            </h2>
-        </div>
-
-        <div class="tab-links nav nav-tabs mb-4" id="nav-tab" role="tablist">
-            <li class="nav-item">
-                <a
-                    href="#urgent-shifts"
-                    class="tab-link active"
-                    id="urgent-shifts-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#urgent-shifts"
-                    type="button"
-                    role="tab"
-                    aria-controls="urgent-shifts"
-                    aria-selected="true"
-                >{{_("Urgent Shifts")}}</a>
-            </li>
-            <li class="nav-item">
-                <a
-                    href="#available-shifts"
-                    class="tab-link"
-                    id="available-shifts-tab"
-                    data-bs-toggle="tab"
-                    data-bs-target="#available-shifts"
-                    type="button"
-                    role="tab"
-                    aria-controls="available-shifts"
-                    aria-selected="true"
-                >{{_("Available Shifts")}}</a>
-            </li>
-        </div>
-
-        <div class="tab-content">
-            <div class="tab-pane fade show active" id="urgent-shifts" role="tabpanel" aria-labelledby="urgent-shifts-tab">
-                <div class="d-flex">
-                    <span class="text-muted">{{ total_urgent_slots }} {% translate "slots need coverage" %}</span>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">{% translate "Type" %}</th>
-                            <th scope="col">{% translate "Date" %}</th>
-                            <th scope="col">{% translate "Time" %}</th>
-                            <th scope="col">{% translate "Note" %}</th>
-                            <th scope="col" class="text-center">{% translate "Action" %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for shift in urgent_shifts %}
-                            {% for slot in shift.attendable_slots|slice:":20" %}
-                                <tr>
-                                    <td>
-                                        {% if slot.name %}
-                                            {{ slot.name }}
-                                        {% else %}
-                                            {{ shift.name }}
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ shift.start_time|date:"d/m/Y" }}
-                                    </td>
-                                    <td>
-                                        {{ shift.start_time|date:"H\hi" }}
-                                    </td>
-                                    <td>
-                                        {% if shift.description %}
-                                            <small class="text-muted">{{ shift.description|truncatechars:50 }}</small>
-                                        {% else %}
-                                            <span class="text-muted">-</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{% url 'shifts:shift_detail' shift.pk %}" 
-                                            class="light-link">
-                                            <span class="material-icons">add_circle_outline</span>
-                                            {% translate "Join" %}
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div class="tab-pane fade show" id="available-shifts" role="tabpanel" aria-labelledby="available-shifts-tab">
-                {% if shifts %}
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">{% translate "Type" %}</th>
-                                <th scope="col">{% translate "Date" %}</th>
-                                <th scope="col">{% translate "Time" %}</th>
-                                <th scope="col">{% translate "Note" %}</th>
-                                <th scope="col" class="text-center">{% translate "Action" %}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for shift in shifts %}
-                                {% for slot in shift.attendable_slots %}
-                                    <tr>
-                                        <td>
-                                            {% if slot.name %}
-                                                {{ slot.name }}
-                                            {% else %}
-                                                {{ shift.name }}
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            {{ slot.shift.start_time|date:"d/m/Y" }}
-                                        </td>
-                                        <td>
-                                            {{ slot.shift.start_time|date:"H\hm" }}
-                                        </td>
-                                        <td>
-                                            {% if shift.description %}
-                                                <small class="text-muted">{{ shift.description|truncatechars:50 }}</small>
-                                            {% else %}
-                                                <span class="text-muted">-</span>
-                                            {% endif %}
-                                        </td>
-                                        <td class="text-center">
-                                            <a href="{% url 'shifts:shift_detail' shift.pk %}" 
-                                            class="light-link">
-                                                <span class="material-icons" style="font-size: 16px;">add_circle_outline</span>
-                                                {% translate "Join" %}
-                                            </a>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <div class="text-center py-4">
-                        <div class="text-muted">
-                            <span class="material-icons">event_busy</span>
-                            <p class="mt-2">{% translate "No available shifts found for the selected period." %}</p>
-                            <small>{% translate "Try adjusting your date range or check back later." %}</small>
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-    </div>
-    {% endif %}
 
     {% endblock content %}
 
