@@ -420,4 +420,4 @@ class RecurringShiftwatchListView(
     def post(self, request, *args, **kwargs):
         selected_ids = request.POST.getlist("recurringshiftwatch_ids")
         ShiftRecurringWatchTemplate.objects.filter(id__in=selected_ids).delete()
-        return redirect(self.request.path)
+        return redirect("shifts:shiftwatch_overview")
