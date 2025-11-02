@@ -369,18 +369,6 @@ class UnwatchShiftView(LoginRequiredMixin, RedirectView):
         return redirect("shifts:shift_detail", pk=kwargs["shift"])
 
 
-class WatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateView):
-    form_class = ShiftRecurringWatchForm
-    model = ShiftRecurringWatchTemplate
-
-    def get_success_url(self):
-        return self.object.user.get_absolute_url()
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-
 class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
     model = ShiftWatch
     form_class = ShiftWatchForm
@@ -405,5 +393,17 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.shift = Shift.objects.get(id=self.kwargs["shift"])
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class WatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateView):
+    form_class = ShiftRecurringWatchForm
+    model = ShiftRecurringWatchTemplate
+
+    def get_success_url(self):
+        return self.object.user.get_absolute_url()
+
+    def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
