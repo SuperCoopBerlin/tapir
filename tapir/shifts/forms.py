@@ -6,6 +6,7 @@ from django.forms import (
     ModelChoiceField,
     CheckboxSelectMultiple,
     BooleanField,
+    ModelMultipleChoiceField,
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
@@ -33,6 +34,8 @@ from tapir.shifts.models import (
     StaffingStatusChoices,
     get_staffingstatus_defaults,
     get_staffingstatus_choices,
+    ShiftRecurringWatchTemplate,
+    WEEKDAY_CHOICES,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -693,3 +696,62 @@ class ShiftWatchForm(forms.ModelForm):
             self.initial["staffing_status"] = last_shiftwatch.staffing_status
         else:
             self.initial["staffing_status"] = get_staffingstatus_defaults()
+
+
+class ShiftRecurringWatchForm(forms.ModelForm):
+    class Meta:
+        model = ShiftRecurringWatchTemplate
+        fields = ["shift_templates", "weekdays", "abcd", "staffing_status"]
+
+    weekdays = forms.MultipleChoiceField(
+        required=False,
+        choices=WEEKDAY_CHOICES,
+        widget=CheckboxSelectMultiple(),
+    )
+    shift_templates = ModelMultipleChoiceField(
+        queryset=ShiftTemplate.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+    )
+    abcd = forms.MultipleChoiceField(
+        required=False,
+        choices=[
+            ("A", "A"),
+            ("B", "B"),
+            ("C", "C"),
+            ("D", "D"),
+        ],
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+    )
+    staffing_status = forms.MultipleChoiceField(
+        required=True,
+        choices=get_staffingstatus_choices,
+        label=_("Shift changes you would like to be informed about"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+    )
+
+    #
+    def clean(self):
+        cleaned_data = super().clean()
+        # shift_templates = cleaned_data.get("shift_templates")
+        weekdays = cleaned_data.get("weekdays")
+        # abcd = cleaned_data.get("abcd")
+        print(f"weekdays: {weekdays}")
+        cleaned_data["weekdays"] = list(map(int, weekdays))
+        return cleaned_data
+
+    #
+    #     # Validierung: Wenn Werktage oder Buchstaben gesetzt sind, dürfen ShiftTemplates nicht ausgewählt sein
+    #     if (weekdays or abcd) and shift_templates:
+    #         raise forms.ValidationError(
+    #             "Wenn Werktage oder Buchstaben ausgewählt sind, dürfen keine ShiftTemplates ausgewählt werden."
+    #         )
+    #
+    #     # Validierung: Mindestens eines der Felder auswählen
+    #     if not (shift_templates or weekdays or abcd):
+    #         raise forms.ValidationError(
+    #             "Mindestens eines der Felder (ShiftTemplates, Werktage oder Buchstabe) muss ausgewählt werden."
+    #         )
+    #

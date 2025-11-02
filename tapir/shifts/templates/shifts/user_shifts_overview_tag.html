@@ -230,7 +230,9 @@
             </div>
         {% endif %}
         <div class="row m-1">
-            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Watched Shifts" %}:</div>
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">
+                <a href="{% url 'shifts:shiftwatch_overview' %}">{% translate "Watched Shifts" %}:</a>
+            </div>
             <div class="col-12 col-sm-8">
                 {% with watched_shifts=user.user_watching_shift.all %}
                     {% if watched_shifts %}

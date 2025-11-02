@@ -1277,3 +1277,38 @@ class ShiftWatch(models.Model):
                 name="shift_watch_constraint",
             )
         ]
+
+
+class ShiftRecurringWatchTemplate(models.Model):
+    """
+    class to generate recurring ShiftWatches from.
+    """
+
+    user = models.ForeignKey(
+        TapirUser, on_delete=models.CASCADE, related_name="shift_recurring_watch"
+    )
+    shift_templates = models.ManyToManyField(ShiftTemplate, blank=True)
+
+    abcd = ArrayField(
+        models.CharField(
+            max_length=1,
+            choices=[
+                ("A", "A"),
+                ("B", "B"),
+                ("C", "C"),
+                ("D", "D"),
+            ],
+        ),
+        blank=True,
+        default=list,
+    )
+    weekdays = ArrayField(
+        models.IntegerField(blank=True, null=True, choices=WEEKDAY_CHOICES),
+        blank=True,
+        default=list,
+    )
+    staffing_status = ArrayField(
+        models.CharField(max_length=30, choices=get_staffingstatus_choices),
+        blank=False,
+        default=get_staffingstatus_defaults,
+    )

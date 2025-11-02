@@ -227,4 +227,14 @@ urlpatterns = [
         views.UnwatchShiftView.as_view(),
         name="unwatch_shift",
     ),
+    path(
+        "shiftwatchoverview",
+        views.WatchRecurringShiftsView.as_view(),
+        name="shiftwatch_overview",
+    ),
+    # path(
+    #     "shift_recurring_watch/<int:pk>/edit/",
+    #     views.WatchRecurringShiftsUpdateView.as_view(),
+    #     name="update_shift_recurring_watch",
+    # ),
 ]

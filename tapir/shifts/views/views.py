@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Sum, Count, Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse, reverse_lazy
@@ -39,6 +40,7 @@ from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
     ShiftWatchForm,
+    ShiftRecurringWatchForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -46,6 +48,7 @@ from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
     ShiftTemplate,
     ShiftWatch,
+    ShiftRecurringWatchTemplate,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -364,6 +367,18 @@ class UnwatchShiftView(LoginRequiredMixin, RedirectView):
         shift = get_object_or_404(Shift, id=kwargs["shift"])
         ShiftWatch.objects.filter(user=request.user, shift=shift).delete()
         return redirect("shifts:shift_detail", pk=kwargs["shift"])
+
+
+class WatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateView):
+    form_class = ShiftRecurringWatchForm
+    model = ShiftRecurringWatchTemplate
+
+    def get_success_url(self):
+        return self.object.user.get_absolute_url()
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
