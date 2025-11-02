@@ -1,0 +1,25 @@
+<!-- list_shifts.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Shift List</title>
+    </head>
+    <body>
+        <a href="{% url 'shifts:recurring_shift_watch' %}">
+            <button>Create Recurring Shiftwatch</button>
+        </a>
+        <h1>Liste der Shifts</h1>
+        <form method="post">
+            {% csrf_token %}
+            <ul>
+                {% for shift in shifts %}
+                    <li>
+                        <input type="checkbox" name="shift_ids" value="{{ shift.id }}">
+                        {{ shift.user }} - {{ shift.abcd }} - {{ shift.weekdays }} - {{ shift.staffing_status }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <button type="submit">Ausgewählte Löschen</button>
+        </form>
+    </body>
+</html>

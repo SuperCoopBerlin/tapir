@@ -228,8 +228,13 @@ urlpatterns = [
         name="unwatch_shift",
     ),
     path(
-        "shiftwatchoverview",
+        "recurring_shift_watch/",
         views.WatchRecurringShiftsView.as_view(),
+        name="recurring_shift_watch",
+    ),
+    path(
+        "shiftwatch_overview/",
+        views.ShiftListView.as_view(),
         name="shiftwatch_overview",
     ),
     # path(
