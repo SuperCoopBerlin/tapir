@@ -735,23 +735,22 @@ class ShiftRecurringWatchForm(forms.ModelForm):
     #
     def clean(self):
         cleaned_data = super().clean()
-        # shift_templates = cleaned_data.get("shift_templates")
+        shift_templates = cleaned_data.get("shift_templates")
         weekdays = cleaned_data.get("weekdays")
-        # abcd = cleaned_data.get("abcd")
-        print(f"weekdays: {weekdays}")
         cleaned_data["weekdays"] = list(map(int, weekdays))
-        return cleaned_data
+        abcd = cleaned_data.get("abcd")
 
-    #
-    #     # Validierung: Wenn Werktage oder Buchstaben gesetzt sind, dürfen ShiftTemplates nicht ausgewählt sein
-    #     if (weekdays or abcd) and shift_templates:
-    #         raise forms.ValidationError(
-    #             "Wenn Werktage oder Buchstaben ausgewählt sind, dürfen keine ShiftTemplates ausgewählt werden."
-    #         )
-    #
-    #     # Validierung: Mindestens eines der Felder auswählen
-    #     if not (shift_templates or weekdays or abcd):
-    #         raise forms.ValidationError(
-    #             "Mindestens eines der Felder (ShiftTemplates, Werktage oder Buchstabe) muss ausgewählt werden."
-    #         )
-    #
+        if (weekdays or abcd) and shift_templates:
+            raise forms.ValidationError(
+                _(
+                    "If weekdays or ABCD are selected, ShiftTemplates may not be selected."
+                )
+            )
+
+        if not (shift_templates or weekdays or abcd):
+            raise forms.ValidationError(
+                _(
+                    "At least one of the fields (ShiftTemplates, weekdays, or ABCD) must be selected."
+                )
+            )
+        return cleaned_data
