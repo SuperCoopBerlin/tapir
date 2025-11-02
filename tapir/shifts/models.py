@@ -8,7 +8,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Sum, Q
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save, post_delete, m2m_changed
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
@@ -1312,3 +1312,64 @@ class ShiftRecurringWatchTemplate(models.Model):
         blank=False,
         default=get_staffingstatus_defaults,
     )
+
+
+@receiver(post_save, sender=ShiftRecurringWatchTemplate)
+def create_shift_watches(sender, instance, created, **kwargs):
+    if created:
+        print(f"instance: {instance}\n\n")
+        for attr, value in instance.__dict__.items():
+            print(f"{attr}: {value}")
+
+        shifts_to_watch = set()
+
+        for weekday in instance.weekdays:
+            for category in instance.abcd:
+                shifts = Shift.objects.filter(
+                    start_time__week_day=weekday, shift_template__group__name=category
+                )
+                shifts_to_watch.update(shifts)
+
+        for shift in shifts_to_watch:
+            ShiftWatch.objects.get_or_create(
+                user=instance.user,
+                shift=shift,
+                defaults={"staffing_status": instance.staffing_status},
+            )
+
+
+@receiver(post_delete, sender=ShiftRecurringWatchTemplate)
+def delete_related_shift_watches(sender, instance, **kwargs):
+    shifts_to_delete = set()
+
+    for weekday in instance.weekdays:
+        for category in instance.abcd:
+            shifts = Shift.objects.filter(
+                start_time__week_day=weekday, shift_template__group__name=category
+            )
+            shifts_to_delete.update(shifts)
+
+    # Lösche die ShiftWatches, die den gefundenen Shifts zugeordnet sind
+    ShiftWatch.objects.filter(user=instance.user, shift__in=shifts_to_delete).delete()
+
+
+@receiver(m2m_changed, sender=ShiftRecurringWatchTemplate.shift_templates.through)
+def manage_shift_watches(sender, instance, action, reverse, pk_set, **kwargs):
+    if action == "post_add":
+        for template_id in pk_set:
+            template = ShiftTemplate.objects.get(id=template_id)
+            for shift in template.get_future_generated_shifts().all():
+                ShiftWatch.objects.get_or_create(
+                    user=instance.user,
+                    shift=shift,
+                    defaults={
+                        "staffing_status": instance.staffing_status,
+                    },
+                )
+    elif action == "post_remove":
+        for template_id in pk_set:
+            template = ShiftTemplate.objects.get(id=template_id)
+            ShiftWatch.objects.filter(
+                user=instance.user,
+                shift__in=template.shifts.all(),
+            ).delete()
