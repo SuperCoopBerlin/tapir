@@ -1,25 +1,51 @@
-<!-- list_shifts.html -->
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Shift List</title>
-    </head>
-    <body>
-        <a href="{% url 'shifts:recurring_shift_watch' %}">
-            <button>Create Recurring Shiftwatch</button>
-        </a>
-        <h1>Liste der Shifts</h1>
-        <form method="post">
-            {% csrf_token %}
-            <ul>
-                {% for shift in shifts %}
-                    <li>
-                        <input type="checkbox" name="shift_ids" value="{{ shift.id }}">
-                        {{ shift.user }} - {{ shift.abcd }} - {{ shift.weekdays }} - {{ shift.staffing_status }}
-                    </li>
-                {% endfor %}
-            </ul>
-            <button type="submit">Ausgewählte Löschen</button>
-        </form>
-    </body>
-</html>
+{% extends "shifts/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load core %}
+{% load utils %}
+{% block title %}
+    {% translate "Recurring Shiftwatch List" %}
+{% endblock title %}
+{% block head %}
+    {{ form.media }}
+{% endblock head %}
+{% block content %}
+    <div class="card mb-2">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5>{% translate "Recurring Shiftwatch List" %}</h5>
+            <div>
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'shifts:recurring_shift_watch' %}"
+                   id="create_recurring_shiftwatch_button">
+                    <span class="material-icons">add_circle_outline</span>
+                    {% translate "Create Recurring Shiftwatch" %}
+                </a>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <form method="post">
+                    {% csrf_token %}
+                    <ul>
+                        {% for recurringshiftwatch in recurringshiftwatches %}
+                            <li>
+                                <input type="checkbox"
+                                       name="recurringshiftwatch_ids"
+                                       value="{{ recurringshiftwatch.id }}">
+                                {{ recurringshiftwatch.abcd }} - {{ recurringshiftwatch.weekdays }} - {{ recurringshiftwatch.staffing_status }}
+                            </li>
+                            <ul>
+                                {% for template in recurringshiftwatch.shift_templates.all %}
+                                    <li>
+                                        {{ template }} <!-- oder andere Attribute des Templates -->
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </ul>
+                    <button type="submit" class="{% tapir_button_link %}">Ausgewählte Löschen</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+{% endblock content %}

@@ -409,17 +409,15 @@ class WatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateView):
         return super().form_valid(form)
 
 
-class ShiftListView(
+class RecurringShiftwatchListView(
     LoginRequiredMixin,
     generic.ListView,
 ):
     model = ShiftRecurringWatchTemplate
     template_name = "shifts/shiftwatch_overview.html"
-    context_object_name = "shifts"
+    context_object_name = "recurringshiftwatches"
 
     def post(self, request, *args, **kwargs):
-        selected_ids = request.POST.getlist("shift_ids")
+        selected_ids = request.POST.getlist("recurringshiftwatch_ids")
         ShiftRecurringWatchTemplate.objects.filter(id__in=selected_ids).delete()
-        return redirect(
-            self.object.user.get_absolute_url()
-        )  # Redirect nach dem Löschen
+        return redirect(self.request.path)

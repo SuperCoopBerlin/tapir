@@ -234,7 +234,7 @@ urlpatterns = [
     ),
     path(
         "shiftwatch_overview/",
-        views.ShiftListView.as_view(),
+        views.RecurringShiftwatchListView.as_view(),
         name="shiftwatch_overview",
     ),
     # path(
