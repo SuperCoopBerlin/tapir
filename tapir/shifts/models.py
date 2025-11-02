@@ -1349,12 +1349,12 @@ def delete_related_shift_watches(sender, instance, **kwargs):
             )
             shifts_to_delete.update(shifts)
 
-    # Lösche die ShiftWatches, die den gefundenen Shifts zugeordnet sind
     ShiftWatch.objects.filter(user=instance.user, shift__in=shifts_to_delete).delete()
 
 
 @receiver(m2m_changed, sender=ShiftRecurringWatchTemplate.shift_templates.through)
 def manage_shift_watches(sender, instance, action, reverse, pk_set, **kwargs):
+    # Many-to-many doesn't work wirh post-save and post-delete, since it's created later
     if action == "post_add":
         for template_id in pk_set:
             template = ShiftTemplate.objects.get(id=template_id)
