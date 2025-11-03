@@ -26,7 +26,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <h5>
-                    <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span> :D
+                    <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 </h5>
                 {% if perms.shifts.manage %}
                     <span class="d-flex justify-content-end flex-wrap gap-2">
@@ -164,7 +164,7 @@
                                                             {% translate "Cancel looking for a stand-in" %}
                                                         </button>
                                                     </form>
-                                                {% else %}
+                                                {% elif not slot.can_self_unregister %} {% comment  %} only show the subsition button if they can't cancel {% endcomment %}
                                                     <form style="display: inline"
                                                           method="post"
                                                           action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance_states.LOOKING_FOR_STAND_IN %}">
