@@ -146,7 +146,7 @@ class Command(BaseCommand):
             ):
                 continue
 
-            if "Consumo" not in share_owner_json["_currentState"]:
+            if "Consumidores" not in share_owner_json["_currentState"]:
                 continue
 
             member_number = share_owner_json["number"]
