@@ -7,11 +7,12 @@
 {% load shifts %}
 {% load i18n %}
 {% load core %}
+{% load utils %}
 {% block head %}
 
     {{ block.super }}
 
-    
+
 
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
     <script src="{% static 'shifts/ShiftFiltersManager.js' %}?version=2" defer></script>
@@ -103,15 +104,25 @@
                                         <span class="material-icons">edit</span>
                                     </span>
                                   </a>
-                                
+
                                 {% else %}
                                   <span class="text-gray" class="text-decoration-none">
-                                      {{ attendance.user.get_full_name }}
-                                      {% if attendance.state == "single" %}
+                                      {% if attendance.user %}
+                                        {% get_html_link_or_just_name attendance.user request.user %}
+                                      {% endif %}
+                                      {% if attendance.state == "standin" %}
+                                          <a href="{% url 'shifts:slot_register' attendance.slot.pk %}" class="text-decoration-none">
+                                            <span class="badge bg-secondary d-flex align-items-center gap-1">
+                                                {{ _("Looking for a Stand-in") }}
+                                                <span class="material-icons">person_add</span>
+                                            </span>
+                                          </a>
+                                      {% elif attendance.state == "single" %}
                                         <span class="badge bg-body-secondary ml-1 text-black fw-normal">
                                           {{ _("Flex") }}
                                         </span>
                                       {% endif %}
+
                                   </span>
                                 {% endif %}
                             {% endfor %}
