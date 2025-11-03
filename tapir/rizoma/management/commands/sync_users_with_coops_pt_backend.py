@@ -146,6 +146,9 @@ class Command(BaseCommand):
             ):
                 continue
 
+            if "Consumo" not in share_owner_json["_currentState"]:
+                continue
+
             member_number = share_owner_json["number"]
             if settings.DEBUG:
                 # on the demo instance demo.coopts.pt, several members have the same number.
