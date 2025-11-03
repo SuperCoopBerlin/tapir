@@ -92,3 +92,4 @@ class Command(BaseCommand):
         TapirUser.objects.bulk_update(
             tapir_users_by_mail_address.values(), ["external_id"]
         )
+        TapirUser.objects.filter(external_id__isnull=False).update(is_active=True)

@@ -17,6 +17,83 @@ class CoopsPtAuthBackend(BaseBackend):
         return TapirUser.objects.filter(id=user_id).first()
 
     def authenticate(self, request, **kwargs):
+        access_token = self.do_remote_login(request, **kwargs)
+        if access_token is None:
+            return None
+
+        external_user_id = CoopsPtLoginManager.get_external_user_id_from_access_token(
+            access_token
+        )
+
+        user = self.get_existing_user_and_update_admin_status(
+            external_user_id=external_user_id, access_token=access_token
+        )
+        if user is not None:
+            return user
+
+        response = CoopsPtRequestHandler.get(f"users/{external_user_id}")
+        if response.status_code != 200:
+            raise CoopsPtRequestException(
+                f"Failed to get user from external API, error: '{response.status_code}' '{response.text}'"
+            )
+
+        user_data = response.json()["data"]
+
+        tapir_user = self.check_for_inactive_user_with_same_email_address(
+            user_data=user_data
+        )
+        if tapir_user is not None:
+            return tapir_user
+
+        with transaction.atomic():
+            tapir_user = self.create_tapir_user_and_link_with_share_owner(user_data)
+
+        return tapir_user
+
+    @classmethod
+    def create_tapir_user_and_link_with_share_owner(cls, user_data: dict):
+        tapir_user = CoopsPtUserCreator.build_tapir_user_from_api_response(user_data)
+        tapir_user.save()
+        external_member_id = user_data["memberId"]
+        if external_member_id is not None:
+            CoopsPtUserCreator.fetch_and_create_share_owner(
+                external_member_id, tapir_user
+            )
+
+        return tapir_user
+
+    @classmethod
+    def check_for_inactive_user_with_same_email_address(cls, user_data: dict):
+        email = user_data["email"]
+        tapir_user = TapirUser.objects.filter(username=email, is_active=False).first()
+        if tapir_user is None:
+            return None
+
+        CoopsPtUserCreator.set_attributes_from_api_response(
+            tapir_user=tapir_user, user_json=user_data
+        )
+        tapir_user.is_active = True
+        tapir_user.save()
+        return tapir_user
+
+    @classmethod
+    def get_existing_user_and_update_admin_status(
+        cls, external_user_id: str, access_token: str
+    ) -> TapirUser | None:
+        user = TapirUser.objects.filter(external_id=external_user_id).first()
+
+        if user is None:
+            return None
+
+        if cls.update_admin_status(
+            user, role=CoopsPtLoginManager.get_role_from_access_token(access_token)
+        ):
+            user.save()
+
+        return user
+
+    @classmethod
+    def do_remote_login(cls, request, **kwargs):
         email = kwargs.get("email", None)
         if email is None:
             email = kwargs.get("username", None)
@@ -50,49 +127,7 @@ class CoopsPtAuthBackend(BaseBackend):
             )
             return None
 
-        external_user_id = CoopsPtLoginManager.get_external_user_id_from_access_token(
-            access_token
-        )
-
-        user = TapirUser.objects.filter(external_id=external_user_id).first()
-
-        if user is not None:
-            if self.update_admin_status(
-                user, role=CoopsPtLoginManager.get_role_from_access_token(access_token)
-            ):
-                user.save()
-            return user
-
-        response = CoopsPtRequestHandler.get(f"users/{external_user_id}")
-        if response.status_code != 200:
-            raise CoopsPtRequestException(
-                f"Failed to get user from external API, error: '{response.status_code}' '{response.text}'"
-            )
-
-        user_data = response.json()["data"]
-
-        email = user_data["email"]
-        tapir_user = TapirUser.objects.filter(username=email, is_active=False).first()
-        if tapir_user is not None:
-            CoopsPtUserCreator.set_attributes_from_api_response(
-                tapir_user=tapir_user, user_json=user_data
-            )
-            tapir_user.is_active = True
-            tapir_user.save()
-            return tapir_user
-
-        with transaction.atomic():
-            tapir_user = CoopsPtUserCreator.build_tapir_user_from_api_response(
-                user_data
-            )
-            tapir_user.save()
-            external_member_id = user_data["memberId"]
-            if external_member_id is not None:
-                CoopsPtUserCreator.fetch_and_create_share_owner(
-                    external_member_id, tapir_user
-                )
-
-        return tapir_user
+        return access_token
 
     @classmethod
     def update_admin_status(cls, user: TapirUser, role):

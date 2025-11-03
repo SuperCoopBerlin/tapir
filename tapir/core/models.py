@@ -27,3 +27,6 @@ class FeatureFlag(models.Model):
         if cls.objects.filter(flag_name=flag_name).exists():
             return
         cls.objects.create(flag_name=flag_name)
+
+    def __str__(self):
+        return f"{self.flag_name} - {self.flag_value}"
