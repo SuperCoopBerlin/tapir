@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
@@ -35,6 +36,7 @@ from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import (
     TapirAccountCreatedEmailBuilder,
 )
+from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
@@ -74,6 +76,12 @@ class TapirUserDetailView(
             tapir_user == self.request.user
             or self.request.user.has_perm(PERMISSION_GROUP_MANAGE)
         )
+        
+        # Check if user can shop
+        context["user_can_shop"] = False
+        if hasattr(tapir_user, 'share_owner') and tapir_user.share_owner:
+            context["user_can_shop"] = MemberCanShopService.can_shop(tapir_user.share_owner, timezone.now())
+        
         return context
 
 
@@ -456,6 +464,13 @@ class OpenDoorView(generic.View):
         if not FeatureFlag.get_flag_value(feature_flag_open_door):
             raise PermissionDenied("The door opening feature is disabled.")
         
+        user = request.user
+        if not hasattr(user, 'share_owner') or not user.share_owner:
+            raise PermissionDenied("You are not allowed to make purchases at this time.")
+        
+        if not MemberCanShopService.can_shop(user.share_owner, timezone.now()):
+            raise PermissionDenied("You are not allowed to make purchases at this time.")
+        
         # Set cache key with 10-second TTL
         cache.set(cache_key_open_door, True, 10)
         return HttpResponse(status=200)
@@ -464,20 +479,19 @@ class OpenDoorView(generic.View):
         """GET endpoint to check door status.
         
         Returns 200 if cache key is True, otherwise returns 403.
+        No content is provided as this simplifies the use in ressource
+        resticted environments like microcontrollers.
         Deletes the cache key after checking (one-time use).
         No authentication required.
         """
         if not FeatureFlag.get_flag_value(feature_flag_open_door):
             return HttpResponse(status=403)
         
-        # Get the current value
         door_status = cache.get(cache_key_open_door)
         
-        # Delete the cache key if it exists
         if door_status is not None:
             cache.delete(cache_key_open_door)
         
-        # Return status code based on cache value
         if door_status is True:
             return HttpResponse(status=200)
         else:
