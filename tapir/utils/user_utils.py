@@ -26,7 +26,7 @@ class UserUtils:
         person = person.get_info()
         display_name = person.usage_name if person.usage_name else person.first_name
 
-        if display_type == cls.DISPLAY_NAME_TYPE_FULL:
+        if settings.SHOW_FULL_NAME_BY_DEFAULT or display_type == cls.DISPLAY_NAME_TYPE_FULL:
             display_name = f"{display_name} {person.last_name}"
         elif display_type == cls.DISPLAY_NAME_TYPE_WELCOME_DESK:
             display_name = f"{display_name} {person.last_name[0]}."
