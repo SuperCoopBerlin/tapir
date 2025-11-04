@@ -6377,7 +6377,7 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #~ msgid ""
 #~ "\n"
 #~ "        <p>Dear %(user_display_name)s,</p>\n"
-#~ "        <p>\nhome/ph/dev/tapir/tapir/"
+#~ "        <p>\n"
 #~ "            we've just created an account for you in our %(coop_name)s member system. Here you can view your upcoming shifts,\n"
 #~ "            book an additional shift if you'd like or mark your shift as “looking for a stand-in” (for example when you go\n"
 #~ "            on vacation).\n"

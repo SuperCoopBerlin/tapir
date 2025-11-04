@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
@@ -110,9 +111,11 @@ class CancelDayShiftsView(LoginRequiredMixin, PermissionRequiredMixin, FormView)
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         day = datetime.datetime.strptime(self.kwargs["day"], "%d-%m-%y").date()
-        kwargs["shifts"] = Shift.objects.filter(start_time__date=day).order_by(
-            "start_time"
-        )
+        filter_day = Q(start_time__date=day)
+        filter_not_deleted = Q(deleted=False)
+        kwargs["shifts"] = Shift.objects.filter(
+            filter_day & filter_not_deleted
+        ).order_by("start_time")
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -127,13 +130,11 @@ class CancelDayShiftsView(LoginRequiredMixin, PermissionRequiredMixin, FormView)
             response = super().form_valid(form)
             cancellation_reason = form.cleaned_data["cancellation_reason"]
             shift_ids_to_cancel = [
-                k.split("_", maxsplit=1)[-1]
-                for k, v in form.cleaned_data.items()
-                if k.startswith("shift") and v is True
+                form_field_key.split("_", maxsplit=1)[-1]
+                for form_field_key, should_be_cancelled in form.cleaned_data.items()
+                if form_field_key.startswith("shift") and should_be_cancelled
             ]
-            print(shift_ids_to_cancel)
-            for shift_id in shift_ids_to_cancel:
-                shift = Shift.objects.get(pk=shift_id)
+            for shift in Shift.objects.filter(id__in=shift_ids_to_cancel):
                 shift.cancelled_reason = cancellation_reason
                 ShiftCancellationService.cancel(shift)
             return response
