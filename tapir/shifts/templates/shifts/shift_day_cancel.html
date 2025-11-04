@@ -4,20 +4,45 @@
 {% load static %}
 {% load core %}
 {% block title %}
-    {% translate "Cancel shift:" %} {{ form.instance }}
+    {% translate "Cancel shifts:" %} {{ day }}
 {% endblock title %}
 {% block content %}
     <div class="container">
-        <h2>Cancel shifts for {{ day }}</h2>
-        <form role="form" method="post">
-            {% csrf_token %}
-            {% bootstrap_form form %}
-            <div class="d-flex justify-content-end">
-                <button type="submit" class="{% tapir_button_action %}">
-                    <span class="material-icons">cancel</span>
-                    {% translate 'Confirm cancellation' %}
-                </button>
+        <div class="card mb-2">
+            <h5 class="card-header bg-warning">{% translate "Cancel shifts for:" %} {{ day }}</h5>
+            <div class="card-body">
+                <div>
+                    <p>
+                        {% blocktranslate %}
+                            This will cancel all selected shifts for that
+                        day. It will not affect other shifts that come from the same ABCD shift.
+                        {% endblocktranslate %}
+                    </p>
+                    <p>
+                        {% blocktranslate %}
+                            Cancelling all shifts of a day is used for example
+                        for holidays. Deselect those shifts, that you do not
+                        want to cancel.
+                        Cancelling shifts has the following consequences:
+                            <ul>
+                                <li>It is not possible to register to the shift anymore.</li>
+                                <li>Members who are registered from their ABCD shift get a shift point.</li>
+                                <li>Members who registered just to this shift don't get a point.</li>
+                            </ul>
+                        {% endblocktranslate %}
+                    </p>
+                </div>
+                <form role="form" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="{% tapir_button_action %}">
+                            <span class="material-icons">cancel</span>
+                            {% translate 'Confirm cancellation' %}
+                        </button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 {% endblock content %}
