@@ -590,7 +590,13 @@ class BulkShiftCancelForm(forms.Form):
             disabled = shift.cancelled or shift.deleted
             initial = not disabled
             label = f"{_('Shift')}: {shift.get_display_name()}"
-            help_text = _("already cancelled") if disabled else ""
+            if shift.cancelled:
+                help_text = _("already deleted")
+            elif shift.cancelled:
+                help_text = _("already cancelled")
+            else:
+                help_text = ""
+
             self.fields[f"shift_{shift.id}"] = BooleanField(
                 initial=initial,
                 label=label,
