@@ -3,20 +3,38 @@ from unittest.mock import patch, Mock, call
 
 from django.urls import reverse
 
+from tapir import settings
 from tapir.shifts.models import Shift
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, PermissionTestMixin
 
 
-@patch(
-    "tapir.shifts.services.shift_cancellation_service.ShiftCancellationService.cancel",
-    wraps=ShiftCancellationService.cancel,
-)
-class TestDayShiftCancel(TapirFactoryTestBase):
+def _mock_cancel_service(func):
+    """Little decorator helper to mock the cancellation service."""
+    return patch(
+        "tapir.shifts.services.shift_cancellation_service.ShiftCancellationService.cancel",
+        wraps=ShiftCancellationService.cancel,
+    )(func)
+
+
+class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
     VIEW_NAME_SHIFT_DAY_CANCEL = "shifts:shift_day_cancel"
     A_CANCELLATION_REASON = "A cancellation reason"
     DAY_TO_CANCEL = "01-01-25"
+
+    def get_allowed_groups(self):
+        return [
+            settings.GROUP_VORSTAND,
+            settings.GROUP_EMPLOYEES,
+            settings.GROUP_MEMBER_OFFICE,
+            settings.GROUP_SHIFT_MANAGER,
+        ]
+
+    def do_request(self):
+        return self.client.get(
+            reverse(self.VIEW_NAME_SHIFT_DAY_CANCEL, args=[self.DAY_TO_CANCEL])
+        )
 
     def setup_shifts(self) -> tuple[list[Shift], list[Shift]]:
         """Helper to create shifts on different days for testing."""
@@ -65,6 +83,7 @@ class TestDayShiftCancel(TapirFactoryTestBase):
                     "The shift's cancellation reason should not be set.",
                 )
 
+    @_mock_cancel_service
     def test_cancel_all_shifts(self, mock_cancel: Mock):
         self.login_as_member_office_user()
         shifts, _ = self.setup_shifts()
@@ -89,6 +108,7 @@ class TestDayShiftCancel(TapirFactoryTestBase):
 
         self.assert_shifts_canceled(shifts, should_be_cancelled=True)
 
+    @_mock_cancel_service
     def test_does_not_cancel_unselected_shifts(self, mock_cancel: Mock):
         self.login_as_member_office_user()
         shifts, shifts_on_another_day = self.setup_shifts()
@@ -126,6 +146,7 @@ class TestDayShiftCancel(TapirFactoryTestBase):
         self.assert_shifts_canceled(shifts_to_keep, should_be_cancelled=False)
         self.assert_shifts_canceled(shifts_on_another_day, should_be_cancelled=False)
 
+    @_mock_cancel_service
     def test_does_not_cancel_already_cancelled_shifts(self, mock_cancel: Mock):
         self.login_as_member_office_user()
         shifts, _ = self.setup_shifts()
