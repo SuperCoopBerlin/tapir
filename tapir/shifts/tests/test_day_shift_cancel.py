@@ -84,7 +84,7 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
                 )
 
     @_mock_cancel_service
-    def test_cancel_all_shifts(self, mock_cancel: Mock):
+    def test_CancelDayShiftView_apply_callsCancellationService(self, mock_cancel: Mock):
         self.login_as_member_office_user()
         shifts, _ = self.setup_shifts()
 
@@ -109,7 +109,9 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
         self.assert_shifts_canceled(shifts, should_be_cancelled=True)
 
     @_mock_cancel_service
-    def test_does_not_cancel_unselected_shifts(self, mock_cancel: Mock):
+    def test_CancelDayShiftView_apply_doesNotCancelUnselectedShifts(
+        self, mock_cancel: Mock
+    ):
         self.login_as_member_office_user()
         shifts, shifts_on_another_day = self.setup_shifts()
 
@@ -147,7 +149,9 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
         self.assert_shifts_canceled(shifts_on_another_day, should_be_cancelled=False)
 
     @_mock_cancel_service
-    def test_does_not_cancel_already_cancelled_shifts(self, mock_cancel: Mock):
+    def test_CancelDayShiftView_apply_doesNotCancelAlreadyCancelledShifts(
+        self, mock_cancel: Mock
+    ):
         self.login_as_member_office_user()
         shifts, _ = self.setup_shifts()
 

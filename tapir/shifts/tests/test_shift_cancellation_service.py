@@ -17,7 +17,9 @@ from tapir.shifts.services.shift_cancellation_service import ShiftCancellationSe
 
 
 class TestShiftCancelService(TapirFactoryTestBase):
-    def test_flying_member_gets_attendance_cancelled(self):
+    def test_ShiftCancellationService_registeredFlyingMember_attendanceIsCancelled(
+        self,
+    ):
         user = TapirUserFactory.create(is_in_member_office=False)
         self.login_as_member_office_user()
         shift = ShiftFactory.create()
@@ -36,7 +38,7 @@ class TestShiftCancelService(TapirFactoryTestBase):
             "Because the attendance got cancelled, the account balance should have stayed at 0.",
         )
 
-    def test_abcd_member_gets_attendance_excused(self):
+    def test_ShiftCancellationService_registeredAbcdMember_attendanceIsExcused(self):
         user = TapirUserFactory.create(is_in_member_office=False)
         self.login_as_member_office_user()
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
@@ -58,7 +60,9 @@ class TestShiftCancelService(TapirFactoryTestBase):
             "Because the attendance got excused, the account balance should have increased to 1.",
         )
 
-    def test_member_registering_after_cancellation(self):
+    def test_ShiftCancellationService_registeringAbcdMemberAfterCancellation_attendanceIsExcused(
+        self,
+    ):
         user = TapirUserFactory.create(is_in_member_office=False)
         self.login_as_member_office_user()
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()

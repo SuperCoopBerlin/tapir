@@ -29,7 +29,7 @@ class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
         "tapir.shifts.services.shift_cancellation_service.ShiftCancellationService.cancel",
         wraps=ShiftCancellationService.cancel,
     )
-    def test_shift_is_cancelled_via_cancellation_service(self, mock_cancel: Mock):
+    def test_CancelShiftView_apply_callsCancellationService(self, mock_cancel: Mock):
         self.login_as_member_office_user()
         shift = ShiftFactory.create()
 
