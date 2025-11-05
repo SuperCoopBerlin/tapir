@@ -1,7 +1,10 @@
+import datetime
+
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
@@ -11,6 +14,7 @@ from django.views.generic import (
     UpdateView,
     RedirectView,
     FormView,
+    TemplateView,
 )
 
 from tapir.core.views import TapirFormMixin
@@ -22,6 +26,7 @@ from tapir.shifts.forms import (
     ShiftTemplateForm,
     ShiftSlotTemplateForm,
     ShiftDeleteForm,
+    BulkShiftCancelForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -30,6 +35,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftSlotTemplate,
 )
+from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -90,29 +96,47 @@ class CancelShiftView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     template_name = "shifts/cancel_shift.html"
 
     def form_valid(self, form):
+        response = super().form_valid(form)
+        shift: Shift = form.instance
+        ShiftCancellationService.cancel(shift)
+        return response
+
+
+class CancelDayShiftsView(LoginRequiredMixin, PermissionRequiredMixin, FormView):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+    form_class = BulkShiftCancelForm
+    template_name = "shifts/shift_day_cancel.html"
+    success_url = "/shifts/calendar"
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        day = datetime.datetime.strptime(self.kwargs["day"], "%d-%m-%y").date()
+        filter_day = Q(start_time__date=day)
+        filter_not_deleted = Q(deleted=False)
+        kwargs["shifts"] = Shift.objects.filter(
+            filter_day & filter_not_deleted
+        ).order_by("start_time")
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        day = datetime.datetime.strptime(self.kwargs["day"], "%d-%m-%y").date()
+        context["day"] = day
+
+        return context
+
+    def form_valid(self, form):
         with transaction.atomic():
             response = super().form_valid(form)
-
-            shift: Shift = form.instance
-            shift.cancelled = True
-            shift.save()
-
-            for slot in shift.slots.all():
-                attendance = slot.get_valid_attendance()
-                if not attendance:
-                    continue
-                if (
-                    hasattr(slot.slot_template, "attendance_template")
-                    and slot.slot_template.attendance_template.user == attendance.user
-                ):
-                    attendance.state = ShiftAttendance.State.MISSED_EXCUSED
-                    attendance.excused_reason = "Shift cancelled"
-                    attendance.save()
-                    attendance.update_shift_account_entry()
-                else:
-                    attendance.state = ShiftAttendance.State.CANCELLED
-                    attendance.save()
-
+            cancellation_reason = form.cleaned_data["cancellation_reason"]
+            shift_ids_to_cancel = [
+                form_field_key.split("_", maxsplit=1)[-1]
+                for form_field_key, should_be_cancelled in form.cleaned_data.items()
+                if form_field_key.startswith("shift") and should_be_cancelled
+            ]
+            for shift in Shift.objects.filter(id__in=shift_ids_to_cancel):
+                shift.cancelled_reason = cancellation_reason
+                ShiftCancellationService.cancel(shift)
             return response
 
 
