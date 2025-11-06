@@ -29,14 +29,11 @@
                 <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
                     <a class="{% tapir_button_link_to_action %}" href="{% url 'accounts:mail_settings' object.pk %}">
                         <span class="material-icons">mail</span>{% translate 'Mails' %}
-                    </a>
-                    {% if perms.group.manage %}
-                    <a class="{% tapir_button_link_to_action %}"
-                        href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
-                        <span class="material-icons">badge</span>{% translate 'Edit groups' %}
-                    </a>
-                    {% endif %}
-                </span>
+
+                        <a class="{% tapir_button_link_to_action %}" href="https://rizoma.coops.pt/utilizadores/{{ object.external_id }}">
+                            <span class="material-icons">open_in_new</span>{% translate 'View on coops.pt' %}
+                        </a>
+                    </span>
             </h5>
             <div class="card-body">
                 <div class="row">
