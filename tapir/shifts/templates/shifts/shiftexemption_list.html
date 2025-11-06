@@ -30,16 +30,23 @@
                         {% endfor %}
                     </div>
                 </div>
-                {% if shift_user_data %}
-                    <a class="{% tapir_button_link_to_action %}"
-                       href="{% url 'shifts:create_shift_exemption' shift_user_data.id %}"
-                       id="create_shift_exemption_button">
-                        <span class="material-icons">add_circle_outline</span>
-                        {% translate "Create shift exemption" %}
-                    </a>
+                {% if can_create_exemption %}
+                    {% if shift_user_data %}
+                        <a class="{% tapir_button_link_to_action %}"
+                        href="{% url 'shifts:create_shift_exemption' shift_user_data.id %}"
+                        id="create_shift_exemption_button">
+                            <span class="material-icons">add_circle_outline</span>
+                            {% translate "Create shift exemption" %}
+                        </a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
+            {% if not can_create_exemption %}
+                <div class="alert alert-info m-3">
+                    {% blocktranslate %} Write <a href="mailto:{{EMAIL_ADDRESS_MEMBER_OFFICE}}">{{EMAIL_ADDRESS_MEMBER_OFFICE}}</a> to request a shift exemption. {% endblocktranslate %}
+                </div>
+            {% endif %}
         <ul class="list-group list-group-flush">
             {% if filter %}
                 <li class="list-group-item">

@@ -23,7 +23,7 @@ from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import PERMISSION_SHIFTS_EXEMPTIONS, PERMISSION_COOP_MANAGE
+from tapir.settings import PERMISSION_SHIFTS_EXEMPTIONS, PERMISSION_COOP_MANAGE, EMAIL_ADDRESS_MEMBER_OFFICE
 from tapir.shifts.forms import (
     ShiftExemptionForm,
     ConvertShiftExemptionToMembershipPauseForm,
@@ -259,6 +259,8 @@ class ShiftExemptionListView(
         context_data = super().get_context_data(**kwargs)
         context_data["filtered_exemption_count"] = self.object_list.count()
         context_data["total_exemption_count"] = ShiftExemption.objects.count()
+        context_data["can_create_exemption"] = self.request.user.has_perm(PERMISSION_SHIFTS_EXEMPTIONS)
+        context_data["EMAIL_ADDRESS_MEMBER_OFFICE"] = EMAIL_ADDRESS_MEMBER_OFFICE
         shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
         if shift_user_data_id is not None:
             context_data["shift_user_data"] = ShiftUserData.objects.get(

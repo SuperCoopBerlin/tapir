@@ -144,7 +144,7 @@ class TapirUser(AbstractUser):
         if settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_COOPS_PT:
             for permission_name in settings.PERMISSIONS.keys():
                 self.__cached_perms[permission_name] = self.is_superuser
-        if settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_LDAP:
+        elif settings.ACTIVE_LOGIN_BACKEND == settings.LOGIN_BACKEND_LDAP:
             for (
                 permission_name,
                 groups_that_have_this_permission,
