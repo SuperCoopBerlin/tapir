@@ -14,21 +14,20 @@ class RizomaConfig(AppConfig):
 
     # Define custom links in the rizoma sidebar
     def register_rizoma_sidebar_link_groups(self):
-        admin_group = sidebar_link_groups.get_group(_("Admin"), 0)
+        turnos_group = sidebar_link_groups.get_group(_("Shifts"), 4)
 
-        admin_group.add_link(
-            display_name=_("All shifts"),
-            material_icon="calendar_today",
-            url=reverse_lazy("rizoma:all_shifts"),
-            ordering=1,
-            required_permissions=[PERMISSION_COOP_ADMIN],
-        )
-
-        me_group = sidebar_link_groups.get_group(_("Me"), 0)
-        me_group.add_link(
+        turnos_group.add_link(
             display_name=_("My shifts"),
             material_icon="calendar_today",
             url=reverse_lazy("shifts:dashboard"),
-            ordering=1,
-            required_permissions=[PERMISSION_COOP_VIEW],
+            ordering=0,
+            # required_permissions=[PERMISSION_COOP_VIEW],
+        )
+
+        turnos_group.add_link(
+            display_name=_("All shifts"),
+            material_icon="calendar_today",
+            url=reverse_lazy("rizoma:all_shifts"),
+            ordering=0,
+            # required_permissions=[PERMISSION_COOP_VIEW],
         )
