@@ -52,7 +52,7 @@ class Command(BaseCommand):
         #    'suspended': False,
         #    'type': 'member'},
         response_content = response.json()
-        
+
         users_to_create = []
         users_to_update = set()
         tapir_users_by_external_id = {
@@ -69,13 +69,20 @@ class Command(BaseCommand):
             user = tapir_users_by_external_id.get(external_user_id, None)
             if user is not None:
                 user = tapir_users_by_external_id[external_user_id]
+                needs_update = False
                 if user.first_name != user_json["firstName"]:
                     user.first_name = user_json["firstName"]
-                    users_to_update.add(user)
+                    needs_update = True
                 if user.last_name != user_json["lastName"]:
                     user.last_name = user_json["lastName"]
-                    users_to_update.add(user)
+                    needs_update = True
+                if user.email != user_json["email"]:
+                    user.email = user_json["email"]
+                    needs_update = True
                 if CoopsPtAuthBackend.update_admin_status(user, user_json["type"]):
+                    needs_update = True
+
+                if needs_update:
                     users_to_update.add(user)
             else:
                 users_to_create.append(
@@ -86,16 +93,29 @@ class Command(BaseCommand):
             if external_member_id is not None:
                 external_member_id_to_user_id_map[external_member_id] = external_user_id
 
-        users = TapirUser.objects.bulk_create(users_to_create)
-        ShiftUserData.objects.bulk_create([ShiftUserData(user=user) for user in users])
-        TapirUser.objects.bulk_update(
-            users_to_update, ["first_name", "last_name", "is_superuser"]
-        )
+        if users_to_create:
+            print(f"Creating {len(users_to_create)} users")
+            users = TapirUser.objects.bulk_create(users_to_create)
+            ShiftUserData.objects.bulk_create([ShiftUserData(user=user) for user in users])
+        else:
+            print("No new users to create")
+
+        if users_to_update:
+            print(f"Updating {len(users_to_update)} users")
+            TapirUser.objects.bulk_update(
+                users_to_update, ["first_name", "last_name", "email", "is_superuser"]
+            )
+        else:
+            print("No users to update")
 
         emails_to_delete = set(tapir_users_by_external_id.keys()).difference(
             external_ids_present_in_coops_pt
         )
-        TapirUser.objects.filter(email__in=emails_to_delete).delete()
+        if emails_to_delete:
+            print(f"Deleting {len(emails_to_delete)} users")
+            TapirUser.objects.filter(email__in=emails_to_delete).delete()
+        else:
+            print("No users to delete")
 
         return external_member_id_to_user_id_map
 
