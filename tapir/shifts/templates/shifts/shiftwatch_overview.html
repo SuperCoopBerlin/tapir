@@ -10,50 +10,53 @@
     {{ form.media }}
 {% endblock head %}
 {% block content %}
-    <div class="card mb-2">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h5>{% translate "Recurring Shiftwatch List" %}</h5>
-            <div>
-                <a class="{% tapir_button_link_to_action %}"
-                   href="{% url 'shifts:recurring_shift_watch' %}"
-                   id="create_recurring_shiftwatch_button">
-                    <span class="material-icons">add_circle_outline</span>
-                    {% translate "Create Recurring Shiftwatch" %}
-                </a>
+    <form method="post">
+        {% csrf_token %}
+        <!-- Recurring Shift Watches Card -->
+        <div class="card mb-2">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>{% translate "Recurring Shift Watches" %}</h5>
+                <div>
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:recurring_shift_watch' %}"
+                       id="create_recurring_shiftwatch_button">
+                        <span class="material-icons">add_circle_outline</span>
+                        {% translate "Create Recurring Shiftwatch" %}
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for recurringshiftwatch in recurringshiftwatches %}
+                        <li class="list-group-item">
+                            <input type="checkbox"
+                                   name="recurringshiftwatch_ids"
+                                   value="{{ recurringshiftwatch.id }}">
+                            {{ recurringshiftwatch.abcd }} - {{ recurringshiftwatch.weekdays }} - {{ recurringshiftwatch.staffing_status }}
+                            <ul>
+                                {% for template in recurringshiftwatch.shift_templates.all %}<li>{{ template }}</li>{% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
-        <form method="post">
-            {% csrf_token %}
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <h6>{% translate "Recurring Shift Watches" %}</h6>
-                    <ul>
-                        {% for recurringshiftwatch in recurringshiftwatches %}
-                            <li>
-                                <input type="checkbox"
-                                       name="recurringshiftwatch_ids"
-                                       value="{{ recurringshiftwatch.id }}">
-                                {{ recurringshiftwatch.abcd }} - {{ recurringshiftwatch.weekdays }} - {{ recurringshiftwatch.staffing_status }}
-                                <ul>
-                                    {% for template in recurringshiftwatch.shift_templates.all %}<li>{{ template }}</li>{% endfor %}
-                                </ul>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-                <li class="list-group-item">
-                    <h6>{% translate "Shift Watches" %}</h6>
-                    <ul>
-                        {% for shiftwatch in shift_watches %}
-                            <li>
-                                <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
-                                {{ shiftwatch }} - {{ shiftwatch.staffing_status }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            </ul>
-            <button type="submit" class="{% tapir_button_link %}">{% translate "Delete Selected" %}</button>
-        </form>
-    </div>
+        <!-- Shift Watches Card -->
+        <div class="card mb-2">
+            <div class="card-header">
+                <h5>{% translate "Shift Watches" %}</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for shiftwatch in shift_watches %}
+                        <li class="list-group-item">
+                            <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
+                            {{ shiftwatch }} - {{ shiftwatch.staffing_status }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <button type="submit" class="{% tapir_button_link %}">{% translate "Delete Selected" %}</button>
+    </form>
 {% endblock content %}
