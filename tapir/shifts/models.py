@@ -1323,17 +1323,15 @@ class ShiftRecurringWatchTemplate(models.Model):
 
 @receiver(post_save, sender=ShiftRecurringWatchTemplate)
 def create_shift_watches(sender, instance, created, **kwargs):
+
     if created:
-        print(f"instance: {instance}\n\n")
-        for attr, value in instance.__dict__.items():
-            print(f"{attr}: {value}")
-
         shifts_to_watch = set()
-
         for weekday in instance.weekdays:
             for category in instance.abcd:
+                # iso_week_day starts at 1
                 shifts = Shift.objects.filter(
-                    start_time__week_day=weekday, shift_template__group__name=category
+                    start_time__iso_week_day=weekday + 1,
+                    shift_template__group__name=category,
                 )
                 shifts_to_watch.update(shifts)
 
