@@ -22,10 +22,11 @@
                 </a>
             </div>
         </div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <form method="post">
-                    {% csrf_token %}
+        <form method="post">
+            {% csrf_token %}
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <h6>{% translate "Recurring Shift Watches" %}</h6>
                     <ul>
                         {% for recurringshiftwatch in recurringshiftwatches %}
                             <li>
@@ -33,19 +34,26 @@
                                        name="recurringshiftwatch_ids"
                                        value="{{ recurringshiftwatch.id }}">
                                 {{ recurringshiftwatch.abcd }} - {{ recurringshiftwatch.weekdays }} - {{ recurringshiftwatch.staffing_status }}
+                                <ul>
+                                    {% for template in recurringshiftwatch.shift_templates.all %}<li>{{ template }}</li>{% endfor %}
+                                </ul>
                             </li>
-                            <ul>
-                                {% for template in recurringshiftwatch.shift_templates.all %}
-                                    <li>
-                                        {{ template }} <!-- oder andere Attribute des Templates -->
-                                    </li>
-                                {% endfor %}
-                            </ul>
                         {% endfor %}
                     </ul>
-                    <button type="submit" class="{% tapir_button_link %}">Ausgewählte Löschen</button>
-                </form>
-            </li>
-        </ul>
+                </li>
+                <li class="list-group-item">
+                    <h6>{% translate "Shift Watches" %}</h6>
+                    <ul>
+                        {% for shiftwatch in shift_watches %}
+                            <li>
+                                <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
+                                {{ shiftwatch }} - {{ shiftwatch.staffing_status }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+            <button type="submit" class="{% tapir_button_link %}">{% translate "Delete Selected" %}</button>
+        </form>
     </div>
 {% endblock content %}
