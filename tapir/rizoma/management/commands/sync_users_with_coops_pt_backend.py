@@ -75,6 +75,9 @@ class Command(BaseCommand):
                 if user.last_name != user_json["lastName"]:
                     user.last_name = user_json["lastName"]
                     users_to_update.add(user)
+                if user.email != user_json["email"]:
+                    user.email = user_json["email"]
+                    users_to_update.add(user)
                 if CoopsPtAuthBackend.update_admin_status(user, user_json["type"]):
                     users_to_update.add(user)
             else:
@@ -89,7 +92,7 @@ class Command(BaseCommand):
         users = TapirUser.objects.bulk_create(users_to_create)
         ShiftUserData.objects.bulk_create([ShiftUserData(user=user) for user in users])
         TapirUser.objects.bulk_update(
-            users_to_update, ["first_name", "last_name", "is_superuser"]
+            users_to_update, ["first_name", "last_name", "is_superuser", "email"]
         )
 
         ids_to_delete = set(tapir_users_by_external_id.keys()).difference(
