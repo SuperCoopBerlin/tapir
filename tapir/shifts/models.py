@@ -1361,21 +1361,19 @@ def manage_shift_watches(sender, instance, action, reverse, pk_set, **kwargs):
                 )
 
 
-# @receiver(post_delete, sender=ShiftRecurringWatchTemplate)
-# def delete_related_shift_watches(sender, instance, **kwargs):
-#     shifts_to_delete = set()
-#
-#     for weekday in instance.weekdays:
-#         for category in instance.abcd:
-#             shifts = Shift.objects.filter(
-#                 start_time__week_day=weekday, shift_template__group__name=category
-#             )
-#             shifts_to_delete.update(shifts)
-#
-#     ShiftWatch.objects.filter(user=instance.user, shift__in=shifts_to_delete).delete()
-
-
-# @receiver(post_save, sender=Shift)
-# def create_shift_watch(sender, instance, created, **kwargs):
-#     if created:
-#         ShiftWatch.objects.create(shift=instance)
+@receiver(post_save, sender=Shift)
+def create_shift_watch(sender, instance, created, **kwargs):
+    if created:
+        for template in ShiftRecurringWatchTemplate.objects.all():
+            if template.shift_templates.filter(
+                id=instance.shift_template.id
+            ).exists() or (
+                instance.start_time.weekday() in template.weekdays
+                and instance.shift_template.group.name in template.abcd
+            ):
+                ShiftWatch.objects.create(
+                    user=template.user,
+                    shift=instance,
+                    staffing_status=template.staffing_status,
+                    recurring_template=template,
+                )
