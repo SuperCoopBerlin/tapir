@@ -1266,6 +1266,13 @@ class ShiftWatch(models.Model):
         null=True,
         choices=get_staffingstatus_choices,
     )
+    recurring_template = models.ForeignKey(
+        "ShiftRecurringWatchTemplate",
+        related_name="shift_watches",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
         return f"{self.user.username} is watching {self.shift.id} for changes of {[status for status in self.staffing_status]}"
@@ -1335,21 +1342,8 @@ def create_shift_watches(sender, instance, created, **kwargs):
                 user=instance.user,
                 shift=shift,
                 defaults={"staffing_status": instance.staffing_status},
+                recurring_template=instance,
             )
-
-
-@receiver(post_delete, sender=ShiftRecurringWatchTemplate)
-def delete_related_shift_watches(sender, instance, **kwargs):
-    shifts_to_delete = set()
-
-    for weekday in instance.weekdays:
-        for category in instance.abcd:
-            shifts = Shift.objects.filter(
-                start_time__week_day=weekday, shift_template__group__name=category
-            )
-            shifts_to_delete.update(shifts)
-
-    ShiftWatch.objects.filter(user=instance.user, shift__in=shifts_to_delete).delete()
 
 
 @receiver(m2m_changed, sender=ShiftRecurringWatchTemplate.shift_templates.through)
@@ -1365,11 +1359,25 @@ def manage_shift_watches(sender, instance, action, reverse, pk_set, **kwargs):
                     defaults={
                         "staffing_status": instance.staffing_status,
                     },
+                    recurring_template=instance,
                 )
-    elif action == "post_remove":
-        for template_id in pk_set:
-            template = ShiftTemplate.objects.get(id=template_id)
-            ShiftWatch.objects.filter(
-                user=instance.user,
-                shift__in=template.shifts.all(),
-            ).delete()
+
+
+# @receiver(post_delete, sender=ShiftRecurringWatchTemplate)
+# def delete_related_shift_watches(sender, instance, **kwargs):
+#     shifts_to_delete = set()
+#
+#     for weekday in instance.weekdays:
+#         for category in instance.abcd:
+#             shifts = Shift.objects.filter(
+#                 start_time__week_day=weekday, shift_template__group__name=category
+#             )
+#             shifts_to_delete.update(shifts)
+#
+#     ShiftWatch.objects.filter(user=instance.user, shift__in=shifts_to_delete).delete()
+
+
+# @receiver(post_save, sender=Shift)
+# def create_shift_watch(sender, instance, created, **kwargs):
+#     if created:
+#         ShiftWatch.objects.create(shift=instance)
