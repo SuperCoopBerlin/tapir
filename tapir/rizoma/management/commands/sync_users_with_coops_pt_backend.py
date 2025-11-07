@@ -92,10 +92,10 @@ class Command(BaseCommand):
             users_to_update, ["first_name", "last_name", "is_superuser"]
         )
 
-        emails_to_delete = set(tapir_users_by_external_id.keys()).difference(
+        ids_to_delete = set(tapir_users_by_external_id.keys()).difference(
             external_ids_present_in_coops_pt
         )
-        TapirUser.objects.filter(email__in=emails_to_delete).delete()
+        TapirUser.objects.filter(id__in=ids_to_delete).delete()
 
         return external_member_id_to_user_id_map
 
