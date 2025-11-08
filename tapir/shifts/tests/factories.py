@@ -2,6 +2,7 @@ import datetime
 import math
 
 import factory
+from django.db.models.signals import post_save
 
 from tapir.shifts.models import (
     ShiftTemplate,
@@ -9,6 +10,7 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     Shift,
     ShiftSlot,
+    create_shift_watch,
 )
 
 
@@ -88,3 +90,15 @@ class ShiftFactory(factory.django.DjangoModelFactory[Shift]):
             ShiftSlotFactory.create(shift=self)
         self.num_required_attendances = math.ceil(nb_slots / 2)
         self.save()
+
+    @classmethod
+    def create(cls, disable_signals=True, **kwargs):
+        if disable_signals:
+            post_save.disconnect(create_shift_watch, sender=Shift)
+
+        shift = super().create(**kwargs)
+
+        if disable_signals:
+            post_save.connect(create_shift_watch, sender=Shift)
+
+        return shift
