@@ -32,7 +32,7 @@
                             <input type="checkbox"
                                    name="recurringshiftwatch_ids"
                                    value="{{ recurringshiftwatch.id }}">
-                            {{ recurringshiftwatch.abcd }} - {{ recurringshiftwatch.weekdays }} - {{ recurringshiftwatch.staffing_status }}
+                            {{ recurringshiftwatch.shift_template_group }} - {{ recurringshiftwatch.weekdays }} - {{ recurringshiftwatch.staffing_status }}
                             <ul>
                                 {% for template in recurringshiftwatch.shift_templates.all %}<li>{{ template }}</li>{% endfor %}
                             </ul>

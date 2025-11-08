@@ -1296,19 +1296,14 @@ class ShiftRecurringWatchTemplate(models.Model):
     )
     shift_templates = models.ManyToManyField(ShiftTemplate, blank=True)
 
-    abcd = ArrayField(
+    shift_template_group = ArrayField(
         models.CharField(
-            max_length=1,
-            choices=[
-                ("A", "A"),
-                ("B", "B"),
-                ("C", "C"),
-                ("D", "D"),
-            ],
+            max_length=255,
         ),
         blank=True,
         default=list,
     )
+
     weekdays = ArrayField(
         models.IntegerField(blank=True, null=True, choices=WEEKDAY_CHOICES),
         blank=True,
@@ -1327,11 +1322,11 @@ def create_shift_watches(sender, instance, created, **kwargs):
     if created:
         shifts_to_watch = set()
         for weekday in instance.weekdays:
-            for category in instance.abcd:
-                # iso_week_day starts at 1
+            for category in instance.shift_template_group:
+                # iso_week_day starts at 1, django seems to don't have a weekday()-function starting at 0?
                 shifts = Shift.objects.filter(
                     start_time__iso_week_day=weekday + 1,
-                    shift_template__group__name=category,
+                    shift_template__group=category,
                 )
                 shifts_to_watch.update(shifts)
 
@@ -1365,11 +1360,20 @@ def manage_shift_watches(sender, instance, action, reverse, pk_set, **kwargs):
 def create_shift_watch(sender, instance, created, **kwargs):
     if created:
         for template in ShiftRecurringWatchTemplate.objects.all():
-            if template.shift_templates.filter(
-                id=instance.shift_template.id
-            ).exists() or (
+            shift_template_id = (
+                instance.shift_template.id if instance.shift_template else None
+            )
+
+            if (
+                shift_template_id
+                and template.shift_templates.filter(id=shift_template_id).exists()
+            ) or (
                 instance.start_time.weekday() in template.weekdays
-                and instance.shift_template.group.name in template.abcd
+                and (
+                    instance.shift_template.group.name in template.shift_template_group
+                    if instance.shift_template
+                    else False
+                )
             ):
                 ShiftWatch.objects.create(
                     user=template.user,

@@ -36,6 +36,7 @@ from tapir.shifts.models import (
     get_staffingstatus_choices,
     ShiftRecurringWatchTemplate,
     WEEKDAY_CHOICES,
+    ShiftTemplateGroup,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -701,7 +702,12 @@ class ShiftWatchForm(forms.ModelForm):
 class ShiftRecurringWatchForm(forms.ModelForm):
     class Meta:
         model = ShiftRecurringWatchTemplate
-        fields = ["shift_templates", "weekdays", "abcd", "staffing_status"]
+        fields = [
+            "shift_templates",
+            "weekdays",
+            "shift_template_group",
+            "staffing_status",
+        ]
 
     weekdays = forms.MultipleChoiceField(
         required=False,
@@ -713,16 +719,10 @@ class ShiftRecurringWatchForm(forms.ModelForm):
         required=False,
         widget=forms.CheckboxSelectMultiple,
     )
-    abcd = forms.MultipleChoiceField(
+    shift_template_group = forms.MultipleChoiceField(
         required=False,
-        choices=[
-            ("A", "A"),
-            ("B", "B"),
-            ("C", "C"),
-            ("D", "D"),
-        ],
+        choices=list(ShiftTemplateGroup.objects.values_list("name", "name")),
         widget=CheckboxSelectMultiple(),
-        disabled=False,
     )
     staffing_status = forms.MultipleChoiceField(
         required=True,
@@ -738,19 +738,19 @@ class ShiftRecurringWatchForm(forms.ModelForm):
         shift_templates = cleaned_data.get("shift_templates")
         weekdays = cleaned_data.get("weekdays")
         cleaned_data["weekdays"] = list(map(int, weekdays))
-        abcd = cleaned_data.get("abcd")
+        shift_template_group = cleaned_data.get("shift_template_group")
 
-        if (weekdays or abcd) and shift_templates:
+        if (weekdays or shift_template_group) and shift_templates:
             raise forms.ValidationError(
                 _(
-                    "If weekdays or ABCD are selected, ShiftTemplates may not be selected."
+                    "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected."
                 )
             )
 
-        if not (shift_templates or weekdays or abcd):
+        if not (shift_templates or weekdays or shift_template_group):
             raise forms.ValidationError(
                 _(
-                    "At least one of the fields (ShiftTemplates, weekdays, or ABCD) must be selected."
+                    "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected."
                 )
             )
         return cleaned_data
