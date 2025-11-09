@@ -85,14 +85,13 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         )
         self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
 
-    def test_createShift_watchABCD_shiftWatchIsCreated(self):
-        #     ShiftTemplateGroup.objects.create(name="A")
-        #     group = ShiftTemplateGroup.objects.get(name="A")
-        #     shift_template = ShiftTemplateFactory.create(group=group)
-        #     self.recurring_template.shift_template_group.set([shift_template.group.name])
-        #     self.recurring_template.save()
-        #
-        #     shift = shift_template.create_shift(timezone.now().date())
-        #     print(Shift.objects.all())
-        #     self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
-        pass
+    def test_createShiftfromShiftTemplate_watchABCD_shiftWatchIsCreated(self):
+        ShiftTemplateGroup.objects.create(name="A")
+        group = ShiftTemplateGroup.objects.get(name="A")
+        shift_template = ShiftTemplateFactory.create(group=group)
+        self.recurring_template.shift_template_group = ["A"]
+        self.recurring_template.save()
+
+        shift = shift_template.create_shift(timezone.now().date())
+        print(Shift.objects.all())
+        self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
