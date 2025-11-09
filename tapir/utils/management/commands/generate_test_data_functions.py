@@ -5,7 +5,6 @@ import pathlib
 import random
 
 import ldap
-from django.db.models.signals import post_save
 from django.utils import timezone
 from django_auth_ldap.config import LDAPSearch
 from fabric.testing.fixtures import connection
@@ -43,7 +42,6 @@ from tapir.shifts.models import (
     ShiftCycleEntry,
     ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
-    create_shift_watch,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.statistics.models import (
@@ -392,13 +390,11 @@ SHIFT_GENERATION_START = timezone.now().date() - datetime.timedelta(days=100)
 
 def generate_shifts():
     print("Generating shifts")
-    post_save.disconnect(create_shift_watch, sender=Shift)  # disable post-save
     start_day = get_monday(SHIFT_GENERATION_START)
 
     for week in range(20):
         monday = start_day + datetime.timedelta(days=7 * week)
         get_week_group(monday).create_shifts(monday)
-    post_save.connect(create_shift_watch, sender=Shift)  # enable post-save again
 
 
 def generate_test_applicants():

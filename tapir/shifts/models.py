@@ -276,7 +276,7 @@ class ShiftTemplate(models.Model):
 
         generated_shift.save()
         shift = generated_shift
-
+        create_shift_watch_entries(shift)
         for slot_template in self.slot_templates.all().select_related(
             "attendance_template"
         ):
@@ -1356,28 +1356,26 @@ def manage_shift_watches(sender, instance, action, reverse, pk_set, **kwargs):
                 )
 
 
-@receiver(post_save, sender=Shift)
-def create_shift_watch(sender, instance, created, **kwargs):
-    if created:
-        for template in ShiftRecurringWatchTemplate.objects.all():
-            shift_template_id = (
-                instance.shift_template.id if instance.shift_template else None
-            )
+def create_shift_watch_entries(shift: Shift) -> None:
+    """Create ShiftWatch entries based on ShiftRecurringWatchTemplate."""
+    for template in ShiftRecurringWatchTemplate.objects.all():
+        shift_template_id = shift.shift_template.id if shift.shift_template else None
 
-            if (
-                shift_template_id
-                and template.shift_templates.filter(id=shift_template_id).exists()
-            ) or (
-                instance.start_time.weekday() in template.weekdays
-                and (
-                    instance.shift_template.group.name in template.shift_template_group
-                    if instance.shift_template
-                    else False
-                )
-            ):
-                ShiftWatch.objects.create(
-                    user=template.user,
-                    shift=instance,
-                    staffing_status=template.staffing_status,
-                    recurring_template=template,
-                )
+        if (
+            shift_template_id
+            and template.shift_templates.filter(id=shift_template_id).exists()
+        ) or (
+            shift.start_time.weekday() in template.weekdays
+            and (
+                shift.shift_template.group.name in template.shift_template_group
+                if shift.shift_template
+                else False
+            )
+        ):
+            print()
+            ShiftWatch.objects.create(
+                user=template.user,
+                shift=shift,
+                staffing_status=template.staffing_status,
+                recurring_template=template,
+            )
