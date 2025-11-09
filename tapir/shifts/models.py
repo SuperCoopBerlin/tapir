@@ -1321,13 +1321,17 @@ def create_shift_watches(sender, instance, created, **kwargs):
 
     if created:
         shifts_to_watch = set()
-        for weekday in instance.weekdays:
-            for category in instance.shift_template_group:
-                # iso_week_day starts at 1, django seems to don't have a weekday()-function starting at 0?
-                shifts = Shift.objects.filter(
-                    start_time__iso_week_day=weekday + 1,
-                    shift_template__group=category,
-                )
+        if instance.shift_template_group:
+            for weekday in instance.weekdays:
+                for category in instance.shift_template_group:
+                    shifts = Shift.objects.filter(
+                        start_time__iso_week_day=(weekday + 1),
+                        shift_template__group__name=category,
+                    )
+                    shifts_to_watch.update(shifts)
+        else:
+            for weekday in instance.weekdays:
+                shifts = Shift.objects.filter(start_time__iso_week_day=(weekday + 1))
                 shifts_to_watch.update(shifts)
 
         for shift in shifts_to_watch:
