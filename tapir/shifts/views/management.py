@@ -29,6 +29,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftTemplate,
     ShiftSlotTemplate,
+    create_shift_watch_entries,
 )
 
 
@@ -41,6 +42,13 @@ class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context["card_title"] = _("Create a shift")
         return context
+
+    def form_valid(self, form):
+        shift = form.save()
+
+        create_shift_watch_entries(shift=shift)
+
+        return super().form_valid(form)
 
 
 class ShiftSlotCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
