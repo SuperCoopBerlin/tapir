@@ -1364,18 +1364,18 @@ def create_shift_watch_entries(shift: Shift) -> None:
     """Create ShiftWatch entries based on ShiftRecurringWatchTemplate."""
     for template in ShiftRecurringWatchTemplate.objects.all():
         shift_template_id = shift.shift_template.id if shift.shift_template else None
+        weekday_match = shift.start_time.weekday() in template.weekdays
+
+        shift_template_group_match = (
+            shift.shift_template.group.name in template.shift_template_group
+            if shift.shift_template and template.shift_template_group
+            else False
+        )
 
         if (
             shift_template_id
             and template.shift_templates.filter(id=shift_template_id).exists()
-        ) or (
-            shift.start_time.weekday() in template.weekdays
-            and (
-                shift.shift_template.group.name in template.shift_template_group
-                if shift.shift_template
-                else False
-            )
-        ):
+        ) or (weekday_match or shift_template_group_match):
             ShiftWatch.objects.create(
                 user=template.user,
                 shift=shift,
