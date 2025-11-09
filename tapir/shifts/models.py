@@ -1372,7 +1372,6 @@ def create_shift_watch_entries(shift: Shift) -> None:
                 else False
             )
         ):
-            print()
             ShiftWatch.objects.create(
                 user=template.user,
                 shift=shift,
