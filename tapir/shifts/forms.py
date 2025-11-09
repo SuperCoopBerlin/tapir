@@ -721,7 +721,13 @@ class ShiftRecurringWatchForm(forms.ModelForm):
     )
     shift_template_group = forms.MultipleChoiceField(
         required=False,
-        choices=list(ShiftTemplateGroup.objects.values_list("name", "name")),
+        # TODO don't hardocde
+        choices=[
+            ("A", "A"),
+            ("B", "B"),
+            ("C", "C"),
+            ("D", "D"),
+        ],
         widget=CheckboxSelectMultiple(),
     )
     staffing_status = forms.MultipleChoiceField(
