@@ -420,14 +420,18 @@ class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self):
-        return ShiftRecurringWatchTemplate.objects.filter(user=self.request.user)
+        user_pk = self.kwargs.get("pk")
+        return ShiftRecurringWatchTemplate.objects.filter(user__id=user_pk)
 
     def post(self, request, *args, **kwargs):
+        user_pk = kwargs.get("pk")
         selected_recurring_ids = request.POST.getlist("recurringshiftwatch_ids")
         selected_watch_ids = request.POST.getlist("shiftwatch_ids")
 
         ShiftRecurringWatchTemplate.objects.filter(
-            id__in=selected_recurring_ids
+            id__in=selected_recurring_ids, user__id=user_pk
         ).delete()
-        ShiftWatch.objects.filter(id__in=selected_watch_ids).delete()
-        return redirect("shifts:shiftwatch_overview")
+
+        ShiftWatch.objects.filter(id__in=selected_watch_ids, user__id=user_pk).delete()
+
+        return redirect("shifts:shiftwatch_overview", pk=user_pk)
