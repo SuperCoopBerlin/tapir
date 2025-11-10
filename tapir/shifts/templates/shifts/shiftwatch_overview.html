@@ -32,10 +32,35 @@
                             <input type="checkbox"
                                    name="recurringshiftwatch_ids"
                                    value="{{ recurringshiftwatch.id }}">
-                            {{ recurringshiftwatch.shift_template_group }} - {{ recurringshiftwatch.weekdays }} - {{ recurringshiftwatch.staffing_status }}
-                            <ul>
-                                {% for template in recurringshiftwatch.shift_templates.all %}<li>{{ template }}</li>{% endfor %}
-                            </ul>
+                            {% if recurringshiftwatch.shift_template_group and recurringshiftwatch.weekdays %}
+                                {% translate "You are observing all shifts based on the weekdays:" %}
+                                <strong>{{ recurringshiftwatch.weekdays|join:", " }}</strong>
+                                {% translate "and the shift template group:" %}
+                                <strong>{{ recurringshiftwatch.shift_template_group|join:", " }}</strong>
+                            {% elif recurringshiftwatch.shift_template_group %}
+                                {% translate "You are observing all shifts based on the shift template group:" %}
+                                <strong>{{ recurringshiftwatch.shift_template_group|join:", " }}</strong>
+                            {% elif recurringshiftwatch.weekdays %}
+                                {% translate "You are observing all shifts on the weekdays:" %}
+                                <strong>{{ recurringshiftwatch.weekdays|join:", " }}</strong>
+                            {% elif recurringshiftwatch.shift_templates.all %}
+                                {% translate "You are observing all shifts based on the shift templates:" %}
+                                <strong>
+                                    {% for template in recurringshiftwatch.shift_templates.all %}
+                                        {{ template }}
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </strong>
+                            {% else %}
+                                {% translate "You are not observing any shifts." %}
+                            {% endif %}
+                            <br>
+                            <div style="margin-left: 20px;">
+                                <strong>{% translate "Observed changes:" %}</strong>
+                                <ul>
+                                    {% for status in recurringshiftwatch.staffing_status %}<li>{{ status }}</li>{% endfor %}
+                                </ul>
+                            </div>
                         </li>
                     {% endfor %}
                 </ul>
