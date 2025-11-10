@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+{% load django_vite %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
+{% endblock head %}
+{% block title %}
+    {% translate "Supercoop registration" %}
+{% endblock title %}
+{% block content %}
+    {% vite_asset 'member_registration/member_registration_entry.tsx' %}
+    <span id="member_registration"></span>
+{% endblock content %}

@@ -1,3 +1,4 @@
+apis/CoopApi.ts
 apis/StatisticsApi.ts
 apis/WelcomedeskApi.ts
 apis/index.ts
@@ -5,6 +6,7 @@ index.ts
 models/Column.ts
 models/DatapointExport.ts
 models/Dataset.ts
+models/MemberRegistrationRequest.ts
 models/ShareOwnerForWelcomeDesk.ts
 models/index.ts
 runtime.ts
