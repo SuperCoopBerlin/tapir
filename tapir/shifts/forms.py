@@ -673,7 +673,11 @@ class ShiftAttendanceTemplateCustomTimeForm(CustomTimeCleanMixin, forms.ModelFor
         return self.instance.slot_template.shift_template
 
 
-class BaseStaffingForm(forms.ModelForm):
+class ShiftWatchForm(forms.ModelForm):
+    class Meta:
+        model = ShiftWatch
+        fields = ["staffing_status"]
+
     staffing_status = forms.MultipleChoiceField(
         required=False,
         choices=get_staffingstatus_choices,
@@ -683,28 +687,19 @@ class BaseStaffingForm(forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
-        request_user: TapirUser = kwargs.pop("request_user", None)
+        request_user: TapirUser = kwargs.pop("request_user")
         super().__init__(*args, **kwargs)
 
-        if request_user:
-            last_shiftwatch = (
-                self.Meta.model.objects.filter(user=request_user)
-                .order_by("-id")
-                .first()
-            )
-            if last_shiftwatch:
-                self.initial["staffing_status"] = last_shiftwatch.staffing_status
-            else:
-                self.initial["staffing_status"] = get_staffingstatus_defaults()
+        last_shiftwatch = (
+            ShiftWatch.objects.filter(user=request_user).order_by("-id").first()
+        )
+        if last_shiftwatch:
+            self.initial["staffing_status"] = last_shiftwatch.staffing_status
+        else:
+            self.initial["staffing_status"] = get_staffingstatus_defaults()
 
 
-class ShiftWatchForm(BaseStaffingForm):
-    class Meta:
-        model = ShiftWatch
-        fields = ["staffing_status"]
-
-
-class ShiftRecurringWatchForm(BaseStaffingForm):
+class ShiftRecurringWatchForm(forms.ModelForm):
     class Meta:
         model = ShiftRecurringWatchTemplate
         fields = [
@@ -719,13 +714,14 @@ class ShiftRecurringWatchForm(BaseStaffingForm):
         choices=WEEKDAY_CHOICES,
         widget=CheckboxSelectMultiple(),
     )
-    shift_templates = forms.ModelMultipleChoiceField(
+    shift_templates = ModelMultipleChoiceField(
         queryset=ShiftTemplate.objects.all(),
         required=False,
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.CheckboxSelectMultiple,
     )
     shift_template_group = forms.MultipleChoiceField(
         required=False,
+        # TODO don't hardocde
         choices=[
             ("A", "A"),
             ("B", "B"),
@@ -734,12 +730,20 @@ class ShiftRecurringWatchForm(BaseStaffingForm):
         ],
         widget=CheckboxSelectMultiple(),
     )
+    staffing_status = forms.MultipleChoiceField(
+        required=True,
+        choices=get_staffingstatus_choices,
+        label=_("Shift changes you would like to be informed about"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+    )
 
+    #
     def clean(self):
         cleaned_data = super().clean()
         shift_templates = cleaned_data.get("shift_templates")
         weekdays = cleaned_data.get("weekdays")
-        cleaned_data["weekdays"] = list(map(int, weekdays)) if weekdays else []
+        cleaned_data["weekdays"] = list(map(int, weekdays))
         shift_template_group = cleaned_data.get("shift_template_group")
 
         if (weekdays or shift_template_group) and shift_templates:
