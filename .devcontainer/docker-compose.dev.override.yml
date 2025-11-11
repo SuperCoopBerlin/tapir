@@ -1,7 +1,5 @@
 services:
   web:
-    volumes:
-      - .:/app:cached
-    command: bash -c "git config --global --add safe.directory /app"
-    environment:
-      - PYTHONUNBUFFERED=1
+    build:
+      args:
+        UID: 1000

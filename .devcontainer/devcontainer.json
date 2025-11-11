@@ -17,10 +17,6 @@
 	// The optional 'workspaceFolder' property is the path VS Code should open by default when
 	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
 	"workspaceFolder": "/app",
-    "remoteUser": "developer",
-    "remoteEnv": {
-      "POETRY_CACHE_DIR": "/home/developer/.cache/pypoetry"
-    },
-    "postCreateCommand": "poetry install --with dev",
+    "remoteUser": "noroot",
     "shutdownAction": "stopCompose",
 }

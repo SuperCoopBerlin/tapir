@@ -1,6 +1,10 @@
 FROM python:3.13
 ENV PYTHONUNBUFFERED=1
 
+ARG UID=1000
+ARG GID=$UID
+ARG USERNAME=noroot
+
 RUN apt-get update -y  \
     && apt-get --no-install-recommends install -y  \
         gettext  \
@@ -11,11 +15,18 @@ RUN apt-get update -y  \
         python3-poetry  \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m developer
+RUN if [ "$UID" -ne 0 ]; then  \
+      addgroup --gid "$GID" "$USERNAME"  \
+      && adduser --disabled-password --gecos "" --uid "$UID" --gid "$GID" "$USERNAME";  \
+    fi
+
 WORKDIR /app
-COPY --chown=developer:developer . /app
+COPY --chown=$UID:$GID . /app
+# change ownership of the app dir itself
+RUN chown $UID:$GID /app
 
-USER developer
+USER ${UID}:${GID}
 
-RUN poetry install  \
-    && poetry run python manage.py compilemessages
+RUN poetry config virtualenvs.in-project true
+
+CMD bash -c "poetry install && poetry run python manage.py compilemessages --ignore '.venv' && poetry run python manage.py runserver_plus 0.0.0.0:80"
