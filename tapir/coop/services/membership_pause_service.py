@@ -4,7 +4,7 @@ import datetime
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.models import User
-from django.db.models import Q, Value, Count, QuerySet
+from django.db.models import Q, Value, Count, QuerySet, Subquery, OuterRef
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
@@ -96,8 +96,21 @@ class MembershipPauseService:
             | Q(membershippause__end_date__isnull=True)
         )
 
+        num_pauses_queryset = queryset.annotate(
+            **{
+                MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE: Count(
+                    "membershippause",
+                    filter=filters,
+                )
+            }
+        ).filter(pk=OuterRef("pk"))
+
         annotate_kwargs = {
-            cls.ANNOTATION_HAS_ACTIVE_PAUSE: Count("membershippause", filter=filters),
-            cls.ANNOTATION_HAS_ACTIVE_PAUSE_AT_DATE: Value(at_date),
+            MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE: Subquery(
+                num_pauses_queryset.values(
+                    MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE
+                )
+            ),
+            MembershipPauseService.ANNOTATION_HAS_ACTIVE_PAUSE_AT_DATE: Value(at_date),
         }
         return queryset.annotate(**annotate_kwargs)

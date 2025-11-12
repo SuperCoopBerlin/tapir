@@ -160,7 +160,13 @@ class ShiftTemplate(models.Model):
         on_delete=models.PROTECT,
     )
     num_required_attendances = models.PositiveIntegerField(
-        null=False, blank=False, default=3
+        null=False,
+        blank=False,
+        default=0,
+        help_text=_(
+            "If there are less members registered to a shift than that number, "
+            "it will be highlighted in the shift calendar. The number of required attendances can't be higher than the slots in the resp. shift."
+        ),
     )
     weekday = models.IntegerField(blank=True, null=True, choices=WEEKDAY_CHOICES)
     start_time = models.TimeField(blank=False)
@@ -491,11 +497,11 @@ class Shift(models.Model):
         verbose_name=_("Number of required attendances"),
         help_text=_(
             "If there are less members registered to a shift than that number, "
-            "it will be highlighted in the shift calendar."
+            "it will be highlighted in the shift calendar. The number of required attendances can't be higher than the slots in the resp. shift."
         ),
         null=True,
         blank=False,
-        default=3,
+        default=0,
     )
     description = models.TextField(
         verbose_name=_("Description"),
@@ -1196,3 +1202,66 @@ class SolidarityShift(models.Model):
     is_used_up = models.BooleanField(default=False)
     date_gifted = models.DateField(auto_now_add=True)
     date_used = models.DateField(null=True)
+
+
+class StaffingStatusChoices(models.TextChoices):
+    ALMOST_FULL = "ALMOST_FULL", _("Shift is almost full, only one spot left.")
+    FULL = "FULL", _("Shift is full now.")
+    UNDERSTAFFED = "UNDERSTAFFED", _("The Shift is understaffed!")
+    ALL_CLEAR = "ALL_CLEAR", _(
+        "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
+    )
+    ATTENDANCE_PLUS = "SLOTS_PLUS", _(
+        "One new attendance or more registered, but the shift is neither understaffed nor full or almost full."
+    )
+    ATTENDANCE_MINUS = "SLOTS_MINUS", _(
+        "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
+    )
+    SHIFT_COORDINATOR_MINUS = "SHIFT_COORDINATOR_MINUS", _(
+        "The Shift Coordinator has unregistered"
+    )
+    SHIFT_COORDINATOR_PLUS = "SHIFT_COORDINATOR_PLUS", _(
+        "A Shift Coordinator has registered"
+    )
+
+
+def get_staffingstatus_choices():
+    return StaffingStatusChoices
+
+
+def get_staffingstatus_defaults():
+    return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
+
+
+class ShiftWatch(models.Model):
+    user = models.ForeignKey(
+        TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
+    )
+    shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
+    staffing_status = ArrayField(
+        models.CharField(max_length=30, choices=get_staffingstatus_choices),
+        blank=False,
+        default=get_staffingstatus_defaults,
+    )
+
+    last_valid_slot_ids = ArrayField(
+        models.IntegerField(),
+        blank=True,
+        default=list,
+    )
+    last_staffing_status = models.CharField(
+        max_length=30,
+        null=True,
+        choices=get_staffingstatus_choices,
+    )
+
+    def __str__(self):
+        return f"{self.user.username} is watching {self.shift.id} for changes of {[status for status in self.staffing_status]}"
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "shift"],
+                name="shift_watch_constraint",
+            )
+        ]

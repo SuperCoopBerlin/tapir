@@ -2,18 +2,52 @@ name: Create and publish Docker image
 
 on:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag'
+        required: false
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-
 jobs:
+  prepare-changelog-and-changelog:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build Changelog
+        uses: orhun/git-cliff-action@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+        id: build_changelog
+        with:
+          config: https://github.com/orhun/git-cliff/blob/main/examples/github.toml
+          args: --verbose --unreleased --strip header ${{ github.event.inputs.release_tag == '' && '--bump' || format('--tag {0}', github.event.inputs.release_tag) }}
+      - name: Create Tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -a "${{ steps.build_changelog.outputs.version }}" -m "Release ${{ steps.build_changelog.outputs.version }}"
+          git push origin "${{ steps.build_changelog.outputs.version }}"
+      - name: Draft release with changelog
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.build_changelog.outputs.version }}
+          name: Tapir ${{ steps.build_changelog.outputs.version }}
+          body: ${{steps.build_changelog.outputs.content}}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

@@ -45,6 +45,12 @@ export interface ShareOwnerForWelcomeDesk {
     readonly coPurchaser: string | null;
     /**
      * 
+     * @type {string}
+     * @memberof ShareOwnerForWelcomeDesk
+     */
+    readonly coPurchaser2: string | null;
+    /**
+     * 
      * @type {Array<string>}
      * @memberof ShareOwnerForWelcomeDesk
      */
@@ -65,6 +71,7 @@ export function instanceOfShareOwnerForWelcomeDesk(value: object): value is Shar
     if (!('displayName' in value) || value['displayName'] === undefined) return false;
     if (!('canShop' in value) || value['canShop'] === undefined) return false;
     if (!('coPurchaser' in value) || value['coPurchaser'] === undefined) return false;
+    if (!('coPurchaser2' in value) || value['coPurchaser2'] === undefined) return false;
     if (!('warnings' in value) || value['warnings'] === undefined) return false;
     if (!('reasonsCannotShop' in value) || value['reasonsCannotShop'] === undefined) return false;
     return true;
@@ -84,6 +91,7 @@ export function ShareOwnerForWelcomeDeskFromJSONTyped(json: any, ignoreDiscrimin
         'displayName': json['display_name'],
         'canShop': json['can_shop'],
         'coPurchaser': json['co_purchaser'],
+        'coPurchaser2': json['co_purchaser_2'],
         'warnings': json['warnings'],
         'reasonsCannotShop': json['reasons_cannot_shop'],
     };
@@ -93,7 +101,7 @@ export function ShareOwnerForWelcomeDeskFromJSONTyped(json: any, ignoreDiscrimin
       return ShareOwnerForWelcomeDeskToJSONTyped(json, false);
   }
 
-  export function ShareOwnerForWelcomeDeskToJSONTyped(value?: Omit<ShareOwnerForWelcomeDesk, 'id'|'display_name'|'can_shop'|'co_purchaser'|'warnings'|'reasons_cannot_shop'> | null, ignoreDiscriminator: boolean = false): any {
+  export function ShareOwnerForWelcomeDeskToJSONTyped(value?: Omit<ShareOwnerForWelcomeDesk, 'id'|'display_name'|'can_shop'|'co_purchaser'|'co_purchaser_2'|'warnings'|'reasons_cannot_shop'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

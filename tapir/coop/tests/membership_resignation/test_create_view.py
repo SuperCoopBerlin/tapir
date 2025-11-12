@@ -64,6 +64,7 @@ class TestMembershipResignationCreateView(
         self,
         resignation_type: MembershipResignation.ResignationType,
         transferring_shares_to: ShareOwner | None = None,
+        send_confirmation_mails: bool = True,
     ):
         resigning_member = ShareOwnerFactory.create()
         data = {
@@ -72,6 +73,7 @@ class TestMembershipResignationCreateView(
             "cancellation_reason_category": MembershipResignation.CancellationReasons.OTHER,
             "cancellation_date": self.TODAY,
             "resignation_type": resignation_type,
+            "send_confirmation_mails": send_confirmation_mails,
         }
         if transferring_shares_to:
             data["transferring_shares_to"] = transferring_shares_to.id
@@ -129,6 +131,17 @@ class TestMembershipResignationCreateView(
             sent_mail,
         )
 
+    def test_membershipResignationCreateView_checkboxSendMailNotChecked_notMailSent(
+        self,
+    ):
+        self.login_as_vorstand()
+        self.call_resignation_create_view(
+            MembershipResignation.ResignationType.GIFT_TO_COOP,
+            send_confirmation_mails=False,
+        )
+
+        self.assertEqual(0, len(mail.outbox))
+
     def test_membershipResignationCreateView_resignationTypeTransfer_shareRecipientAlsoReceivesMails(
         self,
     ):
@@ -153,6 +166,19 @@ class TestMembershipResignationCreateView(
             member_that_receives_shares.email,
             mail_to_receiving_member,
         )
+
+    def test_membershipResignationCreateView_resignationTypeTransferButMailSendingDisabled_noMailSent(
+        self,
+    ):
+        member_that_receives_shares = ShareOwnerFactory.create()
+        self.login_as_vorstand()
+        self.call_resignation_create_view(
+            MembershipResignation.ResignationType.TRANSFER,
+            member_that_receives_shares,
+            send_confirmation_mails=False,
+        )
+
+        self.assertEqual(0, len(mail.outbox))
 
     def test_membershipResignationCreateView_resignationTypeGiftToCoop_payOutDayIsSetCorrectly(
         self,

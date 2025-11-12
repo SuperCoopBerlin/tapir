@@ -121,6 +121,16 @@
                             {% endif %}
                         </div>
                     </div>
+                    <div class="row m-1">
+                        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Second co-purchaser" %}:</div>
+                        <div class="col-12 col-sm-8">
+                            {% if object.co_purchaser_2 %}
+                                {{ object.co_purchaser_2 }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-end flex-fill flex-wrap gap-2 m-1 mt-3">
                         {% if perms.accounts.manage %}
                             <div class="ms-1">
@@ -151,7 +161,7 @@
     </div>
     <div class="row">
         <div class="col-xl-4">{% purchase_tracking_card tapir_user=object %}</div>
-        {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
+        {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking and is_allowed_to_see_purchase_tracking %}
             <div class="col-xl-4">{% purchase_statistics_card tapir_user=object %}</div>
             <div class="col-xl-4">{% credit_account_card tapir_user=object %}</div>
         {% endif %}

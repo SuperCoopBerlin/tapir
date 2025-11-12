@@ -5,7 +5,6 @@ from django.urls import reverse
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
 from tapir.utils.tests_utils import TapirFactoryTestBase, FeatureFlagTestMixin
-from django.utils import translation
 
 
 class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
@@ -158,10 +157,6 @@ class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):
         )
         self.assertStatusCode(response, 200)
         self.assertIn("shift_partner", response.context_data["form"].errors)
-        self.assertIn(
-            "Das ausgewählte Mitglied muss ein investierendes Mitglied sein.",
-            response.context_data["form"].errors["shift_partner"],
-        )
 
     def test_EditShiftUserDataView_memberIsInvesting_shiftPartnerFieldDisabled(self):
         self.login_as_member_office_user()

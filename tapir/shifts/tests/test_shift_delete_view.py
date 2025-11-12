@@ -5,7 +5,7 @@ from tapir.shifts.tests.factories import ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, PermissionTestMixin
 
 
-class TestShiftDeleteForm(PermissionTestMixin, TapirFactoryTestBase):
+class TestShiftDeleteView(PermissionTestMixin, TapirFactoryTestBase):
     def get_allowed_groups(self):
         return [
             settings.GROUP_VORSTAND,

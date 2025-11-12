@@ -18,6 +18,7 @@ class ShareOwnerForWelcomeDeskSerializer(serializers.ModelSerializer):
     display_name = serializers.SerializerMethodField()
     can_shop = serializers.SerializerMethodField()
     co_purchaser = serializers.SerializerMethodField()
+    co_purchaser_2 = serializers.SerializerMethodField()
     warnings = serializers.SerializerMethodField()
     reasons_cannot_shop = serializers.SerializerMethodField()
 
@@ -28,6 +29,7 @@ class ShareOwnerForWelcomeDeskSerializer(serializers.ModelSerializer):
             "display_name",
             "can_shop",
             "co_purchaser",
+            "co_purchaser_2",
             "warnings",
             "reasons_cannot_shop",
         ]
@@ -54,6 +56,12 @@ class ShareOwnerForWelcomeDeskSerializer(serializers.ModelSerializer):
         if not share_owner.user:
             return None
         return share_owner.user.co_purchaser
+
+    @staticmethod
+    def get_co_purchaser_2(share_owner: ShareOwner) -> str | None:
+        if not share_owner.user:
+            return None
+        return share_owner.user.co_purchaser_2
 
     def get_warnings(self, share_owner: ShareOwner) -> list[str]:
         return WelcomeDeskWarningsService.build_warnings(

@@ -1,10 +1,10 @@
 {% load i18n %}
 {% load core %}
-<div class="card mb-2">
+<div class="card mb-2" id="purchases-tracking-card">
     <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <span>{% translate 'Purchase tracking' %}</span>
+        <span>{% translate 'Member card' %}</span>
         <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
-            {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
+            {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking and is_allowed_to_see_purchase_tracking %}
                 <a class="{% tapir_button_link %}"
                    href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">
                     <span class="material-icons">download</span>
@@ -18,38 +18,44 @@
             </a>
         </span>
     </h5>
-    <div class="card-body">
-        <div class="row gy-4">
-            <div class="col-12 col-sm fw-bold text-sm-end"
-                 data-bs-toggle="tooltip"
-                 title="{% translate 'The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. You can also still decide with each purchase whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by deactivating the checkbox above. With your consent, you help Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: Translated with DeepL.com (free version): https://wiki.supercoop.de/wiki/Mitgliederkarte' %}">
-                Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an der Kasse gescannt und somit mein Einkauf erfasst und gespeichert wird:
-            </div>
-            <div class="col-12 col-sm d-flex align-content-center gap-1">
-                <span>{{ tapir_user.allows_purchase_tracking|yesno:_("Yes,No") }}</span>
-                {% if request.user.pk == tapir_user.pk %}
-                    <span>
-                        {% if tapir_user.allows_purchase_tracking %}
-                            <a href="{% url 'accounts:update_purchase_tracking_allowed' tapir_user.pk 0 %}"
-                               class="{% tapir_button_action %} btn-sm">
-                                <span class="material-icons">thumb_down</span>{% translate "Disable" %}
-                            </a>
-                        {% else %}
-                            <a href="{% url 'accounts:update_purchase_tracking_allowed' tapir_user.pk 1 %}"
-                               class="{% tapir_button_action %} btn-sm">
-                                <span class="material-icons">thumb_up</span>{% translate "Enable" %}
-                            </a>
-                        {% endif %}
-                    </span>
-                {% endif %}
-            </div>
-        </div>
-        {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
-            <div class="row m-3">
-                <div class="col d-flex justify-content-center">
-                    <a href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">{{ barcode_as_svg|safe }}</a>
+    {% if is_allowed_to_see_purchase_tracking %}
+        <div class="card-body">
+            <div class="row gy-4">
+                <div class="col-12 col-sm fw-bold text-sm-end"
+                     data-bs-toggle="tooltip"
+                     title="{% translate 'The checkout system links your purchase to your member account. The total amount of your purchase is saved each time. However, it does not record which specific products you have purchased. You can also still decide with each purchase whether you want to have your membership card scanned or not. With your general consent here on Tapir, you do not enter into any obligation to scan. You can revoke your consent at any time by deactivating the checkbox above. With your consent, you help Supercoop to better understand the shopping habits of its members. This is important for the further development of our supermarket. More information: Translated with DeepL.com (free version): https://wiki.supercoop.de/wiki/Mitgliederkarte' %}">
+                    {% translate "I agree that my membership card will be scanned at the checkout when I make a purchase, thereby recording and storing my purchase:" %}
+                </div>
+                <div class="col-12 col-sm d-flex align-content-center gap-1">
+                    <span>{{ tapir_user.allows_purchase_tracking|yesno:_("Yes,No") }}</span>
+                    {% if request.user.pk == tapir_user.pk %}
+                        <span>
+                            {% if tapir_user.allows_purchase_tracking %}
+                                <a href="{% url 'accounts:update_purchase_tracking_allowed' tapir_user.pk 0 %}"
+                                   class="{% tapir_button_action %} btn-sm">
+                                    <span class="material-icons">thumb_down</span>{% translate "Disable" %}
+                                </a>
+                            {% else %}
+                                <a href="{% url 'accounts:update_purchase_tracking_allowed' tapir_user.pk 1 %}"
+                                   class="{% tapir_button_action %} btn-sm">
+                                    <span class="material-icons">thumb_up</span>{% translate "Enable" %}
+                                </a>
+                            {% endif %}
+                        </span>
+                    {% endif %}
                 </div>
             </div>
-        {% endif %}
-    </div>
+            {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking %}
+                <div class="row m-3">
+                    <div class="col d-flex justify-content-center">
+                        <a href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">{{ barcode_as_svg|safe }}</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="card-body alert alert-info row m-3">
+            {% translate 'You can only look at your own barcode unless you have admin rights' %}
+        </div>
+    {% endif %}
 </div>

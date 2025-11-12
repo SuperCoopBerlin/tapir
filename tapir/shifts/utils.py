@@ -10,6 +10,8 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
+    StaffingStatusChoices,
+    Shift,
 )
 from tapir.utils.shortcuts import get_monday
 

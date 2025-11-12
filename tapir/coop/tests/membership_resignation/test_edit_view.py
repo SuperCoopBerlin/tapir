@@ -1,6 +1,7 @@
 import datetime
 from http import HTTPStatus
 
+from django.core import mail
 from django.urls import reverse
 
 from tapir import settings
@@ -74,6 +75,23 @@ class TestMembershipResignationEditView(
             "Reason after edit", log_entry.new_values["cancellation_reason"]
         )
         self.assertEqual(actor, log_entry.actor)
+
+    def test_membershipResignationEditView_default_noMailSent(self):
+        self.login_as_vorstand()
+        resignation: MembershipResignation = MembershipResignationFactory.create()
+
+        response = self.client.post(
+            reverse("coop:membership_resignation_edit", args=[resignation.id]),
+            data={
+                "cancellation_reason": "Reason after edit",
+                "cancellation_reason_category": MembershipResignation.CancellationReasons.OTHER,
+                "cancellation_date": self.TODAY,
+            },
+            follow=True,
+        )
+        self.assertStatusCode(response, HTTPStatus.OK)
+
+        self.assertEqual(0, len(mail.outbox))
 
     def test_membershipResignationEditView_tryToUpdateBaseFields_baseFieldsNotUpdated(
         self,

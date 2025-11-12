@@ -149,9 +149,9 @@ const FancyGraphCard: React.FC = () => {
 
     const date = new Date();
     const [day, month, year] = dateString.split(".");
-    date.setDate(Number(day));
-    date.setMonth(Number(month) - 1);
     date.setFullYear(Number(year));
+    date.setMonth(Number(month) - 1);
+    date.setDate(Number(day));
     date.setHours(12);
     date.setMinutes(0);
 

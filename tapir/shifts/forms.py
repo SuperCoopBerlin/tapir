@@ -30,7 +30,10 @@ from tapir.shifts.models import (
     SHIFT_SLOT_WARNING_CHOICES,
     ShiftTemplate,
     ShiftAttendanceMode,
-    WEEKDAY_CHOICES,
+    ShiftWatch,
+    StaffingStatusChoices,
+    get_staffingstatus_defaults,
+    get_staffingstatus_choices,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -64,6 +67,15 @@ class ShiftCreateForm(forms.ModelForm):
             )
 
         return self.cleaned_data["end_time"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set the max value for num_required_attendances based on available ShiftSlotTemplates
+        if self.instance and self.instance.id:
+            shift_slot_count = ShiftSlot.objects.filter(shift=self.instance).count()
+            self.fields["num_required_attendances"].widget.attrs[
+                "max"
+            ] = shift_slot_count
 
 
 class ShiftDeleteForm(forms.ModelForm):
@@ -598,6 +610,17 @@ class ShiftTemplateForm(forms.ModelForm):
         required=True,
     )
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set the max value for num_required_attendances based on available ShiftSlotTemplates
+        if self.instance and self.instance.id:
+            shift_slot_count = ShiftSlotTemplate.objects.filter(
+                shift_template=self.instance
+            ).count()
+            self.fields["num_required_attendances"].widget.attrs[
+                "max"
+            ] = shift_slot_count
+
 
 class ShiftTemplateDuplicateForm(forms.Form):
     week_group = forms.MultipleChoiceField(
@@ -675,3 +698,29 @@ class ShiftAttendanceTemplateCustomTimeForm(CustomTimeCleanMixin, forms.ModelFor
 
     def get_shift_object(self) -> Shift | ShiftTemplate:
         return self.instance.slot_template.shift_template
+
+
+class ShiftWatchForm(forms.ModelForm):
+    class Meta:
+        model = ShiftWatch
+        fields = ["staffing_status"]
+
+    staffing_status = forms.MultipleChoiceField(
+        required=False,
+        choices=get_staffingstatus_choices,
+        label=_("Shift changes you would like to be informed about"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+    )
+
+    def __init__(self, *args, **kwargs):
+        request_user: TapirUser = kwargs.pop("request_user")
+        super().__init__(*args, **kwargs)
+
+        last_shiftwatch = (
+            ShiftWatch.objects.filter(user=request_user).order_by("-id").first()
+        )
+        if last_shiftwatch:
+            self.initial["staffing_status"] = last_shiftwatch.staffing_status
+        else:
+            self.initial["staffing_status"] = get_staffingstatus_defaults()

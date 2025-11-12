@@ -56,6 +56,12 @@ const WelcomeDeskMemberDetails: React.FC<WelcomeDeskMemberDetailsProps> = ({
             ? selectedMember.coPurchaser
             : gettext("None")}
         </div>
+        <div>
+          {gettext("Co-purchaser 2: ")}
+          {selectedMember.coPurchaser2
+            ? selectedMember.coPurchaser2
+            : gettext("None")}
+        </div>
       </Card.Body>
     </Card>
   );

@@ -126,10 +126,9 @@ class MembershipResignationTable(django_tables2.Table):
 
     def render_add_buttons(self, value, record: MembershipResignation):
         return format_html(
-            "<a href='{}' class='{}'>{}</a>",
+            "<a href='{}' class='{}'><span class='material-icons'>more_horiz</span></a>",
             reverse_lazy("coop:membership_resignation_detail", args=[record.pk]),
             tapir_button_link_to_action(),
-            format_html("<span class='material-icons'>more_horiz</span>"),
         )
 
 
@@ -269,6 +268,18 @@ class MembershipResignationCreateView(
             actor=self.request.user,
             model=membership_resignation,
         ).save()
+
+        if form.cleaned_data.get("send_confirmation_mails", False):
+            self.send_confirmation_mails(membership_resignation)
+
+        if (
+            form.cleaned_data["set_member_status_investing"]
+            == MembershipResignationForm.SetMemberStatusInvestingChoices.MEMBER_BECOMES_INVESTING
+        ):
+            self.switch_member_to_investing(membership_resignation.share_owner)
+        return result
+
+    def send_confirmation_mails(self, membership_resignation: MembershipResignation):
         email_builder_resignation_confirmation = MembershipResignationConfirmation(
             membership_resignation=membership_resignation
         )
@@ -291,13 +302,6 @@ class MembershipResignationCreateView(
                 recipient=membership_resignation.transferring_shares_to,
                 email_builder=email_builder_transfer_confirmation,
             )
-
-        if (
-            form.cleaned_data["set_member_status_investing"]
-            == MembershipResignationForm.SetMemberStatusInvestingChoices.MEMBER_BECOMES_INVESTING
-        ):
-            self.switch_member_to_investing(membership_resignation.share_owner)
-        return result
 
     def switch_member_to_investing(self, share_owner: ShareOwner):
         if share_owner.is_investing:

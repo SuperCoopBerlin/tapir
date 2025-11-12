@@ -204,15 +204,13 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             date=timezone.now() - datetime.timedelta(days=20),
         )
 
-        for weeks_in_the_future in [4, 6, 8, 10]:
-            shift: Shift = ShiftFactory.create(
-                start_time=timezone.now()
-                + datetime.timedelta(weeks=weeks_in_the_future)
-            )
-            ShiftAttendance.objects.create(
-                user=tapir_user,
-                slot=shift.slots.first(),
-            )
+        shift: Shift = ShiftFactory.create(
+            start_time=timezone.now() + datetime.timedelta(weeks=9)
+        )  # this shift is too far in the future to count
+        ShiftAttendance.objects.create(
+            user=tapir_user,
+            slot=shift.slots.first(),
+        )
 
         self.assertFalse(
             FrozenStatusManagementService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
@@ -230,15 +228,13 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             date=timezone.now() - datetime.timedelta(days=20),
         )
 
-        for weeks_in_the_future in [1, 2, 3, 4]:
-            shift: Shift = ShiftFactory.create(
-                start_time=timezone.now()
-                + datetime.timedelta(weeks=weeks_in_the_future)
-            )
-            ShiftAttendance.objects.create(
-                user=tapir_user,
-                slot=shift.slots.first(),
-            )
+        shift: Shift = ShiftFactory.create(
+            start_time=timezone.now() + datetime.timedelta(weeks=3)
+        )
+        ShiftAttendance.objects.create(
+            user=tapir_user,
+            slot=shift.slots.first(),
+        )
 
         self.assertTrue(
             FrozenStatusManagementService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
@@ -256,17 +252,39 @@ class TestFrozenUpdateService(TapirFactoryTestBase):
             date=timezone.now() - datetime.timedelta(days=20),
         )
 
-        for weeks_in_the_future in [-2, -1, 1, 2]:
-            shift: Shift = ShiftFactory.create(
-                start_time=timezone.now()
-                + datetime.timedelta(weeks=weeks_in_the_future)
-            )
-            ShiftAttendance.objects.create(
-                user=tapir_user,
-                slot=shift.slots.first(),
-            )
+        shift: Shift = ShiftFactory.create(
+            start_time=timezone.now() + datetime.timedelta(weeks=-3)
+        )
+        ShiftAttendance.objects.create(
+            user=tapir_user,
+            slot=shift.slots.first(),
+        )
 
         self.assertTrue(
+            FrozenStatusManagementService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
+                tapir_user.shift_user_data
+            )
+        )
+
+    def test_isMemberRegisteredToEnoughShiftsToCompensateForNegativeShiftAccount_pendingShiftsTooFarInThePast_returnsFalse(
+        self,
+    ):
+        tapir_user = TapirUserFactory.create()
+        ShiftAccountEntry.objects.create(
+            user=tapir_user,
+            value=-4,
+            date=timezone.now() - datetime.timedelta(days=20),
+        )
+
+        shift: Shift = ShiftFactory.create(
+            start_time=timezone.now() + datetime.timedelta(weeks=-5)
+        )
+        ShiftAttendance.objects.create(
+            user=tapir_user,
+            slot=shift.slots.first(),
+        )
+
+        self.assertFalse(
             FrozenStatusManagementService._is_member_registered_to_enough_shifts_to_compensate_for_negative_shift_account(
                 tapir_user.shift_user_data
             )

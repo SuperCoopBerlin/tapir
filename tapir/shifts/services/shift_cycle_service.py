@@ -115,6 +115,9 @@ class ShiftCycleService:
         if today is None:
             today = timezone.now().date()
 
+        if min(cycle_start_dates) > today:
+            return min(cycle_start_dates)
+
         return max(
             [
                 cycle_start_date

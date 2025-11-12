@@ -171,6 +171,14 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.send_flying_member_registration_reminder_mails",
         "schedule": celery.schedules.crontab(minute=0, hour=4),
     },
+    "send_shift_watch_mail": {
+        "task": "tapir.shifts.tasks.send_shift_watch_mail",
+        "schedule": celery.schedules.crontab(minute="*/15"),
+    },
+    "send_understaffed_shift_reminder_mail": {
+        "task": "tapir.shifts.tasks.send_understaffed_shift_reminder_mail",
+        "schedule": celery.schedules.crontab(hour=18, minute="15"),
+    },
 }
 
 # Password validation
@@ -217,8 +225,8 @@ if EMAIL_ENV == "dev" or EMAIL_ENV == "test":
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 elif EMAIL_ENV == "prod":
     EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-    EMAIL_HOST = env("EMAIL_HOST", default="smtp-relay.gmail.com")
-    EMAIL_HOST_USER = env("EMAIL_HOST_USER", default=EMAIL_ADDRESS_MEMBER_OFFICE)
+    EMAIL_HOST = env("EMAIL_HOST", default="mail.your-server.de")
+    EMAIL_HOST_USER = env("EMAIL_HOST_USER")
     EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
@@ -370,7 +378,7 @@ if ENABLE_SILK_PROFILING:
 
 SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
 
-AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend"]
+AUTHENTICATION_BACKENDS = ["tapir.accounts.custom_ldap_backend.CustomLdapBackend"]
 LDAP_DOCKER_SERVICE_NAME = env("LDAP_DOCKER_SERVICE_NAME", cast=str, default="openldap")
 AUTH_LDAP_SERVER_URI = f"ldap://{LDAP_DOCKER_SERVICE_NAME}"
 AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=supercoop,dc=de"
@@ -401,3 +409,20 @@ DJANGO_VITE = {
 }
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+if DEBUG:
+    LOGGING = {
+        "version": 1,
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+            },
+        },
+        "loggers": {
+            "werkzeug": {
+                "handlers": ["console"],
+                "level": "DEBUG",
+                "propagate": True,
+            },
+        },
+    }

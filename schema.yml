@@ -3,6 +3,32 @@ info:
   title: ''
   version: 0.0.0
 paths:
+  /coop/member_self_register:
+    post:
+      operationId: coop_member_self_register_create
+      tags:
+      - coop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberRegistrationRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MemberRegistrationRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MemberRegistrationRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: boolean
+          description: ''
   /statistics/available_colourblindness_types:
     get:
       operationId: statistics_available_colourblindness_types_retrieve
@@ -277,6 +303,23 @@ components:
       - display_name
       - id
       - point_style
+    MemberRegistrationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+        number_of_coop_shares:
+          type: integer
+      required:
+      - email
+      - first_name
+      - last_name
+      - number_of_coop_shares
     ShareOwnerForWelcomeDesk:
       type: object
       properties:
@@ -293,6 +336,10 @@ components:
           type: string
           nullable: true
           readOnly: true
+        co_purchaser_2:
+          type: string
+          nullable: true
+          readOnly: true
         warnings:
           type: array
           items:
@@ -306,6 +353,7 @@ components:
       required:
       - can_shop
       - co_purchaser
+      - co_purchaser_2
       - display_name
       - id
       - reasons_cannot_shop

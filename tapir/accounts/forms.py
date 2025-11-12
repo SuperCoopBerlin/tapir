@@ -33,7 +33,7 @@ class TapirUserForm(TapirUserSelfUpdateForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         instance = getattr(self, "instance", None)
-        if instance.share_owner.is_investing:
+        if hasattr(instance, "share_owner") and instance.share_owner.is_investing:
             self.fields["co_purchaser"].disabled = True
 
     class Meta(TapirUserSelfUpdateForm.Meta):
@@ -51,12 +51,42 @@ class TapirUserForm(TapirUserSelfUpdateForm):
             "city",
             "preferred_language",
             "co_purchaser",
+            "co_purchaser_mail",
+            "co_purchaser_2",
+            "co_purchaser_2_mail",
         ] + TapirUserSelfUpdateForm.Meta.fields
 
         widgets = TapirUserSelfUpdateForm.Meta.widgets | {
             "birthdate": DateInputTapir(),
             "username": TextInput(attrs={"readonly": True}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if (
+            cleaned_data.get("co_purchaser_mail", "") != ""
+            and cleaned_data.get("co_purchaser", "") == ""
+        ):
+            raise ValidationError(
+                {
+                    "co_purchaser_mail": _(
+                        "If there is not co-purchaser then the co-purchaser-mail field must also be empty"
+                    )
+                }
+            )
+
+        if (
+            cleaned_data.get("co_purchaser_2_mail", "") != ""
+            and cleaned_data.get("co_purchaser_2", "") == ""
+        ):
+            raise ValidationError(
+                {
+                    "co_purchaser_2_mail": _(
+                        "If there is not co-purchaser 2 then the co-purchaser-mail 2 field must also be empty"
+                    )
+                }
+            )
 
 
 class PasswordResetForm(auth_forms.PasswordResetForm):

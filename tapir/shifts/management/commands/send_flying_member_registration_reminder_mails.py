@@ -44,6 +44,7 @@ class Command(BaseCommand):
         shift_user_datas = ShiftAttendanceModeService.annotate_shift_user_data_queryset_with_attendance_mode_at_datetime(
             ShiftUserData.objects.all(), reference_time
         )
+        shift_user_datas.select_related("user")
 
         for shift_user_data in shift_user_datas:
             if (
@@ -76,7 +77,24 @@ class Command(BaseCommand):
             return False
         if cls.is_member_registered_to_a_shift_this_cycle(shift_user_data, start_date):
             return False
+        if start_date + datetime.timedelta(days=7) > timezone.now().date():
+            return False
+        if cls.is_users_first_cycle(shift_user_data, start_date):
+            return False
+
         return True
+
+    @staticmethod
+    def is_users_first_cycle(
+        shift_user_data: ShiftUserData, cycle_start_date: datetime.date
+    ):
+        return (
+            ShiftCycleService.get_start_date_of_current_cycle(
+                today=shift_user_data.user.date_joined.date()
+            )
+            + datetime.timedelta(days=ShiftCycleEntry.SHIFT_CYCLE_DURATION)
+            == cycle_start_date
+        )
 
     @staticmethod
     def has_user_received_reminder_this_cycle(

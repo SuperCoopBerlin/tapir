@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-10 12:35+0100\n"
+"POT-Creation-Date: 2025-10-23 11:07+0200\n"
 "PO-Revision-Date: 2024-11-05 11:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,106 +19,140 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.5\n"
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
+#: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Fancy export"
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
+#: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Source dataset"
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
+#: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Date"
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
-msgid "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop. For all other fields, the value as it is now is exported, not the value as it was at the given date."
+#: dist/assets/fancy_export-BGio_MGW.js:3
+msgid "The date is only relevant for the following fields: shift_status, is_working, is_exempted, is_paused, can_shop, currently_paid, expected_payment, payment_difference,member_status, is_member_since, compulsory_share, additional_shares, amount_paid, amount_paid_for_entry_fee, amount_paid_for_shares, number_of_paid_shares, number_of_unpaid_shares. For all other fields, the value as it is now is exported, not the value as it was at the given date."
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
+#: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Add columns to the export"
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
+#: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Click on a selected column to deselect it."
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
+#: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Build export for "
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
+#: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Pick a source dataset"
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
-msgid "Copy export to clipboard"
+#: dist/assets/fancy_export-BGio_MGW.js:3
+msgid "Download as CSV"
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
+#: dist/assets/fancy_export-BGio_MGW.js:3
+msgid "Build the export to download it"
+msgstr ""
+
+#: dist/assets/fancy_export-BGio_MGW.js:3
+msgid "Copy for spreadsheets"
+msgstr ""
+
+#: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Build the export to copy it"
 msgstr ""
 
-#: dist/assets/fancy_export-DavLwnOd.js:3
+#: dist/assets/fancy_export-BGio_MGW.js:3
 msgid "Waiting for build"
 msgstr ""
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/fancy_graph-BIk5PbUJ.js:18
+msgid "Pick which data to display"
+msgstr ""
+
+#: dist/assets/fancy_graph-BIk5PbUJ.js:18
+msgid "First of month"
+msgstr ""
+
+#: dist/assets/fancy_graph-BIk5PbUJ.js:18
+msgid "Last of month"
+msgstr ""
+
+#: dist/assets/fancy_graph-BIk5PbUJ.js:18
+msgid "No colourblindness"
+msgstr ""
+
+#: dist/assets/fancy_graph-BIk5PbUJ.js:20
+msgid "Graph"
+msgstr ""
+
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Use the search field on the top right."
 msgstr "Verwende das Suchfeld oben rechts."
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Name"
 msgstr "Name"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Can shop"
 msgstr "Kann einkaufen"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Yes"
 msgstr "Ja"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "No"
 msgstr "Nein"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Member details"
 msgstr "Mitgliedsdetails"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Member"
 msgstr "Mitgleid"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "yes"
 msgstr "ja"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "no"
 msgstr "nein"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Why this member cannot shop: "
 msgstr "Warum kann dieses Mitglied nicht einkaufen: "
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Co-purchaser: "
 msgstr "Miteinkäufer*in: "
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "None"
 msgstr "Keine"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
+#, fuzzy
+#| msgid "Co-purchaser: "
+msgid "Co-purchaser 2: "
+msgstr "Miteinkäufer*in: "
+
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
 msgstr "Hoppla! Es ist was schiefgegangen. Bitte versuche es nochmal. Wenn das wieder passiert, schreib bitte in der #tapir-Kanal bei Slack mit deine aktuelle Suche: "
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
-#: dist/assets/welcome_desk-ehnOadaX.js:1
+#: dist/assets/welcome_desk-CK_6aZ7w.js:1
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"

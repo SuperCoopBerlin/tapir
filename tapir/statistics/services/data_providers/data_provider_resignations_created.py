@@ -15,7 +15,9 @@ class DataProviderResignationsCreated(BaseDataProvider):
     @classmethod
     def get_description(cls):
         return _(
-            "Regardless of whether the member gifts their share or get their money back, this is relative to when the resignation is created."
+            "Members who registered their resignation in the given month. "
+            "Regardless of whether the member gifts their share or get their money back, "
+            "this is relative to when the resignation is created."
         )
 
     @classmethod
@@ -26,4 +28,6 @@ class DataProviderResignationsCreated(BaseDataProvider):
             cancellation_date__year=reference_date.year,
             cancellation_date__month=reference_date.month,
         ).distinct()
-        return ShareOwner.objects.filter(share_owner__in=resignations)
+        return ShareOwner.objects.filter(
+            id__in=resignations.values_list("share_owner__id", flat=True)
+        )

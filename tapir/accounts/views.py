@@ -63,6 +63,16 @@ class TapirUserDetailView(
             return []
         return [PERMISSION_ACCOUNTS_VIEW]
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tapir_user: TapirUser = self.object
+
+        context["is_allowed_to_see_purchase_tracking"] = (
+            tapir_user == self.request.user
+            or self.request.user.has_perm(PERMISSION_GROUP_MANAGE)
+        )
+        return context
+
 
 class TapirUserMeView(LoginRequiredMixin, generic.RedirectView):
     def get_redirect_url(self, *args, **kwargs):
@@ -91,7 +101,14 @@ class TapirUserUpdateBaseView(
                 ).save()
             new_co_purchaser = new_frozen.get("co_purchaser", None)
             old_co_purchaser = self.old_object_frozen.get("co_purchaser", None)
-            if new_co_purchaser and new_co_purchaser != old_co_purchaser:
+            new_co_purchaser_2 = new_frozen.get("co_purchaser_2", None)
+            old_co_purchaser_2 = self.old_object_frozen.get("co_purchaser_2", None)
+            if (
+                new_co_purchaser
+                and new_co_purchaser != old_co_purchaser
+                or new_co_purchaser_2
+                and new_co_purchaser_2 != old_co_purchaser_2
+            ):
                 email_builder = CoPurchaserUpdatedMail(tapir_user=form.instance)
                 SendMailService.send_to_tapir_user(
                     actor=self.request.user,
@@ -190,12 +207,10 @@ def member_card_barcode_pdf(request, pk):
     tapir_user = get_object_or_404(TapirUser, pk=pk)
 
     if request.user.pk != tapir_user.pk and not request.user.has_perm(
-        PERMISSION_ACCOUNTS_MANAGE
+        PERMISSION_COOP_ADMIN
     ):
         return HttpResponseForbidden(
-            _(
-                "You can only look at your own barcode unless you have member office rights"
-            )
+            _("You can only look at your own barcode unless you have admin rights")
         )
 
     filename = "Member card barcode %s.pdf" % UserUtils.build_display_name_for_viewer(

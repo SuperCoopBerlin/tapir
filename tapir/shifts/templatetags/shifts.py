@@ -1,6 +1,7 @@
 import datetime
 
 from django import template
+from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -14,6 +15,7 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftSlot,
     ShiftUserData,
+    ShiftWatch,
 )
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
@@ -87,6 +89,7 @@ def shift_to_block_object(shift: Shift, fill_parent: bool):
         "is_template": False,
         "filter_classes": " ".join(get_html_classes_for_filtering(shift)),
         "flexible_time": shift.flexible_time,
+        "is_watching": getattr(shift, "is_watching", False),
     }
 
 
@@ -260,3 +263,8 @@ def get_attendance_mode_display(shift_user_data: ShiftUserData) -> str:
     return utils.get_attendance_mode_display(
         ShiftAttendanceModeService.get_attendance_mode(shift_user_data)
     )
+
+
+@register.filter(name="user_watching_shift")
+def user_watching_shift(user, shift) -> QuerySet:
+    return ShiftWatch.objects.filter(user=user, shift=shift)
