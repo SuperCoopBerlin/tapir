@@ -1,11 +1,10 @@
-from itertools import product
-
-from django.urls import reverse
 import datetime
 
-from tapir.utils.tests_utils import TapirFactoryTestBase
-from tapir.shifts.tests.factories import ShiftTemplateFactory
+from django.urls import reverse
+
 from tapir.shifts.models import ShiftTemplate, ShiftTemplateGroup
+from tapir.shifts.tests.factories import ShiftTemplateFactory
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class TestShiftTemplateDuplicate(TapirFactoryTestBase):
@@ -72,7 +71,7 @@ class TestShiftTemplateDuplicate(TapirFactoryTestBase):
             shift_template_duplicate.slot_templates.first().name,
         )
 
-    def test_shiftTemplateDuplicateView_duplicateSingleTemplate_originalTemplateGetsNotDuplicated(
+    def test_shiftTemplateDuplicateView_duplicateSingleTemplate_originalTemplateDoesntGetDuplicated(
         self,
     ):
         self.login_as_member_office_user()
