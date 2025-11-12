@@ -31,9 +31,9 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftAttendanceMode,
     ShiftWatch,
-    StaffingStatusChoices,
     get_staffingstatus_defaults,
     get_staffingstatus_choices,
+    WEEKDAY_CHOICES,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
