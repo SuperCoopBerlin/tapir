@@ -77,6 +77,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
 
     def test_createNonShiftTemplateShift_watch_shiftWatchIsCreated(self):
         self.recurring_template.weekdays = [6]
+        self.recurring_template.save()
         shift = ShiftFactory.create(
             nb_slots=0,
             start_time=make_aware(
