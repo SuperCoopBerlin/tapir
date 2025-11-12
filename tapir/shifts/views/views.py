@@ -406,7 +406,10 @@ class CreateWatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateV
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        return super().form_valid(form)
+
+        response = super().form_valid(form)
+        form.instance.create_shift_watches()
+        return response
 
 
 class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):

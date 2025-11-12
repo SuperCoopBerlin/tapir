@@ -1315,49 +1315,28 @@ class ShiftRecurringWatchTemplate(models.Model):
         default=get_staffingstatus_defaults,
     )
 
-
-@receiver(post_save, sender=ShiftRecurringWatchTemplate)
-def create_shift_watches(sender, instance, created, **kwargs):
-
-    if created:
+    def create_shift_watches(self):
         shifts_to_watch = set()
-        if instance.shift_template_group:
-            for weekday in instance.weekdays:
-                for category in instance.shift_template_group:
+        if self.shift_template_group:
+            for weekday in self.weekdays:
+                for category in self.shift_template_group:
                     shifts = Shift.objects.filter(
                         start_time__iso_week_day=(weekday + 1),
                         shift_template__group__name=category,
                     )
                     shifts_to_watch.update(shifts)
         else:
-            for weekday in instance.weekdays:
+            for weekday in self.weekdays:
                 shifts = Shift.objects.filter(start_time__iso_week_day=(weekday + 1))
                 shifts_to_watch.update(shifts)
 
         for shift in shifts_to_watch:
             ShiftWatch.objects.get_or_create(
-                user=instance.user,
+                user=self.user,
                 shift=shift,
-                defaults={"staffing_status": instance.staffing_status},
-                recurring_template=instance,
+                defaults={"staffing_status": self.staffing_status},
+                recurring_template=self,
             )
-
-
-@receiver(m2m_changed, sender=ShiftRecurringWatchTemplate.shift_templates.through)
-def manage_shift_watches(sender, instance, action, reverse, pk_set, **kwargs):
-    # Many-to-many doesn't work wirh post-save and post-delete, since it's created later
-    if action == "post_add":
-        for template_id in pk_set:
-            template = ShiftTemplate.objects.get(id=template_id)
-            for shift in template.get_future_generated_shifts().all():
-                ShiftWatch.objects.get_or_create(
-                    user=instance.user,
-                    shift=shift,
-                    defaults={
-                        "staffing_status": instance.staffing_status,
-                    },
-                    recurring_template=instance,
-                )
 
 
 def create_shift_watch_entries(shift: Shift) -> None:
