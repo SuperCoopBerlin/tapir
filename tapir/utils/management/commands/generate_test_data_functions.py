@@ -43,7 +43,7 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
 )
-from tapir.shifts.templatetags.shifts import get_week_group
+from tapir.shifts.services.shift_generator import ShiftGenerator
 from tapir.statistics.models import (
     ProcessedPurchaseFiles,
     PurchaseBasket,
@@ -54,7 +54,6 @@ from tapir.statistics.models import (
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import (
-    get_monday,
     get_timezone_aware_datetime,
     set_group_membership,
     get_admin_ldap_connection,
@@ -390,11 +389,11 @@ SHIFT_GENERATION_START = timezone.now().date() - datetime.timedelta(days=100)
 
 def generate_shifts():
     print("Generating shifts")
-    start_day = get_monday(SHIFT_GENERATION_START)
 
-    for week in range(20):
-        monday = start_day + datetime.timedelta(days=7 * week)
-        get_week_group(monday).create_shifts(monday)
+    ShiftGenerator.generate_shifts_up_to(
+        start_date=SHIFT_GENERATION_START,
+        end_date=SHIFT_GENERATION_START + +datetime.timedelta(weeks=20),
+    )
 
 
 def generate_test_applicants():

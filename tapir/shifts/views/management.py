@@ -29,8 +29,7 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftSlotTemplate,
 )
-
-from tapir.utils.shortcuts import get_monday
+from tapir.shifts.services.shift_generator import ShiftGenerator
 
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -247,42 +246,77 @@ class ShiftTemplateDuplicateView(
         return context
 
     def form_valid(self, form):
-        all_templates = ShiftTemplate.objects.all()
         shift_template_copy_source = ShiftTemplate.objects.get(
             pk=self.kwargs.get("shift_pk")
         )
-        for day, week in product(
+        slot_templates_source = list(shift_template_copy_source.slot_templates.all())
+        week_groups_by_id = {
+            group.id: group for group in ShiftTemplateGroup.objects.all()
+        }
+        created_shift_template_ids = set()
+        for weekday_as_string, week_group_id_as_string in product(
             form.cleaned_data["weekdays"], form.cleaned_data["week_group"]
         ):
+            weekday = int(weekday_as_string)
+            week_group_id = int(week_group_id_as_string)
+
             if (
-                all_templates.filter(start_time=shift_template_copy_source.start_time)
-                .filter(end_time=shift_template_copy_source.end_time)
-                .filter(start_date=shift_template_copy_source.start_date)
-                .filter(weekday=day)
-                .filter(group=week)
-            ).exists():
+                weekday == shift_template_copy_source.weekday
+                and week_group_id == shift_template_copy_source.group.id
+            ):
                 continue
-            shift_template_copy_destination = ShiftTemplate.objects.create(
-                name=shift_template_copy_source.name,
-                description=shift_template_copy_source.description,
-                flexible_time=shift_template_copy_source.flexible_time,
-                group=ShiftTemplateGroup.objects.get(id=week),
-                num_required_attendances=shift_template_copy_source.num_required_attendances,
-                weekday=day,
-                start_time=shift_template_copy_source.start_time,
-                end_time=shift_template_copy_source.end_time,
-                start_date=shift_template_copy_source.start_date,
+
+            created_shift_template_id = self.create_copy(
+                shift_template_source=shift_template_copy_source,
+                slot_templates_source=slot_templates_source,
+                weekday=weekday,
+                group=week_groups_by_id[week_group_id],
             )
-            for entry in shift_template_copy_source.slot_templates.all():
-                ShiftSlotTemplate.objects.create(
-                    shift_template=shift_template_copy_destination,
-                    name=entry.name,
-                    required_capabilities=entry.required_capabilities,
-                    warnings=entry.warnings,
-                )
-                for shift in shift_template_copy_source.generated_shifts.all():
-                    shift_template_copy_destination.create_shift(shift.start_date)
+            created_shift_template_ids.add(created_shift_template_id)
+
+        ShiftGenerator.generate_shifts_up_to(
+            filter_group_ids={
+                int(group_id_as_string)
+                for group_id_as_string in form.cleaned_data["week_group"]
+            },
+            filter_shift_template_ids=created_shift_template_ids,
+        )
+
         return super().form_valid(form)
+
+    @classmethod
+    def create_copy(
+        cls,
+        shift_template_source: ShiftTemplate,
+        slot_templates_source: list[ShiftSlotTemplate],
+        weekday: int,
+        group: ShiftTemplateGroup,
+    ) -> int:
+
+        shift_template_copy_destination = ShiftTemplate.objects.create(
+            name=shift_template_source.name,
+            description=shift_template_source.description,
+            flexible_time=shift_template_source.flexible_time,
+            group=group,
+            num_required_attendances=shift_template_source.num_required_attendances,
+            weekday=weekday,
+            start_time=shift_template_source.start_time,
+            end_time=shift_template_source.end_time,
+            start_date=shift_template_source.start_date,
+        )
+
+        slot_templates_to_create = [
+            ShiftSlotTemplate(
+                shift_template=shift_template_copy_destination,
+                name=slot_template.name,
+                required_capabilities=slot_template.required_capabilities,
+                warnings=slot_template.warnings,
+            )
+            for slot_template in slot_templates_source
+        ]
+        ShiftSlotTemplate.objects.bulk_create(slot_templates_to_create)
+
+        return shift_template_copy_destination.id
 
 
 class ShiftSlotTemplateEditView(

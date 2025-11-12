@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models import Sum, Q
+from django.db.models import Sum
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -115,19 +115,6 @@ class ShiftTemplateGroup(models.Model):
 
     def __str__(self):
         return f"{self.__class__.__name__}: {self.name} (#{self.id})"
-
-    def create_shifts(self, start_date: datetime.date):
-        if start_date.weekday() != 0:
-            raise ValueError("Start date for shift generation must be a Monday")
-        start_date_in_the_past_or_null = Q(start_date__lte=start_date) | Q(
-            start_date__isnull=True
-        )
-        return [
-            shift_template.create_shift(start_date=start_date)
-            for shift_template in self.shift_templates.filter(
-                start_date_in_the_past_or_null
-            )
-        ]
 
     def get_group_index(self) -> int | None:
         for pair in ShiftTemplateGroup.NAME_INT_PAIRS:
