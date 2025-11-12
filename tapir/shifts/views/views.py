@@ -397,7 +397,7 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
         return super().form_valid(form)
 
 
-class WatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateView):
+class CreateWatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateView):
     form_class = ShiftRecurringWatchForm
     model = ShiftRecurringWatchTemplate
 

@@ -229,7 +229,7 @@ urlpatterns = [
     ),
     path(
         "recurring_shift_watch/",
-        views.WatchRecurringShiftsView.as_view(),
+        views.CreateWatchRecurringShiftsView.as_view(),
         name="recurring_shift_watch",
     ),
     path(
