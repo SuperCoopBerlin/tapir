@@ -12,6 +12,7 @@ from django.db.models.signals import pre_save, post_save, post_delete, m2m_chang
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
@@ -1275,7 +1276,25 @@ class ShiftWatch(models.Model):
     )
 
     def __str__(self):
-        return f"{self.user.username} is watching {self.shift.id} for changes of {[status for status in self.staffing_status]}"
+        shift_name = self.shift.get_display_name()
+        shift_url = self.shift.get_absolute_url()
+        return format_html(
+            '{} is watching <a href="{}">{}</a> for changes of {}',
+            self.user.username,
+            shift_url,
+            shift_name,
+            ", ".join(status for status in self.staffing_status),
+        )
+
+    def get_display_without_user(self):
+        shift_name = self.shift.get_display_name()
+        shift_url = self.shift.get_absolute_url()
+        return format_html(
+            '<a href="{}">{}</a> for changes of {}',
+            shift_url,
+            shift_name,
+            ", ".join(status for status in self.staffing_status),
+        )
 
     class Meta:
         constraints = [
