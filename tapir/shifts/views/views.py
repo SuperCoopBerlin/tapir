@@ -436,7 +436,9 @@ class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_pk = self.kwargs.get("pk")
-        context["shift_watches"] = ShiftWatch.objects.filter(user__id=user_pk)
+        context["shift_watches"] = ShiftWatch.objects.filter(user__id=user_pk).order_by(
+            "shift__start_time"
+        )
         return context
 
     def get_queryset(self):
