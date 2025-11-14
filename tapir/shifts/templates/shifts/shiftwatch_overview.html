@@ -76,7 +76,7 @@
                     {% for shiftwatch in shift_watches %}
                         <li class="list-group-item">
                             <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
-                            {{ shiftwatch }} - {{ shiftwatch.staffing_status }}
+                            {{ shiftwatch.get_display_without_user }}
                         </li>
                     {% endfor %}
                 </ul>
