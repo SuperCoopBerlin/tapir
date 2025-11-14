@@ -3103,11 +3103,11 @@ msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
 #: shifts/forms.py:752
 msgid "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected, and vice versa."
-msgstr ""
+msgstr "Wenn Wochentage oder Schicht-Template-Gruppen ausgewählt wurde kann kein Schicht-Template ausgewählt werden, oder andersherum."
 
 #: shifts/forms.py:759
 msgid "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected."
-msgstr ""
+msgstr "Wenigstens eines der Felder (Schicht-templates, Wochentage oder Schicht-Template-Gruppen) muss ausgewählt sein"
 
 #: shifts/models.py:39
 msgid "Teamleader"
