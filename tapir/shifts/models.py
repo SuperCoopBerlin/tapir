@@ -1359,12 +1359,13 @@ class ShiftRecurringWatchTemplate(models.Model):
                 shifts_to_watch.update(shifts)
 
         for shift in shifts_to_watch:
-            ShiftWatch.objects.get_or_create(
-                user=self.user,
-                shift=shift,
-                defaults={"staffing_status": self.staffing_status},
-                recurring_template=self,
-            )
+            if not ShiftWatch.objects.filter(user=self.user, shift=shift).exists():
+                ShiftWatch.objects.create(
+                    user=self.user,
+                    shift=shift,
+                    staffing_status=self.staffing_status,
+                    recurring_template=self,
+                )
 
 
 def create_shift_watch_entries(shift: Shift) -> None:
