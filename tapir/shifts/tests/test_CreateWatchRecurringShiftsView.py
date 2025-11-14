@@ -1,4 +1,7 @@
 from django.urls import reverse
+
+from tapir.accounts.models import TapirUser
+from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import ShiftRecurringWatchTemplate, StaffingStatusChoices
 from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
@@ -99,3 +102,34 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
             None,
             "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected.",
         )
+
+    def test_normal_user_cannot_update_other_(self):
+        target: TapirUser = TapirUserFactory.create()
+        form_data = {
+            **self.default_form_data,
+            "weekdays": [1, 2],
+            "shift_template_group": ["A"],
+        }
+
+        response = self.client.post(
+            reverse(self.VIEW_NAME, args=[target.pk]), data=form_data
+        )
+
+        self.assertEqual(403, response.status_code)
+        self.assertEqual(ShiftRecurringWatchTemplate.objects.count(), 0)
+
+    def test_member_office_user_can_update_other_username(self):
+        self.login_as_member_office_user()
+        target: TapirUser = TapirUserFactory.create()
+        form_data = {
+            **self.default_form_data,
+            "weekdays": [1, 2],
+            "shift_template_group": ["A"],
+        }
+
+        response = self.client.post(
+            reverse(self.VIEW_NAME, args=[target.pk]), data=form_data
+        )
+
+        self.assertEqual(302, response.status_code)
+        self.assertEqual(ShiftRecurringWatchTemplate.objects.count(), 1)
