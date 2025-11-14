@@ -398,12 +398,14 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
         return super().form_valid(form)
 
 
-class CreateWatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateView):
+class CreateWatchRecurringShiftsView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+):
     form_class = ShiftRecurringWatchForm
     model = ShiftRecurringWatchTemplate
 
     def get_permission_required(self):
-        if self.request.user.pk == self.get_target_user().pk:
+        if self.request.user.pk == self.kwargs["pk"]:
             return []
         return [PERMISSION_ACCOUNTS_MANAGE]
 
