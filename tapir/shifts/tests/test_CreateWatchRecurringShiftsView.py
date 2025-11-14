@@ -78,6 +78,7 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
             reverse(self.VIEW_NAME, args=[self.tapir_user.pk]),
             data=form_data,
         )
+        self.assertEqual(ShiftRecurringWatchTemplate.objects.count(), 0)
         self.assertFormError(
             response.context["form"],
             None,
@@ -85,28 +86,16 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         )
 
     #
-    # # def test_clean_no_selection_raises_validation_error(self):
-    # #     # Create a user for testing
-    # #     tapir_user = TapirUserFactory.create()
-    # #
-    # #     form_data = {
-    # #         "shift_templates": [],  # No templates selected
-    # #         "weekdays": [],  # No weekdays selected
-    # #         "shift_template_group": [],  # No group selected
-    # #         "staffing_status": [StaffingStatusChoices.UNDERSTAFFED],  # Empty statuses
-    # #     }
-    # #
-    # #     response = self.client.post(
-    # #         reverse("shifts:create_watch_recurring_shifts", args=[tapir_user.id]),
-    # #         data=form_data,
-    # #     )
-    # #     print(response.context["form"])
-    # #     # Check that the response is valid but the form contains errors
-    # #     # self.assertEqual(response.status_code, 200)  # Should return to form page
-    # #     self.assertEqual(ShiftRecurringWatchTemplate.objects.count(), 0)
-    # #     self.assertFormError(
-    # #         response,
-    # #         "form",
-    # #         None,
-    # #         "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected.",
-    # #     )
+    def test_createShiftRecurringWatchTemplate_nothingSelected_validationError(self):
+        form_data = self.default_form_data
+        response = self.client.post(
+            reverse(self.VIEW_NAME, args=[self.tapir_user.pk]),
+            data=form_data,
+        )
+
+        self.assertEqual(ShiftRecurringWatchTemplate.objects.count(), 0)
+        self.assertFormError(
+            response.context["form"],
+            None,
+            "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected.",
+        )
