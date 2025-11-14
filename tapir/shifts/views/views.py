@@ -35,6 +35,7 @@ from tapir.settings import (
     PERMISSION_COOP_MANAGE,
     PERMISSION_SHIFTS_MANAGE,
     PERMISSION_WELCOMEDESK_VIEW,
+    PERMISSION_ACCOUNTS_MANAGE,
 )
 from tapir.shifts.forms import (
     ShiftUserDataForm,
@@ -401,6 +402,11 @@ class CreateWatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateV
     form_class = ShiftRecurringWatchForm
     model = ShiftRecurringWatchTemplate
 
+    def get_permission_required(self):
+        if self.request.user.pk == self.get_target_user().pk:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
+
     def get_success_url(self):
         user_pk = self.kwargs.get("pk")
         return reverse("shifts:shiftwatch_overview", args=[user_pk])
@@ -427,7 +433,8 @@ class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["shift_watches"] = ShiftWatch.objects.filter(user=self.request.user)
+        user_pk = self.kwargs.get("pk")
+        context["shift_watches"] = ShiftWatch.objects.filter(user__id=user_pk)
         return context
 
     def get_queryset(self):
