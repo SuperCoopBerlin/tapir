@@ -749,7 +749,7 @@ class ShiftRecurringWatchForm(forms.ModelForm):
         if (weekdays or shift_template_group) and shift_templates:
             raise forms.ValidationError(
                 _(
-                    "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected."
+                    "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected, and vice versa."
                 )
             )
 

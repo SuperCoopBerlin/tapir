@@ -85,7 +85,7 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         self.assertFormError(
             response.context["form"],
             None,
-            "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected.",
+            "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected, and vice versa.",
         )
 
     #
