@@ -228,9 +228,9 @@ urlpatterns = [
         name="unwatch_shift",
     ),
     path(
-        "recurring_shift_watch/",
+        "create_watch_recurring_shifts/<int:pk>",
         views.CreateWatchRecurringShiftsView.as_view(),
-        name="recurring_shift_watch",
+        name="create_watch_recurring_shifts",
     ),
     path(
         "shiftwatch_overview/<int:pk>",

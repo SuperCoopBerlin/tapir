@@ -402,7 +402,8 @@ class CreateWatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateV
     model = ShiftRecurringWatchTemplate
 
     def get_success_url(self):
-        return reverse("shifts:shiftwatch_overview", args=[self.object.user.id])
+        user_pk = self.kwargs.get("pk")
+        return reverse("shifts:shiftwatch_overview", args=[user_pk])
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -411,7 +412,8 @@ class CreateWatchRecurringShiftsView(LoginRequiredMixin, TapirFormMixin, CreateV
         return context_data
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        user_pk = self.kwargs.get("pk")
+        form.instance.user = TapirUser.objects.get(pk=user_pk)
 
         response = super().form_valid(form)
         form.instance.create_shift_watches()

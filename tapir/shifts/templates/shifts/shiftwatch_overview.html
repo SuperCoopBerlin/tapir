@@ -18,7 +18,7 @@
                 <h5>{% translate "Recurring Shift Watches" %}</h5>
                 <div>
                     <a class="{% tapir_button_link_to_action %}"
-                       href="{% url 'shifts:recurring_shift_watch' %}"
+                       href="{% url 'shifts:create_watch_recurring_shifts' user.pk %}"
                        id="create_recurring_shiftwatch_button">
                         <span class="material-icons">add_circle_outline</span>
                         {% translate "Create a Rule for recurring Shift-Watches" %}
