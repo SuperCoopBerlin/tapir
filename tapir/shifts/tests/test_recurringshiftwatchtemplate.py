@@ -8,7 +8,6 @@ from tapir.shifts.models import (
     ShiftRecurringWatchTemplate,
     ShiftWatch,
     Shift,
-    ShiftTemplate,
     ShiftTemplateGroup,
 )
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
@@ -16,10 +15,9 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class ShiftRecurringTemplateTests(TapirFactoryTestBase):
-    USER_EMAIL_ADDRESS = "test_address@test.net"
 
     def setUp(self):
-        self.user = TapirUserFactory.create(email=self.USER_EMAIL_ADDRESS)
+        self.user = TapirUserFactory.create()
         self.recurring_template = ShiftRecurringWatchTemplate.objects.create(
             user=self.user,
         )
@@ -94,3 +92,39 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         shift = shift_template.create_shift(timezone.now().date())
         print(Shift.objects.all())
         self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
+
+    def test_createShiftfromShiftTemplate_intersectingShiftRecurringWatchTemplate_shiftWatchIsCreatedNoOverWrite(
+        self,
+    ):
+
+        monday = timezone.now() + datetime.timedelta(
+            days=(7 - timezone.now().date().weekday() % 7)
+        )
+
+        shift_template_1 = ShiftTemplateFactory.create()
+        shift_1 = shift_template_1.create_shift(start_date=monday.date())
+        shift_3 = ShiftFactory.create(start_time=monday)
+
+        # set both ShiftRecurringWatchTemplate
+        self.recurring_template.shift_templates.set([shift_template_1])
+        self.recurring_template.save()
+        self.recurring_template.create_shift_watches()
+        recurring_template_2 = ShiftRecurringWatchTemplate.objects.create(
+            user=self.user,
+        )
+        recurring_template_2.weekdays = [0]
+        recurring_template_2.save()
+        recurring_template_2.create_shift_watches()
+
+        self.assertTrue(
+            ShiftWatch.objects.filter(user=self.user, shift=shift_1).exists()
+        )
+        self.assertTrue(
+            ShiftWatch.objects.filter(user=self.user, shift=shift_3).exists()
+        )
+
+        shift_watch_1 = ShiftWatch.objects.get(user=self.user, shift=shift_1)
+        shift_watch_3 = ShiftWatch.objects.get(user=self.user, shift=shift_3)
+
+        self.assertEqual(shift_watch_1.recurring_template, self.recurring_template)
+        self.assertEqual(shift_watch_3.recurring_template, recurring_template_2)
