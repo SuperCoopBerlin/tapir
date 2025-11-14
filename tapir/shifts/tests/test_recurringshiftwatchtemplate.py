@@ -23,9 +23,6 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         self.recurring_template = ShiftRecurringWatchTemplate.objects.create(
             user=self.user,
         )
-        # self.recurring_template.abcd = ["A"]
-        # self.recurring_template.weekdays = [0]  # Montag
-        # self.recurring_template.save()
 
     def test_createShiftBasedOnShiftTemplate_watchSingleShiftTemplates_shiftWatchIsCreated(
         self,
