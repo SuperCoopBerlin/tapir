@@ -72,14 +72,22 @@
                 <h5>{% translate "Shift Watches" %}</h5>
             </div>
             <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    {% for shiftwatch in shift_watches %}
-                        <li class="list-group-item">
-                            <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
-                            {{ shiftwatch.get_display_without_user }}
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% if shift_watches %}
+                    <ul class="list-group list-group-flush">
+                        {% for shiftwatch in shift_watches %}
+                            <li class="list-group-item">
+                                <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
+                                {{ shiftwatch.get_display_without_user }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        {% translate "You can watch single shifts for changes by selecting a shift " %}
+                        <a href="{% url 'shifts:calendar' %}">{% translate "here" %}</a>
+                        {% translate " and clicking on the Watch-button" %}.
+                    </div>
+                {% endif %}
             </div>
         </div>
         <button type="submit" class="{% tapir_button_link %}">{% translate "Delete Selected" %}</button>
