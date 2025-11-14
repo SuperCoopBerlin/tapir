@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-12 22:11+0100\n"
+"POT-Creation-Date: 2025-11-14 11:51+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -374,7 +374,7 @@ msgstr "E-Mail-Adresse"
 #: coop/templates/coop/draftuser_detail.html:161
 #: coop/templates/coop/shareowner_detail.html:60
 #: coop/templates/coop/shareowner_detail.html:70
-#: shifts/templates/shifts/user_shifts_overview_tag.html:40
+#: shifts/templates/shifts/user_shifts_overview_tag.html:45
 #: statistics/templates/statistics/main_statistics.html:76
 #: statistics/templates/statistics/main_statistics.html:108
 msgid "Missing"
@@ -999,7 +999,7 @@ msgstr "Liste alle E-Mails"
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:31
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:88
 #: coop/views/shareowner.py:601
-#: shifts/templates/shifts/user_shifts_overview_tag.html:21
+#: shifts/templates/shifts/user_shifts_overview_tag.html:26
 msgid "Status"
 msgstr "Status"
 
@@ -2563,7 +2563,7 @@ msgid "Any"
 msgstr "Alle"
 
 #: coop/views/shareowner.py:607
-#: shifts/templates/shifts/user_shifts_overview_tag.html:74
+#: shifts/templates/shifts/user_shifts_overview_tag.html:79
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
@@ -3055,7 +3055,7 @@ msgid "I am aware that the member will be unregistered from their ABCD shift"
 msgstr "Ich bin mir bewusst, dass das Mitglied von der ABCD-Schicht abgemeldet wird."
 
 #: shifts/forms.py:353 shifts/templates/shifts/shift_day_printable.html:287
-#: shifts/templates/shifts/user_shifts_overview_tag.html:93
+#: shifts/templates/shifts/user_shifts_overview_tag.html:98
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
@@ -4295,8 +4295,8 @@ msgstr ""
 
 #: shifts/templates/shifts/shift_template_detail.html:7
 #: shifts/templates/shifts/shift_template_detail.html:15
-#: shifts/templates/shifts/user_shifts_overview_tag.html:26
-#: shifts/templates/shifts/user_shifts_overview_tag.html:38
+#: shifts/templates/shifts/user_shifts_overview_tag.html:31
+#: shifts/templates/shifts/user_shifts_overview_tag.html:43
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
@@ -4388,7 +4388,10 @@ msgid "Recurring Shift Watches"
 msgstr "Wiederkehrende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:24
-msgid "Create Recurring Shiftwatch"
+#: shifts/views/views.py:409
+#, fuzzy
+#| msgid "Create Recurring Shiftwatch"
+msgid "Create a Rule for recurring Shift-Watches"
 msgstr "Erstelle wiederkehrende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:36
@@ -4537,32 +4540,38 @@ msgstr ""
 msgid "Balance at date"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:45
+#: shifts/templates/shifts/user_shifts_overview_tag.html:20
+#, fuzzy
+#| msgid "Watched Shift has changed"
+msgid "Watched Shifts"
+msgstr "Die beobachtete Schicht hat sich geändert"
+
+#: shifts/templates/shifts/user_shifts_overview_tag.html:50
 msgid "Find an ABCD shift"
 msgstr "ABCD-Schicht auswählen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:52
+#: shifts/templates/shifts/user_shifts_overview_tag.html:57
 msgid "Upcoming Shift"
 msgstr "Nächste Schicht"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:59
+#: shifts/templates/shifts/user_shifts_overview_tag.html:64
 msgid "Show more"
 msgstr "Mehr anzeigen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:68
+#: shifts/templates/shifts/user_shifts_overview_tag.html:73
 msgctxt "No upcoming shift"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:77
+#: shifts/templates/shifts/user_shifts_overview_tag.html:82
 msgid "OK"
 msgstr "OK"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:79
+#: shifts/templates/shifts/user_shifts_overview_tag.html:84
 msgid "Shift for ongoing cycle pending"
 msgstr "Shift für aktuellen Zyklus ausstehend"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:81
+#: shifts/templates/shifts/user_shifts_overview_tag.html:86
 #, python-format
 msgid ""
 "\n"
@@ -4573,65 +4582,65 @@ msgstr ""
 "                        %(num_banked_shifts)s Schicht(en) gut geschrieben\n"
 "                    "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:86
+#: shifts/templates/shifts/user_shifts_overview_tag.html:91
 msgid "On alert"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:89
+#: shifts/templates/shifts/user_shifts_overview_tag.html:94
 msgid "log"
 msgstr "Protokoll"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:98
+#: shifts/templates/shifts/user_shifts_overview_tag.html:103
 msgctxt "No qualifications"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:103
+#: shifts/templates/shifts/user_shifts_overview_tag.html:108
 msgid "Exemption"
 msgstr "Befreiung"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:108
+#: shifts/templates/shifts/user_shifts_overview_tag.html:113
 msgid "until"
 msgstr "bis"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:115
+#: shifts/templates/shifts/user_shifts_overview_tag.html:120
 msgctxt "No shift exemption"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:123
+#: shifts/templates/shifts/user_shifts_overview_tag.html:128
 msgid "View all"
 msgstr "Alle ansehen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:130
+#: shifts/templates/shifts/user_shifts_overview_tag.html:135
 msgid "Solidarity"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:137
+#: shifts/templates/shifts/user_shifts_overview_tag.html:142
 msgid "Receive Solidarity"
 msgstr "Solidaritäts-Schicht nutzen"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:147
+#: shifts/templates/shifts/user_shifts_overview_tag.html:152
 msgid "Give Solidarity"
 msgstr "Solidaritäts-Schicht spenden"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:167
+#: shifts/templates/shifts/user_shifts_overview_tag.html:172
 msgid "One of your banked shifts will be donated as a solidarity shift. Do you want to continue?"
 msgstr "Eine deiner gearbeiteten Schichten wird als Solidaritäts-Schicht gespendet. Möchtest du fortfahren?"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:172
+#: shifts/templates/shifts/user_shifts_overview_tag.html:177
 msgid "Cancel"
 msgstr "Abmelden"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:175
+#: shifts/templates/shifts/user_shifts_overview_tag.html:180
 msgid "Confirm"
 msgstr ""
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:185
+#: shifts/templates/shifts/user_shifts_overview_tag.html:190
 msgid "Solidarity Status"
 msgstr "Status Solidaritäts-Schichten"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:189
+#: shifts/templates/shifts/user_shifts_overview_tag.html:194
 #, python-format
 msgid ""
 "\n"
@@ -4643,7 +4652,7 @@ msgstr ""
 "                            <p>Du hast dieses Jahr bereits %(used_solidarity_shifts_current_year)s von 2 Solidaritäts-Schichten genutzt</p>\n"
 "                        "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:194
+#: shifts/templates/shifts/user_shifts_overview_tag.html:199
 #, python-format
 msgid ""
 "\n"
@@ -4655,7 +4664,7 @@ msgstr ""
 "                            <p>Es sind Solidaritäts-Schichten verfügbar. Du hast dieses Jahr bisher %(used_solidarity_shifts_current_year)s von 2 Solidaritäts-Schichten genutzt</p>\n"
 "                        "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:199
+#: shifts/templates/shifts/user_shifts_overview_tag.html:204
 msgid ""
 "\n"
 "                            <p data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"Solidarity Shifts can only be received while having a negative balance\">\n"
@@ -4666,7 +4675,7 @@ msgstr ""
 "                            <p data-bs-toggle=\"tooltip\" data-bs-placement=\"bottom\" data-bs-title=\"Solidaritäts-Schichten können nur bei einem negativen Schichtkonto genutzt werden\">Du kannst im Moment keine Solidaritäts-Schicht nutzen</p>\n"
 "                        "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:204
+#: shifts/templates/shifts/user_shifts_overview_tag.html:209
 msgid ""
 "\n"
 "                            <p>There are no Solidarity Shifts available at the moment</p>\n"
@@ -4676,13 +4685,13 @@ msgstr ""
 "                            <p>Zurzeit sind keine Solidaritäts-Schichten verfügbar</p>\n"
 "                        "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:214
+#: shifts/templates/shifts/user_shifts_overview_tag.html:219
 #, fuzzy
 #| msgid "Shift reminder"
 msgid "Shift partner"
 msgstr "Schicht-Erinnerung"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:221
+#: shifts/templates/shifts/user_shifts_overview_tag.html:226
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -4698,18 +4707,18 @@ msgstr ""
 "\n"
 "Jedes Mitglied kann eine Person (egal, ob im eigenen Haushalt oder nicht) bestimmen, die unter der gleichen Mitgliedsnummer einkaufen kann. Das können investierende Mitglieder oder Nichtmitglieder sein. "
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:226
+#: shifts/templates/shifts/user_shifts_overview_tag.html:231
 msgctxt "No shift partner"
 msgid "None"
 msgstr "Keine"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:234
+#: shifts/templates/shifts/user_shifts_overview_tag.html:238
 #, fuzzy
 #| msgid "Watched Shift has changed"
-msgid "Watched Shifts"
+msgid "Next watched Shift"
 msgstr "Die beobachtete Schicht hat sich geändert"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:244
+#: shifts/templates/shifts/user_shifts_overview_tag.html:246
 #, fuzzy
 #| msgid "None"
 msgctxt "No watched shifts"
