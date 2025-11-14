@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-14 14:01+0100\n"
+"POT-Creation-Date: 2025-11-14 15:24+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3096,8 +3096,8 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:684 shifts/forms.py:736 shifts/views/views.py:378
-#: shifts/views/views.py:379
+#: shifts/forms.py:684 shifts/forms.py:736 shifts/views/views.py:379
+#: shifts/views/views.py:380
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
@@ -4388,7 +4388,7 @@ msgid "Recurring Shift Watches"
 msgstr "Wiederkehrende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:24
-#: shifts/views/views.py:410
+#: shifts/views/views.py:418
 #, fuzzy
 #| msgid "Create Recurring Shiftwatch"
 msgid "Create a Rule for recurring Shift-Watches"
@@ -4726,7 +4726,7 @@ msgid "None"
 msgstr "Keine"
 
 #: shifts/templatetags/shifts.py:63 shifts/templatetags/shifts.py:168
-#: shifts/views/views.py:151
+#: shifts/views/views.py:152
 msgid "General"
 msgstr "Allgemein"
 
@@ -4817,23 +4817,23 @@ msgstr "Es konnte keine vollendete Schicht gefunden werden, die als Solidarität
 msgid "Solidarity Shift given. Account Balance debited with -1."
 msgstr "Die Solidaritätsschicht wurde vergeben. Von deinem Kontostand wird nun eine Schicht abgezogen."
 
-#: shifts/views/views.py:131 shifts/views/views.py:136
+#: shifts/views/views.py:132 shifts/views/views.py:137
 #, python-format
 msgid "Edit user shift data: %(name)s"
 msgstr "Bearbeite Nutzer*in-Schichtdaten: %(name)s"
 
-#: shifts/views/views.py:204
+#: shifts/views/views.py:205
 #, python-format
 msgid "Shift account: %(name)s"
 msgstr "Schichtkonto-Protokoll für: %(name)s"
 
-#: shifts/views/views.py:210
+#: shifts/views/views.py:211
 #, fuzzy, python-format
 #| msgid "Create manual shift account entry for:  %(link)s"
 msgid "Create manual shift account entry for: %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:361
+#: shifts/views/views.py:362
 msgid "Frozen statuses updated."
 msgstr ""
 
