@@ -10,7 +10,7 @@ from django.forms import (
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -712,12 +712,12 @@ class ShiftRecurringWatchForm(forms.ModelForm):
     weekdays = forms.MultipleChoiceField(
         required=False,
         choices=WEEKDAY_CHOICES,
-        widget=CheckboxSelectMultiple(),
+        widget=Select2MultipleWidget,
     )
     shift_templates = ModelMultipleChoiceField(
         queryset=ShiftTemplate.objects.all(),
         required=False,
-        widget=forms.CheckboxSelectMultiple,
+        widget=Select2MultipleWidget,
     )
     shift_template_group = forms.MultipleChoiceField(
         required=False,
