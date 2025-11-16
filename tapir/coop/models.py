@@ -884,3 +884,10 @@ class MembershipResignationDeleteLogEntry(ModelLogEntry):
         return super().populate_base(
             actor=actor, share_owner=model.share_owner, model=model
         )
+
+
+class DeleteShareOwnerLogEntry(ModelLogEntry):
+    template_name = "coop/log/delete_share_owner_log_entry.html"
+
+    def populate(self, share_owner: ShareOwner, actor, model):
+        return self.populate_base(share_owner=share_owner, actor=actor, model=model)

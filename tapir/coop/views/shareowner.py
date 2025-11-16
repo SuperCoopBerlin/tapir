@@ -60,6 +60,7 @@ from tapir.coop.models import (
     UpdateShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
     ShareOwnerQuerySet,
+    DeleteShareOwnerLogEntry,
 )
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
@@ -300,6 +301,11 @@ class ShareOwnerDeleteView(
         if self.request.user == share_owner.user:
             raise PermissionDenied("You cannot delete your own account.")
         self.get_object().soft_delete()
+        DeleteShareOwnerLogEntry().populate(
+            share_owner=share_owner,
+            actor=self.request.user,
+            model=self.object,
+        ).save()
         return super().form_valid(form)
 
 
