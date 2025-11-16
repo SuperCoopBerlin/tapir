@@ -13,12 +13,10 @@
                 <span>{% translate "Confirm Delete" %}: {% get_display_name_for_viewer object request.user %}</span>
             </h5>
             <div class="card-body">
-                <div class="alert alert-warning">
-                    <p>Are you sure you want to delete this member?</p>
-                    <p>
-                        <strong>Name:</strong> {{ object }}
-                    </p>
-                </div>
+                <div class="alert alert-warning">{% translate "Are you sure you want to delete this member?" %}</div>
+                <p>
+                    {% translate "Please note that deleting this member will permanently remove their account and all associated data such as owned shares and payments. The deleted user will no longer be part of the cooperative. However, all shift records and logs will remain intact." %}
+                </p>
                 <form method="post">
                     {% csrf_token %}
                     <button type="submit" class="{% tapir_button_custom 'danger' %}">
