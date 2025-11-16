@@ -1,3 +1,5 @@
+import os
+
 from django.apps import AppConfig
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
@@ -66,10 +68,17 @@ class CoreConfig(AppConfig):
             url="mailto:mitglied@supercoop.de",
             ordering=6,
         )
-
-        misc_group.add_link(
-            display_name=_("About tapir"),
-            material_icon="help",
-            url=reverse_lazy("coop:about"),
-            ordering=7,
-        )
+        if os.getenv("TAPIR_VERSION"):
+            misc_group.add_link(
+                display_name=_(f"Tapir {os.getenv('TAPIR_VERSION')}"),
+                material_icon="label",
+                url=reverse_lazy("coop:about"),
+                ordering=7,
+            )
+        else:
+            misc_group.add_link(
+                display_name=_("About tapir"),
+                material_icon="help",
+                url=reverse_lazy("coop:about"),
+                ordering=7,
+            )
