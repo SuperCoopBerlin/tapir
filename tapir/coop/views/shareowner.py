@@ -668,9 +668,12 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="is_shift_partner_of_filter", label="Is the shift partner of someone"
     )
     join_date = DateFromToRangeFilterTapir(
-        method="filter_by_join_date", label="Join date"
+        method="filter_by_join_date", label="First share date"
     )
-
+    user_date_joined = DateFromToRangeFilterTapir(
+        method="filter_by_user_date_joined", label="Account creation date"
+    )
+    
     @staticmethod
     def shift_slot_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         return queryset.filter(
@@ -794,10 +797,32 @@ class ShareOwnerFilter(django_filters.FilterSet):
     @staticmethod
     def filter_by_join_date(queryset: ShareOwner.ShareOwnerQuerySet, name, value):
         if value.start and value.stop:
+            from django.db.models import Min, OuterRef, Subquery
+            
+            # Get the earliest start date for each share owner
+            earliest_dates = ShareOwnership.objects.filter(
+                share_owner=OuterRef('pk')
+            ).order_by('start_date').values('start_date')[:1]
+            
+            # Filter based on the first share date
+            queryset = queryset.annotate(
+                first_share_date=Subquery(earliest_dates)
+            ).filter(
+                first_share_date__gte=value.start,
+                first_share_date__lte=value.stop
+            )
+                    
+        return queryset.distinct()
+        
+    @staticmethod
+    def filter_by_user_date_joined(queryset: ShareOwner.ShareOwnerQuerySet, name, value):
+        """Filter ShareOwners based on when their associated TapirUser account was created."""
+        if value.start and value.stop:
             queryset = queryset.filter(
-            share_ownerships__start_date__gte=value.start,
-            share_ownerships__start_date__lte=value.stop
-        )
+                user__isnull=False,
+                user__date_joined__date__gte=value.start,
+                user__date_joined__date__lte=value.stop
+            )
         return queryset.distinct()
 
 
