@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-23 15:06+0200\n"
+"POT-Creation-Date: 2025-11-16 11:39+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -558,7 +558,7 @@ msgstr "Bewerber*innen"
 msgid "Member management"
 msgstr "Mitgliederverwaltung"
 
-#: coop/apps.py:48 core/apps.py:17 financingcampaign/apps.py:14 log/apps.py:17
+#: coop/apps.py:48 core/apps.py:19 financingcampaign/apps.py:14 log/apps.py:17
 msgid "Management"
 msgstr "Verwaltung"
 
@@ -2648,39 +2648,39 @@ msgstr ""
 msgid "Number of members with a co-purchaser (X-axis) by month (Y-axis)"
 msgstr ""
 
-#: core/apps.py:19
+#: core/apps.py:21
 msgid "Emails"
 msgstr "E-Mails"
 
-#: core/apps.py:26 core/templates/core/featureflag_list.html:5
+#: core/apps.py:28 core/templates/core/featureflag_list.html:5
 msgid "Features"
 msgstr ""
 
-#: core/apps.py:33 statistics/apps.py:15
+#: core/apps.py:35 statistics/apps.py:15
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
-#: core/apps.py:36
+#: core/apps.py:38
 msgid "Wiki"
 msgstr "Wiki"
 
-#: core/apps.py:43
+#: core/apps.py:45
 msgid "Member manual"
 msgstr "Mitgliederhandbuch"
 
-#: core/apps.py:50
+#: core/apps.py:52
 msgid "Shop opening hours"
 msgstr "Öffnungszeiten"
 
-#: core/apps.py:57
+#: core/apps.py:59
 msgid "Slack chat"
 msgstr ""
 
-#: core/apps.py:64
+#: core/apps.py:66
 msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
 
-#: core/apps.py:71
+#: core/apps.py:80
 msgid "About tapir"
 msgstr "Über Tapir"
 
