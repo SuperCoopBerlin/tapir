@@ -74,6 +74,15 @@ jobs:
       - name: Build front-end
         run: docker compose run vite npm install && npm run build
 
+      - name: Set version label
+        id: set_version
+        run: |
+          if [ -n "${{ steps.build_changelog.outputs.version }}" ]; then
+            echo "VERSION=${{ steps.build_changelog.outputs.version }}" >> $GITHUB_ENV
+          else
+            echo "VERSION=dev" >> $GITHUB_ENV
+          fi
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -81,7 +90,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: |
-            version=${{ steps.build_changelog.outputs.version }}
+            version=${{ env.VERSION }}
             ${{ steps.meta.outputs.labels }}
           no-cache: true
           file: django.Dockerfile
