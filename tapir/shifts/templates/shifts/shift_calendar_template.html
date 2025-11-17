@@ -19,13 +19,10 @@
 {% endblock head %}
 {% block content %}
     <div class="container">
+
         <h1 class="h1">
-            {{ _("All Shifts") }}
+            {% translate "Shift calendar" %}
         </h1>
-        <div class="tab-links mb-4">
-            <a href="{% url 'rizoma:all_shifts' %}" class="tab-link">{{_("Upcoming")}}</a>
-            <span class="tab-link tab-link active">{{_("Recurring")}}</span>
-        </div>
 
         <div class="d-flex align-items-end flex-column m-2">
             <button class="{% tapir_button_link %}"
@@ -99,7 +96,6 @@
                         </div>
                     {% endfor %}
                 </div>
-            </div>
         </div>
     {% endfor %}
 {% endblock content %}
