@@ -685,7 +685,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         if self.name:
             display_name = "{} {}".format(self.name, display_name)
         return display_name
-    
+
     def get_short_display_name(self):
         return self.shift.name + " - " + self.shift.start_time.strftime("%d/%m/%Y %H:%M")
 
@@ -937,7 +937,7 @@ class ShiftAttendance(models.Model):
 
         entry_value = None
         if self.state == ShiftAttendance.State.MISSED:
-            entry_value = -1
+            entry_value = -settings.SHIFT_ATTENDANCE_MISSED_DEDUCTION
         elif self.state in [
             ShiftAttendance.State.DONE,
             ShiftAttendance.State.MISSED_EXCUSED,

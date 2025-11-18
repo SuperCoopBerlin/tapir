@@ -442,3 +442,8 @@ NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN = env.int(
 )
 
 SHOW_FULL_NAME_BY_DEFAULT = env.bool("SHOW_FULL_NAME_BY_DEFAULT", default=False)
+
+COOPS_PT_API_BASE_URL = ""
+
+# allow to define how many panelty points are given if a shift was missed without excuse
+SHIFT_ATTENDANCE_MISSED_DEDUCTION = env.int("SHIFT_ATTENDANCE_MISSED_DEDUCTION", default=1)
