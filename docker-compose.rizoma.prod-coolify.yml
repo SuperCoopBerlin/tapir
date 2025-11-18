@@ -1,5 +1,4 @@
 services:
-
   tapir:
     image: tapir-local
     build:
@@ -23,6 +22,7 @@ services:
       EMAIL_HOST_PASSWORD: "${EMAIL_HOST_PASSWORD:?}"
       NB_HOURS_FOR_SELF_UNREGISTER: "${NB_HOURS_FOR_SELF_UNREGISTER}"
       NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN: "${NB_HOURS_FOR_SELF_LOOK_FOR_STAND_IN}"
+      SHIFT_ATTENDANCE_MISSED_DEDUCTION: "${SHIFT_ATTENDANCE_MISSED_DEDUCTION}"
       COOPS_PT_RSA_PUBLIC_KEY: |-
         "${COOPS_PT_RSA_PUBLIC_KEY:?}"
     command: bash -c "poetry run python ./manage.py collectstatic --clear --noinput && poetry run python ./manage.py migrate && poetry run gunicorn -b 0.0.0.0:80 tapir.wsgi:application"
