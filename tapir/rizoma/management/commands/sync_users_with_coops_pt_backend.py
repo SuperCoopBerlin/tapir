@@ -108,12 +108,12 @@ class Command(BaseCommand):
         else:
             print("No users to update")
 
-        emails_to_delete = set(tapir_users_by_external_id.keys()).difference(
+        ids_to_delete = set(tapir_users_by_external_id.keys()).difference(
             external_ids_present_in_coops_pt
         )
-        if emails_to_delete:
-            print(f"Deleting {len(emails_to_delete)} users")
-            TapirUser.objects.filter(email__in=emails_to_delete).delete()
+        if ids_to_delete:
+            print(f"Deleting {len(ids_to_delete)} users")
+            TapirUser.objects.filter(id__in=ids_to_delete).delete()
         else:
             print("No users to delete")
 
