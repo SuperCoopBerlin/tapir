@@ -184,7 +184,7 @@ class Command(BaseCommand):
                     postcode=share_owner_json["zip"],
                     city=share_owner_json["city"][:50],
                     preferred_language="pt",
-                    phone_number=share_owner_json["_firstMobile"],
+                    phone_number=share_owner_json["_firstMobile"] or "",
                 )
             )
             member_number_to_photo_id_map[member_number] = share_owner_json.get(
