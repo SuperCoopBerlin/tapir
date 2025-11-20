@@ -116,6 +116,40 @@ class ShiftSlotForm(forms.ModelForm):
         model = ShiftSlot
         fields = ["name"]
 
+    required_capabilities = forms.ModelMultipleChoiceField(
+        queryset=ShiftUserCapability.objects.all(),
+        widget=CheckboxSelectMultiple,
+        label=_("Qualifications"),
+        required=False,
+    )
+    warnings = forms.ModelMultipleChoiceField(
+        queryset=ShiftSlotWarning.objects.all(),
+        widget=CheckboxSelectMultiple,
+        label=_("Warnings"),
+        required=False,
+    )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.fields["required_capabilities"].choices = {
+            capability.id: capability.get_current_translation().name
+            for capability in ShiftUserCapability.objects.all()
+        }
+        if self.instance and self.instance.id:
+            self.fields["required_capabilities"].initial = (
+                self.instance.required_capabilities.values_list("id", flat=True)
+            )
+
+        self.fields["warnings"].choices = {
+            warning.id: warning.get_current_translation().name
+            for warning in ShiftSlotWarning.objects.all()
+        }
+        if self.instance and self.instance.id:
+            self.fields["warnings"].initial = self.instance.warnings.values_list(
+                "id", flat=True
+            )
+
 
 class TapirUserChoiceField(ModelChoiceField):
     widget = Select2Widget()

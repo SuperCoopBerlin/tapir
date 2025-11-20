@@ -170,10 +170,13 @@ def get_attendance_mode_display(attendance_mode: str) -> str:
     return _(f"Unknown mode {attendance_mode}")
 
 
-def sort_slots_by_name(slots: list[ShiftSlot] | list[ShiftSlotTemplate]):
+def sort_slots_by_name_and_id(slots: list[ShiftSlot] | list[ShiftSlotTemplate]):
     def compare_slots_by_name(slot_a, slot_b):
         name_a = slot_a.name.casefold()
         name_b = slot_b.name.casefold()
+
+        if name_a == name_b:
+            return slot_a.id - slot_b.id
 
         if name_a in DEFAULT_SLOT_ORDER and name_b not in DEFAULT_SLOT_ORDER:
             return -1

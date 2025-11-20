@@ -52,7 +52,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
-from tapir.shifts.utils import sort_slots_by_name
+from tapir.shifts.utils import sort_slots_by_name_and_id
 from tapir.utils.user_utils import UserUtils
 
 
@@ -240,6 +240,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             )
             .prefetch_related("slot_template__attendance_template__user")
         )
+        slots = sort_slots_by_name_and_id(list(slots))
 
         for slot in slots:
             slot.can_self_register = slot.user_can_attend(self.request.user)
@@ -289,8 +290,8 @@ class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView)
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["slots"] = sort_slots_by_name(
-            list(self.get_object().slot_templates.filter(deleted=False))
+        context_data["slots"] = sort_slots_by_name_and_id(
+            list(self.get_object().slot_templates.all())
         )
         return context_data
 
