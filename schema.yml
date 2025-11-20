@@ -698,14 +698,8 @@ components:
           items:
             $ref: '#/components/schemas/ShiftUserCapabilityTranslation'
           readOnly: true
-        shifts:
-          type: array
-          items:
-            type: string
-          readOnly: true
       required:
       - id
-      - shifts
       - translations
     ShiftUserCapabilityTranslation:
       type: object

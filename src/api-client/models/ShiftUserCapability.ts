@@ -39,12 +39,6 @@ export interface ShiftUserCapability {
      * @memberof ShiftUserCapability
      */
     readonly translations: Array<ShiftUserCapabilityTranslation>;
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof ShiftUserCapability
-     */
-    readonly shifts: Array<string>;
 }
 
 /**
@@ -53,7 +47,6 @@ export interface ShiftUserCapability {
 export function instanceOfShiftUserCapability(value: object): value is ShiftUserCapability {
     if (!('id' in value) || value['id'] === undefined) return false;
     if (!('translations' in value) || value['translations'] === undefined) return false;
-    if (!('shifts' in value) || value['shifts'] === undefined) return false;
     return true;
 }
 
@@ -69,7 +62,6 @@ export function ShiftUserCapabilityFromJSONTyped(json: any, ignoreDiscriminator:
         
         'id': json['id'],
         'translations': ((json['translations'] as Array<any>).map(ShiftUserCapabilityTranslationFromJSON)),
-        'shifts': json['shifts'],
     };
 }
 
@@ -77,7 +69,7 @@ export function ShiftUserCapabilityFromJSONTyped(json: any, ignoreDiscriminator:
       return ShiftUserCapabilityToJSONTyped(json, false);
   }
 
-  export function ShiftUserCapabilityToJSONTyped(value?: Omit<ShiftUserCapability, 'id'|'translations'|'shifts'> | null, ignoreDiscriminator: boolean = false): any {
+  export function ShiftUserCapabilityToJSONTyped(value?: Omit<ShiftUserCapability, 'id'|'translations'> | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

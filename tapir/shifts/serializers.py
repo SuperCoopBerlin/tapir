@@ -59,22 +59,15 @@ class ShiftUserCapabilityTranslationSerializer(serializers.ModelSerializer):
 class ShiftUserCapabilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = ShiftUserCapability
-        fields = ["id", "translations", "shifts"]
+        fields = ["id", "translations"]
 
     translations = serializers.SerializerMethodField()
-    shifts = serializers.SerializerMethodField()
 
     @extend_schema_field(ShiftUserCapabilityTranslationSerializer(many=True))
     def get_translations(self, capability: ShiftUserCapability):
         return ShiftUserCapabilityTranslationSerializer(
             capability.shiftusercapabilitytranslation_set.all(), many=True
         ).data
-
-    @staticmethod
-    def get_shifts(capability: ShiftUserCapability) -> list[str]:
-        all_slots = list(capability.shiftslottemplate_set.all())
-        all_slots.extend(list(capability.shiftslot_set.all()))
-        return [slot.get_display_name() for slot in all_slots]
 
 
 class CreateShiftUserCapabilityRequestSerializer(serializers.Serializer):
