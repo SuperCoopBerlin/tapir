@@ -43,6 +43,8 @@ from tapir.shifts.models import (
     ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
     ShiftUserCapabilityTranslation,
+    ShiftSlotWarningTranslation,
+    ShiftSlotWarning,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.statistics.models import (
@@ -489,6 +491,10 @@ def clear_django_db():
         ProcessedPurchaseFiles,
         PurchaseBasket,
         FancyGraphCache,
+        ShiftUserCapabilityTranslation,
+        ShiftUserCapability,
+        ShiftSlotWarningTranslation,
+        ShiftSlotWarning,
     ]
     ShareOwnership.objects.update(transferred_from=None)
     for cls in classes:

@@ -114,7 +114,7 @@ class ShiftDeleteForm(forms.ModelForm):
 class ShiftSlotForm(forms.ModelForm):
     class Meta:
         model = ShiftSlot
-        fields = ["name"]
+        fields = ["name", "required_capabilities", "warnings"]
 
     required_capabilities = forms.ModelMultipleChoiceField(
         queryset=ShiftUserCapability.objects.all(),
@@ -663,7 +663,7 @@ class ShiftTemplateForm(forms.ModelForm):
 class ShiftSlotTemplateForm(forms.ModelForm):
     class Meta:
         model = ShiftSlotTemplate
-        fields = ["name"]
+        fields = ["name", "required_capabilities", "warnings"]
 
     check_update_future_shifts = BooleanField(
         label=_(

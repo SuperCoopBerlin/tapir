@@ -794,8 +794,8 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
 
     def update_slot_from_template(self):
         self.name = self.slot_template.name
-        self.required_capabilities = self.slot_template.required_capabilities
-        self.warnings = self.slot_template.warnings
+        self.required_capabilities.set(self.slot_template.required_capabilities.all())
+        self.warnings.set(self.slot_template.warnings.all())
         self.save()
 
     def __str__(self):
