@@ -7,14 +7,17 @@ from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftSlot,
-    ShiftUserCapability,
     ShiftAttendance,
     ShiftSlotTemplate,
     ShiftAttendanceTemplate,
     ShiftExemption,
     ShiftTemplate,
 )
-from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
+from tapir.shifts.tests.factories import (
+    ShiftFactory,
+    ShiftTemplateFactory,
+    ShiftUserCapabilityFactory,
+)
 from tapir.shifts.tests.utils import (
     register_user_to_shift,
     check_registration_successful,
@@ -37,7 +40,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         shift = ShiftFactory.create()
         slot = ShiftSlot.objects.filter(shift=shift).first()
-        slot.required_capabilities = [ShiftUserCapability.CASHIER]
+        slot.required_capabilities.set([ShiftUserCapabilityFactory.create()])
         slot.save()
 
         self.login_as_member_office_user()
@@ -92,16 +95,17 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         shift_template = ShiftTemplateFactory.create()
         slot_template = ShiftSlotTemplate.objects.filter(
             shift_template=shift_template
-        ).first()
-        slot_template.required_capabilities = [ShiftUserCapability.RED_CARD]
+        ).get()
+        slot_template.required_capabilities.set([ShiftUserCapabilityFactory.create()])
         slot_template.save()
 
         self.login_as_member_office_user()
         response = register_user_to_shift_template(self.client, user, shift_template)
+        response_content = response.content.decode()
 
         self.assertIn(
             "confirm_missing_capabilities",
-            response.content.decode(),
+            response_content,
             "There should be a warning about missing capabilities.",
         )
         self.assertFalse(

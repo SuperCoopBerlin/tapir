@@ -11,12 +11,10 @@ from django.template.defaulttags import register
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views import generic
 from django.views.generic import (
     CreateView,
     UpdateView,
     RedirectView,
-    FormView,
 )
 from django.views.generic import DetailView, TemplateView
 from django_tables2 import SingleTableView
@@ -107,8 +105,12 @@ class EditShiftUserDataView(
     def form_valid(self, form):
         response = super().form_valid(form)
 
-        tapir_user = form.cleaned_data["shift_partner"]
-        form.instance.shift_partner = tapir_user.shift_user_data if tapir_user else None
+        tapir_user_id = form.cleaned_data["shift_partner"]
+        form.instance.shift_partner = (
+            TapirUser.objects.get(id=tapir_user_id).shift_user_data
+            if tapir_user_id
+            else None
+        )
         form.instance.save()
 
         new_frozen = freeze_for_log(form.instance)
@@ -283,6 +285,13 @@ class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView)
         return queryset.prefetch_related(
             "slot_templates__attendance_template__user__share_owner"
         )
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["slots"] = sort_slots_by_name(
+            list(self.get_object().slot_templates.filter(deleted=False))
+        )
+        return context_data
 
 
 class ShiftUserDataTable(django_tables2.Table):

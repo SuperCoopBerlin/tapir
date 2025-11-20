@@ -12,11 +12,14 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftSlotTemplate,
     ShiftAttendanceTemplate,
-    ShiftUserCapability,
     ShiftAttendance,
     ShiftSlot,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
+from tapir.shifts.tests.factories import (
+    ShiftTemplateFactory,
+    ShiftFactory,
+    ShiftUserCapabilityFactory,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 from tapir.utils.user_utils import UserUtils
 
@@ -213,22 +216,20 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
         )
 
     def test_has_qualification(self):
+        capability_1 = ShiftUserCapabilityFactory.create()
+        capability_2 = ShiftUserCapabilityFactory.create()
         share_owners_with_capability = [
-            TapirUserFactory.create(
-                shift_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR]
-            ).share_owner
+            TapirUserFactory.create(shift_capabilities=[capability_1]).share_owner
             for _ in range(2)
         ]
 
         share_owners_without_capability = [
-            TapirUserFactory.create(
-                shift_capabilities=[ShiftUserCapability.CASHIER]
-            ).share_owner,
+            TapirUserFactory.create(shift_capabilities=[capability_2]).share_owner,
             TapirUserFactory.create(shift_capabilities=[]).share_owner,
         ]
 
         self.visit_view(
-            {"has_capability": ShiftUserCapability.SHIFT_COORDINATOR},
+            {"has_capability": capability_1.id},
             must_be_in=share_owners_with_capability,
             must_be_out=share_owners_without_capability,
         )

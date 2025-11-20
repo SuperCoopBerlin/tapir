@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import datetime
 import os
+from locale import strcoll
 from typing import Type, Callable, List, TYPE_CHECKING
 
 import environ
@@ -246,3 +247,11 @@ def ensure_datetime(obj: datetime.date | datetime.datetime):
 def transfer_attributes(source, target, attributes):
     for attribute in attributes:
         setattr(target, attribute, getattr(source, attribute))
+
+
+def compare_languages_english_goes_first(a, b):
+    if a.language == "en":
+        return -1
+    if b.language == "en":
+        return 1
+    return strcoll(a.language, b.language)

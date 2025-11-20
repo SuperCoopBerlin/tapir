@@ -1,4 +1,5 @@
 from django.urls import path
+from rest_framework.routers import DefaultRouter
 
 from tapir.shifts import views
 
@@ -220,6 +221,17 @@ urlpatterns = [
         name="attendance_template_custom_time",
     ),
     path(
+        "api/shift_slot_warning",
+        views.ShiftSlotWarningApiView.as_view(),
+        name="shift_slot_warning",
+    ),
+    path(
+        "api/shift_user_capability",
+        views.ShiftUserCapabilityApiView.as_view(),
+        name="shift_user_capability",
+    ),
+    path("api/languages", views.GetLanguagesView.as_view(), name="languages"),
+    path(
         "watch_shift/<int:shift>/", views.WatchShiftView.as_view(), name="watch_shift"
     ),
     path(
@@ -228,3 +240,16 @@ urlpatterns = [
         name="unwatch_shift",
     ),
 ]
+
+router = DefaultRouter()
+router.register(
+    r"shift_slot_warnings",
+    views.ShiftSlotWarningViewSet,
+    basename="shift_slot_warnings",
+)
+router.register(
+    r"shift_user_capabilities",
+    views.ShiftUserCapabilityViewSet,
+    basename="shift_user_capabilities",
+)
+urlpatterns += router.urls
