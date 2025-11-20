@@ -6,6 +6,8 @@ from tapir.shifts.models import (
     ShiftSlotWarningTranslation,
     ShiftUserCapabilityTranslation,
     ShiftUserCapability,
+    ShiftSlotTemplate,
+    ShiftSlot,
 )
 
 
@@ -72,8 +74,16 @@ class ShiftUserCapabilitySerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_shifts(capability: ShiftUserCapability) -> list[str]:
-        all_slots = list(capability.shiftslottemplate_set.all())
-        all_slots.extend(list(capability.shiftslot_set.all()))
+        all_slots: list[ShiftSlotTemplate | ShiftSlot] = list(
+            capability.shiftslottemplate_set.prefetch_related("shift_template__group")
+        )
+        all_slots.extend(
+            list(
+                capability.shiftslot_set.prefetch_related(
+                    "shift__shift_template__group"
+                )
+            )
+        )
         return [slot.get_display_name() for slot in all_slots]
 
 
