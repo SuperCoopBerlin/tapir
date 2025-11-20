@@ -53,7 +53,7 @@ def create_new_capability_and_translations(apps, capability_old_id: str):
     )
     new_capability = shift_user_capability_new_model.objects.create()
     english_name = SHIFT_USER_CAPABILITY_CHOICES_OLD[capability_old_id]
-    german_name = TRANSLATIONS[english_name]
+    german_name = TRANSLATIONS.get(english_name, english_name)
     shift_user_capability_translation_model.objects.bulk_create(
         [
             shift_user_capability_translation_model(
@@ -131,6 +131,8 @@ def populate_shift_user_data_capabilities(apps, new_capabilities_by_old_id: dict
 
 def populate_all_new_fields(apps, _):
     new_capabilities_by_old_id = {}
+    for old_id in SHIFT_USER_CAPABILITY_CHOICES_OLD.keys():
+        create_new_capability_and_translations(apps, old_id)
     populate_shift_slot_template_capabilities(apps, new_capabilities_by_old_id)
     populate_shift_slot_capabilities(apps, new_capabilities_by_old_id)
     populate_shift_user_data_capabilities(apps, new_capabilities_by_old_id)

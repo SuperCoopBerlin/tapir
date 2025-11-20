@@ -74,6 +74,9 @@ def populate_warnings_generic(
 def populate_all_new_warning_fields(apps, _):
     new_capabilities_by_old_id = {}
 
+    for old_id in SHIFT_SLOT_WARNING_CHOICES_OLD:
+        create_new_warning_and_translations(apps, old_id)
+
     shift_slot_template_model = apps.get_model("shifts", "ShiftSlotTemplate")
     populate_warnings_generic(
         apps, shift_slot_template_model, new_capabilities_by_old_id

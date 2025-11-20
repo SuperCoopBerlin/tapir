@@ -52,6 +52,7 @@ from tapir.shifts.models import (
     ShiftAccountEntry,
 )
 from tapir.shifts.templatetags.shifts import shift_name_as_class
+from tapir.shifts.utils import sort_slots_by_name
 from tapir.utils.user_utils import UserUtils
 
 
