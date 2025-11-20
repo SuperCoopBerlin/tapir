@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { ButtonVariant } from "react-bootstrap/types";
 import TapirButton from "./TapirButton";
 
-interface ConfirmDeleteModalProps {
+interface ConfirmModalProps {
   message: ReactNode;
   title: string;
   open: boolean;
@@ -17,7 +17,7 @@ interface ConfirmDeleteModalProps {
 
 declare let gettext: (english_text: string) => string;
 
-const ConfirmModal: React.FC<ConfirmDeleteModalProps> = ({
+const ConfirmModal: React.FC<ConfirmModalProps> = ({
   message,
   title,
   open,
