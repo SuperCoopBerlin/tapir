@@ -12,5 +12,5 @@ RUN apt-get update -y  \
         postgresql-client-common \
     && rm -rf /var/lib/apt/lists/*  \
     && pip install poetry  \
-    && poetry install --without dev  \
+    && poetry install  \
     && poetry run python manage.py compilemessages
