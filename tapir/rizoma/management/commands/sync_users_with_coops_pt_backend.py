@@ -1,14 +1,15 @@
-from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
+from tapir.rizoma.config import GROUP_NAME_CONSUMIDORES
 from tapir.rizoma.coops_pt_auth_backend import CoopsPtAuthBackend
 from tapir.rizoma.exceptions import CoopsPtRequestException
 from tapir.rizoma.models import RizomaMemberData
 from tapir.rizoma.services.coops_pt_request_handler import CoopsPtRequestHandler
 from tapir.rizoma.services.coops_pt_user_creator import CoopsPtUserCreator
+from tapir.rizoma.services.group_affiliation_checker import GroupAffiliationChecker
 from tapir.shifts.models import ShiftUserData
 from tapir.utils.models import copy_user_info
 
@@ -114,7 +115,6 @@ class Command(BaseCommand):
             ShareOwner.objects.values_list("external_id", flat=True)
         )
         external_ids_present_in_coops_pt = set()
-        used_member_numbers = set()
         member_number_to_photo_id_map = {}
 
         # Example element from the response:
@@ -149,20 +149,17 @@ class Command(BaseCommand):
             ):
                 continue
 
-            if "Consumidores" not in share_owner_json["_currentState"]:
+            if GROUP_NAME_CONSUMIDORES not in share_owner_json["_currentState"]:
                 continue
-
-            member_number = share_owner_json["number"]
-            if settings.DEBUG:
-                # on the demo instance demo.coopts.pt, several members have the same number.
-                # This is invalid, but it should not happen with production instances
-                if member_number in used_member_numbers:
-                    continue
-                used_member_numbers.add(member_number)
 
             external_id = share_owner_json["_id"]
             external_ids_present_in_coops_pt.add(external_id)
             if external_id in external_ids_present_in_tapir_db:
+                continue
+
+            if not GroupAffiliationChecker.is_member_affiliation_to_group_active(
+                external_id, group_name=GROUP_NAME_CONSUMIDORES
+            ):
                 continue
 
             name: str = share_owner_json["name"]
@@ -173,6 +170,8 @@ class Command(BaseCommand):
             last_name = None
             if len(name_parts) > 1:
                 last_name = name_parts[1].strip()
+
+            member_number = share_owner_json["number"]
 
             share_owners_to_create.append(
                 ShareOwner(

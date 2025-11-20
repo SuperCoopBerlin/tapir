@@ -202,6 +202,10 @@ if ENABLE_RIZOMA_CONTENT:
                 "task": "tapir.rizoma.tasks.sync_users_with_coops_pt_backend",
                 "schedule": celery.schedules.crontab(hour="*", minute="0"),
             },
+            "check_members_group_affiliation": {
+                "task": "tapir.rizoma.tasks.check_members_group_affiliation",
+                "schedule": celery.schedules.crontab(hour="0", minute="0"),
+            },
         }
     )
 
