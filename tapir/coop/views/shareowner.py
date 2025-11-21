@@ -4,6 +4,7 @@ from tempfile import SpooledTemporaryFile
 
 import django_filters
 import django_tables2
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
@@ -24,11 +25,15 @@ from django.utils.translation import gettext_lazy as _, pgettext_lazy
 from django.views import generic, View
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
-from django.views.generic import UpdateView, FormView, DeleteView
+from django.views.generic import UpdateView, FormView, DeleteView, TemplateView
 from django_filters import CharFilter, ChoiceFilter, BooleanFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
+from drf_spectacular.utils import extend_schema
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop import pdfs
@@ -62,6 +67,7 @@ from tapir.coop.models import (
     ShareOwnerQuerySet,
     DeleteShareOwnerLogEntry,
 )
+from tapir.coop.serializers import MemberRegistrationRequestSerializer
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
@@ -966,3 +972,31 @@ class MatchingProgramListView(
             .order_by("willing_to_gift_a_share")
             .prefetch_related("user")
         )
+
+
+class MemberSelfRegistrationTemplateView(TemplateView):
+    template_name = "coop/member_self_registration.html"
+
+
+class MemberSelfRegisterApiView(APIView):
+    permission_classes = []
+
+    @extend_schema(
+        request=MemberRegistrationRequestSerializer,
+        responses={200: bool},
+    )
+    def post(self, request):
+        if not settings.DEBUG:
+            raise PermissionDenied("Only for debug mode!")
+
+        serializer = MemberRegistrationRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data["email"]
+        if (
+            TapirUser.objects.filter(email=email).exists()
+            or ShareOwner.objects.filter(email=email).exists()
+        ):
+            return Response(False)
+
+        return Response(True)

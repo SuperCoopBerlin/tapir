@@ -67,6 +67,7 @@ class ShiftFactory(factory.django.DjangoModelFactory[Shift]):
     class Meta:
         model = Shift
         exclude = ("start_hour", "start_minute", "duration", "nb_slots")
+        skip_postgeneration_save = True
 
     name = factory.Faker("bs")
 

@@ -245,4 +245,14 @@ urlpatterns = [
         views.GeneralTapirAccountsListView.as_view(),
         name="general_accounts_list",
     ),
+    path(
+        "member_self_registration",
+        views.MemberSelfRegistrationTemplateView.as_view(),
+        name="member_self_registration",
+    ),
+    path(
+        "member_self_register",
+        views.MemberSelfRegisterApiView.as_view(),
+        name="member_self_register",
+    ),
 ]
