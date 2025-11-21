@@ -1,18 +1,19 @@
 from calendar import HTMLCalendar, month_name, day_abbr
 from datetime import datetime, timedelta, date
+from functools import cmp_to_key
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
+from tapir.shifts.config import DEFAULT_SLOT_ORDER
 from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftAccountEntry,
     ShiftAttendance,
-    ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
-    StaffingStatusChoices,
-    Shift,
+    ShiftSlot,
+    ShiftSlotTemplate,
 )
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
@@ -148,12 +149,10 @@ def update_shift_account_depending_on_welcome_session_status(share_owner: ShareO
     )
 
 
-def get_ids_of_users_registered_to_a_shift_with_capability(
-    capability: ShiftUserCapability,
-):
+def get_ids_of_users_registered_to_a_shift_with_capability(capability_id):
     return (
         ShiftAttendance.objects.filter(
-            slot__required_capabilities__contains=[capability],
+            slot__required_capabilities__id=capability_id,
             state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
         )
         .distinct()
@@ -166,3 +165,26 @@ def get_attendance_mode_display(attendance_mode: str) -> str:
         if mode_choice[0] == attendance_mode:
             return mode_choice[1]
     return _(f"Unknown mode {attendance_mode}")
+
+
+def sort_slots_by_name_and_id(slots: list[ShiftSlot] | list[ShiftSlotTemplate]):
+    def compare_slots_by_name(slot_a, slot_b):
+        name_a = slot_a.name.casefold()
+        name_b = slot_b.name.casefold()
+
+        if name_a == name_b:
+            return slot_a.id - slot_b.id
+
+        if name_a in DEFAULT_SLOT_ORDER and name_b not in DEFAULT_SLOT_ORDER:
+            return -1
+        if name_a not in DEFAULT_SLOT_ORDER and name_b in DEFAULT_SLOT_ORDER:
+            return 1
+        if name_a in DEFAULT_SLOT_ORDER and name_b in DEFAULT_SLOT_ORDER:
+            return DEFAULT_SLOT_ORDER.index(name_a) - DEFAULT_SLOT_ORDER.index(name_b)
+        if name_a < name_b:
+            return -1
+        if name_b < name_a:
+            return 1
+        return 0
+
+    return sorted(slots, key=cmp_to_key(compare_slots_by_name))

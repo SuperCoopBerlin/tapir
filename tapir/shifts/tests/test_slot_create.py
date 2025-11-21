@@ -2,11 +2,13 @@ from django.urls import reverse
 
 from tapir.shifts.models import (
     Shift,
-    ShiftUserCapability,
-    ShiftSlotWarning,
     ShiftSlot,
 )
-from tapir.shifts.tests.factories import ShiftFactory
+from tapir.shifts.tests.factories import (
+    ShiftFactory,
+    ShiftUserCapabilityFactory,
+    ShiftSlotWarningFactory,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -26,8 +28,8 @@ class TestSlotCreate(TapirFactoryTestBase):
         shift: Shift = ShiftFactory.create(nb_slots=0)
         self.assertEqual(shift.slots.count(), 0)
 
-        required_capabilities = [ShiftUserCapability.CASHIER]
-        warnings = [ShiftSlotWarning.IN_THE_MORNING_EVERYONE_HELPS_STORAGE]
+        required_capabilities = [ShiftUserCapabilityFactory.create().id]
+        warnings = [ShiftSlotWarningFactory.create().id]
 
         response = self.client.post(
             reverse(self.SLOT_CREATE_VIEW, args=[shift.id]),
@@ -44,8 +46,16 @@ class TestSlotCreate(TapirFactoryTestBase):
 
         slot: ShiftSlot = shift.slots.first()
         self.assertEqual(slot.name, self.SLOT_NAME)
-        self.assertEqual(slot.required_capabilities, required_capabilities)
-        self.assertEqual(slot.warnings, warnings)
+        self.assertEqual(
+            list(slot.required_capabilities.values_list("id", flat=True)),
+            required_capabilities,
+            "difference in capabilities",
+        )
+        self.assertEqual(
+            list(slot.warnings.values_list("id", flat=True)),
+            warnings,
+            "difference in warnings",
+        )
 
     def test_normal_user_access_denied(self):
         self.login_as_normal_user()

@@ -9,6 +9,10 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     Shift,
     ShiftSlot,
+    ShiftUserCapabilityTranslation,
+    ShiftUserCapability,
+    ShiftSlotWarning,
+    ShiftSlotWarningTranslation,
 )
 
 
@@ -87,4 +91,58 @@ class ShiftFactory(factory.django.DjangoModelFactory[Shift]):
         for _ in range(nb_slots):
             ShiftSlotFactory.create(shift=self)
         self.num_required_attendances = math.ceil(nb_slots / 2)
+        self.save()
+
+
+class ShiftSlotWarningTranslationFactory(
+    factory.django.DjangoModelFactory[ShiftSlotWarningTranslation]
+):
+    class Meta:
+        model = ShiftSlotWarningTranslation
+
+    name = factory.Faker("sentence")
+    description = factory.Faker("bs")
+
+
+class ShiftSlotWarningFactory(factory.django.DjangoModelFactory[ShiftSlotWarning]):
+    class Meta:
+        model = ShiftSlotWarning
+
+    @factory.post_generation
+    def translations(self: ShiftSlotWarning, create, languages, **kwargs):
+        if not create:
+            return
+        if languages is None:
+            languages = ["en"]
+        for language in languages:
+            ShiftSlotWarningTranslationFactory.create(warning=self, language=language)
+        self.save()
+
+
+class ShiftUserCapabilityTranslationFactory(
+    factory.django.DjangoModelFactory[ShiftUserCapabilityTranslation]
+):
+    class Meta:
+        model = ShiftUserCapabilityTranslation
+
+    name = factory.Faker("sentence")
+    description = factory.Faker("bs")
+
+
+class ShiftUserCapabilityFactory(
+    factory.django.DjangoModelFactory[ShiftUserCapability]
+):
+    class Meta:
+        model = ShiftUserCapability
+
+    @factory.post_generation
+    def translations(self: ShiftUserCapability, create, languages, **kwargs):
+        if not create:
+            return
+        if languages is None:
+            languages = ["en"]
+        for language in languages:
+            ShiftUserCapabilityTranslationFactory.create(
+                capability=self, language=language
+            )
         self.save()

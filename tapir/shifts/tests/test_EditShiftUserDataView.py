@@ -7,8 +7,8 @@ from django.utils.html import strip_tags
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     UpdateShiftUserDataLogEntry,
-    ShiftUserCapability,
 )
+from tapir.shifts.tests.factories import ShiftUserCapabilityFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
@@ -52,17 +52,18 @@ class TestEditShiftUserDataView(TapirFactoryTestBase):
         tapir_user = TapirUserFactory.create()
         tapir_user.shift_user_data.is_frozen = False
         tapir_user.shift_user_data.save()
+        capability = ShiftUserCapabilityFactory.create()
 
         response = self.client.post(
             reverse(self.VIEW_NAME, args=[tapir_user.shift_user_data.id]),
-            data={"capabilities": [ShiftUserCapability.MEMBER_OFFICE]},
+            data={"capabilities": [capability.id]},
             follow=True,
         )
         self.assertEqual(response.status_code, 200)
 
         tapir_user.shift_user_data.refresh_from_db()
         self.assertEqual(
-            tapir_user.shift_user_data.capabilities,
-            [ShiftUserCapability.MEMBER_OFFICE],
+            list(tapir_user.shift_user_data.capabilities.all()),
+            [capability],
         )
         self.assertEqual(1, UpdateShiftUserDataLogEntry.objects.count())

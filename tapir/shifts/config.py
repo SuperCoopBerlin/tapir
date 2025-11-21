@@ -16,3 +16,9 @@ FEATURE_FLAG_SHIFT_PARTNER = "feature_flags.shifts.shift_partner"
 FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER = (
     "feature_flags.shifts.flying_members_registration_reminder"
 )
+
+
+DEFAULT_SLOT_ORDER = [
+    "Teamleitung",
+]
+DEFAULT_SLOT_ORDER = [slot_name.casefold() for slot_name in DEFAULT_SLOT_ORDER]
