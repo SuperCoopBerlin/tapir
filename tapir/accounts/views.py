@@ -143,8 +143,6 @@ class TapirUserUpdateSelfView(TapirUserUpdateBaseView, PermissionRequiredMixin):
     form_class = TapirUserSelfUpdateForm
 
     def get_permission_required(self):
-        print(self.request.user.pk)
-        print(self.kwargs["pk"])
         if self.request.user.pk == self.kwargs["pk"]:
             return []
         return [PERMISSION_ACCOUNTS_MANAGE]
