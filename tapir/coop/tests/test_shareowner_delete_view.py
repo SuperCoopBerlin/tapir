@@ -39,6 +39,7 @@ class TestShareOwnerDeleteView(
             follow=True,
         )
         self.assertStatusCode(response, HTTPStatus.OK)
+        tapir_user.share_owner.refresh_from_db()
         print(tapir_user.share_owner.deleted_at)
         self.assertIsNotNone(tapir_user.share_owner.deleted_at)
         self.assertEqual(DeleteShareOwnerLogEntry.objects.count(), 1)
