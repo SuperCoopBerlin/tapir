@@ -2,18 +2,23 @@ import django.contrib.auth.views as auth_views
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
 
 from tapir import settings
 from tapir.accounts import pdfs
+from tapir.accounts.config import feature_flag_open_door, cache_key_open_door
+from tapir.core.models import FeatureFlag
 from tapir.accounts.forms import (
     TapirUserForm,
     PasswordResetForm,
@@ -31,6 +36,7 @@ from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import (
     TapirAccountCreatedEmailBuilder,
 )
+from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
@@ -51,7 +57,6 @@ from tapir.utils.shortcuts import (
 )
 from tapir.utils.user_utils import UserUtils
 
-
 class TapirUserDetailView(
     LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
 ):
@@ -71,6 +76,12 @@ class TapirUserDetailView(
             tapir_user == self.request.user
             or self.request.user.has_perm(PERMISSION_GROUP_MANAGE)
         )
+        
+        # Check if user can shop
+        context["user_can_shop"] = False
+        if hasattr(tapir_user, 'share_owner') and tapir_user.share_owner:
+            context["user_can_shop"] = MemberCanShopService.can_shop(tapir_user.share_owner, timezone.now())
+        
         return context
 
 
@@ -432,3 +443,54 @@ class MailSettingsView(
                 choice=is_selected,
             )
         return super().form_valid(form)
+        
+
+class OpenDoorView(generic.View):
+    """Combined view for door opening control.
+    
+    POST: Trigger door opening (requires authentication and CSRF)
+    GET: Check door status (no authentication required)
+    """
+    
+    @method_decorator(login_required)
+    def post(self, request):
+        """POST endpoint to trigger door opening.
+        
+        Sets cache key 'open_door' to True with 10-second TTL.
+        Requires authentication and CSRF protection.
+        """
+        if not FeatureFlag.get_flag_value(feature_flag_open_door):
+            raise PermissionDenied("The door opening feature is disabled.")
+        
+        user = request.user
+        if not hasattr(user, 'share_owner') or not user.share_owner:
+            raise PermissionDenied("You are not allowed to make purchases at this time.")
+        
+        if not MemberCanShopService.can_shop(user.share_owner, timezone.now()):
+            raise PermissionDenied("You are not allowed to make purchases at this time.")
+        
+        # Set cache key with 10-second TTL
+        cache.set(cache_key_open_door, True, 10)
+        return HttpResponse(status=200)
+    
+    def get(self, request):
+        """GET endpoint to check door status.
+        
+        Returns 200 if cache key is True, otherwise returns 403.
+        No content is provided as this simplifies the use in ressource
+        resticted environments like microcontrollers.
+        Deletes the cache key after checking (one-time use).
+        No authentication required.
+        """
+        if not FeatureFlag.get_flag_value(feature_flag_open_door):
+            return HttpResponse(status=403)
+        
+        door_status = cache.get(cache_key_open_door)
+        
+        if door_status is not None:
+            cache.delete(cache_key_open_door)
+        
+        if door_status is True:
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=403)
