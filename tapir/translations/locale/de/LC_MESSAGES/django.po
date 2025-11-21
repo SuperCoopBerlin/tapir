@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-11 07:41+0100\n"
+"POT-Creation-Date: 2025-11-21 12:31+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -293,7 +293,7 @@ msgid "Enable"
 msgstr "Aktivieren"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:58
-#: accounts/views.py:213
+#: accounts/views.py:211
 #, fuzzy
 #| msgid "You can only look at your own barcode unless you have member office rights"
 msgid "You can only look at your own barcode unless you have admin rights"
@@ -529,16 +529,16 @@ msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und di
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:169
+#: accounts/views.py:167
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:295 accounts/views.py:300
+#: accounts/views.py:293 accounts/views.py:298
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr "Bearbeite Gruppen: %(name)s"
 
-#: accounts/views.py:394 accounts/views.py:399
+#: accounts/views.py:392 accounts/views.py:397
 #, python-format
 msgid "Notification settings for %(name)s"
 msgstr "Benachrichtungseinstellungen für %(name)s"
@@ -3970,8 +3970,8 @@ msgid "Shift partner: "
 msgstr "Schicht-Partner: "
 
 #: shifts/templates/shifts/shift_day_printable.html:289
-msgid "Only to be filled in by the member office."
-msgstr "Nur vom Mitgliedsbüro auszufüllen"
+msgid "Only to be filled by teamleader, member office or employees."
+msgstr "Nur durch Mitgliedsbüro, Teamleitung oder Angestellte auszufüllen."
 
 #: shifts/templates/shifts/shift_day_printable_v0.html:54
 #: shifts/templates/shifts/shift_detail.html:104
