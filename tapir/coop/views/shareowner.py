@@ -302,11 +302,14 @@ class ShareOwnerDeleteView(
     def get_success_url(self):
         return reverse("coop:shareowner_list")
 
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if request.user == obj.user:
+            return HttpResponseForbidden("You cannot delete your own account.")
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         share_owner = self.get_object()
-        if self.request.user == share_owner.user:
-            raise PermissionDenied("You cannot delete your own account.")
-
         self.get_object().delete()
         DeleteShareOwnerLogEntry().populate(
             share_owner=share_owner,
