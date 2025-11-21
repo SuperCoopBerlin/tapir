@@ -118,7 +118,28 @@ class NonDeleted(models.Manager):
         return super().get_queryset().filter(deleted_at__isnull=True)
 
 
-class ShareOwner(models.Model):
+class SoftDeleteMixin(models.Model):
+    deleted_at = models.DateTimeField(null=True, blank=True, default=None)
+
+    class Meta:
+        abstract = True
+
+    objects = NonDeleted()
+    everything = models.Manager()
+
+    def delete(self, using=None, keep_parents=False):
+        self.deleted_at = timezone.now()
+        self.save(update_fields=["deleted_at"])
+
+    def hard_delete(self, using=None, keep_parents=False):
+        super().delete(using=using, keep_parents=keep_parents)
+
+    def restore(self):
+        self.deleted_at = None
+        self.save(update_fields=["deleted_at"])
+
+
+class ShareOwner(SoftDeleteMixin, models.Model):
     """ShareOwner represents a share_owner of a ShareOwnership.
 
     Usually, this is just a proxy for the associated user. However, it may also be used to
@@ -182,18 +203,9 @@ class ShareOwner(models.Model):
         _("Is willing to gift a share"), null=True, blank=True
     )
     create_account_reminder_email_sent = models.BooleanField(default=False)
-    deleted_at = models.DateTimeField(null=True, blank=True)  # Soft-Delete
 
-    everything = models.Manager()
+    # overwrite from Mixin:
     objects = NonDeleted.from_queryset(ShareOwnerQuerySet)()
-
-    def soft_delete(self):
-        self.deleted_at = timezone.now()
-        self.save()
-
-    def restore(self):
-        self.deleted_at = None
-        self.save()
 
     def blank_info_fields(self):
         """Used after a ShareOwner is linked to a user, which is used as the source for user info instead."""

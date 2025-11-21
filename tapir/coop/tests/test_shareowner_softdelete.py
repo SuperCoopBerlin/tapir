@@ -13,7 +13,7 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
         share_owner = ShareOwnerFactory.create()
 
         self.assertIsNone(share_owner.deleted_at)
-        share_owner.soft_delete()
+        share_owner.delete()
 
         share_owner.refresh_from_db()
 
@@ -23,7 +23,7 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
     def test_softDelete_restoreDeleted_isNone(self):
         share_owner = ShareOwnerFactory.create()
 
-        share_owner.soft_delete()
+        share_owner.delete()
         share_owner.refresh_from_db()
         self.assertIsNotNone(share_owner.deleted_at)
 
@@ -36,7 +36,7 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
         active_owner = ShareOwnerFactory.create()
 
         soft_deleted_owner = ShareOwnerFactory.create()
-        soft_deleted_owner.soft_delete()
+        soft_deleted_owner.delete()
 
         non_deleted_owners = ShareOwner.objects.all()
         self.assertIn(active_owner, non_deleted_owners)
@@ -46,7 +46,7 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
         owner1 = ShareOwnerFactory.create()
 
         owner2 = ShareOwnerFactory.create()
-        owner2.soft_delete()
+        owner2.delete()
 
         all_owners = ShareOwner.everything.all()
 
@@ -57,7 +57,7 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
         share_owner = ShareOwnerFactory.create()
         all_users = ShareOwner.everything.all()
         self.assertIn(share_owner, all_users)
-        share_owner.delete()
+        share_owner.hard_delete()
 
         all_users = ShareOwner.everything.all()
         self.assertNotIn(share_owner, all_users)

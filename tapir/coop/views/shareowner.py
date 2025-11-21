@@ -300,7 +300,8 @@ class ShareOwnerDeleteView(
         share_owner = self.get_object()
         if self.request.user == share_owner.user:
             raise PermissionDenied("You cannot delete your own account.")
-        self.get_object().soft_delete()
+
+        self.get_object().delete()
         DeleteShareOwnerLogEntry().populate(
             share_owner=share_owner,
             actor=self.request.user,
