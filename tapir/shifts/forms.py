@@ -9,7 +9,7 @@ from django.forms import (
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -23,6 +23,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
     ShiftSlotTemplate,
+    ShiftTemplateGroup,
     ShiftSlot,
     ShiftAccountEntry,
     ShiftExemption,
@@ -30,9 +31,9 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftAttendanceMode,
     ShiftWatch,
-    StaffingStatusChoices,
     get_staffingstatus_defaults,
     get_staffingstatus_choices,
+    WEEKDAY_CHOICES,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -619,6 +620,36 @@ class ShiftTemplateForm(forms.ModelForm):
             self.fields["num_required_attendances"].widget.attrs[
                 "max"
             ] = shift_slot_count
+
+
+class ShiftTemplateDuplicateForm(forms.Form):
+    week_group = forms.MultipleChoiceField(
+        label=_("Weekgroups"),
+        widget=Select2MultipleWidget,
+    )
+    weekdays = forms.MultipleChoiceField(
+        choices=WEEKDAY_CHOICES, label=_("Weekdays"), widget=Select2MultipleWidget
+    )
+    start_time = forms.TimeField(
+        widget=forms.TimeInput(attrs={"type": "time"}), disabled=True
+    )
+    end_time = forms.TimeField(
+        widget=forms.TimeInput(attrs={"type": "time"}), disabled=True
+    )
+    start_date = forms.DateField(widget=DateInputTapir(), required=False, disabled=True)
+
+    def __init__(self, *args, **kwargs):
+        shift_template_copy_source = ShiftTemplate.objects.get(
+            pk=kwargs.pop("shift_pk")
+        )
+        super().__init__(*args, **kwargs)
+        self.fields["start_time"].initial = shift_template_copy_source.start_time
+        self.fields["end_time"].initial = shift_template_copy_source.end_time
+        self.fields["start_date"].initial = shift_template_copy_source.start_date
+        self.fields["week_group"].choices = self.get_weekgroup_choices()
+
+    def get_weekgroup_choices(self):
+        return ShiftTemplateGroup.objects.values_list()
 
 
 class ShiftSlotTemplateForm(forms.ModelForm):

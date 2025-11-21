@@ -2,7 +2,6 @@ import datetime
 
 from django.db.models import QuerySet, F
 from django.utils.translation import gettext_lazy as _
-from icecream import ic
 
 from tapir.coop.models import ShareOwner
 from tapir.coop.services.payment_status_service import PaymentStatusService
@@ -26,12 +25,10 @@ class DataProviderPaymentsNotFullyPaid(BaseDataProvider):
             ShareOwner.objects.all(), reference_time.date()
         )
 
-        return ic(
-            queryset.filter(
-                **{
-                    f"{PaymentStatusService.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE}__lt": F(
-                        PaymentStatusService.ANNOTATION_EXPECTED_PAYMENTS_SUM_AT_DATE
-                    )
-                }
-            )
+        return queryset.filter(
+            **{
+                f"{PaymentStatusService.ANNOTATION_CREDITED_PAYMENTS_SUM_AT_DATE}__lt": F(
+                    PaymentStatusService.ANNOTATION_EXPECTED_PAYMENTS_SUM_AT_DATE
+                )
+            }
         )
