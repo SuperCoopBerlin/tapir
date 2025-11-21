@@ -308,6 +308,7 @@ class ShareOwnerDeleteView(
             return HttpResponseForbidden("You cannot delete your own account.")
         return super().dispatch(request, *args, **kwargs)
 
+    @transaction.atomic
     def form_valid(self, form):
         share_owner = self.get_object()
         self.get_object().delete()
