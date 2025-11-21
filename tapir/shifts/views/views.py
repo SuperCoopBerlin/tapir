@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Sum, Count, Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse, reverse_lazy
@@ -34,11 +35,13 @@ from tapir.settings import (
     PERMISSION_COOP_MANAGE,
     PERMISSION_SHIFTS_MANAGE,
     PERMISSION_WELCOMEDESK_VIEW,
+    PERMISSION_ACCOUNTS_MANAGE,
 )
 from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
     ShiftWatchForm,
+    ShiftRecurringWatchForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -46,6 +49,7 @@ from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
     ShiftTemplate,
     ShiftWatch,
+    ShiftRecurringWatchTemplate,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -392,3 +396,64 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
         form.instance.shift = Shift.objects.get(id=self.kwargs["shift"])
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class CreateWatchRecurringShiftsView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+):
+    form_class = ShiftRecurringWatchForm
+    model = ShiftRecurringWatchTemplate
+
+    def get_permission_required(self):
+        if self.request.user.pk == self.kwargs["pk"]:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
+
+    def get_success_url(self):
+        user_pk = self.kwargs.get("pk")
+        return reverse("shifts:shiftwatch_overview", args=[user_pk])
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["page_title"] = _("Create a Rule for recurring Shift-Watches")
+        context_data["card_title"] = context_data["page_title"]
+        return context_data
+
+    def form_valid(self, form):
+        user_pk = self.kwargs.get("pk")
+        form.instance.user = TapirUser.objects.get(pk=user_pk)
+
+        response = super().form_valid(form)
+        form.instance.create_shift_watches()
+        return response
+
+
+class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
+
+    template_name = "shifts/shiftwatch_overview.html"
+    context_object_name = "recurringshiftwatches"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_pk = self.kwargs.get("pk")
+        context["shift_watches"] = ShiftWatch.objects.filter(user__id=user_pk).order_by(
+            "shift__start_time"
+        )
+        return context
+
+    def get_queryset(self):
+        user_pk = self.kwargs.get("pk")
+        return ShiftRecurringWatchTemplate.objects.filter(user__id=user_pk)
+
+    def post(self, request, *args, **kwargs):
+        user_pk = kwargs.get("pk")
+        selected_recurring_ids = request.POST.getlist("recurringshiftwatch_ids")
+        selected_watch_ids = request.POST.getlist("shiftwatch_ids")
+
+        ShiftRecurringWatchTemplate.objects.filter(
+            id__in=selected_recurring_ids, user__id=user_pk
+        ).delete()
+
+        ShiftWatch.objects.filter(id__in=selected_watch_ids, user__id=user_pk).delete()
+
+        return redirect("shifts:shiftwatch_overview", pk=user_pk)

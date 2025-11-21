@@ -6,10 +6,11 @@ from django.forms import (
     ModelChoiceField,
     CheckboxSelectMultiple,
     BooleanField,
+    ModelMultipleChoiceField,
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -33,6 +34,9 @@ from tapir.shifts.models import (
     StaffingStatusChoices,
     get_staffingstatus_defaults,
     get_staffingstatus_choices,
+    ShiftRecurringWatchTemplate,
+    WEEKDAY_CHOICES,
+    ShiftTemplateGroup,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -693,3 +697,66 @@ class ShiftWatchForm(forms.ModelForm):
             self.initial["staffing_status"] = last_shiftwatch.staffing_status
         else:
             self.initial["staffing_status"] = get_staffingstatus_defaults()
+
+
+class ShiftRecurringWatchForm(forms.ModelForm):
+    class Meta:
+        model = ShiftRecurringWatchTemplate
+        fields = [
+            "shift_templates",
+            "weekdays",
+            "shift_template_group",
+            "staffing_status",
+        ]
+
+    weekdays = forms.MultipleChoiceField(
+        required=False,
+        choices=WEEKDAY_CHOICES,
+        widget=Select2MultipleWidget,
+    )
+    shift_templates = ModelMultipleChoiceField(
+        queryset=ShiftTemplate.objects.all(),
+        required=False,
+        widget=Select2MultipleWidget,
+    )
+    shift_template_group = forms.MultipleChoiceField(
+        required=False,
+        # TODO don't hardocde
+        choices=[
+            ("A", "A"),
+            ("B", "B"),
+            ("C", "C"),
+            ("D", "D"),
+        ],
+        widget=CheckboxSelectMultiple(),
+    )
+    staffing_status = forms.MultipleChoiceField(
+        required=True,
+        choices=get_staffingstatus_choices,
+        label=_("Shift changes you would like to be informed about"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+    )
+
+    #
+    def clean(self):
+        cleaned_data = super().clean()
+        shift_templates = cleaned_data.get("shift_templates")
+        weekdays = cleaned_data.get("weekdays")
+        cleaned_data["weekdays"] = list(map(int, weekdays))
+        shift_template_group = cleaned_data.get("shift_template_group")
+
+        if (weekdays or shift_template_group) and shift_templates:
+            raise forms.ValidationError(
+                _(
+                    "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected, and vice versa."
+                )
+            )
+
+        if not (shift_templates or weekdays or shift_template_group):
+            raise forms.ValidationError(
+                _(
+                    "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected."
+                )
+            )
+        return cleaned_data
