@@ -67,6 +67,8 @@ class RizomaAllShiftsView(LoginRequiredMixin, TemplateView):
             .order_by("start_time")
         )
 
+        distinct_slot_names = set(slot.slot_template.name for shift in shifts for slot in shift.slots.all())
+
         # A dict containing the shifts times and the shifts names for each day
         shifts_infos_by_day = OrderedDict()
         for shift in shifts:
@@ -89,10 +91,12 @@ class RizomaAllShiftsView(LoginRequiredMixin, TemplateView):
             if not has_this_shift_time:
                 shifts_infos_by_day[shift_day]["times"].append(shift_times)
 
+            shifts_infos_by_day[shift_day]["shifts_types"] = distinct_slot_names
+
             # browser all the slot's names and add them to the types list
-            for slot in shift.slots.all():
-                if slot.name not in infos["shifts_types"]:
-                    shifts_infos_by_day[shift_day]["shifts_types"].append(slot.name)
+            # for slot in shift.slots.all():
+            #     if slot.name not in infos["shifts_types"]:
+            #         shifts_infos_by_day[shift_day]["shifts_types"].append(slot.name)
 
             shifts_infos_by_day[shift_day]["shifts"].append(format_shift_for_template(shift, False))
 
