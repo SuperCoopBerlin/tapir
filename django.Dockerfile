@@ -1,16 +1,66 @@
-FROM python:3.13
-ENV PYTHONUNBUFFERED=1
-WORKDIR /app
-COPY . /app
+# syntax=docker/dockerfile:1
 
-RUN apt-get update -y  \
-    && apt-get --no-install-recommends install -y  \
-        gettext  \
-        libldap2-dev  \
+FROM python:3.13-slim AS build
+
+ENV POETRY_VERSION=2.2.1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
+
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+
+RUN pip install "poetry==$POETRY_VERSION"
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+    build-essential \
+    # psycopg2 dependencies
+    && apt-get install -y libpq-dev \
+    # Translations dependencies
+    && apt-get install -y gettext \
+    libldap2-dev  \
         libsasl2-dev  \
         postgresql-client  \
         postgresql-client-common \
-    && rm -rf /var/lib/apt/lists/*  \
-    && pip install poetry  \
-    && poetry install  \
-    && poetry run python manage.py compilemessages
+    # cleaning up unused files
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR $PYSETUP_PATH
+
+COPY poetry.lock pyproject.toml ./
+
+RUN --mount=type=cache,target=/root/.cache/pypoetry \
+    poetry install --no-root
+
+COPY . .
+
+FROM python:3.13 AS runtime
+
+ENV VENV_PATH="/opt/pysetup/.venv" \
+    PATH="/opt/pysetup/.venv/bin:$PATH"
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends -y \
+    && apt-get install -y gettext \
+    libldap2-dev  \
+        libsasl2-dev  \
+        postgresql-client  \
+        postgresql-client-common \
+    # cleaning up unused files
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && rm -rf /var/lib/apt/lists/*
+RUN groupadd -g 1001 appgroup && \
+    useradd -u 1001 -g appgroup -m -d /home/appuser -s /bin/bash appuser
+
+WORKDIR /app
+
+COPY --from=build --chown=appuser:appgroup /opt/pysetup/.venv /opt/pysetup/.venv
+COPY --from=build --chown=appuser:appgroup /opt/pysetup/ ./
+COPY --chown=appuser:appgroup . .
+USER appuser

@@ -17,9 +17,8 @@ services:
     build:
       context: .
       dockerfile: ./django.Dockerfile
-    command: bash -c "poetry install &&
-                      poetry run python manage.py compilemessages --ignore \".venv\" &&
-                      poetry run python manage.py runserver_plus 0.0.0.0:80"
+    command: bash -c "python manage.py compilemessages --ignore \".venv\" &&
+                      python manage.py runserver_plus 0.0.0.0:80"
     volumes:
       - .:/app
     environment:
@@ -67,8 +66,7 @@ services:
   celery:
     extends:
       service: web
-    command: bash -c "poetry install &&
-                      poetry run celery -A tapir worker -l info"
+    command: bash -c "celery -A tapir worker -l info"
     depends_on:
       - redis
 
@@ -76,8 +74,7 @@ services:
     extends:
       service: web
     # --schedule to avoid polluting the app directory
-    command: bash -c "poetry install &&
-                      poetry run celery -A tapir beat -l info --schedule /tmp/celerybeat-schedule"
+    command: bash -c "celery -A tapir beat -l info --schedule /tmp/celerybeat-schedule"
     depends_on:
       - redis
 
