@@ -44,7 +44,7 @@ RUN --mount=type=cache,target=/root/.cache/pypoetry \
 
 COPY . .
 
-FROM python:3.13 AS runtime
+FROM python:3.13-slim AS runtime
 
 ENV VENV_PATH="/opt/pysetup/.venv" \
     PATH="/opt/pysetup/.venv/bin:$PATH"
@@ -57,6 +57,8 @@ RUN apt-get update \
     gettext \
     # LDAP dependencies
     libldap2-dev libsasl2-dev  \
+    # weasyprint
+    libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 \
     # cleaning up unused files
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
