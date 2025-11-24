@@ -21,13 +21,11 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -y \
     build-essential \
     # psycopg2 dependencies
-    && apt-get install -y libpq-dev \
+    libpq-dev \
     # Translations dependencies
-    && apt-get install -y gettext \
-    libldap2-dev  \
-        libsasl2-dev  \
-        postgresql-client  \
-        postgresql-client-common \
+    gettext \
+    # LDAP dependencies
+    libldap2-dev  libsasl2-dev  \
     # cleaning up unused files
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
@@ -47,11 +45,12 @@ ENV VENV_PATH="/opt/pysetup/.venv" \
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
-    && apt-get install -y gettext \
-    libldap2-dev  \
-        libsasl2-dev  \
-        postgresql-client  \
-        postgresql-client-common \
+    # psycopg2 dependencies
+    libpq-dev \
+    # Translations dependencies
+    gettext \
+    # LDAP dependencies
+    libldap2-dev libsasl2-dev  \
     # cleaning up unused files
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
