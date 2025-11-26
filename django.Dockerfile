@@ -56,18 +56,11 @@ ENV VENV_PATH="/opt/pysetup/.venv" \
     PATH="/opt/pysetup/.venv/bin:$PATH"
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -y \
-    # psycopg2 dependencies
-    libpq-dev \
-    # Translations dependencies
-    gettext \
-    # LDAP dependencies
-    libldap2-dev libsasl2-dev  \
-    # weasyprint
+    && apt-get install --no-install-recommends -y libpq-dev gettext libldap2-dev libsasl2-dev  \
     libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 \
-    # cleaning up unused files
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+
 RUN groupadd -g 1001 appgroup && \
     useradd -u 1001 -g appgroup -m -d /home/appuser -s /bin/bash appuser
 
