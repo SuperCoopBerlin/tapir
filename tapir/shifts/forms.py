@@ -623,7 +623,7 @@ class ShiftTemplateForm(forms.ModelForm):
 
 class ShiftTemplateDuplicateForm(forms.Form):
     week_group = forms.MultipleChoiceField(
-        label=_("Weekgroups"),
+        label=_("ABCD-Week"),
         widget=Select2MultipleWidget,
     )
     weekdays = forms.MultipleChoiceField(
