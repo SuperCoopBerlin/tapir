@@ -22,10 +22,10 @@ ENV POETRY_VERSION=2.2.1 \
 
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
-RUN pip install "poetry==$POETRY_VERSION"
+
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
-    build-essential \
+    build-essential curl \
     # psycopg2 dependencies
     libpq-dev \
     # Translations dependencies
@@ -35,6 +35,10 @@ RUN apt-get update \
     # cleaning up unused files
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
+
+RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - && \
+    ln -s $POETRY_HOME/bin/poetry /usr/local/bin/poetry
+
 WORKDIR $PYSETUP_PATH
 
 COPY poetry.lock pyproject.toml ./
