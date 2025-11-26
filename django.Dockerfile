@@ -48,7 +48,7 @@ RUN if [ "$DEV" = "true" ]; then \
     else \
       poetry install --without dev --no-root; \
     fi
-COPY . .
+
 
 FROM python:3.13-slim AS runtime
 
