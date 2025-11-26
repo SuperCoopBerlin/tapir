@@ -9,7 +9,6 @@ from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import CreateView, UpdateView, RedirectView, FormView
-
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.forms import (
@@ -239,10 +238,16 @@ class ShiftTemplateDuplicateView(
         )
         context = super().get_context_data(**kwargs)
         context["card_title"] = _("Duplicate ABCD-Shift " + template.get_display_name())
-        context["help_text"] = _(
+        help_text = _(
             "Please choose other weekdays and weekgroups this ABCD-Shift should be copied to. These slots will be copied: "
-            + f"{", ".join(str(i) for i in template.slot_templates.values_list("name", flat=True).distinct())}"
+            + f"{", ".join(str(i) for i in template.slot_templates.values_list("name", flat=True).distinct())}."
         )
+        if template.start_date is not None:
+            help_text += _(
+                " Shifts for this ABCD shift will be generated starting from "
+                + template.start_date.strftime("%d.%m.%Y")
+            )
+        context["help_text"] = help_text
         return context
 
     def form_valid(self, form):
