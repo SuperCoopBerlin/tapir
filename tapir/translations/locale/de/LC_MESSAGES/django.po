@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-12 20:41+0100\n"
+"POT-Creation-Date: 2025-11-26 13:06+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3010,105 +3010,101 @@ msgstr ""
 msgid "Sent to a member when their shift status gets set from frozen to flying."
 msgstr ""
 
-#: shifts/forms.py:65
+#: shifts/forms.py:64
 msgid "The shift must end after it starts."
 msgstr "Die Schicht muss nach ihrem Start enden."
 
-#: shifts/forms.py:87
+#: shifts/forms.py:86
 msgid "I understand the consequences of deleting a shift"
 msgstr "Ich kenne die Konsequenzen, wenn eine Schicht gelöscht wird."
 
-#: shifts/forms.py:108
+#: shifts/forms.py:107
 msgid "In order to delete a shift, all member attendances must be set to 'Cancelled'. "
 msgstr ""
 
-#: shifts/forms.py:158
+#: shifts/forms.py:157
 msgid "I have read the warning about the missing qualification and confirm that the user should get registered to the shift"
 msgstr "Ich habe die Warnung über die fehlende Qualifikation gelesen und bestätige, dass Benutzer*in für die Schicht registriert werden sollte"
 
-#: shifts/forms.py:229
+#: shifts/forms.py:228
 msgid "Please set the chosen time after the start of the shift"
 msgstr ""
 
-#: shifts/forms.py:234
+#: shifts/forms.py:233
 msgid "Please set the chosen time before the end of the shift"
 msgstr "Bitte setze die gewählte Zeit vor das Ende der Schicht"
 
-#: shifts/forms.py:271
+#: shifts/forms.py:270
 msgid "This user is already registered to another slot in this ABCD shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser ABCD-Schicht registriert."
 
-#: shifts/forms.py:314
+#: shifts/forms.py:313
 msgid "You need the shifts.manage permission to do this."
 msgstr ""
 
-#: shifts/forms.py:318
+#: shifts/forms.py:317
 msgid "This user is already registered to another slot in this shift."
 msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht registriert."
 
-#: shifts/forms.py:329
+#: shifts/forms.py:328
 msgid "This shift has been deleted. It is not possible to register to it."
 msgstr "Diese Schicht wurde gelöscht. Es ist nicht möglich sich für diese zu registrieren."
 
-#: shifts/forms.py:341
+#: shifts/forms.py:340
 msgid "I am aware that the member will be unregistered from their ABCD shift"
 msgstr "Ich bin mir bewusst, dass das Mitglied von der ABCD-Schicht abgemeldet wird."
 
-#: shifts/forms.py:350 shifts/templates/shifts/shift_day_printable.html:287
+#: shifts/forms.py:349 shifts/templates/shifts/shift_day_printable.html:287
 #: shifts/templates/shifts/user_shifts_overview_tag.html:93
 msgid "Qualifications"
 msgstr "Qualifikationen"
 
-#: shifts/forms.py:392
+#: shifts/forms.py:391
 msgid "The selected member must be an investing member."
 msgstr "Das ausgewählte Mitglied muss ein investierendes Mitglied sein."
 
-#: shifts/forms.py:448
+#: shifts/forms.py:447
 msgid "This member is registered to at least one ABCD shift. Please confirm the change of attendance mode with the checkbox below."
 msgstr ""
 
-#: shifts/forms.py:493
+#: shifts/forms.py:492
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:500
+#: shifts/forms.py:499
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:558
+#: shifts/forms.py:557
 #, python-format
 msgid "The user will be unregistered from the following ABCD shifts because the exemption is longer than %(number_of_cycles)s cycles: %(attendances_display)s "
 msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s "
 
-#: shifts/forms.py:579
+#: shifts/forms.py:578
 msgid "This shift has been deleted. It is not possible to cancel it."
 msgstr "Diese Schicht wurde bereits gelöscht. Es ist nicht möglich diese abzusagen."
 
-#: shifts/forms.py:608
+#: shifts/forms.py:607
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:627
-#, fuzzy
-#| msgid "Groups"
-msgid "Weekgroups"
-msgstr "Gruppen"
+#: shifts/forms.py:626
+msgid "ABCD-Week"
+msgstr "ABCD-Woche"
 
-#: shifts/forms.py:631
-#, fuzzy
-#| msgid "Week "
+#: shifts/forms.py:630
 msgid "Weekdays"
-msgstr "Woche "
+msgstr "Wochentage"
 
-#: shifts/forms.py:670
+#: shifts/forms.py:659
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:679
+#: shifts/forms.py:668
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:711 shifts/views/views.py:375 shifts/views/views.py:376
+#: shifts/forms.py:700 shifts/views/views.py:375 shifts/views/views.py:376
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
@@ -4707,41 +4703,45 @@ msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 msgid "Shift exemption converted to membership pause."
 msgstr ""
 
-#: shifts/views/management.py:42
+#: shifts/views/management.py:41
 msgid "Create a shift"
 msgstr "Schicht erzeugen"
 
-#: shifts/views/management.py:82
+#: shifts/views/management.py:81
 msgid "Edit slot: "
 msgstr "Slot bearbeiten: "
 
-#: shifts/views/management.py:126
+#: shifts/views/management.py:125
 #, fuzzy
 #| msgid "Edit shift:"
 msgid "Edit shift: "
 msgstr "Schicht bearbeiten:"
 
-#: shifts/views/management.py:169
+#: shifts/views/management.py:168
 msgid "Edit shift template: "
 msgstr "ABCD-Schicht bearbeiten: "
 
-#: shifts/views/management.py:188
+#: shifts/views/management.py:187
 msgid "Create an ABCD shift"
 msgstr "ABCD-Schicht erzeugen"
 
-#: shifts/views/management.py:190
+#: shifts/views/management.py:189
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
 msgstr ""
 
-#: shifts/views/management.py:241
+#: shifts/views/management.py:240
 msgid "Duplicate ABCD-Shift "
 msgstr ""
 
-#: shifts/views/management.py:243
+#: shifts/views/management.py:242
 msgid "Please choose other weekdays and weekgroups this ABCD-Shift should be copied to. These slots will be copied: "
 msgstr ""
 
-#: shifts/views/management.py:359
+#: shifts/views/management.py:247
+msgid " Shifts for this ABCD shift will be generated starting from "
+msgstr ""
+
+#: shifts/views/management.py:364
 msgid "Shifts generated."
 msgstr ""
 
@@ -6202,6 +6202,11 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy
+#~| msgid "Groups"
+#~ msgid "Weekgroups"
+#~ msgstr "Gruppen"
 
 #~ msgid "Purchase tracking"
 #~ msgstr "Vergangene Einkäufe"
