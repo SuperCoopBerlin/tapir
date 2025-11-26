@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM python:3.13-slim AS build
-
+ARG DEV=false
 ENV POETRY_VERSION=2.2.1 \
     PYTHONUNBUFFERED=1 \
     # prevents python creating .pyc files
@@ -39,9 +39,11 @@ WORKDIR $PYSETUP_PATH
 
 COPY poetry.lock pyproject.toml ./
 
-RUN --mount=type=cache,target=/root/.cache/pypoetry \
-    poetry install --no-root
-
+RUN if [ "$DEV" = "true" ]; then \
+      poetry install --with dev --no-root; \
+    else \
+      poetry install --without dev --no-root; \
+    fi
 COPY . .
 
 FROM python:3.13-slim AS runtime
