@@ -6,10 +6,13 @@ class GroupAffiliationChecker:
     @classmethod
     def is_member_affiliation_to_group_active(
         cls, external_id: str, group_name: str
-    ) -> bool:
+    ) -> bool | None:
         # When getting the member data from the /members API end point, we get a _currentState field that tells use
         # if a member belongs to a certain group. However, this group affiliation may be inactive.
         # That information is only available through a members/ID/member_states call
+        # Returns True if the member is in the group and active
+        # Returns False if the member is in the group but inactive
+        # Returns None if the member is not in the group
 
         response = CoopsPtRequestHandler.get(f"members/{external_id}/member_states")
         if response.status_code != 200:
@@ -33,4 +36,5 @@ class GroupAffiliationChecker:
             if state["_memberStateName"] != group_name:
                 continue
             return state["status"] == "Activo"
-        return False
+
+        return None

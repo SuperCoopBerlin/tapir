@@ -24,7 +24,7 @@ class TestGroupAffiliationChecker(SimpleTestCase):
         mock_get.assert_called_once_with("members/test_id/member_states")
 
     @patch.object(CoopsPtRequestHandler, "get", autospec=True)
-    def test_isMemberAffiliationToGroupActive_memberIsNotInAnyGroup_returnsFalse(
+    def test_isMemberAffiliationToGroupActive_memberIsNotInAnyGroup_returnsNone(
         self, mock_get: Mock
     ):
         response = Mock()
@@ -36,11 +36,11 @@ class TestGroupAffiliationChecker(SimpleTestCase):
             external_id="test_id", group_name="test_group"
         )
 
-        self.assertFalse(result)
+        self.assertIsNone(result)
         mock_get.assert_called_once_with("members/test_id/member_states")
 
     @patch.object(CoopsPtRequestHandler, "get", autospec=True)
-    def test_isMemberAffiliationToGroupActive_memberIsOnlyInOtherGroups_returnsFalse(
+    def test_isMemberAffiliationToGroupActive_memberIsOnlyInOtherGroups_returnsNone(
         self, mock_get: Mock
     ):
         response = Mock()
@@ -54,7 +54,7 @@ class TestGroupAffiliationChecker(SimpleTestCase):
             external_id="test_id", group_name="target_group"
         )
 
-        self.assertFalse(result)
+        self.assertIsNone(result)
         mock_get.assert_called_once_with("members/test_id/member_states")
 
     @patch.object(CoopsPtRequestHandler, "get", autospec=True)
