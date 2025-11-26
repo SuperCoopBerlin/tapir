@@ -10,7 +10,6 @@ from django_auth_ldap.config import LDAPSearch
 from fabric.testing.fixtures import connection
 from faker import Faker
 from ldap.ldapobject import LDAPObject
-
 from tapir import settings
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
@@ -392,7 +391,7 @@ def generate_shifts():
 
     ShiftGenerator.generate_shifts_up_to(
         start_date=SHIFT_GENERATION_START,
-        end_date=SHIFT_GENERATION_START + +datetime.timedelta(weeks=20),
+        end_date=SHIFT_GENERATION_START + datetime.timedelta(weeks=20),
     )
 
 
