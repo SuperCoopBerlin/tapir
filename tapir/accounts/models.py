@@ -1,6 +1,7 @@
 import logging
 
 import ldap
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser, UserManager, User
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -17,12 +18,6 @@ from tapir import utils, settings
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry
-from tapir.settings import (
-    PERMISSIONS,
-    REG_PERSON_BASE_DN,
-    REG_PERSON_OBJECT_CLASSES,
-    AUTH_LDAP_SERVER_URI,
-)
 from tapir.utils.models import CountryField
 from tapir.utils.shortcuts import get_html_link, get_admin_ldap_connection
 from tapir.utils.user_utils import UserUtils
@@ -87,7 +82,7 @@ class TapirUser(AbstractUser):
     preferred_language = models.CharField(
         _("Preferred Language"),
         choices=utils.models.PREFERRED_LANGUAGES,
-        default="de",
+        default=settings.LANGUAGE_CODE,
         max_length=16,
     )
 
@@ -116,7 +111,7 @@ class TapirUser(AbstractUser):
         return reverse("accounts:user_detail", args=[self.pk])
 
     def get_permissions_display(self):
-        user_perms = [perm for perm in PERMISSIONS if self.has_perm(perm)]
+        user_perms = [perm for perm in settings.PERMISSIONS if self.has_perm(perm)]
         if len(user_perms) == 0:
             return _("None")
         return ", ".join(user_perms)
@@ -178,7 +173,7 @@ class TapirUser(AbstractUser):
         return self.ldap_user
 
     def build_ldap_dn(self):
-        return f"uid={self.username},{REG_PERSON_BASE_DN}"
+        return f"uid={self.username},{settings.REG_PERSON_BASE_DN}"
 
     def build_ldap_modlist(self):
         user_modlist = {
@@ -188,7 +183,7 @@ class TapirUser(AbstractUser):
                 UserUtils.build_display_name(self, UserUtils.DISPLAY_NAME_TYPE_FULL)
             ],
             "mail": [self.email],
-            "objectclass": REG_PERSON_OBJECT_CLASSES,
+            "objectclass": settings.REG_PERSON_OBJECT_CLASSES,
         }
         user_modlist = {
             key: [value_in_list.encode("utf-8") for value_in_list in value_list]
@@ -225,7 +220,7 @@ class TapirUser(AbstractUser):
         connection.passwd_s(self.build_ldap_dn(), None, raw_password)
 
     def check_password(self, raw_password):
-        connection = ldap.initialize(AUTH_LDAP_SERVER_URI)
+        connection = ldap.initialize(settings.AUTH_LDAP_SERVER_URI)
         try:
             connection.simple_bind_s(self.build_ldap_dn(), raw_password)
         except ldap.INVALID_CREDENTIALS:
