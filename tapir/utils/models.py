@@ -256,7 +256,7 @@ COUNTRIES = (
 PREFERRED_LANGUAGES = [
     ("de", _("🇩🇪 Deutsch")),
     ("en", _("🇬🇧 English")),
-    ("pt", _("🇵🇹 Portugal")),
+    ("pt", _("🇵🇹 Portuguese")),
 ]
 
 
