@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-20 23:57+0100\n"
+"POT-Creation-Date: 2025-11-27 10:03+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -52,15 +52,15 @@ msgstr "Optionale E-Mails"
 msgid "Important Mails"
 msgstr "Wichtige E-Mails"
 
-#: accounts/models.py:63
+#: accounts/models.py:58
 msgid "Displayed name"
 msgstr "Angezeigter Name"
 
-#: accounts/models.py:68 coop/models.py:70 coop/models.py:445
+#: accounts/models.py:63 coop/models.py:70 coop/models.py:445
 msgid "Pronouns"
 msgstr "Pronomen"
 
-#: accounts/models.py:69 accounts/templates/accounts/user_detail.html:71
+#: accounts/models.py:64 accounts/templates/accounts/user_detail.html:71
 #: coop/models.py:72 coop/models.py:447
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
@@ -68,69 +68,69 @@ msgstr "Pronomen"
 msgid "Phone number"
 msgstr "Telefonnummer"
 
-#: accounts/models.py:70 accounts/templates/accounts/user_detail.html:81
+#: accounts/models.py:65 accounts/templates/accounts/user_detail.html:81
 #: coop/models.py:73 coop/models.py:448
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
-#: accounts/models.py:71 coop/models.py:74 coop/models.py:449
+#: accounts/models.py:66 coop/models.py:74 coop/models.py:449
 msgid "Street and house number"
 msgstr "Straße und Hausnummer"
 
-#: accounts/models.py:72 coop/models.py:75 coop/models.py:450
+#: accounts/models.py:67 coop/models.py:75 coop/models.py:450
 msgid "Extra address line"
 msgstr "Adresszusatz"
 
-#: accounts/models.py:73 coop/models.py:76 coop/models.py:451
+#: accounts/models.py:68 coop/models.py:76 coop/models.py:451
 msgid "Postcode"
 msgstr "Postleitzahl"
 
-#: accounts/models.py:74 coop/models.py:77 coop/models.py:452
+#: accounts/models.py:69 coop/models.py:77 coop/models.py:452
 msgid "City"
 msgstr "Ort"
 
-#: accounts/models.py:75 coop/models.py:78 coop/models.py:453
+#: accounts/models.py:70 coop/models.py:78 coop/models.py:453
 msgid "Country"
 msgstr "Land"
 
-#: accounts/models.py:76 accounts/templates/accounts/user_detail.html:115
+#: accounts/models.py:71 accounts/templates/accounts/user_detail.html:115
 msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:77
+#: accounts/models.py:72
 #, fuzzy
 #| msgid "Co-Purchaser"
 msgid "Co-Purchaser mail"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:79
+#: accounts/models.py:74
 msgid "Second co-Purchaser"
 msgstr "2. Miteinkäufer*in"
 
-#: accounts/models.py:81
+#: accounts/models.py:76
 #, fuzzy
 #| msgid "Co-Purchaser"
 msgid "Co-Purchaser mail 2"
 msgstr "Miteinkäufer*in"
 
-#: accounts/models.py:83
+#: accounts/models.py:78
 msgid "Allow purchase tracking"
 msgstr "Erlaube Aufzeichnen deiner Einkäufe"
 
-#: accounts/models.py:88 accounts/templates/accounts/user_detail.html:101
+#: accounts/models.py:83 accounts/templates/accounts/user_detail.html:101
 #: coop/models.py:81 coop/models.py:456
 #: coop/templates/coop/shareowner_detail.html:75
 msgid "Preferred Language"
 msgstr "Bevorzugte Sprache"
 
-#: accounts/models.py:121 accounts/models.py:127
+#: accounts/models.py:116 accounts/models.py:122
 #: coop/views/membership_pause.py:74 shifts/views/exemptions.py:214
 msgid "None"
 msgstr "Keine"
 
-#: accounts/models.py:244
+#: accounts/models.py:239
 #, fuzzy
 #| msgid "Member already created."
 msgid "This username is already taken."
@@ -6078,7 +6078,7 @@ msgid "🇬🇧 English"
 msgstr "🇬🇧 English"
 
 #: utils/models.py:259
-msgid "🇵🇹 Portugal"
+msgid "🇵🇹 Portuguese"
 msgstr ""
 
 #: utils/models.py:367
