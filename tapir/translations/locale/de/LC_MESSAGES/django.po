@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-28 16:05+0100\n"
+"POT-Creation-Date: 2025-11-28 16:35+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -4436,23 +4436,23 @@ msgstr "Schicht-Erinnerung"
 msgid "Total"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:98
+#: shifts/templates/shifts/shiftwatch_overview.html:99
 msgid "Mehr anzeigen"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:115
+#: shifts/templates/shifts/shiftwatch_overview.html:118
 msgid "You can watch single shifts for changes by selecting a shift "
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:116
+#: shifts/templates/shifts/shiftwatch_overview.html:119
 msgid "here"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:117
+#: shifts/templates/shifts/shiftwatch_overview.html:120
 msgid " and clicking on the Watch-button"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:123
+#: shifts/templates/shifts/shiftwatch_overview.html:126
 #, fuzzy
 #| msgid "Payment date"
 msgid "Delete Selected"
