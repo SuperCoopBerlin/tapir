@@ -74,14 +74,42 @@
             </div>
             <div class="card-body">
                 {% if shift_watches %}
-                    <ul class="list-group list-group-flush">
-                        {% for shiftwatch in shift_watches %}
-                            <li class="list-group-item">
-                                <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
-                                {{ shiftwatch.get_display_without_user }}
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    {% with total=shift_watches|length %}
+                        <div class="mb-2">
+                            <small class="text-muted">{% translate "Total" %} {{ total }}</small>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for shiftwatch in shift_watches|slice:":10" %}
+                                <li class="list-group-item">
+                                    <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
+                                    {{ shiftwatch.get_display_without_user }}
+                                </li>
+                            {% empty %}
+                            {% endfor %}
+                        </ul>
+                        {% if total > 10 %}
+                            <div class="mt-2">
+                                <a class="btn btn-link p-0"
+                                   data-bs-toggle="collapse"
+                                   href="#moreShiftWatches"
+                                   role="button"
+                                   aria-expanded="false"
+                                   aria-controls="moreShiftWatches"
+                                   id="toggleMoreShiftWatches">{% translate "Mehr anzeigen" %}</a>
+                            </div>
+                            <div class="collapse mt-2" id="moreShiftWatches">
+                                <ul class="list-group list-group-flush">
+                                    {% for shiftwatch in shift_watches|slice:"10:" %}
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
+                                            {{ shiftwatch.get_display_without_user }}
+                                        </li>
+                                    {% empty %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
                 {% else %}
                     <div class="alert alert-info" role="alert">
                         {% translate "You can watch single shifts for changes by selecting a shift " %}
