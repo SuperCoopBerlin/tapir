@@ -718,6 +718,7 @@ class ShiftRecurringWatchForm(forms.ModelForm):
         queryset=ShiftTemplate.objects.all(),
         required=False,
         widget=Select2MultipleWidget,
+        label="ABCD Shift",
     )
     shift_template_group = forms.MultipleChoiceField(
         required=False,
@@ -729,6 +730,7 @@ class ShiftRecurringWatchForm(forms.ModelForm):
             ("D", "D"),
         ],
         widget=CheckboxSelectMultiple(),
+        label="ABCD Week",
     )
     staffing_status = forms.MultipleChoiceField(
         required=True,
