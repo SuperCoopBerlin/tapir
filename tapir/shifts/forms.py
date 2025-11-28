@@ -713,18 +713,19 @@ class ShiftRecurringWatchForm(forms.ModelForm):
         required=False,
         choices=WEEKDAY_CHOICES,
         widget=Select2MultipleWidget,
+        label="weekdays",
     )
     shift_templates = ModelMultipleChoiceField(
         queryset=ShiftTemplate.objects.all(),
         required=False,
         widget=Select2MultipleWidget,
-        label="ABCD Shift",
+        label=_("ABCD Shift"),
     )
     shift_template_group = forms.MultipleChoiceField(
         required=False,
         choices=[(p["name"], p["name"]) for p in ShiftTemplateGroup.NAME_INT_PAIRS],
         widget=CheckboxSelectMultiple(),
-        label="ABCD Week",
+        label=_("ABCD Week"),
     )
     staffing_status = forms.MultipleChoiceField(
         required=True,
@@ -745,14 +746,23 @@ class ShiftRecurringWatchForm(forms.ModelForm):
         if (weekdays or shift_template_group) and shift_templates:
             raise forms.ValidationError(
                 _(
-                    "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected, and vice versa."
+                    "If weekdays or %(shift_template_group)s are selected, "
+                    "%(shift_templates)s may not be selected, and vice versa."
                 )
+                % {
+                    "shift_template_group": self.fields["shift_template_group"].label,
+                    "shift_templates": self.fields["shift_templates"].label,
+                }
             )
 
         if not (shift_templates or weekdays or shift_template_group):
             raise forms.ValidationError(
                 _(
-                    "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected."
+                    "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
                 )
+                % {
+                    "shift_template_group": self.fields["shift_template_group"].label,
+                    "shift_templates": self.fields["shift_templates"].label,
+                }
             )
         return cleaned_data
