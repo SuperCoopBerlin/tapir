@@ -722,13 +722,7 @@ class ShiftRecurringWatchForm(forms.ModelForm):
     )
     shift_template_group = forms.MultipleChoiceField(
         required=False,
-        # TODO don't hardocde
-        choices=[
-            ("A", "A"),
-            ("B", "B"),
-            ("C", "C"),
-            ("D", "D"),
-        ],
+        choices=[(p["name"], p["name"]) for p in ShiftTemplateGroup.NAME_INT_PAIRS],
         widget=CheckboxSelectMultiple(),
         label="ABCD Week",
     )
