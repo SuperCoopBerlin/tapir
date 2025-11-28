@@ -237,15 +237,11 @@
         <div class="row m-1">
             <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Next watched Shift" %}:</div>
             <div class="col-12 col-sm-8">
-                {% with watched_shifts=user.user_watching_shift.all %}
-                    {% if watched_shifts %}
-                        {% with next_shift=watched_shifts|first %}
-                            <a href="{{ next_shift.shift.get_absolute_url }}">{{ next_shift.shift.get_display_name }}</a>
-                        {% endwith %}
-                    {% else %}
-                        <span class="text-danger">{% translate "None" context "No watched shifts" %}</span>
-                    {% endif %}
-                {% endwith %}
+                {% if next_watched_shift %}
+                    <a href="{{ next_watched_shift.shift.get_absolute_url }}">{{ next_watched_shift.shift.get_display_name }}</a>
+                {% else %}
+                    <span class="text-danger">{% translate "No watched shifts" %}</span>
+                {% endif %}
             </div>
         </div>
     </div>

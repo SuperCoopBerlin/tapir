@@ -28,6 +28,7 @@ register = template.Library()
 @register.inclusion_tag("shifts/user_shifts_overview_tag.html", takes_context=True)
 def user_shifts_overview(context, user):
     context["user"] = user
+    context["next_watched_shift"] = user.user_watching_shift.first()
     return context
 
 
