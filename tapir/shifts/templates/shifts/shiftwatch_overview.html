@@ -89,13 +89,16 @@
                         </ul>
                         {% if total > 10 %}
                             <div class="mt-2">
-                                <a class="btn btn-link p-0"
-                                   data-bs-toggle="collapse"
-                                   href="#moreShiftWatches"
-                                   role="button"
-                                   aria-expanded="false"
-                                   aria-controls="moreShiftWatches"
-                                   id="toggleMoreShiftWatches">{% translate "Mehr anzeigen" %}</a>
+                                <button class="{% tapir_button_link_to_action %} m-1"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#moreShiftWatches"
+                                        aria-expanded="false"
+                                        aria-controls="moreShiftWatches"
+                                        id="toggleMoreShiftWatches">
+                                    {% translate "Mehr anzeigen" %}
+                                    <span class="material-icons">keyboard_arrow_down</span>
+                                </button>
                             </div>
                             <div class="collapse mt-2" id="moreShiftWatches">
                                 <ul class="list-group list-group-flush">
