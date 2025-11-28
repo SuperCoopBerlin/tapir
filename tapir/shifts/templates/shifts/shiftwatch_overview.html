@@ -119,6 +119,8 @@
                 {% endif %}
             </div>
         </div>
-        <button type="submit" class="{% tapir_button_link %}">{% translate "Delete Selected" %}</button>
+        <button type="submit" class="{% tapir_button_custom 'outline-danger' %}">
+            <span class="material-icons">delete</span>{% translate "Delete Selected" %}
+        </button>
     </form>
 {% endblock content %}
