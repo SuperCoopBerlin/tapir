@@ -433,6 +433,11 @@ class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
     template_name = "shifts/shiftwatch_overview.html"
     context_object_name = "recurringshiftwatches"
 
+    def get_permission_required(self):
+        if self.request.user.pk == self.kwargs["pk"]:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_pk = self.kwargs.get("pk")
