@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-14 17:45+0100\n"
+"POT-Creation-Date: 2025-11-28 16:05+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2583,7 +2583,7 @@ msgstr "Hat Qualifikation"
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:646
+#: coop/views/shareowner.py:646 shifts/forms.py:728
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
@@ -3096,17 +3096,28 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:684 shifts/forms.py:736 shifts/views/views.py:379
+#: shifts/forms.py:684 shifts/forms.py:733 shifts/views/views.py:379
 #: shifts/views/views.py:380
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
-#: shifts/forms.py:752
-msgid "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected, and vice versa."
+#: shifts/forms.py:722 shifts/templates/shifts/shift_template_detail.html:7
+#: shifts/templates/shifts/shift_template_detail.html:15
+#: shifts/templates/shifts/user_shifts_overview_tag.html:31
+#: shifts/templates/shifts/user_shifts_overview_tag.html:43
+msgid "ABCD Shift"
+msgstr "ABCD-Schicht"
+
+#: shifts/forms.py:739
+#, fuzzy, python-format
+#| msgid "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected, and vice versa."
+msgid "If weekdays or %(shift_template_group)s are selected, %(shift_templates)s may not be selected, and vice versa."
 msgstr "Wenn Wochentage oder Schicht-Template-Gruppen ausgewählt wurde kann kein Schicht-Template ausgewählt werden, oder andersherum."
 
-#: shifts/forms.py:759
-msgid "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected."
+#: shifts/forms.py:743
+#, fuzzy, python-format
+#| msgid "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected."
+msgid "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
 msgstr "Wenigstens eines der Felder (Schicht-templates, Wochentage oder Schicht-Template-Gruppen) muss ausgewählt sein"
 
 #: shifts/models.py:39
@@ -4293,13 +4304,6 @@ msgstr ""
 msgid "Generate shifts"
 msgstr ""
 
-#: shifts/templates/shifts/shift_template_detail.html:7
-#: shifts/templates/shifts/shift_template_detail.html:15
-#: shifts/templates/shifts/user_shifts_overview_tag.html:31
-#: shifts/templates/shifts/user_shifts_overview_tag.html:43
-msgid "ABCD Shift"
-msgstr "ABCD-Schicht"
-
 #: shifts/templates/shifts/shift_template_detail.html:34
 msgid "List of slots for this ABCD shifts"
 msgstr "Liste des Slots für diese ABCD-Schicht"
@@ -4391,58 +4395,64 @@ msgstr "Wiederkehrende Schichtbeobachtungen"
 #: shifts/views/views.py:418
 #, fuzzy
 #| msgid "Create Recurring Shiftwatch"
-msgid "Create a Rule for recurring Shift-Watches"
+msgid "Create a rule for recurring Shift-Watches"
 msgstr "Erstelle wiederkehrende Schichtbeobachtungen"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:36
+#: shifts/templates/shifts/shiftwatch_overview.html:37
 msgid "You are observing all shifts based on the weekdays:"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:38
-#, fuzzy
-#| msgid "Edit shift template: "
-msgid "and the shift template group:"
-msgstr "ABCD-Schicht bearbeiten: "
-
-#: shifts/templates/shifts/shiftwatch_overview.html:41
-msgid "You are observing all shifts based on the shift template group:"
+#: shifts/templates/shifts/shiftwatch_overview.html:39
+msgid "and the ABCD-Week:"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:44
+#: shifts/templates/shifts/shiftwatch_overview.html:42
+msgid "You are observing all shifts based on the ABCD-Week:"
+msgstr ""
+
+#: shifts/templates/shifts/shiftwatch_overview.html:45
 msgid "You are observing all shifts on the weekdays:"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:47
+#: shifts/templates/shifts/shiftwatch_overview.html:48
 msgid "You are observing all shifts based on the shift templates:"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:55
+#: shifts/templates/shifts/shiftwatch_overview.html:56
 msgid "You are not observing any shifts."
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:59
+#: shifts/templates/shifts/shiftwatch_overview.html:60
 msgid "Observed changes:"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:72
+#: shifts/templates/shifts/shiftwatch_overview.html:73
 #, fuzzy
 #| msgid "Shift reminder"
 msgid "Shift Watches"
 msgstr "Schicht-Erinnerung"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:86
+#: shifts/templates/shifts/shiftwatch_overview.html:79
+msgid "Total"
+msgstr ""
+
+#: shifts/templates/shifts/shiftwatch_overview.html:98
+msgid "Mehr anzeigen"
+msgstr ""
+
+#: shifts/templates/shifts/shiftwatch_overview.html:115
 msgid "You can watch single shifts for changes by selecting a shift "
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:87
+#: shifts/templates/shifts/shiftwatch_overview.html:116
 msgid "here"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:88
+#: shifts/templates/shifts/shiftwatch_overview.html:117
 msgid " and clicking on the Watch-button"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:93
+#: shifts/templates/shifts/shiftwatch_overview.html:123
 #, fuzzy
 #| msgid "Payment date"
 msgid "Delete Selected"
@@ -4730,14 +4740,13 @@ msgstr "Keine"
 msgid "Next watched Shift"
 msgstr "Die beobachtete Schicht hat sich geändert"
 
-#: shifts/templates/shifts/user_shifts_overview_tag.html:246
+#: shifts/templates/shifts/user_shifts_overview_tag.html:243
 #, fuzzy
-#| msgid "None"
-msgctxt "No watched shifts"
-msgid "None"
-msgstr "Keine"
+#| msgid "Watched Shift has changed"
+msgid "No watched shifts"
+msgstr "Die beobachtete Schicht hat sich geändert"
 
-#: shifts/templatetags/shifts.py:63 shifts/templatetags/shifts.py:168
+#: shifts/templatetags/shifts.py:64 shifts/templatetags/shifts.py:169
 #: shifts/views/views.py:152
 msgid "General"
 msgstr "Allgemein"
@@ -6274,6 +6283,17 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy
+#~| msgid "Edit shift template: "
+#~ msgid "and the shift template group:"
+#~ msgstr "ABCD-Schicht bearbeiten: "
+
+#, fuzzy
+#~| msgid "None"
+#~ msgctxt "No watched shifts"
+#~ msgid "None"
+#~ msgstr "Keine"
 
 #~ msgid "Purchase tracking"
 #~ msgstr "Vergangene Einkäufe"
