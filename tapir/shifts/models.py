@@ -1337,45 +1337,20 @@ class RecurringShiftWatch(models.Model):
     def create_shift_watches(self):
         shifts_to_watch = set()
 
-        # scenario A: only weekdays given
-        if (
-            self.weekdays
-            and not self.shift_template_group
-            and not self.shift_templates.exists()
-        ):
-            for weekday in self.weekdays:
-                shifts = Shift.objects.filter(start_time__iso_week_day=(weekday + 1))
-                shifts_to_watch.update(shifts)
-
-        # scenario B: only shift_template_group given
-        elif (
-            not self.weekdays
-            and self.shift_template_group
-            and not self.shift_templates.exists()
-        ):
-            for category in self.shift_template_group:
-                shifts = Shift.objects.filter(
+        shifts_qs = Shift.objects.all()
+        if self.weekdays or self.shift_template_group:
+            if self.weekdays:
+                iso_weekdays = [weekday + 1 for weekday in self.weekdays]
+                shifts_qs = shifts_qs.filter(start_time__iso_week_day__in=iso_weekdays)
+            if self.shift_template_group:
+                shifts_qs = shifts_qs.filter(
                     shift_template__group__name__in=self.shift_template_group
                 )
-                shifts_to_watch.update(shifts)
 
-        # scenario C: both weekdays and shift_template_group given
-        elif self.weekdays and self.shift_template_group:
-            for weekday in self.weekdays:
-                for category in self.shift_template_group:
-                    shifts = Shift.objects.filter(
-                        start_time__iso_week_day=(weekday + 1),
-                        shift_template__group__name=category,
-                    )
-                    shifts_to_watch.update(shifts)
-
-        # scenario D: only shift_templates given
         elif self.shift_templates.exists():
-            for template in self.shift_templates.all():
-                shifts = Shift.objects.filter(
-                    shift_template=template,
-                )
-                shifts_to_watch.update(shifts)
+            shifts_qs = shifts_qs.filter(shift_template__in=self.shift_templates.all())
+
+        shifts_to_watch.update(shifts_qs)
 
         for shift in shifts_to_watch:
             if not ShiftWatch.objects.filter(user=self.user, shift=shift).exists():
