@@ -36,10 +36,10 @@
                             {% if recurringshiftwatch.shift_template_group and recurringshiftwatch.weekdays %}
                                 {% translate "You are observing all shifts based on the weekdays:" %}
                                 <strong>{{ recurringshiftwatch.weekdays|join:", " }}</strong>
-                                {% translate "and the shift template group:" %}
+                                {% translate "and the ABCD-Week:" %}
                                 <strong>{{ recurringshiftwatch.shift_template_group|join:", " }}</strong>
                             {% elif recurringshiftwatch.shift_template_group %}
-                                {% translate "You are observing all shifts based on the shift template group:" %}
+                                {% translate "You are observing all shifts based on the ABCD-Week:" %}
                                 <strong>{{ recurringshiftwatch.shift_template_group|join:", " }}</strong>
                             {% elif recurringshiftwatch.weekdays %}
                                 {% translate "You are observing all shifts on the weekdays:" %}
