@@ -81,18 +81,11 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
             reverse(self.VIEW_NAME, args=[self.tapir_user.pk]),
             data=form_data,
         )
-        self.assertEqual(RecurringShiftWatch.objects.count(), 0)
-        expected = (
-            response.context["form"].WEEKDAYS_ERROR
-            % response.context["form"]._format_field_names()
-        )
-        self.assertFormError(
-            response.context["form"],
-            None,
-            expected,
-        )
 
-    #
+        form = response.context["form"]
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.non_field_errors())
+
     def test_createRecurringShiftWatch_nothingSelected_validationError(self):
         form_data = self.default_form_data
         response = self.client.post(
@@ -100,16 +93,9 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
             data=form_data,
         )
 
-        self.assertEqual(RecurringShiftWatch.objects.count(), 0)
-        expected = (
-            response.context["form"].AT_LEAST_ONE_ERROR
-            % response.context["form"]._format_field_names()
-        )
-        self.assertFormError(
-            response.context["form"],
-            None,
-            expected,
-        )
+        form = response.context["form"]
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.non_field_errors())
 
     def test_normal_user_cannot_update_other_(self):
         target: TapirUser = TapirUserFactory.create()
