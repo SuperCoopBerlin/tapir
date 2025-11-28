@@ -70,18 +70,6 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
             ShiftWatch.objects.filter(user=self.user, shift=shift).exists()
         )
 
-    @pytest.mark.skip(reason="Should work in the future though")
-    def test_createNonShiftTemplateShift_watch_shiftWatchIsCreated(self):
-        self.recurring_template.weekdays = [6]
-        self.recurring_template.save()
-        shift = ShiftFactory.create(
-            nb_slots=0,
-            start_time=make_aware(
-                datetime.datetime(year=2025, month=11, day=9)  # sunday
-            ),
-        )
-        self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
-
     def test_createShiftfromShiftTemplate_watchABCD_shiftWatchIsCreated(self):
         ShiftTemplateGroup.objects.create(name="A")
         group = ShiftTemplateGroup.objects.get(name="A")
