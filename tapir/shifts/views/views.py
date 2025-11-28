@@ -41,7 +41,7 @@ from tapir.shifts.forms import (
     ShiftUserDataForm,
     CreateShiftAccountEntryForm,
     ShiftWatchForm,
-    ShiftRecurringWatchForm,
+    RecurringShiftWatchForm,
 )
 from tapir.shifts.models import (
     Shift,
@@ -49,7 +49,7 @@ from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
     ShiftTemplate,
     ShiftWatch,
-    ShiftRecurringWatchTemplate,
+    RecurringShiftWatch,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -401,8 +401,8 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
 class CreateWatchRecurringShiftsView(
     LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
 ):
-    form_class = ShiftRecurringWatchForm
-    model = ShiftRecurringWatchTemplate
+    form_class = RecurringShiftWatchForm
+    model = RecurringShiftWatch
 
     def get_permission_required(self):
         if self.request.user.pk == self.kwargs["pk"]:
@@ -448,14 +448,14 @@ class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         user_pk = self.kwargs.get("pk")
-        return ShiftRecurringWatchTemplate.objects.filter(user__id=user_pk)
+        return RecurringShiftWatch.objects.filter(user__id=user_pk)
 
     def post(self, request, *args, **kwargs):
         user_pk = kwargs.get("pk")
         selected_recurring_ids = request.POST.getlist("recurringshiftwatch_ids")
         selected_watch_ids = request.POST.getlist("shiftwatch_ids")
 
-        ShiftRecurringWatchTemplate.objects.filter(
+        RecurringShiftWatch.objects.filter(
             id__in=selected_recurring_ids, user__id=user_pk
         ).delete()
 

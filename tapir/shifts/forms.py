@@ -34,7 +34,7 @@ from tapir.shifts.models import (
     StaffingStatusChoices,
     get_staffingstatus_defaults,
     get_staffingstatus_choices,
-    ShiftRecurringWatchTemplate,
+    RecurringShiftWatch,
     WEEKDAY_CHOICES,
     ShiftTemplateGroup,
 )
@@ -699,9 +699,9 @@ class ShiftWatchForm(forms.ModelForm):
             self.initial["staffing_status"] = get_staffingstatus_defaults()
 
 
-class ShiftRecurringWatchForm(forms.ModelForm):
+class RecurringShiftWatchForm(forms.ModelForm):
     class Meta:
-        model = ShiftRecurringWatchTemplate
+        model = RecurringShiftWatch
         fields = [
             "shift_templates",
             "weekdays",

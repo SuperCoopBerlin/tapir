@@ -1268,7 +1268,7 @@ class ShiftWatch(models.Model):
         choices=get_staffingstatus_choices,
     )
     recurring_template = models.ForeignKey(
-        "ShiftRecurringWatchTemplate",
+        "RecurringShiftWatch",
         related_name="shift_watches",
         null=True,
         blank=True,
@@ -1305,7 +1305,7 @@ class ShiftWatch(models.Model):
         ]
 
 
-class ShiftRecurringWatchTemplate(models.Model):
+class RecurringShiftWatch(models.Model):
     """
     class to generate recurring ShiftWatches from.
     """
@@ -1388,8 +1388,8 @@ class ShiftRecurringWatchTemplate(models.Model):
 
 
 def create_shift_watch_entries(shift: Shift) -> None:
-    """Create ShiftWatch entries based on ShiftRecurringWatchTemplate."""
-    for template in ShiftRecurringWatchTemplate.objects.all():
+    """Create ShiftWatch entries based on RecurringShiftWatch."""
+    for template in RecurringShiftWatch.objects.all():
         shift_template_id = shift.shift_template.id if shift.shift_template else None
         weekday_match = shift.start_time.weekday() in template.weekdays
 
