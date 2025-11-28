@@ -1352,14 +1352,32 @@ class RecurringShiftWatch(models.Model):
 
         shifts_to_watch.update(shifts_qs)
 
-        for shift in shifts_to_watch:
-            if not ShiftWatch.objects.filter(user=self.user, shift=shift).exists():
-                ShiftWatch.objects.create(
-                    user=self.user,
-                    shift=shift,
-                    staffing_status=self.staffing_status,
-                    recurring_template=self,
+        # Create new ShiftWatches
+        shift_ids = list(shifts_qs.values_list("id", flat=True))
+        # (or not)
+        if not shift_ids:
+            return
+
+        existing_shift_ids = set(
+            ShiftWatch.objects.filter(
+                user=self.user, shift_id__in=shift_ids
+            ).values_list("shift_id", flat=True)
+        )
+
+        new_watches = []
+        for sid in shift_ids:
+            if sid not in existing_shift_ids:
+                new_watches.append(
+                    ShiftWatch(
+                        user=self.user,
+                        shift_id=sid,
+                        staffing_status=list(self.staffing_status),
+                        recurring_template=self,
+                    )
                 )
+
+        if new_watches:
+            ShiftWatch.objects.bulk_create(new_watches)
 
 
 def create_shift_watch_entries(shift: Shift) -> None:
