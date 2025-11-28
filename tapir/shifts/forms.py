@@ -735,7 +735,20 @@ class RecurringShiftWatchForm(forms.ModelForm):
         disabled=False,
     )
 
-    #
+    WEEKDAYS_ERROR = _(
+        "If weekdays or %(shift_template_group)s are selected, "
+        "%(shift_templates)s may not be selected, and vice versa."
+    )
+    AT_LEAST_ONE_ERROR = _(
+        "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
+    )
+
+    def _format_field_names(self):
+        return {
+            "shift_template_group": self.fields["shift_template_group"].label,
+            "shift_templates": self.fields["shift_templates"].label,
+        }
+
     def clean(self):
         cleaned_data = super().clean()
         shift_templates = cleaned_data.get("shift_templates")
@@ -745,24 +758,11 @@ class RecurringShiftWatchForm(forms.ModelForm):
 
         if (weekdays or shift_template_group) and shift_templates:
             raise forms.ValidationError(
-                _(
-                    "If weekdays or %(shift_template_group)s are selected, "
-                    "%(shift_templates)s may not be selected, and vice versa."
-                )
-                % {
-                    "shift_template_group": self.fields["shift_template_group"].label,
-                    "shift_templates": self.fields["shift_templates"].label,
-                }
+                self.WEEKDAYS_ERROR % self._format_field_names()
             )
 
         if not (shift_templates or weekdays or shift_template_group):
             raise forms.ValidationError(
-                _(
-                    "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
-                )
-                % {
-                    "shift_template_group": self.fields["shift_template_group"].label,
-                    "shift_templates": self.fields["shift_templates"].label,
-                }
+                self.AT_LEAST_ONE_ERROR % self._format_field_names()
             )
         return cleaned_data

@@ -82,10 +82,14 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
             data=form_data,
         )
         self.assertEqual(RecurringShiftWatch.objects.count(), 0)
+        expected = (
+            response.context["form"].WEEKDAYS_ERROR
+            % response.context["form"]._format_field_names()
+        )
         self.assertFormError(
             response.context["form"],
             None,
-            "If weekdays or shift_template_group are selected, ShiftTemplates may not be selected, and vice versa.",
+            expected,
         )
 
     #
@@ -97,10 +101,14 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         )
 
         self.assertEqual(RecurringShiftWatch.objects.count(), 0)
+        expected = (
+            response.context["form"].AT_LEAST_ONE_ERROR
+            % response.context["form"]._format_field_names()
+        )
         self.assertFormError(
             response.context["form"],
             None,
-            "At least one of the fields (ShiftTemplates, weekdays, or shift_template_group) must be selected.",
+            expected,
         )
 
     def test_normal_user_cannot_update_other_(self):
