@@ -30,6 +30,7 @@
                     {% for recurringshiftwatch in recurringshiftwatches %}
                         <li class="list-group-item">
                             <input type="checkbox"
+                                   class="form-check-input"
                                    name="recurringshiftwatch_ids"
                                    value="{{ recurringshiftwatch.id }}">
                             {% if recurringshiftwatch.shift_template_group and recurringshiftwatch.weekdays %}
