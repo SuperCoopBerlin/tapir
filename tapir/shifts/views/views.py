@@ -398,7 +398,7 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
         return super().form_valid(form)
 
 
-class CreateWatchRecurringShiftsView(
+class CreateRecurringShiftWatchView(
     LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
 ):
     form_class = RecurringShiftWatchForm
