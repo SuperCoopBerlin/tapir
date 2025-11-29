@@ -115,6 +115,9 @@
                     {% endwith %}
                 {% else %}
                     <div class="alert alert-info" role="alert">
+                        {% translate "You will get mail-notifications when shifts you follow change — tailored to the types of updates you choose (e.g., needs help, is full, cancellations)." %}
+                        <br>
+                        <br>
                         {% translate "You can watch single shifts for changes by selecting a shift " %}
                         <a href="{% url 'shifts:calendar' %}">{% translate "here" %}</a>
                         {% translate " and clicking on the Watch-button" %}.
