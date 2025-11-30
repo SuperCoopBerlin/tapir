@@ -415,7 +415,7 @@ class CreateRecurringShiftWatchView(
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["page_title"] = _("Create a rule for recurring Shift-Watches")
+        context_data["page_title"] = _("Create a rule for recurring Shift Watches")
         context_data["card_title"] = context_data["page_title"]
         context_data["help_text"] = _(
             "Please select either %(shift_template_group)s and/or weekdays, or alternatively %(shift_templates)s."
