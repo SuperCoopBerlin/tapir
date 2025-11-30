@@ -450,7 +450,9 @@ class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         user_pk = self.kwargs.get("pk")
         context["shift_watches"] = (
-            ShiftWatch.objects.filter(user__id=user_pk)
+            ShiftWatch.objects.filter(
+                user__id=user_pk, shift__end_time__gte=timezone.now()
+            )
             .order_by("shift__start_time")
             .prefetch_related(
                 "shift", "shift__shift_template", "shift__shift_template__group"
