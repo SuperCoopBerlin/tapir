@@ -1289,11 +1289,23 @@ class ShiftWatch(models.Model):
     def get_display_without_user(self):
         shift_name = self.shift.get_display_name()
         shift_url = self.shift.get_absolute_url()
+        recurring_part = ""
+        staffing_status = ""
+        if self.recurring_template:
+            recurring_part = format_html(
+                ' based on <span class="text-muted">#{}</span>',
+                self.recurring_template.id,
+            )
+        else:
+            staffing_status = "for changes of " + ", ".join(
+                status for status in self.staffing_status
+            )
         return format_html(
-            '<a href="{}">{}</a> for changes of {}',
+            '<a href="{}">{}</a> {}{}',
             shift_url,
             shift_name,
-            ", ".join(status for status in self.staffing_status),
+            staffing_status,
+            recurring_part,
         )
 
     class Meta:

@@ -34,6 +34,7 @@
                                    class="form-check-input"
                                    name="recurringshiftwatch_ids"
                                    value="{{ recurringshiftwatch.id }}">
+                            <span class="text-muted me-2">#{{ recurringshiftwatch.id }}</span>
                             {% if recurringshiftwatch.shift_template_group and recurringshiftwatch.weekdays %}
                                 {% translate "You are observing all shifts based on the weekdays:" %}
                                 <strong>{{ recurringshiftwatch.weekdays|weekday_labels|join:", " }}</strong>
