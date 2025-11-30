@@ -3,6 +3,7 @@
 {% load i18n %}
 {% load core %}
 {% load utils %}
+{% load shifts %}
 {% block title %}
     {% translate "Recurring Shiftwatch List" %}
 {% endblock title %}
@@ -35,7 +36,7 @@
                                    value="{{ recurringshiftwatch.id }}">
                             {% if recurringshiftwatch.shift_template_group and recurringshiftwatch.weekdays %}
                                 {% translate "You are observing all shifts based on the weekdays:" %}
-                                <strong>{{ recurringshiftwatch.weekdays|join:", " }}</strong>
+                                <strong>{{ recurringshiftwatch.weekdays|weekday_labels|join:", " }}</strong>
                                 {% translate "and the ABCD-Week:" %}
                                 <strong>{{ recurringshiftwatch.shift_template_group|join:", " }}</strong>
                             {% elif recurringshiftwatch.shift_template_group %}
@@ -43,7 +44,7 @@
                                 <strong>{{ recurringshiftwatch.shift_template_group|join:", " }}</strong>
                             {% elif recurringshiftwatch.weekdays %}
                                 {% translate "You are observing all shifts on the weekdays:" %}
-                                <strong>{{ recurringshiftwatch.weekdays|join:", " }}</strong>
+                                <strong>{{ recurringshiftwatch.weekdays|weekday_labels|join:", " }}</strong>
                             {% elif recurringshiftwatch.shift_templates.all %}
                                 {% translate "You are observing all shifts based on the shift templates:" %}
                                 <strong>

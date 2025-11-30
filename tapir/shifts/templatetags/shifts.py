@@ -269,3 +269,11 @@ def get_attendance_mode_display(shift_user_data: ShiftUserData) -> str:
 @register.filter(name="user_watching_shift")
 def user_watching_shift(user, shift) -> QuerySet:
     return ShiftWatch.objects.filter(user=user, shift=shift)
+
+
+@register.filter(name="weekday_labels")
+def weekday_labels(value):
+    _mapping = {k: v for k, v in WEEKDAY_CHOICES}
+    if not value:
+        return []
+    return [_mapping.get(i, str(i)) for i in value]
