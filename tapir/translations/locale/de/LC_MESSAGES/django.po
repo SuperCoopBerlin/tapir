@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-03 13:06+0100\n"
+"POT-Creation-Date: 2025-12-01 21:27+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -43,8 +43,6 @@ msgid "This username is not available."
 msgstr "Dieser Benutzername ist nicht verfügbar"
 
 #: accounts/forms.py:155
-#, fuzzy
-#| msgid "List of all emails"
 msgid "Optional Mails"
 msgstr "Optionale E-Mails"
 
@@ -103,17 +101,15 @@ msgstr "Miteinkäufer*in"
 #, fuzzy
 #| msgid "Co-Purchaser"
 msgid "Co-Purchaser mail"
-msgstr "Miteinkäufer*in"
+msgstr "Miteinkäufer*in-Mail"
 
 #: accounts/models.py:81
 msgid "Second co-Purchaser"
 msgstr "2. Miteinkäufer*in"
 
 #: accounts/models.py:83
-#, fuzzy
-#| msgid "Co-Purchaser"
 msgid "Co-Purchaser mail 2"
-msgstr "Miteinkäufer*in"
+msgstr "Miteinkäufer*in-Mail 2"
 
 #: accounts/models.py:85
 msgid "Allow purchase tracking"
@@ -131,10 +127,8 @@ msgid "None"
 msgstr "Keine"
 
 #: accounts/models.py:246
-#, fuzzy
-#| msgid "Member already created."
 msgid "This username is already taken."
-msgstr "Mitglied schon vorhanden."
+msgstr "Benutzername schon vorhanden."
 
 #: accounts/templates/accounts/edit_username.default.html:13
 #, python-format
@@ -257,8 +251,6 @@ msgid "Groups"
 msgstr "Gruppen"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:5
-#, fuzzy
-#| msgid "Member"
 msgid "Member card"
 msgstr "Mitgliedskarte"
 
@@ -294,8 +286,6 @@ msgstr "Aktivieren"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:58
 #: accounts/views.py:211
-#, fuzzy
-#| msgid "You can only look at your own barcode unless you have member office rights"
 msgid "You can only look at your own barcode unless you have admin rights"
 msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Admin-Rechte"
 
@@ -690,24 +680,20 @@ msgid "In the case where the member wants their money back, they stay a member f
 msgstr "Wenn das Mitglied sein Geld zurückhaben will, bleibt es noch 3 Jahre lang Mitglied. Es ist jedoch sehr wahrscheinlich, dass das Mitglied nicht mehr aktiv sein möchte. Wenn sie es nicht ausdrücklich erwähnt haben, frag sie bitte, ob wir sie auf „investierend“ stellen sollen."
 
 #: coop/forms.py:316
-#, fuzzy
-#| msgid "Send membership confirmation email"
 msgid "Send confirmation mails"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
 #: coop/forms.py:320
 msgid "If enabled, the resigned member and if applicable the member receiving shares will receive confirmation emails."
-msgstr ""
+msgstr "Wenn diese Option aktiviert ist, erhalten das ausgetretene Mitglied und gegebenenfalls das Mitglied, das Anteile erhält, Bestätigungs-E-Mails."
 
 #: coop/forms.py:355
 msgid "Please pick an option"
 msgstr "Bitte wähle eine Option"
 
 #: coop/forms.py:367
-#, fuzzy
-#| msgid "Member already created."
 msgid "This member is already resigned."
-msgstr "Mitglied schon vorhanden."
+msgstr "Dieses Mitglied ist bereits zurückgetreten."
 
 #: coop/forms.py:379
 msgid "Please select the member that the shares should be transferred to."
@@ -855,10 +841,8 @@ msgid "The cooperative buys the shares back from the member"
 msgstr "Die Kooperative kauft die Anteile des Mitglieds zurück."
 
 #: coop/models.py:777
-#, fuzzy
-#| msgid "Number of shares to create"
 msgid "The member gifts the shares to the cooperative"
-msgstr "Anzahl zu erstellender Anteile"
+msgstr "Das Mitglied schenkt die Anteile der Genossenschaft."
 
 #: coop/models.py:779
 msgid "The shares get transferred to another member"
@@ -884,11 +868,9 @@ msgstr "Strategische Ausrichtung von Supercoop"
 msgid "Other"
 msgstr "Andere"
 
-#: coop/models.py:791
-#, fuzzy
-#| msgid "Edit shareowner"
+#: coop/models.py:791 coop/templates/coop/membershipresignation_detail.html:55
 msgid "Shareowner"
-msgstr "Mitglied bearbeiten"
+msgstr "Genossenschaftsmitglied"
 
 #: coop/models.py:810
 msgid "Leave this empty if the resignation type is not a transfer to another member"
@@ -973,10 +955,8 @@ msgid "Applicant"
 msgstr "Bewerber*innen"
 
 #: coop/templates/coop/draftuser_detail.html:49
-#, fuzzy
-#| msgid "Confirm cancellation"
 msgid "Confirm member creation"
-msgstr "Absage bestätigen"
+msgstr "Mitgliedererstellung bestätigen"
 
 #: coop/templates/coop/draftuser_detail.html:58
 msgid ""
@@ -989,10 +969,8 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/draftuser_detail.html:66
-#, fuzzy
-#| msgid "List of all emails"
 msgid "List of similar members"
-msgstr "Liste alle E-Mails"
+msgstr "Liste ähnlicher Mitglieder"
 
 #: coop/templates/coop/draftuser_detail.html:69
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:31
@@ -1975,7 +1953,7 @@ msgstr "Dein Konto in Tapir, das Mitgliedersystem von %(coop_name)s"
 #, fuzzy
 #| msgid "Create Tapir account"
 msgid "General Tapir Accounts"
-msgstr "Tapir-Konto erstellen"
+msgstr "Allgemeine Tapir-Konten"
 
 #: coop/templates/coop/incoming_payment_list.html:9
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:160
@@ -2008,28 +1986,22 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/log/delete_resignmember_log_entry.html:2
-#, fuzzy
-#| msgid "Update Member:"
 msgid ""
 "\n"
 "    Reactivated resigned member\n"
-msgstr "Mitglied bearbeiten:"
+msgstr "Reaktiviertes ausgeschiedenes Mitglied"
 
 #: coop/templates/coop/log/update_incoming_payment_log_entry.html:2
-#, fuzzy
-#| msgid "Create applicant"
 msgid "Updated payment:"
-msgstr "Bewerber*in erstellen"
+msgstr "Aktualisierte Zahlung:"
 
 #: coop/templates/coop/log/update_membership_pause_log_entry.html:2
 msgid "Updated membership pause:"
 msgstr "Aktualisierte Mitgliedschaftspause"
 
 #: coop/templates/coop/log/update_resignmember_log_entry.html:2
-#, fuzzy
-#| msgid "Update Member:"
 msgid "Updated resigned membership:"
-msgstr "Mitglied bearbeiten:"
+msgstr "Aktualisierte ausgetretene Mitgliedschaft:"
 
 #: coop/templates/coop/log/update_share_owner_log_entry.html:2
 msgid "Update Member:"
@@ -2067,10 +2039,8 @@ msgid "Membership pauses"
 msgstr "Mitgliedschaft pausiert"
 
 #: coop/templates/coop/member_management.html:36
-#, fuzzy
-#| msgid "Membership confirmation"
 msgid "Membership resignations"
-msgstr "Mitgliedsbestätigung"
+msgstr "Mitgliedschaftskündigungen"
 
 #: coop/templates/coop/member_management.html:42
 #: coop/templates/coop/member_management.html:51
@@ -2110,10 +2080,8 @@ msgstr "Ein neues Mitglied kündigen"
 
 #: coop/templates/coop/membership_resignation_list.html:12
 #: coop/templates/coop/membership_resignation_list.html:21
-#, fuzzy
-#| msgid "List of shift exemptions"
 msgid "List of membership resignations"
-msgstr "Liste der Schicht-Befreiungen"
+msgstr "Liste der Austritte von Mitgliedern"
 
 #: coop/templates/coop/membership_resignation_list.html:33
 msgid ""
@@ -2133,16 +2101,14 @@ msgstr "Investierendes Mitglied"
 
 #: coop/templates/coop/membershipresignation_detail.html:8
 #: coop/templates/coop/membershipresignation_detail.html:51
-#, fuzzy
-#| msgid "Membership confirmation"
 msgid "Membership resignation"
-msgstr "Mitgliedsbestätigung"
+msgstr "Mitgliedschaftskündigung"
 
 #: coop/templates/coop/membershipresignation_detail.html:19
 #, fuzzy
 #| msgid "Confirm cancellation"
 msgid "Confirm cancellation of resignation"
-msgstr "Absage bestätigen"
+msgstr "Bestätigen Sie die Rücknahme der Kündigung"
 
 #: coop/templates/coop/membershipresignation_detail.html:28
 #, fuzzy, python-format
@@ -2161,12 +2127,6 @@ msgstr ""
 "                            %(filtered_member_count)s aus %(total_member_count)s gefilterte Mitglieder\n"
 "                            "
 
-#: coop/templates/coop/membershipresignation_detail.html:55
-#, fuzzy
-#| msgid "Edit shareowner"
-msgid "Share owner"
-msgstr "Mitglied bearbeiten"
-
 #: coop/templates/coop/membershipresignation_detail.html:61
 #: shifts/models.py:540
 msgid "Cancellation reason"
@@ -2177,10 +2137,8 @@ msgid "Cancellation date"
 msgstr "Datum der Kündigung"
 
 #: coop/templates/coop/membershipresignation_detail.html:70
-#, fuzzy
-#| msgid "Members"
 msgid "Membership ends"
-msgstr "Mitglieder"
+msgstr "Mitgliedschaft endet"
 
 #: coop/templates/coop/membershipresignation_detail.html:75
 msgid "Resignation type"
@@ -2485,66 +2443,51 @@ msgid "Register a new incoming payment"
 msgstr "Eingehende Zahlung registrieren"
 
 #: coop/views/incoming_payments.py:187 coop/views/incoming_payments.py:188
-#, fuzzy
-#| msgid "Waiting payment"
 msgid "Edit payment"
-msgstr "Bezahlung ausstehend"
+msgstr "Bezahlung bearbeiten"
 
 #: coop/views/incoming_payments.py:192
-#, fuzzy
-#| msgid "Payment date"
 msgid "Payment updated."
-msgstr "Zahldatum"
+msgstr "Bezahlung aktualisiert."
 
 #: coop/views/incoming_payments.py:216
-#, fuzzy
-#| msgid "Payment date"
 msgid "Payment deleted"
-msgstr "Zahldatum"
+msgstr "Bezahlung gelöscht"
 
 #: coop/views/management.py:42
 msgid "Required. Please insert a valid email address."
-msgstr ""
+msgstr "Erforderlich. Bitte geben Sie eine gültige E-Mail-Adresse ein."
 
 #: coop/views/membership_pause.py:138
 msgid "Create a new membership pause"
-msgstr ""
+msgstr "Neue Mitgliedschaftspause erstellen"
 
 #: coop/views/membership_pause.py:172 coop/views/membership_pause.py:177
 #, python-format
 msgid "Edit membership pause: %(name)s"
-msgstr ""
+msgstr "Neue Mitgliedschaftspause erstellen: %(name)s"
 
 #: coop/views/membership_resignation.py:118
-#, fuzzy
-#| msgid "Shares requested"
 msgid "Share(s) gifted"
-msgstr "Angeforderte Anteile"
+msgstr "Anteil(e) verschenkt"
 
 #: coop/views/membership_resignation.py:137
-#, fuzzy
-#| msgid "Search Members"
 msgid "Search member or ID"
-msgstr "Mitglieder suchen"
+msgstr "Mitglieder suchen oder ID"
 
 #: coop/views/membership_resignation.py:143
-#, fuzzy
-#| msgid "Cycle start date"
 msgid "Pay out start date"
-msgstr "Anfangsdatum"
+msgstr "Auszahlungsbeginn"
 
 #: coop/views/membership_resignation.py:149
-#, fuzzy
-#| msgid "without end date"
 msgid "Pay out end date"
-msgstr "ohne Endddatum"
+msgstr "Auszahlungsende"
 
 #: coop/views/membership_resignation.py:211
 #: coop/views/membership_resignation.py:216
-#, fuzzy, python-format
-#| msgid "Edit member: %(name)s"
+#, python-format
 msgid "Cancel membership of %(name)s"
-msgstr "Mitglied bearbeiten: %(name)s"
+msgstr "Beende Mitgliedschaft von %(name)s"
 
 #: coop/views/shareowner.py:136 coop/views/shareowner.py:141
 #, python-format
@@ -2602,10 +2545,8 @@ msgid "Is currently exempted from shifts"
 msgstr "Ist derzeit von der Schichtarbeit befreit"
 
 #: coop/views/shareowner.py:661
-#, fuzzy
-#| msgid "Shift missed"
 msgid "Shift Name"
-msgstr "Schicht versäumt"
+msgstr "Schichtname"
 
 #: coop/views/shareowner.py:935
 msgctxt "Willing to give a share"
@@ -2994,7 +2935,7 @@ msgstr "Die beobachtete Schicht hat sich geändert"
 
 #: shifts/emails/shift_watch_mail.py:31
 msgid "Sent to a member when a shift staffing is changed relevantely and the user is watching this shift."
-msgstr ""
+msgstr "Wird an ein Mitglied gesendet, wenn sich die Personalbesetzung einer Schicht relevant ändert und der Benutzer diese Schicht beobachtet."
 
 #: shifts/emails/stand_in_found_email.py:23
 msgid "Stand-in found"
@@ -3294,8 +3235,6 @@ msgid "Cancel shift:"
 msgstr "Schicht absagen:"
 
 #: shifts/templates/shifts/cancel_shift.html:13
-#, fuzzy
-#| msgid "Cancel shift:"
 msgid "Cancel entire shift:"
 msgstr "Ganze Schicht absagen:"
 
@@ -3935,16 +3874,12 @@ msgid "To"
 msgstr "Zum"
 
 #: shifts/templates/shifts/shift_confirm_delete.html:7
-#, fuzzy
-#| msgid "Create a shift"
 msgid "Delete shift"
-msgstr "Schicht erzeugen"
+msgstr "Schicht löschen"
 
 #: shifts/templates/shifts/shift_confirm_delete.html:14
-#, fuzzy
-#| msgid "Confirm delete"
 msgid "Confirm shift deletion:"
-msgstr "Löschen bestätigen"
+msgstr "Löschen der Schicht bestätigen:"
 
 #: shifts/templates/shifts/shift_confirm_delete.html:17
 msgid ""
@@ -3960,12 +3895,12 @@ msgstr ""
 #: shifts/templates/shifts/shift_day_printable.html:243
 #: shifts/templates/shifts/shift_detail_printable.html:82
 msgid "Expected to come at"
-msgstr ""
+msgstr "Kommt voraussichtlich um"
 
 #: shifts/templates/shifts/shift_day_printable.html:246
 #: shifts/templates/shifts/shift_detail_printable.html:84
 msgid "Flexible time not specified"
-msgstr ""
+msgstr "Flexible Arbeitszeit nicht angegeben"
 
 #: shifts/templates/shifts/shift_day_printable.html:252
 #: shifts/templates/shifts/shift_detail.html:138
@@ -3985,11 +3920,11 @@ msgstr "Schicht"
 
 #: shifts/templates/shifts/shift_detail.html:39
 msgid "Unwatch"
-msgstr ""
+msgstr "Nicht mehr beobachten"
 
 #: shifts/templates/shifts/shift_detail.html:45
 msgid "Watch"
-msgstr ""
+msgstr "Beobachten"
 
 #: shifts/templates/shifts/shift_detail.html:51
 msgid "Get printable version"
@@ -4005,10 +3940,8 @@ msgid "Cancel the entire shift"
 msgstr "Ganze Schicht absagen"
 
 #: shifts/templates/shifts/shift_detail.html:71
-#, fuzzy
-#| msgid "Cancel the entire shift"
 msgid "Delete the entire shift"
-msgstr "Ganze Schicht absagen"
+msgstr "Ganze Schicht löschen"
 
 #: shifts/templates/shifts/shift_detail.html:79
 msgid "Generated from"
@@ -4016,11 +3949,11 @@ msgstr "Erzeugt von"
 
 #: shifts/templates/shifts/shift_detail.html:89
 msgid "This shift has been cancelled: "
-msgstr ""
+msgstr "Diese Schicht wurde abgesagt: "
 
 #: shifts/templates/shifts/shift_detail.html:94
 msgid "This shift has been deleted."
-msgstr ""
+msgstr "Diese Schicht wurde gelöscht."
 
 #: shifts/templates/shifts/shift_detail.html:101
 msgid "List of slots for this shift"
@@ -4222,10 +4155,8 @@ msgid "Flying attendance"
 msgstr "Fliegende Anwesenheit"
 
 #: shifts/templates/shifts/shift_filters.html:86
-#, fuzzy
-#| msgid "Shift attendance: %(name)s"
 msgid "Shift is watched for changes"
-msgstr "Schicht-Anwesenheit: %(name)s"
+msgstr "Die Schicht wird beobachtet"
 
 #: shifts/templates/shifts/shift_form.html:20
 msgid ""
@@ -4620,10 +4551,8 @@ msgstr ""
 "                        "
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:214
-#, fuzzy
-#| msgid "Shift reminder"
 msgid "Shift partner"
-msgstr "Schicht-Erinnerung"
+msgstr "Schicht-Partner"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:221
 #, fuzzy
@@ -4705,10 +4634,8 @@ msgid "Edit slot: "
 msgstr "Slot bearbeiten: "
 
 #: shifts/views/management.py:126
-#, fuzzy
-#| msgid "Edit shift:"
 msgid "Edit shift: "
-msgstr "Schicht bearbeiten:"
+msgstr "Schicht bearbeiten: "
 
 #: shifts/views/management.py:169
 msgid "Edit shift template: "
@@ -4775,10 +4702,8 @@ msgid "Statistics"
 msgstr "Statistiken"
 
 #: statistics/services/data_providers/data_provider_abcd_members.py:18
-#, fuzzy
-#| msgid "All members"
 msgid "ABCD members"
-msgstr "Alle Mitglieder"
+msgstr "ABCD-Mitglieder"
 
 #: statistics/services/data_providers/data_provider_abcd_members.py:23
 msgid "Only members who work are counted: members that are exempted, paused, frozen... are not counted"
@@ -4793,8 +4718,6 @@ msgid "Active in the sense of their membership: paused and investing members are
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_active_members_with_account.py:14
-#, fuzzy
-#| msgid "Active Members with a Tapir Account"
 msgid "Active members with Tapir account"
 msgstr "Aktive Mitglieder mit Tapir-Konto"
 
@@ -4828,10 +4751,8 @@ msgid "Every past, present or future members. Anyone that is in the system."
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_exempted_members.py:17
-#, fuzzy
-#| msgid "Credited member"
 msgid "Exempted members"
-msgstr "Empfangendes Mitglied"
+msgstr "Befreite Mitglieder"
 
 #: statistics/services/data_providers/data_provider_exempted_members.py:22
 msgid "Counting only members that would work if they were not exempted: frozen and investing members with an exemption are not counted."
@@ -4839,17 +4760,15 @@ msgstr ""
 
 #: statistics/services/data_providers/data_provider_exempted_members_that_work.py:14
 msgid "Exempted members that work"
-msgstr ""
+msgstr "Befreite Mitglieder, die arbeiten"
 
 #: statistics/services/data_providers/data_provider_exempted_members_that_work.py:19
 msgid "Counting all exempted members (ignoring if they are frozen or investing) that actually did a shift in the past 60 days. Just registering to the shift doesn't count, the attendance must be confirmed."
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_flying_members.py:21
-#, fuzzy
-#| msgid "Paying member"
 msgid "Flying members"
-msgstr "Zahlendes Mitglied"
+msgstr "Fliegendes Mitglied"
 
 #: statistics/services/data_providers/data_provider_frozen_members.py:16
 #: statistics/templates/statistics/main_statistics.html:118
@@ -4863,42 +4782,32 @@ msgid "Counted out of 'active' members: paused and investing members not counted
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_frozen_members_long_term.py:17
-#, fuzzy
-#| msgid "Frozen members"
 msgid "Long-term frozen members"
-msgstr "Eingefrorene Mitglieder"
+msgstr "Langzeit-Eingefrorene Mitglieder"
 
 #: statistics/services/data_providers/data_provider_frozen_members_long_term.py:22
 msgid "Members that are frozen since more than 180 days (roughly 6 month). Long-term frozen members are included in the \"Frozen members\" dataset"
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_investing_members.py:13
-#, fuzzy
-#| msgid "Investing member"
 msgid "Investing members"
-msgstr "Investierendes Mitglied"
+msgstr "Investierende Mitglieder"
 
 #: statistics/services/data_providers/data_provider_paused_members.py:13
-#, fuzzy
-#| msgid "Credited member"
 msgid "Paused members"
-msgstr "Empfangendes Mitglied"
+msgstr "Pausierte Mitglieder"
 
-#: statistics/services/data_providers/data_provider_payments_not_fully_paid.py:14
-#, fuzzy
-#| msgid "Incoming payments"
+#: statistics/services/data_providers/data_provider_payments_not_fully_paid.py:15
 msgid "Hasn't completed payments"
-msgstr "Eingehende Zahlungen"
+msgstr "Hat Zahlungen nicht abgeschlossen"
 
 #: statistics/services/data_providers/data_provider_payments_not_fully_paid.py:19
 msgid "Members that have paid either nothing or not enough compared to the number of shares they subscribed to"
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_payments_paid_too_much.py:14
-#, fuzzy
-#| msgid "Paid out"
 msgid "Paid too much"
-msgstr "Ausbezahlt"
+msgstr "Hat zuviel gezahlt"
 
 #: statistics/services/data_providers/data_provider_payments_paid_too_much.py:19
 msgid "Members that have paid more than expected relative to their number of shares"
@@ -6201,6 +6110,11 @@ msgid "%(name)s has not attended a welcome session yet. Make sure they plan to d
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
 
 #, fuzzy
+#~| msgid "Edit shareowner"
+#~ msgid "Share owner"
+#~ msgstr "Mitglied bearbeiten"
+
+#, fuzzy
 #~| msgid "Groups"
 #~ msgid "Weekgroups"
 #~ msgstr "Gruppen"
@@ -6308,16 +6222,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 
 #~ msgid "Shift system"
 #~ msgstr "Schichten"
-
-#, fuzzy
-#~| msgid "List of all emails"
-#~ msgid "List of resigned members"
-#~ msgstr "Liste alle E-Mails"
-
-#, fuzzy
-#~| msgid "Credited member"
-#~ msgid "Resigned member"
-#~ msgstr "Empfangendes Mitglied"
 
 #~ msgid "Search"
 #~ msgstr "Suchen"
@@ -6558,16 +6462,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #~ "    </p> "
 
 #, fuzzy
-#~| msgid "Co-purchasers"
-#~ msgid "Co-purchaser registered"
-#~ msgstr "Miteinkäufer*innen"
-
-#, fuzzy
-#~| msgid "Shift exemptions"
-#~ msgid "Shift Type"
-#~ msgstr "Schicht-Typ"
-
-#, fuzzy
 #~| msgid ""
 #~| "\n"
 #~| "            Cooperative Greetings, <br/>\n"
@@ -6604,11 +6498,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 
 #~ msgid "Is active"
 #~ msgstr "Ist aktiv"
-
-#, fuzzy
-#~| msgid "Total number of members"
-#~ msgid "Number of members"
-#~ msgstr "Gesamte Mitgliederzahl"
 
 #~ msgid "Required number of purchasing members to reach break-even"
 #~ msgstr "Erforderliche Anzahl von einkaufsberechtigten Mitglieder*innen, um den Break-Even zu erreichen"
@@ -6730,11 +6619,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #~ "        %(shift_display_name)s <br/>\n"
 #~ "        Wenn es sich um einen Fehler handelt oder du der Meinung bist, dass du von dieser Schicht befreit werden solltest, wende dich bitte an das Mitgliederbüro: %(contact_email_address)s .<br/>\n"
 #~ "    </p> "
-
-#, fuzzy
-#~| msgid "This user is already registered to another slot in this shift."
-#~ msgid "This username is already used by another account."
-#~ msgstr "Diese*r Nutzer*in ist bereits für einen anderen Platz in dieser Schicht registriert."
 
 #~ msgid "First name"
 #~ msgstr "Vorname"
