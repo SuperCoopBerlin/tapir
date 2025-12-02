@@ -1,9 +1,9 @@
-from django.conf import settings
 from django.core.management import BaseCommand
 from django.db import transaction
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
+from tapir.rizoma.config import GROUP_NAME_CONSUMIDORES
 from tapir.rizoma.coops_pt_auth_backend import CoopsPtAuthBackend
 from tapir.rizoma.exceptions import CoopsPtRequestException
 from tapir.rizoma.models import RizomaMemberData
@@ -114,7 +114,6 @@ class Command(BaseCommand):
             ShareOwner.objects.values_list("external_id", flat=True)
         )
         external_ids_present_in_coops_pt = set()
-        used_member_numbers = set()
         member_number_to_photo_id_map = {}
 
         # Example element from the response:
@@ -149,16 +148,8 @@ class Command(BaseCommand):
             ):
                 continue
 
-            if "Consumidores" not in share_owner_json["_currentState"]:
+            if GROUP_NAME_CONSUMIDORES not in share_owner_json["_currentState"]:
                 continue
-
-            member_number = share_owner_json["number"]
-            if settings.DEBUG:
-                # on the demo instance demo.coopts.pt, several members have the same number.
-                # This is invalid, but it should not happen with production instances
-                if member_number in used_member_numbers:
-                    continue
-                used_member_numbers.add(member_number)
 
             external_id = share_owner_json["_id"]
             external_ids_present_in_coops_pt.add(external_id)
@@ -173,6 +164,8 @@ class Command(BaseCommand):
             last_name = None
             if len(name_parts) > 1:
                 last_name = name_parts[1].strip()
+
+            member_number = share_owner_json["number"]
 
             share_owners_to_create.append(
                 ShareOwner(

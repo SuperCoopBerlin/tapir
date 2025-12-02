@@ -27,7 +27,9 @@ class MembershipPauseService:
     ANNOTATION_HAS_ACTIVE_PAUSE_AT_DATE = "has_active_pause_at_date"
 
     @staticmethod
-    def on_pause_created_or_updated(pause: MembershipPause, actor: TapirUser | User):
+    def on_pause_created_or_updated(
+        pause: MembershipPause, actor: TapirUser | User | None
+    ):
         tapir_user: TapirUser = getattr(pause.share_owner, "user", None)
         if not tapir_user:
             return

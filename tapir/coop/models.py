@@ -728,6 +728,9 @@ class MembershipPause(DurationModelMixin, models.Model):
     )
     description = models.CharField(max_length=1000)
 
+    def __str__(self):
+        return f"{self.share_owner} - Start:{self.start_date} - End:{self.end_date}"
+
 
 class MembershipPauseCreatedLogEntry(ModelLogEntry):
     template_name = "coop/log/create_membership_pause_log_entry.html"
