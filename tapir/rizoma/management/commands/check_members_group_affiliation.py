@@ -56,9 +56,9 @@ class Command(BaseCommand):
             print(
                 f"Deleting the following members because they are not in {GROUP_NAME_CONSUMIDORES} anymore: {share_owners_to_delete}"
             )
+            ShareOwner.objects.filter(id__in=share_owners_ids_to_delete).delete()
         else:
             print("No member needs to be deleted")
-        ShareOwner.objects.filter(id__in=share_owners_ids_to_delete).delete()
 
     @classmethod
     def create_new_pauses(
