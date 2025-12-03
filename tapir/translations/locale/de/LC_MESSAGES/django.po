@@ -6889,3 +6889,7 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 
 #~ msgid "Please enter your email address, we will send you instructions to reset your password."
 #~ msgstr "Bitte gib deine E-Mail-Adresse ein. Wir schicken dir dann eine Anleitung, wie du dein Passwort zurücksetzen kannst."
+
+#: shifts/templates/shifts/shift_calendar_template.html:85
+msgid "Cancel shifts for entire day"
+msgstr "Alle Schichten für den Tag absagen"
