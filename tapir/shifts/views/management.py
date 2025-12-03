@@ -111,10 +111,8 @@ class CancelDayShiftsView(LoginRequiredMixin, PermissionRequiredMixin, FormView)
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         day = datetime.datetime.strptime(self.kwargs["day"], "%d-%m-%y").date()
-        filter_day = Q(start_time__date=day)
-        filter_not_deleted = Q(deleted=False)
         kwargs["shifts"] = Shift.objects.filter(
-            filter_day & filter_not_deleted
+            start_time__date=day, deleted=False
         ).order_by("start_time")
         return kwargs
 
