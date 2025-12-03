@@ -273,7 +273,7 @@ def user_watching_shift(user, shift) -> QuerySet:
 
 @register.filter(name="weekday_labels")
 def weekday_labels(value):
-    _mapping = {k: v for k, v in WEEKDAY_CHOICES}
+    _mapping = dict(WEEKDAY_CHOICES)
     if not value:
         return []
     return [_mapping.get(i, str(i)) for i in value]
