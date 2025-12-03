@@ -97,7 +97,9 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         self.assertFalse(form.is_valid())
         self.assertTrue(form.non_field_errors())
 
-    def test_normal_user_cannot_update_other_(self):
+    def test_createRecurringShiftWatch_normalUserAttemptsToCreateForOthers_403Error(
+        self,
+    ):
         target: TapirUser = TapirUserFactory.create()
         form_data = {
             **self.default_form_data,
@@ -112,7 +114,9 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         self.assertEqual(403, response.status_code)
         self.assertEqual(RecurringShiftWatch.objects.count(), 0)
 
-    def test_member_office_user_can_update_other_username(self):
+    def test_createRecurringShiftWatch_memberOfficeAttemptsToCreateForOthers_entryCreated(
+        self,
+    ):
         self.login_as_member_office_user()
         target: TapirUser = TapirUserFactory.create()
         form_data = {
