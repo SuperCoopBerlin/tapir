@@ -27,7 +27,6 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
     ):
         shift_template = ShiftTemplateFactory.create()
         self.recurring_template.shift_templates.set([shift_template])
-        self.recurring_template.save()
 
         shift = shift_template.create_shift(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
@@ -43,7 +42,6 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         self.recurring_template.shift_templates.set(
             [shift_template_1, shift_template_2]
         )
-        self.recurring_template.save()
 
         shift = shift_template_2.create_shift(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
@@ -60,7 +58,6 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         self.recurring_template.shift_templates.set(
             [shift_template_1, shift_template_2]
         )
-        self.recurring_template.save()
 
         shift = shift_template_3.create_shift(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
@@ -95,7 +92,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
 
         # set both RecurringShiftWatch
         self.recurring_template.shift_templates.set([shift_template_1])
-        self.recurring_template.save()
+
         self.recurring_template.create_shift_watches()
         recurring_template_2 = RecurringShiftWatch.objects.create(
             user=self.user,
