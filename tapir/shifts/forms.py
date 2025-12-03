@@ -602,7 +602,7 @@ class BulkShiftCancelForm(forms.Form):
             max_length=1000,
             required=True,
             label=_("Cancellation Reason"),
-            help_text=_("This reason will be applied to all cancelled " "shifts."),
+            help_text=_("This reason will be applied to all cancelled shifts."),
         )
 
 
