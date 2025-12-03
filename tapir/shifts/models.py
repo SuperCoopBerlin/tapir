@@ -1274,26 +1274,6 @@ class ShiftWatch(models.Model):
             ", ".join(status for status in self.staffing_status),
         )
 
-    def get_display_without_user(self):
-        recurring_part = ""
-        staffing_status = ""
-        if self.recurring_template:
-            recurring_part = format_html(
-                ' based on <span class="text-muted">#{}</span>',
-                self.recurring_template.id,
-            )
-        else:
-            staffing_status = "for changes of " + ", ".join(
-                status for status in self.staffing_status
-            )
-        return format_html(
-            '<a href="{}">{}</a> {}{}',
-            self.shift.get_absolute_url(),
-            self.shift.get_display_name(),
-            staffing_status,
-            recurring_part,
-        )
-
     class Meta:
         constraints = [
             models.UniqueConstraint(

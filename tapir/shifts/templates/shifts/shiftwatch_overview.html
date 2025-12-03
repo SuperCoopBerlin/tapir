@@ -87,7 +87,7 @@
                                            name="shiftwatch_ids"
                                            class="form-check-input"
                                            value="{{ shiftwatch.id }}">
-                                    {{ shiftwatch.get_display_without_user }}
+                                    {% shiftwatch_display_without_user shiftwatch %}
                                 </li>
                             {% empty %}
                             {% endfor %}
@@ -110,7 +110,7 @@
                                     {% for shiftwatch in shift_watches|slice:"10:" %}
                                         <li class="list-group-item">
                                             <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
-                                            {{ shiftwatch.get_display_without_user }}
+                                            {% shiftwatch_display_without_user shiftwatch %}
                                         </li>
                                     {% empty %}
                                     {% endfor %}
