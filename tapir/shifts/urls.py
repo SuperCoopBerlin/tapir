@@ -58,6 +58,11 @@ urlpatterns = [
         name="shift_template_detail",
     ),
     path(
+        "shift_template_duplicate/<int:shift_pk>/create",
+        views.ShiftTemplateDuplicateView.as_view(),
+        name="shift_template_duplicate",
+    ),
+    path(
         "shifttemplate/overview",
         views.ShiftTemplateOverview.as_view(),
         name="shift_template_overview",
