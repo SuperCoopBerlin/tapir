@@ -68,8 +68,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         )
 
     def test_createShiftfromShiftTemplate_watchABCD_shiftWatchIsCreated(self):
-        ShiftTemplateGroup.objects.create(name="A")
-        group = ShiftTemplateGroup.objects.get(name="A")
+        group = ShiftTemplateGroup.objects.create(name="A")
         shift_template = ShiftTemplateFactory.create(group=group)
         self.recurring_template.shift_template_group = ["A"]
         self.recurring_template.save()
