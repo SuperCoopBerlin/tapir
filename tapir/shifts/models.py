@@ -1364,20 +1364,17 @@ class RecurringShiftWatch(models.Model):
             ).values_list("shift_id", flat=True)
         )
 
-        new_watches = []
-        for sid in shift_ids:
-            if sid not in existing_shift_ids:
-                new_watches.append(
-                    ShiftWatch(
-                        user=self.user,
-                        shift_id=sid,
-                        staffing_status=list(self.staffing_status),
-                        recurring_template=self,
-                    )
-                )
-
-        if new_watches:
-            ShiftWatch.objects.bulk_create(new_watches)
+        new_watches = [
+            ShiftWatch(
+                user=self.user,
+                shift_id=sid,
+                staffing_status=list(self.staffing_status),
+                recurring_template=self,
+            )
+            for sid in shift_ids
+            if sid not in existing_shift_ids
+        ]
+        ShiftWatch.objects.bulk_create(new_watches)
 
 
 def create_shift_watch_entries(shift: Shift) -> None:
