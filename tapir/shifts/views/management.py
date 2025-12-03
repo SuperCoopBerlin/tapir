@@ -1,17 +1,14 @@
+from itertools import product
+
 from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import (
-    CreateView,
-    UpdateView,
-    RedirectView,
-    FormView,
-)
+from django.views.generic import CreateView, UpdateView, RedirectView, FormView
 
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
@@ -21,6 +18,8 @@ from tapir.shifts.forms import (
     ShiftCancelForm,
     ShiftTemplateForm,
     ShiftSlotTemplateForm,
+    ShiftTemplateDuplicateForm,
+    ShiftTemplateGroup,
     ShiftDeleteForm,
 )
 from tapir.shifts.models import (
@@ -31,6 +30,7 @@ from tapir.shifts.models import (
     ShiftSlotTemplate,
     create_shift_watch_entries,
 )
+from tapir.shifts.services.shift_generator import ShiftGenerator
 
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -227,6 +227,105 @@ class ShiftSlotTemplateCreateView(
 
     def get_success_url(self):
         return self.get_shift_template().get_absolute_url()
+
+
+class ShiftTemplateDuplicateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, FormView
+):
+    form_class = ShiftTemplateDuplicateForm
+    permission_required = PERMISSION_SHIFTS_MANAGE
+    success_url = reverse_lazy("shifts:shift_template_overview")
+
+    def get_context_data(self, **kwargs):
+        template: ShiftTemplate = ShiftTemplate.objects.get(
+            pk=self.kwargs.get("shift_pk")
+        )
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = _("Duplicate ABCD-Shift " + template.get_display_name())
+        help_text = _(
+            "Please choose the weekdays and ABCD-weeks this ABCD-Shift should be copied to. These slots will be copied: "
+            + f"{", ".join(str(i) for i in template.slot_templates.values_list("name", flat=True).distinct())}."
+        )
+        if template.start_date is not None:
+            help_text += _(
+                " Shifts for this ABCD shift will be generated starting from "
+                + template.start_date.strftime("%d.%m.%Y")
+            )
+        context["help_text"] = help_text
+        return context
+
+    def form_valid(self, form):
+        shift_template_copy_source = ShiftTemplate.objects.get(
+            pk=self.kwargs.get("shift_pk")
+        )
+        slot_templates_source = list(shift_template_copy_source.slot_templates.all())
+        week_groups_by_id = {
+            group.id: group for group in ShiftTemplateGroup.objects.all()
+        }
+        created_shift_template_ids = set()
+        for weekday_as_string, week_group_id_as_string in product(
+            form.cleaned_data["weekdays"], form.cleaned_data["week_group"]
+        ):
+            weekday = int(weekday_as_string)
+            week_group_id = int(week_group_id_as_string)
+
+            if (
+                weekday == shift_template_copy_source.weekday
+                and week_group_id == shift_template_copy_source.group.id
+            ):
+                continue
+
+            created_shift_template_id = self.create_copy(
+                shift_template_source=shift_template_copy_source,
+                slot_templates_source=slot_templates_source,
+                weekday=weekday,
+                group=week_groups_by_id[week_group_id],
+            )
+            created_shift_template_ids.add(created_shift_template_id)
+
+        ShiftGenerator.generate_shifts_up_to(
+            filter_group_ids={
+                int(group_id_as_string)
+                for group_id_as_string in form.cleaned_data["week_group"]
+            },
+            filter_shift_template_ids=created_shift_template_ids,
+        )
+
+        return super().form_valid(form)
+
+    @classmethod
+    def create_copy(
+        cls,
+        shift_template_source: ShiftTemplate,
+        slot_templates_source: list[ShiftSlotTemplate],
+        weekday: int,
+        group: ShiftTemplateGroup,
+    ) -> int:
+
+        shift_template_copy_destination = ShiftTemplate.objects.create(
+            name=shift_template_source.name,
+            description=shift_template_source.description,
+            flexible_time=shift_template_source.flexible_time,
+            group=group,
+            num_required_attendances=shift_template_source.num_required_attendances,
+            weekday=weekday,
+            start_time=shift_template_source.start_time,
+            end_time=shift_template_source.end_time,
+            start_date=shift_template_source.start_date,
+        )
+
+        slot_templates_to_create = [
+            ShiftSlotTemplate(
+                shift_template=shift_template_copy_destination,
+                name=slot_template.name,
+                required_capabilities=slot_template.required_capabilities,
+                warnings=slot_template.warnings,
+            )
+            for slot_template in slot_templates_source
+        ]
+        ShiftSlotTemplate.objects.bulk_create(slot_templates_to_create)
+
+        return shift_template_copy_destination.id
 
 
 class ShiftSlotTemplateEditView(

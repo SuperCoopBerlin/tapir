@@ -24,6 +24,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
     ShiftSlotTemplate,
+    ShiftTemplateGroup,
     ShiftSlot,
     ShiftAccountEntry,
     ShiftExemption,
@@ -31,7 +32,6 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftAttendanceMode,
     ShiftWatch,
-    StaffingStatusChoices,
     get_staffingstatus_defaults,
     get_staffingstatus_choices,
     RecurringShiftWatch,
@@ -623,6 +623,22 @@ class ShiftTemplateForm(forms.ModelForm):
             self.fields["num_required_attendances"].widget.attrs[
                 "max"
             ] = shift_slot_count
+
+
+class ShiftTemplateDuplicateForm(forms.Form):
+    week_group = forms.MultipleChoiceField(
+        label=_("ABCD-Week"),
+        widget=CheckboxSelectMultiple,
+    )
+    weekdays = forms.MultipleChoiceField(
+        choices=WEEKDAY_CHOICES, label=_("Weekdays"), widget=CheckboxSelectMultiple
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["week_group"].choices = ShiftTemplateGroup.objects.values_list(
+            "id", "name"
+        )
 
 
 class ShiftSlotTemplateForm(forms.ModelForm):
