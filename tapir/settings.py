@@ -426,3 +426,11 @@ if DEBUG:
             },
         },
     }
+
+# See the Holidays package: https://pypi.org/project/holidays/
+COUNTRY_FOR_HOLIDAYS_AUTO_CANCEL = env.str(
+    "COUNTRY_FOR_HOLIDAYS_AUTO_CANCEL", default="DE"
+)
+SUBDIV_FOR_HOLIDAYS_AUTO_CANCEL = env.str(
+    "SUBDIV_FOR_HOLIDAYS_AUTO_CANCEL", default="BE"
+)
