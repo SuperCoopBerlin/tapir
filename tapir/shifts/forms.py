@@ -6,6 +6,7 @@ from django.forms import (
     ModelChoiceField,
     CheckboxSelectMultiple,
     BooleanField,
+    CharField,
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
@@ -579,6 +580,31 @@ class ShiftCancelForm(forms.ModelForm):
                 _("This shift has been deleted. It is not possible to cancel it.")
             )
         return super().clean()
+
+
+class BulkShiftCancelForm(forms.Form):
+
+    def __init__(self, **kwargs):
+        shifts: list[Shift] = kwargs.pop("shifts", [])
+        super().__init__(**kwargs)
+        for shift in shifts:
+            label = f"{_('Shift')}: {shift.get_display_name()}"
+            help_text = _("already cancelled") if shift.cancelled else ""
+
+            self.fields[f"shift_{shift.id}"] = BooleanField(
+                initial=not shift.cancelled,
+                label=label,
+                required=False,
+                disabled=shift.cancelled,
+                help_text=help_text,
+            )
+
+        self.fields["cancellation_reason"] = CharField(
+            max_length=1000,
+            required=True,
+            label=_("Cancellation Reason"),
+            help_text=_("This reason will be applied to all cancelled shifts."),
+        )
 
 
 class ShiftTemplateForm(forms.ModelForm):

@@ -18,6 +18,11 @@ urlpatterns = [
         name="shift_day_printable",
     ),
     path(
+        "shift/<str:day>/day_cancel",
+        views.CancelDayShiftsView.as_view(),
+        name="shift_day_cancel",
+    ),
+    path(
         "shift/<int:pk>/edit",
         views.EditShiftView.as_view(),
         name="shift_edit",
