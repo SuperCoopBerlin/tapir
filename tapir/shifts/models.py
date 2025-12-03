@@ -254,7 +254,7 @@ class ShiftTemplate(models.Model):
         )
 
     @transaction.atomic
-    def create_shift(self, start_date: datetime.date, holidays=None) -> Shift:
+    def create_shift(self, start_date: datetime.date) -> Shift:
         generated_shift = self._generate_shift(start_date=start_date)
         shift = self.generated_shifts.filter(
             start_time=generated_shift.start_time
