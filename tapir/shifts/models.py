@@ -15,6 +15,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
+from tapir.core.models import FeatureFlag
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
 from tapir.utils.models import DurationModelMixin
 from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
@@ -253,7 +254,7 @@ class ShiftTemplate(models.Model):
         )
 
     @transaction.atomic
-    def create_shift(self, start_date: datetime.date) -> Shift:
+    def create_shift(self, start_date: datetime.date, holidays=None) -> Shift:
         generated_shift = self._generate_shift(start_date=start_date)
         shift = self.generated_shifts.filter(
             start_time=generated_shift.start_time
