@@ -74,7 +74,6 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         self.recurring_template.save()
 
         shift = shift_template.create_shift(timezone.now().date())
-        print(Shift.objects.all())
         self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
 
     def test_createShiftfromShiftTemplate_intersectingRecurringShiftWatch_shiftWatchIsCreatedNoOverWrite(
