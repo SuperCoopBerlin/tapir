@@ -1989,7 +1989,9 @@ msgstr ""
 msgid ""
 "\n"
 "    Reactivated resigned member\n"
-msgstr "Reaktiviertes ausgeschiedenes Mitglied"
+msgstr ""
+"\n"
+"    Reaktiviertes ausgeschiedenes Mitglied\n"
 
 #: coop/templates/coop/log/update_incoming_payment_log_entry.html:2
 msgid "Updated payment:"
