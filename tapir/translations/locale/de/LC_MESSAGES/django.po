@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-01 21:27+0100\n"
+"POT-Creation-Date: 2025-12-03 17:16+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -36,7 +36,7 @@ msgstr "Wenn es keine:n Miteinkäufer:in gibt, muss das entsprechende Mail-Feld 
 
 #: accounts/forms.py:86
 msgid "If there is not co-purchaser 2 then the co-purchaser-mail 2 field must also be empty"
-msgstr ""
+msgstr "Wenn es keinen Mitkäufer 2 gibt, muss auch das Feld „Mitkäufer-E-Mail 2” leer sein."
 
 #: accounts/forms.py:145
 msgid "This username is not available."
@@ -570,7 +570,7 @@ msgstr "Extra Anteile gekauft"
 
 #: coop/emails/extra_shares_confirmation_email.py:30
 msgid "Sent when someone who is already a member buys more shares"
-msgstr ""
+msgstr "Wird gesendet, wenn jemand, der bereits Mitglied ist, weitere Anteile kauft."
 
 #: coop/emails/membership_confirmation_email_for_active_member.py:26
 msgid "Membership confirmation for active users"
@@ -637,7 +637,7 @@ msgstr "Anzahl Anteile"
 #: coop/forms.py:110
 #, python-format
 msgid "Number of shares you would like to purchase. The price of one share is EUR %(share_price)s. You need to purchase at least one share to become member of the cooperative. To support our cooperative even more, you may voluntarily purchase more shares."
-msgstr ""
+msgstr "Anzahl der Anteile, die du erwerben möchtest. Der Preis für einen Anteil beträgt EUR %(share_price)s. Du musst mindestens einen Anteil erwerben, um Mitglied der Genossenschaft zu werden. Um unsere Genossenschaft noch stärker zu unterstützen, kannst du freiwillig weitere Aktien erwerben."
 
 #: coop/forms.py:120
 msgid "I would like to join the membership list as an investing member (= sponsoring member)"
@@ -2030,7 +2030,7 @@ msgstr "Listen"
 
 #: coop/templates/coop/member_management.html:21
 msgid "Access right groups"
-msgstr ""
+msgstr "Zugriffsrechte-Gruppen"
 
 #: coop/templates/coop/member_management.html:26
 #: coop/templates/coop/membership_pause/membership_pause_list.html:10
@@ -2045,7 +2045,7 @@ msgstr "Mitgliedschaftskündigungen"
 #: coop/templates/coop/member_management.html:42
 #: coop/templates/coop/member_management.html:51
 msgid "Old member statistics"
-msgstr ""
+msgstr "Alte Mitgliederstatistik"
 
 #: coop/templates/coop/member_management.html:45
 msgid ""
@@ -2062,7 +2062,7 @@ msgstr ""
 
 #: coop/templates/coop/membership_pause/membership_pause_list.html:34
 msgid "Create a new pause"
-msgstr ""
+msgstr "Neue Pause erstellen"
 
 #: coop/templates/coop/membership_pause/membership_pause_list.html:64
 #, python-format
@@ -2269,7 +2269,7 @@ msgstr "Mitglieder-Statistik"
 
 #: coop/templates/coop/statistics.html:28
 msgid "Loading..."
-msgstr ""
+msgstr "Lädt..."
 
 #: coop/templates/coop/statistics.html:48
 msgid "Statistics on members"
@@ -2277,7 +2277,7 @@ msgstr "Mitglieder-Statistiken"
 
 #: coop/templates/coop/statistics.html:52
 msgid "Active members with account at end of month as CSV"
-msgstr ""
+msgstr "Aktive Mitglieder mit Konto am Monatsende als CSV"
 
 #: coop/templates/coop/statistics.html:72
 #: statistics/templates/statistics/main_statistics.html:27
@@ -2303,7 +2303,7 @@ msgstr "Mitglieder die weitere Anteile übernommen haben"
 #: coop/templates/coop/statistics.html:150
 #: coop/templates/coop/statistics.html:158
 msgid "Member status updates"
-msgstr ""
+msgstr "Aktualisierungen des Mitgliedsstatus"
 
 #: coop/templates/coop/statistics.html:154
 #: coop/templates/coop/statistics.html:170
@@ -2313,7 +2313,7 @@ msgstr ""
 #: coop/templates/coop/statistics.html:166
 #: coop/templates/coop/statistics.html:174
 msgid "Number of co-purchasers per month"
-msgstr ""
+msgstr "Anzahl der Mitkäufer:innen pro Monat"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:9
 #, python-format
@@ -2377,7 +2377,7 @@ msgstr "Anfangsdatum"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:87
 msgid "Ends at"
-msgstr ""
+msgstr "Endet am"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:105
 msgid "Sold or future"
@@ -2420,15 +2420,15 @@ msgstr "Bewerber*innen bearbeiten: %(name)s"
 
 #: coop/views/draftuser.py:187
 msgid "Can't create member: "
-msgstr ""
+msgstr "Kann Mitglied nicht erstellen: "
 
 #: coop/views/draftuser.py:265 coop/views/draftuser.py:301
 msgid "Member can be created"
-msgstr ""
+msgstr "Mitglied kann erstellt werden: "
 
 #: coop/views/incoming_payments.py:55
 msgid "Payment ID"
-msgstr ""
+msgstr "Zahlungs-ID"
 
 #: coop/views/incoming_payments.py:78
 msgid "Other member"
@@ -2571,23 +2571,23 @@ msgstr "Anzahl an Mitglieder (X-Achse) pro Alter (Y-Achse)"
 
 #: coop/views/statistics.py:276
 msgid "New active members"
-msgstr ""
+msgstr "Neue aktive Mitglieder"
 
 #: coop/views/statistics.py:277
 msgid "New investing members"
-msgstr ""
+msgstr "Neue investierende Mitglieder"
 
 #: coop/views/statistics.py:278
 msgid "New active members without account"
-msgstr ""
+msgstr "Neue aktive Mitglieder ohne Konto"
 
 #: coop/views/statistics.py:279
 msgid "Active to investing"
-msgstr ""
+msgstr "Aktiv nach Investierend"
 
 #: coop/views/statistics.py:280
 msgid "Investing to active"
-msgstr ""
+msgstr "Investierend nach Aktiv"
 
 #: coop/views/statistics.py:481
 msgid "Number of members with a co-purchaser (X-axis) by month (Y-axis)"
@@ -2651,7 +2651,7 @@ msgstr "E-Mail-Liste"
 
 #: core/templates/core/email_list.html:24
 msgid "This is the list of all emails that can get sent by Tapir."
-msgstr ""
+msgstr "Dies ist die Liste aller E-Mails, die von Tapir versendet werden können."
 
 #: core/templates/core/email_list.html:26
 msgid "The previews in the \"Subject\" and \"Body\" columns are fake : they show what the email would look like if it was sent to a random user, using random data."
@@ -2672,19 +2672,19 @@ msgstr "Beschreibung"
 
 #: core/templates/core/email_list.html:40
 msgid "Subject"
-msgstr ""
+msgstr "Betreff"
 
 #: core/templates/core/email_list.html:41
 msgid "Body"
-msgstr ""
+msgstr "Inhalt"
 
 #: core/templates/core/email_list.html:42
 msgid "Last sent example"
-msgstr ""
+msgstr "Letztes gesendetes Beispiel"
 
 #: core/templates/core/featureflag_list.html:10
 msgid "Enable or disable features"
-msgstr ""
+msgstr "Aktiviere oder deaktiviere Features"
 
 #: core/templates/core/featureflag_list.html:15
 msgid "List of all feature flags"
@@ -2696,7 +2696,7 @@ msgstr ""
 
 #: core/templates/core/tags/financing_campaign_progress_bar.html:6
 msgid "Current: "
-msgstr ""
+msgstr "Aktuell: "
 
 #: core/templates/core/tags/financing_campaign_progress_bar.html:6
 msgid "Click this link to learn more."
@@ -2903,19 +2903,19 @@ msgstr ""
 
 #: shifts/emails/freeze_warning_email.py:28
 msgid "Freeze warning"
-msgstr ""
+msgstr "Einfrierwarnung"
 
 #: shifts/emails/freeze_warning_email.py:33
 msgid "Sent to a member when their shift status is not frozen yet but will be set to frozen if they don't register for make-up shifts."
-msgstr ""
+msgstr "Wird an ein Mitglied gesendet, das bald eingefroren wird wenn es sich nicht für eine Aufholschicht registriert"
 
 #: shifts/emails/member_frozen_email.py:23
 msgid "Shift status set to frozen"
-msgstr ""
+msgstr "Schicht-Status wird auf Eingefroren gesetzt"
 
 #: shifts/emails/member_frozen_email.py:28
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
-msgstr ""
+msgstr "Wird an ein Mitglied gesendet, wenn sein Schichtstatus auf Eingefroren gesetzt wird. Dies geschieht in der Regel, wenn es zu viele Schichten versäumt hat."
 
 #: shifts/emails/shift_missed_email.py:22
 msgid "Shift missed"
@@ -3188,11 +3188,11 @@ msgstr "✈ Fliegend"
 
 #: shifts/models.py:982
 msgid "❄ Frozen"
-msgstr ""
+msgstr "❄ Eingefroren"
 
 #: shifts/models.py:1013
 msgid "Is frozen"
-msgstr ""
+msgstr "Ist eingefroren"
 
 #: shifts/models.py:1187
 msgid "Cycle start date"
@@ -3265,7 +3265,7 @@ msgstr "Absage bestätigen"
 #: shifts/templates/shifts/convert_exemption_to_pause_form.html:12
 #: shifts/templates/shifts/convert_exemption_to_pause_form.html:18
 msgid "Convert exemption to pause"
-msgstr ""
+msgstr "Befreiung in Pause umwandeln"
 
 #: shifts/templates/shifts/convert_exemption_to_pause_form.html:22
 #, python-format
@@ -4623,7 +4623,7 @@ msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 
 #: shifts/views/exemptions.py:295
 msgid "Shift exemption converted to membership pause."
-msgstr ""
+msgstr "Schichtfreistellung in Mitgliedschaftspause umgewandelt."
 
 #: shifts/views/management.py:42
 msgid "Create a shift"
@@ -4647,23 +4647,23 @@ msgstr "ABCD-Schicht erzeugen"
 
 #: shifts/views/management.py:190
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
-msgstr ""
+msgstr "Die Schichten werden jeden Tag um Mitternacht generiert. Nachdem Sie die ABCD-Schicht erstellt haben, schaue morgen wieder vorbei, um deine Schichten zu sehen!"
 
 #: shifts/views/management.py:236
 msgid "Duplicate ABCD-Shift "
-msgstr ""
+msgstr "Dupliziere ABCD-Schichten"
 
 #: shifts/views/management.py:238
 msgid "Please choose the weekdays and ABCD-weeks this ABCD-Shift should be copied to. These slots will be copied: "
-msgstr ""
+msgstr "Bitte wählen Sie die Wochentage und ABCD-Wochen aus, in die diese ABCD-Schicht kopiert werden soll. Diese Zeitfenster werden kopiert: "
 
 #: shifts/views/management.py:243
 msgid " Shifts for this ABCD shift will be generated starting from "
-msgstr ""
+msgstr " Die Schichten für diese ABCD-Schicht werden ab dem folgenden Zeitpunkt generiert "
 
 #: shifts/views/management.py:360
 msgid "Shifts generated."
-msgstr ""
+msgstr "Schichten erstellt."
 
 #: shifts/views/solidarity.py:70
 msgid "Solidarity Shift received. Account Balance increased by 1."
@@ -4797,7 +4797,7 @@ msgstr "Investierende Mitglieder"
 msgid "Paused members"
 msgstr "Pausierte Mitglieder"
 
-#: statistics/services/data_providers/data_provider_payments_not_fully_paid.py:15
+#: statistics/services/data_providers/data_provider_payments_not_fully_paid.py:14
 msgid "Hasn't completed payments"
 msgstr "Hat Zahlungen nicht abgeschlossen"
 
