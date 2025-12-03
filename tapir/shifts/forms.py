@@ -9,7 +9,8 @@ from django.forms import (
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget, Select2MultipleWidget
+from django_select2.forms import Select2Widget
+
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.core.models import FeatureFlag
@@ -624,21 +625,17 @@ class ShiftTemplateForm(forms.ModelForm):
 class ShiftTemplateDuplicateForm(forms.Form):
     week_group = forms.MultipleChoiceField(
         label=_("ABCD-Week"),
-        widget=Select2MultipleWidget,
+        widget=CheckboxSelectMultiple,
     )
     weekdays = forms.MultipleChoiceField(
-        choices=WEEKDAY_CHOICES, label=_("Weekdays"), widget=Select2MultipleWidget
+        choices=WEEKDAY_CHOICES, label=_("Weekdays"), widget=CheckboxSelectMultiple
     )
 
     def __init__(self, *args, **kwargs):
-        shift_template_copy_source = ShiftTemplate.objects.get(
-            pk=kwargs.pop("shift_pk")
-        )
         super().__init__(*args, **kwargs)
-        self.fields["week_group"].choices = self.get_weekgroup_choices()
-
-    def get_weekgroup_choices(self):
-        return ShiftTemplateGroup.objects.values_list()
+        self.fields["week_group"].choices = ShiftTemplateGroup.objects.values_list(
+            "id", "name"
+        )
 
 
 class ShiftSlotTemplateForm(forms.ModelForm):
