@@ -4009,7 +4009,7 @@ msgstr "Nicht mehr beobachten"
 #: shifts/templates/shifts/shift_detail.html:45
 #: shifts/templates/shifts/shiftwatch_overview.html:123
 msgid "You will get mail-notifications when shifts you follow change — tailored to the types of updates you choose (e.g., needs help, is full, cancellations)."
-msgstr ""
+msgstr "Du erhältst E-Mail-Benachrichtigungen, wenn sich Schichten, denen du folgst, ändern – angepasst an die von dir ausgewählten Arten von Aktualisierungen (z. B. Hilfe benötigt, voll, Stornierungen)."
 
 #: shifts/templates/shifts/shift_detail.html:46
 msgid "Watch"
@@ -4391,30 +4391,28 @@ msgstr ""
 
 #: shifts/templates/shifts/shiftwatch_overview.html:8
 msgid "Recurring Shiftwatch List"
-msgstr ""
+msgstr "Liste wiederholender Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:19
 msgid "Recurring Shift Watches"
-msgstr ""
+msgstr "Wiederholende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:25
 #: shifts/views/views.py:418
 msgid "Create a rule for recurring Shift Watches"
-msgstr ""
+msgstr "Erstelle eine Regel für sich wiederholende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:39
 msgid "You are observing all shifts based on the weekdays:"
-msgstr ""
+msgstr "Du beobachtest alle Schichten basierend auf den Wochentagen:"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:41
-#, fuzzy
-#| msgid "ABCD-Week"
 msgid "and the ABCD-Week:"
-msgstr "ABCD-Woche"
+msgstr "und der ABCD-Woche:"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:44
 msgid "You are observing all shifts based on the ABCD-Week:"
-msgstr ""
+msgstr "Du beobachtest alle Schichten basierend auf der ABCD-Woche"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:47
 msgid "You are observing all shifts on the weekdays:"
@@ -4422,25 +4420,23 @@ msgstr ""
 
 #: shifts/templates/shifts/shiftwatch_overview.html:50
 msgid "You are observing all shifts based on the shift templates:"
-msgstr ""
+msgstr "Du beobachtest alle Schichten basierend auf der ABCD-Schicht"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:58
 msgid "You are not observing any shifts."
-msgstr ""
+msgstr "Du beobachtest keine Schichten"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:62
 msgid "Observed changes:"
-msgstr ""
+msgstr "Beobachtete Änderungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:75
-#, fuzzy
-#| msgid "Shift reminder"
 msgid "Shift Watches"
-msgstr "Schicht-Erinnerung"
+msgstr "Schicht-Beobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:81
 msgid "Total"
-msgstr ""
+msgstr "Insgesamt"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:104
 msgid "Mehr anzeigen"
@@ -4569,10 +4565,8 @@ msgid "Balance at date"
 msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:20
-#, fuzzy
-#| msgid "Watched Shift has changed"
 msgid "Watched Shifts"
-msgstr "Die beobachtete Schicht hat sich geändert"
+msgstr "Beobachtete Schichten"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:50
 msgid "Find an ABCD shift"
@@ -4739,17 +4733,12 @@ msgid "None"
 msgstr "Keine"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:238
-#, fuzzy
-#| msgid "Past generated Shifts"
 msgid "Next watched Shift"
-msgstr "Vergangene Schichten"
+msgstr "Nächste beobachtete Schicht"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:243
-#, fuzzy
-#| msgctxt "Filters"
-#| msgid "Other shifts"
 msgid "No watched shifts"
-msgstr "Andere Schichten"
+msgstr "Keine beobachteten Schichten"
 
 #: shifts/templatetags/shifts.py:65 shifts/templatetags/shifts.py:170
 #: shifts/views/views.py:152
