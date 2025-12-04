@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-27 10:56+0100\n"
+"POT-Creation-Date: 2025-12-04 10:29+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -1032,7 +1032,7 @@ msgstr "Beteiligungserklärung"
 #: coop/templates/coop/draftuser_list.html:22
 #: coop/templates/coop/membership_pause/membership_pause_list.html:23
 #: coop/templates/coop/membership_resignation_list.html:25
-#: coop/templates/coop/shareowner_list.html:45
+#: coop/templates/coop/shareowner_list.html:57
 #: shifts/templates/shifts/members_on_alert_list.html:19
 #: shifts/templates/shifts/shiftexemption_list.html:24
 msgid "Export"
@@ -1041,7 +1041,7 @@ msgstr "Exportieren"
 #: coop/templates/coop/draftuser_list.html:42
 #: coop/templates/coop/membership_pause/membership_pause_list.html:43
 #: coop/templates/coop/membership_resignation_list.html:50
-#: coop/templates/coop/shareowner_list.html:60
+#: coop/templates/coop/shareowner_list.html:72
 #: log/templates/log/log_overview.html:34
 #: shifts/templates/shifts/shift_filters.html:3
 msgid "Filters"
@@ -1051,7 +1051,7 @@ msgstr "Filter"
 #: coop/templates/coop/incoming_payment_list.html:35
 #: coop/templates/coop/membership_pause/membership_pause_list.html:56
 #: coop/templates/coop/membership_resignation_list.html:62
-#: coop/templates/coop/shareowner_list.html:73
+#: coop/templates/coop/shareowner_list.html:85
 #: log/templates/log/log_overview.html:46
 #: shifts/templates/shifts/shift_calendar_template.html:66
 #: shifts/templates/shifts/shiftexemption_list.html:50
@@ -1062,7 +1062,7 @@ msgstr "Filter"
 #: coop/templates/coop/incoming_payment_list.html:40
 #: coop/templates/coop/membership_pause/membership_pause_list.html:61
 #: coop/templates/coop/membership_resignation_list.html:67
-#: coop/templates/coop/shareowner_list.html:78
+#: coop/templates/coop/shareowner_list.html:90
 #: shifts/templates/shifts/shiftexemption_list.html:55
 msgid "Clear all filters"
 msgstr "Alle Filter entfernen"
@@ -2286,21 +2286,21 @@ msgstr ""
 msgid "Go to user page"
 msgstr "Zur Nutzer*innen-Seite"
 
-#: coop/templates/coop/shareowner_list.html:32
+#: coop/templates/coop/shareowner_list.html:43
 msgid "Cooperative Members"
 msgstr "Genossenschaftsmitglieder"
 
-#: coop/templates/coop/shareowner_list.html:36
+#: coop/templates/coop/shareowner_list.html:48
 msgid "Send mail"
 msgstr ""
 
-#: coop/templates/coop/shareowner_list.html:41
+#: coop/templates/coop/shareowner_list.html:53
 #, fuzzy
 #| msgid "Email address"
 msgid "Copy mail addresses"
 msgstr "E-Mail-Adresse"
 
-#: coop/templates/coop/shareowner_list.html:81
+#: coop/templates/coop/shareowner_list.html:93
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
