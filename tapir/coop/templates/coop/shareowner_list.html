@@ -19,10 +19,21 @@
         {% endfor %}
         ]
 
+        const confirmText = "You are trying to send a mail to " + emailAddresses.length + " addresses. You should consider sending your mail through a dedicated mass mail provider to avoid landing in spam."
+
         function copyMailAddressesToClipboard() {
+            if (emailAddresses.length > 50 && !confirm(confirmText)) {
+                return;
+            }
             navigator.clipboard.writeText(emailAddresses).then(() => {
-                alert("Email addresses copied to clipboard");
+                alert(emailAddresses.length + " email addresses copied to clipboard");
             });
+        }
+
+        function warnMassMail(event) {
+            if (emailAddresses.length > 50 &&  !confirm(confirmText)) {
+                event.preventDefault();
+            }
         }
     </script>
 {% endblock head %}
@@ -32,7 +43,8 @@
             <h5>{% translate "Cooperative Members" %}</h5>
             <div class="d-flex flex-row gap-2">
                 <a class="{% tapir_button_link %}"
-                   href="mailto:?bcc={% for object in object_list %}{{ object.get_info.email }},{% endfor %}">
+                   href="mailto:?bcc={% for object in object_list %}{{ object.get_info.email }},{% endfor %}"
+                   onclick="warnMassMail(event)">
                     <span class="material-icons">mail</span>{% translate "Send mail" %}
                 </a>
                 <button type="button"
