@@ -28,13 +28,10 @@
     display: flex;
     align-items: center;
     column-gap: 10px;
-}‚
+}
 
 /* Target specific date inputs by their name attributes */
-.member-filter-form-filters input[name="join_date_start"],
-.member-filter-form-filters input[name="join_date_end"],
-.member-filter-form-filters input[name="user_date_joined_start"],
-.member-filter-form-filters input[name="user_date_joined_end"] {
-    width: 120px !important;  /* Smaller width for date input fields */
+.member-filter-form-filters input[type="date"] {
+    width: 100px !important;  /* Smaller width for date input fields */
     font-size: 0.9rem;  /* Slightly smaller font */
 }

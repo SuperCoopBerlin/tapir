@@ -316,7 +316,7 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
         
         # Verify the ownerships were created correctly
         for owner in [share_owner_1, share_owner_2, share_owner_3, share_owner_4, share_owner_5]:
-            ownerships = ShareOwnership.objects.filter(share_owner=owner).order_by('start_date')
+            ownerships = ShareOwnership.objects.filter(share_owner=owner)
             self.assertTrue(ownerships.exists(), f"Owner {owner.id} should have at least one ownership")
     
         # Test filtering by share ownership start date range
