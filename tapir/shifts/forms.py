@@ -741,6 +741,11 @@ class ShiftWatchForm(forms.ModelForm):
             self.initial["staffing_status"] = get_staffingstatus_defaults()
 
 
+class ShiftTemplateField(ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return obj.get_display_name()
+
+
 class RecurringShiftWatchForm(forms.ModelForm):
     class Meta:
         model = RecurringShiftWatch
@@ -757,8 +762,10 @@ class RecurringShiftWatchForm(forms.ModelForm):
         widget=Select2MultipleWidget,
         label="weekdays",
     )
-    shift_templates = ModelMultipleChoiceField(
-        queryset=ShiftTemplate.objects.all(),
+    shift_templates = ShiftTemplateField(
+        queryset=ShiftTemplate.objects.all().order_by(
+            "group", "weekday", "start_time", "name"
+        ),
         required=False,
         widget=Select2MultipleWidget,
         label=_("ABCD Shift"),
