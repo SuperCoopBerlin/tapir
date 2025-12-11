@@ -13,6 +13,21 @@ from tapir.shifts.models import StaffingStatusChoices
         (5, 3, 3, StaffingStatusChoices.UNDERSTAFFED, StaffingStatusChoices.ALL_CLEAR),
         (5, 4, 4, StaffingStatusChoices.ALMOST_FULL, None),
         (5, 2, 3, StaffingStatusChoices.UNDERSTAFFED, None),
+        (1, 0, 1, None, StaffingStatusChoices.UNDERSTAFFED),
+        (
+            1,
+            0,
+            1,
+            StaffingStatusChoices.UNDERSTAFFED,
+            None,
+        ),
+        (
+            1,
+            1,
+            1,
+            StaffingStatusChoices.UNDERSTAFFED,
+            StaffingStatusChoices.FULL,
+        ),
     ],
 )
 def test_getStaffingStatus_Parametrized(
