@@ -23,21 +23,24 @@ def get_staffing_status(
     last_status: str = None,
 ):
     """Determine the staffing status based on attendance counts. Returns None if status has not changed."""
-    if (
-        valid_attendances < required_attendances
-        and last_status != StaffingStatusChoices.UNDERSTAFFED
-    ):
-        return StaffingStatusChoices.UNDERSTAFFED
+    if valid_attendances < required_attendances:
+        if last_status != StaffingStatusChoices.UNDERSTAFFED:
+            return StaffingStatusChoices.UNDERSTAFFED
+        return None
 
-    if not valid_attendances < required_attendances:
-        remaining = number_of_available_slots - valid_attendances
-        if remaining == 0 and last_status != StaffingStatusChoices.FULL:
+    # not understaffed - potentially states: : FULL, ALMOST_FULL, ALL_CLEAR
+    remaining = number_of_available_slots - valid_attendances
+    if remaining == 0:
+        if last_status != StaffingStatusChoices.FULL:
             return StaffingStatusChoices.FULL
-        elif remaining == 1 and last_status != StaffingStatusChoices.ALMOST_FULL:
+        return None
+    if remaining == 1:
+        if last_status != StaffingStatusChoices.ALMOST_FULL:
             return StaffingStatusChoices.ALMOST_FULL
-        elif last_status == StaffingStatusChoices.UNDERSTAFFED:
-            # When it's ok now but last status was understaffed
-            return StaffingStatusChoices.ALL_CLEAR
+        return None
+
+    if last_status == StaffingStatusChoices.UNDERSTAFFED:
+        return StaffingStatusChoices.ALL_CLEAR
 
     return None
 
