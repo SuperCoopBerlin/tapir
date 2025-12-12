@@ -43,6 +43,10 @@ from tapir.shifts.forms import (
     ShiftWatchForm,
     RecurringShiftWatchForm,
 )
+from tapir.shifts.management.commands.send_shift_watch_mail import (
+    get_staffing_status,
+    get_staffing_status_for_shift,
+)
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -395,6 +399,14 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
     def form_valid(self, form):
         form.instance.shift = Shift.objects.get(id=self.kwargs["shift"])
         form.instance.user = self.request.user
+
+        # set initial status to avoid initial notifications
+        status = get_staffing_status_for_shift(
+            shift=form.instance.shift, last_status=None
+        )
+        if status is not None:
+            form.instance.last_staffing_status = status
+
         return super().form_valid(form)
 
 

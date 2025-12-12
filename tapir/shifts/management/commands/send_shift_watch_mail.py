@@ -1,4 +1,5 @@
 import time
+from typing import Optional
 
 from django.core.management.base import BaseCommand
 from django.utils import timezone
@@ -13,6 +14,7 @@ from tapir.shifts.models import (
     ShiftUserCapability,
     ShiftSlot,
     ShiftAttendance,
+    Shift,
 )
 
 
@@ -62,6 +64,32 @@ def get_shift_coordinator_status(
     elif this_sc_available and not last_sc_available:
         return StaffingStatusChoices.SHIFT_COORDINATOR_PLUS
     return None
+
+
+def get_staffing_status_for_shift(
+    shift: Shift, last_status: str = None
+) -> Optional[str]:
+    """
+    Compute the staffing status for a Shift instance by extracting the required
+    counts and calling get_staffing_status. Returns the status string or None.
+    """
+    this_valid_slot_ids = list(
+        ShiftSlot.objects.filter(
+            shift=shift,
+            attendances__state=ShiftAttendance.State.PENDING,
+        ).values_list("id", flat=True)
+    )
+
+    valid_attendances_count = len(this_valid_slot_ids)
+    required_attendances_count = shift.get_num_required_attendances()
+    number_of_available_slots = shift.slots.count()
+
+    return get_staffing_status(
+        number_of_available_slots=number_of_available_slots,
+        valid_attendances=valid_attendances_count,
+        required_attendances=required_attendances_count,
+        last_status=last_status,
+    )
 
 
 class Command(BaseCommand):
