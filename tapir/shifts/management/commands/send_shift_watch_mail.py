@@ -1,5 +1,4 @@
 import time
-from typing import Optional
 
 from django.core.management.base import BaseCommand
 from django.utils import timezone
@@ -15,36 +14,8 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
     Shift,
+    get_staffing_status,
 )
-
-
-def get_staffing_status(
-    number_of_available_slots: int,
-    valid_attendances: int,
-    required_attendances: int,
-    last_status: str = None,
-):
-    """Determine the staffing status based on attendance counts. Returns None if status has not changed."""
-    if valid_attendances < required_attendances:
-        if last_status != StaffingStatusChoices.UNDERSTAFFED:
-            return StaffingStatusChoices.UNDERSTAFFED
-        return None
-
-    # not understaffed - potentially states: : FULL, ALMOST_FULL, ALL_CLEAR
-    remaining = number_of_available_slots - valid_attendances
-    if remaining == 0:
-        if last_status != StaffingStatusChoices.FULL:
-            return StaffingStatusChoices.FULL
-        return None
-    if remaining == 1:
-        if last_status != StaffingStatusChoices.ALMOST_FULL:
-            return StaffingStatusChoices.ALMOST_FULL
-        return None
-
-    if last_status == StaffingStatusChoices.UNDERSTAFFED:
-        return StaffingStatusChoices.ALL_CLEAR
-
-    return None
 
 
 def get_shift_coordinator_status(
@@ -64,32 +35,6 @@ def get_shift_coordinator_status(
     elif this_sc_available and not last_sc_available:
         return StaffingStatusChoices.SHIFT_COORDINATOR_PLUS
     return None
-
-
-def get_staffing_status_for_shift(
-    shift: Shift, last_status: str = None
-) -> Optional[str]:
-    """
-    Compute the staffing status for a Shift instance by extracting the required
-    counts and calling get_staffing_status. Returns the status string or None.
-    """
-    this_valid_slot_ids = list(
-        ShiftSlot.objects.filter(
-            shift=shift,
-            attendances__state=ShiftAttendance.State.PENDING,
-        ).values_list("id", flat=True)
-    )
-
-    valid_attendances_count = len(this_valid_slot_ids)
-    required_attendances_count = shift.get_num_required_attendances()
-    number_of_available_slots = shift.slots.count()
-
-    return get_staffing_status(
-        number_of_available_slots=number_of_available_slots,
-        valid_attendances=valid_attendances_count,
-        required_attendances=required_attendances_count,
-        last_status=last_status,
-    )
 
 
 class Command(BaseCommand):

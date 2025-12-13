@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import calendar
 import datetime
+from typing import Optional
 
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
@@ -1234,6 +1235,80 @@ def get_staffingstatus_defaults():
     return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
 
 
+def get_staffing_status(
+    number_of_available_slots: int,
+    valid_attendances: int,
+    required_attendances: int,
+    last_status: str = None,
+):
+    """Determine the staffing status based on attendance counts. Returns None if status has not changed."""
+    if valid_attendances < required_attendances:
+        if last_status != StaffingStatusChoices.UNDERSTAFFED:
+            return StaffingStatusChoices.UNDERSTAFFED
+        return None
+
+    # not understaffed - potentially states: : FULL, ALMOST_FULL, ALL_CLEAR
+    remaining = number_of_available_slots - valid_attendances
+    if remaining == 0:
+        if last_status != StaffingStatusChoices.FULL:
+            return StaffingStatusChoices.FULL
+        return None
+    if remaining == 1:
+        if last_status != StaffingStatusChoices.ALMOST_FULL:
+            return StaffingStatusChoices.ALMOST_FULL
+        return None
+
+    if last_status == StaffingStatusChoices.UNDERSTAFFED:
+        return StaffingStatusChoices.ALL_CLEAR
+
+    return None
+
+
+def get_shift_coordinator_status(
+    this_valid_slot_ids: list[int], last_valid_slot_ids: list[int]
+):
+    # Team-leader/Shift-Coordinator notifications
+    def is_shift_coordinator_available(slot_ids: list[int]):
+        return ShiftSlot.objects.filter(
+            id__in=slot_ids,
+            required_capabilities__contains=[ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+
+    this_sc_available = is_shift_coordinator_available(this_valid_slot_ids)
+    last_sc_available = is_shift_coordinator_available(last_valid_slot_ids)
+    if not this_sc_available and last_sc_available:
+        return StaffingStatusChoices.SHIFT_COORDINATOR_MINUS
+    elif this_sc_available and not last_sc_available:
+        return StaffingStatusChoices.SHIFT_COORDINATOR_PLUS
+    return None
+
+
+def get_staffing_status_for_shift(
+    shift: Shift, last_status: str = None
+) -> Optional[str]:
+    """
+    Compute the staffing status for a Shift instance by extracting the required
+    counts and calling get_staffing_status. Returns the status string or None.
+    """
+    this_valid_slot_ids = list(
+        ShiftSlot.objects.filter(
+            shift=shift,
+            attendances__state=ShiftAttendance.State.PENDING,
+        ).values_list("id", flat=True)
+    )
+
+    valid_attendances_count = len(this_valid_slot_ids)
+    required_attendances_count = shift.get_num_required_attendances()
+    number_of_available_slots = shift.slots.count()
+
+    return get_staffing_status(
+        number_of_available_slots=number_of_available_slots,
+        valid_attendances=valid_attendances_count,
+        required_attendances=required_attendances_count,
+        last_status=last_status,
+    )
+
+
 class ShiftWatch(models.Model):
     user = models.ForeignKey(
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
@@ -1262,6 +1337,11 @@ class ShiftWatch(models.Model):
         blank=True,
         on_delete=models.CASCADE,
     )
+
+    def save(self, *args, **kwargs):
+        if not self.last_staffing_status and self.shift:
+            self.last_staffing_status = get_staffing_status_for_shift(self.shift)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         shift_name = self.shift.get_display_name()
