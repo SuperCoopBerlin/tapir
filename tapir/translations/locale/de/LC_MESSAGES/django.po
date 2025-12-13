@@ -3267,7 +3267,7 @@ msgstr "Die Schicht ist jetzt unterbesetzt."
 
 #: shifts/models.py:1213
 msgid "Shift stable: not understaffed, not fully staffed."
-msgstr ""Schicht stabil: nicht unter- oder voll besetzt.""
+msgstr "Schicht stabil: nicht unter- oder vollbesetzt."
 
 #: shifts/models.py:1215
 msgid "One new attendance or more registered, but the shift is neither understaffed nor full or almost full."
