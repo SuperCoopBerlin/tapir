@@ -1210,9 +1210,7 @@ class StaffingStatusChoices(models.TextChoices):
     ALMOST_FULL = "ALMOST_FULL", _("Shift is almost full, only one spot left.")
     FULL = "FULL", _("Shift is full now.")
     UNDERSTAFFED = "UNDERSTAFFED", _("The Shift is understaffed!")
-    ALL_CLEAR = "ALL_CLEAR", _(
-        "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
-    )
+    ALL_CLEAR = "ALL_CLEAR", _("Shift stable: not understaffed, not fully staffed.")
     ATTENDANCE_PLUS = "SLOTS_PLUS", _(
         "One new attendance or more registered, but the shift is neither understaffed nor full or almost full."
     )

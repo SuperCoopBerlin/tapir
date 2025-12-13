@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-13 17:31+0100\n"
+"POT-Creation-Date: 2025-12-13 17:35+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3265,23 +3265,23 @@ msgstr "Die Schicht ist jetzt voll."
 msgid "The Shift is understaffed!"
 msgstr "Die Schicht ist jetzt unterbesetzt."
 
-#: shifts/models.py:1214
-msgid "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
-msgstr "Entwarnung. Die schicht ist nicht länger unterbesetzt, aber es noch Platz übrig"
+#: shifts/models.py:1213
+msgid "Shift stable: not understaffed, not fully staffed."
+msgstr ""Schicht stabil: nicht unter- oder voll besetzt.""
 
-#: shifts/models.py:1217
+#: shifts/models.py:1215
 msgid "One new attendance or more registered, but the shift is neither understaffed nor full or almost full."
 msgstr "Ein Mitglied oder mehr hat sich registriert, aber die Schicht ist weder unterbesetzt noch (fast) voll"
 
-#: shifts/models.py:1220
+#: shifts/models.py:1218
 msgid "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
 msgstr "Ein Mitglied oder mehr hat sich abgemeldet, aber die Schicht ist weder unterbesetzt noch (fast) voll"
 
-#: shifts/models.py:1223
+#: shifts/models.py:1221
 msgid "The Shift Coordinator has unregistered"
 msgstr "Ein Teamleiter hat sich abgemeldet"
 
-#: shifts/models.py:1226
+#: shifts/models.py:1224
 msgid "A Shift Coordinator has registered"
 msgstr "Ein Teamleiter hat sich angemeldet"
 
