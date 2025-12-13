@@ -1,0 +1,29 @@
+name: Reset Test Database
+
+on:
+  workflow_dispatch:
+
+jobs:
+  reset-test-db:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup SSH Keys and known_hosts
+        shell: bash
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+          mkdir -p $HOME/.ssh
+          ssh-keyscan -H test1.supercoop.de > $HOME/.ssh/known_hosts
+
+      - name: reset database
+        shell: bash
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          docker context create test1.supercoop.de --docker host=ssh://"remote-deploy-tapir@test1.supercoop.de"
+          docker context use test1.supercoop.de
+          container=$(docker ps --filter "ancestor=ghcr.io/supercoopberlin/tapir" --format '{{.Names}}' | head -n1) && \
+          docker exec -it "$container" sh -c "poetry run python manage.py migrate && poetry run python manage.py generate_test_data --reset_all"
