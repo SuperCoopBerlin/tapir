@@ -6,10 +6,12 @@ from django.forms import (
     ModelChoiceField,
     CheckboxSelectMultiple,
     BooleanField,
+    ModelMultipleChoiceField,
+    CharField,
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -23,6 +25,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     SHIFT_USER_CAPABILITY_CHOICES,
     ShiftSlotTemplate,
+    ShiftTemplateGroup,
     ShiftSlot,
     ShiftAccountEntry,
     ShiftExemption,
@@ -30,9 +33,11 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftAttendanceMode,
     ShiftWatch,
-    StaffingStatusChoices,
     get_staffingstatus_defaults,
     get_staffingstatus_choices,
+    RecurringShiftWatch,
+    WEEKDAY_CHOICES,
+    ShiftTemplateGroup,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -580,6 +585,31 @@ class ShiftCancelForm(forms.ModelForm):
         return super().clean()
 
 
+class BulkShiftCancelForm(forms.Form):
+
+    def __init__(self, **kwargs):
+        shifts: list[Shift] = kwargs.pop("shifts", [])
+        super().__init__(**kwargs)
+        for shift in shifts:
+            label = f"{_('Shift')}: {shift.get_display_name()}"
+            help_text = _("already cancelled") if shift.cancelled else ""
+
+            self.fields[f"shift_{shift.id}"] = BooleanField(
+                initial=not shift.cancelled,
+                label=label,
+                required=False,
+                disabled=shift.cancelled,
+                help_text=help_text,
+            )
+
+        self.fields["cancellation_reason"] = CharField(
+            max_length=1000,
+            required=True,
+            label=_("Cancellation Reason"),
+            help_text=_("This reason will be applied to all cancelled shifts."),
+        )
+
+
 class ShiftTemplateForm(forms.ModelForm):
     class Meta:
         model = ShiftTemplate
@@ -619,6 +649,22 @@ class ShiftTemplateForm(forms.ModelForm):
             self.fields["num_required_attendances"].widget.attrs[
                 "max"
             ] = shift_slot_count
+
+
+class ShiftTemplateDuplicateForm(forms.Form):
+    week_group = forms.MultipleChoiceField(
+        label=_("ABCD-Week"),
+        widget=CheckboxSelectMultiple,
+    )
+    weekdays = forms.MultipleChoiceField(
+        choices=WEEKDAY_CHOICES, label=_("Weekdays"), widget=CheckboxSelectMultiple
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["week_group"].choices = ShiftTemplateGroup.objects.values_list(
+            "id", "name"
+        )
 
 
 class ShiftSlotTemplateForm(forms.ModelForm):
@@ -693,3 +739,79 @@ class ShiftWatchForm(forms.ModelForm):
             self.initial["staffing_status"] = last_shiftwatch.staffing_status
         else:
             self.initial["staffing_status"] = get_staffingstatus_defaults()
+
+
+class ShiftTemplateField(ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return obj.get_display_name()
+
+
+class RecurringShiftWatchForm(forms.ModelForm):
+    class Meta:
+        model = RecurringShiftWatch
+        fields = [
+            "shift_templates",
+            "weekdays",
+            "shift_template_group",
+            "staffing_status",
+        ]
+
+    weekdays = forms.MultipleChoiceField(
+        required=False,
+        choices=WEEKDAY_CHOICES,
+        widget=Select2MultipleWidget,
+        label="weekdays",
+    )
+    shift_templates = ShiftTemplateField(
+        queryset=ShiftTemplate.objects.all().order_by(
+            "group", "weekday", "start_time", "name"
+        ),
+        required=False,
+        widget=Select2MultipleWidget,
+        label=_("ABCD Shift"),
+    )
+    shift_template_group = forms.MultipleChoiceField(
+        required=False,
+        choices=[(p["name"], p["name"]) for p in ShiftTemplateGroup.NAME_INT_PAIRS],
+        widget=CheckboxSelectMultiple(),
+        label=_("ABCD Week"),
+    )
+    staffing_status = forms.MultipleChoiceField(
+        required=True,
+        choices=get_staffingstatus_choices,
+        label=_("Shift changes you would like to be informed about"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+    )
+
+    WEEKDAYS_ERROR = _(
+        "If weekdays or %(shift_template_group)s are selected, "
+        "%(shift_templates)s may not be selected, and vice versa."
+    )
+    AT_LEAST_ONE_ERROR = _(
+        "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
+    )
+
+    def _format_field_names(self):
+        return {
+            "shift_template_group": self.fields["shift_template_group"].label,
+            "shift_templates": self.fields["shift_templates"].label,
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        shift_templates = cleaned_data.get("shift_templates")
+        weekdays = cleaned_data.get("weekdays")
+        cleaned_data["weekdays"] = list(map(int, weekdays))
+        shift_template_group = cleaned_data.get("shift_template_group")
+
+        if (weekdays or shift_template_group) and shift_templates:
+            raise forms.ValidationError(
+                self.WEEKDAYS_ERROR % self._format_field_names()
+            )
+
+        if not (shift_templates or weekdays or shift_template_group):
+            raise forms.ValidationError(
+                self.AT_LEAST_ONE_ERROR % self._format_field_names()
+            )
+        return cleaned_data

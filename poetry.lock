@@ -1156,14 +1156,14 @@ files = [
 
 [[package]]
 name = "django"
-version = "5.2.7"
+version = "5.2.9"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
 optional = false
 python-versions = ">=3.10"
 groups = ["main", "dev"]
 files = [
-    {file = "django-5.2.7-py3-none-any.whl", hash = "sha256:59a13a6515f787dec9d97a0438cd2efac78c8aca1c80025244b0fe507fe0754b"},
-    {file = "django-5.2.7.tar.gz", hash = "sha256:e0f6f12e2551b1716a95a63a1366ca91bbcd7be059862c1b18f989b1da356cdd"},
+    {file = "django-5.2.9-py3-none-any.whl", hash = "sha256:3a4ea88a70370557ab1930b332fd2887a9f48654261cdffda663fef5976bb00a"},
+    {file = "django-5.2.9.tar.gz", hash = "sha256:16b5ccfc5e8c27e6c0561af551d2ea32852d7352c67d452ae3e76b4f6b2ca495"},
 ]
 
 [package.dependencies]
@@ -1381,14 +1381,14 @@ formatting = ["autopep8"]
 
 [[package]]
 name = "django-tables2"
-version = "2.7.5"
+version = "2.8.0"
 description = "Table/data-grid framework for Django"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "django_tables2-2.7.5-py3-none-any.whl", hash = "sha256:d9338937797207ffb6f481be2125c5ec3a0bb1858d409c672cc25fc5d654cb22"},
-    {file = "django_tables2-2.7.5.tar.gz", hash = "sha256:fb5dcaa09379cf3947598ec7e1bd5f26ed63aafdee3b23963446763bbeac37bf"},
+    {file = "django_tables2-2.8.0-py3-none-any.whl", hash = "sha256:860633b0f448216af73fca6005c7e38dc9b46931dc36c08a9281a71ee250b1ee"},
+    {file = "django_tables2-2.8.0.tar.gz", hash = "sha256:0dea3401bb99a0164ba09e20d59a7d90856fdc05e5ae2da9a14d0fa14d99257c"},
 ]
 
 [package.dependencies]
@@ -4263,4 +4263,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0"
-content-hash = "5f8bfac3e2e585004042b45c5ed0d48557eeac322ace8dcd443083a58c4f27c1"
+content-hash = "d323ac6aa412c5d2e67a652e4dcd29dffed5922005458cd902558fc844537b2d"

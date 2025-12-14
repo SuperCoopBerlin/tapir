@@ -18,11 +18,9 @@ urlpatterns = [
         name="shift_day_printable",
     ),
     path(
-        "shift/<str:day>/day_printable_v0",
-        views.ShiftDayPrintableView.as_view(
-            template_name="shifts/shift_day_printable_v0.html"
-        ),
-        name="shift_day_printable_v0",
+        "shift/<str:day>/day_cancel",
+        views.CancelDayShiftsView.as_view(),
+        name="shift_day_cancel",
     ),
     path(
         "shift/<int:pk>/edit",
@@ -58,6 +56,11 @@ urlpatterns = [
         "shifttemplate/<int:pk>",
         views.ShiftTemplateDetail.as_view(),
         name="shift_template_detail",
+    ),
+    path(
+        "shift_template_duplicate/<int:shift_pk>/create",
+        views.ShiftTemplateDuplicateView.as_view(),
+        name="shift_template_duplicate",
     ),
     path(
         "shifttemplate/overview",
@@ -226,5 +229,15 @@ urlpatterns = [
         "unwatch_shift/<int:shift>/",
         views.UnwatchShiftView.as_view(),
         name="unwatch_shift",
+    ),
+    path(
+        "create_watch_recurring_shifts/<int:pk>",
+        views.CreateRecurringShiftWatchView.as_view(),
+        name="create_watch_recurring_shifts",
+    ),
+    path(
+        "shiftwatch_overview/<int:pk>",
+        views.RecurringShiftwatchListView.as_view(),
+        name="shiftwatch_overview",
     ),
 ]
