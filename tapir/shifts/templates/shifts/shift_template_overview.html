@@ -13,7 +13,12 @@
     {% translate 'ABCD week-plan' %}
 {% endblock title %}
 {% block content %}
-    <div class="d-flex align-items-end flex-column m-2">
+    <div class="d-flex align-items-center justify-content-end m-2">
+        <a class="{% tapir_button_link %} me-2"
+           href="{% url 'shifts:shift_template_group_calendar' %}">
+            <span class="material-icons">table_view</span>
+            {% translate "ABCD annual calendar" %}
+        </a>
         <button class="{% tapir_button_link %}"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseCalendarInfo"
