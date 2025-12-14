@@ -296,7 +296,6 @@ class ShareOwnerDeleteView(
     permission_required = PERMISSION_GROUP_MANAGE
     model = ShareOwner
 
-
     def get_success_url(self):
         return reverse("coop:shareowner_list")
 
@@ -309,7 +308,6 @@ class ShareOwnerDeleteView(
     @transaction.atomic
     def form_valid(self, form):
         share_owner = self.get_object()
-        self.get_object().delete()
         DeleteShareOwnerLogEntry().populate(
             share_owner=share_owner,
             actor=self.request.user,
