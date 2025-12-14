@@ -296,8 +296,6 @@ class ShareOwnerDeleteView(
     permission_required = PERMISSION_GROUP_MANAGE
     model = ShareOwner
 
-    def get_object(self, queryset=None):
-        return super().get_object(queryset)
 
     def get_success_url(self):
         return reverse("coop:shareowner_list")
