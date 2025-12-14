@@ -17,6 +17,7 @@ from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.config import help_text_displayed_name
+from tapir.core.models import SoftDeleteMixin, NonDeleted
 from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.models import (
@@ -111,32 +112,6 @@ class ShareOwnerQuerySet(models.QuerySet):
             ).distinct()
 
         raise TapirException(f"Invalid status : {status}")
-
-
-class NonDeleted(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(deleted_at__isnull=True)
-
-
-class SoftDeleteMixin(models.Model):
-    deleted_at = models.DateTimeField(null=True, blank=True, default=None)
-
-    class Meta:
-        abstract = True
-
-    objects = NonDeleted()
-    everything = models.Manager()
-
-    def delete(self, using=None, keep_parents=False):
-        self.deleted_at = timezone.now()
-        self.save(update_fields=["deleted_at"])
-
-    def hard_delete(self, using=None, keep_parents=False):
-        super().delete(using=using, keep_parents=keep_parents)
-
-    def restore(self):
-        self.deleted_at = None
-        self.save(update_fields=["deleted_at"])
 
 
 class ShareOwner(SoftDeleteMixin, models.Model):

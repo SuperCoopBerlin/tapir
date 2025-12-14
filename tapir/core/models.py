@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -27,3 +28,29 @@ class FeatureFlag(models.Model):
         if cls.objects.filter(flag_name=flag_name).exists():
             return
         cls.objects.create(flag_name=flag_name)
+
+
+class NonDeleted(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted_at__isnull=True)
+
+
+class SoftDeleteMixin(models.Model):
+    deleted_at = models.DateTimeField(null=True, blank=True, default=None)
+
+    class Meta:
+        abstract = True
+
+    objects = NonDeleted()
+    everything = models.Manager()
+
+    def delete(self, using=None, keep_parents=False):
+        self.deleted_at = timezone.now()
+        self.save(update_fields=["deleted_at"])
+
+    def hard_delete(self, using=None, keep_parents=False):
+        super().delete(using=using, keep_parents=keep_parents)
+
+    def restore(self):
+        self.deleted_at = None
+        self.save(update_fields=["deleted_at"])
