@@ -46,7 +46,7 @@ class SoftDeleteMixin(models.Model):
 
     def delete(self, using=None, keep_parents=False):
         self.deleted_at = timezone.now()
-        self.save(update_fields=["deleted_at"])
+        self.save(update_fields=["deleted_at"], using=using)
 
     def hard_delete(self, using=None, keep_parents=False):
         super().delete(using=using, keep_parents=keep_parents)
