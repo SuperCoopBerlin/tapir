@@ -6,11 +6,12 @@ from django.forms import (
     ModelChoiceField,
     CheckboxSelectMultiple,
     BooleanField,
+    ModelMultipleChoiceField,
     CharField,
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget
+from django_select2.forms import Select2Widget, Select2MultipleWidget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -34,7 +35,9 @@ from tapir.shifts.models import (
     ShiftWatch,
     get_staffingstatus_defaults,
     get_staffingstatus_choices,
+    RecurringShiftWatch,
     WEEKDAY_CHOICES,
+    ShiftTemplateGroup,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -736,3 +739,79 @@ class ShiftWatchForm(forms.ModelForm):
             self.initial["staffing_status"] = last_shiftwatch.staffing_status
         else:
             self.initial["staffing_status"] = get_staffingstatus_defaults()
+
+
+class ShiftTemplateField(ModelMultipleChoiceField):
+    def label_from_instance(self, obj):
+        return obj.get_display_name()
+
+
+class RecurringShiftWatchForm(forms.ModelForm):
+    class Meta:
+        model = RecurringShiftWatch
+        fields = [
+            "shift_templates",
+            "weekdays",
+            "shift_template_group",
+            "staffing_status",
+        ]
+
+    weekdays = forms.MultipleChoiceField(
+        required=False,
+        choices=WEEKDAY_CHOICES,
+        widget=Select2MultipleWidget,
+        label="weekdays",
+    )
+    shift_templates = ShiftTemplateField(
+        queryset=ShiftTemplate.objects.all().order_by(
+            "group", "weekday", "start_time", "name"
+        ),
+        required=False,
+        widget=Select2MultipleWidget,
+        label=_("ABCD Shift"),
+    )
+    shift_template_group = forms.MultipleChoiceField(
+        required=False,
+        choices=[(p["name"], p["name"]) for p in ShiftTemplateGroup.NAME_INT_PAIRS],
+        widget=CheckboxSelectMultiple(),
+        label=_("ABCD Week"),
+    )
+    staffing_status = forms.MultipleChoiceField(
+        required=True,
+        choices=get_staffingstatus_choices,
+        label=_("Shift changes you would like to be informed about"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+    )
+
+    WEEKDAYS_ERROR = _(
+        "If weekdays or %(shift_template_group)s are selected, "
+        "%(shift_templates)s may not be selected, and vice versa."
+    )
+    AT_LEAST_ONE_ERROR = _(
+        "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
+    )
+
+    def _format_field_names(self):
+        return {
+            "shift_template_group": self.fields["shift_template_group"].label,
+            "shift_templates": self.fields["shift_templates"].label,
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        shift_templates = cleaned_data.get("shift_templates")
+        weekdays = cleaned_data.get("weekdays")
+        cleaned_data["weekdays"] = list(map(int, weekdays))
+        shift_template_group = cleaned_data.get("shift_template_group")
+
+        if (weekdays or shift_template_group) and shift_templates:
+            raise forms.ValidationError(
+                self.WEEKDAYS_ERROR % self._format_field_names()
+            )
+
+        if not (shift_templates or weekdays or shift_template_group):
+            raise forms.ValidationError(
+                self.AT_LEAST_ONE_ERROR % self._format_field_names()
+            )
+        return cleaned_data
