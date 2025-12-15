@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-15 14:57+0100\n"
+"POT-Creation-Date: 2025-12-15 15:05+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2564,7 +2564,7 @@ msgstr "Ist derzeit von der Schichtarbeit befreit"
 msgid "Shift Name"
 msgstr "Schichtname"
 
-#: coop/views/shareowner.py:976
+#: coop/views/shareowner.py:978
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
