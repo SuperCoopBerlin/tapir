@@ -90,10 +90,10 @@ from tapir.shifts.models import (
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
+from tapir.utils.forms import DateFromToRangeFilterTapir
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import set_header_for_file_download
 from tapir.utils.user_utils import UserUtils
-from tapir.utils.forms import DateFromToRangeFilterTapir
 
 
 class ShareOwnershipViewMixin:
@@ -673,7 +673,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     user_date_joined = DateFromToRangeFilterTapir(
         method="filter_by_user_date_joined", label="Account creation date"
     )
-    
+
     @staticmethod
     def shift_slot_filter(queryset: ShareOwner.ShareOwnerQuerySet, name, value: str):
         return queryset.filter(
@@ -793,35 +793,37 @@ class ShareOwnerFilter(django_filters.FilterSet):
         return queryset.filter(
             user__shift_user_data__shift_partner_of__isnull=not value
         )
-    
+
     @staticmethod
     def filter_by_join_date(queryset: ShareOwner.ShareOwnerQuerySet, name, value):
         """Filter ShareOwners based on their first share ownership start date."""
         if value.start or value.stop:
             # Get the earliest start date for each share owner
-            earliest_dates = ShareOwnership.objects.filter(
-                share_owner=OuterRef('pk')
-            ).order_by('start_date').values('start_date')[:1]
-            
-            # Annotate with first share date
-            queryset = queryset.annotate(
-                first_share_date=Subquery(earliest_dates)
+            earliest_dates = (
+                ShareOwnership.objects.filter(share_owner=OuterRef("pk"))
+                .order_by("start_date")
+                .values("start_date")[:1]
             )
-            
+
+            # Annotate with first share date
+            queryset = queryset.annotate(first_share_date=Subquery(earliest_dates))
+
             # Apply filters based on what's provided
             if value.start:
                 queryset = queryset.filter(first_share_date__gte=value.start)
             if value.stop:
                 queryset = queryset.filter(first_share_date__lte=value.stop)
-                    
+
         return queryset.distinct()
-        
+
     @staticmethod
-    def filter_by_user_date_joined(queryset: ShareOwner.ShareOwnerQuerySet, name, value):
+    def filter_by_user_date_joined(
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value
+    ):
         """Filter ShareOwners based on when their associated TapirUser account was created."""
         if value.start or value.stop:
             queryset = queryset.filter(user__isnull=False)
-            
+
             if value.start:
                 queryset = queryset.filter(user__date_joined__date__gte=value.start)
             if value.stop:
