@@ -59,7 +59,7 @@ RUN apt-get update \
     && apt-get install --no-install-recommends -y libpq-dev gettext libldap2-dev libsasl2-dev  \
     libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd -g 1001 appgroup && \
     useradd -u 1001 -g appgroup -m -d /home/appuser -s /bin/bash appuser
