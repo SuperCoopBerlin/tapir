@@ -79,4 +79,4 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
-          file: django.prod.Dockerfile
+          file: django.Dockerfile
