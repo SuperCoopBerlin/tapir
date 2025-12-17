@@ -69,4 +69,7 @@ WORKDIR /app
 COPY --from=build --chown=appuser:appgroup /opt/pysetup/.venv /opt/pysetup/.venv
 COPY --from=build --chown=appuser:appgroup /opt/pysetup/ ./
 COPY --chown=appuser:appgroup . .
+
+RUN python manage.py compilemessages
+
 USER appuser
