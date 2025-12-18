@@ -292,3 +292,122 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
             must_be_in=owners_who_attended,
             must_be_out=owners_who_did_not_attend,
         )
+
+    def test_join_date_filter(self):
+        # Create ShareOwners with specific share ownership start dates
+        # First, create owners without shares
+        share_owner_1 = ShareOwnerFactory.create(nb_shares=0)
+        share_owner_2 = ShareOwnerFactory.create(nb_shares=0)
+        share_owner_3 = ShareOwnerFactory.create(nb_shares=0)
+        share_owner_4 = ShareOwnerFactory.create(nb_shares=0)  # Extra owner for 2023
+        share_owner_5 = ShareOwnerFactory.create(nb_shares=0)  # Extra owner for 2022
+
+        # Then create ownerships with specific dates for 2023
+        so1 = ShareOwnership.objects.create(
+            share_owner=share_owner_1, start_date=datetime.date(2023, 1, 1)
+        )
+        so2 = ShareOwnership.objects.create(
+            share_owner=share_owner_2, start_date=datetime.date(2023, 6, 1)
+        )
+        so4 = ShareOwnership.objects.create(
+            share_owner=share_owner_4, start_date=datetime.date(2023, 3, 1)
+        )
+
+        # Create ownerships with 2022 dates
+        so3_1 = ShareOwnership.objects.create(
+            share_owner=share_owner_3, start_date=datetime.date(2022, 1, 1)
+        )
+        so5 = ShareOwnership.objects.create(
+            share_owner=share_owner_5, start_date=datetime.date(2022, 6, 1)
+        )
+
+        # Second share with start date in 2023 (but owner's first share is in 2022)
+        so3_2 = ShareOwnership.objects.create(
+            share_owner=share_owner_3, start_date=datetime.date(2023, 5, 1)
+        )
+
+        # Verify the ownerships were created correctly
+        for owner in [
+            share_owner_1,
+            share_owner_2,
+            share_owner_3,
+            share_owner_4,
+            share_owner_5,
+        ]:
+            ownerships = ShareOwnership.objects.filter(share_owner=owner)
+            self.assertTrue(
+                ownerships.exists(),
+                f"Owner {owner.id} should have at least one ownership",
+            )
+
+        # Test filtering by share ownership start date range
+        # share_owner_3 should not be included in 2023 range because its first share ownership is in 2022
+        self.visit_view(
+            {"join_date_start": "2023-01-01", "join_date_end": "2023-12-31"},
+            must_be_in=[share_owner_1, share_owner_2, share_owner_4],
+            must_be_out=[share_owner_3, share_owner_5],
+        )
+
+        # Test filtering for 2022 should include share_owner_3 and share_owner_5
+        self.visit_view(
+            {"join_date_start": "2022-01-01", "join_date_end": "2022-12-31"},
+            must_be_in=[share_owner_3, share_owner_5],
+            must_be_out=[share_owner_1, share_owner_2, share_owner_4],
+        )
+
+    def test_user_date_joined_filter(self):
+        # Create users with different date_joined values
+        user_1 = TapirUserFactory.create(
+            date_joined=timezone.make_aware(datetime.datetime(2023, 1, 1))
+        )
+        share_owner_1 = user_1.share_owner
+
+        user_2 = TapirUserFactory.create(
+            date_joined=timezone.make_aware(datetime.datetime(2023, 6, 1))
+        )
+        share_owner_2 = user_2.share_owner
+
+        # Add a third user in 2023 to avoid single-result redirect
+        user_extra = TapirUserFactory.create(
+            date_joined=timezone.make_aware(datetime.datetime(2023, 3, 15))
+        )
+        share_owner_extra = user_extra.share_owner
+
+        user_3 = TapirUserFactory.create(
+            date_joined=timezone.make_aware(datetime.datetime(2022, 1, 1))
+        )
+        share_owner_3 = user_3.share_owner
+
+        # Add a second user in 2022 to avoid single-result redirect
+        user_3b = TapirUserFactory.create(
+            date_joined=timezone.make_aware(datetime.datetime(2022, 6, 1))
+        )
+        share_owner_3b = user_3b.share_owner
+
+        # Create a ShareOwner without a user
+        share_owner_4 = ShareOwnerFactory.create()
+
+        # Test filtering by user account creation date range
+        self.visit_view(
+            {
+                "user_date_joined_start": "2023-01-01",
+                "user_date_joined_end": "2023-12-31",
+            },
+            must_be_in=[share_owner_1, share_owner_2, share_owner_extra],
+            must_be_out=[share_owner_3, share_owner_3b, share_owner_4],
+        )
+
+        # Test filtering for 2022
+        self.visit_view(
+            {
+                "user_date_joined_start": "2022-01-01",
+                "user_date_joined_end": "2022-12-31",
+            },
+            must_be_in=[share_owner_3, share_owner_3b],
+            must_be_out=[
+                share_owner_1,
+                share_owner_2,
+                share_owner_extra,
+                share_owner_4,
+            ],
+        )
