@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-15 15:05+0100\n"
+"POT-Creation-Date: 2025-12-18 19:01+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -1031,7 +1031,7 @@ msgstr "Filter"
 #: coop/templates/coop/membership_resignation_list.html:62
 #: coop/templates/coop/shareowner_list.html:85
 #: log/templates/log/log_overview.html:46
-#: shifts/templates/shifts/shift_calendar_template.html:66
+#: shifts/templates/shifts/shift_calendar_template.html:71
 #: shifts/templates/shifts/shiftexemption_list.html:50
 msgid "Filter"
 msgstr "Filter"
@@ -2897,16 +2897,9 @@ msgstr "Schicht-Kalender"
 msgid "ABCD-shifts week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
-#: shifts/apps.py:69 shifts/templates/shifts/shift_management.html:7
+#: shifts/apps.py:61 shifts/templates/shifts/shift_management.html:7
 msgid "Shift management"
 msgstr "Schicht-Verwaltung"
-
-#: shifts/apps.py:86
-#, python-brace-format
-msgid "ABCD annual calendar, current week: {current_week_group_name}"
-msgstr ""
-"ABCD-Jahreskalender\n"
-"Aktuelle Woche: {current_week_group_name}"
 
 #: shifts/emails/flying_member_registration_reminder_email.py:17
 msgid "Flying member registration reminder"
@@ -3907,25 +3900,30 @@ msgstr ""
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/templates/shifts/shift_calendar_template.html:27
-#: shifts/templates/shifts/shift_template_overview.html:22
+#: shifts/templates/shifts/shift_calendar_template.html:25
+#: shifts/templates/shifts/shift_template_overview.html:20
+msgid "ABCD annual calendar"
+msgstr "ABCD-Wochenkalender"
+
+#: shifts/templates/shifts/shift_calendar_template.html:32
+#: shifts/templates/shifts/shift_template_overview.html:27
 msgid "Legend & Filters"
 msgstr "Legende & Filter"
 
-#: shifts/templates/shifts/shift_calendar_template.html:50
+#: shifts/templates/shifts/shift_calendar_template.html:55
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_calendar_template.html:51
-#: shifts/templates/shifts/shift_template_overview.html:52
+#: shifts/templates/shifts/shift_calendar_template.html:56
+#: shifts/templates/shifts/shift_template_overview.html:57
 msgid "Week "
 msgstr "Woche "
 
-#: shifts/templates/shifts/shift_calendar_template.html:55
+#: shifts/templates/shifts/shift_calendar_template.html:60
 msgid "From"
 msgstr "Vom"
 
-#: shifts/templates/shifts/shift_calendar_template.html:62
+#: shifts/templates/shifts/shift_calendar_template.html:67
 msgid "To"
 msgstr "Zum"
 
@@ -4359,11 +4357,11 @@ msgstr "als pdf"
 msgid "ABCD week-plan"
 msgstr "ABCD-Schicht-Wochenplan"
 
-#: shifts/templates/shifts/shift_template_overview.html:30
+#: shifts/templates/shifts/shift_template_overview.html:35
 msgid "ABCD schedule overview, current week: "
 msgstr "ABCD-Zeitplan Übersicht, laufende Woche: "
 
-#: shifts/templates/shifts/shift_template_overview.html:33
+#: shifts/templates/shifts/shift_template_overview.html:38
 msgid ""
 "\n"
 "                    <p>This is the ABCD shiftplan. It repeats every four weeks. That's why you see only weekdays\n"
@@ -4377,7 +4375,7 @@ msgstr ""
 "<p>Wenn du deine regelmäßige ABCD-Schicht ändern möchtest, wende dich bitte ans Mitgliederbüro.</p>\n"
 " "
 
-#: shifts/templates/shifts/shift_template_overview.html:47
+#: shifts/templates/shifts/shift_template_overview.html:52
 msgid "Calendar of ABCD shifts"
 msgstr "Kalender der ABCD-Schichten"
 
@@ -6289,6 +6287,12 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, python-brace-format
+#~ msgid "ABCD annual calendar, current week: {current_week_group_name}"
+#~ msgstr ""
+#~ "ABCD-Jahreskalender\n"
+#~ "Aktuelle Woche: {current_week_group_name}"
 
 #, fuzzy
 #~| msgid "Edit shareowner"
