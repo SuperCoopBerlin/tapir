@@ -1333,7 +1333,7 @@ class ShiftWatch(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        if not self.last_staffing_status and self.shift:
+        if not self.last_staffing_status:
             self.last_staffing_status = get_staffing_status_for_shift(self.shift)
         super().save(*args, **kwargs)
 
