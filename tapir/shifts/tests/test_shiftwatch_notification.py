@@ -27,12 +27,12 @@ def create_shift_with_attendance(num_attendances):
         start_time=timezone.now() + datetime.timedelta(days=1),
         end_time=timezone.now() + datetime.timedelta(days=1, hours=2),
     )
-    slots = {}
+    slots = []
     for _ in range(num_attendances):
         slot = ShiftSlot.objects.create(shift=shift, name="cheese-making")
         user = TapirUserFactory.create()
         ShiftAttendance.objects.create(user=user, slot=slot)
-        slots[user] = slot.pk
+        slots.append(slot.pk)
     return shift, slots
 
 
@@ -47,10 +47,10 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         )
 
     def unregister_first_slot(self):
-        first_user, first_slot = next(iter(self.slots.items()))
-        ShiftAttendance.objects.filter(slot=first_slot, user=first_user).update(
-            state=ShiftAttendance.State.LOOKING_FOR_STAND_IN
-        )
+        first_slot = self.slots[0]
+        first_shift_attendance = ShiftAttendance.objects.filter(slot=first_slot).first()
+        first_shift_attendance.state = ShiftAttendance.State.LOOKING_FOR_STAND_IN
+        first_shift_attendance.save()
 
     def assert_email_sent(self, expected_status_choice):
         self.assertEqual(len(mail.outbox), 1)
@@ -63,7 +63,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=list(self.slots.values()),
+            last_valid_slot_ids=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
         Command().handle()
@@ -77,7 +77,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=list(self.slots.values()),
+            last_valid_slot_ids=self.slots,
             staffing_status=[event.value for event in get_staffingstatus_choices()],
         )
         Command().handle()
@@ -87,7 +87,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=list(self.slots.values()),
+            last_valid_slot_ids=self.slots,
             staffing_status=[StaffingStatusChoices.SHIFT_COORDINATOR_PLUS.value],
         )
 
@@ -123,7 +123,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         ShiftWatch.objects.create(
             user=user,
             shift=shift_understaffed,
-            last_valid_slot_ids=list(slots.values()),
+            last_valid_slot_ids=slots,
             staffing_status=[event.value for event in get_staffingstatus_choices()],
         )
 
@@ -144,7 +144,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=list(self.slots.values()),
+            last_valid_slot_ids=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
@@ -171,7 +171,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=list(self.slots.values()),
+            last_valid_slot_ids=self.slots,
             staffing_status=[event.value for event in get_staffingstatus_choices()],
         )
 
@@ -198,7 +198,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = ShiftWatch.objects.create(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=list(self.slots.values()),
+            last_valid_slot_ids=self.slots,
             staffing_status=[event.value for event in get_staffingstatus_choices()],
         )
 
