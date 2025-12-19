@@ -1,6 +1,8 @@
 import pytest
 
-from tapir.shifts.management.commands.send_shift_watch_mail import get_staffing_status
+from tapir.shifts.management.commands.send_shift_watch_mail import (
+    get_staffing_status_if_changed,
+)
 from tapir.shifts.models import StaffingStatusChoices
 
 
@@ -26,7 +28,7 @@ def test_getStaffingStatus_Parametrized(
     last_status,
     expected,
 ):
-    result = get_staffing_status(
+    result = get_staffing_status_if_changed(
         number_of_available_slots, valid_attendances, required_attendances, last_status
     )
     assert result == expected

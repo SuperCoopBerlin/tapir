@@ -6,7 +6,9 @@ from django.utils import timezone
 from tapir.shifts.management.commands.send_shift_watch_mail import (
     Command as SendShiftWatchCommand,
 )
-from tapir.shifts.management.commands.send_shift_watch_mail import get_staffing_status
+from tapir.shifts.management.commands.send_shift_watch_mail import (
+    get_staffing_status_if_changed,
+)
 from tapir.shifts.models import (
     ShiftWatch,
     StaffingStatusChoices,
@@ -35,7 +37,7 @@ class Command(BaseCommand):
             required_attendances_count = (
                 shift_watch_data.shift.get_num_required_attendances()
             )
-            current_status = get_staffing_status(
+            current_status = get_staffing_status_if_changed(
                 number_of_available_slots=number_of_available_slots,
                 valid_attendances=valid_attendances_count,
                 required_attendances=required_attendances_count,

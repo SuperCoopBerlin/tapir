@@ -14,7 +14,7 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftAttendance,
     Shift,
-    get_staffing_status,
+    get_staffing_status_if_changed,
 )
 
 
@@ -63,7 +63,7 @@ class Command(BaseCommand):
         number_of_available_slots = shift_watch_data.shift.slots.count()
 
         # Determine staffing status
-        current_status = get_staffing_status(
+        current_status = get_staffing_status_if_changed(
             number_of_available_slots=number_of_available_slots,
             valid_attendances=valid_attendances_count,
             required_attendances=required_attendances_count,

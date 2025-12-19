@@ -1233,7 +1233,7 @@ def get_staffingstatus_defaults():
     return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
 
 
-def get_staffing_status(
+def calculate_staffing_status(
     number_of_available_slots: int,
     valid_attendances: int,
     required_attendances: int,
@@ -1241,23 +1241,35 @@ def get_staffing_status(
 ):
     """Determine the staffing status based on attendance counts. Returns None if status has not changed."""
     if valid_attendances < required_attendances:
-        if last_status != StaffingStatusChoices.UNDERSTAFFED:
-            return StaffingStatusChoices.UNDERSTAFFED
-        return None
-
+        return StaffingStatusChoices.UNDERSTAFFED
     # not understaffed - potentially states: : FULL, ALMOST_FULL, ALL_CLEAR
     remaining = number_of_available_slots - valid_attendances
     if remaining == 0:
-        if last_status != StaffingStatusChoices.FULL:
-            return StaffingStatusChoices.FULL
-        return None
+        return StaffingStatusChoices.FULL
     if remaining == 1:
-        if last_status != StaffingStatusChoices.ALMOST_FULL:
-            return StaffingStatusChoices.ALMOST_FULL
-        return None
+        return StaffingStatusChoices.ALMOST_FULL
 
     if last_status == StaffingStatusChoices.UNDERSTAFFED:
         return StaffingStatusChoices.ALL_CLEAR
+
+    return None
+
+
+def get_staffing_status_if_changed(
+    number_of_available_slots: int,
+    valid_attendances: int,
+    required_attendances: int,
+    last_status: str = None,
+) -> None | StaffingStatusChoices:
+
+    current_status = calculate_staffing_status(
+        valid_attendances=valid_attendances,
+        required_attendances=required_attendances,
+        number_of_available_slots=number_of_available_slots,
+        last_status=last_status,
+    )
+    if last_status != current_status:
+        return current_status
 
     return None
 
@@ -1286,7 +1298,7 @@ def get_staffing_status_for_shift(
 ) -> Optional[str]:
     """
     Compute the staffing status for a Shift instance by extracting the required
-    counts and calling get_staffing_status. Returns the status string or None.
+    counts and calling get_staffing_status_if_changed. Returns the status string or None.
     """
     valid_attendances_count = ShiftSlot.objects.filter(
         shift=shift,
@@ -1295,7 +1307,7 @@ def get_staffing_status_for_shift(
     required_attendances_count = shift.get_num_required_attendances()
     number_of_available_slots = shift.slots.count()
 
-    return get_staffing_status(
+    return get_staffing_status_if_changed(
         number_of_available_slots=number_of_available_slots,
         valid_attendances=valid_attendances_count,
         required_attendances=required_attendances_count,
