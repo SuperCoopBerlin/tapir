@@ -1288,14 +1288,10 @@ def get_staffing_status_for_shift(
     Compute the staffing status for a Shift instance by extracting the required
     counts and calling get_staffing_status. Returns the status string or None.
     """
-    this_valid_slot_ids = list(
-        ShiftSlot.objects.filter(
-            shift=shift,
-            attendances__state=ShiftAttendance.State.PENDING,
-        ).values_list("id", flat=True)
-    )
-
-    valid_attendances_count = len(this_valid_slot_ids)
+    valid_attendances_count = ShiftSlot.objects.filter(
+        shift=shift,
+        attendances__state=ShiftAttendance.State.PENDING,
+    ).count()
     required_attendances_count = shift.get_num_required_attendances()
     number_of_available_slots = shift.slots.count()
 
