@@ -98,7 +98,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         slot.save()
 
     def test_handle_initialWatchUnderstaffedShift_noInitialMailIsSent(self):
-        # Keine Nachricht sollte gesendet werden, obowohl die Schicht unterbesetzt ist
+        # No initial message should be sent, even if the shift is understaffed
         user = TapirUserFactory.create(email=self.USER_EMAIL_ADDRESS)
 
         shift_understaffed, slots = create_shift_with_attendance(
