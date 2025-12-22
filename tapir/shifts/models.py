@@ -1307,12 +1307,17 @@ def get_staffing_status_for_shift(
     required_attendances_count = shift.get_num_required_attendances()
     number_of_available_slots = shift.slots.count()
 
-    return get_staffing_status_if_changed(
+    staffing_status = get_staffing_status_if_changed(
         number_of_available_slots=number_of_available_slots,
         valid_attendances=valid_attendances_count,
         required_attendances=required_attendances_count,
         last_status=last_status,
     )
+
+    if last_status is None and staffing_status is None:
+        return StaffingStatusChoices.ALL_CLEAR
+
+    return staffing_status
 
 
 class ShiftWatch(models.Model):
@@ -1333,7 +1338,8 @@ class ShiftWatch(models.Model):
     )
     last_staffing_status = models.CharField(
         max_length=30,
-        null=True,
+        null=False,
+        blank=False,
         choices=get_staffingstatus_choices,
     )
     recurring_template = models.ForeignKey(
@@ -1343,11 +1349,6 @@ class ShiftWatch(models.Model):
         blank=True,
         on_delete=models.CASCADE,
     )
-
-    def save(self, *args, **kwargs):
-        if not self.last_staffing_status:
-            self.last_staffing_status = get_staffing_status_for_shift(self.shift)
-        super().save(*args, **kwargs)
 
     def __str__(self):
         shift_name = self.shift.get_display_name()
@@ -1416,27 +1417,27 @@ class RecurringShiftWatch(models.Model):
 
         shifts_to_watch.update(shifts_qs)
 
-        # Create new ShiftWatches
-        shift_ids = list(shifts_qs.values_list("id", flat=True))
-        # (or not)
-        if not shift_ids:
+        if not shifts_qs.exists():
             return
 
         existing_shift_ids = set(
-            ShiftWatch.objects.filter(
-                user=self.user, shift_id__in=shift_ids
-            ).values_list("shift_id", flat=True)
+            ShiftWatch.objects.filter(user=self.user, shift__in=shifts_qs).values_list(
+                "shift_id", flat=True
+            )
         )
 
         new_watches = [
             ShiftWatch(
                 user=self.user,
-                shift_id=sid,
+                shift=shift,
                 staffing_status=list(self.staffing_status),
+                last_staffing_status=get_staffing_status_for_shift(
+                    shift=shift, last_status=None
+                ),
                 recurring_template=self,
             )
-            for sid in shift_ids
-            if sid not in existing_shift_ids
+            for shift in shifts_qs
+            if shift.id not in existing_shift_ids
         ]
         ShiftWatch.objects.bulk_create(new_watches)
 
