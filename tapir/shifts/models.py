@@ -1232,25 +1232,6 @@ def get_staffingstatus_defaults():
     return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
 
 
-def get_shift_coordinator_status(
-    this_valid_slot_ids: list[int], last_valid_slot_ids: list[int]
-):
-    # Team-leader/Shift-Coordinator notifications
-    def is_shift_coordinator_available(slot_ids: list[int]):
-        return ShiftSlot.objects.filter(
-            id__in=slot_ids,
-            required_capabilities__contains=[ShiftUserCapability.SHIFT_COORDINATOR],
-        )
-
-    this_sc_available = is_shift_coordinator_available(this_valid_slot_ids)
-    last_sc_available = is_shift_coordinator_available(last_valid_slot_ids)
-    if not this_sc_available and last_sc_available:
-        return StaffingStatusChoices.SHIFT_COORDINATOR_MINUS
-    elif this_sc_available and not last_sc_available:
-        return StaffingStatusChoices.SHIFT_COORDINATOR_PLUS
-    return None
-
-
 class ShiftWatch(models.Model):
     user = models.ForeignKey(
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
