@@ -1353,4 +1353,5 @@ def create_shift_watch_entries(shift: Shift) -> None:
                 shift=shift,
                 staffing_status=template.staffing_status,
                 recurring_template=template,
+                last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
             )
