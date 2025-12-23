@@ -10,6 +10,7 @@ from tapir.shifts.models import (
     Shift,
     ShiftTemplateGroup,
 )
+from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -91,13 +92,17 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         # set both RecurringShiftWatch
         self.recurring_template.shift_templates.set([shift_template_1])
 
-        self.recurring_template.create_shift_watches()
+        ShiftWatchCreator.create_shift_watches_for_recurring(
+            recurring=self.recurring_template
+        )
         recurring_template_2 = RecurringShiftWatch.objects.create(
             user=self.user,
         )
         recurring_template_2.weekdays = [0]
         recurring_template_2.save()
-        recurring_template_2.create_shift_watches()
+        ShiftWatchCreator.create_shift_watches_for_recurring(
+            recurring=recurring_template_2
+        )
 
         self.assertTrue(
             ShiftWatch.objects.filter(user=self.user, shift=shift_1).exists()
