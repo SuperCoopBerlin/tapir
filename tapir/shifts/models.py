@@ -1232,47 +1232,6 @@ def get_staffingstatus_defaults():
     return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
 
 
-# def calculate_staffing_status(
-#     number_of_available_slots: int,
-#     valid_attendances: int,
-#     required_attendances: int,
-#     last_status: str = None,
-# ):
-#     """Determine the staffing status based on attendance counts. Returns None if status has not changed."""
-#     if valid_attendances < required_attendances:
-#         return StaffingStatusChoices.UNDERSTAFFED
-#     # not understaffed - potentially states: : FULL, ALMOST_FULL, ALL_CLEAR
-#     remaining = number_of_available_slots - valid_attendances
-#     if remaining == 0:
-#         return StaffingStatusChoices.FULL
-#     if remaining == 1:
-#         return StaffingStatusChoices.ALMOST_FULL
-#
-#     if last_status == StaffingStatusChoices.UNDERSTAFFED:
-#         return StaffingStatusChoices.ALL_CLEAR
-#
-#     return None
-
-
-# def get_staffing_status_if_changed(
-#     number_of_available_slots: int,
-#     valid_attendances: int,
-#     required_attendances: int,
-#     last_status: str = None,
-# ) -> None | StaffingStatusChoices:
-#
-#     current_status = calculate_staffing_status(
-#         valid_attendances=valid_attendances,
-#         required_attendances=required_attendances,
-#         number_of_available_slots=number_of_available_slots,
-#         last_status=last_status,
-#     )
-#     if last_status != current_status:
-#         return current_status
-#
-#     return None
-
-
 def get_shift_coordinator_status(
     this_valid_slot_ids: list[int], last_valid_slot_ids: list[int]
 ):
@@ -1290,33 +1249,6 @@ def get_shift_coordinator_status(
     elif this_sc_available and not last_sc_available:
         return StaffingStatusChoices.SHIFT_COORDINATOR_PLUS
     return None
-
-
-# def get_staffing_status_for_shift(
-#     shift: Shift, last_status: str = None
-# ) -> Optional[str]:
-#     """
-#     Compute the staffing status for a Shift instance by extracting the required
-#     counts and calling get_staffing_status_if_changed. Returns the status string or None.
-#     """
-#     valid_attendances_count = ShiftSlot.objects.filter(
-#         shift=shift,
-#         attendances__state=ShiftAttendance.State.PENDING,
-#     ).count()
-#     required_attendances_count = shift.get_num_required_attendances()
-#     number_of_available_slots = shift.slots.count()
-#
-#     staffing_status = get_staffing_status_if_changed(
-#         number_of_available_slots=number_of_available_slots,
-#         valid_attendances=valid_attendances_count,
-#         required_attendances=required_attendances_count,
-#         last_status=last_status,
-#     )
-#
-#     if last_status is None and staffing_status is None:
-#         return StaffingStatusChoices.ALL_CLEAR
-#
-#     return staffing_status
 
 
 class ShiftWatch(models.Model):
@@ -1340,6 +1272,7 @@ class ShiftWatch(models.Model):
         null=False,
         blank=False,
         choices=get_staffingstatus_choices,
+        default=None,  # https://stackoverflow.com/a/12887154
     )
     recurring_template = models.ForeignKey(
         "RecurringShiftWatch",
