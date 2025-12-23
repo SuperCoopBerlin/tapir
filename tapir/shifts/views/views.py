@@ -49,7 +49,6 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftWatch,
     RecurringShiftWatch,
-    get_staffing_status_for_shift,
 )
 from tapir.shifts.models import (
     ShiftSlot,
@@ -57,6 +56,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     ShiftAccountEntry,
 )
+from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import shift_name_as_class
 from tapir.utils.user_utils import UserUtils
 
@@ -397,10 +397,9 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
         form.instance.user = self.request.user
 
         # set initial status to avoid initial notifications
-        status = get_staffing_status_for_shift(
+        status = ShiftWatchCreator.get_initial_staffing_status_for_shift(
             shift=form.instance.shift, last_status=None
         )
-        print(f"STATUS: {status}")
         form.instance.last_staffing_status = status
         return super().form_valid(form)
 
@@ -439,7 +438,7 @@ class CreateRecurringShiftWatchView(
         form.instance.user = TapirUser.objects.get(pk=user_pk)
 
         response = super().form_valid(form)
-        form.instance.create_shift_watches()
+        ShiftWatchCreator.create_shift_watches_for_recurring(form.instance)
         return response
 
 
