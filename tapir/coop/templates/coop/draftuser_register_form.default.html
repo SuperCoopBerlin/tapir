@@ -33,7 +33,7 @@
                 <p>Welcome!</p>
                 <p>By filling this form, you're registering as a potential member. That's a great idea!</p>
                 <p>Once it's done we'll then help you fill and send the documents to make the registration official.</p>
-                <form role="form" method="post">
+                <form method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <div class="d-flex justify-content-end">
