@@ -12,14 +12,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import email.utils
 import os
-from datetime import timedelta
 from pathlib import Path
 
 import celery.schedules
-import django_auth_ldap
 import environ
 import ldap
-from django_auth_ldap.config import LDAPSearch, GroupOfNamesType, NestedGroupOfNamesType
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 
 env = environ.Env()
 

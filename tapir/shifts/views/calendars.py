@@ -16,7 +16,6 @@ from tapir.shifts.models import (
     WEEKDAY_CHOICES,
     ShiftTemplateGroup,
     ShiftTemplate,
-    ShiftWatch,
 )
 from tapir.shifts.templatetags.shifts import get_week_group, user_watching_shift
 from tapir.shifts.utils import ColorHTMLCalendar
