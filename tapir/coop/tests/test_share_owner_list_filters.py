@@ -303,26 +303,26 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
         share_owner_5 = ShareOwnerFactory.create(nb_shares=0)  # Extra owner for 2022
 
         # Then create ownerships with specific dates for 2023
-        so1 = ShareOwnership.objects.create(
+        ShareOwnership.objects.create(
             share_owner=share_owner_1, start_date=datetime.date(2023, 1, 1)
         )
-        so2 = ShareOwnership.objects.create(
+        ShareOwnership.objects.create(
             share_owner=share_owner_2, start_date=datetime.date(2023, 6, 1)
         )
-        so4 = ShareOwnership.objects.create(
+        ShareOwnership.objects.create(
             share_owner=share_owner_4, start_date=datetime.date(2023, 3, 1)
         )
 
         # Create ownerships with 2022 dates
-        so3_1 = ShareOwnership.objects.create(
+        ShareOwnership.objects.create(
             share_owner=share_owner_3, start_date=datetime.date(2022, 1, 1)
         )
-        so5 = ShareOwnership.objects.create(
+        ShareOwnership.objects.create(
             share_owner=share_owner_5, start_date=datetime.date(2022, 6, 1)
         )
 
         # Second share with start date in 2023 (but owner's first share is in 2022)
-        so3_2 = ShareOwnership.objects.create(
+        ShareOwnership.objects.create(
             share_owner=share_owner_3, start_date=datetime.date(2023, 5, 1)
         )
 
