@@ -24,10 +24,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
+          NEW_TAG: ${{ github.event.inputs.release_tag == '' && '--bump' || format('--tag {0}', github.event.inputs.release_tag) }}
         id: build_changelog
         with:
           config: https://github.com/orhun/git-cliff/blob/main/examples/github.toml
-          args: --verbose --unreleased --strip header ${{ github.event.inputs.release_tag == '' && '--bump' || format('--tag {0}', github.event.inputs.release_tag) }}
+          args: --verbose --unreleased --strip header $NEW_TAG
       - name: Create Tag
         run: |
           git config --local user.email "action@github.com"
