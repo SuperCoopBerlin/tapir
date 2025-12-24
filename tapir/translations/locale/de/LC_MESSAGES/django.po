@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-18 19:01+0100\n"
+"POT-Creation-Date: 2025-12-24 11:22+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3077,8 +3077,8 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:726 shifts/forms.py:782 shifts/views/views.py:379
-#: shifts/views/views.py:380
+#: shifts/forms.py:726 shifts/forms.py:782 shifts/views/views.py:377
+#: shifts/views/views.py:378
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
@@ -4410,7 +4410,7 @@ msgid "Recurring Shift Watches"
 msgstr "Wiederholende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:25
-#: shifts/views/views.py:418
+#: shifts/views/views.py:416
 msgid "Create a rule for recurring Shift Watches"
 msgstr "Erstelle eine Regel für sich wiederholende Schichtbeobachtungen"
 
@@ -4750,7 +4750,7 @@ msgid "No watched shifts"
 msgstr "Keine beobachteten Schichten"
 
 #: shifts/templatetags/shifts.py:65 shifts/templatetags/shifts.py:170
-#: shifts/views/views.py:152
+#: shifts/views/views.py:150
 msgid "General"
 msgstr "Allgemein"
 
@@ -4799,43 +4799,43 @@ msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 msgid "Shift exemption converted to membership pause."
 msgstr "Schichtfreistellung in Mitgliedschaftspause umgewandelt."
 
-#: shifts/views/management.py:53
+#: shifts/views/management.py:50
 msgid "Create a shift"
 msgstr "Schicht erzeugen"
 
-#: shifts/views/management.py:100
+#: shifts/views/management.py:97
 msgid "Edit slot: "
 msgstr "Slot bearbeiten: "
 
-#: shifts/views/management.py:160
+#: shifts/views/management.py:157
 msgid "Edit shift: "
 msgstr "Schicht bearbeiten: "
 
-#: shifts/views/management.py:203
+#: shifts/views/management.py:200
 msgid "Edit shift template: "
 msgstr "ABCD-Schicht bearbeiten: "
 
-#: shifts/views/management.py:222
+#: shifts/views/management.py:219
 msgid "Create an ABCD shift"
 msgstr "ABCD-Schicht erzeugen"
 
-#: shifts/views/management.py:224
+#: shifts/views/management.py:221
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
 msgstr "Die Schichten werden jeden Tag um Mitternacht generiert. Nachdem Sie die ABCD-Schicht erstellt haben, schaue morgen wieder vorbei, um deine Schichten zu sehen!"
 
-#: shifts/views/management.py:270
+#: shifts/views/management.py:267
 msgid "Duplicate ABCD-Shift "
 msgstr "Dupliziere ABCD-Schichten"
 
-#: shifts/views/management.py:272
+#: shifts/views/management.py:269
 msgid "Please choose the weekdays and ABCD-weeks this ABCD-Shift should be copied to. These slots will be copied: "
 msgstr "Bitte wählen Sie die Wochentage und ABCD-Wochen aus, in die diese ABCD-Schicht kopiert werden soll. Diese Zeitfenster werden kopiert: "
 
-#: shifts/views/management.py:277
+#: shifts/views/management.py:274
 msgid " Shifts for this ABCD shift will be generated starting from "
 msgstr " Die Schichten für diese ABCD-Schicht werden ab dem folgenden Zeitpunkt generiert "
 
-#: shifts/views/management.py:394
+#: shifts/views/management.py:391
 msgid "Shifts generated."
 msgstr "Schichten erstellt."
 
@@ -4851,27 +4851,27 @@ msgstr "Es konnte keine vollendete Schicht gefunden werden, die als Solidarität
 msgid "Solidarity Shift given. Account Balance debited with -1."
 msgstr "Die Solidaritätsschicht wurde vergeben. Von deinem Kontostand wird nun eine Schicht abgezogen."
 
-#: shifts/views/views.py:132 shifts/views/views.py:137
+#: shifts/views/views.py:130 shifts/views/views.py:135
 #, python-format
 msgid "Edit user shift data: %(name)s"
 msgstr "Bearbeite Nutzer*in-Schichtdaten: %(name)s"
 
-#: shifts/views/views.py:205
+#: shifts/views/views.py:203
 #, python-format
 msgid "Shift account: %(name)s"
 msgstr "Schichtkonto-Protokoll für: %(name)s"
 
-#: shifts/views/views.py:211
+#: shifts/views/views.py:209
 #, fuzzy, python-format
 #| msgid "Create manual shift account entry for:  %(link)s"
 msgid "Create manual shift account entry for: %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:362
+#: shifts/views/views.py:360
 msgid "Frozen statuses updated."
 msgstr ""
 
-#: shifts/views/views.py:421
+#: shifts/views/views.py:419
 #, python-format
 msgid "Please select either %(shift_template_group)s and/or weekdays, or alternatively %(shift_templates)s."
 msgstr ""

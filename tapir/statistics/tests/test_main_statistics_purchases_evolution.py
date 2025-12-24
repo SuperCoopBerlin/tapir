@@ -69,6 +69,6 @@ class TestBasketSumEvolutionData(TapirFactoryTestBase):
     @staticmethod
     def getSourceFile():
         return ProcessedPurchaseFiles.objects.create(
-            file_name=f"test_basket_file",
+            file_name="test_basket_file",
             processed_on=datetime.datetime.now(),
         )
