@@ -132,3 +132,33 @@ class ShiftWatchCreator:
             if shift.pk not in existing_shift_ids
         ]
         ShiftWatch.objects.bulk_create(new_watches)
+
+    @classmethod
+    def create_shift_watch_entries(cls, shift: Shift) -> None:
+        """Create ShiftWatch entries based on RecurringShiftWatch."""
+        for shiftwatch_template in RecurringShiftWatch.objects.all():
+            shift_template_id = (
+                shift.shift_template.id if shift.shift_template else None
+            )
+            weekday_match = shift.start_time.weekday() in shiftwatch_template.weekdays
+
+            shift_template_group_match = (
+                shift.shift_template.group.name
+                in shiftwatch_template.shift_template_group
+                if shift.shift_template and shiftwatch_template.shift_template_group
+                else False
+            )
+
+            if (
+                shift_template_id
+                and shiftwatch_template.shift_templates.filter(
+                    id=shift_template_id
+                ).exists()
+            ) or (weekday_match or shift_template_group_match):
+                ShiftWatch.objects.get_or_create(
+                    user=shiftwatch_template.user,
+                    shift=shift,
+                    staffing_status=shiftwatch_template.staffing_status,
+                    recurring_template=shiftwatch_template,
+                    last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
+                )

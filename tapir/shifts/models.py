@@ -266,7 +266,6 @@ class ShiftTemplate(models.Model):
 
         generated_shift.save()
         shift = generated_shift
-        create_shift_watch_entries(shift)
         for slot_template in self.slot_templates.all().select_related(
             "attendance_template"
         ):
@@ -1312,28 +1311,3 @@ class RecurringShiftWatch(models.Model):
         blank=False,
         default=get_staffingstatus_defaults,
     )
-
-
-def create_shift_watch_entries(shift: Shift) -> None:
-    """Create ShiftWatch entries based on RecurringShiftWatch."""
-    for template in RecurringShiftWatch.objects.all():
-        shift_template_id = shift.shift_template.id if shift.shift_template else None
-        weekday_match = shift.start_time.weekday() in template.weekdays
-
-        shift_template_group_match = (
-            shift.shift_template.group.name in template.shift_template_group
-            if shift.shift_template and template.shift_template_group
-            else False
-        )
-
-        if (
-            shift_template_id
-            and template.shift_templates.filter(id=shift_template_id).exists()
-        ) or (weekday_match or shift_template_group_match):
-            ShiftWatch.objects.create(
-                user=template.user,
-                shift=shift,
-                staffing_status=template.staffing_status,
-                recurring_template=template,
-                last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
-            )
