@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
-from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
@@ -15,7 +14,6 @@ from django.views.generic import (
     UpdateView,
     RedirectView,
     FormView,
-    TemplateView,
 )
 
 from tapir.core.views import TapirFormMixin
@@ -34,7 +32,6 @@ from tapir.shifts.forms import (
 from tapir.shifts.models import (
     Shift,
     ShiftSlot,
-    ShiftAttendance,
     ShiftTemplate,
     ShiftSlotTemplate,
     create_shift_watch_entries,

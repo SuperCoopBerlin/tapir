@@ -1,13 +1,10 @@
 import datetime
 from django.utils import timezone
-import pytest
-from django.utils.timezone import make_aware
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     RecurringShiftWatch,
     ShiftWatch,
-    Shift,
     ShiftTemplateGroup,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator

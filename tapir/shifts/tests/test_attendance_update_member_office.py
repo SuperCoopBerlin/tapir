@@ -44,7 +44,7 @@ class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase, TapirEmailTestMixin
         self.assertEqual(
             user.shift_user_data.get_account_balance(),
             1,
-            f"After changing the attendance state from MISSED to DONE, the user's account balance should be 1.",
+            "After changing the attendance state from MISSED to DONE, the user's account balance should be 1.",
         )
 
     def test_create_manual_shift_account_entry(self):

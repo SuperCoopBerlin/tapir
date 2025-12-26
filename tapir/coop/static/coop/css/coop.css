@@ -29,3 +29,9 @@
     align-items: center;
     column-gap: 10px;
 }
+
+/* Target specific date inputs by their name attributes */
+.member-filter-form-filters input[type="date"] {
+    width: 100px !important;  /* Smaller width for date input fields */
+    font-size: 0.9rem;  /* Slightly smaller font */
+}

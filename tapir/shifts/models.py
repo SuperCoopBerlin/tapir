@@ -16,6 +16,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
+from tapir.core.models import FeatureFlag
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
 from tapir.utils.models import DurationModelMixin
 from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday

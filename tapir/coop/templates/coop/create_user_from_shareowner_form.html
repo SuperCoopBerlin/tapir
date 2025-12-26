@@ -19,7 +19,7 @@
                 <span>{% translate "Create Tapir account" %}</span>
             </h5>
             <div class="card-body">
-                <form role="form" method="post">
+                <form method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <div class="d-flex justify-content-end">
