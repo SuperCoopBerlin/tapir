@@ -34,10 +34,10 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftTemplate,
     ShiftSlotTemplate,
-    create_shift_watch_entries,
 )
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.services.shift_generator import ShiftGenerator
+from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -53,7 +53,7 @@ class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         shift = form.save()
 
-        create_shift_watch_entries(shift=shift)
+        ShiftWatchCreator.create_shift_watch_entries(shift=shift)
 
         return super().form_valid(form)
 

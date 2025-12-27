@@ -7,7 +7,10 @@ from tapir.shifts.models import (
     ShiftWatch,
     ShiftTemplateGroup,
 )
+from tapir.shifts.services.shift_generator import ShiftGenerator
+from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
+from tapir.utils.shortcuts import get_monday
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -22,14 +25,18 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
     def test_createShiftBasedOnShiftTemplate_watchSingleShiftTemplates_shiftWatchIsCreated(
         self,
     ):
-        shift_template = ShiftTemplateFactory.create()
+        group = ShiftTemplateGroup.objects.create(name="A")
+        shift_template = ShiftTemplateFactory.create(group=group)
         self.recurring_template.shift_templates.set([shift_template])
 
-        shift = shift_template.create_shift(
-            start_date=timezone.now().date() + datetime.timedelta(days=1)
+        shifts = ShiftGenerator.create_shifts_for_group(
+            at_date=get_monday(timezone.now()),
+            group=group,
         )
 
-        self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
+        self.assertTrue(
+            ShiftWatch.objects.filter(user=self.user, shift=shifts[0]).exists()
+        )
 
     def test_createShiftBasedOnShiftTemplate_watchMultipleShiftTemplates_shiftWatchIsCreated(
         self,
@@ -88,13 +95,17 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         # set both RecurringShiftWatch
         self.recurring_template.shift_templates.set([shift_template_1])
 
-        self.recurring_template.create_shift_watches()
+        ShiftWatchCreator.create_shift_watches_for_recurring(
+            recurring=self.recurring_template
+        )
         recurring_template_2 = RecurringShiftWatch.objects.create(
             user=self.user,
         )
         recurring_template_2.weekdays = [0]
         recurring_template_2.save()
-        recurring_template_2.create_shift_watches()
+        ShiftWatchCreator.create_shift_watches_for_recurring(
+            recurring=recurring_template_2
+        )
 
         self.assertTrue(
             ShiftWatch.objects.filter(user=self.user, shift=shift_1).exists()
