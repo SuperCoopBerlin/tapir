@@ -29,9 +29,8 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         shift_template = ShiftTemplateFactory.create(group=group)
         self.recurring_template.shift_templates.set([shift_template])
 
-        shifts = ShiftGenerator.create_shifts_for_group(
-            at_date=get_monday(timezone.now()),
-            group=group,
+        shifts = ShiftGenerator.generate_shifts_up_to(
+            end_date=timezone.now().date() + 14
         )
 
         self.assertTrue(
@@ -41,17 +40,20 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
     def test_createShiftBasedOnShiftTemplate_watchMultipleShiftTemplates_shiftWatchIsCreated(
         self,
     ):
-        shift_template_1 = ShiftTemplateFactory.create()
-        shift_template_2 = ShiftTemplateFactory.create()
+        group = ShiftTemplateGroup.objects.create(name="A")
+        shift_template_1 = ShiftTemplateFactory.create(group=group)
+        shift_template_2 = ShiftTemplateFactory.create(group=group)
         self.recurring_template.shift_templates.set(
             [shift_template_1, shift_template_2]
         )
 
-        shift = shift_template_2.create_shift(
-            start_date=timezone.now().date() + datetime.timedelta(days=1)
+        shifts = ShiftGenerator.generate_shifts_up_to(
+            end_date=timezone.now().date() + 14
         )
 
-        self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
+        self.assertTrue(
+            ShiftWatch.objects.filter(user=self.user, shift=shifts[-1]).exists()
+        )
 
     def test_createShiftOfOtherTemplate_watchMultipleShiftTemplates_shiftWatchIsNotCreated(
         self,
