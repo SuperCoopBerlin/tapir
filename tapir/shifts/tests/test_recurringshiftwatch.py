@@ -29,13 +29,17 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         shift_template = ShiftTemplateFactory.create(group=group)
         self.recurring_template.shift_templates.set([shift_template])
 
-        shifts = ShiftGenerator.generate_shifts_up_to(
-            end_date=timezone.now().date() + 14
+        ShiftGenerator.generate_shifts_up_to(
+            end_date=timezone.now().date() + datetime.timedelta(days=14)
         )
 
-        self.assertTrue(
-            ShiftWatch.objects.filter(user=self.user, shift=shifts[0]).exists()
+        watched_shift_templates = set(
+            ShiftWatch.objects.filter(user=self.user).values_list(
+                "shift__shift_template", flat=True
+            )
         )
+
+        self.assertEqual(watched_shift_templates, {shift_template.id})
 
     def test_createShiftBasedOnShiftTemplate_watchMultipleShiftTemplates_shiftWatchIsCreated(
         self,
@@ -58,9 +62,10 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
     def test_createShiftOfOtherTemplate_watchMultipleShiftTemplates_shiftWatchIsNotCreated(
         self,
     ):
-        shift_template_1 = ShiftTemplateFactory.create()
-        shift_template_2 = ShiftTemplateFactory.create()
-        shift_template_3 = ShiftTemplateFactory.create()
+        group = ShiftTemplateGroup.objects.create(name="A")
+        shift_template_1 = ShiftTemplateFactory.create(group=group)
+        shift_template_2 = ShiftTemplateFactory.create(group=group)
+        shift_template_3 = ShiftTemplateFactory.create(group=group)
         self.recurring_template.shift_templates.set(
             [shift_template_1, shift_template_2]
         )
@@ -79,8 +84,12 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         self.recurring_template.shift_template_group = ["A"]
         self.recurring_template.save()
 
-        shift = shift_template.create_shift(timezone.now().date())
-        self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
+        shifts = ShiftGenerator.generate_shifts_up_to(
+            end_date=timezone.now().date() + 14
+        )
+        self.assertTrue(
+            ShiftWatch.objects.filter(user=self.user, shift=shifts[-1]).exists()
+        )
 
     def test_createShiftfromShiftTemplate_intersectingRecurringShiftWatch_shiftWatchIsCreatedNoOverWrite(
         self,
