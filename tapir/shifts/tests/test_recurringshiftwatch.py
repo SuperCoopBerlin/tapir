@@ -10,8 +10,17 @@ from tapir.shifts.models import (
 from tapir.shifts.services.shift_generator import ShiftGenerator
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
-from tapir.utils.shortcuts import get_monday
 from tapir.utils.tests_utils import TapirFactoryTestBase
+
+
+def make_group_with_templates(n=1, name="A"):
+    group = ShiftTemplateGroup.objects.create(name=name)
+    templates = [ShiftTemplateFactory.create(group=group) for _ in range(n)]
+    return group, templates
+
+
+def future_date(days=14):
+    return timezone.now().date() + datetime.timedelta(days=days)
 
 
 class ShiftRecurringTemplateTests(TapirFactoryTestBase):
@@ -22,85 +31,68 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
             user=self.user,
         )
 
-    def test_createShiftBasedOnShiftTemplate_watchSingleShiftTemplates_shiftWatchIsCreated(
-        self,
-    ):
-        group = ShiftTemplateGroup.objects.create(name="A")
-        shift_template = ShiftTemplateFactory.create(group=group)
-        self.recurring_template.shift_templates.set([shift_template])
-
-        ShiftGenerator.generate_shifts_up_to(
-            end_date=timezone.now().date() + datetime.timedelta(days=14)
-        )
-
-        watched_shift_templates = set(
+    def watched_template_ids(self):
+        return set(
             ShiftWatch.objects.filter(user=self.user).values_list(
                 "shift__shift_template", flat=True
             )
         )
+
+    def watched_group_names(self):
+        return set(
+            ShiftWatch.objects.filter(user=self.user).values_list(
+                "shift__shift_template__group__name", flat=True
+            )
+        )
+
+    def test_createShiftBasedOnShiftTemplate_watchSingleShiftTemplates_shiftWatchIsCreated(
+        self,
+    ):
+        group, [shift_template] = make_group_with_templates(1)
+        self.recurring_template.shift_templates.set([shift_template])
+        ShiftGenerator.generate_shifts_up_to(end_date=future_date())
+        watched_shift_templates = self.watched_template_ids()
 
         self.assertEqual(watched_shift_templates, {shift_template.id})
 
     def test_createShiftBasedOnShiftTemplate_watchMultipleShiftTemplates_shiftWatchIsCreated(
         self,
     ):
-        group = ShiftTemplateGroup.objects.create(name="A")
-        shift_template_1 = ShiftTemplateFactory.create(group=group)
-        shift_template_2 = ShiftTemplateFactory.create(group=group)
+        group, (shift_template_1, shift_template_2) = make_group_with_templates(2)
         self.recurring_template.shift_templates.set(
             [shift_template_1, shift_template_2]
         )
-
-        end_date = timezone.now().date() + datetime.timedelta(days=14)
+        end_date = future_date()
         ShiftGenerator.generate_shifts_up_to(end_date=end_date)
-
-        watched_template_ids = set(
-            ShiftWatch.objects.filter(user=self.user).values_list(
-                "shift__shift_template", flat=True
-            )
-        )
-
+        watched_template_ids = self.watched_template_ids()
         expected_ids = {shift_template_1.id, shift_template_2.id}
+
         self.assertEqual(watched_template_ids, expected_ids)
 
     def test_createShiftOfOtherTemplate_watchMultipleShiftTemplates_shiftWatchIsNotCreated(
         self,
     ):
-        group = ShiftTemplateGroup.objects.create(name="A")
-        shift_template_1 = ShiftTemplateFactory.create(group=group)
-        shift_template_2 = ShiftTemplateFactory.create(group=group)
-        shift_template_3 = ShiftTemplateFactory.create(group=group)
+        group, (shift_template_1, shift_template_2, shift_template_3) = (
+            make_group_with_templates(3)
+        )
         self.recurring_template.shift_templates.set(
             [shift_template_1, shift_template_2]
         )
-
-        end_date = timezone.now().date() + datetime.timedelta(days=14)
+        end_date = future_date()
         ShiftGenerator.generate_shifts_up_to(end_date=end_date)
-
-        watched_template_ids = set(
-            ShiftWatch.objects.filter(user=self.user).values_list(
-                "shift__shift_template", flat=True
-            )
-        )
-        self.assertNotIn(shift_template_3.id, watched_template_ids)
-
+        watched_template_ids = self.watched_template_ids()
         expected_ids = {shift_template_1.id, shift_template_2.id}
+
+        self.assertNotIn(shift_template_3.id, watched_template_ids)
         self.assertEqual(watched_template_ids, expected_ids)
 
     def test_createShiftfromShiftTemplate_watchABCD_shiftWatchIsCreated(self):
-        group = ShiftTemplateGroup.objects.create(name="A")
-        shift_template = ShiftTemplateFactory.create(group=group)
+        group, _ = make_group_with_templates(1)
         self.recurring_template.shift_template_group = ["A"]
         self.recurring_template.save()
-
-        end_date = timezone.now().date() + datetime.timedelta(days=14)
+        end_date = future_date()
         ShiftGenerator.generate_shifts_up_to(end_date=end_date)
-
-        watched_group_names = set(
-            ShiftWatch.objects.filter(user=self.user).values_list(
-                "shift__shift_template__group__name", flat=True
-            )
-        )
+        watched_group_names = self.watched_group_names()
 
         self.assertEqual(watched_group_names, {"A"})
 
