@@ -1,5 +1,8 @@
 from typing import Optional
 
+from django.db import transaction
+from django.db.models import Q
+
 from tapir.shifts.models import (
     Shift,
     ShiftSlot,
@@ -136,29 +139,21 @@ class ShiftWatchCreator:
     @classmethod
     def create_shift_watch_entries(cls, shift: Shift) -> None:
         """Create ShiftWatch entries based on RecurringShiftWatch."""
-        for shiftwatch_template in RecurringShiftWatch.objects.all():
-            shift_template_id = (
-                shift.shift_template.id if shift.shift_template else None
-            )
-            weekday_match = shift.start_time.weekday() in shiftwatch_template.weekdays
+        shift_weekday = shift.start_time.weekday()
 
-            shift_template_group_match = (
-                shift.shift_template.group.name
-                in shiftwatch_template.shift_template_group
-                if shift.shift_template and shiftwatch_template.shift_template_group
-                else False
+        filter_conditions = Q(weekdays__contains=[shift_weekday])
+        if shift.shift_template:
+            filter_conditions |= Q(shift_templates=shift.shift_template) | Q(
+                shift_template_group__contains=[shift.shift_template.group.name]
             )
+        relevant_templates = RecurringShiftWatch.objects.filter(filter_conditions)
 
-            if (
-                shift_template_id
-                and shiftwatch_template.shift_templates.filter(
-                    id=shift_template_id
-                ).exists()
-            ) or (weekday_match or shift_template_group_match):
+        with transaction.atomic():
+            for template in relevant_templates:
                 ShiftWatch.objects.get_or_create(
-                    user=shiftwatch_template.user,
+                    user=template.user,
                     shift=shift,
-                    staffing_status=shiftwatch_template.staffing_status,
-                    recurring_template=shiftwatch_template,
+                    staffing_status=template.staffing_status,
+                    recurring_template=template,
                     last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
                 )
