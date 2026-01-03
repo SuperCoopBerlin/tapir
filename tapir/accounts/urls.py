@@ -60,6 +60,11 @@ accounts_urlpatterns = [
         views.OpenDoorView.as_view(),
         name="open_door",
     ),
+    path(
+        "open_door_page",
+        views.OpenDoorPageView.as_view(),
+        name="open_door_page",
+    ),
 ]
 
 urlpatterns = [

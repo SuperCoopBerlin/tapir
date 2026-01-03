@@ -76,9 +76,6 @@ class TapirUserDetailView(
             or self.request.user.has_perm(PERMISSION_GROUP_MANAGE)
         )
 
-        # Check if user is a member (has share owner)
-        context["is_member"] = hasattr(tapir_user, 'share_owner') and tapir_user.share_owner is not None
-
         return context
 
 
@@ -490,3 +487,17 @@ class OpenDoorView(generic.View):
             return HttpResponse(status=200)
         else:
             return HttpResponse(status=403)
+
+
+class OpenDoorPageView(LoginRequiredMixin, generic.TemplateView):
+    """Page view for the open door button."""
+
+    template_name = "accounts/open_door_page.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context["is_member"] = (
+            hasattr(user, "share_owner") and user.share_owner is not None
+        )
+        return context
