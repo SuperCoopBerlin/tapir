@@ -175,10 +175,10 @@
                     <span>{% translate "Open Door" %}</span>
                 </h5>
                 <div class="card-body">
-                    {% if not user_can_shop %}
+                    {% if not is_member %}
                         <div class="alert alert-warning mb-3">
                             <span class="material-icons">info</span>
-                            {% translate "You are currently not allowed to make purchases." %}
+                            {% translate "You must be a member to open the door." %}
                         </div>
                     {% else %}
                         <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">

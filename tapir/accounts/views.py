@@ -36,7 +36,6 @@ from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import (
     TapirAccountCreatedEmailBuilder,
 )
-from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
@@ -76,12 +75,10 @@ class TapirUserDetailView(
             tapir_user == self.request.user
             or self.request.user.has_perm(PERMISSION_GROUP_MANAGE)
         )
-        
-        # Check if user can shop
-        context["user_can_shop"] = False
-        if hasattr(tapir_user, 'share_owner') and tapir_user.share_owner:
-            context["user_can_shop"] = MemberCanShopService.can_shop(tapir_user.share_owner, timezone.now())
-        
+
+        # Check if user is a member (has share owner)
+        context["is_member"] = hasattr(tapir_user, 'share_owner') and tapir_user.share_owner is not None
+
         return context
 
 
@@ -457,20 +454,17 @@ class OpenDoorView(generic.View):
     @method_decorator(login_required)
     def post(self, request):
         """POST endpoint to trigger door opening.
-        
+
         Sets cache key 'open_door' to True with 10-second TTL.
         Requires authentication and CSRF protection.
         """
         if not FeatureFlag.get_flag_value(feature_flag_open_door):
             raise PermissionDenied("The door opening feature is disabled.")
-        
+
         user = request.user
         if not hasattr(user, 'share_owner') or not user.share_owner:
-            raise PermissionDenied("You are not allowed to make purchases at this time.")
-        
-        if not MemberCanShopService.can_shop(user.share_owner, timezone.now()):
-            raise PermissionDenied("You are not allowed to make purchases at this time.")
-        
+            raise PermissionDenied("You must be a member to open the door.")
+
         # Set cache key with 10-second TTL
         cache.set(cache_key_open_door, True, 10)
         return HttpResponse(status=200)

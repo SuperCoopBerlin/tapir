@@ -19,10 +19,12 @@ class TestOpenDoorFeature(FeatureFlagTestMixin, TapirFactoryTestBase):
     def test_openDoor_postWithFeatureEnabledAndUserWithoutShareOwner_returnsForbidden(self):
         """Test that door opening is blocked when user has no share_owner."""
         self.given_feature_flag_value(feature_flag_open_door, True)
-        
+
+        # Create user and delete their share_owner
         user = TapirUserFactory.create()
+        user.share_owner.delete()
         self.login_as_user(user)
-        
+
         response = self.client.post(
             reverse("accounts:open_door")
         )
@@ -91,10 +93,10 @@ class TestOpenDoorFeature(FeatureFlagTestMixin, TapirFactoryTestBase):
         response = self.client.post(reverse("accounts:open_door"))
         self.assertStatusCode(response, 200)
 
-    def test_openDoor_postWithMemberCannotShop_returnsForbidden(self):
-        """Test that door opening is blocked when member cannot shop."""
+    def test_openDoor_postWithFrozenMember_returnsOk(self):
+        """Test that door opening works even when member is frozen."""
         self.given_feature_flag_value(feature_flag_open_door, True)
-        
+
         # Create a frozen member who cannot shop
         user = TapirUserFactory.create(
             share_owner__nb_shares=1,
@@ -105,12 +107,12 @@ class TestOpenDoorFeature(FeatureFlagTestMixin, TapirFactoryTestBase):
             start_date=(timezone.now() - datetime.timedelta(days=1)).date()
         )
         ShiftUserData.objects.update(is_frozen=True)
-        
+
         self.login_as_user(user)
-        
-        # Verify that member cannot shop
+
+        # Verify that member cannot shop (but can still open door)
         self.assertFalse(MemberCanShopService.can_shop(user.share_owner, timezone.now()))
-        
+
         response = self.client.post(reverse("accounts:open_door"))
-        self.assertStatusCode(response, 403)
+        self.assertStatusCode(response, 200)
 
