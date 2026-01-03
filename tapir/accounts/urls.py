@@ -55,6 +55,16 @@ accounts_urlpatterns = [
         views.MailSettingsView.as_view(),
         name="mail_settings",
     ),
+    path(
+        "open_door",
+        views.OpenDoorView.as_view(),
+        name="open_door",
+    ),
+    path(
+        "open_door_page",
+        views.OpenDoorPageView.as_view(),
+        name="open_door_page",
+    ),
 ]
 
 urlpatterns = [
