@@ -157,6 +157,8 @@ class ShiftWatchCreator:
 
         new_watches = []
         for template in relevant_recurrings:
+            if ShiftWatch.objects.filter(user=template.user, shift=shift).exists():
+                continue
             new_watches.append(
                 ShiftWatch(
                     user=template.user,
