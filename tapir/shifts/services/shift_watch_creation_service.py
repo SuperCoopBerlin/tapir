@@ -117,16 +117,13 @@ class ShiftWatchCreator:
         if not shifts_qs.exists():
             return
 
-        existing_shift_ids = set(
-            ShiftWatch.objects.filter(
-                user=recurring.user, shift__in=shifts_qs
-            ).values_list("shift_id", flat=True)
-        )
+        existing_ids = ShiftWatch.objects.filter(
+            user=recurring.user, shift__in=shifts_qs
+        ).values_list("shift_id", flat=True)
+        shifts_to_create = shifts_qs.exclude(pk__in=list(existing_ids))
 
         new_watches = []
-        for shift in shifts_qs:
-            if shift.pk in existing_shift_ids:
-                continue
+        for shift in shifts_to_create:
             new_watches.append(
                 ShiftWatch(
                     user=recurring.user,
