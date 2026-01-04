@@ -146,20 +146,24 @@ class ShiftWatchCreator:
     def create_shift_watch_entries(cls, shift: Shift) -> None:
         """For a shift, find relevant RecurringShiftWatches and create Shift-Watches."""
         shift_weekday = shift.start_time.weekday()
-
         filter_conditions = Q(weekdays__contains=[shift_weekday])
         if shift.shift_template:
             filter_conditions |= Q(shift_templates=shift.shift_template) | Q(
                 shift_template_group__contains=[shift.shift_template.group.name]
             )
-        relevant_templates = RecurringShiftWatch.objects.filter(filter_conditions)
+        relevant_recurrings = RecurringShiftWatch.objects.filter(filter_conditions)
 
-        with transaction.atomic():
-            for template in relevant_templates:
-                ShiftWatch.objects.get_or_create(
+        new_watches = []
+        for template in relevant_recurrings:
+            new_watches.append(
+                ShiftWatch(
                     user=template.user,
                     shift=shift,
                     staffing_status=template.staffing_status,
                     recurring_template=template,
                     last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
                 )
+            )
+
+        if new_watches:
+            ShiftWatch.objects.bulk_create(new_watches)
