@@ -53,7 +53,7 @@ class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     def form_valid(self, form):
         shift = form.save()
 
-        ShiftWatchCreator.create_shift_watch_entries(shift=shift)
+        ShiftWatchCreator.create_shift_watches_for_shift(shift=shift)
 
         return super().form_valid(form)
 
