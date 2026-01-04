@@ -123,20 +123,24 @@ class ShiftWatchCreator:
             ).values_list("shift_id", flat=True)
         )
 
-        new_watches = [
-            ShiftWatch(
-                user=recurring.user,
-                shift=shift,
-                staffing_status=list(recurring.staffing_status),
-                last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
-                    shift=shift, last_status=None
-                ),
-                recurring_template=recurring,
+        new_watches = []
+        for shift in shifts_qs:
+            if shift.pk in existing_shift_ids:
+                continue
+            new_watches.append(
+                ShiftWatch(
+                    user=recurring.user,
+                    shift=shift,
+                    staffing_status=list(recurring.staffing_status),
+                    last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
+                        shift=shift, last_status=None
+                    ),
+                    recurring_template=recurring,
+                )
             )
-            for shift in shifts_qs
-            if shift.pk not in existing_shift_ids
-        ]
-        ShiftWatch.objects.bulk_create(new_watches)
+
+        if new_watches:
+            ShiftWatch.objects.bulk_create(new_watches)
 
     @classmethod
     def create_shift_watch_entries(cls, shift: Shift) -> None:
