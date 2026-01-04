@@ -97,21 +97,23 @@ class ShiftWatchCreator:
         return None
 
     @classmethod
-    def create_shift_watches_for_recurring(cls, recurring: RecurringShiftWatch):
-        shifts_qs = Shift.objects.all()
+    def _filter_shifts_for_recurring(cls, recurring: RecurringShiftWatch):
+        qs = Shift.objects.all()
         if recurring.weekdays or recurring.shift_template_group:
             if recurring.weekdays:
                 iso = [d + 1 for d in recurring.weekdays]
-                shifts_qs = shifts_qs.filter(start_time__iso_week_day__in=iso)
+                qs = qs.filter(start_time__iso_week_day__in=iso)
             if recurring.shift_template_group:
-                shifts_qs = shifts_qs.filter(
+                qs = qs.filter(
                     shift_template__group__name__in=recurring.shift_template_group
                 )
         elif recurring.shift_templates.exists():
-            shifts_qs = shifts_qs.filter(
-                shift_template__in=recurring.shift_templates.all()
-            )
+            qs = qs.filter(shift_template__in=recurring.shift_templates.all())
+        return qs
 
+    @classmethod
+    def create_shift_watches_for_recurring(cls, recurring: RecurringShiftWatch):
+        shifts_qs = cls._filter_shifts_for_recurring(recurring)
         if not shifts_qs.exists():
             return
 
