@@ -43,7 +43,6 @@ def create_shift_watch(
         last_staffing_status = ShiftWatchCreator.get_initial_staffing_status_for_shift(
             shift=shift
         )
-        print(f"last_staffing_status: {last_staffing_status}")
     if staffing_status is None:
         staffing_status = [event.value for event in get_staffingstatus_choices()]
     return ShiftWatch.objects.create(
@@ -171,12 +170,9 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED)
 
     def test_handle_watchedShiftIsCurrentlyRunning_correctNotificationIsSent(self):
-        print(self.shift_ok_first)
         self.shift_ok_first.start_time = timezone.now() - datetime.timedelta(hours=4)
         self.shift_ok_first.end_time = timezone.now() + datetime.timedelta(hours=4)
         self.shift_ok_first.save()
-
-        print(self.shift_ok_first)
 
         self.shift_watch = create_shift_watch(
             user=self.user,
@@ -184,10 +180,8 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             slots=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
-        print(self.shift_watch)
 
         self.unregister_first_slot()
-        print(self.shift_ok_first)
 
         Command().handle()
         self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED)
