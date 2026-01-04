@@ -98,6 +98,7 @@ class ShiftWatchCreator:
 
     @classmethod
     def _filter_shifts_for_recurring(cls, recurring: RecurringShiftWatch):
+        # TODO Gibt es alle Shifts zurück wenn nichts zutrifft? das würde dann für alle shifts ein shiftwatch erzeugen
         qs = Shift.objects.all()
         if recurring.weekdays or recurring.shift_template_group:
             if recurring.weekdays:
@@ -145,9 +146,13 @@ class ShiftWatchCreator:
         shift_weekday = shift.start_time.weekday()
         filter_conditions = Q(weekdays__contains=[shift_weekday])
         if shift.shift_template:
-            filter_conditions |= Q(shift_templates=shift.shift_template) | Q(
-                shift_template_group__contains=[shift.shift_template.group.name]
-            )
+            filter_conditions |= Q(shift_templates=shift.shift_template)
+
+            if shift.shift_template.group:
+                filter_conditions |= Q(
+                    shift_template_group__contains=[shift.shift_template.group.name]
+                )
+
         relevant_recurrings = RecurringShiftWatch.objects.filter(filter_conditions)
 
         new_watches = []
