@@ -111,3 +111,24 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             ShiftWatch.objects.filter(user=self.user, shift=self.base_shift).count()
             == 1
         )
+
+    def test_recurring_with_no_criteria_creates_no_watches(self):
+        """If recurring has no criteria set, no ShiftWatch should be created."""
+        # Recurring ohne Kriterien anlegen
+        recurring_empty = RecurringShiftWatch.objects.create(
+            user=self.user,
+            weekdays=[],
+            staffing_status=["ok"],
+        )
+
+        # Create two shifts which should not be existing after
+        start1 = timezone.now() + timedelta(days=6)
+        start2 = timezone.now() + timedelta(days=7)
+        ShiftFactory.create(start_time=start1, end_time=start1 + timedelta(hours=8))
+        ShiftFactory.create(start_time=start2, end_time=start2 + timedelta(hours=8))
+
+        ShiftWatchCreator.create_shift_watches_for_recurring(recurring_empty)
+
+        assert (
+            ShiftWatch.objects.filter(recurring_template=recurring_empty).count() == 0
+        )
