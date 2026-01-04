@@ -161,7 +161,9 @@ class ShiftWatchCreator:
                     shift=shift,
                     staffing_status=template.staffing_status,
                     recurring_template=template,
-                    last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
+                    last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
+                        shift=shift, last_status=None
+                    ),
                 )
             )
 
