@@ -1,5 +1,4 @@
 from datetime import timedelta
-import pytest
 from django.db import IntegrityError
 from django.utils import timezone
 
@@ -83,7 +82,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             shift_template=None,
         )
 
-        recurring = RecurringShiftWatch.objects.create(
+        RecurringShiftWatch.objects.create(
             user=self.user,
             weekdays=[shift.start_time.weekday()],
             staffing_status=["y"],
