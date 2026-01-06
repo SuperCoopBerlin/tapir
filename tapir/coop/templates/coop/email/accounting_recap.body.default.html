@@ -18,14 +18,30 @@
     <p>
         <ul>
             <li>
-                {% translate "New members" %}
+                {% translate "New members (no payment by installments)" %}
                 <ul>
                     {% for entry in new_member_recap_entries %}
-                        <li>
-                            <a href="{{ site_url }}{% url 'coop:shareowner_membership_confirmation' entry.member.id %}?num_shares={{ entry.number_of_shares }}&date={{ entry.date|date:"d.m.Y" }}">
-                                {% get_display_name_full entry.member %}, {{ entry.number_of_shares }} {% translate "share(s)" %}, {{ entry.date|date:"d.m.Y" }}
-                            </a>
-                        </li>
+                        {% if not entry.ratenzahlung %}
+                            <li>
+                                <a href="{{ site_url }}{% url 'coop:shareowner_membership_confirmation' entry.member.id %}?num_shares={{ entry.number_of_shares }}&date={{ entry.date|date:"d.m.Y" }}">
+                                    {% get_display_name_full entry.member %}, {{ entry.number_of_shares }} {% translate "share(s)" %}, {{ entry.date|date:"d.m.Y" }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            <li>
+                {% translate "New members (with payment by installments)" %}
+                <ul>
+                    {% for entry in new_member_recap_entries %}
+                        {% if entry.ratenzahlung %}
+                            <li>
+                                <a href="{{ site_url }}{% url 'coop:shareowner_membership_confirmation' entry.member.id %}?num_shares={{ entry.number_of_shares }}&date={{ entry.date|date:"d.m.Y" }}">
+                                    {% get_display_name_full entry.member %}, {{ entry.number_of_shares }} {% translate "share(s)" %}, {{ entry.date|date:"d.m.Y" }}
+                                </a>
+                            </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </li>

@@ -50,14 +50,6 @@ class ShiftConfig(AppConfig):
         )
 
         shifts_group.add_link(
-            display_name="SET ON RENDER",
-            material_icon="table_view",
-            url=reverse_lazy("shifts:shift_template_group_calendar"),
-            ordering=3,
-            on_render=cls.get_link_display_name_abcd_calendar,
-        )
-
-        shifts_group.add_link(
             display_name="Solidarity Shifts",
             material_icon="favorite",
             url=reverse_lazy("shifts:solidarity_shifts"),
@@ -72,19 +64,6 @@ class ShiftConfig(AppConfig):
             required_permissions=[PERMISSION_SHIFTS_MANAGE],
             ordering=6,
         )
-
-    @classmethod
-    def get_link_display_name_abcd_calendar(cls, link):
-        from tapir.shifts.templatetags.shifts import get_current_week_group
-
-        current_week_group_name = "???"
-        current_week_group = get_current_week_group()
-        if current_week_group is not None:
-            current_week_group_name = current_week_group.name
-
-        link.display_name = _(
-            "ABCD annual calendar, current week: {current_week_group_name}"
-        ).format(current_week_group_name=current_week_group_name)
 
     @staticmethod
     def register_emails():

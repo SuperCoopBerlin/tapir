@@ -14,6 +14,11 @@
                     <span class="material-icons button-icon">edit</span>{% translate 'Edit' %}
                 </a>
             {% endif %}
+            <a class="{% tapir_button_link_to_action %}"
+               id="shiftwatch_overview"
+               href="{% url 'shifts:shiftwatch_overview' user.pk %}">
+                <span class="material-icons">visibility</span> {% translate "Watched Shifts" %}
+            </a>
         </span>
     </h5>
     <div class="card-body">
@@ -229,5 +234,15 @@
                 </div>
             </div>
         {% endif %}
+        <div class="row m-1">
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Next watched Shift" %}:</div>
+            <div class="col-12 col-sm-8">
+                {% if next_watched_shift %}
+                    <a href="{{ next_watched_shift.shift.get_absolute_url }}">{{ next_watched_shift.shift.get_display_name }}</a>
+                {% else %}
+                    <span class="text-danger">{% translate "No watched shifts" %}</span>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>

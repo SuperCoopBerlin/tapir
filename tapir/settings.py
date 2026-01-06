@@ -12,14 +12,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 import email.utils
 import os
-from datetime import timedelta
 from pathlib import Path
 
 import celery.schedules
-import django_auth_ldap
 import environ
 import ldap
-from django_auth_ldap.config import LDAPSearch, GroupOfNamesType, NestedGroupOfNamesType
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 
 env = environ.Env()
 
@@ -426,3 +424,11 @@ if DEBUG:
             },
         },
     }
+
+# See the Holidays package: https://pypi.org/project/holidays/
+COUNTRY_FOR_HOLIDAYS_AUTO_CANCEL = env.str(
+    "COUNTRY_FOR_HOLIDAYS_AUTO_CANCEL", default="DE"
+)
+SUBDIV_FOR_HOLIDAYS_AUTO_CANCEL = env.str(
+    "SUBDIV_FOR_HOLIDAYS_AUTO_CANCEL", default="BE"
+)

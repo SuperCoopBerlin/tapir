@@ -56,7 +56,7 @@
             <h5 class="card-header">{% translate "Resign a new membership" %}</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <form role="form" method="post">
+                    <form method="post">
                         {% csrf_token %}
                         {% bootstrap_form form %}
                         <div class="d-flex justify-content-end">

@@ -1,10 +1,13 @@
 {% load core %}
 {% load i18n %}
 {% load utils %}
+{% load static %}
+<!--for material-icons-->
+<link rel="stylesheet" href="{% static 'core/css/base.css' %}">
 <style>
     @page {
         size: A4 portrait;
-        margin: 20;
+        margin: 8mm;
     }
 
     @media print {
@@ -14,111 +17,275 @@
         }
     }
 
-    table, th, td {
-        border: 2px solid black;
-        border-collapse: collapse;
-        text-align: center;
-        padding: 5px;
+    body {
+        margin: 0;
+        font-family: "Arial Narrow", Arial, sans-serif;
+        font-size: 11px;
+        color: #000;
     }
 
-    th {
-        font-weight: bold;
-    }
-
-    table {
+    .shift-container {
         width: 100%;
-        font-size: 14px;
-        page-break-inside: avoid;
+        box-sizing: border-box;
+        padding: 6px;
+        column-count: 2;
+        column-gap: 8mm;
     }
 
     h1 {
         text-align: center;
+        margin: 4px 0 6px 0;
+        font-size: 14px;
+        break-inside: avoid;
+    }
+
+    .shift-block {
+        break-inside: avoid;
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 4px 0;
+        padding: 4px;
+        border: 1px solid #000;
+    }
+
+    .shift-header {
+        background-color: #e6e6e6;
+        padding: 3px 6px;
+        font-weight: bold;
+        text-align: center;
+        border: 1px solid #000;
+        margin-bottom: 6px;
+        font-size: 12px;
+    }
+
+    .att-controls-header {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 10px;
+        font-weight: bold;
+        padding: 3px 6px;
+        box-sizing: border-box;
+        margin-bottom: 6px;
+        border-left: none;
+    }
+
+    .att-controls-header div {
+        text-align: center;
+        width: 20%;
+        max-width: 20%;
+    }
+
+    .att-controls-header .label-set {
+        width: 20%;
+        display: flex;
+        justify-content: space-around;
+        gap: 6px;
+        margin-left: auto;
+        box-sizing: border-box;
+        font-size: 11px;
+    }
+
+    .att-controls-header .label-set div {
+        width: 33%;
+        text-align: center;
+    }
+
+    .slots-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .slot-row {
+        display: flex;
+        align-items: center;
+        border: 1px solid #000;
+        padding: 4px;
+        box-sizing: border-box;
+        height: auto;
+        min-height: 43px;
+        break-inside: avoid-column;
+    }
+
+    .slot-index {
+        width: 1.2%;
+        min-width: 10px;
+        text-align: center;
+        padding-right: 3px;
+        font-size: 10px;
+    }
+
+    .slot-info {
+        width: 26%;
+        padding-left: 5px;
+        border-right: 1px solid #000;
+        text-align: left;
+        font-size: 11px;
+        overflow: hidden;
+        white-space: normal;
+        word-wrap: break-word;
+        hyphens: auto;
+        line-height: 1.2;
+    }
+
+    .member-info {
+        width: 44%;
+        padding-left: 6px;
+        border-right: 1px solid #000;
+        text-align: left;
+        font-size: 10px;
+        overflow: hidden;
+        line-height: 1.2;
+    }
+
+    .attendance-controls {
+        width: 24%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding-left: 6px;
+        gap: 6px;
+    }
+
+    .att-checkbox {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 0;
+    }
+
+    .att-checkbox span {
+        display: none;
+    }
+
+    .att-checkbox input[type="checkbox"] {
+        appearance: none;
+        width: 12px;
+        height: 12px;
+        margin-bottom: 0;
+        background-color: #d3d3d3;
+        border: 1px solid #000;
+        border-radius: 4px;
+        cursor: pointer;
     }
 
     .small-text {
         font-size: 10px;
     }
 
+    .legend {
+        font-size: 10px;
+        margin: 4px 0 8px 0;
+        text-align: right;
+        break-inside: avoid;
+    }
 
+    .legend span {
+        margin-left: 8px;
+        font-weight: bold;
+    }
+
+    .shift-header, .att-controls-header {
+        background: #f0f0f0;
+    }
+
+    .attendance-label {
+        transform: rotate(-30deg);
+        transform-origin: left bottom;
+        white-space: nowrap;
+        font-size: 10px;
+    }
 </style>
-<h1>{{ shifts.0.start_time|date:'d.m.y' }}</h1>
-{% for shift in shifts %}
-    <p>
-        <table>
-            <thead>
-                <tr>
-                    <th colspan="6" style="background-color: #ccc;">{{ shift.get_display_name }}</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th>{% translate 'Slot' %}</th>
-                    <th>{% translate 'Member' %}</th>
-                    <th style="width: 20%;">{% translate 'Attended' %}</th>
-                    <th style="width: 20%;">{% translate 'Missed' %}</th>
-                    <th style="width: 20%;">{% translate 'Excused' %}</th>
-                </tr>
-            </thead>
-            <tbody>
+<div class="shift-container">
+    <h1>{{ shifts.0.start_time|date:'d.m.y' }}</h1>
+    <div class="att-controls-header" aria-hidden="true">
+        <div style="flex:1"></div>
+        <div class="label-set">
+            <div class="attendance-label">{% translate 'Attended' %}</div>
+            <div class="attendance-label">
+                {% translate 'Excused' %} <span style="color: red;">*</span>
+            </div>
+        </div>
+    </div>
+    {% for shift in shifts %}
+        <div class="shift-block">
+            <div class="shift-header">{{ shift.get_display_name }}</div>
+            <div class="slots-list">
                 {% for slot in shift.slots.all %}
-                    <tr>
-                        <td>
-                            <h5>#{{ forloop.counter }}</h5>
-                        </td>
-                        <td>
-                            {{ slot.name }}
-                            <br />
-                            <span class="small-text">
+                    <div class="slot-row">
+                        <div class="slot-index">#{{ forloop.counter }}</div>
+                        <div class="slot-info" title="{{ slot.name }}">
+                            <div style="line-height:1.0;font-weight: bold;">{{ slot.name }}</div>
+                            <div class="small-text" style="line-height:1.0;">
                                 {% if slot.required_capabilities|length > 0 %}
-                                    {% translate 'Required qualifications: ' %}{{ slot.get_required_capabilities_display }}
+                                    <i class="material-icons small-text" style="vertical-align: middle;">school</i> {{ slot.get_required_capabilities_display }}
                                 {% endif %}
-                            </span>
-                        </td>
-                        <td>
+                            </div>
+                        </div>
+                        <div class="member-info">
                             {% with slot.get_valid_attendance as attendance %}
                                 {% if attendance %}
-                                    <div>
+                                    <div style="line-height:1.0;
+                                                white-space:nowrap;
+                                                overflow:hidden;
+                                                font-weight: bold;
+                                                text-overflow:ellipsis">
                                         {% get_display_name_short attendance.user %}
                                         {% if attendance.user.pronouns %}({{ attendance.user.pronouns }}){% endif %}
                                         #{{ attendance.user.share_owner.id }}
                                     </div>
                                     {% if shift.flexible_time %}
                                         {% if attendance.custom_time %}
-                                            <div>{% translate "Expected to come at" %} {{ attendance.custom_time|time:"H:i" }}</div>
+                                            <div class="small-text" style="line-height:1.0;">
+                                                {% translate "Expected to come at" %} {{ attendance.custom_time|time:"H:i" }}
+                                            </div>
                                         {% else %}
-                                            <div>{% translate "Flexible time not specified" %}</div>
+                                            <div class="small-text" style="line-height:1.0;">{% translate "Flexible time not specified" %}</div>
                                         {% endif %}
                                     {% endif %}
-                                    <br />
                                     {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
                                     {% if shift_partner_enabled and attendance.user.shift_user_data.shift_partner %}
-                                        <span>({% translate "Shift partner: " %}{% get_display_name_short attendance.user.shift_user_data.shift_partner.user %} #{{ attendance.user.shift_user_data.shift_partner.user.get_member_number }})</span>
+                                        <div class="small-text" style="line-height:1.0;">
+                                            ({% translate "Shift partner: " %}{% get_display_name_short attendance.user.shift_user_data.shift_partner.user %}
+                                            #{{ attendance.user.shift_user_data.shift_partner.user.get_member_number }})
+                                        </div>
                                     {% endif %}
                                     {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
-                                        ({% translate "Looking for a stand-in" %})
+                                        <div class="small-text" style="line-height:1.0;">({% translate "Looking for a stand-in" %})</div>
                                     {% endif %}
-                                    <br />
-                                    <br />
-                                    <br />
-                                    {% if attendance.user.shift_user_data.capabilities|length > 0 %}
-                                        <span class="small-text">
-                                            {% translate 'Has qualifications: ' %}{{ attendance.user.shift_user_data.get_capabilities_display }}
-                                        </span>
-                                    {% endif %}
+                                    <div class="small-text" style="line-height:1.0;">
+                                        {% if attendance.user.shift_user_data.capabilities|length > 0 %}
+                                            <i class="material-icons small-text" style="vertical-align: middle;">school</i> {{ attendance.user.shift_user_data.get_capabilities_display }}
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
                             {% endwith %}
-                        </td>
-                        <td>
-                            <!-- Attended -->
-                        </td>
-                        <td>
-                            <!-- Missed -->
-                        </td>
-                        <td>
-                            <!-- Excused -->
-                        </td>
-                    </tr>
+                        </div>
+                        <div class="attendance-controls" aria-label="attendance controls">
+                            <div class="signature-box"
+                                 title="{% translate 'Attended' %}"
+                                 style="width: 80%;
+                                        height: 28px;
+                                        border: 1px solid #000;
+                                        text-align: center"></div>
+                            <label class="att-checkbox" title="{% translate 'Excused' %}">
+                                <input type="checkbox" name="attendance_{{ slot.id }}_excused" />
+                                <span>{% translate 'Excused' %}</span>
+                            </label>
+                        </div>
+                    </div>
                 {% endfor %}
-            </tbody>
-        </table>
-    </p>
-{% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="legend" style="text-align: right; font-size: 10px;">
+        <span>
+            <i class="material-icons small-text" style="vertical-align: middle;">school</i>
+            - {% translate 'Qualifications' %}
+            <span style="margin: 0 4px;"></span>
+            <span style="margin-left: 4px;">* {% translate 'Only to be filled by teamleader, member office or employees.' %}</span>
+        </div>
+    </div>
