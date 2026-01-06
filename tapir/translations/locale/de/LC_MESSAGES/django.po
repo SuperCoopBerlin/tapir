@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-25 17:02+0200\n"
+"POT-Creation-Date: 2026-01-06 15:48+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2972,13 +2972,13 @@ msgstr ""
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
 msgstr ""
 
-#: shifts/emails/shift_confirmed_email.py:22
+#: shifts/emails/shift_confirmed_email.py:25
 #, fuzzy
-#| msgid "Shift missed"
-msgid "Shift confirmed"
-msgstr "Schicht versäumt"
+#| msgid "Shift attendance: %(name)s"
+msgid "Shift attendance confirmed"
+msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/emails/shift_confirmed_email.py:26
+#: shifts/emails/shift_confirmed_email.py:29
 #, fuzzy
 #| msgid "Sent to a member when the accounts gets created."
 msgid "Sent to a member when the member office marks the shift as confirmed"
@@ -3525,10 +3525,10 @@ msgid ""
 "\n"
 "        <p>Hi %(display_name_short)s,</p>\n"
 "\n"
-"        <p>This is an automated email from SuperCoop.</p>\n"
+"        <p>This is an automated email from %(coop_name)s.</p>\n"
 "\n"
 "        <p>\n"
-"        You successfully completed your shift on %(shift_display_name)s! Thank you for your work and for keeping our SuperCoop running. The shift has bin credited to your Tapir account. \n"
+"        You successfully completed your shift on %(shift_display_name)s! Thank you for your work and for keeping our %(coop_name)s running. The shift has bin credited to your Tapir account.\n"
 "        See you next time!\n"
 "        </p>\n"
 "\n"
@@ -4682,23 +4682,23 @@ msgstr "Keine"
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views/attendance.py:206 shifts/views/attendance.py:350
+#: shifts/views/attendance.py:202 shifts/views/attendance.py:346
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:212 shifts/views/attendance.py:356
+#: shifts/views/attendance.py:208 shifts/views/attendance.py:352
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/attendance.py:390
+#: shifts/views/attendance.py:386
 #, fuzzy, python-format
 #| msgid "Shift attendance: %(name)s"
 msgid "ABCD attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:397
+#: shifts/views/attendance.py:393
 #, fuzzy, python-format
 #| msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
@@ -6214,6 +6214,11 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy
+#~| msgid "Shift missed"
+#~ msgid "Shift confirmed"
+#~ msgstr "Schicht versäumt"
 
 #~ msgid "Purchase tracking"
 #~ msgstr "Vergangene Einkäufe"

@@ -6,10 +6,10 @@
     {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
         <p>Hi {{ display_name_short }},</p>
 
-        <p>This is an automated email from SuperCoop.</p>
+        <p>This is an automated email from {{ coop_name }}.</p>
 
         <p>
-        You successfully completed your shift on {{ shift_display_name }}! Thank you for your work and for keeping our SuperCoop running. The shift has bin credited to your Tapir account. 
+        You successfully completed your shift on {{ shift_display_name }}! Thank you for your work and for keeping our {{ coop_name }} running. The shift has bin credited to your Tapir account.
         See you next time!
         </p>
 

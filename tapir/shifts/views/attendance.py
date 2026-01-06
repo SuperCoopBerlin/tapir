@@ -160,17 +160,13 @@ class UpdateShiftAttendanceStateBase(
                 attendance=attendance,
             ).save()
 
+            email_builder = None
             if attendance.state == ShiftAttendance.State.MISSED:
-                attendance = self.get_attendance()
                 email_builder = ShiftMissedEmailBuilder(shift=attendance.slot.shift)
-                SendMailService.send_to_tapir_user(
-                    actor=self.request.user,
-                    recipient=attendance.user,
-                    email_builder=email_builder,
-                )
             elif attendance.state == ShiftAttendance.State.DONE:
-                attendance = self.get_attendance()
                 email_builder = ShiftConfirmedEmailBuilder(shift=attendance.slot.shift)
+
+            if email_builder:
                 SendMailService.send_to_tapir_user(
                     actor=self.request.user,
                     recipient=attendance.user,

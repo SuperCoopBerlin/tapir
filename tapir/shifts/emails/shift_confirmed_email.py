@@ -4,11 +4,14 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.coop.models import ShareOwner
+from tapir.core.mail_option import MailOption
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.models import Shift
 
 
 class ShiftConfirmedEmailBuilder(TapirEmailBuilderBase):
+    option = MailOption.OPTIONAL_DISABLED
+
     def __init__(self, shift):
         super().__init__()
         self.shift = shift
@@ -19,7 +22,7 @@ class ShiftConfirmedEmailBuilder(TapirEmailBuilderBase):
 
     @classmethod
     def get_name(cls) -> str:
-        return _("Shift confirmed")
+        return _("Shift attendance confirmed")
 
     @classmethod
     def get_description(cls) -> str:
