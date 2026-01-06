@@ -18,6 +18,7 @@ from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
+from tapir.shifts.emails.shift_confirmed_email import ShiftConfirmedEmailBuilder
 from tapir.shifts.emails.stand_in_found_email import StandInFoundEmailBuilder
 from tapir.shifts.forms import (
     ShiftAttendanceTemplateForm,
@@ -159,9 +160,13 @@ class UpdateShiftAttendanceStateBase(
                 attendance=attendance,
             ).save()
 
+            email_builder = None
             if attendance.state == ShiftAttendance.State.MISSED:
-                attendance = self.get_attendance()
                 email_builder = ShiftMissedEmailBuilder(shift=attendance.slot.shift)
+            elif attendance.state == ShiftAttendance.State.DONE:
+                email_builder = ShiftConfirmedEmailBuilder(shift=attendance.slot.shift)
+
+            if email_builder:
                 SendMailService.send_to_tapir_user(
                     actor=self.request.user,
                     recipient=attendance.user,

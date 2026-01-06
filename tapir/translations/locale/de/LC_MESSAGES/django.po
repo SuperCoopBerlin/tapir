@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-24 11:25+0100\n"
+"POT-Creation-Date: 2026-01-06 15:51+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2926,6 +2926,18 @@ msgstr "Schicht-Status wird auf Eingefroren gesetzt"
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
 msgstr "Wird an ein Mitglied gesendet, wenn sein Schichtstatus auf Eingefroren gesetzt wird. Dies geschieht in der Regel, wenn es zu viele Schichten versäumt hat."
 
+#: shifts/emails/shift_confirmed_email.py:25
+#, fuzzy
+#| msgid "Shift attendance: %(name)s"
+msgid "Shift attendance confirmed"
+msgstr "Schicht-Anwesenheit: %(name)s"
+
+#: shifts/emails/shift_confirmed_email.py:29
+#, fuzzy
+#| msgid "Sent to a member when the accounts gets created."
+msgid "Sent to a member when the member office marks the shift as confirmed"
+msgstr "Wird an ein Mitglied bei Accounterstellung gesendet"
+
 #: shifts/emails/shift_missed_email.py:22
 msgid "Shift missed"
 msgstr "Schicht versäumt"
@@ -3508,6 +3520,69 @@ msgid ""
 msgstr ""
 "\n"
 "    Dein Tapir-Konto wurde eingefroren\n"
+
+#: shifts/templates/shifts/email/shift_confirmed.body.html:6
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        <p>Dear %(display_name_short)s,</p>\n"
+#| "\n"
+#| "        <p>This is an automated email from %(coop_name)s.</p>\n"
+#| "        <p>\n"
+#| "            You were looking for a stand-in for the following shift: %(shift_display_name)s.<br />\n"
+#| "            Another member has taken over your slot for that shift.\n"
+#| "        </p>\n"
+#| "\n"
+#| "        <p>If you haven't done so already, don't forget to attend another shift to compensate for the one you will miss!</p>\n"
+#| "        <p>\n"
+#| "            Cooperative Greetings,<br />\n"
+#| "            The member office\n"
+#| "        </p>\n"
+#| "    "
+msgid ""
+"\n"
+"        <p>Hi %(display_name_short)s,</p>\n"
+"\n"
+"        <p>This is an automated email from %(coop_name)s.</p>\n"
+"\n"
+"        <p>\n"
+"        You successfully completed your shift on %(shift_display_name)s! Thank you for your work and for keeping our %(coop_name)s running. The shift has bin credited to your Tapir account.\n"
+"        See you next time!\n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"            Cooperative Greetings,<br />\n"
+"            The Membership Office\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
+"    <p>Hallo %(display_name_short)s,</p>\n"
+"\n"
+"    <p>Dies ist eine automatische E-Mail von %(coop_name)s.</p>\n"
+"\n"
+"    <p>\n"
+"        Du hast eine Vertretung für die folgende Schicht gesucht: %(shift_display_name)s.<br/>\n"
+"        Ein anderes Mitglied hat deinen Platz für diese Schicht übernommen.\n"
+"    </p>\n"
+"\n"
+"    <p>Falls du es noch nicht getan hast, vergiss nicht, an einer anderen Schicht teilzunehmen, um die verpasste Schicht zu kompensieren!</p>\n"
+"\n"
+"    <p>Kooperative Grüße,<br /> \n"
+"            Das Mitgliederbüro\n"
+"        </p> "
+
+#: shifts/templates/shifts/email/shift_confirmed.subject.html:2
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "    You missed your shift!\n"
+msgid ""
+"\n"
+"    You completed your shift\n"
+msgstr ""
+"\n"
+"Du hast deine Schicht versäumt!\n"
 
 #: shifts/templates/shifts/email/shift_missed.body.html:6
 #, python-format
@@ -4754,23 +4829,23 @@ msgstr "Keine beobachteten Schichten"
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views/attendance.py:197 shifts/views/attendance.py:341
+#: shifts/views/attendance.py:202 shifts/views/attendance.py:346
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:203 shifts/views/attendance.py:347
+#: shifts/views/attendance.py:208 shifts/views/attendance.py:352
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/attendance.py:381
+#: shifts/views/attendance.py:386
 #, fuzzy, python-format
 #| msgid "Shift attendance: %(name)s"
 msgid "ABCD attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:388
+#: shifts/views/attendance.py:393
 #, fuzzy, python-format
 #| msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
