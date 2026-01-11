@@ -398,7 +398,7 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
 
         # set initial status to avoid initial notifications
         status = ShiftWatchCreator.get_initial_staffing_status_for_shift(
-            shift=form.instance.shift, last_status=None
+            shift=form.instance.shift
         )
         form.instance.last_staffing_status = status
         return super().form_valid(form)
