@@ -39,16 +39,14 @@ class ShiftWatchCreator:
         return staffing_status
 
     @classmethod
-    def get_initial_staffing_status_for_shift(
-        cls, shift: Shift, last_status: str = None
-    ) -> str | None:
+    def get_initial_staffing_status_for_shift(cls, shift: Shift) -> str | None:
         """
         Compute the staffing status for a Shift instance by extracting the required
         counts and calling get_staffing_status_if_changed. Returns the status string or None.
         """
         staffing_status = cls.get_staffing_status_for_shift(shift=shift)
 
-        if last_status is None and staffing_status is None:
+        if staffing_status is None:
             return StaffingStatusChoices.ALL_CLEAR
 
         return staffing_status
