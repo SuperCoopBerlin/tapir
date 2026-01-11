@@ -96,7 +96,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             user=self.user,
             shift=self.shift_ok_first,
             slots=self.slots,
-            staffing_status=[event for event in get_staffingstatus_choices()],
+            staffing_status=list(get_staffingstatus_choices()),
         )
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
