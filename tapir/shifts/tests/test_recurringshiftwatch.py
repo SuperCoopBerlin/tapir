@@ -48,7 +48,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
     def test_createShiftBasedOnShiftTemplate_watchSingleShiftTemplates_shiftWatchIsCreated(
         self,
     ):
-        group, [shift_template] = make_group_with_templates(1)
+        _, [shift_template] = make_group_with_templates(1)
         self.recurring_template.shift_templates.set([shift_template])
         ShiftGenerator.generate_shifts_up_to(end_date=future_date())
         watched_shift_templates = self.watched_template_ids()
@@ -58,7 +58,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
     def test_createShiftBasedOnShiftTemplate_watchMultipleShiftTemplates_shiftWatchIsCreated(
         self,
     ):
-        group, (shift_template_1, shift_template_2) = make_group_with_templates(2)
+        _, (shift_template_1, shift_template_2) = make_group_with_templates(2)
         self.recurring_template.shift_templates.set(
             [shift_template_1, shift_template_2]
         )
@@ -72,7 +72,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
     def test_createShiftOfOtherTemplate_watchMultipleShiftTemplates_shiftWatchIsNotCreated(
         self,
     ):
-        group, (shift_template_1, shift_template_2, shift_template_3) = (
+        _, (shift_template_1, shift_template_2, shift_template_3) = (
             make_group_with_templates(3)
         )
         self.recurring_template.shift_templates.set(
@@ -88,13 +88,13 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
 
     def test_createShiftfromShiftTemplate_watchABCD_shiftWatchIsCreated(self):
         group, _ = make_group_with_templates(1)
-        self.recurring_template.shift_template_group = ["A"]
+        self.recurring_template.shift_template_group = [group.name]
         self.recurring_template.save()
         end_date = future_date()
         ShiftGenerator.generate_shifts_up_to(end_date=end_date)
         watched_group_names = self.watched_group_names()
 
-        self.assertEqual(watched_group_names, {"A"})
+        self.assertEqual(watched_group_names, {group.name})
 
     def test_createShiftfromShiftTemplate_intersectingRecurringShiftWatch_shiftWatchIsCreatedNoOverWrite(
         self,
