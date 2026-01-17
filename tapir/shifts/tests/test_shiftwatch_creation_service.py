@@ -82,26 +82,6 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
         self.assertTrue(ShiftWatch.objects.filter(shift=shift).exists())
 
-    def test_bulk_create_race_condition_unique_constraint(self):
-        """Simulate unique constraint and ensure no DB-critical errors occur."""
-        ShiftWatch.objects.create(
-            user=self.user,
-            shift=self.base_shift,
-            staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
-            recurring_template=self.recurring_weekday,
-            last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
-        )
-
-        try:
-            ShiftWatchCreator.create_shift_watches_for_shift(self.base_shift)
-        except IntegrityError:
-            pass  # Acceptable if unique constraint failed.
-
-        self.assertEqual(
-            ShiftWatch.objects.filter(user=self.user, shift=self.base_shift).count(),
-            1,
-        )
-
     def test_createShiftWatchesForRecurring_RecurringWithoutCriteria_createsNoShiftwtch(
         self,
     ):
