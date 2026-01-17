@@ -152,6 +152,7 @@ class ShiftWatchCreator:
         shift_weekday = shift.start_time.weekday()
         filter_conditions = Q(weekdays__contains=[shift_weekday])
 
+        # if both, weekdays and group, are given in recurring, they should be treated as AND-condition
         recurring_with_both_group_and_weekdays = (
             RecurringShiftWatch.objects.exclude(shift_template_group=[])
             .exclude(shift_template_group__isnull=True)
@@ -171,9 +172,8 @@ class ShiftWatchCreator:
         if shift.shift_template:
             filter_conditions |= Q(shift_templates=shift.shift_template)
 
-        qs = RecurringShiftWatch.objects.filter(filter_conditions)
-
-        qs = qs.exclude(
+        # filter for the Recurring, which don't have weekday and group both given
+        qs = RecurringShiftWatch.objects.filter(filter_conditions).exclude(
             id__in=recurring_with_both_group_and_weekdays.values_list("id", flat=True)
         )
 
