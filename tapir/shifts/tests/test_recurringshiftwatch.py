@@ -138,9 +138,14 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         self,
     ):
         """test to make sure that a recurring for Monday week A won't create watches for Monday week B or Tuesday Week A"""
-        group, template = make_group_with_templates(1)
-        self.recurring_template.weekdays = [0]
-        self.recurring_template.shift_template_group = [group.name]
+        a = ShiftTemplateGroup.objects.create(name="A")
+        b = ShiftTemplateGroup.objects.create(name="B")
+        template1 = ShiftTemplateFactory.create(group=a, weekday=0)
+        ShiftTemplateFactory.create(group=a, weekday=1)
+        ShiftTemplateFactory.create(group=b, weekday=0)
+
+        self.recurring_template.weekdays = [template1.weekday]
+        self.recurring_template.shift_template_group = [template1.group.name]
         self.recurring_template.save()
 
         ShiftGenerator.generate_shifts_up_to(end_date=future_date())
@@ -149,5 +154,4 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
                 "shift__shift_template__weekday", "shift__shift_template__group__name"
             )
         )
-        print(tuples)
-        self.assertEqual(tuples, {(0, group.name)})
+        self.assertEqual(tuples, {(template1.weekday, template1.group.name)})
