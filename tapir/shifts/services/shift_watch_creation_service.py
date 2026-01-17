@@ -159,15 +159,15 @@ class ShiftWatchCreator:
         relevant_recurrings = RecurringShiftWatch.objects.filter(filter_conditions)
 
         new_watches = []
-        for template in relevant_recurrings:
-            if ShiftWatch.objects.filter(user=template.user, shift=shift).exists():
+        for recurring in relevant_recurrings:
+            if ShiftWatch.objects.filter(user=recurring.user, shift=shift).exists():
                 continue
             new_watches.append(
                 ShiftWatch(
-                    user=template.user,
+                    user=recurring.user,
                     shift=shift,
-                    staffing_status=template.staffing_status,
-                    recurring_template=template,
+                    staffing_status=recurring.staffing_status,
+                    recurring_template=recurring,
                     last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
                         shift=shift,
                     ),
