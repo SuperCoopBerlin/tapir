@@ -45,24 +45,15 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
     def test_create_shift_watches_for_recurring_skips_existing(self):
         """Skip existing ShiftWatches when creating for recurring shifts."""
-        start1 = timezone.now() + timedelta(days=2)
-        start2 = timezone.now() + timedelta(days=3)
-        shift1 = Shift.objects.create(
-            start_time=start1, end_time=start1 + timedelta(hours=8)
-        )
-        shift2 = Shift.objects.create(
-            start_time=start2, end_time=start2 + timedelta(hours=8)
-        )
-
         recurring = RecurringShiftWatch.objects.create(
             user=self.user,
-            weekdays=[shift1.start_time.weekday()],
+            weekdays=[self.base_shift.start_time.weekday()],
             staffing_status=[StaffingStatusChoices.ALL_CLEAR],
         )
 
         ShiftWatch.objects.create(
             user=self.user,
-            shift=shift1,
+            shift=self.base_shift,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
             recurring_template=recurring,
             last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
@@ -70,11 +61,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
         ShiftWatchCreator.create_shift_watches_for_recurring(recurring)
 
-        self.assertEqual(ShiftWatch.objects.filter(shift=shift1).count(), 1)
-        self.assertIn(
-            ShiftWatch.objects.filter(shift=shift2).count(),
-            (0, 1),
-        )
+        self.assertEqual(ShiftWatch.objects.filter(shift=self.base_shift).count(), 1)
 
     def test_handle_shift_without_template_and_group_none(self):
         """Ensure no crash if shift.shift_template or group is None."""
