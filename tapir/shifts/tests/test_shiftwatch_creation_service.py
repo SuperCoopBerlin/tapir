@@ -25,7 +25,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         self.recurring_weekday = RecurringShiftWatch.objects.create(
             user=self.user,
             weekdays=[(timezone.now() + timedelta(days=1)).weekday()],
-            staffing_status=["maybe"],
+            staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
     def test_create_shift_watch_entries_avoids_duplicates_if_existing(self):
@@ -33,7 +33,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         ShiftWatch.objects.create(
             user=self.user,
             shift=self.base_shift,
-            staffing_status=["maybe"],
+            staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
             recurring_template=self.recurring_weekday,
             last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
         )
@@ -57,13 +57,13 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         recurring = RecurringShiftWatch.objects.create(
             user=self.user,
             weekdays=[shift1.start_time.weekday()],
-            staffing_status=["ok"],
+            staffing_status=[StaffingStatusChoices.ALL_CLEAR],
         )
 
         ShiftWatch.objects.create(
             user=self.user,
             shift=shift1,
-            staffing_status=["ok"],
+            staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
             recurring_template=recurring,
             last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
         )
@@ -88,7 +88,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         RecurringShiftWatch.objects.create(
             user=self.user,
             weekdays=[shift.start_time.weekday()],
-            staffing_status=["y"],
+            staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
         ShiftWatchCreator.create_shift_watches_for_shift(shift)
@@ -100,7 +100,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         ShiftWatch.objects.create(
             user=self.user,
             shift=self.base_shift,
-            staffing_status=["maybe"],
+            staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
             recurring_template=self.recurring_weekday,
             last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
         )
@@ -120,7 +120,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         recurring_empty = RecurringShiftWatch.objects.create(
             user=self.user,
             weekdays=[],
-            staffing_status=["ok"],
+            staffing_status=[StaffingStatusChoices.ALL_CLEAR],
         )
 
         # Create two shifts which should not be existing after
