@@ -28,7 +28,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
-    def test_create_shift_watch_entries_avoids_duplicates_if_existing(self):
+    def test_createShiftWatchForShift_createDuplicateEntry_avoidedIfExisting(self):
         """Ensure no duplicate ShiftWatch for (user, shift) is created."""
         ShiftWatch.objects.create(
             user=self.user,
@@ -43,7 +43,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         watches = ShiftWatch.objects.filter(user=self.user, shift=self.base_shift)
         self.assertEqual(watches.count(), 1)
 
-    def test_create_shift_watches_for_recurring_skips_existing(self):
+    def test_createShiftWatchesForRecurring_existingShiftWatch_skipsExisting(self):
         """Skip existing ShiftWatches when creating for recurring shifts."""
         recurring = RecurringShiftWatch.objects.create(
             user=self.user,
@@ -63,7 +63,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
         self.assertEqual(ShiftWatch.objects.filter(shift=self.base_shift).count(), 1)
 
-    def test_handle_shift_without_template_and_group_none(self):
+    def test_createShiftWatchForShift_shiftWithoutTemplate_getsAccepted(self):
         """Ensure no crash if shift.shift_template or group is None."""
         start = timezone.now() + timedelta(days=5)
         shift = Shift.objects.create(
@@ -102,7 +102,9 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             1,
         )
 
-    def test_recurring_with_no_criteria_creates_no_watches(self):
+    def test_createShiftWatchesForRecurring_RecurringWithoutCriteria_createsNoShiftwtch(
+        self,
+    ):
         """If recurring has no criteria set, no ShiftWatch should be created."""
         recurring_empty = RecurringShiftWatch.objects.create(
             user=self.user,
