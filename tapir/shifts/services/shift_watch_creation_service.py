@@ -103,6 +103,9 @@ class ShiftWatchCreator:
         qs = Shift.objects.all()
         if recurring.weekdays or recurring.shift_template_group:
             if recurring.weekdays:
+                # Because Django/SQL expects ISO weekday numbers (1=Monday…7=Sunday),
+                # while recurring.weekdays is 0-based (0=Monday…6=Sunday).
+                # The list comprehension adds +1 so the values match start_time__iso_week_day__in.
                 iso = [d + 1 for d in recurring.weekdays]
                 qs = qs.filter(start_time__iso_week_day__in=iso)
             if recurring.shift_template_group:
