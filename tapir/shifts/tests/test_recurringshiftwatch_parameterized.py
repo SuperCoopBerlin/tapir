@@ -1,3 +1,5 @@
+import datetime
+
 import pytest
 from django.utils import timezone
 
@@ -8,7 +10,7 @@ from tapir.shifts.tests.factories import ShiftTemplateFactory
 
 
 def future_date():
-    return timezone.now().date() + timezone.timedelta(days=30)
+    return timezone.now().date() + datetime.timedelta(days=30)
 
 
 @pytest.mark.django_db
@@ -21,9 +23,10 @@ class TestShiftRecurringTemplate:
     @pytest.mark.parametrize(
         "recurring_weekdays, recurring_groups, recurring_templates, expected",
         [
-            ([0], ["A"], [], {(0, "A")}),
-            ([0], ["A", "B"], [], {(0, "A"), (0, "B")}),
-            ([0, 1], ["A"], [], {(0, "A"), (1, "A")}),
+            ([0], ["A"], [], {"template1"}),
+            ([0], ["A", "B"], [], {"template1", "template3"}),
+            ([0, 1], ["A"], [], {"template1", "template2"}),
+            ([0, 1], ["A", "B"], [], {"template1", "template2", "template3"}),
         ],
     )
     def test_create_shift_from_shift_template_watch_a_monday_dont_create_other(
@@ -35,9 +38,9 @@ class TestShiftRecurringTemplate:
     ):
         a = ShiftTemplateGroup.objects.create(name="A")
         b = ShiftTemplateGroup.objects.create(name="B")
-        ShiftTemplateFactory.create(group=a, weekday=0)
-        ShiftTemplateFactory.create(group=a, weekday=1)
-        ShiftTemplateFactory.create(group=b, weekday=0)
+        template1 = ShiftTemplateFactory.create(group=a, weekday=0, name="template1")
+        template2 = ShiftTemplateFactory.create(group=a, weekday=1, name="template2")
+        template3 = ShiftTemplateFactory.create(group=b, weekday=0, name="template3")
 
         self.recurring_template.weekdays = recurring_weekdays
         self.recurring_template.shift_template_group = recurring_groups
@@ -46,10 +49,17 @@ class TestShiftRecurringTemplate:
 
         ShiftGenerator.generate_shifts_up_to(end_date=future_date())
 
-        tuples = set(
+        print(ShiftWatch.objects.values_list("shift__shift_template__id", flat=True))
+        print(
+            "template1.id, template2.id, template3.id:",
+            template1.name,
+            template2.pk,
+            template3.pk,
+        )
+        actual = set(
             ShiftWatch.objects.values_list(
-                "shift__shift_template__weekday",
-                "shift__shift_template__group__name",
+                "shift__shift_template__name",
+                flat=True,
             )
         )
-        assert tuples == expected
+        assert actual == expected
