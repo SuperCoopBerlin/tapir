@@ -24,6 +24,12 @@ class TestShiftRecurringTemplate:
     def setup(self, db):
         self.user = TapirUserFactory.create()
         self.recurring_template = RecurringShiftWatch.objects.create(user=self.user)
+        a = ShiftTemplateGroup.objects.create(name="A")
+        b = ShiftTemplateGroup.objects.create(name="B")
+        ShiftTemplateFactory.create(group=a, weekday=0, name="template1")
+        ShiftTemplateFactory.create(group=a, weekday=1, name="template2")
+        ShiftTemplateFactory.create(group=b, weekday=0, name="template3")
+        ShiftTemplateFactory.create(name="templateFalse")
 
     @pytest.mark.parametrize(
         "recurring_weekdays, recurring_groups, recurring_templates, expected",
@@ -43,12 +49,6 @@ class TestShiftRecurringTemplate:
         recurring_templates,
         expected,
     ):
-        a = ShiftTemplateGroup.objects.create(name="A")
-        b = ShiftTemplateGroup.objects.create(name="B")
-        template1 = ShiftTemplateFactory.create(group=a, weekday=0, name="template1")
-        template2 = ShiftTemplateFactory.create(group=a, weekday=1, name="template2")
-        template3 = ShiftTemplateFactory.create(group=b, weekday=0, name="template3")
-
         self.recurring_template.weekdays = recurring_weekdays
         self.recurring_template.shift_template_group = recurring_groups
         self.recurring_template.shift_templates.set(
