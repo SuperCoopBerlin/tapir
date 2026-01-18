@@ -16,7 +16,7 @@ from tapir.shifts.models import (
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 
-from tapir.shifts.tests.factories import ShiftFactory
+from tapir.shifts.tests.factories import ShiftFactory, ShiftWatchFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
@@ -45,7 +45,7 @@ def create_shift_watch(
         )
     if staffing_status is None:
         staffing_status = [event.value for event in get_staffingstatus_choices()]
-    return ShiftWatch.objects.create(
+    return ShiftWatchFactory(
         user=user,
         shift=shift,
         last_valid_slot_ids=slots,

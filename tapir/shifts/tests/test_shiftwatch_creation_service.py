@@ -10,7 +10,7 @@ from tapir.shifts.models import (
     Shift,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
-from tapir.shifts.tests.factories import ShiftFactory
+from tapir.shifts.tests.factories import ShiftFactory, ShiftWatchFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -30,13 +30,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
     def test_createShiftWatchForShift_createDuplicateEntry_avoidedIfExisting(self):
         """Ensure no duplicate ShiftWatch for (user, shift) is created."""
-        ShiftWatch.objects.create(
-            user=self.user,
-            shift=self.base_shift,
-            staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
-            recurring_template=self.recurring_weekday,
-            last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
-        )
+        ShiftWatchFactory(user=self.user, shift=self.base_shift)
 
         ShiftWatchCreator.create_shift_watches_for_shift(self.base_shift)
 
@@ -51,13 +45,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             staffing_status=[StaffingStatusChoices.ALL_CLEAR],
         )
 
-        ShiftWatch.objects.create(
-            user=self.user,
-            shift=self.base_shift,
-            staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
-            recurring_template=recurring,
-            last_staffing_status=StaffingStatusChoices.ALL_CLEAR,
-        )
+        ShiftWatchFactory(user=self.user, shift=self.base_shift)
 
         ShiftWatchCreator.create_shift_watches_for_recurring(recurring)
 
