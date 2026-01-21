@@ -41,6 +41,7 @@ from tapir.shifts.forms import (
     ShiftWatchForm,
     RecurringShiftWatchForm,
 )
+
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -55,6 +56,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     ShiftAccountEntry,
 )
+from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import shift_name_as_class
 from tapir.utils.user_utils import UserUtils
 
@@ -393,6 +395,12 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
     def form_valid(self, form):
         form.instance.shift = Shift.objects.get(id=self.kwargs["shift"])
         form.instance.user = self.request.user
+
+        # set initial status to avoid initial notifications
+        status = ShiftWatchCreator.get_initial_staffing_status_for_shift(
+            shift=form.instance.shift
+        )
+        form.instance.last_staffing_status = status
         return super().form_valid(form)
 
 
@@ -430,7 +438,7 @@ class CreateRecurringShiftWatchView(
         form.instance.user = TapirUser.objects.get(pk=user_pk)
 
         response = super().form_valid(form)
-        form.instance.create_shift_watches()
+        ShiftWatchCreator.create_shift_watches_for_recurring(form.instance)
         return response
 
 
