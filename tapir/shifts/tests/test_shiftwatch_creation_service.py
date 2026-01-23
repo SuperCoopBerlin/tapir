@@ -22,12 +22,6 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         end = start + timedelta(hours=8)
         self.base_shift = ShiftFactory.create(start_time=start, end_time=end)
 
-        self.recurring_weekday = RecurringShiftWatch.objects.create(
-            user=self.user,
-            weekdays=[(timezone.now() + timedelta(days=1)).weekday()],
-            staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
-        )
-
     def test_createShiftWatchForShift_createDuplicateEntry_avoidedIfExisting(self):
         """Ensure no duplicate ShiftWatch for (user, shift) is created."""
         ShiftWatchFactory(user=self.user, shift=self.base_shift)
