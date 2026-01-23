@@ -35,6 +35,8 @@ class TestShiftRecurringTemplate:
         "recurring_weekdays, recurring_groups, recurring_templates, expected",
         [
             ([0], ["A"], [], {"template1"}),
+            ([], ["A"], [], {"template1", "template2"}),
+            ([0], [], [], {"template1", "template3"}),
             ([0], ["A", "B"], [], {"template1", "template3"}),
             ([0, 1], ["A"], [], {"template1", "template2"}),
             ([0, 1], ["A", "B"], [], {"template1", "template2", "template3"}),
