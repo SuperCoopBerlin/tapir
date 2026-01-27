@@ -75,7 +75,7 @@ class TestOpenDoorFeature(FeatureFlagTestMixin, TapirFactoryTestBase):
         """Test that door opening requires authentication."""
         self.given_feature_flag_value(feature_flag_open_door, True)
 
-        user = TapirUserFactory.create()
+        TapirUserFactory.create()
 
         # Try without login
         response = self.client.post(reverse("accounts:open_door"))
