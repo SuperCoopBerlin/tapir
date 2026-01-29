@@ -2,7 +2,6 @@ import datetime
 
 from django.urls import reverse
 from django.utils import timezone
-
 from tapir.shifts.models import (
     ShiftUserCapability,
     ShiftSlotWarning,
@@ -24,7 +23,7 @@ class TestSlotTemplateEdit(TapirFactoryTestBase):
         slot_template.required_capabilities = []
         slot_template.warnings = []
         slot_template.save()
-        shift = shift_template.create_shift(
+        shift = shift_template.create_shift_if_necessary(
             timezone.now().date() + datetime.timedelta(days=10)
         )
         slot = shift.slots.first()
@@ -81,7 +80,7 @@ class TestSlotTemplateEdit(TapirFactoryTestBase):
         slot_template = shift_template.slot_templates.first()
         slot_template.name = "Name before"
         slot_template.save()
-        shift = shift_template.create_shift(
+        shift = shift_template.create_shift_if_necessary(
             timezone.now().date() - datetime.timedelta(days=10)
         )
         slot = shift.slots.first()

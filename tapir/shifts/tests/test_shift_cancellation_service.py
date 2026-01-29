@@ -1,19 +1,18 @@
 import datetime
 
 from django.utils import timezone
-
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftAttendance,
     ShiftTemplate,
 )
+from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.shifts.tests.utils import (
     register_user_to_shift,
     register_user_to_shift_template,
 )
 from tapir.utils.tests_utils import TapirFactoryTestBase
-from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 
 
 class TestShiftCancelService(TapirFactoryTestBase):
@@ -42,7 +41,7 @@ class TestShiftCancelService(TapirFactoryTestBase):
         user = TapirUserFactory.create(is_in_member_office=False)
         self.login_as_member_office_user()
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        shift = shift_template.create_shift(
+        shift = shift_template.create_shift_if_necessary(
             timezone.now().date() + datetime.timedelta(days=2)
         )
         register_user_to_shift_template(self.client, user, shift_template)
@@ -66,7 +65,7 @@ class TestShiftCancelService(TapirFactoryTestBase):
         user = TapirUserFactory.create(is_in_member_office=False)
         self.login_as_member_office_user()
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        shift = shift_template.create_shift(
+        shift = shift_template.create_shift_if_necessary(
             timezone.now().date() + datetime.timedelta(days=2)
         )
 

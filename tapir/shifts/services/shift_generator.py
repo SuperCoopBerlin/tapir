@@ -4,7 +4,6 @@ import holidays
 from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
-
 from tapir.core.models import FeatureFlag
 from tapir.shifts.config import GENERATE_UP_TO, FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS
 from tapir.shifts.models import ShiftTemplateGroup, ShiftTemplate, Shift
@@ -64,7 +63,7 @@ class ShiftGenerator:
             shift_templates = shift_templates.filter(id__in=filter_shift_template_ids)
 
         created_shifts = [
-            shift_template.create_shift(start_date=at_date)
+            shift_template.create_shift_if_necessary(start_date=at_date)
             for shift_template in shift_templates
         ]
 
