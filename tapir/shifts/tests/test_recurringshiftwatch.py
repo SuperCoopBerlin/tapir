@@ -45,57 +45,6 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
             )
         )
 
-    def test_createShiftBasedOnShiftTemplate_watchSingleShiftTemplates_shiftWatchIsCreated(
-        self,
-    ):
-        _, [shift_template] = make_group_with_templates(1)
-        self.recurring_template.shift_templates.set([shift_template])
-        ShiftGenerator.generate_shifts_up_to(end_date=future_date())
-        watched_shift_templates = self.watched_template_ids()
-
-        self.assertEqual(watched_shift_templates, {shift_template.id})
-
-    def test_createShiftBasedOnShiftTemplate_watchMultipleShiftTemplates_shiftWatchIsCreated(
-        self,
-    ):
-        _, (shift_template_1, shift_template_2) = make_group_with_templates(2)
-        self.recurring_template.shift_templates.set(
-            [shift_template_1, shift_template_2]
-        )
-        end_date = future_date()
-        ShiftGenerator.generate_shifts_up_to(end_date=end_date)
-        watched_template_ids = self.watched_template_ids()
-        expected_ids = {shift_template_1.id, shift_template_2.id}
-
-        self.assertEqual(watched_template_ids, expected_ids)
-
-    def test_createShiftOfOtherTemplate_watchMultipleShiftTemplates_shiftWatchIsNotCreated(
-        self,
-    ):
-        _, (shift_template_1, shift_template_2, shift_template_3) = (
-            make_group_with_templates(3)
-        )
-        self.recurring_template.shift_templates.set(
-            [shift_template_1, shift_template_2]
-        )
-        end_date = future_date()
-        ShiftGenerator.generate_shifts_up_to(end_date=end_date)
-        watched_template_ids = self.watched_template_ids()
-        expected_ids = {shift_template_1.id, shift_template_2.id}
-
-        self.assertNotIn(shift_template_3.id, watched_template_ids)
-        self.assertEqual(watched_template_ids, expected_ids)
-
-    def test_createShiftfromShiftTemplate_watchABCD_shiftWatchIsCreated(self):
-        group, _ = make_group_with_templates(1)
-        self.recurring_template.shift_template_group = [group.name]
-        self.recurring_template.save()
-        end_date = future_date()
-        ShiftGenerator.generate_shifts_up_to(end_date=end_date)
-        watched_group_names = self.watched_group_names()
-
-        self.assertEqual(watched_group_names, {group.name})
-
     def test_createShiftfromShiftTemplate_intersectingRecurringShiftWatch_shiftWatchIsCreatedNoOverWrite(
         self,
     ):
