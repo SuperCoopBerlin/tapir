@@ -308,6 +308,7 @@ class ShareOwnerDeleteView(
     @transaction.atomic
     def form_valid(self, form):
         share_owner = self.get_object()
+        share_owner.soft_delete()
         DeleteShareOwnerLogEntry().populate(
             share_owner=share_owner,
             actor=self.request.user,
