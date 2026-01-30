@@ -64,7 +64,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
         self.assertTrue(ShiftWatch.objects.filter(shift=shift).exists())
 
-    def test_createShiftWatchesForRecurring_RecurringWithoutCriteria_createsNoShiftwtch(
+    def test_createShiftWatchesForRecurring_RecurringWithoutCriteria_createsNoShiftwatch(
         self,
     ):
         """If recurring has no criteria set, no ShiftWatch should be created."""
