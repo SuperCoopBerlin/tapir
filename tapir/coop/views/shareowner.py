@@ -314,7 +314,7 @@ class ShareOwnerDeleteView(
             actor=self.request.user,
             model=self.object,
         ).save()
-        return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @require_POST

@@ -34,6 +34,8 @@ class TestShareOwnerDeleteView(
     def test_ShareOwnerDeleteView_shareOwnerdeletedAt_hasDate(self):
         self.login_as_vorstand()
         tapir_user = TapirUserFactory()
+        self.assertIsNotNone(tapir_user.share_owner)
+        self.assertIsNone(tapir_user.share_owner.deleted_at)
         response = self.client.post(
             reverse("coop:shareowner_delete", args=[tapir_user.share_owner.id]),
             follow=True,
