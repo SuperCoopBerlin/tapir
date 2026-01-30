@@ -1,7 +1,6 @@
 import datetime
 
 from django.utils import timezone
-
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftTemplate,
@@ -243,7 +242,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
     def test_applyChange_targetNameIsNone_slotTemplateAndGeneratedSlotsGetDeleted(self):
         targeted_time = datetime.time(hour=10, minute=45)
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        shift_template.create_shift(timezone.now().date())
+        shift_template.create_shift_if_necessary(timezone.now().date())
         slot_template_to_delete = shift_template.slot_templates.get()
 
         self.assertEqual(1, ShiftSlot.objects.count())
@@ -265,7 +264,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
     def test_applyChange_targetNameIsSet_slotTemplateAndGeneratedSlotsGetRenamed(self):
         targeted_time = datetime.time(hour=10, minute=45)
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        shift_template.create_shift(timezone.now().date())
+        shift_template.create_shift_if_necessary(timezone.now().date())
         slot_template_to_rename = shift_template.slot_templates.get()
 
         parameter_set = SlotModificationService.ParameterSet(
@@ -284,7 +283,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
     def test_applyChange_targetCapabilitiesIsNone_capabilitiesNotAffected(self):
         targeted_time = datetime.time(hour=10, minute=45)
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        shift_template.create_shift(timezone.now().date())
+        shift_template.create_shift_if_necessary(timezone.now().date())
         slot_template = shift_template.slot_templates.get()
 
         capabilities = [ShiftUserCapability.CASHIER]
@@ -310,7 +309,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
     def test_applyChange_targetCapabilitiesIsEmpty_capabilitiesNotRequiredAnymore(self):
         targeted_time = datetime.time(hour=10, minute=45)
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        shift_template.create_shift(timezone.now().date())
+        shift_template.create_shift_if_necessary(timezone.now().date())
         slot_template = shift_template.slot_templates.get()
 
         capabilities = [ShiftUserCapability.CASHIER]
@@ -334,7 +333,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
     def test_applyChange_targetCapabilitiesIsNotEmpty_capabilitiesUpdated(self):
         targeted_time = datetime.time(hour=10, minute=45)
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        shift_template.create_shift(timezone.now().date())
+        shift_template.create_shift_if_necessary(timezone.now().date())
         slot_template = shift_template.slot_templates.get()
 
         capabilities_before = [ShiftUserCapability.CASHIER]
@@ -367,10 +366,10 @@ class TestSlotModificationService(TapirFactoryTestBase):
     def test_applyChange_default_doesNotAffectPastShifts(self):
         targeted_time = datetime.time(hour=10, minute=45)
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        future_shift = shift_template.create_shift(
+        future_shift = shift_template.create_shift_if_necessary(
             timezone.now().date() + datetime.timedelta(days=10)
         )
-        past_shift = shift_template.create_shift(
+        past_shift = shift_template.create_shift_if_necessary(
             timezone.now().date() - datetime.timedelta(days=10)
         )
         slot_template_to_delete = shift_template.slot_templates.get()

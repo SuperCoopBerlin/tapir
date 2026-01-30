@@ -1,11 +1,8 @@
 from django.urls import reverse
-from django.utils import timezone
 from django.utils.html import strip_tags
 
-from tapir.accounts.models import TapirUser
-from tapir.accounts.tests.factories.factories import TapirUserFactory
+
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.shifts.models import ShiftAccountEntry
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

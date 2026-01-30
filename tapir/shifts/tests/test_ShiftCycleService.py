@@ -3,7 +3,6 @@ from unittest import mock
 from unittest.mock import patch, Mock
 
 from django.core.management import call_command
-
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
@@ -138,7 +137,7 @@ class TestShiftCycleService(TapirFactoryTestBase):
         self,
     ):
         shift_template: ShiftTemplate = ShiftTemplateFactory.create(weekday=4)
-        shift_template.create_shift(
+        shift_template.create_shift_if_necessary(
             datetime.date(year=2024, month=8, day=15)
         )  # This is a Thursday
 

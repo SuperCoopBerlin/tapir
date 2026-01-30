@@ -18,7 +18,7 @@
             </h5>
             <div class="card-body">
                 {% if slot.shift.description %}<p>{{ slot.shift.description }}</p>{% endif %}
-                <form role="form" method="post">
+                <form method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     <div class="d-flex justify-content-end gap-2">

@@ -82,7 +82,7 @@ class Command(BaseCommand):
             )
 
         for entry in extra_share_entries:
-            pdf = pdfs.get_shareowner_membership_confirmation_pdf(
+            pdf = pdfs.get_confirmation_extra_shares_pdf(
                 entry.member,
                 num_shares=entry.number_of_shares,
                 date=entry.date,

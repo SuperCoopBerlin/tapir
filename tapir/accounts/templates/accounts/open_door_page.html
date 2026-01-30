@@ -1,0 +1,79 @@
+{% extends "core/base.html" %}
+{% load i18n %}
+{% load core %}
+
+{% block title %}
+    {% translate "Open Door" %}
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <h5 class="card-header">
+                    <span class="material-icons">lock_open</span>
+                    {% translate "Open Door" %}
+                </h5>
+                <div class="card-body">
+                    {% if not is_member %}
+                        <div class="alert alert-warning">
+                            <span class="material-icons">info</span>
+                            {% translate "You must be a member to open the door." %}
+                        </div>
+                    {% else %}
+                        <p>{% translate "Click the button below to open the door." %}</p>
+                        <div class="d-grid">
+                            <button type="button" id="open-door-button" class="{% tapir_button_action %} btn-lg">
+                                <span class="material-icons">lock_open</span>
+                                {% translate "Open Door" %}
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('open-door-button');
+            if (!btn) return;
+
+            const icon = btn.querySelector('span.material-icons');
+            const originalText = btn.innerHTML;
+
+            btn.addEventListener('click', async () => {
+                btn.disabled = true;
+                icon.textContent = 'hourglass_empty';
+
+                try {
+                    const res = await fetch('{% url "accounts:open_door" %}', {
+                        method: 'POST',
+                        headers: {'X-CSRFToken': '{{ csrf_token }}'}
+                    });
+
+                    if (res.ok) {
+                        icon.textContent = 'check_circle';
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-success');
+                    } else {
+                        icon.textContent = 'error';
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-danger');
+                    }
+                } catch {
+                    icon.textContent = 'error';
+                    btn.classList.remove('btn-primary');
+                    btn.classList.add('btn-danger');
+                } finally {
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.innerHTML = originalText;
+                        btn.classList.remove('btn-success', 'btn-danger');
+                        btn.classList.add('btn-primary');
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,6 +1,5 @@
 import datetime
 
-import pytest
 from django.core import mail
 from django.utils import timezone
 
@@ -14,7 +13,6 @@ from tapir.shifts.models import (
     ShiftUserCapability,
     get_staffingstatus_choices,
     ShiftAttendance,
-    Shift,
 )
 
 from tapir.shifts.tests.factories import ShiftFactory

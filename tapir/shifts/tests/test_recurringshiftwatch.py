@@ -1,13 +1,10 @@
 import datetime
-from django.utils import timezone
-import pytest
-from django.utils.timezone import make_aware
 
+from django.utils import timezone
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     RecurringShiftWatch,
     ShiftWatch,
-    Shift,
     ShiftTemplateGroup,
 )
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
@@ -28,7 +25,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         shift_template = ShiftTemplateFactory.create()
         self.recurring_template.shift_templates.set([shift_template])
 
-        shift = shift_template.create_shift(
+        shift = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
 
@@ -43,7 +40,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
             [shift_template_1, shift_template_2]
         )
 
-        shift = shift_template_2.create_shift(
+        shift = shift_template_2.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
 
@@ -59,7 +56,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
             [shift_template_1, shift_template_2]
         )
 
-        shift = shift_template_3.create_shift(
+        shift = shift_template_3.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
 
@@ -73,7 +70,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         self.recurring_template.shift_template_group = ["A"]
         self.recurring_template.save()
 
-        shift = shift_template.create_shift(timezone.now().date())
+        shift = shift_template.create_shift_if_necessary(timezone.now().date())
         self.assertTrue(ShiftWatch.objects.filter(user=self.user, shift=shift).exists())
 
     def test_createShiftfromShiftTemplate_intersectingRecurringShiftWatch_shiftWatchIsCreatedNoOverWrite(
@@ -85,7 +82,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         )
 
         shift_template_1 = ShiftTemplateFactory.create()
-        shift_1 = shift_template_1.create_shift(start_date=monday.date())
+        shift_1 = shift_template_1.create_shift_if_necessary(start_date=monday.date())
         shift_3 = ShiftFactory.create(start_time=monday)
 
         # set both RecurringShiftWatch

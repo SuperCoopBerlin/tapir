@@ -10,7 +10,6 @@ from tapir.utils.models import get_country_code
 from tapir.utils.shortcuts import get_timezone_aware_datetime
 from tapir.utils.user_utils import UserUtils
 
-
 # Helper class to deal with users generated from https://randomuser.me/
 
 

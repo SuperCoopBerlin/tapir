@@ -6,7 +6,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Sum, Count, Q
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse, reverse_lazy
@@ -17,7 +16,6 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     RedirectView,
-    FormView,
 )
 from django.views.generic import DetailView, TemplateView
 from django_tables2 import SingleTableView

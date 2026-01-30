@@ -1,10 +1,13 @@
 import datetime
 
+import holidays
+from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
-
-from tapir.shifts.config import GENERATE_UP_TO
-from tapir.shifts.models import ShiftTemplateGroup, ShiftTemplate
+from tapir.core.models import FeatureFlag
+from tapir.shifts.config import GENERATE_UP_TO, FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS
+from tapir.shifts.models import ShiftTemplateGroup, ShiftTemplate, Shift
+from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
 
@@ -59,7 +62,26 @@ class ShiftGenerator:
         if filter_shift_template_ids is not None:
             shift_templates = shift_templates.filter(id__in=filter_shift_template_ids)
 
-        return [
-            shift_template.create_shift(start_date=at_date)
+        created_shifts = [
+            shift_template.create_shift_if_necessary(start_date=at_date)
             for shift_template in shift_templates
         ]
+
+        if FeatureFlag.get_flag_value(FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS):
+            cls.cancel_holiday_shifts(created_shifts)
+
+        return created_shifts
+
+    @classmethod
+    def cancel_holiday_shifts(cls, shifts: list[Shift]):
+        subdiv = settings.SUBDIV_FOR_HOLIDAYS_AUTO_CANCEL
+        if subdiv == "":
+            subdiv = None
+        country_holidays = holidays.country_holidays(
+            settings.COUNTRY_FOR_HOLIDAYS_AUTO_CANCEL, subdiv=subdiv
+        )
+
+        for shift in shifts:
+            if shift.start_time.date() in country_holidays:
+                shift.cancelled_reason = country_holidays[shift.start_time.date()]
+                ShiftCancellationService.cancel(shift)

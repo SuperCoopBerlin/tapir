@@ -29,7 +29,13 @@ register = template.Library()
 @register.inclusion_tag("shifts/user_shifts_overview_tag.html", takes_context=True)
 def user_shifts_overview(context, user):
     context["user"] = user
-    context["next_watched_shift"] = user.user_watching_shift.first()
+    now = timezone.now()
+    context["next_watched_shift"] = (
+        ShiftWatch.objects.filter(user=user, shift__end_time__gte=now)
+        .select_related("shift")
+        .order_by("shift__end_time")
+        .first()
+    )
     return context
 
 

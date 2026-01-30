@@ -45,7 +45,7 @@ def log_entry_list(context, **kwargs):
     context["share_owner_id"] = share_owner_id
 
     context["create_text_log_entry_action_url"] = reverse(
-        f"log:create_text_log_entry", args=[member_type, member.id]
+        "log:create_text_log_entry", args=[member_type, member.id]
     )
 
     return context

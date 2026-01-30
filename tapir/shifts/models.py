@@ -8,7 +8,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.db.models import Sum
-from django.db.models.signals import pre_save, post_save, post_delete, m2m_changed
+from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
@@ -16,6 +16,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
+from tapir.core.models import FeatureFlag
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
 from tapir.utils.models import DurationModelMixin
 from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
@@ -231,7 +232,7 @@ class ShiftTemplate(models.Model):
             display_name = f"{display_name} ({self.group.name})"
         return display_name
 
-    def _generate_shift(self, start_date: datetime.date):
+    def _build_shift(self, start_date: datetime.date):
         shift_date = start_date
         # If this is a shift that is not part of a group and just gets placed manually, just use the day selected
         if self.weekday:
@@ -254,32 +255,31 @@ class ShiftTemplate(models.Model):
         )
 
     @transaction.atomic
-    def create_shift(self, start_date: datetime.date) -> Shift:
-        generated_shift = self._generate_shift(start_date=start_date)
-        shift = self.generated_shifts.filter(
-            start_time=generated_shift.start_time
-        ).first()
+    def create_shift_if_necessary(self, start_date: datetime.date) -> Shift:
+        generated_shift = self._build_shift(start_date=start_date)
 
-        if shift:
-            return shift
+        existing_shift = self.generated_shifts.filter(
+            start_time__date=generated_shift.start_time.date()
+        ).first()
+        if existing_shift:
+            return existing_shift
 
         generated_shift.save()
-        shift = generated_shift
-        create_shift_watch_entries(shift)
+        create_shift_watch_entries(generated_shift)
         for slot_template in self.slot_templates.all().select_related(
             "attendance_template"
         ):
-            slot = slot_template.create_slot_from_template(shift)
+            slot = slot_template.create_slot_from_template(generated_shift)
             slot.update_attendance_from_template()
 
-        return shift
+        return generated_shift
 
     def update_future_shift_attendances(self, now=None):
         for slot_template in self.slot_templates.all():
             slot_template.update_future_slot_attendances(now)
 
     def add_slot_template_and_update_future_shifts(
-        self, slot_name: str, required_capabilities: []
+        self, slot_name: str, required_capabilities: list
     ):
         slot_template = ShiftSlotTemplate.objects.create(
             name=slot_name,
@@ -719,7 +719,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         user_is_not_registered_to_slot_template = (
             self.slot_template is None
             or not hasattr(self.slot_template, "attendance_template")
-            or not self.slot_template.attendance_template.user == user
+            or self.slot_template.attendance_template.user != user
         )
         early_enough = (
             self.shift.start_time.date() - timezone.now().date()
