@@ -149,41 +149,28 @@ class ShiftWatchCreator:
     @classmethod
     def create_shift_watches_for_shift(cls, shift: Shift) -> None:
         """For a shift, find relevant RecurringShiftWatches and create Shift-Watches."""
-        shift_weekday = shift.start_time.weekday()
-        filter_conditions = Q(weekdays__contains=[shift_weekday])
-
-        # if both, weekdays and group, are given in recurring, they should be treated as AND-condition
-        recurring_with_both_group_and_weekdays = (
-            RecurringShiftWatch.objects.exclude(shift_template_group=[])
-            .exclude(shift_template_group__isnull=True)
-            .exclude(weekdays=[])
-            .exclude(weekdays__isnull=True)
+        filter_by_weekday = Q(weekdays=[]) | Q(
+            weekdays__contains=[shift.start_time.weekday()]
         )
-        relevant_recurrings_and = None
-        if shift.shift_template and shift.shift_template.group:
-            group_q = Q(
+
+        filter_by_shift_template_group = Q(shift_template_group=[])
+        if shift.shift_template is not None and shift.shift_template.group is not None:
+            filter_by_shift_template_group |= Q(
                 shift_template_group__contains=[shift.shift_template.group.name]
             )
-            relevant_recurrings_and = recurring_with_both_group_and_weekdays.filter(
-                filter_conditions & group_q
-            )
-            filter_conditions |= group_q
 
-        if shift.shift_template:
-            filter_conditions |= Q(shift_templates=shift.shift_template)
+        filter_by_shift_template = Q(shift_templates=None)
+        if shift.shift_template is not None:
+            filter_by_shift_template |= Q(shift_templates=shift.shift_template)
 
-        # filter for the Recurring, which don't have weekday and group both given
-        qs = RecurringShiftWatch.objects.filter(filter_conditions).exclude(
-            id__in=recurring_with_both_group_and_weekdays.values_list("id", flat=True)
-        )
-
-        if relevant_recurrings_and and relevant_recurrings_and.exists():
-            relevant_recurrings = qs.union(relevant_recurrings_and)
-        else:
-            relevant_recurrings = qs
+        relevant_recurring_shift_watches = RecurringShiftWatch.objects.filter(
+            filter_by_weekday
+            & filter_by_shift_template_group
+            & filter_by_shift_template
+        ).distinct()
 
         new_watches = []
-        for recurring in relevant_recurrings:
+        for recurring in relevant_recurring_shift_watches:
             if ShiftWatch.objects.filter(user=recurring.user, shift=shift).exists():
                 continue
             new_watches.append(
