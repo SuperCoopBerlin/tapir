@@ -2,7 +2,6 @@ import datetime
 
 from django.urls import reverse
 from django.utils import timezone
-
 from tapir.shifts.models import (
     Shift,
     ShiftAttendance,
@@ -71,7 +70,7 @@ class TestMemberSelfUnregisters(TapirFactoryTestBase):
             shift_template=shift_template
         ).first()
         ShiftAttendanceTemplate.objects.create(slot_template=slot_template, user=user)
-        shift = shift_template.create_shift(
+        shift = shift_template.create_shift_if_necessary(
             timezone.now()
             + datetime.timedelta(days=Shift.NB_DAYS_FOR_SELF_UNREGISTER + 1)
         )

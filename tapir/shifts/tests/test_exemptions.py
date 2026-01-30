@@ -3,7 +3,6 @@ from http import HTTPStatus
 
 from django.urls import reverse
 from django.utils import translation, timezone
-
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
@@ -99,10 +98,10 @@ class TestExemptions(TapirFactoryTestBase):
     def test_attendance_cancelled_during_short_exemption(self):
         user = TapirUserFactory.create()
         shift_template = ShiftTemplateFactory.create()
-        shift_cancelled = shift_template.create_shift(
+        shift_cancelled = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
-        shift_kept = shift_template.create_shift(
+        shift_kept = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=20)
         )
         self.login_as_member_office_user()
@@ -164,10 +163,10 @@ class TestExemptions(TapirFactoryTestBase):
         language = "en"
         user = TapirUserFactory.create(is_in_member_office=False)
         shift_template = ShiftTemplateFactory.create()
-        shift_kept = shift_template.create_shift(
+        shift_kept = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
-        shift_cancelled = shift_template.create_shift(
+        shift_cancelled = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=20)
         )
         member_office_user = TapirUserFactory.create(

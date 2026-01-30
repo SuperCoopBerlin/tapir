@@ -23,7 +23,5 @@ def celery_task_failure_email(**kwargs):
     message = """Task {sender.name} with id {task_id} raised exception: {exception!r}
                  Task was called with args: {args} kwargs: {kwargs}.
                  The contents of the full traceback was:{einfo}.
-              """.format(
-        **kwargs
-    )
+              """.format(**kwargs)
     mail_admins(subject, message)

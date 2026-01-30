@@ -2,11 +2,13 @@ import django.contrib.auth.views as auth_views
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
@@ -14,6 +16,7 @@ from django.views.decorators.http import require_POST, require_GET
 
 from tapir import settings
 from tapir.accounts import pdfs
+from tapir.accounts.config import feature_flag_open_door, cache_key_open_door
 from tapir.accounts.forms import (
     TapirUserForm,
     PasswordResetForm,
@@ -32,6 +35,7 @@ from tapir.coop.emails.tapir_account_created_email import (
     TapirAccountCreatedEmailBuilder,
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.core.models import FeatureFlag
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
@@ -71,6 +75,7 @@ class TapirUserDetailView(
             tapir_user == self.request.user
             or self.request.user.has_perm(PERMISSION_GROUP_MANAGE)
         )
+
         return context
 
 
@@ -432,3 +437,65 @@ class MailSettingsView(
                 choice=is_selected,
             )
         return super().form_valid(form)
+
+
+class OpenDoorView(generic.View):
+    """Combined view for door opening control.
+
+    POST: Trigger door opening (requires authentication and CSRF)
+    GET: Check door status (no authentication required)
+    """
+
+    @method_decorator(login_required)
+    def post(self, request):
+        """POST endpoint to trigger door opening.
+
+        Sets cache key 'open_door' to True with 10-second TTL.
+        Requires authentication and CSRF protection.
+        """
+        if not FeatureFlag.get_flag_value(feature_flag_open_door):
+            raise PermissionDenied("The door opening feature is disabled.")
+
+        user = request.user
+        if not hasattr(user, "share_owner") or not user.share_owner:
+            raise PermissionDenied("You must be a member to open the door.")
+
+        # Set cache key with 10-second TTL
+        cache.set(cache_key_open_door, True, 10)
+        return HttpResponse(status=200)
+
+    def get(self, request):
+        """GET endpoint to check door status.
+
+        Returns 200 if cache key is True, otherwise returns 403.
+        No content is provided as this simplifies the use in ressource
+        resticted environments like microcontrollers.
+        Deletes the cache key after checking (one-time use).
+        No authentication required.
+        """
+        if not FeatureFlag.get_flag_value(feature_flag_open_door):
+            return HttpResponse(status=403)
+
+        door_status = cache.get(cache_key_open_door)
+
+        if door_status is not None:
+            cache.delete(cache_key_open_door)
+
+        if door_status is True:
+            return HttpResponse(status=200)
+        else:
+            return HttpResponse(status=403)
+
+
+class OpenDoorPageView(LoginRequiredMixin, generic.TemplateView):
+    """Page view for the open door button."""
+
+    template_name = "accounts/open_door_page.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context["is_member"] = (
+            hasattr(user, "share_owner") and user.share_owner is not None
+        )
+        return context

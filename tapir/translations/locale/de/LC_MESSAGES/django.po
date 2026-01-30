@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-18 17:53+0100\n"
+"POT-Creation-Date: 2026-01-29 10:22+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -17,6 +17,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.12.2\n"
+
+#: accounts/apps.py:18 core/apps.py:33 statistics/apps.py:15
+msgid "Miscellaneous"
+msgstr "Sonstiges"
+
+#: accounts/apps.py:21 accounts/templates/accounts/open_door_page.html:6
+#: accounts/templates/accounts/open_door_page.html:15
+#: accounts/templates/accounts/open_door_page.html:28
+msgid "Open Door"
+msgstr ""
 
 #: accounts/custom_ldap_backend.py:11
 msgid "Invalid username or password"
@@ -250,6 +260,14 @@ msgstr ""
 msgid "Groups"
 msgstr "Gruppen"
 
+#: accounts/templates/accounts/open_door_page.html:21
+msgid "You must be a member to open the door."
+msgstr ""
+
+#: accounts/templates/accounts/open_door_page.html:24
+msgid "Click the button below to open the door."
+msgstr ""
+
 #: accounts/templates/accounts/purchase_tracking_card.html:5
 msgid "Member card"
 msgstr "Mitgliedskarte"
@@ -285,7 +303,7 @@ msgid "Enable"
 msgstr "Aktivieren"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:58
-#: accounts/tests/test_financial_matters_visibility.py:67 accounts/views.py:211
+#: accounts/tests/test_financial_matters_visibility.py:67 accounts/views.py:216
 msgid "You can only look at your own barcode unless you have admin rights"
 msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Admin-Rechte"
 
@@ -512,22 +530,22 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:124 accounts/views.py:129 coop/views/shareowner.py:276
+#: accounts/views.py:129 accounts/views.py:134 coop/views/shareowner.py:276
 #: coop/views/shareowner.py:281
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
 
-#: accounts/views.py:167
+#: accounts/views.py:172
 msgid "Account welcome email sent."
 msgstr "Willkommens-E-Mail für Nutzer'*innenkonto gesendet."
 
-#: accounts/views.py:293 accounts/views.py:298
+#: accounts/views.py:298 accounts/views.py:303
 #, python-format
 msgid "Edit member groups: %(name)s"
 msgstr "Bearbeite Gruppen: %(name)s"
 
-#: accounts/views.py:392 accounts/views.py:397
+#: accounts/views.py:397 accounts/views.py:402
 #, python-format
 msgid "Notification settings for %(name)s"
 msgstr "Benachrichtungseinstellungen für %(name)s"
@@ -2617,10 +2635,6 @@ msgstr "E-Mails"
 msgid "Features"
 msgstr ""
 
-#: core/apps.py:33 statistics/apps.py:15
-msgid "Miscellaneous"
-msgstr "Sonstiges"
-
 #: core/apps.py:36
 msgid "Wiki"
 msgstr "Wiki"
@@ -3089,8 +3103,8 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:726 shifts/forms.py:782 shifts/views/views.py:379
-#: shifts/views/views.py:380
+#: shifts/forms.py:726 shifts/forms.py:782 shifts/views/views.py:377
+#: shifts/views/views.py:378
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
@@ -3270,25 +3284,23 @@ msgstr "Die Schicht ist jetzt voll."
 msgid "The Shift is understaffed!"
 msgstr "Die Schicht ist jetzt unterbesetzt."
 
-#: shifts/models.py:1212
-#, fuzzy
-#| msgid "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
-msgid "Shift stable: not understaffed, not fully staffed."
+#: shifts/models.py:1213
+msgid "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
 msgstr "Entwarnung. Die schicht ist nicht länger unterbesetzt, aber es noch Platz übrig"
 
-#: shifts/models.py:1214
+#: shifts/models.py:1216
 msgid "One new attendance or more registered, but the shift is neither understaffed nor full or almost full."
 msgstr "Ein Mitglied oder mehr hat sich registriert, aber die Schicht ist weder unterbesetzt noch (fast) voll"
 
-#: shifts/models.py:1217
+#: shifts/models.py:1219
 msgid "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
 msgstr "Ein Mitglied oder mehr hat sich abgemeldet, aber die Schicht ist weder unterbesetzt noch (fast) voll"
 
-#: shifts/models.py:1220
+#: shifts/models.py:1222
 msgid "The Shift Coordinator has unregistered"
 msgstr "Ein Teamleiter hat sich abgemeldet"
 
-#: shifts/models.py:1223
+#: shifts/models.py:1225
 msgid "A Shift Coordinator has registered"
 msgstr "Ein Teamleiter hat sich angemeldet"
 
@@ -4487,7 +4499,7 @@ msgid "Recurring Shift Watches"
 msgstr "Wiederholende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:25
-#: shifts/views/views.py:424
+#: shifts/views/views.py:416
 msgid "Create a rule for recurring Shift Watches"
 msgstr "Erstelle eine Regel für sich wiederholende Schichtbeobachtungen"
 
@@ -4826,8 +4838,8 @@ msgstr "Nächste beobachtete Schicht"
 msgid "No watched shifts"
 msgstr "Keine beobachteten Schichten"
 
-#: shifts/templatetags/shifts.py:65 shifts/templatetags/shifts.py:170
-#: shifts/views/views.py:152
+#: shifts/templatetags/shifts.py:71 shifts/templatetags/shifts.py:176
+#: shifts/views/views.py:150
 msgid "General"
 msgstr "Allgemein"
 
@@ -4928,27 +4940,27 @@ msgstr "Es konnte keine vollendete Schicht gefunden werden, die als Solidarität
 msgid "Solidarity Shift given. Account Balance debited with -1."
 msgstr "Die Solidaritätsschicht wurde vergeben. Von deinem Kontostand wird nun eine Schicht abgezogen."
 
-#: shifts/views/views.py:132 shifts/views/views.py:137
+#: shifts/views/views.py:130 shifts/views/views.py:135
 #, python-format
 msgid "Edit user shift data: %(name)s"
 msgstr "Bearbeite Nutzer*in-Schichtdaten: %(name)s"
 
-#: shifts/views/views.py:205
+#: shifts/views/views.py:203
 #, python-format
 msgid "Shift account: %(name)s"
 msgstr "Schichtkonto-Protokoll für: %(name)s"
 
-#: shifts/views/views.py:211
+#: shifts/views/views.py:209
 #, fuzzy, python-format
 #| msgid "Create manual shift account entry for:  %(link)s"
 msgid "Create manual shift account entry for: %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:362
+#: shifts/views/views.py:360
 msgid "Frozen statuses updated."
 msgstr ""
 
-#: shifts/views/views.py:427
+#: shifts/views/views.py:419
 #, python-format
 msgid "Please select either %(shift_template_group)s and/or weekdays, or alternatively %(shift_templates)s."
 msgstr ""

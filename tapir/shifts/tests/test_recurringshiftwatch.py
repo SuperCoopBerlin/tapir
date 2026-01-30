@@ -1,6 +1,6 @@
 import datetime
-from django.utils import timezone
 
+from django.utils import timezone
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     RecurringShiftWatch,
@@ -54,7 +54,7 @@ class ShiftRecurringTemplateTests(TapirFactoryTestBase):
         )
 
         shift_template_1 = ShiftTemplateFactory.create()
-        shift_1 = shift_template_1.create_shift(start_date=monday.date())
+        shift_1 = shift_template_1.create_shift_if_necessary(start_date=monday.date())
         shift_3 = ShiftFactory.create(start_time=monday)
 
         # set both RecurringShiftWatch
