@@ -10,7 +10,11 @@ from tapir.shifts.models import (
     Shift,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
-from tapir.shifts.tests.factories import ShiftFactory, ShiftWatchFactory
+from tapir.shifts.tests.factories import (
+    ShiftFactory,
+    ShiftWatchFactory,
+    ShiftTemplateFactory,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -85,3 +89,41 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         self.assertEqual(
             ShiftWatch.objects.filter(recurring_template=recurring_empty).count(), 0
         )
+
+    def test_createShiftfromShiftTemplate_intersectingRecurringShiftWatch_shiftWatchIsCreatedNoOverWrite(
+        self,
+    ):
+        """Test to ensure correct ShiftWatch creation with intersecting recurring ShiftWatch."""
+        monday = timezone.now() + timedelta(
+            days=(7 - timezone.now().date().weekday() % 7)
+        )
+
+        shift_template_1 = ShiftTemplateFactory.create()
+        shift_1 = shift_template_1.create_shift_if_necessary(start_date=monday.date())
+        shift_3 = ShiftFactory.create(start_time=monday)
+
+        recurring_template = RecurringShiftWatch.objects.create(user=self.user)
+        recurring_template.shift_templates.set([shift_template_1])
+        ShiftWatchCreator.create_shift_watches_for_recurring(
+            recurring=recurring_template
+        )
+
+        recurring_template_2 = RecurringShiftWatch.objects.create(
+            user=self.user, weekdays=[0]
+        )
+        ShiftWatchCreator.create_shift_watches_for_recurring(
+            recurring=recurring_template_2
+        )
+
+        self.assertTrue(
+            ShiftWatch.objects.filter(user=self.user, shift=shift_1).exists()
+        )
+        self.assertTrue(
+            ShiftWatch.objects.filter(user=self.user, shift=shift_3).exists()
+        )
+
+        shift_watch_1 = ShiftWatch.objects.get(user=self.user, shift=shift_1)
+        shift_watch_3 = ShiftWatch.objects.get(user=self.user, shift=shift_3)
+
+        self.assertEqual(shift_watch_1.recurring_template, recurring_template)
+        self.assertEqual(shift_watch_3.recurring_template, recurring_template_2)
