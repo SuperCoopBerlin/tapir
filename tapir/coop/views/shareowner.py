@@ -815,7 +815,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
         )
 
     @staticmethod
-    def filter_by_join_date(queryset: ShareOwner.ShareOwnerQuerySet, name, value):
+    def filter_by_join_date(queryset: ShareOwnerQuerySet, name, value):
         """Filter ShareOwners based on their first share ownership start date."""
         if value.start or value.stop:
             # Get the earliest start date for each share owner
@@ -837,9 +837,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
         return queryset.distinct()
 
     @staticmethod
-    def filter_by_user_date_joined(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value
-    ):
+    def filter_by_user_date_joined(queryset: ShareOwnerQuerySet, name, value):
         """Filter ShareOwners based on when their associated TapirUser account was created."""
         if value.start or value.stop:
             queryset = queryset.filter(user__isnull=False)
