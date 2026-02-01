@@ -9,7 +9,7 @@ test:
 
 check-translations:
 	cp tapir/translations/locale/de/LC_MESSAGES/django.po tapir/translations/locale/de/LC_MESSAGES/django-old.po
-	python manage.py makemessages --no-wrap -l de
+	cd tapir && python ../manage.py makemessages --no-wrap -l de
 	git diff --ignore-matching-lines=POT-Creation-Date --exit-code --no-index tapir/translations/locale/de/LC_MESSAGES/django.po tapir/translations/locale/de/LC_MESSAGES/django-old.po
 	rm tapir/translations/locale/de/LC_MESSAGES/django-old.po
 
