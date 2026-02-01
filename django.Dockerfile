@@ -61,6 +61,7 @@ ENV VENV_PATH="/opt/pysetup/.venv" \
 RUN apt-get update \
     && apt-get install --no-install-recommends -y libpq-dev gettext libldap2-dev libsasl2-dev  \
     libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 \
+    make git \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
 
