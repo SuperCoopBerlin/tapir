@@ -69,14 +69,15 @@ RUN groupadd --gid $USER_GID nonroot && \
     useradd --uid $USER_UID --gid $USER_GID -m nonroot && \
     mkdir -p /app
 
-USER $USERNAME
-
 WORKDIR /app
 
 COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/.venv /opt/pysetup/.venv
 COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/ ./
-COPY --chown=$USERNAME:$USERNAME . .
+
+COPY --chown=$USERNAME:$USERNAME tapir /app/tapir
+COPY --chown=$USERNAME:$USERNAME manage.py /app/manage.py
+COPY --chown=$USERNAME:$USERNAME Makefile /app/Makefile
 
 RUN python manage.py compilemessages
 
-
+USER $USERNAME

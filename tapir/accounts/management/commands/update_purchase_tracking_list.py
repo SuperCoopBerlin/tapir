@@ -17,7 +17,7 @@ class Command(BaseCommand):
         "Updates the file containing the list of users that allowed purchase tracking and synchronizes it with the "
         "BioOffice server."
     )
-    FILE_NAME = "members-current.csv"
+    FILE_NAME = "/tmp/members-current.csv"
 
     def handle(self, *args, **options):
         self.write_users_to_file()
