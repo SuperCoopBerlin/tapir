@@ -129,7 +129,7 @@ docker compose up -d openldap
 Then, run the tests.
 
 ```sh
-docker compose run --rm web pytest
+docker compose run --user=$(id -u):$(id -g) --rm web pytest
 ```
 
 The `--rm` option will delete the temporary containers created to run the tests. Omit it if you want to keep the
@@ -146,7 +146,7 @@ To generate the translation files, first use "makemessages" and specify the lang
 
 ```sh
 docker compose exec -w /app/tapir web python ../manage.py makemessages --no-wrap -l de
-docker compose run --rm -w /app web python manage.py makemessages --no-wrap -l de -d djangojs
+docker compose run --user=$(id -u):$(id -g) --rm -w /app web python manage.py makemessages --no-wrap -l de -d djangojs
 ```
 
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
