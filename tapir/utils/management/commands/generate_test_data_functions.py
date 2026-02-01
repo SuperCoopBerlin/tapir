@@ -285,6 +285,7 @@ def generate_test_users():
                         SHIFT_GENERATION_START.year,
                         SHIFT_GENERATION_START.month,
                         SHIFT_GENERATION_START.day,
+                        tzinfo=timezone.localtime().tzinfo,
                     )
                 )
                 attendance_template_created = True

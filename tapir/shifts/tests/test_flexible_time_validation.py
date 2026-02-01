@@ -7,10 +7,9 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
 class TestFlexibleTime(TapirFactoryTestBase):
-    NOW = datetime.datetime(year=2024, month=6, day=15, hour=12, minute=0)
-
-    def setUp(self) -> None:
-        mock_timezone_now(self, self.NOW)
+    NOW = datetime.datetime(
+        year=2024, month=6, day=15, hour=12, minute=0, tzinfo=datetime.timezone.utc
+    )
 
     @patch.object(CustomTimeCleanMixin, "get_shift_object")
     def test_registerUserToShiftSlotForm_registerOutsideShiftTimesButShiftNotFlexible_formValid(
