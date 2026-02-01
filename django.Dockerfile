@@ -70,6 +70,7 @@ RUN groupadd --gid $USER_GID nonroot && \
     mkdir -p /app
 
 WORKDIR /app
+RUN chown -R $USERNAME:$USERNAME /app
 
 COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/.venv /opt/pysetup/.venv
 COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/ ./
