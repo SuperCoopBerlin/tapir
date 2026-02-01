@@ -48,7 +48,9 @@ class ShiftCycleService:
         shift_account_entry = ShiftAccountEntry.objects.create(
             user=shift_user_data.user,
             value=-credit_requirement,
-            date=cycle_start_date,
+            date=datetime.datetime(
+                cycle_start_date.year, cycle_start_date.month, cycle_start_date.day
+            ),
             description="Shift cycle starting the "
             + cycle_start_date.strftime("%d.%m.%y"),
         )

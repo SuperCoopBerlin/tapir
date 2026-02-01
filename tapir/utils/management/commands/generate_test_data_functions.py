@@ -280,7 +280,13 @@ def generate_test_users():
                 )
                 log_entry.save()
                 log_entries.append(log_entry)
-                free_slot.update_future_slot_attendances(SHIFT_GENERATION_START)
+                free_slot.update_future_slot_attendances(
+                    datetime.datetime(
+                        SHIFT_GENERATION_START.year,
+                        SHIFT_GENERATION_START.month,
+                        SHIFT_GENERATION_START.day,
+                    )
+                )
                 attendance_template_created = True
                 break
 

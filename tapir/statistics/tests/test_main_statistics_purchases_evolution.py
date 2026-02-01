@@ -15,19 +15,19 @@ class TestBasketSumEvolutionData(TapirFactoryTestBase):
         mock_timezone_now(self, self.NOW)
 
         self.create_payment(
-            date=datetime.date(year=2023, month=1, day=1),
+            date=datetime.datetime(year=2023, month=1, day=1),
             amount=10.00,
             source_file=self.getSourceFile(),
             user=user,
         )
         self.create_payment(
-            date=datetime.date(year=2023, month=4, day=1),
+            date=datetime.datetime(year=2023, month=4, day=1),
             amount=20.00,
             source_file=self.getSourceFile(),
             user=user,
         )
         self.create_payment(
-            date=datetime.date(year=2023, month=4, day=1),
+            date=datetime.datetime(year=2023, month=4, day=1),
             amount=10.50,
             source_file=self.getSourceFile(),
             user=user,
@@ -58,7 +58,7 @@ class TestBasketSumEvolutionData(TapirFactoryTestBase):
         self.assertEqual(response.status_code, 403)
 
     @staticmethod
-    def create_payment(date, amount, source_file, user):
+    def create_payment(date: datetime.datetime, amount, source_file, user):
         PurchaseBasketFactory.create(
             purchase_date=date,
             gross_amount=amount,

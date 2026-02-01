@@ -123,7 +123,7 @@ class ShareOwnerStatusBaseTestClass(ABC):
             old_frozen, new_frozen, share_owner, None
         )
         log_entry.save()
-        log_entry.created_date = datetime.date(year=2023, month=1, day=2)
+        log_entry.created_date = datetime.datetime(year=2023, month=1, day=2)
         log_entry.save()
 
         return share_owner

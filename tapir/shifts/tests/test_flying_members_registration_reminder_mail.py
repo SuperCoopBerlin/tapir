@@ -311,7 +311,7 @@ class TestAttendanceUpdateMemberOffice(
 
     def test_hasUserReceivedReminderThisCycle_noLogEntryForThisCycle_returnsFalse(self):
         tapir_user = TapirUserFactory.create()
-        cycle_start_date = self.NOW.date()
+        cycle_start_date = self.NOW
         date_before_the_cycle = cycle_start_date - datetime.timedelta(days=1)
         date_after_the_cycle = cycle_start_date + datetime.timedelta(days=30)
         for date in [date_before_the_cycle, date_after_the_cycle]:
@@ -332,7 +332,7 @@ class TestAttendanceUpdateMemberOffice(
         self,
     ):
         tapir_user = TapirUserFactory.create()
-        cycle_start_date = self.NOW.date()
+        cycle_start_date = self.NOW
 
         entry = EmailLogEntry.objects.create(
             email_id=FlyingMemberRegistrationReminderEmailBuilder.get_unique_id(),
@@ -351,7 +351,7 @@ class TestAttendanceUpdateMemberOffice(
         self,
     ):
         tapir_user = TapirUserFactory.create()
-        cycle_start_date = self.NOW.date()
+        cycle_start_date = self.NOW
         date_before_the_cycle = cycle_start_date - datetime.timedelta(days=1)
         date_after_the_cycle = cycle_start_date + datetime.timedelta(days=30)
         for date in [date_before_the_cycle, date_after_the_cycle]:
@@ -381,7 +381,7 @@ class TestAttendanceUpdateMemberOffice(
         self,
     ):
         tapir_user = TapirUserFactory.create()
-        cycle_start_date = self.NOW.date()
+        cycle_start_date = self.NOW
         shift = ShiftFactory.create(
             start_time=cycle_start_date + datetime.timedelta(days=1)
         )
