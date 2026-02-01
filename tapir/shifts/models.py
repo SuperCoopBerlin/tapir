@@ -7,14 +7,16 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models import Sum, Q
+from django.db.models import Sum
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
+from tapir.core.models import FeatureFlag
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
 from tapir.utils.models import DurationModelMixin
 from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
@@ -115,19 +117,6 @@ class ShiftTemplateGroup(models.Model):
 
     def __str__(self):
         return f"{self.__class__.__name__}: {self.name} (#{self.id})"
-
-    def create_shifts(self, start_date: datetime.date):
-        if start_date.weekday() != 0:
-            raise ValueError("Start date for shift generation must be a Monday")
-        start_date_in_the_past_or_null = Q(start_date__lte=start_date) | Q(
-            start_date__isnull=True
-        )
-        return [
-            shift_template.create_shift(start_date=start_date)
-            for shift_template in self.shift_templates.filter(
-                start_date_in_the_past_or_null
-            )
-        ]
 
     def get_group_index(self) -> int | None:
         for pair in ShiftTemplateGroup.NAME_INT_PAIRS:
@@ -233,16 +222,17 @@ class ShiftTemplate(models.Model):
         ).order_by("-start_time")
 
     def get_display_name(self):
-        display_name = "%s %s %s" % (
+        display_name = "%s %s %s - %s" % (
             self.name,
             _(self.get_weekday_display()),
             self.start_time.strftime("%H:%M"),
+            self.end_time.strftime("%H:%M"),
         )
         if self.group:
             display_name = f"{display_name} ({self.group.name})"
         return display_name
 
-    def _generate_shift(self, start_date: datetime.date):
+    def _build_shift(self, start_date: datetime.date):
         shift_date = start_date
         # If this is a shift that is not part of a group and just gets placed manually, just use the day selected
         if self.weekday:
@@ -265,32 +255,31 @@ class ShiftTemplate(models.Model):
         )
 
     @transaction.atomic
-    def create_shift(self, start_date: datetime.date) -> Shift:
-        generated_shift = self._generate_shift(start_date=start_date)
-        shift = self.generated_shifts.filter(
-            start_time=generated_shift.start_time
-        ).first()
+    def create_shift_if_necessary(self, start_date: datetime.date) -> Shift:
+        generated_shift = self._build_shift(start_date=start_date)
 
-        if shift:
-            return shift
+        existing_shift = self.generated_shifts.filter(
+            start_time__date=generated_shift.start_time.date()
+        ).first()
+        if existing_shift:
+            return existing_shift
 
         generated_shift.save()
-        shift = generated_shift
-
+        create_shift_watch_entries(generated_shift)
         for slot_template in self.slot_templates.all().select_related(
             "attendance_template"
         ):
-            slot = slot_template.create_slot_from_template(shift)
+            slot = slot_template.create_slot_from_template(generated_shift)
             slot.update_attendance_from_template()
 
-        return shift
+        return generated_shift
 
     def update_future_shift_attendances(self, now=None):
         for slot_template in self.slot_templates.all():
             slot_template.update_future_slot_attendances(now)
 
     def add_slot_template_and_update_future_shifts(
-        self, slot_name: str, required_capabilities: []
+        self, slot_name: str, required_capabilities: list
     ):
         slot_template = ShiftSlotTemplate.objects.create(
             name=slot_name,
@@ -730,7 +719,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         user_is_not_registered_to_slot_template = (
             self.slot_template is None
             or not hasattr(self.slot_template, "attendance_template")
-            or not self.slot_template.attendance_template.user == user
+            or self.slot_template.attendance_template.user != user
         )
         early_enough = (
             self.shift.start_time.date() - timezone.now().date()
@@ -1266,9 +1255,24 @@ class ShiftWatch(models.Model):
         null=True,
         choices=get_staffingstatus_choices,
     )
+    recurring_template = models.ForeignKey(
+        "RecurringShiftWatch",
+        related_name="shift_watches",
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
-        return f"{self.user.username} is watching {self.shift.id} for changes of {[status for status in self.staffing_status]}"
+        shift_name = self.shift.get_display_name()
+        shift_url = self.shift.get_absolute_url()
+        return format_html(
+            '{} is watching <a href="{}">{}</a> for changes of {}',
+            self.user.username,
+            shift_url,
+            shift_name,
+            ", ".join(status for status in self.staffing_status),
+        )
 
     class Meta:
         constraints = [
@@ -1277,3 +1281,99 @@ class ShiftWatch(models.Model):
                 name="shift_watch_constraint",
             )
         ]
+
+
+class RecurringShiftWatch(models.Model):
+    """
+    class to generate recurring ShiftWatches from.
+    """
+
+    user = models.ForeignKey(
+        TapirUser, on_delete=models.CASCADE, related_name="shift_recurring_watch"
+    )
+    shift_templates = models.ManyToManyField(ShiftTemplate, blank=True)
+
+    shift_template_group = ArrayField(
+        models.CharField(
+            max_length=255,
+        ),
+        blank=True,
+        default=list,
+    )
+
+    weekdays = ArrayField(
+        models.IntegerField(blank=True, null=True, choices=WEEKDAY_CHOICES),
+        blank=True,
+        default=list,
+    )
+    staffing_status = ArrayField(
+        models.CharField(max_length=30, choices=get_staffingstatus_choices),
+        blank=False,
+        default=get_staffingstatus_defaults,
+    )
+
+    def create_shift_watches(self):
+        shifts_to_watch = set()
+
+        shifts_qs = Shift.objects.all()
+        if self.weekdays or self.shift_template_group:
+            if self.weekdays:
+                iso_weekdays = [weekday + 1 for weekday in self.weekdays]
+                shifts_qs = shifts_qs.filter(start_time__iso_week_day__in=iso_weekdays)
+            if self.shift_template_group:
+                shifts_qs = shifts_qs.filter(
+                    shift_template__group__name__in=self.shift_template_group
+                )
+
+        elif self.shift_templates.exists():
+            shifts_qs = shifts_qs.filter(shift_template__in=self.shift_templates.all())
+
+        shifts_to_watch.update(shifts_qs)
+
+        # Create new ShiftWatches
+        shift_ids = list(shifts_qs.values_list("id", flat=True))
+        # (or not)
+        if not shift_ids:
+            return
+
+        existing_shift_ids = set(
+            ShiftWatch.objects.filter(
+                user=self.user, shift_id__in=shift_ids
+            ).values_list("shift_id", flat=True)
+        )
+
+        new_watches = [
+            ShiftWatch(
+                user=self.user,
+                shift_id=sid,
+                staffing_status=list(self.staffing_status),
+                recurring_template=self,
+            )
+            for sid in shift_ids
+            if sid not in existing_shift_ids
+        ]
+        ShiftWatch.objects.bulk_create(new_watches)
+
+
+def create_shift_watch_entries(shift: Shift) -> None:
+    """Create ShiftWatch entries based on RecurringShiftWatch."""
+    for template in RecurringShiftWatch.objects.all():
+        shift_template_id = shift.shift_template.id if shift.shift_template else None
+        weekday_match = shift.start_time.weekday() in template.weekdays
+
+        shift_template_group_match = (
+            shift.shift_template.group.name in template.shift_template_group
+            if shift.shift_template and template.shift_template_group
+            else False
+        )
+
+        if (
+            shift_template_id
+            and template.shift_templates.filter(id=shift_template_id).exists()
+        ) or (weekday_match or shift_template_group_match):
+            ShiftWatch.objects.create(
+                user=template.user,
+                shift=shift,
+                staffing_status=template.staffing_status,
+                recurring_template=template,
+            )

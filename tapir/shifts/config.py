@@ -16,3 +16,6 @@ FEATURE_FLAG_SHIFT_PARTNER = "feature_flags.shifts.shift_partner"
 FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER = (
     "feature_flags.shifts.flying_members_registration_reminder"
 )
+FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS = "feature_flags.shifts.auto_cancel_holidays"
+
+GENERATE_UP_TO = datetime.timedelta(days=200)

@@ -3,6 +3,7 @@ import datetime
 from django import template
 from django.db.models import QuerySet
 from django.utils import timezone
+from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 import tapir.shifts.config
@@ -28,6 +29,13 @@ register = template.Library()
 @register.inclusion_tag("shifts/user_shifts_overview_tag.html", takes_context=True)
 def user_shifts_overview(context, user):
     context["user"] = user
+    now = timezone.now()
+    context["next_watched_shift"] = (
+        ShiftWatch.objects.filter(user=user, shift__end_time__gte=now)
+        .select_related("shift")
+        .order_by("shift__end_time")
+        .first()
+    )
     return context
 
 
@@ -268,3 +276,33 @@ def get_attendance_mode_display(shift_user_data: ShiftUserData) -> str:
 @register.filter(name="user_watching_shift")
 def user_watching_shift(user, shift) -> QuerySet:
     return ShiftWatch.objects.filter(user=user, shift=shift)
+
+
+@register.filter(name="weekday_labels")
+def weekday_labels(value):
+    _mapping = dict(WEEKDAY_CHOICES)
+    if not value:
+        return []
+    return [_mapping.get(i, str(i)) for i in value]
+
+
+@register.simple_tag
+def shiftwatch_display_without_user(shiftwatch: ShiftWatch):
+    recurring_part = ""
+    staffing_status = ""
+    if shiftwatch.recurring_template:
+        recurring_part = format_html(
+            ' based on <span class="text-muted">#{}</span>',
+            shiftwatch.recurring_template.id,
+        )
+    else:
+        staffing_status = "for changes of " + ", ".join(
+            status for status in shiftwatch.staffing_status
+        )
+    return format_html(
+        '<a href="{}">{}</a> {}{}',
+        shiftwatch.shift.get_absolute_url(),
+        shiftwatch.shift.get_display_name(),
+        staffing_status,
+        recurring_part,
+    )

@@ -2,7 +2,6 @@ import datetime
 
 from django.urls import reverse
 from django.utils import timezone
-
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
@@ -63,7 +62,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
     def test_member_registers_other_abcd(self):
         user = TapirUserFactory.create()
         shift_template = ShiftTemplateFactory.create()
-        shift_1 = shift_template.create_shift(
+        shift_1 = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
 
@@ -72,7 +71,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
 
         check_registration_successful_template(self, response, user, shift_template)
 
-        shift_2 = shift_template.create_shift(
+        shift_2 = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=2)
         )
 
@@ -120,10 +119,10 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         flying_user = TapirUserFactory.create()
         shift_template = ShiftTemplateFactory.create()
 
-        shift_free = shift_template.create_shift(
+        shift_free = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
-        shift_occupied = shift_template.create_shift(
+        shift_occupied = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=8)
         )
 
@@ -167,7 +166,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
     def test_member_registers_after_unregister(self):
         user = TapirUserFactory.create()
         shift_template = ShiftTemplateFactory.create()
-        shift = shift_template.create_shift(
+        shift = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=1)
         )
 
@@ -202,13 +201,13 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
     def test_register_user_to_abcd_during_exemption(self):
         user: TapirUser = TapirUserFactory.create()
         shift_template: ShiftTemplate = ShiftTemplateFactory.create()
-        shift_1 = shift_template.create_shift(
+        shift_1 = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=10)
         )
-        shift_2 = shift_template.create_shift(
+        shift_2 = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=30)
         )
-        shift_3 = shift_template.create_shift(
+        shift_3 = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=50)
         )
 

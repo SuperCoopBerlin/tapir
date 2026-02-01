@@ -1,4 +1,6 @@
 from django.urls import reverse
+from django.utils.translation import gettext as _
+
 from tapir import settings
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
@@ -62,7 +64,7 @@ class TestFinancialMattersVisibility(
 
         self.assertContains(
             response,
-            "You can only look at your own barcode unless you have admin rights",
+            _("You can only look at your own barcode unless you have admin rights"),
         )
 
     def test_financialMattersOnUserDetailPage_loggedInAsVorstand_hideCardsAfterDisablingPurchaseTrackingwithEnabledBefore(

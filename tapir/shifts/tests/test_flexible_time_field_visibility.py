@@ -61,7 +61,9 @@ class TestFlexibleTime(TapirFactoryTestBase):
         self,
     ):
         shift_template: ShiftTemplate = ShiftTemplateFactory.create(flexible_time=True)
-        shift = shift_template.create_shift(datetime.date(year=2024, month=6, day=15))
+        shift = shift_template.create_shift_if_necessary(
+            datetime.date(year=2024, month=6, day=15)
+        )
         self.assertTrue(shift_template.flexible_time)
         self.assertTrue(shift.flexible_time)
 

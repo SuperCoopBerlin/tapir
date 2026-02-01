@@ -2,7 +2,6 @@ import datetime
 
 from django.urls import reverse
 from django.utils import timezone
-
 from tapir.shifts.models import (
     ShiftTemplate,
     ShiftTemplateGroup,
@@ -29,10 +28,10 @@ class TestShiftTemplateEdit(TapirFactoryTestBase):
         shift_template.group = ShiftTemplateGroup.objects.get(name="A")
         shift_template.save()
 
-        shift_1 = shift_template.create_shift(
+        shift_1 = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=10)
         )
-        shift_2 = shift_template.create_shift(
+        shift_2 = shift_template.create_shift_if_necessary(
             start_date=timezone.now().date() + datetime.timedelta(days=30)
         )
 
@@ -102,7 +101,7 @@ class TestShiftTemplateEdit(TapirFactoryTestBase):
         shift_template.group = ShiftTemplateGroup.objects.get(name="A")
         shift_template.save()
 
-        shift = shift_template.create_shift(
+        shift = shift_template.create_shift_if_necessary(
             start_date=get_monday(timezone.now().date() - datetime.timedelta(days=10))
         )
 
