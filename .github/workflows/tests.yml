@@ -10,7 +10,7 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Run Test
-        run: docker compose run --user=$(id -u):$(id -g)  web make test
+        run: docker compose run --user=$(id -u):$(id -g) -v .:/app --rm web make test
       - name: Upload coverage
         uses: actions/upload-artifact@master
         with:
