@@ -20,7 +20,7 @@ services:
       args:
         DEV: true
     command: bash -c "python manage.py runserver_plus 0.0.0.0:80"
-    user: "1001:1001"
+    user: "1000:1000"
     volumes:
       - .:/app
     environment:

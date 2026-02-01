@@ -51,6 +51,9 @@ RUN if [ "$DEV" = "true" ]; then \
 
 
 FROM python:3.13-slim AS runtime
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+ARG USERNAME=tapiruser
 
 ENV VENV_PATH="/opt/pysetup/.venv" \
     PATH="/opt/pysetup/.venv/bin:$PATH"
@@ -61,15 +64,18 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd -g 1001 appgroup && \
-    useradd -u 1001 -g appgroup -m -d /home/appuser -s /bin/bash appuser
+RUN groupadd --gid $USER_GID $USERNAME && \
+    useradd --uid $USER_UID --gid $USER_GID -m $USERNAME && \
+    mkdir -p /app \
+
+USER $USERNAME
 
 WORKDIR /app
 
-COPY --from=build --chown=appuser:appgroup /opt/pysetup/.venv /opt/pysetup/.venv
-COPY --from=build --chown=appuser:appgroup /opt/pysetup/ ./
-COPY --chown=appuser:appgroup . .
+COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/.venv /opt/pysetup/.venv
+COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/ ./
+COPY --chown=$USERNAME:$USERNAME . .
 
 RUN python manage.py compilemessages
 
-USER appuser
+
