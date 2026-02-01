@@ -73,9 +73,11 @@ USER $USERNAME
 
 WORKDIR /app
 
-COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/.venv /opt/pysetup/.venv
-COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/ ./
-COPY --chown=$USERNAME:$USERNAME . .
+# Make sure no write permissions are assigned to the copied resource.
+# https://sonarcloud.io/organizations/supercoopberlin/rules?open=docker%3AS6504&rule_key=docker%3AS6504
+COPY --from=build --chown=root:root --chmod=755 /opt/pysetup/.venv /opt/pysetup/.venv
+COPY --from=build --chown=root:root --chmod=755 /opt/pysetup/ ./
+COPY --chown=root:root --chmod=755 . .
 
 RUN python manage.py compilemessages
 
