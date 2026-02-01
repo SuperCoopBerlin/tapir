@@ -53,6 +53,7 @@ RUN if [ "$DEV" = "true" ]; then \
 FROM python:3.13-slim AS runtime
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
+ARG USERNAME=nonroot
 
 ENV VENV_PATH="/opt/pysetup/.venv" \
     PATH="/opt/pysetup/.venv/bin:$PATH"
@@ -68,7 +69,7 @@ RUN groupadd --gid $USER_GID nonroot && \
     useradd --uid $USER_UID --gid $USER_GID -m nonroot && \
     mkdir -p /app
 
-USER nonroot
+USER $USERNAME
 
 WORKDIR /app
 
