@@ -285,25 +285,26 @@ class PermissionTestMixin:
             "Children of PermissionTestMixin must implement do_request, a function that visits the target view and returns the response."
         )
 
-    @parameterized.expand(settings.LDAP_GROUPS)
-    def test_accessView_loggedInAsMemberOfGroup_accessAsExpected(self, group):
-        user = TapirUserFactory.create()
+    def test_accessView_loggedInAsMemberOfGroup_accessAsExpected(self):
+        for group in settings.LDAP_GROUPS:
+            with self.subTest(group=group):
+                user = TapirUserFactory.create()
 
-        set_group_membership(
-            tapir_users=[user], group_cn=group, is_member_of_group=True
-        )
-        self.assertEqual(set([group]), user.get_ldap_user().group_names)
+                set_group_membership(
+                    tapir_users=[user], group_cn=group, is_member_of_group=True
+                )
+                self.assertEqual(set([group]), user.get_ldap_user().group_names)
 
-        self.login_as_user(user)
-        response = self.do_request()
-        self.assertStatusCode(
-            response,
-            (
-                HTTPStatus.OK
-                if group in self.get_allowed_groups()
-                else HTTPStatus.FORBIDDEN
-            ),
-        )
+                self.login_as_user(user)
+                response = self.do_request()
+                self.assertStatusCode(
+                    response,
+                    (
+                        HTTPStatus.OK
+                        if group in self.get_allowed_groups()
+                        else HTTPStatus.FORBIDDEN
+                    ),
+                )
 
 
 def create_attendance_template_log_entry_in_the_past(
