@@ -56,7 +56,6 @@ djlint = "^1.36.4"
 pypdf = "^6.1.1"
 django-upgrade = "^1.29.0"
 drf-spectacular = "^0.28.0"
-parameterized = "^0.9.0"
 django-silk = "^5.4.3"
 
 [build-system]
