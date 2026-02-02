@@ -13,6 +13,7 @@ from django.core.mail import EmailMessage
 from django.test import TestCase, override_settings, Client, SimpleTestCase
 from django.urls import reverse
 from django.utils import timezone
+from parameterized import parameterized
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.common.by import By
