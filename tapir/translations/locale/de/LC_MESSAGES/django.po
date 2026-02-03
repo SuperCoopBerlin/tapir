@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-29 10:22+0100\n"
+"POT-Creation-Date: 2026-02-03 19:14+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -22,8 +22,8 @@ msgstr ""
 msgid "Miscellaneous"
 msgstr "Sonstiges"
 
-#: accounts/apps.py:21 accounts/templates/accounts/open_door_page.html:6
-#: accounts/templates/accounts/open_door_page.html:15
+#: accounts/apps.py:21 accounts/templates/accounts/open_door_page.html:5
+#: accounts/templates/accounts/open_door_page.html:13
 #: accounts/templates/accounts/open_door_page.html:28
 msgid "Open Door"
 msgstr ""
@@ -260,11 +260,11 @@ msgstr ""
 msgid "Groups"
 msgstr "Gruppen"
 
-#: accounts/templates/accounts/open_door_page.html:21
+#: accounts/templates/accounts/open_door_page.html:19
 msgid "You must be a member to open the door."
 msgstr ""
 
-#: accounts/templates/accounts/open_door_page.html:24
+#: accounts/templates/accounts/open_door_page.html:22
 msgid "Click the button below to open the door."
 msgstr ""
 
