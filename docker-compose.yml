@@ -19,8 +19,9 @@ services:
       dockerfile: ./django.Dockerfile
       args:
         DEV: true
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
     command: bash -c "python manage.py runserver_plus 0.0.0.0:80"
-    user: "1000:1000"
     volumes:
       - ./tapir:/app/tapir               # ganzer tapir-Ordner
       - ./manage.py:/app/manage.py       # einzelne Datei

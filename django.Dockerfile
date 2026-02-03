@@ -51,8 +51,8 @@ RUN if [ "$DEV" = "true" ]; then \
 
 
 FROM python:3.13-slim AS runtime
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+ARG UID=1000
+ARG GID=1000
 ARG USERNAME=nonroot
 
 ENV VENV_PATH="/opt/pysetup/.venv" \
@@ -65,8 +65,8 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd --gid $USER_GID nonroot && \
-    useradd --uid $USER_UID --gid $USER_GID -m nonroot && \
+RUN groupadd --gid $GID nonroot && \
+    useradd --uid $UID --gid $GID -m nonroot && \
     mkdir -p /app
 
 WORKDIR /app
