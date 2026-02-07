@@ -420,7 +420,9 @@ class TestDatasetExportColumnBuilder(TapirFactoryTestBase):
             old_values={"is_frozen": False},
             new_values={"is_frozen": True},
         )
-        log_entry.created_date = datetime.datetime(year=2025, month=1, day=6, hour=12)
+        log_entry.created_date = timezone.make_aware(
+            datetime.datetime(year=2025, month=1, day=6, hour=12)
+        )
         log_entry.save()
 
         result = DatasetExportColumnBuilder.build_column_frozen_since(

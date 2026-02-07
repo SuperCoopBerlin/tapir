@@ -14,7 +14,9 @@ class TestUpdateShiftAttendanceCustomTimeView(TapirFactoryTestBase):
     CUSTOM_TIME_AFTER = datetime.time(hour=12, minute=30)
 
     def create_attendance_for_user(self, tapir_user):
-        start_time = datetime.datetime(year=2024, month=6, day=15, hour=7)
+        start_time = datetime.datetime(
+            year=2024, month=6, day=15, hour=7, tzinfo=datetime.timezone.utc
+        )
         shift = ShiftFactory.create(
             flexible_time=True,
             start_time=start_time,

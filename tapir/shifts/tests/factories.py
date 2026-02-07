@@ -26,6 +26,7 @@ class ShiftTemplateFactory(factory.django.DjangoModelFactory[ShiftTemplate]):
     class Meta:
         model = ShiftTemplate
         exclude = ("start_hour", "start_minute", "duration")
+        skip_postgeneration_save = True
 
     name = factory.Faker("bs")
     weekday = factory.Iterator(WEEKDAY_CHOICES, getter=lambda day_choice: day_choice[0])

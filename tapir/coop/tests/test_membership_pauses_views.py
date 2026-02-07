@@ -68,13 +68,16 @@ class TestMembershipPauseViews(TapirFactoryTestBase):
         tapir_user = self.login_as_member_office_user()
 
         attendance_before_pause = self.create_attendance(
-            tapir_user, datetime.datetime(year=2020, month=5, day=1)
+            tapir_user,
+            datetime.datetime(year=2020, month=5, day=1, tzinfo=datetime.timezone.utc),
         )
         attendance_during_pause = self.create_attendance(
-            tapir_user, datetime.datetime(year=2020, month=6, day=1)
+            tapir_user,
+            datetime.datetime(year=2020, month=6, day=1, tzinfo=datetime.timezone.utc),
         )
         attendance_after_pause = self.create_attendance(
-            tapir_user, datetime.datetime(year=2020, month=7, day=1)
+            tapir_user,
+            datetime.datetime(year=2020, month=7, day=1, tzinfo=datetime.timezone.utc),
         )
 
         response = self.client.post(
@@ -158,13 +161,16 @@ class TestMembershipPauseViews(TapirFactoryTestBase):
         pause = MembershipPauseFactory.create(share_owner=tapir_user.share_owner)
 
         attendance_before_pause = self.create_attendance(
-            tapir_user, datetime.datetime(year=2020, month=5, day=1)
+            tapir_user,
+            datetime.datetime(year=2020, month=5, day=1, tzinfo=datetime.timezone.utc),
         )
         attendance_during_pause = self.create_attendance(
-            tapir_user, datetime.datetime(year=2020, month=6, day=1)
+            tapir_user,
+            datetime.datetime(year=2020, month=6, day=1, tzinfo=datetime.timezone.utc),
         )
         attendance_after_pause = self.create_attendance(
-            tapir_user, datetime.datetime(year=2020, month=7, day=1)
+            tapir_user,
+            datetime.datetime(year=2020, month=7, day=1, tzinfo=datetime.timezone.utc),
         )
 
         response = self.client.post(

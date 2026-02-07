@@ -26,6 +26,6 @@ class DataProviderActiveMembersWithAccount(BaseDataProvider):
             MemberStatus.ACTIVE, reference_date
         ).distinct()
         active_members_with_account = TapirUser.objects.filter(
-            share_owner__in=active_members, date_joined__lte=reference_date
+            share_owner__in=active_members, date_joined__date__lte=reference_date
         )
         return ShareOwner.objects.filter(user__in=active_members_with_account)
