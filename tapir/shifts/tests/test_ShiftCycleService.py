@@ -16,6 +16,10 @@ from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
+def date_to_datetime(dt: datetime.date) -> datetime.datetime:
+    return datetime.datetime(dt.year, dt.month, dt.day, tzinfo=datetime.timezone.utc)
+
+
 class TestShiftCycleService(TapirFactoryTestBase):
     FIRST_CYCLE_START_DATE = datetime.date(day=18, month=1, year=2021)
     SECOND_CYCLE_START_DATE = datetime.date(day=15, month=2, year=2021)
@@ -117,7 +121,8 @@ class TestShiftCycleService(TapirFactoryTestBase):
     def test_applyCycleStart_userJoinedAfterCycle_balanceIsCorrect(self):
         user = TapirUserFactory.create(
             share_owner__is_investing=False,
-            date_joined=self.FIRST_CYCLE_START_DATE + datetime.timedelta(days=7),
+            date_joined=date_to_datetime(self.FIRST_CYCLE_START_DATE)
+            + datetime.timedelta(days=7),
         )
 
         ShiftCycleService.apply_cycle_start(self.FIRST_CYCLE_START_DATE)
@@ -130,7 +135,8 @@ class TestShiftCycleService(TapirFactoryTestBase):
     def get_user_that_joined_before_first_cycle(self) -> TapirUser:
         return TapirUserFactory.create(
             share_owner__is_investing=False,
-            date_joined=self.FIRST_CYCLE_START_DATE - datetime.timedelta(days=7),
+            date_joined=date_to_datetime(self.FIRST_CYCLE_START_DATE)
+            - datetime.timedelta(days=7),
         )
 
     def test_getNextCycleStartDate_noPreexistingShiftCycleEntry_returnsMondayOfFirstShift(
