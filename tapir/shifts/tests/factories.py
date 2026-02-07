@@ -3,12 +3,15 @@ import math
 
 import factory
 
+from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftTemplate,
     WEEKDAY_CHOICES,
     ShiftSlotTemplate,
     Shift,
     ShiftSlot,
+    ShiftWatch,
+    StaffingStatusChoices,
 )
 
 
@@ -88,4 +91,28 @@ class ShiftFactory(factory.django.DjangoModelFactory[Shift]):
         for _ in range(nb_slots):
             ShiftSlotFactory.create(shift=self)
         self.num_required_attendances = math.ceil(nb_slots / 2)
+        self.save()
+
+
+class ShiftWatchFactory(factory.django.DjangoModelFactory[ShiftWatch]):
+    class Meta:
+        model = ShiftWatch
+        skip_postgeneration_save = True
+
+    user = factory.SubFactory(TapirUserFactory)
+    shift = factory.SubFactory(ShiftFactory)
+    recurring_template = None
+
+    last_staffing_status = StaffingStatusChoices.ALL_CLEAR
+
+    last_valid_slot_ids = factory.LazyFunction(list)
+
+    @factory.post_generation
+    def staffing_status(self, create: bool, extracted, **kwargs):
+        default = StaffingStatusChoices.UNDERSTAFFED
+        values = extracted if extracted is not None else [default]
+        if not create:
+            self.staffing_status = values
+            return
+        self.staffing_status = values
         self.save()
