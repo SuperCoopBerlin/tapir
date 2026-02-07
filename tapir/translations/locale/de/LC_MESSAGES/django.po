@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 13:00+0100\n"
+"POT-Creation-Date: 2026-02-07 14:00+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -26,7 +26,7 @@ msgstr "Sonstiges"
 #: accounts/templates/accounts/open_door_page.html:13
 #: accounts/templates/accounts/open_door_page.html:28
 msgid "Open Door"
-msgstr ""
+msgstr "Öffne Tür"
 
 #: accounts/custom_ldap_backend.py:11
 msgid "Invalid username or password"
@@ -2941,16 +2941,12 @@ msgid "Sent to a member when their shift status gets set to frozen. Usually happ
 msgstr "Wird an ein Mitglied gesendet, wenn sein Schichtstatus auf Eingefroren gesetzt wird. Dies geschieht in der Regel, wenn es zu viele Schichten versäumt hat."
 
 #: shifts/emails/shift_confirmed_email.py:25
-#, fuzzy
-#| msgid "Shift attendance: %(name)s"
 msgid "Shift attendance confirmed"
-msgstr "Schicht-Anwesenheit: %(name)s"
+msgstr "Schichtanwesenheit bestätigt"
 
 #: shifts/emails/shift_confirmed_email.py:29
-#, fuzzy
-#| msgid "Sent to a member when the accounts gets created."
 msgid "Sent to a member when the member office marks the shift as confirmed"
-msgstr "Wird an ein Mitglied bei Accounterstellung gesendet"
+msgstr "Wird an ein Mitglied gesendet, wenn das Mitgliederbüro die Schicht als bestätigt markiert."
 
 #: shifts/emails/shift_missed_email.py:22
 msgid "Shift missed"
@@ -2958,7 +2954,7 @@ msgstr "Schicht versäumt"
 
 #: shifts/emails/shift_missed_email.py:26
 msgid "Sent to a member when the member office marks the shift as missed"
-msgstr ""
+msgstr "Wird an ein Mitglied gesendet, wenn das Mitgliederbüro die Schicht als versäumt markiert."
 
 #: shifts/emails/shift_reminder_email.py:25
 msgid "Shift reminder"
@@ -3068,16 +3064,12 @@ msgid "Shift"
 msgstr "Schicht"
 
 #: shifts/forms.py:595
-#, fuzzy
-#| msgid "Cancelled"
 msgid "already cancelled"
-msgstr "Abgesagt"
+msgstr "bereits bgesagt"
 
 #: shifts/forms.py:608
-#, fuzzy
-#| msgid "Cancellation reason"
 msgid "Cancellation Reason"
-msgstr "Grund der Kündigung"
+msgstr "Grund der Absage"
 
 #: shifts/forms.py:609
 msgid "This reason will be applied to all cancelled shifts."
@@ -3206,7 +3198,7 @@ msgstr ""
 #: shifts/templates/shifts/shift_detail.html:112
 #: shifts/templates/shifts/shift_template_detail.html:46
 msgid "Chosen time"
-msgstr ""
+msgstr "Ausgewählte Uhrzeit"
 
 #: shifts/models.py:413
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come.Setting or updating this field will set the time for all individual shifts generated from this ABCD shift.You can update the time of a single shift individually and at any time on the shift page."
@@ -3226,7 +3218,7 @@ msgstr ""
 
 #: shifts/models.py:836
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
-msgstr ""
+msgstr "Diese Schicht ermöglicht dir auszusuchen, wann du kommen magst. Um die Planung zu erleichtern, gib bitte deine erwartete Ankunftszeit an."
 
 #: shifts/models.py:944 shifts/templates/shifts/shift_detail.html:308
 #: shifts/templates/shifts/shift_detail_printable.html:52
@@ -3587,16 +3579,12 @@ msgstr ""
 "        </p> "
 
 #: shifts/templates/shifts/email/shift_confirmed.subject.html:2
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "    You missed your shift!\n"
 msgid ""
 "\n"
 "    You completed your shift\n"
 msgstr ""
 "\n"
-"Du hast deine Schicht versäumt!\n"
+"Du hast deine Schicht beendet.\n"
 
 #: shifts/templates/shifts/email/shift_missed.body.html:6
 #, python-format
@@ -3729,23 +3717,7 @@ msgstr ""
 "Deine nächste %(coop_name)s Schicht: %(shift_name)s\n"
 
 #: shifts/templates/shifts/email/shift_watch.body.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        <p>Dear %(display_name_short)s,</p>\n"
-#| "\n"
-#| "        <p>This is an automated email from %(coop_name)s.</p>\n"
-#| "        <p>\n"
-#| "            You were looking for a stand-in for the following shift: %(shift_display_name)s.<br />\n"
-#| "            Another member has taken over your slot for that shift.\n"
-#| "        </p>\n"
-#| "\n"
-#| "        <p>If you haven't done so already, don't forget to attend another shift to compensate for the one you will miss!</p>\n"
-#| "        <p>\n"
-#| "            Cooperative Greetings,<br />\n"
-#| "            The member office\n"
-#| "        </p>\n"
-#| "    "
+#, python-format
 msgid ""
 "\n"
 "        <p>\n"
@@ -3770,20 +3742,25 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"    <p>Hallo %(display_name_short)s,</p>\n"
-"\n"
-"    <p>Dies ist eine automatische E-Mail von %(coop_name)s.</p>\n"
-"\n"
 "    <p>\n"
-"        Du hast eine Vertretung für die folgende Schicht gesucht: %(shift_display_name)s.<br/>\n"
-"        Ein anderes Mitglied hat deinen Platz für diese Schicht übernommen.\n"
+"        Hallo %(display_name_short)s,\n"
 "    </p>\n"
 "\n"
-"    <p>Falls du es noch nicht getan hast, vergiss nicht, an einer anderen Schicht teilzunehmen, um die verpasste Schicht zu kompensieren!</p>\n"
+"    <p>\n"
+"        %(reason)s\n"
+"    </p>\n"
 "\n"
-"    <p>Kooperative Grüße,<br /> \n"
-"            Das Mitgliederbüro\n"
-"        </p> "
+"    <p>\n"
+"        Dies ist eine automatische E-Mail von %(coop_name)s. Du hast den Erhalt dieser E-Mail zugestimmt, aber wenn du keine Benachrichtigungs-E-Mails mehr erhalten möchtest, kannst du diese in deinen Einstellungen deaktivieren.\n"
+"    </p>\n"
+"\n"
+"    <p>\n"
+"        Vielen Dank!\n"
+"    </p>\n"
+"    <p>\n"
+"        Kooperative Grüße,<br />\n"
+"        Das Mitgliederbüro\n"
+"    </p>"
 
 #: shifts/templates/shifts/email/shift_watch.subject.html:2
 #, python-format
@@ -4036,16 +4013,12 @@ msgid ""
 msgstr ""
 
 #: shifts/templates/shifts/shift_day_cancel.html:7
-#, fuzzy
-#| msgid "Cancel shift:"
 msgid "Cancel shifts:"
-msgstr "Schicht absagen:"
+msgstr "Schichten absagen:"
 
 #: shifts/templates/shifts/shift_day_cancel.html:12
-#, fuzzy
-#| msgid "Cancel shift:"
 msgid "Cancel shifts for:"
-msgstr "Schicht absagen:"
+msgstr "Schicht absagen für:"
 
 #: shifts/templates/shifts/shift_day_cancel.html:16
 msgid ""
@@ -4056,15 +4029,6 @@ msgid ""
 msgstr ""
 
 #: shifts/templates/shifts/shift_day_cancel.html:22
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                                                            Only use this to correct mistakes, i.e. if the share was\n"
-#| "                                                            erroneously\n"
-#| "                                                            entered into the system and the person never actually\n"
-#| "                                                            bought it. If the person simply sold their share back to the\n"
-#| "                                                            coop, please mark the share as sold instead.\n"
-#| "                                                        "
 msgid ""
 "\n"
 "                            Cancelling all shifts of a day is used for example\n"
@@ -4079,8 +4043,16 @@ msgid ""
 "                        "
 msgstr ""
 "\n"
-"Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als 'verkauft'.\n"
-" "
+"                            Das Absagen aller Schichten eines Tages wird beispielsweise\n"
+"                        für Feiertage verwendet. Deselektiere die Schichten, die\n"
+"                        du nicht absagen möchtest.\n"
+"                        Das Absagen von Schichten hat folgende Konsequenzen:\n"
+"                            <ul>\n"
+"                                <li>Es ist nicht mehr möglich, sich für die Schicht anzumelden.</li>\n"
+"                                <li>Mitglieder, die von ihrer ABCD-Schicht registriert sind, erhalten einen Schichtpunkt.</li>\n"
+"                                <li>Mitglieder, die sich nur für diese Schicht angemeldet haben, erhalten keinen Punkt.</li>\n"
+"                            </ul>\n"
+"                        "
 
 #: shifts/templates/shifts/shift_day_printable.html:243
 #: shifts/templates/shifts/shift_detail_printable.html:82
@@ -4203,14 +4175,7 @@ msgid "Cancel looking for a stand-in"
 msgstr "Beende die Suche nach Vertretung"
 
 #: shifts/templates/shifts/shift_detail.html:187
-#, fuzzy, python-format
-#| msgid ""
-#| "You can only look for a\n"
-#| "                                                    stand-in\n"
-#| "                                                    %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s days before the shift. If\n"
-#| "                                                    you can't\n"
-#| "                                                    attend, contact your shift leader as soon as\n"
-#| "                                                    possible."
+#, python-format
 msgid ""
 "You can only look for\n"
 "                                                            a\n"
@@ -4220,7 +4185,15 @@ msgid ""
 "                                                            you can't\n"
 "                                                            attend, contact your shift leader as soon as\n"
 "                                                            possible."
-msgstr "Du kannst nur bis %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s Tage vor der Schicht nach einer Vertretung suchen. Wenn du die Schicht nicht wahrnehmen kannst, wende dich bitte schnellstmöglich an die Teamleitung."
+msgstr ""
+"Du kannst nur\n"
+"                                                            eine\n"
+"                                                            Vertretung\n"
+"                                                            %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s Tage vor der\n"
+"                                                            Schicht suchen. Wenn\n"
+"                                                            du nicht\n"
+"                                                            teilnehmen kannst, wende dich bitte schnellstmöglich\n"
+"                                                            an deine Teamleitung."
 
 #: shifts/templates/shifts/shift_detail.html:200
 msgid "Look for a stand-in"
@@ -4408,10 +4381,8 @@ msgid "Generate shifts"
 msgstr ""
 
 #: shifts/templates/shifts/shift_template_detail.html:20
-#, fuzzy
-#| msgid "Applicant"
 msgid "Duplicate"
-msgstr "Bewerber*innen"
+msgstr "Dopplung"
 
 #: shifts/templates/shifts/shift_template_detail.html:38
 msgid "List of slots for this ABCD shifts"
@@ -4557,10 +4528,8 @@ msgid " and clicking on the Watch-button"
 msgstr ""
 
 #: shifts/templates/shifts/shiftwatch_overview.html:134
-#, fuzzy
-#| msgid "Payment date"
 msgid "Delete Selected"
-msgstr "Zahldatum"
+msgstr "Lösche das Ausgewählte"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:14
 msgid "Available"
@@ -4854,16 +4823,14 @@ msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
 #: shifts/views/attendance.py:386
-#, fuzzy, python-format
-#| msgid "Shift attendance: %(name)s"
+#, python-format
 msgid "ABCD attendance: %(name)s"
-msgstr "Schicht-Anwesenheit: %(name)s"
+msgstr "ABCD-Anwesenheit: %(name)s"
 
 #: shifts/views/attendance.py:393
-#, fuzzy, python-format
-#| msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
+#, python-format
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
-msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
+msgstr "ABCD-Anwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
 #: shifts/views/exemptions.py:83
 msgid "Is covered by shift exemption: "
@@ -5094,27 +5061,23 @@ msgstr ""
 #, fuzzy
 #| msgid "Membership confirmation"
 msgid "Created resignations"
-msgstr "Mitgliedsbestätigung"
+msgstr "Erstellte Kündigungen"
 
 #: statistics/services/data_providers/data_provider_resignations_created.py:18
 msgid "Members who registered their resignation in the given month. Regardless of whether the member gifts their share or get their money back, this is relative to when the resignation is created."
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_resignations_pending.py:13
-#, fuzzy
-#| msgid "Membership confirmation"
 msgid "Pending resignations"
-msgstr "Mitgliedsbestätigung"
+msgstr "Offene Kündigungen"
 
 #: statistics/services/data_providers/data_provider_resignations_pending.py:18
 msgid "Members who want to get their money back and are waiting for the 3 year term"
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_shift_partners.py:18
-#, fuzzy
-#| msgid "Shift reminder"
 msgid "Shift partners"
-msgstr "Schicht-Erinnerung"
+msgstr "Schicht-Partner"
 
 #: statistics/services/data_providers/data_provider_shift_partners.py:23
 msgid "Counted out of working members only: a frozen member with a shift partner is not counted"
@@ -6345,10 +6308,7 @@ msgid "Welcome Desk"
 msgstr "Welcome Desk"
 
 #: welcomedesk/services/welcome_desk_reasons_cannot_shop_service.py:44
-#, fuzzy, python-format
-#| msgid ""
-#| "%(name)s does not have a Tapir\n"
-#| "                            account. Contact a member of the management team."
+#, python-format
 msgid "%(name)s does not have a Tapir account. Contact a member of the management team."
 msgstr "%(name)s hat kein Tapir-Konto. Kontaktiere eine Person aus dem Vorstand."
 
