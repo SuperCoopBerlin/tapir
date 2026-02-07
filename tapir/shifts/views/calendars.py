@@ -63,8 +63,8 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
             .prefetch_related("shift_template")
             .prefetch_related("shift_template__group")
             .filter(
-                start_time__gte=date_from,
-                start_time__lt=date_to + datetime.timedelta(days=1),
+                start_time__date__gte=date_from,
+                start_time__date__lt=date_to + datetime.timedelta(days=1),
                 deleted=False,
             )
             .annotate(is_watching=Exists(user_watching))

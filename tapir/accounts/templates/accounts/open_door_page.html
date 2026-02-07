@@ -1,11 +1,9 @@
 {% extends "core/base.html" %}
 {% load i18n %}
 {% load core %}
-
 {% block title %}
     {% translate "Open Door" %}
-{% endblock %}
-
+{% endblock title %}
 {% block content %}
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -23,7 +21,9 @@
                     {% else %}
                         <p>{% translate "Click the button below to open the door." %}</p>
                         <div class="d-grid">
-                            <button type="button" id="open-door-button" class="{% tapir_button_action %} btn-lg">
+                            <button type="button"
+                                    id="open-door-button"
+                                    class="{% tapir_button_action %} btn-lg">
                                 <span class="material-icons">lock_open</span>
                                 {% translate "Open Door" %}
                             </button>
@@ -33,7 +33,6 @@
             </div>
         </div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const btn = document.getElementById('open-door-button');
@@ -76,4 +75,4 @@
             });
         });
     </script>
-{% endblock %}
+{% endblock content %}

@@ -8,6 +8,7 @@ from tapir.core.models import FeatureFlag
 from tapir.shifts.config import GENERATE_UP_TO, FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS
 from tapir.shifts.models import ShiftTemplateGroup, ShiftTemplate, Shift
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
+from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
 
@@ -69,6 +70,9 @@ class ShiftGenerator:
 
         if FeatureFlag.get_flag_value(FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS):
             cls.cancel_holiday_shifts(created_shifts)
+
+        for shift in created_shifts:
+            ShiftWatchCreator.create_shift_watches_for_shift(shift)
 
         return created_shifts
 

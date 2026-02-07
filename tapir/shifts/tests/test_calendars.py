@@ -29,7 +29,11 @@ class TestCalendars(TapirFactoryTestBase):
 
     def test_day_printable_view_status_200(self):
         self.login_as_member_office_user()
-        ShiftFactory(start_time=datetime.datetime(year=2023, month=6, day=15, hour=12))
+        ShiftFactory(
+            start_time=datetime.datetime(
+                year=2023, month=6, day=15, hour=12, tzinfo=datetime.timezone.utc
+            )
+        )
         response = self.client.get(
             reverse("shifts:shift_day_printable", args=["15-06-23"])
         )
