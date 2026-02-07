@@ -44,9 +44,7 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
         def create_shift(time_val: str, date_obj: date = date_to_cancel) -> Shift:
             time_obj = time.fromisoformat(time_val)
             return ShiftFactory.create(
-                start_time=datetime.combine(date_obj, time_obj).replace(
-                    tzinfo=timezone.utc
-                )
+                start_time=datetime.combine(date_obj, time_obj, tzinfo=timezone.utc)
             )
 
         shifts_on_day = [
