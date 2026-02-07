@@ -4,29 +4,38 @@
 {% load core %}
 <div class="card mb-2" id="user_coop_info_card">
     <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-        {% if share_owner %}
+        {% if share_owner and not share_owner.is_soft_deleted %}
             <span>
                 {% blocktranslate with coop_share_owner_id=share_owner.id %}
                     Member #{{ coop_share_owner_id }}
                 {% endblocktranslate %}
             </span>
-            {% if perms.accounts.manage %}
+            {% if perms.accounts.manage or perms.group.manage %}
                 <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
-                    <a class="{% tapir_button_link %}"
-                       href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
-                        <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
-                    </a>
-                    <a class="{% tapir_button_link_to_action %}"
-                       href="{% url 'coop:shareowner_update' share_owner.pk %}"
-                       id="share_owner_edit_button">
-                        <span class="material-icons">edit</span>{% translate 'Edit' %}
-                    </a>
+                    {% if perms.accounts.manage %}
+                        <a class="{% tapir_button_link %}"
+                           href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
+                            <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
+                        </a>
+                        <a class="{% tapir_button_link_to_action %}"
+                           href="{% url 'coop:shareowner_update' share_owner.pk %}"
+                           id="share_owner_edit_button">
+                            <span class="material-icons">edit</span>{% translate 'Edit' %}
+                        </a>
+                    {% endif %}
+                    {% if perms.group.manage %}
+                        <a class="{% tapir_button_custom 'outline-danger' %}"
+                           href="{% url 'coop:shareowner_delete' share_owner.pk %}"
+                           id="share_owner_delete_button">
+                            <span class="material-icons">delete</span>{% translate 'Delete' %}
+                        </a>
+                    {% endif %}
                 </span>
             {% endif %}
         {% endif %}
     </h5>
     <div class="card-body">
-        {% if share_owner %}
+        {% if share_owner and not share_owner.is_soft_deleted %}
             <div class="row m-1">
                 <div class="col-12 col-sm-5 fw-bold text-sm-end">{% translate "Status" %}:</div>
                 <div class="col-12 col-sm-7" id="share_owner_status">
