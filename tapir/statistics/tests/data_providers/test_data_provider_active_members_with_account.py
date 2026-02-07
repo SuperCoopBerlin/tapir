@@ -10,19 +10,16 @@ from tapir.statistics.services.data_providers.data_provider_active_members_with_
 )
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
-    mock_timezone_now,
 )
 
 
 class TestDataProviderActiveMembersWithAccount(TapirFactoryTestBase):
-    NOW = datetime.datetime(year=2023, month=7, day=2, hour=18)
-    REFERENCE_TIME = timezone.make_aware(
-        datetime.datetime(year=2022, month=4, day=8, hour=10)
+    NOW = datetime.datetime(
+        year=2023, month=7, day=2, hour=18, tzinfo=datetime.timezone.utc
     )
-
-    def setUp(self) -> None:
-        super().setUp()
-        self.NOW = mock_timezone_now(self, self.NOW)
+    REFERENCE_TIME = datetime.datetime(
+        year=2022, month=4, day=8, hour=10, tzinfo=datetime.timezone.utc
+    )
 
     def create_test_user(self, is_investing=False, date_joined=None):
         if date_joined is None:

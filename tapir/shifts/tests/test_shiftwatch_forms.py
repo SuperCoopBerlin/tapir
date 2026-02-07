@@ -1,4 +1,3 @@
-import pytest
 from django.urls import reverse
 
 from tapir.shifts.models import StaffingStatusChoices, ShiftWatch

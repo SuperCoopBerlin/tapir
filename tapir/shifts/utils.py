@@ -1,5 +1,5 @@
 from calendar import HTMLCalendar, month_name, day_abbr
-from datetime import datetime, timedelta, date
+from datetime import datetime, date
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -11,24 +11,8 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftUserCapability,
     SHIFT_ATTENDANCE_MODE_CHOICES,
-    StaffingStatusChoices,
-    Shift,
 )
-from tapir.shifts.templatetags.shifts import get_week_group
 from tapir.utils.shortcuts import get_monday
-
-
-def generate_shifts_up_to(end_date: datetime.date, start_date=None):
-    if start_date is None:
-        start_date = timezone.now().date()
-    last_monday = get_monday(end_date)
-    current_monday = get_monday(start_date)
-    print(f"{start_date} {current_monday}")
-
-    while current_monday < last_monday:
-        group = get_week_group(current_monday)
-        group.create_shifts(current_monday)
-        current_monday += timedelta(days=7)
 
 
 # override HTMLCalender method to use colors
@@ -143,7 +127,7 @@ def update_shift_account_depending_on_welcome_session_status(share_owner: ShareO
         is_from_welcome_session=True,
         user=tapir_user,
         description="Welcome session / Willkommenstreffen",
-        date=datetime.today(),
+        date=timezone.now(),
         value=1,
     )
 

@@ -30,7 +30,7 @@ from tapir.utils.tests_utils import (
 
 
 class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBase):
-    NOW = datetime.datetime(year=2024, month=9, day=15)
+    NOW = datetime.datetime(year=2024, month=9, day=15, tzinfo=datetime.timezone.utc)
     TODAY = NOW.date()
 
     def setUp(self) -> None:

@@ -13,7 +13,9 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
 
 
 class TestCreateAccountReminderMail(TapirFactoryTestBase, TapirEmailTestMixin):
-    NOW = datetime.datetime(year=2023, month=8, day=7, hour=10, minute=7)
+    NOW = datetime.datetime(
+        year=2023, month=8, day=7, hour=10, minute=7, tzinfo=datetime.timezone.utc
+    )
 
     def setUp(self) -> None:
         super().setUp()

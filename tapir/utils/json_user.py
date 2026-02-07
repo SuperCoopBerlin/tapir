@@ -2,6 +2,7 @@ import datetime
 import random
 
 import phonenumbers
+from django.utils import timezone
 from faker import Faker
 from unidecode import unidecode
 
@@ -9,7 +10,6 @@ from tapir.accounts.models import TapirUser
 from tapir.utils.models import get_country_code
 from tapir.utils.shortcuts import get_timezone_aware_datetime
 from tapir.utils.user_utils import UserUtils
-
 
 # Helper class to deal with users generated from https://randomuser.me/
 
@@ -27,7 +27,7 @@ class JsonUser:
     postcode: str
     city: str
     country: str
-    date_joined: datetime.date
+    date_joined: datetime.datetime
     preferred_language: str
     num_shares: int
     fake: Faker = None
@@ -62,8 +62,9 @@ class JsonUser:
             JsonUser.fake = Faker()
 
         self.date_joined = get_timezone_aware_datetime(
-            JsonUser.fake.date_between(
-                start_date=datetime.date(year=2020, month=9, day=1), end_date="today"
+            JsonUser.fake.date_time_between(
+                start_date=datetime.date(year=2020, month=9, day=1),
+                end_date=timezone.now().date(),
             ),
             datetime.time(hour=1, minute=1),
         )

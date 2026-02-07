@@ -1,0 +1,137 @@
+{% extends "shifts/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load core %}
+{% load utils %}
+{% load shifts %}
+{% block title %}
+    {% translate "Recurring Shiftwatch List" %}
+{% endblock title %}
+{% block head %}
+    {{ form.media }}
+{% endblock head %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <!-- Recurring Shift Watches Card -->
+        <div class="card mb-2">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>{% translate "Recurring Shift Watches" %}</h5>
+                <div>
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:create_watch_recurring_shifts' user.pk %}"
+                       id="create_recurring_shiftwatch_button">
+                        <span class="material-icons">repeat</span>
+                        {% translate "Create a rule for recurring Shift Watches" %}
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for recurringshiftwatch in recurringshiftwatches %}
+                        <li class="list-group-item">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   name="recurringshiftwatch_ids"
+                                   value="{{ recurringshiftwatch.id }}">
+                            <span class="text-muted me-2">#{{ recurringshiftwatch.id }}</span>
+                            {% if recurringshiftwatch.shift_template_group and recurringshiftwatch.weekdays %}
+                                {% translate "You are observing all shifts based on the weekdays:" %}
+                                <strong>{{ recurringshiftwatch.weekdays|weekday_labels|join:", " }}</strong>
+                                {% translate "and the ABCD-Week:" %}
+                                <strong>{{ recurringshiftwatch.shift_template_group|join:", " }}</strong>
+                            {% elif recurringshiftwatch.shift_template_group %}
+                                {% translate "You are observing all shifts based on the ABCD-Week:" %}
+                                <strong>{{ recurringshiftwatch.shift_template_group|join:", " }}</strong>
+                            {% elif recurringshiftwatch.weekdays %}
+                                {% translate "You are observing all shifts on the weekdays:" %}
+                                <strong>{{ recurringshiftwatch.weekdays|weekday_labels|join:", " }}</strong>
+                            {% elif recurringshiftwatch.shift_templates.all %}
+                                {% translate "You are observing all shifts based on the shift templates:" %}
+                                <strong>
+                                    {% for template in recurringshiftwatch.shift_templates.all %}
+                                        {{ template }}
+                                        {% if not forloop.last %},{% endif %}
+                                    {% endfor %}
+                                </strong>
+                            {% else %}
+                                {% translate "You are not observing any shifts." %}
+                            {% endif %}
+                            <br>
+                            <div style="margin-left: 20px;">
+                                <strong>{% translate "Observed changes:" %}</strong>
+                                <ul>
+                                    {% for status in recurringshiftwatch.staffing_status %}<li>{{ status }}</li>{% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <!-- Shift Watches Card -->
+        <div class="card mb-2">
+            <div class="card-header">
+                <h5>{% translate "Shift Watches" %}</h5>
+            </div>
+            <div class="card-body">
+                {% if shift_watches %}
+                    {% with total=shift_watches|length %}
+                        <div class="mb-2">
+                            <small class="text-muted">{% translate "Total" %} {{ total }}</small>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for shiftwatch in shift_watches|slice:":10" %}
+                                <li class="list-group-item">
+                                    <input type="checkbox"
+                                           name="shiftwatch_ids"
+                                           class="form-check-input"
+                                           value="{{ shiftwatch.id }}">
+                                    {% shiftwatch_display_without_user shiftwatch %}
+                                </li>
+                            {% empty %}
+                            {% endfor %}
+                        </ul>
+                        {% if total > 10 %}
+                            <div class="mt-2">
+                                <button class="{% tapir_button_link_to_action %} m-1"
+                                        type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#moreShiftWatches"
+                                        aria-expanded="false"
+                                        aria-controls="moreShiftWatches"
+                                        id="toggleMoreShiftWatches">
+                                    {% translate "Show more" %}
+                                    <span class="material-icons">keyboard_arrow_down</span>
+                                </button>
+                            </div>
+                            <div class="collapse mt-2" id="moreShiftWatches">
+                                <ul class="list-group list-group-flush">
+                                    {% for shiftwatch in shift_watches|slice:"10:" %}
+                                        <li class="list-group-item">
+                                            <input type="checkbox" name="shiftwatch_ids" value="{{ shiftwatch.id }}">
+                                            {% shiftwatch_display_without_user shiftwatch %}
+                                        </li>
+                                    {% empty %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    <div class="alert alert-info" role="alert">
+                        {% translate "You will get mail-notifications when shifts you follow change — tailored to the types of updates you choose (e.g., needs help, is full, cancellations)." %}
+                        <br>
+                        <br>
+                        {% translate "You can watch single shifts for changes by selecting a shift " %}
+                        <a href="{% url 'shifts:calendar' %}">{% translate "here" %}</a>
+                        {% translate " and clicking on the Watch-button" %}.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <button type="submit" class="{% tapir_button_custom 'outline-danger' %}">
+            <span class="material-icons">delete</span>{% translate "Delete Selected" %}
+        </button>
+    </form>
+{% endblock content %}

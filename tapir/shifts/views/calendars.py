@@ -16,7 +16,6 @@ from tapir.shifts.models import (
     WEEKDAY_CHOICES,
     ShiftTemplateGroup,
     ShiftTemplate,
-    ShiftWatch,
 )
 from tapir.shifts.templatetags.shifts import get_week_group, user_watching_shift
 from tapir.shifts.utils import ColorHTMLCalendar
@@ -64,8 +63,8 @@ class ShiftCalendarView(LoginRequiredMixin, TemplateView):
             .prefetch_related("shift_template")
             .prefetch_related("shift_template__group")
             .filter(
-                start_time__gte=date_from,
-                start_time__lt=date_to + datetime.timedelta(days=1),
+                start_time__date__gte=date_from,
+                start_time__date__lt=date_to + datetime.timedelta(days=1),
                 deleted=False,
             )
             .annotate(is_watching=Exists(user_watching))

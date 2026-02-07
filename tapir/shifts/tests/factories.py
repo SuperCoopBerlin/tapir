@@ -3,12 +3,15 @@ import math
 
 import factory
 
+from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftTemplate,
     WEEKDAY_CHOICES,
     ShiftSlotTemplate,
     Shift,
     ShiftSlot,
+    ShiftWatch,
+    StaffingStatusChoices,
 )
 
 
@@ -23,6 +26,7 @@ class ShiftTemplateFactory(factory.django.DjangoModelFactory[ShiftTemplate]):
     class Meta:
         model = ShiftTemplate
         exclude = ("start_hour", "start_minute", "duration")
+        skip_postgeneration_save = True
 
     name = factory.Faker("bs")
     weekday = factory.Iterator(WEEKDAY_CHOICES, getter=lambda day_choice: day_choice[0])
@@ -87,4 +91,28 @@ class ShiftFactory(factory.django.DjangoModelFactory[Shift]):
         for _ in range(nb_slots):
             ShiftSlotFactory.create(shift=self)
         self.num_required_attendances = math.ceil(nb_slots / 2)
+        self.save()
+
+
+class ShiftWatchFactory(factory.django.DjangoModelFactory[ShiftWatch]):
+    class Meta:
+        model = ShiftWatch
+        skip_postgeneration_save = True
+
+    user = factory.SubFactory(TapirUserFactory)
+    shift = factory.SubFactory(ShiftFactory)
+    recurring_template = None
+
+    last_staffing_status = StaffingStatusChoices.ALL_CLEAR
+
+    last_valid_slot_ids = factory.LazyFunction(list)
+
+    @factory.post_generation
+    def staffing_status(self, create: bool, extracted, **kwargs):
+        default = StaffingStatusChoices.UNDERSTAFFED
+        values = extracted if extracted is not None else [default]
+        if not create:
+            self.staffing_status = values
+            return
+        self.staffing_status = values
         self.save()

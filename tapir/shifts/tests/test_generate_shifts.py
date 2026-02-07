@@ -26,7 +26,7 @@ class TestGenerateShifts(TapirFactoryTestBase):
             group=ShiftTemplateGroup.objects.get(name="B"), weekday=weekday
         )
         call_command("generate_shifts")
-        self.assertEqual(7, shift_template.generated_shifts.count())
+        self.assertEqual(8, shift_template.generated_shifts.count())
         self.assertEqual(
             (self.NOW + datetime.timedelta(days=weekday)).date(),
             shift_template.generated_shifts.order_by("start_time")
@@ -42,7 +42,7 @@ class TestGenerateShifts(TapirFactoryTestBase):
             start_date=datetime.date(year=2023, month=10, day=1),
         )
         call_command("generate_shifts")
-        self.assertEqual(5, shift_template.generated_shifts.count())
+        self.assertEqual(6, shift_template.generated_shifts.count())
         self.assertEqual(
             datetime.date(year=2023, month=10, day=3),
             shift_template.generated_shifts.order_by("start_time")

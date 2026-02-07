@@ -18,7 +18,12 @@
     </script>
 {% endblock head %}
 {% block content %}
-    <div class="d-flex align-items-end flex-column m-2">
+    <div class="d-flex align-items-center justify-content-end m-2">
+        <a class="{% tapir_button_link %} me-2"
+           href="{% url 'shifts:shift_template_group_calendar' %}">
+            <span class="material-icons">table_view</span>
+            {% translate "ABCD annual calendar" %}
+        </a>
         <button class="{% tapir_button_link %}"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseCalendarInfo"
@@ -78,6 +83,10 @@
                                 <a href="{% url 'shifts:shift_day_printable' day|date:'d-m-y' %}"
                                    class="{% tapir_button_link %}">
                                     <span class="material-icons">print</span>
+                                </a>
+                                <a href="{% url 'shifts:shift_day_cancel' day|date:'d-m-y' %}"
+                                   class="{% tapir_button_link_to_action %}">
+                                    <span class="material-icons">event_busy</span>
                                 </a>
                             {% endif %}
                         </h6>

@@ -3,6 +3,7 @@
 {% load static %}
 {% load shifts %}
 {% load i18n %}
+{% load core %}
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static 'shifts/css/shifts.css' %}">
@@ -12,24 +13,40 @@
     {% translate 'ABCD week-plan' %}
 {% endblock title %}
 {% block content %}
-    <div class="card-group mb-2">
-        <div class="card">
-            <h5 class="card-header">
-                {% get_current_week_group as group %}
-                {% translate "ABCD schedule overview, current week: " %}{{ group.name }}
-            </h5>
-            <div class="card-body">
-                {% blocktranslate %}
+    <div class="d-flex align-items-center justify-content-end m-2">
+        <a class="{% tapir_button_link %} me-2"
+           href="{% url 'shifts:shift_template_group_calendar' %}">
+            <span class="material-icons">table_view</span>
+            {% translate "ABCD annual calendar" %}
+        </a>
+        <button class="{% tapir_button_link %}"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseCalendarInfo"
+                aria-expanded="false"
+                style="text-decoration: none">
+            <span class="material-icons">unfold_more</span>{% translate "Legend & Filters" %}
+        </button>
+    </div>
+    <div class="collapse" id="collapseCalendarInfo">
+        <div class="card-group mb-2">
+            <div class="card">
+                <h5 class="card-header">
+                    {% get_current_week_group as group %}
+                    {% translate "ABCD schedule overview, current week: " %}{{ group.name }}
+                </h5>
+                <div class="card-body">
+                    {% blocktranslate %}
                     <p>This is the ABCD shiftplan. It repeats every four weeks. That's why you see only weekdays
                         (Monday, Tuesday...) and the week (A,B,C or D), instead of specific dates (e.g. 23.8.2021).
                         To see the date of your next shift, please go to your profile.</p>
                     <p>If you would like to change your regular ABCD shift, please contact the Member Office.</p>
                 {% endblocktranslate %}
+                </div>
             </div>
+            {% shift_filters %}
         </div>
-        {% shift_filters %}
     </div>
-    <div class="card mb-2">
+    <div class="card mb-2 table-responsive">
         <table class="table"
                id="repeated-shift-overview-table"
                aria-label="{% translate 'Calendar of ABCD shifts' %}">
@@ -75,5 +92,4 @@
             </tbody>
         </table>
     </div>
-</div>
 {% endblock content %}
