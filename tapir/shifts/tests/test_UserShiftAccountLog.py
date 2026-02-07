@@ -42,17 +42,23 @@ class TestUserShiftAccountLog(TapirFactoryTestBase):
                 ShiftAccountEntry(
                     user=other_tapir_user,
                     value=-3,
-                    date=datetime.date(year=2024, month=1, day=1),
+                    date=datetime.datetime(
+                        year=2024, month=1, day=1, tzinfo=datetime.timezone.utc
+                    ),
                 ),
                 ShiftAccountEntry(
                     user=other_tapir_user,
                     value=2,
-                    date=datetime.date(year=2024, month=2, day=1),
+                    date=datetime.datetime(
+                        year=2024, month=2, day=1, tzinfo=datetime.timezone.utc
+                    ),
                 ),
                 ShiftAccountEntry(
                     user=other_tapir_user,
                     value=-1,
-                    date=datetime.date(year=2024, month=3, day=1),
+                    date=datetime.datetime(
+                        year=2024, month=3, day=1, tzinfo=datetime.timezone.utc
+                    ),
                 ),
             ]
         )

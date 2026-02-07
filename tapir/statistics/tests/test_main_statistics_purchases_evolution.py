@@ -1,6 +1,7 @@
 import datetime
 
 from django.urls import reverse
+from django.utils import timezone
 
 from tapir.coop.tests.factories import PurchaseBasketFactory
 from tapir.statistics.models import ProcessedPurchaseFiles
@@ -8,26 +9,34 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
 class TestBasketSumEvolutionData(TapirFactoryTestBase):
-    NOW = datetime.datetime(year=2023, month=4, day=1, hour=12)
+    NOW = datetime.datetime(
+        year=2023, month=4, day=1, hour=12, tzinfo=datetime.timezone.utc
+    )
 
     def test_get_basket_sums_per_month(self):
         user = self.login_as_normal_user()
         mock_timezone_now(self, self.NOW)
 
         self.create_payment(
-            date=datetime.date(year=2023, month=1, day=1),
+            date=datetime.datetime(
+                year=2023, month=1, day=1, tzinfo=datetime.timezone.utc
+            ),
             amount=10.00,
             source_file=self.getSourceFile(),
             user=user,
         )
         self.create_payment(
-            date=datetime.date(year=2023, month=4, day=1),
+            date=datetime.datetime(
+                year=2023, month=4, day=1, tzinfo=datetime.timezone.utc
+            ),
             amount=20.00,
             source_file=self.getSourceFile(),
             user=user,
         )
         self.create_payment(
-            date=datetime.date(year=2023, month=4, day=1),
+            date=datetime.datetime(
+                year=2023, month=4, day=1, tzinfo=datetime.timezone.utc
+            ),
             amount=10.50,
             source_file=self.getSourceFile(),
             user=user,
@@ -58,7 +67,7 @@ class TestBasketSumEvolutionData(TapirFactoryTestBase):
         self.assertEqual(response.status_code, 403)
 
     @staticmethod
-    def create_payment(date, amount, source_file, user):
+    def create_payment(date: datetime.datetime, amount, source_file, user):
         PurchaseBasketFactory.create(
             purchase_date=date,
             gross_amount=amount,
@@ -70,5 +79,5 @@ class TestBasketSumEvolutionData(TapirFactoryTestBase):
     def getSourceFile():
         return ProcessedPurchaseFiles.objects.create(
             file_name="test_basket_file",
-            processed_on=datetime.datetime.now(),
+            processed_on=timezone.now(),
         )

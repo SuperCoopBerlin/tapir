@@ -265,7 +265,6 @@ class ShiftTemplate(models.Model):
             return existing_shift
 
         generated_shift.save()
-        create_shift_watch_entries(generated_shift)
         for slot_template in self.slot_templates.all().select_related(
             "attendance_template"
         ):
@@ -1209,9 +1208,7 @@ class StaffingStatusChoices(models.TextChoices):
     ALMOST_FULL = "ALMOST_FULL", _("Shift is almost full, only one spot left.")
     FULL = "FULL", _("Shift is full now.")
     UNDERSTAFFED = "UNDERSTAFFED", _("The Shift is understaffed!")
-    ALL_CLEAR = "ALL_CLEAR", _(
-        "All clear: The shift is no longer understaffed, but it's not fully staffed yet either..."
-    )
+    ALL_CLEAR = "ALL_CLEAR", _("Shift stable: not understaffed, not fully staffed.")
     ATTENDANCE_PLUS = "SLOTS_PLUS", _(
         "One new attendance or more registered, but the shift is neither understaffed nor full or almost full."
     )
@@ -1252,8 +1249,10 @@ class ShiftWatch(models.Model):
     )
     last_staffing_status = models.CharField(
         max_length=30,
-        null=True,
+        null=False,
+        blank=False,
         choices=get_staffingstatus_choices,
+        default=None,  # https://stackoverflow.com/a/12887154
     )
     recurring_template = models.ForeignKey(
         "RecurringShiftWatch",
@@ -1311,69 +1310,3 @@ class RecurringShiftWatch(models.Model):
         blank=False,
         default=get_staffingstatus_defaults,
     )
-
-    def create_shift_watches(self):
-        shifts_to_watch = set()
-
-        shifts_qs = Shift.objects.all()
-        if self.weekdays or self.shift_template_group:
-            if self.weekdays:
-                iso_weekdays = [weekday + 1 for weekday in self.weekdays]
-                shifts_qs = shifts_qs.filter(start_time__iso_week_day__in=iso_weekdays)
-            if self.shift_template_group:
-                shifts_qs = shifts_qs.filter(
-                    shift_template__group__name__in=self.shift_template_group
-                )
-
-        elif self.shift_templates.exists():
-            shifts_qs = shifts_qs.filter(shift_template__in=self.shift_templates.all())
-
-        shifts_to_watch.update(shifts_qs)
-
-        # Create new ShiftWatches
-        shift_ids = list(shifts_qs.values_list("id", flat=True))
-        # (or not)
-        if not shift_ids:
-            return
-
-        existing_shift_ids = set(
-            ShiftWatch.objects.filter(
-                user=self.user, shift_id__in=shift_ids
-            ).values_list("shift_id", flat=True)
-        )
-
-        new_watches = [
-            ShiftWatch(
-                user=self.user,
-                shift_id=sid,
-                staffing_status=list(self.staffing_status),
-                recurring_template=self,
-            )
-            for sid in shift_ids
-            if sid not in existing_shift_ids
-        ]
-        ShiftWatch.objects.bulk_create(new_watches)
-
-
-def create_shift_watch_entries(shift: Shift) -> None:
-    """Create ShiftWatch entries based on RecurringShiftWatch."""
-    for template in RecurringShiftWatch.objects.all():
-        shift_template_id = shift.shift_template.id if shift.shift_template else None
-        weekday_match = shift.start_time.weekday() in template.weekdays
-
-        shift_template_group_match = (
-            shift.shift_template.group.name in template.shift_template_group
-            if shift.shift_template and template.shift_template_group
-            else False
-        )
-
-        if (
-            shift_template_id
-            and template.shift_templates.filter(id=shift_template_id).exists()
-        ) or (weekday_match or shift_template_group_match):
-            ShiftWatch.objects.create(
-                user=template.user,
-                shift=shift,
-                staffing_status=template.staffing_status,
-                recurring_template=template,
-            )

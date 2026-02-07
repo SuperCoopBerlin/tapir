@@ -1,6 +1,7 @@
 from calendar import HTMLCalendar, month_name, day_abbr
 from datetime import datetime, date
 
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
@@ -126,7 +127,7 @@ def update_shift_account_depending_on_welcome_session_status(share_owner: ShareO
         is_from_welcome_session=True,
         user=tapir_user,
         description="Welcome session / Willkommenstreffen",
-        date=datetime.today(),
+        date=timezone.now(),
         value=1,
     )
 
