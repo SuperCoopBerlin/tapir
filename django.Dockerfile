@@ -70,12 +70,12 @@ RUN groupadd --gid $GID nonroot && \
 WORKDIR /app
 RUN chown -R $USERNAME:$USERNAME /app
 
-COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/.venv /opt/pysetup/.venv
-COPY --from=build --chown=$USERNAME:$USERNAME /opt/pysetup/ ./
+COPY --from=build /opt/pysetup/.venv /opt/pysetup/.venv
+COPY --from=build /opt/pysetup/ ./
 
-COPY --chown=$USERNAME:$USERNAME tapir /app/tapir
-COPY --chown=$USERNAME:$USERNAME manage.py /app/manage.py
-COPY --chown=$USERNAME:$USERNAME Makefile /app/Makefile
+COPY tapir /app/tapir
+COPY manage.py /app/manage.py
+COPY Makefile /app/Makefile
 
 RUN python manage.py compilemessages
 
