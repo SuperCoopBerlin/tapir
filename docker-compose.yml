@@ -23,9 +23,9 @@ services:
         GID: ${GID:-1000}
     command: bash -c "python manage.py runserver_plus 0.0.0.0:80"
     volumes:
-      - ./tapir:/app/tapir               # ganzer tapir-Ordner
-      - ./manage.py:/app/manage.py       # einzelne Datei
-      - ./Makefile:/app/Makefile         # einzelne Datei
+      - ./tapir:/app/tapir
+      - ./manage.py:/app/manage.py
+      - ./Makefile:/app/Makefile
     environment:
       VIRTUAL_HOST: localhost
       DEBUG: 1
