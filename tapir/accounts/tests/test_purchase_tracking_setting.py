@@ -14,7 +14,7 @@ from tapir.utils.tests_utils import (
 
 
 class TestPurchaseTrackingSetting(TapirFactoryTestBase):
-    EXPORT_FILE = Path(UpdatePurchaseTrackingListCommand.FILE_NAME)
+    EXPORT_FILE = "/tmp/members-current.csv"
 
     def test_normal_user_can_update_their_own_setting(self):
         tapir_user = TapirUserFactory(allows_purchase_tracking=False)
