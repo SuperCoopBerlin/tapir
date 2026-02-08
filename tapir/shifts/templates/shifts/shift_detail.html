@@ -31,8 +31,7 @@
                 </h5>
                 {% if total_valid_attendances and total_hours and no_of_past_shifts %}
                     <span data-bs-toggle="tooltip"
-                          title="{% blocktranslate %}Statistics to date: {{ total_valid_attendances }} people worked {{ total_hours }} hours in {{ no_of_past_shifts }} shifts so far.{% endblocktranslate %}">
-                    </span>
+                          title="{% random_shift_text total_hours no_of_past_shifts first_shift_date %}"></span>
                 {% endif %}
                 <span class="d-flex justify-content-end flex-wrap gap-2">
                     {% if request.user|user_watching_shift:shift %}

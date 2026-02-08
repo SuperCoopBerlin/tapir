@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-08 09:36+0100\n"
+"POT-Creation-Date: 2026-02-08 11:19+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3095,8 +3095,8 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:726 shifts/forms.py:782 shifts/views/views.py:414
-#: shifts/views/views.py:415
+#: shifts/forms.py:726 shifts/forms.py:782 shifts/views/views.py:419
+#: shifts/views/views.py:420
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
@@ -4075,11 +4075,6 @@ msgstr "Schicht-Partner: "
 msgid "Only to be filled by teamleader, member office or employees."
 msgstr "Nur durch Mitgliedsbüro, Teamleitung oder Angestellte auszufüllen."
 
-#: shifts/templates/shifts/shift_detail.html:34
-#, python-format
-msgid "Statistics to date: %(total_valid_attendances)s people worked %(total_hours)s hours in %(no_of_past_shifts)s shifts so far."
-msgstr ""
-
 #: shifts/templates/shifts/shift_detail.html:44
 msgid "Unwatch"
 msgstr "Nicht mehr beobachten"
@@ -4475,7 +4470,7 @@ msgid "Recurring Shift Watches"
 msgstr "Wiederholende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:25
-#: shifts/views/views.py:459
+#: shifts/views/views.py:464
 msgid "Create a rule for recurring Shift Watches"
 msgstr "Erstelle eine Regel für sich wiederholende Schichtbeobachtungen"
 
@@ -4812,10 +4807,35 @@ msgstr "Nächste beobachtete Schicht"
 msgid "No watched shifts"
 msgstr "Keine beobachteten Schichten"
 
-#: shifts/templatetags/shifts.py:71 shifts/templatetags/shifts.py:176
+#: shifts/templatetags/shifts.py:72 shifts/templatetags/shifts.py:177
 #: shifts/views/views.py:152
 msgid "General"
 msgstr "Allgemein"
+
+#: shifts/templatetags/shifts.py:316
+#, python-brace-format
+msgid "{hours} hours across {shifts} total shifts have been contributed in this ABCD-shift since {date}."
+msgstr "{hours} Stunden über {shifts} Schichten wurden seit dem {date} beigetragen."
+
+#: shifts/templatetags/shifts.py:319
+#, python-brace-format
+msgid "Since {date}, this team has worked {hours} hours across {shifts} shifts."
+msgstr "Seit dem {date} hat dieses Team {hours} Stunden in {shifts} Schichten gearbeitet."
+
+#: shifts/templatetags/shifts.py:322
+#, python-brace-format
+msgid "Collaborative effort: {hours} hours spread over {shifts} shifts starting {date}."
+msgstr "{hours} Stunden gemeinsamer Arbeit in {shifts} Schichten seit dem {date}."
+
+#: shifts/templatetags/shifts.py:324
+#, python-brace-format
+msgid "{hours} hours of shared work in {shifts} shifts, since {date}."
+msgstr "{hours} Stunden gemeinsamer Arbeit in {shifts} Schichten seit dem {date}."
+
+#: shifts/templatetags/shifts.py:328
+#, python-brace-format
+msgid "{hours} hours completed by this team in {shifts} shifts since {date}."
+msgstr "{hours} Stunden in {shifts} Schichten wurden seit dem {date} beigetragen."
 
 #: shifts/views/attendance.py:202 shifts/views/attendance.py:346
 #, python-format
@@ -4928,11 +4948,11 @@ msgstr "Schichtkonto-Protokoll für: %(name)s"
 msgid "Create manual shift account entry for: %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:397
+#: shifts/views/views.py:402
 msgid "Frozen statuses updated."
 msgstr ""
 
-#: shifts/views/views.py:462
+#: shifts/views/views.py:467
 #, python-format
 msgid "Please select either %(shift_template_group)s and/or weekdays, or alternatively %(shift_templates)s."
 msgstr ""
