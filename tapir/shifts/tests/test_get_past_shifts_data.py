@@ -6,7 +6,11 @@ from django.core.management import call_command
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.models import ShiftTemplate, ShiftAttendance, Shift
+from tapir.shifts.models import (
+    ShiftTemplate,
+    ShiftAttendance,
+    Shift,
+)
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.shifts.views import ShiftDetailView
 from tapir.utils.tests_utils import TapirFactoryTestBase
@@ -72,3 +76,32 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
                 for shift in shifts
             ),
         )
+
+    def test_get_past_shifts_data_changedShiftTemplateDuration_correctSum(self):
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create(
+            start_time=datetime.time(hour=10, tzinfo=datetime.timezone.utc),
+            end_time=datetime.time(hour=12, tzinfo=datetime.timezone.utc),
+        )
+        shift_2_hours = shift_template.create_shift_if_necessary(
+            timezone.now() - datetime.timedelta(days=7)
+        )
+        ShiftAttendance.objects.create(
+            user=TapirUserFactory.create(),
+            slot=shift_2_hours.slots.first(),
+            state=ShiftAttendance.State.DONE,
+        )
+
+        shift_template.end_time = datetime.time(hour=15, tzinfo=datetime.timezone.utc)
+        shift_template.save()
+
+        shift_5_hours = shift_template.create_shift_if_necessary(
+            timezone.now() - datetime.timedelta(days=14)
+        )
+        ShiftAttendance.objects.create(
+            user=TapirUserFactory.create(),
+            slot=shift_5_hours.slots.first(),
+            state=ShiftAttendance.State.DONE,
+        )
+
+        context = ShiftDetailView.get_past_shifts_data(shift_template)
+        self.assertAlmostEqual(context["total_hours"], 7.0)
