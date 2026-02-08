@@ -22,7 +22,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         with tempfile.NamedTemporaryFile(
             mode="w",
-            prefix="members-current",
+            prefix="members-current-",
             suffix=".csv",
             dir="/tmp",
         ) as temp_file:
