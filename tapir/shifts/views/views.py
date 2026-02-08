@@ -270,17 +270,21 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
 
     @staticmethod
     def get_past_shifts_data(shift_template: ShiftTemplate, context: dict = {}):
-        past_shifts = Shift.objects.filter(
-            shift_template=shift_template, end_time__lt=timezone.now()
-        ).annotate(
-            valid_attendance_count=Count(
-                "slots__attendances",
-                filter=Q(
-                    slots__attendances__state__in=[
-                        ShiftAttendance.State.DONE,
-                    ]
-                ),
+        past_shifts = (
+            Shift.objects.filter(
+                shift_template=shift_template, end_time__lt=timezone.now()
             )
+            .annotate(
+                valid_attendance_count=Count(
+                    "slots__attendances",
+                    filter=Q(
+                        slots__attendances__state__in=[
+                            ShiftAttendance.State.DONE,
+                        ]
+                    ),
+                )
+            )
+            .order_by("start_time")
         )
         context["no_of_past_shifts"] = past_shifts.count()
 
@@ -296,7 +300,8 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             / 3600
             for s in past_shifts
         )
-        context["total_hours"] = total_hours
+        context["total_hours"] = round(total_hours)
+        context["first_shift_date"] = past_shifts.first().start_time.date()
         return context
 
 
