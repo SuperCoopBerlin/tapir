@@ -25,14 +25,14 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
             nb_slots=2,
             shift_template=shift_template,
         )
-
+        slots = list(shift.slots.all())
         ShiftAttendance.objects.create(
-            state=ShiftAttendance.State.DONE, user=user_done, slot=shift.slots.all()[0]
+            state=ShiftAttendance.State.DONE, user=user_done, slot=slots[0]
         )
         ShiftAttendance.objects.create(
             state=ShiftAttendance.State.MISSED_EXCUSED,
             user=user_excused,
-            slot=shift.slots.all()[1],
+            slot=slots[1],
         )
 
         context = ShiftDetailView.get_past_shifts_data(shift.shift_template)
