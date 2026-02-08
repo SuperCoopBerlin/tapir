@@ -1,8 +1,5 @@
 import datetime
 
-import pytest
-from celery.states import state
-from django.core.management import call_command
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
