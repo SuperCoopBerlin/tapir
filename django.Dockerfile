@@ -64,11 +64,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd --gid $GID nonroot && \
-    useradd --uid $UID --gid $GID -m nonroot && \
-    mkdir -p /app
+    useradd --uid $UID --gid $GID -m nonroot
 
 WORKDIR /app
-RUN chown -R $USERNAME:$USERNAME /app
 
 COPY --from=build /opt/pysetup/.venv /opt/pysetup/.venv
 COPY --from=build /opt/pysetup/ ./
