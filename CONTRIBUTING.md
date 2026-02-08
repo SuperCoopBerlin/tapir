@@ -111,7 +111,7 @@ The class name is the convention for the word in texts, followed by how to write
 ### Django Shell
 
 ```sh
-docker compose exec web poetry run python manage.py shell_plus
+docker compose exec web python manage.py shell_plus
 ```
 
 ### LDAP
@@ -129,7 +129,7 @@ docker compose up -d openldap
 Then, run the tests.
 
 ```sh
-docker compose run --rm web poetry run pytest
+docker compose run --user=$(id -u):$(id -g) --rm web pytest
 ```
 
 The `--rm` option will delete the temporary containers created to run the tests. Omit it if you want to keep the
@@ -145,8 +145,8 @@ secret
 To generate the translation files, first use "makemessages" and specify the language you want to generate:
 
 ```sh
-docker compose exec -w /app/tapir web poetry run python ../manage.py makemessages --no-wrap -l de
-docker compose run --rm -w /app web poetry run python manage.py makemessages --no-wrap -l de -d djangojs
+docker compose exec -w /app/tapir web python ../manage.py makemessages --no-wrap -l de
+docker compose run --user=$(id -u):$(id -g) --rm -w /app web python manage.py makemessages --no-wrap -l de -d djangojs
 ```
 
 Update tapir/translations/locale/de/LC_MESSAGES/django.po with your translations.
@@ -180,7 +180,7 @@ All changes must be done in the docker container. Since our development environm
 docker container, you must run djangos makemigrations on docker. You can do this with this command:
 
 ```sh
-docker compose exec web poetry run python manage.py makemigrations
+docker compose exec web python manage.py makemigrations
 ```
 
 Please check the migration script. It might contain unwished changes. There seems to be a bug in ldpa migrations.
@@ -190,7 +190,7 @@ Please check the migration script. It might contain unwished changes. There seem
 Last step is to update the database. this is done with this command:
 
 ```sh
-docker compose exec web poetry run python manage.py migrate
+docker compose exec web python manage.py migrate
 ```
 
 Please check, if applications runs (again).
