@@ -34,7 +34,7 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
             slot=shift.slots.all()[1],
         )
 
-        context = ShiftDetailView.get_past_shifts_data(shift)
+        context = ShiftDetailView.get_past_shifts_data(shift.shift_template)
         self.assertEqual(context["no_of_past_shifts"], 1)
         self.assertEqual(context["total_valid_attendances"], 1)
         self.assertEqual(
@@ -60,7 +60,7 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
                 ShiftAttendance.objects.create(
                     state=ShiftAttendance.State.DONE, user=user, slot=slots[i]
                 )
-        context = ShiftDetailView.get_past_shifts_data(shifts[-1])
+        context = ShiftDetailView.get_past_shifts_data(shift_template)
 
         self.assertEqual(context["no_of_past_shifts"], len(shifts))
         self.assertEqual(context["total_valid_attendances"], len(users) * len(shifts))

@@ -243,7 +243,7 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         )
 
         if shift.shift_template:
-            self.get_past_shifts_data(shift, context)
+            self.get_past_shifts_data(shift.shift_template, context)
 
         for slot in slots:
             slot.can_self_register = slot.user_can_attend(self.request.user)
@@ -269,9 +269,9 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         return context
 
     @staticmethod
-    def get_past_shifts_data(shift: Shift, context: dict = {}):
+    def get_past_shifts_data(shift_template: ShiftTemplate, context: dict = {}):
         past_shifts = Shift.objects.filter(
-            shift_template=shift.shift_template, end_time__lt=timezone.now()
+            shift_template=shift_template, end_time__lt=timezone.now()
         ).annotate(
             valid_attendance_count=Count(
                 "slots__attendances",
