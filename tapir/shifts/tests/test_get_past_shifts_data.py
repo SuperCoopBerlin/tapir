@@ -23,7 +23,7 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
         user_excused = TapirUserFactory.create()
 
         shift_template: ShiftTemplate = ShiftTemplateFactory.create(nb_slots=2)
-        shift = ShiftFactory(
+        shift: Shift = ShiftFactory.create(
             start_time=timezone.now() - datetime.timedelta(days=1),
             nb_slots=2,
             shift_template=shift_template,
@@ -49,8 +49,8 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
     def test_getPastShiftsData_multipleAttendandances_correctValues(self):
         users = TapirUserFactory.create_batch(5)
         shift_template = ShiftTemplateFactory.create(nb_slots=len(users))
-        shifts = [
-            ShiftFactory(
+        shifts: list[Shift] = [
+            ShiftFactory.create(
                 start_time=timezone.now() - datetime.timedelta(days=i + 1),
                 nb_slots=len(users),
                 shift_template=shift_template,
