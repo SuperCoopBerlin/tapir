@@ -207,7 +207,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEqual(len(mail.outbox), 0)
 
     def test_handle_recurring_noInitialMailIsSent(self):
-        # No initial message should be sent, even if the shift is understaffed
+        # No initial message should be sent when being created from recurring
 
         recurring = RecurringShiftWatch.objects.create(
             user=self.user,
@@ -218,6 +218,5 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         ShiftWatchCreator.create_shift_watches_for_recurring(recurring=recurring)
 
         Command().handle()
-        # print([m.body for m in mail.outbox])
 
         self.assertEqual(len(mail.outbox), 0)
