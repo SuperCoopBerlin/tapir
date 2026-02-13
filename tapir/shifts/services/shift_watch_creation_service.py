@@ -86,7 +86,9 @@ class ShiftWatchCreator:
         required_attendances: int,
         last_status: str = None,
     ) -> None | StaffingStatusChoices:
-
+        """
+        Determine if the staffing status has changed. Return **None** if the staffing status has not changed.
+        """
         current_status = cls.calculate_staffing_status(
             valid_attendances=valid_attendances,
             required_attendances=required_attendances,
@@ -140,6 +142,7 @@ class ShiftWatchCreator:
                         shift=shift
                     ),
                     recurring_template=recurring,
+                    last_valid_slot_ids=cls.get_valid_slot_ids(shift),
                 )
             )
 
@@ -147,9 +150,16 @@ class ShiftWatchCreator:
             ShiftWatch.objects.bulk_create(new_watches)
 
     @classmethod
-    def get_initial_staffing_status_for_shift_based_on_recurring(
-        cls, shift: Shift
-    ) -> None:
+    def get_valid_slot_ids(cls, shift: Shift) -> list[ShiftSlot]:
+        return list(
+            ShiftSlot.objects.filter(
+                shift=shift,
+                attendances__state=ShiftAttendance.State.PENDING,
+            ).values_list("id", flat=True)
+        )
+
+    @classmethod
+    def create_shift_watches_for_shift_based_on_recurring(cls, shift: Shift) -> None:
         """For a shift, find relevant RecurringShiftWatches and create Shift-Watches."""
         filter_by_weekday = Q(weekdays=[]) | Q(
             weekdays__contains=[shift.start_time.weekday()]
@@ -184,6 +194,7 @@ class ShiftWatchCreator:
                     last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
                         shift=shift,
                     ),
+                    last_valid_slot_ids=cls.get_valid_slot_ids(shift),
                 )
             )
 

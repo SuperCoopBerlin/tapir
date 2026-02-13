@@ -7,12 +7,12 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.emails.shift_watch_mail import ShiftWatchEmailBuilder
 from tapir.shifts.management.commands.send_shift_watch_mail import Command
 from tapir.shifts.models import (
-    ShiftWatch,
     StaffingStatusChoices,
     ShiftSlot,
     ShiftUserCapability,
     get_staffingstatus_choices,
     ShiftAttendance,
+    RecurringShiftWatch,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 
@@ -203,5 +203,21 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.unregister_first_slot()
 
         Command().handle()
+
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_handle_recurring_noInitialMailIsSent(self):
+        # No initial message should be sent, even if the shift is understaffed
+
+        recurring = RecurringShiftWatch.objects.create(
+            user=self.user,
+            weekdays=[self.shift_ok_first.start_time.weekday()],
+            staffing_status=[event.value for event in get_staffingstatus_choices()],
+        )
+
+        ShiftWatchCreator.create_shift_watches_for_recurring(recurring=recurring)
+
+        Command().handle()
+        # print([m.body for m in mail.outbox])
 
         self.assertEqual(len(mail.outbox), 0)

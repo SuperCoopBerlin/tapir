@@ -48,11 +48,8 @@ class Command(BaseCommand):
     def send_shift_watch_mail_per_user_and_shift(self, shift_watch_data: ShiftWatch):
         notification_reasons: list[StaffingStatusChoices] = []
 
-        this_valid_slot_ids = list(
-            ShiftSlot.objects.filter(
-                shift=shift_watch_data.shift,
-                attendances__state=ShiftAttendance.State.PENDING,
-            ).values_list("id", flat=True)
+        this_valid_slot_ids = ShiftWatchCreator.get_valid_slot_ids(
+            shift_watch_data.shift
         )
 
         valid_attendances_count = len(this_valid_slot_ids)
