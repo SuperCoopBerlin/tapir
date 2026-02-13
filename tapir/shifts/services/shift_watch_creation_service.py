@@ -147,7 +147,9 @@ class ShiftWatchCreator:
             ShiftWatch.objects.bulk_create(new_watches)
 
     @classmethod
-    def create_shift_watches_for_shift(cls, shift: Shift) -> None:
+    def get_initial_staffing_status_for_shift_based_on_recurring(
+        cls, shift: Shift
+    ) -> None:
         """For a shift, find relevant RecurringShiftWatches and create Shift-Watches."""
         filter_by_weekday = Q(weekdays=[]) | Q(
             weekdays__contains=[shift.start_time.weekday()]

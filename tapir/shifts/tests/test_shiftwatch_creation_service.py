@@ -30,7 +30,9 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         """Ensure no duplicate ShiftWatch for (user, shift) is created."""
         ShiftWatchFactory(user=self.user, shift=self.base_shift)
 
-        ShiftWatchCreator.create_shift_watches_for_shift(self.base_shift)
+        ShiftWatchCreator.create_shift_watches_for_shift_based_on_recurring(
+            self.base_shift
+        )
 
         watches = ShiftWatch.objects.filter(user=self.user, shift=self.base_shift)
         self.assertEqual(watches.count(), 1)
@@ -64,7 +66,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
-        ShiftWatchCreator.create_shift_watches_for_shift(shift)
+        ShiftWatchCreator.create_shift_watches_for_shift_based_on_recurring(shift)
 
         self.assertTrue(ShiftWatch.objects.filter(shift=shift).exists())
 
