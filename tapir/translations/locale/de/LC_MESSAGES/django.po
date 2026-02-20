@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-07 14:00+0100\n"
+"POT-Creation-Date: 2026-02-20 08:35+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2196,12 +2196,12 @@ msgstr ""
 "    Bestätigung Erwerb zusätzlicher Anteile bei %(coop_name)s für %(display_name)s\n"
 "    "
 
-#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:61
+#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:55
 #, python-format
 msgid "Confirmation acquisition of additional shares in %(coop_full_name)s"
 msgstr "Bestätigung Erwerb zusätzlicher Anteile bei %(coop_full_name)s"
 
-#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:66
+#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:60
 #, python-format
 msgid ""
 "\n"
