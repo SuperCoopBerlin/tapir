@@ -1444,14 +1444,14 @@ tqdm = ">=4.62.2"
 
 [[package]]
 name = "drf-spectacular"
-version = "0.28.0"
+version = "0.29.0"
 description = "Sane and flexible OpenAPI 3 schema generation for Django REST framework"
 optional = false
 python-versions = ">=3.7"
 groups = ["dev"]
 files = [
-    {file = "drf_spectacular-0.28.0-py3-none-any.whl", hash = "sha256:856e7edf1056e49a4245e87a61e8da4baff46c83dbc25be1da2df77f354c7cb4"},
-    {file = "drf_spectacular-0.28.0.tar.gz", hash = "sha256:2c778a47a40ab2f5078a7c42e82baba07397bb35b074ae4680721b2805943061"},
+    {file = "drf_spectacular-0.29.0-py3-none-any.whl", hash = "sha256:d1ee7c9535d89848affb4427347f7c4a22c5d22530b8842ef133d7b72e19b41a"},
+    {file = "drf_spectacular-0.29.0.tar.gz", hash = "sha256:0a069339ea390ce7f14a75e8b5af4a0860a46e833fd4af027411a3e94fc1a0cc"},
 ]
 
 [package.dependencies]
@@ -2820,20 +2820,20 @@ diagrams = ["jinja2", "railroad-diagrams"]
 
 [[package]]
 name = "pypdf"
-version = "6.6.2"
+version = "6.7.1"
 description = "A pure-python PDF library capable of splitting, merging, cropping, and transforming PDF files"
 optional = false
 python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "pypdf-6.6.2-py3-none-any.whl", hash = "sha256:44c0c9811cfb3b83b28f1c3d054531d5b8b81abaedee0d8cb403650d023832ba"},
-    {file = "pypdf-6.6.2.tar.gz", hash = "sha256:0a3ea3b3303982333404e22d8f75d7b3144f9cf4b2970b96856391a516f9f016"},
+    {file = "pypdf-6.7.1-py3-none-any.whl", hash = "sha256:a02ccbb06463f7c334ce1612e91b3e68a8e827f3cee100b9941771e6066b094e"},
+    {file = "pypdf-6.7.1.tar.gz", hash = "sha256:6b7a63be5563a0a35d54c6d6b550d75c00b8ccf36384be96365355e296e6b3b0"},
 ]
 
 [package.extras]
 crypto = ["cryptography"]
 cryptodome = ["PyCryptodome"]
-dev = ["black", "flit", "pip-tools", "pre-commit", "pytest-cov", "pytest-socket", "pytest-timeout", "pytest-xdist", "wheel"]
+dev = ["flit", "pip-tools", "pre-commit", "pytest-cov", "pytest-socket", "pytest-timeout", "pytest-xdist", "wheel"]
 docs = ["myst_parser", "sphinx", "sphinx_rtd_theme"]
 full = ["Pillow (>=8.0.0)", "cryptography"]
 image = ["Pillow (>=8.0.0)"]
@@ -4090,4 +4090,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0"
-content-hash = "1577c85ea6b3d1ed51fcb9747284350b834887b72516dc9792aca714eee08df5"
+content-hash = "364229d4731d604ea5982402726843691c0b2cb762c6f9df241d07cfa792b742"

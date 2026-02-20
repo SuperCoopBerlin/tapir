@@ -52,9 +52,9 @@ selenium = "^4.37.0"
 factory-boy = "^3.3.3"
 icecream = "^2.1.8"
 djlint = "^1.36.4"
-pypdf = "^6.1.1"
+pypdf = "^6.7.1"
 django-upgrade = "^1.29.0"
-drf-spectacular = "^0.28.0"
+drf-spectacular = "^0.29.0"
 django-silk = "^5.4.3"
 
 [build-system]
