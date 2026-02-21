@@ -35,7 +35,7 @@ RUN apt-get update \
     # cleaning up unused files
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSL https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - && \
+RUN curl -sS https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - && \
     ln -s $POETRY_HOME/bin/poetry /usr/local/bin/poetry
 
 WORKDIR $PYSETUP_PATH
