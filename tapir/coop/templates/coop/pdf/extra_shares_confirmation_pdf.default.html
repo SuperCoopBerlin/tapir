@@ -31,23 +31,17 @@
         <!-- A DIN 5008 Letter has 2,7cm of top margin -->
         <div style="display: flex">
             <div style="margin-top: 17.7mm; margin-bottom: 30mm; margin-right: 30mm;">
-                <span style="font-size: 6pt;">
-                    {{ display_name_full }},
+                <span style="font-size: 6pt;">{{ coop_full_name }}, {{ coop_street }}, {{ coop_place }}</span>
+                <div style="margin-top: 2mm;">
+                    {{ display_name_full }}
                     <br />
-                    {{ member_infos.street }},
-                    <br />
+                    {{ member_infos.street }}
                     {% if member_infos.street_2 %}
-                        {{ member_infos.street_2 }},
+                        {{ member_infos.street_2 }}
                         <br />
                     {% endif %}
+                    <br />
                     {{ member_infos.postcode }} {{ member_infos.city }}
-                </span>
-                <div style="margin-top: 2mm;">
-                    {{ coop_full_name }}
-                    <br />
-                    {{ coop_street }}
-                    <br />
-                    {{ coop_place }}
                 </div>
             </div>
             <div style="flex-grow: 1"></div>
