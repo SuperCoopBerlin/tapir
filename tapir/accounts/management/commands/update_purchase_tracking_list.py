@@ -1,4 +1,5 @@
 import csv
+import tempfile
 
 from django.core.management import BaseCommand
 
@@ -17,15 +18,20 @@ class Command(BaseCommand):
         "Updates the file containing the list of users that allowed purchase tracking and synchronizes it with the "
         "BioOffice server."
     )
-    FILE_NAME = "members-current.csv"
 
     def handle(self, *args, **options):
-        self.write_users_to_file()
-        send_file_to_storage_server(self.FILE_NAME, "u326634-sub4")
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            prefix="members-current-",
+            suffix=".csv",
+            dir="/tmp",
+        ) as temp_file:
+            self.write_users_to_file(filename=temp_file.name)
+            send_file_to_storage_server(temp_file.name, "u326634-sub4")
 
     @classmethod
-    def write_users_to_file(cls):
-        with open(cls.FILE_NAME, "w", newline="") as csvfile:
+    def write_users_to_file(cls, filename):
+        with open(filename, "w", newline="") as csvfile:
             writer = csv.writer(csvfile, delimiter=";", quoting=csv.QUOTE_MINIMAL)
             writer.writerow(
                 [
