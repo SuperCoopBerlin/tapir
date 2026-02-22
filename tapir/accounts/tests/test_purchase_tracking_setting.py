@@ -4,9 +4,6 @@ from unittest.mock import patch
 from django.core.management import call_command
 from django.urls import reverse
 
-from tapir.accounts.management.commands.update_purchase_tracking_list import (
-    Command as UpdatePurchaseTrackingListCommand,
-)
 from tapir.accounts.models import UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.utils.tests_utils import (
@@ -63,7 +60,7 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
 
         self.assertEqual(0, UpdateTapirUserLogEntry.objects.count())
 
-    @patch("tempfile.NamedTemporaryFile")
+    @patch("tempfile.TemporaryFile")
     def test_updatePurchaseTrackingList_userswithTrackingEnabledOrDisabled_includedOrExcludedInExportFile(
         self, mock_temp_file
     ):
@@ -78,7 +75,7 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         self.assertIn(tapir_user_enabled.last_name, list_content)
         self.assertNotIn(tapir_user_disabled.last_name, list_content)
 
-    @patch("tempfile.NamedTemporaryFile")
+    @patch("tempfile.TemporaryFile")
     def test_updatePurchaseTrackingList_userHasTrackingEnabledButNoShareOwner_userIsNotInExportFile(
         self, mock_temp_file
     ):
