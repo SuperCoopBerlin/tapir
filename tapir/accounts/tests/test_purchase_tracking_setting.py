@@ -78,7 +78,6 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         list_content = Path(mock_temp_file_instance.name).read_text()
         self.assertIn(tapir_user_enabled.last_name, list_content)
         self.assertNotIn(tapir_user_disabled.last_name, list_content)
-        Path(mock_temp_file_instance.name).unlink()
 
     @patch("tempfile.NamedTemporaryFile")
     def test_updatePurchaseTrackingList_userHasTrackingEnabledButNoShareOwner_userIsNotInExportFile(
@@ -91,4 +90,3 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         call_command("update_purchase_tracking_list")
         list_content = Path(mock_temp_file_instance.name).read_text()
         self.assertNotIn(tapir_user.last_name, list_content)
-        Path(mock_temp_file_instance.name).unlink()
