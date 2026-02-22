@@ -91,7 +91,7 @@ def send_file_to_storage_server(filename: str, username: str):
 
     setup_ssh_for_biooffice_storage()
     os.system(
-        f"scp -o 'NumberOfPasswordPrompts=0' -o 'UserKnownHostsFile=~/.ssh/biooffice_known_hosts' -i ~/.ssh/biooffice_id_rsa -P 23 {filename} {username}@u326634.your-storagebox.de:./"
+        f"scp -o 'NumberOfPasswordPrompts=0' -o 'UserKnownHostsFile=~/.ssh/biooffice_known_hosts' -i ~/.ssh/biooffice_id_rsa -P 23 {filename} {username}@u326634.your-storagebox.de:./members-current.csv"
     )
 
 
