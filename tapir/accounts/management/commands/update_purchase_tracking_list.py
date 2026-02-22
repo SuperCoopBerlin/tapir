@@ -24,7 +24,6 @@ class Command(BaseCommand):
             mode="w",
             prefix="members-current-",
             suffix=".csv",
-            dir="/tmp",
         ) as temp_file:
             self.write_users_to_file(filename=temp_file.name)
             send_file_to_storage_server(temp_file.name, "u326634-sub4")
