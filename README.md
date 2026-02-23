@@ -45,6 +45,7 @@ Developer quick steps see [CONTRIBUTING.md](CONTRIBUTING.md).
 Code style & tooling
 - Use `black`; pre-commit hooks recommended  
 - Run `pytest` locally before PRs
+- Have a look at our [wiki](https://github.com/SuperCoopBerlin/tapir/wiki) and in particular ["Setting-up-you-development-environment"](https://github.com/SuperCoopBerlin/tapir/wiki/Setting-up-you-development-environment) how to run Tapir on your machine and how to setup your IDE.
 
 Non-technical contributions
 - Translations: see [CONTRIBUTING.md](CONTRIBUTING.md) for how to add language files  
@@ -53,8 +54,9 @@ Non-technical contributions
 
 ## Important links
 - Wiki (setup & how-tos): https://github.com/SuperCoopBerlin/tapir/wiki
+- SuperCoop members can access the system at [https://members.supercoop.de](https://members.supercoop.de)
 - Issues: https://github.com/SuperCoopBerlin/tapir/issues  
-- Contact/maintainer: Théo — https://github.com/Theophile-Madet
+- Contact: If you're interested in using Tapir for your own cooperative, we'd be happy to help. Create an issue in this repo or write to [Théo](https://github.com/Theophile-Madet) directly. 
 
 
 > Tapir (/ˈteɪpər/) [has a trunk](https://www.youtube.com/watch?v=JgwBecM_E6Q), but not quite such a beautiful one
