@@ -150,7 +150,7 @@ class ShiftWatchCreator:
             ShiftWatch.objects.bulk_create(new_watches)
 
     @classmethod
-    def get_valid_slot_ids(cls, shift: Shift) -> list[ShiftSlot]:
+    def get_valid_slot_ids(cls, shift: Shift) -> list[int]:
         return list(
             ShiftSlot.objects.filter(
                 shift=shift,
