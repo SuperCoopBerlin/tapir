@@ -72,7 +72,7 @@ class ShiftGenerator:
             cls.cancel_holiday_shifts(created_shifts)
 
         for shift in created_shifts:
-            ShiftWatchCreator.create_shift_watches_for_shift(shift)
+            ShiftWatchCreator.create_shift_watches_for_shift_based_on_recurring(shift)
 
         return created_shifts
 
