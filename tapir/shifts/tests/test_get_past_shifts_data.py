@@ -67,11 +67,9 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
         self.assertEqual(context["total_valid_attendances"], len(users) * len(shifts))
         self.assertEqual(
             context["total_hours"],
-            len(users)
-            * sum(
-                (shift.end_time - shift.start_time).total_seconds() / 3600
-                for shift in shifts
-            ),
+            70.0,
+            "The value should have been calculated by "
+            "len(users)* sum((shift.end_time - shift.start_time).total_seconds() / 3600 for shift in shifts)",
         )
 
     def test_getPastShiftsData_changedShiftTemplateDuration_correctSum(self):
