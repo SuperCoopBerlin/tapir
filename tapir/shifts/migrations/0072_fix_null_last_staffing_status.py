@@ -13,7 +13,7 @@ def fix_null_last_staffing_status(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("shifts", "0072_alter_shiftwatch_last_staffing_status"),
+        ("shifts", "0071_recurringshiftwatch_shiftwatch_recurring_template"),
     ]
 
     operations = [

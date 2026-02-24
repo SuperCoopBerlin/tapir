@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("shifts", "0071_recurringshiftwatch_shiftwatch_recurring_template"),
+        ("shifts", "0072_fix_null_last_staffing_status"),
     ]
 
     operations = [
