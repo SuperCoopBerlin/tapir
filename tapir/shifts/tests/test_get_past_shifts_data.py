@@ -15,7 +15,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
 
-    def test_getPastShiftsData_differentStatesOfAttendandance_onlyCountDoneState(self):
+    def test_getPastShiftsData_differentStatesOfAttendance_onlyCountDoneState(self):
         user_done = TapirUserFactory.create()
         user_excused = TapirUserFactory.create()
 
