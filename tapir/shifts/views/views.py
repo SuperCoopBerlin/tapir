@@ -269,7 +269,9 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
         return context
 
     @staticmethod
-    def get_past_shifts_data(shift_template: ShiftTemplate, context: dict = {}):
+    def get_past_shifts_data(shift_template: ShiftTemplate, context: dict = None):
+        if context is None:
+            context = {}
         past_shifts = (
             Shift.objects.filter(
                 shift_template=shift_template, end_time__lt=timezone.now()
