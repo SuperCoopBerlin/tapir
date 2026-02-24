@@ -74,7 +74,7 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
             ),
         )
 
-    def test_get_past_shifts_data_changedShiftTemplateDuration_correctSum(self):
+    def test_getPastShiftsData_changedShiftTemplateDuration_correctSum(self):
         shift_template: ShiftTemplate = ShiftTemplateFactory.create(
             start_time=datetime.time(hour=10, tzinfo=datetime.timezone.utc),
             end_time=datetime.time(hour=12, tzinfo=datetime.timezone.utc),
