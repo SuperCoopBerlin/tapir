@@ -9,7 +9,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
-    def test_softDelete_DeletedAt_isNotNone(self):
+    def test_softDelete_default_setsDeletedAt(self):
         share_owner = ShareOwnerFactory.create()
 
         self.assertIsNone(share_owner.deleted_at)
