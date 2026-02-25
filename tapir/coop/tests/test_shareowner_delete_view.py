@@ -31,7 +31,7 @@ class TestShareOwnerDeleteView(
             follow=True,
         )
 
-    def test_ShareOwnerDeleteView_shareOwnerdeletedAt_hasDate(self):
+    def test_ShareOwnerDeleteView_default_setsDeletedAtField(self):
         self.login_as_vorstand()
         tapir_user = TapirUserFactory()
         self.assertIsNotNone(tapir_user.share_owner)
