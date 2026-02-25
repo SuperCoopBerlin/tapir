@@ -20,7 +20,7 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
         self.assertIsNotNone(share_owner.deleted_at)
         self.assertLessEqual(share_owner.deleted_at, timezone.now())
 
-    def test_softDelete_restoreDeleted_isNone(self):
+    def test_restore_default_deletedAtSetToNone(self):
         share_owner = ShareOwnerFactory.create()
 
         share_owner.soft_delete()
