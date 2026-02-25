@@ -45,7 +45,7 @@ class TestShareOwnerDeleteView(
         self.assertIsNotNone(tapir_user.share_owner.deleted_at)
         self.assertEqual(DeleteShareOwnerLogEntry.objects.count(), 1)
 
-    def test_ShareOwnerDeleteView_normalShareOwner_cannotDeleteItself(self):
+    def test_ShareOwnerDeleteView_normalMemberTriesToDeleteItself_doesntDelete(self):
         tapir_user = self.login_as_normal_user()
         response = self.client.post(
             reverse("coop:shareowner_delete", args=[tapir_user.share_owner.id]),
