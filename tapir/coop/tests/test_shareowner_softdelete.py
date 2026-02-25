@@ -53,7 +53,7 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
         self.assertIn(owner1, all_owners)
         self.assertIn(owner2, all_owners)
 
-    def test_hardDelete_shareOwner_isfullyDeleted(self):
+    def test_hardDelete_default_shareOwnerHardDeleted(self):
         share_owner = ShareOwnerFactory.create()
         all_users = ShareOwner.everything.all()
         self.assertIn(share_owner, all_users)
