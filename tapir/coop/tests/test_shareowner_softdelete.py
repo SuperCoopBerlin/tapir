@@ -42,7 +42,7 @@ class TestShareOwnershipSoftDelete(TapirFactoryTestBase):
         self.assertIn(active_owner, non_deleted_owners)
         self.assertNotIn(soft_deleted_owner, non_deleted_owners)
 
-    def test_softDelete_everythingManager_containsAlsoDeletedShareowners(self):
+    def test_shareOwnerEverythingManager_default_containsAlsoDeletedShareowners(self):
         owner1 = ShareOwnerFactory.create()
 
         owner2 = ShareOwnerFactory.create()
