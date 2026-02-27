@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-25 22:52+0100\n"
+"POT-Creation-Date: 2026-02-27 11:13+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -895,6 +895,7 @@ msgid "Leave this empty if the resignation type is not a transfer to another mem
 msgstr "Lass das Feld leer, wenn es sich nicht um eine Übertragung auf ein anderes Mitglied handelt"
 
 #: coop/templates/coop/about.html:5 coop/templates/coop/about.html:11
+#: core/apps.py:71
 msgid "About Tapir"
 msgstr "Über Tapir"
 
@@ -2654,10 +2655,6 @@ msgstr ""
 #: core/apps.py:66
 msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
-
-#: core/apps.py:80
-msgid "About tapir"
-msgstr "Über Tapir"
 
 #: core/models.py:7
 msgid "Flag name"
@@ -6336,6 +6333,9 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#~ msgid "About tapir"
+#~ msgstr "Über Tapir"
 
 #, python-brace-format
 #~ msgid "ABCD annual calendar, current week: {current_week_group_name}"
