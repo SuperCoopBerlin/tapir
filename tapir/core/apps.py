@@ -68,16 +68,11 @@ class CoreConfig(AppConfig):
             url="mailto:mitglied@supercoop.de",
             ordering=6,
         )
+        display_name = _("About Tapir")
         if os.getenv("TAPIR_VERSION"):
-            misc_group.add_link(
-                display_name=_(f"Tapir {os.getenv('TAPIR_VERSION')}"),
-                material_icon="label",
-                url=reverse_lazy("coop:about"),
-                ordering=7,
-            )
-        else:
-            misc_group.add_link(
-                display_name=_("About tapir"),
+            display_name = _(f"Tapir {os.getenv('TAPIR_VERSION')}")
+        misc_group.add_link(
+                display_name=display_name,
                 material_icon="help",
                 url=reverse_lazy("coop:about"),
                 ordering=7,
