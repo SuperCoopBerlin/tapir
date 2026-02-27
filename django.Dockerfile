@@ -63,8 +63,8 @@ RUN apt-get update \
     make git \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd --gid $GID nonroot && \
-    useradd --uid $UID --gid $GID -m nonroot
+RUN groupadd --gid $GID $USERNAME && \
+    useradd --uid $UID --gid $GID -m $USERNAME
 
 WORKDIR /app
 
