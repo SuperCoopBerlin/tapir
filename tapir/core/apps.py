@@ -72,8 +72,8 @@ class CoreConfig(AppConfig):
         if os.getenv("TAPIR_VERSION"):
             display_name = _(f"Tapir {os.getenv('TAPIR_VERSION')}")
         misc_group.add_link(
-                display_name=display_name,
-                material_icon="help",
-                url=reverse_lazy("coop:about"),
-                ordering=7,
-            )
+            display_name=display_name,
+            material_icon="help",
+            url=reverse_lazy("coop:about"),
+            ordering=7,
+        )
