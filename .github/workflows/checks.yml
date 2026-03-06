@@ -12,6 +12,6 @@ jobs:
       - name: Check formatting
         run: docker compose run web make check-formatting
       - name: Check translations
-        run: docker compose run web make check-translations
+        run: docker compose run --user=$(id -u):$(id -g) web make check-translations
       - name: Check migrations
         run: docker compose run web make check-migrations
