@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-20 08:35+0100\n"
+"POT-Creation-Date: 2026-03-06 14:56+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2381,8 +2381,8 @@ msgid ""
 msgstr ""
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:56
-#: shifts/models.py:943 shifts/templates/shifts/shift_day_printable.html:207
-#: shifts/templates/shifts/shift_day_printable.html:269
+#: shifts/models.py:943 shifts/templates/shifts/shift_day_printable.html:214
+#: shifts/templates/shifts/shift_day_printable.html:276
 #: shifts/templates/shifts/shift_detail.html:298
 #: shifts/templates/shifts/shift_detail_printable.html:51
 msgid "Attended"
@@ -3028,7 +3028,7 @@ msgstr "Diese Schicht wurde gelöscht. Es ist nicht möglich sich für diese zu 
 msgid "I am aware that the member will be unregistered from their ABCD shift"
 msgstr "Ich bin mir bewusst, dass das Mitglied von der ABCD-Schicht abgemeldet wird."
 
-#: shifts/forms.py:354 shifts/templates/shifts/shift_day_printable.html:287
+#: shifts/forms.py:354 shifts/templates/shifts/shift_day_printable.html:294
 #: shifts/templates/shifts/user_shifts_overview_tag.html:98
 msgid "Qualifications"
 msgstr "Qualifikationen"
@@ -3225,9 +3225,9 @@ msgstr "Diese Schicht ermöglicht dir auszusuchen, wann du kommen magst. Um die 
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:945 shifts/templates/shifts/shift_day_printable.html:209
-#: shifts/templates/shifts/shift_day_printable.html:274
-#: shifts/templates/shifts/shift_day_printable.html:276
+#: shifts/models.py:945 shifts/templates/shifts/shift_day_printable.html:216
+#: shifts/templates/shifts/shift_day_printable.html:281
+#: shifts/templates/shifts/shift_day_printable.html:283
 #: shifts/templates/shifts/shift_detail.html:338
 #: shifts/templates/shifts/shift_detail_printable.html:53
 msgid "Excused"
@@ -3237,7 +3237,7 @@ msgstr "Entschuldigt"
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:947 shifts/templates/shifts/shift_day_printable.html:257
+#: shifts/models.py:947 shifts/templates/shifts/shift_day_printable.html:264
 #: shifts/templates/shifts/shift_detail.html:330
 #: shifts/templates/shifts/shift_detail_printable.html:94
 #: shifts/templates/shifts/shift_filters.html:83
@@ -4054,24 +4054,24 @@ msgstr ""
 "                            </ul>\n"
 "                        "
 
-#: shifts/templates/shifts/shift_day_printable.html:243
+#: shifts/templates/shifts/shift_day_printable.html:250
 #: shifts/templates/shifts/shift_detail_printable.html:82
 msgid "Expected to come at"
 msgstr "Kommt voraussichtlich um"
 
-#: shifts/templates/shifts/shift_day_printable.html:246
+#: shifts/templates/shifts/shift_day_printable.html:253
 #: shifts/templates/shifts/shift_detail_printable.html:84
 msgid "Flexible time not specified"
 msgstr "Flexible Arbeitszeit nicht angegeben"
 
-#: shifts/templates/shifts/shift_day_printable.html:252
+#: shifts/templates/shifts/shift_day_printable.html:259
 #: shifts/templates/shifts/shift_detail.html:139
 #: shifts/templates/shifts/shift_detail_printable.html:90
 #: shifts/templates/shifts/shift_template_detail.html:68
 msgid "Shift partner: "
 msgstr "Schicht-Partner: "
 
-#: shifts/templates/shifts/shift_day_printable.html:289
+#: shifts/templates/shifts/shift_day_printable.html:296
 msgid "Only to be filled by teamleader, member office or employees."
 msgstr "Nur durch Mitgliedsbüro, Teamleitung oder Angestellte auszufüllen."
 
