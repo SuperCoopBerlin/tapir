@@ -1,4 +1,5 @@
 import datetime
+import random
 
 from django import template
 from django.db.models import QuerySet
@@ -306,3 +307,25 @@ def shiftwatch_display_without_user(shiftwatch: ShiftWatch):
         staffing_status,
         recurring_part,
     )
+
+
+@register.simple_tag
+def random_shift_text(total_hours, no_of_past_shifts, first_shift_date):
+    texts = [
+        _(
+            "{hours} hours across {shifts} total shifts have been contributed in this ABCD-shift since {date}."
+        ).format(hours=total_hours, shifts=no_of_past_shifts, date=first_shift_date),
+        _(
+            "Since {date}, this team has worked {hours} hours across {shifts} shifts."
+        ).format(date=first_shift_date, hours=total_hours, shifts=no_of_past_shifts),
+        _(
+            "Collaborative effort: {hours} hours spread over {shifts} shifts starting {date}."
+        ).format(hours=total_hours, shifts=no_of_past_shifts, date=first_shift_date),
+        _("{hours} hours of shared work in {shifts} shifts, since {date}.").format(
+            hours=total_hours, shifts=no_of_past_shifts, date=first_shift_date
+        ),
+        _(
+            "{hours} hours completed by this team in {shifts} shifts since {date}."
+        ).format(hours=total_hours, shifts=no_of_past_shifts, date=first_shift_date),
+    ]
+    return random.choice(texts)

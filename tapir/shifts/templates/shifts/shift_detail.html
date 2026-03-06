@@ -29,6 +29,10 @@
                 <h5>
                     <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 </h5>
+                {% if total_valid_attendances and total_hours and no_of_past_shifts %}
+                    <span data-bs-toggle="tooltip"
+                          title="{% random_shift_text total_hours no_of_past_shifts first_shift_date %}"></span>
+                {% endif %}
                 <span class="d-flex justify-content-end flex-wrap gap-2">
                     {% if request.user|user_watching_shift:shift %}
                         <form style="display: inline"
