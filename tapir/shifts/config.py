@@ -17,5 +17,10 @@ FEATURE_FLAG_FLYING_MEMBERS_REGISTRATION_REMINDER = (
     "feature_flags.shifts.flying_members_registration_reminder"
 )
 FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS = "feature_flags.shifts.auto_cancel_holidays"
+FEATURE_FLAG_REMINDER_MAIL_OLD_PENDING_ATTENDANCES = (
+    "feature_flags.shifts.reminder_mail_old_pending_attendances"
+)
 
 GENERATE_UP_TO = datetime.timedelta(days=200)
+
+NB_DAYS_BEFORE_REMINDER_OLD_PENDING_ATTENDANCES = 14

@@ -1,0 +1,27 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    {% blocktranslate %}
+        <p>Dear member office,</p>
+        <p>
+            this is an automated weekly E-Mail.
+        </p>
+        <p>
+            The following shifts in Tapir are older than {{ nb_days_threshold }} but still have a pending status:
+        </p>
+    {% endblocktranslate %}
+    <ul>
+        {% for attendance in relevant_attendances %}
+            <li>
+                <a href="{{ site_url }}{% url "shifts:shift_detail" attendance.slot.shift.id %}">{% get_display_name_welcome_desk attendance.user %}, {{ attendance.slot.get_display_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% blocktranslate %}
+        <p>
+            Please check the corresponding attendance lists. <br />
+            If those can't be found anymore, please mark the pending shifts as attended.
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}
