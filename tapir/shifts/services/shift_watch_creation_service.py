@@ -1,6 +1,3 @@
-from typing import Optional
-
-from django.db import transaction
 from django.db.models import Q
 
 from tapir.shifts.models import (
@@ -26,7 +23,7 @@ class ShiftWatchCreator:
             shift=shift,
             attendances__state=ShiftAttendance.State.PENDING,
         ).count()
-        required_attendances_count = shift.get_num_required_attendances()
+        required_attendances_count = shift.num_required_attendances
         number_of_available_slots = shift.slots.count()
 
         staffing_status = cls.get_staffing_status_if_changed(

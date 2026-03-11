@@ -14,7 +14,6 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
-
 from tapir.accounts.models import TapirUser
 from tapir.core.models import FeatureFlag
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
@@ -582,11 +581,6 @@ class Shift(models.Model):
 
     def is_in_the_future(self) -> bool:
         return self.start_time > timezone.now()
-
-    def get_num_required_attendances(self) -> int:
-        if self.shift_template:
-            return self.shift_template.num_required_attendances
-        return self.num_required_attendances
 
     def update_to_fit_template(self):
         date = get_monday(self.start_time.date()) + datetime.timedelta(
