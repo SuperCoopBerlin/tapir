@@ -133,3 +133,16 @@ class TestUserUtilsBuildDisplayName(SimpleTestCase):
             share_owner, UserUtils.DISPLAY_NAME_TYPE_WELCOME_DESK
         )
         self.assertEqual("Jane D. #12", display_name)
+
+    def test_displayTypeWelcomeDeskAndUserHasNoLastName_noErrorThrown(self):
+        # regression test for #748
+        share_owner = ShareOwnerFactory.build(
+            first_name=self.FIRST_NAME,
+            usage_name=self.USAGE_NAME,
+            last_name="",
+            id=12,
+        )
+        display_name = UserUtils.build_display_name(
+            share_owner, UserUtils.DISPLAY_NAME_TYPE_WELCOME_DESK
+        )
+        self.assertEqual("Jane . #12", display_name)
