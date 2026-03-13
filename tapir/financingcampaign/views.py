@@ -24,7 +24,7 @@ class FinancingCampaignGeneralView(
     template_name = "financingcampaign/general.html"
 
     def get_context_data(self, **kwargs):
-        context_data = super().get_context_data()
+        context_data = super().get_context_data(**kwargs)
         context_data["campaigns"] = FinancingCampaign.objects.all().order_by(
             "-start_date"
         )

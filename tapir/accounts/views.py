@@ -124,7 +124,7 @@ class TapirUserUpdateBaseView(
             return response
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         tapir_user: TapirUser = self.object
         context["page_title"] = _("Edit member: %(name)s") % {
             "name": UserUtils.build_display_name(
@@ -294,7 +294,7 @@ class EditUserLdapGroupsView(
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context["page_title"] = _("Edit member groups: %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
                 self.get_tapir_user(), self.request.user

@@ -612,8 +612,8 @@ class ShiftAttendanceLogEntry(ModelLogEntry):
     shift = models.ForeignKey(Shift, on_delete=models.CASCADE)
     state = models.IntegerField(null=True)
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         if self.state is not None:
             context["state_name"] = SHIFT_ATTENDANCE_STATES[self.state]
         return context

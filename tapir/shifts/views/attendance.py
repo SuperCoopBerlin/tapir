@@ -197,7 +197,7 @@ class UpdateShiftAttendanceStateWithFormView(
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         attendance: ShiftAttendance = self.object
         context["page_title"] = _("Shift attendance: %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
@@ -263,7 +263,7 @@ class RegisterUserToShiftSlotView(
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context["slot"] = self.get_slot()
         return context
 
@@ -341,7 +341,7 @@ class UpdateShiftAttendanceCustomTimeView(
         return [PERMISSION_SHIFTS_MANAGE]
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         attendance = self.get_attendance()
         context["page_title"] = _("Shift attendance: %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
@@ -381,7 +381,7 @@ class UpdateShiftAttendanceTemplateCustomTimeView(
         return [PERMISSION_SHIFTS_MANAGE]
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         attendance_template = self.get_attendance_template()
         context["page_title"] = _("ABCD attendance: %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
