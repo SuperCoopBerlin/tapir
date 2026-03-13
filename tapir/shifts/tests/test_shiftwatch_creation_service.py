@@ -1,7 +1,5 @@
-import datetime
-
 from django.utils import timezone
-from freezegun import freeze_time
+import datetime
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
