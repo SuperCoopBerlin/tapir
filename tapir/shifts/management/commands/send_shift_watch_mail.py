@@ -12,28 +12,50 @@ from tapir.shifts.models import (
     StaffingStatusChoices,
     ShiftUserCapability,
     ShiftSlot,
-    ShiftAttendance,
+    SHIFT_USER_CAPABILITY_CHOICES,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 
 
-def get_shift_coordinator_status(
-    this_valid_slot_ids: list[int], last_valid_slot_ids: list[int]
-):
-    # Team-leader/Shift-Coordinator notifications
-    def is_shift_coordinator_available(slot_ids: list[int]):
-        return ShiftSlot.objects.filter(
-            id__in=slot_ids,
-            required_capabilities__contains=[ShiftUserCapability.SHIFT_COORDINATOR],
-        )
+def get_capability_status_changes(
+    this_valid_slot_ids: list[int],
+    last_valid_slot_ids: list[int],
+    watched_capabilities: list[str],
+) -> list[SHIFT_USER_CAPABILITY_CHOICES]:
+    if not watched_capabilities:
+        return []
 
-    this_sc_available = is_shift_coordinator_available(this_valid_slot_ids)
-    last_sc_available = is_shift_coordinator_available(last_valid_slot_ids)
-    if not this_sc_available and last_sc_available:
-        return StaffingStatusChoices.SHIFT_COORDINATOR_MINUS
-    elif this_sc_available and not last_sc_available:
-        return StaffingStatusChoices.SHIFT_COORDINATOR_PLUS
-    return None
+    notifications = []
+
+    current_slots = ShiftSlot.objects.filter(id__in=this_valid_slot_ids).values_list(
+        "id", "required_capabilities"
+    )
+
+    last_slots = (
+        ShiftSlot.objects.filter(id__in=last_valid_slot_ids).values_list(
+            "id", "required_capabilities"
+        )
+        if last_valid_slot_ids
+        else []
+    )
+
+    current_capabilities_set = set()
+    for slot_id, capabilities in current_slots:
+        current_capabilities_set.update(capabilities)
+
+    last_capabilities_set = set()
+    for slot_id, capabilities in last_slots:
+        last_capabilities_set.update(capabilities)
+
+    for capability in watched_capabilities:
+        has_now = capability in current_capabilities_set
+        had_before = capability in last_capabilities_set
+
+        if has_now and not had_before:
+            notifications.append(StaffingStatusChoices.ATTENDANCE_PLUS)
+        elif not has_now and had_before:
+            notifications.append(StaffingStatusChoices.ATTENDANCE_PLUS)
+    return notifications
 
 
 class Command(BaseCommand):
@@ -69,12 +91,18 @@ class Command(BaseCommand):
             notification_reasons.append(current_status)
             shift_watch_data.last_staffing_status = current_status
 
-        # Check shift coordinator status
-        shift_coordinator_status = get_shift_coordinator_status(
-            this_valid_slot_ids, shift_watch_data.last_valid_slot_ids
-        )
-        if shift_coordinator_status is not None:
-            notification_reasons.append(shift_coordinator_status)
+        # Check watched capabilities
+        if shift_watch_data.watched_capabilities:
+
+            capability_notifications = get_capability_status_changes(
+                this_valid_slot_ids=this_valid_slot_ids,
+                last_valid_slot_ids=shift_watch_data.last_valid_slot_ids,
+                watched_capabilities=shift_watch_data.watched_capabilities,
+            )
+
+            # Füge Benachrichtigungen hinzu
+            for status_enum in capability_notifications:
+                notification_reasons.append(status_enum)
 
         # General attendance change notifications
         if not notification_reasons:
