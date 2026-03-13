@@ -1,6 +1,6 @@
 from datetime import timedelta
-from django.db import IntegrityError
 from django.utils import timezone
+from freezegun import freeze_time
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
@@ -18,6 +18,7 @@ from tapir.shifts.tests.factories import (
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
+@freeze_time("2026-03-13 10:00:00", tz_offset=0)
 class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
     def setUp(self):

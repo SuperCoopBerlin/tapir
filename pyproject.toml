@@ -57,6 +57,7 @@ pypdf = "^6.1.1"
 django-upgrade = "^1.29.0"
 drf-spectacular = "^0.28.0"
 django-silk = "^5.4.3"
+freezegun = "^1.5.5"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
