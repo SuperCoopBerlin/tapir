@@ -1225,6 +1225,10 @@ def get_staffingstatus_defaults():
     return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
 
 
+def get_shift_capability_choices():
+    return list(SHIFT_USER_CAPABILITY_CHOICES.items())
+
+
 class ShiftWatch(models.Model):
     user = models.ForeignKey(
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
@@ -1258,7 +1262,7 @@ class ShiftWatch(models.Model):
 
     watched_capabilities = ArrayField(
         models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
+            max_length=128, choices=get_shift_capability_choices, blank=False
         ),
         default=list,
         blank=True,
