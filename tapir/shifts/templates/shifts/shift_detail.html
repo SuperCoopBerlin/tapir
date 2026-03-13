@@ -31,7 +31,7 @@
                 </h5>
                 {% if total_valid_attendances and total_hours and no_of_past_shifts %}
                     <span data-bs-toggle="tooltip"
-                          title="{% random_shift_text total_hours no_of_past_shifts first_shift_date %}"></span>
+                          title="Total Hours: {{ total_hours }}, Number of Past Shifts: {{ no_of_past_shifts }}, First Shift Date: {{ first_shift_date|date:'d.m.y' }}"></span>
                 {% endif %}
                 <span class="d-flex justify-content-end flex-wrap gap-2">
                     {% if request.user|user_watching_shift:shift %}
