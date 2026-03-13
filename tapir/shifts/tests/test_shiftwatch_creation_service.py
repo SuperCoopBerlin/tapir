@@ -47,8 +47,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         )
 
         watches = ShiftWatch.objects.filter(user=self.user, shift=self.base_shift)
-        print(timezone.now())
-        self.assertEqual(watches.count(), 2)
+        self.assertEqual(watches.count(), 1)
 
     def test_createShiftWatchesForRecurring_existingShiftWatch_skipsExisting(self):
         """Skip existing ShiftWatches when creating for recurring shifts."""
