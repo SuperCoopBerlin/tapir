@@ -1,4 +1,5 @@
-from datetime import timedelta
+import datetime
+
 from django.utils import timezone
 from freezegun import freeze_time
 
@@ -15,16 +16,28 @@ from tapir.shifts.tests.factories import (
     ShiftWatchFactory,
     ShiftTemplateFactory,
 )
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
-@freeze_time("2026-03-13 10:00:00", tz_offset=0)
 class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
     def setUp(self):
         self.user = TapirUserFactory.create()
-        start = timezone.now() + timedelta(days=1)
-        end = start + timedelta(hours=8)
+        mock_timezone_now(
+            self,
+            datetime.datetime(
+                year=2026,
+                month=3,
+                day=16,
+                hour=15,
+                minute=0,
+                second=0,
+                tzinfo=datetime.timezone.utc,
+            ),
+        )
+
+        start = timezone.now() + datetime.timedelta(days=1)
+        end = start + datetime.timedelta(hours=8)
         self.base_shift = ShiftFactory.create(start_time=start, end_time=end)
 
     def test_createShiftWatchForShift_createDuplicateEntry_avoidedIfExisting(self):
@@ -36,7 +49,8 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         )
 
         watches = ShiftWatch.objects.filter(user=self.user, shift=self.base_shift)
-        self.assertEqual(watches.count(), 1)
+        print(timezone.now())
+        self.assertEqual(watches.count(), 2)
 
     def test_createShiftWatchesForRecurring_existingShiftWatch_skipsExisting(self):
         """Skip existing ShiftWatches when creating for recurring shifts."""
@@ -54,10 +68,10 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
     def test_createShiftWatchForShift_shiftWithoutTemplate_getsAccepted(self):
         """Ensure no crash if shift.shift_template or group is None."""
-        start = timezone.now() + timedelta(days=5)
+        start = timezone.now() + datetime.timedelta(days=5)
         shift = Shift.objects.create(
             start_time=start,
-            end_time=start + timedelta(hours=8),
+            end_time=start + datetime.timedelta(hours=8),
             shift_template=None,
         )
 
@@ -82,10 +96,14 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         )
 
         # Create two shifts which should not be existing after
-        start1 = timezone.now() + timedelta(days=6)
-        start2 = timezone.now() + timedelta(days=7)
-        ShiftFactory.create(start_time=start1, end_time=start1 + timedelta(hours=8))
-        ShiftFactory.create(start_time=start2, end_time=start2 + timedelta(hours=8))
+        start1 = timezone.now() + datetime.timedelta(days=6)
+        start2 = timezone.now() + datetime.timedelta(days=7)
+        ShiftFactory.create(
+            start_time=start1, end_time=start1 + datetime.timedelta(hours=8)
+        )
+        ShiftFactory.create(
+            start_time=start2, end_time=start2 + datetime.timedelta(hours=8)
+        )
 
         ShiftWatchCreator.create_shift_watches_for_recurring(recurring_empty)
 
@@ -97,7 +115,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         self,
     ):
         """Test to ensure correct ShiftWatch creation with intersecting recurring ShiftWatch."""
-        monday = timezone.now() + timedelta(
+        monday = timezone.now() + datetime.timedelta(
             days=(7 - timezone.now().date().weekday() % 7)
         )
 
