@@ -1215,15 +1215,6 @@ class StaffingStatusChoices(models.TextChoices):
     ATTENDANCE_MINUS = "SLOTS_MINUS", _(
         "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
     )
-    # SHIFT_COORDINATOR_MINUS = "SHIFT_COORDINATOR_MINUS", _(
-    #     "The Shift Coordinator has unregistered"
-    # )
-    # SHIFT_COORDINATOR_PLUS = "SHIFT_COORDINATOR_PLUS", _(
-    #     "A Shift Coordinator has registered"
-    # )
-
-    # CAPABILITY_PLUS = "capability_plus_{}", _("Capability {} available")
-    # CAPABILITY_MINUS = "capability_minus_{}", _("Capability {} unavailable")
 
 
 def get_staffingstatus_choices():
