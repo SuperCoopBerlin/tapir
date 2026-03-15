@@ -162,8 +162,6 @@ class ShiftTemplate(models.Model):
         on_delete=models.PROTECT,
     )
     num_required_attendances = models.PositiveIntegerField(
-        null=False,
-        blank=False,
         default=0,
         help_text=_(
             "If there are less members registered to a shift than that number, "
@@ -499,8 +497,6 @@ class Shift(models.Model):
             "If there are less members registered to a shift than that number, "
             "it will be highlighted in the shift calendar. The number of required attendances can't be higher than the slots in the resp. shift."
         ),
-        null=True,
-        blank=False,
         default=0,
     )
     description = models.TextField(
@@ -582,11 +578,6 @@ class Shift(models.Model):
 
     def is_in_the_future(self) -> bool:
         return self.start_time > timezone.now()
-
-    def get_num_required_attendances(self) -> int:
-        if self.shift_template:
-            return self.shift_template.num_required_attendances
-        return self.num_required_attendances
 
     def update_to_fit_template(self):
         date = get_monday(self.start_time.date()) + datetime.timedelta(
