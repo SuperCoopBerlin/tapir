@@ -90,13 +90,12 @@ class Command(BaseCommand):
             shift_watch_data.last_staffing_status = current_status
 
         # Check watched capabilities
-        if shift_watch_data.watched_capabilities:
-            capability_notifications = get_capability_status_changes(
-                this_valid_slot_ids=this_valid_slot_ids,
-                last_valid_slot_ids=shift_watch_data.last_valid_slot_ids,
-                watched_capabilities=shift_watch_data.watched_capabilities,
-            )
-            notification_reasons.extend(capability_notifications)
+        capability_notifications = get_capability_status_changes(
+            this_valid_slot_ids=this_valid_slot_ids,
+            last_valid_slot_ids=shift_watch_data.last_valid_slot_ids,
+            watched_capabilities=shift_watch_data.watched_capabilities,
+        )
+        notification_reasons.extend(capability_notifications)
 
         # General attendance change notifications
         if not notification_reasons:
