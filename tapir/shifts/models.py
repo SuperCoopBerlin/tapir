@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
+
 from tapir.accounts.models import TapirUser
 from tapir.core.models import FeatureFlag
 from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
@@ -161,8 +162,6 @@ class ShiftTemplate(models.Model):
         on_delete=models.PROTECT,
     )
     num_required_attendances = models.PositiveIntegerField(
-        null=False,
-        blank=False,
         default=0,
         help_text=_(
             "If there are less members registered to a shift than that number, "
@@ -498,8 +497,6 @@ class Shift(models.Model):
             "If there are less members registered to a shift than that number, "
             "it will be highlighted in the shift calendar. The number of required attendances can't be higher than the slots in the resp. shift."
         ),
-        null=True,
-        blank=False,
         default=0,
     )
     description = models.TextField(
