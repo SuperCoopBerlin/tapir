@@ -127,7 +127,7 @@ class EditShiftUserDataView(
         return response
 
     def get_context_data(self, **kwargs):
-        context_data = super().get_context_data()
+        context_data = super().get_context_data(**kwargs)
         tapir_user: TapirUser = self.object.user
         context_data["page_title"] = _("Edit user shift data: %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
@@ -170,7 +170,7 @@ class UserShiftAccountLog(LoginRequiredMixin, PermissionRequiredMixin, TemplateV
         return [PERMISSION_SHIFTS_MANAGE]
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         user = self.get_target_user()
         context["user"] = user
         context["entries_data"] = [
@@ -270,7 +270,7 @@ class ShiftDayPrintableView(LoginRequiredMixin, PermissionRequiredMixin, Templat
     permission_required = PERMISSION_WELCOMEDESK_VIEW
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         day = datetime.datetime.strptime(kwargs["day"], "%d-%m-%y").date()
         context["shifts"] = Shift.objects.filter(start_time__date=day).order_by(
             "start_time"
@@ -375,7 +375,7 @@ class WatchShiftView(LoginRequiredMixin, TapirFormMixin, CreateView):
     form_class = ShiftWatchForm
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context["page_title"] = _("Shift changes you would like to be informed about")
         context["card_title"] = _("Shift changes you would like to be informed about")
         return context

@@ -162,7 +162,7 @@ class IncomingPaymentCreateView(
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context["page_title"] = _("Register payment")
         context["card_title"] = _("Register a new incoming payment")
         return context
@@ -183,7 +183,7 @@ class IncomingPaymentEditView(
         return reverse("coop:incoming_payment_list")
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context["page_title"] = _("Edit payment")
         context["card_title"] = _("Edit payment")
         return context

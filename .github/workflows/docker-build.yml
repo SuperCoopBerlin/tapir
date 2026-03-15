@@ -10,6 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+
 jobs:
   prepare-changelog-and-changelog:
     if: github.ref == 'refs/heads/master'
@@ -46,6 +47,8 @@ jobs:
 
   build-and-push-image:
     runs-on: ubuntu-latest
+    needs: prepare-changelog-and-changelog
+    if: always()
     permissions:
       contents: read
       packages: write
@@ -57,7 +60,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -65,19 +68,30 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build front-end
         run: docker compose run vite npm install && npm run build
 
+      - name: Set version label
+        id: set_version
+        run: |
+          if [ -n "${{ steps.build_changelog.outputs.version }}" ]; then
+            echo "VERSION=${{ steps.build_changelog.outputs.version }}" >> $GITHUB_ENV
+          else
+            echo "VERSION=dev" >> $GITHUB_ENV
+          fi
+
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: |
+            version=${{ env.VERSION }}
+            ${{ steps.meta.outputs.labels }}
           no-cache: true
           file: django.Dockerfile
