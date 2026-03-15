@@ -54,7 +54,7 @@ class DraftUserCreateView(
     form_class = DraftUserForm
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context["page_title"] = _("Create applicant")
         context["card_title"] = _("Create applicant")
         return context
@@ -84,7 +84,7 @@ class DraftUserUpdateView(
     form_class = DraftUserForm
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         draft_user: DraftUser = self.object
         context["page_title"] = _("Edit applicant: %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
