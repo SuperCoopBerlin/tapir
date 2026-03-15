@@ -23,11 +23,17 @@ class Command(BaseCommand):
         ):
             return
 
-        relevant_attendances = ShiftAttendance.objects.filter(
-            state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
-            slot__shift__start_time__lt=timezone.now()
-            - datetime.timedelta(days=NB_DAYS_BEFORE_REMINDER_OLD_PENDING_ATTENDANCES),
-        ).order_by("slot__shift__start_time")
+        relevant_attendances = (
+            ShiftAttendance.objects.filter(
+                state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
+                slot__shift__start_time__lt=timezone.now()
+                - datetime.timedelta(
+                    days=NB_DAYS_BEFORE_REMINDER_OLD_PENDING_ATTENDANCES
+                ),
+            )
+            .order_by("slot__shift__start_time")
+            .select_related("slot__shift__shift_template__group", "user__share_owner")
+        )
 
         if relevant_attendances.count() == 0:
             return
