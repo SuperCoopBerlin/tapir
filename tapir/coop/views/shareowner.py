@@ -271,7 +271,7 @@ class ShareOwnerUpdateView(
             return response
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         share_owner: ShareOwner = self.object
         context["page_title"] = _("Edit member: %(name)s") % {
             "name": UserUtils.build_display_name_for_viewer(
