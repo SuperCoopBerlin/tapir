@@ -15,6 +15,8 @@ jobs:
   prepare-changelog-and-changelog:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.build_changelog.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -79,8 +81,8 @@ jobs:
       - name: Set version label
         id: set_version
         run: |
-          if [ -n "${{ needs.prepare-changelog-and-changelog.build_changelog.outputs.version }}" ]; then
-            echo "VERSION=${{ needs.prepare-changelog-and-changelog.build_changelog.outputs.version }}" >> $GITHUB_ENV
+          if [ -n "${{ needs.prepare-changelog-and-changelog.outputs.version }}" ]; then
+            echo "VERSION=${{ needs.prepare-changelog-and-changelog.outputs.version }}" >> $GITHUB_ENV
           else
             echo "VERSION=dev" >> $GITHUB_ENV
           fi
