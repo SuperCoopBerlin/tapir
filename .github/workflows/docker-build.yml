@@ -10,6 +10,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  RELEASE_TAG: ""
 
 jobs:
   prepare-changelog-and-changelog:
@@ -30,10 +31,13 @@ jobs:
         with:
           config: https://github.com/orhun/git-cliff/blob/main/examples/github.toml
           args: --verbose --unreleased --strip header $NEW_TAG
+      - name: Set RELEASE_TAG
+        run: echo "RELEASE_TAG=${{ steps.build_changelog.outputs.version }}" >> $GITHUB_ENV
       - name: Create Tag
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          echo "Creating tag: ${{ steps.build_changelog.outputs.version }}"
           git tag -a "${{ steps.build_changelog.outputs.version }}" -m "Release ${{ steps.build_changelog.outputs.version }}"
           git push origin "${{ steps.build_changelog.outputs.version }}"
       - name: Draft release with changelog
@@ -42,7 +46,7 @@ jobs:
         with:
           tag_name: ${{ steps.build_changelog.outputs.version }}
           name: Tapir ${{ steps.build_changelog.outputs.version }}
-          body: ${{steps.build_changelog.outputs.content}}
+          body: ${{ steps.build_changelog.outputs.content }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
   build-and-push-image:
@@ -78,8 +82,8 @@ jobs:
       - name: Set version label
         id: set_version
         run: |
-          if [ -n "${{ steps.meta.outputs.tags }}" ]; then
-            echo "VERSION=${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV
+          if [ -n "${{ env.RELEASE_TAG }}" ]; then
+            echo "VERSION=${{ env.RELEASE_TAG }}" >> $GITHUB_ENV
           else
             echo "VERSION=dev" >> $GITHUB_ENV
           fi
