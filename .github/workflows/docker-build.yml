@@ -91,7 +91,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: |
-            version=${{ env.VERSION }}
+            version=${{ steps.build_changelog.outputs.version }}
             ${{ steps.meta.outputs.labels }}
           no-cache: true
           file: django.Dockerfile
