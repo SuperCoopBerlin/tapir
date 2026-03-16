@@ -93,8 +93,8 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          build-args: ARG_VERSION=${{ env.VERSION }}
           labels: |
-            version=${{ env.VERSION }}
             ${{ steps.meta.outputs.labels }}
           no-cache: true
           file: django.Dockerfile
