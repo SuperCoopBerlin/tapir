@@ -10,7 +10,6 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  RELEASE_TAG: ""
 
 jobs:
   prepare-changelog-and-changelog:
@@ -31,8 +30,6 @@ jobs:
         with:
           config: https://github.com/orhun/git-cliff/blob/main/examples/github.toml
           args: --verbose --unreleased --strip header $NEW_TAG
-      - name: Set RELEASE_TAG
-        run: echo "RELEASE_TAG=${{ steps.build_changelog.outputs.version }}" >> $GITHUB_ENV
       - name: Create Tag
         run: |
           git config --local user.email "action@github.com"
@@ -82,8 +79,8 @@ jobs:
       - name: Set version label
         id: set_version
         run: |
-          if [ -n "${{ env.RELEASE_TAG }}" ]; then
-            echo "VERSION=${{ env.RELEASE_TAG }}" >> $GITHUB_ENV
+          if [ -n "${{ needs.prepare-changelog-and-changelog.build_changelog.outputs.version }}" ]; then
+            echo "VERSION=${{ needs.prepare-changelog-and-changelog.build_changelog.outputs.version }}" >> $GITHUB_ENV
           else
             echo "VERSION=dev" >> $GITHUB_ENV
           fi
