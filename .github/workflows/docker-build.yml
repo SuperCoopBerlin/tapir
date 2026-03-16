@@ -78,8 +78,8 @@ jobs:
       - name: Set version label
         id: set_version
         run: |
-          if [ -n "${{ steps.build_changelog.outputs.version }}" ]; then
-            echo "VERSION=${{ steps.build_changelog.outputs.version }}" >> $GITHUB_ENV
+          if [ -n "${{ steps.meta.outputs.tags }}" ]; then
+            echo "VERSION=${{ steps.meta.outputs.tags }}" >> $GITHUB_ENV
           else
             echo "VERSION=dev" >> $GITHUB_ENV
           fi
@@ -91,7 +91,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: |
-            version=${{ steps.build_changelog.outputs.version }}
+            version=${{ env.VERSION }}
             ${{ steps.meta.outputs.labels }}
           no-cache: true
           file: django.Dockerfile
