@@ -29,12 +29,8 @@ def get_capability_status_changes(
         "required_capabilities", flat=True
     )
 
-    last_slots = (
-        ShiftSlot.objects.filter(id__in=last_valid_slot_ids).values_list(
-            "required_capabilities", flat=True
-        )
-        if last_valid_slot_ids
-        else []
+    last_slots = ShiftSlot.objects.filter(id__in=last_valid_slot_ids).values_list(
+        "required_capabilities", flat=True
     )
 
     current_capabilities_set = set()
