@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-15 12:03+0100\n"
+"POT-Creation-Date: 2026-03-17 18:45+0100\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2563,7 +2563,7 @@ msgstr "Hat Qualifikation"
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:647 shifts/forms.py:777
+#: coop/views/shareowner.py:647 shifts/forms.py:789
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
@@ -2957,11 +2957,11 @@ msgstr "Wird an ein Mitglied gesendet, wenn das Mitgliederbüro die Schicht als 
 msgid "Shift reminder"
 msgstr "Schicht-Erinnerung"
 
-#: shifts/emails/shift_watch_mail.py:26
+#: shifts/emails/shift_watch_mail.py:25
 msgid "Watched Shift has changed"
 msgstr "Die beobachtete Schicht hat sich geändert"
 
-#: shifts/emails/shift_watch_mail.py:31
+#: shifts/emails/shift_watch_mail.py:30
 msgid "Sent to a member when a shift staffing is changed relevantely and the user is watching this shift."
 msgstr "Wird an ein Mitglied gesendet, wenn sich die Personalbesetzung einer Schicht relevant ändert und der Benutzer diese Schicht beobachtet."
 
@@ -3092,24 +3092,32 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:726 shifts/forms.py:782 shifts/views/views.py:379
+#: shifts/forms.py:726 shifts/forms.py:794 shifts/views/views.py:379
 #: shifts/views/views.py:380
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
-#: shifts/forms.py:771 shifts/templates/shifts/shift_template_detail.html:7
+#: shifts/forms.py:733
+msgid "Notify me when these capabilities become available or unavailable"
+msgstr ""
+
+#: shifts/forms.py:737
+msgid "Get notified when someone with specific skills registers or unregisters"
+msgstr ""
+
+#: shifts/forms.py:783 shifts/templates/shifts/shift_template_detail.html:7
 #: shifts/templates/shifts/shift_template_detail.html:15
 #: shifts/templates/shifts/user_shifts_overview_tag.html:31
 #: shifts/templates/shifts/user_shifts_overview_tag.html:43
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
-#: shifts/forms.py:788
+#: shifts/forms.py:800
 #, python-format
 msgid "If weekdays or %(shift_template_group)s are selected, %(shift_templates)s may not be selected, and vice versa."
 msgstr ""
 
-#: shifts/forms.py:792
+#: shifts/forms.py:804
 #, python-format
 msgid "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
 msgstr ""
@@ -3284,14 +3292,6 @@ msgstr "Ein Mitglied oder mehr hat sich registriert, aber die Schicht ist weder 
 #: shifts/models.py:1207
 msgid "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
 msgstr "Ein Mitglied oder mehr hat sich abgemeldet, aber die Schicht ist weder unterbesetzt noch (fast) voll"
-
-#: shifts/models.py:1210
-msgid "The Shift Coordinator has unregistered"
-msgstr "Ein Teamleiter hat sich abgemeldet"
-
-#: shifts/models.py:1213
-msgid "A Shift Coordinator has registered"
-msgstr "Ein Teamleiter hat sich angemeldet"
 
 #: shifts/templates/shifts/cancel_shift.html:7
 msgid "Cancel shift:"
@@ -6381,6 +6381,12 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#~ msgid "The Shift Coordinator has unregistered"
+#~ msgstr "Ein Teamleiter hat sich abgemeldet"
+
+#~ msgid "A Shift Coordinator has registered"
+#~ msgstr "Ein Teamleiter hat sich angemeldet"
 
 #~ msgid "About tapir"
 #~ msgstr "Über Tapir"
