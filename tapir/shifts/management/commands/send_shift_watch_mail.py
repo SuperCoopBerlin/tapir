@@ -9,46 +9,8 @@ from tapir.shifts.emails.shift_watch_mail import (
 from tapir.shifts.models import (
     ShiftWatch,
     StaffingStatusChoices,
-    ShiftSlot,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
-
-
-def get_capability_status_changes(
-    this_valid_slot_ids: list[int],
-    last_valid_slot_ids: list[int],
-    watched_capabilities: list[str],
-) -> list[str]:
-    if not watched_capabilities:
-        return []
-
-    notifications = []
-
-    current_slots = ShiftSlot.objects.filter(id__in=this_valid_slot_ids).values_list(
-        "required_capabilities", flat=True
-    )
-
-    last_slots = ShiftSlot.objects.filter(id__in=last_valid_slot_ids).values_list(
-        "required_capabilities", flat=True
-    )
-
-    current_capabilities_set = set()
-    for capabilities in current_slots:
-        current_capabilities_set.update(capabilities)
-
-    last_capabilities_set = set()
-    for capabilities in last_slots:
-        last_capabilities_set.update(capabilities)
-
-    for capability in watched_capabilities:
-        has_now = capability in current_capabilities_set
-        had_before = capability in last_capabilities_set
-
-        if has_now and not had_before:
-            notifications.append(f"Member with capability added: {capability}")
-        elif not has_now and had_before:
-            notifications.append(f"Member with capability unregistered: {capability}")
-    return notifications
 
 
 class Command(BaseCommand):
@@ -83,7 +45,7 @@ class Command(BaseCommand):
             shift_watch_data.last_staffing_status = current_status
 
         # Check watched capabilities
-        capability_notifications = get_capability_status_changes(
+        capability_notifications = ShiftWatchCreator.get_capability_status_changes(
             this_valid_slot_ids=this_valid_slot_ids,
             last_valid_slot_ids=shift_watch_data.last_valid_slot_ids,
             watched_capabilities=shift_watch_data.watched_capabilities,
