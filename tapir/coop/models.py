@@ -738,8 +738,8 @@ class MembershipPauseCreatedLogEntry(ModelLogEntry):
             actor=actor, share_owner=pause.share_owner, model=pause
         )
 
-    def get_context_data(self):
-        context_data = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
         context_data["start_date"] = datetime.datetime.strptime(
             self.values["start_date"], "%Y-%m-%d"
         ).date()

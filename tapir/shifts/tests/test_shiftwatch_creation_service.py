@@ -1,5 +1,5 @@
 from datetime import timedelta
-from django.db import IntegrityError
+
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
