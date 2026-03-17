@@ -26,23 +26,23 @@ def get_capability_status_changes(
     notifications = []
 
     current_slots = ShiftSlot.objects.filter(id__in=this_valid_slot_ids).values_list(
-        "id", "required_capabilities"
+        "required_capabilities", flat=True
     )
 
     last_slots = (
         ShiftSlot.objects.filter(id__in=last_valid_slot_ids).values_list(
-            "id", "required_capabilities"
+            "required_capabilities", flat=True
         )
         if last_valid_slot_ids
         else []
     )
 
     current_capabilities_set = set()
-    for slot_id, capabilities in current_slots:
+    for capabilities in current_slots:
         current_capabilities_set.update(capabilities)
 
     last_capabilities_set = set()
-    for slot_id, capabilities in last_slots:
+    for capabilities in last_slots:
         last_capabilities_set.update(capabilities)
 
     for capability in watched_capabilities:
