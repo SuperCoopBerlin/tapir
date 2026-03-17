@@ -4010,14 +4010,14 @@ files = [
 
 [[package]]
 name = "weasyprint"
-version = "67.0"
+version = "68.1"
 description = "The Awesome Document Factory"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "weasyprint-67.0-py3-none-any.whl", hash = "sha256:abc2f40872ea01c29c11f7799dafc4b23c078335bf7777f72a8affeb36e1d201"},
-    {file = "weasyprint-67.0.tar.gz", hash = "sha256:fdfbccf700e8086c8fd1607ec42e25d4b584512c29af2d9913587a4e448dead4"},
+    {file = "weasyprint-68.1-py3-none-any.whl", hash = "sha256:4dc3ba63c68bbbce3e9617cb2226251c372f5ee90a8a484503b1c099da9cf5be"},
+    {file = "weasyprint-68.1.tar.gz", hash = "sha256:d3b752049b453a5c95edb27ce78d69e9319af5a34f257fa0f4c738c701b4184e"},
 ]
 
 [package.dependencies]
@@ -4032,7 +4032,7 @@ tinyhtml5 = ">=2.0.0b1"
 
 [package.extras]
 doc = ["furo", "sphinx"]
-test = ["pytest", "ruff"]
+test = ["Pillow (>=12.1.0)", "pytest", "ruff"]
 
 [[package]]
 name = "webencodings"
@@ -4227,4 +4227,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0"
-content-hash = "e1230a7a52ddb43fdf7d86a4d5c100f605950241a96227da56510a25be129f2f"
+content-hash = "5dfccddc8366d0e2b4bd921394eae630571fd3a471c3c2c763f74f2746cd468b"
