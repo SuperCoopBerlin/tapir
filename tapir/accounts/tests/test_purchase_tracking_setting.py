@@ -14,7 +14,7 @@ from tapir.utils.tests_utils import (
 class TestPurchaseTrackingSetting(TapirFactoryTestBase):
 
     def test_normal_user_can_update_their_own_setting(self):
-        tapir_user = TapirUserFactory(allows_purchase_tracking=False)
+        tapir_user = TapirUserFactory.create(allows_purchase_tracking=False)
         self.login_as_user(tapir_user)
 
         response = self.client.get(
@@ -35,7 +35,7 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         self.assertEqual(tapir_user, log_entry.actor)
 
     def test_other_user_cant_update_tracking_setting(self):
-        tapir_user = TapirUserFactory(allows_purchase_tracking=False)
+        tapir_user = TapirUserFactory.create(allows_purchase_tracking=False)
         self.login_as_member_office_user()
 
         response = self.client.get(
@@ -49,7 +49,7 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         self.assertEqual(False, tapir_user.allows_purchase_tracking)
 
     def test_no_log_entry_created_if_setting_value_not_changed(self):
-        tapir_user = TapirUserFactory(allows_purchase_tracking=False)
+        tapir_user = TapirUserFactory.create(allows_purchase_tracking=False)
         self.login_as_user(tapir_user)
 
         self.client.get(
@@ -67,8 +67,8 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         mock_temp_file_instance = mock_temp_file.return_value.__enter__.return_value
         mock_temp_file_instance.name = "/tmp/test_temp_file.csv"
 
-        tapir_user_enabled = TapirUserFactory(allows_purchase_tracking=True)
-        tapir_user_disabled = TapirUserFactory(allows_purchase_tracking=False)
+        tapir_user_enabled = TapirUserFactory.create(allows_purchase_tracking=True)
+        tapir_user_disabled = TapirUserFactory.create(allows_purchase_tracking=False)
         call_command("update_purchase_tracking_list")
 
         list_content = Path(mock_temp_file_instance.name).read_text()
@@ -82,7 +82,9 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         mock_temp_file_instance = mock_temp_file.return_value.__enter__.return_value
         mock_temp_file_instance.name = "/tmp/test_temp_file.csv"
 
-        tapir_user = TapirUserFactory(allows_purchase_tracking=True, share_owner=None)
+        tapir_user = TapirUserFactory.create(
+            allows_purchase_tracking=True, share_owner=None
+        )
         call_command("update_purchase_tracking_list")
         list_content = Path(mock_temp_file_instance.name).read_text()
         self.assertNotIn(tapir_user.last_name, list_content)
