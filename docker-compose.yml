@@ -16,6 +16,8 @@ services:
   web:
     build:
       context: .
+      args:
+          ARG_VERSION: ""
       dockerfile: ./django.Dockerfile
     command: bash -c "poetry install &&
                       poetry run python manage.py compilemessages --ignore \".venv\" &&

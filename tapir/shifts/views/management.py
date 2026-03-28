@@ -126,7 +126,7 @@ class CancelDayShiftsView(LoginRequiredMixin, PermissionRequiredMixin, FormView)
         return kwargs
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         day = datetime.datetime.strptime(self.kwargs["day"], "%d-%m-%y").date()
         context["day"] = day
 
@@ -168,7 +168,7 @@ class DeleteShiftView(LoginRequiredMixin, PermissionRequiredMixin, FormView):
         return get_object_or_404(Shift, pk=self.kwargs["pk"])
 
     def get_context_data(self, **kwargs):
-        context_data = super().get_context_data()
+        context_data = super().get_context_data(**kwargs)
         context_data["shift"] = self.get_shift()
         return context_data
 

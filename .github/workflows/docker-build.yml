@@ -15,6 +15,8 @@ jobs:
   prepare-changelog-and-changelog:
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.build_changelog.outputs.version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -34,6 +36,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          echo "Creating tag: ${{ steps.build_changelog.outputs.version }}"
           git tag -a "${{ steps.build_changelog.outputs.version }}" -m "Release ${{ steps.build_changelog.outputs.version }}"
           git push origin "${{ steps.build_changelog.outputs.version }}"
       - name: Draft release with changelog
@@ -42,7 +45,7 @@ jobs:
         with:
           tag_name: ${{ steps.build_changelog.outputs.version }}
           name: Tapir ${{ steps.build_changelog.outputs.version }}
-          body: ${{steps.build_changelog.outputs.content}}
+          body: ${{ steps.build_changelog.outputs.content }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
   build-and-push-image:
@@ -78,8 +81,8 @@ jobs:
       - name: Set version label
         id: set_version
         run: |
-          if [ -n "${{ steps.build_changelog.outputs.version }}" ]; then
-            echo "VERSION=${{ steps.build_changelog.outputs.version }}" >> $GITHUB_ENV
+          if [ -n "${{ needs.prepare-changelog-and-changelog.outputs.version }}" ]; then
+            echo "VERSION=${{ needs.prepare-changelog-and-changelog.outputs.version }}" >> $GITHUB_ENV
           else
             echo "VERSION=dev" >> $GITHUB_ENV
           fi
@@ -90,8 +93,8 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
+          build-args: ARG_VERSION=${{ env.VERSION }}
           labels: |
-            version=${{ env.VERSION }}
             ${{ steps.meta.outputs.labels }}
           no-cache: true
           file: django.Dockerfile

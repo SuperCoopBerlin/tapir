@@ -2,11 +2,9 @@ from datetime import timedelta
 
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-
 from tapir.shifts.management.commands.send_shift_watch_mail import (
     Command as SendShiftWatchCommand,
 )
-
 from tapir.shifts.models import (
     ShiftWatch,
     StaffingStatusChoices,
@@ -33,9 +31,7 @@ class Command(BaseCommand):
             )
             number_of_available_slots = shift_watch_data.shift.slots.count()
             valid_attendances_count = len(this_valid_slot_ids)
-            required_attendances_count = (
-                shift_watch_data.shift.get_num_required_attendances()
-            )
+            required_attendances_count = shift_watch_data.shift.num_required_attendances
             current_status = ShiftWatchCreator.get_staffing_status_if_changed(
                 number_of_available_slots=number_of_available_slots,
                 valid_attendances=valid_attendances_count,
