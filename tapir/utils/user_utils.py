@@ -29,7 +29,7 @@ class UserUtils:
         if display_type == cls.DISPLAY_NAME_TYPE_FULL:
             display_name = f"{display_name} {person.last_name}"
         elif display_type == cls.DISPLAY_NAME_TYPE_WELCOME_DESK:
-            display_name = f"{display_name} {person.last_name[0]}."
+            display_name = f"{display_name} {person.last_name[:1]}."
 
         if display_type in [
             cls.DISPLAY_NAME_TYPE_FULL,

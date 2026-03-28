@@ -199,6 +199,13 @@
         font-size: 10px;
     }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            window.print();
+        }, 500);
+    });
+</script>
 <div class="shift-container">
     <h1>{{ shifts.0.start_time|date:'d.m.y' }}</h1>
     <div class="att-controls-header" aria-hidden="true">

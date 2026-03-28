@@ -1,12 +1,11 @@
 import datetime
 
+import tapir.shifts.config
 from django import template
 from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
-
-import tapir.shifts.config
 from tapir.shifts import utils
 from tapir.shifts.models import (
     Shift,
@@ -148,7 +147,7 @@ def get_html_classes_for_filtering(shift: Shift) -> set:
             filter_classes.add("freeslot_any")
             filter_classes.add("freeslot_" + shift_name_as_class(slot.name))
 
-    if num_valid_attendances < shift.get_num_required_attendances():
+    if num_valid_attendances < shift.num_required_attendances:
         filter_classes.add("needs_help")
 
     return filter_classes

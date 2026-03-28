@@ -2,7 +2,6 @@ import time
 
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts.emails.shift_watch_mail import (
     ShiftWatchEmailBuilder,
@@ -12,7 +11,6 @@ from tapir.shifts.models import (
     StaffingStatusChoices,
     ShiftUserCapability,
     ShiftSlot,
-    ShiftAttendance,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 
@@ -48,17 +46,12 @@ class Command(BaseCommand):
     def send_shift_watch_mail_per_user_and_shift(self, shift_watch_data: ShiftWatch):
         notification_reasons: list[StaffingStatusChoices] = []
 
-        this_valid_slot_ids = list(
-            ShiftSlot.objects.filter(
-                shift=shift_watch_data.shift,
-                attendances__state=ShiftAttendance.State.PENDING,
-            ).values_list("id", flat=True)
+        this_valid_slot_ids = ShiftWatchCreator.get_valid_slot_ids(
+            shift_watch_data.shift
         )
 
         valid_attendances_count = len(this_valid_slot_ids)
-        required_attendances_count = (
-            shift_watch_data.shift.get_num_required_attendances()
-        )
+        required_attendances_count = shift_watch_data.shift.num_required_attendances
         number_of_available_slots = shift_watch_data.shift.slots.count()
 
         # Determine staffing status

@@ -16,6 +16,8 @@ services:
   web:
     build:
       context: .
+      args:
+          ARG_VERSION: ""
       dockerfile: ./django.Dockerfile
       args:
         DEV: true

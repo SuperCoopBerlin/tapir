@@ -2,6 +2,9 @@
 
 FROM python:3.13-slim AS build
 ARG DEV=false
+ARG ARG_VERSION
+ENV TAPIR_VERSION=${ARG_VERSION}
+
 ENV POETRY_VERSION=2.2.1 \
     PYTHONUNBUFFERED=1 \
     # prevents python creating .pyc files

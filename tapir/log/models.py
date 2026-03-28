@@ -215,8 +215,8 @@ class UpdateModelLogEntry(LogEntry):
             actor=actor, tapir_user=tapir_user, share_owner=share_owner
         )
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
         changes = []
         for k in self.old_values.keys():
@@ -253,8 +253,8 @@ class ModelLogEntry(LogEntry):
             actor=actor, share_owner=share_owner, tapir_user=tapir_user
         )
 
-    def get_context_data(self):
-        context = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context["values"] = (
             self.values.items() if hasattr(self.values, "items") else self.values
         )

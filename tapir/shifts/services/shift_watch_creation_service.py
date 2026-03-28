@@ -1,6 +1,3 @@
-from typing import Optional
-
-from django.db import transaction
 from django.db.models import Q
 
 from tapir.shifts.models import (
@@ -26,7 +23,7 @@ class ShiftWatchCreator:
             shift=shift,
             attendances__state=ShiftAttendance.State.PENDING,
         ).count()
-        required_attendances_count = shift.get_num_required_attendances()
+        required_attendances_count = shift.num_required_attendances
         number_of_available_slots = shift.slots.count()
 
         staffing_status = cls.get_staffing_status_if_changed(
@@ -86,7 +83,9 @@ class ShiftWatchCreator:
         required_attendances: int,
         last_status: str = None,
     ) -> None | StaffingStatusChoices:
-
+        """
+        Determine if the staffing status has changed. Return **None** if the staffing status has not changed.
+        """
         current_status = cls.calculate_staffing_status(
             valid_attendances=valid_attendances,
             required_attendances=required_attendances,
@@ -140,6 +139,7 @@ class ShiftWatchCreator:
                         shift=shift
                     ),
                     recurring_template=recurring,
+                    last_valid_slot_ids=cls.get_valid_slot_ids(shift),
                 )
             )
 
@@ -147,7 +147,16 @@ class ShiftWatchCreator:
             ShiftWatch.objects.bulk_create(new_watches)
 
     @classmethod
-    def create_shift_watches_for_shift(cls, shift: Shift) -> None:
+    def get_valid_slot_ids(cls, shift: Shift) -> list[int]:
+        return list(
+            ShiftSlot.objects.filter(
+                shift=shift,
+                attendances__state=ShiftAttendance.State.PENDING,
+            ).values_list("id", flat=True)
+        )
+
+    @classmethod
+    def create_shift_watches_for_shift_based_on_recurring(cls, shift: Shift) -> None:
         """For a shift, find relevant RecurringShiftWatches and create Shift-Watches."""
         filter_by_weekday = Q(weekdays=[]) | Q(
             weekdays__contains=[shift.start_time.weekday()]
@@ -182,6 +191,7 @@ class ShiftWatchCreator:
                     last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
                         shift=shift,
                     ),
+                    last_valid_slot_ids=cls.get_valid_slot_ids(shift),
                 )
             )
 
