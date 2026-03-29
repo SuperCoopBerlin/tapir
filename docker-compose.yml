@@ -20,8 +20,8 @@ services:
       args:
         DEV: true
         ARG_VERSION: ""
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
+        USER_UID: ${USER_UID}
+        USER_GID: ${USER_GID}
     command: bash -c "python manage.py runserver_plus 0.0.0.0:80"
     volumes:
       - ./tapir:/app/tapir

@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1
+ARG USER_UID=1000
+ARG USER_GID=1000
+
 
 FROM python:3.13-slim AS build
 ARG DEV=false
-ARG ARG_VERSION
-ENV TAPIR_VERSION=${ARG_VERSION}
-
 ENV POETRY_VERSION=2.2.1 \
     PYTHONUNBUFFERED=1 \
     # prevents python creating .pyc files
@@ -53,10 +53,11 @@ RUN if [ "$DEV" = "true" ]; then \
 
 
 FROM python:3.13-slim AS runtime
-ARG UID=1000
-ARG GID=1000
 ARG USERNAME=nonroot
-
+ARG ARG_VERSION
+ARG USER_UID
+ARG USER_GID
+ENV TAPIR_VERSION=${ARG_VERSION}
 ENV VENV_PATH="/opt/pysetup/.venv" \
     PATH="/opt/pysetup/.venv/bin:$PATH"
 
@@ -66,8 +67,8 @@ RUN apt-get update \
     make git \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd --gid $GID $USERNAME && \
-    useradd --uid $UID --gid $GID -m $USERNAME
+RUN groupadd --gid $USER_GID $USERNAME && \
+    useradd --uid $USER_UID --gid $USER_GID -m $USERNAME
 
 WORKDIR /app
 
