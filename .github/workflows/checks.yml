@@ -9,10 +9,6 @@ jobs:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Export runner UID/GID
-        run: |
-          echo "USER_UID=$(id -u)" >> $GITHUB_ENV
-          echo "USER_GID=$(id -g)" >> $GITHUB_ENV
       - name: Check formatting
         run: docker compose run web make check-formatting
       - name: Check translations

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
-ARG USER_UID=1000
-ARG USER_GID=1000
+ARG USER_UID
+ARG USER_GID
 
 
 FROM python:3.13-slim AS build
