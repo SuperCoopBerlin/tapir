@@ -1422,19 +1422,19 @@ dev = ["black"]
 
 [[package]]
 name = "django-weasyprint"
-version = "2.4.0"
+version = "2.5.0"
 description = "Django WeasyPrint integration"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "django_weasyprint-2.4.0-py3-none-any.whl", hash = "sha256:06bc90bcc84f33d6675815498616cc82153ea924227d336bf32e5bf54da117d1"},
-    {file = "django_weasyprint-2.4.0.tar.gz", hash = "sha256:9a1d7c687a6c4678f3ac97e48b0ede495b47e17218e8ee6bea454bc8cfa6b60f"},
+    {file = "django_weasyprint-2.5.0-py3-none-any.whl", hash = "sha256:1607ef0c8223d7b15e7d4a501a3ec92fb6065179e667135aa50581b7d21aefa3"},
+    {file = "django_weasyprint-2.5.0.tar.gz", hash = "sha256:362956b650d2a053967471c0ce15857f08e30253a3eeb746aef7c459d3ee9cf9"},
 ]
 
 [package.dependencies]
 Django = ">=3.2"
-WeasyPrint = ">=59"
+WeasyPrint = ">=68"
 
 [[package]]
 name = "djangorestframework"
@@ -4227,4 +4227,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0"
-content-hash = "5dfccddc8366d0e2b4bd921394eae630571fd3a471c3c2c763f74f2746cd468b"
+content-hash = "06e8a4542b91fefe52a650321ee410d3641a4512819ef794dfea684fc1580f73"
