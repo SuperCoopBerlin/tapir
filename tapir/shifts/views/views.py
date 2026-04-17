@@ -16,10 +16,12 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     RedirectView,
+    FormView,
 )
 from django.views.generic import DetailView, TemplateView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
+from redis.commands.search import result
 
 from tapir.accounts.models import TapirUser
 from tapir.core.config import (
@@ -40,6 +42,7 @@ from tapir.shifts.forms import (
     CreateShiftAccountEntryForm,
     ShiftWatchForm,
     RecurringShiftWatchForm,
+    ShiftTemplateEndDateForm,
 )
 
 from tapir.shifts.models import (
@@ -56,6 +59,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     ShiftAccountEntry,
 )
+from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import shift_name_as_class
 from tapir.utils.user_utils import UserUtils
@@ -287,6 +291,48 @@ class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView)
         return queryset.prefetch_related(
             "slot_templates__attendance_template__user__share_owner"
         )
+
+
+class ShiftTemplateEndDateView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    # TapirFormMixin,
+    generic.UpdateView,
+):
+    permission_required = PERMISSION_SHIFTS_MANAGE
+    form_class = ShiftTemplateEndDateForm
+    template_name = "shifts/shift_template_set_end_date.html"
+    model = ShiftTemplate
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["shift_template"] = self.object
+        return context
+
+    def get_success_url(self):
+        return reverse("shifts:shift_template_detail", kwargs={"pk": self.object.pk})
+
+    def form_valid(self, form):
+        with transaction.atomic():
+            response = super().form_valid(form)
+            end_date = form.cleaned_data["end_date"]
+            cancellation_reason = form.cleaned_data["cancellation_reason"]
+            shifts_to_cancel = Shift.objects.filter(
+                shift_template=self.object,
+                start_time__date__gt=end_date,
+                deleted=False,
+                cancelled=False,
+            )
+            for shift in shifts_to_cancel:
+                shift.cancelled_reason = cancellation_reason
+                ShiftCancellationService.cancel(shift)
+
+            messages.success(
+                self.request,
+                _("Shift template was successfully cancelled"),
+            )
+
+            return response
 
 
 class ShiftUserDataTable(django_tables2.Table):

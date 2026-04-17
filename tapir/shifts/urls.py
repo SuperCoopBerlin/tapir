@@ -1,6 +1,7 @@
 from django.urls import path
 
 from tapir.shifts import views
+from tapir.shifts.views import ShiftTemplateEndDateView
 
 app_name = "shifts"
 urlpatterns = [
@@ -239,5 +240,10 @@ urlpatterns = [
         "shiftwatch_overview/<int:pk>",
         views.RecurringShiftwatchListView.as_view(),
         name="shiftwatch_overview",
+    ),
+    path(
+        "shift_template/<int:pk>/set_end_date/",
+        ShiftTemplateEndDateView.as_view(),
+        name="shift_template_set_end_date",
     ),
 ]

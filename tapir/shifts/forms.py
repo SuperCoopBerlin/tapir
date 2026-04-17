@@ -459,6 +459,19 @@ class ShiftUserDataForm(forms.ModelForm):
         return result
 
 
+class ShiftTemplateEndDateForm(forms.ModelForm):
+    cancellation_reason = forms.CharField(label=_("Cancellation Reason"), required=True)
+
+    class Meta:
+        model = ShiftTemplate
+        fields = ["end_date"]
+        widgets = {"end_date": DateInputTapir()}
+
+    def __init__(self, shift_template=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["end_date"].required = True
+
+
 class CreateShiftAccountEntryForm(forms.ModelForm):
     class Meta:
         model = ShiftAccountEntry
