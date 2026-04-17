@@ -61,18 +61,29 @@ class TestPurchaseTrackingSetting(TapirFactoryTestBase):
         self.assertEqual(0, UpdateTapirUserLogEntry.objects.count())
 
     @patch("tempfile.TemporaryFile")
-    def test_updatePurchaseTrackingList_userswithTrackingEnabledOrDisabled_includedOrExcludedInExportFile(
+    def test_updatePurchaseTrackingList_usersWithTrackingEnabled_includedInExportFile(
         self, mock_temp_file
     ):
         mock_temp_file_instance = mock_temp_file.return_value.__enter__.return_value
         mock_temp_file_instance.name = "/tmp/test_temp_file.csv"
 
         tapir_user_enabled = TapirUserFactory.create(allows_purchase_tracking=True)
-        tapir_user_disabled = TapirUserFactory.create(allows_purchase_tracking=False)
         call_command("update_purchase_tracking_list")
 
         list_content = Path(mock_temp_file_instance.name).read_text()
         self.assertIn(tapir_user_enabled.last_name, list_content)
+
+    @patch("tempfile.TemporaryFile")
+    def test_updatePurchaseTrackingList_usersWithTrackingDisabled_excludedFromExportFile(
+        self, mock_temp_file
+    ):
+        mock_temp_file_instance = mock_temp_file.return_value.__enter__.return_value
+        mock_temp_file_instance.name = "/tmp/test_temp_file.csv"
+
+        tapir_user_disabled = TapirUserFactory.create(allows_purchase_tracking=False)
+        call_command("update_purchase_tracking_list")
+
+        list_content = Path(mock_temp_file_instance.name).read_text()
         self.assertNotIn(tapir_user_disabled.last_name, list_content)
 
     @patch("tempfile.TemporaryFile")
