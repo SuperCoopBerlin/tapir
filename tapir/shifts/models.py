@@ -565,6 +565,9 @@ class Shift(models.Model):
         )
         if self.shift_template and self.shift_template.group:
             display_name = f"{display_name} ({self.shift_template.group.name})"
+        if self.cancelled:
+            cancelled = _("CANCELLED")
+            display_name = f"{display_name} {cancelled}"
         return display_name
 
     def get_absolute_url(self):
