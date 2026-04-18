@@ -5,7 +5,7 @@ check-formatting:
 	black --check .
 
 test:
-	pytest --cov-report xml:coverage.xml --cov=tapir --cov-config=pyproject.toml
+	pytest --cov-report xml:/app/coverage/coverage.xml --cov=tapir --cov-config=pyproject.toml
 
 check-translations:
 	ls -la /app
