@@ -97,3 +97,24 @@ class TestShiftTemplateEndView(TapirFactoryTestBase):
 
         msgs = list(get_messages(response.wsgi_request))
         self.assertGreater(len(msgs), 0)
+
+    def test_shiftTemplate_sendEndDate_endDateBeforeStartDate_showsValidationError(
+        self,
+    ):
+        self.login_as_employee()
+
+        end_date = self.shift_template.start_date - datetime.timedelta(days=7)
+
+        response = self.client.post(
+            self.url,
+            {
+                "end_date": end_date.strftime("%Y-%m-%d"),
+                "cancellation_reason": "Test",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("end_date", response.context["form"].errors)
+
+        self.shift_template.refresh_from_db()
+        self.assertIsNone(self.shift_template.end_date)

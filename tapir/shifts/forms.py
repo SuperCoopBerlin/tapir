@@ -471,6 +471,14 @@ class ShiftTemplateEndDateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["end_date"].required = True
 
+    def clean_end_date(self):
+        if (
+            self.cleaned_data["end_date"]
+            and self.cleaned_data["end_date"] < self.instance.start_date
+        ):
+            raise ValidationError(_("The end date must be later than the start date."))
+        return self.cleaned_data["end_date"]
+
 
 class CreateShiftAccountEntryForm(forms.ModelForm):
     class Meta:
