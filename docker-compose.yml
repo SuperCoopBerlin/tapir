@@ -27,6 +27,7 @@ services:
       - ./tapir:/app/tapir
       - ./manage.py:/app/manage.py
       - ./Makefile:/app/Makefile
+      - poetry-cache:/home/appuser/.cache/pypoetry
     environment:
       VIRTUAL_HOST: localhost
       DEBUG: 1
@@ -96,3 +97,4 @@ services:
 
 volumes:
   nginx-certs-volume:
+  poetry-cache:
