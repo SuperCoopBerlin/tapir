@@ -327,12 +327,12 @@ class ShiftTemplateEndDateView(
                 shift.cancelled_reason = cancellation_reason
                 ShiftCancellationService.cancel(shift)
 
-            messages.success(
-                self.request,
-                _("Shift template was successfully cancelled"),
-            )
+        messages.success(
+            self.request,
+            _("Shift template was successfully cancelled"),
+        )
 
-            return response
+        return response
 
 
 class ShiftUserDataTable(django_tables2.Table):
