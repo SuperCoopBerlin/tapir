@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-18 07:38+0200\n"
+"POT-Creation-Date: 2026-04-18 09:55+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -644,7 +644,7 @@ msgstr "Wird normalerweise leer gelassen. Das Datum kann in der Zukunft liegen, 
 msgid "Number of shares to create"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/forms.py:67
+#: coop/forms.py:67 shifts/forms.py:479
 msgid "The end date must be later than the start date."
 msgstr "Das Enddatum muss später als das Start-Datum sein"
 
@@ -2563,7 +2563,7 @@ msgstr "Hat Qualifikation"
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:647 shifts/forms.py:790
+#: coop/views/shareowner.py:647 shifts/forms.py:798
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
@@ -3038,78 +3038,78 @@ msgstr "Das ausgewählte Mitglied muss ein investierendes Mitglied sein."
 msgid "This member is registered to at least one ABCD shift. Please confirm the change of attendance mode with the checkbox below."
 msgstr ""
 
-#: shifts/forms.py:463 shifts/forms.py:621
+#: shifts/forms.py:463 shifts/forms.py:629
 msgid "Cancellation Reason"
 msgstr "Grund der Absage"
 
-#: shifts/forms.py:510
+#: shifts/forms.py:518
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgesagte Schicht-Anwesenheit gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:517
+#: shifts/forms.py:525
 msgid "I have read the warning about the cancelled ABCD attendances and confirm that the exemption should be created"
 msgstr "Ich habe die Warnung über die abgebrochene ABCD-Teilnahme gelesen und bestätige, dass die Befreiung erzeugt werden soll"
 
-#: shifts/forms.py:575
+#: shifts/forms.py:583
 #, python-format
 msgid "The user will be unregistered from the following ABCD shifts because the exemption is longer than %(number_of_cycles)s cycles: %(attendances_display)s "
 msgstr "Das Mitglied wird von den folgenden ABCD-Schichten abgemeldet, weil die Befreiung länger als %(number_of_cycles)s Schichtzyklen ist: %(attendances_display)s "
 
-#: shifts/forms.py:596
+#: shifts/forms.py:604
 msgid "This shift has been deleted. It is not possible to cancel it."
 msgstr "Diese Schicht wurde bereits gelöscht. Es ist nicht möglich diese abzusagen."
 
-#: shifts/forms.py:607 shifts/templates/shifts/shift_detail.html:8
+#: shifts/forms.py:615 shifts/templates/shifts/shift_detail.html:8
 #: shifts/templates/shifts/shift_detail.html:30
 msgid "Shift"
 msgstr "Schicht"
 
-#: shifts/forms.py:608
+#: shifts/forms.py:616
 msgid "already cancelled"
 msgstr "bereits bgesagt"
 
-#: shifts/forms.py:622
+#: shifts/forms.py:630
 msgid "This reason will be applied to all cancelled shifts."
 msgstr ""
 
-#: shifts/forms.py:650
+#: shifts/forms.py:658
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:669
+#: shifts/forms.py:677
 msgid "ABCD-Week"
 msgstr "ABCD-Woche"
 
-#: shifts/forms.py:673
+#: shifts/forms.py:681
 msgid "Weekdays"
 msgstr "Wochentage"
 
-#: shifts/forms.py:698
+#: shifts/forms.py:706
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
 msgstr ""
 
-#: shifts/forms.py:707
+#: shifts/forms.py:715
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:739 shifts/forms.py:795 shifts/views/views.py:425
+#: shifts/forms.py:747 shifts/forms.py:803 shifts/views/views.py:425
 #: shifts/views/views.py:426
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
-#: shifts/forms.py:784 shifts/templates/shifts/shift_template_detail.html:7
+#: shifts/forms.py:792 shifts/templates/shifts/shift_template_detail.html:7
 #: shifts/templates/shifts/shift_template_detail.html:15
 #: shifts/templates/shifts/user_shifts_overview_tag.html:31
 #: shifts/templates/shifts/user_shifts_overview_tag.html:43
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
-#: shifts/forms.py:801
+#: shifts/forms.py:809
 #, python-format
 msgid "If weekdays or %(shift_template_group)s are selected, %(shift_templates)s may not be selected, and vice versa."
 msgstr ""
 
-#: shifts/forms.py:805
+#: shifts/forms.py:813
 #, python-format
 msgid "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
 msgstr ""
