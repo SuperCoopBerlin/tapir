@@ -16,9 +16,9 @@ services:
   web:
     build:
       context: .
+      target: dev
       dockerfile: ./django.Dockerfile
       args:
-        DEV: true
         ARG_VERSION: ""
         USER_UID: ${USER_UID:-1000}
         USER_GID: ${USER_GID:-1000}
