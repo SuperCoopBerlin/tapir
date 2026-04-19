@@ -113,3 +113,22 @@ class TestCreateShiftsForGroup(FeatureFlagTestMixin, TapirFactoryTestBase):
         )
         self.assertFalse(shift.cancelled)
         self.assertIsNone(shift.cancelled_reason)
+
+    def test_createShiftForGroup_endDate_noShiftsCreatedPastEndDate(self):
+        group_a = ShiftTemplateGroup.objects.create(name="A")
+
+        template_with_future_end_date = ShiftTemplateFactory.create(
+            group=group_a, end_date=datetime.date(2025, 11, 20)
+        )
+
+        # should be created
+        ShiftGenerator.create_shifts_for_group(
+            at_date=datetime.date(2025, 11, 10), group=group_a
+        )
+
+        # should not be created
+        ShiftGenerator.create_shifts_for_group(
+            at_date=datetime.date(2025, 11, 24), group=group_a
+        )
+
+        self.assertEqual(1, template_with_future_end_date.generated_shifts.count())
