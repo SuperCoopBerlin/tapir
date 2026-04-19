@@ -1,4 +1,5 @@
 import datetime
+import random
 
 import tapir.shifts.config
 from django import template
