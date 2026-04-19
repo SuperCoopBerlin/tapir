@@ -40,10 +40,6 @@ RUN poetry install --only main --no-root
 
 
 FROM base as dev
-ARG USER_UID
-ARG USER_GID
-RUN groupadd -g $USER_GID appuser && \
-    useradd -u $USER_UID -g $USER_GID -m appuser
 
 WORKDIR /app
 
@@ -52,14 +48,10 @@ RUN poetry install --no-root
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-COPY --chown=appuser:appuser Makefile manage.py ./
-COPY --chown=appuser:appuser tapir ./tapir
-RUN chown -R appuser:appuser /app
-
+COPY Makefile manage.py ./
+COPY tapir ./tapir
 
 RUN poetry run python manage.py compilemessages
-USER appuser
-
 
 
 FROM python:3.13-slim AS prod
@@ -81,9 +73,9 @@ RUN groupadd --gid $USER_GID appuser && \
 
 WORKDIR /app
 
-COPY --from=builder --chown=appuser:appuser /app/.venv /app/.venv
-COPY --chown=appuser:appuser manage.py ./
-COPY --chown=appuser:appuser tapir ./tapir
+COPY --from=builder --chmod=755  /app/.venv /app/.venv
+COPY --chmod=755  manage.py ./
+COPY --chmod=755 tapir ./tapir
 
 RUN python manage.py compilemessages
 
