@@ -1,8 +1,4 @@
 # syntax=docker/dockerfile:1
-ARG USER_UID
-ARG USER_GID
-
-
 FROM python:3.13 AS base
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -56,8 +52,6 @@ RUN poetry run python manage.py compilemessages
 
 FROM python:3.13-slim AS prod
 ARG ARG_VERSION
-ARG USER_UID
-ARG USER_GID
 ENV TAPIR_VERSION=${ARG_VERSION}
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -68,8 +62,8 @@ RUN apt-get update \
     libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd --gid $USER_GID appuser && \
-    useradd --uid $USER_UID --gid $USER_GID -m appuser
+RUN groupadd --gid 1001 appuser && \
+    useradd --uid 1001 --gid 1001 -m appuser
 
 WORKDIR /app
 
