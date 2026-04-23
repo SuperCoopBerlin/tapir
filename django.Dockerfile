@@ -73,6 +73,4 @@ COPY --chown=root:root --chmod=755 tapir ./tapir
 
 RUN python manage.py compilemessages
 
-RUN mkdir -p /app/static && chown -R appuser:appuser /app/static
-
 USER appuser
