@@ -180,6 +180,9 @@
                                                    title="{% translate 'Edit' %}">
                                                     <span class="material-icons" style="font-size: 16px;">edit</span>
                                                 </a>
+                                                <a href="{% url 'accounts:co_purchaser_delete' co_purchaser.pk %}"
+                                                   class="btn btn-outline-danger btn-sm"
+                                                   title="{% translate 'Delete' %}"><span class="material-icons" style="font-size: 16px;">delete</span> </a>
                                             </div>
                                         {% endif %}
                                     </div>

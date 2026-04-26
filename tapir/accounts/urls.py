@@ -66,6 +66,11 @@ accounts_urlpatterns = [
         name="co_purchaser_update",
     ),
     path(
+        "user/<int:pk>/co-purchasers/delete/",
+        views.CoPurchaserDeleteView.as_view(),
+        name="co_purchaser_delete",
+    ),
+    path(
         "open_door",
         views.OpenDoorView.as_view(),
         name="open_door",

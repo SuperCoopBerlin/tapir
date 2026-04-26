@@ -562,3 +562,26 @@ class CoPurchaserUpdateView(
 
     def get_success_url(self):
         return reverse_lazy("accounts:user_detail", kwargs={"pk": self.object.user.pk})
+
+
+class CoPurchaserDeleteView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, generic.DeleteView
+):
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
+    model = CoPurchaser
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = _(
+            "Delete Co-Purchaser %(copurchaser)s for %(name)s"
+        ) % {
+            "copurchaser": self.object.get_full_name(),
+            "name": UserUtils.build_html_link_for_viewer(
+                self.object.user, self.request.user
+            ),
+        }
+        context["page_title"] = _("Add Co-Purchaser")
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy("accounts:user_detail", kwargs={"pk": self.object.user.pk})
