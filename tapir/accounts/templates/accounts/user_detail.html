@@ -170,7 +170,20 @@
                     {% with co_purchasers=object.copurchaser.all %}
                         {% if co_purchasers %}
                             <div class="list-group list-group-flush">
-                                {% for co_purchaser in co_purchasers %}<div class="list-group-item">{{ co_purchaser.get_full_name }}</div>{% endfor %}
+                                {% for co_purchaser in co_purchasers %}
+                                    <div class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">{{ co_purchaser.get_full_name }}</div>
+                                        {% if perms.accounts.manage %}
+                                            <div class="btn-group btn-group-sm ms-2" role="group">
+                                                <a href="{% url 'accounts:co_purchaser_update' co_purchaser.pk %}"
+                                                   class="btn btn-outline-primary btn-sm"
+                                                   title="{% translate 'Edit' %}">
+                                                    <span class="material-icons" style="font-size: 16px;">edit</span>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
                             </div>
                         {% else %}
                             <p class="text-muted mb-0">{% translate "No co-purchasers registered." %}</p>

@@ -541,3 +541,24 @@ class CoPurchaserCreateView(
 
     def get_success_url(self):
         return reverse_lazy("accounts:user_detail", kwargs={"pk": self.tapir_user.pk})
+
+
+class CoPurchaserUpdateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, generic.UpdateView
+):
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
+    model = CoPurchaser
+    form_class = CoPurchaserForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = _("Update Co-Purchaser for %(name)s") % {
+            "name": UserUtils.build_html_link_for_viewer(
+                self.object.user, self.request.user
+            )
+        }
+        context["page_title"] = _("Add Co-Purchaser")
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy("accounts:user_detail", kwargs={"pk": self.object.user.pk})
