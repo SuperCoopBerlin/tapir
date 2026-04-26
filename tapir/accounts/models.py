@@ -323,3 +323,11 @@ class CoPurchaser(models.Model):
 
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
+
+    def clean(self):
+        max_co_purchasers = getattr(settings, "CO_PURCHASER_MAX_CO_PURCHASERS", 2)
+
+        if self.pk is None:
+            existing_count = CoPurchaser.objects.filter(user=self.user).count()
+            if existing_count >= max_co_purchasers:
+                raise ValidationError(_("Maximum numbers of Co-Purchasers exceeded"))
