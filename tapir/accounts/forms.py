@@ -5,7 +5,7 @@ from django.forms import TextInput, CheckboxSelectMultiple
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
-from tapir.accounts.models import TapirUser
+from tapir.accounts.models import TapirUser, CoPurchaser
 from tapir.core.mail_option import MailOption
 from tapir.core.services.mail_classes_service import MailClassesService
 from tapir.core.services.optional_mail_choices_service import OptionalMailChoicesService
@@ -50,43 +50,12 @@ class TapirUserForm(TapirUserSelfUpdateForm):
             "postcode",
             "city",
             "preferred_language",
-            "co_purchaser",
-            "co_purchaser_mail",
-            "co_purchaser_2",
-            "co_purchaser_2_mail",
         ] + TapirUserSelfUpdateForm.Meta.fields
 
         widgets = TapirUserSelfUpdateForm.Meta.widgets | {
             "birthdate": DateInputTapir(),
             "username": TextInput(attrs={"readonly": True}),
         }
-
-    def clean(self):
-        cleaned_data = super().clean()
-
-        if (
-            cleaned_data.get("co_purchaser_mail", "") != ""
-            and cleaned_data.get("co_purchaser", "") == ""
-        ):
-            raise ValidationError(
-                {
-                    "co_purchaser_mail": _(
-                        "If there is not co-purchaser then the co-purchaser-mail field must also be empty"
-                    )
-                }
-            )
-
-        if (
-            cleaned_data.get("co_purchaser_2_mail", "") != ""
-            and cleaned_data.get("co_purchaser_2", "") == ""
-        ):
-            raise ValidationError(
-                {
-                    "co_purchaser_2_mail": _(
-                        "If there is not co-purchaser 2 then the co-purchaser-mail 2 field must also be empty"
-                    )
-                }
-            )
 
 
 class PasswordResetForm(auth_forms.PasswordResetForm):
@@ -176,3 +145,10 @@ class OptionalMailsForm(forms.Form):
                 tapir_user
             )
         )
+
+
+class CoPurchaserForm(forms.ModelForm):
+    class Meta:
+        model = CoPurchaser
+        fields = ["first_name", "last_name", "email"]
+        widgets = {}

@@ -7,12 +7,13 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST, require_GET
+from django.views.generic import CreateView
 
 from tapir import settings
 from tapir.accounts import pdfs
@@ -24,11 +25,13 @@ from tapir.accounts.forms import (
     TapirUserSelfUpdateForm,
     EditUsernameForm,
     OptionalMailsForm,
+    CoPurchaserForm,
 )
 from tapir.accounts.models import (
     TapirUser,
     UpdateTapirUserLogEntry,
     OptionalMails,
+    CoPurchaser,
 )
 from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import (
@@ -499,3 +502,42 @@ class OpenDoorPageView(LoginRequiredMixin, generic.TemplateView):
             hasattr(user, "share_owner") and user.share_owner is not None
         )
         return context
+
+
+class CoPurchaserCreateView(
+    PermissionRequiredMixin, LoginRequiredMixin, TapirFormMixin, CreateView
+):
+    model = CoPurchaser
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
+    form_class = CoPurchaserForm
+
+    def dispatch(self, request, *args, **kwargs):
+        self.tapir_user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["card_title"] = _("Add Co-Purchaser for %(name)s") % {
+            "name": UserUtils.build_html_link_for_viewer(
+                self.tapir_user, self.request.user
+            )
+        }
+        context["page_title"] = _("Add Co-Purchaser")
+        return context
+
+    def form_valid(self, form):
+        max_co_purchasers = getattr(settings, "CO_PURCHASER_MAX_CO_PURCHASERS", 2)
+        existing_count = CoPurchaser.objects.filter(user=self.tapir_user).count()
+
+        if existing_count >= max_co_purchasers:
+            messages.error(self.request, _("Maximum numbers of Co-Purchasers exceeded"))
+            return self.form_invalid(form)
+
+        form.instance.user = self.tapir_user
+        form.instance.order = existing_count
+
+        messages.success(self.request, _("Co-Purchaser successfully added"))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("accounts:user_detail", kwargs={"pk": self.tapir_user.pk})

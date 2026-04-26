@@ -159,7 +159,10 @@
                     <span>{% translate "Co-Purchasers" %}</span>
                     {% if perms.accounts.manage %}
                         <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
-                            <a class="{% tapir_button_link_to_action %}">"add"</a>
+                            <a class="{% tapir_button_link_to_action %}"
+                               href="{% url 'accounts:co_purchaser_create' object.pk %}">
+                                <span class="material-icons">person_add</span>{% translate "Add Co-Purchaser" %}
+                            </a>
                         </span>
                     {% endif %}
                 </h5>
