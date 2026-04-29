@@ -56,6 +56,21 @@ accounts_urlpatterns = [
         name="mail_settings",
     ),
     path(
+        "user/<int:pk>/co-purchasers/create/",
+        views.CoPurchaserCreateView.as_view(),
+        name="co_purchaser_create",
+    ),
+    path(
+        "user/<int:pk>/co-purchasers/update/",
+        views.CoPurchaserUpdateView.as_view(),
+        name="co_purchaser_update",
+    ),
+    path(
+        "user/<int:pk>/co-purchasers/delete/",
+        views.CoPurchaserDeleteView.as_view(),
+        name="co_purchaser_delete",
+    ),
+    path(
         "open_door",
         views.OpenDoorView.as_view(),
         name="open_door",

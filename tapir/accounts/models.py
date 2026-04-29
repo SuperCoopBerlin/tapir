@@ -305,3 +305,21 @@ class OptionalMails(models.Model):
                 fields=["user", "mail_id"], name="user-mail-constraint"
             )
         ]
+
+
+class CoPurchaser(models.Model):
+    user = models.ForeignKey(
+        "TapirUser", on_delete=models.CASCADE, related_name="copurchaser"
+    )
+    first_name = models.CharField(blank=True, max_length=255)
+    last_name = models.CharField(blank=True, max_length=255)
+    email = models.EmailField(blank=True, max_length=254)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural = _("Co-Purchasers")
+        verbose_name = _("Co-Purchaser")
+        ordering = ["order"]
+
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"

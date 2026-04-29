@@ -153,7 +153,49 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-6">{% share_owner_ownership_list object.share_owner %}</div>
+        <div class="col-xl-6">
+            <div class="card mb-2" id="tapir_user_co_purchaser_card">
+                <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <span>{% translate "Co-Purchasers" %}</span>
+                    {% if perms.accounts.manage %}
+                        <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
+                            <a class="{% tapir_button_link_to_action %}"
+                               href="{% url 'accounts:co_purchaser_create' object.pk %}">
+                                <span class="material-icons">person_add</span>{% translate "Add Co-Purchaser" %}
+                            </a>
+                        </span>
+                    {% endif %}
+                </h5>
+                <div class="card-body">
+                    {% with co_purchasers=object.copurchaser.all %}
+                        {% if co_purchasers %}
+                            <div class="list-group list-group-flush">
+                                {% for co_purchaser in co_purchasers %}
+                                    <div class="list-group-item d-flex justify-content-between align-items-start">
+                                        <div class="flex-grow-1">{{ co_purchaser.get_full_name }}</div>
+                                        {% if perms.accounts.manage %}
+                                            <div class="btn-group btn-group-sm ms-2" role="group">
+                                                <a href="{% url 'accounts:co_purchaser_update' co_purchaser.pk %}"
+                                                   class="btn btn-outline-primary btn-sm"
+                                                   title="{% translate 'Edit' %}">
+                                                    <span class="material-icons" style="font-size: 16px;">edit</span>
+                                                </a>
+                                                <a href="{% url 'accounts:co_purchaser_delete' co_purchaser.pk %}"
+                                                   class="btn btn-outline-danger btn-sm"
+                                                   title="{% translate 'Delete' %}"><span class="material-icons" style="font-size: 16px;">delete</span> </a>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted mb-0">{% translate "No co-purchasers registered." %}</p>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+            {% share_owner_ownership_list object.share_owner %}
+        </div>
     </div>
     <div class="row">
         <div class="col-xl-6">{% user_shifts_overview object %}</div>
