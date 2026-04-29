@@ -41,7 +41,7 @@ jobs:
           git push origin "${{ steps.build_changelog.outputs.version }}"
       - name: Draft release with changelog
         id: create_release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ steps.build_changelog.outputs.version }}
           name: Tapir ${{ steps.build_changelog.outputs.version }}
