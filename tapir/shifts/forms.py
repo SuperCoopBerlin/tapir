@@ -718,7 +718,7 @@ class ShiftAttendanceTemplateCustomTimeForm(CustomTimeCleanMixin, forms.ModelFor
 class ShiftWatchForm(forms.ModelForm):
     class Meta:
         model = ShiftWatch
-        fields = ["staffing_status"]
+        fields = ["staffing_status", "watched_capabilities"]
 
     staffing_status = forms.MultipleChoiceField(
         required=False,
@@ -726,6 +726,16 @@ class ShiftWatchForm(forms.ModelForm):
         label=_("Shift changes you would like to be informed about"),
         widget=CheckboxSelectMultiple(),
         disabled=False,
+    )
+    watched_capabilities = forms.MultipleChoiceField(
+        required=False,
+        choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
+        label=_("Notify me when these capabilities become available or unavailable"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+        help_text=_(
+            "Get notified when someone with specific skills registers or unregisters"
+        ),
     )
 
     def __init__(self, *args, **kwargs):
@@ -737,8 +747,10 @@ class ShiftWatchForm(forms.ModelForm):
         )
         if last_shiftwatch:
             self.initial["staffing_status"] = last_shiftwatch.staffing_status
+            self.initial["watched_capabilities"] = last_shiftwatch.watched_capabilities
         else:
             self.initial["staffing_status"] = get_staffingstatus_defaults()
+            self.initial["watched_capabilities"] = []
 
 
 class ShiftTemplateField(ModelMultipleChoiceField):
