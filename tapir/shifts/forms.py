@@ -10,6 +10,7 @@ from django.forms import (
     CharField,
 )
 from django.forms.widgets import HiddenInput
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_select2.forms import Select2Widget, Select2MultipleWidget
 
@@ -814,4 +815,26 @@ class RecurringShiftWatchForm(forms.ModelForm):
             raise forms.ValidationError(
                 self.AT_LEAST_ONE_ERROR % self._format_field_names()
             )
+        return cleaned_data
+
+
+class ShiftDateRangeForm(forms.Form):
+    date_from = forms.DateField(
+        input_formats=["%Y-%m-%d"], required=True, widget=DateInputTapir
+    )
+    date_to = forms.DateField(
+        input_formats=["%Y-%m-%d"], required=False, widget=DateInputTapir
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        date_from = cleaned_data.get("date_from") or timezone.now().date()
+        date_to = cleaned_data.get("date_to") or (
+            date_from + datetime.timedelta(days=60)
+        )
+
+        if date_to < date_from:
+            raise ValidationError("Enddatum darf nicht vor dem Startdatum liegen.")
+        cleaned_data["date_from"] = date_from
+        cleaned_data["date_to"] = date_to
         return cleaned_data

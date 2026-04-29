@@ -7,10 +7,12 @@ from django.db.models import OuterRef, Exists
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django.views import generic
 from django.views.generic import TemplateView
 from weasyprint import HTML
 
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.shifts.forms import ShiftDateRangeForm
 from tapir.shifts.models import (
     Shift,
     WEEKDAY_CHOICES,
@@ -23,27 +25,32 @@ from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
 from tapir.utils.shortcuts import get_monday, set_header_for_file_download
 
 
-class ShiftCalendarView(LoginRequiredMixin, TemplateView):
+class ShiftCalendarView(LoginRequiredMixin, generic.FormView):
     template_name = "shifts/shift_calendar_future.html"
+    form_class = ShiftDateRangeForm
     DATE_FORMAT = "%Y-%m-%d"
+
+    def get_initial(self):
+        initial = super().get_initial()
+        if "date_from" in self.request.GET:
+            initial["date_from"] = self.request.GET["date_from"]
+        if "date_to" in self.request.GET:
+            initial["date_to"] = self.request.GET["date_to"]
+
+        return initial
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(**kwargs)
+        form = context_data["form"]
 
-        date_from = (
-            datetime.datetime.strptime(
-                self.request.GET["date_from"], self.DATE_FORMAT
-            ).date()
-            if "date_from" in self.request.GET.keys()
-            else timezone.now().date()
-        )
-        date_to = (
-            datetime.datetime.strptime(
-                self.request.GET["date_to"], self.DATE_FORMAT
-            ).date()
-            if "date_to" in self.request.GET.keys()
-            else date_from + datetime.timedelta(days=60)
-        )
+        if form.is_bound and form.is_valid():
+            date_from = form.cleaned_data["date_from"]
+            date_to = form.cleaned_data["date_to"]
+        else:
+            date_from = timezone.now().date()
+            date_to = date_from + datetime.timedelta(days=14)
+
+        context_data["form"] = form
         context_data["date_from"] = date_from.strftime(self.DATE_FORMAT)
         context_data["date_to"] = date_to.strftime(self.DATE_FORMAT)
 
