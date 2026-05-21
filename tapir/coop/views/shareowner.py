@@ -631,6 +631,14 @@ class ShareOwnerFilter(django_filters.FilterSet):
         method="has_capability_filter",
         label=_("Has qualification"),
     )
+    has_recent_capability_experience = ChoiceFilter(
+        choices=[
+            (capability, capability_name)
+            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
+        ],
+        method="has_recent_capability_experience_filter",
+        label=_("Has completed a shift with this qualification in the last 6 months"),
+    )
     not_has_capability = ChoiceFilter(
         choices=[
             (capability, capability_name)
@@ -732,6 +740,14 @@ class ShareOwnerFilter(django_filters.FilterSet):
     ):
         return queryset.filter(
             user__in=TapirUser.objects.has_capability(value)
+        ).distinct()
+
+    @staticmethod
+    def has_recent_capability_experience_filter(
+        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+    ):
+        return queryset.filter(
+            user__in=TapirUser.objects.has_recent_capability_experience(value)
         ).distinct()
 
     @staticmethod
