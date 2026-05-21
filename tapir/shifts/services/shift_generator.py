@@ -56,8 +56,13 @@ class ShiftGenerator:
         start_date_in_the_past_or_null = Q(start_date__lte=at_date) | Q(
             start_date__isnull=True
         )
-        shift_templates = ShiftTemplate.objects.filter(group=group).filter(
-            start_date_in_the_past_or_null
+        end_date_in_the_future_or_null = Q(end_date__gte=at_date) | Q(
+            end_date__isnull=True
+        )
+        shift_templates = (
+            ShiftTemplate.objects.filter(group=group)
+            .filter(start_date_in_the_past_or_null)
+            .filter(end_date_in_the_future_or_null)
         )
 
         if filter_shift_template_ids is not None:
