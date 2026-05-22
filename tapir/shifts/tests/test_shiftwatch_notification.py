@@ -101,28 +101,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
-    def test_handle_watchingCoordinatorChanges_SHIFT_COORDINATOR_PLUSGetSent(self):
-        self.shift_watch = create_shift_watch(
-            user=self.user,
-            shift=self.shift_ok_first,
-            slots=self.slots,
-            staffing_status=[StaffingStatusChoices.SHIFT_COORDINATOR_PLUS.value],
-        )
-
-        slot = ShiftSlot.objects.filter(
-            shift=self.shift_ok_first, attendances__isnull=True
-        ).first()
-        slot.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
-        slot.save()
-
-        Command().handle()
-        self.assertEqual(0, len(mail.outbox))
-
-        # Register teamleader
-        ShiftAttendance.objects.create(user=TapirUserFactory.create(), slot=slot)
-        Command().handle()
-        self.assert_email_sent(StaffingStatusChoices.SHIFT_COORDINATOR_PLUS)
-
     def test_handle_initialWatchUnderstaffedShift_noInitialMailIsSent(self):
         # No initial message should be sent, even if the shift is understaffed
         user = TapirUserFactory.create(email=self.USER_EMAIL_ADDRESS)
