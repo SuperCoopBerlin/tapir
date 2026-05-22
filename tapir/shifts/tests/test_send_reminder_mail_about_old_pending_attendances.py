@@ -51,6 +51,16 @@ class TestSendReminderMailAboutOldPendingAttendances(TapirFactoryTestBase):
             state=ShiftAttendance.State.PENDING,
         )
 
+        shift_too_old = ShiftFactory.create(
+            start_time=timezone.now() - datetime.timedelta(days=366)
+        )
+        slot = ShiftSlotFactory.create(shift=shift_too_old)
+        self.attendance_that_is_too_old = ShiftAttendance.objects.create(
+            slot=slot,
+            user=TapirUserFactory.create(),
+            state=ShiftAttendance.State.PENDING,
+        )
+
     def test_commandSendReminderMailAboutOldPendingAttendances_featureFlagDisabled_noMailSent(
         self,
     ):
@@ -100,5 +110,9 @@ class TestSendReminderMailAboutOldPendingAttendances(TapirFactoryTestBase):
         )
         self.assertNotIn(
             self.attendance_that_is_not_old_enough_yet.slot.get_display_name(),
+            mail_content,
+        )
+        self.assertNotIn(
+            self.attendance_that_is_too_old.slot.get_display_name(),
             mail_content,
         )

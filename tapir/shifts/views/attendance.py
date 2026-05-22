@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
@@ -183,6 +183,9 @@ class UpdateShiftAttendanceStateBase(
 
 class UpdateShiftAttendanceStateView(UpdateShiftAttendanceStateBase):
     fields = []
+
+    def get(self, request, *args, **kwargs):
+        return redirect(self.get_success_url())
 
 
 class UpdateShiftAttendanceStateWithFormView(

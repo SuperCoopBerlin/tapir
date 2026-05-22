@@ -10,6 +10,7 @@ from tapir.core.models import FeatureFlag
 from tapir.shifts.config import (
     FEATURE_FLAG_REMINDER_MAIL_OLD_PENDING_ATTENDANCES,
     NB_DAYS_BEFORE_REMINDER_OLD_PENDING_ATTENDANCES,
+    NB_DAYS_AFTER_REMINDER_OLD_PENDING_ATTENDANCES,
 )
 from tapir.shifts.models import ShiftAttendance
 
@@ -29,6 +30,10 @@ class Command(BaseCommand):
                 slot__shift__start_time__lt=timezone.now()
                 - datetime.timedelta(
                     days=NB_DAYS_BEFORE_REMINDER_OLD_PENDING_ATTENDANCES
+                ),
+                slot__shift__start_time__gt=timezone.now()
+                - datetime.timedelta(
+                    days=NB_DAYS_AFTER_REMINDER_OLD_PENDING_ATTENDANCES
                 ),
             )
             .order_by("slot__shift__start_time")
