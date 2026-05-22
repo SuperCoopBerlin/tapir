@@ -12,6 +12,12 @@
             </span>
             {% if perms.accounts.manage %}
                 <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
+                    {% if perms.coop.admin %}
+                        <a class="{% tapir_button_link %}"
+                           href="{% url 'coop:archive_member' share_owner.pk %}">
+                            <span class="material-icons">archive</span>{% translate 'Archive' %}
+                        </a>
+                    {% endif %}
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
                         <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}

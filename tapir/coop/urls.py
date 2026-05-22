@@ -246,6 +246,11 @@ urlpatterns = [
         name="member_self_registration",
     ),
     path(
+        "member/<int:pk>/archive",
+        views.UpdateUserWithAnonymizeView.as_view(),
+        name="archive_member",
+    ),
+    path(
         "member_self_register",
         views.MemberSelfRegisterApiView.as_view(),
         name="member_self_register",

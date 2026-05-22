@@ -416,3 +416,9 @@ class MembershipResignationForm(forms.ModelForm):
             "paid_out",
             ValidationError(_("Cannot pay out, because shares have been gifted.")),
         )
+
+
+class ShareOwnerAnonymizeForm(forms.Form):
+    confirm = forms.BooleanField(
+        label="Ich bestätige, dass die Adresse ersetzt werden soll", required=True
+    )

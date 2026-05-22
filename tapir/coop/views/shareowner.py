@@ -1,6 +1,8 @@
 import csv
 import datetime
 from tempfile import SpooledTemporaryFile
+import secrets
+import string
 
 import django_filters
 import django_tables2
@@ -52,6 +54,7 @@ from tapir.coop.forms import (
     ShareOwnershipForm,
     ShareOwnerForm,
     ShareOwnershipCreateMultipleForm,
+    ShareOwnerAnonymizeForm,
 )
 from tapir.coop.models import (
     ShareOwnership,
@@ -1024,3 +1027,49 @@ class MemberSelfRegisterApiView(APIView):
             return Response(False)
 
         return Response(True)
+
+
+class UpdateUserWithAnonymizeView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, FormView
+):
+    permission_required = PERMISSION_COOP_ADMIN
+    form_class = ShareOwnerAnonymizeForm
+    template_name = "coop/shareowner_archive.html"
+
+    def get_object(self):
+        return get_object_or_404(ShareOwner, pk=self.kwargs.get("pk"))
+
+    def get_context_data(self, **kwargs):
+        """Fügt das Objekt zum Template-Kontext hinzu"""
+        context = super().get_context_data(**kwargs)
+        context["object"] = self.get_object()
+        return context
+
+    def form_valid(self, form):
+        """Ersetzt die Street nach Bestätigung"""
+        obj = self.get_object()
+        old_street = obj.street
+
+        # Generiere zufällige Zeichenfolge
+        random_string = self._generate_random_string()
+
+        # Ersetze street
+        obj.street = random_string
+        obj.email = random_string
+        obj.postcode = ""
+        if obj.user:
+            obj.user.email = random_string
+            obj.user.street = random_string
+            obj.user.postcode = ""
+            obj.user.save()
+        obj.save()
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return self.get_object().get_absolute_url()
+
+    @staticmethod
+    def _generate_random_string(length=20):
+        characters = string.ascii_letters + string.digits
+        return "".join(secrets.choice(characters) for _ in range(length))

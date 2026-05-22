@@ -1,0 +1,29 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load core %}
+{% block title %}
+    {% translate "Confirm archive" %} {{ object }}
+{% endblock title %}
+{% block content %}
+    <div class="card mb-2">
+        <h5 class="card-header">
+            <span>{% translate "Confirm delete" %}</span>
+        </h5>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.confirm }}
+                    {% if form.confirm.errors %}<div class="error-message">{{ form.confirm.errors }}</div>{% endif %}
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-danger">Ja, ersetzen</button>
+                    <a href="{% url 'accounts:user_detail' object.user.pk %}"
+                       class="btn btn-secondary">Abbrechen</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
