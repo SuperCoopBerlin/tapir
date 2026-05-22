@@ -57,6 +57,7 @@ pypdf = "^6.9.1"
 django-upgrade = "^1.30.0"
 drf-spectacular = "^0.29.0"
 django-silk = "^5.5.0"
+djangorestframework-stubs = "^3.17.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
