@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-22 15:10+0200\n"
+"POT-Creation-Date: 2026-05-23 10:48+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -569,7 +569,7 @@ msgstr "Mitgliederverwaltung"
 msgid "Management"
 msgstr "Verwaltung"
 
-#: coop/apps.py:51 coop/templates/coop/incoming_payment_list.html:19
+#: coop/apps.py:51 coop/templates/coop/incoming_payment_list.html:20
 msgid "Incoming payments"
 msgstr "Eingehende Zahlungen"
 
@@ -1027,6 +1027,7 @@ msgid "Beteiligungserklärung"
 msgstr "Beteiligungserklärung"
 
 #: coop/templates/coop/draftuser_list.html:22
+#: coop/templates/coop/incoming_payment_list.html:25
 #: coop/templates/coop/membership_pause/membership_pause_list.html:23
 #: coop/templates/coop/membership_resignation_list.html:25
 #: coop/templates/coop/shareowner_list.html:57
@@ -1045,7 +1046,7 @@ msgid "Filters"
 msgstr "Filter"
 
 #: coop/templates/coop/draftuser_list.html:55
-#: coop/templates/coop/incoming_payment_list.html:35
+#: coop/templates/coop/incoming_payment_list.html:48
 #: coop/templates/coop/membership_pause/membership_pause_list.html:56
 #: coop/templates/coop/membership_resignation_list.html:62
 #: coop/templates/coop/shareowner_list.html:85
@@ -1056,7 +1057,7 @@ msgid "Filter"
 msgstr "Filter"
 
 #: coop/templates/coop/draftuser_list.html:60
-#: coop/templates/coop/incoming_payment_list.html:40
+#: coop/templates/coop/incoming_payment_list.html:53
 #: coop/templates/coop/membership_pause/membership_pause_list.html:61
 #: coop/templates/coop/membership_resignation_list.html:67
 #: coop/templates/coop/shareowner_list.html:90
@@ -1974,12 +1975,12 @@ msgstr "Dein Konto in Tapir, das Mitgliedersystem von %(coop_name)s"
 msgid "General Tapir Accounts"
 msgstr "Allgemeine Tapir-Konten"
 
-#: coop/templates/coop/incoming_payment_list.html:9
+#: coop/templates/coop/incoming_payment_list.html:10
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:160
 msgid "Payments"
 msgstr "Zahlungen"
 
-#: coop/templates/coop/incoming_payment_list.html:24
+#: coop/templates/coop/incoming_payment_list.html:36
 msgid "Register a new payment"
 msgstr "Zahlung registrieren"
 
@@ -2461,31 +2462,31 @@ msgstr "Kann Mitglied nicht erstellen: "
 msgid "Member can be created"
 msgstr "Mitglied kann erstellt werden: "
 
-#: coop/views/incoming_payments.py:55
+#: coop/views/incoming_payments.py:56
 msgid "Payment ID"
 msgstr "Zahlungs-ID"
 
-#: coop/views/incoming_payments.py:78
+#: coop/views/incoming_payments.py:79
 msgid "Other member"
 msgstr "Anderes Mitglied"
 
-#: coop/views/incoming_payments.py:166
+#: coop/views/incoming_payments.py:178
 msgid "Register payment"
 msgstr "Zahlung registrieren"
 
-#: coop/views/incoming_payments.py:167
+#: coop/views/incoming_payments.py:179
 msgid "Register a new incoming payment"
 msgstr "Eingehende Zahlung registrieren"
 
-#: coop/views/incoming_payments.py:187 coop/views/incoming_payments.py:188
+#: coop/views/incoming_payments.py:199 coop/views/incoming_payments.py:200
 msgid "Edit payment"
 msgstr "Bezahlung bearbeiten"
 
-#: coop/views/incoming_payments.py:192
+#: coop/views/incoming_payments.py:204
 msgid "Payment updated."
 msgstr "Bezahlung aktualisiert."
 
-#: coop/views/incoming_payments.py:216
+#: coop/views/incoming_payments.py:228
 msgid "Payment deleted"
 msgstr "Bezahlung gelöscht"
 
