@@ -14,7 +14,10 @@ from ldap.ldapobject import LDAPObject
 from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils, settings
-from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
+from tapir.coop.config import (
+    get_ids_of_users_registered_to_a_shift_with_capability,
+    get_ids_of_users_recently_completed_a_shift_with_capability,
+)
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import (
@@ -51,6 +54,12 @@ class TapirUserQuerySet(models.QuerySet):
         return self.filter(
             shift_user_data__capabilities__contains=[capability]
         ).distinct()
+
+    def has_recent_capability_experience(self, capability: str):
+        user_ids = get_ids_of_users_recently_completed_a_shift_with_capability[0](
+            capability
+        )
+        return self.filter(id__in=user_ids).distinct()
 
 
 class TapirUserManager(UserManager.from_queryset(TapirUserQuerySet)):

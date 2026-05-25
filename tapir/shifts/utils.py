@@ -1,5 +1,5 @@
 from calendar import HTMLCalendar, month_name, day_abbr
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -139,6 +139,21 @@ def get_ids_of_users_registered_to_a_shift_with_capability(
         ShiftAttendance.objects.filter(
             slot__required_capabilities__contains=[capability],
             state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
+        )
+        .distinct()
+        .values_list("user__id", flat=True)
+    )
+
+
+def get_ids_of_users_recently_completed_a_shift_with_capability(
+    capability: ShiftUserCapability,
+):
+    six_months_ago = timezone.now().date() - timedelta(weeks=26)
+    return (
+        ShiftAttendance.objects.filter(
+            slot__required_capabilities__contains=[capability],
+            state__in=[ShiftAttendance.State.DONE],
+            slot__shift__start_time__gt=six_months_ago,
         )
         .distinct()
         .values_list("user__id", flat=True)
