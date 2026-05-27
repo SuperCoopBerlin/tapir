@@ -35,7 +35,7 @@ from tapir.utils.tests_utils import (
 class TestAttendanceUpdateMemberOffice(
     FeatureFlagTestMixin, TapirFactoryTestBase, TapirEmailTestMixin
 ):
-    NOW = datetime.datetime(year=2024, month=6, day=15, tzinfo=datetime.timezone.utc)
+    NOW = datetime.datetime(year=2024, month=6, day=15, tzinfo=datetime.UTC)
 
     def setUp(self) -> None:
         super().setUp()

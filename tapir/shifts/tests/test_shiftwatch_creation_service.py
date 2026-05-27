@@ -31,7 +31,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
                 hour=15,
                 minute=0,
                 second=0,
-                tzinfo=datetime.timezone.utc,
+                tzinfo=datetime.UTC,
             ),
         )
 

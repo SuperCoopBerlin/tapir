@@ -8,7 +8,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 class TestFlexibleTime(TapirFactoryTestBase):
     NOW = datetime.datetime(
-        year=2024, month=6, day=15, hour=12, minute=0, tzinfo=datetime.timezone.utc
+        year=2024, month=6, day=15, hour=12, minute=0, tzinfo=datetime.UTC
     )
 
     @patch.object(CustomTimeCleanMixin, "get_shift_object")

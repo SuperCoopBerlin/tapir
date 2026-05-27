@@ -18,7 +18,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
 def date_to_datetime(dt: datetime.date) -> datetime.datetime:
-    return datetime.datetime(dt.year, dt.month, dt.day, tzinfo=datetime.timezone.utc)
+    return datetime.datetime(dt.year, dt.month, dt.day, tzinfo=datetime.UTC)
 
 
 class TestShiftCycleService(TapirFactoryTestBase):

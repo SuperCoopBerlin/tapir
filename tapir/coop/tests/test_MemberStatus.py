@@ -121,7 +121,7 @@ class ShareOwnerStatusBaseTestClass(ABC):
         )
         log_entry.save()
         log_entry.created_date = datetime.datetime(
-            year=2023, month=1, day=2, tzinfo=datetime.timezone.utc
+            year=2023, month=1, day=2, tzinfo=datetime.UTC
         )
         log_entry.save()
 
