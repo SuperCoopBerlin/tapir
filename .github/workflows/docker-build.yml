@@ -93,7 +93,9 @@ jobs:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          build-args: ARG_VERSION=${{ env.VERSION }}
+          build-args: |
+            ARG_VERSION=${{ env.VERSION }} 
+            POETRY_INSTALL_DEV=false
           labels: |
             ${{ steps.meta.outputs.labels }}
           no-cache: true
