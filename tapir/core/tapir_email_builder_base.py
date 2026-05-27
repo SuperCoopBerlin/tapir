@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import List, Type, TYPE_CHECKING, Dict
+from typing import TYPE_CHECKING, Dict, List, Type
 
 from django.template import loader
 

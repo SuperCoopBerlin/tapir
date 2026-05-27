@@ -5,18 +5,18 @@ from django.urls import reverse
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
-from tapir.coop.models import ShareOwnership, MemberStatus, IncomingPayment, ShareOwner
+from tapir.coop.config import COOP_ENTRY_AMOUNT, COOP_SHARE_PRICE
+from tapir.coop.models import IncomingPayment, MemberStatus, ShareOwner, ShareOwnership
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.shifts.models import (
-    ShiftTemplateGroup,
-    ShiftSlotTemplate,
-    ShiftAttendanceTemplate,
-    ShiftUserCapability,
     ShiftAttendance,
+    ShiftAttendanceTemplate,
     ShiftSlot,
+    ShiftSlotTemplate,
+    ShiftTemplateGroup,
+    ShiftUserCapability,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
+from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 from tapir.utils.user_utils import UserUtils
 

@@ -4,17 +4,17 @@ from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import (
-    MembershipPauseCreatedLogEntry,
     MembershipPause,
+    MembershipPauseCreatedLogEntry,
     MembershipPauseUpdatedLogEntry,
 )
-from tapir.coop.tests.factories import ShareOwnerFactory, MembershipPauseFactory
+from tapir.coop.tests.factories import MembershipPauseFactory, ShareOwnerFactory
 from tapir.shifts.models import (
-    ShiftAttendanceTemplate,
-    ShiftAttendance,
     DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendance,
+    ShiftAttendanceTemplate,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
+from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

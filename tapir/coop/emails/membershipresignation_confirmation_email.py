@@ -3,7 +3,7 @@ from typing import List
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
-from tapir.coop.models import ShareOwner, MembershipResignation
+from tapir.coop.models import MembershipResignation, ShareOwner
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 

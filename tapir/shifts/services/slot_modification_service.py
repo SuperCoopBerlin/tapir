@@ -10,12 +10,12 @@ from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.shifts.models import (
-    ShiftTemplate,
-    ShiftSlotTemplate,
-    ShiftAttendanceTemplate,
-    ShiftAttendance,
-    ShiftSlot,
     DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendance,
+    ShiftAttendanceTemplate,
+    ShiftSlot,
+    ShiftSlotTemplate,
+    ShiftTemplate,
 )
 from tapir.utils.user_utils import UserUtils
 

@@ -4,7 +4,7 @@ from typing import Type
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,8 +12,8 @@ from rest_framework.views import APIView
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.statistics.models import FancyGraphCache
 from tapir.statistics.services.data_providers.base_data_provider import (
-    data_providers,
     BaseDataProvider,
+    data_providers,
 )
 
 

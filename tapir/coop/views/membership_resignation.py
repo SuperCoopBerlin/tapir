@@ -6,7 +6,7 @@ from django.db import transaction
 from django.urls import reverse_lazy
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import CreateView, DeleteView, DetailView, UpdateView
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
@@ -22,8 +22,8 @@ from tapir.coop.forms import MembershipResignationForm
 from tapir.coop.models import (
     MembershipResignation,
     MembershipResignationCreateLogEntry,
-    MembershipResignationUpdateLogEntry,
     MembershipResignationDeleteLogEntry,
+    MembershipResignationUpdateLogEntry,
     ShareOwner,
     UpdateShareOwnerLogEntry,
 )
@@ -38,8 +38,8 @@ from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
-    PERMISSION_RESIGNATION_VIEW,
     PERMISSION_RESIGNATION_MANAGE,
+    PERMISSION_RESIGNATION_VIEW,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils

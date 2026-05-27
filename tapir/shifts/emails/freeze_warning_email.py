@@ -7,8 +7,8 @@ from tapir.coop.config import URL_MEMBER_MANUAL
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.config import (
-    FREEZE_THRESHOLD,
     FREEZE_AFTER_DAYS,
+    FREEZE_THRESHOLD,
     NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS,
 )
 from tapir.shifts.models import ShiftUserData

@@ -1,14 +1,14 @@
 from django.contrib import admin
 
 from tapir.shifts.models import (
-    ShiftTemplateGroup,
-    ShiftTemplate,
     Shift,
-    ShiftAttendanceTemplate,
     ShiftAttendance,
-    ShiftUserData,
+    ShiftAttendanceTemplate,
     ShiftSlot,
     ShiftSlotTemplate,
+    ShiftTemplate,
+    ShiftTemplateGroup,
+    ShiftUserData,
 )
 
 admin.site.register(ShiftUserData)

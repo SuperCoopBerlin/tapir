@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
-from tapir.utils.tests_utils import TapirFactoryTestBase, FeatureFlagTestMixin
+from tapir.utils.tests_utils import FeatureFlagTestMixin, TapirFactoryTestBase
 
 
 class TestShiftPartner(FeatureFlagTestMixin, TapirFactoryTestBase):

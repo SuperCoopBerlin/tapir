@@ -1,12 +1,12 @@
 from django.db.models import Q
 
 from tapir.shifts.models import (
-    Shift,
-    ShiftSlot,
-    ShiftAttendance,
-    StaffingStatusChoices,
     RecurringShiftWatch,
+    Shift,
+    ShiftAttendance,
+    ShiftSlot,
     ShiftWatch,
+    StaffingStatusChoices,
 )
 
 

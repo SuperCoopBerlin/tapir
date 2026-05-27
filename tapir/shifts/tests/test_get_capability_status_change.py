@@ -1,14 +1,14 @@
 import pytest
 
 from tapir.shifts.models import (
-    ShiftSlot,
     SHIFT_USER_CAPABILITY_CHOICES,
+    ShiftSlot,
     ShiftUserCapability,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.tests.factories import (
-    ShiftSlotFactory,
     ShiftFactory,
+    ShiftSlotFactory,
     ShiftWatchFactory,
 )
 

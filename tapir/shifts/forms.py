@@ -1,17 +1,17 @@
 import datetime
 
 from django import forms
-from django.core.exceptions import ValidationError, PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.forms import (
-    ModelChoiceField,
-    CheckboxSelectMultiple,
     BooleanField,
-    ModelMultipleChoiceField,
     CharField,
+    CheckboxSelectMultiple,
+    ModelChoiceField,
+    ModelMultipleChoiceField,
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget, Select2MultipleWidget
+from django_select2.forms import Select2MultipleWidget, Select2Widget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -19,25 +19,24 @@ from tapir.core.models import FeatureFlag
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
 from tapir.shifts.models import (
-    Shift,
-    ShiftAttendanceTemplate,
-    ShiftAttendance,
-    ShiftUserData,
-    SHIFT_USER_CAPABILITY_CHOICES,
-    ShiftSlotTemplate,
-    ShiftTemplateGroup,
-    ShiftSlot,
-    ShiftAccountEntry,
-    ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
-    ShiftTemplate,
-    ShiftAttendanceMode,
-    ShiftWatch,
-    get_staffingstatus_defaults,
-    get_staffingstatus_choices,
-    RecurringShiftWatch,
+    SHIFT_USER_CAPABILITY_CHOICES,
     WEEKDAY_CHOICES,
+    RecurringShiftWatch,
+    Shift,
+    ShiftAccountEntry,
+    ShiftAttendance,
+    ShiftAttendanceMode,
+    ShiftAttendanceTemplate,
+    ShiftExemption,
+    ShiftSlot,
+    ShiftSlotTemplate,
+    ShiftTemplate,
     ShiftTemplateGroup,
+    ShiftUserData,
+    ShiftWatch,
+    get_staffingstatus_choices,
+    get_staffingstatus_defaults,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils

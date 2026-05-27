@@ -1,6 +1,6 @@
 import datetime
 
-from django.db.models import QuerySet, F
+from django.db.models import F, QuerySet
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner

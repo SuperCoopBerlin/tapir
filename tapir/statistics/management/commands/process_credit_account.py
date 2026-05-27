@@ -16,7 +16,7 @@ from tapir.accounts.models import TapirUser
 from tapir.statistics.management.commands.process_purchase_files import (
     Command as ProcessPurchaseFilesCommand,
 )
-from tapir.statistics.models import ProcessedCreditFiles, CreditAccount
+from tapir.statistics.models import CreditAccount, ProcessedCreditFiles
 from tapir.utils.shortcuts import get_timezone_aware_datetime
 
 

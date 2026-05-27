@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 import os
-from typing import Type, Callable, List, TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable, List, Type
 
 import environ
 import ldap

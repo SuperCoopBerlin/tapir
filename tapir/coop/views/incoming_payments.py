@@ -1,7 +1,7 @@
 import django_filters
 import django_tables2
 from django.contrib import messages
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
 from django.db.models import Q
 from django.urls import reverse
@@ -15,21 +15,21 @@ from django_tables2.export import ExportMixin
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
 from tapir.coop.models import (
+    CreatePaymentLogEntry,
+    DeleteIncomingPaymentLogEntry,
     IncomingPayment,
     ShareOwner,
-    CreatePaymentLogEntry,
     UpdateIncomingPaymentLogEntry,
-    DeleteIncomingPaymentLogEntry,
 )
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
-    PERMISSION_COOP_VIEW,
     PERMISSION_ACCOUNTING_MANAGE,
     PERMISSION_ACCOUNTING_VIEW,
     PERMISSION_COOP_ADMIN,
+    PERMISSION_COOP_VIEW,
 )
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir

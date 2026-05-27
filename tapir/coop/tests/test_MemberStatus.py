@@ -5,17 +5,14 @@ from django.utils import timezone
 
 from tapir.coop.models import (
     MEMBER_STATUS_CHOICES,
+    MemberStatus,
+    ShareOwner,
+    ShareOwnership,
     UpdateShareOwnerLogEntry,
 )
-from tapir.coop.models import (
-    ShareOwner,
-    MemberStatus,
-    ShareOwnership,
-)
-from tapir.coop.tests.factories import ShareOwnerFactory, MembershipPauseFactory
+from tapir.coop.tests.factories import MembershipPauseFactory, ShareOwnerFactory
 from tapir.log.util import freeze_for_log
-from tapir.utils.tests_utils import TapirFactoryTestBase
-from tapir.utils.tests_utils import mock_timezone_now
+from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
 class ShareOwnerStatusBaseTestClass(ABC):

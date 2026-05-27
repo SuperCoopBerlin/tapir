@@ -2,12 +2,12 @@ from typing import List
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 
 from tapir import settings
 from tapir.coop import pdfs
 from tapir.coop.models import ShareOwner
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.utils.user_utils import UserUtils
 

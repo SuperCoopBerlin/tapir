@@ -2,9 +2,9 @@ from django.urls import reverse
 
 from tapir.shifts.models import (
     Shift,
-    ShiftUserCapability,
-    ShiftSlotWarning,
     ShiftSlot,
+    ShiftSlotWarning,
+    ShiftUserCapability,
 )
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase

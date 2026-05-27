@@ -10,53 +10,54 @@ from django_auth_ldap.config import LDAPSearch
 from fabric.testing.fixtures import connection
 from faker import Faker
 from ldap.ldapobject import LDAPObject
+
 from tapir import settings
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.models import (
+    DraftUser,
+    ExtraSharesForAccountingRecap,
+    IncomingPayment,
+    MembershipResignation,
+    MemberStatus,
+    NewMembershipsForAccountingRecap,
     ShareOwner,
     ShareOwnership,
-    DraftUser,
-    IncomingPayment,
-    NewMembershipsForAccountingRecap,
-    ExtraSharesForAccountingRecap,
-    MemberStatus,
-    MembershipResignation,
 )
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.log.models import LogEntry
-from tapir.settings import GROUP_VORSTAND, GROUP_MEMBER_OFFICE
+from tapir.settings import GROUP_MEMBER_OFFICE, GROUP_VORSTAND
 from tapir.shifts.models import (
-    Shift,
-    ShiftAttendance,
-    ShiftTemplateGroup,
-    ShiftAttendanceTemplate,
-    ShiftTemplate,
-    ShiftAccountEntry,
-    ShiftUserData,
-    ShiftSlotTemplate,
-    ShiftUserCapability,
-    ShiftCycleEntry,
-    ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
+    Shift,
+    ShiftAccountEntry,
+    ShiftAttendance,
+    ShiftAttendanceMode,
+    ShiftAttendanceTemplate,
+    ShiftCycleEntry,
+    ShiftSlotTemplate,
+    ShiftTemplate,
+    ShiftTemplateGroup,
+    ShiftUserCapability,
+    ShiftUserData,
 )
 from tapir.shifts.services.shift_generator import ShiftGenerator
 from tapir.statistics.models import (
-    ProcessedPurchaseFiles,
-    PurchaseBasket,
-    ProcessedCreditFiles,
     CreditAccount,
     FancyGraphCache,
+    ProcessedCreditFiles,
+    ProcessedPurchaseFiles,
+    PurchaseBasket,
 )
 from tapir.utils.json_user import JsonUser
 from tapir.utils.models import copy_user_info
 from tapir.utils.shortcuts import (
+    build_ldap_group_dn,
+    get_admin_ldap_connection,
     get_timezone_aware_datetime,
     set_group_membership,
-    get_admin_ldap_connection,
-    build_ldap_group_dn,
 )
 
 SHIFT_NAME_CASHIER_MORNING = "Cashier morning"

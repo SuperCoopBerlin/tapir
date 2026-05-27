@@ -1,10 +1,10 @@
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
 
 from tapir.accounts.tasks import (
-    update_purchase_tracking_list,
     send_create_account_reminder,
+    update_purchase_tracking_list,
 )
 
 

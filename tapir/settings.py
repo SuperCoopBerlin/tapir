@@ -17,7 +17,7 @@ from pathlib import Path
 import celery.schedules
 import environ
 import ldap
-from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
 
 env = environ.Env()
 

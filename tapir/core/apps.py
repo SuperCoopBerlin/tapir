@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from tapir.core.config import sidebar_link_groups
-from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_ADMIN
+from tapir.settings import PERMISSION_COOP_ADMIN, PERMISSION_COOP_MANAGE
 
 
 class CoreConfig(AppConfig):

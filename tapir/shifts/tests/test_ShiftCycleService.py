@@ -1,14 +1,15 @@
 import datetime
 from unittest import mock
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.core.management import call_command
+
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
+    ShiftCycleEntry,
     ShiftExemption,
     ShiftTemplate,
-    ShiftCycleEntry,
     ShiftUserData,
 )
 from tapir.shifts.services.shift_cycle_service import ShiftCycleService

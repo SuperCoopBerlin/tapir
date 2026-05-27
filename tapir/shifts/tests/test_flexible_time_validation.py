@@ -1,5 +1,5 @@
 import datetime
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from tapir.shifts.forms import CustomTimeCleanMixin
 from tapir.shifts.tests.factories import ShiftFactory

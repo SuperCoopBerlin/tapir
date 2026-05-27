@@ -7,8 +7,8 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
     RedirectView,
+    TemplateView,
 )
-from django.views.generic import TemplateView
 
 from tapir.accounts.models import TapirUser
 from tapir.core.config import (
@@ -20,8 +20,6 @@ from tapir.settings import (
 )
 from tapir.shifts.models import (
     ShiftAccountEntry,
-)
-from tapir.shifts.models import (
     ShiftAttendance,
     SolidarityShift,
 )

@@ -1,15 +1,15 @@
 from typing import Type
 
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import TemplateView, ListView, UpdateView
+from django.views.generic import ListView, TemplateView, UpdateView
 
 from tapir.core.models import FeatureFlag
-from tapir.core.tapir_email_builder_base import all_emails, TapirEmailBuilderBase
+from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase, all_emails
 from tapir.log.models import EmailLogEntry
-from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_ADMIN
+from tapir.settings import PERMISSION_COOP_ADMIN, PERMISSION_COOP_MANAGE
 
 
 class TapirFormMixin:

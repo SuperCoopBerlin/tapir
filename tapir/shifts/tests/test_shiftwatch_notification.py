@@ -7,17 +7,16 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.emails.shift_watch_mail import ShiftWatchEmailBuilder
 from tapir.shifts.management.commands.send_shift_watch_mail import Command
 from tapir.shifts.models import (
-    StaffingStatusChoices,
+    RecurringShiftWatch,
+    ShiftAttendance,
     ShiftSlot,
     ShiftUserCapability,
+    StaffingStatusChoices,
     get_staffingstatus_choices,
-    ShiftAttendance,
-    RecurringShiftWatch,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
-
 from tapir.shifts.tests.factories import ShiftFactory, ShiftWatchFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 def create_shift_with_attendance(num_attendances):

@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 
-
 from tapir.shifts.services.shift_cycle_service import ShiftCycleService
 
 

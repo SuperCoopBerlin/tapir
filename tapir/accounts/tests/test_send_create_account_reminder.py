@@ -9,7 +9,7 @@ from tapir.accounts.emails.create_account_reminder_email import (
     CreateAccountReminderEmailBuilder,
 )
 from tapir.coop.models import ShareOwner, ShareOwnership
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 class TestCreateAccountReminderMail(TapirFactoryTestBase, TapirEmailTestMixin):
