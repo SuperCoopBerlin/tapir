@@ -6,7 +6,7 @@ from tapir.core.services.mail_classes_service import MailClassesService
 
 class OptionalMailChoicesService:
     @staticmethod
-    def get_optional_mail_choices() -> List[Tuple[str, str]]:
+    def get_optional_mail_choices() -> list[tuple[str, str]]:
         # this has to be a function so that choices has a callable and is refreshed whenever the form is called
         return [
             (mail.get_unique_id(), mail.get_name())
@@ -16,7 +16,7 @@ class OptionalMailChoicesService:
         ]
 
     @staticmethod
-    def get_mandatory_mail_choices() -> List[Tuple[str, str]]:
+    def get_mandatory_mail_choices() -> list[tuple[str, str]]:
         # this has to be a function so that choices has a callable and is refreshed whenever the form is called
         return [
             (mail.get_unique_id(), mail.get_name())

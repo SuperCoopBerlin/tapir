@@ -27,7 +27,7 @@ class AvailableColourblindnessTypes(
     ]
 
     @extend_schema(
-        responses={200: List[str]},
+        responses={200: list[str]},
     )
     def get(self, request):
         return Response(

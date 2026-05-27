@@ -56,7 +56,7 @@ class Command(BaseCommand):
 
         credit_accounts = []
         for row in csv.DictReader(file, delimiter=",", quotechar='"'):
-            row: Dict
+            row: dict
             if row["ID"].isnumeric() and not row["ID"].startswith("299"):
                 continue
             credit_date = get_timezone_aware_datetime(

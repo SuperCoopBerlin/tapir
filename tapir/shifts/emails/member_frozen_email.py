@@ -28,12 +28,12 @@ class MemberFrozenEmailBuilder(TapirEmailBuilderBase):
             "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "shifts/email/member_frozen.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "shifts/email/member_frozen.body.html",
         ]

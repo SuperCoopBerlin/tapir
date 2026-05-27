@@ -29,17 +29,17 @@ class MembershipConfirmationForActiveMemberEmailBuilder(TapirEmailBuilderBase):
     def get_description(cls) -> str:
         return ""
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "coop/email/membership_confirmation.active.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "coop/email/membership_confirmation.active.body.html",
         ]
 
-    def get_attachments(self) -> List:
+    def get_attachments(self) -> list:
         return [
             (
                 "Mitgliedschaftsbestätigung %s.pdf"

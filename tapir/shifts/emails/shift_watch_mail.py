@@ -30,12 +30,12 @@ class ShiftWatchEmailBuilder(TapirEmailBuilderBase):
             "Sent to a member when a shift staffing is changed relevantely and the user is watching this shift."
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "shifts/email/shift_watch.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "shifts/email/shift_watch.body.html",
         ]

@@ -34,12 +34,12 @@ class FreezeWarningEmailBuilder(TapirEmailBuilderBase):
             "be set to frozen if they don't register for make-up shifts."
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "shifts/email/freeze_warning.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "shifts/email/freeze_warning.body.html",
         ]

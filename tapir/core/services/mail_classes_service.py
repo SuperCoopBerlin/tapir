@@ -7,9 +7,9 @@ from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 class MailClassesService:
     @staticmethod
     def get_mail_classes(
-        mail_option: MailOption | List[MailOption] = None,
-        mail_classes: List[Type[TapirEmailBuilderBase]] = None,
-    ) -> List[Type[TapirEmailBuilderBase]]:
+        mail_option: MailOption | list[MailOption] = None,
+        mail_classes: list[type[TapirEmailBuilderBase]] = None,
+    ) -> list[type[TapirEmailBuilderBase]]:
         """
         default="both" returns both, default and non-default mails.
         default=False returns mails not being sent by default

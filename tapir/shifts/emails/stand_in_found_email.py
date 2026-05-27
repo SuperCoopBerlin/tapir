@@ -29,12 +29,12 @@ class StandInFoundEmailBuilder(TapirEmailBuilderBase):
             "when the corresponding slot is taken over by another member."
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "shifts/email/stand_in_found.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "shifts/email/stand_in_found.body.html",
         ]

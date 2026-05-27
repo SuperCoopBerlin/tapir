@@ -31,7 +31,7 @@ class EmailListView(LoginRequiredMixin, PermissionRequiredMixin, TemplateView):
         view_context = super().get_context_data(**kwargs)
         emails_for_template = []
         for index, email in enumerate(all_emails.values()):
-            email: Type[TapirEmailBuilderBase]
+            email: type[TapirEmailBuilderBase]
             dummy = email.get_dummy_version()
 
             example = (

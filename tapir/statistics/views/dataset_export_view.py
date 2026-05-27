@@ -47,7 +47,7 @@ class DatasetExportView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
         )
 
     def build_serializer_data(
-        self, queryset, export_columns: List[str], reference_time: datetime.datetime
+        self, queryset, export_columns: list[str], reference_time: datetime.datetime
     ):
         return [
             self.build_single_entry_data(share_owner, export_columns, reference_time)
@@ -57,7 +57,7 @@ class DatasetExportView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
     def build_single_entry_data(
         self,
         share_owner: ShareOwner,
-        export_columns: List[str],
+        export_columns: list[str],
         reference_time: datetime.datetime,
     ):
         return {

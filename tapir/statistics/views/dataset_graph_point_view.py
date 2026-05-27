@@ -22,12 +22,12 @@ class DatasetGraphPointView(LoginRequiredMixin, PermissionRequiredMixin, APIView
 
     @staticmethod
     def calculate_datapoint(
-        data_provider: Type[BaseDataProvider], reference_time: datetime.datetime
+        data_provider: type[BaseDataProvider], reference_time: datetime.datetime
     ) -> int:
         return data_provider.get_queryset(reference_time).distinct().count()
 
     def get_datapoint(
-        self, data_provider: Type[BaseDataProvider], reference_time: datetime.datetime
+        self, data_provider: type[BaseDataProvider], reference_time: datetime.datetime
     ):
         reference_date = reference_time.date()
         data_provider_name = f"{data_provider.__module__}.{data_provider.__name__}"

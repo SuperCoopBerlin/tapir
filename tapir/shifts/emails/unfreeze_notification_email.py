@@ -22,12 +22,12 @@ class UnfreezeNotificationEmailBuilder(TapirEmailBuilderBase):
             "Sent to a member when their shift status gets set from frozen to flying."
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "shifts/email/unfreeze_notification.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "shifts/email/unfreeze_notification.body.html",
         ]

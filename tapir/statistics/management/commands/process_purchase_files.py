@@ -53,7 +53,7 @@ class Command(BaseCommand):
 
         purchase_baskets = []
         for row in csv.DictReader(file, delimiter=",", quotechar='"'):
-            row: Dict
+            row: dict
             if row["Kunde"].isnumeric() and not row["Kunde"].startswith("299"):
                 continue
             purchase_date = get_timezone_aware_datetime(

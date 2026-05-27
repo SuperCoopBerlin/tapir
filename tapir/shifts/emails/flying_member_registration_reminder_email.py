@@ -25,12 +25,12 @@ class FlyingMemberRegistrationReminderEmailBuilder(TapirEmailBuilderBase):
             }
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "shifts/email/flying_member_registration_reminder_email.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "shifts/email/flying_member_registration_reminder_email.body.html",
         ]

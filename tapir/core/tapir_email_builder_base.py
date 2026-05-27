@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from tapir.accounts.models import TapirUser
     from tapir.coop.models import ShareOwner
 
-all_emails: Dict[str, Type[TapirEmailBuilderBase]] = {}
+all_emails: dict[str, type[TapirEmailBuilderBase]] = {}
 
 
 class TapirEmailBuilderBase:
@@ -42,12 +42,12 @@ class TapirEmailBuilderBase:
             f"Subclass {cls.__name__} of TapirEmail must override get_description"
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         raise NotImplementedError(
             f"Subclass {type(self).__name__} of TapirEmail must override get_subject_templates"
         )
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         raise NotImplementedError(
             f"Subclass {type(self).__name__} of TapirEmail must override get_body_templates"
         )
@@ -65,7 +65,7 @@ class TapirEmailBuilderBase:
     def get_from_email() -> str:
         return settings.EMAIL_ADDRESS_MEMBER_OFFICE
 
-    def get_attachments(self) -> List:
+    def get_attachments(self) -> list:
         return []
 
     def get_subject(self, context: dict) -> str:
@@ -101,5 +101,5 @@ class TapirEmailBuilderBase:
         return True
 
     @classmethod
-    def register_email(cls, mail_class: Type[TapirEmailBuilderBase]):
+    def register_email(cls, mail_class: type[TapirEmailBuilderBase]):
         all_emails[mail_class.get_unique_id()] = mail_class

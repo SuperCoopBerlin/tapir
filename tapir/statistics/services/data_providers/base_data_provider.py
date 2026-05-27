@@ -8,7 +8,7 @@ from django.db.models import QuerySet
 
 from tapir.coop.models import ShareOwner
 
-data_providers: Dict[str, Type[BaseDataProvider]] = {}
+data_providers: dict[str, type[BaseDataProvider]] = {}
 
 
 class BaseDataProvider(ABC):
@@ -34,5 +34,5 @@ class BaseDataProvider(ABC):
         cls.raise_not_implemented()
 
     @staticmethod
-    def register_data_provider(data_provider: Type[BaseDataProvider]):
+    def register_data_provider(data_provider: type[BaseDataProvider]):
         data_providers[data_provider.__name__] = data_provider
