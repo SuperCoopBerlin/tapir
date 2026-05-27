@@ -58,6 +58,7 @@ pypdf = "^6.9.1"
 django-upgrade = "^1.30.0"
 django-silk = "^5.5.0"
 djangorestframework-stubs = "^3.17.0"
+ruff = "^0.15.14"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -83,3 +84,27 @@ relative_files = true
 DJANGO_SETTINGS_MODULE = "tapir.settings"
 python_files = ["tests.py", "test_*.py", "tests_*.py"]
 testpaths = "tapir"
+
+
+[tool.ruff]
+extend-exclude = ["migrations"]
+line-length = 150
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+extend-select = [
+    "DJ",       # flake8-django: Django-specific bugs
+    "E",        # pycodestyle errors
+    "F",        # Pyflakes
+    "W",        # pycodestyle warnings
+    "I",        # isort
+    "UP",       # pyupgrade
+    "B",        # flake8-bugbear
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/settings.py" = ["E501", "F403", "F405"]
+"**/tests.py" = ["S101"]
+"**/test_*.py" = ["S101"]
