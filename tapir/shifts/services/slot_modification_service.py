@@ -2,7 +2,6 @@ import csv
 import datetime
 import io
 from dataclasses import dataclass
-from typing import List
 
 from django.db import transaction
 from django.db.models import Q

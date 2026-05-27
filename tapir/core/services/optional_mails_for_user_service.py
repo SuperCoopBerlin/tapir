@@ -1,5 +1,3 @@
-from typing import List, Type
-
 from tapir.accounts.models import OptionalMails, TapirUser
 from tapir.core.mail_option import MailOption
 from tapir.core.services.mail_classes_service import MailClassesService

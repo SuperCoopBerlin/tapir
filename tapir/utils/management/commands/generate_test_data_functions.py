@@ -7,7 +7,6 @@ import random
 import ldap
 from django.utils import timezone
 from django_auth_ldap.config import LDAPSearch
-from fabric.testing.fixtures import connection
 from faker import Faker
 from ldap.ldapobject import LDAPObject
 

@@ -1,6 +1,5 @@
 import datetime
 from abc import ABC
-from typing import Type
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone

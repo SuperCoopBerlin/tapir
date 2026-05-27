@@ -1,5 +1,4 @@
 import datetime
-from typing import List
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import datetime
 from abc import ABC, abstractmethod
-from typing import Dict, Type
 
 from django.db.models import QuerySet
 

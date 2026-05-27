@@ -10,7 +10,6 @@ from tapir.shifts.models import (
     RecurringShiftWatch,
     ShiftAttendance,
     ShiftSlot,
-    ShiftUserCapability,
     StaffingStatusChoices,
     get_staffingstatus_choices,
 )

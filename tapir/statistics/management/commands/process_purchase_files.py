@@ -2,7 +2,6 @@ import csv
 import datetime
 import fnmatch
 import io
-from typing import Dict
 
 import environ
 import paramiko

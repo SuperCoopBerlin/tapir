@@ -1,5 +1,3 @@
-from typing import List, Type
-
 from tapir.core.mail_option import MailOption
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 

@@ -1,5 +1,3 @@
-from typing import List
-
 import weasyprint
 from django.conf import settings
 from django.template.loader import render_to_string

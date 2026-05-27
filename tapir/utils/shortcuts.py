@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import datetime
 import os
-from typing import TYPE_CHECKING, List, Type
+from typing import TYPE_CHECKING
 from collections.abc import Callable
 
 import environ

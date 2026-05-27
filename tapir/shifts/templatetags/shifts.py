@@ -1,5 +1,3 @@
-import datetime
-
 from django import template
 from django.db.models import QuerySet
 from django.utils import timezone

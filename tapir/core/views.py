@@ -1,5 +1,3 @@
-from typing import Type
-
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse
 from django.utils import translation

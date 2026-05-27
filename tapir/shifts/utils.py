@@ -1,5 +1,5 @@
 from calendar import HTMLCalendar, day_abbr, month_name
-from datetime import date, datetime
+from datetime import date
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _

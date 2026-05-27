@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from tapir.shifts.forms import CustomTimeCleanMixin
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class TestFlexibleTime(TapirFactoryTestBase):

@@ -1,5 +1,3 @@
-from typing import List
-
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 

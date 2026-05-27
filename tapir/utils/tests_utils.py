@@ -4,7 +4,6 @@ import os
 import pathlib
 import socket
 from http import HTTPStatus
-from typing import Type
 from unittest.mock import patch
 
 import factory.random
