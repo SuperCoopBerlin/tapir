@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import datetime
 import os
-from typing import TYPE_CHECKING
 from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 import environ
 import ldap

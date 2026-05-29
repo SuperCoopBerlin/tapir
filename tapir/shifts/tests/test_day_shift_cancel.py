@@ -1,4 +1,4 @@
-from datetime import date, datetime, time, timezone, UTC
+from datetime import UTC, date, datetime, time
 from unittest.mock import Mock, call, patch
 
 from django.urls import reverse

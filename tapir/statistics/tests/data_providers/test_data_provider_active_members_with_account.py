@@ -1,6 +1,5 @@
 import datetime
 
-
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import ShareOwnership
 from tapir.coop.tests.factories import ShareOwnerFactory
