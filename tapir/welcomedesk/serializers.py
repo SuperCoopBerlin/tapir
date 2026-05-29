@@ -21,11 +21,16 @@ def split_name(full_name):
     parts = full_name.strip().split()
     if len(parts) == 1:
         return parts[0], ""
-    elif "von" in parts:
-        i_split = parts.index("von")
-        return " ".join(parts[:i_split]), " ".join(parts[i_split:])
-    else:
-        return " ".join(parts[:-1]), parts[-1]
+    i_split = -1
+
+    prefixes = {"von", "van", "de", "der", "den", "del", "da", "du", "le", "la"}
+    if any(part.lower() in prefixes for part in parts):
+        for i, part in enumerate(parts):
+            if part.lower() in prefixes:
+                i_split = i
+                break
+
+    return " ".join(parts[:i_split]), " ".join(parts[i_split:])
 
 
 class ShareOwnerForWelcomeDeskSerializer(serializers.ModelSerializer):

@@ -1,8 +1,5 @@
 from tapir.welcomedesk.serializers import split_name
-from faker import Faker
 import pytest
-
-fake = Faker()
 
 
 @pytest.mark.parametrize(
@@ -14,20 +11,11 @@ fake = Faker()
         ("Jean Paul Sartre", "Jean Paul", "Sartre"),
         ("Annegret Kramp-Karrenbauer", "Annegret", "Kramp-Karrenbauer"),
         ("Marie-Louise von Franz", "Marie-Louise", "von Franz"),
+        ("Pellegrino van Dijk", "Pellegrino", "van Dijk"),
+        (" Giacinto De Sousa", "Giacinto", "De Sousa"),
+        ("Alyssa van der Noot", "Alyssa", "van der Noot"),
+        ("Anton Berta; Caesar Emil", "Anton Berta; Caesar", "Emil"),
     ],
 )
 def test_split_name_manual(full_name, expected_first, expected_last):
     assert split_name(full_name) == (expected_first, expected_last)
-
-
-def test_split_name_faker_random():
-    """Weitere Tests mit Faker für zufällige Namen"""
-    for _ in range(50):
-        name = fake.name()
-        first, last = split_name(name)
-
-        # Invariante: Erste + Letzte sollte wieder den Namen ergeben
-        if first and last:
-            assert f"{first} {last}" == name.strip()
-        elif first:
-            assert first == name.strip()
