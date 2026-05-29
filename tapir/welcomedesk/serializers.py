@@ -21,6 +21,9 @@ def split_name(full_name):
     parts = full_name.strip().split()
     if len(parts) == 1:
         return parts[0], ""
+    elif "von" in parts:
+        i_split = parts.index("von")
+        return " ".join(parts[:i_split]), " ".join(parts[i_split:])
     else:
         return " ".join(parts[:-1]), parts[-1]
 
