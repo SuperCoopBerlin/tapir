@@ -8,8 +8,8 @@ from tapir.shifts.models import ShiftTemplate
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
-    mock_timezone_now,
     create_member_that_is_working,
+    mock_timezone_now,
 )
 
 

@@ -7,9 +7,9 @@ from django.template import loader
 from tapir import settings
 from tapir.coop import pdfs
 from tapir.coop.models import (
-    ShareOwnership,
-    NewMembershipsForAccountingRecap,
     ExtraSharesForAccountingRecap,
+    NewMembershipsForAccountingRecap,
+    ShareOwnership,
 )
 from tapir.utils.user_utils import UserUtils
 

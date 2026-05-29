@@ -1,4 +1,4 @@
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.tests.factories import ShareOwnerFactory

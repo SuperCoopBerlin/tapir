@@ -1,9 +1,9 @@
 import datetime
 
-from django.db.models import QuerySet, Sum, Count, Value, Q, Subquery, OuterRef
+from django.db.models import Count, OuterRef, Q, QuerySet, Subquery, Sum, Value
 from django.utils import timezone
 
-from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
+from tapir.coop.config import COOP_ENTRY_AMOUNT, COOP_SHARE_PRICE
 from tapir.coop.models import ShareOwner, ShareOwnership
 
 

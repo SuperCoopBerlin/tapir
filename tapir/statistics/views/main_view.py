@@ -17,7 +17,7 @@ from tapir.accounts.models import (
     TapirUser,
     UpdateTapirUserLogEntry,
 )
-from tapir.coop.models import ShareOwnership, ShareOwner, MemberStatus
+from tapir.coop.models import MemberStatus, ShareOwner, ShareOwnership
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
@@ -27,11 +27,11 @@ from tapir.financingcampaign.models import (
     FinancingCampaign,
     FinancingSourceDatapoint,
 )
-from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_ACCOUNTS_VIEW
+from tapir.settings import PERMISSION_ACCOUNTS_VIEW, PERMISSION_COOP_MANAGE
 from tapir.shifts.models import (
-    ShiftUserData,
-    ShiftSlotTemplate,
     ShiftAttendanceMode,
+    ShiftSlotTemplate,
+    ShiftUserData,
 )
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,
@@ -41,13 +41,13 @@ from tapir.shifts.services.shift_attendance_mode_service import (
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.statistics.models import (
-    PurchaseBasket,
     ProcessedPurchaseFiles,
+    PurchaseBasket,
 )
 from tapir.statistics.utils import (
-    build_pie_chart_data,
-    build_line_chart_data,
     build_bar_chart_data,
+    build_line_chart_data,
+    build_pie_chart_data,
 )
 from tapir.utils.shortcuts import get_first_of_next_month, transfer_attributes
 

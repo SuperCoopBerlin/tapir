@@ -9,9 +9,9 @@ from tapir.statistics.services.data_providers.data_provider_flying_members impor
 )
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
-    mock_timezone_now,
     create_attendance_template_log_entry_in_the_past,
     create_member_that_is_working,
+    mock_timezone_now,
 )
 
 

@@ -1,5 +1,3 @@
-from typing import List, Type
-
 from tapir.accounts.models import OptionalMails, TapirUser
 from tapir.core.mail_option import MailOption
 from tapir.core.services.mail_classes_service import MailClassesService
@@ -8,7 +6,7 @@ from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 
 class OptionalMailsForUserService:
     @staticmethod
-    def get_optional_mail_ids_user_will_receive(user: TapirUser) -> List[str]:
+    def get_optional_mail_ids_user_will_receive(user: TapirUser) -> list[str]:
         """
         Mails which are either
         A) optional but enabled by default or
@@ -39,7 +37,7 @@ class OptionalMailsForUserService:
 
     @staticmethod
     def user_wants_to_or_has_to_receive_mail(
-        user: TapirUser, mail_class: Type[TapirEmailBuilderBase]
+        user: TapirUser, mail_class: type[TapirEmailBuilderBase]
     ) -> bool:
         return mail_class.option == MailOption.MANDATORY or (
             mail_class.get_unique_id()

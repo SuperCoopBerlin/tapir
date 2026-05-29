@@ -6,11 +6,11 @@ from django.db import transaction
 from django.db.models import Q
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.models import MembershipResignation, ShareOwnership, MembershipPause
+from tapir.coop.models import MembershipPause, MembershipResignation, ShareOwnership
 from tapir.shifts.models import (
-    ShiftAttendanceTemplate,
-    ShiftAttendance,
     DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendance,
+    ShiftAttendanceTemplate,
 )
 from tapir.utils.shortcuts import get_timezone_aware_datetime
 

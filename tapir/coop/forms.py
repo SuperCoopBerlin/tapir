@@ -5,18 +5,18 @@ from django.forms import DateField, IntegerField
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.config import (
-    COOP_SHARE_PRICE,
-    COOP_MIN_SHARES,
-    COOP_MAX_SHARES,
     COOP_DEFAULT_SHARES,
+    COOP_MAX_SHARES,
+    COOP_MIN_SHARES,
+    COOP_SHARE_PRICE,
 )
 from tapir.coop.models import (
-    ShareOwnership,
     DraftUser,
-    ShareOwner,
     IncomingPayment,
     MembershipPause,
     MembershipResignation,
+    ShareOwner,
+    ShareOwnership,
 )
 from tapir.shifts.forms import ShareOwnerChoiceField
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField

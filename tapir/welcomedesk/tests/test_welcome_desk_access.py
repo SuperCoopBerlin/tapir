@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.models import ShiftAttendance, Shift, ShiftSlot
+from tapir.shifts.models import Shift, ShiftAttendance, ShiftSlot
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 

@@ -1,6 +1,5 @@
 import datetime
 
-from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import ShareOwnership
@@ -14,11 +13,9 @@ from tapir.utils.tests_utils import (
 
 
 class TestDataProviderActiveMembersWithAccount(TapirFactoryTestBase):
-    NOW = datetime.datetime(
-        year=2023, month=7, day=2, hour=18, tzinfo=datetime.timezone.utc
-    )
+    NOW = datetime.datetime(year=2023, month=7, day=2, hour=18, tzinfo=datetime.UTC)
     REFERENCE_TIME = datetime.datetime(
-        year=2022, month=4, day=8, hour=10, tzinfo=datetime.timezone.utc
+        year=2022, month=4, day=8, hour=10, tzinfo=datetime.UTC
     )
 
     def create_test_user(self, is_investing=False, date_joined=None):

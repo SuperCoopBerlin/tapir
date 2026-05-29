@@ -8,8 +8,8 @@ from tapir.coop.models import MembershipResignation
 from tapir.coop.tests.factories import MembershipResignationFactory
 from tapir.utils.tests_utils import (
     FeatureFlagTestMixin,
-    TapirFactoryTestBase,
     PermissionTestMixin,
+    TapirFactoryTestBase,
 )
 
 

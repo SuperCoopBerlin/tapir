@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from rest_framework.reverse import reverse
 

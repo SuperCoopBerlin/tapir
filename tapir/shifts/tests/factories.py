@@ -5,11 +5,11 @@ import factory
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
-    ShiftTemplate,
     WEEKDAY_CHOICES,
-    ShiftSlotTemplate,
     Shift,
     ShiftSlot,
+    ShiftSlotTemplate,
+    ShiftTemplate,
     ShiftWatch,
     StaffingStatusChoices,
 )

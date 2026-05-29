@@ -1,5 +1,3 @@
-from typing import List
-
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
@@ -27,13 +25,13 @@ class CoPurchaserUpdatedMail(TapirEmailBuilderBase):
             "Sent to a member when their new co-purchaser gets registered on their profile."
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "coop/email/co_purchaser_updated.subject.html",
             "coop/email/co_purchaser_updated.subject.default.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "coop/email/co_purchaser_updated.body.html",
         ]

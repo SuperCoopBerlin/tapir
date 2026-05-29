@@ -4,6 +4,7 @@
 {% load i18n %}
 {% load static %}
 {% load querystring_replace from django_tables2 %}
+{% load export_url from django_tables2 %}
 {% load core %}
 {% block title %}
     {% translate "Payments" %}
@@ -17,13 +18,29 @@
     <div class="card m-2">
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>{% translate "Incoming payments" %}</span>
-            {% if perms.accounting.manage %}
-                <a class="{% tapir_button_link_to_action %}"
-                   href="{% url "coop:incoming_payment_create" %}">
-                    <span class="material-icons">add_circle_outline</span>
-                    {% translate "Register a new payment" %}
-                </a>
-            {% endif %}
+            <div class="d-flex align-items-center">
+                {% if perms.accounting.view %}
+                    <div class="dropdown me-2">
+                        <button type="button"
+                                class="{% tapir_button_link %} dropdown-toggle"
+                                data-bs-toggle="dropdown">{% translate "Export" %}</button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            {% for format in view.export_formats %}
+                                <a class="dropdown-item" href="{% export_url format %}">
+                                    download <code>.{{ format }}</code>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if perms.accounting.manage %}
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'coop:incoming_payment_create' %}">
+                        <span class="material-icons">add_circle_outline</span>
+                        {% translate "Register a new payment" %}
+                    </a>
+                {% endif %}
+            </div>
         </h5>
         <ul class="list-group list-group-flush">
             {% if enable_filter %}

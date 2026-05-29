@@ -1,25 +1,25 @@
 import datetime
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.config import feature_flag_membership_resignation
 from tapir.coop.models import (
-    MembershipResignation,
     MembershipPause,
+    MembershipResignation,
     ShareOwner,
 )
 from tapir.coop.services.membership_resignation_service import (
     MembershipResignationService,
 )
 from tapir.coop.tests.factories import (
+    MembershipPauseFactory,
     MembershipResignationFactory,
     ShareOwnerFactory,
-    MembershipPauseFactory,
 )
 from tapir.shifts.models import (
+    DeleteShiftAttendanceTemplateLogEntry,
     ShiftAttendance,
     ShiftAttendanceTemplate,
-    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.utils.tests_utils import (
@@ -30,7 +30,7 @@ from tapir.utils.tests_utils import (
 
 
 class TestMembershipResignationService(FeatureFlagTestMixin, TapirFactoryTestBase):
-    NOW = datetime.datetime(year=2024, month=9, day=15, tzinfo=datetime.timezone.utc)
+    NOW = datetime.datetime(year=2024, month=9, day=15, tzinfo=datetime.UTC)
     TODAY = NOW.date()
 
     def setUp(self) -> None:

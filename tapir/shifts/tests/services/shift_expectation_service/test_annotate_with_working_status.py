@@ -3,12 +3,12 @@ import datetime
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.models import ShiftUserData, ShiftExemption
+from tapir.shifts.models import ShiftExemption, ShiftUserData
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
-    mock_timezone_now,
     create_member_that_is_working,
+    mock_timezone_now,
 )
 
 

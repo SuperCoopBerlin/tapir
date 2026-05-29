@@ -7,13 +7,13 @@ from django.utils import timezone
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.emails.stand_in_found_email import StandInFoundEmailBuilder
 from tapir.shifts.models import (
-    ShiftSlot,
-    ShiftAttendance,
     Shift,
+    ShiftAttendance,
+    ShiftSlot,
 )
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.shifts.tests.utils import register_user_to_shift
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 class TestMemberSelfLookForStandIn(TapirFactoryTestBase, TapirEmailTestMixin):

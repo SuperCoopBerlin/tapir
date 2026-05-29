@@ -1,6 +1,6 @@
 import datetime
 from http import HTTPStatus
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.core import mail
 from django.urls import reverse
@@ -26,10 +26,10 @@ from tapir.coop.services.membership_resignation_service import (
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import (
     FeatureFlagTestMixin,
+    PermissionTestMixin,
+    TapirEmailTestMixin,
     TapirFactoryTestBase,
     mock_timezone_now,
-    TapirEmailTestMixin,
-    PermissionTestMixin,
 )
 
 

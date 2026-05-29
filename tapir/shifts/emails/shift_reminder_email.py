@@ -1,5 +1,3 @@
-from typing import List
-
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
@@ -30,12 +28,12 @@ class ShiftReminderEmailBuilder(TapirEmailBuilderBase):
             f"Sent to a member {config.REMINDER_EMAIL_DAYS_BEFORE_SHIFT} days before their shift"
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "shifts/email/shift_reminder.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "shifts/email/shift_reminder.body.html",
         ]

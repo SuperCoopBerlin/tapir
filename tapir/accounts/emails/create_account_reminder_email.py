@@ -1,5 +1,3 @@
-from typing import List
-
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
@@ -25,12 +23,12 @@ class CreateAccountReminderEmailBuilder(TapirEmailBuilderBase):
             "Sent to active member if they haven't created the account 1 month after becoming member."
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "accounts/email/create_account_reminder.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "accounts/email/create_account_reminder.body.html",
         ]

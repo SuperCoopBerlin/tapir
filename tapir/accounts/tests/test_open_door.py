@@ -4,15 +4,14 @@ from django.core.cache import cache
 from django.urls import reverse
 from django.utils import timezone
 
-from tapir.accounts.config import cache_key_open_door
-from tapir.accounts.config import feature_flag_open_door
+from tapir.accounts.config import cache_key_open_door, feature_flag_open_door
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import ShareOwnership
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.shifts.models import ShiftUserData
 from tapir.utils.tests_utils import (
-    TapirFactoryTestBase,
     FeatureFlagTestMixin,
+    TapirFactoryTestBase,
     create_member_that_can_shop,
 )
 
