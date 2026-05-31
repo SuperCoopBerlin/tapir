@@ -74,15 +74,15 @@ body {
 }
 
 @font-face {
-  font-family: "Nunito";
-  src: url("/static/core/font/Nunito-Regular.ttf") format("truetype");
+  font-family: "Raleway";
+  src: url("https://typo3-test.supercoop.de/_assets/9c7b14713875d04a67b2364c89136b9e/Fonts/Raleway-Medium.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  --font-sans: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Raleway", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 html, body {
