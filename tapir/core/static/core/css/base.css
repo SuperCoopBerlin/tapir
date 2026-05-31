@@ -142,6 +142,10 @@ html, body {
   transform: translateX(-50%);
 }
 
+.card-header {
+  background-color: #FCF4E9;
+}
+
 .card-header h5 {
   margin-bottom: 0;
 }
