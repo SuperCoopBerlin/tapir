@@ -14,11 +14,10 @@ RUN apt-get update -y  \
         postgresql-client  \
         postgresql-client-common \
     && rm -rf /var/lib/apt/lists/*  \
-    && pip install poetry==2.3.2
-
-RUN if [ "${POETRY_INSTALL_DEV}" = "false" ]; then \
+    && pip install poetry==2.3.2 \
+    && if [ "${POETRY_INSTALL_DEV}" = "false" ]; then \
       poetry install --no-interaction --without dev; \
     else \
       poetry install --no-interaction; \
-    fi
-RUN poetry run python manage.py compilemessages
+    fi \
+    && poetry run python manage.py compilemessages
