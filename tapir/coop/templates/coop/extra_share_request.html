@@ -1,0 +1,29 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>{% translate "Request Shares" %}</h1>
+                <form method="post" class="mt-4">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+                    <div class="mb-3">
+                        {{ form.num_shares.label_tag }}
+                        {{ form.num_shares }}
+                        {% if form.num_shares.help_text %}
+                            <small class="form-text text-muted d-block mt-2">{{ form.num_shares.help_text|safe }}</small>
+                        {% endif %}
+                        {% if form.num_shares.errors %}<div class="invalid-feedback d-block">{{ form.num_shares.errors }}</div>{% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary">{% translate "Request & Download PDF" %}</button>
+                    <a href="{% url 'coop:share_owner_detail' share_owner.pk %}"
+                       class="btn btn-secondary">{% translate "Cancel" %}</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

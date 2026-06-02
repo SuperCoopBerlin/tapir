@@ -50,6 +50,7 @@ from tapir.coop.emails.tapir_account_created_email import (
     TapirAccountCreatedEmailBuilder,
 )
 from tapir.coop.forms import (
+    RequestShareForm,
     ShareOwnerForm,
     ShareOwnershipCreateMultipleForm,
     ShareOwnershipForm,
@@ -69,6 +70,7 @@ from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.services.payment_status_service import PaymentStatusService
+from tapir.coop.utils import generate_share_request_pdf
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
@@ -1025,3 +1027,41 @@ class MemberSelfRegisterApiView(APIView):
             return Response(False)
 
         return Response(True)
+
+
+class RequestShareView(LoginRequiredMixin, TapirFormMixin, generic.FormView):
+    form_class = RequestShareForm
+    model = ShareOwner
+    template_name = "coop/extra_share_request.html"
+
+    def get_share_owner(self) -> ShareOwner:
+        return get_object_or_404(ShareOwner, pk=self.kwargs["shareowner_pk"])
+
+    def dispatch(self, request, *args, **kwargs):
+        share_owner = self.get_share_owner()
+
+        if share_owner.user != request.user and not request.user.has_perm(
+            PERMISSION_COOP_MANAGE
+        ):
+            return HttpResponseForbidden("You don't have permission.")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        share_owner = self.get_share_owner()
+        num_shares = form.cleaned_data["num_shares"]
+
+        # PDF generieren und zurückgeben
+        pdf_bytes = generate_share_request_pdf(share_owner, num_shares, self.request)
+
+        response = HttpResponse(pdf_bytes, content_type="application/pdf")
+        response["Content-Disposition"] = (
+            f'attachment; filename="share_request_{share_owner.id}_{timezone.now().strftime("%Y%m%d_%H%M%S")}.pdf"'
+        )
+
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["share_owner"] = self.get_share_owner()
+        return context

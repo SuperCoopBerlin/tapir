@@ -416,3 +416,26 @@ class MembershipResignationForm(forms.ModelForm):
             "paid_out",
             ValidationError(_("Cannot pay out, because shares have been gifted.")),
         )
+
+
+class RequestShareForm(forms.Form):
+    num_shares = forms.IntegerField(
+        min_value=1,
+        max_value=100,
+        label=_("Number of Shares"),
+        help_text=_(
+            "Hier kommt dein ausführlicher Hinweistext rein. Du kannst mehrere Sätze schreiben..."
+        ),
+        widget=forms.NumberInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "1 - 100",
+            }
+        ),
+    )
+
+    def clean_num_shares(self):
+        num_shares = self.cleaned_data.get("num_shares")
+        if num_shares is None:
+            raise forms.ValidationError(_("Please enter a number of shares."))
+        return num_shares

@@ -154,6 +154,13 @@
                         </a>
                     </div>
                 {% endif %}
+                <div class="d-flex justify-content-end">
+                    <a class="ml-auto {% tapir_button_link_to_action %}"
+                       href="{% url 'coop:share_create' share_owner.pk %}">
+                        <span class="material-icons">add_circle_outline</span>
+                        {% translate "Subscribe to shares" %}
+                    </a>
+                </div>
             </div>
             <div class="row m-1">
                 <div class="col-12 col-sm-5 fw-bold text-sm-end">
