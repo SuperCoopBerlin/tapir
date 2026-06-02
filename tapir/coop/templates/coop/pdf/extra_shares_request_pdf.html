@@ -76,7 +76,7 @@
     </head>
     <body>
         <div class="container">
-            <h1>Share Request Confirmation</h1>
+            <h1>{% translate "Share Request Confirmation" %}</h1>
             <div class="info-section">
                 <div class="info-row">
                     <div class="info-label">Name:</div>
@@ -92,11 +92,13 @@
                 </div>
             </div>
             <div class="disclaimer">
+                {% blocktranslate %}
                 <p>
                     This is a confirmation of your share request.
                     Please keep this document for your records.
-                    Your request will be reviewed and processed by our administration team.
+                    Your request will be reviewed and processed by the member office team.
                 </p>
+                {% endblocktranslate %}
             </div>
             <div class="footer">
                 <p>Generated on {{ date|date:"d.m.Y" }} at {{ date|time:"H:i" }}</p>
