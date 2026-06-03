@@ -1063,3 +1063,7 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         context = super().get_context_data(**kwargs)
         context["share_owner"] = self.get_share_owner()
         return context
+
+    def get_success_url(self):
+        # After successful creation or update of a ShareOwnership, return to the user overview page.
+        return self.object.share_owner.get_absolute_url()
