@@ -1029,7 +1029,7 @@ class MemberSelfRegisterApiView(APIView):
         return Response(True)
 
 
-class RequestShareView(LoginRequiredMixin, TapirFormMixin, generic.FormView):
+class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormView):
     form_class = RequestShareForm
     model = ShareOwner
     template_name = "coop/extra_share_request.html"
