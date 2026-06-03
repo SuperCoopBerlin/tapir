@@ -18,6 +18,7 @@
                             <small class="form-text text-muted d-block mt-2">{{ form.num_shares.help_text|safe }}</small>
                         {% endif %}
                         {% if form.num_shares.errors %}<div class="invalid-feedback d-block">{{ form.num_shares.errors }}</div>{% endif %}
+                        {{ form.additional_information }}
                     </div>
                     <div class="mb-3">
                         <div class="form-check mb-2">

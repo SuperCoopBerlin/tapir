@@ -5,11 +5,14 @@ from weasyprint import HTML
 from tapir import settings
 
 
-def generate_share_request_pdf(share_owner, num_shares, request):
+def generate_share_request_pdf(
+    share_owner, num_shares, additional_information, request
+):
 
     context = {
         "share_owner": share_owner,
         "num_shares": num_shares,
+        "additional_information": additional_information,
         "date": timezone.now(),
         "COOP_NAME": settings.COOP_NAME,
         "EMAIL_ADDRESS_MEMBER_OFFICE": settings.EMAIL_ADDRESS_MEMBER_OFFICE,

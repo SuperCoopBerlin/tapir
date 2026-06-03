@@ -1048,9 +1048,12 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
     def form_valid(self, form):
         share_owner = self.get_share_owner()
         num_shares = form.cleaned_data["num_shares"]
+        additional_information = form.cleaned_data["additional_information"]
 
         # PDF generieren und zurückgeben
-        pdf_bytes = generate_share_request_pdf(share_owner, num_shares, self.request)
+        pdf_bytes = generate_share_request_pdf(
+            share_owner, num_shares, additional_information, self.request
+        )
 
         response = HttpResponse(pdf_bytes, content_type="application/pdf")
         response["Content-Disposition"] = (
