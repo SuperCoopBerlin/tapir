@@ -1040,9 +1040,7 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
     def dispatch(self, request, *args, **kwargs):
         share_owner = self.get_share_owner()
 
-        if share_owner.user != request.user and not request.user.has_perm(
-            PERMISSION_COOP_MANAGE
-        ):
+        if share_owner.user != request.user:
             return HttpResponseForbidden("You don't have permission.")
 
         return super().dispatch(request, *args, **kwargs)
