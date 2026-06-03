@@ -23,6 +23,16 @@
                         <div class="form-check mb-2">
                             <input type="checkbox"
                                    class="form-check-input"
+                                   id="participationConfirm"
+                                   name="participation_confirm"
+                                   required>
+                            <label class="form-check-label" for="participationConfirm">
+                                {% translate "I want to participate in the cooperative with" %} <strong id="shareCount">0</strong> {% translate "additional shares for a total of" %} <strong id="sharePrice">0,00</strong> €.
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input type="checkbox"
+                                   class="form-check-input"
                                    id="statutesAcknowledged"
                                    name="statutes_acknowledged"
                                    required>
@@ -64,4 +74,26 @@ possible prior to this and is governed by the Articles of Association.
             </div>
         </div>
     </div>
+    <script>
+        const numSharesInput = document.querySelector('[name="num_shares"]');
+        const shareCountDisplay = document.getElementById('shareCount');
+        const sharePriceDisplay = document.getElementById('sharePrice');
+        const pricePerShare = 100;
+
+        function updateShareInfo() {
+            const numShares = parseInt(numSharesInput.value) || 0;
+            const totalPrice = numShares * pricePerShare;
+
+            shareCountDisplay.textContent = numShares;
+            sharePriceDisplay.textContent = totalPrice.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
+        numSharesInput.addEventListener('input', updateShareInfo);
+        numSharesInput.addEventListener('change', updateShareInfo);
+
+        updateShareInfo();
+    </script>
 {% endblock content %}
