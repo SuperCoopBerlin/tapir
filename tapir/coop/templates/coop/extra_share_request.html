@@ -3,12 +3,19 @@
 {% load i18n %}
 {% load static %}
 {% load core %}
+{% block title %}
+    {% translate "Request Shares" %}
+{% endblock title %}
+{% block head %}
+    {{ block.super }}
+    {{ form.media }}
+{% endblock head %}
 {% block content %}
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8">
-                <h1>{% translate "Request Shares" %}</h1>
-                <form method="post" class="mt-4">
+    <div class="container">
+        <div class="card mb-2">
+            <h5 class="card-header">{% translate "Request Shares" %}</h5>
+            <div class="card-body">
+                <form method="post">
                     {% csrf_token %}
                     {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
                     <div class="mb-5">
@@ -65,12 +72,12 @@
                                    required>
                             <label class="form-check-label" for="terminationPeriodAccepted">
                                 {% blocktranslate %}
-                                I acknowledge that the Articles of Association stipulate a three-year notice period
-effective at the end of the fiscal year. This long notice period serves to ensure financial
-stability and is a fundamental aspect of the cooperative principle, which is
-geared toward long-term goals. The transfer of shares is also
-possible prior to this and is governed by the Articles of Association.
-                                {% endblocktranslate %}
+                            I acknowledge that the Articles of Association stipulate a three-year notice period
+                            effective at the end of the fiscal year. This long notice period serves to ensure financial
+                            stability and is a fundamental aspect of the cooperative principle, which is
+                            geared toward long-term goals. The transfer of shares is also
+                            possible prior to this and is governed by the Articles of Association.
+                            {% endblocktranslate %}
                             </label>
                         </div>
                     </div>
@@ -82,25 +89,25 @@ possible prior to this and is governed by the Articles of Association.
         </div>
     </div>
     <script>
-        const numSharesInput = document.querySelector('[name="num_shares"]');
-        const shareCountDisplay = document.getElementById('shareCount');
-        const sharePriceDisplay = document.getElementById('sharePrice');
-        const pricePerShare = 100;
+    const numSharesInput = document.querySelector('[name="num_shares"]');
+    const shareCountDisplay = document.getElementById('shareCount');
+    const sharePriceDisplay = document.getElementById('sharePrice');
+    const pricePerShare = 100;
 
-        function updateShareInfo() {
-            const numShares = parseInt(numSharesInput.value) || 0;
-            const totalPrice = numShares * pricePerShare;
+    function updateShareInfo() {
+        const numShares = parseInt(numSharesInput.value) || 0;
+        const totalPrice = numShares * pricePerShare;
 
-            shareCountDisplay.textContent = numShares;
-            sharePriceDisplay.textContent = totalPrice.toLocaleString('de-DE', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-        }
+        shareCountDisplay.textContent = numShares;
+        sharePriceDisplay.textContent = totalPrice.toLocaleString('de-DE', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
 
-        numSharesInput.addEventListener('input', updateShareInfo);
-        numSharesInput.addEventListener('change', updateShareInfo);
+    numSharesInput.addEventListener('input', updateShareInfo);
+    numSharesInput.addEventListener('change', updateShareInfo);
 
-        updateShareInfo();
+    updateShareInfo();
     </script>
 {% endblock content %}
