@@ -19,15 +19,43 @@
                         {% endif %}
                         {% if form.num_shares.errors %}<div class="invalid-feedback d-block">{{ form.num_shares.errors }}</div>{% endif %}
                     </div>
-                    <div class="mb-3 form-check">
-                        <input type="checkbox"
-                               class="form-check-input"
-                               id="statutesAcknowledged"
-                               name="statutes_acknowledged"
-                               required>
-                        <label class="form-check-label" for="statutesAcknowledged">
-                            {% translate "I have taken note of the articles of association" %}
-                        </label>
+                    <div class="mb-3">
+                        <div class="form-check mb-2">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   id="statutesAcknowledged"
+                                   name="statutes_acknowledged"
+                                   required>
+                            <label class="form-check-label" for="statutesAcknowledged">
+                                {% translate "I have taken note of the articles of association" %}
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   id="statutesReceived"
+                                   name="statutes_received"
+                                   required>
+                            <label class="form-check-label" for="statutesReceived">
+                                {% translate "The articles of association have been handed over to me" %}
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   id="terminationPeriodAccepted"
+                                   name="termination_period_accepted"
+                                   required>
+                            <label class="form-check-label" for="terminationPeriodAccepted">
+                                {% blocktranslate %}
+                                I acknowledge that the Articles of Association stipulate a three-year notice period
+effective at the end of the fiscal year. This long notice period serves to ensure financial
+stability and is a fundamental aspect of the cooperative principle, which is
+geared toward long-term goals. The transfer of shares is also
+possible prior to this and is governed by the Articles of Association.
+                                {% endblocktranslate %}
+                            </label>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">{% translate "Request & Download PDF" %}</button>
                     <a href="{% url 'coop:shareowner_detail' share_owner.pk %}"
