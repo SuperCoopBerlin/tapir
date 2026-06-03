@@ -19,6 +19,16 @@
                         {% endif %}
                         {% if form.num_shares.errors %}<div class="invalid-feedback d-block">{{ form.num_shares.errors }}</div>{% endif %}
                     </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="statutesAcknowledged"
+                               name="statutes_acknowledged"
+                               required>
+                        <label class="form-check-label" for="statutesAcknowledged">
+                            {% translate "I have taken note of the articles of association" %}
+                        </label>
+                    </div>
                     <button type="submit" class="btn btn-primary">{% translate "Request & Download PDF" %}</button>
                     <a href="{% url 'coop:share_owner_detail' share_owner.pk %}"
                        class="btn btn-secondary">{% translate "Cancel" %}</a>
