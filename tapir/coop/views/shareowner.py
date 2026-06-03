@@ -65,12 +65,12 @@ from tapir.coop.models import (
     UpdateShareOwnerLogEntry,
     UpdateShareOwnershipLogEntry,
 )
+from tapir.coop.pdfs import generate_share_request_pdf
 from tapir.coop.serializers import MemberRegistrationRequestSerializer
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.services.payment_status_service import PaymentStatusService
-from tapir.coop.utils import generate_share_request_pdf
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
@@ -1050,7 +1050,6 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         num_shares = form.cleaned_data["num_shares"]
         additional_information = form.cleaned_data["additional_information"]
 
-        # PDF generieren und zurückgeben
         pdf_bytes = generate_share_request_pdf(
             share_owner, num_shares, additional_information, self.request
         )
