@@ -33,13 +33,13 @@
                     {% member_status_colored_text share_owner %}
                     {% if share_owner.get_membership_start_date %}
                         {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" %}
-                            (membership starting {{ start_date }})
-                        {% endblocktranslate %}
+                (membership starting {{ start_date }})
+                {% endblocktranslate %}
                     {% endif %}
                     {% if share_owner.get_membership_end_date %}
                         {% blocktranslate with end_date=share_owner.get_membership_end_date|date:"d.m.Y" %}
-                            (membership ending {{ end_date }})
-                        {% endblocktranslate %}
+                (membership ending {{ end_date }})
+                {% endblocktranslate %}
                     {% endif %}
                 </div>
             </div>
@@ -75,75 +75,15 @@
                 </div>
                 <div class="col-12 col-sm-7">
                     <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
+                    <a class="{% tapir_button_link_to_action %} btn-sm"
+                       href="{% url 'coop:share_create' share_owner.pk %}">
+                        <span class="material-icons">add_circle_outline</span>
+                        {% translate "Request shares" %}
+                    </a>
                 </div>
             </div>
             <div class="collapse" id="shares-table">
-                <table class="table"
-                       aria-label="{% translate 'List of shares owned by this member' %}">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">{% translate "Starts at" %}</th>
-                            <th scope="col">{% translate "Ends at" %}</th>
-                            <th scope="col">{% translate "Status" %}</th>
-                            {% if perms.coop.manage %}
-                                <th scope="col">{% translate 'Edit' %}</th>
-                            {% endif %}
-                        </tr>
-                    </thead>
-                    {% for o in share_owner.share_ownerships.all %}
-                        <tr>
-                            <td>{{ o.id }}</td>
-                            <td>{{ o.start_date }}</td>
-                            <td>
-                                {% if o.end_date %}{{ o.end_date }}{% endif %}
-                            </td>
-                            <td>
-                                {% if o.is_active %}
-                                    <span class="text-success">{% translate "Active" %}</span>
-                                {% else %}
-                                    <span class="text-danger">{% translate "Sold or future" %}</span>
-                                {% endif %}
-                            </td>
-                            {% if perms.coop.manage %}
-                                <td>
-                                    <a class="{% tapir_button_link_to_action %} btn-sm"
-                                       href="{% url 'coop:share_update' o.pk %}">
-                                        <span class="material-icons">edit</span>
-                                        {% translate "Edit" %}
-                                    </a>
-                                    {% if perms.coop.admin %}
-                                        <div class="dropdown share_ownership_delete_dropdown">
-                                            <a class="{% tapir_button_link %} btn-sm dropdown-toggle"
-                                               href="#"
-                                               data-bs-toggle="dropdown">
-                                                <span class="material-icons">more_horiz</span>&nbsp;
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 20rem;">
-                                                <!-- white-space: normal; to make the long text wrap -->
-                                                <a class="form-inline"
-                                                   href="{% url 'coop:shareownership_delete' o.pk %}">
-                                                    <span class="dropdown-item " style="white-space: normal" href="#">
-                                                        <span class="text-danger">{% translate "Delete" %}</span>
-                                                        <br />
-                                                        <small class="text-muted">
-                                                            {% blocktrans %}
-                                                            Only use this to correct mistakes, i.e. if the share was
-                                                            erroneously
-                                                            entered into the system and the person never actually
-                                                            bought it. If the person simply sold their share back to the
-                                                            coop, please mark the share as sold instead.
-                                                        {% endblocktrans %}
-                                                        </small>
-                                                    </span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    {% endif %}
-                                </td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
+                <table class="table" ...>
                 </table>
                 {% if perms.accounts.manage %}
                     <div class="d-flex justify-content-end">
@@ -154,17 +94,11 @@
                         </a>
                     </div>
                 {% endif %}
-                <div class="d-flex justify-content-end">
-                    <a class="ml-auto {% tapir_button_link_to_action %}"
-                       href="{% url 'coop:share_create' share_owner.pk %}">
-                        <span class="material-icons">add_circle_outline</span>
-                        {% translate "Request shares" %}
-                    </a>
-                </div>
             </div>
             <div class="row m-1">
                 <div class="col-12 col-sm-5 fw-bold text-sm-end">
-                    <a href="{% url 'coop:incoming_payment_list' %}?credited_member={{ share_owner.pk }}">{% translate "Payments" %}:</a>
+                    <a href="{% url 'coop:incoming_payment_list' %}?credited_member={{ share_owner.pk }}">{% translate
+                    "Payments" %}:</a>
                 </div>
                 <div class="col-12 col-sm-7">
                     <span>{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
