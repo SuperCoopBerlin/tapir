@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-04 17:35+0200\n"
+"POT-Creation-Date: 2026-06-04 17:58+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -289,8 +289,8 @@ msgid "I agree that my membership card will be scanned at the checkout when I ma
 msgstr "Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an der Kasse gescannt und somit mein Einkauf erfasst und gespeichert wird:"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:30
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:109
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:113
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:173
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:177
 msgid "Yes,No"
 msgstr "Ja, Nein"
 
@@ -338,6 +338,8 @@ msgstr "Benutzername bearbeiten"
 #: coop/templates/coop/membershipresignation_detail.html:107
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:22
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:95
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:118
 #: core/templates/core/featureflag_list.html:30
 #: shifts/templates/shifts/shift_detail.html:61
 #: shifts/templates/shifts/shift_template_detail.html:29
@@ -778,7 +780,7 @@ msgstr "Ist investierendes Mitglied"
 #: coop/models.py:90 coop/models.py:476
 #: coop/templates/coop/draftuser_detail.html:176
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:48
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:108
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
@@ -807,6 +809,7 @@ msgid "Investing"
 msgstr "Investierend"
 
 #: coop/models.py:369 coop/templates/coop/draftuser_detail.html:171
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:108
 #: coop/views/statistics.py:135
 msgid "Active"
 msgstr "Aktiv"
@@ -951,6 +954,7 @@ msgstr "Löschen bestätigen"
 
 #: coop/templates/coop/confirm_delete_incoming_payment.html:31
 #: coop/templates/coop/confirm_delete_share_ownership.html:24
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:132
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:24
 #: shifts/templates/shifts/shift_confirm_delete.html:30
 msgid "Delete"
@@ -1013,6 +1017,7 @@ msgstr "Liste ähnlicher Mitglieder"
 
 #: coop/templates/coop/draftuser_detail.html:69
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:31
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:93
 #: coop/views/shareowner.py:604
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
 msgid "Status"
@@ -2038,6 +2043,7 @@ msgid "General Tapir Accounts"
 msgstr "Allgemeine Tapir-Konten"
 
 #: coop/templates/coop/incoming_payment_list.html:10
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:165
 msgid "Payments"
 msgstr "Zahlungen"
 
@@ -2545,19 +2551,49 @@ msgstr "Anteile"
 msgid "Request shares"
 msgstr "Anteile"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:93
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:87
+msgid "List of shares owned by this member"
+msgstr "Liste der Anteile die dieses Mitglied gehören"
+
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:91
+msgid "Starts at"
+msgstr "Anfangsdatum"
+
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:92
+msgid "Ends at"
+msgstr "Endet am"
+
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:110
+msgid "Sold or future"
+msgstr ""
+
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:135
+msgid ""
+"\n"
+"                                                            Only use this to correct mistakes, i.e. if the share was\n"
+"                                                            erroneously\n"
+"                                                            entered into the system and the person never actually\n"
+"                                                            bought it. If the person simply sold their share back to the\n"
+"                                                            coop, please mark the share as sold instead.\n"
+"                                                        "
+msgstr ""
+"\n"
+"Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als 'verkauft'.\n"
+" "
+
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:158
 msgid "Add Shares"
 msgstr "Anteile hinzufügen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:112
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:176
 msgid "Willing to gift a share"
 msgstr "Bereit Anteile zu schenken"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:122
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:186
 msgid "Send membership confirmation email"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:128
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:192
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
@@ -6490,28 +6526,6 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
-
-#~ msgid "List of shares owned by this member"
-#~ msgstr "Liste der Anteile die dieses Mitglied gehören"
-
-#~ msgid "Starts at"
-#~ msgstr "Anfangsdatum"
-
-#~ msgid "Ends at"
-#~ msgstr "Endet am"
-
-#~ msgid ""
-#~ "\n"
-#~ "                                                            Only use this to correct mistakes, i.e. if the share was\n"
-#~ "                                                            erroneously\n"
-#~ "                                                            entered into the system and the person never actually\n"
-#~ "                                                            bought it. If the person simply sold their share back to the\n"
-#~ "                                                            coop, please mark the share as sold instead.\n"
-#~ "                                                        "
-#~ msgstr ""
-#~ "\n"
-#~ "Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als 'verkauft'.\n"
-#~ " "
 
 #~ msgid "The Shift Coordinator has unregistered"
 #~ msgstr "Ein Teamleiter hat sich abgemeldet"
