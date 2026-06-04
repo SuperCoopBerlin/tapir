@@ -33,13 +33,13 @@
                     {% member_status_colored_text share_owner %}
                     {% if share_owner.get_membership_start_date %}
                         {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" %}
-                            (membership starting {{ start_date }})
-                        {% endblocktranslate %}
+                (membership starting {{ start_date }})
+                {% endblocktranslate %}
                     {% endif %}
                     {% if share_owner.get_membership_end_date %}
                         {% blocktranslate with end_date=share_owner.get_membership_end_date|date:"d.m.Y" %}
-                            (membership ending {{ end_date }})
-                        {% endblocktranslate %}
+                (membership ending {{ end_date }})
+                {% endblocktranslate %}
                     {% endif %}
                 </div>
             </div>
@@ -164,7 +164,8 @@
             </div>
             <div class="row m-1">
                 <div class="col-12 col-sm-5 fw-bold text-sm-end">
-                    <a href="{% url 'coop:incoming_payment_list' %}?credited_member={{ share_owner.pk }}">{% translate "Payments" %}:</a>
+                    <a href="{% url 'coop:incoming_payment_list' %}?credited_member={{ share_owner.pk }}">{% translate
+                    "Payments" %}:</a>
                 </div>
                 <div class="col-12 col-sm-7">
                     <span>{{ share_owner.get_currently_paid_amount }} / {{ share_owner.get_total_expected_payment }} €</span>
