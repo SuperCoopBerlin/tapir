@@ -98,5 +98,7 @@ def generate_share_request_pdf(
     }
 
     return render_pdf(
-        "coop/pdf/extra_shares_request_pdf.html", context, request=request
+        templates=["coop/pdf/extra_shares_request_pdf.html"],
+        context=context,
+        language=share_owner.get_info().preferred_language,
     )
