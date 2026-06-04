@@ -81,24 +81,27 @@ def get_confirmation_extra_shares_pdf(
 
 
 def generate_share_request_pdf(
-    share_owner: ShareOwner, num_shares, additional_information, request
+    share_owner: ShareOwner, num_shares, additional_information
 ):
+    templates = [
+        "coop/pdf/membership_agreement_pdf.html",
+        "coop/pdf/membership_agreement_pdf.default.html",
+    ]
     context = {
         "share_owner": share_owner,
-        "num_shares": num_shares,
-        "money": num_shares * config.COOP_SHARE_PRICE,
-        "VALUE_OF_SHARE": config.COOP_SHARE_PRICE,
+        "num_additional_shares": num_shares,
+        "additional_to_pay": num_shares * config.COOP_SHARE_PRICE,
         "additional_information": additional_information,
         "date": timezone.now(),
-        "COOP_NAME": settings.COOP_NAME,
-        "EMAIL_ADDRESS_MEMBER_OFFICE": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-        "COOP_FULL_NAME": settings.COOP_FULL_NAME,
-        "COOP_STREET": settings.COOP_STREET,
-        "COOP_PLACE": settings.COOP_PLACE,
+        "coop_full_name": settings.COOP_FULL_NAME,
+        "coop_street": settings.COOP_STREET,
+        "coop_place": settings.COOP_PLACE,
+        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+        "hide_signing_field": True,
     }
 
     return render_pdf(
-        templates=["coop/pdf/extra_shares_request_pdf.html"],
+        templates=templates,
         context=context,
         language=share_owner.get_info().preferred_language,
     )

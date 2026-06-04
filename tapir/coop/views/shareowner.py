@@ -65,7 +65,6 @@ from tapir.coop.models import (
     UpdateShareOwnerLogEntry,
     UpdateShareOwnershipLogEntry,
 )
-from tapir.coop.pdfs import generate_share_request_pdf
 from tapir.coop.serializers import MemberRegistrationRequestSerializer
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
@@ -1050,15 +1049,17 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         num_shares = form.cleaned_data["num_shares"]
         additional_information = form.cleaned_data["additional_information"]
 
-        pdf_bytes = generate_share_request_pdf(
-            share_owner, num_shares, additional_information, self.request
+        filename = "Beteiligungserklärung %s.pdf" % (
+            UserUtils.build_display_name_for_viewer(share_owner, self.request.user)
         )
 
-        response = HttpResponse(pdf_bytes, content_type="application/pdf")
-        response["Content-Disposition"] = (
-            f'attachment; filename="share_request_{share_owner.id}_{timezone.now().strftime("%Y%m%d_%H%M%S")}.pdf"'
+        response = HttpResponse(content_type=pdfs.CONTENT_TYPE_PDF)
+        set_header_for_file_download(response, filename)
+        response.write(
+            pdfs.generate_share_request_pdf(
+                share_owner, num_shares, additional_information
+            ).write_pdf()
         )
-
         return response
 
     def get_context_data(self, **kwargs):
