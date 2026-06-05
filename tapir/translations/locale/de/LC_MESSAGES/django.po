@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-05 15:30+0200\n"
+"POT-Creation-Date: 2026-06-05 18:35+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -530,8 +530,8 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:129 accounts/views.py:134 coop/views/shareowner.py:278
-#: coop/views/shareowner.py:283
+#: accounts/views.py:129 accounts/views.py:134 coop/views/shareowner.py:280
+#: coop/views/shareowner.py:285
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
@@ -1018,7 +1018,7 @@ msgstr "Liste ähnlicher Mitglieder"
 #: coop/templates/coop/draftuser_detail.html:69
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:31
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:93
-#: coop/views/shareowner.py:604
+#: coop/views/shareowner.py:606
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
 msgid "Status"
 msgstr "Status"
@@ -1999,7 +1999,16 @@ msgstr "Dein Konto in Tapir, das Mitgliedersystem von %(coop_name)s"
 msgid "Request Shares"
 msgstr "Anzahl Anteile"
 
-#: coop/templates/coop/extra_share_request.html:48
+#: coop/templates/coop/extra_share_request.html:19
+msgid ""
+"\n"
+"                Here you can request additional shares in the cooperative. Enter the number of shares you wish to\n"
+"                hold and confirm that you accept the legal terms and conditions.\n"
+"                As soon as the committee confirms your request, you will receive an email.\n"
+"                "
+msgstr ""
+
+#: coop/templates/coop/extra_share_request.html:51
 #, python-format
 msgid ""
 "\n"
@@ -2013,11 +2022,11 @@ msgid ""
 "                            "
 msgstr ""
 
-#: coop/templates/coop/extra_share_request.html:67
+#: coop/templates/coop/extra_share_request.html:69
 msgid "I have taken note of the articles of association"
 msgstr ""
 
-#: coop/templates/coop/extra_share_request.html:77
+#: coop/templates/coop/extra_share_request.html:79
 msgid ""
 "\n"
 "                            I acknowledge that the Articles of Association stipulate a notice period of three years,\n"
@@ -2030,11 +2039,11 @@ msgid ""
 "                            "
 msgstr ""
 
-#: coop/templates/coop/extra_share_request.html:89
+#: coop/templates/coop/extra_share_request.html:91
 msgid "Request & Download PDF"
 msgstr ""
 
-#: coop/templates/coop/extra_share_request.html:91
+#: coop/templates/coop/extra_share_request.html:93
 #: shifts/templates/shifts/user_shifts_overview_tag.html:177
 msgid "Cancel"
 msgstr "Abmelden"
@@ -2616,69 +2625,73 @@ msgstr "Auszahlungsende"
 msgid "Cancel membership of %(name)s"
 msgstr "Beende Mitgliedschaft von %(name)s"
 
-#: coop/views/shareowner.py:139 coop/views/shareowner.py:144
+#: coop/views/shareowner.py:141 coop/views/shareowner.py:146
 #, python-format
 msgid "Edit share: %(name)s"
 msgstr "Anteil bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:164 coop/views/shareowner.py:169
+#: coop/views/shareowner.py:166 coop/views/shareowner.py:171
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:383
+#: coop/views/shareowner.py:385
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:605 shifts/templates/shifts/shift_filters.html:45
+#: coop/views/shareowner.py:607 shifts/templates/shifts/shift_filters.html:45
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:610
+#: coop/views/shareowner.py:612
 #: shifts/templates/shifts/user_shifts_overview_tag.html:79
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:618
+#: coop/views/shareowner.py:620
 msgid "Is registered to an ABCD-slot that requires a qualification"
 msgstr "Ist für eine ABCD-Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:626
+#: coop/views/shareowner.py:628
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:634
+#: coop/views/shareowner.py:636
 msgid "Has qualification"
 msgstr "Hat Qualifikation"
 
-#: coop/views/shareowner.py:642
+#: coop/views/shareowner.py:644
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:649 shifts/forms.py:788
+#: coop/views/shareowner.py:651 shifts/forms.py:788
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:652
+#: coop/views/shareowner.py:654
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:655
+#: coop/views/shareowner.py:657
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:659
+#: coop/views/shareowner.py:661
 msgid "Is currently exempted from shifts"
 msgstr "Ist derzeit von der Schichtarbeit befreit"
 
-#: coop/views/shareowner.py:664
+#: coop/views/shareowner.py:666
 msgid "Shift Name"
 msgstr "Schichtname"
 
-#: coop/views/shareowner.py:980
+#: coop/views/shareowner.py:982
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
+
+#: coop/views/shareowner.py:1077
+msgid "Dein Antrag wurde erfolgreich eingereicht! Der Vorstand wird sich in Kürze mit dir in Verbindung setzen."
+msgstr ""
 
 #: coop/views/statistics.py:135
 msgid "All members"
