@@ -460,8 +460,8 @@ class RequestShareForm(forms.Form):
         additional_information = self.cleaned_data.get(
             "additional_information", ""
         ).strip()
-        if len(additional_information) > 1000:
+        if len(additional_information) > 500:
             raise forms.ValidationError(
-                _("Additional information must not exceed 1000 characters.")
+                _("Additional information must not exceed 500 characters.")
             )
         return additional_information
