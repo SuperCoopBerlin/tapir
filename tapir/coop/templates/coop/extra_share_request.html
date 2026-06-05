@@ -15,6 +15,13 @@
         <div class="card mb-2">
             <h5 class="card-header">{% translate "Request Shares" %}</h5>
             <div class="card-body">
+                <p class="mb-4 text-muted">
+                    {% blocktranslate %}
+                Here you can request additional shares in the cooperative. Enter the number of shares you wish to
+                hold and confirm that you accept the legal terms and conditions.
+                As soon as the committee confirms your request, you will receive an email.
+                {% endblocktranslate %}
+                </p>
                 <form method="post">
                     {% csrf_token %}
                     {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
