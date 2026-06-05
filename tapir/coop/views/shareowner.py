@@ -8,6 +8,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
 from django.db.models import F, OuterRef, Q, Subquery
 from django.http import (
@@ -77,6 +78,7 @@ from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
+    DEFAULT_FROM_EMAIL,
     PERMISSION_ACCOUNTS_MANAGE,
     PERMISSION_COOP_ADMIN,
     PERMISSION_COOP_MANAGE,
@@ -1055,11 +1057,20 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
 
         response = HttpResponse(content_type=pdfs.CONTENT_TYPE_PDF)
         set_header_for_file_download(response, filename)
-        response.write(
-            pdfs.generate_share_request_pdf(
-                share_owner, num_shares, additional_information
-            ).write_pdf()
+        pdf = pdfs.generate_share_request_pdf(
+            share_owner, num_shares, additional_information
+        ).write_pdf()
+
+        email = EmailMultiAlternatives(
+            subject=f"Neue Beteiligungserklärung: {filename}",
+            body="Eine neue Beteiligungserklärung wurde eingereicht.",
+            from_email=DEFAULT_FROM_EMAIL,
+            to=["vorstand@supercoop.de"],
         )
+        email.attach(filename, pdf, "application/pdf")
+        email.send()
+
+        response.write(pdf)
         return response
 
     def get_context_data(self, **kwargs):
@@ -1069,5 +1080,4 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         return context
 
     def get_success_url(self):
-        # After successful creation or update of a ShareOwnership, return to the user overview page.
         return self.object.share_owner.get_absolute_url()
