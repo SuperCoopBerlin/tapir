@@ -41,11 +41,15 @@
                                    name="participation_confirm"
                                    required>
                             <label class="form-check-label" for="participationConfirm">
-                                {% translate "I want to participate in the cooperative with" %} <strong id="shareCount">0</strong>
-                                {% translate "additional shares." %}
-                                {% translate "I undertake to make the payments required by the Articles of Association and
-                                by law in the amount of €100 per share. Together with the mandatory contribution, I
-                                therefore undertake to pay a total of" %} <strong id="sharePrice">0,00</strong> €.
+                                {% blocktranslate %}
+                            I want to participate in the cooperative with <strong id="shareCount">{{ share_count
+                            }}</strong>
+                            additional shares.
+                            I undertake to make the payments required by the Articles of Association and
+                            by law in the amount of {{ COOP_SHARE_PRICE }} € per share. Together with the mandatory
+                            contribution, I
+                            therefore undertake to pay a total of <strong id="sharePrice">{{ share_price }}</strong> €.
+                            {% endblocktranslate %}
                             </label>
                         </div>
                         <div class="form-check mb-2">

@@ -35,7 +35,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from tapir.accounts.models import TapirUser
-from tapir.coop import pdfs
+from tapir.coop import config, pdfs
 from tapir.coop.config import on_welcome_session_attendance_update
 from tapir.coop.emails.extra_shares_confirmation_email import (
     ExtraSharesConfirmationEmailBuilder,
@@ -1065,6 +1065,7 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["share_owner"] = self.get_share_owner()
+        context["COOP_SHARE_PRICE"] = config.COOP_SHARE_PRICE
         return context
 
     def get_success_url(self):
