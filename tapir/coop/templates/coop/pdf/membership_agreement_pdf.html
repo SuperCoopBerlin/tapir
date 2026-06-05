@@ -4,7 +4,7 @@
 {% load utils %}
 {% get_display_name_legal share_owner as display_name_legal %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
     <head>
         <meta charset="UTF-8">
         <title>Beteiligungserklärung {{ display_name_legal }}</title>
@@ -271,6 +271,10 @@
                     <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum, Unterschrift)</div>
                     <div style="flex-grow: 1"></div>
                     <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum, Unterschrift)</div>
+                </div>
+            {% else %}
+                <div style="margin-top: 20mm; font-size: 9pt; color: #666;">
+                    <p>Generiert am {% now "d.m.Y" %} um {% now "H:i e" %}</p>
                 </div>
             {% endif %}
         </div>
