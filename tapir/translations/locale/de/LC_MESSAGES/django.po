@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-05 14:41+0200\n"
+"POT-Creation-Date: 2026-06-05 15:23+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -648,7 +648,7 @@ msgstr "Anzahl zu erstellender Anteile"
 msgid "The end date must be later than the start date."
 msgstr "Das Enddatum muss später als das Start-Datum sein"
 
-#: coop/forms.py:105 coop/forms.py:425 coop/models.py:462
+#: coop/forms.py:105 coop/forms.py:427 coop/models.py:462
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
@@ -729,27 +729,27 @@ msgstr "Absender und Empfänger der Übertragung der Anteile können nicht ident
 msgid "Cannot pay out, because shares have been gifted."
 msgstr "Die Anteile können nicht ausgezahlt werden, da sie verschenkt wurden"
 
-#: coop/forms.py:435
+#: coop/forms.py:437
 #, fuzzy
 #| msgid "More information"
 msgid "Additional Information"
 msgstr "Mehr Informationen"
 
-#: coop/forms.py:437
+#: coop/forms.py:439
 msgid "e.g., payment in installments, including payment intervals if possible"
 msgstr ""
 
-#: coop/forms.py:444
+#: coop/forms.py:446
 msgid "Additional information, e.g., payment in installments, including payment intervals if possible"
 msgstr ""
 
-#: coop/forms.py:454
+#: coop/forms.py:456
 #, fuzzy
 #| msgid "Please enter a new password"
 msgid "Please enter a number of shares."
 msgstr "Bitte gib ein neues Passwort ein"
 
-#: coop/forms.py:463
+#: coop/forms.py:465
 msgid "Additional information must not exceed 1000 characters."
 msgstr ""
 
@@ -2003,34 +2003,36 @@ msgstr "Anzahl Anteile"
 msgid "I want to participate in the cooperative with"
 msgstr ""
 
-#: coop/templates/coop/extra_share_request.html:44
-msgid "additional shares for a total of"
+#: coop/templates/coop/extra_share_request.html:45
+#, fuzzy
+#| msgid "Statistics on shares"
+msgid "additional shares."
+msgstr "Anteile-Statistiken"
+
+#: coop/templates/coop/extra_share_request.html:46
+msgid "I undertake to make the payments required by the Articles of Association and by law in the amount of €100 per share. Together with the mandatory contribution, I therefore undertake to pay a total of"
 msgstr ""
 
-#: coop/templates/coop/extra_share_request.html:54
+#: coop/templates/coop/extra_share_request.html:56
 msgid "I have taken note of the articles of association"
 msgstr ""
 
-#: coop/templates/coop/extra_share_request.html:64
-msgid "The articles of association have been handed over to me"
-msgstr ""
-
-#: coop/templates/coop/extra_share_request.html:74
+#: coop/templates/coop/extra_share_request.html:66
 msgid ""
 "\n"
-"                            I acknowledge that the Articles of Association stipulate a three-year notice period\n"
-"                            effective at the end of the fiscal year. This long notice period serves to ensure financial\n"
-"                            stability and is a fundamental aspect of the cooperative principle, which is\n"
-"                            geared toward long-term goals. The transfer of shares is also\n"
-"                            possible prior to this and is governed by the Articles of Association.\n"
+"                            I acknowledge that the Articles of Association stipulate a notice period of three years, effective at the end of the\n"
+"financial year. This long notice period serves to ensure financial stability and is a\n"
+"fundamental aspect of the cooperative principle, which is geared towards long-term objectives. A\n"
+"transfer of shares is also possible at an earlier stage and is governed by the\n"
+"Articles of Association.\n"
 "                            "
 msgstr ""
 
-#: coop/templates/coop/extra_share_request.html:84
+#: coop/templates/coop/extra_share_request.html:76
 msgid "Request & Download PDF"
 msgstr ""
 
-#: coop/templates/coop/extra_share_request.html:86
+#: coop/templates/coop/extra_share_request.html:78
 #: shifts/templates/shifts/user_shifts_overview_tag.html:177
 msgid "Cancel"
 msgstr "Abmelden"
