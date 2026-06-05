@@ -422,6 +422,8 @@ class RequestShareForm(forms.Form):
     num_shares = forms.IntegerField(
         min_value=1,
         max_value=100,
+        required=True,
+        initial=1,
         label=_("Number of Shares"),
         widget=forms.NumberInput(
             attrs={
