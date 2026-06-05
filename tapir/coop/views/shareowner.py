@@ -1034,6 +1034,7 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
     form_class = RequestShareForm
     model = ShareOwner
     template_name = "coop/extra_share_request.html"
+    success_url_name = "coop:share-request-success"
 
     def get_share_owner(self) -> ShareOwner:
         return get_object_or_404(ShareOwner, pk=self.kwargs["shareowner_pk"])
@@ -1070,8 +1071,13 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         email.attach(filename, pdf, "application/pdf")
         email.send()
 
-        response.write(pdf)
-        return response
+        messages.success(
+            self.request,
+            _(
+                "Dein Antrag wurde erfolgreich eingereicht! Der Vorstand wird sich in Kürze mit dir in Verbindung setzen."
+            ),
+        )
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1080,4 +1086,4 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         return context
 
     def get_success_url(self):
-        return self.object.share_owner.get_absolute_url()
+        return self.get_share_owner().get_absolute_url()
