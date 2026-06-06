@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-05 18:35+0200\n"
+"POT-Creation-Date: 2026-06-06 17:08+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -1994,10 +1994,9 @@ msgstr "Dein Konto in Tapir, das Mitgliedersystem von %(coop_name)s"
 
 #: coop/templates/coop/extra_share_request.html:7
 #: coop/templates/coop/extra_share_request.html:16
-#, fuzzy
-#| msgid "Number of Shares"
-msgid "Request Shares"
-msgstr "Anzahl Anteile"
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:81
+msgid "Buy more shares"
+msgstr "Weitere Anteile zeichnen"
 
 #: coop/templates/coop/extra_share_request.html:19
 msgid ""
@@ -2495,12 +2494,6 @@ msgstr "Als teilgenommen markieren"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:74
 msgid "Owned shares"
-msgstr "Anteile"
-
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:81
-#, fuzzy
-#| msgid "Owned shares"
-msgid "Request shares"
 msgstr "Anteile"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:87
@@ -6482,6 +6475,16 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy
+#~| msgid "Number of Shares"
+#~ msgid "Request Shares"
+#~ msgstr "Anzahl Anteile"
+
+#, fuzzy
+#~| msgid "Owned shares"
+#~ msgid "Request shares"
+#~ msgstr "Anteile"
 
 #, fuzzy
 #~| msgid "Statistics on shares"

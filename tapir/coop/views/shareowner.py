@@ -1066,7 +1066,7 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
             subject=f"Neue Beteiligungserklärung: {filename}",
             body="Eine neue Beteiligungserklärung wurde eingereicht.",
             from_email=DEFAULT_FROM_EMAIL,
-            to=["vorstand@supercoop.de"],
+            to=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
         )
         email.attach(filename, pdf, "application/pdf")
         email.send()
