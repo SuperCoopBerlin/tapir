@@ -436,7 +436,7 @@ class RequestShareForm(forms.Form):
     additional_information = forms.CharField(
         label=_("Additional Information"),
         help_text=_(
-            "e.g., payment in installments, including payment intervals if possible"
+            "Additional information, e.g., payment in installments, including payment intervals if possible"
         ),
         required=False,
         widget=forms.Textarea(

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-07 14:38+0200\n"
+"POT-Creation-Date: 2026-06-07 18:25+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -583,14 +583,10 @@ msgid "Sent to a member when their new co-purchaser gets registered on their pro
 msgstr "Wird an ein Mitglied gesendet, wenn sein neuer Mitkäufer*in in seinem Profil registriert wird."
 
 #: coop/emails/extra_shares_buy_mail.py:34
-#, fuzzy
-#| msgid "Shares requested"
 msgid "Extra shares requested"
 msgstr "Angeforderte Anteile"
 
 #: coop/emails/extra_shares_buy_mail.py:38
-#, fuzzy
-#| msgid "Sent when someone who is already a member buys more shares"
 msgid "Sent when someone who is already a member buying more shares"
 msgstr "Wird gesendet, wenn jemand, der bereits Mitglied ist, weitere Anteile kauft."
 
@@ -742,28 +738,20 @@ msgid "Cannot pay out, because shares have been gifted."
 msgstr "Die Anteile können nicht ausgezahlt werden, da sie verschenkt wurden"
 
 #: coop/forms.py:437
-#, fuzzy
-#| msgid "More information"
 msgid "Additional Information"
-msgstr "Mehr Informationen"
+msgstr "Zusätzliche Informationen"
 
-#: coop/forms.py:439
-msgid "e.g., payment in installments, including payment intervals if possible"
-msgstr ""
-
-#: coop/forms.py:446
+#: coop/forms.py:439 coop/forms.py:446
 msgid "Additional information, e.g., payment in installments, including payment intervals if possible"
-msgstr ""
+msgstr "Zusätzliche Informationen, z.B. Ratenzahlungen inkl. Zahlungsintervalle (wenn möglich)"
 
 #: coop/forms.py:456
-#, fuzzy
-#| msgid "Please enter a new password"
 msgid "Please enter a number of shares."
 msgstr "Bitte gib ein neues Passwort ein"
 
 #: coop/forms.py:465
 msgid "Additional information must not exceed 500 characters."
-msgstr ""
+msgstr "Zusätzliche Informationen sollten nicht mehr als 500 Zeichen sein."
 
 #: coop/models.py:54
 msgid "Is company"
@@ -1268,17 +1256,7 @@ msgstr ""
 "    Bestätigung zum Erwerb zusätzlicher Anteile bei %(coop_name)s\n"
 
 #: coop/templates/coop/email/extra_shares_buy.body.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        <p>Hello %(display_name_short)s,</p>\n"
-#| "        <p>Please find the confirmation that you have purchased %(num_shares)s additional shares in the email attachment. </p>\n"
-#| "        <p>Thank you sincerely for your continued support!</p>\n"
-#| "        <p>\n"
-#| "            Cooperative greetings<br />\n"
-#| "            Your SuperCoop-Board (Vorstand)<br />\n"
-#| "        </p>\n"
-#| "    "
+#, python-format
 msgid ""
 "\n"
 "        <p>Hello %(display_name_short)s,</p>\n"
@@ -2052,6 +2030,11 @@ msgid ""
 "                In the end, you will receive an email with your new membership-agreement.\n"
 "                "
 msgstr ""
+"\n"
+"                Hier kannst du zusätzliche Anteile in der Genossenschaft kaufen. Gib die Anzahl Anteile die du kaufen möchtest\n"
+"                und bestätige noch die Bedingungen.\n"
+"                Nach dem Abschicken erhältst du eine Email mit deiner neuen Beteiligungserklärung.\n"
+"                "
 
 #: coop/templates/coop/extra_share_request.html:51
 #, python-format
@@ -2066,10 +2049,17 @@ msgid ""
 "                            therefore undertake to pay a total of <strong id=\"sharePrice\">%(share_price)s</strong> €.\n"
 "                            "
 msgstr ""
+"\n"
+"                            Ich möchte mit <strong id=\"shareCount\">{{ share_count\n"
+"                            }}</strong>\n"
+"                            zusätzlichen Anteilen an der Genossenschaft teilnehmen.\n"
+"                            Ich verpflichte mich, die in der Satzung und gesetzlich vorgeschriebenen Zahlungen in Höhe von %(COOP_SHARE_PRICE)s € pro Anteil zu leisten. Zusammen mit dem Pflichtbeitrag\n"
+"                            verpflichte ich mich daher, insgesamt <strong id=\"sharePrice\">%(share_price)s</strong> € zu zahlen.\n"
+"                            "
 
 #: coop/templates/coop/extra_share_request.html:69
 msgid "I have taken note of the articles of association"
-msgstr ""
+msgstr "Ich habe die Satzung zur Kenntnis genommen"
 
 #: coop/templates/coop/extra_share_request.html:79
 msgid ""
@@ -2083,10 +2073,16 @@ msgid ""
 "                            Articles of Association.\n"
 "                            "
 msgstr ""
+"\n"
+"                    Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von 3 Jahren zum Ende des\n"
+"                Geschäftsjahres bestimmt. Die lange Laufzeit dient zur finanziellen Stabilität und ist ein wesentlicher Kern des\n"
+"                Genossenschaftsprinzips, das auf langfristige Ziele ausgerichtet ist. Eine Übertragung von Geschäftsanteilen\n"
+"                ist auch vorher bereits möglich und in der Satzung geregelt.\n"
+"                            "
 
 #: coop/templates/coop/extra_share_request.html:91
 msgid "Buy"
-msgstr ""
+msgstr "Kaufen"
 
 #: coop/templates/coop/extra_share_request.html:93
 #: shifts/templates/shifts/user_shifts_overview_tag.html:177
@@ -2730,7 +2726,7 @@ msgstr "Nein"
 
 #: coop/views/shareowner.py:1088
 msgid "Thank you for signing additional shares, we truly appreciate your contribution and commitment! You will receive an email confirmation soon."
-msgstr ""
+msgstr "Vielen Dank für das Zeichnen weiterer Anteile, wir freuen und bedanken uns! Du bekommst in Kürze eine Bestätigung per Email."
 
 #: coop/views/statistics.py:135
 msgid "All members"
