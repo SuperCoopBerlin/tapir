@@ -3,20 +3,57 @@ from django.urls import reverse
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.emails.extra_shares_buy_mail import ExtraSharesBuyEmailBuilder
-from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
+from tapir.utils.tests_utils import (
+    TapirEmailTestMixin,
+    TapirFactoryTestBase,
+)
 
 
 class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestMixin):
     VIEW_NAME = "coop:share_create"
 
-    # def test_create_shares_requires_permissions(self):
-    #     user = self.login_as_normal_user()
-    #     response = self.client.get(reverse(self.VIEW_NAME, args=[user.share_owner.id]))
-    #     self.assertEqual(
-    #         response.status_code,
-    #         403,
-    #         "A normal user should not be able to create shares.",
-    #     )
+    def test_buyShares_asMemberOfficeForAnotherUser_fails(self):
+        self.login_as_member_office_user()
+
+        email_address = "test_address@test.net"
+        tapir_user = TapirUserFactory(email=email_address)
+
+        num_shares = 3
+        response = self.client.post(
+            reverse(self.VIEW_NAME, args=[tapir_user.share_owner.id]),
+            {
+                "num_shares": num_shares,
+                "participation_confirm": "on",
+                "statutes_acknowledged": "on",
+                "termination_period_accepted": "on",
+            },
+        )
+        self.assertEqual(
+            response.status_code,
+            403,
+            "A member office user should not be able to create shares.",
+        )
+
+    def test_buyShares_asVorstandForAnotherUser_fails(self):
+        user = self.login_as_vorstand()
+        email_address = "test_address@test.net"
+        tapir_user = TapirUserFactory(email=email_address)
+
+        num_shares = 3
+        response = self.client.post(
+            reverse(self.VIEW_NAME, args=[tapir_user.share_owner.id]),
+            {
+                "num_shares": num_shares,
+                "participation_confirm": "on",
+                "statutes_acknowledged": "on",
+                "termination_period_accepted": "on",
+            },
+        )
+        self.assertEqual(
+            response.status_code,
+            403,
+            "A member office user should not be able to create shares.",
+        )
 
     def test_buyShares_formFilledCorrectly_sendsTwoEmails(self):
         email_address = "test_address@test.net"
