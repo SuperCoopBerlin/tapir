@@ -60,6 +60,9 @@ class CoopConfig(AppConfig):
         from tapir.coop.emails.co_purchaser_updated_mail import (
             CoPurchaserUpdatedMail,
         )
+        from tapir.coop.emails.extra_shares_buy_mail import (
+            ExtraSharesBuyEmailBuilder,
+        )
         from tapir.coop.emails.extra_shares_confirmation_email import (
             ExtraSharesConfirmationEmailBuilder,
         )
@@ -81,6 +84,7 @@ class CoopConfig(AppConfig):
         from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 
         TapirEmailBuilderBase.register_email(ExtraSharesConfirmationEmailBuilder)
+        TapirEmailBuilderBase.register_email(ExtraSharesBuyEmailBuilder)
         TapirEmailBuilderBase.register_email(
             MembershipConfirmationForActiveMemberEmailBuilder
         )

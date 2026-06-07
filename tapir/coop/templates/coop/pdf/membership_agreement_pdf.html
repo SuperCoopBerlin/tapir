@@ -274,7 +274,7 @@
                 </div>
             {% else %}
                 <div style="margin-top: 20mm; font-size: 9pt; color: #666;">
-                    <p>Generiert am {% now "d.m.Y" %} um {% now "H:i e" %}</p>
+                    <p>Generiert am {{ generation_time|date:"d.m.Y" }} um {{ generation_time|date:"H:i T" }}</p>
                 </div>
             {% endif %}
         </div>

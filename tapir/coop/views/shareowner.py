@@ -38,6 +38,7 @@ from rest_framework.views import APIView
 from tapir.accounts.models import TapirUser
 from tapir.coop import config, pdfs
 from tapir.coop.config import on_welcome_session_attendance_update
+from tapir.coop.emails.extra_shares_buy_mail import ExtraSharesBuyEmailBuilder
 from tapir.coop.emails.extra_shares_confirmation_email import (
     ExtraSharesConfirmationEmailBuilder,
 )
@@ -1051,15 +1052,15 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         share_owner = self.get_share_owner()
         num_shares = form.cleaned_data["num_shares"]
         additional_information = form.cleaned_data["additional_information"]
+        generation_time = timezone.now()
 
         filename = "Beteiligungserklärung %s.pdf" % (
             UserUtils.build_display_name_for_viewer(share_owner, self.request.user)
         )
-
         response = HttpResponse(content_type=pdfs.CONTENT_TYPE_PDF)
         set_header_for_file_download(response, filename)
         pdf = pdfs.generate_share_request_pdf(
-            share_owner, num_shares, additional_information
+            share_owner, num_shares, additional_information, generation_time
         ).write_pdf()
 
         email = EmailMultiAlternatives(
@@ -1070,6 +1071,16 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         )
         email.attach(filename, pdf, "application/pdf")
         email.send()
+
+        email_builder = ExtraSharesBuyEmailBuilder(
+            num_shares=form.cleaned_data["num_shares"],
+            additional_information=additional_information,
+            share_owner=share_owner,
+            generation_time=generation_time,
+        )
+        SendMailService.send_to_share_owner(
+            actor=self.request.user, recipient=share_owner, email_builder=email_builder
+        )
 
         messages.success(
             self.request,

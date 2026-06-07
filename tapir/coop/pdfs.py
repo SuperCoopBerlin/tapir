@@ -1,7 +1,6 @@
 import datetime
 
 from django.conf import settings
-from django.utils import timezone
 from weasyprint import Document
 
 from tapir.coop import config
@@ -81,7 +80,10 @@ def get_confirmation_extra_shares_pdf(
 
 
 def generate_share_request_pdf(
-    share_owner: ShareOwner, num_shares, additional_information
+    share_owner: ShareOwner,
+    num_shares,
+    additional_information,
+    generation_time: datetime.datetime,
 ):
     templates = [
         "coop/pdf/membership_agreement_pdf.html",
@@ -92,12 +94,12 @@ def generate_share_request_pdf(
         "num_additional_shares": num_shares,
         "additional_to_pay": num_shares * config.COOP_SHARE_PRICE,
         "additional_information": additional_information,
-        "date": timezone.now(),
         "coop_full_name": settings.COOP_FULL_NAME,
         "coop_street": settings.COOP_STREET,
         "coop_place": settings.COOP_PLACE,
         "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         "hide_signing_field": True,
+        "generation_time": generation_time,
     }
 
     return render_pdf(
