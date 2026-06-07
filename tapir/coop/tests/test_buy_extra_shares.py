@@ -1,0 +1,50 @@
+from django.core import mail
+from django.urls import reverse
+
+from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.coop.emails.extra_shares_buy_mail import ExtraSharesBuyEmailBuilder
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
+
+
+class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestMixin):
+    VIEW_NAME = "coop:share_create"
+
+    # def test_create_shares_requires_permissions(self):
+    #     user = self.login_as_normal_user()
+    #     response = self.client.get(reverse(self.VIEW_NAME, args=[user.share_owner.id]))
+    #     self.assertEqual(
+    #         response.status_code,
+    #         403,
+    #         "A normal user should not be able to create shares.",
+    #     )
+
+    def test_buy_shares_sends_two_emails(self):
+        email_address = "test_address@test.net"
+        tapir_user = TapirUserFactory(email=email_address)
+
+        num_shares = 3
+        self.login_as_user(tapir_user)
+
+        self.assertEqual(len(mail.outbox), 0)
+        response = self.client.post(
+            reverse(self.VIEW_NAME, args=[tapir_user.share_owner.id]),
+            {
+                "num_shares": num_shares,
+                "participation_confirm": "on",
+                "statutes_acknowledged": "on",
+                "termination_period_accepted": "on",
+            },
+        )
+
+        self.assertEqual(len(mail.outbox), 2)
+        mail_to_member_office = mail.outbox[0]
+        mail_to_user = mail.outbox[1]
+        self.assertEmailOfClass_GotSentTo(
+            ExtraSharesBuyEmailBuilder, email_address, mail_to_user
+        )
+
+        self.assertEqual(1, len(mail_to_user.attachments))
+        self.assertEqual(1, len(mail_to_member_office.attachments))
+
+        self.assertEmailAttachmentIsAPdf(mail_to_user.attachments[0])
+        self.assertEmailAttachmentIsAPdf(mail_to_member_office.attachments[0])
