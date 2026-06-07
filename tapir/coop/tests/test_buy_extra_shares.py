@@ -18,7 +18,7 @@ class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestMixin):
     #         "A normal user should not be able to create shares.",
     #     )
 
-    def test_buy_shares_sends_two_emails(self):
+    def test_buyShares_formFilledCorrectly_sendsTwoEmails(self):
         email_address = "test_address@test.net"
         tapir_user = TapirUserFactory(email=email_address)
 
@@ -48,3 +48,19 @@ class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestMixin):
 
         self.assertEmailAttachmentIsAPdf(mail_to_user.attachments[0])
         self.assertEmailAttachmentIsAPdf(mail_to_member_office.attachments[0])
+
+    def test_buyShares_withoutConsent_throwsStatusCode302(self):
+        email_address = "test_address@test.net"
+        tapir_user = TapirUserFactory(email=email_address)
+
+        num_shares = 3
+        self.login_as_user(tapir_user)
+
+        self.assertEqual(len(mail.outbox), 0)
+        response = self.client.post(
+            reverse(self.VIEW_NAME, args=[tapir_user.share_owner.id]),
+            {
+                "num_shares": num_shares,
+            },
+        )
+        self.assertEqual(response.status_code, 302)
