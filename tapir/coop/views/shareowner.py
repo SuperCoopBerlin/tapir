@@ -1085,7 +1085,8 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         messages.success(
             self.request,
             _(
-                "Dein Antrag wurde erfolgreich eingereicht! Der Vorstand wird sich in Kürze mit dir in Verbindung setzen."
+                "Thank you for signing additional shares, we truly appreciate your contribution and commitment! "
+                "You will receive an email confirmation soon."
             ),
         )
         return HttpResponseRedirect(self.get_success_url())
