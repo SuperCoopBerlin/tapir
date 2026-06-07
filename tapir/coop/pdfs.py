@@ -98,7 +98,7 @@ def generate_share_request_pdf(
         "coop_street": settings.COOP_STREET,
         "coop_place": settings.COOP_PLACE,
         "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-        "hide_signing_field": True,
+        "hide_user_signing_field": True,
         "generation_time": generation_time,
     }
 
