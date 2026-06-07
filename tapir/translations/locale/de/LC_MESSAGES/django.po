@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-07 18:25+0200\n"
+"POT-Creation-Date: 2026-06-07 18:56+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2081,8 +2081,8 @@ msgstr ""
 "                            "
 
 #: coop/templates/coop/extra_share_request.html:91
-msgid "Buy"
-msgstr "Kaufen"
+msgid "Submit"
+msgstr "Abschicken"
 
 #: coop/templates/coop/extra_share_request.html:93
 #: shifts/templates/shifts/user_shifts_overview_tag.html:177
@@ -6517,6 +6517,9 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#~ msgid "Buy"
+#~ msgstr "Kaufen"
 
 #, fuzzy
 #~| msgid "Number of Shares"
