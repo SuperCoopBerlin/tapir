@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-08 18:16+0200\n"
+"POT-Creation-Date: 2026-06-08 20:40+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -652,104 +652,108 @@ msgstr "Wird normalerweise leer gelassen. Das Datum kann in der Zukunft liegen, 
 msgid "Number of shares to create"
 msgstr "Anzahl zu erstellender Anteile"
 
-#: coop/forms.py:67
+#: coop/forms.py:60
+msgid "Number of shares you want to buy"
+msgstr "Anzahl Anteile, die du kaufen möchtest"
+
+#: coop/forms.py:68
 msgid "The end date must be later than the start date."
 msgstr "Das Enddatum muss später als das Start-Datum sein"
 
-#: coop/forms.py:105 coop/forms.py:427 coop/models.py:462
+#: coop/forms.py:106 coop/forms.py:428 coop/models.py:462
 msgid "Number of Shares"
 msgstr "Anzahl Anteile"
 
-#: coop/forms.py:110
+#: coop/forms.py:111
 #, python-format
 msgid "Number of shares you would like to purchase. The price of one share is EUR %(share_price)s. You need to purchase at least one share to become member of the cooperative. To support our cooperative even more, you may voluntarily purchase more shares."
 msgstr "Anzahl der Anteile, die du erwerben möchtest. Der Preis für einen Anteil beträgt EUR %(share_price)s. Du musst mindestens einen Anteil erwerben, um Mitglied der Genossenschaft zu werden. Um unsere Genossenschaft noch stärker zu unterstützen, kannst du freiwillig weitere Aktien erwerben."
 
-#: coop/forms.py:120
+#: coop/forms.py:121
 msgid "I would like to join the membership list as an investing member (= sponsoring member)"
 msgstr "Ich möchte der Mitliedschaftsliste als investierendes Mitglied beitreten"
 
-#: coop/forms.py:123
+#: coop/forms.py:124
 msgid "<b>Note</b>: Investing members are sponsoring members. They have no voting rights in the General Assembly and cannot use the services of the cooperative that are exclusive to ordinary members. "
 msgstr "<b>Note</b>:Investierende Mitglieder sind Fördermitglieder. Sie besitzen kein Stimmrecht in der Generalversammlung und können die Vorzüge der Kooperative wie normale Mitglieder nicht wahrnehmen. "
 
-#: coop/forms.py:233
+#: coop/forms.py:234
 msgid "Usually, the credited member is the same as the paying member. Only if a person if gifting another person a share through the matching program, then the fields can be different."
 msgstr "In der Regel ist das gutgeschriebene Mitglied dasselbe wie das zahlende Mitglied. Nur für den Fall, das ein Anteil an eine andere Person verschenkt wird, können die Felder unterschiedliche Werte enthalten."
 
-#: coop/forms.py:268
+#: coop/forms.py:269
 msgid "The member stays active"
 msgstr "Das Mitglied bleibt aktiv"
 
-#: coop/forms.py:270
+#: coop/forms.py:271
 msgid "The member becomes investing"
 msgstr "Das Mitglied auf investierend stellen"
 
-#: coop/forms.py:275
+#: coop/forms.py:276
 msgid "Please not more than 1000 characters."
 msgstr "Bitte verwende weniger als 1000 Zeichen"
 
-#: coop/forms.py:278
+#: coop/forms.py:279
 msgid "Member to resign"
 msgstr "Mitglied"
 
-#: coop/forms.py:281
+#: coop/forms.py:282
 msgid "Transferring share(s) to"
 msgstr "Anteil(e) übertragen auf"
 
-#: coop/forms.py:287
+#: coop/forms.py:288
 msgid "Member status"
 msgstr "Status"
 
-#: coop/forms.py:291
+#: coop/forms.py:292
 msgid "In the case where the member wants their money back, they stay a member for 3 more years. However, it is very likely that the member doesn't want to be active anymore. If they haven't explicitly mentioned it, please ask them if we can switch them to investing."
 msgstr "Wenn das Mitglied sein Geld zurückhaben will, bleibt es noch 3 Jahre lang Mitglied. Es ist jedoch sehr wahrscheinlich, dass das Mitglied nicht mehr aktiv sein möchte. Wenn sie es nicht ausdrücklich erwähnt haben, frag sie bitte, ob wir sie auf „investierend“ stellen sollen."
 
-#: coop/forms.py:316
+#: coop/forms.py:317
 msgid "Send confirmation mails"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/forms.py:320
+#: coop/forms.py:321
 msgid "If enabled, the resigned member and if applicable the member receiving shares will receive confirmation emails."
 msgstr "Wenn diese Option aktiviert ist, erhalten das ausgetretene Mitglied und gegebenenfalls das Mitglied, das Anteile erhält, Bestätigungs-E-Mails."
 
-#: coop/forms.py:355
+#: coop/forms.py:356
 msgid "Please pick an option"
 msgstr "Bitte wähle eine Option"
 
-#: coop/forms.py:367
+#: coop/forms.py:368
 msgid "This member is already resigned."
 msgstr "Dieses Mitglied ist bereits zurückgetreten."
 
-#: coop/forms.py:379
+#: coop/forms.py:380
 msgid "Please select the member that the shares should be transferred to."
 msgstr "Bitte wähle ein Mitglied an welches die Anteile überwiesen werden sollen"
 
-#: coop/forms.py:392
+#: coop/forms.py:393
 msgid "If the shares don't get transferred to another member, this field should be empty."
 msgstr "Wenn die anteile nicht an ein anderes Mitglied überwiesen werden, lass das Feld leer."
 
-#: coop/forms.py:405
+#: coop/forms.py:406
 msgid "Sender and receiver of transferring the share(s) cannot be the same."
 msgstr "Absender und Empfänger der Übertragung der Anteile können nicht identisch sein"
 
-#: coop/forms.py:417
+#: coop/forms.py:418
 msgid "Cannot pay out, because shares have been gifted."
 msgstr "Die Anteile können nicht ausgezahlt werden, da sie verschenkt wurden"
 
-#: coop/forms.py:437
+#: coop/forms.py:438
 msgid "Additional Information"
 msgstr "Zusätzliche Informationen"
 
-#: coop/forms.py:439 coop/forms.py:446
+#: coop/forms.py:440 coop/forms.py:447
 msgid "Additional information, e.g., payment in installments, including payment intervals if possible"
 msgstr "Zusätzliche Informationen, z.B. Ratenzahlungen inkl. Zahlungsintervalle (wenn möglich)"
 
-#: coop/forms.py:456
+#: coop/forms.py:457
 msgid "Please enter a number of shares."
 msgstr "Bitte gib ein neues Passwort ein"
 
-#: coop/forms.py:465
+#: coop/forms.py:466
 msgid "Additional information must not exceed 500 characters."
 msgstr "Zusätzliche Informationen sollten nicht mehr als 500 Zeichen sein."
 
@@ -2036,7 +2040,7 @@ msgstr ""
 "                Nach dem Abschicken erhältst du eine Email mit deiner neuen Beteiligungserklärung.\n"
 "                "
 
-#: coop/templates/coop/extra_share_request.html:51
+#: coop/templates/coop/extra_share_request.html:49
 #, python-format
 msgid ""
 "\n"
@@ -2057,11 +2061,11 @@ msgstr ""
 "                            verpflichte ich mich daher, insgesamt <strong id=\"sharePrice\">%(share_price)s</strong> € zu zahlen.\n"
 "                            "
 
-#: coop/templates/coop/extra_share_request.html:69
+#: coop/templates/coop/extra_share_request.html:67
 msgid "I have taken note of the articles of association"
 msgstr "Ich habe die Satzung zur Kenntnis genommen"
 
-#: coop/templates/coop/extra_share_request.html:79
+#: coop/templates/coop/extra_share_request.html:77
 msgid ""
 "\n"
 "                            I acknowledge that the Articles of Association stipulate a notice period of three years,\n"
@@ -2080,11 +2084,11 @@ msgstr ""
 "                ist auch vorher bereits möglich und in der Satzung geregelt.\n"
 "                            "
 
-#: coop/templates/coop/extra_share_request.html:91
+#: coop/templates/coop/extra_share_request.html:89
 msgid "Submit"
 msgstr "Abschicken"
 
-#: coop/templates/coop/extra_share_request.html:93
+#: coop/templates/coop/extra_share_request.html:91
 #: shifts/templates/shifts/user_shifts_overview_tag.html:177
 msgid "Cancel"
 msgstr "Abmelden"

@@ -431,6 +431,7 @@ class RequestShareForm(forms.Form):
                 "placeholder": "1 - 100",
             }
         ),
+        help_text=_("Number of shares you want to buy"),
     )
 
     additional_information = forms.CharField(
