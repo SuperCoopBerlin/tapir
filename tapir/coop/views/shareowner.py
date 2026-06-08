@@ -37,7 +37,10 @@ from rest_framework.views import APIView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop import config, pdfs
-from tapir.coop.config import on_welcome_session_attendance_update
+from tapir.coop.config import (
+    feature_flag_buy_shares,
+    on_welcome_session_attendance_update,
+)
 from tapir.coop.emails.extra_shares_buy_mail import ExtraSharesBuyEmailBuilder
 from tapir.coop.emails.extra_shares_confirmation_email import (
     ExtraSharesConfirmationEmailBuilder,
@@ -73,6 +76,7 @@ from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.services.payment_status_service import PaymentStatusService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
+from tapir.core.models import FeatureFlag
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.log.models import LogEntry
@@ -1049,6 +1053,9 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        if not FeatureFlag.get_flag_value(feature_flag_buy_shares):
+            raise PermissionDenied("The feature to buy shares is disabled.")
+
         share_owner = self.get_share_owner()
         num_shares = form.cleaned_data["num_shares"]
         additional_information = form.cleaned_data["additional_information"]
@@ -1093,6 +1100,9 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print(FeatureFlag.get_flag_value(feature_flag_buy_shares))
+        if not FeatureFlag.get_flag_value(feature_flag_buy_shares):
+            raise PermissionDenied("The feature to buy shares is disabled.")
         context["share_owner"] = self.get_share_owner()
         context["COOP_SHARE_PRICE"] = config.COOP_SHARE_PRICE
         return context
