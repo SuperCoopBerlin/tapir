@@ -1053,9 +1053,6 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        if not FeatureFlag.get_flag_value(feature_flag_buy_shares):
-            raise PermissionDenied("The feature to buy shares is disabled.")
-
         share_owner = self.get_share_owner()
         num_shares = form.cleaned_data["num_shares"]
         additional_information = form.cleaned_data["additional_information"]
@@ -1100,7 +1097,6 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(FeatureFlag.get_flag_value(feature_flag_buy_shares))
         if not FeatureFlag.get_flag_value(feature_flag_buy_shares):
             raise PermissionDenied("The feature to buy shares is disabled.")
         context["share_owner"] = self.get_share_owner()

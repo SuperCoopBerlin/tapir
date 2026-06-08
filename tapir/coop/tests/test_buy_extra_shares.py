@@ -2,15 +2,23 @@ from django.core import mail
 from django.urls import reverse
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.coop.config import feature_flag_buy_shares
 from tapir.coop.emails.extra_shares_buy_mail import ExtraSharesBuyEmailBuilder
 from tapir.utils.tests_utils import (
+    FeatureFlagTestMixin,
     TapirEmailTestMixin,
     TapirFactoryTestBase,
 )
 
 
-class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestMixin):
+class TestCreateExtraShares(
+    FeatureFlagTestMixin, TapirFactoryTestBase, TapirEmailTestMixin
+):
     VIEW_NAME = "coop:share_create"
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.given_feature_flag_value(feature_flag_buy_shares, True)
 
     def test_buyShares_asMemberOfficeForAnotherUser_fails(self):
         self.login_as_member_office_user()
@@ -101,3 +109,25 @@ class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestMixin):
             },
         )
         self.assertEqual(response.status_code, 302)
+
+    def test_buyShares_getWithFeatureDisabled_returnsForbidden(self):
+        """Test that status endpoint returns 302 when feature flag is disabled."""
+        self.given_feature_flag_value(feature_flag_buy_shares, False)
+
+        email_address = "test_address@test.net"
+        tapir_user = TapirUserFactory(email=email_address)
+
+        num_shares = 3
+        self.login_as_user(tapir_user)
+
+        self.assertEqual(len(mail.outbox), 0)
+        response = self.client.post(
+            reverse(self.VIEW_NAME, args=[tapir_user.share_owner.id]),
+            {
+                "num_shares": num_shares,
+                "participation_confirm": "on",
+                "statutes_acknowledged": "on",
+                "termination_period_accepted": "on",
+            },
+        )
+        self.assertStatusCode(response, 302)
