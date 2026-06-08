@@ -10,6 +10,11 @@ urlpatterns = [
         name="share_update",
     ),
     path(
+        "member/<int:shareowner_pk>/request-share/",
+        views.RequestShareView.as_view(),
+        name="share_create",
+    ),
+    path(
         "share/<int:pk>/delete",
         views.ShareOwnershipDeleteView.as_view(),
         name="shareownership_delete",

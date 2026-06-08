@@ -33,13 +33,13 @@
                     {% member_status_colored_text share_owner %}
                     {% if share_owner.get_membership_start_date %}
                         {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" %}
-                            (membership starting {{ start_date }})
-                        {% endblocktranslate %}
+                (membership starting {{ start_date }})
+                {% endblocktranslate %}
                     {% endif %}
                     {% if share_owner.get_membership_end_date %}
                         {% blocktranslate with end_date=share_owner.get_membership_end_date|date:"d.m.Y" %}
-                            (membership ending {{ end_date }})
-                        {% endblocktranslate %}
+                (membership ending {{ end_date }})
+                {% endblocktranslate %}
                     {% endif %}
                 </div>
             </div>
@@ -73,9 +73,17 @@
                 <div class="col-12 col-sm-5 fw-bold text-sm-end">
                     <a data-bs-toggle="collapse" href="#shares-table">{% translate "Owned shares" %}:</a>
                 </div>
-                <div class="col-12 col-sm-7">
-                    <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
-                </div>
+                {% feature_flag_enabled "feature_flags.coop.buy_shares" as is_enabled %}
+                {% if is_enabled %}
+                    <div class="col-12 col-sm-7">
+                        <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
+                        <a class="{% tapir_button_link_to_action %} btn-sm"
+                           href="{% url 'coop:share_create' share_owner.pk %}">
+                            <span class="material-icons">add_circle_outline</span>
+                            {% translate "Buy more shares" %}
+                        </a>
+                    </div>
+                {% endif %}
             </div>
             <div class="collapse" id="shares-table">
                 <table class="table"

@@ -416,3 +416,53 @@ class MembershipResignationForm(forms.ModelForm):
             "paid_out",
             ValidationError(_("Cannot pay out, because shares have been gifted.")),
         )
+
+
+class RequestShareForm(forms.Form):
+    num_shares = forms.IntegerField(
+        min_value=1,
+        max_value=100,
+        required=True,
+        initial=1,
+        label=_("Number of Shares"),
+        widget=forms.NumberInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "1 - 100",
+            }
+        ),
+        help_text=_("Number of shares you want to buy"),
+    )
+
+    additional_information = forms.CharField(
+        label=_("Additional Information"),
+        help_text=_(
+            "Additional information, e.g., payment in installments, including payment intervals if possible"
+        ),
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "class": "form-control",
+                "placeholder": _(
+                    "Additional information, e.g., payment in installments, including payment intervals if possible"
+                ),
+                "rows": 4,
+            }
+        ),
+    )
+
+    def clean_num_shares(self):
+        num_shares = self.cleaned_data.get("num_shares")
+        if num_shares is None:
+            raise forms.ValidationError(_("Please enter a number of shares."))
+        return num_shares
+
+    def clean_additional_information(self):
+        additional_information = self.cleaned_data.get(
+            "additional_information", ""
+        ).strip()
+        if len(additional_information) > 500:
+            raise forms.ValidationError(
+                _("Additional information must not exceed 500 characters.")
+            )
+        return additional_information
