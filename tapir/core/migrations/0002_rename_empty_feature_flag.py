@@ -4,25 +4,19 @@ from django.core.exceptions import ObjectDoesNotExist
 
 
 def rename_feature_flag(apps, schema_editor):
-    FeatureFlag = apps.get_model("core", "FeatureFlag")
-    empty_flags = FeatureFlag.objects.filter(flag_name="")
+    feature_flag = apps.get_model("core", "FeatureFlag")
+    empty_flags = feature_flag.objects.filter(flag_name="")
 
-    if empty_flags.count() == 0:
-        raise Exception("no feature flag with empty string found!")
-    elif empty_flags.count() > 1:
-        raise Exception(
-            f"Found {empty_flags.count()} FeatureFlags with empty string! check manually!"
-        )
-
-    feature_flag = empty_flags.first()
-    feature_flag.flag_name = "feature_flag_frozen_members"
-    feature_flag.save()
+    if empty_flags.count() == 1:
+        feature_flag_to_rename = empty_flags.first()
+        feature_flag_to_rename.flag_name = "feature_flag_frozen_members"
+        feature_flag_to_rename.save()
 
 
 def reverse_rename_feature_flag(apps, schema_editor):
-    FeatureFlag = apps.get_model("core", "FeatureFlag")
+    feature_flag = apps.get_model("core", "FeatureFlag")
     try:
-        feature_flag = FeatureFlag.objects.get(flag_name="feature_flag_frozen_members")
+        feature_flag = feature_flag.objects.get(flag_name="feature_flag_frozen_members")
         feature_flag.flag_name = ""
         feature_flag.save()
     except ObjectDoesNotExist:
