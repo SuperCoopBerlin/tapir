@@ -6,50 +6,50 @@
 {% load core %}
 {% block head %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
+    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
     <style>
         .select2 {
-            width: 100%!important; /* overrides computed width, 100px in your demo */
+            width: 100%!important;
         }
     </style>
     {{ filter.form.media }}
 {% endblock head %}
 {% block content %}
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card border-danger">
-                    <div class="card-header bg-danger text-white">
-                        <h4 class="mb-0">
-                            <span class="material-icons align-middle">warning</span>
-                            {% translate "Delete all log entries?" %}
-                        </h4>
-                    </div>
-                    <div class="card-body">
-                        <p>
-                            {% blocktranslate with name=share_owner.get_display_name|default:share_owner count=log_count %}
-                            You are about to permanently delete <strong>{{ count }} log entries</strong> for <strong>{{ name }}</strong>.
-                        {% endblocktranslate %}
-                        </p>
-                        <div class="alert alert-danger" role="alert">
-                            <strong>{% translate "Warning:" %}</strong>
-                            {% translate "This action cannot be undone!" %}
-                            {% translate "This action may skew statistics based on the logs!" %}
-                        </div>
-                    </div>
-                    <div class="card-footer d-flex justify-content-end gap-2">
-                        <a href="{% url 'coop:shareowner_detail' share_owner.pk %}"
-                           class="btn btn-secondary">{% translate "Cancel" %}</a>
-                        <form method="post" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">
-                                <span class="material-icons">delete_sweep</span>
-                                {% translate "Yes, delete all logs" %}
-                            </button>
-                        </form>
-                    </div>
+    <div class="card m-2">
+        <div class="card-header">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="col-6 d-flex flex-column justify-content-center">
+                    <h5 style="margin-bottom: 0">
+                        <span class="material-icons align-middle">warning</span>
+                        {% translate "Delete all log entries?" %}
+                    </h5>
                 </div>
             </div>
         </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <p>
+                    {% blocktranslate with name=share_owner.get_display_name|default:share_owner count=log_count %}
+                        You are about to permanently delete <strong>{{ count }} log entries</strong> for <strong>{{ name }}</strong>.
+                    {% endblocktranslate %}
+                </p>
+                <div class="alert alert-danger" role="alert">
+                    <strong>{% translate "Warning:" %}</strong>
+                    {% translate "This action cannot be undone!" %}
+                    {% translate "This action may skew statistics based on the logs!" %}
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-end gap-2">
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'coop:shareowner_detail' share_owner.pk %}">{% translate "Cancel" %}</a>
+                <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn tapir-btn btn-danger">
+                        <span class="material-icons">delete_sweep</span>
+                        {% translate "Delete all logs" %}
+                    </button>
+                </form>
+            </li>
+        </ul>
     </div>
-{% endblock body %}
+{% endblock content %}
