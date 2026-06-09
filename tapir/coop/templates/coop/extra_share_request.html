@@ -100,7 +100,7 @@
     const pricePerShare = 100;
 
     function updateShareInfo() {
-        const numShares = parseInt(numSharesInput.value) || 0;
+        const numShares = Number.parseInt(numSharesInput.value) || 0;
         const totalPrice = numShares * pricePerShare;
 
         shareCountDisplay.textContent = numShares;
