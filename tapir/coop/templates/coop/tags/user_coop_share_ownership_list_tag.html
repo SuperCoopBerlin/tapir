@@ -103,9 +103,7 @@
                         <tr>
                             <td>{{ o.id }}</td>
                             <td>{{ o.start_date }}</td>
-                            <td>
-                                {% if o.end_date %}{{ o.end_date }}{% endif %}
-                            </td>
+                            <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
                             <td>
                                 {% if o.is_active %}
                                     <span class="text-success">{% translate "Active" %}</span>
