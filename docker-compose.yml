@@ -16,14 +16,14 @@ services:
   web:
     build:
       context: .
-      args:
-          ARG_VERSION: ""
+      target: dev
       dockerfile: ./django.Dockerfile
-    command: bash -c "poetry install &&
-                      poetry run python manage.py compilemessages --ignore \".venv\" &&
-                      poetry run python manage.py runserver_plus 0.0.0.0:80"
+    command: bash -c "python manage.py runserver_plus 0.0.0.0:80"
     volumes:
-      - .:/app
+      - ./tapir:/app/tapir
+      - ./manage.py:/app/manage.py
+      - ./Makefile:/app/Makefile
+      - poetry-cache:/home/appuser/.cache/pypoetry
     environment:
       VIRTUAL_HOST: localhost
       DEBUG: 1
@@ -95,3 +95,4 @@ services:
 
 volumes:
   nginx-certs-volume:
+  poetry-cache:
