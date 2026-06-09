@@ -12,6 +12,13 @@
                 <span class="material-icons">manage_search</span>
                 {% translate 'See all log entries' %}
             </a>
+            {% if perms.accounts.manage %}
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'log:delete_logs' share_owner.pk %}">
+                    <span class="material-icons">delete_sweep</span>
+                    {% translate 'Delete' %}
+                </a>
+            {% endif %}
         </span>
     </h5>
     <div class="card-body">

@@ -1,0 +1,55 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load coop %}
+{% load static %}
+{% load core %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
+    <style>
+        .select2 {
+            width: 100%!important; /* overrides computed width, 100px in your demo */
+        }
+    </style>
+    {{ filter.form.media }}
+{% endblock head %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-white">
+                        <h4 class="mb-0">
+                            <span class="material-icons align-middle">warning</span>
+                            {% translate "Delete all log entries?" %}
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            {% blocktranslate with name=share_owner.get_display_name|default:share_owner count=log_count %}
+                            You are about to permanently delete <strong>{{ count }} log entries</strong> for <strong>{{ name }}</strong>.
+                        {% endblocktranslate %}
+                        </p>
+                        <div class="alert alert-danger" role="alert">
+                            <strong>{% translate "Warning:" %}</strong>
+                            {% translate "This action cannot be undone!" %}
+                            {% translate "This action may skew statistics based on the logs!" %}
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-end gap-2">
+                        <a href="{% url 'coop:shareowner_detail' share_owner.pk %}"
+                           class="btn btn-secondary">{% translate "Cancel" %}</a>
+                        <form method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">
+                                <span class="material-icons">delete_sweep</span>
+                                {% translate "Yes, delete all logs" %}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
