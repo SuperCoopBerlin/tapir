@@ -38,12 +38,14 @@ RUN poetry install --only main --no-root
 FROM base as dev
 
 WORKDIR /app
-COPY . /app
 
 COPY poetry.lock pyproject.toml ./
 RUN poetry install --no-root
 
 ENV PATH="/app/.venv/bin:$PATH"
+
+COPY Makefile manage.py ./
+COPY tapir ./tapir
 
 RUN poetry run python manage.py compilemessages
 
