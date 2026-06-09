@@ -9,12 +9,12 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/djlint/djLint
-    rev: v1.36.4
+    rev: v1.39.0
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.15
+    rev: v0.15.16
     hooks:
       - id: ruff-check
         args: [ --fix, "--select=F401,F841,I001,UP006,UP017,UP035" ]
