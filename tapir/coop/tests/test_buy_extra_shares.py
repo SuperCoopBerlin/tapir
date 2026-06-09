@@ -43,7 +43,7 @@ class TestCreateExtraShares(
         )
 
     def test_buyShares_asVorstandForAnotherUser_fails(self):
-        user = self.login_as_vorstand()
+        self.login_as_vorstand()
         email_address = "test_address@test.net"
         tapir_user = TapirUserFactory(email=email_address)
 
@@ -71,7 +71,7 @@ class TestCreateExtraShares(
         self.login_as_user(tapir_user)
 
         self.assertEqual(len(mail.outbox), 0)
-        response = self.client.post(
+        self.client.post(
             reverse(self.VIEW_NAME, args=[tapir_user.share_owner.id]),
             {
                 "num_shares": num_shares,
