@@ -17,4 +17,4 @@ repos:
     rev: v0.15.15
     hooks:
       - id: ruff-check
-        args: [ --fix, "--select=F401,I001,UP006,UP017,UP035" ]
+        args: [ --fix, "--select=F401,F841,I001,UP006,UP017,UP035" ]
