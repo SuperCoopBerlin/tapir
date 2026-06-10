@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-09 08:36+0200\n"
+"POT-Creation-Date: 2026-06-10 07:18+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -309,8 +309,8 @@ msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Admin
 
 #: accounts/templates/accounts/user_detail.html:20 coop/models.py:724
 #: coop/templates/coop/draftuser_detail.html:86
-#: coop/templates/coop/shareowner_detail.html:10 log/views.py:94
-#: log/views.py:152 shifts/templates/shifts/shift_detail_printable.html:50
+#: coop/templates/coop/shareowner_detail.html:10 log/views.py:98
+#: log/views.py:156 shifts/templates/shifts/shift_detail_printable.html:50
 msgid "Member"
 msgstr "Mitglied"
 
@@ -960,6 +960,7 @@ msgstr "Löschen bestätigen"
 #: coop/templates/coop/confirm_delete_share_ownership.html:24
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:133
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:24
+#: log/templates/log/log_entry_list_tag.html:19
 #: shifts/templates/shifts/shift_confirm_delete.html:30
 msgid "Delete"
 msgstr "Löschen"
@@ -2089,6 +2090,7 @@ msgid "Submit"
 msgstr "Abschicken"
 
 #: coop/templates/coop/extra_share_request.html:92
+#: log/templates/log/logentry_confirm_delete.html:44
 #: shifts/templates/shifts/user_shifts_overview_tag.html:177
 msgid "Cancel"
 msgstr "Abmelden"
@@ -2946,7 +2948,7 @@ msgid "The list of all datapoints"
 msgstr ""
 
 #: financingcampaign/templates/financingcampaign/general.html:111
-#: log/templates/log/log_entry_list_tag.html:23
+#: log/templates/log/log_entry_list_tag.html:30
 #: shifts/templates/shifts/user_shift_account_log.html:26
 #: statistics/templates/statistics/tags/credit_account_card.html:17
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:18
@@ -3013,29 +3015,61 @@ msgstr "Letzte 5 Log-Einträge"
 msgid "See all log entries"
 msgstr "Alle Log-Einträge einsehen"
 
-#: log/templates/log/log_entry_list_tag.html:20
+#: log/templates/log/log_entry_list_tag.html:27
 msgid "List of log entries for this member"
 msgstr "Liste der Protokoll-Einträge für dieses Mitglied"
 
-#: log/templates/log/log_entry_list_tag.html:24 log/views.py:97
-#: log/views.py:151
+#: log/templates/log/log_entry_list_tag.html:31 log/views.py:101
+#: log/views.py:155
 msgid "Actor"
 msgstr "Sender*in"
 
-#: log/templates/log/log_entry_list_tag.html:25 log/views.py:90
+#: log/templates/log/log_entry_list_tag.html:32 log/views.py:94
 msgid "Message"
 msgstr "Nachricht"
 
-#: log/templates/log/log_entry_list_tag.html:57
-#: log/templates/log/log_entry_list_tag.html:58
+#: log/templates/log/log_entry_list_tag.html:64
+#: log/templates/log/log_entry_list_tag.html:65
 msgid "Notes about this user"
 msgstr "Notizen über diese*n Benutzer*in"
 
-#: log/templates/log/log_entry_list_tag.html:63
+#: log/templates/log/log_entry_list_tag.html:70
 msgid "Add Note"
 msgstr "Notiz hinzufügen"
 
-#: log/views.py:153
+#: log/templates/log/logentry_confirm_delete.html:24
+#, fuzzy
+#| msgid "See all log entries"
+msgid "Delete all log entries?"
+msgstr "Alle Log-Einträge einsehen"
+
+#: log/templates/log/logentry_confirm_delete.html:32
+#, python-format
+msgid ""
+"\n"
+"                        You are about to permanently delete <strong>%(count)s log entries</strong> for <strong>%(name)s</strong>.\n"
+"                    "
+msgstr ""
+
+#: log/templates/log/logentry_confirm_delete.html:37
+msgid "Warning:"
+msgstr ""
+
+#: log/templates/log/logentry_confirm_delete.html:38
+msgid "This action cannot be undone!"
+msgstr ""
+
+#: log/templates/log/logentry_confirm_delete.html:39
+msgid "This action may skew statistics based on the logs!"
+msgstr ""
+
+#: log/templates/log/logentry_confirm_delete.html:49
+#, fuzzy
+#| msgid "See all log entries"
+msgid "Delete all logs"
+msgstr "Alle Log-Einträge einsehen"
+
+#: log/views.py:157
 msgid "Log Type"
 msgstr ""
 

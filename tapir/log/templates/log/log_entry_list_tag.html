@@ -14,7 +14,7 @@
             </a>
             {% if perms.accounts.manage %}
                 <a class="{% tapir_button_link %}"
-                   href="{% url 'log:delete_logs' share_owner.pk %}">
+                   href="{% url 'log:delete_logs' share_owner_id %}">
                     <span class="material-icons">delete_sweep</span>
                     {% translate 'Delete' %}
                 </a>
