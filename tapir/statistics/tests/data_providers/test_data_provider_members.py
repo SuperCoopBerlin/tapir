@@ -2,7 +2,7 @@ import datetime
 
 from django.utils import timezone
 
-from tapir.coop.models import MemberStatus, MembershipPause
+from tapir.coop.models import MembershipPause, MemberStatus
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.statistics.services.data_providers.data_provider_total_members import (
     DataProviderTotalMembers,

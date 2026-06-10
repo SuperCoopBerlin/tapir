@@ -1,6 +1,6 @@
 import django.contrib.auth.views as auth_views
 from django.contrib import messages
-from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
@@ -12,23 +12,23 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_GET, require_POST
 
 from tapir import settings
 from tapir.accounts import pdfs
-from tapir.accounts.config import feature_flag_open_door, cache_key_open_door
+from tapir.accounts.config import cache_key_open_door, feature_flag_open_door
 from tapir.accounts.forms import (
-    TapirUserForm,
-    PasswordResetForm,
     EditUserLdapGroupsForm,
-    TapirUserSelfUpdateForm,
     EditUsernameForm,
     OptionalMailsForm,
+    PasswordResetForm,
+    TapirUserForm,
+    TapirUserSelfUpdateForm,
 )
 from tapir.accounts.models import (
+    OptionalMails,
     TapirUser,
     UpdateTapirUserLogEntry,
-    OptionalMails,
 )
 from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
 from tapir.coop.emails.tapir_account_created_email import (
@@ -41,17 +41,17 @@ from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
+    GROUP_VORSTAND,
     PERMISSION_ACCOUNTS_MANAGE,
     PERMISSION_ACCOUNTS_VIEW,
     PERMISSION_COOP_ADMIN,
     PERMISSION_GROUP_MANAGE,
-    GROUP_VORSTAND,
 )
 from tapir.utils.shortcuts import (
-    set_header_for_file_download,
-    set_group_membership,
-    get_group_members,
     get_admin_ldap_connection,
+    get_group_members,
+    set_group_membership,
+    set_header_for_file_download,
 )
 from tapir.utils.user_utils import UserUtils
 

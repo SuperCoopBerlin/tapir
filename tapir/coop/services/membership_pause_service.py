@@ -4,19 +4,19 @@ import datetime
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.models import User
-from django.db.models import Q, Value, Count, QuerySet, Subquery, OuterRef
+from django.db.models import Count, OuterRef, Q, QuerySet, Subquery, Value
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.shifts.models import (
-    ShiftAttendanceTemplate,
-    ShiftAttendance,
     DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendance,
+    ShiftAttendanceTemplate,
 )
 from tapir.utils.shortcuts import get_timezone_aware_datetime
 
 if TYPE_CHECKING:
-    from tapir.coop.models import ShareOwner, MembershipPause
+    from tapir.coop.models import MembershipPause, ShareOwner
 
 
 class MembershipPauseService:

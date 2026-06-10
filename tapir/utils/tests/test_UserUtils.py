@@ -1,7 +1,7 @@
 from django.test import SimpleTestCase
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.coop.tests.factories import ShareOwnerFactory, DraftUserFactory
+from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
 from tapir.utils.user_utils import UserUtils
 
 

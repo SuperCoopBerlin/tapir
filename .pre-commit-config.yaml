@@ -5,11 +5,16 @@ default_language_version:
 repos:
   # Using this mirror lets us use mypyc-compiled black, which is about 2x faster
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 26.3.1
+    rev: 26.5.1
     hooks:
       - id: black
   - repo: https://github.com/djlint/djLint
-    rev: v1.36.4
+    rev: v1.39.0
     hooks:
       - id: djlint-reformat-django
       - id: djlint-django
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.16
+    hooks:
+      - id: ruff-check
+        args: [ --fix, "--select=F401,F841,I001,UP006,UP017,UP035" ]

@@ -1,16 +1,16 @@
-from calendar import HTMLCalendar, month_name, day_abbr
-from datetime import datetime, date
+from calendar import HTMLCalendar, day_abbr, month_name
+from datetime import date
 
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
 from tapir.shifts.models import (
-    ShiftTemplateGroup,
+    SHIFT_ATTENDANCE_MODE_CHOICES,
     ShiftAccountEntry,
     ShiftAttendance,
+    ShiftTemplateGroup,
     ShiftUserCapability,
-    SHIFT_ATTENDANCE_MODE_CHOICES,
 )
 from tapir.utils.shortcuts import get_monday
 

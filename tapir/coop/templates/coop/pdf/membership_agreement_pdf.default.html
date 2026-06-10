@@ -69,9 +69,7 @@
                     <div style="border-bottom: 2px solid black;
                                 flex: 1;
                                 vertical-align: bottom">
-                        <span style="margin-left: 5mm;">
-                            {% if share_owner.birthdate %}{{ share_owner.birthdate }}{% endif %}
-                        </span>
+                        <span style="margin-left: 5mm;">{% if share_owner.birthdate %}{{ share_owner.birthdate }}{% endif %}</span>
                     </div>
                 </div>
                 <div style="color: grey; display: flex; flex-direction: row;">
@@ -210,9 +208,7 @@
                 <span style="display: inline-block;
                              width: 100mm;
                              border-bottom: 2px solid black;
-                             text-align: center">
-                    {% if share_owner.ratenzahlung %}Ratenzahlung{% endif %}
-                </span>
+                             text-align: center">{% if share_owner.ratenzahlung %}Ratenzahlung{% endif %}</span>
                 <br />
                 (Weiteres, z.Bsp. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle)
             </div>

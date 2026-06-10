@@ -1,10 +1,9 @@
 import datetime
 from abc import ABC
-from typing import Type
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -12,8 +11,8 @@ from rest_framework.views import APIView
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.statistics.models import FancyGraphCache
 from tapir.statistics.services.data_providers.base_data_provider import (
-    data_providers,
     BaseDataProvider,
+    data_providers,
 )
 
 
@@ -22,12 +21,12 @@ class DatasetGraphPointView(LoginRequiredMixin, PermissionRequiredMixin, APIView
 
     @staticmethod
     def calculate_datapoint(
-        data_provider: Type[BaseDataProvider], reference_time: datetime.datetime
+        data_provider: type[BaseDataProvider], reference_time: datetime.datetime
     ) -> int:
         return data_provider.get_queryset(reference_time).distinct().count()
 
     def get_datapoint(
-        self, data_provider: Type[BaseDataProvider], reference_time: datetime.datetime
+        self, data_provider: type[BaseDataProvider], reference_time: datetime.datetime
     ):
         reference_date = reference_time.date()
         data_provider_name = f"{data_provider.__module__}.{data_provider.__name__}"

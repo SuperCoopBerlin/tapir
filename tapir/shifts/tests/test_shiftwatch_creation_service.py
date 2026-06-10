@@ -1,18 +1,19 @@
-from django.utils import timezone
 import datetime
+
+from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     RecurringShiftWatch,
+    Shift,
     ShiftWatch,
     StaffingStatusChoices,
-    Shift,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.tests.factories import (
     ShiftFactory,
-    ShiftWatchFactory,
     ShiftTemplateFactory,
+    ShiftWatchFactory,
 )
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
@@ -30,7 +31,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
                 hour=15,
                 minute=0,
                 second=0,
-                tzinfo=datetime.timezone.utc,
+                tzinfo=datetime.UTC,
             ),
         )
 

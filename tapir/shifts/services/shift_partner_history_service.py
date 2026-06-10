@@ -3,13 +3,13 @@ from __future__ import annotations
 import datetime
 
 from django.db.models import (
-    Value,
-    OuterRef,
     Case,
-    When,
+    Exists,
+    OuterRef,
     QuerySet,
     Subquery,
-    Exists,
+    Value,
+    When,
 )
 from django.db.models.fields import CharField
 from django.utils import timezone

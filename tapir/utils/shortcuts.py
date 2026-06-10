@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import datetime
 import os
-from typing import Type, Callable, List, TYPE_CHECKING
+from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 import environ
 import ldap
@@ -97,7 +98,7 @@ def send_file_to_storage_server(filename: str, username: str):
 
 def get_models_with_attribute_value_at_date(
     entries: QuerySet,
-    log_class: Type[UpdateModelLogEntry],
+    log_class: type[UpdateModelLogEntry],
     attribute_name: str,
     attribute_value: any,
     date: datetime.date,
@@ -154,7 +155,7 @@ def get_group_members(connection, group_cn):
     return result[0][1]._data["member"] if result else []
 
 
-def create_ldap_group(connection, group_cn, tapir_users: List[TapirUser]):
+def create_ldap_group(connection, group_cn, tapir_users: list[TapirUser]):
     # Empty groups are not allowed in LDAP, so we need to create them with at least one member
     connection.add_s(
         build_ldap_group_dn(group_cn),
@@ -171,7 +172,7 @@ def create_ldap_group(connection, group_cn, tapir_users: List[TapirUser]):
 
 
 def set_group_membership(
-    tapir_users: List[TapirUser], group_cn, is_member_of_group: bool
+    tapir_users: list[TapirUser], group_cn, is_member_of_group: bool
 ):
     connection = get_admin_ldap_connection()
 

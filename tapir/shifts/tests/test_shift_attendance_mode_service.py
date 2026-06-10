@@ -1,15 +1,15 @@
 import datetime
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
-    ShiftUserData,
-    ShiftAttendanceMode,
     CreateShiftAttendanceTemplateLogEntry,
     DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendanceMode,
+    ShiftUserData,
 )
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,

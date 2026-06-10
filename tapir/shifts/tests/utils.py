@@ -2,10 +2,10 @@ import django.test
 from django.urls import reverse
 
 from tapir.shifts.models import (
-    ShiftSlot,
     ShiftAttendance,
-    ShiftSlotTemplate,
     ShiftAttendanceTemplate,
+    ShiftSlot,
+    ShiftSlotTemplate,
 )
 
 

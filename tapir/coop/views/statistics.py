@@ -2,7 +2,7 @@ import csv
 import datetime
 import os
 
-from chartjs.colors import next_color, COLORS
+from chartjs.colors import COLORS, next_color
 from chartjs.views.lines import BaseLineChartView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
@@ -13,9 +13,9 @@ from django.views import generic
 
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.coop.models import (
-    ShareOwner,
-    MemberStatus,
     DraftUser,
+    MemberStatus,
+    ShareOwner,
     ShareOwnership,
     UpdateShareOwnerLogEntry,
 )

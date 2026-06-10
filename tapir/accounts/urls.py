@@ -1,5 +1,5 @@
 import django.contrib.auth.views as auth_views
-from django.urls import path, include, reverse_lazy
+from django.urls import include, path, reverse_lazy
 from django.views import generic
 
 from tapir.accounts import views

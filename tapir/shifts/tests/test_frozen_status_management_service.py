@@ -1,5 +1,5 @@
 import datetime
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import MagicMock, Mock, patch
 
 from django.utils import timezone
 
@@ -8,14 +8,14 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.log.models import EmailLogEntry
 from tapir.shifts.models import (
-    ShiftAttendanceMode,
-    ShiftUserData,
-    ShiftAccountEntry,
+    DeleteShiftAttendanceTemplateLogEntry,
     Shift,
+    ShiftAccountEntry,
     ShiftAttendance,
+    ShiftAttendanceMode,
     ShiftAttendanceTemplate,
     ShiftTemplate,
-    DeleteShiftAttendanceTemplateLogEntry,
+    ShiftUserData,
 )
 from tapir.shifts.services.frozen_status_management_service import (
     FrozenStatusManagementService,

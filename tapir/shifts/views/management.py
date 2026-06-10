@@ -2,7 +2,7 @@ import datetime
 from itertools import product
 
 from django.contrib import messages
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
 from django.shortcuts import get_object_or_404
@@ -11,29 +11,29 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
     CreateView,
-    UpdateView,
-    RedirectView,
     FormView,
+    RedirectView,
+    UpdateView,
 )
 
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.forms import (
-    ShiftCreateForm,
-    ShiftSlotForm,
+    BulkShiftCancelForm,
     ShiftCancelForm,
-    ShiftTemplateForm,
+    ShiftCreateForm,
+    ShiftDeleteForm,
+    ShiftSlotForm,
     ShiftSlotTemplateForm,
     ShiftTemplateDuplicateForm,
+    ShiftTemplateForm,
     ShiftTemplateGroup,
-    ShiftDeleteForm,
-    BulkShiftCancelForm,
 )
 from tapir.shifts.models import (
     Shift,
     ShiftSlot,
-    ShiftTemplate,
     ShiftSlotTemplate,
+    ShiftTemplate,
 )
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.services.shift_generator import ShiftGenerator

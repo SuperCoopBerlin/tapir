@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 from typing import TYPE_CHECKING
 
-from django.db.models import Count, Q, Value, QuerySet, OuterRef, Subquery
+from django.db.models import Count, OuterRef, Q, QuerySet, Subquery, Value
 from django.utils import timezone
 
 if TYPE_CHECKING:

@@ -6,9 +6,9 @@ from django.core.management import BaseCommand
 from tapir.accounts.models import TapirUser
 from tapir.settings import GROUP_VORSTAND
 from tapir.utils.shortcuts import (
-    send_file_to_storage_server,
     get_admin_ldap_connection,
     is_member_in_group,
+    send_file_to_storage_server,
 )
 from tapir.utils.user_utils import UserUtils
 

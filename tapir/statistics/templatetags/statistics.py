@@ -1,10 +1,9 @@
 from django import template
+from django.db.models import Sum
 from django.urls import reverse
 
-from tapir.statistics.models import PurchaseBasket, CreditAccount
+from tapir.statistics.models import CreditAccount, PurchaseBasket
 from tapir.statistics.views import get_average_monthly_basket
-
-from django.db.models import Sum
 
 register = template.Library()
 

@@ -1,30 +1,30 @@
 import logging
 
 import ldap
-from django.contrib.auth.models import AbstractUser, UserManager, User
+from django.contrib.auth.models import AbstractUser, User, UserManager
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext_lazy as _
-from django_auth_ldap.backend import _LDAPUser, LDAPBackend
+from django_auth_ldap.backend import LDAPBackend, _LDAPUser
 from django_auth_ldap.config import LDAPSearch
 from ldap import modlist
 from ldap.ldapobject import LDAPObject
 from phonenumber_field.modelfields import PhoneNumberField
 
-from tapir import utils, settings
+from tapir import settings, utils
 from tapir.coop.config import get_ids_of_users_registered_to_a_shift_with_capability
 from tapir.core.config import help_text_displayed_name
 from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import (
+    AUTH_LDAP_SERVER_URI,
     PERMISSIONS,
     REG_PERSON_BASE_DN,
     REG_PERSON_OBJECT_CLASSES,
-    AUTH_LDAP_SERVER_URI,
 )
 from tapir.utils.models import CountryField
-from tapir.utils.shortcuts import get_html_link, get_admin_ldap_connection
+from tapir.utils.shortcuts import get_admin_ldap_connection, get_html_link
 from tapir.utils.user_utils import UserUtils
 
 log = logging.getLogger(__name__)

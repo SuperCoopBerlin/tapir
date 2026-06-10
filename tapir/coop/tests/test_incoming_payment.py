@@ -5,10 +5,10 @@ from django.utils import timezone
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.models import (
-    IncomingPayment,
     CreatePaymentLogEntry,
-    UpdateIncomingPaymentLogEntry,
     DeleteIncomingPaymentLogEntry,
+    IncomingPayment,
+    UpdateIncomingPaymentLogEntry,
 )
 from tapir.coop.tests.incoming_payment_factory import IncomingPaymentFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase

@@ -1,4 +1,4 @@
-from django.db.models import QuerySet, Exists, OuterRef
+from django.db.models import Exists, OuterRef, QuerySet
 
 from tapir.shifts.models import ShiftAttendance, ShiftAttendanceTemplate
 

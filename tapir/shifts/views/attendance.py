@@ -1,5 +1,5 @@
-from django.contrib.auth.decorators import permission_required, login_required
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
@@ -9,38 +9,38 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import (
     CreateView,
-    UpdateView,
     FormView,
+    UpdateView,
 )
 
 from tapir.accounts.models import TapirUser
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
-from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
 from tapir.shifts.emails.shift_confirmed_email import ShiftConfirmedEmailBuilder
+from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
 from tapir.shifts.emails.stand_in_found_email import StandInFoundEmailBuilder
 from tapir.shifts.forms import (
-    ShiftAttendanceTemplateForm,
-    UpdateShiftAttendanceForm,
     RegisterUserToShiftSlotForm,
     ShiftAttendanceCustomTimeForm,
     ShiftAttendanceTemplateCustomTimeForm,
+    ShiftAttendanceTemplateForm,
+    UpdateShiftAttendanceForm,
 )
 from tapir.shifts.models import (
+    CreateShiftAttendanceLogEntry,
+    CreateShiftAttendanceTemplateLogEntry,
+    DeleteShiftAttendanceTemplateLogEntry,
     ShiftAttendance,
+    ShiftAttendanceTakenOverLogEntry,
     ShiftAttendanceTemplate,
     ShiftSlot,
     ShiftSlotTemplate,
-    CreateShiftAttendanceTemplateLogEntry,
-    DeleteShiftAttendanceTemplateLogEntry,
-    CreateShiftAttendanceLogEntry,
-    UpdateShiftAttendanceStateLogEntry,
-    ShiftAttendanceTakenOverLogEntry,
     SolidarityShift,
+    UpdateShiftAttendanceStateLogEntry,
 )
 from tapir.shifts.views.views import SelectedUserViewMixin
-from tapir.utils.shortcuts import safe_redirect, get_html_link
+from tapir.utils.shortcuts import get_html_link, safe_redirect
 from tapir.utils.user_utils import UserUtils
 
 

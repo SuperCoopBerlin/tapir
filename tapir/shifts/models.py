@@ -16,10 +16,9 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
-from tapir.core.models import FeatureFlag
-from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
+from tapir.log.models import LogEntry, ModelLogEntry, UpdateModelLogEntry
 from tapir.utils.models import DurationModelMixin
-from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
+from tapir.utils.shortcuts import get_html_link, get_monday, get_timezone_aware_datetime
 
 
 class ShiftUserCapability:
@@ -1206,12 +1205,6 @@ class StaffingStatusChoices(models.TextChoices):
     ATTENDANCE_MINUS = "SLOTS_MINUS", _(
         "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
     )
-    SHIFT_COORDINATOR_MINUS = "SHIFT_COORDINATOR_MINUS", _(
-        "The Shift Coordinator has unregistered"
-    )
-    SHIFT_COORDINATOR_PLUS = "SHIFT_COORDINATOR_PLUS", _(
-        "A Shift Coordinator has registered"
-    )
 
 
 def get_staffingstatus_choices():
@@ -1220,6 +1213,10 @@ def get_staffingstatus_choices():
 
 def get_staffingstatus_defaults():
     return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
+
+
+def get_shift_capability_choices():
+    return list(SHIFT_USER_CAPABILITY_CHOICES.items())
 
 
 class ShiftWatch(models.Model):
@@ -1251,6 +1248,15 @@ class ShiftWatch(models.Model):
         null=True,
         blank=True,
         on_delete=models.CASCADE,
+    )
+
+    watched_capabilities = ArrayField(
+        models.CharField(
+            max_length=128, choices=get_shift_capability_choices, blank=False
+        ),
+        default=list,
+        blank=True,
+        null=False,
     )
 
     def __str__(self):

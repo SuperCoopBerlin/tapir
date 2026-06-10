@@ -7,11 +7,11 @@ from faker import Faker
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.user_data_factory import UserDataFactory
 from tapir.coop.models import (
-    ShareOwnership,
-    ShareOwner,
     DraftUser,
     MembershipPause,
     MembershipResignation,
+    ShareOwner,
+    ShareOwnership,
 )
 from tapir.statistics.models import PurchaseBasket
 

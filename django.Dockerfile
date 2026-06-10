@@ -52,6 +52,7 @@ RUN poetry run python manage.py compilemessages
 
 FROM python:3.13-slim AS prod
 ARG ARG_VERSION
+ARG POETRY_INSTALL_DEV=true
 ENV TAPIR_VERSION=${ARG_VERSION}
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
