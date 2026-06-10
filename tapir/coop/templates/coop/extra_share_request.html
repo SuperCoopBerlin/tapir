@@ -88,8 +88,8 @@
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
-                    <a href="{% url 'coop:shareowner_detail' share_owner.pk %}"
-                       class="btn btn-secondary">{% translate "Cancel" %}</a>
+                    <a class="{% tapir_button_link %}"
+                       href="{% url 'coop:shareowner_detail' share_owner.pk %}">{% translate "Cancel" %}</a>
                 </form>
             </div>
         </div>
