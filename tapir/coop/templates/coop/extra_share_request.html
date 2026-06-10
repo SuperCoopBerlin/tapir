@@ -87,7 +87,7 @@
                             </label>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
+                    <button type="submit" class="{% tapir_button_action %}">{% translate "Submit" %}</button>
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:shareowner_detail' share_owner.pk %}">{% translate "Cancel" %}</a>
                 </form>
