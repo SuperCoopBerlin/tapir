@@ -62,9 +62,6 @@ RUN apt-get update \
     libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN groupadd --gid 1001 appuser && \
-    useradd --uid 1001 --gid 1001 -m appuser
-
 WORKDIR /app
 
 COPY --from=builder --chmod=755  /app/.venv /app/.venv
