@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-11 08:00+0200\n"
+"POT-Creation-Date: 2026-06-11 08:03+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3763,9 +3763,7 @@ msgstr ""
 "        </p> "
 
 #: shifts/templates/shifts/email/shift_cancelled.subject.html:2
-msgid ""
-"\n"
-"    Your shift was cancelled\n"
+msgid "Your shift was cancelled"
 msgstr "Diese Schicht wurde abgesagt: "
 
 #: shifts/templates/shifts/email/shift_confirmed.body.html:6
@@ -5049,22 +5047,22 @@ msgstr "Keine beobachteten Schichten"
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views/attendance.py:206 shifts/views/attendance.py:350
+#: shifts/views/attendance.py:205 shifts/views/attendance.py:349
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:212 shifts/views/attendance.py:356
+#: shifts/views/attendance.py:211 shifts/views/attendance.py:355
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/attendance.py:390
+#: shifts/views/attendance.py:389
 #, python-format
 msgid "ABCD attendance: %(name)s"
 msgstr "ABCD-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:397
+#: shifts/views/attendance.py:396
 #, python-format
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
 msgstr "ABCD-Anwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
