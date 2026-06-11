@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-09 08:36+0200\n"
+"POT-Creation-Date: 2026-06-11 18:57+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3236,8 +3236,8 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:725 shifts/forms.py:793 shifts/views/views.py:377
-#: shifts/views/views.py:378
+#: shifts/forms.py:725 shifts/forms.py:793 shifts/views/views.py:419
+#: shifts/views/views.py:420
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
@@ -3344,7 +3344,7 @@ msgid "If enabled, members who register for that shift can choose themselves the
 msgstr ""
 
 #: shifts/models.py:408 shifts/models.py:824
-#: shifts/templates/shifts/shift_detail.html:112
+#: shifts/templates/shifts/shift_detail.html:116
 #: shifts/templates/shifts/shift_template_detail.html:46
 msgid "Chosen time"
 msgstr "Ausgewählte Uhrzeit"
@@ -3369,7 +3369,7 @@ msgstr ""
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
 msgstr "Diese Schicht ermöglicht dir auszusuchen, wann du kommen magst. Um die Planung zu erleichtern, gib bitte deine erwartete Ankunftszeit an."
 
-#: shifts/models.py:934 shifts/templates/shifts/shift_detail.html:308
+#: shifts/models.py:934 shifts/templates/shifts/shift_detail.html:312
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
@@ -3382,12 +3382,12 @@ msgstr "Nicht erschienen"
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:936 shifts/templates/shifts/shift_detail.html:346
+#: shifts/models.py:936 shifts/templates/shifts/shift_detail.html:350
 msgid "Cancelled"
 msgstr "Abgesagt"
 
 #: shifts/models.py:937 shifts/templates/shifts/shift_day_printable.html:264
-#: shifts/templates/shifts/shift_detail.html:330
+#: shifts/templates/shifts/shift_detail.html:334
 #: shifts/templates/shifts/shift_detail_printable.html:94
 #: shifts/templates/shifts/shift_filters.html:83
 msgid "Looking for a stand-in"
@@ -4659,7 +4659,7 @@ msgid "Recurring Shift Watches"
 msgstr "Wiederholende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:25
-#: shifts/views/views.py:422
+#: shifts/views/views.py:464
 msgid "Create a rule for recurring Shift Watches"
 msgstr "Erstelle eine Regel für sich wiederholende Schichtbeobachtungen"
 
@@ -5108,11 +5108,11 @@ msgstr "Schichtkonto-Protokoll für: %(name)s"
 msgid "Create manual shift account entry for: %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:360
+#: shifts/views/views.py:402
 msgid "Frozen statuses updated."
 msgstr ""
 
-#: shifts/views/views.py:425
+#: shifts/views/views.py:467
 #, python-format
 msgid "Please select either %(shift_template_group)s and/or weekdays, or alternatively %(shift_templates)s."
 msgstr ""
