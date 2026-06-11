@@ -42,6 +42,8 @@ def log_entry_list(context, **kwargs):
         share_owner_id = tapir_user.share_owner.id
     elif share_owner:
         share_owner_id = share_owner.id
+    else:
+        share_owner_id = tapir_user.id
     context["share_owner_id"] = share_owner_id
 
     context["create_text_log_entry_action_url"] = reverse(
