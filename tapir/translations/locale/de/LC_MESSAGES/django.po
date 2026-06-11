@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-09 08:36+0200\n"
+"POT-Creation-Date: 2026-06-11 08:00+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3081,6 +3081,16 @@ msgstr "Schicht-Status wird auf Eingefroren gesetzt"
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
 msgstr "Wird an ein Mitglied gesendet, wenn sein Schichtstatus auf Eingefroren gesetzt wird. Dies geschieht in der Regel, wenn es zu viele Schichten versäumt hat."
 
+#: shifts/emails/shift_cancelled_mail.py:23
+msgid "Shift cancelled"
+msgstr "Schicht abgesagt"
+
+#: shifts/emails/shift_cancelled_mail.py:27
+#, fuzzy
+#| msgid "Sent to a member when the member office marks the shift as confirmed"
+msgid "Sent to a member when the member office marks the shift as cancelled"
+msgstr "Wird an ein Mitglied gesendet, wenn die Schicht abgesagt wurde."
+
 #: shifts/emails/shift_confirmed_email.py:23
 msgid "Shift attendance confirmed"
 msgstr "Schichtanwesenheit bestätigt"
@@ -3715,6 +3725,48 @@ msgid ""
 msgstr ""
 "\n"
 "    Ausstehende Schichteinträge älter als %(nb_days_threshold)s Tage\n"
+
+#: shifts/templates/shifts/email/shift_cancelled.body.html:6
+#, python-format
+msgid ""
+"\n"
+"        <p>Hi %(display_name_short)s,</p>\n"
+"\n"
+"        <p>This is an automated email from %(coop_name)s.</p>\n"
+"\n"
+"        <p>\n"
+"        Your shift %(shift_display_name } was cancelled! Reason: {{ shift.cancelled_reason)s.\n"
+"            What does in mean for you? If you are flying member, then X. If you're ABCD member, then Y.\n"
+"        See you next time!\n"
+"        </p>\n"
+"\n"
+"        <p>\n"
+"            Cooperative Greetings,<br />\n"
+"            The Membership Office\n"
+"        </p>\n"
+"    "
+msgstr ""
+"\n"
+"    <p>Hallo %(display_name_short)s,</p>\n"
+"\n"
+"    <p>Dies ist eine automatische E-Mail von %(coop_name)s.</p>\n"
+"\n"
+"    <p>\n"
+"        Deine Schicht %(shift_display_name)s wurde abgesagt! Grund %(shift.cancelled_reason)s.<br/>\n"
+"        Was bedeutet das für dich? Entweder X oder Y.\n"
+"    </p>\n"
+"\n"
+"    <p>Wir sehen uns beim nächsten mal!</p>\n"
+"\n"
+"    <p>Kooperative Grüße,<br /> \n"
+"            Das Mitgliederbüro\n"
+"        </p> "
+
+#: shifts/templates/shifts/email/shift_cancelled.subject.html:2
+msgid ""
+"\n"
+"    Your shift was cancelled\n"
+msgstr "Diese Schicht wurde abgesagt: "
 
 #: shifts/templates/shifts/email/shift_confirmed.body.html:6
 #, fuzzy, python-format
@@ -4997,22 +5049,22 @@ msgstr "Keine beobachteten Schichten"
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views/attendance.py:205 shifts/views/attendance.py:349
+#: shifts/views/attendance.py:206 shifts/views/attendance.py:350
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:211 shifts/views/attendance.py:355
+#: shifts/views/attendance.py:212 shifts/views/attendance.py:356
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/attendance.py:389
+#: shifts/views/attendance.py:390
 #, python-format
 msgid "ABCD attendance: %(name)s"
 msgstr "ABCD-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:396
+#: shifts/views/attendance.py:397
 #, python-format
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
 msgstr "ABCD-Anwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
@@ -6521,6 +6573,9 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#~ msgid "Shift attendance cancelled"
+#~ msgstr "Schicht"
 
 #~ msgid "Buy"
 #~ msgstr "Kaufen"

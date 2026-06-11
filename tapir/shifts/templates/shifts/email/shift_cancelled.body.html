@@ -1,0 +1,22 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    {% get_display_name_short tapir_user as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
+        <p>Hi {{ display_name_short }},</p>
+
+        <p>This is an automated email from {{ coop_name }}.</p>
+
+        <p>
+        Your shift {{ shift_display_name } was cancelled! Reason: {{ shift.cancelled_reason }}.
+            What does in mean for you? If you are flying member, then X. If you're ABCD member, then Y.
+        See you next time!
+        </p>
+
+        <p>
+            Cooperative Greetings,<br />
+            The Membership Office
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}

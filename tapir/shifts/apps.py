@@ -77,6 +77,7 @@ class ShiftConfig(AppConfig):
         from tapir.shifts.emails.member_frozen_email import (
             MemberFrozenEmailBuilder,
         )
+        from tapir.shifts.emails.shift_cancelled_mail import ShiftCancelledEmailBuilder
         from tapir.shifts.emails.shift_confirmed_email import (
             ShiftConfirmedEmailBuilder,
         )
@@ -97,6 +98,7 @@ class ShiftConfig(AppConfig):
         )
 
         TapirEmailBuilderBase.register_email(ShiftMissedEmailBuilder)
+        TapirEmailBuilderBase.register_email(ShiftCancelledEmailBuilder)
         TapirEmailBuilderBase.register_email(ShiftConfirmedEmailBuilder)
         TapirEmailBuilderBase.register_email(ShiftReminderEmailBuilder)
         TapirEmailBuilderBase.register_email(StandInFoundEmailBuilder)
