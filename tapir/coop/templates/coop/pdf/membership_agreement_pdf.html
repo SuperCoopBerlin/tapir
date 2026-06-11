@@ -4,7 +4,7 @@
 {% load utils %}
 {% get_display_name_legal share_owner as display_name_legal %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
     <head>
         <meta charset="UTF-8">
         <title>Beteiligungserklärung {{ display_name_legal }}</title>
@@ -29,10 +29,10 @@
                 {% if share_owner %}
                     <span style="font-size: 6pt;">
                         {{ display_name_legal }},
-                        {% if share_owner.street and share_owner.city %}
-                            {% if share_owner.street_2 %}{{ share_owner.street_2 }},{% endif %}
-                            {{ share_owner.street }},
-                            {{ share_owner.postcode }} {{ share_owner.city }}
+                        {% if share_owner.get_info.street and share_owner.get_info.city %}
+                            {% if share_owner.get_info.street_2 %}{{ share_owner.get_info.street_2 }},{% endif %}
+                            {{ share_owner.get_info.street }},
+                            {{ share_owner.get_info.postcode }} {{ share_owner.get_info.city }}
                         {% endif %}
                     </span>
                 {% endif %}
@@ -66,7 +66,7 @@
                                 flex: 1;
                                 vertical-align: bottom">
                         <span style="margin-left: 5mm;">
-                            {% if share_owner.birthdate %}{{ share_owner.birthdate }}{% endif %}
+                            {% if share_owner.get_info.birthdate %}{{ share_owner.get_info.birthdate }}{% endif %}
                         </span>
                     </div>
                 </div>
@@ -92,11 +92,11 @@
                                 flex: 1;
                                 vertical-align: bottom">
                         <span style="margin-left: 5mm;">
-                            {% if share_owner.street and share_owner.city %}
-                                {{ share_owner.street }}
-                                {% if share_owner.street_2 %}{{ share_owner.street_2 }}{% endif %}
+                            {% if share_owner.get_info.street and share_owner.get_info.city %}
+                                {{ share_owner.get_info.street }}
+                                {% if share_owner.get_info.street_2 %}{{ share_owner.get_info.street_2 }}{% endif %}
                                 ,
-                                {{ share_owner.postcode }} {{ share_owner.city }}
+                                {{ share_owner.get_info.postcode }} {{ share_owner.get_info.city }}
                             {% endif %}
                         </span>
                     </div>
@@ -106,13 +106,13 @@
                     <div style="border-bottom: 2px solid black;
                                 flex: 1;
                                 vertical-align: bottom">
-                        <span style="margin-left: 5mm;">{{ share_owner.email }}</span>
+                        <span style="margin-left: 5mm;">{{ share_owner.get_info.email }}</span>
                     </div>
                     <div style="margin-right: 3mm; margin-left: 3mm;">Telefon:</div>
                     <div style="border-bottom: 2px solid black;
                                 flex: 1;
                                 vertical-align: bottom">
-                        <span style="margin-left: 5mm;">{{ share_owner.phone_number|format_phone_number }}</span>
+                        <span style="margin-left: 5mm;">{{ share_owner.get_info.phone_number|format_phone_number }}</span>
                     </div>
                 </div>
             </div>
@@ -129,14 +129,17 @@
                                  width: 20mm;
                                  border-bottom: 2px solid black;
                                  text-align: center">{{ share_owner.num_shares }}</span>
-                    Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen Zahlungen
-                    in Höhe von 100 € je Geschäftsanteil plus einem Eintrittsgeld in Höhe von 10 € zu leisten, das der Deckung von
+                    Anteil(en) an der Genossenschaft beteiligen. Ich verpflichte mich, die nach Satzung und Gesetz vorgesehenen
+                    Zahlungen
+                    in Höhe von 100 € je Geschäftsanteil plus einem Eintrittsgeld in Höhe von 10 € zu leisten, das der Deckung
+                    von
                     Verwaltungskosten dient. Insgesamt verpflichte ich mich daher,
                     <span style="display: inline-block;
                                  width: 20mm;
                                  border-bottom: 2px solid black;
                                  text-align: center">{{ share_owner.get_initial_amount|floatformat:0 }}</span>€
-                    zu leisten. Die Satzung von {{ coop_full_name }} ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:
+                    zu leisten. Die Satzung von {{ coop_full_name }} ist mir (entweder digital oder in gedruckter Form)
+                    ausgehändigt worden kann hier eingesehen werden:
                     <a href="https://supercoop.de/unsere-genossenschaft/">https://supercoop.de/unsere-genossenschaft/</a>
                 </div>
             </div>
@@ -159,8 +162,8 @@
                     <span style="display: inline-block;
                                  width: 10mm;
                                  border-bottom: 2px solid black;
-                                 text-align: center"></span>
-                    €  zu leisten.
+                                 text-align: center">{{ additional_to_pay|floatformat:0 }}</span>
+                    € zu leisten.
                 </div>
             </div>
             <div style="display: flex; flex-direction: row; margin-top: 5mm;">
@@ -173,7 +176,8 @@
                 <div style="flex: 1">
                     Ich möchte als investierendes Mitglied (= Fördermitglied) in die Mitgliederliste eingetragen werden.
                     <br />
-                    <strong>Hinweis</strong>: Investierende Mitglieder sind fördernde Mitglieder. Sie haben kein Stimmrecht in der
+                    <strong>Hinweis</strong>: Investierende Mitglieder sind fördernde Mitglieder. Sie haben kein Stimmrecht in
+                    der
                     Generalversammlung und können die Leistungen der Genossenschaft nicht nutzen.
                 </div>
             </div>
@@ -192,7 +196,7 @@
             <div style="display: flex; flex-direction: row; margin-top: 5mm;">
                 <div style="margin-right: 8mm; width: 5mm;">
                     <span class="material-icons">check_box_outline_blank</span>
-                    {% if share_owner.ratenzahlung %}
+                    {% if share_owner.ratenzahlung and not share_owner.share_ownerships or additional_information %}
                         <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
                     {% endif %}
                 </div>
@@ -201,7 +205,8 @@
                                  width: 100mm;
                                  border-bottom: 2px solid black;
                                  text-align: center">
-                        {% if share_owner.ratenzahlung %}Ratenzahlung{% endif %}
+                        {% if share_owner.ratenzahlung and not share_owner.share_ownerships %}Ratenzahlung{% endif %}
+                        {% if additional_information %}{{ additional_information }}{% endif %}
                     </span>
                     <br />
                     (Weiteres, z.Bsp. Ratenzahlung, wenn möglich mit Angabe der Zahlungsintervalle)
@@ -255,21 +260,30 @@
                 Unterzeichnende eine Übertragung seiner Daten an eine dritte Stelle wünschen. Darüber hinaus haben Sie das Recht
                 auf Beschwerde bei einer Aufsichtsbehörde (Landesbeauftragte für Datenschutz).
             </div>
-            <div style="display: flex; margin-top: 30mm;">
-                <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum)</div>
-                <div style="flex-grow: 1"></div>
-                <div style="border-top: 1px solid black; width: 80mm;">(Unterschrift Mitglied)</div>
-            </div>
-            <div style="border-top: 2px solid black;
-                        width: 100%;
-                        margin-top: 10mm;
-                        margin-bottom: 4mm"></div>
-            <div style="text-align: center;">Zulassung durch die Genossenschaft. Dem Antrag wird entsprochen:</div>
-            <div style="display: flex; margin-top: 20mm;">
-                <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum, Unterschrift)</div>
-                <div style="flex-grow: 1"></div>
-                <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum, Unterschrift)</div>
-            </div>
+            {% if not hide_user_signing_field %}
+                <div style="display: flex; margin-top: 30mm;">
+                    <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum)</div>
+                    <div style="flex-grow: 1"></div>
+                    <div style="border-top: 1px solid black; width: 80mm;">(Unterschrift Mitglied)</div>
+                </div>
+            {% endif %}
+            {% if not hide_board_signing_field %}
+                <div style="border-top: 2px solid black;
+                            width: 100%;
+                            margin-top: 10mm;
+                            margin-bottom: 4mm"></div>
+                <div style="text-align: center;">Zulassung durch die Genossenschaft. Dem Antrag wird entsprochen:</div>
+                <div style="display: flex; margin-top: 20mm;">
+                    <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum, Unterschrift)</div>
+                    <div style="flex-grow: 1"></div>
+                    <div style="border-top: 1px solid black; width: 80mm;">(Ort, Datum, Unterschrift)</div>
+                </div>
+            {% endif %}
+            {% if generation_time %}
+                <div style="margin-top: 20mm; font-size: 9pt; color: #666;">
+                    <p>Generiert am {{ generation_time|date:"d.m.Y" }} um {{ generation_time|date:"H:i T" }}</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 </body>

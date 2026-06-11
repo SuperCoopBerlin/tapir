@@ -9,8 +9,8 @@ from django.utils import timezone
 from tapir.core.models import FeatureFlag
 from tapir.shifts.config import (
     FEATURE_FLAG_REMINDER_MAIL_OLD_PENDING_ATTENDANCES,
-    NB_DAYS_BEFORE_REMINDER_OLD_PENDING_ATTENDANCES,
     NB_DAYS_AFTER_REMINDER_OLD_PENDING_ATTENDANCES,
+    NB_DAYS_BEFORE_REMINDER_OLD_PENDING_ATTENDANCES,
 )
 from tapir.shifts.models import ShiftAttendance
 

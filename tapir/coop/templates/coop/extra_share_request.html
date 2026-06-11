@@ -1,0 +1,119 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+{% block title %}
+    {% translate "Buy more shares" %}
+{% endblock title %}
+{% block head %}
+    {{ block.super }}
+    {{ form.media }}
+{% endblock head %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block content %}
+    <div class="container">
+        <div class="card mb-2">
+            <h5 class="card-header">{% translate "Buy more shares" %}</h5>
+            <div class="card-body">
+                <p class="mb-4 text-muted">
+                    {% blocktranslate %}
+                Here you can request additional shares in the cooperative. Enter the number of shares you wish to
+                hold and confirm that you accept the legal terms and conditions.
+                In the end, you will receive an email with your new membership-agreement.
+                {% endblocktranslate %}
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+                    <div class="mb-5">
+                        {{ form.num_shares.label_tag }}
+                        {{ form.num_shares }}
+                        <small class="form-text text-muted d-block mt-2">{{ form.num_shares.help_text }}</small>
+                        {% if form.num_shares.errors %}<div class="invalid-feedback d-block">{{ form.num_shares.errors }}</div>{% endif %}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.additional_information.label_tag }}
+                        {{ form.additional_information }}
+                        {% if form.additional_information.errors %}
+                            <div class="invalid-feedback d-block">{{ form.additional_information.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check mb-2">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   id="participationConfirm"
+                                   name="participation_confirm"
+                                   required>
+                            <label class="form-check-label" for="participationConfirm">
+                                {% blocktranslate %}
+                            I want to participate in the cooperative with <strong id="shareCount">{{ share_count
+                            }}</strong>
+                            additional shares.
+                            I undertake to make the payments required by the Articles of Association and
+                            by law in the amount of {{ COOP_SHARE_PRICE }} € per share. Together with the mandatory
+                            contribution, I
+                            therefore undertake to pay a total of <strong id="sharePrice">{{ share_price }}</strong> €.
+                            {% endblocktranslate %}
+                            </label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   id="statutesAcknowledged"
+                                   name="statutes_acknowledged"
+                                   required>
+                            <label class="form-check-label" for="statutesAcknowledged">
+                                {% translate "I have taken note of the articles of association" %}
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox"
+                                   class="form-check-input"
+                                   id="terminationPeriodAccepted"
+                                   name="termination_period_accepted"
+                                   required>
+                            <label class="form-check-label" for="terminationPeriodAccepted">
+                                {% blocktranslate %}
+                            I acknowledge that the Articles of Association stipulate a notice period of three years,
+                            effective at the end of the
+                            financial year. This long notice period serves to ensure financial stability and is a
+                            fundamental aspect of the cooperative principle, which is geared towards long-term
+                            objectives. A
+                            transfer of shares is also possible at an earlier stage and is governed by the
+                            Articles of Association.
+                            {% endblocktranslate %}
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="{% tapir_button_action %}">{% translate "Submit" %}</button>
+                    <a class="{% tapir_button_link %}"
+                       href="{% url 'coop:shareowner_detail' share_owner.pk %}">{% translate "Cancel" %}</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+    const numSharesInput = document.querySelector('[name="num_shares"]');
+    const shareCountDisplay = document.getElementById('shareCount');
+    const sharePriceDisplay = document.getElementById('sharePrice');
+    const pricePerShare = 100;
+
+    function updateShareInfo() {
+        const numShares = Number.parseInt(numSharesInput.value) || 0;
+        const totalPrice = numShares * pricePerShare;
+
+        shareCountDisplay.textContent = numShares;
+        sharePriceDisplay.textContent = totalPrice.toLocaleString("{{ LANGUAGE_CODE }}", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    }
+
+    numSharesInput.addEventListener('input', updateShareInfo);
+    numSharesInput.addEventListener('change', updateShareInfo);
+
+    updateShareInfo();
+    </script>
+{% endblock content %}

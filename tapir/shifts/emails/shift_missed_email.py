@@ -1,5 +1,3 @@
-from typing import List
-
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
@@ -25,12 +23,12 @@ class ShiftMissedEmailBuilder(TapirEmailBuilderBase):
     def get_description(cls) -> str:
         return _("Sent to a member when the member office marks the shift as missed")
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "shifts/email/shift_missed.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "shifts/email/shift_missed.body.html",
         ]

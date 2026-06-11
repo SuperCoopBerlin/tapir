@@ -1,4 +1,4 @@
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.urls import reverse
 
@@ -6,7 +6,7 @@ from tapir import settings
 from tapir.shifts.models import Shift
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, PermissionTestMixin
+from tapir.utils.tests_utils import PermissionTestMixin, TapirFactoryTestBase
 
 
 class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase):

@@ -1,7 +1,7 @@
 import django_filters
 import django_tables2
 from django.contrib import messages
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
 from django.db.models import Q
 from django.urls import reverse
@@ -10,25 +10,26 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
+from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.forms import IncomingPaymentForm
 from tapir.coop.models import (
+    CreatePaymentLogEntry,
+    DeleteIncomingPaymentLogEntry,
     IncomingPayment,
     ShareOwner,
-    CreatePaymentLogEntry,
     UpdateIncomingPaymentLogEntry,
-    DeleteIncomingPaymentLogEntry,
 )
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
-    PERMISSION_COOP_VIEW,
     PERMISSION_ACCOUNTING_MANAGE,
     PERMISSION_ACCOUNTING_VIEW,
     PERMISSION_COOP_ADMIN,
+    PERMISSION_COOP_VIEW,
 )
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.forms import DateFromToRangeFilterTapir
@@ -80,11 +81,20 @@ class IncomingPaymentTable(django_tables2.Table):
     def render_paying_member(self, value, record: IncomingPayment):
         return self.render_member(self.request.user, record.paying_member)
 
+    def value_paying_member(self, value, record: IncomingPayment):
+        return record.paying_member
+
     def render_credited_member(self, value, record: IncomingPayment):
         return self.render_member(self.request.user, record.credited_member)
 
+    def value_credited_member(self, value, record: IncomingPayment):
+        return record.credited_member
+
     def render_created_by(self, value, record: IncomingPayment):
         return self.render_member(self.request.user, record.created_by.share_owner)
+
+    def value_created_by(self, value, record: IncomingPayment):
+        return record.created_by.share_owner
 
     def render_payment_date(self, value, record: IncomingPayment):
         return record.payment_date.strftime("%d.%m.%Y")
@@ -110,12 +120,14 @@ class IncomingPaymentFilter(django_filters.FilterSet):
     created_by = TapirUserModelChoiceFilter()
 
 
-class IncomingPaymentListView(LoginRequiredMixin, FilterView, SingleTableView):
+class IncomingPaymentListView(
+    LoginRequiredMixin, FilterView, ExportMixin, SingleTableView
+):
     table_class = IncomingPaymentTable
     model = IncomingPayment
     template_name = "coop/incoming_payment_list.html"
-
     filterset_class = IncomingPaymentFilter
+    export_formats = ["csv", "json"]
 
     def get_queryset(self):
         queryset = IncomingPayment.objects.all()

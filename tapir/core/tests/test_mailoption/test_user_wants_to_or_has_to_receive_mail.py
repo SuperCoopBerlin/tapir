@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from tapir.accounts.models import TapirUser, OptionalMails
+from tapir.accounts.models import OptionalMails, TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.core.mail_option import MailOption
 from tapir.core.services.optional_mails_for_user_service import (

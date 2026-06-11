@@ -9,11 +9,11 @@ from tapir.coop.management.commands.send_accounting_recap import (
     Command,
 )
 from tapir.coop.models import (
-    NewMembershipsForAccountingRecap,
     ExtraSharesForAccountingRecap,
+    NewMembershipsForAccountingRecap,
 )
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 class TestSendAccountingRecap(TapirFactoryTestBase, TapirEmailTestMixin):

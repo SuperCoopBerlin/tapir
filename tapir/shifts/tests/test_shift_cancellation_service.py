@@ -1,6 +1,7 @@
 import datetime
 
 from django.utils import timezone
+
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     ShiftAttendance,

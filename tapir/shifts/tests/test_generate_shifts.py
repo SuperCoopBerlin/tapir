@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from django.core.management import call_command
 
-from tapir.shifts.models import ShiftTemplateGroup, ShiftTemplate
+from tapir.shifts.models import ShiftTemplate, ShiftTemplateGroup
 from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 

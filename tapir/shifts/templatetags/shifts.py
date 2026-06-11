@@ -1,27 +1,25 @@
-import datetime
-import random
-
-import tapir.shifts.config
 from django import template
 from django.db.models import QuerySet
 from django.utils import timezone
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
+
+import tapir.shifts.config
 from tapir.shifts import utils
 from tapir.shifts.models import (
-    Shift,
-    ShiftTemplate,
     WEEKDAY_CHOICES,
+    Shift,
     ShiftAttendance,
-    ShiftTemplateGroup,
     ShiftSlot,
+    ShiftTemplate,
+    ShiftTemplateGroup,
     ShiftUserData,
     ShiftWatch,
 )
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )
-from tapir.utils.shortcuts import get_monday, ensure_date
+from tapir.utils.shortcuts import ensure_date, get_monday
 
 register = template.Library()
 

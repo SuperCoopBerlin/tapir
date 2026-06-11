@@ -2,7 +2,6 @@ import csv
 import datetime
 import fnmatch
 import io
-from typing import Dict
 
 import environ
 import paramiko
@@ -16,7 +15,7 @@ from tapir.accounts.models import TapirUser
 from tapir.statistics.management.commands.process_purchase_files import (
     Command as ProcessPurchaseFilesCommand,
 )
-from tapir.statistics.models import ProcessedCreditFiles, CreditAccount
+from tapir.statistics.models import CreditAccount, ProcessedCreditFiles
 from tapir.utils.shortcuts import get_timezone_aware_datetime
 
 
@@ -56,7 +55,7 @@ class Command(BaseCommand):
 
         credit_accounts = []
         for row in csv.DictReader(file, delimiter=",", quotechar='"'):
-            row: Dict
+            row: dict
             if row["ID"].isnumeric() and not row["ID"].startswith("299"):
                 continue
             credit_date = get_timezone_aware_datetime(

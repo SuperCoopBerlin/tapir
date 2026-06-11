@@ -3,7 +3,7 @@ from calendar import MONDAY
 from collections import OrderedDict
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import OuterRef, Exists
+from django.db.models import Exists, OuterRef
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.safestring import mark_safe
@@ -12,14 +12,14 @@ from weasyprint import HTML
 
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.shifts.models import (
-    Shift,
     WEEKDAY_CHOICES,
-    ShiftTemplateGroup,
+    Shift,
     ShiftTemplate,
+    ShiftTemplateGroup,
 )
 from tapir.shifts.templatetags.shifts import get_week_group, user_watching_shift
 from tapir.shifts.utils import ColorHTMLCalendar
-from tapir.shifts.views.views import get_shift_slot_names, SelectedUserViewMixin
+from tapir.shifts.views.views import SelectedUserViewMixin, get_shift_slot_names
 from tapir.utils.shortcuts import get_monday, set_header_for_file_download
 
 

@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
-from django.db.models import Sum, Count, Q
+from django.db.models import Count, Q, Sum
 from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse, reverse_lazy
@@ -14,10 +14,11 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import (
     CreateView,
-    UpdateView,
+    DetailView,
     RedirectView,
+    TemplateView,
+    UpdateView,
 )
-from django.views.generic import DetailView, TemplateView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
@@ -30,31 +31,28 @@ from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
+    PERMISSION_ACCOUNTS_MANAGE,
     PERMISSION_COOP_MANAGE,
     PERMISSION_SHIFTS_MANAGE,
     PERMISSION_WELCOMEDESK_VIEW,
-    PERMISSION_ACCOUNTS_MANAGE,
 )
 from tapir.shifts.forms import (
-    ShiftUserDataForm,
     CreateShiftAccountEntryForm,
-    ShiftWatchForm,
     RecurringShiftWatchForm,
+    ShiftUserDataForm,
+    ShiftWatchForm,
 )
-
 from tapir.shifts.models import (
-    Shift,
-    ShiftAttendance,
     SHIFT_ATTENDANCE_STATES,
-    ShiftTemplate,
-    ShiftWatch,
     RecurringShiftWatch,
-)
-from tapir.shifts.models import (
-    ShiftSlot,
-    UpdateShiftUserDataLogEntry,
-    ShiftUserData,
+    Shift,
     ShiftAccountEntry,
+    ShiftAttendance,
+    ShiftSlot,
+    ShiftTemplate,
+    ShiftUserData,
+    ShiftWatch,
+    UpdateShiftUserDataLogEntry,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import shift_name_as_class

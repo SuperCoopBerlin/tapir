@@ -1,5 +1,3 @@
-from typing import List
-
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
@@ -28,12 +26,12 @@ class TapirAccountCreatedEmailBuilder(TapirEmailBuilderBase):
     def get_description(cls) -> str:
         return _("Sent to a member when the accounts gets created.")
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "coop/email/tapir_account_created.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "coop/email/tapir_account_created.body.html",
         ]

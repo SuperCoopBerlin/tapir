@@ -10,13 +10,13 @@ from tapir.coop.emails.membership_confirmation_email_for_investing_member import
     MembershipConfirmationForInvestingMemberEmailBuilder,
 )
 from tapir.coop.models import (
+    DraftUser,
+    NewMembershipsForAccountingRecap,
     ShareOwner,
     ShareOwnership,
-    NewMembershipsForAccountingRecap,
-    DraftUser,
 )
 from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestMixin):

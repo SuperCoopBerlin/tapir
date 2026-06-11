@@ -2,7 +2,7 @@ from django.urls import reverse
 
 from tapir import settings
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, PermissionTestMixin
+from tapir.utils.tests_utils import PermissionTestMixin, TapirFactoryTestBase
 
 
 class TestShiftDeleteView(PermissionTestMixin, TapirFactoryTestBase):
