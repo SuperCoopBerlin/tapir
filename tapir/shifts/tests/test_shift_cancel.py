@@ -30,7 +30,7 @@ class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
         wraps=ShiftCancellationService.cancel,
     )
     def test_CancelShiftView_apply_callsCancellationService(self, mock_cancel: Mock):
-        self.login_as_member_office_user()
+        member_office_user = self.login_as_member_office_user()
         shift = ShiftFactory.create()
 
         response = self.client.post(
@@ -46,7 +46,7 @@ class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
 
         # We we make sure that the cancellation service was called
         # The logic for updating the attendance is tested in the service tests
-        mock_cancel.assert_called_once_with(shift)
+        mock_cancel.assert_called_once_with(shift, member_office_user)
 
         # Assert that the shift is cancelled now
         updated_shift = Shift.objects.get(id=shift.id)

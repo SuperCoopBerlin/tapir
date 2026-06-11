@@ -87,7 +87,7 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
 
     @_mock_cancel_service
     def test_CancelDayShiftView_apply_callsCancellationService(self, mock_cancel: Mock):
-        self.login_as_member_office_user()
+        member_office_user = self.login_as_member_office_user()
         shifts, _ = self.setup_shifts()
 
         response = self.client.post(
@@ -106,7 +106,9 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
 
         # We we make sure that the cancellation service was called with all selected shifts
         # The logic for updating the attendance is tested in the service tests
-        mock_cancel.assert_has_calls([call(shift) for shift in shifts], any_order=True)
+        mock_cancel.assert_has_calls(
+            [call(shift, member_office_user) for shift in shifts], any_order=True
+        )
 
         self.assert_shifts_canceled(shifts, should_be_cancelled=True)
 
@@ -114,7 +116,7 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
     def test_CancelDayShiftView_apply_doesNotCancelUnselectedShifts(
         self, mock_cancel: Mock
     ):
-        self.login_as_member_office_user()
+        member_office_user = self.login_as_member_office_user()
         shifts, shifts_on_another_day = self.setup_shifts()
 
         shifts_to_cancel = shifts[:3]  # Select only first three shifts
@@ -138,7 +140,8 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
         # We we make sure that the cancellation service was called with all selected shifts
         # The logic for updating the attendance is tested in the service tests
         mock_cancel.assert_has_calls(
-            [call(shift) for shift in shifts_to_cancel], any_order=True
+            [call(shift, member_office_user) for shift in shifts_to_cancel],
+            any_order=True,
         )
         self.assertEqual(
             mock_cancel.call_count,
@@ -154,7 +157,7 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
     def test_CancelDayShiftView_apply_doesNotCancelAlreadyCancelledShifts(
         self, mock_cancel: Mock
     ):
-        self.login_as_member_office_user()
+        member_office_user = self.login_as_member_office_user()
         shifts, _ = self.setup_shifts()
 
         # Pre-cancel one shift
@@ -180,7 +183,11 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
         # We we make sure that the cancellation service was called with all selected shifts
         # The logic for updating the attendance is tested in the service tests
         mock_cancel.assert_has_calls(
-            [call(shift) for shift in shifts if not shift.cancelled_reason],
+            [
+                call(shift, member_office_user)
+                for shift in shifts
+                if not shift.cancelled_reason
+            ],
             any_order=True,
         )
 

@@ -12,7 +12,7 @@ class ShiftCancellationService:
 
     @staticmethod
     @transaction.atomic
-    def cancel(shift: Shift, actor: TapirUser | User = None):
+    def cancel(shift: Shift, actor: TapirUser | User | None = None):
         """Cancels the given shift and updates attendances accordingly.
 
         If the attendance is for an ABCD shift (i.e. has an attendance template
