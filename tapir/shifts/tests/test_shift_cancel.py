@@ -1,15 +1,22 @@
 from unittest.mock import Mock, patch
 
+from django.core import mail
 from django.urls import reverse
 
 from tapir import settings
-from tapir.shifts.models import Shift
+from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.emails.shift_cancelled_mail import ShiftCancelledEmail
+from tapir.shifts.models import Shift, ShiftAttendance
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import PermissionTestMixin, TapirFactoryTestBase
+from tapir.utils.tests_utils import (
+    PermissionTestMixin,
+    TapirEmailTestMixin,
+    TapirFactoryTestBase,
+)
 
 
-class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
+class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase, TapirEmailTestMixin):
     VIEW_NAME_CANCEL_SHIFT = "shifts:cancel_shift"
     A_CANCELLATION_REASON = "A cancellation reason"
 
@@ -58,3 +65,24 @@ class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
             self.A_CANCELLATION_REASON,
             "The shift's cancellation reason should be set correctly.",
         )
+
+    def test_setCoPurchaserToNotBlank_emailSent(self):
+        self.login_as_member_office_user()
+        shift = ShiftFactory.create()
+        tapir_user = TapirUserFactory.create()
+
+        ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
+
+        self.client.post(
+            reverse(self.VIEW_NAME_CANCEL_SHIFT, args=[shift.id]),
+            {"cancelled_reason": self.A_CANCELLATION_REASON},
+        )
+
+        self.assertEqual(1, len(mail.outbox))
+        sent_mail = mail.outbox[0]
+        self.assertEmailOfClass_GotSentTo(
+            ShiftCancelledEmail,
+            tapir_user.email,
+            sent_mail,
+        )
+        self.assertIn(self.A_CANCELLATION_REASON, sent_mail.body)
