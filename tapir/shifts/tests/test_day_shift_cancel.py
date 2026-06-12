@@ -1,13 +1,23 @@
 from datetime import UTC, date, datetime, time
 from unittest.mock import Mock, call, patch
 
+from django.core import mail
 from django.urls import reverse
 
 from tapir import settings
-from tapir.shifts.models import Shift
+from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.emails.shift_cancelled_mail import ShiftCancelledEmail
+from tapir.shifts.models import (
+    Shift,
+    ShiftAttendance,
+)
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import PermissionTestMixin, TapirFactoryTestBase
+from tapir.utils.tests_utils import (
+    PermissionTestMixin,
+    TapirEmailTestMixin,
+    TapirFactoryTestBase,
+)
 
 
 def _mock_cancel_service(func):
@@ -18,7 +28,9 @@ def _mock_cancel_service(func):
     )(func)
 
 
-class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
+class TestDayShiftCancel(
+    PermissionTestMixin, TapirFactoryTestBase, TapirEmailTestMixin
+):
     VIEW_NAME_SHIFT_DAY_CANCEL = "shifts:shift_day_cancel"
     A_CANCELLATION_REASON = "A cancellation reason"
     DAY_TO_CANCEL = "01-01-25"
@@ -212,3 +224,27 @@ class TestDayShiftCancel(PermissionTestMixin, TapirFactoryTestBase):
             "Pre-cancelled for testing",
             "The pre-cancelled shift's cancellation reason should remain unchanged.",
         )
+
+    def test_cancelDayShiftView_apply_emailSent(self):
+        self.login_as_member_office_user()
+        shifts, _ = self.setup_shifts()
+        tapir_user = TapirUserFactory.create()
+
+        ShiftAttendance.objects.create(user=tapir_user, slot=shifts[0].slots.first())
+
+        self.client.post(
+            reverse(self.VIEW_NAME_SHIFT_DAY_CANCEL, args=[self.DAY_TO_CANCEL]),
+            {
+                "cancellation_reason": self.A_CANCELLATION_REASON,
+                **{f"shift_{shift.id}": True for shift in shifts},
+            },
+        )
+
+        self.assertEqual(1, len(mail.outbox))
+        sent_mail = mail.outbox[0]
+        self.assertEmailOfClass_GotSentTo(
+            ShiftCancelledEmail,
+            tapir_user.email,
+            sent_mail,
+        )
+        self.assertIn(self.A_CANCELLATION_REASON, sent_mail.body)
