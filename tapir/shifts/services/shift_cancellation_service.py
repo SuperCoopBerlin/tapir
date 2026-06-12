@@ -48,7 +48,6 @@ class ShiftCancellationService:
                 attendance.save()
 
             email_builder = ShiftCancelledEmail(shift=shift)
-            print(f"EmailBuilder: {email_builder}")
             if email_builder:
                 SendMailService.send_to_tapir_user(
                     actor=actor,
