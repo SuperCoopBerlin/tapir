@@ -43,14 +43,15 @@ class ShiftCancellationService:
                 attendance.save()
                 attendance.update_shift_account_entry()
 
-                email_builder = ShiftCancelledEmail(shift=shift)
-                if email_builder:
-                    SendMailService.send_to_tapir_user(
-                        actor=actor,
-                        recipient=attendance.user,
-                        email_builder=email_builder,
-                    )
-
             else:
                 attendance.state = ShiftAttendance.State.CANCELLED
                 attendance.save()
+
+            email_builder = ShiftCancelledEmail(shift=shift)
+            print(f"EmailBuilder: {email_builder}")
+            if email_builder:
+                SendMailService.send_to_tapir_user(
+                    actor=actor,
+                    recipient=attendance.user,
+                    email_builder=email_builder,
+                )
