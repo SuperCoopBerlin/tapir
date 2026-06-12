@@ -1,5 +1,9 @@
+from django.contrib.auth.models import User
 from django.db import transaction
 
+from tapir.accounts.models import TapirUser
+from tapir.core.services.send_mail_service import SendMailService
+from tapir.shifts.emails.shift_cancelled_mail import ShiftCancelledEmail
 from tapir.shifts.models import Shift, ShiftAttendance
 
 
@@ -8,7 +12,7 @@ class ShiftCancellationService:
 
     @staticmethod
     @transaction.atomic
-    def cancel(shift: Shift):
+    def cancel(shift: Shift, actor: TapirUser | User | None = None):
         """Cancels the given shift and updates attendances accordingly.
 
         If the attendance is for an ABCD shift (i.e. has an attendance template
@@ -21,6 +25,7 @@ class ShiftCancellationService:
 
         Args:
             shift (Shift): The shift to cancel.
+            actor
         """
         shift.cancelled = True
         shift.save()
@@ -37,6 +42,15 @@ class ShiftCancellationService:
                 attendance.excused_reason = "Shift cancelled"
                 attendance.save()
                 attendance.update_shift_account_entry()
+
             else:
                 attendance.state = ShiftAttendance.State.CANCELLED
                 attendance.save()
+
+            email_builder = ShiftCancelledEmail(shift=shift)
+            if email_builder:
+                SendMailService.send_to_tapir_user(
+                    actor=actor,
+                    recipient=attendance.user,
+                    email_builder=email_builder,
+                )

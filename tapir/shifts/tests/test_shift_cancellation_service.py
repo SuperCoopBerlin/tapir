@@ -1,8 +1,10 @@
 import datetime
 
+from django.core import mail
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.emails.shift_cancelled_mail import ShiftCancelledEmail
 from tapir.shifts.models import (
     ShiftAttendance,
     ShiftTemplate,
@@ -13,10 +15,10 @@ from tapir.shifts.tests.utils import (
     register_user_to_shift,
     register_user_to_shift_template,
 )
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
-class TestShiftCancelService(TapirFactoryTestBase):
+class TestShiftCancelService(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_ShiftCancellationService_registeredFlyingMember_attendanceIsCancelled(
         self,
     ):
@@ -88,4 +90,43 @@ class TestShiftCancelService(TapirFactoryTestBase):
             user.shift_user_data.get_account_balance(),
             1,
             "Because the attendance got excused, the account balance should have increased to 1.",
+        )
+
+    def test_ShiftCancellationService_registeringAbcdMember_emailIsSent(
+        self,
+    ):
+        user = TapirUserFactory.create(is_in_member_office=False)
+        self.login_as_member_office_user()
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create()
+        shift = shift_template.create_shift_if_necessary(
+            timezone.now().date() + datetime.timedelta(days=2)
+        )
+        register_user_to_shift_template(self.client, user, shift_template)
+
+        ShiftCancellationService.cancel(shift)
+
+        self.assertEqual(1, len(mail.outbox))
+        sent_mail = mail.outbox[0]
+        self.assertEmailOfClass_GotSentTo(
+            ShiftCancelledEmail,
+            user.email,
+            sent_mail,
+        )
+
+    def test_ShiftCancellationService_registeredFlyingMember_emailSent(
+        self,
+    ):
+        user = TapirUserFactory.create(is_in_member_office=False)
+        self.login_as_member_office_user()
+        shift = ShiftFactory.create()
+        register_user_to_shift(self.client, user, shift)
+
+        ShiftCancellationService.cancel(shift)
+
+        self.assertEqual(1, len(mail.outbox))
+        sent_mail = mail.outbox[0]
+        self.assertEmailOfClass_GotSentTo(
+            ShiftCancelledEmail,
+            user.email,
+            sent_mail,
         )
