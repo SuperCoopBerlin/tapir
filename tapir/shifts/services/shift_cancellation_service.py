@@ -3,7 +3,7 @@ from django.db import transaction
 
 from tapir.accounts.models import TapirUser
 from tapir.core.services.send_mail_service import SendMailService
-from tapir.shifts.emails.shift_cancelled_mail import ShiftCancelledEmailBuilder
+from tapir.shifts.emails.shift_cancelled_mail import ShiftCancelledEmail
 from tapir.shifts.models import Shift, ShiftAttendance
 
 
@@ -43,7 +43,7 @@ class ShiftCancellationService:
                 attendance.save()
                 attendance.update_shift_account_entry()
 
-                email_builder = ShiftCancelledEmailBuilder(shift=shift)
+                email_builder = ShiftCancelledEmail(shift=shift)
                 if email_builder:
                     SendMailService.send_to_tapir_user(
                         actor=actor,

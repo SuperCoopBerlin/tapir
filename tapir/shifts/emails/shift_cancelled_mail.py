@@ -7,7 +7,7 @@ from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.models import Shift
 
 
-class ShiftCancelledEmailBuilder(TapirEmailBuilderBase):
+class ShiftCancelledEmail(TapirEmailBuilderBase):
     option = MailOption.OPTIONAL_ENABLED
 
     def __init__(self, shift):
