@@ -76,7 +76,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build front-end
-        run: docker compose run vite npm install && npm run build
+        run: docker compose run vite npm ci --only=production && npm run build
 
       - name: Set version label
         id: set_version
