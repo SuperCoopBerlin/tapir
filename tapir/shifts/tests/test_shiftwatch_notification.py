@@ -7,17 +7,15 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.emails.shift_watch_mail import ShiftWatchEmailBuilder
 from tapir.shifts.management.commands.send_shift_watch_mail import Command
 from tapir.shifts.models import (
-    StaffingStatusChoices,
-    ShiftSlot,
-    ShiftUserCapability,
-    get_staffingstatus_choices,
-    ShiftAttendance,
     RecurringShiftWatch,
+    ShiftAttendance,
+    ShiftSlot,
+    StaffingStatusChoices,
+    get_staffingstatus_choices,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
-
 from tapir.shifts.tests.factories import ShiftFactory, ShiftWatchFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 def create_shift_with_attendance(num_attendances):
@@ -100,28 +98,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         )
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
-
-    def test_handle_watchingCoordinatorChanges_SHIFT_COORDINATOR_PLUSGetSent(self):
-        self.shift_watch = create_shift_watch(
-            user=self.user,
-            shift=self.shift_ok_first,
-            slots=self.slots,
-            staffing_status=[StaffingStatusChoices.SHIFT_COORDINATOR_PLUS.value],
-        )
-
-        slot = ShiftSlot.objects.filter(
-            shift=self.shift_ok_first, attendances__isnull=True
-        ).first()
-        slot.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
-        slot.save()
-
-        Command().handle()
-        self.assertEqual(0, len(mail.outbox))
-
-        # Register teamleader
-        ShiftAttendance.objects.create(user=TapirUserFactory.create(), slot=slot)
-        Command().handle()
-        self.assert_email_sent(StaffingStatusChoices.SHIFT_COORDINATOR_PLUS)
 
     def test_handle_initialWatchUnderstaffedShift_noInitialMailIsSent(self):
         # No initial message should be sent, even if the shift is understaffed

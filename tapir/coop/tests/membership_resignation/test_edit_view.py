@@ -6,13 +6,13 @@ from django.urls import reverse
 
 from tapir import settings
 from tapir.coop.config import feature_flag_membership_resignation
-from tapir.coop.models import MembershipResignationUpdateLogEntry, MembershipResignation
+from tapir.coop.models import MembershipResignation, MembershipResignationUpdateLogEntry
 from tapir.coop.tests.factories import MembershipResignationFactory, ShareOwnerFactory
 from tapir.utils.tests_utils import (
     FeatureFlagTestMixin,
+    PermissionTestMixin,
     TapirFactoryTestBase,
     mock_timezone_now,
-    PermissionTestMixin,
 )
 
 

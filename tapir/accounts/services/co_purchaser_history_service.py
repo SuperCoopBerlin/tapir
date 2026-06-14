@@ -3,14 +3,14 @@ from __future__ import annotations
 import datetime
 
 from django.db.models import (
-    Value,
-    OuterRef,
     Case,
-    When,
-    QuerySet,
-    Q,
     CharField,
+    OuterRef,
+    Q,
+    QuerySet,
     Subquery,
+    Value,
+    When,
 )
 from django.db.models.functions import Coalesce
 from django.utils import timezone

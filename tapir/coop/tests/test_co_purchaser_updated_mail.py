@@ -3,7 +3,7 @@ from django.urls import reverse
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.coop.emails.co_purchaser_updated_mail import CoPurchaserUpdatedMail
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 class TestCoPurchaserUpdatedMail(TapirFactoryTestBase, TapirEmailTestMixin):

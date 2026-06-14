@@ -2,7 +2,6 @@ import csv
 import datetime
 import io
 from dataclasses import dataclass
-from typing import List
 
 from django.db import transaction
 from django.db.models import Q
@@ -10,12 +9,12 @@ from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.shifts.models import (
-    ShiftTemplate,
-    ShiftSlotTemplate,
-    ShiftAttendanceTemplate,
-    ShiftAttendance,
-    ShiftSlot,
     DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendance,
+    ShiftAttendanceTemplate,
+    ShiftSlot,
+    ShiftSlotTemplate,
+    ShiftTemplate,
 )
 from tapir.utils.user_utils import UserUtils
 
@@ -41,7 +40,7 @@ class SlotModificationService:
     @classmethod
     def build_changes(
         cls,
-        parameter_sets: List[ParameterSet],
+        parameter_sets: list[ParameterSet],
         excluded_shift_template_ids: list[int],
         excluded_slot_template_ids: list[int],
     ):
@@ -56,7 +55,7 @@ class SlotModificationService:
     @transaction.atomic
     def apply_changes(
         cls,
-        parameter_sets: List[ParameterSet],
+        parameter_sets: list[ParameterSet],
         excluded_shift_template_ids: list[int] | None = None,
         excluded_slot_template_ids: list[int] | None = None,
         dry_run: bool = True,
@@ -144,7 +143,7 @@ class SlotModificationService:
         cls,
         parameter_set: ParameterSet,
         excluded_shift_template_ids: list[int],
-    ) -> List[ShiftTemplate]:
+    ) -> list[ShiftTemplate]:
         return ShiftTemplate.objects.filter(
             start_time=parameter_set.time, weekday__in=parameter_set.target_weekdays
         ).exclude(id__in=excluded_shift_template_ids)

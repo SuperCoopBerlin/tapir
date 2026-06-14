@@ -1,6 +1,6 @@
 import datetime
 from itertools import product
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.urls import reverse
 

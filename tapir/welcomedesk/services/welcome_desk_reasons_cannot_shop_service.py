@@ -1,7 +1,7 @@
 from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 
-from tapir.coop.models import ShareOwner, MemberStatus
+from tapir.coop.models import MemberStatus, ShareOwner
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.shifts.services.frozen_status_history_service import (

@@ -3,16 +3,16 @@ import datetime
 from django.core import mail
 from django.urls import reverse
 
-from tapir.accounts.models import TapirUser, OptionalMails
+from tapir.accounts.models import OptionalMails, TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.emails.shift_confirmed_email import ShiftConfirmedEmailBuilder
 from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
 from tapir.shifts.models import (
-    ShiftSlot,
     ShiftAttendance,
+    ShiftSlot,
 )
 from tapir.shifts.tests.factories import ShiftFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 class TestAttendanceUpdateMemberOffice(TapirFactoryTestBase, TapirEmailTestMixin):

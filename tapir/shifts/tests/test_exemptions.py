@@ -2,17 +2,18 @@ import datetime
 from http import HTTPStatus
 
 from django.urls import reverse
-from django.utils import translation, timezone
+from django.utils import timezone, translation
+
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
-    ShiftExemption,
-    ShiftAttendance,
-    ShiftAttendanceTemplate,
     CreateExemptionLogEntry,
     DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendance,
+    ShiftAttendanceTemplate,
+    ShiftExemption,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory, ShiftFactory
+from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.shifts.tests.utils import register_user_to_shift_template
 from tapir.utils.tests_utils import TapirFactoryTestBase
 

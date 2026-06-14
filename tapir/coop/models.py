@@ -4,7 +4,7 @@ from typing import Self
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q, Sum, PositiveIntegerField, Max, Min
+from django.db.models import Max, Min, PositiveIntegerField, Q, Sum
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -12,21 +12,21 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from tapir import utils
 from tapir.accounts.models import TapirUser
-from tapir.coop.config import COOP_SHARE_PRICE, COOP_ENTRY_AMOUNT
+from tapir.coop.config import COOP_ENTRY_AMOUNT, COOP_SHARE_PRICE
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.config import help_text_displayed_name
-from tapir.log.models import UpdateModelLogEntry, ModelLogEntry, LogEntry
+from tapir.log.models import LogEntry, ModelLogEntry, UpdateModelLogEntry
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.models import (
-    DurationModelMixin,
     CountryField,
+    DurationModelMixin,
     positive_number_validator,
 )
 from tapir.utils.shortcuts import (
-    get_html_link,
     ensure_datetime,
+    get_html_link,
 )
 from tapir.utils.user_utils import UserUtils
 

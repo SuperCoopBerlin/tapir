@@ -3,10 +3,10 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.config import (
-    on_welcome_session_attendance_update,
     get_ids_of_users_registered_to_a_shift_with_capability,
+    on_welcome_session_attendance_update,
 )
-from tapir.core.config import sidebar_link_groups, feature_flag_solidarity_shifts
+from tapir.core.config import feature_flag_solidarity_shifts, sidebar_link_groups
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 
 
@@ -68,32 +68,32 @@ class ShiftConfig(AppConfig):
     @staticmethod
     def register_emails():
         from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
-        from tapir.shifts.emails.shift_missed_email import (
-            ShiftMissedEmailBuilder,
-        )
-        from tapir.shifts.emails.shift_confirmed_email import (
-            ShiftConfirmedEmailBuilder,
-        )
-        from tapir.shifts.emails.shift_reminder_email import (
-            ShiftReminderEmailBuilder,
-        )
-        from tapir.shifts.emails.stand_in_found_email import (
-            StandInFoundEmailBuilder,
-        )
-        from tapir.shifts.emails.member_frozen_email import (
-            MemberFrozenEmailBuilder,
+        from tapir.shifts.emails.flying_member_registration_reminder_email import (
+            FlyingMemberRegistrationReminderEmailBuilder,
         )
         from tapir.shifts.emails.freeze_warning_email import (
             FreezeWarningEmailBuilder,
         )
-        from tapir.shifts.emails.unfreeze_notification_email import (
-            UnfreezeNotificationEmailBuilder,
+        from tapir.shifts.emails.member_frozen_email import (
+            MemberFrozenEmailBuilder,
         )
-        from tapir.shifts.emails.flying_member_registration_reminder_email import (
-            FlyingMemberRegistrationReminderEmailBuilder,
+        from tapir.shifts.emails.shift_confirmed_email import (
+            ShiftConfirmedEmailBuilder,
+        )
+        from tapir.shifts.emails.shift_missed_email import (
+            ShiftMissedEmailBuilder,
+        )
+        from tapir.shifts.emails.shift_reminder_email import (
+            ShiftReminderEmailBuilder,
         )
         from tapir.shifts.emails.shift_watch_mail import (
             ShiftWatchEmailBuilder,
+        )
+        from tapir.shifts.emails.stand_in_found_email import (
+            StandInFoundEmailBuilder,
+        )
+        from tapir.shifts.emails.unfreeze_notification_email import (
+            UnfreezeNotificationEmailBuilder,
         )
 
         TapirEmailBuilderBase.register_email(ShiftMissedEmailBuilder)

@@ -8,7 +8,7 @@ from django.utils import timezone
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.shifts import config
 from tapir.shifts.emails.shift_reminder_email import ShiftReminderEmailBuilder
-from tapir.shifts.models import ShiftUserData, ShiftAttendance
+from tapir.shifts.models import ShiftAttendance, ShiftUserData
 
 
 class Command(BaseCommand):

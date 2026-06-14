@@ -6,8 +6,8 @@ from tapir import settings
 from tapir.coop.config import feature_flag_membership_resignation
 from tapir.utils.tests_utils import (
     FeatureFlagTestMixin,
-    TapirFactoryTestBase,
     PermissionTestMixin,
+    TapirFactoryTestBase,
 )
 
 

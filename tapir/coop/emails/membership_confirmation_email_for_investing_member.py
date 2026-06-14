@@ -1,13 +1,11 @@
-from typing import List
-
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 
 from tapir import settings
 from tapir.coop import pdfs
 from tapir.coop.models import ShareOwner
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
+from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.utils.user_utils import UserUtils
 
@@ -29,17 +27,17 @@ class MembershipConfirmationForInvestingMemberEmailBuilder(TapirEmailBuilderBase
     def get_description(cls) -> str:
         return ""
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "coop/email/membership_confirmation.investing.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "coop/email/membership_confirmation.investing.body.html",
         ]
 
-    def get_attachments(self) -> List:
+    def get_attachments(self) -> list:
         return [
             (
                 "Mitgliedschaftsbestätigung %s.pdf"

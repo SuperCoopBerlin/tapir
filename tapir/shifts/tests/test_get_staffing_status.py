@@ -1,6 +1,5 @@
 import pytest
 
-
 from tapir.shifts.models import StaffingStatusChoices
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 

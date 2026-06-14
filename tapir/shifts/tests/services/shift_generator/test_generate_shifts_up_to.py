@@ -1,5 +1,5 @@
 import datetime
-from unittest.mock import patch, Mock, call
+from unittest.mock import Mock, call, patch
 
 from django.test import SimpleTestCase
 

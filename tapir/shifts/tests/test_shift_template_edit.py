@@ -2,6 +2,7 @@ import datetime
 
 from django.urls import reverse
 from django.utils import timezone
+
 from tapir.shifts.models import (
     ShiftTemplate,
     ShiftTemplateGroup,

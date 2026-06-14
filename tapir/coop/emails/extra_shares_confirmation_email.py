@@ -1,5 +1,3 @@
-from typing import List
-
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -29,12 +27,12 @@ class ExtraSharesConfirmationEmailBuilder(TapirEmailBuilderBase):
     def get_description(cls) -> str:
         return _("Sent when someone who is already a member buys more shares")
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "coop/email/extra_shares_bought.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "coop/email/extra_shares_bought.body.html",
         ]
@@ -45,7 +43,7 @@ class ExtraSharesConfirmationEmailBuilder(TapirEmailBuilderBase):
             "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         }
 
-    def get_attachments(self) -> List:
+    def get_attachments(self) -> list:
         return [
             (
                 "Bestätigung Erwerb Anteile %s.pdf"

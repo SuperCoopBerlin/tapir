@@ -1,12 +1,12 @@
 import datetime
 
 from django.db.models import (
-    QuerySet,
-    OuterRef,
-    Value,
-    Subquery,
-    CharField,
     Case,
+    CharField,
+    OuterRef,
+    QuerySet,
+    Subquery,
+    Value,
     When,
 )
 from django.db.models.functions import Coalesce

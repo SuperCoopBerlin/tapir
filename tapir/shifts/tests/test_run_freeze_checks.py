@@ -1,5 +1,5 @@
 from unittest import mock
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.core.management import call_command
 

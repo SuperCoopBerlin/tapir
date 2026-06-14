@@ -3,7 +3,7 @@ import datetime
 from django.db.models import QuerySet
 from django.utils.translation import gettext_lazy as _
 
-from tapir.coop.models import ShareOwner, MemberStatus
+from tapir.coop.models import MemberStatus, ShareOwner
 from tapir.statistics.services.data_providers.base_data_provider import BaseDataProvider
 
 

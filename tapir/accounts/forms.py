@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms
 from django.core.exceptions import ValidationError
-from django.forms import TextInput, CheckboxSelectMultiple
+from django.forms import CheckboxSelectMultiple, TextInput
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
@@ -12,7 +12,7 @@ from tapir.core.services.optional_mail_choices_service import OptionalMailChoice
 from tapir.core.services.optional_mails_for_user_service import (
     OptionalMailsForUserService,
 )
-from tapir.settings import PERMISSION_COOP_ADMIN, GROUP_VORSTAND
+from tapir.settings import GROUP_VORSTAND, PERMISSION_COOP_ADMIN
 from tapir.utils.forms import DateInputTapir, TapirPhoneNumberField
 
 

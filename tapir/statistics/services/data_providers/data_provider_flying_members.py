@@ -1,10 +1,10 @@
 import datetime
 
-from django.db.models import QuerySet, Q
+from django.db.models import Q, QuerySet
 from django.utils.translation import gettext_lazy as _
 
 from tapir.coop.models import ShareOwner
-from tapir.shifts.models import ShiftUserData, ShiftAttendanceMode
+from tapir.shifts.models import ShiftAttendanceMode, ShiftUserData
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
 )

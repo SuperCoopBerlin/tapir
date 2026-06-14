@@ -5,10 +5,10 @@ from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
-    ShiftTemplateGroup,
     RecurringShiftWatch,
-    ShiftWatch,
     ShiftTemplate,
+    ShiftTemplateGroup,
+    ShiftWatch,
 )
 from tapir.shifts.services.shift_generator import ShiftGenerator
 from tapir.shifts.tests.factories import ShiftTemplateFactory
