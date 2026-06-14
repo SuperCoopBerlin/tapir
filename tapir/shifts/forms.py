@@ -765,6 +765,7 @@ class RecurringShiftWatchForm(forms.ModelForm):
             "weekdays",
             "shift_template_group",
             "staffing_status",
+            "watched_capabilities",
         ]
 
     weekdays = forms.MultipleChoiceField(
@@ -793,6 +794,16 @@ class RecurringShiftWatchForm(forms.ModelForm):
         label=_("Shift changes you would like to be informed about"),
         widget=CheckboxSelectMultiple(),
         disabled=False,
+    )
+    watched_capabilities = forms.MultipleChoiceField(
+        required=False,
+        choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
+        label=_("Notify me when these capabilities become available or unavailable"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+        help_text=_(
+            "Get notified when someone with specific skills registers or unregisters"
+        ),
     )
 
     WEEKDAYS_ERROR = _(
