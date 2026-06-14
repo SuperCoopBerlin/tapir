@@ -789,7 +789,7 @@ class RecurringShiftWatchForm(forms.ModelForm):
         label=_("ABCD Week"),
     )
     staffing_status = forms.MultipleChoiceField(
-        required=True,
+        required=False,
         choices=get_staffingstatus_choices,
         label=_("Shift changes you would like to be informed about"),
         widget=CheckboxSelectMultiple(),
@@ -810,8 +810,12 @@ class RecurringShiftWatchForm(forms.ModelForm):
         "If weekdays or %(shift_template_group)s are selected, "
         "%(shift_templates)s may not be selected, and vice versa."
     )
-    AT_LEAST_ONE_ERROR = _(
+    AT_LEAST_ONE_PATTERN_ERROR = _(
         "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
+    )
+
+    AT_LEAST_ONE_TARGET_ERROR = _(
+        "At least one of the fields staffing_status or required capabilities must be selected."
     )
 
     def _format_field_names(self):
@@ -824,6 +828,8 @@ class RecurringShiftWatchForm(forms.ModelForm):
         cleaned_data = super().clean()
         shift_templates = cleaned_data.get("shift_templates")
         weekdays = cleaned_data.get("weekdays")
+        staffing_status = cleaned_data.get("staffing_status")
+        watched_capabilities = cleaned_data.get("watched_capabilities")
         cleaned_data["weekdays"] = list(map(int, weekdays))
         shift_template_group = cleaned_data.get("shift_template_group")
 
@@ -834,6 +840,10 @@ class RecurringShiftWatchForm(forms.ModelForm):
 
         if not (shift_templates or weekdays or shift_template_group):
             raise forms.ValidationError(
-                self.AT_LEAST_ONE_ERROR % self._format_field_names()
+                self.AT_LEAST_ONE_PATTERN_ERROR % self._format_field_names()
+            )
+        if not (staffing_status or watched_capabilities):
+            raise forms.ValidationError(
+                self.AT_LEAST_ONE_TARGET_ERROR % self._format_field_names()
             )
         return cleaned_data
