@@ -135,6 +135,7 @@ class ShiftWatchCreator:
                     user=recurring.user,
                     shift=shift,
                     staffing_status=recurring.staffing_status,
+                    watched_capabilities=recurring.watched_capabilities,
                     last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
                         shift=shift
                     ),
