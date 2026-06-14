@@ -1,0 +1,29 @@
+{% extends "shifts/base.html" %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% load i18n %}
+{% load core %}
+{% block title %}
+    {% translate 'Set end date for' %}: {{ shift_template.get_display_name }}
+{% endblock title %}
+{% block content %}
+    <div class="card">
+        <h5 class="card-header">{% translate 'Set end date for' %}: {{ shift_template.get_display_name }}</h5>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <div class="alert alert-warning" role="alert">
+                    <strong>{% translate 'Warning' %}</strong>
+                    {% translate 'All shifts generated from this ABCD-shift after the selected date will be cancelled. Registered members will be notified.' %}
+                </div>
+                <button type="submit" class="{% tapir_button_action %}">
+                    <span class="material-icons">event_busy</span>
+                    {% translate 'Set end date and cancel shifts' %}
+                </button>
+                <a href="{% url 'shifts:shift_template_detail' shift_template.pk %}"
+                   class="{% tapir_button_link %}">{% translate 'Cancel' %}</a>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
