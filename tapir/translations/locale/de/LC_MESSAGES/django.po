@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-14 22:10+0200\n"
+"POT-Creation-Date: 2026-06-15 17:00+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2703,7 +2703,7 @@ msgstr "Hat Qualifikation"
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:656 shifts/forms.py:789
+#: coop/views/shareowner.py:656 shifts/forms.py:788
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
@@ -3236,38 +3236,34 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:725 shifts/forms.py:794 shifts/views/views.py:377
+#: shifts/forms.py:725 shifts/forms.py:793 shifts/views/views.py:377
 #: shifts/views/views.py:378
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
-#: shifts/forms.py:732 shifts/forms.py:801
+#: shifts/forms.py:732
 msgid "Notify me when these capabilities become available or unavailable"
 msgstr ""
 
-#: shifts/forms.py:736 shifts/forms.py:805
+#: shifts/forms.py:736
 msgid "Get notified when someone with specific skills registers or unregisters"
 msgstr ""
 
-#: shifts/forms.py:783 shifts/templates/shifts/shift_template_detail.html:7
+#: shifts/forms.py:782 shifts/templates/shifts/shift_template_detail.html:7
 #: shifts/templates/shifts/shift_template_detail.html:15
 #: shifts/templates/shifts/user_shifts_overview_tag.html:31
 #: shifts/templates/shifts/user_shifts_overview_tag.html:43
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
-#: shifts/forms.py:810
+#: shifts/forms.py:799
 #, python-format
 msgid "If weekdays or %(shift_template_group)s are selected, %(shift_templates)s may not be selected, and vice versa."
 msgstr ""
 
-#: shifts/forms.py:814
+#: shifts/forms.py:803
 #, python-format
 msgid "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
-msgstr ""
-
-#: shifts/forms.py:818
-msgid "At least one of the fields staffing_status or required capabilities must be selected."
 msgstr ""
 
 #: shifts/models.py:39
@@ -3339,7 +3335,7 @@ msgid "This determines from which date shifts should be generated from this ABCD
 msgstr ""
 
 #: shifts/models.py:181 shifts/models.py:510
-#: shifts/templates/shifts/shift_block_tag.html:11
+#: shifts/templates/shifts/shift_block_tag.html:10
 msgid "Flexible time"
 msgstr "Zeit flexibel"
 
@@ -4273,7 +4269,7 @@ msgid "Unwatch"
 msgstr "Nicht mehr beobachten"
 
 #: shifts/templates/shifts/shift_detail.html:45
-#: shifts/templates/shifts/shiftwatch_overview.html:124
+#: shifts/templates/shifts/shiftwatch_overview.html:123
 msgid "You will get mail-notifications when shifts you follow change — tailored to the types of updates you choose (e.g., needs help, is full, cancellations)."
 msgstr "Du erhältst E-Mail-Benachrichtigungen, wenn sich Schichten, denen du folgst, ändern – angepasst an die von dir ausgewählten Arten von Aktualisierungen (z. B. Hilfe benötigt, voll, Stornierungen)."
 
@@ -4695,32 +4691,32 @@ msgstr "Du beobachtest keine Schichten"
 msgid "Observed changes:"
 msgstr "Beobachtete Änderungen"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:76
+#: shifts/templates/shifts/shiftwatch_overview.html:75
 msgid "Shift Watches"
 msgstr "Schicht-Beobachtungen"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:82
+#: shifts/templates/shifts/shiftwatch_overview.html:81
 msgid "Total"
 msgstr "Insgesamt"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:105
+#: shifts/templates/shifts/shiftwatch_overview.html:104
 #: shifts/templates/shifts/user_shifts_overview_tag.html:64
 msgid "Show more"
 msgstr "Mehr anzeigen"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:127
+#: shifts/templates/shifts/shiftwatch_overview.html:126
 msgid "You can watch single shifts for changes by selecting a shift "
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:128
+#: shifts/templates/shifts/shiftwatch_overview.html:127
 msgid "here"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:129
+#: shifts/templates/shifts/shiftwatch_overview.html:128
 msgid " and clicking on the Watch-button"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:135
+#: shifts/templates/shifts/shiftwatch_overview.html:134
 msgid "Delete Selected"
 msgstr "Lösche das Ausgewählte"
 
