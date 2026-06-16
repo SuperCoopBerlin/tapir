@@ -1,7 +1,6 @@
 import pytest
 
 from tapir.shifts.models import (
-    ShiftSlot,
     ShiftUserCapability,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
@@ -78,16 +77,6 @@ def test_get_capability_status_changes(
     watched_capabilities,
     expected_notifications,
 ):
-    print(
-        ShiftSlot.objects.filter(id__in=this_valid_slot_ids).values_list(
-            "required_capabilities", flat=True
-        )
-    )
-    print(
-        ShiftSlot.objects.filter(id__in=last_valid_slot_ids).values_list(
-            "required_capabilities", flat=True
-        )
-    )
     result = ShiftWatchCreator.get_capability_status_changes(
         this_valid_slot_ids, last_valid_slot_ids, watched_capabilities
     )
