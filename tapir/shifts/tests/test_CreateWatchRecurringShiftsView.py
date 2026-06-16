@@ -2,6 +2,7 @@ from django.urls import reverse
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.forms import RecurringShiftWatchForm
 from tapir.shifts.models import (
     RecurringShiftWatch,
     ShiftUserCapability,
@@ -54,7 +55,7 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
     def test_createRecurringShiftWatch_ShiftTemplate_entryCreated(self):
         form_data = {
             **self.default_form_data,
-            "shift_templates": [self.template1.id, self.template2.id],  # Use actual IDs
+            "shift_templates": [self.template1.id, self.template2.id],
         }
 
         response = self.client.post(
@@ -224,4 +225,26 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         self.assertEqual(
             set(created_watch.watched_capabilities),
             {ShiftUserCapability.CASHIER, ShiftUserCapability.BREAD_DELIVERY},
+        )
+
+    def test_createRecurringShiftWatch_neitherStaffingStatusNorCapabilities_validationError(
+        self,
+    ):
+        form_data = {
+            "shift_templates": [],
+            "weekdays": [1, 2],
+            "shift_template_group": [],
+            "staffing_status": [],
+            "watched_capabilities": [],
+        }
+
+        response = self.client.post(
+            reverse(self.VIEW_NAME, args=[self.tapir_user.pk]), data=form_data
+        )
+
+        form = response.context["form"]
+        self.assertFalse(form.is_valid())
+        self.assertIn(
+            RecurringShiftWatchForm.AT_LEAST_ONE_TARGET_ERROR,
+            form.non_field_errors(),
         )
