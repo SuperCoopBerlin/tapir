@@ -74,13 +74,23 @@ class ShareOwnerForWelcomeDeskSerializer(serializers.ModelSerializer):
     def get_co_purchaser(share_owner: ShareOwner) -> str | None:
         if not share_owner.user:
             return None
-        return split_name(share_owner.user.co_purchaser)[0]
+        first_name, last_name = split_name(share_owner.user.co_purchaser)
+        if not last_name:
+            return first_name
+
+        initials = ".".join(word[0] for word in last_name.split()) + "."
+        return f"{first_name} {initials}".strip()
 
     @staticmethod
     def get_co_purchaser_2(share_owner: ShareOwner) -> str | None:
         if not share_owner.user:
             return None
-        return split_name(share_owner.user.co_purchaser_2)[0]
+        first_name, last_name = split_name(share_owner.user.co_purchaser_2)
+        if not last_name:
+            return first_name
+
+        initials = ".".join(word[0] for word in last_name.split()) + "."
+        return f"{first_name} {initials}".strip()
 
     def get_warnings(self, share_owner: ShareOwner) -> list[str]:
         return WelcomeDeskWarningsService.build_warnings(
