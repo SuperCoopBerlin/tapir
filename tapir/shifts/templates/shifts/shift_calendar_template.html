@@ -10,6 +10,11 @@
     <script src="{% static 'shifts/ShiftFiltersManager.js' %}?version=2" defer></script>
     <script>
         function onFilter() {
+            const form = document.getElementById("date-filter-form")
+            if (!form.reportValidity()) {
+                return
+            }
+
             let url = "{% url "shifts:calendar" %}";
             url += "?date_from=" + document.getElementById("date-from").value;
             url += "&date_to=" + document.getElementById("date-to").value;
@@ -55,22 +60,33 @@
                         KW {{ week|date:"W" }} {% translate 'starting' %} {{ week }},
                         {% translate 'Week ' %}{{ week_group.name }}
                     </h5>
-                    <div class="d-flex flex-wrap align-items-end align-items-center">
-                        <div class="d-inline-flex align-items-baseline p-2 ">
-                            <label for="date-from" class="form-label pe-2">{% translate "From" %}</label>
-                            <input id="date-from"
-                                   type="date"
-                                   value="{{ date_from }}"
-                                   class="form-control" />
+                    {% if forloop.counter == 1 %}
+                        <div class="d-flex flex-wrap align-items-end align-items-center">
+                            <form id="date-filter-form">
+                                <div class="d-inline-flex align-items-baseline p-2 ">
+                                    <label for="date-from" class="form-label pe-2">{% translate "From" %}</label>
+                                    <input id="date-from"
+                                           type="date"
+                                           value="{{ date_from }}"
+                                           class="form-control"
+                                           required="required">
+                                </div>
+                                <div class="d-inline-flex align-items-baseline p-2">
+                                    <label for="date-to" class="form-label pe-2">{% translate "To" %}</label>
+                                    <input id="date-to"
+                                           type="date"
+                                           value="{{ date_to }}"
+                                           class="form-control"
+                                           required="required" />
+                                </div>
+                                <button class="{% tapir_button_link %} btn"
+                                        onclick="onFilter()"
+                                        type="button">
+                                    <span class="material-icons">filter_alt</span>{% translate "Filter" %}
+                                </button>
+                            </form>
                         </div>
-                        <div class="d-inline-flex align-items-baseline p-2">
-                            <label for="date-to" class="form-label pe-2">{% translate "To" %}</label>
-                            <input id="date-to" type="date" value="{{ date_to }}" class="form-control" />
-                        </div>
-                        <button class="{% tapir_button_link %} btn" onclick="onFilter()">
-                            <span class="material-icons">filter_alt</span>{% translate "Filter" %}
-                        </button>
-                    </div>
+                    {% endif %}
                 </div>
             {% endwith %}
             <div class="card-body d-flex flex-row flex-wrap gap-2">
