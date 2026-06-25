@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-15 17:00+0200\n"
+"POT-Creation-Date: 2026-06-25 13:05+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -1079,7 +1079,7 @@ msgstr "Filter"
 #: coop/templates/coop/membership_resignation_list.html:62
 #: coop/templates/coop/shareowner_list.html:85
 #: log/templates/log/log_overview.html:46
-#: shifts/templates/shifts/shift_calendar_template.html:71
+#: shifts/templates/shifts/shift_calendar_template.html:85
 #: shifts/templates/shifts/shiftexemption_list.html:50
 msgid "Filter"
 msgstr "Filter"
@@ -4155,30 +4155,30 @@ msgstr ""
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/templates/shifts/shift_calendar_template.html:25
+#: shifts/templates/shifts/shift_calendar_template.html:30
 #: shifts/templates/shifts/shift_template_overview.html:20
 msgid "ABCD annual calendar"
 msgstr "ABCD-Wochenkalender"
 
-#: shifts/templates/shifts/shift_calendar_template.html:32
+#: shifts/templates/shifts/shift_calendar_template.html:37
 #: shifts/templates/shifts/shift_template_overview.html:27
 msgid "Legend & Filters"
 msgstr "Legende & Filter"
 
-#: shifts/templates/shifts/shift_calendar_template.html:55
+#: shifts/templates/shifts/shift_calendar_template.html:60
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_calendar_template.html:56
+#: shifts/templates/shifts/shift_calendar_template.html:61
 #: shifts/templates/shifts/shift_template_overview.html:57
 msgid "Week "
 msgstr "Woche "
 
-#: shifts/templates/shifts/shift_calendar_template.html:60
+#: shifts/templates/shifts/shift_calendar_template.html:67
 msgid "From"
 msgstr "Vom"
 
-#: shifts/templates/shifts/shift_calendar_template.html:67
+#: shifts/templates/shifts/shift_calendar_template.html:75
 msgid "To"
 msgstr "Zum"
 
