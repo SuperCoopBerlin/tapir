@@ -39,6 +39,9 @@ from tapir.shifts.models import (
     SolidarityShift,
     UpdateShiftAttendanceStateLogEntry,
 )
+from tapir.shifts.services.frozen_status_management_service import (
+    FrozenStatusManagementService,
+)
 from tapir.shifts.views.views import SelectedUserViewMixin
 from tapir.utils.shortcuts import get_html_link, safe_redirect
 from tapir.utils.user_utils import UserUtils
@@ -97,9 +100,16 @@ class RegisterUserToShiftSlotTemplateView(
 
             CreateShiftAttendanceTemplateLogEntry().populate(
                 actor=self.request.user,
-                tapir_user=self.object.user,
+                tapir_user=shift_attendance_template.user,
                 shift_attendance_template=shift_attendance_template,
             ).save()
+
+            if FrozenStatusManagementService.should_unfreeze_member(
+                shift_attendance_template.user.shift_user_data
+            ):
+                FrozenStatusManagementService.unfreeze_and_send_notification_email(
+                    shift_attendance_template.user.shift_user_data
+                )
 
         return response
 
@@ -302,7 +312,7 @@ class RegisterUserToShiftSlotView(
     def form_valid(self, form):
         response = super().form_valid(form)
         slot = self.get_slot()
-        user_to_register = form.cleaned_data["user"]
+        user_to_register: TapirUser = form.cleaned_data["user"]
         is_solidarity = form.cleaned_data["is_solidarity"]
         custom_time = form.cleaned_data.get("custom_time", None)
 
@@ -321,6 +331,13 @@ class RegisterUserToShiftSlotView(
                 tapir_user=user_to_register,
                 attendance=attendance,
             ).save()
+
+            if FrozenStatusManagementService.should_unfreeze_member(
+                user_to_register.shift_user_data
+            ):
+                FrozenStatusManagementService.unfreeze_and_send_notification_email(
+                    user_to_register.shift_user_data
+                )
 
         return response
 
