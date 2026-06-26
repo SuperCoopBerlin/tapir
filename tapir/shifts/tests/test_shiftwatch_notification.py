@@ -42,13 +42,14 @@ def create_shift_watch(
             shift=shift
         )
     if staffing_status is None:
-        staffing_status = [event.value for event in get_staffingstatus_choices()]
+        staffing_status = []
     return ShiftWatchFactory(
         user=user,
         shift=shift,
         last_valid_slot_ids=slots,
         staffing_status=staffing_status,
         last_staffing_status=last_staffing_status,
+        watched_capabilities=watched_capabilities,
     )
 
 
@@ -114,6 +115,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
                 shift=shift_understaffed
             ),
+            staffing_status=list(get_staffingstatus_choices()),
         )
 
         Command().handle()
@@ -174,6 +176,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             user=self.user,
             shift=self.shift_ok_first,
             slots=self.slots,
+            staffing_status=list(get_staffingstatus_choices()),
         )
 
         self.unregister_first_slot()
