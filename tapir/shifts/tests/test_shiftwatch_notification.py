@@ -69,9 +69,9 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         first_shift_attendance.state = ShiftAttendance.State.LOOKING_FOR_STAND_IN
         first_shift_attendance.save()
 
-    def assert_email_sent(self, expected_status_choice):
+    def assert_email_sent(self, expected_status_choice: str):
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(str(expected_status_choice.label), mail.outbox[0].body)
+        self.assertIn(str(expected_status_choice), mail.outbox[0].body)
         self.assertEmailOfClass_GotSentTo(
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
@@ -88,7 +88,8 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
         self.unregister_first_slot()
         Command().handle()
-        self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED)
+        self.assertEqual(1, len(mail.outbox))
+        self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED.label)
 
     def test_handle_watchedShiftIsAlright_noNotificationIsSent(self):
         self.shift_watch = create_shift_watch(
@@ -128,7 +129,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
         Command().handle()
 
-        self.assert_email_sent(StaffingStatusChoices.ALL_CLEAR)
+        self.assert_email_sent(StaffingStatusChoices.ALL_CLEAR.label)
 
     def test_handle_triggeredMultipleTimes_onlyOneMailIsSent(self):
         self.shift_watch = create_shift_watch(
@@ -145,7 +146,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         for _ in range(3):
             Command().handle()
 
-        self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED)
+        self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED.label)
 
     def test_handle_watchedShiftIsCurrentlyRunning_correctNotificationIsSent(self):
         self.shift_ok_first.start_time = timezone.now() - datetime.timedelta(hours=4)
@@ -162,7 +163,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.unregister_first_slot()
 
         Command().handle()
-        self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED)
+        self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED.label)
 
     def test_handle_shiftInThePast_noNotification(self):
 
