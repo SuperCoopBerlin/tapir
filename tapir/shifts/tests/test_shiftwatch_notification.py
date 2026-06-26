@@ -35,7 +35,12 @@ def create_shift_with_attendance(num_attendances):
 
 
 def create_shift_watch(
-    user, shift, slots, last_staffing_status=None, staffing_status=None
+    user,
+    shift,
+    slots,
+    last_staffing_status=None,
+    staffing_status=None,
+    watched_capabilities=None,
 ):
     if last_staffing_status is None:
         last_staffing_status = ShiftWatchCreator.get_initial_staffing_status_for_shift(
@@ -43,6 +48,8 @@ def create_shift_watch(
         )
     if staffing_status is None:
         staffing_status = []
+    if watched_capabilities is None:
+        watched_capabilities = []
     return ShiftWatchFactory(
         user=user,
         shift=shift,
