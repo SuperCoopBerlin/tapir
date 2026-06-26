@@ -30,7 +30,7 @@ def create_shift_with_attendance(num_attendances):
         slot = ShiftSlot.objects.create(shift=shift, name="cheese-making")
         user = TapirUserFactory.create()
         ShiftAttendance.objects.create(user=user, slot=slot)
-        slots.append(slot.pk)
+        slots.append(slot)
     return shift, slots
 
 
@@ -53,7 +53,7 @@ def create_shift_watch(
     return ShiftWatchFactory(
         user=user,
         shift=shift,
-        last_valid_slot_ids=slots,
+        last_valid_slot_ids=[slot.pk for slot in slots],
         staffing_status=staffing_status,
         last_staffing_status=last_staffing_status,
         watched_capabilities=watched_capabilities,
