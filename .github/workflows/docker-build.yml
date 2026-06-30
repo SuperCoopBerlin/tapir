@@ -19,7 +19,7 @@ jobs:
       version: ${{ steps.build_changelog.outputs.version }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Build Changelog
@@ -57,7 +57,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -76,7 +76,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build front-end
-        run: docker compose run vite npm install && npm run build
+        run: docker compose run vite npm ci --only=production && npm run build
 
       - name: Set version label
         id: set_version
