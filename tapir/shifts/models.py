@@ -1262,12 +1262,17 @@ class ShiftWatch(models.Model):
     def __str__(self):
         shift_name = self.shift.get_display_name()
         shift_url = self.shift.get_absolute_url()
+
+        staffing_statuses = ", ".join(status for status in self.staffing_status)
+        watched_caps = ", ".join(cap for cap in self.watched_capabilities)
+
         return format_html(
-            '{} is watching <a href="{}">{}</a> for changes of {}',
+            '{} is watching <a href="{}">{}</a> for changes of {} (capabilities: {})',
             self.user.username,
             shift_url,
             shift_name,
-            ", ".join(status for status in self.staffing_status),
+            staffing_statuses,
+            watched_caps,
         )
 
     class Meta:
