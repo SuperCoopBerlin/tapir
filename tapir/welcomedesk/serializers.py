@@ -14,6 +14,25 @@ from tapir.welcomedesk.services.welcome_desk_warnings_service import (
 )
 
 
+def split_name(full_name):
+    "Currently, only full-names are stored for co-purchaser. This could be replaced by a new Co-Purchaser-model storing first and last name separately and make this function obsolete (here)"
+    if not full_name:
+        return "", ""
+    parts = full_name.strip().split()
+    if len(parts) == 1:
+        return parts[0], ""
+    i_split = -1
+
+    prefixes = {"von", "van", "de", "der", "den", "del", "da", "du", "le", "la"}
+    if any(part.lower() in prefixes for part in parts):
+        for i, part in enumerate(parts):
+            if part.lower() in prefixes:
+                i_split = i
+                break
+
+    return " ".join(parts[:i_split]), " ".join(parts[i_split:])
+
+
 class ShareOwnerForWelcomeDeskSerializer(serializers.ModelSerializer):
     display_name = serializers.SerializerMethodField()
     can_shop = serializers.SerializerMethodField()
@@ -55,13 +74,23 @@ class ShareOwnerForWelcomeDeskSerializer(serializers.ModelSerializer):
     def get_co_purchaser(share_owner: ShareOwner) -> str | None:
         if not share_owner.user:
             return None
-        return share_owner.user.co_purchaser
+        first_name, last_name = split_name(share_owner.user.co_purchaser)
+        if not last_name:
+            return first_name
+
+        initials = ".".join(word[0] for word in last_name.split()) + "."
+        return f"{first_name} {initials}".strip()
 
     @staticmethod
     def get_co_purchaser_2(share_owner: ShareOwner) -> str | None:
         if not share_owner.user:
             return None
-        return share_owner.user.co_purchaser_2
+        first_name, last_name = split_name(share_owner.user.co_purchaser_2)
+        if not last_name:
+            return first_name
+
+        initials = ".".join(word[0] for word in last_name.split()) + "."
+        return f"{first_name} {initials}".strip()
 
     def get_warnings(self, share_owner: ShareOwner) -> list[str]:
         return WelcomeDeskWarningsService.build_warnings(
