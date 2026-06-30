@@ -77,11 +77,13 @@
                 {% if is_enabled %}
                     <div class="col-12 col-sm-7">
                         <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
-                        <a class="{% tapir_button_link_to_action %} btn-sm"
-                           href="{% url 'coop:share_create' share_owner.pk %}">
-                            <span class="material-icons">add_circle_outline</span>
-                            {% translate "Buy more shares" %}
-                        </a>
+                        {% if request.user.pk == share_owner.user.pk %}
+                            <a class="{% tapir_button_link_to_action %} btn-sm"
+                               href="{% url 'coop:share_create' share_owner.pk %}">
+                                <span class="material-icons">add_circle_outline</span>
+                                {% translate "Buy more shares" %}
+                            </a>
+                        {% endif %}
                     </div>
                 {% endif %}
             </div>
