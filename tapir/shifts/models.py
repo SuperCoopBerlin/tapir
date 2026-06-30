@@ -1307,3 +1307,12 @@ class RecurringShiftWatch(models.Model):
         blank=False,
         default=get_staffingstatus_defaults,
     )
+
+    watched_capabilities = ArrayField(
+        models.CharField(
+            max_length=128, choices=get_shift_capability_choices, blank=False
+        ),
+        default=list,
+        blank=True,
+        null=False,
+    )
