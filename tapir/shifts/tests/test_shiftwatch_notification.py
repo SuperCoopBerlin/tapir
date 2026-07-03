@@ -290,3 +290,36 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.unregister_slot(slot=slot_to_unregister)
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
+
+    def test_handle_registerAnotherUserToSameCapability_MailSent(self):
+        slot_to_register = ShiftSlot.objects.create(
+            shift=self.shift_ok_first, name="cheese-making"
+        )
+        self.slots.append(slot_to_register)
+        for slot in self.slots:
+            slot.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+            slot.save()
+
+        self.shift_watch = create_shift_watch(
+            user=self.user,
+            shift=self.shift_ok_first,
+            last_valid_slot_ids=self.slots,
+            staffing_status=[],
+            watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+        # TODO assert first and second shift have attendance and third shift has no attendance
+        Command().handle()
+        self.assertEqual(0, len(mail.outbox))
+
+        # register user to third slot
+        user = TapirUserFactory.create()
+        ShiftAttendance.objects.create(user=user, slot=slot_to_register)
+        slot_to_register.save()
+
+        self.assertEqual(
+            slot_to_register.required_capabilities,
+            [ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+
+        Command().handle()
+        self.assertEqual(1, len(mail.outbox))
