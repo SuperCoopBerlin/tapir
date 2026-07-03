@@ -31,36 +31,43 @@ class Command(BaseCommand):
         )
 
         valid_attendances_count = len(this_valid_slot_ids)
-        required_attendances_count = shift_watch_data.shift.num_required_attendances
-        number_of_available_slots = shift_watch_data.shift.slots.count()
 
-        # Determine staffing status
-        current_status = ShiftWatchCreator.get_staffing_status_if_changed(
-            number_of_available_slots=number_of_available_slots,
-            valid_attendances=valid_attendances_count,
-            required_attendances=required_attendances_count,
-            last_status=shift_watch_data.last_staffing_status,
-        )
-        if current_status:
-            notification_reasons.append(current_status.label)
-            shift_watch_data.last_staffing_status = current_status
+        if len(shift_watch_data.staffing_status) > 0:
+            # Determine staffing status
+            current_status = ShiftWatchCreator.get_staffing_status_if_changed(
+                number_of_available_slots=shift_watch_data.shift.slots.count(),
+                valid_attendances=valid_attendances_count,
+                required_attendances=shift_watch_data.shift.num_required_attendances,
+                last_status=shift_watch_data.last_staffing_status,
+            )
+            if current_status:
+                notification_reasons.append(current_status.label)
+                shift_watch_data.last_staffing_status = current_status
 
-        # Check watched capabilities
-        capability_notifications = ShiftWatchCreator.get_capability_status_changes(
-            this_valid_slot_ids=this_valid_slot_ids,
-            last_valid_slot_ids=shift_watch_data.last_valid_slot_ids,
-            watched_capabilities=shift_watch_data.watched_capabilities,
-        )
-        notification_reasons.extend(capability_notifications)
+            # General attendance change notifications
+            if not notification_reasons:
+                if valid_attendances_count > len(shift_watch_data.last_valid_slot_ids):
+                    notification_reasons.append(
+                        StaffingStatusChoices.ATTENDANCE_PLUS.label
+                    )
+                elif valid_attendances_count < len(
+                    shift_watch_data.last_valid_slot_ids
+                ):
+                    notification_reasons.append(
+                        StaffingStatusChoices.ATTENDANCE_MINUS.label
+                    )
+        print(shift_watch_data.watched_capabilities)
+        print(f"required capabilities really: {shift_watch_data.shift.slots}")
 
-        # General attendance change notifications
-        if not notification_reasons:
-            if valid_attendances_count > len(shift_watch_data.last_valid_slot_ids):
-                notification_reasons.append(StaffingStatusChoices.ATTENDANCE_PLUS.label)
-            elif valid_attendances_count < len(shift_watch_data.last_valid_slot_ids):
-                notification_reasons.append(
-                    StaffingStatusChoices.ATTENDANCE_MINUS.label
-                )
+        if len(shift_watch_data.watched_capabilities) > 0:
+            # Check watched capabilities
+            capability_notifications = ShiftWatchCreator.get_capability_status_changes(
+                this_valid_slot_ids=this_valid_slot_ids,
+                last_valid_slot_ids=shift_watch_data.last_valid_slot_ids,
+                watched_capabilities=shift_watch_data.watched_capabilities,
+            )
+            if capability_notifications:
+                notification_reasons.extend(capability_notifications)
 
         for reason in notification_reasons:
             self.send_shift_watch_mail(shift_watch=shift_watch_data, reason=reason)

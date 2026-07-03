@@ -230,7 +230,78 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
-        self.unregister_slot()
+        slot_to_unregister = self.slots[0]
+
+        # assert that slot to unregister has no required capability, so it should not trigger notification
+        self.assertNotEqual(
+            slot_to_unregister.required_capabilities,
+            ShiftUserCapability.SHIFT_COORDINATOR,
+        )
+        self.unregister_slot(slot=slot_to_unregister)
+        Command().handle()
+
+        self.assertEqual(0, len(mail.outbox))
+
+    def test_handle_watchedCapability_MailSent(self):
+        # Only for watched capabilities
+        # slot = ShiftSlot.objects.filter(shift=self.shift_ok_first).second()
+        # slot.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+        slot_to_unregister = self.slots[0]
+        slot_to_unregister.required_capabilities = ShiftUserCapability.SHIFT_COORDINATOR
+        self.shift_watch = create_shift_watch(
+            user=self.user,
+            shift=self.shift_ok_first,
+            last_valid_slot_ids=self.slots,
+            staffing_status=[],
+            watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+        print(self.shift_watch)
+        print(
+            f"required capabilities: {[slot.required_capabilities for slot in self.slots]}"
+        )
+
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
-        # self.assert_email_sent(ShiftUserCapability.SHIFT_COORDINATOR)
+
+        # assert that slot to unregister has no required capability, so it should not trigger notification
+        self.assertEqual(
+            slot_to_unregister.required_capabilities,
+            ShiftUserCapability.SHIFT_COORDINATOR,
+        )
+        self.unregister_slot(slot=slot_to_unregister)
+        Command().handle()
+        self.assertEqual(1, len(mail.outbox))
+
+    def test_handle_watchDifferentCapability_noMailSent(self):
+        # Only for watched capabilities
+        # slot = ShiftSlot.objects.filter(shift=self.shift_ok_first).second()
+        # slot.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+        slot_to_unregister = self.slots[0]
+        slot_to_unregister.required_capabilities = ShiftUserCapability.CASHIER
+        self.shift_watch = create_shift_watch(
+            user=self.user,
+            shift=self.shift_ok_first,
+            last_valid_slot_ids=self.slots,
+            staffing_status=[],
+            watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+        print(self.shift_watch)
+        print(
+            f"required capabilities: {[slot.required_capabilities for slot in self.slots]}"
+        )
+
+        Command().handle()
+        self.assertEqual(0, len(mail.outbox))
+
+        # assert that slot to unregister has no required capability, so it should not trigger notification
+        self.assertEqual(
+            slot_to_unregister.required_capabilities,
+            ShiftUserCapability.CASHIER,
+        )
+        self.assertNotEqual(
+            slot_to_unregister.required_capabilities,
+            ShiftUserCapability.SHIFT_COORDINATOR,
+        )
+        self.unregister_slot(slot=slot_to_unregister)
+        Command().handle()
+        self.assertEqual(0, len(mail.outbox))
