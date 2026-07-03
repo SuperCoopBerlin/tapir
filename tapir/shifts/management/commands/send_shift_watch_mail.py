@@ -56,8 +56,6 @@ class Command(BaseCommand):
                     notification_reasons.append(
                         StaffingStatusChoices.ATTENDANCE_MINUS.label
                     )
-        print(shift_watch_data.watched_capabilities)
-        print(f"required capabilities really: {shift_watch_data.shift.slots}")
 
         if len(shift_watch_data.watched_capabilities) > 0:
             # Check watched capabilities
