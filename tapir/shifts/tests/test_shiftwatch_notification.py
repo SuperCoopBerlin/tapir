@@ -212,8 +212,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
     def test_handle_noStaffingStatusSelected_noMailSent(self):
         # Only for watched capabilities
-        # slot = ShiftSlot.objects.filter(shift=self.shift_ok_first).second()
-        # slot.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
 
         self.shift_watch = create_shift_watch(
             user=self.user,
@@ -221,10 +219,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             last_valid_slot_ids=self.slots,
             staffing_status=[],
             watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
-        )
-        print(self.shift_watch)
-        print(
-            f"required capabilities: {[slot.required_capabilities for slot in self.slots]}"
         )
 
         Command().handle()
@@ -243,9 +237,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEqual(0, len(mail.outbox))
 
     def test_handle_watchedCapability_MailSent(self):
-        # Only for watched capabilities
-        # slot = ShiftSlot.objects.filter(shift=self.shift_ok_first).second()
-        # slot.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
         slot_to_unregister = self.slots[0]
         slot_to_unregister.required_capabilities = ShiftUserCapability.SHIFT_COORDINATOR
         self.shift_watch = create_shift_watch(
@@ -254,10 +245,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             last_valid_slot_ids=self.slots,
             staffing_status=[],
             watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
-        )
-        print(self.shift_watch)
-        print(
-            f"required capabilities: {[slot.required_capabilities for slot in self.slots]}"
         )
 
         Command().handle()
@@ -284,10 +271,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             last_valid_slot_ids=self.slots,
             staffing_status=[],
             watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
-        )
-        print(self.shift_watch)
-        print(
-            f"required capabilities: {[slot.required_capabilities for slot in self.slots]}"
         )
 
         Command().handle()
