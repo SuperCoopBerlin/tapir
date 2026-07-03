@@ -229,7 +229,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         # assert that slot to unregister has no required capability, so it should not trigger notification
         self.assertNotEqual(
             slot_to_unregister.required_capabilities,
-            ShiftUserCapability.SHIFT_COORDINATOR,
+            [ShiftUserCapability.SHIFT_COORDINATOR],
         )
         self.unregister_slot(slot=slot_to_unregister)
         Command().handle()
@@ -238,7 +238,10 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
     def test_handle_watchedCapability_MailSent(self):
         slot_to_unregister = self.slots[0]
-        slot_to_unregister.required_capabilities = ShiftUserCapability.SHIFT_COORDINATOR
+        slot_to_unregister.required_capabilities = [
+            ShiftUserCapability.SHIFT_COORDINATOR
+        ]
+        slot_to_unregister.save()
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
@@ -250,21 +253,20 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
-        # assert that slot to unregister has no required capability, so it should not trigger notification
         self.assertEqual(
             slot_to_unregister.required_capabilities,
-            ShiftUserCapability.SHIFT_COORDINATOR,
+            [ShiftUserCapability.SHIFT_COORDINATOR],
         )
         self.unregister_slot(slot=slot_to_unregister)
         Command().handle()
         self.assertEqual(1, len(mail.outbox))
 
     def test_handle_watchDifferentCapability_noMailSent(self):
-        # Only for watched capabilities
-        # slot = ShiftSlot.objects.filter(shift=self.shift_ok_first).second()
-        # slot.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+        # watch for Shift-Coordinator, but shift has Cashier-capability
         slot_to_unregister = self.slots[0]
-        slot_to_unregister.required_capabilities = ShiftUserCapability.CASHIER
+        slot_to_unregister.required_capabilities = [ShiftUserCapability.CASHIER]
+        slot_to_unregister.save()
+
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
@@ -276,14 +278,13 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
-        # assert that slot to unregister has no required capability, so it should not trigger notification
         self.assertEqual(
             slot_to_unregister.required_capabilities,
-            ShiftUserCapability.CASHIER,
+            [ShiftUserCapability.CASHIER],
         )
         self.assertNotEqual(
             slot_to_unregister.required_capabilities,
-            ShiftUserCapability.SHIFT_COORDINATOR,
+            [ShiftUserCapability.SHIFT_COORDINATOR],
         )
         self.unregister_slot(slot=slot_to_unregister)
         Command().handle()
