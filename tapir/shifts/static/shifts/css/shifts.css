@@ -1,5 +1,6 @@
 .shift-template-block-container, .shift-block-container {
     display: block;
+    min-height: 60px;
 }
 
 .shift-template-block-container, .shift-block-container, .shift-block {
