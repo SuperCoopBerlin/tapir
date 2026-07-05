@@ -44,7 +44,6 @@ class ShiftCancelledEmail(TapirEmailBuilderBase):
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
-        # TODO
         share_owner = (
             ShareOwner.objects.filter(user__isnull=False).order_by("?").first()
         )
