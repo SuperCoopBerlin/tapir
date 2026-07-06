@@ -1,5 +1,3 @@
-from collections import Counter
-
 from django.db.models import Q
 
 from tapir.shifts.models import (
@@ -221,15 +219,10 @@ class ShiftWatchCreator:
         current_capabilities = [cap for caps in current_slots for cap in caps]
         last_capabilities = [cap for caps in last_slots for cap in caps]
 
-        current_counter = Counter(current_capabilities)
-        last_counter = Counter(last_capabilities)
-
         notifications = []
         for capability in watched_capabilities:
-            current_count = current_counter[capability]
-            print(f"current_count: {current_count}")
-            last_count = last_counter[capability]
-            print(f"last_count: {last_count}")
+            current_count = current_capabilities.count(capability)
+            last_count = last_capabilities.count(capability)
 
             if current_count > last_count:
                 notifications.append(f"Member with capability added: {capability}")
