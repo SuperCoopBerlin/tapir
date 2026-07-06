@@ -3730,12 +3730,12 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Edit share: %(name)s"
 msgid "Hi %(name)s,"
-msgstr "Anteil bearbeiten: %(name)s"
+msgstr "Hi %(name)s"
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:7
 #, python-format
 msgid "This is an automated email from %(coop_name)s."
-msgstr ""
+msgstr "Dies ist eine automatische Mail von %(coop_name)s."
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:9
 #, fuzzy, python-format
@@ -3749,28 +3749,22 @@ msgid ""
 "            "
 msgstr ""
 "\n"
-"                Dein aktuelles Guthaben beträgt %(credit)s€.\n"
+"            Deine Schicht %(shift_name)s wurde abgesagt! Grund: %(reason)s.\n"
 "            "
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:14
 msgid "Since this is your ABCD shift, you have been credited one shift point."
-msgstr ""
+msgstr "Weil das deine ABCD-Schicht ist, wurde dir ein Schichtpunkt gutgeschrieben."
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:16
 msgid "Since you are a flying member (or you're ABCD but this is not your ABCD shift), you generally won't be credited with a shift point."
-msgstr ""
+msgstr "Da du fliegendes Mitglied bist (oder du normalweise ABCD-Schichten machst aber dies keine ABCD-Schicht ist), wird dir normalweise kein Schichtpunkt gutgeschrieben."
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:18
 msgid "See you next time!"
-msgstr ""
+msgstr "Bis zum nächsten Mal!"
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:20
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "            Cooperative Greetings, <br/>\n"
-#| "            The Member Office\n"
-#| "        "
 msgid "Cooperative Greetings,<br />The Membership Office"
 msgstr ""
 "\n"
