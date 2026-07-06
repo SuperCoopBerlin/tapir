@@ -225,7 +225,7 @@ class ShiftWatchCreator:
             last_count = last_capabilities.count(capability)
 
             if current_count > last_count:
-                notifications.append(f"Member with capability added: {capability}")
+                notifications.append(f"Member with capability registered: {capability}")
             elif current_count < last_count:
                 notifications.append(
                     f"Member with capability unregistered: {capability}"
