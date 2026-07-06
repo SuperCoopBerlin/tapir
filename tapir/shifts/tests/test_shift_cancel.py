@@ -66,7 +66,7 @@ class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase, TapirEmailTestM
             "The shift's cancellation reason should be set correctly.",
         )
 
-    def test_setCoPurchaserToNotBlank_emailSent(self):
+    def test_CancelShiftView_apply_ShiftCancelledEmailSent(self):
         self.login_as_member_office_user()
         shift = ShiftFactory.create()
         tapir_user = TapirUserFactory.create()
