@@ -92,7 +92,7 @@ class TestShiftCancelService(TapirFactoryTestBase, TapirEmailTestMixin):
             "Because the attendance got excused, the account balance should have increased to 1.",
         )
 
-    def test_ShiftCancellationService_registeringAbcdMember_emailIsSent(
+    def test_ShiftCancellationService_memberRegisteredAsAbcd_emailIsSent(
         self,
     ):
         user = TapirUserFactory.create(is_in_member_office=False)
@@ -113,7 +113,7 @@ class TestShiftCancelService(TapirFactoryTestBase, TapirEmailTestMixin):
             sent_mail,
         )
 
-    def test_ShiftCancellationService_registeredFlyingMember_emailSent(
+    def test_ShiftCancellationService_memberRegisteredAsFlying_emailSent(
         self,
     ):
         user = TapirUserFactory.create(is_in_member_office=False)
